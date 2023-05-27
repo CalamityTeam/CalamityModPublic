@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Smoke");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

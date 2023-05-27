@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class Vigilance : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Vigilance");
-            // Tooltip.SetDefault("Summons a soul seeker to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 115;

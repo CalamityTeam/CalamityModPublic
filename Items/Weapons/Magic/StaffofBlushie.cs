@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
     [LegacyName("BlushieStaff")]
     public class StaffofBlushie : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Staff of Blushie");
-            // Tooltip.SetDefault("Hold your mouse, wait, wait, wait, and put your trust in the power of blue magic");
-        }
-
         public override void SetDefaults()
         {
             Item.width = Item.height = 48;

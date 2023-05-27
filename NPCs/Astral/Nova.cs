@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Nova");
             Main.npcFrameCount[NPC.type] = 8;
 
             if (!Main.dedServ)

@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Magic
         public const int StarShapeCreationDelay = 12;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Star");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 120;
         }

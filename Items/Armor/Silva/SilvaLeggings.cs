@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Armor.Silva
     [AutoloadEquip(EquipType.Legs)]
     public class SilvaLeggings : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Silva Leggings");
-            /* Tooltip.SetDefault("10% increased movement speed\n" +
-                "12% increased damage and critical strike chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

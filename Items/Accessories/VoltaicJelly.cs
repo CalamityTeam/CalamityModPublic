@@ -6,12 +6,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class VoltaicJelly : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Voltaic Jelly");
-            // Tooltip.SetDefault("Minion attacks inflict Electrified");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

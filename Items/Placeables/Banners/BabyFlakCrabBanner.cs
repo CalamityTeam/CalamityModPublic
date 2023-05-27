@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class BabyFlakCrabBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Baby Flak Crab Banner");
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Baby Flak Crab");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

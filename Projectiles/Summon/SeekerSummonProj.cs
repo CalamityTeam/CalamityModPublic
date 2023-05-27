@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Summon
         public ref float Time => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Soul Seeker");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;

@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FlurrystormIceChunk : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Chunk");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

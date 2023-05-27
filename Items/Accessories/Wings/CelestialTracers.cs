@@ -18,19 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Celestial Tracers");
-            /* Tooltip.SetDefault("Taking speed EVEN FURTHER BEYOND!\n" +
-                "Counts as wings\n" +
-                "Horizontal speed: 12.00\n" +
-                "Acceleration multiplier: 3.0\n" +
-                "Excellent vertical speed\n" +
-                "Flight time: 250\n" +
-                "50% increased running acceleration\n" +
-                "Greater mobility on ice\n" +
-                "Water and lava walking\n" +
-                "Immunity to lava and On Fire! debuff\n" +
-                "Being hit for over 200 damage will make you immune for an extended period of time"); */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(250, 12f, 3f);
+                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(250, 12f, 3f);
         }
 
         public override void SetDefaults()

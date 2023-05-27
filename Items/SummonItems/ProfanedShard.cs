@@ -15,12 +15,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Profaned Shard");
-            /* Tooltip.SetDefault("A shard of the unholy flame\n" +
-                "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime\n" +
-                "Enrage when not in the Hallow or Underworld\n" +
-                "Not consumable"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

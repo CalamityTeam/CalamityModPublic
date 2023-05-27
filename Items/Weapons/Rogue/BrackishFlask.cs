@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BrackishFlask : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brackish Flask");
-            /* Tooltip.SetDefault("Explodes into poisonous seawater blasts\n" +
-            "Stealth strikes summon a brackish spear spike"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

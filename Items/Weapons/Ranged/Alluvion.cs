@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Alluvion : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Alluvion");
-            /* Tooltip.SetDefault("Converts wooden arrows into sharks, torrential and typhoon arrows\n" +
-                       "Fires a torrent of six arrows at once"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 165;

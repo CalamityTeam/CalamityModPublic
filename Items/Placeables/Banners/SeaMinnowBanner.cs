@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class SeaMinnowBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Sea Minnow");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

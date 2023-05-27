@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Accessories
     {
         public const int ElementalDamage = 45;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Elemental in a Bottle");
-            // Tooltip.SetDefault("Summons a sand elemental to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

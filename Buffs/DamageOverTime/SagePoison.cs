@@ -7,8 +7,6 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sage Poison");
-            // Description.SetDefault("Poisoned");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

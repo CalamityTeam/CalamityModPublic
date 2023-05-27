@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Purified Gel");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 71; // Soul of Light
         }
 

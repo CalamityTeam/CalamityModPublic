@@ -17,7 +17,6 @@ namespace CalamityMod.NPCs.Abyss
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bloatfish");
             Main.npcFrameCount[NPC.type] = 4;
         }
 

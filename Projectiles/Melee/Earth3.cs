@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         private int noTileHitCounter = 120;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Earth");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 34;

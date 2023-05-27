@@ -11,10 +11,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class EldritchSoulArtifact : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 64;

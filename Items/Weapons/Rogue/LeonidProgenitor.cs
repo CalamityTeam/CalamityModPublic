@@ -15,11 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Leonid Progenitor");
-            /* Tooltip.SetDefault("Throws a bombshell that explodes, summoning a meteor to impact the site\n" +
-                "Right click to throw a spread of gravity affected comets that explode, leaving behind a star\n" +
-                "Stealth strikes lob a bombshell that additionally splits into comets on hit"); */
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

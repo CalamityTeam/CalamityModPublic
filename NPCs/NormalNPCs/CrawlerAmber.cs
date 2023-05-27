@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Amber Crawler");
             Main.npcFrameCount[NPC.type] = 5;
         }
 

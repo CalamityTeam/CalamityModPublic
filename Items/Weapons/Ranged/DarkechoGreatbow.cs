@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class DarkechoGreatbow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Darkecho Greatbow");
-            /* Tooltip.SetDefault("Fires two arrows at once\n" +
-                "Fires an additional crystal dart"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 45;

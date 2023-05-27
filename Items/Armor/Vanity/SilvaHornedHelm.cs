@@ -9,11 +9,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Head)]
     public class SilvaHornedHelm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Silva Horned Helm");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

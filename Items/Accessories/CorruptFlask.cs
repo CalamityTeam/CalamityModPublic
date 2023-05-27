@@ -6,13 +6,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class CorruptFlask : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Corrupt Flask");
-            /* Tooltip.SetDefault("4% increased damage reduction and +6 defense while in the corruption\n" +
-                "Grants immunity to the Cursed Inferno debuff"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

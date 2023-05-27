@@ -8,14 +8,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class HeronRod : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Heron Rod");
-            /* Tooltip.SetDefault("Increased fishing power in space.\n" + //John Steinbeck quote but fish instead of snake
-                "A silent head and beak lanced down and plucked it out by the head,\n" +
-                "and the beak swallowed the little fish while its tail waved frantically."); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

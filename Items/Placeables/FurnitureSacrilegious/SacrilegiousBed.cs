@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     public class SacrilegiousBed : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sacrilegious Bed");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 38;

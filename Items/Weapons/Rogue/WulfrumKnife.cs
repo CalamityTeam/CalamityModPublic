@@ -19,11 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Wulfrum Knife");
-            /* Tooltip.SetDefault("Fires wulfrum knives in bursts of 3\n" +
-                               "Stealth strikes make the knife fly further and hit several times at once\n" +
-                               "Hold right click to magnetize all nearby fallen knives back to you"); */
-            Item.ResearchUnlockCount = 99;
+                       Item.ResearchUnlockCount = 99;
         }
 
         public int shootCount = 0;

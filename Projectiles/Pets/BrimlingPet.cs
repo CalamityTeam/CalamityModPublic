@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Brimling");
             Main.projFrames[Projectile.type] = 8;
             Main.projPet[Projectile.type] = true;
         }

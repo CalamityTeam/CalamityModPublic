@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astral Jelly");
-            // Description.SetDefault("The mini astrageldon slime will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

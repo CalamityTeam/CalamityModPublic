@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/TotalityBreakers";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Totality Flask");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

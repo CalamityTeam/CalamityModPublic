@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
     public class CosmiliteBasin : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cosmilite Basin");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 8;

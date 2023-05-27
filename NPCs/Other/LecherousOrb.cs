@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.Other
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Lecherous Orb");
         }
 
         public override void SetDefaults()

@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Ranged
         private int dust1 = 86;
         private int dust2 = 91;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Polar Star");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -12,7 +12,6 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Ice Shield");
         }
 
         public override void SetDefaults()

@@ -89,7 +89,6 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Polterghast");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

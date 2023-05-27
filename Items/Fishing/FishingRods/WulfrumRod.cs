@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class WulfrumRod : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wulfrum Fishing Pole");
-            // Tooltip.SetDefault("This barely works, but it's better than nothing");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

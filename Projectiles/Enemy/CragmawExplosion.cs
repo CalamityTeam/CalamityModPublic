@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override string Texture => "CalamityMod/Projectiles/Rogue/SulphuricNukesplosion";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nuclear Explosion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 140;

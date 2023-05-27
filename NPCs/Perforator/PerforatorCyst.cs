@@ -12,7 +12,6 @@ namespace CalamityMod.NPCs.Perforator
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Perforator Cyst");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.CantTakeLunchMoney[Type] = true;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

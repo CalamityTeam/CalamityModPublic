@@ -11,10 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The God's Gambit");
-            /* Tooltip.SetDefault("Fires a stream of slime when enemies are near\n" +
-            "A very agile yoyo"); */
-            ItemID.Sets.Yoyo[Item.type] = true;
+                       ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }

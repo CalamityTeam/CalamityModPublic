@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class GastricBelcherStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gastric Belcher Staff");
-            /* Tooltip.SetDefault("Summons aquatic aberrations to protect you\n" +
-            "Aberrations fire vomit at nearby enemies with every third attack firing bubbles"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 60;

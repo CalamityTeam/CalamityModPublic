@@ -16,15 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         private static int damage = 98;
         private static int knockBack = 5;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("God's Paranoia");
-            // Tooltip.SetDefault(@"Hurls up to 10 speedy homing spiky balls
-//Attaches to enemies and summons a localized storm of god slayer kunai
-//Stealth strikes home in faster and summon kunai at a faster rate
-//Right click to delete all existing spiky balls");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = damage;

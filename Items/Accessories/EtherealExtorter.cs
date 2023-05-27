@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class EtherealExtorter : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ethereal Extorter");
-            // Tooltip.SetDefault(@"Rogue projectiles explode into homing souls on death
-//8% increased rogue damage and +10 maximum stealth");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

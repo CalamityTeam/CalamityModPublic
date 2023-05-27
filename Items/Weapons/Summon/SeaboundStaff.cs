@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class SeaboundStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Seabound Staff");
-            // Tooltip.SetDefault("Summons a brittle star to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 11;

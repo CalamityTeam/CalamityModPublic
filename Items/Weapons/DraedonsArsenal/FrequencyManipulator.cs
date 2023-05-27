@@ -15,15 +15,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class FrequencyManipulator : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Frequency Manipulator");
-            /* Tooltip.SetDefault("A long device, used in the tuning of some rather... original machines\n" +
-                               "Swings a spear around and then throws it\n" +
-                               "On collision, the spear releases a burst of homing energy\n" +
-                               "Stealth strikes release more energy and explode on collision"); */
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

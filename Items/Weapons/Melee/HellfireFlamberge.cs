@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class HellfireFlamberge : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hellfire Flamberge");
-            // Tooltip.SetDefault("Fires a spread of volcanic fireballs");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 58;

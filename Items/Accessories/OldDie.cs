@@ -6,13 +6,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class OldDie : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Old Die");
-            /* Tooltip.SetDefault("Lucky for you, the curse doesn't affect you. Mostly.\n" +
-                               "Increases luck by 20%"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

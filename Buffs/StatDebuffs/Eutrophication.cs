@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Eutrophication");
-            // Description.SetDefault("Excessive nutrients restrict your movement");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

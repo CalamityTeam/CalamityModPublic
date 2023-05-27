@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     [LegacyName("CalamitasTrophy")]
     public class CalamitasCloneTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Calamitas Clone Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

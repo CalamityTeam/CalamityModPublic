@@ -21,10 +21,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public const int BaseDamage = 705;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Plasma Caster");
-            /* Tooltip.SetDefault("Industrial tool used to fuse metal together with super-heated plasma\n" +
-                "Right click for turbo mode"); */
-
+           
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class NullificationRifle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nullification Pistol");
-            /* Tooltip.SetDefault("Is it nullable or not? Let's find out!\n" +
-                "Fires a fast null bullet that distorts NPC stats"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 135;

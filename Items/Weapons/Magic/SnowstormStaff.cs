@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class SnowstormStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Snowstorm Staff");
-            // Tooltip.SetDefault("Fires a snowflake that follows the mouse cursor");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 49;

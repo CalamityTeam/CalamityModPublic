@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Typeless
         public bool initSegments = false;
         public Vector2[] segment = new Vector2[6];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Omega Blue Tentacle");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 24;

@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
     public class GloveOfPrecision : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Glove of Precision");
-            // Tooltip.SetDefault("Decreases rogue attack speed by 15% but increases damage by 13%, crit by 15% and velocity by 25%");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

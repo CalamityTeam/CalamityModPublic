@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public int moonCounter = 6;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crescent Moon");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

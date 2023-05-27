@@ -11,10 +11,6 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Tequila Sunrise");
-            // Tooltip.SetDefault(@"The greatest daytime drink I've ever had
-//Boosts knockback by 20%, crit chance by 8% and defense by 10 during daytime
-//Reduces life regen by 2");
         }
 
         public override void SetDefaults()

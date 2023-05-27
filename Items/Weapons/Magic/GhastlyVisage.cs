@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class GhastlyVisage : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ghastly Visage");
-            // Tooltip.SetDefault("Fires homing ghast energy that explodes");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 120;

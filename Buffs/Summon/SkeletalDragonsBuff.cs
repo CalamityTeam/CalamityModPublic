@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Skeletal Dragons");
-            // Description.SetDefault("Big happy family");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

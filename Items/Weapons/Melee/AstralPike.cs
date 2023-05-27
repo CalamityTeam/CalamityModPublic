@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astral Pike");
-            // Tooltip.SetDefault("Summons astral star swarms on critical hits");
             ItemID.Sets.Spears[Item.type] = true;
         }
 

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SealedSingularity";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sealed Singularity");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 34;

@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sanguine Flare");
-            // Tooltip.SetDefault("Fires a blast of sanguine flares that drain enemy life");
             Item.staff[Item.type] = true;
         }
 

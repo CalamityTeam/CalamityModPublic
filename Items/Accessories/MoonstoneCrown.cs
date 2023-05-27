@@ -14,11 +14,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Moonstone Crown");
-            /* Tooltip.SetDefault("15% increased rogue projectile velocity\n" +
-                "Stealth strikes summon lunar flares on enemy hits\n" +
-                "Rogue projectiles very occasionally summon moon sigils behind them"); */
-
+           
             if (Main.netMode != NetmodeID.Server)
             {
                 int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Face);

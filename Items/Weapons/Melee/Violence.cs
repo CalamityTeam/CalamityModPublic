@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Violence : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Violence");
-            // Tooltip.SetDefault("Releases a blazing fork which stays near the mouse and shreds enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.height = Item.width = 142;

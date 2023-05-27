@@ -16,7 +16,6 @@ I myself have been subjected to a litany of baseless boasts and accusations in m
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("The Eater of Worlds");
         }
 
         public override void SetDefaults()

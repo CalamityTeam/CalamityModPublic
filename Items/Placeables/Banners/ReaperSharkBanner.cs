@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class ReaperSharkBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Reaper Shark");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

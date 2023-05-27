@@ -19,7 +19,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Prismatic Light");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

@@ -9,10 +9,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bleached Angling Kit");
-            /* Tooltip.SetDefault("Has a chance to contain various fishing gear\n" +
-            "{$CommonItemTooltip.RightClickToOpen}"); */
-            Item.ResearchUnlockCount = 10;
+                       Item.ResearchUnlockCount = 10;
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<SandyAnglingKit>();
         }
 

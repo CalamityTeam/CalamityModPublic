@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Boss
         private const int MaxTimeLeft = 600;
         private const int FadeTime = 85;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Mine");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

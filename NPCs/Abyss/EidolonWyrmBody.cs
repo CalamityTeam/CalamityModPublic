@@ -12,7 +12,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Eidolon Wyrm");
         }
 
         public override void SetDefaults()

@@ -153,7 +153,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Devourer of Gods");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

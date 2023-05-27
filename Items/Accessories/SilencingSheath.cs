@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class SilencingSheath : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Silencing Sheath");
-            // Tooltip.SetDefault("+10 maximum stealth");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

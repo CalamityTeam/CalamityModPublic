@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class GhostBellBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Ghost Bell");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

@@ -17,7 +17,6 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Flame Pillar");
             Main.npcFrameCount[NPC.type] = 4;
         }
 

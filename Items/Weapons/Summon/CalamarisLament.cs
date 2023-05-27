@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CalamarisLament : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Calamari's Lament");
-            // Tooltip.SetDefault("Summons a squid to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 110;

@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/AquaticDischarge";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aquatic Discharge");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(16);

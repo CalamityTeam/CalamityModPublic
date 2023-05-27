@@ -17,7 +17,6 @@ namespace CalamityMod.NPCs.SunkenSea
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Blinded Angler");
             Main.npcFrameCount[NPC.type] = 6;
         }
 

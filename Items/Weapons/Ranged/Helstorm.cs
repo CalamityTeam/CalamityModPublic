@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Helstorm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Helstorm");
-            /* Tooltip.SetDefault("Fires two bullets at once\n" +
-                "The gun also deals damage to enemies that touch it"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 31;

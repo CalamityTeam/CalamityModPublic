@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class NebulaDust : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dust");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 32;

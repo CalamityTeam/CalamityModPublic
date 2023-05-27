@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class DodusHandcannon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dodu's Handcannon");
-            /* Tooltip.SetDefault("The power of the nut rests in your hands\n" +
-                "Fires high explosive peanut shells, literally"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 62;

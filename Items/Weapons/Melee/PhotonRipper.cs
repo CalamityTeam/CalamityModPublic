@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class PhotonRipper : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Photon Ripper");
-            /* Tooltip.SetDefault("Projects a directed stream of hardlight teeth at ultra high velocity\n" +
-                "This weapon and its projectiles function as a chainsaw"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 3725;

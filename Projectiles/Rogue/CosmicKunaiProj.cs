@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/CosmicKunai";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Kunai");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 24;

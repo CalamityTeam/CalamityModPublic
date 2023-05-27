@@ -10,16 +10,6 @@ namespace CalamityMod.Items.Tools
 {
     public class BobbitHook : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bobbit Hook");
-            // Tooltip.SetDefault($@"Retracts upon attaching to a tile with extreme speeds
-//Reach: {BobbitHead.GrappleRangInTiles}
-//Launch Velocity: {BobbitHead.LaunchSpeed}
-//Reelback Velocity: {BobbitHead.ReelbackSpeed}
-//Pull Velocity: {BobbitHead.PullSpeed}");
-        }
-
         public override void SetDefaults()
         {
             // Instead of copying these values, we can clone and modify the ones we want to copy

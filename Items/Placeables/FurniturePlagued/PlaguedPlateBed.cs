@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Plagued 'Bed'");
-            // Tooltip.SetDefault("Counts as a bed");
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<BrokenPlaguedBed>();
         }
 

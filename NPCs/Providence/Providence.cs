@@ -114,7 +114,6 @@ namespace CalamityMod.NPCs.Providence
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Providence, the Profaned Goddess");
             Main.npcFrameCount[NPC.type] = 3;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

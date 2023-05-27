@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
     [LegacyName("AbyssWorkbench")]
     public class AbyssWorkBench : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Abyss Work Bench");

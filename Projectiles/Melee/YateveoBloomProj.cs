@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class YateveoBloomProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Yateveo Bloom");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 18;

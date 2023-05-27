@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Armor.GodSlayer
     [LegacyName("GodSlayerHelm")]
     public class GodSlayerHeadMelee : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("God Slayer Horned Greathelm");
-            // Tooltip.SetDefault("14% increased melee damage and critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

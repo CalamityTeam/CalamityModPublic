@@ -9,11 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cryo Stone");
-            /* Tooltip.SetDefault("One of the ancient relics\n" +
-                "Multiplies all cold-based debuff damage by 1.5\n" +
-                "Creates a rotating ice shield around you that damages and slows down enemies on contact"); */
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 4));
+                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

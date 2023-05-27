@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public int finalDamage;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Clam Crusher");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 58;

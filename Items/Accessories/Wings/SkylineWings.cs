@@ -11,12 +11,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Skyline Wings");
-            /* Tooltip.SetDefault("Horizontal speed: 6.25\n" +
-                "Acceleration multiplier: 1.0\n" +
-                "Average vertical speed\n" +
-                "Flight time: 80"); */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(80, 6.5f, 1f);
+                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(80, 6.5f, 1f);
         }
 
         public override void SetDefaults()

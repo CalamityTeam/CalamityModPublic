@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class IchorSpear : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ichor Spear");
-            /* Tooltip.SetDefault("Throws an ichor tipped trident\n" +
-            "Stealth strikes are showered in splashes of ichor"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 52;

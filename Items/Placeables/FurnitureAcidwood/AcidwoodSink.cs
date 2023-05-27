@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 {
     public class AcidwoodSink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Counts as a water source");
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Acidwood Sink");

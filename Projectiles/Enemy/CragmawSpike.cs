@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class CragmawSpike : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spike");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

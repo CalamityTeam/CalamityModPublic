@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class IcicleStaffProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fury");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

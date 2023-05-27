@@ -21,11 +21,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             set => Projectile.ai[1] = value;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Unstable Matter");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -17,13 +17,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         public const float HoldoutChargeUse_Laser = 0.006f;
         public const float HoldoutChargeUse_LaserLarge = 0.01f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Freedom Star");
-            // Tooltip.SetDefault(@"Tap to fire energy orbs
-//Hold to charge and fire a beam that explodes on hit");
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

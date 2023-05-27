@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Classic Supreme Calamitas");
-            // Description.SetDefault("Her supreme powers will never be forgotten");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

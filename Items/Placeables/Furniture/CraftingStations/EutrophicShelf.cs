@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
     [LegacyName("EutrophicCrafting")]
     public class EutrophicShelf : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Used for special crafting");
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Eutrophic Shelf");

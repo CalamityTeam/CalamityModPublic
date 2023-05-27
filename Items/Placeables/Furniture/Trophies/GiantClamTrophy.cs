@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     [LegacyName("GiantClamBanner")]
     public class GiantClamTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Giant Clam Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
     public class StatigelSink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Counts as a water source");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

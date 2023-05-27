@@ -19,11 +19,6 @@ namespace CalamityMod.NPCs.Astral
 {
     public class AstralProbe : ModNPC
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Probe");
-        }
-
         public override void SetDefaults()
         {
             NPC.damage = 20;

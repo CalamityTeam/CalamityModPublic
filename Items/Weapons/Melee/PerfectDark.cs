@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class PerfectDark : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Perfect Dark");
-            // Tooltip.SetDefault("Fires a vile ball that sticks to tiles and explodes");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 50;

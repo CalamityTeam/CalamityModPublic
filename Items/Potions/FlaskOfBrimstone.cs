@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Flask of Brimstone");
-            // Tooltip.SetDefault("Melee, Whip, and Rogue attacks inflict Brimstone Flames");
         }
 
         public override void SetDefaults()

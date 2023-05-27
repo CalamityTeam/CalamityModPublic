@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Summon
         public ref float RestOffsetAngle => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dazzling Stabber");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 25;

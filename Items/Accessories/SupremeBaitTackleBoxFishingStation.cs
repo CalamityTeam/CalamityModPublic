@@ -7,17 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class SupremeBaitTackleBoxFishingStation : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Supreme Bait Tackle Box Fishing Station");
-            /* Tooltip.SetDefault("The ultimate fishing accessory\n" +
-                "Increases fishing skill by 80\n" +
-                "Fishing line will never break and decreases chance of bait consumption\n" +
-                "Increases chance to catch crates\n" +
-                "Allows fishing in lava\n" +
-                "Sonar potion effect"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

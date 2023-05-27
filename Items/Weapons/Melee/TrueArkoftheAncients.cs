@@ -32,13 +32,6 @@ namespace CalamityMod.Items.Weapons.Melee
         "Parrying empowers the next 10 swings of the sword, letting them throw stronger projectiles\n" +
         "Pressing right click while holding UP will release all empowered charges in a powerful burst of energy";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ark of the Ancients");
-            /* Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
-            "A heavenly blade forged to vanquish all evil"); */
-        }
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             if (tooltips == null)

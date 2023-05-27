@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Andromeda Cripple");
-            // Description.SetDefault("You're slow");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

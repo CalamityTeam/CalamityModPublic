@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     [LegacyName("AtaxiaArmor")]
     public class HydrothermicArmor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hydrothermic Armor");
-            /* Tooltip.SetDefault("+20 max life\n" +
-                "8% increased damage and 4% increased critical strike chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

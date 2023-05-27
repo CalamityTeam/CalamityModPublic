@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Big Sightseer");
             Main.npcFrameCount[NPC.type] = 4;
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/BigSightseerGlow", AssetRequestMode.ImmediateLoad).Value;
@@ -193,7 +192,6 @@ namespace CalamityMod.NPCs.Astral
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Seeker Spit");
             Main.npcFrameCount[NPC.type] = 1;
             NPCID.Sets.ProjectileNPC[Type] = true;
         }

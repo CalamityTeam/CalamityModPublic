@@ -17,7 +17,6 @@ Genetic heritage or not, though, the Fishrons lack Dragonblood, or Auric souls. 
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Duke Fishron");
         }
 
         public override void SetDefaults()

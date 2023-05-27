@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Pets
 {
     public class BloodyVein : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloody Vein");
-            // Tooltip.SetDefault("Summons an amalgamated pile of flesh");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 0;

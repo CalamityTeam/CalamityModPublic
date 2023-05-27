@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class EarthRockBig : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rock");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

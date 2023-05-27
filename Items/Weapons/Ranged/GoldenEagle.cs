@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         private const float Spread = 0.0425f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Golden Eagle");
-            // Tooltip.SetDefault("Fires 5 bullets at once");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 85;

@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/SubmarineShocker";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Submarine Shocker");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(16);

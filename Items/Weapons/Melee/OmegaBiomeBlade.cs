@@ -94,17 +94,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float FlailBladeAttunement_GhostChainProc = 0.1f;
         #endregion
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("True Biome Blade");
-            /* Tooltip.SetDefault("FUNCTION_DESC\n" +
-                               "FUNCTION_PASSIVE\n" +
-                               "Holding down RMB for 2 seconds attunes the weapon to the powers of the surrounding biome\n" +
-                               "Using RMB for a shorter period of time switches your active and passive attunements around\n" +
-                               "Active Attunement : None\n" +
-                               "Passive Attunement: None\n"); */
-        }
-
         #region tooltip editing
         public override void ModifyTooltips(List<TooltipLine> list)
         {

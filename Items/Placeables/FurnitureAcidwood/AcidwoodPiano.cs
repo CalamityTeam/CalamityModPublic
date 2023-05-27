@@ -5,10 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 {
     public class AcidwoodPiano : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Acidwood Piano");

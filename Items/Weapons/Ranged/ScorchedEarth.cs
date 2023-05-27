@@ -16,14 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/ScorchedEarthShot", 3);
 
         private int counter = 0;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Scorched Earth");
-            /* Tooltip.SetDefault("Fires a burst of four fuel-air rockets which explode into cluster bombs\n" +
-            "Each burst consumes two rockets each\n" +
-            "Burns your targets to a fine crisp"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 500;

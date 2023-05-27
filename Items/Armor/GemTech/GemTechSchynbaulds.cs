@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Armor.GemTech
     [AutoloadEquip(EquipType.Legs)]
     public class GemTechSchynbaulds : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gem Tech Schynbaulds");
-            // Tooltip.SetDefault("If they hurt you, kick them down.");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

@@ -22,7 +22,6 @@ I await your challenge.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Cynosure");
         }
 
         public override void SetDefaults()

@@ -20,7 +20,6 @@ They cannot be starstruck by a supposed higher truth, let alone one preached by 
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Astral Infection");
         }
 
         public override void SetDefaults()

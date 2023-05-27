@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Boss
         public static readonly SoundStyle ExplosionSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerMissileExplosion");
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Homing Nuke");
             Main.projFrames[Projectile.type] = 5;
         }
 

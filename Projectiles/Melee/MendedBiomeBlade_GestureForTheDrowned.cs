@@ -18,11 +18,6 @@ namespace CalamityMod.Projectiles.Melee
         public float Timer => 40 - Projectile.timeLeft;
         public float HalfTimer => (Timer % 20);
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Biome Blade"); //This is litterally just the biome blade without even any extra magic effects so
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 32;

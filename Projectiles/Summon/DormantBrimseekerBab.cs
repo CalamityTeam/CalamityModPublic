@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dormant Brimseeker");
 
             Main.projFrames[Projectile.type] = 8;
 

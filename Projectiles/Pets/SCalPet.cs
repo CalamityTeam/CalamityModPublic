@@ -8,7 +8,6 @@ namespace CalamityMod.Projectiles.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Supreme Calamitas");
             Main.projFrames[Projectile.type] = 6;
             Main.projPet[Projectile.type] = true;
         }

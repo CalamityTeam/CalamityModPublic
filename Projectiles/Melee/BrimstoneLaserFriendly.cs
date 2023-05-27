@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/BrimstoneLaser";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Laser");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 2;

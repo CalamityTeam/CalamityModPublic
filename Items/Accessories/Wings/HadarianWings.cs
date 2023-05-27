@@ -16,14 +16,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Hadarian Wings");
-            /* Tooltip.SetDefault("Powered by the Astral Infection\n" +
-                "This line gets modified below\n" +
-                "Horizontal speed: 9.00\n" +
-                "Acceleration multiplier: 1.75\n" +
-                "Good vertical speed\n" +
-                "Flight time: 90"); */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(90, 9f, 1.75f);
+                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(90, 9f, 1.75f);
         }
 
         public override void SetDefaults()

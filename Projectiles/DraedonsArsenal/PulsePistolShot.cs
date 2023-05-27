@@ -24,7 +24,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public List<NPC> NPCsAlreadyHit = new List<NPC>();
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Pulse Bolt");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
         }

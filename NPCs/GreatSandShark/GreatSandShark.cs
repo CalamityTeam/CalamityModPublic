@@ -27,7 +27,6 @@ namespace CalamityMod.NPCs.GreatSandShark
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Great Sand Shark");
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)

@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Typeless
         public bool start = true;
         public BaseFusableParticleSet.FusableParticle voidaura;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Void Field Generator");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 50;

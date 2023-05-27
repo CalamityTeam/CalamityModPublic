@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Turbulance : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Turbulance");
-            // Tooltip.SetDefault(@"Fires a cloudy javelin that bursts into wind slashes on hit
-//Wind slashes home if the javelin crits
-//Stealth strikes are trailed by homing wind slashes");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 14;

@@ -11,11 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Phantom Lance");
-            // Tooltip.SetDefault(@"Fires a spectral javelin that rapidly releases lost souls
-//Fades away and slows down over time
-//Lost souls released later deal less damage
-//Stealth strikes don't slow down and souls always deal full damage");
             Item.ResearchUnlockCount = 99;
         }
 

@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astral Meteor");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
         }

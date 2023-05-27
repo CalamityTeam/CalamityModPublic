@@ -17,11 +17,6 @@ namespace CalamityMod.Projectiles.Typeless
             new Color(39, 151, 171, 100) // a blue color
         };
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Devourer of Cods Bobber");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

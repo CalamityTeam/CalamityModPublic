@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
     public class CosmiliteBathtub : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Cosmilite Bathtub");

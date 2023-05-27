@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class MantisClaws : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mantis Claws");
-            /* Tooltip.SetDefault("Explodes on enemy hit\n" +
-                "It's just that shrimple"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

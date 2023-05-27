@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Mistlestorm");
-            // Tooltip.SetDefault("Casts a storm of pine needles and leaves");
             Item.staff[Item.type] = true;
         }
 

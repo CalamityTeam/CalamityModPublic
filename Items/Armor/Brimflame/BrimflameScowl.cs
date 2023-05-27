@@ -18,14 +18,6 @@ namespace CalamityMod.Items.Armor.Brimflame
         private bool frenzy = false;
         public static int CooldownLength = 1800;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimflame Cowl");
-            /* Tooltip.SetDefault("5% increased magic damage and critical strike chance\n" +
-                "Increases maximum mana by 70 and reduces mana usage by 10%\n" +
-                "Immunity to On Fire!, Brimstone Flames and Frostburn"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -38,11 +38,6 @@ namespace CalamityMod.Projectiles.Ranged
         public ref float polarity => ref Projectile.ai[1];
         public Player Owner => Main.player[Projectile.owner];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Adamantite Particle Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

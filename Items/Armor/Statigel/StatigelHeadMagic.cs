@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Armor.Statigel
     [LegacyName("StatigelCap")]
     public class StatigelHeadMagic : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Statigel Cap");
-            /* Tooltip.SetDefault("10% increased magic damage and 10% decreased mana cost\n" +
-                "7% increased magic critical strike chance and +30 max mana"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

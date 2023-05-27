@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class AncientIceChunk : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ancient Ice Chunk");
-            // Tooltip.SetDefault("Summons an ice clasper to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 31;

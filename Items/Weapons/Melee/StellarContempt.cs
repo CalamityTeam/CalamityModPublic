@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int BaseDamage = 300;
         public static float Speed = 18f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stellar Contempt");
-            // Tooltip.SetDefault("Lunar flares rain down on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 74;

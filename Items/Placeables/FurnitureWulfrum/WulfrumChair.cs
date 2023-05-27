@@ -5,10 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
 {
     public class WulfrumChair : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

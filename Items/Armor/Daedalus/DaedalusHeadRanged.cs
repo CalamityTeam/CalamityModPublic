@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Armor.Daedalus
     [LegacyName("DaedalusHelmet")]
     public class DaedalusHeadRanged : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Daedalus Headgear");
-            /* Tooltip.SetDefault("13% increased ranged damage and 7% increased ranged critical strike chance\n" +
-                "Reduces ammo usage by 20%"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

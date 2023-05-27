@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Drataliornus";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Drataliornus");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 64;

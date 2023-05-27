@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Icy Bullet");
-            // Tooltip.SetDefault("Can hit up to three times\nBreaks into ice shards on last impact");
         }
         public override void SetDefaults()
         {

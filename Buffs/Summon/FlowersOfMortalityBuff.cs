@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Flowers of Mortality");
-            // Description.SetDefault("Celestial blossoms surround you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

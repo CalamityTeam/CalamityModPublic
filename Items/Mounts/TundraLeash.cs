@@ -6,12 +6,6 @@ namespace CalamityMod.Items.Mounts
 {
     public class TundraLeash : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tundra Leash");
-            // Tooltip.SetDefault("Summons a Rimehound mount");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

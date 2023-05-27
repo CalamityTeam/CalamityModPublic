@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class WulfrumBobber : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wulfrum Bobber");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

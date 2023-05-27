@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ToxicArrow : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Toxic Arrow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class EmpyreanGlob : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Empyeran Glob");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

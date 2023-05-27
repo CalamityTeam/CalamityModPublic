@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class BalefulHarvester : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Baleful Harvester");
-            // Tooltip.SetDefault("Summons flaming pumpkins and skulls that split into homing fire orbs on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 90;

@@ -10,17 +10,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class Nanotech : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nanotech");
-            /* Tooltip.SetDefault("Rogue projectiles create nanoblades as they travel\n" +
-                "Stealth strikes summon nanobeams and sparks on enemy hits\n" +
-                "Stealth strikes have +15 armor penetration, deal 5% more damage, and heal for 2 HP\n" +
-                "15% increased rogue damage and 15% increased rogue velocity\n" +
-                $"Landing a stealth strike grants a {(int)RaidersTalisman.RaiderBonus}% crit bonus to non-stealth strikes\n" +
-                $"This crit bonus decays over {RaidersTalisman.RaiderCooldown} seconds"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 46;

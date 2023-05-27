@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class MagnusBeam : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

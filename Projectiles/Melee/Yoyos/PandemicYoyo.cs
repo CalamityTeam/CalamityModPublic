@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Pandemic");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 450f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 16.5f;

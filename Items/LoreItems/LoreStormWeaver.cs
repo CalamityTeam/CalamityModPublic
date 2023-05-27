@@ -20,7 +20,6 @@ He thinks himself invincible. Little does he know, he has ever stood in a simila
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Storm Weaver");
         }
 
         public override void SetDefaults()

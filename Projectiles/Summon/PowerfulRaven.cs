@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Summon
         public const float SeparationAnxietyDistance = 2000f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Super Raven");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;

@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class ShellfishStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shellfish Staff");
-            /* Tooltip.SetDefault("Summons a shellfish to fight for you\n" +
-                               "Takes up 2 minion slots"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 70;

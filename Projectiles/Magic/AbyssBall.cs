@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/Boss/UnstableEbonianGlob";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Abyss Ball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 26;

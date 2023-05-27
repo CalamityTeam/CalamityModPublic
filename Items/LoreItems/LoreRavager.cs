@@ -20,7 +20,6 @@ I suppose its brutality serves as a reminder to be careful what you believe.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("The Ravager");
         }
 
         public override void SetDefaults()

@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
     public class AncientSink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Counts as a lava source");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Goobow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Goobow");
-            // Tooltip.SetDefault("Fires two streams of slime");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 33;

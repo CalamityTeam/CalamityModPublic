@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 	{
 		public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Calamitas Clone Relic");
-            // Tooltip.SetDefault("A glimpse into what could have been...");
 		}
 
 		public override void SetDefaults()

@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public static int lifetime = 300;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nychthemeron");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

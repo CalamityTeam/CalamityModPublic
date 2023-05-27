@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ScorchedEarthClusterBomb : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cluster Bomb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

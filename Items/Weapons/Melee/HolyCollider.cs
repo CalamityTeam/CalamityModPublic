@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class HolyCollider : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Holy Collider");
-            // Tooltip.SetDefault("Striking enemies will cause them to explode into holy fire");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 94;

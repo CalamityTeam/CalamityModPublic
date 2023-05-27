@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("DivineHatchet")]
     public class SeekingScorcher : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Seeking Scorcher");
-            /* Tooltip.SetDefault("May your enemies burn in hell for the sins they have committed\n" +
-            "Throws a holy boomerang that seeks out up to four enemies before returning to the player"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 60;

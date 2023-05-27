@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/FossilShard";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

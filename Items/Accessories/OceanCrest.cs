@@ -6,12 +6,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class OceanCrest : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ocean Crest");
-            // Tooltip.SetDefault("Most ocean enemies become friendly and provides waterbreathing");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -13,10 +13,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dynamo Stem Cells");
-            // Tooltip.SetDefault(@"10% increased movement speed
-//Ranged weapons have a chance to fire mini swarmers
-//Grants immunity to Dragonfire and Electrified");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

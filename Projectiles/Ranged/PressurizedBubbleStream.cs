@@ -24,11 +24,6 @@ namespace CalamityMod.Projectiles.Ranged
         public ref float PulseTimer => ref Projectile.localAI[0];
         public ref float PrevPulseTimer => ref Projectile.localAI[1];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Pressurized Bubble Stream");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

@@ -20,13 +20,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/TeslaCannonFire");
         
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tesla Cannon");
-            /* Tooltip.SetDefault("Lightweight energy cannon that blasts an intense electrical beam that explodes\n" +
-                "Beams can arc to nearby targets"); */
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class HadalUrnStarfishShard : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Starfish Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

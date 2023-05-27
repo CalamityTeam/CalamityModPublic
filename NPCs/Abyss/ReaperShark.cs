@@ -29,7 +29,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Reaper Shark");
             Main.npcFrameCount[NPC.type] = 4;
         }
 

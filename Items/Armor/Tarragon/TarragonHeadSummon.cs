@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Armor.Tarragon
     [LegacyName("TarragonHornedHelm")]
     public class TarragonHeadSummon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tarragon Horned Helm");
-            // Tooltip.SetDefault("5% increased minion damage and damage reduction");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Magic
         private const int xRange = 600;
         private const int yRange = 320;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Staff of Blushie");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 2;

@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class PendantProjectile1 : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Prism Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

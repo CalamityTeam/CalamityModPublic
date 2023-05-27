@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DestroyerElectricLaser : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Electric Laser");
-        }
-
         public override void SetDefaults()
         {
             Projectile.ignoreWater = true;

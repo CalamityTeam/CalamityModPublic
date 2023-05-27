@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     [LegacyName("AstrageldonTrophy")]
     public class AstrumAureusTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astrum Aureus Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

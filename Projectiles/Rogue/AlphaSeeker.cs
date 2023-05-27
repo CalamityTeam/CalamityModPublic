@@ -18,11 +18,6 @@ namespace CalamityMod.Projectiles.Rogue
         public static int returnTime = 60;
         public bool initialized = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Alpha Virus Seeker");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

@@ -11,16 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         internal static int ShitBaseDamage = 55;
         
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dragon Scales");
-            /* Tooltip.SetDefault("Only a living dragon holds true treasure\n" +
-                               "Rogue projectiles create slow fireballs as they travel\n" +
-                               "Stealth strikes create infernados on death\n" +
-                               "+10% max run speed and acceleration\n" +
-                               "Grants immunity to Dragonfire"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

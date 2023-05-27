@@ -4,10 +4,6 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
     public class StratusClock : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

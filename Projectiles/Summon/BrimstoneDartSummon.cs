@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Summon
         public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneBarrage";
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Brimstone Dart");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;

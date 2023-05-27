@@ -18,15 +18,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float Knockback = 9f;
         public static float Speed = 16f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nanoblack Reaper");
-            /* Tooltip.SetDefault("Unleashes a storm of nanoblack energy blades\n" +
-                "Blades target bosses whenever possible\n" +
-                "Stealth strikes cause the scythe to create a large amount of homing afterimages instead of energy blades\n" +
-                "'She smothered them in Her hatred'"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 78;

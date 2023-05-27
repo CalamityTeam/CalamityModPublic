@@ -62,12 +62,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
             orig(player, keyDir);
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Desert Prowler Hat");
-            // Tooltip.SetDefault("4% increased ranged critical strike chance and 20% chance to not consume ammo");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;
@@ -216,8 +210,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Desert Prowler Shirt");
-            // Tooltip.SetDefault("5% increased ranged critical strike chance");
 
             if (Main.netMode == NetmodeID.Server)
                 return;
@@ -258,12 +250,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
     [AutoloadEquip(EquipType.Legs)]
     public class DesertProwlerPants : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Desert Prowler Pants");
-            // Tooltip.SetDefault("10% increased movement speed and immunity to the Mighty Wind debuff");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

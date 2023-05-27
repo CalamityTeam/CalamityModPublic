@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Melee
         public static float MaxHomingRange = 600f;
         public static float HomingVelocity = 20f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Draconic Spark");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

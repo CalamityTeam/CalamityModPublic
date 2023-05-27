@@ -10,11 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Plasma Rod");
-            /* Tooltip.SetDefault("Casts a low-damage plasma bolt\n" +
-                "Shooting a tile will cause several bolts with increased damage to fire\n" +
-                "Shooting an enemy will inflict shadowflame"); */
-            Item.staff[Item.type] = true;
+                       Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()

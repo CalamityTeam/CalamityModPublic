@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Armor.FathomSwarmer
     [AutoloadEquip(EquipType.Head)]
     public class FathomSwarmerVisage : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fathom Swarmer Visage");
-            /* Tooltip.SetDefault("5% increased minion damage\n" +
-                "Provides breathing and light underwater"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

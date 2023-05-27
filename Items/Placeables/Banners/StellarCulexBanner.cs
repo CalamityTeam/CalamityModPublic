@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class StellarCulexBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Stellar Culex");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

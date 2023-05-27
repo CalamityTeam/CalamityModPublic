@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class MutatedTruffle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mutated Truffle");
-            /* Tooltip.SetDefault("Summons a small Old Duke to fight for you\n" +
-                               "When below 50% life, it moves much faster"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

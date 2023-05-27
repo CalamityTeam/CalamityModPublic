@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Tools
 {
     public class BerserkerWaraxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Berserker Waraxe");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 51;

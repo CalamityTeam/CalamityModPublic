@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class HivePod : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hive Pod");
-            // Tooltip.SetDefault("Summons an astral hive to protect you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 75;

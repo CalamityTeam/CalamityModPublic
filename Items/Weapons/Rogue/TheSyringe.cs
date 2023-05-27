@@ -13,15 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float Knockback = 5f;
         public static float Speed = 15f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Syringe");
-            /* Tooltip.SetDefault("Throws a high velocity syringe that increases damage as it travels\n" +
-                "Shatters into glass and plague cinders on impact\n" +
-                "Stealth strikes also shatter into plague bees\n" +
-                "'I'm pretty sure this isn't healthy'"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;

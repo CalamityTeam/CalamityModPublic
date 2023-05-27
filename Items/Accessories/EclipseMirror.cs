@@ -10,21 +10,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class EclipseMirror : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eclipse Mirror");
-            /* Tooltip.SetDefault("Its reflection shows naught but darkness\n" +
-                "+10 maximum stealth\n" +
-                "6% increased rogue damage, and 6% increased rogue crit chance\n" +
-                "Vastly reduces enemy aggression, even in the abyss\n" +
-                "Stealth generates 25% faster when standing still\n" +
-                "Mobile stealth generation exponentially accelerates while not attacking\n" +
-                "Stealth strikes only expend 50% of your max stealth\n" +
-                "Grants the ability to evade attacks in a blast of darksun light, which inflicts extreme damage in a wide area\n" +
-                "Evading an attack grants full stealth but has a 90 second cooldown\n" +
-                "This cooldown is shared with all other dodges and reflects"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

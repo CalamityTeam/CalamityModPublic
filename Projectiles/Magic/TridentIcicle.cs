@@ -23,11 +23,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.coldDamage = true;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Trident Icicle");
-        }
-
         public override void AI()
         {
             //make pretty dust

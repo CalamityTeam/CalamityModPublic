@@ -7,8 +7,6 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cosmic Freeze");
-            // Description.SetDefault("You feel as cold as the empty expanse of outer space");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Gravity Normalizer Potion");
-            // Tooltip.SetDefault("Disables the low gravity of space and grants immunity to the distorted debuff");
         }
 
         public override void SetDefaults()

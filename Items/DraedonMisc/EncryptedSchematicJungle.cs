@@ -17,12 +17,6 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class EncryptedSchematicJungle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Encrypted Schematic (Jungle)");
-            // Tooltip.SetDefault("Requires a Codebreaker with a fine tuned, long range sensor to decrypt");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

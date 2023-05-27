@@ -9,14 +9,6 @@ namespace CalamityMod.Items.PermanentBoosters
     [LegacyName("MLGRune2")]
     public class CelestialOnion : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Celestial Onion");
-            // Tooltip.SetDefault(@"Alien power pulses inside its layers
-//Consuming it does something that cannot be reversed
-//This item does nothing in Master Mode");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;
@@ -27,7 +19,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item4;
-            Item.consumable = true; // Not researchable, only drops one time.
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)

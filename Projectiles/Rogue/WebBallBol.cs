@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/WebBall";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Web Ball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 18;

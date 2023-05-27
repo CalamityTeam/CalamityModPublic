@@ -19,11 +19,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             set => Projectile.ai[0] = value;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plasma Grenade");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 22;

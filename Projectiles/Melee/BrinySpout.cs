@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Briny Spout");
             Main.projFrames[Projectile.type] = 6;
         }
 

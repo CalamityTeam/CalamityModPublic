@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/Boss/PhantomHookShot";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Phantom Shot");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class TrilobiteBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Trilobite");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

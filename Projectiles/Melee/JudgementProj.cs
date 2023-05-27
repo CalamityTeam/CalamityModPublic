@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Melee
 
         int whiteLightTimer = 5;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Judgement");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

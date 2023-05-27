@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Archerfish : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Archerfish");
-            // Tooltip.SetDefault("Converts musket balls into streams of water");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 16;

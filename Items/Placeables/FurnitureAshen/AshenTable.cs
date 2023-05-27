@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class AshenTable : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

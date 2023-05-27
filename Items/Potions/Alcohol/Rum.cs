@@ -10,10 +10,6 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Rum");
-            // Tooltip.SetDefault(@"Sweet and potent, just how I like it
-//Boosts life regen by 2 and movement speed by 10%
-//Reduces defense by 5%");
         }
 
         public override void SetDefaults()

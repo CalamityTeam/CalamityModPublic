@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class FlakKraken : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Flak Kraken");
-            // Tooltip.SetDefault("Fires an energy reticle that becomes more powerful over time");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 88;

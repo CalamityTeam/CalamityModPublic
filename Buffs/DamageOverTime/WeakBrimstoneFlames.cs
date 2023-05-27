@@ -7,8 +7,6 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Weak Brimstone Flames");
-            // Description.SetDefault("Health loss");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

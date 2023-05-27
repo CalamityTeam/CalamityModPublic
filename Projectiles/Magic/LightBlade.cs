@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Light Blade");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = NumAfterimages;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }

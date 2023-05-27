@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Armor.Fearmonger
     [AutoloadEquip(EquipType.Head)]
     public class FearmongerGreathelm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fearmonger Greathelm");
-            /* Tooltip.SetDefault("Pure terror radiates from your eyes\n" +
-            "+60 max mana and 10% decreased mana usage\n" +
-            "10% increased minion damage"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

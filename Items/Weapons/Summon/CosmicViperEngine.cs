@@ -14,16 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CosmicViperEngine : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cosmic Viper Engine");
-            /* Tooltip.SetDefault("Summons a cosmic gunship to shoot down your foes\n" +
-                               "Gunships will fire bullets from your inventory\n" +
-                               "50% chance to not consume ammo\n" +
-                               "Alternates firing rockets and bullets\n" +
-                               "Rockets do not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 321;

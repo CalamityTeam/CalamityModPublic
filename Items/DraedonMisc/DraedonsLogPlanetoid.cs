@@ -9,12 +9,6 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class DraedonsLogPlanetoid : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Low Orbit Study Log");
-            // Tooltip.SetDefault("[Space and Soil Survey] - Low Terraria Orbit\nClick to view its contents");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

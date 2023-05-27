@@ -6,12 +6,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class VitalJelly : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Vital Jelly");
-            // Tooltip.SetDefault("10% increased movement and jump speed");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

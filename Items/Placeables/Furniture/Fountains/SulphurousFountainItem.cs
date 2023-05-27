@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
 {
     public class SulphurousFountainItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sulphuric Water Fountain");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

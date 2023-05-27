@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class SpearofPaleolith : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spear of Paleolith");
-            /* Tooltip.SetDefault("Throws an ancient spear that shatters enemy armor\n" +
-                "Spears rain fossil shards as they travel\n" +
-                "Stealth strikes travel slower but further, raining more fossil shards"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 54;

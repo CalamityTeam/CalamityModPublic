@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Grim Bat"); // There's an incredibly obvious thing that I could add/change in this name, but I will restrain
             Main.projFrames[Projectile.type] = 4;
         }
 

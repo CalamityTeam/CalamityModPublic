@@ -10,12 +10,6 @@ namespace CalamityMod.Items.LabFinders
 {
     public class RedSeekingMechanism : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Red Seeking Mechanism");
-            // Tooltip.SetDefault("Moves swiftly towards a lab within the underworld");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

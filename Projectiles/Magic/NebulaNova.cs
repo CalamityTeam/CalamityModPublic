@@ -24,11 +24,6 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nebula Nova");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 190;

@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class MagnaStriker : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Magna Striker");
-            // Tooltip.SetDefault("Fires a string of opal and magna strikes");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 50;

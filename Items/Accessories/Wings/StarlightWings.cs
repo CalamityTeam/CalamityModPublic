@@ -14,14 +14,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Starlight Wings");
-            /* Tooltip.SetDefault("Wings of the Nightingale\n" +
-                "Horizontal speed: 7.50\n" +
-                "Acceleration multiplier: 1.0\n" +
-                "Average vertical speed\n" +
-                "Flight time: 150\n" +
-                "5% increased damage and critical strike chance while wearing the Daedalus Armor"); */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(150, 7.5f, 1f);
+                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(150, 7.5f, 1f);
         }
 
         public override void SetDefaults()

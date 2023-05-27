@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Magic
 
         private int pwidth = 58;
         private int pheight = 58;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Barrage");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = pwidth;

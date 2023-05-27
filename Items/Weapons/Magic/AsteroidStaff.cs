@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Asteroid Staff");
-            // Tooltip.SetDefault("Summons asteroids from the sky");
             Item.staff[Item.type] = true;
         }
 

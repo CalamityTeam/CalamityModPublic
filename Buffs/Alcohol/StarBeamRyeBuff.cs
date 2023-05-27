@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Star Beam Rye");
-            // Description.SetDefault("Max mana and magic damage increased. Defense, mana usage, and life regen reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

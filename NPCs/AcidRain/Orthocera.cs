@@ -36,7 +36,6 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Orthocera");
             Main.npcFrameCount[NPC.type] = 5;
         }
 

@@ -21,7 +21,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Scorn Eater");
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

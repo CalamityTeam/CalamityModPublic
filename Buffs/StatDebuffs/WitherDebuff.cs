@@ -10,9 +10,6 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Wither");
-            /* Description.SetDefault("Withered...\n" +
-                "Defense reduced by 20"); */ // Literally Ichor but patron.  Also not to be confused with Withered Armor/Weapons
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

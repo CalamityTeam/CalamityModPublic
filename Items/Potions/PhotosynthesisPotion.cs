@@ -11,10 +11,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Photosynthesis Potion");
-            /* Tooltip.SetDefault("You regen life quickly while not moving, this effect is five times as strong during daytime\n" +
-                "Dropped hearts heal more HP"); */
-        }
+                   }
 
         public override void SetDefaults()
         {

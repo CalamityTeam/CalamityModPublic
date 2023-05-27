@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Armor.Silva
     [LegacyName("SilvaMaskedCap")]
     public class SilvaHeadMagic : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Silva Masked Cap");
-            /* Tooltip.SetDefault("23% increased magic damage and 13% increased magic critical strike chance\n" +
-                "+100 max mana and 19% reduced mana usage"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

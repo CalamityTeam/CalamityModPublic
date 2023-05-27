@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Legs)]
     public class AncientGodSlayerLeggings : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ancient God Slayer Leggings");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

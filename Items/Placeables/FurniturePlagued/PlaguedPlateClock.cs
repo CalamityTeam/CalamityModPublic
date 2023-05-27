@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
     public class PlaguedPlateClock : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plagued Clock");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 8;

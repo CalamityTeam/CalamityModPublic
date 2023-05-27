@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Items/Ammo/NapalmArrow";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Arrow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

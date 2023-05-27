@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AstrealDefeat : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astreal Defeat");
-            // Tooltip.SetDefault("All arrows are converted to Astreal Arrows that emit flames as they travel");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 153;

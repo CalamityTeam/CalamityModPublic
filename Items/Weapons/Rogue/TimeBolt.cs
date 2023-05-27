@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class TimeBolt : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Time Bolt");
-            /* Tooltip.SetDefault("There should be no boundary to human endeavor.\n" +
-            "Stealth strikes can hit more enemies and create a larger time field"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

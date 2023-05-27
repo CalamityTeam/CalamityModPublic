@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Draedon's Heart");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 11));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
 
@@ -33,13 +32,7 @@ namespace CalamityMod.Items.Accessories
             string totalHealTooltip = $"{NanomachinesHealPerFrame * NanomachinesDuration}";
             string healDurationTooltip = $"{NanomachinesDuration / 60}";
 
-            /* Tooltip.SetDefault("15% reduced contact damage from enemies\n" +
-                "Reduces defense damage taken by 50%\n" + "Replaces Adrenaline with the Nanomachines meter\n" +
-                $"Unlike Adrenaline, you lose no Nanomachines when you take damage, but they stop accumulating for {pauseDurationTooltip}\n" +
-                $"With full Nanomachines, press & to heal {totalHealTooltip} health over {healDurationTooltip} seconds\n" +
-                "While healing, you take @% less damage\n" +
-                "'Nanomachines, son.'"); */
-        }
+                   }
 
         public override void SetDefaults()
         {

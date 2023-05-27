@@ -12,11 +12,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Portabulb");
-            /* Tooltip.SetDefault("Summons Plantera when used in the Jungle\n" +
-                "Enrages outside the Underground Jungle\n" +
-                "Not consumable"); */
-			NPCID.Sets.MPAllowedEnemies[NPCID.Plantera] = true;
+           			NPCID.Sets.MPAllowedEnemies[NPCID.Plantera] = true;
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 11; // Truffle Worm
         }
 

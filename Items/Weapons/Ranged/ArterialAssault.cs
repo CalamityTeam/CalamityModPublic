@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ArterialAssault : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Arterial Assault");
-            /* Tooltip.SetDefault("Fires a chain of 5 arrows from the sky\n" +
-                "Wooden arrows are converted into homing bloodfire arrows"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 128;

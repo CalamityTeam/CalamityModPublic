@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Aquamarine Staff");
-            // Tooltip.SetDefault("Shoots two blue bolts");
             Item.staff[Item.type] = true;
         }
 

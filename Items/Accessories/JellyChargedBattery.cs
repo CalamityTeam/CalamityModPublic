@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class JellyChargedBattery : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Jelly-Charged Battery");
-            /* Tooltip.SetDefault("7% increased minion damage\n" +
-                               "Minion attacks spawn orbs of energy and inflict Electrified"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

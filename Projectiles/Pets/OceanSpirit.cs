@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ocean Spirit");
             Main.projFrames[Projectile.type] = 17;
             Main.projPet[Projectile.type] = true;
             ProjectileID.Sets.LightPet[Projectile.type] = true;

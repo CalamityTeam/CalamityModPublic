@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Blood Geyser");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/InfestedClawmerang";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shroomerang");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

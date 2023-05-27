@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Shadethrower : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shadethrower");
-            // Tooltip.SetDefault("66% chance to not consume gel");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 24;

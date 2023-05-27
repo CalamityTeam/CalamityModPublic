@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("GreatbowofTurmoil")]
     public class ContinentalGreatbow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Continental Greatbow");
-            /* Tooltip.SetDefault("Wooden arrows are set alight with fire\n" +
-                "Fires 3 arrows at once\n" +
-                "Fires 2 additional cursed, hellfire, or ichor arrows"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 34;

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Waywasher : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Waywasher");
-            // Tooltip.SetDefault("Casts inaccurate water bolts");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 16;

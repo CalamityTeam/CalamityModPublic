@@ -11,16 +11,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class WulfrumController : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wulfrum Controller");
-            /* Tooltip.SetDefault("Summons a wulfrum droid to fight for you\n" +
-                "Hold right click while holding the remote to switch all of your drones into supercharge mode\n" +
-                "Supercharged droids will stop attacking and focus wulfrum energy onto you\n" +
-                "The beam provides extra regeneration and defense\n" +
-                "Can also be used to heal other players by keeping your mouse cursor close enough to them"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 16;

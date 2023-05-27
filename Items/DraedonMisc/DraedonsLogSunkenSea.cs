@@ -9,12 +9,6 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class DraedonsLogSunkenSea : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Marine Biology Log");
-            // Tooltip.SetDefault("[Bioform Research] - Aquatic Life of Ilmeris\nClick to view its contents");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

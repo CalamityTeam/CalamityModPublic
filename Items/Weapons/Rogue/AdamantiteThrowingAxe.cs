@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Adamantite Throwing Axe");
-            // Tooltip.SetDefault("Stealth strikes summon lightning bolts on enemy hits");
             Item.ResearchUnlockCount = 99;
         }
 

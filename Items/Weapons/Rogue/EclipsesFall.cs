@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class EclipsesFall : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eclipse's Fall");
-            /* Tooltip.SetDefault("When the sun goes dark, you will know judgment\n" +
-            "Summons spears from the sky on hit\n" +
-            "Stealth strikes impale enemies and summon a constant barrage of spears over time"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 564;

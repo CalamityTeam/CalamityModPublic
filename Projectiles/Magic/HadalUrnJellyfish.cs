@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Magic
         bool neartarget = false;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Mirage Jelly");
             Main.projFrames[Projectile.type] = 5;
         }
 

@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Toxibow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Toxibow");
-            // Tooltip.SetDefault("Converts wooden arrows into slow arrows that inflict irradiated");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 15;

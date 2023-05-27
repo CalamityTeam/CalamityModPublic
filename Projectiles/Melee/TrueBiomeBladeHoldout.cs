@@ -28,7 +28,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("True Biome Blade");
         }
         public override string Texture => "CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade";
         public bool drawIndrawHeldProjInFrontOfHeldItemAndArms = true;

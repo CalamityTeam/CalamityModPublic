@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Infernado");
             Main.projFrames[Projectile.type] = 12;
         }
 

@@ -8,14 +8,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class EffigyOfDecay : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Effigy of Decay");
-            /* Tooltip.SetDefault("When placed down, nearby players can breathe underwater\n" +
-                               "This effect does not work in the abyss\n" +
-                               "Nearby players are also immune to the sulphuric poisoning"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

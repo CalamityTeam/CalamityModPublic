@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Astral Injection");
-            // Tooltip.SetDefault("Gives mana sickness and hurts you when used, but you regenerate mana extremely quickly even while moving or casting spells");
             Item.ResearchUnlockCount = 30;
         }
 

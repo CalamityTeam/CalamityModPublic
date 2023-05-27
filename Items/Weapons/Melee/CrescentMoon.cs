@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class CrescentMoon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crescent Moon");
-            /* Tooltip.SetDefault("People wanted the moon, let's bring the moon to them.\n" +
-            "Fires a whip sword that summons homing crescent moons"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("EffluviumBow")]
     public class HoarfrostBow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hoarfrost Bow");
-            /* Tooltip.SetDefault("Fires two arrows at once\n" +
-                "Converts wooden arrows into mist arrows"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 56;

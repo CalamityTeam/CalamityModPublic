@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         private bool initialized = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crystal Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

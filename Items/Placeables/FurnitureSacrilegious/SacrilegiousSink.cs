@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     public class SacrilegiousSink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sacrilegious Sink");
-            // Tooltip.SetDefault("Counts as a water, honey, and lava source");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

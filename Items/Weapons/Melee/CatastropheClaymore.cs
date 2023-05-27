@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class CatastropheClaymore : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Catastrophe Claymore");
-            // Tooltip.SetDefault("Fires sparkles which inflict Frostbite, Hellfire, or Ichor");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 56;

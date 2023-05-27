@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Pets
 {
     public class RomajedaOrchid : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Romajeda Orchid");
-            // Tooltip.SetDefault("Summons a never forgotten friend");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 0;

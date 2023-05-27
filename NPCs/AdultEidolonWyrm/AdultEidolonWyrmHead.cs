@@ -81,7 +81,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Adult Eidolon Wyrm");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

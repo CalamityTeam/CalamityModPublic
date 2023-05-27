@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Orb");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

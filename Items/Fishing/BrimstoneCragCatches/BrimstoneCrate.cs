@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         {
             Item.ResearchUnlockCount = 5;
             ItemID.Sets.IsFishingCrate[Type] = true;
-            // DisplayName.SetDefault("Brimstone Crate");
-            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()

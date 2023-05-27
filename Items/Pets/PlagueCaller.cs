@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Pets
 {
     public class PlagueCaller : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plague Caller");
-            // Tooltip.SetDefault("Summons a baby Plaguebringer pet");
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.ZephyrFish);

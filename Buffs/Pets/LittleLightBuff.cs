@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Little Light");
-            // Description.SetDefault("Endearing");
             Main.buffNoTimeDisplay[Type] = true;
             Main.lightPet[Type] = true;
         }

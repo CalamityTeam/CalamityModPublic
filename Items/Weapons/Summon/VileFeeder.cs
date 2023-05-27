@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public static int BaseDamage = 9;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Vile Feeder");
-            // Tooltip.SetDefault("Summons a baby eater of souls to protect you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;

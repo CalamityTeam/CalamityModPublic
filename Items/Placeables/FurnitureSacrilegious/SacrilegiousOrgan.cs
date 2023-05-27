@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     public class SacrilegiousOrgan : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sacrilegious Organ");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

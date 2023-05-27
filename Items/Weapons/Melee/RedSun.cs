@@ -14,13 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class RedSun : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Red Sun");
-            /* Tooltip.SetDefault("Over paradise\n" +
-                "Drops a barrage of solar flares from the sky"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 62;

@@ -13,13 +13,6 @@ namespace CalamityMod.Items.SummonItems
     [LegacyName("BossRush")]
     public class Terminus : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Terminus");
-            /* Tooltip.SetDefault("Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode\n" +
-                                "During the Boss Rush, all wires and wired devices will be disabled"); */
-        }
-
         public override void SetDefaults()
         {
             Item.rare = ItemRarityID.Blue;

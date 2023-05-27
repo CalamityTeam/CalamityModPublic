@@ -16,12 +16,6 @@ namespace CalamityMod.Items.Armor.Auric
     [LegacyName("AuricTeslaHelm")]
     public class AuricTeslaRoyalHelm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auric Tesla Royal Helm");
-            // Tooltip.SetDefault("20% increased melee damage and critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

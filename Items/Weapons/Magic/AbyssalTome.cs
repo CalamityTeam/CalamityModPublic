@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class AbyssalTome : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Abyssal Tome");
-            // Tooltip.SetDefault("Casts a slow-moving ball of dark energy");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 33;

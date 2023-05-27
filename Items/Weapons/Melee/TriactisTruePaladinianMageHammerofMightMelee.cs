@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TriactisTruePaladinianMageHammerofMightMelee : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Triactis' True Paladinian Mage-Hammer of Might");
-            // Tooltip.SetDefault("Explodes on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 160;

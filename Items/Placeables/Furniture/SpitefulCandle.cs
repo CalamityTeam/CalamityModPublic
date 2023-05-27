@@ -7,14 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     [LegacyName("YellowCandle")]
     public class SpitefulCandle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spiteful Candle");
-            /* Tooltip.SetDefault("When placed, nearby enemies take 5% more damage.\n" +
-                "This extra damage bypasses enemy damage reduction and defense\n" +
-                "'Its hateful glow flickers with ire'"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

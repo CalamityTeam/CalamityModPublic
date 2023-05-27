@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 {
     public class AstrophageItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astrophage");
-            // Tooltip.SetDefault("Summons an astrophage to follow you around");
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.ZephyrFish);

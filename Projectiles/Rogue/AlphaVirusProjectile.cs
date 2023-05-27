@@ -18,11 +18,6 @@ namespace CalamityMod.Projectiles.Rogue
         public static float decelerationRate = 0.07f;
         private const float radius = 100f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Alpha Virus");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

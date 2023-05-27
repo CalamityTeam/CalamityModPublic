@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Frost Mist");
             Main.projFrames[Projectile.type] = 8;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

@@ -15,7 +15,6 @@ namespace CalamityMod.NPCs.Leviathan
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("???");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.CantTakeLunchMoney[Type] = true;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

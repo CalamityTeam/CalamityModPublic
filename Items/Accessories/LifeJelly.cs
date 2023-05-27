@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class LifeJelly : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Life Jelly");
-            /* Tooltip.SetDefault("+20 max life\n" +
-                "Standing still boosts life regen"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

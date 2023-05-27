@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DragonRageStaff : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dragon Rage");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 408;

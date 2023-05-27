@@ -28,8 +28,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Shaderain Staff");
-            // Tooltip.SetDefault("Fires a spray of evil clouds and rain");
             Item.staff[Item.type] = true;
         }
 

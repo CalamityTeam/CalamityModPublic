@@ -34,7 +34,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Marksman Shot");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 4000;
         }
 

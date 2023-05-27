@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class CleansingBlaze : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cleansing Blaze");
-            // Tooltip.SetDefault("90% chance to not consume gel");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 130;

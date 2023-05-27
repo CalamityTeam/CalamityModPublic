@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Spike");
             Main.projFrames[Projectile.type] = 5;
         }
 

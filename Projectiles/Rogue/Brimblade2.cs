@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Brimblade";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimblade");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 26;

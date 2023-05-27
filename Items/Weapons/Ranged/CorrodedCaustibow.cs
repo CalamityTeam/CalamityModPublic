@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class CorrodedCaustibow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Corroded Caustibow");
-            // Tooltip.SetDefault("Converts wooden arrows into slow, powerful shells that trail an irradiated aura");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 88;

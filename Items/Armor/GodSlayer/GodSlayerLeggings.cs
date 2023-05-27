@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Armor.GodSlayer
     [AutoloadEquip(EquipType.Legs)]
     public class GodSlayerLeggings : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("God Slayer Leggings");
-            /* Tooltip.SetDefault("5% increased movement speed\n" +
-                "10% increased damage and critical strike chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

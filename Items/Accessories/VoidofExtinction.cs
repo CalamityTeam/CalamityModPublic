@@ -15,16 +15,6 @@ namespace CalamityMod.Items.Accessories
         public const float FireAngleSpread = 120;
         public int FireCountdown = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Void of Extinction");
-            /* Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally\n" +
-                "12% increase to all damage\n" +
-                "All attacks inflict Brimstone Flames\n" +
-                "Brimstone fire rains down after getting hit\n" +
-                "Grants immunity to lava, Burning, On Fire!, Brimstone Flames and Searing Lava"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

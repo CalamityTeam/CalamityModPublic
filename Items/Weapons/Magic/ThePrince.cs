@@ -14,11 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public const int FlameSplitCount = 6;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Prince");
-            /* Tooltip.SetDefault($"Casts a holy fireball that explodes into {FlameSplitCount} flames\n" +
-                               "So you're telling me that the prince exploded, and then turned into a flower?\n" +
-                               "-Dain, the sailor druid"); */
-            Item.staff[Item.type] = true;
+                       Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()

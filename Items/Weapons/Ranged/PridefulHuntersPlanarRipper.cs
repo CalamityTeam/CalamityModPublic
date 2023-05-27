@@ -12,18 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         private int counter = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Prideful Hunter's Planar Ripper");
-            /* Tooltip.SetDefault("Every fourth shot deals 135% damage\n" +
-                "Converts musket balls into lightning bolts\n" +
-                "Lightning bolts travel extremely fast and explode on enemy kills\n" +
-                "Lightning bolt crits grant a stacking speed boost to the player\n" +
-                "This stacks up to 20 percent bonus movement speed and acceleration\n" +
-                "The boost will reset if the player holds a different item\n" +
-                "33% chance to not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 86;

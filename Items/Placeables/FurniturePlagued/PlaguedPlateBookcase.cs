@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
     public class PlaguedPlateBookcase : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plagued Bookcase");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 8;

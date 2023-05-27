@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
             get => Projectile.localAI[0];
             set => Projectile.localAI[0] = value;
         }
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Laser");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 2;

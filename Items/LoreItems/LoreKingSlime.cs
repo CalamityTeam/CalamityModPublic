@@ -15,7 +15,6 @@ Though it appears they are capable of absorbing knowledge, if only in rudimentar
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("King Slime");
         }
 
         public override void SetDefaults()

@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Big Beam of Death");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

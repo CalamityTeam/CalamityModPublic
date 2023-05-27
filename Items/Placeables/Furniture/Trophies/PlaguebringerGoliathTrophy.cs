@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class PlaguebringerGoliathTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plaguebringer Goliath Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

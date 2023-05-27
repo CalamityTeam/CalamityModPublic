@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ClamorNoctusWyvern : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wyvern");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

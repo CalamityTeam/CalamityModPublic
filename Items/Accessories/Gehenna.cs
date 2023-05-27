@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Accessories
         public const float FireAngleSpread = 120;
         public int FireCountdown = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gehenna");
-            // Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

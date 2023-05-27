@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class NuclearBulletMedium : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nuclear Bullet");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 24;

@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Charred Lasher");
-            // Tooltip.SetDefault("This elusive fish is a prized commodity");
             Item.ResearchUnlockCount = 3;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

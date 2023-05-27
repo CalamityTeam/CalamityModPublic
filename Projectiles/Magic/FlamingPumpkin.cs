@@ -5,11 +5,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class FlamingPumpkin : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Pumpkin");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

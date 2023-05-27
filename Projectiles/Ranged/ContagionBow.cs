@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Contagion";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Contagion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 42;

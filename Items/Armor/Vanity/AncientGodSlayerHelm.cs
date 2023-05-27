@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Head)]
     public class AncientGodSlayerHelm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ancient God Slayer Helm");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

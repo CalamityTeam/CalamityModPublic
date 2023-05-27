@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Armor.Umbraphile
     [AutoloadEquip(EquipType.Head)]
     public class UmbraphileHood : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Umbraphile Hood");
-            // Tooltip.SetDefault("8% increased rogue damage and 10% increased rogue velocity");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

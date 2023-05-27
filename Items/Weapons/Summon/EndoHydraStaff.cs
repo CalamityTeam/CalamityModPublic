@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class EndoHydraStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Endo Hydra Staff");
-            /* Tooltip.SetDefault("Summons a frigid entity with a head\n" +
-                               "If the entity already exists, using this item again will cause it to gain more heads"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 58;

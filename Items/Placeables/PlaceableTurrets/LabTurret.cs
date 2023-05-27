@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
     public class LabTurret : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            /* Tooltip.SetDefault("Shoots laser beams at nearby enemies\n" +
-                "Cannot attack while a boss is alive"); */
-        }
-
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<PlayerLabTurret>());

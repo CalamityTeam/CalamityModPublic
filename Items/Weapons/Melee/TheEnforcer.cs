@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TheEnforcer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Enforcer");
-            // Tooltip.SetDefault("Spawns essence flames on hit");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 100;

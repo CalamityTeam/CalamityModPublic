@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class PuffShroom : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Puff Shroom");
-            // Tooltip.SetDefault("Summons a cute mushroom warrior to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 14;

@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class ArtemisTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Artemis Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = Item.height = 32;

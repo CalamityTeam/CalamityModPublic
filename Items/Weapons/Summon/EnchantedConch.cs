@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Summon
     [LegacyName("MagicalConch")]
     public class EnchantedConch : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Enchanted Conch");
-            // Tooltip.SetDefault("Summons a hermit crab to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 20;

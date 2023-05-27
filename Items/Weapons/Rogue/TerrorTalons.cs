@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         private float sign = 1f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Terror Talons");
-            /* Tooltip.SetDefault("Fires small wavering claws\n" +
-            "Stealth strikes launch a large, high speed claw which pierces"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 40;

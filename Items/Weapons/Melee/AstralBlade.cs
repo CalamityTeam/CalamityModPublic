@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class AstralBlade : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Blade");
-            // Tooltip.SetDefault("Deals more damage the more life an enemy has left");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 85;

@@ -9,15 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public bool RMBchannel = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Old Lord Claymore");
-            /* Tooltip.SetDefault("A relic of the ancient underworld\n" +
-            "Holding right click rapidly absorbs energy into the blade until it is charged\n" +
-            "Pressing left click while charged causes you to fly in the direction of the cursor\n" +
-            "After flying, the amount of charge the blade has is reduced to zero"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 60;

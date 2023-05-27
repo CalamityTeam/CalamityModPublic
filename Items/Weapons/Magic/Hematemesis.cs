@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Hematemesis");
-            // Tooltip.SetDefault("Casts a barrage of blood geysers from below");
             Item.staff[Item.type] = true;
         }
 

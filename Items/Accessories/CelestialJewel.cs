@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class CelestialJewel : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Celestial Jewel");
-            /* Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
-                "While under the effects of a damaging debuff you will gain 11 defense\n" +
-                "TOOLTIP LINE HERE"); */
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 8;

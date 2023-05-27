@@ -35,11 +35,6 @@ namespace CalamityMod.Projectiles.Magic
 
         private Vector2 beamVector = Vector2.Zero;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Valkyrie Ray");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

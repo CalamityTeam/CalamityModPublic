@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class ScryllarBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Scryllar");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

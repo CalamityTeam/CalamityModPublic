@@ -7,15 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class Laudanum : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Laudanum");
-            /* Tooltip.SetDefault("Converts certain debuffs into buffs and extends their durations\n" +
-                               "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak,\n" +
-                               "Broken Armor, Armor Crunch, Chilled, Ichor, and Obstructed\n" +
-                               "Revengeance drop"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

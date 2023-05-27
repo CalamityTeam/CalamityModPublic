@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class BarracudaGun : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Barracuda Gun");
-            // Tooltip.SetDefault("Fires two barracudas that latch onto enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 63;

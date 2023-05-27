@@ -6,13 +6,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class MajesticGuard : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Majestic Guard");
-            /* Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
-                "If enemy defense is 0 or below your attacks will heal you"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 100;

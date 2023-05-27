@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public bool ReelingPlayer = false;
         public const int Lifetime = 360;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("You Think You're Safe");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 12;

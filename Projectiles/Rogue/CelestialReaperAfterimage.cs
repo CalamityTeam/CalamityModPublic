@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/CelestialReaper";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Celestial Reaper");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 66;

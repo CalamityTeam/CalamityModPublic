@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     public class MonolithOfTheAccursed : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Monolith of the Accursed");
-            /* Tooltip.SetDefault("Let the sky burn a blazing red\n" +
-			"The monolith has two different modes"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

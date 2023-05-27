@@ -28,11 +28,6 @@ namespace CalamityMod.Projectiles.Melee
         // Note: This bool is unused. Murasama formerly only dealt damage when on these frames, but it created a few issues with player usability.
         public bool Slashing => CurrentFrame % 7 == 0 && Projectile.frameCounter % 3 == 2;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Murasama");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 236;

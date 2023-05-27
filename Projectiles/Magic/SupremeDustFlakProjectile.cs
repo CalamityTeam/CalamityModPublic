@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SupremeDustFlakProjectile : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dust");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

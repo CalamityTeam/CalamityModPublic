@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class NavyBobber : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Navy Bobber");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

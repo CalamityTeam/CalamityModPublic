@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/Boss/PlagueStingerGoliath";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Exploding Plague Stinger");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public static readonly SoundStyle FlareSound = new("CalamityMod/Sounds/Custom/Yharon/YharonInfernado");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mark");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Irradiated Aura");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

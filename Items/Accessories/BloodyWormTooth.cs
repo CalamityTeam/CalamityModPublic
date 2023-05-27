@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class BloodyWormTooth : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloody Worm Tooth");
-            // Tooltip.SetDefault("7% increased melee damage and speed");
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 7;

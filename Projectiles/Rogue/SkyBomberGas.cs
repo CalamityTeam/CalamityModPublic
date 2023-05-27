@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SkyBomberGas : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Irradiated Cloud");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 32;

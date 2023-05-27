@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("TrueForbiddenOathblade")]
     public class ExaltedOathblade : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Exalted Oathblade");
-            // Tooltip.SetDefault("Fires a spread of demonic scythes and critical hits cause shadowflame explosions");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 88;

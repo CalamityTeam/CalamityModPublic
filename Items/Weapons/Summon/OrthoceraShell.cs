@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class OrthoceraShell : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Orthocera Shell");
-            // Tooltip.SetDefault("Summons a flying orthocera sentry at the mouse position");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 53;

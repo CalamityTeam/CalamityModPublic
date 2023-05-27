@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
     [LegacyName("OccultLantern")]
     public class OtherworldlyLantern : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Otherworldly Lantern");

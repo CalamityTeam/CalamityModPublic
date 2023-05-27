@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Armor.Tarragon
     [LegacyName("TarragonHelmet")]
     public class TarragonHeadRogue : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tarragon Helmet");
-            /* Tooltip.SetDefault("10% increased rogue damage and critical strike chance\n" +
-                "5% increased damage reduction and movement speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

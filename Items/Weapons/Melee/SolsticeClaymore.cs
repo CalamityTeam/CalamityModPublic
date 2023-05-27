@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class SolsticeClaymore : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Solstice Claymore");
-            /* Tooltip.SetDefault("Changes projectile color based on the time of year\n" +
-                               "Inflicts daybroken during the day and nightwither during the night"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 86;

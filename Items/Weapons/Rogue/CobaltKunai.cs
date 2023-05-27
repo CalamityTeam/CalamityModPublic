@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cobalt Kunai");
-            // Tooltip.SetDefault("Stealth strikes fire three homing cobalt energy bolts");
             Item.ResearchUnlockCount = 99;
         }
 

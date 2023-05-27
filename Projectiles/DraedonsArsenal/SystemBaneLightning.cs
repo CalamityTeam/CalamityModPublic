@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public static readonly Color InnerLightningColor = Color.White;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Lightning");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 60;
         }

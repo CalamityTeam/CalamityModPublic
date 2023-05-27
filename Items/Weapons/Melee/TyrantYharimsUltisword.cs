@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TyrantYharimsUltisword : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tyrant Yharim's Ultisword");
-            /* Tooltip.SetDefault("Fires homing blazing blades\n" +
-                "Gives the player the tyrant's fury buff on enemy hits\n" +
-                "This buff increases melee damage by 30% and melee crit chance by 10%"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 88;

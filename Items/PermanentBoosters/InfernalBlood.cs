@@ -7,13 +7,6 @@ namespace CalamityMod.Items.PermanentBoosters
 {
     public class InfernalBlood : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Infernal Blood");
-            /* Tooltip.SetDefault("Permanently increases the duration of Rage Mode by 1 second\n" +
-                "Revengeance drop"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

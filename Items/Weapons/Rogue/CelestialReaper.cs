@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public const int BaseDamage = 140;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Celestial Reaper");
-            /* Tooltip.SetDefault("Throws a fast homing scythe\n" +
-                               "The scythe will bounce after hitting an enemy up to six times\n" +
-                               "Stealth strikes create damaging afterimages"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;

@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class TacticiansTrumpCardProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

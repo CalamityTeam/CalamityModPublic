@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Critters
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Red Plague Nanodroid");
         }
 
         public override void SetDefaults()

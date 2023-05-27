@@ -18,12 +18,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/LaserRifleFire");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Heavy Laser Rifle");
-            // Tooltip.SetDefault("Laser weapon used by heavy infantry units in Yharim's army");
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Materials
 {
     public class PlasmaDriveCore : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Prototype Plasma Drive Core");
-            // Tooltip.SetDefault("Despite all the time it spent in storage, its furnace still burns strong");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

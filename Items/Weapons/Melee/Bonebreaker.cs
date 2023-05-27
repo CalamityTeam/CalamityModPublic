@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public const int BaseDamage = 60;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bonebreaker");
-            // Tooltip.SetDefault("Fires javelins that stick to enemies before bursting into shrapnel");
-        }
-
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;

@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Icicle Trident");
-            // Tooltip.SetDefault("Shoots piercing icicles");
             Item.staff[Item.type] = true;
         }
         public override void SetDefaults()

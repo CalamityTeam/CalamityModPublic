@@ -20,11 +20,6 @@ namespace CalamityMod.Projectiles.Melee
         public Vector2 SpearCenter => Vector2.Lerp(Projectile.Center + Projectile.velocity + Projectile.velocity.SafeNormalize(Vector2.Zero) * 42f, Projectile.Center, 1f - Projectile.scale);
         public ref float Time => ref Projectile.ai[0];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Portal");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

@@ -26,7 +26,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Pet Froge");
             Main.projFrames[Projectile.type] = 12;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;

@@ -17,11 +17,6 @@ namespace CalamityMod.BiomeManagers
         public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AstralBG";
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("AstralInfection") ?? MusicID.Space;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Desert Surface");
-        }
-
         public override bool IsBiomeActive(Player player)
         {
             return !player.ZoneDungeon && BiomeTileCounterSystem.AstralTiles > 950 && player.ZoneDesert && !player.ZoneSnow;

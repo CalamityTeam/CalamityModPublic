@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Equanimity : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Equanimity");
-            /* Tooltip.SetDefault("Throws a dark/light boomerang that confuses enemies\n" +
-                "The boomerang will create light shards upon hitting enemies when thrown out, and will fire homing dark shards when returning\n" +
-                "Stealth strikes cause the boomerang to create both dark and light shards whenever one type would be created"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 40;

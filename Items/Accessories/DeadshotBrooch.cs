@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("DaedalusEmblem")]
     public class DeadshotBrooch : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deadshot Brooch");
-            /* Tooltip.SetDefault("10% increased ranged damage, 5% increased ranged critical strike chance and 20% reduced ammo usage\n" +
-                "Greatly increases all ranged projectile velocity"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 46;

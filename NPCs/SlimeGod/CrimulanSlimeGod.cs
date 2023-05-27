@@ -20,7 +20,6 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Crimulan Slime God");
             Main.npcFrameCount[NPC.type] = 6;
         }
 

@@ -19,14 +19,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public static readonly SoundStyle ExplosionSound = new("CalamityMod/Sounds/Item/PlasmaGrenadeExplosion");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plasma Grenade");
-            /* Tooltip.SetDefault("Each grenade contains a heavily condensed and heated unit of plasma. Use with care\n" +
-                               "Throws a grenade that explodes into plasma on collision\n" +
-                               "Stealth strikes explode violently on collision into a vaporizing blast"); */
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

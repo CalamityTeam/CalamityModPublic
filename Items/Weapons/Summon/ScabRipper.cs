@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class ScabRipper : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Scab Ripper");
-            // Tooltip.SetDefault("Summons a baby blood crawler to protect you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 15;

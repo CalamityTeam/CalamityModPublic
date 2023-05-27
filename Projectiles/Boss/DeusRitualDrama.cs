@@ -26,11 +26,6 @@ namespace CalamityMod.Projectiles.Boss
         public const int TotalRitualTime = 420;
         public const float MaxUpwardRise = 540f;
         public static readonly Point PulseSize = new(300, 300);
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deus Ritual Drama");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 2;

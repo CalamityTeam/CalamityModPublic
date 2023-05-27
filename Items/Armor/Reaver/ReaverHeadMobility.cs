@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Armor.Reaver
     public class ReaverHeadMobility : ModItem
     {
         //Jump/Flight Boosts and Movement Speed Helm
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Reaver Visage");
-            // Tooltip.SetDefault("10% increased jump speed and 15% increased movement speed");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

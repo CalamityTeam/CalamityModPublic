@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Reaper Tooth");
-            // Tooltip.SetDefault("Sharp enough to cut diamonds");
         }
 
         public override void SetDefaults()

@@ -26,11 +26,6 @@ namespace CalamityMod.Projectiles.Melee
 
         Particle smear;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Enchanted Meat Hook");
-        }
-
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Melee;

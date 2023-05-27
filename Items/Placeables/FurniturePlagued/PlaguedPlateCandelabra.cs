@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
     public class PlaguedPlateCandelabra : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plagued Candelabra");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 8;

@@ -14,10 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Plasma Rifle");
-            /* Tooltip.SetDefault("Fires a plasma blast that explodes\n" +
-                "Right click to rapidly fire plasma bolts"); */
-
+           
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

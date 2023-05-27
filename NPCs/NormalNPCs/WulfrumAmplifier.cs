@@ -30,7 +30,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         public const float SuperchargeTime = 720f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Wulfrum Amplifier");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Vitriolic Viper");
-            // Tooltip.SetDefault("Releases a volley of venomous fangs and spit");
             Item.staff[Item.type] = true;
         }
 

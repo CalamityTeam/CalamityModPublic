@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class NebulashFlail : BaseWhipProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nebulash");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

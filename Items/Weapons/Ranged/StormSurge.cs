@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class StormSurge : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Storm Surge");
-            /* Tooltip.SetDefault("Fear the storm\n" +
-                "Does not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 18;

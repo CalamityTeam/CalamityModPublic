@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class VerstaltiteBobber : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Verstaltite Bobber");
-        }
-
         public override void SetDefaults()
         {
             //projectile.CloneDefaults(360); //Wooden Bobber

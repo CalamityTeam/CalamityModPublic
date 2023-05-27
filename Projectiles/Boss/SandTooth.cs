@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class SandTooth : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sand Tooth");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

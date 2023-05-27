@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class Sirius : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sirius");
-            /* Tooltip.SetDefault("Summons the brightest star in the night sky to shine upon your foes\n" +
-                "Can only be summoned once\n" +
-                "Uses 6 minion slots"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = Item.height = 62;

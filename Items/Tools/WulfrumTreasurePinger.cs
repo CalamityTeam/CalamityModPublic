@@ -24,14 +24,6 @@ namespace CalamityMod.Items.Tools
         public static int breakTime = 90;
         public int timeBeforeBlast = 90;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wulfrum Treasure Pinger");
-            /* Tooltip.SetDefault("Helps you find metal that's hopefully more valuable than wulfrum\n" +
-            "This contraption seems incredibly shoddy. [c/fc4903:It'll break sooner than later for sure]"
-            ); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 52;

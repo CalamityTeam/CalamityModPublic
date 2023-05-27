@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class RoseStone : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rose Stone");
-            /* Tooltip.SetDefault("One of the ancient relics\n" +
-               "Summons a brimstone elemental to fight for you"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

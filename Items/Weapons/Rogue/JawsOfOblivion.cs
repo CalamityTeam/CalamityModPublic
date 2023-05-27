@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class JawsOfOblivion : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Jaws of Oblivion");
-            /* Tooltip.SetDefault("Throws a tight spread of six venomous reaper fangs that stick in enemies\n" +
-                "Stealth strikes cause the teeth to emit a crushing shockwave on impact\n" +
-                "You're gonna need a bigger boat"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

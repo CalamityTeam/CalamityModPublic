@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class InfernalBlade : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blade");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

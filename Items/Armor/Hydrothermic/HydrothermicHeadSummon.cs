@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     [LegacyName("AtaxiaHelmet")]
     public class HydrothermicHeadSummon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hydrothermic Helmet");
-            /* Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
-                "Grants immunity to lava and On Fire! debuff"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -55,12 +55,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Broken Biome Blade"); //Broken Ecoliburn lmfao. Tbh a proper name instead of just "biome blade" may be neat given the importance of the sword
-            /* Tooltip.SetDefault("FUNCTION_DESC\n" +
-                               "Hold down RMB while standing still on flat ground to attune the weapon to the powers of the surrounding biome\n" +
-                               "Using RMB otherwise switches between the current attunement and an extra stored one\n" +
-                               "Main Attunement : [None]\n" +
-                               "Secondary Attunement: [None]\n"); */ //Theres potential for flavor text as well but im not a writer
+            //Theres potential for flavor text as well but im not a writer
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

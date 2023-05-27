@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Leviatitan : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Leviatitan");
-            // Tooltip.SetDefault("Converts musket balls into toxic and normal water blasts");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 80;

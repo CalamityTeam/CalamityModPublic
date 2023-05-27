@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class AuroradicalThrow : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auroradical Throw");
-            /* Tooltip.SetDefault("Launches a star that splits after a short period of time\n" +
-                            "Split stars home in on nearby enemies after a few seconds\n" +
-                            "Stealth strikes summon a meteor upon enemy impact"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

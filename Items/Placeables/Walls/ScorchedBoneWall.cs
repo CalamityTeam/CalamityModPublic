@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Scorched Bone Wall");
             Item.ResearchUnlockCount = 400;
         }
 

@@ -90,7 +90,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ricoshot Coin");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 60;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             Main.projFrames[Projectile.type] = 8;

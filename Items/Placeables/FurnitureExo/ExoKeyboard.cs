@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 {
     public class ExoKeyboard : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Exo Keyboard");

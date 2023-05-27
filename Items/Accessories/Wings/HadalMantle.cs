@@ -15,14 +15,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Hadal Mantle");
-            /* Tooltip.SetDefault("Fueled by the fury of the depths\n" +
-                "Horizontal speed: 7.75\n" +
-                "Acceleration multiplier: 1.5\n" +
-                "Average vertical speed\n" +
-                "Flight time: 180\n" +
-                "5% increased damage while wearing the Hydrothermic Armor"); */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 7.75f, 1.5f);
+                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 7.75f, 1.5f);
         }
 
         public override void SetDefaults()

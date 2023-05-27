@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
 {
     public class BotanicSink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Counts as a honey source");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

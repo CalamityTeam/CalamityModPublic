@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
         private int frameX = 0;
         private int frameY = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eclipse Mirror Flash");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 752;

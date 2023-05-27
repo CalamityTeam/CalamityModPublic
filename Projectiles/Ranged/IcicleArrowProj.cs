@@ -25,11 +25,6 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Icicle Arrow");
-        }
-
         public override void AI()
         {
             //icicle dust

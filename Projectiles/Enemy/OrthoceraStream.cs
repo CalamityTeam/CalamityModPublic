@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Acid Stream");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 32;

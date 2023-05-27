@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Typeless
         public PrimitiveTrail FlameTrailDrawer = null;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Demon");
             Main.projFrames[Projectile.type] = 12;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 11;

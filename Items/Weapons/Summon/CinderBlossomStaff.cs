@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CinderBlossomStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cinder Blossom Staff");
-            /* Tooltip.SetDefault("Summons scorching flower over your head\n" +
-                "There can only be one flower"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 16;

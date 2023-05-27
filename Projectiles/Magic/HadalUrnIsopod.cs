@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Abyssal Isopod"); //Calvan reference!?
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 

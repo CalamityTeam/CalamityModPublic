@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class StarTaintedGenerator : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Star-Tainted Generator");
-            /* Tooltip.SetDefault("7% increased minion damage\n" +
-                    "Minion attacks spawn astral explosions and inflict several debuffs\n" +
-                    "Grants immunity to Irradiated"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 38;

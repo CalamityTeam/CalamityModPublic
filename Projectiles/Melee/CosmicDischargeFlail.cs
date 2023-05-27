@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicDischargeFlail : BaseWhipProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cosmic Discharge");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

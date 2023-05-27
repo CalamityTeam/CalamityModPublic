@@ -21,7 +21,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Sepulcher");
             Main.npcFrameCount[NPC.type] = 5;
         }
 

@@ -9,11 +9,6 @@ namespace CalamityMod.Items.Tools
     [LegacyName("WulfrumPickaxe")]
     public class WulfrumDrill : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wulfrum Drill");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 5;

@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class EmpyreanKnives : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Empyrean Knives");
-            // Tooltip.SetDefault("Throws a flurry of bouncing knives that can heal the user");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

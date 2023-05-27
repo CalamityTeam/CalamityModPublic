@@ -20,11 +20,7 @@ namespace CalamityMod.Items.Armor.Empyrean
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Empyrean Cloak");
-            /* Tooltip.SetDefault("Armor of the cosmos\n" +
-                "+20 max life\n" +
-                "7% increased rogue damage and critical strike chance"); */
-
+           
             if (Main.netMode != NetmodeID.Server)
             {
                 var equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);

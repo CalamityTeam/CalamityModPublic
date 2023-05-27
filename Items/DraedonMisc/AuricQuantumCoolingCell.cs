@@ -18,14 +18,6 @@ namespace CalamityMod.Items.DraedonMisc
     public class AuricQuantumCoolingCell : ModItem
     {
         public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/AuricQuantumCoolingCellInstallNew");
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auric Quantum Cooling Cell");
-            /* Tooltip.SetDefault("Can be placed in the Codebreaker, completing it\n" +
-                "The completion of the Codebreaker allows you to make contact with its original creator\n" +
-                "Attempting to do so may have dire consequences"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

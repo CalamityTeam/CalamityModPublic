@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/BrimstoneSword";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimstone Sword");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

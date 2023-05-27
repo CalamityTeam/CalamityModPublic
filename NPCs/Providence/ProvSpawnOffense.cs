@@ -20,7 +20,6 @@ namespace CalamityMod.NPCs.Providence
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Providence Offense");
             Main.npcFrameCount[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }

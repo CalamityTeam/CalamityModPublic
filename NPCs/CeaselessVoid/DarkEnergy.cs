@@ -25,7 +25,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dark Energy");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

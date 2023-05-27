@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         private int dust = 182;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gatling Laser");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 2;

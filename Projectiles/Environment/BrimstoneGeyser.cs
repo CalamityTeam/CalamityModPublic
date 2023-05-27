@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Environment
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         private int dustType = (int)CalamityDusts.Brimstone;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Smoke");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
     public class AbyssCandle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

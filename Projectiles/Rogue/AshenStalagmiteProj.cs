@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AshenStalagmiteProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ashen Stalagmite");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

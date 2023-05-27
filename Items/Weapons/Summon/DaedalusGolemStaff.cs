@@ -12,9 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Daedalus Golem Staff");
-            /* Tooltip.SetDefault("Summons a Daedalus Golem soldier that fires pellets and electricity\n" +
-                               "Shining god of greed"); */ // Funny Hollow Knight reference.
+            // Funny Hollow Knight reference.
         }
 
         public override void SetDefaults()

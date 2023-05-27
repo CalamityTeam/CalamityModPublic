@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public bool mainBeam => Projectile.ai[0] == 0f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 5;

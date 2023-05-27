@@ -23,12 +23,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
         #endregion
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Belladonna Spirit Staff");
-            // Tooltip.SetDefault("Summons a cute forest spirit that flings magical toxic petals");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 22;

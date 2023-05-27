@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Tools
 {
     public class AbyssalWarhammer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Abyssal Warhammer");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 42;

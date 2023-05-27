@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sun");
             Main.projFrames[Projectile.type] = 4;
         }
 

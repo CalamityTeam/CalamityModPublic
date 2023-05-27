@@ -16,11 +16,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Heart of Darkness");
-            /* Tooltip.SetDefault("You constantly gain rage over time\n" +
-                "Rage does not fade away when out of combat\n" +
-                "Revengeance drop"); */
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

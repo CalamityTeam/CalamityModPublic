@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class ProfanedGuardianTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Profaned Guardian Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

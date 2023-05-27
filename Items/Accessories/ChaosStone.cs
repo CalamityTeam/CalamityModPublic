@@ -9,12 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Chaos Stone");
-            /* Tooltip.SetDefault("One of the ancient relics\n" +
-                "Mana Sickness from drinking mana potions is replaced by Mana Burn\n" +
-                "Mana Burn deals damage over time relative to the intensity of the debuff\n" +
-                "This debuff does not reduce your magic damage"); */
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 7));
+                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 7));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

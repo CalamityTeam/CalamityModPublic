@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class AcidEelBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Acid Eel");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

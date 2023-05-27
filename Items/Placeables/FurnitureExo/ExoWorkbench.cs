@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 {
     public class ExoWorkbench : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Exo Work Bench");

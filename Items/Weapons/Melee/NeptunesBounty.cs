@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class NeptunesBounty : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Neptune's Bounty");
-            /* Tooltip.SetDefault("Fires a trident that rains additional tridents as it travels\n" +
-                "Hitting enemies will inflict the crush depth debuff\n" +
-                "The lower the enemies' defense, the more damage they take from this debuff"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 122;

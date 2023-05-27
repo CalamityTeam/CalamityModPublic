@@ -10,16 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class GrandGuardian : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Grand Guardian");
-            /* Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
-                       "If enemy defense is 0 or below your attacks will heal you\n" +
-                       "Striking enemies causes a large explosion\n" +
-                       "Striking enemies that are under half life will cause them to release rainbow bolts\n" +
-                       "Enemies spawn healing orbs on death"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 130;

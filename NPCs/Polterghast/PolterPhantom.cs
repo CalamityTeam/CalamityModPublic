@@ -21,7 +21,6 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Polterghast");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true };

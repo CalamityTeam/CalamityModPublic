@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Ataraxia : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ataraxia");
-            // Tooltip.SetDefault("Equanimity");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 94;

@@ -18,13 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float MinWaterfallSpeed = 12f;
         public static float MaxWaterfallSpeed = 15.5f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dragon Pow");
-            // Tooltip.SetDefault(@"Fires a dragon head that releases draconic sparks
-//Summons a barrage of petals and waterfalls on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 76;

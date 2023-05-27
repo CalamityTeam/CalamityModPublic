@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Holy Inferno");
-            // Description.SetDefault("You've gone too far from the Profaned Goddess!");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

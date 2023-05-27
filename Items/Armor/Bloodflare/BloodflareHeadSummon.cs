@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
     [LegacyName("BloodflareHelmet")]
     public class BloodflareHeadSummon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloodflare Wyvern Helm");
-            // Tooltip.SetDefault("5% increased minion damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

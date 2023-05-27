@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Wingman : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wingman");
-            // Tooltip.SetDefault("Fires a concentrated laser beam");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 70;

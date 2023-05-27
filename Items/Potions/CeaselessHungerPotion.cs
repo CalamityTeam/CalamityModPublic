@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Ceaseless Hunger Potion");
-            // Tooltip.SetDefault("Causes you to suck up all items in the world");
         }
 
         public override void SetDefaults()

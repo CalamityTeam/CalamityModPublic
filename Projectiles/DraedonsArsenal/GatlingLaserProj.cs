@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         private SlotId gatlingLaserLoopID;
         private bool fireLasers = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gatling Laser");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 24;

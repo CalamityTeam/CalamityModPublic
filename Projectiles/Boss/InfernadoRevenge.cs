@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.Boss
         public const int TornadoHeight = 8800;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Infernado");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 

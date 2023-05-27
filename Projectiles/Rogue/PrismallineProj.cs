@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public bool hitEnemy = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Prismalline");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

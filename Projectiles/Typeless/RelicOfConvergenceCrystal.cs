@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Typeless
         public const int CrystalsDrawTime = 90;
         public const float MaxCrystalOffsetRadius = 80f;
         public const float MaxDustOffsetRadius = 70f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Relic of Convergence");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 32;

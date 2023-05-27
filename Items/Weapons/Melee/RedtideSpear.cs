@@ -11,14 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Redtide Spear");
-            /* Tooltip.SetDefault("Poisons enemies on hit\n"+
-                               "Aiming the spear in front of you while running holds it down with increased knockback\n"+
-                               "Releasing the attack button after the charge makes an upwards slash, sending enemies flying into the air\n"+
-                               //Lore tooltip time. Dark souls.
-                               "[c/5C95A1:The people of the sea were adept hunters, but they abhorred unnecessary violence.]\n" +
-                               "[c/5C95A1:Unfortunately, neighboring nations were brutish, so they fashioned their tools for war.]"); */
-            ItemID.Sets.Spears[Item.type] = true;
+                       ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()

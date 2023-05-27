@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 {
     public class ExoSink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Counts as a water, honey, and lava source");
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Exo Sink");

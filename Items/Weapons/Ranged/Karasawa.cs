@@ -16,12 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/MechGaussRifle");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Karasawa");
-            // Tooltip.SetDefault("...This is heavy... too heavy.");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 94;

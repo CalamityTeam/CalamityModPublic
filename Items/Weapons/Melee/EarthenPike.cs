@@ -9,10 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Earthen Pike");
-            /* Tooltip.SetDefault("Crushes enemy defenses\n" +
-                "Sprays fossil shards on use"); */
-            ItemID.Sets.Spears[Item.type] = true;
+                       ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()

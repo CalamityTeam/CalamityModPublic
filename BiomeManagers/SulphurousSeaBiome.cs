@@ -48,11 +48,6 @@ namespace CalamityMod.BiomeManagers
             }
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sulphurous Sea");
-        }
-
         public override bool IsBiomeActive(Player player)
         {
             Point point = player.Center.ToTileCoordinates();

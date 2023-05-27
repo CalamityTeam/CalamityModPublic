@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Magic
         bool intersectingSomething = false;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Infernado");
             Main.projFrames[Projectile.type] = 12;
         }
 

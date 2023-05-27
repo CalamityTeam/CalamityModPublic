@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Mounts
 {
     public class Fabsol : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Princess Spirit in a Bottle");
-            /* Tooltip.SetDefault("Summons the spirit of Cirrus, the Drunk Princess, in her alicorn form\n" +
-                "Mounting will transform Cirrus, dismounting transforms her back"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

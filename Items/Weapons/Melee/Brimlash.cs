@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Brimlash : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimlash");
-            // Tooltip.SetDefault("Fires a brimstone bolt that explodes into more bolts on death");
-        }
-
         public override void SetDefaults()
         {
             Item.width = Item.height = 72;

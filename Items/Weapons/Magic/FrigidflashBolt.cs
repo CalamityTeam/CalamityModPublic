@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class FrigidflashBolt : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Frigidflash Bolt");
-            // Tooltip.SetDefault("Casts a slow-moving ball of flash-freezing magma");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 80;

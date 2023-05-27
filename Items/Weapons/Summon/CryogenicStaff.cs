@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CryogenicStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cryogenic Staff");
-            // Tooltip.SetDefault(@"Summons an animated ice construct to protect you
-//Fire rate and range increase the longer it targets an enemy");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 50;

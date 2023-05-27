@@ -20,7 +20,6 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Ebonian Slime God");
             Main.npcFrameCount[NPC.type] = 6;
         }
 

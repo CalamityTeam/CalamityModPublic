@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public bool ProducedAcceleration = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Exo Flames");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 24;

@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Aureus Cell");
-            // Tooltip.SetDefault("Grants increased mana regeneration and magic power");
         }
 
         public override void SetDefaults()

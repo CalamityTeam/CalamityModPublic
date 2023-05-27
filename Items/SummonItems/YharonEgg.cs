@@ -14,12 +14,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Blessed Phoenix Egg");
-            /* Tooltip.SetDefault("An effigy of a Phoenix Dragon egg, used in worship\n" +
-                               "Summons Yharon, Dragon of Rebirth\n" +
-                               "Enrages outside the fire walls\n" +
-                               "Not consumable"); */
-            ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
+                       ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Flash Round");
-            // Tooltip.SetDefault("Gives off a concussive blast that confuses enemies in a large area for a short time");
         }
 
         public override void SetDefaults()

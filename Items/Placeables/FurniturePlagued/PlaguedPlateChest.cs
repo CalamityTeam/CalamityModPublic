@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
     public class PlaguedPlateChest : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plagued Chest");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 8;

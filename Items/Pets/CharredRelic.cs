@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Pets
 {
     public class CharredRelic : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Charred Relic");
-            // Tooltip.SetDefault("Contains a small amount of brimstone");
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.ZephyrFish);

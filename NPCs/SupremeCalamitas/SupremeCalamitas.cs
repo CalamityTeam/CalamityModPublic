@@ -187,7 +187,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Supreme Witch, Calamitas");
             Main.npcFrameCount[NPC.type] = 21;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

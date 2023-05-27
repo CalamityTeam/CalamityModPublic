@@ -22,11 +22,6 @@ namespace CalamityMod.Projectiles.Boss
         private float speedAdd = 0f;
         private float speedLimit = 0f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimstone Monster");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

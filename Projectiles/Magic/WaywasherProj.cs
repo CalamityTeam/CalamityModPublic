@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class WaywasherProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Waywasher Blast");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

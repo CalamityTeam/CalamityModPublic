@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
     public class ElectriciansGlove : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Electrician's Glove");
-            // Tooltip.SetDefault(@"Stealth strikes summon sparks on enemy hits
-//Stealth strikes also have +8 armor penetration, deal 8% more damage, and heal for 2 HP");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

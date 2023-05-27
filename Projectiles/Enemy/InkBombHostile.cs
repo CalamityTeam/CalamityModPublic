@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class InkBombHostile : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ink Bomb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

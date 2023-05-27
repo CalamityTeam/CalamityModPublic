@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/StarProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rift");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 30;

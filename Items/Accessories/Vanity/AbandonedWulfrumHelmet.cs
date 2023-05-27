@@ -33,13 +33,7 @@ namespace CalamityMod.Items.Accessories.Vanity
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Abandoned Wulfrum Helmet");
-            /* Tooltip.SetDefault("A worn and rusty helmet resembling older models of wulfrum armor\n" +
-                "Transforms the holder into a wulfrum robot\n" +
-                "Can also be worn in the helmet slot as a regular helm\n" +
-                "[c/83B87E:This rather flimsy armor was commonly worn by scavengers and looters]\n" +
-                "[c/83B87E:Its versatility and common nature led it to be used as currency in trades]"); */
-
+           
             if (Main.netMode == NetmodeID.Server)
                 return;
 

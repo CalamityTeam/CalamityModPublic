@@ -52,7 +52,6 @@ namespace CalamityMod.NPCs.DraedonLabThings
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Repair Unit");
             Main.npcFrameCount[NPC.type] = 17;
             Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;

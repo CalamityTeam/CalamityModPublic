@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Armor.Mollusk
     [AutoloadEquip(EquipType.Body)]
     public class MolluskShellplate : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mollusk Shellplate");
-            /* Tooltip.SetDefault("10% increased damage and 6% increased critical strike chance\n" +
-                               "15% decreased movement speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

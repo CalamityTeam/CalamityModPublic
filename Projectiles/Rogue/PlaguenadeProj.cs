@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Plaguenade";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plaguenade");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

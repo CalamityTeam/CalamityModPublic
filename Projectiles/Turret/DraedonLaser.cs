@@ -18,11 +18,6 @@ namespace CalamityMod.Projectiles.Turret
             set => Projectile.localAI[0] = value;
         }
         public const int MaxTrailPoints = 50;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lab Turret Laser");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

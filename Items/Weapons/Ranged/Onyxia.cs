@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         const int NotConsumeAmmo = 50;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Onyxia");
-            /* Tooltip.SetDefault(NotConsumeAmmo.ToString() + "% chance to not consume ammo\n" +
-                "Fires a storm of bullets and onyx shards"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 90;

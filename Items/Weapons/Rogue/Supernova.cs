@@ -13,14 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Supernova : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Supernova");
-            // Tooltip.SetDefault(@"Creates a massive explosion on impact
-//Explodes into spikes and homing energy
-//Stealth strikes release energy as they fly");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

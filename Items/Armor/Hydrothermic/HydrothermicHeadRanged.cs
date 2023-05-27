@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     [LegacyName("AtaxiaHeadgear")]
     public class HydrothermicHeadRanged : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hydrothermic Headgear");
-            /* Tooltip.SetDefault("12% increased ranged damage and 10% increased ranged critical strike chance\n" +
-                "Reduces ammo usage by 25%\n" +
-                "Grants immunity to lava and On Fire! debuff"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

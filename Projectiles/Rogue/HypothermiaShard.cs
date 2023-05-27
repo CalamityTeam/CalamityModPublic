@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     public class HypothermiaShard : ModProjectile
     {
         private float counter = 0f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

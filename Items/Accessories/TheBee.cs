@@ -7,14 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class TheBee : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Bee");
-            /* Tooltip.SetDefault("When at full HP, your damage is increased based on your damage reduction\n" +
-                            "Damage taken at full HP is halved\n" +
-                            "This has a 10 second cooldown"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

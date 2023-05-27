@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Chibii Devourer");
             Main.projFrames[Projectile.type] = 11; //same as black cat
             Main.projPet[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;

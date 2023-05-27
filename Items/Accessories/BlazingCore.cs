@@ -11,13 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Blazing Core");
-            /* Tooltip.SetDefault("The searing core of the profaned goddess\n" +
-                               "Being hit creates a miniature sun that lingers, dealing damage to nearby enemies\n" +
-                               "The sun will slowly drag enemies into it\n" +
-                               "Only one sun can be active at once\n" +
-                               "Provides a moderate amount of light in the Abyss"); */
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 6));
+                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

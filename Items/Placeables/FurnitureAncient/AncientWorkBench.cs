@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
     [LegacyName("AncientWorkbench")]
     public class AncientWorkBench : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ancient Work Bench");

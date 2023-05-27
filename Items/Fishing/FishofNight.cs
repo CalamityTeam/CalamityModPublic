@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Fishing
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fish of Night");
-            // Tooltip.SetDefault("Right click to extract souls");
             Item.ResearchUnlockCount = 10;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

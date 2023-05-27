@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Projectiles/Typeless/CoralBubble";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Seafoam Bubble");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

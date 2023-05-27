@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Rogue
         private int lifeTime = 300;
         private int targetIndex = -1;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Toxicant Twister");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 42;

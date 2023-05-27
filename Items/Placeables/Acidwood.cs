@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Placeables
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-            // DisplayName.SetDefault("Acidwood");
             ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.Wood;
         }
 

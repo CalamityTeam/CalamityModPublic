@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Apoctolith Shard");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()

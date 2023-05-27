@@ -16,13 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override float StealthDamageMultiplier => 0.8f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Celestus");
-            /* Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits\n" +
-                "Stealth strikes reverse direction and home in on enemies after returning to the player"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 280;

@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Tools
 {
     public class ReefclawHamaxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Reefclaw Hamaxe");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 15;

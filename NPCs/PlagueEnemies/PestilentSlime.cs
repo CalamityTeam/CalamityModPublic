@@ -22,7 +22,6 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Pestilent Slime");
             Main.npcFrameCount[NPC.type] = 2;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
         }

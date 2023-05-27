@@ -9,11 +9,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     public class OccultLegionnaireBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Occult Legionnaire Banner");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

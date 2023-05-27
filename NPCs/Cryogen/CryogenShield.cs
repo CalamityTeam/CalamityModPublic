@@ -19,7 +19,6 @@ namespace CalamityMod.NPCs.Cryogen
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Cryogen's Shield");
         }
 
         public override void SetDefaults()

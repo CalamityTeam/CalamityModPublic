@@ -16,7 +16,6 @@ namespace CalamityMod.NPCs.PlagueEnemies
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Melter");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
             value.PortraitPositionYOverride = -32f;

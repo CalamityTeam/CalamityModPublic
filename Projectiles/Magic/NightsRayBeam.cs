@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Magic
             set => Projectile.ai[1] = value.ToInt();
         }
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ray");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

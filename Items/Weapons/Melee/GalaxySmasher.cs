@@ -16,12 +16,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int BaseDamage = 300;
         public static float Speed = 18f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Galaxy Smasher");
-            // Tooltip.SetDefault("Explodes and summons death lasers on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 86;

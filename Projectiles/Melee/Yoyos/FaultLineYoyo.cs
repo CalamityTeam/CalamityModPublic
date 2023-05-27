@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fault Line");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 14f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 420f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 13f;

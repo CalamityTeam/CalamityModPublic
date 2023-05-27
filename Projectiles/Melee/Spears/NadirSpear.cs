@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class NadirSpear : BaseSpearProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nadir");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 55;

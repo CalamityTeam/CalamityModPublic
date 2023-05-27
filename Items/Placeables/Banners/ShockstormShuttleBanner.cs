@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class ShockstormShuttleBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Shockstorm Shuttle");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

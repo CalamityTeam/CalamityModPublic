@@ -12,10 +12,6 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Whiskey");
-            // Tooltip.SetDefault(@"The burning sensation makes it tastier
-//Boosts damage by 4%, knockback by 20% and critical strike chance by 2%
-//Reduces defense by 5%");
         }
 
         public override void SetDefaults()

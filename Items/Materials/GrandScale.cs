@@ -9,8 +9,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Grand Scale");
-            // Tooltip.SetDefault("Large scale of an apex predator");
         }
 
         public override void SetDefaults()

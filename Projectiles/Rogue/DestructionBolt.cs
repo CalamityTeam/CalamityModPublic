@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
         public int dustType = 191;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Destruction Bolt");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }

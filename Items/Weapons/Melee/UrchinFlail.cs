@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class UrchinFlail : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Urchin Flail");
-            // Tooltip.SetDefault("Launch an urchin ball, which shoots a spike on contact with an enemy");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 33;

@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class PerforatorTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Perforator Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

@@ -10,10 +10,6 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Screwdriver");
-            // Tooltip.SetDefault(@"Do you have a screw loose?
-//Multiplies piercing projectile damage by 1.05
-//Reduces life regen by 1");
         }
 
         public override void SetDefaults()

@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class ApoctosisArray : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Apoctosis Array");
-            /* Tooltip.SetDefault("Fires ion blasts that speed up and then explode\n" +
-                "Damage scales with how full your mana is\n" +
-                "Using Astral Injection reduces the effectiveness of the mana boost"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 99;

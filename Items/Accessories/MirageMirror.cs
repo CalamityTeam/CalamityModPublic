@@ -7,14 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class MirageMirror : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mirage Mirror");
-            /* Tooltip.SetDefault("Bend light around you\n" +
-                "Reduces enemy aggression outside of the abyss\n" +
-                "Stealth generates 25% faster when standing still and 12% faster while moving"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

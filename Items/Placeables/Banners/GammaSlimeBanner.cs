@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Gamma Slime");
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<IrradiatedSlimeBanner>();
         }
 

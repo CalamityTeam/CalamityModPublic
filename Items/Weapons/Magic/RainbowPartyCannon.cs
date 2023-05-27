@@ -23,12 +23,6 @@ namespace CalamityMod.Items.Weapons.Magic
             new Color(249, 245, 99), // Bright yellow
             new Color(236, 168, 247), // Purplish pink
         };
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rainbow Party Cannon");
-            // Tooltip.SetDefault("Let the rainbow remind you that together we will always shine...");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 225;

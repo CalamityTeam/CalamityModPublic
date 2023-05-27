@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Phantomic Regen");
-            // Description.SetDefault("Regenerating life");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

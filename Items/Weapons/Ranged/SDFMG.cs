@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class SDFMG : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("SDFMG");
-            /* Tooltip.SetDefault("It came from the edge of Terraria\n" +
-                "50% chance to not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 100;

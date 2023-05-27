@@ -7,7 +7,6 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Vernal Soil");
             Item.ResearchUnlockCount = 10;
         }
 

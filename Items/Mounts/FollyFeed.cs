@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Mounts
     [LegacyName("BirdSeed")]
     public class FollyFeed : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Folly Feed");
-            // Tooltip.SetDefault("Summons a monstrosity");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Universe Splitter Ray");
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 12000;
         }
 

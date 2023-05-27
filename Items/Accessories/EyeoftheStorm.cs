@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class EyeoftheStorm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eye of the Storm");
-            // Tooltip.SetDefault("Summons a cloud elemental to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

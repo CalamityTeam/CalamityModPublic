@@ -14,14 +14,6 @@ namespace CalamityMod.Items.Armor.Auric
     [AutoloadEquip(EquipType.Legs)]
     public class AuricTeslaCuisses : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auric Tesla Cuisses");
-            /* Tooltip.SetDefault("10% increased movement speed\n" +
-                "12% increased damage and 5% increased critical strike chance\n" +
-                "Magic carpet effect"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

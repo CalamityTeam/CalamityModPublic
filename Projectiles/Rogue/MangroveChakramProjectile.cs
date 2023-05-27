@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/MangroveChakram";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mangrove Chakram");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

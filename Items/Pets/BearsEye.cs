@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bear's Eye");
-            // Tooltip.SetDefault("Summons a pet guardian angel");
         }
         public override void SetDefaults()
         {

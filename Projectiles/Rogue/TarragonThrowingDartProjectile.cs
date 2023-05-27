@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/TarragonThrowingDart";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tarragon Throwing Dart");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

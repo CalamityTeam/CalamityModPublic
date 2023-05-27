@@ -12,10 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Swordsplosion");
-            /* Tooltip.SetDefault("Sword swarm\n" +
-                "Receives 33% benefit from melee speed bonuses"); */
-            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
+                       ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()

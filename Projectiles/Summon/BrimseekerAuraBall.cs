@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Seeker");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

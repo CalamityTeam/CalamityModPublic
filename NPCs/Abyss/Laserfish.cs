@@ -17,7 +17,6 @@ namespace CalamityMod.NPCs.Abyss
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Laserfish");
             Main.npcFrameCount[NPC.type] = 6;
         }
 

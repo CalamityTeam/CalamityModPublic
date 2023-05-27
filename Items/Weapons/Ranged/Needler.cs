@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Needler : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Needler");
-            // Tooltip.SetDefault("Converts musket balls into needles that stick to enemies and explode");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 52;

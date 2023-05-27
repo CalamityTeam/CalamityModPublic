@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class SnapClam : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Snap Clam");
-            /* Tooltip.SetDefault("Can latch on enemies and deal damage over time\n" +
-            "Stealth strikes throw five clams at once that cause increased damage over time"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

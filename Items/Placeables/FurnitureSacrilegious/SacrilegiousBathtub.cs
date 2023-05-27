@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     public class SacrilegiousBathtub : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sacrilegious Bathtub");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 38;

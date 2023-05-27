@@ -18,7 +18,6 @@ For the Witch and I, the air here will forever be laden with regret. There is no
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Azafure");
         }
 
         public override void SetDefaults()

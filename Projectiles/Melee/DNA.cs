@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DNA : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("DNA");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

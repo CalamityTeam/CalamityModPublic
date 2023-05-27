@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Typeless
             new Color(0, 206, 209, 100) // a blue color
         };
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Chaotic Bobber");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class BladecrestOathsword : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bladecrest Oathsword");
-            // Tooltip.SetDefault("Fires bursts of demonic blades that exponentially decelerate and explode");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 56;

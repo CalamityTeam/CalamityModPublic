@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Time Distortion");
-            // Description.SetDefault("Time is slowed");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

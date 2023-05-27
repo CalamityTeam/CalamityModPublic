@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
         public const float MaxChargeTime = 20f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Final Dawn");
             Main.projFrames[Projectile.type] = 2;
         }
         public override void SetDefaults()

@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class SparkSpreader : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spark Spreader");
-            // Tooltip.SetDefault("70% chance to not consume gel");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 7;

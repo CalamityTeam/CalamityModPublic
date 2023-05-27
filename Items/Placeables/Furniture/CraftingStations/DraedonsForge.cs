@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     public class DraedonsForge : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Draedon's Forge");
-            /* Tooltip.SetDefault("A plasma-lattice nanoforge powered by limitless Exo energies\n" +
-                "Functions as every major crafting station simultaneously"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 58;

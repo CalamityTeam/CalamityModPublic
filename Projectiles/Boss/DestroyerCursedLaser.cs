@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DestroyerCursedLaser : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cursed Laser");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

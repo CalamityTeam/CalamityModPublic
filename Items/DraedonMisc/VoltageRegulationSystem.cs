@@ -16,13 +16,6 @@ namespace CalamityMod.Items.DraedonMisc
     public class VoltageRegulationSystem : ModItem
     {
         public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/VoltageRegulationSystemInstall");
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Voltage Regulation System");
-            /* Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
-                "Allows you to decrypt the Ice biome schematic"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 52;

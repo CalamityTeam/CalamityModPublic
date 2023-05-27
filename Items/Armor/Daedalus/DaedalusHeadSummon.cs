@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Armor.Daedalus
     [LegacyName("DaedalusHeadgear")]
     public class DaedalusHeadSummon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Daedalus Mask");
-            // Tooltip.SetDefault("5% increased minion damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

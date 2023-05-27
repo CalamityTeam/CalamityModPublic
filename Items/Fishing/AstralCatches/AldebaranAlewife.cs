@@ -9,8 +9,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;
-            // DisplayName.SetDefault("Aldebaran Alewife");
-            // Tooltip.SetDefault("A star-struck entity in the form of a fish");
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

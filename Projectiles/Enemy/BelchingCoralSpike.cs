@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Spike");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

@@ -17,7 +17,6 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Irradiated Slime");
             Main.npcFrameCount[NPC.type] = 2;
         }
 

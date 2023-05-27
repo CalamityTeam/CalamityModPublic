@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Mourningstar : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mourningstar");
-            // Tooltip.SetDefault("Launches two solar whip swords that explode on hit");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

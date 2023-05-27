@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
         private int targetNPC = -1;
         private List<int> previousNPCs = new List<int>() { -1 };
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gilded Dagger");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

@@ -13,20 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
     [LegacyName("BensUmbrella")]
     public class TemporalUmbrella : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Temporal Umbrella");
-            /* Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
-                "Summons a variety of tools to assist you in battle:\n" +
-                " - A vermilion arrow to pierce your adversaries\n" +
-                " - A marmalade hammer to bonk enemies in style\n" +
-                " - A jade axe to cleave monsters and occasionally fell a tree\n" +
-                " - A cyan umbrella to beat down your foes with grace\n" +
-                " - A lavender rifle to snipe those who stand in your way\n" +
-                "Best of all, you get to wear a top hat\n" +
-                "Requires 5 minion slots to use and there can only be one set of tools"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 193;

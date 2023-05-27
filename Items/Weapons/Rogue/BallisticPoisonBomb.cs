@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BallisticPoisonBomb : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ballistic Poison Bomb");
-            /* Tooltip.SetDefault("Throws a sticky bomb that explodes into spikes and poison clouds\n" +
-            "Stealth strikes throw three at once"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

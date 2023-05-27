@@ -18,11 +18,6 @@ namespace CalamityMod.Projectiles.Ranged
             set => Projectile.ai[0] = value;
         }
         public const float PositioningOffset = 35f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ultima");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 82;

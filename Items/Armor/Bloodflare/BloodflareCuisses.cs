@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
     [AutoloadEquip(EquipType.Legs)]
     public class BloodflareCuisses : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloodflare Cuisses");
-            // Tooltip.SetDefault("17% increased movement speed, 10% increased damage and 7% increased critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

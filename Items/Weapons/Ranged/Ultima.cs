@@ -14,15 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class Ultima : ModItem
     {
         public const float FullChargeTime = 420f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ultima");
-            /* Tooltip.SetDefault("Casts a continuous stream of plasma bolts\n" +
-                "Over time the bolts are replaced with powerful lasers\n" +
-                "Bolts power up into solid beams as you continue shooting\n" +
-                "90% chance to not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 116;

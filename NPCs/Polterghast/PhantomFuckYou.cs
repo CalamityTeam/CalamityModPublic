@@ -19,7 +19,6 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Phantom");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 

@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Reaper Tooth Shockwave");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 320;

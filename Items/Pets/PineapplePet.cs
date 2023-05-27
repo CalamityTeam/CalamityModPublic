@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Pets
 {
     public class PineapplePet : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Pineapple");
-            // Tooltip.SetDefault("Summons a pineapple");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 0;

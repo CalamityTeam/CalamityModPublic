@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Demonic Bone Ash");
         }
 
         public override void SetDefaults()

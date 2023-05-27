@@ -9,8 +9,6 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sirenproof Earmuffs");
-            // Tooltip.SetDefault("Favorite this item to prevent Anahita from spawning near you");
         }
         public override void SetDefaults()
         {

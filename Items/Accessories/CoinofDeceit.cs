@@ -6,13 +6,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class CoinofDeceit : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Coin of Deceit");
-            /* Tooltip.SetDefault("Stealth strikes only expend 85% of your max stealth\n" +
-                "6% increased rogue crit chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

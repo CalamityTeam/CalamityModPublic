@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override string Texture => "CalamityMod/Projectiles/Ranged/AMRShot";
 
         private bool initialized = false;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Impact Round");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

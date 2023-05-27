@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/UrchinStinger";
 
         private int projdmg = 0;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stinger");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Trash Can");
-            // Tooltip.SetDefault("Summons the trash man");
         }
         public override void SetDefaults()
         {

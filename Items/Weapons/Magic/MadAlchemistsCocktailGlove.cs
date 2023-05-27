@@ -15,12 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Mad Alchemist's Cocktail Glove");
-            /* Tooltip.SetDefault("Fires a variety of high-velocity flasks\n" +
-                "Right click to throw a prismatic flask that inflicts many debuffs\n" +
-                "Red flasks explode violently, blue flasks contain poison gas,\n" +
-                "green flasks summon lunar flares and purple flasks explode into homing shrapnel"); */
-
+           
             flaskIDs = new int[]
             {
                 ModContent.ProjectileType<MadAlchemistsCocktailRed>(),

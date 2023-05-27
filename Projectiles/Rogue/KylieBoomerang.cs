@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Rogue
         //This variable will be used for the stealth strike
         public float ReboundTime = 0f;
         public float timer = 0f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Kylie");
-        }
-
         public override void SetDefaults()
         {
             Projectile.friendly = true;

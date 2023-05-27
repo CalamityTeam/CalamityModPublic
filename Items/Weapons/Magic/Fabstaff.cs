@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fabstaff");
-            // Tooltip.SetDefault("Casts a bouncing beam that splits when enemies are near it");
             Item.staff[Item.type] = true;
         }
 

@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Tools
 {
     public class FellerofEvergreens : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Feller of Evergreens");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 18;

@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class DevourerofGodsTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Devourer of Gods Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

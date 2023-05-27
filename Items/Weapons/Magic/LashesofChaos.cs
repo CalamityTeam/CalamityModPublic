@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
     [LegacyName("CalamitasInferno")]
     public class LashesofChaos : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lashes of Chaos");
-            // Tooltip.SetDefault("Watch the world burn...");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 65;

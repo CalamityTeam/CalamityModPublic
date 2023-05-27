@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
     public class OnyxTurret : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            /* Tooltip.SetDefault("Shoots a shotgun spread of bullets at nearby enemies\n" +
-                "Cannot attack while a boss is alive"); */
-        }
-
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<PlayerOnyxTurret>());

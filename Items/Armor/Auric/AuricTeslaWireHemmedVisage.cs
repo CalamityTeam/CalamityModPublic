@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Armor.Auric
     [AutoloadEquip(EquipType.Head)]
     public class AuricTeslaWireHemmedVisage : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auric Tesla Wire-Hemmed Visage");
-            // Tooltip.SetDefault("30% increased magic damage, 20% increased magic critical strike chance, +100 max mana and 20% reduced mana usage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

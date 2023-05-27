@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Andromeda Shock");
         }
         public override void SetDefaults()
         {

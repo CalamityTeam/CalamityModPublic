@@ -13,9 +13,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-            /* Tooltip.SetDefault("An Ashen Slab variant that merges differently with nearby blocks\n" +
-                            "Favored by advanced builders"); */
-        }
+                   }
 
         public override void SetDefaults()
         {

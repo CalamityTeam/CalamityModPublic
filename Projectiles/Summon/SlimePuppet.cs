@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Summon
         public Player Owner => Main.player[Projectile.owner];
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Slime Puppet");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 1;

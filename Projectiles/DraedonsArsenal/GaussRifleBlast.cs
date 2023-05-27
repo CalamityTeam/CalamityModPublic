@@ -17,11 +17,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             set => Projectile.ai[0] = value;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gauss Blast");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 40;

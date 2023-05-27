@@ -19,11 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dynamic Pursuer");
-            /* Tooltip.SetDefault("A weapon that, as it flies, processes calculations and fires electricity\n" +
-                               "Releases a flying disk that fires electricity at nearby enemies\n" +
-                               "Stealth strikes allow the disk to ricochet multiple times and unleash an electric explosion, then fire inaccurate lasers while returning"); */
-        }
+                   }
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

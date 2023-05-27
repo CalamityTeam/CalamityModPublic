@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BurningStrife : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Burning Strife");
-            /* Tooltip.SetDefault("Throws a shadowflame spiky ball that bursts into flames\n" +
-                               "Stealth Strikes make the ball linger and explode more violently\n" +
-                               "'Definitely not pocket safe'"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

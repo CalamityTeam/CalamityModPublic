@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BonebreakerFragment1 : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shrapnel");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

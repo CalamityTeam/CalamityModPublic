@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ink");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

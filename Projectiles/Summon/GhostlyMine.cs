@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Summon
         public bool start = true;
         public bool spawnDust = true;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mine");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

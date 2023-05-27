@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         private Color currentColor = Color.Black;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spike");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

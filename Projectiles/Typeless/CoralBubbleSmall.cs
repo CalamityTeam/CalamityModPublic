@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override string Texture => "CalamityMod/Projectiles/Typeless/CoralBubble";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bubble");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

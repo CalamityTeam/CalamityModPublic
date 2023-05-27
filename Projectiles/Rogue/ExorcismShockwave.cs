@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public static float radius = 100;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Exorcism Shockwave");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = (int)radius * 2;

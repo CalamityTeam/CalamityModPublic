@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Typeless
         public ref float Time => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Tormented Soul");
             Main.projFrames[Projectile.type] = 3;
         }
 

@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Summon
         private int AttackMode = 0;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ascened Cooper");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;

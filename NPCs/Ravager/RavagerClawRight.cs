@@ -16,7 +16,6 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Ravager");
         }
 
         public override void SetDefaults()

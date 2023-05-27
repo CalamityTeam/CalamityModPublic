@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class RubyCrawlerBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Ruby Crawler");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

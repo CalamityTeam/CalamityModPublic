@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crystyl Crusher Ray");
-        }
-
         // Use a different style for constant so it is very clear in code when a constant is used
 
         // The maximum charge value

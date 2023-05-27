@@ -33,7 +33,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Small Angry Spirit");
             Main.projFrames[Projectile.type] = 3;
         }
 

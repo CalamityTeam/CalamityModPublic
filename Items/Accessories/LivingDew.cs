@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class LivingDew : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Living Dew");
-            /* Tooltip.SetDefault("5% increased damage reduction, +5 defense, and increased life regen while in the Jungle\n" +
-            "Immunity to Poison"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

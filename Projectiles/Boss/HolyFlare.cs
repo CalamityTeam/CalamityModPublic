@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Holy Flare");
             Main.projFrames[Projectile.type] = 4;
         }
 

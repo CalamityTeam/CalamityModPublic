@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("BrimstoneFlamesprayer")]
     public class HavocsBreath : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Havoc's Breath");
-            // Tooltip.SetDefault("50% chance to not consume gel");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 67;

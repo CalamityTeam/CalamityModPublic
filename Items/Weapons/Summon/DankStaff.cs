@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class DankStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dank Staff");
-            // Tooltip.SetDefault("Summons a dank creeper to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 7;

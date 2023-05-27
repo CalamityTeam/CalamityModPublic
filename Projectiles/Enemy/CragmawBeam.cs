@@ -20,11 +20,6 @@ namespace CalamityMod.Projectiles.Enemy
         // Pretty self explanatory
         private const float maximumLength = 1200f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gamma Ray");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 22;

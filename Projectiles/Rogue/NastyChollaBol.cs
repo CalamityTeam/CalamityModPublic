@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/NastyCholla";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nasty Cholla");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 18;

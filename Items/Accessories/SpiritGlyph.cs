@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("SpiritGenerator")]
     public class SpiritGlyph : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spirit Glyph");
-            /* Tooltip.SetDefault("Whenever your minions hit an enemy you will gain a random buff\n" +
-                "These buffs will either boost your defense, summon damage, or life regen for a while"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

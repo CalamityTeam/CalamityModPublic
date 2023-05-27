@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class FrostcrushValari : RogueWeapon
     {
         public static float Speed = 14f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Frostcrush Valari");
-            // Tooltip.SetDefault(@"Fires a long ranged boomerang that explodes into icicles on hit
-//Stealth strikes throw three shorter ranged boomerangs that freeze along with a spread of icicles");
-        }
 
         public override void SetDefaults()
         {

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Icebreaker : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Icebreaker");
-            // Tooltip.SetDefault("Stealth strikes spawn a cosmic explosion and freeze nearby enemies on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 60;

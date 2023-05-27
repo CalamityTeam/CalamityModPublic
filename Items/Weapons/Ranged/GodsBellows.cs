@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("TheEmpyrean")]
     public class GodsBellows : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("God's Bellows");
-            // Tooltip.SetDefault("70% chance to not consume gel");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 80;

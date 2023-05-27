@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         private int arcs = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tesla Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

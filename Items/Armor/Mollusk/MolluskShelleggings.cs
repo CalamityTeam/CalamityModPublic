@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Armor.Mollusk
     [AutoloadEquip(EquipType.Legs)]
     public class MolluskShelleggings : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mollusk Shelleggings");
-            /* Tooltip.SetDefault("12% increased damage and 4% increased critical strike chance\n" +
-                               "7% decreased movement speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

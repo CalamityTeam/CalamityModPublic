@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
     [LegacyName("AcidwoodWorkbench")]
     public class AcidwoodWorkBench : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Acidwood Work Bench");

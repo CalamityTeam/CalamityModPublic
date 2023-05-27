@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Venom Cloud");
             Main.projFrames[Projectile.type] = 10;
         }
 

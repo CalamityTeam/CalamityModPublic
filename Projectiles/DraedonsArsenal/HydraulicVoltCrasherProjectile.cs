@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Hydraulic Volt Crasher");
             Main.projFrames[Projectile.type] = 3;
         }
 

@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class AbyssTreasureChest : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ancient Treasure Chest");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

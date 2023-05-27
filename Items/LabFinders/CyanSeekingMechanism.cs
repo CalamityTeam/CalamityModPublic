@@ -10,12 +10,6 @@ namespace CalamityMod.Items.LabFinders
 {
     public class CyanSeekingMechanism : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cyan Seeking Mechanism");
-            // Tooltip.SetDefault("Moves swiftly towards a lab deep below the desert");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
 {
     public class MonolithLamp : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Monolith Lamp");

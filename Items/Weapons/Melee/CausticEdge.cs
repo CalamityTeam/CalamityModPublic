@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class CausticEdge : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Caustic Edge");
-            // Tooltip.SetDefault("Inflicts poison on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 46;

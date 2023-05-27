@@ -11,12 +11,6 @@ namespace CalamityMod.Items.LabFinders
     [LegacyName("PurpleSeekingMechanism")]
     public class YellowSeekingMechanism : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Yellow Seeking Mechanism");
-            // Tooltip.SetDefault("Moves swiftly towards a lab within the sky");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

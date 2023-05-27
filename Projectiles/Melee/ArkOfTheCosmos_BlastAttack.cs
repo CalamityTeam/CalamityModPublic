@@ -62,7 +62,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sundering Scissors");
         }
         public override void SetDefaults()
         {

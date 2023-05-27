@@ -14,11 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/TankCannon") { PitchVariance = 0.5f };
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Handheld Tank");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 110;

@@ -24,8 +24,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.ResearchUnlockCount = 5;
             ItemID.Sets.IsFishingCrate[Type] = true;
             ItemID.Sets.IsFishingCrateHardmode[Type] = true;
-            // DisplayName.SetDefault("Astral Crate");
-            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()

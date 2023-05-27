@@ -9,11 +9,6 @@ namespace CalamityMod.Items.Tools
     [LegacyName("ChaoswarpedSlashaxe")]
     public class TectonicTruncator : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tectonic Truncator");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 68;

@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Minigun : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Minigun");
-            // Tooltip.SetDefault("80% chance to not consume ammo");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 275;

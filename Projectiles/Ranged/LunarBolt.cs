@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class LunarBolt : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bolt");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

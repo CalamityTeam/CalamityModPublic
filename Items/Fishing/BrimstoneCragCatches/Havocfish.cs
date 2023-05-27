@@ -10,10 +10,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Havocfish");
-            /* Tooltip.SetDefault("The horns lay a curse on those who touch it\n" +
-            "Right click to extract essence"); */
-            Item.ResearchUnlockCount = 10;
+                       Item.ResearchUnlockCount = 10;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

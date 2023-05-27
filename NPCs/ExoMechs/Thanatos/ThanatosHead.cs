@@ -124,7 +124,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("XM-05 Thanatos");
             Main.npcFrameCount[NPC.type] = 5;
 
             // Ensure that the reticle is not culled due to the player being very far from Thanatos.

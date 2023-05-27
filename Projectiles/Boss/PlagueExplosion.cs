@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plague Stinger Explosion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.hostile = true;

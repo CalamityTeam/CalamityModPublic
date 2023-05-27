@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class OldDukeTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Old Duke Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

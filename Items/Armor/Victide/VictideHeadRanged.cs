@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Armor.Victide
     [LegacyName("VictideVisage")]
     public class VictideHeadRanged : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Victide Coral Turban");
-            // Tooltip.SetDefault("5% increased ranged damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

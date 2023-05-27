@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         private int shotType = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Megalodon");
-            /* Tooltip.SetDefault("50% chance to not consume ammo\n" +
-                "Fires streams of water every other shot"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 30;

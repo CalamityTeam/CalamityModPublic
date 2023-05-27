@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Projectiles/Rogue/CraniumSmasherExplosive";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stealthy Cranium Smasher");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 50;

@@ -19,7 +19,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Brimstone Heart");
             Main.npcFrameCount[NPC.type] = 6;
         }
 

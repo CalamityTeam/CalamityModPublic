@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class BladedgeGreatbow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bladedge Railbow");
-            // Tooltip.SetDefault("Fires a spread of 4 arrows and 2 leaves at once");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 35;

@@ -7,8 +7,6 @@ namespace CalamityMod.Buffs.Placeables
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Crimson Effigy");
-            // Description.SetDefault("The crimson empowers you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;

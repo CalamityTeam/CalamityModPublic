@@ -16,11 +16,6 @@ namespace CalamityMod.BiomeManagers
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer1";
         public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer1";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sunken Sea");
-        }
-
         public override bool IsBiomeActive(Player player)
         {
             return BiomeTileCounterSystem.SunkenSeaTiles > 150;

@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
         private double rotation = 0;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Terra Disk");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }

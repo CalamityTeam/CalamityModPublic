@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SpentFuelContainer";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spent Fuel Container");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 22;

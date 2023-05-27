@@ -123,7 +123,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("UI");
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 9999999;
         }
 

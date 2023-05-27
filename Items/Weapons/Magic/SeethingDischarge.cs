@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class SeethingDischarge : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Seething Discharge");
-            // Tooltip.SetDefault("Fires a barrage of brimstone blasts");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 52;

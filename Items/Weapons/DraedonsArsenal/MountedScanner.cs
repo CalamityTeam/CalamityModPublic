@@ -14,13 +14,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class MountedScanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mounted Scanner");
-            /* Tooltip.SetDefault("Laser technology used in this case for both targeting and defense\n" +
-            "Summons a powerful weapon above your head that fires lasers at nearby enemies"); */
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Rogue
         public const float InterpolationTime = 15;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Final Dawn");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

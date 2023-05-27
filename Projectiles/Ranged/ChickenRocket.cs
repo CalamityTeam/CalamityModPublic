@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ChickenRocket : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Chicken Rocket");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

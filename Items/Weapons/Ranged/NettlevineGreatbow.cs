@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("NettlelineGreatbow")]
     public class NettlevineGreatbow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nettlevine Greatbow");
-            /* Tooltip.SetDefault("Shoots 4 arrows at once\n" +
-                "Fires 2 additional venom or chlorophyte arrows"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 73;

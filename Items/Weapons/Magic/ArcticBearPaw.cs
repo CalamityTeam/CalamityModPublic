@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class ArcticBearPaw : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Arctic Bear Paw");
-            // Tooltip.SetDefault(@"The savage mauling that fits in your pocket
-//Fires spiritual claws that ignore walls");
-        }
         public override void SetDefaults()
         {
             Item.damage = 90;

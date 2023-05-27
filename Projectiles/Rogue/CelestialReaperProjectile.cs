@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public int HomingCooldown = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Celestial Reaper");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 66;

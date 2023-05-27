@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Artemis Mask");
 
             if (Main.netMode != NetmodeID.Server)
             {

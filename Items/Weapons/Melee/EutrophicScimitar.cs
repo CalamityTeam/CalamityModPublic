@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class EutrophicScimitar : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eutrophic Scimitar");
-            // Tooltip.SetDefault("Fires two beams that stun enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 110;

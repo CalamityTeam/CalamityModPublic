@@ -18,13 +18,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const float LanternSummonCost = 2f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cosmilamp");
-            /* Tooltip.SetDefault("Summons a cosmic lantern above your head to fight for you\n" +
-                $"Each lantern takes up {LanternSummonCost} minion slots"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 127;

@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CrushsawCrasher : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crushsaw Crasher");
-            /* Tooltip.SetDefault("Throws bouncing axes\n" +
-            "Stealth strikes throw five at once"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 38;

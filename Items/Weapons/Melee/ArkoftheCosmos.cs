@@ -52,15 +52,6 @@ namespace CalamityMod.Items.Weapons.Melee
         "If more than 5 charges were used, you can dash across the rip by holding UP";
 
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ark of the Cosmos");
-            /* Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
-            "This line also gets set in ModifyTooltips\n" +
-            "This line also gets set in ModifyTooltips\n" +
-            "The physical culmination of your journey, capable of rending gods asunder"); */
-        }
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             if (tooltips == null)

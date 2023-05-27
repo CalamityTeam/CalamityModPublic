@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
 {
     public class SunkenSeaFountain : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sunken Water Fountain");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

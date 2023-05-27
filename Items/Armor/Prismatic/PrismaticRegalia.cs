@@ -12,12 +12,7 @@ namespace CalamityMod.Items.Armor.Prismatic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Prismatic Regalia");
-            /* Tooltip.SetDefault("12% increased magic damage and 15% increased magic crit\n" +
-                "20% decreased non-magic damage\n" +
-                "+20 max life and +40 max mana\n" +
-                "Magic attacks occasionally fire a pair of homing rockets"); */
-
+           
             if (Main.netMode == NetmodeID.Server)
                 return;
 

@@ -15,12 +15,6 @@ namespace CalamityMod.Items.Armor.Auric
     [AutoloadEquip(EquipType.Head)]
     public class AuricTeslaHoodedFacemask : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auric Tesla Hooded Facemask");
-            // Tooltip.SetDefault("30% increased ranged damage and critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

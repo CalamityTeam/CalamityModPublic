@@ -14,15 +14,6 @@ namespace CalamityMod.Items.Weapons.Typeless
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/YanmeiKnifeHit");
         public static readonly SoundStyle ExpireSound = new("CalamityMod/Sounds/Custom/YanmeiKnifeExpire");
         
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Yanmei's Knife");
-            /* Tooltip.SetDefault("When hitting a boss, miniboss, or their minions, you gain various boosts and cripple the enemy hit\n" +
-                "A knife from an unknown world\n" +
-                "An owner whose heart is pure and free of taint\n" +
-                "A heart of iron and valor"); */
-        }
-
         public override void SetDefaults()
         {
             Item.height = 44;

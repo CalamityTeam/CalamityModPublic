@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class CosmicRainbow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cosmic Rainbow");
-            // Tooltip.SetDefault("Launches a barrage of rainbows");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 105;

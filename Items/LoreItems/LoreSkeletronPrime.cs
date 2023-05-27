@@ -17,7 +17,6 @@ Draedon understood well. For them he crafted a visage so grim, it evoked oblivio
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Skeletron Prime");
         }
 
         public override void SetDefaults()

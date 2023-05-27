@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Placeables.Furniture
         public static int SpawnIntervals = 4 * 60;
         public static int MaxEnemiesPerWave = 3;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wulfrum Lure");
-            /* Tooltip.SetDefault($"Consumes [i:{ModContent.ItemType<EnergyCore>()}] Energy Cores to emit a wulfrum signal that lures Wulfrum automatons out\n" +
-                $"The signal lasts for {SignalTime / 60f} seconds"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

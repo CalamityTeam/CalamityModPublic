@@ -15,16 +15,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         private static int knockBack = 5;
         private static float SdamageMult = 0.12f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hell's Sun");
-            /* Tooltip.SetDefault("The Subterranean Sun in the palm of your hand\n" +
-                "Hurls up to 10 gravity-defying spiky balls\n" +
-                "Once stationary, periodically emit small suns that explode on hit\n" +
-                "Stealth strikes emit suns at a faster rate and last for a longer amount of time\n" +
-                "Right click to delete all existing spiky balls"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = damage;

@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Norfleet : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Norfleet");
-            // Tooltip.SetDefault("Fire everything!");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 354;

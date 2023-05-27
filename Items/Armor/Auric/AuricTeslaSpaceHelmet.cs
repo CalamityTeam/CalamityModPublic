@@ -16,12 +16,6 @@ namespace CalamityMod.Items.Armor.Auric
     [AutoloadEquip(EquipType.Head)]
     public class AuricTeslaSpaceHelmet : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auric Tesla Space Helmet");
-            // Tooltip.SetDefault("15% increased minion damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

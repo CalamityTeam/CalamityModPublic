@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.Magic
         public const int FadeoutTime = 25;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Holy Fireball");
             Main.projFrames[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;

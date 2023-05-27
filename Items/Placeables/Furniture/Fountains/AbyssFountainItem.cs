@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
 {
     public class AbyssFountainItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Abyss Water Fountain");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

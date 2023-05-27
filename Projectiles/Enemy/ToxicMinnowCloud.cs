@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Toxic Cloud");
             Main.projFrames[Projectile.type] = 10;
         }
 

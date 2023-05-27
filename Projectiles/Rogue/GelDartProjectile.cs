@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/GelDart";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dart");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

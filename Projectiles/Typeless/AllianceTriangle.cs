@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class AllianceTriangle : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Alliance Triangle");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 154;

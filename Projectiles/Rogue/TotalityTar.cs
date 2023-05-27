@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TotalityTar : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Totality Tar");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

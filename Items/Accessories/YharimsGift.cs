@@ -12,15 +12,6 @@ namespace CalamityMod.Items.Accessories
     {
         public int dragonTimer = 60;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Yharim's Gift");
-            /* Tooltip.SetDefault("The power of a god pulses from within this artifact\n" +
-                               "Flaming meteors rain down after getting hit\n" +
-                               "Exploding dragon dust is left behind as you move\n" +
-                               "Damage and movement speed increased by 15%"); */
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 30;

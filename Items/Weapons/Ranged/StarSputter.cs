@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         private int counter = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Star Sputter");
-            /* Tooltip.SetDefault("Fires a chain of comets\n" +
-            "Fires a bigger, more powerful comet every four rounds\n" +
-            "Look to the stars for a galaxy far, far away"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 112;

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class UnstableEbonianGlob : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Unstable Ebonian Glob");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

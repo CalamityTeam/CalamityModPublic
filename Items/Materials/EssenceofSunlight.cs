@@ -15,8 +15,6 @@ namespace CalamityMod.Items.Materials
             Item.ResearchUnlockCount = 25;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
-            // DisplayName.SetDefault("Essence of Sunlight");
-            // Tooltip.SetDefault("The essence of sky, light, and storm creatures");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 71; // Soul of Light
         }
 

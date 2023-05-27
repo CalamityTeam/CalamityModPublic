@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.Pylons
 {
     public class CragsPylon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<CragsPylonTile>());

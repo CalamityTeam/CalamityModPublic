@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Armor.GemTech
     [AutoloadEquip(EquipType.Body)]
     public class GemTechBodyArmor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gem Tech Body Armor");
-            // Tooltip.SetDefault("You sunk low enough for me to reach.");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 48;

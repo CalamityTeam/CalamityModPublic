@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Quagmire");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 12f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 400f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 15f;

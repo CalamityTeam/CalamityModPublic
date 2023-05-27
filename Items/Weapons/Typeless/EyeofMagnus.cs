@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Typeless
 {
     public class EyeofMagnus : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eye of Magnus");
-            /* Tooltip.SetDefault("Fires powerful beams that reduce enemy protection\n" +
-                "This weapon scales with all your damage stats at once\n" +
-                "Heals mana and health on hit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.DamageType = AverageDamageClass.Instance;

@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
     [LegacyName("OccultSink")]
     public class OtherworldlySink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Counts as a water source");
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Otherworldly Sink");

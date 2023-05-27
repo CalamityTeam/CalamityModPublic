@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class FlareBolt : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Flare Bolt");
-            // Tooltip.SetDefault("Casts a slow-moving ball of flame");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 42;

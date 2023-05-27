@@ -18,11 +18,6 @@ namespace CalamityMod.Projectiles.Melee
         public float startingVelocityY = 0f;
         public float randomAngleDelta = 0f;
         public const float explosionDamageMultiplier = 1.8f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cosmic Energy");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         bool gravity = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stardust Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

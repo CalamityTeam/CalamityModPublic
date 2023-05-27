@@ -10,19 +10,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class TheAbsorber : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Absorber");
-            /* Tooltip.SetDefault("5% increased movement and jump speed\n" +
-                "+20 max life and mana\n" +
-                "Standing still boosts life and mana regen\n" +
-                "Enemies take damage when they touch you\n" +
-                "You emit a cloud of mushroom spores when you are hit\n" +
-                "7% increased damage reduction\n" +
-                "5% of the damage from enemy attacks is absorbed and converted into healing\n" +
-                "Grants immunity to Armor Crunch"); */
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 15;

@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class InkCloud2 : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ink Cloud");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 36;

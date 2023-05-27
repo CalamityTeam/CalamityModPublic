@@ -15,7 +15,6 @@ namespace CalamityMod.NPCs.Bumblebirb
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Draconic Swarmer");
             Main.npcFrameCount[NPC.type] = 5;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             this.HideFromBestiary();

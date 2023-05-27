@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
     public class RustedJingleBell : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rusted Jingle Bell");
-            /* Tooltip.SetDefault("Summons a baby ghost bell light pet\n" +
-                "Provides a moderate amount of light while underwater"); */
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.WispinaBottle);

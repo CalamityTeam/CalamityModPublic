@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Apoctolith";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Apoctolith");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

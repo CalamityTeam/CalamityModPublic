@@ -22,11 +22,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override Color LaserOverlayColor => Color.White;
         public override Color LightCastColor => LaserOverlayColor;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Titanium Decimator");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

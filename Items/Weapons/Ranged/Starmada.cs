@@ -14,13 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("StarfleetMK2")]
     public class Starmada : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Starmada");
-            /* Tooltip.SetDefault("Fires a barrage of stars and plasma blasts\n" +
-                            "66% chance to not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 135;

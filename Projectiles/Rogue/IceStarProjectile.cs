@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Rogue
         private bool initStealth = false;
         private Vector2 initialVelocity;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Star");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

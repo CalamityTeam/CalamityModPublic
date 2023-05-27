@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
     public class EutrophicDoor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

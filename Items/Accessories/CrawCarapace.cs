@@ -6,12 +6,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class CrawCarapace : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Craw Carapace");
-            // Tooltip.SetDefault("Enemies take damage when they touch you");
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 5;

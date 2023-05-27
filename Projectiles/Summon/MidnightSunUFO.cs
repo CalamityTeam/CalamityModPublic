@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Summon
         public const float DistanceToCheck = 2600f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Midnight Sun UFO");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

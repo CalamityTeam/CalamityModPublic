@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Armor.Aerospec
     [AutoloadEquip(EquipType.Legs)]
     public class AerospecLeggings : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aerospec Leggings");
-            // Tooltip.SetDefault("12% increased movement speed");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

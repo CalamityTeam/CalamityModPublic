@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Old Duke Mask");
 
             if (Main.netMode != NetmodeID.Server)
                 ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;

@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Drizzlefish Fireball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ExcelsusPink : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Excelsus");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 34;

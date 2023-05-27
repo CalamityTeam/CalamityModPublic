@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class BlazingSun : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blazing Sun");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 130;

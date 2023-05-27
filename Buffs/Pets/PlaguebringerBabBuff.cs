@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Plaguebringer Bab");
-            // Description.SetDefault("The baby plaguebringer sees you as the queen");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

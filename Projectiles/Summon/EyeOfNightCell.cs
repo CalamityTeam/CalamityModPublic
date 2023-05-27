@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cell");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

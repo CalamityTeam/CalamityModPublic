@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bolt");
             Main.projFrames[Projectile.type] = 4;
         }
 

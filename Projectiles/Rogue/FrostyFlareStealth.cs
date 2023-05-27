@@ -21,11 +21,6 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Frosty Flare");
-        }
-
         public override void AI()
         {
             if (Projectile.owner != Main.myPlayer)

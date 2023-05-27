@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Effervescence : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Effervescence");
-            // Tooltip.SetDefault("Shoots a massive spread of bubbles");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 64;

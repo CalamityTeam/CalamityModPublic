@@ -15,9 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Clamor Noctus");
-            // Tooltip.SetDefault(@"Let the sky fall
-//Fires night wyverns and stars from the sky that stick to enemies and tiles and explode");
             Item.staff[Item.type] = true;
         }
 

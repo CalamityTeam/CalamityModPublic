@@ -26,11 +26,6 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.coldDamage = true;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dark Ice");
-        }
-
         public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft > 595)

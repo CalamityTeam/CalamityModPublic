@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fire");
             Main.projFrames[Projectile.type] = 4;
         }
 

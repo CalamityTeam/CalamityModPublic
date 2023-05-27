@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class CrystalCrawlerBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Crystal Crawler");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

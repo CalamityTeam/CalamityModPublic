@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class PhantomSpiritBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Phantom Spirit");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

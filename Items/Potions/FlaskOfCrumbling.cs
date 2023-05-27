@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Flask of Crumbling");
-            // Tooltip.SetDefault("Melee, Whip, and Rogue attacks inflict Armor Crunch on enemies");
         }
 
         public override void SetDefaults()

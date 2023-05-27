@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public int manatimer = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hadal Urn");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

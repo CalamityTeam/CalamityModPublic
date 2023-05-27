@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Accessories
     {
         public const int ShieldSlamIFrames = 12;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ornate Shield");
-            /* Tooltip.SetDefault("8% increased damage reduction and +20 health while wearing the Daedalus armor\n" +
-                "Grants a frost dash"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 36;

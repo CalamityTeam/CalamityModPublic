@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Absolutely Disgusting Shark Puker");
             Main.projFrames[Projectile.type] = 2;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }

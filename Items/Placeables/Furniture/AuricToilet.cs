@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class AuricToilet : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auric Toilet");
-            /* Tooltip.SetDefault("This was used by the gods \n" +
-                "Sitting on such a throne would be a disgrace to all"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

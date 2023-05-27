@@ -29,8 +29,6 @@ namespace CalamityMod.Items.Materials
         {
             Item.ResearchUnlockCount = 25;
 
-            // DisplayName.SetDefault("Auric Bar");
-            // Tooltip.SetDefault("Boundless power emanates from the metal");
 
 			ItemID.Sets.SortingPriorityMaterials[Type] = 120;
             ItemID.Sets.AnimatesAsSoul[Type] = true;

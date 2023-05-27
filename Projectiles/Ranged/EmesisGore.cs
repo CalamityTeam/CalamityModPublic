@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public int HurtCounter = 0;
         public const int HurtTimeIncrement = 10;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rotten Gore");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

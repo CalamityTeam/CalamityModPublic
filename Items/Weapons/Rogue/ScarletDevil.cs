@@ -12,15 +12,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ScarletDevil : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Scarlet Devil");
-            /* Tooltip.SetDefault("Throws an ultra high velocity spear, which creates more projectiles that home in\n" +
-                "The spear creates a Scarlet Blast upon hitting an enemy\n" +
-                "Stealth strikes grant you lifesteal and summon a star of projectiles upon hitting an enemy\n" +
-                "'Divine Spear \"Spear the Gungnir\"'"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 108;

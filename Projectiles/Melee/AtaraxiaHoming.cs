@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Definitely Not Exoblade");
             Main.projFrames[Projectile.type] = NumAnimationFrames;
         }
 

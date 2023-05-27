@@ -5,11 +5,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class Seashell : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Seashell");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Armor.Statigel
     [LegacyName("StatigelHelm")]
     public class StatigelHeadMelee : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Statigel Helm");
-            /* Tooltip.SetDefault("10% increased melee damage and melee speed\n" +
-                "7% increased melee critical strike chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

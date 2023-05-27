@@ -9,8 +9,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Depth Cells");
-            // Tooltip.SetDefault("The cells of abyssal creatures");
         }
 
         public override void SetDefaults()

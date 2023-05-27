@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Armor.PlagueReaper
     {
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/PlagueReaperAbility");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plague Reaper Mask");
-            // Tooltip.SetDefault("10% increased ranged damage and 8% increased ranged critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

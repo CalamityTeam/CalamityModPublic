@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Atlantis");
-            // Tooltip.SetDefault("Casts aquatic spears that split as they travel");
             Item.staff[Item.type] = true;
         }
 

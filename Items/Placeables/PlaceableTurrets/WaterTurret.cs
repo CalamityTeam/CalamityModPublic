@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
     public class WaterTurret : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            /* Tooltip.SetDefault("Shoots high-speed water blasts at nearby enemies\n" +
-                "Cannot attack while a boss is alive"); */
-        }
-
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<PlayerWaterTurret>());

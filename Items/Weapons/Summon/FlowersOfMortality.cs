@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class FlowersOfMortality : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Flowers of Mortality");
-            /* Tooltip.SetDefault("Summons five rainbow flowers over your head\n" +
-                               "The combined flowers consume three minion slots"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 72;

@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.Walls
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;
-            // DisplayName.SetDefault("Astral Sandstone Wall");
         }
 
         public override void SetDefaults()

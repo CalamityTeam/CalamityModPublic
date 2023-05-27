@@ -13,10 +13,6 @@ namespace CalamityMod.Items.Armor.OmegaBlue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Omega Blue Tentacles");
-            // Tooltip.SetDefault(@"12% increased movement speed
-//12% increased damage and critical strike chance");
-
             if (Main.netMode == NetmodeID.Server)
                 return;
 

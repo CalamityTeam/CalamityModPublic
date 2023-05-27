@@ -12,8 +12,6 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Necromantic Geode");
-            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
             Item.ResearchUnlockCount = 10;
         }
 

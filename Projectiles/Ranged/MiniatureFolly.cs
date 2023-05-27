@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Miniature Folly");
             Main.projFrames[Projectile.type] = 2;
         }
 

@@ -13,14 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class NightsGaze : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Night's Gaze");
-            /* Tooltip.SetDefault("Strike your foes with this spear of the night\n" +
-                "Throws a spear that shatters when it hits an enemy\n" +
-                "Stealth strikes cause the spear to summon homing stars as it flies"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 82;

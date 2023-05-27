@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         private const float radius = 100f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shock Grenade Explosion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 320;

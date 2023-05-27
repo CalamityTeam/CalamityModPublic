@@ -19,7 +19,6 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Kendra");
             Main.projFrames[Projectile.type] = 31;
             Main.projPet[Projectile.type] = true;
         }

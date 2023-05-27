@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Baby Ghost Bell");
-            // Description.SetDefault("Be careful not to pop the bubble");
             Main.buffNoTimeDisplay[Type] = true;
             Main.lightPet[Type] = true;
         }

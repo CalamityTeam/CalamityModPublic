@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float Knockback = 5f;
         public static float Speed = 8f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cinquedea");
-            // Tooltip.SetDefault("Stealth strikes home in after hitting an enemy");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;

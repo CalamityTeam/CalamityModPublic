@@ -8,15 +8,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class PlaguedFuelPack : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plagued Fuel Pack");
-            /* Tooltip.SetDefault("8% increased rogue damage and 15% increased rogue projectile velocity\n" +
-                "Stealth generates 10% faster\n" +
-                "TOOLTIP LINE HERE" +
-                "This effect has a 1 second cooldown before it can be used again"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

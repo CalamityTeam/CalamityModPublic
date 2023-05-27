@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Pets
 {
     public class AbyssShellFossil : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Abyss Shell Fossil");
-            /* Tooltip.SetDefault("A fossil of a prehistoric creature, long forgotten in the deep abyss"
-            + "\nSummons a pet Escargidolon Snail to follow you"
-            + "\nSlightly reduces creatures' ability to detect you in the abyss while equipped"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 0;

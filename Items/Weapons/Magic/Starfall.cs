@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Starfall : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Starfall");
-            // Tooltip.SetDefault("Casts a spread of astral stars at the mouse cursor");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 57;

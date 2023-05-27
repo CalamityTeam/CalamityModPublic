@@ -9,8 +9,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Corroded Fossil");
-            // Tooltip.SetDefault("It's very sturdy");
         }
 
         public override void SetDefaults()

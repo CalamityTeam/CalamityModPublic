@@ -8,10 +8,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
     public class AncientBasin : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

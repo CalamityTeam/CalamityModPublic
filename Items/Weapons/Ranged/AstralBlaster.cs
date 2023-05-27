@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AstralBlaster : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Blaster");
-            // Tooltip.SetDefault("Converts musket balls into homing astral rounds");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 120;

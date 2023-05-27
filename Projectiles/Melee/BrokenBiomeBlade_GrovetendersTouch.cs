@@ -38,7 +38,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Grovetender's Touch");
         }
         public override void SetDefaults()
         {

@@ -26,11 +26,6 @@ namespace CalamityMod.NPCs.Crags
 
         public static readonly SoundStyle ChainsawEndSound = new("CalamityMod/Sounds/Custom/ChainsawEnd") { Volume = 0.15f };
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Despair Stone");
-        }
-
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;

@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class EmpyreanEmber : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Empyrean Ember");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

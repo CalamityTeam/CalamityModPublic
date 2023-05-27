@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Boss
         public static readonly SoundStyle RumbleSound = new("CalamityMod/Sounds/Custom/LeviathanRumble");
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Spawner");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 

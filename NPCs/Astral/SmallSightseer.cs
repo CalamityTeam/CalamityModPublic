@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Small Sightseer");
             Main.npcFrameCount[NPC.type] = 4;
 
             if (!Main.dedServ)

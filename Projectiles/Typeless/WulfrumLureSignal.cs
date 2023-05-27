@@ -20,11 +20,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public ref float Time => ref Projectile.ai[0];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Signal");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 2;

@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Projectiles/Boss/IceBomb";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Bomb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

@@ -13,12 +13,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Exotic Pheromones");
-            /* Tooltip.SetDefault("Specifically formulated to attract draconic hybrids\n" +
-                "Summons The Dragonfolly when used in the Jungle\n" +
-                "Enrages outside the Jungle\n" +
-                "Not consumable"); */
-            ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
+                       ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

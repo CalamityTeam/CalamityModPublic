@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Typeless
 {
     public class Aestheticus : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aestheticus");
-            /* Tooltip.SetDefault("Fires crystals that explode and slow enemies down\n" +
-                "This weapon scales with all your damage stats at once"); */
-        }
-
         public override void SetDefaults()
         {
             Item.DamageType = AverageDamageClass.Instance;

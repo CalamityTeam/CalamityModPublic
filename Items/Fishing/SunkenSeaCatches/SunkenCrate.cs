@@ -18,8 +18,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         {
             Item.ResearchUnlockCount = 5;
             ItemID.Sets.IsFishingCrate[Type] = true;
-            // DisplayName.SetDefault("Sunken Crate");
-            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()

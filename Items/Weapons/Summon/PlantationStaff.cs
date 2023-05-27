@@ -10,15 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class PlantationStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plantation Staff");
-            /* Tooltip.SetDefault("Summons a miniature plantera to protect you\n" +
-            "Fires seeds, spiky balls, and spore clouds from afar to poison targets\n" +
-            "Enrages when you get under 75% health and begins ramming enemies\n" +
-            "Occupies 3 minion slots and there can only be one"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 55;

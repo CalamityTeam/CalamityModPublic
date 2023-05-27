@@ -36,11 +36,9 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             // Ares' eight-pointed-star (more on higher difficulties) laser beams
-            // DisplayName.SetDefault("Blenderbeam");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
             // This is its serious name
-            // DisplayName.SetDefault("Exo Overload Beam");
         }
 
         public override void SetDefaults()

@@ -13,11 +13,6 @@ namespace CalamityMod.BiomeManagers
         public override string BestiaryIcon => "CalamityMod/BiomeManagers/BrimstoneCragsIcon";
         public override string BackgroundPath => "Terraria/Images/MapBG3";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimstone Crags");
-        }
-
         public override bool IsBiomeActive(Player player)
         {
             return BiomeTileCounterSystem.BrimstoneCragTiles > 100 && player.ZoneUnderworldHeight;

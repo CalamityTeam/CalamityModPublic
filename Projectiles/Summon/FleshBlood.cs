@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Blood");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

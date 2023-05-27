@@ -7,14 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class StressPills : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stress Pills");
-            /* Tooltip.SetDefault("Adrenaline charges 20% faster\n" +
-                "Increases your max movement speed and acceleration by 5%\n" +
-                "Revengeance drop"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

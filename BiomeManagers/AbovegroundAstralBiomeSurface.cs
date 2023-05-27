@@ -15,11 +15,6 @@ namespace CalamityMod.BiomeManagers
 
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("AstralInfection") ?? MusicID.Space;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Surface");
-        }
-
         public override bool IsBiomeActive(Player player)
         {
             return !player.ZoneDungeon && BiomeTileCounterSystem.AstralTiles > 950 && !player.ZoneSnow && !player.ZoneDesert;

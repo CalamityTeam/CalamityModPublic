@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Head)]
     public class GodSlayerHornedHelm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("God Slayer Horned Helm");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

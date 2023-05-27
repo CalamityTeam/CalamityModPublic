@@ -19,11 +19,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             get => Main.npc[(int)Projectile.ai[1]];
             set => Projectile.ai[1] = value.whoAmI;
         }
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gauss Flux");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

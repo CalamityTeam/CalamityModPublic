@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Sulphuric Scale");
         }
 
         public override void SetDefaults()

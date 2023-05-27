@@ -17,12 +17,6 @@ namespace CalamityMod.Items.Armor.Demonshade
     {
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DemonshadeEnrage");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Demonshade Helm");
-            // Tooltip.SetDefault("30% increased damage and 15% increased critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

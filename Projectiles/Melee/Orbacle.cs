@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         private static int Lifetime = 40;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auric Orb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class CryoSlimeBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Cryo Slime");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

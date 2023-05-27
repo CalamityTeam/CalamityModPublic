@@ -36,7 +36,6 @@ namespace CalamityMod.Projectiles.Magic
         public const float HomingAcceleration = 0.4f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Rainbow Rocket");
             Main.projFrames[Projectile.type] = 3;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;

@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Delicious Meat");
-            // Tooltip.SetDefault("{$CommonItemTooltip.MediumStats}\n'So very delicious'");
             Item.ResearchUnlockCount = 5;
         }
         public override void SetDefaults()

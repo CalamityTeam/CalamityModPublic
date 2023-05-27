@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class ElementalQuiver : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Elemental Quiver");
-            /* Tooltip.SetDefault("15% increased ranged damage, 5% increased ranged critical strike chance and 20% reduced ammo usage\n" +
-                "Grants a 20% chance to not consume arrows\n" +
-                "Greatly increases all ranged projectile velocity"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float Gravity = 0.25f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Acid");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

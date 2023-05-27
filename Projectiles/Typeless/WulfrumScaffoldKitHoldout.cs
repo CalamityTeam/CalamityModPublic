@@ -61,11 +61,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public static TemporaryTileManager PipeCleanupManager;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wulfrum Scaffold Kit");
-        }
-
         public static int tileGlowTime = 10;
 
         public Dictionary<Point, int> SelectedTiles = new Dictionary<Point, int>(); //Might need some cloning stuff for mp? idk, probably not

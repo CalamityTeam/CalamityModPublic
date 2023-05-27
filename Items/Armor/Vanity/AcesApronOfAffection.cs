@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [LegacyName("ApronOfAffection")]
     public class AcesApronOfAffection : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ace's Apron of Affection");
-            // Tooltip.SetDefault("Great for hugging people");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float Knockback = 5f;
         public static float Speed = 15f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gacruxian Mollusk");
-            /* Tooltip.SetDefault("Releases homing sparks while traveling\n" +
-            "Stealth strikes release homing snails that create even more sparks"); */
-        }
-
         public override void SetDefaults()
         {
             Item.DamageType = RogueDamageClass.Instance;

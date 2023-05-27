@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Magic
         public const int AttackDelay = 12;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Holy Fire");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;

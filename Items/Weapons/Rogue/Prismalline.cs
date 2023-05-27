@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Prismalline : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Prismalline");
-            /* Tooltip.SetDefault("Throws daggers that split after a while\n" +
-            "Stealth strikes additionally explode into prism shards and briefly stun enemies"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 46;

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class PlagueFang : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plague Fang");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

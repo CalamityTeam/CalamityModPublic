@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Melee
         private bool dontDraw = false;
         private int drawInt = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tenebreus Tides Water Sword");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

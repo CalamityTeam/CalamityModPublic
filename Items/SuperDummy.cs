@@ -8,15 +8,6 @@ namespace CalamityMod.Items
 {
     public class SuperDummy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Super Dummy");
-            /* Tooltip.SetDefault("Creates a super dummy\n" +
-                "Regenerates 1 million life per second\n" +
-                "Will not die when taking damage over time from debuffs\n" +
-                "Right click to kill all super dummies"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 0;

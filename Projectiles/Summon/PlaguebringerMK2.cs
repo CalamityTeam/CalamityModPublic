@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Summon
         public const float DistanceToCheck = 1000.0001f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Plaguebringer MK2");
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }

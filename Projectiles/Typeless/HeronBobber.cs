@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class HeronBobber : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Heron Bobber");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

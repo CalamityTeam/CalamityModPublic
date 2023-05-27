@@ -16,14 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         private static int BaseDamage = 96;
         private static float BulletSpeed = 12f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Angelic Shotgun");
-            // Tooltip.SetDefault(@"Each shot casts a radiant beam of holy light from the sky
-//Converts musket balls into illuminated bullets
-//Fighting 'til the war's won");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;

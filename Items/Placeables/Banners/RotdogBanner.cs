@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Placeables.Banners
     [LegacyName("PitbullBanner")]
     public class RotdogBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rotdog Banner");
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Rotdog");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

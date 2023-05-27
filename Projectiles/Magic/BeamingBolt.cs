@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BeamingBolt : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Beaming Bolt");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 30;

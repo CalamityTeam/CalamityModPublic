@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Apoctolith : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            /* Tooltip.SetDefault("Maybe catching bricks with your face isn't such a hot idea...\n" +
-                "Critical hits tear away enemy defense\n" +
-                "Stealth strikes shatter and briefly stun enemies"); */
-            // DisplayName.SetDefault("Apoctolith");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 220;

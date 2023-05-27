@@ -20,7 +20,6 @@ namespace CalamityMod.NPCs.CalClone
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Soul Seeker");
             Main.npcFrameCount[NPC.type] = 5;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

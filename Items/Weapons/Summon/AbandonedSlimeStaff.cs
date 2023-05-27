@@ -11,16 +11,6 @@ namespace CalamityMod.Items.Weapons.Summon
     public class AbandonedSlimeStaff : ModItem
     {
         int slimeSlots;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Abandoned Slime Staff");
-            /* Tooltip.SetDefault("Cast down from the heavens in disgust, this relic sings a song of quiet tragedy...\n" +
-                "Consumes all of the remaining minion slots on use\n" +
-                "Must be used from the hotbar\n" +
-                "Increased power and size based on the number of minion slots used\n" +
-                "Holding this weapon grants 10% increased jump speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 62;

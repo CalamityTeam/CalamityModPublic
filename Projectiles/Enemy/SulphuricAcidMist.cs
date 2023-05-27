@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Acid Mist");
             Main.projFrames[Projectile.type] = 10;
         }
 

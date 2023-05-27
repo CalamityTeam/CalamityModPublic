@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BansheeHookScythe : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Scythe");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 38;

@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-            // DisplayName.SetDefault("Blood Orb");
         }
 
         public override void SetDefaults()

@@ -11,10 +11,7 @@ namespace CalamityMod.Items.Armor.Victide
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Victide Greaves");
-            /* Tooltip.SetDefault("Movement speed increased by 8%\n" +
-                "Movement speed increased by 30% while submerged in liquid"); */
-
+           
             if (Main.netMode != NetmodeID.Server)
             {
                 var equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);

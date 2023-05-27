@@ -12,16 +12,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     [LegacyName("SeashellBoomerang")]
     public class FishboneBoomerang : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fishbone Boomerang");
-            /* Tooltip.SetDefault("Stealth strikes make the boomerang ricochet between enemies\n" +
-                //lore tooltip u get the thing
-                "[c/5C95A1:Though the evaporating Sea Kingdom fought a losing battle, its proud inhabitants did not go down easily.]\n" +
-                "[c/5C95A1:As a last resort, they had to fashion weapons from the skeletons of dead animals.]"
-                ); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

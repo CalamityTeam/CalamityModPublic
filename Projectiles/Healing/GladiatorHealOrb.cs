@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Healing
         public int target = -1;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Heal");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
         }

@@ -11,10 +11,6 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 {
     public class ExoPlating : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

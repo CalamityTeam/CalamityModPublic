@@ -83,7 +83,6 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Draedon");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Brimblade : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimblade");
-            /* Tooltip.SetDefault("Throws a blade that splits on enemy hits\n" +
-            "Stealth strikes split further and cause the player to launch a barrage of brimstone darts"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

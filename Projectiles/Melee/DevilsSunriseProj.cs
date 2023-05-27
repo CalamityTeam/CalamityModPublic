@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Devil's Sunrise");
             Main.projFrames[Projectile.type] = 28;
         }
 

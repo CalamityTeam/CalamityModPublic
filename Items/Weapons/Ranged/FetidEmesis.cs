@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class FetidEmesis : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fetid Emesis");
-            /* Tooltip.SetDefault("40% chance to not consume ammo\n" +
-            "Has a chance to release rotten chunks instead of bullets"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 129;

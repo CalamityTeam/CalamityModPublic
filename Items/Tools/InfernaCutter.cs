@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Tools
 {
     public class InfernaCutter : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Inferna Cutter");
-            /* Tooltip.SetDefault("Critical hits with the blade cause small explosions\n" +
-                "Generates a number of small sparks when swung"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 110;

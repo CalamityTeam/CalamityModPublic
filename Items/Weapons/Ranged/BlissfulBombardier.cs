@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class BlissfulBombardier : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blissful Bombardier");
-            /* Tooltip.SetDefault("Fires flare rockets\n" +
-                "Rockets will destroy tiles with tile-destroying ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 84;

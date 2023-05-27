@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     [LegacyName("AtaxiaHood")]
     public class HydrothermicHeadRogue : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hydrothermic Hood");
-            /* Tooltip.SetDefault("12% increased rogue damage and 10% increased rogue critical strike chance\n" +
-                "50% chance to not consume rogue items and 5% increased movement speed\n" +
-                "Grants immunity to lava and On Fire! debuff"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

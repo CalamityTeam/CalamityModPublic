@@ -5,10 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
 {
     public class WulfrumWorkbench : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Wulfrum Work Bench");

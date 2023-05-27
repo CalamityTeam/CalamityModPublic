@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Plague Bee");
             Main.projFrames[Projectile.type] = 4;
         }
 

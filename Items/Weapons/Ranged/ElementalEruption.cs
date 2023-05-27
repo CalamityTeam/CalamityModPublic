@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ElementalEruption : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Elemental Eruption");
-            /* Tooltip.SetDefault("90% chance to not consume gel\n" +
-                "Fires a spread of rainbow flames"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 77;

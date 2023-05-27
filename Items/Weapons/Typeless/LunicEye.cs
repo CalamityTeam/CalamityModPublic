@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Typeless
 {
     public class LunicEye : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lunic Eye");
-            /* Tooltip.SetDefault("Fires lunic beams that reduce enemy protection\n" +
-                "This weapon scales with all your damage stats at once"); */
-        }
-
         public override void SetDefaults()
         {
             Item.DamageType = AverageDamageClass.Instance;

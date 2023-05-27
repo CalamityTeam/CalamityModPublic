@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Geyser Shell");
-            // Tooltip.SetDefault("Summons a little flak hermit");
         }
         public override void SetDefaults()
         {

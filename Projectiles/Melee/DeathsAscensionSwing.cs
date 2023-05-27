@@ -23,11 +23,6 @@ namespace CalamityMod.Projectiles.Melee
         }
         public Player Owner => Main.player[Projectile.owner];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Death's Ascension");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 159;

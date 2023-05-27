@@ -60,7 +60,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Biting Embrace");
             Main.projFrames[Projectile.type] = 6; //The true trolling is that we only really use this for the third swing.
         }
         public override void SetDefaults()

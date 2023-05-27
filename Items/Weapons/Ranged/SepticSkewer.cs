@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class SepticSkewer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Septic Skewer");
-            /* Tooltip.SetDefault("Launches a spiky harpoon infested with toxins\n" +
-                "Releases bacteria when returning to the player"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 272;

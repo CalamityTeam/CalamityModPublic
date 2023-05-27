@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Twinkling Pollox"); //Bass substitute
-            // Tooltip.SetDefault("The scales gleam like crystals");
             Item.ResearchUnlockCount = 3;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

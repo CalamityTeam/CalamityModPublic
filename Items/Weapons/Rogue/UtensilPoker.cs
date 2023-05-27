@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class UtensilPoker : RogueWeapon
     {
         private int counter = 0;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Utensil Poker");
-            /* Tooltip.SetDefault("Space chickens, that is all.\n" +
-                "Fires random utensils in bursts of three\n" +
-                "Stealth strikes replace any utensil with a powerful butcher knife"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 44;

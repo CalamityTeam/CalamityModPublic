@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
     [LegacyName("BloodflareHornedMask")]
     public class BloodflareHeadMagic : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloodflare Hydra Hood");
-            // Tooltip.SetDefault("20% increased magic damage, 10% increased magic critical strike chance, +100 max mana and 17% reduced mana usage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

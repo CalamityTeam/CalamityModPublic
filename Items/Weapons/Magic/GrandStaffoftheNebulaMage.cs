@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class GrandStaffoftheNebulaMage : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Grand Staff of the Nebula Mage");
-            // Tooltip.SetDefault("The true power of the Nebula Mage rests in your hands...");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 510;

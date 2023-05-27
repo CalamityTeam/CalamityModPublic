@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class DazzlingStabberStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dazzling Stabber Staff");
-            // Tooltip.SetDefault("Summons a holy blade to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 54;

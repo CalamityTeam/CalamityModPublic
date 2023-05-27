@@ -19,7 +19,6 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Polterghast Hook");
             Main.npcFrameCount[NPC.type] = 2;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }

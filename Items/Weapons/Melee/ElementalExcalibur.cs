@@ -19,11 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Elemental Excalibur");
-            /* Tooltip.SetDefault("Freezes enemies and heals the player on hit\n" +
-                "Fires rainbow beams that change their behavior based on their color\n" +
-                "Right click for true melee"); */
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

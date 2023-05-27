@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Typeless
 {
     public class GoldenGun : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Golden Gun");
-            // Tooltip.SetDefault("Shoots a straight line of ichor");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 5;

@@ -28,7 +28,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Northern Star");
         }
         public override void SetDefaults()
         {

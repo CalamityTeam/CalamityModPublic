@@ -3,11 +3,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class MadAlchemistsCocktailGasCloud : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mad Alchemist's Gas");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 32;

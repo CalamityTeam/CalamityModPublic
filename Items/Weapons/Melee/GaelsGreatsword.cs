@@ -29,15 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Gael's Greatsword");
-            /* Tooltip.SetDefault("Hand it over, that thing. Your dark soul.\n" +
-                "First swing fires homing skulls\n" +
-                "Second swing fires a giant, powerful skull\n" +
-                "Third swing has no projectiles\n" +
-                "Constantly generates rage when in use\n" +
-                "Swings leave behind exploding blood trails when below 50% health\n" +
-                "Replaces Rage Mode with an enormous barrage of skulls"); */
-        }
+                   }
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()
         {

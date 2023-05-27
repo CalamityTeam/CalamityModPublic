@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class LuxorsGift : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Luxor's Gift");
-            /* Tooltip.SetDefault("Weapons fire unique projectiles based on the damage type they have\n" +
-                "Some weapons are unable to receive this bonus"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 58;

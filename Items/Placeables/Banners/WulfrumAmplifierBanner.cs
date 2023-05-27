@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Banners
     [LegacyName("WulfrumPylonBanner")]
     public class WulfrumAmplifierBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Wulfrum Amplifier");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

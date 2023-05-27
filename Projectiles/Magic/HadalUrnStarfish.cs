@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Marianan Starfish");
             Main.projFrames[Projectile.type] = 4;
         }
 

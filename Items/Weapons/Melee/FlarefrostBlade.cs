@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class FlarefrostBlade : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Flarefrost Blade");
-            // Tooltip.SetDefault("Fires a homing flarefrost orb");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 64;

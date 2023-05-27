@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SmallCoral : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Small Coral");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

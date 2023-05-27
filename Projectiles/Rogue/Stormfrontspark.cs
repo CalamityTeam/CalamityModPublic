@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
         //At first I thought about deleting em but then had an idea to give em some flair.
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spark");
-        }
-
         public override void SetDefaults()
         {
             Projectile.friendly = true;

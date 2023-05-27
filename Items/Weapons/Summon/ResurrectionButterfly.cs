@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class ResurrectionButterfly : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Resurrection Butterfly");
-            /* Tooltip.SetDefault("Remembering the melancholy of human existence\n" +
-                "Even ghosts stray from the path of righteousness\n" +
-                "Summons a pair of butterflies to fight for you"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 55;

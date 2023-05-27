@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Melee
         private int lifeTime = 420;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fire");
             Main.projFrames[Projectile.type] = 5;
         }
 

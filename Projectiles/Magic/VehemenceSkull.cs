@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Magic
         public ref float Time => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Vehement Skull");
             Main.projFrames[Projectile.type] = 10;
         }
 

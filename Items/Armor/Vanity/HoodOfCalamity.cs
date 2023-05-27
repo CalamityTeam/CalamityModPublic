@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Hood of Calamity");
 
             if (Main.netMode != NetmodeID.Server)
                 ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;

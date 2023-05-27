@@ -8,7 +8,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Black Hawk Bullet");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

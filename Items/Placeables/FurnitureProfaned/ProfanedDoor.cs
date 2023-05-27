@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
     public class ProfanedDoor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 14;

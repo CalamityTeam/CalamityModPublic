@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Gore from a not frog of the explosive variety");
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 

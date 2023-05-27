@@ -129,7 +129,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault(NameToDisplay);
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = 15;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

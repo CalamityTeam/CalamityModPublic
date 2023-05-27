@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Heal");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

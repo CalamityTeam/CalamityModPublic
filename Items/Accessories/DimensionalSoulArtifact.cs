@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class DimensionalSoulArtifact : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dimensional Soul Artifact");
-            /* Tooltip.SetDefault("Power\n" +
-                "Boosts all damage by 25%, but at what cost?\n" +
-                "Increases all damage taken by 15%"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

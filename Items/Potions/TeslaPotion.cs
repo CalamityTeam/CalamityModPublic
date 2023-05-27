@@ -13,11 +13,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Tesla Potion");
-            /* Tooltip.SetDefault("Summons an aura of electricity that electrifies and slows enemies\n" +
-                "Aura damage is reduced on bosses\n" +
-                "Reduces the duration of the Electrified debuff"); */
-        }
+                   }
 
         public override void SetDefaults()
         {

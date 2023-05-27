@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Typhon's Greed");
             Main.projFrames[Projectile.type] = 4;
         }
 

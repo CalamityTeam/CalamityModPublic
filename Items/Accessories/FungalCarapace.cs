@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class FungalCarapace : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fungal Carapace");
-            // Tooltip.SetDefault("You emit a cloud of mushroom spores when you are hit");
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 6;

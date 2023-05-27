@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Materials
             Item.ResearchUnlockCount = 5;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
-            // DisplayName.SetDefault("Twisting Nether");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 109;
         }
 

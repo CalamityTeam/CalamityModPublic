@@ -13,7 +13,6 @@ namespace CalamityMod.NPCs.Crags
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Scryllar");
         }
 
         public override void SetDefaults()

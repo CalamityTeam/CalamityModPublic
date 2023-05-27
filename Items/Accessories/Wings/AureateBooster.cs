@@ -15,13 +15,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Aureate Booster");
-            /* Tooltip.SetDefault("Mach speed with style!\n" +
-                "Horizontal speed: 8.00\n" +
-                "Acceleration multiplier: 1.5\n" +
-                "Good vertical speed\n" +
-                "Flight time: 120"); */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 8f, 1.5f);
+                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 8f, 1.5f);
         }
 
         public override void SetDefaults()

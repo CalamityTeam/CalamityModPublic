@@ -8,14 +8,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class NecklaceofVexation : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Necklace of Vexation");
-            /* Tooltip.SetDefault("Revenge\n" +
-            "20% increased damage when under 50% life\n" +
-            "All attacks inflict acid venom while wearing Reaver armor"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

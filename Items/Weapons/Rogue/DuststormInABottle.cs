@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class DuststormInABottle : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Duststorm in a Bottle");
-            /* Tooltip.SetDefault("Explodes into a dust cloud\n" +
-            "Stealth strikes form a more intense and longer lasting dust cloud"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

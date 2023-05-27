@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Armor.Tarragon
     [AutoloadEquip(EquipType.Legs)]
     public class TarragonLeggings : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tarragon Leggings");
-            /* Tooltip.SetDefault("10% increased movement speed\n" +
-                "8% increased damage and critical strike chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

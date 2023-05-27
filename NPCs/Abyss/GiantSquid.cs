@@ -22,7 +22,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Giant Squid");
             Main.npcFrameCount[NPC.type] = 5;
         }
 

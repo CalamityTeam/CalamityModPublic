@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hydrothermic Flare");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

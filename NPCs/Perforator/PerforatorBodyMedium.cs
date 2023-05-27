@@ -17,7 +17,6 @@ namespace CalamityMod.NPCs.Perforator
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("The Perforator");
         }
 
         public override void SetDefaults()

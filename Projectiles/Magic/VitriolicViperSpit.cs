@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class VitriolicViperSpit : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spit");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

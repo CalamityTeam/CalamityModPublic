@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Mythril Knife");
-            // Tooltip.SetDefault("Stealth strikes are coated in deadly toxins, inflicting irradiated, poison, and acid venom");
             Item.ResearchUnlockCount = 99;
         }
 

@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.Summon
         private int laserdirection = 1;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ascened Cooper");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;

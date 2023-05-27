@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Armor.Fearmonger
     [AutoloadEquip(EquipType.Body)]
     public class FearmongerPlateMail : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fearmonger Plate Mail");
-            /* Tooltip.SetDefault("+100 max life and 8% increased damage reduction\n" +
-            "5% increased damage and critical strike chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

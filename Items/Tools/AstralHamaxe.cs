@@ -10,11 +10,6 @@ namespace CalamityMod.Items.Tools
 {
     public class AstralHamaxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Hamaxe");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 80;

@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AuroraBlazer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aurora Blazer");
-            /* Tooltip.SetDefault("Spews astral flames that travel in a star-shaped patterns\n" +
-            "60% chance to not consume gel"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 49;

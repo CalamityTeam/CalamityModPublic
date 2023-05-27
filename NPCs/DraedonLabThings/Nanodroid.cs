@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.DraedonLabThings
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Nanodroid");
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
             Main.npcCatchable[NPC.type] = true;

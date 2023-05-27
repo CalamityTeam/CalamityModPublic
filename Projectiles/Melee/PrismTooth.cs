@@ -19,7 +19,6 @@ namespace CalamityMod.Projectiles.Melee
         public ref float Time => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Photon Ripper");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 36;
         }

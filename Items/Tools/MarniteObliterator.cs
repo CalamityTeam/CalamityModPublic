@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Tools
     {
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/MarniteObliteratorUse") { PitchVariance = 0.3f };
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Marnite Obliterator");
-            // Tooltip.SetDefault("Uses a diamond focus to project a long-range digging beam of light\n" + "Ignores 5 points of enemy Defense");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 7;

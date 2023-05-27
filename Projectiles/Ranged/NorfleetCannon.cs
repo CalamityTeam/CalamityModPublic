@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Norfleet";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Norfleet");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 140;

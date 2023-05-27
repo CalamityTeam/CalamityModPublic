@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Tools
 {
     public class AerialHamaxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aerial Hamaxe");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 20;

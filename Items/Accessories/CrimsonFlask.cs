@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class CrimsonFlask : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crimson Flask");
-            /* Tooltip.SetDefault("4% increased damage reduction and +6 defense while in the crimson\n" +
-                "Grants immunity to the Burning Blood debuff"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

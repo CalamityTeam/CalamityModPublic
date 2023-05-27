@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class AcidGun : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Acid Gun");
-            // Tooltip.SetDefault("Releases three streams of acid");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 28;

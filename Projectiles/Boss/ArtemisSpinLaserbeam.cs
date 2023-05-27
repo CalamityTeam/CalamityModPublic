@@ -40,11 +40,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ohio Beam");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
             // This is its serious name
-            // DisplayName.SetDefault("Exothermal Artemis Beam");
         }
 
         public override void SetDefaults()

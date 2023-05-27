@@ -16,11 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Galactus Blade");
-            /* Tooltip.SetDefault("Forged with the fury of nuclear chaos\n" +
-                "Launches a barrage of comets from the sky\n" +
-                "Receives 33% benefit from melee speed bonuses"); */
-            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
+                       ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()

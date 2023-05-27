@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class CrimulanBlightSlimeBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Crimulan Blight Slime");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

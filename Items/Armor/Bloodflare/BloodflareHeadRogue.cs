@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
     [LegacyName("BloodflareHelm")]
     public class BloodflareHeadRogue : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloodflare Imp Mask");
-            // Tooltip.SetDefault("10% increased rogue damage and critical strike chance, 5% increased movement speed");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

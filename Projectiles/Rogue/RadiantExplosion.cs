@@ -16,11 +16,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         private bool updatedTime = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Explosion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 150;

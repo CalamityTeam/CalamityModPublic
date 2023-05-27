@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sparks");
-            // Description.SetDefault("Eats butterflies");
             Main.buffNoTimeDisplay[Type] = true;
             Main.lightPet[Type] = true;
         }

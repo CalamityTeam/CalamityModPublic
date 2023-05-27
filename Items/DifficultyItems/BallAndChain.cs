@@ -6,13 +6,6 @@ namespace CalamityMod.Items.DifficultyItems
 {
     public class BallAndChain : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ball and Chain");
-            /* Tooltip.SetDefault("So heavy...\n" +
-                "Favorite this item to disable any dashes granted by equipment."); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

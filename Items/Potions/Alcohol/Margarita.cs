@@ -13,11 +13,6 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Margarita");
-            // Tooltip.SetDefault(@"One of the best drinks ever created, enjoy it while it lasts
-//Reduces the duration of most debuffs
-//Reduces defense by 6% and life regen by 1
-//3 minute duration");
         }
 
         public override void SetDefaults()

@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class GodlySoulArtifact : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auric Soul Artifact");
-            /* Tooltip.SetDefault("Loyalty\n" +
-                "For each Fiery Draconid you have summoned, you gain 1 minion slot"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

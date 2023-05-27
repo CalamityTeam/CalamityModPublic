@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ShaderainHostile : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shade Rain");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

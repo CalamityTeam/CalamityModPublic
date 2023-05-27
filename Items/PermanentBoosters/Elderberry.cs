@@ -16,11 +16,7 @@ namespace CalamityMod.Items.PermanentBoosters
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/ElderberryConsume");
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Elderberry");
-            /* Tooltip.SetDefault("A tangy, tart flavor with a somewhat earthen touch\n" +
-                               "Permanently increases maximum life by 25\n" +
-                               "Can only be used if the max amount of life fruit has been consumed"); */
-			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+           			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 18; // Life Fruit
         }
 

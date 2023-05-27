@@ -22,7 +22,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Brimling");
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }

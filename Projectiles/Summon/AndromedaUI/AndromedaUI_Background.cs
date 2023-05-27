@@ -58,11 +58,6 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
         // Mouse calculations are done primarily in a World context, not Screen, in this file.
         public static Rectangle MouseRectangle => new((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2);
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("UI");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 62;

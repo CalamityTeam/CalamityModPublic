@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class MetalMonstrosity : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Metal Monstrosity");
-            /* Tooltip.SetDefault("This has to hurt\n" +
-                               "Hurls a heavy metal ball that shatters on impact\n" +
-                               "Stealth strikes cause the ball to release spikes as it travels"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

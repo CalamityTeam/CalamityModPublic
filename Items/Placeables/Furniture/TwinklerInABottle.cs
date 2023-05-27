@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class TwinklerInABottle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Twinkler in a Bottle");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

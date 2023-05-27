@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CrimslimeStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crimslime Staff");
-            // Tooltip.SetDefault("Summons a crim slime to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 24;

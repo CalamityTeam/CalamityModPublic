@@ -14,15 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         // Crackshot Colt uses the same sound as Midas Prime, just quieter.
         private static SoundStyle ShootSound => MidasPrime.ShootSound with { Volume = 0.6f };
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crackshot Colt");
-            /* Tooltip.SetDefault("Right click to toss a Copper Coin in the air\n" +
-                "Striking a coin with a bullet causes it to ricochet into the nearest enemy\n" +
-                "Up to 4 coins can be tossed simultaneously, and shots will ricochet off multiple coins if possible\n" +
-                "Ricocheted bullets always critically strike and do bonus damage based on the coins used"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 18;

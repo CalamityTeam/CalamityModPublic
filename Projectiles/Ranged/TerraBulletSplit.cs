@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
         private float speed = 0f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bullet");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

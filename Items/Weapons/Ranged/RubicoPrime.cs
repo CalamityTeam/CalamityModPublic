@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class RubicoPrime : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rubico Prime");
-            /* Tooltip.SetDefault("Semi-automatic sniper that fires in 5 second bursts\n" +
-                "Fires impact rounds that have an increased crit multiplier"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 1178;

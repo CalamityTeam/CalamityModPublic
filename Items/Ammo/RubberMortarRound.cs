@@ -11,11 +11,7 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Rubber Mortar Round");
-            /* Tooltip.SetDefault("Large blast radius\n" +
-                "Will destroy tiles on each bounce\n" +
-                "Used by normal guns"); */
-        }
+                   }
 
         public override void SetDefaults()
         {

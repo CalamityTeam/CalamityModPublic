@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ClamorRifle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Clamor Rifle");
-            // Tooltip.SetDefault("Converts musket balls into homing energy bolts");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 36;

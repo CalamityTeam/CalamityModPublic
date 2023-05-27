@@ -10,12 +10,6 @@ namespace CalamityMod.Items.LabFinders
 {
     public class WhiteSeekingMechanism : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("White Seeking Mechanism");
-            // Tooltip.SetDefault("Moves swiftly towards a lab within the frozen caverns");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

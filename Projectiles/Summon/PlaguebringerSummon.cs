@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Summon
         private int auraCounter = 0;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Lil' Plaguebringer");
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;

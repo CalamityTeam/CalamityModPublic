@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Exo Prism");
-            // Tooltip.SetDefault("Fractal energies shimmer across its surface");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 121;
         }
 

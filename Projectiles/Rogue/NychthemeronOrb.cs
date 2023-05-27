@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         private Vector2 velocity = Vector2.Zero;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nychthemeron Orb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class LightGodsBrilliance : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Light God's Brilliance");
-            // Tooltip.SetDefault("Casts small, homing light beads along with explosive light balls");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 100;

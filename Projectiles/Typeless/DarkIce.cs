@@ -26,11 +26,6 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.npcProj = true;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dark Ice");
-        }
-
         public override void AI()
         {
             if (Projectile.localAI[0] != 1f)

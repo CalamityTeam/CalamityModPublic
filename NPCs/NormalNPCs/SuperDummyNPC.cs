@@ -13,7 +13,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Super Dummy");
             Main.npcFrameCount[NPC.type] = 11;
             NPCID.Sets.CantTakeLunchMoney[Type] = true;
         }

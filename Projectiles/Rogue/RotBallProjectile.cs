@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/RotBall";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

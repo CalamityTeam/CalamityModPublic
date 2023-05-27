@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Pets
     [LegacyName("SparksSummon")]
     public class EnchantedButterfly : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Enchanted Butterfly");
-            /* Tooltip.SetDefault("Feed him butterflies to keep him strong!\n" +
-                "Summons a mysterious dragonfly light pet\n" +
-                "Provides a small amount of light in the abyss"); */
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.WispinaBottle);

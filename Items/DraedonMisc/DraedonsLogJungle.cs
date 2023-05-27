@@ -9,12 +9,6 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class DraedonsLogJungle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plague Nanomachine Log");
-            // Tooltip.SetDefault("[Nanomachine Experimentation Results] - 'The Plague'\nClick to view its contents");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

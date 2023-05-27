@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/OpalStrike");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Opal Striker");
-            /* Tooltip.SetDefault("50% chance to not consume ammo\n" + 
-                "Fires a string of opal strikes"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 9;

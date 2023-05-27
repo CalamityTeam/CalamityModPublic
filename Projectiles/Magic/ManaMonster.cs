@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Magic
         public const int PlayerAttackRedirectTime = 45;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Mana Monster");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }

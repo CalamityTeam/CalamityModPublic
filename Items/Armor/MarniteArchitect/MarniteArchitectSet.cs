@@ -47,8 +47,6 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Marnite Architect Headgear");
-            // Tooltip.SetDefault("Increases block placement range by 5");
 
             if (Main.netMode == NetmodeID.Server)
                 return;
@@ -158,8 +156,6 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Marnite Architect Toga");
-            // Tooltip.SetDefault("Increases tile placement speed by 50%");
 
             if (Main.netMode == NetmodeID.Server)
                 return;

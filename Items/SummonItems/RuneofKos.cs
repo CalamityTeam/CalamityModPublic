@@ -21,12 +21,7 @@ namespace CalamityMod.Items.SummonItems
         public static readonly SoundStyle StormSound = new("CalamityMod/Sounds/Item/StormWeaverSpawn");
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Rune of Kos");
-            /* Tooltip.SetDefault("A relic of the profaned flame\n" +
-                "Contains the power hunted relentlessly by the sentinels of the cosmic devourer\n" +
-                "When used in certain areas of the world, it will unleash them\n" +
-                "Not consumable"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

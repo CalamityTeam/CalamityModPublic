@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Tumbleweed : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tumbleweed");
-            // Tooltip.SetDefault("Releases a rolling tumbleweed on hit");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 125;

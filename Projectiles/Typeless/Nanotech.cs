@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class Nanotech : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nanoblade");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 26;

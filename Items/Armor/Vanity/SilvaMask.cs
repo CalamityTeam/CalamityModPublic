@@ -9,11 +9,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Head)]
     public class SilvaMask : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Silva Mask");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

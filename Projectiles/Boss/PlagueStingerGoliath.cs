@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class PlagueStingerGoliath : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plague Homing Stinger");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

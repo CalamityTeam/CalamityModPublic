@@ -5,10 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
 {
     public class MonolithBookcase : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Monolith Bookcase");

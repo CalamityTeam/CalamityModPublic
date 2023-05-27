@@ -16,7 +16,6 @@ It is this sort of ghastly, forceful exertion of control over the unwilling that
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Crabulon");
         }
 
         public override void SetDefaults()

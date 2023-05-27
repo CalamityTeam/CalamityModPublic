@@ -19,7 +19,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Pumpler");
             Main.projFrames[Projectile.type] = 9;
         }
 

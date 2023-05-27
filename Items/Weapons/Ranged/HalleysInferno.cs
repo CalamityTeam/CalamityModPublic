@@ -11,15 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class HalleysInferno : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Halley's Inferno");
-            /* Tooltip.SetDefault("Halley came sooner than expected\n" +
-            "Fires a flaming comet\n" +
-            "50% chance to not consume gel\n" +
-            "Right click to zoom out"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 1350;

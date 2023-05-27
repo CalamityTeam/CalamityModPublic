@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-            // DisplayName.SetDefault("Sulphurous Sand");
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<SulphurousShale>();
         }
 

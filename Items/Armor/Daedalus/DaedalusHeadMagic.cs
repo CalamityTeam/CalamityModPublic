@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Armor.Daedalus
     [LegacyName("DaedalusHat")]
     public class DaedalusHeadMagic : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Daedalus Hood");
-            /* Tooltip.SetDefault("13% increased magic damage and 7% increased magic critical strike chance\n" +
-                "10% decreased mana usage and +60 max mana"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

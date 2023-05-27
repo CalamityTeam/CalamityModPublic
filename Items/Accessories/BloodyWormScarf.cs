@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Neck)]
     public class BloodyWormScarf : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloody Worm Scarf");
-            /* Tooltip.SetDefault("7% increased damage reduction\n" +
-                "7% increased melee damage and speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 7;

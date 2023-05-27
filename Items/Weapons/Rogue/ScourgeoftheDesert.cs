@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ScourgeoftheDesert : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Scourge of the Desert");
-            // Tooltip.SetDefault(@"Gains velocity over time
-//Stealth strikes gain damage as they damage enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 44;

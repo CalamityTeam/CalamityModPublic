@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Tesla Cannon");
             Main.projFrames[Type] = 6;
         }
 

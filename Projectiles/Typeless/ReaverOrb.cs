@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public int dust = 3;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Reaver Orb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 48;

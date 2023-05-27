@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Lumenyl");
-            // Tooltip.SetDefault("A shard of lumenous energy");
         }
 
         public override void SetDefaults()

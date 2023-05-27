@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/EpidemicShredder";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Epidemic Shredder");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 34;

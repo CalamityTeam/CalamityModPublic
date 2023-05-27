@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class HoneycombFragment : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Honeycomb Fragment");
-        }
-
         public override void SetDefaults()
         {
             Projectile.friendly = true;

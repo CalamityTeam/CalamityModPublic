@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MoonSigil : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Moon Sigil");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

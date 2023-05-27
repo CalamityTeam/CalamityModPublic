@@ -19,8 +19,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Valkyrie Ray");
-            // Tooltip.SetDefault("Casts a devastating ray of holy power");
             Item.staff[Item.type] = true;
         }
 

@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class StellarCannon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stellar Cannon");
-            // Tooltip.SetDefault("Launches an explosive astral crystal");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 175;

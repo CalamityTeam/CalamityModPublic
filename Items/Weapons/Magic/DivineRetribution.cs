@@ -14,8 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Divine Retribution");
-            // Tooltip.SetDefault("Mage is superior to rogue; look, we got a donor weapon to prove it!");
             Item.staff[Item.type] = true;
         }
 

@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class StormDragoon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Storm Dragoon");
-            /* Tooltip.SetDefault("Fires a spray of bullets\n" +
-            "90% chance to not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 96;

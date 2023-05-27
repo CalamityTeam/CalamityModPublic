@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Magic
         public const int ManaConsumeRate = 12;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Rancor");
             Main.projFrames[Projectile.type] = 16;
         }
 

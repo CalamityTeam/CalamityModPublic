@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
     public class AbyssBathtub : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Abyss Bathtub");

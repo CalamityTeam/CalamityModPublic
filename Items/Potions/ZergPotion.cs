@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Zerg Potion");
-            // Tooltip.SetDefault("Vastly increases enemy spawn rate");
         }
 
         public override void SetDefaults()

@@ -9,11 +9,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     public class EyeOfTheAccursedBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eye of the Accursed Banner");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

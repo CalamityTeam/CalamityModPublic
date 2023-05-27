@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class PhantomMine : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Phantom Orb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

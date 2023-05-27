@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalileoGladius";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Galileo Gladius"); // TODO: Make it function like Gladius, not like PiercingStarlight.
-        }
-
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(24);

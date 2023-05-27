@@ -32,11 +32,6 @@ namespace CalamityMod.Projectiles.Ranged
                 return Main.player[Projectile.owner].Top + Vector2.UnitY * 8f;
             }
         }
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hydra Head");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 30; //66x30 sprite

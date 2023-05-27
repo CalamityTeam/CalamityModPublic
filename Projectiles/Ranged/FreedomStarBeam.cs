@@ -38,11 +38,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public Player Owner => Main.player[Projectile.owner];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Freedom Star Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

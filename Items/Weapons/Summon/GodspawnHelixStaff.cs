@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class GodspawnHelixStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Godspawn Helix Staff");
-            // Tooltip.SetDefault("Summons astral probes to protect you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 75;

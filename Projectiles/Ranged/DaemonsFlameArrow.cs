@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public int x;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Arrow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

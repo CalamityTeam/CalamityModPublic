@@ -14,13 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public const int Damage = 300;
         public const float ReboundRamDamageFactor = 2f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Yharon's Kindle Staff");
-            /* Tooltip.SetDefault("Summons a fiery draconid to fight for you\n" +
-                               "Requires 5 minion slots to use"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = Damage;

@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class RadiantStar : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Radiant Star");
-            /* Tooltip.SetDefault("Throws daggers that explode and split after a while\n" +
-                "Stealth strike splits more with a devastating explosion and sucks enemies in"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 52;

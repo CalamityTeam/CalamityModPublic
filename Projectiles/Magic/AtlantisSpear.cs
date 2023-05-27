@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AtlantisSpear : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Atlantis Spear");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 52;

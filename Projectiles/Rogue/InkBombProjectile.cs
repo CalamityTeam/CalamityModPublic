@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class InkBombProjectile : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ink Bomb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

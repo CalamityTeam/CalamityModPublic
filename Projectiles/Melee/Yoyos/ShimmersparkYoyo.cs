@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Shimmerspark");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 16f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 350f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 17f;

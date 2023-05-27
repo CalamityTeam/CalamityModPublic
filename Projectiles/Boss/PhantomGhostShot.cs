@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class PhantomGhostShot : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Potent Phantom Spirit Shot");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

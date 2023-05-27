@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         private int explosionCount = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Icebreaker");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

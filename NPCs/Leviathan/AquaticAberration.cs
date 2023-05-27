@@ -15,7 +15,6 @@ namespace CalamityMod.NPCs.Leviathan
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Aquatic Aberration");
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);

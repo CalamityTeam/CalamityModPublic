@@ -8,7 +8,6 @@ namespace CalamityMod.Projectiles.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fox");
             Main.projFrames[Projectile.type] = 11;
             Main.projPet[Projectile.type] = true;
         }

@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Prismatic Guppy"); //Bass substitute
-            // Tooltip.SetDefault("Throwing these in an aquarium would be insanity");
             Item.ResearchUnlockCount = 3;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

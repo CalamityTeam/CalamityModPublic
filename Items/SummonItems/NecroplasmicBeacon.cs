@@ -15,12 +15,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Necroplasmic Beacon");
-            /* Tooltip.SetDefault("It's spooky\n" +
-                "Summons Polterghast when used in the Dungeon\n" +
-                "Enrages in large spaces\n" +
-                "Not consumable"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class MarniteDeconstructorProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Marnite Deconstructor");
-        }
-
         public override string Texture => "CalamityMod/Items/Tools/MarniteDeconstructor";
         public static Asset<Texture2D> GlowmaskTex;
         public static Asset<Texture2D> BloomTex;

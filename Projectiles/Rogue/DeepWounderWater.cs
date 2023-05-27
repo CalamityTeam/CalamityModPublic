@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepWounderWater : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Water Droplet");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

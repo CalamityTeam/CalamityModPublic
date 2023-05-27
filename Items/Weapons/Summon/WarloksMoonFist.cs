@@ -16,13 +16,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const int PunchCooldownTime = 36;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Warloks' Moon Fist");
-            /* Tooltip.SetDefault("Summons a celestial fist to punch enemies for you\n" +
-                               $"Takes up {SlotCount} minion slots"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 450;

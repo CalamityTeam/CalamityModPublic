@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BurningStrifeProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shadow Flame Spiky Ball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

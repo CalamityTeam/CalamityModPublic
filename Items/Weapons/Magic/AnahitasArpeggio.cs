@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
     [LegacyName("SirensSong")]
     public class AnahitasArpeggio : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Anahita's Arpeggio");
-            // Tooltip.SetDefault("Casts slow-moving treble clefs that confuse enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 92;

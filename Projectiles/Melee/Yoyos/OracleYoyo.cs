@@ -38,7 +38,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Oracle");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 800f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 16f;

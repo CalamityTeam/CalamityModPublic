@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Placeables.Plates
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cinderplate");
-            // Tooltip.SetDefault("It resonates with otherworldly energy.");
             Item.ResearchUnlockCount = 100;
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<Plagueplate>();
         }

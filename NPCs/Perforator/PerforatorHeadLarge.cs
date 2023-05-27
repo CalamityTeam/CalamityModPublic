@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Perforator");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

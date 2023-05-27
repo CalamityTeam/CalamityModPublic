@@ -7,7 +7,6 @@ namespace CalamityMod.Projectiles.Summon
 	public class AquasScepterCloudFlash : ModProjectile
 	{
 		public override void SetStaticDefaults() {
-			// DisplayName.SetDefault("Storm Cloud Flash");
 			// Sets the amount of frames this minion has on its spritesheet
 			Main.projFrames[Projectile.type] = 1;
 		}

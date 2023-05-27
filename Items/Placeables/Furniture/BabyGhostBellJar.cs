@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class BabyGhostBellJar : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Baby Ghost Bell Jar");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

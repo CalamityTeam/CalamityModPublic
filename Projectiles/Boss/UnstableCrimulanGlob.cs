@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class UnstableCrimulanGlob : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Unstable Crimulan Glob");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

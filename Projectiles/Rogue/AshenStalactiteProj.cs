@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/AshenStalactite";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ashen Stalactite");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

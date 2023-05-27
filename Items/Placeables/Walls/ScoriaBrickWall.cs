@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.Walls
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;
-            // DisplayName.SetDefault("Scoria Brick Wall");
         }
         public override void SetDefaults()
         {

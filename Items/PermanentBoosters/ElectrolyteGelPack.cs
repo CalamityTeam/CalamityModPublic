@@ -7,13 +7,6 @@ namespace CalamityMod.Items.PermanentBoosters
 {
     public class ElectrolyteGelPack : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Electrolyte Gel Pack");
-            /* Tooltip.SetDefault("Permanently increases Adrenaline Mode damage by 15% and damage reduction by 5%\n" +
-                "Revengeance drop"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

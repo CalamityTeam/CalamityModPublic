@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public const float Speed = 21f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Molten Amputator");
-            /* Tooltip.SetDefault("Throws a scythe that emits molten globs on enemy hits\n" +
-                "Stealth strikes spawn molten globs periodically in flight and more on-hit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 60;

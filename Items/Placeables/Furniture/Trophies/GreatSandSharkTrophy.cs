@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     [LegacyName("GreatSandSharkBanner")]
     public class GreatSandSharkTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Great Sand Shark Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

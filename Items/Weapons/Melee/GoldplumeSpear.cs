@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Goldplume Spear");
-            // Tooltip.SetDefault("Shoots falling feathers");
             ItemID.Sets.Spears[Item.type] = true;
         }
 

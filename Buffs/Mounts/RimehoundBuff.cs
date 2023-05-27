@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.Mounts
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Rimehound");
-            // Description.SetDefault("You are riding an angry dog");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Shroomer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shroomer");
-            // Tooltip.SetDefault("Fires bullets and an extremely powerful homing mushroom");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 150;

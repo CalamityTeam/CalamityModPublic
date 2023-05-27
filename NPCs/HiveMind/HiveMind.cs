@@ -89,7 +89,6 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Hive Mind");
             Main.npcFrameCount[NPC.type] = 16;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.TrailCacheLength[NPC.type] = NPC.oldPos.Length;

@@ -17,18 +17,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly Color blueColor = new Color(0, 77, 255);
         public static readonly Color greenColor = new Color(0, 255, 77);
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Auralis");
-            /* Tooltip.SetDefault("Fires a high speed glowing bullet that inflicts debilitating debuffs\n" +
-                "Right click to zoom out\n" +
-                "Standing still provides increasing damage bonuses up to 25%\n" +
-                "Standing still for 5 or more seconds while using the scope ability will summon an aurora\n" +
-                "The aurora reduces the damage of the next projectile hit by a flat 100\n" +
-                "This effect lasts up to 20 seconds and has a 30 second cooldown\n" +
-                "50% chance to not consume bullets"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 695;

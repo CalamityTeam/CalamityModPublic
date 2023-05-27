@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Summon
         public const float Gravity = 0.5f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Acorn");
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 

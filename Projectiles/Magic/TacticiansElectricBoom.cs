@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Magic
 
         private const float radius = 50f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Electric Explosion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 100;

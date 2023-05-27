@@ -26,8 +26,6 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
         {
             Item.ResearchUnlockCount = 5;
             ItemID.Sets.IsFishingCrate[Type] = true;
-            // DisplayName.SetDefault("Sulphurous Crate");
-            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()

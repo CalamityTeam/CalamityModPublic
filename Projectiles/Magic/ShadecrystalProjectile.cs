@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ShadecrystalProjectile : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crystal");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

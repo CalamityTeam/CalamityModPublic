@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Armor.Demonshade
     [AutoloadEquip(EquipType.Legs)]
     public class DemonshadeGreaves : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Demonshade Greaves");
-            // Tooltip.SetDefault("Shadow speed");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

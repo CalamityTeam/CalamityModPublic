@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Armor.Statigel
     [AutoloadEquip(EquipType.Legs)]
     public class StatigelGreaves : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Statigel Greaves");
-            // Tooltip.SetDefault("5% increased damage and movement speed");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

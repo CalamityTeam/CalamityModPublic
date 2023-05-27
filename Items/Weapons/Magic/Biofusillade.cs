@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
     [LegacyName("GammaFusillade")]
     public class Biofusillade : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Biofusillade");
-            // Tooltip.SetDefault("Unleashes a concentrated beam of life energy");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 80;

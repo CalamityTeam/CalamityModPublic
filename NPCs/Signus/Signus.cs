@@ -39,7 +39,6 @@ namespace CalamityMod.NPCs.Signus
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Signus, Envoy of the Devourer");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

@@ -20,7 +20,6 @@ namespace CalamityMod.NPCs.Crags
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Soul Slurper");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 

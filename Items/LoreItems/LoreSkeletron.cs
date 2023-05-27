@@ -16,7 +16,6 @@ Do not expect to learn much from those tattered tomes. They were penned with mis
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Skeletron");
         }
 
         public override void SetDefaults()

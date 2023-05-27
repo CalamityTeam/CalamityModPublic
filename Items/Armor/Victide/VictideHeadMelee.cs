@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Armor.Victide
     [LegacyName("VictideHelm")]
     public class VictideHeadMelee : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Victide Shellmet");
-            // Tooltip.SetDefault("5% increased melee damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

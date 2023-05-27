@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class ElementalAxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Elemental Axe");
-            // Tooltip.SetDefault("Summons an elemental axe to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 57;

@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         private int baseDamage = 100;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mirror Blade");
-            /* Tooltip.SetDefault("The amount of contact damage an enemy does is added to this weapons' damage\n" +
-                "You must hit an enemy with the blade to trigger this effect"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 72;

@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class TitaniumRailgun : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Titanium Railgun");
-            /* Tooltip.SetDefault("Hold down to charge up a decimating titanium blast\n" +
-                "Longer hold time increases power, leading to more damage, size, and knockback\n" +
-                "Power is capped when the cannon's sights have fully converged"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 370;

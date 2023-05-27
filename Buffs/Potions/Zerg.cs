@@ -7,8 +7,6 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Zerg");
-            // Description.SetDefault("Spawn rates are boosted");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

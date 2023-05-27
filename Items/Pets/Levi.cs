@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Pets
 {
     public class Levi : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Levi");
-            // Tooltip.SetDefault("Summons a baby Leviathan pet");
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.ZephyrFish);

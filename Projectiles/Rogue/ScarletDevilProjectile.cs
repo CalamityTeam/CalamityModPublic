@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Spear the Gungnir");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 45;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

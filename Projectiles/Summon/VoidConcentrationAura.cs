@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Summon
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public int timer = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Concentrated Void Aura");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 46;

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/DesecratedWater";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Desecrated Water");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 25;

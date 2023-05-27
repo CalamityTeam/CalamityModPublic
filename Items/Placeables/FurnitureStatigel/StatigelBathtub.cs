@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
     [LegacyName("StatigelBath")]
     public class StatigelBathtub : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Statigel Bathtub");

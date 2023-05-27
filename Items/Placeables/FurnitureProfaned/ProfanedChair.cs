@@ -5,10 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
     public class ProfanedChair : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

@@ -11,11 +11,6 @@ namespace CalamityMod.BiomeManagers
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/SulphurBG"; //Probably needs a unique bg
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeLow; //Sulphurous Sea overrides it
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Acid Rain");
-        }
-
         //Does this even need proper detection, the detection code is done elsewhere
         /*public override bool IsBiomeActive(Player player)
         {

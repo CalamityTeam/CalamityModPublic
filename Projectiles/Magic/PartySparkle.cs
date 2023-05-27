@@ -22,11 +22,6 @@ namespace CalamityMod.Projectiles.Magic
         public const int Lifetime = 90;
         public const int FadeinTime = 18;
         public const int FadeoutTime = 18;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Pretty Sparkle");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 72;

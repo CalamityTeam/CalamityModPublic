@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Kentucky Fried Explosion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 1000;

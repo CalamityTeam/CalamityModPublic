@@ -19,7 +19,6 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Trasher");
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

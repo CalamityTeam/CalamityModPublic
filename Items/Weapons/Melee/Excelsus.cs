@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Excelsus : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Excelsus");
-            /* Tooltip.SetDefault("Fires a spread of spinning blades\n" +
-                "Summons laser fountains on hit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 78;

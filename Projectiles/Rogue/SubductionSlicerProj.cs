@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SubductionSlicer";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Subduction Slicer");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

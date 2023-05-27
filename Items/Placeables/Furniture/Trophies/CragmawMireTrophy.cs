@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class CragmawMireTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cragmaw Mire Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

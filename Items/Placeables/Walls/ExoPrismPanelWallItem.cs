@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.Walls
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;
-            // DisplayName.SetDefault("Exo Prism Panel Wall");
         }
 
         public override void SetDefaults()

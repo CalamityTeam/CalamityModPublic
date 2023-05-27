@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class MonstrousKnife : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Monstrous Knife");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

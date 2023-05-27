@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class LaboratoryContainmentBoxItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Laboratory Containment Box");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

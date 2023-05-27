@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
     public class EutrophicClock : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

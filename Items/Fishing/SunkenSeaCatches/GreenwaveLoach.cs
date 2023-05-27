@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Greenwave Loach");
-            // Tooltip.SetDefault("An endangered fish that is highly prized in the market");
             Item.ResearchUnlockCount = 3;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

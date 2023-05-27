@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Magnetic Meltdown");
-            // Tooltip.SetDefault("Launches a diamond cross of supercharged magnet spheres");
             Item.staff[Item.type] = true;
         }
 

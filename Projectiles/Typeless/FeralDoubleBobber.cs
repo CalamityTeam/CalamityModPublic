@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class FeralDoubleBobber : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Feral Bobber");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

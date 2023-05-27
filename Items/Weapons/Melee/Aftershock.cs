@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Aftershock : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aftershock");
-            // Tooltip.SetDefault("Summons boulders from the sky on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 65;

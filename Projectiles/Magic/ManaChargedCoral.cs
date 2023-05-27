@@ -26,7 +26,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Mana-charged Coral");
             Main.projFrames[Projectile.type] = 3;
         }
 

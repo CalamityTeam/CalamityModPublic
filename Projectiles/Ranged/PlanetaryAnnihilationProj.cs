@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         private int dustType = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

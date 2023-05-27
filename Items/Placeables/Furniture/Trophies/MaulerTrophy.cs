@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     [LegacyName("MaulerBanner")]
     public class MaulerTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mauler Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

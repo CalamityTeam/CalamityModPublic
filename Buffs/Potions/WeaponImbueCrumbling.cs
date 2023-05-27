@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Weapon Imbue: Crumbling");
-            // Description.SetDefault("Melee, Whip, and Rogue attacks reduce enemy damage reduction");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

@@ -11,7 +11,6 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Perennial Slime");
             Main.npcFrameCount[NPC.type] = 2;
         }
 

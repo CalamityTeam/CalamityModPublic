@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cosmic Guardian");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

@@ -13,10 +13,7 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Wulfrum Digging Turtle");
-            /* Tooltip.SetDefault("Throws a rickety mining contraption to dig out a small tunnel\n" +
-            "In case of an emergency, right click to instantly detonate all your digging turtles"); */
-            Item.ResearchUnlockCount = 10;
+                       Item.ResearchUnlockCount = 10;
         }
 
         public override void SetDefaults()

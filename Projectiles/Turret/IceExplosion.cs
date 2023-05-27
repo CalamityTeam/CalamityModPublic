@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Turret
         public float randomRotation1 = Main.rand.NextFloat(0f, MathHelper.TwoPi);
         public float randomRotation2 = Main.rand.NextFloat(0f, MathHelper.TwoPi);
         public override string Texture => "CalamityMod/Projectiles/Summon/SmallAresArms/MinionPlasmaGas";
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Gas");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 184;

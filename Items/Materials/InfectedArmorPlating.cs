@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Infected Armor Plating"); //haha recycled and recolored Corroded Metal Plating from T2 Acid Rain
         }
 
         public override void SetDefaults()

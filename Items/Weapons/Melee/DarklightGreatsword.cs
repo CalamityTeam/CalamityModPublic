@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class DarklightGreatsword : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Darklight Greatsword");
-            // Tooltip.SetDefault("Fires darklight blades that split on death");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 92;

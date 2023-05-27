@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class OverloadedBlaster : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Overloaded Blaster");
-            /* Tooltip.SetDefault("33% chance to not consume gel\n" +
-                "Fires a large spread of bouncing slime"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 16;

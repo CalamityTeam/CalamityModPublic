@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Deathwind : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deathwind");
-            /* Tooltip.SetDefault("Fires a spread of 4 arrows\n" +
-                "Wooden arrows are converted into nebula arrows"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 248;

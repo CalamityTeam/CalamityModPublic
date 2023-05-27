@@ -15,12 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public const int UseTime = 36;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aetherflux Cannon");
-            // Tooltip.SetDefault("Fires a barrage of phased god rays that pass through terrain");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 247;

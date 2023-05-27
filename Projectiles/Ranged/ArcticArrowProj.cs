@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Items/Ammo/ArcticArrow";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Arctic Arrow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

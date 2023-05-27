@@ -17,10 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Pristine Fury");
-            /* Tooltip.SetDefault("Fires an intense helix of flames that explode into a column of fire\n" +
-                "Right click to fire a short ranged cloud of lingering flames"); */
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

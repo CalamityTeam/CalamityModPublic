@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Waist)]
     public class DepthCharm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Depths Charm");
-            /* Tooltip.SetDefault("Reduces the damage caused by the pressure of the abyss while out of breath\n" +
-                "Removes the bleed effect caused by the upper layers of the abyss"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

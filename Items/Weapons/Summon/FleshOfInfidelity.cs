@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class FleshOfInfidelity : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Flesh of Infidelity");
-            // Tooltip.SetDefault("Summons a tentacled ball of flesh that splashes blood onto enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 27;

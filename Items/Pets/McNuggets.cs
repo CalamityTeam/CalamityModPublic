@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Pets
 {
     public class McNuggets : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("McNuggets");
-            // Tooltip.SetDefault("These chicken nuggets aren't for you to eat!");
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.ZephyrFish);

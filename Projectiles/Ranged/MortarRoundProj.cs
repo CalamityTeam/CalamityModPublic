@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Items/Ammo/MortarRound";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mortar");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Eviscerator : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eviscerator");
-            // Tooltip.SetDefault("Converts musket balls into fast-moving blood clots");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 65;

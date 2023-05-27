@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class VileClot : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Vile Clot");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

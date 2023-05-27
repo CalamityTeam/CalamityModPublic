@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Miracle Blight");
-            // Description.SetDefault("Exotic resonance shreds your corporeal form");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

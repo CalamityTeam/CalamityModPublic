@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Armor.PlagueReaper
     [AutoloadEquip(EquipType.Body)]
     public class PlagueReaperVest : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plague Reaper Vest");
-            /* Tooltip.SetDefault("Grants immunity to the Plague\n" +
-                "15% increased ranged damage and 5% increased ranged critical strike chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Projectiles/Rogue/SeraphimAngelicLight";
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Light Orb");
             Main.projFrames[Projectile.type] = 10;
         }
 

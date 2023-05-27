@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
 {
     public class SilvaCandelabra : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class TenebreusTidesProjectile : BaseSpearProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tenebreus Tides");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 46;  //The width of the .png file in pixels divided by 2.

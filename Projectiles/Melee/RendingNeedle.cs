@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Melee
         internal PrimitiveTrail TrailDrawer;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Rending Needle");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class MagnaCannon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Magna Cannon");
-            // Tooltip.SetDefault("Fires a concentrated blast of energy");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 26;

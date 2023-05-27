@@ -31,7 +31,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Exothermal Deathray");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

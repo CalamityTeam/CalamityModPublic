@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.Bumblebirb
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Dragonfolly");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

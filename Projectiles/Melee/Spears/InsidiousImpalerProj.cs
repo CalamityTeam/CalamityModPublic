@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class InsidiousImpalerProj : BaseSpearProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Insidious Impaler");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 40;

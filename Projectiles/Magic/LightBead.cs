@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LightBead : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Light Bead");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Armor.Aerospec
     [AutoloadEquip(EquipType.Head)]
     public class AerospecHood : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aerospec Hood");
-            // Tooltip.SetDefault("8% increased ranged damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

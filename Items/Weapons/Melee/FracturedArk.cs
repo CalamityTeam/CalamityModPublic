@@ -28,13 +28,6 @@ namespace CalamityMod.Items.Weapons.Melee
         "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
         "Parrying empowers the next 10 swings of the sword, boosting damage and letting them throw projectiles";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fractured Ark");
-            /* Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
-                "A worn down and rusty blade once wielded against the evil of this world, ready to be of use once more"); */
-        }
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             if (tooltips == null)

@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
     public class StatigelDoor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 14;

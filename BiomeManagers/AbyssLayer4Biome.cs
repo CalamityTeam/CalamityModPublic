@@ -24,11 +24,6 @@ namespace CalamityMod.BiomeManagers
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer4";
         public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer4";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Void");
-        }
-
         public override bool IsBiomeActive(Player player)
         {
             return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && BiomeTileCounterSystem.Layer4Tiles >= 200 &&

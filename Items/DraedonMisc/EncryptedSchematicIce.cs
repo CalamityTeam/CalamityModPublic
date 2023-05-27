@@ -17,12 +17,6 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class EncryptedSchematicIce : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Encrypted Schematic (Ice)");
-            // Tooltip.SetDefault("Requires a Codebreaker with a complex voltage regulation system to decrypt");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Napalm Arrow");
-            // Tooltip.SetDefault("Explodes into fire shards");
         }
 
         public override void SetDefaults()

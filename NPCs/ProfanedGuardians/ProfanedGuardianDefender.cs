@@ -29,7 +29,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Guardian Defender");
             Main.npcFrameCount[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

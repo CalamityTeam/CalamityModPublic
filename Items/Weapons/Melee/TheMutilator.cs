@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TheMutilator : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Mutilator");
-            /* Tooltip.SetDefault("Striking an enemy below 20% life will trigger a bloodsplosion\n" +
-                "Bloodsplosions cause hearts to drop that can be picked up to heal you"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 90;

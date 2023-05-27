@@ -20,7 +20,6 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ghost Bell");
             Main.npcFrameCount[NPC.type] = 6;
         }
 

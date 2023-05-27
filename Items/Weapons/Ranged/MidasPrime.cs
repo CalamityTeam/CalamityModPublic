@@ -17,15 +17,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         // Internal storage used to keep track between UseItem and Shoot hooks whether a gold coin was queued up
         private bool nextShotGoldCoin = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Midas Prime");
-            /* Tooltip.SetDefault("Right click to coss a Gold Coin or Silver Coin in the air\n" +
-                "Striking a coin with a bullet causes it to ricochet into the nearest enemy\n" +
-                "Up to 4 coins can be tossed simultaneously, and shots will ricochet off multiple coins if possible\n" +
-                "Ricocheted bullets always critically strike and do bonus damage based on the coins used"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 81;

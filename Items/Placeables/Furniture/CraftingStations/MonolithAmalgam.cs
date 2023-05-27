@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
     [LegacyName("MonolithCrafting")]
     public class MonolithAmalgam : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Used for special crafting");
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Monolith Amalgam");

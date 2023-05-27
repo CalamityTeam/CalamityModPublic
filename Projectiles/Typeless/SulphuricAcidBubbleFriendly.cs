@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Typeless
         private bool fromArmour = false;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Acid Bubble");
             Main.projFrames[Projectile.type] = 7;
         }
 

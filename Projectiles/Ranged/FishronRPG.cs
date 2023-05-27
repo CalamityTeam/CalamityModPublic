@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FishronRPG : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("RPG");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

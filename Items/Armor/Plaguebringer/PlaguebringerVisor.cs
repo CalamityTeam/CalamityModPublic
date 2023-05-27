@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Armor.Plaguebringer
     {
         public const int PlagueDashIFrames = 12;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plaguebringer Visor");
-            /* Tooltip.SetDefault("15% increased minion damage\n" +
-            "+20 max life"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

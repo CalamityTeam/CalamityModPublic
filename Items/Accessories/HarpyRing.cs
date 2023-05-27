@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class HarpyRing : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Harpy Ring");
-            /* Tooltip.SetDefault("10% increased movement speed\n" +
-                "Boosts your maximum flight time by 20%"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

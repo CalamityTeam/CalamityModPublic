@@ -31,7 +31,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Arid Grandeur");
         }
         public override void SetDefaults()
         {

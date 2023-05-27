@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/OrichalcumSpikedGemstone";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gemstone");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

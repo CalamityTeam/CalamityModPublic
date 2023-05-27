@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Mounts
 {
     public class Brimrose : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimrose");
-            // Tooltip.SetDefault("Summons a brimrose mount");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 64;

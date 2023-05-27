@@ -21,7 +21,6 @@ For nothing else will.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Requiem");
         }
 
         public override void SetDefaults()

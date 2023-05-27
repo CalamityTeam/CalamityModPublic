@@ -21,11 +21,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Anime Sword Effect");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 2;

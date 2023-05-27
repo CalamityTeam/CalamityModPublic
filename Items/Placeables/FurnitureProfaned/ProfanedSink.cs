@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
     public class ProfanedSink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Counts as a lava source");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

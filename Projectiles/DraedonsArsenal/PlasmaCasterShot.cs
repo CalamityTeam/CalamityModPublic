@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         private int dust1 = 107; //160
         private int dust2 = 110; //187
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plasma Bolt");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

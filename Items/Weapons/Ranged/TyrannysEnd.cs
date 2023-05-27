@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class TyrannysEnd : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tyranny's End");
-            /* Tooltip.SetDefault("Pierce the heart of even the most heavily-armored foe\n" +
-                "Converts musket balls into .70 caliber sniper rounds that bypass enemy defense and DR\n" +
-                "Rounds mark enemies for death and summon a swarm of additional bullets on crits"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 2000;

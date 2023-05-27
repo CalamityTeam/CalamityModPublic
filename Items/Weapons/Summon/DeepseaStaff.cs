@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class DeepseaStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deepsea Staff");
-            // Tooltip.SetDefault("Summons an aquatic star to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 40;

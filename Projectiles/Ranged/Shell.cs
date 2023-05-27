@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class Shell : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shell");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 34;

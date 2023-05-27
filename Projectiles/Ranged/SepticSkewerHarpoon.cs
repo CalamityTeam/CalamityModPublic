@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SepticSkewerHarpoon : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Septic Skewer");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

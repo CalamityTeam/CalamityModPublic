@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Ranged
         private int dust1 = 187; //160
         private int dust2 = 229; //187
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Karasawa Shot");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

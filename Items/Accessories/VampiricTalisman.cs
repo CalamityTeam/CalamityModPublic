@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class VampiricTalisman : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Vampiric Talisman");
-            // Tooltip.SetDefault(@"Rogue projectiles give lifesteal on crits
-//12% increased rogue damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 58;

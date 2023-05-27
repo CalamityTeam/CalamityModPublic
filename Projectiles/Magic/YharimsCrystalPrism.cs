@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Yermes Christal");
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }

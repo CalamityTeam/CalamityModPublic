@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("MPFB Devastator");
             Main.projFrames[Type] = 4;
         }
 

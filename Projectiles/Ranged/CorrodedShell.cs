@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class CorrodedShell : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shell");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

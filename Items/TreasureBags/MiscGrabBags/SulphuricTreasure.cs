@@ -29,8 +29,6 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sulphuric Treasure");
-            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
             Item.ResearchUnlockCount = 10;
         }
 

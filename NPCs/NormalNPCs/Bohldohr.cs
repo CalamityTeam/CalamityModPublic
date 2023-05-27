@@ -9,11 +9,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Bohldohr : ModNPC
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bohldohr");
-        }
-
         public override void SetDefaults()
         {
             NPC.Calamity().canBreakPlayerDefense = true;

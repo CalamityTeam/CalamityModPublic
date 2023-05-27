@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class TheAtomSplitter : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Atom Splitter");
-            /* Tooltip.SetDefault("Throws a quantum-superimposed javelin that strikes from numerous timelines at once\n" +
-                "Stealth strikes perform far more simultaneous strikes"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = Item.height = 128;

@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
     public class AncientBathtub : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ancient Bathtub");

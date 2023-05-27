@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Mounts
     [LegacyName("SquishyBeanMount")]
     public class SuspiciousLookingJellyBean : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Suspicious Looking Jelly Bean");
-            // Tooltip.SetDefault("JELLY BEAN");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

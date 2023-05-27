@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class BurntSienna : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Burnt Sienna");
-            // Tooltip.SetDefault("Causes enemies to erupt into healing projectiles on death");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

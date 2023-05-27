@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class BloodflareCore : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloodflare Core");
-            // Tooltip.SetDefault("You lose up to half your defense after taking damage\n" + "Lost defense regenerates over time\n" + "You gain 1 health for every 1 defense gained as it regenerates");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

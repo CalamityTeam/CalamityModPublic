@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("RoyalKnives", "RoyalKnivesMelee", "RoyalKnivesRogue")]
     public class IllustriousKnives : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Illustrious Knives");
-            // Tooltip.SetDefault("Throws a flurry of homing knives that can heal the user");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 44;

@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Burst");
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 

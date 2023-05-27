@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Thunderstorm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Thunderstorm");
-            // Tooltip.SetDefault("Make it rain");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 132;

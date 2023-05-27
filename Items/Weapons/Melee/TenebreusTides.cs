@@ -12,12 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Tenebreus Tides");
-            /* Tooltip.SetDefault("Inundatio ex Laminis\n" +
-                "Shoots a water spear that pierces enemies and terrain\n" +
-                "Striking enemies summon liquid blades and spears to assault the struck foe\n" +
-                "Receives 33% benefit from melee speed bonuses"); */
-            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
+                       ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

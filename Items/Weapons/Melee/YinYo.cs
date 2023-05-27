@@ -8,11 +8,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Yin-Yo");
-            /* Tooltip.SetDefault("Fires light or dark shards when enemies are near\n" +
-                "Shards fly back and forth\n" +
-                "A very agile yoyo"); */
-            ItemID.Sets.Yoyo[Item.type] = true;
+                       ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }

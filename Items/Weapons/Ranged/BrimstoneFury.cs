@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class BrimstoneFury : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimstone Fury");
-            // Tooltip.SetDefault("Converts wooden arrows into spreads of 3 brimstone bolts");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 25;

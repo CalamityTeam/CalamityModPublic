@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Lazhar : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lazhar");
-            // Tooltip.SetDefault("Fires a highly volatile concentrated solar beam");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 80;

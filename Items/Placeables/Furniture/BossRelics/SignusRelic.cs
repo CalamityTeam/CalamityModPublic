@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 	{
 		public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Signus Relic");
-            // Tooltip.SetDefault("A glimpse into what will be...");
 		}
 
 		public override void SetDefaults()

@@ -12,17 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Earth : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Earth");
-            /* Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
-                "Your attacks will heal you a lot\n" +
-                "Rains RGB meteors that explode into more meteors after a short time on enemy hits\n" +
-                "Ice meteors freeze enemies\n" +
-                "Flame meteors explode\n" +
-                "Green meteors spawn healing orbs"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 92;

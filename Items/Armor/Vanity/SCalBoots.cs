@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Legs)]
     public class SCalBoots : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Calamitous Boots");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

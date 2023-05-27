@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Arrow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 5;

@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ElementalBlaster : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Elemental Blaster");
-            /* Tooltip.SetDefault("Does not consume ammo\n" +
-                "Fires a storm of rainbow blasts"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 55;

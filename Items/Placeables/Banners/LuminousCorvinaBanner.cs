@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class LuminousCorvinaBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Luminous Corvina");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

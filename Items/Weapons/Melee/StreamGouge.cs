@@ -18,14 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const int PortalLifetime = 30;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stream Gouge");
-            /* Tooltip.SetDefault("Summons a portal that the spear crosses through\n" +
-                "Shortly after going through the portal, portals appear near the mouse that release copies of the spear's cutting edge\n" +
-                "Enemies hit by the copies create lacerations in space, revealing a cosmic background"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 100;

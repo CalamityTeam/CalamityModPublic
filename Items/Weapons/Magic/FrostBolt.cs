@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class FrostBolt : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Frost Bolt");
-            // Tooltip.SetDefault("Casts a slow-moving ball of frost");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 14;

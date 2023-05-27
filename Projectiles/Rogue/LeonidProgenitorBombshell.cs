@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/LeonidProgenitor";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Leonid Bombshell");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 32;

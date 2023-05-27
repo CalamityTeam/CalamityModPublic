@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override string Texture => "CalamityMod/Items/Weapons/Typeless/StarStruckWater";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bottle");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

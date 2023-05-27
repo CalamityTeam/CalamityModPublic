@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ShinobiBlade : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shinobi Blade");
-            /* Tooltip.SetDefault("Throws a fast blade that spawns healing orbs when it kills an enemy\n" +
-                "Stealth strikes repeatedly stab the struck enemy from random directions"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

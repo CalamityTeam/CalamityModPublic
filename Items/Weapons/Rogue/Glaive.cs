@@ -14,13 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float Speed = 10f;
         public static float StealthSpeedMult = 1.8f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Glaive");
-            // Tooltip.SetDefault(@"Tosses up to 3 sharp returning glaives
-//Stealth strikes are super fast and pierce infinitely");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;

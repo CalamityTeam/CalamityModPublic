@@ -20,13 +20,6 @@ namespace CalamityMod.Items.Weapons.Magic
         public static readonly Color BlueColor = new Color(34, 34, 160);
         public static readonly Color PinkColor = new Color(169, 30, 184);
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eternity");
-            /* Tooltip.SetDefault("Hexes a possible nearby enemy, trapping them in a brilliant display of destruction\n" +
-                "This line is modified in ModifyTooltips"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;

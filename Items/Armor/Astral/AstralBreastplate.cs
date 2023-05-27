@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Armor.Astral
     [AutoloadEquip(EquipType.Body)]
     public class AstralBreastplate : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Breastplate");
-            /* Tooltip.SetDefault("+80 max mana and +20 max life\n" +
-                               "Creature detection"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

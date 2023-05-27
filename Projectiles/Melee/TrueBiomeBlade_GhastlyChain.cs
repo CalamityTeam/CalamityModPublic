@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ghastly Chain");
         }
         public override void SetDefaults()
         {

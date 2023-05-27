@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Tools
     [LegacyName("GallantPickaxe")]
     public class GenesisPickaxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Genesis Pickaxe");
-            // Tooltip.SetDefault("Can mine Uelibloom Ore");
-        }
-
         public override void SetDefaults()
         {
             // These stats exactly match vanilla's Luminite pickaxes.

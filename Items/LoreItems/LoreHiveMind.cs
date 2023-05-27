@@ -17,7 +17,6 @@ Far from all divine power flows from faith. A God is forged of its own strength;
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("The Hive Mind");
         }
 
         public override void SetDefaults()

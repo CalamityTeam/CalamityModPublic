@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Placeables
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-            // DisplayName.SetDefault("Scorched Bone");
         }
 
         public override void SetDefaults()

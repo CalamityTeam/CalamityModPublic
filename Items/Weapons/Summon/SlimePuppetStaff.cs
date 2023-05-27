@@ -14,10 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Slime Puppet Staff");
-            /* Tooltip.SetDefault("Summons a slime ball that follows you\n" +
-                                "The ball flies toward nearby enemies and explodes into slime on enemy hits\n" +
-                                "Does not consume minion slots"); */ // In other words, bootleg mage :TaxEvasion:
+            // In other words, bootleg mage :TaxEvasion:
             Item.staff[Item.type] = true;
         }
 

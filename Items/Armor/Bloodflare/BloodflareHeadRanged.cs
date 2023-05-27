@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
     {
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/BloodflareRangerActivation");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloodflare Horned Helm");
-            // Tooltip.SetDefault("10% increased ranged damage and critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

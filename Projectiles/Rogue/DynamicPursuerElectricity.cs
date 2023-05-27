@@ -28,7 +28,6 @@ namespace CalamityMod.Projectiles.Rogue
         }*/
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Electricity");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 50;
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 10000;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;

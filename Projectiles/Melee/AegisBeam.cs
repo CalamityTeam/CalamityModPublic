@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AegisBeam : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aegis Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

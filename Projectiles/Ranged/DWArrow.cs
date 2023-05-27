@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class DWArrow : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Death's Arrow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

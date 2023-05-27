@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Armor.Reaver
     public class ReaverHeadTank : ModItem
     {
         //Defense and DR Helm
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Reaver Helm");
-            /* Tooltip.SetDefault("15% increased damage reduction but 30% decreased damage\n" +
-                "+50 max life\n" +
-                "Passively regenerates one health point every second"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

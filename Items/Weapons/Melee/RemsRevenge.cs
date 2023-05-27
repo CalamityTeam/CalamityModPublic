@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class RemsRevenge : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rem's Revenge");
-            /* Tooltip.SetDefault("Wielded by the most powerful fighter.\n" +
-            "Summons blood explosions and lowers enemy defense on hit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 375;

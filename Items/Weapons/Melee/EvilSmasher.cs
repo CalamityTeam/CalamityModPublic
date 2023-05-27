@@ -6,16 +6,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class EvilSmasher : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Evil Smasher");
-            /* Tooltip.SetDefault("EViL! sMaSH eVIl! SmAsh... ER!\n" +
-                "For every enemy you kill this hammer gains stat bonuses\n" +
-                "These bonuses stack until a cap is reached\n" +
-                "The bonus stacks will reset if you select a different item\n" +
-                "The bonus stacks will be reduced by 1 every time you get hit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 64;

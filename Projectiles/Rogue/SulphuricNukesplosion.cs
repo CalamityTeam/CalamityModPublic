@@ -19,11 +19,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         private int dustloop = 30;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nuke");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 140;

@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class PrimordialEarth : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Primordial Earth");
-            // Tooltip.SetDefault("Casts a large blast of dust");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 60;

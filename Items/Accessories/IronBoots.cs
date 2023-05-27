@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Shoes)]
     public class IronBoots : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Iron Boots");
-            // Tooltip.SetDefault("Allows you to fall faster while in liquids");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

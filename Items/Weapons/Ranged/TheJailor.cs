@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class TheJailor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Jailor");
-            // Tooltip.SetDefault("Releases electric mines outward that connect to each-other via arcs");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 360;

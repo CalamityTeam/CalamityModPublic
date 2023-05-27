@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     [LegacyName("BumblebirbTrophy")]
     public class DragonfollyTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dragonfolly Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

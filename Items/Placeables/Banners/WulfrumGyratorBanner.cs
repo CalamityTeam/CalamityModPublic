@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class WulfrumGyratorBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Wulfrum Gyrator");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

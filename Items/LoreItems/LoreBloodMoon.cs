@@ -17,7 +17,6 @@ That is how I remember the sleepless nights from my younger days… Knee deep in
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Blood Moon");
         }
 
         public override void SetDefaults()

@@ -10,10 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Hellion Flower Spear");
-            /* Tooltip.SetDefault("Shoots a flower spear tip\n" +
-                "Summons petals from the sky on critical hits"); */
-            ItemID.Sets.Spears[Item.type] = true;
+                       ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()

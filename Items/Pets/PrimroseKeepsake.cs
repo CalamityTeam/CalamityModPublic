@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Pets
 {
     public class PrimroseKeepsake : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Primrose Keepsake");
-            // Tooltip.SetDefault("Did they just...");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 0;

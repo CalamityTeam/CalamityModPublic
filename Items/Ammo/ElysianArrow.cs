@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Elysian Arrow");
-            // Tooltip.SetDefault("Summons meteors from the sky on death");
         }
 
         public override void SetDefaults()

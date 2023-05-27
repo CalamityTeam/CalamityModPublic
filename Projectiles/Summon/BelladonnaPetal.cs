@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Summon
         
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Belladonna Petal");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

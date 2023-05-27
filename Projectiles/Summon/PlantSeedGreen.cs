@@ -8,7 +8,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Seed");
             Main.projFrames[Projectile.type] = 2;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

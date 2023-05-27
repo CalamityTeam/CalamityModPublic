@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Ranged
         private bool spawnedAura = false;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Nuke");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

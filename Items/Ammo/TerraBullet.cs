@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Terra Bullet");
-            // Tooltip.SetDefault("Explodes and splits into homing terra shards on death");
         }
 
         public override void SetDefaults()

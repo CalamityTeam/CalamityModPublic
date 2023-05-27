@@ -22,11 +22,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             set => Projectile.ai[1] = value.whoAmI;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Voltage Stream");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

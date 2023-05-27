@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.Walls
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;
-            // DisplayName.SetDefault("Sulphurous Sandstone Wall");
         }
 
         public override void SetDefaults()

@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
     public class CosmiliteDoor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 14;

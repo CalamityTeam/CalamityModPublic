@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class CosmicBolter : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cosmic Bolter");
-            /* Tooltip.SetDefault("Fires a tight column of three arrows\n" +
-                "Converts wooden arrows into sliding energy bolts"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 48;

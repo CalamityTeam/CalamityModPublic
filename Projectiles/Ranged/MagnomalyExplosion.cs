@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults() //don't remove this projectile
         {
-            // DisplayName.SetDefault("Explosion");
         }
 
         public override void SetDefaults()

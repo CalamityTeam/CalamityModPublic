@@ -17,10 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Helium Flash");
-            /* Tooltip.SetDefault("The power of a galaxy, if only for mere moments\n" +
-            "Launches volatile star cores which erupt into colossal fusion blasts"); */
-            Item.staff[Item.type] = true;
+                       Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()

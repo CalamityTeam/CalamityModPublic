@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Summon
         public ref float RainTimer => ref Projectile.ai[1];
 
         public override void SetStaticDefaults() {
-			// DisplayName.SetDefault("Storm Cloud");
 			// Sets the amount of frames this minion has on its spritesheet
 			Main.projFrames[Projectile.type] = 5;
 		}

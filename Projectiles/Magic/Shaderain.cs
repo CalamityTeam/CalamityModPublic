@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/AuraRain";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shady Rain");
-        }
-
         public override void SetDefaults()
         {
             Projectile.timeLeft = 600;

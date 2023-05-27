@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class SlimeGodTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Slime God Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

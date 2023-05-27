@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Corinth Prime");
-            // Tooltip.SetDefault(@"Shoots a tight burst of 6 high velocity bullets
-//Converts musket balls into high velocity explosive bullets
-//Right click to fire a grenade
-//The grenade emits a massive explosion if it doesn't touch anything for 2 seconds
-//Otherwise, the grenade emits an extremely weak explosion");
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

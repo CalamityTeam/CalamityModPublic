@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class EvergladeSpray : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Everglade Spray");
-            // Tooltip.SetDefault("Fires a stream of burning green ichor");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 28;

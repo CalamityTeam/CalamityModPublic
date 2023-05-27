@@ -23,7 +23,6 @@ Though, perhaps you may leverage his unimaginable craft to your advantage, and s
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("The Exo Mechanical Trio");
         }
 
         public override void SetDefaults()

@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class SeaMinnowJar : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sea Minnow Jar");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

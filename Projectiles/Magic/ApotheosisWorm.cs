@@ -50,11 +50,6 @@ namespace CalamityMod.Projectiles.Magic
         internal ref float FlyAcceleration => ref Projectile.ai[1];
         internal ref float JawRotation => ref Projectile.localAI[1];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Devourer of Gods");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 108;

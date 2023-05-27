@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     public class SacrilegiousWorkBench : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sacrilegious Work Bench");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class ShieldoftheOcean : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shield of the Ocean");
-            /* Tooltip.SetDefault("Increased defense by 5 when submerged in liquid\n" +
-            "Increases movement speed and life regen while wearing the Victide armor"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

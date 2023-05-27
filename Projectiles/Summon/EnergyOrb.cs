@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/BlueBubble";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Energy Orb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

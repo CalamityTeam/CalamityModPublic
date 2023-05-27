@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class GhoulishGouger : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ghoulish Gouger");
-            /* Tooltip.SetDefault("Throws sets of four ghoulish scythes at ultra high velocity\n" +
-                "Stealth strikes summon a flurry of tormented souls on hit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 74;

@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class AuguroftheElements : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Augur of the Elements");
-            // Tooltip.SetDefault("Casts a burst of elemental tentacles to spear your enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 147;

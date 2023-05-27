@@ -18,8 +18,6 @@ namespace CalamityMod.Items.Armor.SnowRuffian
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Snow Ruffian Chestplate");
-            // Tooltip.SetDefault("3% increased rogue critical strike chance");
 
             if (Main.netMode == NetmodeID.Server)
                 return;

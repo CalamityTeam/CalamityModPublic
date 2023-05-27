@@ -8,8 +8,6 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Anti-Tumor Ointment");
-            // Tooltip.SetDefault("Favorite this item to prevent hive tumors from spawning near you");
         }
         public override void SetDefaults()
         {

@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AquashardShotgun : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aquashard Shotgun");
-            // Tooltip.SetDefault("Converts musket balls into aquashards that split upon hitting an enemy");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 14;

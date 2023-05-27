@@ -103,7 +103,6 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Atlas");
             Main.npcFrameCount[NPC.type] = 6;
             //not really important seeing as custom drawing, but for heights sake, 6
             //also it's visuals are messed up on npc spawners etc. because the sheet is 3 wide.

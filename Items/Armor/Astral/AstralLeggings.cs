@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Armor.Astral
     [AutoloadEquip(EquipType.Legs)]
     public class AstralLeggings : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Leggings");
-            /* Tooltip.SetDefault("10% increased movement speed\n" +
-                               "Treasure and ore detection"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -10,13 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Frost Flare");
-            /* Tooltip.SetDefault("All attacks and projectiles inflict frostbite\n" +
-                "Immunity to frostburn, chilled and frozen\n" +
-                "Being above 75% life grants 10% increased damage\n" +
-                "Being below 25% life grants 20 defense and 15% increased max movement speed and acceleration\n" +
-                "Grants resistance against cold attacks"); */
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
+                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

@@ -19,11 +19,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public const float UniversalAngularSpeed = MathHelper.Pi / 400f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 20;

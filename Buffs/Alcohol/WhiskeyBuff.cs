@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Whiskey");
-            // Description.SetDefault("Damage, critical strike chance, and knockback boosted, defense reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

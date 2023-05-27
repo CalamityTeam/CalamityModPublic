@@ -1,0 +1,838 @@
+AlcoholPoisoning: {
+}
+
+BloodyMaryBuff: {
+}
+
+CaribbeanRumBuff: {
+}
+
+CinnamonRollBuff: {
+}
+
+EverclearBuff: {
+}
+
+EvergreenGinBuff: {
+}
+
+FabsolVodkaBuff: {
+}
+
+FireballBuff: {
+}
+
+GrapeBeerBuff: {
+}
+
+MargaritaBuff: {
+}
+
+MoonshineBuff: {
+}
+
+MoscowMuleBuff: {
+}
+
+RedWineBuff: {
+}
+
+RumBuff: {
+}
+
+ScrewdriverBuff: {
+}
+
+StarBeamRyeBuff: {
+}
+
+TequilaBuff: {
+}
+
+TequilaSunriseBuff: {
+}
+
+Trippy: {
+}
+
+VodkaBuff: {
+}
+
+WhiskeyBuff: {
+}
+
+WhiteWineBuff: {
+}
+
+Withered: {
+}
+
+AstralInfectionDebuff: {
+}
+
+BanishingFire: {
+}
+
+BrimstoneFlames: {
+}
+
+BurningBlood: {
+}
+
+CrushDepth: {
+}
+
+Dragonfire: {
+}
+
+GodSlayerInferno: {
+}
+
+HolyFlames: {
+}
+
+HolyInferno: {
+}
+
+ManaBurn: {
+}
+
+MiracleBlight: {
+}
+
+Nightwither: {
+}
+
+Plague: {
+}
+
+SagePoison: {
+}
+
+SearingLava: {
+}
+
+Shadowflame: {
+}
+
+ShellfishClaps: {
+}
+
+Shred: {
+}
+
+SnapClamDebuff: {
+}
+
+SulphuricPoisoning: {
+}
+
+Vaporfied: {
+}
+
+VulnerabilityHex: {
+}
+
+WeakBrimstoneFlames: {
+}
+
+AlicornBuff: {
+}
+
+AndromedaBuff: {
+}
+
+AndromedaSmallBuff: {
+}
+
+BrimroseMount: {
+}
+
+BumbledogeMount: {
+}
+
+DraedonGamerChairBuff: {
+}
+
+GazeOfCrysthamyrBuff: {
+}
+
+MarniteLiftBuff: {
+}
+
+OnyxExcavatorBuff: {
+}
+
+RimehoundBuff: {
+}
+
+SquishyBeanBuff: {
+}
+
+TheCartofGodsBuff: {
+}
+
+AkatoBuff: {
+}
+
+ArcherofLunamoon: {
+}
+
+AstrophageBuff: {
+}
+
+BabyGhostBellBuff: {
+}
+
+BearBuff: {
+}
+
+BloodBound: {
+}
+
+BrimlingBuff: {
+}
+
+ChibiiDoGBuff: {
+}
+
+ClassicSCalPetBuff: {
+}
+
+DannyDevito: {
+}
+
+Dreamfog: {
+}
+
+EidolonSnailBuff: {
+}
+
+ElectricTroublemaker: {
+}
+
+FlakHermitBuff: {
+}
+
+FoxPetBuff: {
+}
+
+FurtasticDuoBuff: {
+}
+
+GoldieBuff: {
+}
+
+Kendra: {
+}
+
+LadBuff: {
+}
+
+LeviBuff: {
+}
+
+LittleLightBuff: {
+}
+
+MiniMindBuff: {
+}
+
+OceanSpiritBuff: {
+}
+
+PineappleBuff: {
+}
+
+PlaguebringerBabBuff: {
+}
+
+RadiatorBuff: {
+}
+
+ReaverOrbBuff: {
+}
+
+SparksBuff: {
+}
+
+ThirdSageBuff: {
+}
+
+YharonSonBuff: {
+}
+
+ChaosCandleBuff: {
+}
+
+CirrusBlueCandleBuff: {
+}
+
+CirrusPinkCandleBuff: {
+}
+
+CirrusPurpleCandleBuff: {
+}
+
+CirrusYellowCandleBuff: {
+}
+
+CorruptionEffigyBuff: {
+}
+
+CrimsonEffigyBuff: {
+}
+
+EffigyOfDecayBuff: {
+}
+
+TranquilityCandleBuff: {
+}
+
+PopoBuff: {
+}
+
+PopoNoselessBuff: {
+}
+
+AnechoicCoatingBuff: {
+}
+
+AstralInjectionBuff: {
+}
+
+BaguetteBuff: {
+}
+
+BloodfinBoost: {
+}
+
+BoundingBuff: {
+}
+
+CalciumBuff: {
+}
+
+CeaselessHunger: {
+}
+
+GravityNormalizerBuff: {
+}
+
+Omniscience: {
+}
+
+PhotosynthesisBuff: {
+}
+
+ShadowBuff: {
+}
+
+Soaring: {
+}
+
+SulphurskinBuff: {
+}
+
+TeslaBuff: {
+}
+
+WeaponImbueBrimstone: {
+}
+
+WeaponImbueCrumbling: {
+}
+
+WeaponImbueHolyFlames: {
+}
+
+Zen: {
+}
+
+Zerg: {
+}
+
+RancorBurn: {
+}
+
+AbyssalDivingSuitBuff: {
+}
+
+AbyssalDivingSuitPlates: {
+}
+
+AbyssalMadness: {
+}
+
+AdrenalineMode: {
+}
+
+Afflicted: {
+}
+
+AmidiasBlessing: {
+}
+
+AquaticHeartBuff: {
+}
+
+AquaticHeartWaterSpeed: {
+}
+
+AvertorBonus: {
+}
+
+BloodflareBloodFrenzy: {
+}
+
+BloodyBoost: {
+}
+
+BossEffects: {
+}
+
+BrimflameFrenzyBuff: {
+}
+
+ChiBuff: {
+}
+
+ChiRegenBuff: {
+}
+
+CoralSymbiosis: {
+}
+
+CosmicFreeze: {
+}
+
+DivineBless: {
+}
+
+ElysianGuard: {
+}
+
+EmpyreanRage: {
+}
+
+EmpyreanWrath: {
+}
+
+Encased: {
+}
+
+GraxBoost: {
+}
+
+HallowedRuneDefense: {
+}
+
+HallowedRunePower: {
+}
+
+HallowedRuneRegeneration: {
+}
+
+IceShieldBuff: {
+}
+
+KamiBuff: {
+}
+
+Mushy: {
+}
+
+PhantomicEmpowerment: {
+}
+
+PhantomicRegen: {
+}
+
+PhantomicShield: {
+}
+
+PolarisBuff: {
+}
+
+RageMode: {
+}
+
+ReaverRage: {
+}
+
+ShellBoost: {
+}
+
+SilvaRevival: {
+}
+
+SpiritDefense: {
+}
+
+SpiritPower: {
+}
+
+SpiritRegen: {
+}
+
+TarragonCloak: {
+}
+
+TarragonImmunity: {
+}
+
+TarraLifeRegen: {
+}
+
+TyrantsFury: {
+}
+
+AndromedaCripple: {
+}
+
+ArmorCrunch: {
+}
+
+Clamity: {
+}
+
+DoGExtremeGravity: {
+}
+
+Enraged: {
+}
+
+Eutrophication: {
+}
+
+ExoFreeze: {
+	DisplayName: Exo Freeze
+	Description: Cannot move
+}
+
+FishAlert: {
+}
+
+FrozenLungs: {
+}
+
+GalvanicCorrosion: {
+}
+
+GlacialState: {
+}
+
+IcarusFolly: {
+}
+
+Irradiated: {
+}
+
+KamiFlu: {
+}
+
+MarkedforDeath: {
+}
+
+PearlAura: {
+}
+
+ProfanedWeakness: {
+}
+
+TemporalSadness: {
+}
+
+TimeDistortion: {
+}
+
+Warped: {
+}
+
+WeakPetrification: {
+}
+
+WhisperingDeath: {
+}
+
+WitherDebuff: {
+}
+
+AbandonedSlimeBuff: {
+}
+
+AncientMineralSharkBuff: {
+}
+
+AquaticStar: {
+}
+
+AstralProbeBuff: {
+}
+
+BabyBloodCrawlerBuff: {
+}
+
+BabySlimeGodBuff: {
+}
+
+BabyStormlionBuff: {
+}
+
+BelladonnaSpiritBuff: {
+}
+
+BlackHawkBuff: {
+}
+
+BloodClot: {
+}
+
+BrimseekerBuff: {
+}
+
+BrimstoneWaifu: {
+}
+
+BrittleStar: {
+}
+
+Calamari: {
+}
+
+CausticStaffBuff: {
+}
+
+CinderBlossomBuff: {
+}
+
+CloudyWaifu: {
+}
+
+ColdDivinityBuff: {
+}
+
+Corroslime: {
+}
+
+CorvidHarbringerBuff: {
+}
+
+CosmicEnergy: {
+}
+
+CosmicViperEngineBuff: {
+}
+
+CosmilampBuff: {
+}
+
+Crimslime: {
+}
+
+DaedalusCrystalBuff: {
+}
+
+DaedalusGolemBuff: {
+}
+
+DankCreeperBuff: {
+}
+
+DazzlingStabberBuff: {
+}
+
+DemonshadeSetDevilBuff: {
+}
+
+ElementalAxeBuff: {
+}
+
+EndoCooperBuff: {
+}
+
+EndoHydraBuff: {
+}
+
+EntropysVigilBuff: {
+}
+
+ExoskeletonCannons: {
+}
+
+EyeOfNightBuff: {
+}
+
+FieryDraconidBuff: {
+}
+
+FleshBallBuff: {
+}
+
+FlowersOfMortalityBuff: {
+}
+
+FrostBlossomBuff: {
+}
+
+FungalClumpBuff: {
+}
+
+GammaHydraBuff: {
+}
+
+GastricAberrationBuff: {
+}
+
+HauntedDishesBuff: {
+}
+
+HermitCrab: {
+}
+
+Herring: {
+}
+
+HotE: {
+}
+
+HowlTrio: {
+}
+
+HydrothermicVentBuff: {
+}
+
+IceClasperBuff: {
+}
+
+IgneousExaltationBuff: {
+}
+
+LilPlaguebringerBuff: {
+}
+
+MagicHatBuff: {
+}
+
+Mechworm: {
+}
+
+MidnightSunBuff: {
+}
+
+MiniatureEyeofCthulhu: {
+}
+
+MiniOldDukeBuff: {
+}
+
+MiniPlaguebringerBuff: {
+}
+
+MoonFistBuff: {
+}
+
+MountedScannerBuff: {
+}
+
+PerditionBuff: {
+}
+
+Phantom: {
+}
+
+PlantationBuff: {
+}
+
+PoleWarperBuff: {
+}
+
+ProfanedBabs: {
+}
+
+PuffWarriorBuff: {
+}
+
+ResurrectionButterflyBuff: {
+}
+
+SageSpiritBuff: {
+}
+
+Sandnado: {
+}
+
+SandyHealingWaifu: {
+}
+
+SandyWaifu: {
+}
+
+SarosPossessionBuff: {
+}
+
+SeaSnailBuff: {
+}
+
+SepulcherMinionBuff: {
+}
+
+ShellfishBuff: {
+}
+
+SilvaCrystalBuff: {
+}
+
+SiriusBuff: {
+}
+
+SkeletalDragonsBuff: {
+}
+
+SmallSkeletonBuff: {
+}
+
+SnakeEyesBuff: {
+}
+
+SolarGodSpiritBuff: {
+}
+
+SolarSpirit: {
+}
+
+SoulSeekerBuff: {
+}
+
+StarSwallowerBuff: {
+}
+
+TacticalPlagueEngineBuff: {
+}
+
+TundraFlameBlossomsBuff: {
+}
+
+ValkyrieBuff: {
+}
+
+VileFeederBuff: {
+}
+
+ViridVanguardBuff: {
+}
+
+ViriliBuff: {
+}
+
+VoidConcentrationBuff: {
+}
+
+WaterWaifu: {
+}
+
+WitherBlossomsBuff: {
+}
+
+WulfrumDroidBuff: {
+}

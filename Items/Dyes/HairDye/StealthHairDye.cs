@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Dyes.HairDye
 {
     public class StealthHairDye : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stealth Hair Dye");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

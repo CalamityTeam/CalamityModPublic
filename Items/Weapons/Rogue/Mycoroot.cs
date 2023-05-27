@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Mycoroot : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mycoroot");
-            /* Tooltip.SetDefault("Fires a stream of short-range fungal roots\n" +
-                "Stealth strikes spawn an explosion of fungi spores\n" +
-				"and grant you and all other players the Mushy buff for 15 seconds"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

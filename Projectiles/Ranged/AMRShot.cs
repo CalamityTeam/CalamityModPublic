@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class AMRShot : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("AMR");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

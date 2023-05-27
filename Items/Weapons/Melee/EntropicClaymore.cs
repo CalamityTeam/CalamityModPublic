@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("XerocsGreatsword")]
     public class EntropicClaymore : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Entropic Claymore");
-            // Tooltip.SetDefault("Fires a spread of homing plasma balls");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 130;

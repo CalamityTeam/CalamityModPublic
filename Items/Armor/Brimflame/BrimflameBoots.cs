@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Armor.Brimflame
     [AutoloadEquip(EquipType.Legs)]
     public class BrimflameBoots : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimflame Boots");
-            /* Tooltip.SetDefault("5% increased magic damage\n" +
-                "5% increased movement speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

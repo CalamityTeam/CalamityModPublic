@@ -11,10 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Unstable Granite Core");
-            /* Tooltip.SetDefault("Periodically gain an unstable energy field that repeatedly zaps nearby enemies with arcing energy\n" +
-                "The arcing energy ignores a substantial amount of enemy defense"); */
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
+                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

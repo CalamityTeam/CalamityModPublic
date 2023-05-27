@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MetalShard : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Metal Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.friendly = true;

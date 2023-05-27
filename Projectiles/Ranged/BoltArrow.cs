@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BoltArrow : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bolt Arrow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

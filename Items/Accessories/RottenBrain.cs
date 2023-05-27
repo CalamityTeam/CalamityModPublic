@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class RottenBrain : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rotten Brain");
-            // Tooltip.SetDefault("10% increased damage when below 75% life\n5% decreased movement speed when below 50% life\nShade rains down when you are hit");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

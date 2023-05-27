@@ -18,7 +18,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Crimson Slime Spawn");
             Main.npcFrameCount[NPC.type] = 5;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }

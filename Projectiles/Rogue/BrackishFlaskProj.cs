@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/BrackishFlask";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brackish Flask");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 24;

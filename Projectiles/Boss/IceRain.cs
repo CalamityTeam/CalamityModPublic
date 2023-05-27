@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class IceRain : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Rain");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

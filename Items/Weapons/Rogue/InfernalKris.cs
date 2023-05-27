@@ -11,10 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Infernal Kris");
-            /* Tooltip.SetDefault("Throws a burning dagger that starts spinning after travelling a short distance, inflicting additional damage while spinning\n" +
-                "Stealth strikes cause the dagger to be engulfed in flames, exploding on contact with walls and enemies"); */
-            Item.ResearchUnlockCount = 99;
+                       Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

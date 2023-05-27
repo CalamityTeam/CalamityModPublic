@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Placeables.Banners
     [LegacyName("FlounderBanner")]
     public class SulflounderBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Sulflounder");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

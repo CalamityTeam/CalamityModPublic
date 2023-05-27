@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Harvest Staff");
-            // Tooltip.SetDefault("Casts flaming pumpkins");
             Item.staff[Item.type] = true;
         }
 

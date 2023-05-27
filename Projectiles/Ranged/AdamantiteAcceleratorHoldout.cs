@@ -29,11 +29,6 @@ namespace CalamityMod.Projectiles.Ranged
 
 
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Adamantite Particle Accelerator");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 54;

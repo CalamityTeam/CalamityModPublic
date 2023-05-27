@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Galeforce : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Galeforce");
-            // Tooltip.SetDefault("Fires a spread of low-damage feathers");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 8;

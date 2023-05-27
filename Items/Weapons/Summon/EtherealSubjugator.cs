@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class EtherealSubjugator : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ethereal Subjugator");
-            // Tooltip.SetDefault("Summons a phantom to protect you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 200;

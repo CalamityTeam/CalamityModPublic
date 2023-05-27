@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sludge Splotch");
-            // Tooltip.SetDefault("Stealth strikes cause the main ball of sludge to split on hit, inflicting more damage");
             Item.ResearchUnlockCount = 99;
         }
 

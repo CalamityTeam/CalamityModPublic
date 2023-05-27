@@ -28,7 +28,6 @@ namespace CalamityMod.Projectiles.Magic
         public const int InwardCollapseTime = 70;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Crystal");
             Main.projFrames[Projectile.type] = 2;
         }
 

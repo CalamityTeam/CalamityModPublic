@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class StarofDestruction : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Star of Destruction");
-            /* Tooltip.SetDefault("Fires a huge destructive mine that explodes into destruction bolts\n" +
-            "Amount of bolts scales with enemies hit, up to 16\n" +
-            "Stealth strikes always explode into the max amount of bolts"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = Item.height = 94;

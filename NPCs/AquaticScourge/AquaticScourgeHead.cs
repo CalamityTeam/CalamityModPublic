@@ -36,7 +36,6 @@ namespace CalamityMod.NPCs.AquaticScourge
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Aquatic Scourge");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

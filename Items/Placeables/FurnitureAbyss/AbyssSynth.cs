@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
     [LegacyName("AbyssPiano")]
     public class AbyssSynth : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Abyss Synth");

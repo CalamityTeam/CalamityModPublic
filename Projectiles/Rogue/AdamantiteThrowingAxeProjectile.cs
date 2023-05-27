@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/AdamantiteThrowingAxe";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Adamantite Throwing Axe");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

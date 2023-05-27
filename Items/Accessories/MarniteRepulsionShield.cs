@@ -18,13 +18,6 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("MarniteBayonet")]
     public class MarniteRepulsionShield : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Marnite Repulsion Shield");
-            /* Tooltip.SetDefault("Enemies behind you are struck by high-knockback hardlight quills\n" +
-                "[c/FFF191:Backstabbers Beware!]"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;
@@ -84,11 +77,6 @@ namespace CalamityMod.Items.Accessories
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public Player Owner => Main.player[Projectile.owner];
-
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Repulsion Matrix");
-        }
 
 
         public override void SetDefaults()

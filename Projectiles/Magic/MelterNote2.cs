@@ -4,11 +4,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class MelterNote2 : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Song");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

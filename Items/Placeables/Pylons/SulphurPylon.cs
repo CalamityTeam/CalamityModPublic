@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.Pylons
 {
     public class SulphurPylon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<SulphurPylonTile>());

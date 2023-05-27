@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class BansheeHookProj : BaseSpearProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Banshee Hook");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 40;

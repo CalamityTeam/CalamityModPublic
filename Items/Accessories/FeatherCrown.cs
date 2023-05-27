@@ -11,10 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Feather Crown");
-            /* Tooltip.SetDefault("15% increased rogue projectile velocity\n" +
-                "Stealth strikes cause feathers to fall from the sky on enemy hits"); */
-
+           
             if (Main.netMode != NetmodeID.Server)
             {
                 int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Face);

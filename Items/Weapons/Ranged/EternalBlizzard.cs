@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Eternal Blizzard");
-            // Tooltip.SetDefault("Fires an additional icicle arrow that shatters on impact");
         }
         public override void SetDefaults()
         {

@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Armor.Empyrean
     [LegacyName("XerocCuisses")]
     public class EmpyreanCuisses : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Empyrean Cuisses");
-            /* Tooltip.SetDefault("5% increased rogue damage and critical strike chance\n" +
-                    "15% increased movement speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Weapons/Melee/Violence";
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Violence");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 36;
         }

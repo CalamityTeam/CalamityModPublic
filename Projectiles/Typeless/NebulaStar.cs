@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class NebulaStar : BaseSporeSacProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Star");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 34;

@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Leech");
             Main.projFrames[Projectile.type] = 4;
         }
 

@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Magic
         public ref float Time => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Gilded Soul");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;

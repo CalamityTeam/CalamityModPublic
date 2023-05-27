@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Armor.PlagueReaper
     [AutoloadEquip(EquipType.Legs)]
     public class PlagueReaperStriders : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plague Reaper Striders");
-            /* Tooltip.SetDefault("3% increased ranged critical strike chance\n" +
-                "15% increased movement speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

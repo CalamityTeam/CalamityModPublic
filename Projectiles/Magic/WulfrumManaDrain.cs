@@ -17,11 +17,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public ref float Timer => ref Projectile.ai[0];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mana Drain");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

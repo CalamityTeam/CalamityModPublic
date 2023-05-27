@@ -10,15 +10,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class NebulousCore : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nebulous Core");
-            /* Tooltip.SetDefault("10% increased damage\n" +
-                               "Summons floating nebula stars to protect you\n" +
-                               "You will survive an attack that would have killed you and be healed 100 HP\n" +
-                               "This effect has a 90 second cooldown"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

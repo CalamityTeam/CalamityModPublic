@@ -15,7 +15,6 @@ Naught awaits them in this cruel world.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Awakening");
         }
 
         public override void SetDefaults()

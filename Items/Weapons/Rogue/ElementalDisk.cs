@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     [LegacyName("AccretionDisk")]
     public class ElementalDisk : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Elemental Disk");
-            /* Tooltip.SetDefault("Throws a disk that has a chance to generate several disks if enemies are near it\n" +
-            "Stealth strikes fly slower but travel farther, pierce through enemies, and spawn extra disks more frequently"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 38;

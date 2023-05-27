@@ -42,15 +42,6 @@ namespace CalamityMod.Items.Weapons.Melee
         const string BlastTooltip = "Pressing right click while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges\n" +
         "If more than 5 charges were used, you can dash across the rip by holding UP";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ark of the Elements");
-            /* Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
-                "This line also gets set in ModifyTooltips\n" +
-                "This line also gets set in ModifyTooltips\n" +
-                "A heavenly pair of blades infused with the essence of Terraria, powerful enough to cut through the fabric of reality"); */
-        }
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             if (tooltips == null)

@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Enraged");
-            // Description.SetDefault("All damage taken is increased by 25%");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

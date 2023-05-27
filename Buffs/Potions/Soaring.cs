@@ -7,9 +7,6 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Soaring");
-            /* Description.SetDefault("Increased wing flight time and speed\n" +
-                "True melee hits restore wing flight time"); */
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

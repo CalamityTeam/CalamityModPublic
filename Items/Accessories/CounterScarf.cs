@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Neck)]
     public class CounterScarf : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Counter Scarf");
-            /* Tooltip.SetDefault("10% increased true melee damage\n" +
-                "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
-                "After a successful dodge you must wait 30 seconds before you can dodge again"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

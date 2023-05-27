@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Blast");
             Main.projFrames[Projectile.type] = 4;
         }
 

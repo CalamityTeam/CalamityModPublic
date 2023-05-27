@@ -19,7 +19,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Evisceration Lunge");
         }
         public override void SetDefaults()
         {

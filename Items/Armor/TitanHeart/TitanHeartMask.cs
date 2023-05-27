@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Armor.TitanHeart
     [AutoloadEquip(EquipType.Head)]
     public class TitanHeartMask : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Titan Heart Mask");
-            /* Tooltip.SetDefault("5% increased rogue damage and knockback\n" +
-            "Rogue weapons inflict the Astral Infection debuff"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

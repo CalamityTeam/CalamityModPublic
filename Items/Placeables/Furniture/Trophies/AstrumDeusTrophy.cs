@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class AstrumDeusTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astrum Deus Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

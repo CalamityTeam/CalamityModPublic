@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class TheSwarmer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Swarmer");
-            // Tooltip.SetDefault("Fires a swarm of bees and wasps");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 40;

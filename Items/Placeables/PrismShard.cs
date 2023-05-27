@@ -9,8 +9,6 @@ namespace CalamityMod.Items.Placeables
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-            // DisplayName.SetDefault("Prism Shard");
-            // Tooltip.SetDefault("Glows brighter underwater");
         }
 
         public override void SetDefaults()

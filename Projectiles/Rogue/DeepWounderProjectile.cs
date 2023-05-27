@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/DeepWounder";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deep Wounder Projectile");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

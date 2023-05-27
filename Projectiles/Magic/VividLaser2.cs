@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Vivid Bolt");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

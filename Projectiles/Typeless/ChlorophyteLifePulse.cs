@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public const int Lifetime = 95;
         public float LifetimeCompletion => 1f - Projectile.timeLeft / (float)Lifetime;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Life Pulse");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 96;

@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class AstralScythe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Scythe");
-            // Tooltip.SetDefault("Shoots a scythe ring that accelerates over time");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 56;

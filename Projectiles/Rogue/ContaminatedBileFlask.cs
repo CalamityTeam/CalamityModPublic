@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ContaminatedBile";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Contaminated Bile");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 24;

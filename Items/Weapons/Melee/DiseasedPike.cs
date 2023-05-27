@@ -9,8 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Diseased Pike");
-            // Tooltip.SetDefault("Fires plague seekers on hit");
             ItemID.Sets.Spears[Item.type] = true;
         }
 

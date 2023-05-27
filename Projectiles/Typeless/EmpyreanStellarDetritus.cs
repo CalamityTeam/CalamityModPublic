@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class EmpyreanStellarDetritus : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Empyrean Stellar Detritus");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

@@ -24,11 +24,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localNPCHitCooldown = 10;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Arctic Bear Paw");
-        }
-
         public override void AI()
         {
             //make pretty dust

@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("Interfacer")]
     public class Disseminator : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Disseminator");
-            /* Tooltip.SetDefault("@everyone\n" +
-                "50% chance to not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 52;

@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Summon
         public const float DistanceToCheck = 2800f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Hydra Body");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;

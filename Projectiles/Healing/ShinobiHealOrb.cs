@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Healing
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blue Healing Orb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

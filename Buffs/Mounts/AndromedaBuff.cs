@@ -7,8 +7,6 @@ namespace CalamityMod.Buffs.Mounts
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Andromeda");
-            // Description.SetDefault("You're controlling a piece of history");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

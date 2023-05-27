@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BloodScythe : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blood Scythe");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

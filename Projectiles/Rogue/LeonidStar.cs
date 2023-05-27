@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
         private bool hasHit = false;
         private bool initialized = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Leonid Star");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 22;

@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Magic
         private const float radius = 204.5f;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Explosion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 1; //Uses custom collision, this field is irrelevant

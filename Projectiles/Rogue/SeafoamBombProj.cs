@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SeafoamBombProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Seafoam Bomb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

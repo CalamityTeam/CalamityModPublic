@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class EarlyBloomBobber : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Early Bloom Bobber");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

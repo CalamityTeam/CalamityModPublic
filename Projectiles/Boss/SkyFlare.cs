@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Boss
         public static readonly SoundStyle FlareSound = new("CalamityMod/Sounds/Custom/Yharon/YharonInfernado");
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sky Flare");
             Main.projFrames[Projectile.type] = 5;
         }
 

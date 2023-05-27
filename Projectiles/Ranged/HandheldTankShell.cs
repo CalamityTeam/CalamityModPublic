@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HandheldTankShell : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tank Shell");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

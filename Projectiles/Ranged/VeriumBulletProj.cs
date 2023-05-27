@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
         private float speed = 0f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Verium Bullet");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

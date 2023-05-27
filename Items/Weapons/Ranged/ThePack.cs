@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ThePack : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Pack");
-            // Tooltip.SetDefault("Fires large homing rockets that explode into more homing mini rockets when in proximity to an enemy");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 1000;

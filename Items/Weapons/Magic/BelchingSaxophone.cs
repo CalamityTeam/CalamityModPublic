@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         public const int BaseDamage = 32;
         private int counter = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Belching Saxophone");
-            /* Tooltip.SetDefault("Doot\n" +
-            "Fires an array of dirty reeds, music notes, and sulphuric bubbles"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;

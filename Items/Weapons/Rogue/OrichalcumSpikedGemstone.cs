@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Orichalcum Spiked Gemstone");
-            // Tooltip.SetDefault("Stealth strikes last longer and summon petals on enemy hits");
             Item.ResearchUnlockCount = 99;
         }
 

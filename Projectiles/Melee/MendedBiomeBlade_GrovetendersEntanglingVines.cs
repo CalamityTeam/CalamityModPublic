@@ -27,7 +27,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Entangling Growth");
         }
         public override void SetDefaults()
         {

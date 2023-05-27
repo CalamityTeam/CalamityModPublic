@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Armor.GodSlayer
     [LegacyName("GodSlayerHelmet")]
     public class GodSlayerHeadRanged : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("God Slayer Helmet");
-            // Tooltip.SetDefault("14% increased ranged damage and critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

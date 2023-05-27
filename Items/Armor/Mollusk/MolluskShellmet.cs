@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Armor.Mollusk
     [AutoloadEquip(EquipType.Head)]
     public class MolluskShellmet : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mollusk Shellmet");
-            /* Tooltip.SetDefault("5% increased damage and 4% increased critical strike chance\n" +
-                               "You can move freely through liquids"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

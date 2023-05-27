@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("AMR")]
     public class AntiMaterielRifle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Anti-materiel Rifle");
-            /* Tooltip.SetDefault("Converts musket balls into .50 caliber sniper rounds that rip apart enemy defense and DR\n" +
-                "If you crit the target a second swarm of bullets will fire"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 1880;

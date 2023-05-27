@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
 {
     public class MonolithSink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Counts as a water source");
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Monolith Sink");

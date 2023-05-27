@@ -7,8 +7,6 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astral Injection");
-            // Description.SetDefault("Extreme mana recovery");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

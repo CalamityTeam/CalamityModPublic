@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
     public class HadalUrn : ModItem
     {
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/HadalUrnOpen");
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hadal Urn");
-            // Tooltip.SetDefault("Fires a random assortment of ocean creatures\n"+ "'There's no telling how long it was down there... or what lurks inside'");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 32;

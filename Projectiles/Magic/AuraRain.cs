@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AuraRain : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aura Rain");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

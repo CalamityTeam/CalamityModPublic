@@ -66,7 +66,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Atlas Munitions Autocannon");
             Main.projFrames[Type] = 10;
         }
 

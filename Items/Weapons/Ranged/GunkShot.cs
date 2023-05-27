@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class GunkShot : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gunk Shot");
-            // Tooltip.SetDefault("Shoots a spread of bullets");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 23;

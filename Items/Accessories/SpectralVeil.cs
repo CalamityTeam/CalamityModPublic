@@ -10,16 +10,6 @@ namespace CalamityMod.Items.Accessories
     public class SpectralVeil : ModItem
     {
         public const float TeleportRange = 845f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spectral Veil");
-            /* Tooltip.SetDefault("The inside of the cloak is full of teeth...\n" +
-                "TOOLTIP LINE HERE\n" +
-                "If you dodge something while invulnerable, you instantly gain full stealth\n" +
-                "Teleportation is disabled while Chaos State is active\n" +
-                "Stealth generates 15% faster"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

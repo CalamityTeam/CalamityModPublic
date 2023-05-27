@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Spikecrag Spike");
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 

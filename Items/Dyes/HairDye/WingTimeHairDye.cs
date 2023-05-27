@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Dyes.HairDye
 {
     public class WingTimeHairDye : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wing Time Hair Dye");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class MeteorFist : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Meteor Fist");
-            /* Tooltip.SetDefault("Fires a fist that explodes \n" +
-                               "Stealth strikes make the fist ricochet between enemies up to 4 times"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

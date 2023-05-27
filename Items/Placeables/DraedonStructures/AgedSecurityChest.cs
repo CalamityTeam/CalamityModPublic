@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class AgedSecurityChest : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aged Security Chest");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

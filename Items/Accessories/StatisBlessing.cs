@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Neck)]
     public class StatisBlessing : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Statis' Blessing");
-            /* Tooltip.SetDefault("Increases max minions by 1 and minion damage by 10%\n" +
-                "Increased minion knockback\n" +
-                "Minions inflict holy flames on hit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

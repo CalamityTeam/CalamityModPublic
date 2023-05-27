@@ -13,14 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static int BaseDamage = 130;
         public static float Speed = 15f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Defective Sphere");
-            // Tooltip.SetDefault(@"Fires a variety of deadly spheres with different effects
-//Up to five spheres can be thrown at a time
-//Stealth strikes launch all 4 sphere types at once");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public float LifetimeCompletion => 1f - Projectile.timeLeft / (float)RustyBeaconPrototype.PulseLifetime;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Irradiated Pulse");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 96;

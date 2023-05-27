@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class DeificAmulet : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deific Amulet");
-            /* Tooltip.SetDefault("Causes stars to fall and grants increased immune time when damaged\n" +
-                "Provides life regeneration and reduces the cooldown of healing potions\n"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

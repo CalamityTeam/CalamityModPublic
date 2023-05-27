@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Head)]
     public class OldHunterHat : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Old Hunter Hat");
-            // Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;
@@ -50,8 +44,6 @@ namespace CalamityMod.Items.Armor.Vanity
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Old Hunter Shirt");
-            // Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
 
             if (Main.netMode == NetmodeID.Server)
                 return;
@@ -90,12 +82,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Legs)]
     public class OldHunterPants : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Old Hunter Pants");
-            // Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

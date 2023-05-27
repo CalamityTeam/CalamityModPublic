@@ -15,7 +15,6 @@ The mere existence of this putrid place proves that the Gods of old were beyond 
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("The Corruption");
         }
 
         public override void SetDefaults()

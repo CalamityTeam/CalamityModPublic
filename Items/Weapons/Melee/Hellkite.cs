@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Hellkite : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hellkite");
-            /* Tooltip.SetDefault("Contains the power of an ancient drake\n" +
-                "Summons flame geyser explosions on enemy hits"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 84;

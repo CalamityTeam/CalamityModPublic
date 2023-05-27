@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
     public class HostileOnyxTurret : ModItem
     {
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/OnyxTurret";
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Shoots a shotgun spread of bullets at nearby players");
-        }
-
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.DraedonStructures.HostileOnyxTurret>());

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public static int lifetime = 150;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Night's Gaze Spark");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

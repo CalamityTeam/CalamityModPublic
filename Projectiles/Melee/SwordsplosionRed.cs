@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class SwordsplosionRed : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Red Sword");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

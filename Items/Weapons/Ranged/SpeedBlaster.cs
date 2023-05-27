@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("PaintballBlaster")]
     public class SpeedBlaster : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Speed Blaster");
-            // Tooltip.SetDefault("Shoots a string of paint blasts");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 34;

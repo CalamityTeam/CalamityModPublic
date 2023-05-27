@@ -42,7 +42,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Mercurial Monolith");
         }
         public override void SetDefaults()
         {

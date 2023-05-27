@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class NuclearFury : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nuclear Fury");
-            // Tooltip.SetDefault("Casts a torrent of cosmic typhoons");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 114;

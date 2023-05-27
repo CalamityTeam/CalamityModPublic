@@ -7,15 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class VeneratedLocket : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Venerated Locket");
-            /* Tooltip.SetDefault("10% increased rogue damage\n" +
-                "Using a rogue weapon summons a copy of the projectile that falls from the sky\n" +
-                "Stealth strikes cause a circular fan of seeking cosmilite knives to be thrown\n" +
-                "You'll never be alone, no matter where you go"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

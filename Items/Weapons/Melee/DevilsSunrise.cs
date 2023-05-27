@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public static int BaseDamage = 480;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Devil's Sunrise");
-            // Tooltip.SetDefault("Balls? Smalls.");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 66;

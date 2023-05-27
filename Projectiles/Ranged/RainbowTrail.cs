@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/RainbowFront";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rainbow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

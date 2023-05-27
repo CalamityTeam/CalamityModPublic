@@ -16,12 +16,6 @@ namespace CalamityMod.Items.Armor.Daedalus
             EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Daedalus/DaedalusBreastplate_Waist", EquipType.Waist, this);
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Daedalus Breastplate");
-            // Tooltip.SetDefault("3% increased damage and critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

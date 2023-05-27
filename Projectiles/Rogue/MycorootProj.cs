@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Mycoroot";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Root");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

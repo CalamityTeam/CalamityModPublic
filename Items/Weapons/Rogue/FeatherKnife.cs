@@ -12,9 +12,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Feather Knife");
-            // Tooltip.SetDefault(@"Throws a knife which summons homing feathers
-//Stealth strike throws a volley of knives");
             Item.ResearchUnlockCount = 99;
         }
 

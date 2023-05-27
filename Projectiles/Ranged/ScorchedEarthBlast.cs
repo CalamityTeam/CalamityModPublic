@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Ranged
         private static float ExplosionRadius = 150f;
         private static float StartDustQuantity = 36f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Earth Scorcher");
-        }
-
         public override void SetDefaults()
         {
             // Width and height don't actually do anything because the explosion uses custom collision

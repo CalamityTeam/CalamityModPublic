@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Magic
         public Player Owner => Main.player[Projectile.owner];
         public ref float Time => ref Projectile.ai[0];
         public const float ChargeDelay = 60f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Party Cannon");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 92;

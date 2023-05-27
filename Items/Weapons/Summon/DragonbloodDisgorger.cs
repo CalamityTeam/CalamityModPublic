@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class DragonbloodDisgorger : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dragonblood Disgorger");
-            /* Tooltip.SetDefault("Summons a skeletal dragon and her two children\n" +
-                               "Requires 6 minion slots to be summoned\n" +
-                               "There can only be one family"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 215;

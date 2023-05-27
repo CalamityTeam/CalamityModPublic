@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     [LegacyName("BlueCandle")]
     public class WeightlessCandle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Weightless Candle");
-            /* Tooltip.SetDefault("When placed, nearby players gain 10% movement speed, 10% wing time and 5% acceleration\n" +
-                "'The floating flame seems to uplift your very spirit'"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

@@ -16,11 +16,6 @@ namespace CalamityMod.Projectiles.Damageable
         public override DamageSourceType DamageSources => DamageSourceType.FriendlyProjectiles | DamageSourceType.HostileProjectiles | DamageSourceType.HostileNPCs;
         public override SoundStyle HitSound => SoundID.NPCHit3;
         public override SoundStyle DeathSound => SoundID.NPCDeath14;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Artifact of Resilience");
-        }
-
         public override void SafeSetDefaults()
         {
             Projectile.width = Projectile.height = 76;

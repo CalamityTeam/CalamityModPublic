@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EclipsesSmol : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eclipse's Small");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

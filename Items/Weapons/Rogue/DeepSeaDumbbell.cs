@@ -13,14 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         private const float FlexMultMax = 5f;
         private float flexMult = 1f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deep Sea Dumbbell");
-            /* Tooltip.SetDefault("Throws a dumbbell that bounces and flings weights with each bounce\n" +
-                "Right click to flex, increasing the damage of your next attack up to 5 times damage\n" +
-                "Flexes can hit enemies directly"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 38;

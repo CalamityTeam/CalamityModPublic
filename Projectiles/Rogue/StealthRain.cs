@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Projectiles/Boss/ShaderainHostile";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rain");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

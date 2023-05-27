@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Sea Remains");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 60; // Meteorite
         }
 

@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Magic
         int invistimer = 0;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sea Lamprey");
             Main.projFrames[Projectile.type] = 8;
         }
 

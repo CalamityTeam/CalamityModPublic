@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class PlagueKeeper : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plague Keeper");
-            // Tooltip.SetDefault("Fires a plague and bee cloud");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 74;

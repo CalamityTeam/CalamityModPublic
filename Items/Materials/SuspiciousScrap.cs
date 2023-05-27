@@ -14,8 +14,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Suspicious Scrap");
-            // Tooltip.SetDefault("Looks like it may be part of a greater whole...");
         }
 
         public override void SetDefaults()

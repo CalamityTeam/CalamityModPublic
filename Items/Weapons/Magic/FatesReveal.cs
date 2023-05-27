@@ -14,8 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fate's Reveal");
-            // Tooltip.SetDefault("Spawns ghostly fireballs that follow the player");
             Item.staff[Item.type] = true;
         }
 

@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cloud");
             Main.projFrames[Projectile.type] = 7;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Armor.Aerospec
     [AutoloadEquip(EquipType.Head)]
     public class AerospecHat : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aerospec Hat");
-            // Tooltip.SetDefault("8% increased magic damage and +20 max mana");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

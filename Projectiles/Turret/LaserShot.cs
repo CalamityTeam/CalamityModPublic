@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.Turret
         public NPC struckNPC = null;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Laser Shot");
             Main.projFrames[Projectile.type] = 5;
         }
 

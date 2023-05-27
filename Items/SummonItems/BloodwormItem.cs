@@ -9,10 +9,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bloodworm");
-            /* Tooltip.SetDefault("Summons The Old Duke if used as bait in the Sulphurous Sea\n" +
-                "Enrages outside the Sulphurous Sea"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

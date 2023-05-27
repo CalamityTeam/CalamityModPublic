@@ -11,11 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Flak Toxicannon");
-            /* Tooltip.SetDefault("Fires angled shots in the direction of the cursor\n" +
-                               "Can only be shot in a cone direction above the player\n" +
-                               "High IQ required"); */
-        }
+                   }
         public override void SetDefaults()
         {
             Item.damage = 60;

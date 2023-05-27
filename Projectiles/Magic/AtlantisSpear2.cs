@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Atlantis Spear");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 52;

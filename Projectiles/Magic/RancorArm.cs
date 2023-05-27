@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Magic
         public ref float Time => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Vengeful Arm");
             Main.projFrames[Projectile.type] = 6;
         }
 

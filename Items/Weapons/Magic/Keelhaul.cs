@@ -6,13 +6,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Keelhaul : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Keelhaul");
-            /* Tooltip.SetDefault("Summons a geyser upon hitting an enemy\n" +
-                "Crumple 'em like paper"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

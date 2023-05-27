@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Prismalline";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Prismalline");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

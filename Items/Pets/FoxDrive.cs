@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Pets
 {
     public class FoxDrive : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fox Drive");
-            // Tooltip.SetDefault("'It contains 1 file on it'\n'Fox.cs'");
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.ZephyrFish);

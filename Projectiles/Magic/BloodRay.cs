@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Magic
         public ref float Time => ref Projectile.ai[0];
         public ref float InitialDamage => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blood Ray");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

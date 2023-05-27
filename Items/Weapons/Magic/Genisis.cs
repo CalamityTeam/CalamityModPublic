@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Genisis : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Genisis");
-            // Tooltip.SetDefault("Fires a Y-shaped beam of destructive energy and a spread of lasers");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 70;

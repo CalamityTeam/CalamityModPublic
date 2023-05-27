@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Armor.Astral
     [AutoloadEquip(EquipType.Head)]
     public class AstralHelm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Helm");
-            // Tooltip.SetDefault("Danger detection");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Armor.GodSlayer
     [LegacyName("GodSlayerMask")]
     public class GodSlayerHeadRogue : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("God Slayer Mask");
-            // Tooltip.SetDefault("14% increased rogue damage and critical strike chance, 5% increased movement speed");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

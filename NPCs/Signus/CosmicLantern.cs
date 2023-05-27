@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.Signus
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cosmic Lantern");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

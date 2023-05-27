@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class ChargingStationItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Charging Station");
-            /* Tooltip.SetDefault("Charges Draedon's Arsenal items using Power Cells\n" +
-                "Place both an item and Power Cells into the Charging Station to charge the item"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

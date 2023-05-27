@@ -7,13 +7,6 @@ namespace CalamityMod.Items.PermanentBoosters
 {
     public class MushroomPlasmaRoot : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mushroom Plasma Root");
-            /* Tooltip.SetDefault("Permanently increases the duration of Rage Mode by 1 second\n" +
-                "Revengeance drop"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

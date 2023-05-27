@@ -17,8 +17,6 @@ namespace CalamityMod.Items.Materials
         {
             Item.ResearchUnlockCount = 25;
 
-            // DisplayName.SetDefault("Shadowspec Bar");
-            // Tooltip.SetDefault("A vile, black metal, so horrendous and powerful as to defy explanation");
 
             ItemID.Sets.SortingPriorityMaterials[Type] = 124;
             ItemID.Sets.AnimatesAsSoul[Type] = true;

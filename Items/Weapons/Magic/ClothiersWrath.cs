@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class ClothiersWrath : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Clothier's Wrath");
-            // Tooltip.SetDefault("Shoots 3 shadowflame skulls");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 80;

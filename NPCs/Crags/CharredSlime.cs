@@ -15,7 +15,6 @@ namespace CalamityMod.NPCs.Crags
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Charred Slime");
             Main.npcFrameCount[NPC.type] = 2;
         }
 

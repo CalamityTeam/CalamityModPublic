@@ -7,7 +7,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bone Matter");
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

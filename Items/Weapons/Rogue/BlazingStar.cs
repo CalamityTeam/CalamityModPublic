@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class BlazingStar : RogueWeapon
     {
         public const float Speed = 13f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blazing Star");
-            /* Tooltip.SetDefault("Tosses up to 3 red hot returning glaives\n" +
-                               "Stealth strikes throw three glaives with infinite piercing"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 129;

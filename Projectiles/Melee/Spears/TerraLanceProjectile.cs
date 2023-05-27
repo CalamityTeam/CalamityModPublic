@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class TerraLanceProjectile : BaseSpearProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lance");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 40;  //The width of the .png file in pixels divided by 2.

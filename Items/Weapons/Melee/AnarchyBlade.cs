@@ -15,14 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         private static int BaseDamage = 150;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Anarchy Blade");
-            /* Tooltip.SetDefault("The lower your life the more damage this blade does\n" +
-                "Your hits will generate a large explosion\n" +
-                "If you're below 50% life your hits have a chance to instantly kill regular enemies"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 114;

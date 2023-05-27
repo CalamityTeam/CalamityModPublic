@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Corrocloud");
             Main.projFrames[Projectile.type] = 8;
         }
 

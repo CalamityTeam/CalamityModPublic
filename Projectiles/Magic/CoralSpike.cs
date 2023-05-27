@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public static int DustPick => Main.rand.NextBool(2) ? 255 : Main.rand.NextBool() ? 282 : Main.rand.NextBool() ? 281 : 280;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Coral Spike");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

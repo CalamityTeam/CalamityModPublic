@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Poseidon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Poseidon");
-            // Tooltip.SetDefault("Casts a poseidon typhoon");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 62;

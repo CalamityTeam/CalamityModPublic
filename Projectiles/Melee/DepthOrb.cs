@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DepthOrb : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

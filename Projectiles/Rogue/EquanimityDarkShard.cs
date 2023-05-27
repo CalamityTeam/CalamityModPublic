@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EquanimityDarkShard : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dark Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

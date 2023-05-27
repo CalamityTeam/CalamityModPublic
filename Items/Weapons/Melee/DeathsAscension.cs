@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Death's Ascension");
-            // Tooltip.SetDefault("You can feel the hands of Death himself onto yours\n"+"Right click to launch a barrage of homing scythes");
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

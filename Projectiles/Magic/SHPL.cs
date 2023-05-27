@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Laser");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 5;

@@ -16,11 +16,6 @@ namespace CalamityMod.Projectiles.Rogue
         private const int framesX = 3;
         private const int framesY = 6;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Electrifying Aura");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 218;

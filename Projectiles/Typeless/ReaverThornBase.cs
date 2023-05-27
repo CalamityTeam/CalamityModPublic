@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/ThornBase";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Thorn");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

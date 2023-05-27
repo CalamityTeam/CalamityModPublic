@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         private bool visible = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Meteor Vomit");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

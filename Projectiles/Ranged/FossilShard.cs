@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FossilShard : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class SealedSingularity : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sealed Singularity");
-            /* Tooltip.SetDefault("Shatters on impact, summoning a black hole that sucks in nearby enemies\n" +
-            "Stealth strikes summon a black hole that lasts longer and sucks enemies with stronger force"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 260;

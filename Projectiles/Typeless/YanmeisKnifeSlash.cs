@@ -36,7 +36,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Yanmei's Knife");
             Main.projFrames[Projectile.type] = 5;
         }
 

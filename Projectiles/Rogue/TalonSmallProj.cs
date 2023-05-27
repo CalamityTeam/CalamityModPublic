@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
         private static float SineAmplitude = 0.008f;
         private static float RotationIncrement = 0.26f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Terror Talon");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

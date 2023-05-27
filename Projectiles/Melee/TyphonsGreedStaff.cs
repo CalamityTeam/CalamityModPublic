@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TyphonsGreedStaff : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Typhon's Greed");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 110;

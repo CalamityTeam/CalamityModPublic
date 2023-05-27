@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Butcher";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Butcher");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 66;

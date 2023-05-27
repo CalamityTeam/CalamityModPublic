@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.Boss
         public static readonly SoundStyle ImpactSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneFireblastImpact");
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Brimstone Fireblast");
             Main.projFrames[Projectile.type] = 5;
         }
 

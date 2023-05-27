@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class SandSharkToothNecklace : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sand Shark Tooth Necklace");
-            // Tooltip.SetDefault("Increases armor penetration by 10\n" + "6% increased damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

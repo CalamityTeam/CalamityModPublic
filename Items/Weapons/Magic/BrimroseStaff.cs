@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Brimrose Staff");
-            // Tooltip.SetDefault("Fires a spread of brimstone beams");
             Item.staff[Item.type] = true;
         }
 

@@ -4,11 +4,6 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
     public class StratusSink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Counts as a water source");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

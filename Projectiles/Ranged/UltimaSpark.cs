@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public const int DustType = 261;
         public const float MaxHomingDistance = 1200f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ultima Spark");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 8;

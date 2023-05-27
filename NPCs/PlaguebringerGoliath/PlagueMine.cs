@@ -18,7 +18,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Plague Mine");
             Main.npcFrameCount[NPC.type] = 4;
         }
 

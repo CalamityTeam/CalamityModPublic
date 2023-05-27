@@ -5,11 +5,6 @@ namespace CalamityMod.Projectiles.Healing
 {
     public class SilvaOrb : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Silva Orb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 22;

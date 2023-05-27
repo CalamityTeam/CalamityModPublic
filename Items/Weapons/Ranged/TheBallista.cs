@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class TheBallista : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Ballista");
-            // Tooltip.SetDefault("Converts wooden arrows into greatarrows that crush enemy armor and break into shards on death");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 108;

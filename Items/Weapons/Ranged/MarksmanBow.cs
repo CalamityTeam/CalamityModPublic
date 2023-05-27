@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class MarksmanBow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Marksman Bow");
-            /* Tooltip.SetDefault("Fires three arrows at once\n" +
-            "Wooden arrows are converted into Jester's arrows"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 30;

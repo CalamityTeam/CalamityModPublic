@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Scimitar Zap");
             Main.projFrames[Projectile.type] = 3;
         }
 

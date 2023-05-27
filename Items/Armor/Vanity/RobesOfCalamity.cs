@@ -17,11 +17,6 @@ namespace CalamityMod.Items.Armor.Vanity
         }
 
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Robes of Calamity");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

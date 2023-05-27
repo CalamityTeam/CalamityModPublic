@@ -16,8 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Void Vortex");
-            // Tooltip.SetDefault("Conjures a swirling vortex of supercharged magnet spheres around the cursor");
             Item.staff[Item.type] = true;
         }
 

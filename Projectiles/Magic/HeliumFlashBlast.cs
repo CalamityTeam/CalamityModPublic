@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Magic
         private static float ExplosionRadius = 210.0f;
         private static float StartDustQuantity = 36f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Helium Flash");
-        }
-
         public override void SetDefaults()
         {
             // Width and height don't actually do anything because the explosion uses custom collision

@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public bool raining => Projectile.ai[1] == 0f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Heavenfallen Energy");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

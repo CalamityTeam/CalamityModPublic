@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Armor.SnowRuffian
     [AutoloadEquip(EquipType.Legs)]
     public class SnowRuffianGreaves : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Snow Ruffian Greaves");
-            // Tooltip.SetDefault("5% increased movement speed");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

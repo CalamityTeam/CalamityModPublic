@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
     [LegacyName("VoidBath")]
     public class VoidBathtub : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Void Bathtub");

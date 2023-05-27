@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class Kylie : RogueWeapon
     {
         public static float Speed = 14f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Kylie");
-            // Tooltip.SetDefault("Stealth strikes throws three shorter ranged kylies instead of a single long range one\n" + "'Also known as Dowak'");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 63;

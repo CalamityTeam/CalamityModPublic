@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class ForgottenApexWand : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Forgotten Apex Wand");
-            /* Tooltip.SetDefault("Summons ancient mineral sharks to take on your foes. \n" +
-                               "Seems to have lost its jaw some time in the past"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 44;

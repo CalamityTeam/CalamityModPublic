@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FungiOrb : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Orb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

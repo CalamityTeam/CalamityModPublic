@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Herring");
             Main.projFrames[Projectile.type] = 8;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

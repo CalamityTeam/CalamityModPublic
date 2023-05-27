@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Magic
         private const float Radius = 1400f;
         private const int Lifetime = 45;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blinding Light");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 2;

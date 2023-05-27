@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
     public class PrecisionBolt : ModProjectile
     {
         NPC potentialTarget = null;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Precision Bolt");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 72;

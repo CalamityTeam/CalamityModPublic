@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class AgedLaboratoryTerminalItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aged Laboratory Terminal");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

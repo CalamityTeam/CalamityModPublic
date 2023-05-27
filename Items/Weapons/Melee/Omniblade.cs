@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Omniblade : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Omniblade");
-            // Tooltip.SetDefault("An ancient blade forged by the legendary Omnir");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 64;

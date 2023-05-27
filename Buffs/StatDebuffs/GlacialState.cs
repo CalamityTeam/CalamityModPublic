@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Glacial State");
-            // Description.SetDefault("Cannot move");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

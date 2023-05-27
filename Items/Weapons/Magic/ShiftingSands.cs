@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class ShiftingSands : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shifting Sands");
-            // Tooltip.SetDefault("Casts a sand shard that follows the mouse cursor");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 92;

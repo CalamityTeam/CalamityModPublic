@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Meld Construct");
         }
 
         public override void SetDefaults()

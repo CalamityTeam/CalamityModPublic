@@ -9,11 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("MepheticSprayer")]
     public class BlightSpewer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blight Spewer");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 110;

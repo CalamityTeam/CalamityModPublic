@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Profaned Energy");
             Main.npcFrameCount[NPC.type] = 6;
         }
 

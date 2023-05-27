@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class DraconicDestruction : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Draconic Destruction");
-            /* Tooltip.SetDefault("Fires a draconic sword beam that explodes into additional beams\n" +
-                "Additional beams fly up and down to shred enemies"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 90;

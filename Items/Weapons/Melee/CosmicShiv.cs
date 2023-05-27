@@ -12,11 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cosmic Shiv");
-            /* Tooltip.SetDefault("Fires a cosmic beam that homes in on enemies\n" +
-                "Upon hitting an enemy, a barrage of offscreen objects home in on the enemy as well as raining stars\n" +
-                "Receives 33% benefit from melee speed bonuses"); */
-            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
+                       ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()

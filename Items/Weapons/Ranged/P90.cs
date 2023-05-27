@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class P90 : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("P90");
-            /* Tooltip.SetDefault("50% chance to not consume ammo\n" +
-                "It's a bullet hose"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 8;

@@ -11,10 +11,7 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Hyperius Bullet");
-            /* Tooltip.SetDefault("Your enemies might have a bad time\n" +
-                "Spawns additional bullets on enemy hits"); */
-        }
+                   }
 
         public override void SetDefaults()
         {

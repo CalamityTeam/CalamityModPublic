@@ -28,7 +28,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Luminous Corvina");
             Main.npcFrameCount[NPC.type] = 8;
         }
 

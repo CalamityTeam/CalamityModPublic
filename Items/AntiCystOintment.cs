@@ -8,8 +8,6 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Anti-Cyst Ointment");
-            // Tooltip.SetDefault("Favorite this item to prevent perforator cysts from spawning near you");
         }
         public override void SetDefaults()
         {

@@ -24,11 +24,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         private const int frameLength = 5;
         private const float radius = 191.5f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plasma Explosion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 383;

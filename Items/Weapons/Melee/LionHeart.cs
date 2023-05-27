@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class LionHeart : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lion Heart");
-            /* Tooltip.SetDefault("Summons an energy explosion on enemy hits\n" +
-            "Right click to summon an energy shell for a few seconds that halves all damage sources\n" +
-            "This has a 45 second cooldown"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 60;

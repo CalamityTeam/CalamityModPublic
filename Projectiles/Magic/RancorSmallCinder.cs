@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Magic
         public ref float Lifetime => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cinder");
             Main.projFrames[Projectile.type] = 3;
         }
 

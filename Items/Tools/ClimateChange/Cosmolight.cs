@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Tools.ClimateChange
         private const int NoonCutoff = 27000;
         private const int MidnightCutoff = 16200;
         
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cosmolight");
-            /* Tooltip.SetDefault("Advances time immediately to the next dawn, noon, dusk or midnight\n" +
-                "Does not work while a boss is alive"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

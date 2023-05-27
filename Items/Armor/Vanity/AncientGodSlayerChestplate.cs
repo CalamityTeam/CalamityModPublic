@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Body)]
     public class AncientGodSlayerChestplate : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ancient God Slayer Chestplate");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

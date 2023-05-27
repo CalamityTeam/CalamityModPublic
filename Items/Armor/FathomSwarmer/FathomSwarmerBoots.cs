@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Armor.FathomSwarmer
     [AutoloadEquip(EquipType.Legs)]
     public class FathomSwarmerBoots : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fathom Swarmer Greaves");
-            /* Tooltip.SetDefault("4% increased minion damage\n" +
-                "Grants the ability to swim\n" +
-                "Movement speed increased by 40% while submerged in liquid"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Celestial Remains");
             Item.ResearchUnlockCount = 200;
 			ItemID.Sets.SortingPriorityExtractibles[Type] = 3; // Desert Fossil
         }

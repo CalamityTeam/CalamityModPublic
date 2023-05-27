@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BlackAnurianBubble : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bubble");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

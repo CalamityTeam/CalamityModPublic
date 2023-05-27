@@ -8,7 +8,6 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Goop");
             Main.projFrames[Projectile.type] = 3;
         }
 

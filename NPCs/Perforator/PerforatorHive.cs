@@ -42,7 +42,6 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Perforator Hive");
             Main.npcFrameCount[NPC.type] = 10;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);

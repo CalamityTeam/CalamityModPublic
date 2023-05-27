@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class SulphurousGrabberBubble2 : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bubble");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 18;

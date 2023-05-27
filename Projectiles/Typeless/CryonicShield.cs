@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cryonic Shield");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
         }
 

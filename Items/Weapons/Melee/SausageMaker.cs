@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sausage Maker");
-            // Tooltip.SetDefault("Sprays homing blood on hit");
             ItemID.Sets.Spears[Item.type] = true;
         }
 

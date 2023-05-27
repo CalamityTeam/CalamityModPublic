@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class GoldplumeSpearProjectile : BaseSpearProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spear");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 54;  //The width of the .png file in pixels divided by 2.

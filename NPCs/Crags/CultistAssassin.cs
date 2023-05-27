@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.Crags
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cultist Assassin");
             Main.npcFrameCount[NPC.type] = 4;
         }
 

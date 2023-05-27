@@ -18,11 +18,6 @@ namespace CalamityMod.Projectiles.Magic
             ModContent.DustType<AstralOrange>()
         };
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aurora Australis");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

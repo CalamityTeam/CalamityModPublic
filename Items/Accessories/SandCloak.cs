@@ -8,14 +8,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class SandCloak : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sand Cloak");
-            /* Tooltip.SetDefault("5% increased movement speed\n" +
-                "TOOLTIP LINE HERE\n" +
-                "This effect has a 30 second cooldown before it can be used again"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

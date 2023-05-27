@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class UrchinSpikeFugu : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Urchin Spike");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

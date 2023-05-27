@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicSpiritBomb3 : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bomb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 24;

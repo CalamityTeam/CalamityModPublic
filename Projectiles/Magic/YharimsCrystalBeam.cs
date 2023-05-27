@@ -38,11 +38,6 @@ namespace CalamityMod.Projectiles.Magic
         private const float BeamRenderTileOffset = 10.5f;
         private const float BeamLengthReductionFactor = 14.5f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Yharim's Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 18;

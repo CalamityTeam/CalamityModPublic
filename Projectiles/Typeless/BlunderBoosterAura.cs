@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Red Lightning Aura");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
         }
 

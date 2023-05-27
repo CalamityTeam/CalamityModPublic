@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystal : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Holy Crystal");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 160;

@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class TheStorm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Storm");
-            /* Tooltip.SetDefault("Fires a spread of arrows from the sky\n" +
-                "Converts wooden arrows into lightning bolts"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 24;

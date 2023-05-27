@@ -16,11 +16,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         private int dust3 = 234; //cyan and pink
         private bool hasHit = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Pulse Bolt");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

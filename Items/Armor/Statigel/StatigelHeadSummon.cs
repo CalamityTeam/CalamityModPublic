@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Armor.Statigel
     [LegacyName("StatigelHood")]
     public class StatigelHeadSummon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Statigel Hood");
-            // Tooltip.SetDefault("Increased minion knockback");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

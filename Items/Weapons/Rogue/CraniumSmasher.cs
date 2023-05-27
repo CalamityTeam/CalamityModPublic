@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CraniumSmasher : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cranium Smasher");
-            /* Tooltip.SetDefault("Throws disks that roll on the ground, occasionally launches an explosive disk\n" +
-            "Stealth strikes launch an explosive disk that can pierce several enemies"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 50;

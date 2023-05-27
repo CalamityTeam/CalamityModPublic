@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class MourningstarFlail : BaseWhipProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mourningstar");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

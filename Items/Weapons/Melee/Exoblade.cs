@@ -51,15 +51,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int BaseUseTime = 49;
         public static int BeamsPerSwing = 3;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Exoblade");
-            /* Tooltip.SetDefault("Left clicks release multiple energy beams that home in on enemies and slice them on hit\n" +
-                               "Right clicks make you dash in the direction of the cursor with the blade\n" +
-                               "Enemy hits from the blade during the dash result in massive damage and a rebound\n" +
-                               "Left clicks briefly after a rebound are far stronger and create explosions on enemy hits"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 138;

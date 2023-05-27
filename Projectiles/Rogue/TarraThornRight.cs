@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/NettleRight";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Thorn");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

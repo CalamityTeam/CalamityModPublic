@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Typeless
         public const float ReelbackSpeed = 28f;
         public const float LaunchSpeed = 25f;
         public const float GrappleRangInTiles = 40f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bobbit Head");
-        }
-
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);

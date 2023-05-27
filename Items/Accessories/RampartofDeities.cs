@@ -12,17 +12,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Shield)]
     public class RampartofDeities : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rampart of Deities");
-            /* Tooltip.SetDefault("Causes stars to fall and gives increased immune time when damaged\n" +
-                "Provides life regeneration and reduces the cooldown of healing potions\n" +
-                "Absorbs 25% of damage done to players on your team\n" +
-                "This effect is only active above 25% life\n" +
-                "Grants immunity to knockback\n" +
-                "Puts a shell around the owner when below 50% life that reduces damage taken"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 64;

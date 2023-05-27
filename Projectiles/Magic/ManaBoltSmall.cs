@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ManaBoltSmall : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bolt");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

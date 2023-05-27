@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Armor.Daedalus
     [AutoloadEquip(EquipType.Legs)]
     public class DaedalusLeggings : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Daedalus Leggings");
-            /* Tooltip.SetDefault("3% increased critical strike chance\n" +
-                "10% increased movement speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

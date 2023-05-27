@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DarkBall : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dark Ball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     public class CosmicAnvilItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cosmic Anvil");
-            /* Tooltip.SetDefault("An otherworldly anvil capable of withstanding the pressures of stellar collapse\n" +
-                "Also functions as every previous tier of anvil"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 62;

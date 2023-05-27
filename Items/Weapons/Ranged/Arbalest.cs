@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         private int totalProjectiles = 1;
         private float arrowScale = 0.5f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Arbalest");
-            /* Tooltip.SetDefault("Fires a volley of 10 high-speed arrows\n" +
-                "Arrows start off small and grow in size with continuous fire\n" +
-                "Arrow damage, spread and knockback scale with arrow size"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 28;

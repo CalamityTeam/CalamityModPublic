@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Armor.Daedalus
     [LegacyName("DaedalusHelm")]
     public class DaedalusHeadMelee : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Daedalus Helm");
-            /* Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
-                "15% increased melee speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

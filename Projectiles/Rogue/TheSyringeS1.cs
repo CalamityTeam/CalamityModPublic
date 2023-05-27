@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Shrapnel");
             Main.projFrames[Projectile.type] = 3;
         }
 

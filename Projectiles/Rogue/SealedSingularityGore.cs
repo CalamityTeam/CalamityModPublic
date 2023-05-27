@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SealedSingularityGore : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sealed Singularity Fragment");
-        }
-
         public override void SetDefaults()
         {
             Projectile.friendly = true;

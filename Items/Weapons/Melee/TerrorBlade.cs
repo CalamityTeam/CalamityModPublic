@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         internal const float TerrorBlastMultiplier = 0.3f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Terror Blade");
-            /* Tooltip.SetDefault("Fires a terror beam that bounces off tiles\n" +
-                "On every bounce it emits an explosion"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 88;

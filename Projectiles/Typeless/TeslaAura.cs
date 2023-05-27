@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Tesla's Electricity");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
         }
 

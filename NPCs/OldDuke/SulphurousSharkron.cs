@@ -21,7 +21,6 @@ namespace CalamityMod.NPCs.OldDuke
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sulphurous Sharkron");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)

@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cosmic Ice");
             Main.projFrames[Projectile.type] = 6;
         }
 

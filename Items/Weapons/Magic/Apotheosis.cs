@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Apotheosis : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Apotheosis");
-            /* Tooltip.SetDefault("Eat worms\n" +
-                "Unleashes interdimensional projection magic"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 230;

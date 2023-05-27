@@ -18,11 +18,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const int LightningFireRate = 60;
         public const int FieldLightningFireRate = 45;
         public const float FieldRadius = 360f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("System Bane");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 36;

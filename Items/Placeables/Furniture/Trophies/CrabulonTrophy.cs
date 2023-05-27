@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class CrabulonTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crabulon Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

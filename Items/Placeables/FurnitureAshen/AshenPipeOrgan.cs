@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
     [LegacyName("AshenPiano")]
     public class AshenPipeOrgan : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ashen Pipe Organ");

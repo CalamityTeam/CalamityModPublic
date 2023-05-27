@@ -56,7 +56,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Storm Weaver");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)

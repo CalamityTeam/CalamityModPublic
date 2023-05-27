@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Placeables.LivingFire
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-            // DisplayName.SetDefault("Living God Slayer Fire Block");
         }
 
         public override void SetDefaults()

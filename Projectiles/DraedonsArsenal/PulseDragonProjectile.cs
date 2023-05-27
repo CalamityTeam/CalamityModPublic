@@ -30,11 +30,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const int ReelbackTime = 25;
         public const int Lifetime = ChargeTime + ReelbackTime;
         public const float MaximumPossibleOutwardness = 72f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Pulse Dragon");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 32;

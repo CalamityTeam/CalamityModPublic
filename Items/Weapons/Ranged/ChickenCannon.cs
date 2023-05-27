@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ChickenCannon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Chicken Cannon");
-            /* Tooltip.SetDefault("Fires chicken flares which create enormous incendiary explosions\n" +
-                "Right click to detonate all airborne rockets"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 416;

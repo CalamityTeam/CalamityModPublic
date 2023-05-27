@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class SupremeCatastropheTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Supreme Catastrophe Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

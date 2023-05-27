@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class LunarianBow : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lunarian Bow");
-            /* Tooltip.SetDefault("Fires two arrows at once\n" +
-                "Converts wooden arrows into sliding energy bolts"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 19;

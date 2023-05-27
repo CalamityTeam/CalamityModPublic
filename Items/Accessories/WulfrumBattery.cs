@@ -13,12 +13,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Wulfrum Battery");
-            /* Tooltip.SetDefault( "Empowers your summons with wulfrum energy, letting them emit light around them\n" + 
-                "7% increased summon damage\n" +
-                "50% chance to get an extra scrap when killing wulfrum robots\n" +
-                "Can also be scrapped at an extractinator"); */
-
+           
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 

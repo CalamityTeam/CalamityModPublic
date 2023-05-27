@@ -5,11 +5,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SevensStrikerCherrySplit : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cherry");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

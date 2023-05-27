@@ -17,7 +17,6 @@ namespace CalamityMod.NPCs.Astral
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astral Slime");
             Main.npcFrameCount[NPC.type] = 2;
         }
 

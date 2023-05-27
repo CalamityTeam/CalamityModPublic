@@ -13,7 +13,6 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Microbial Cluster");
         }
 
         public override void SetDefaults()

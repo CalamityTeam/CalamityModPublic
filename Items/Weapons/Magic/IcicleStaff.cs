@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Icicle Staff");
-            // Tooltip.SetDefault("Casts icicles from the sky");
             Item.staff[Item.type] = true;
         }
 

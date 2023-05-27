@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class GammaHeart : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gamma Heart");
-            // Tooltip.SetDefault("Summons radioactive heads that are bound by your body");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 58;

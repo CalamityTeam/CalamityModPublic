@@ -11,7 +11,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Oarfish");
         }
 
         public override void SetDefaults()

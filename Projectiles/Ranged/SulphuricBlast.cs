@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Ranged
         public const int TotalSecondsToStick = 8;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sulphuric Blast");
             Main.projFrames[Projectile.type] = 20;
         }
 

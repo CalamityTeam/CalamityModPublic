@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-            // Tooltip.SetDefault("Can be placed in water");
 			ItemID.Sets.Torches[Item.type] = true;
 			// Right now this causes some Cursed Inferno dust until tmod fixes AutoLightSelect, it's a small sacrifice
 			ItemID.Sets.WaterTorches[Item.type] = true;

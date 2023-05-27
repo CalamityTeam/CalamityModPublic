@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Turret
 {
     public class IceShot : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Shot");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 22;

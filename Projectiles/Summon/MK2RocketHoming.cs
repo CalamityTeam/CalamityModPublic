@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Rocket");
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

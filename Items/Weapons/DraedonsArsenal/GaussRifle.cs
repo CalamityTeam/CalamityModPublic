@@ -18,13 +18,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/LargeMechGaussRifle");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gauss Rifle");
-            /* Tooltip.SetDefault("A large and slow weapon, the concussive force of its projectiles do well in clearing large groups\n" +
-            "Fires a devastating high velocity blast with absurd knockback"); */
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

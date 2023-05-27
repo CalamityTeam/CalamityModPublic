@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class LeviathanTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Leviathan Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

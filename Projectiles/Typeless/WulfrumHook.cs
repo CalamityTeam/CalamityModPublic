@@ -40,7 +40,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Wulfrum Slingshot");
             //Expand the draw distance. Should never happen really , but just in case the player basically walks away from the hook.
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 3000;
         }

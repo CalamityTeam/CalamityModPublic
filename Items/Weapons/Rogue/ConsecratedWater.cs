@@ -11,15 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public const int BaseDamage = 48;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Consecrated Water");
-            /* Tooltip.SetDefault("The bottle is surprisingly dusty\n" +
-                               "Throws a holy flask of water that explodes into a sacred flame pillar on death\n" +
-                               "The pillar is destroyed if there's no tiles below it\n" +
-                               "Stealth strikes create three flame pillars instead of one on impact"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;

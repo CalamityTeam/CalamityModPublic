@@ -22,12 +22,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class ThaumaticChair : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Thaumatic Chair"); // for Deallly#3625 who apparently deleted their account.  how do I contact them??????
-            // Tooltip.SetDefault("One of Chloe's finest creations"); // who is Chloe?
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

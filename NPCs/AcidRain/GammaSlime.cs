@@ -27,7 +27,6 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Gamma Slime");
             Main.npcFrameCount[NPC.type] = 2;
         }
 

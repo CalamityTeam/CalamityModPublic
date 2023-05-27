@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sparked Flames");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 12;

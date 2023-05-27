@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         private int radius = 100;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Magnomaly Aura");
-        }
-
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Ranged;

@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class OldDukeToothBallSpike : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spike");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

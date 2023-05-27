@@ -13,14 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         private static int baseDamage = 20;
         private static float baseKnockback = 1.8f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Poison Pack");
-            /* Tooltip.SetDefault("Throws up to 3 poisonous spiky balls\n" +
-                "Stealth strikes cause the balls to release spore clouds\n" +
-                "Right click to delete all existing spiky balls"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = baseDamage;

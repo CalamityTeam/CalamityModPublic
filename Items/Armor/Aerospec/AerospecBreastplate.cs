@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Armor.Aerospec
     [AutoloadEquip(EquipType.Body)]
     public class AerospecBreastplate : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aerospec Breastplate");
-            // Tooltip.SetDefault("3% increased critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

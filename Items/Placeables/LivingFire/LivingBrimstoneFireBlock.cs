@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.LivingFire
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-            // DisplayName.SetDefault("Living Brimstone Fire Block");
         }
 
         public override void SetDefaults()

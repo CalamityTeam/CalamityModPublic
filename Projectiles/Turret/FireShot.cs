@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Turret
         public bool ableToHit = true;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fire Shot");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 16;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

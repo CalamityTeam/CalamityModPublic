@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class UberBubble : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bubble");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

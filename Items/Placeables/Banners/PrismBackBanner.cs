@@ -6,12 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class PrismBackBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Prism-Back Banner");
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Prism-Back");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

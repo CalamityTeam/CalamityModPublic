@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Nebulash : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nebulash");
-            // Tooltip.SetDefault("Fires a whip sword that emits particle explosions on hit");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

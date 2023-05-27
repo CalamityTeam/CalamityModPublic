@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Materials
         {
             Item.ResearchUnlockCount = 25;
 
-            // DisplayName.SetDefault("Cryonic Bar");
 
 			ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
         }

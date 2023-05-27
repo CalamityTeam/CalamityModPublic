@@ -21,7 +21,6 @@ namespace CalamityMod.Projectiles.Rogue
         public bool CollideX => Projectile.oldPosition.X == Projectile.position.X;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Barrel");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class OathswordFlame : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Flame");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

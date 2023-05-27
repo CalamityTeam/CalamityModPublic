@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         private bool playedSound = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blood");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

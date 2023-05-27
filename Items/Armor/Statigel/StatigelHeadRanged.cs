@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Armor.Statigel
     [LegacyName("StatigelHeadgear")]
     public class StatigelHeadRanged : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Statigel Headgear");
-            /* Tooltip.SetDefault("10% increased ranged damage\n" +
-                "7% increased ranged critical strike chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Armor.Sulphurous
     [LegacyName("SulfurBreastplate")]
     public class SulphurousBreastplate : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sulphurous Breastplate");
-            // Tooltip.SetDefault("8% increased rogue damage and 5% increased rogue critical strike chance");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

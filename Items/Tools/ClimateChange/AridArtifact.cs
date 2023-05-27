@@ -5,14 +5,6 @@ namespace CalamityMod.Items.Tools.ClimateChange
 {
     public class AridArtifact : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Arid Artifact");
-            /* Tooltip.SetDefault("Summons a sandstorm\n" +
-                               "The sandstorm will happen shortly after the item is used\n" +
-                               "If used during a sandstorm, the sandstorm will stop some time afterward."); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Placeables.Banners
     [LegacyName("CatfishBanner")]
     public class ToxicatfishBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Toxicatfish");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         internal const int ChiBuffTimerMax = 900;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Trinket of Chi");
-            /* Tooltip.SetDefault("Provides 10% damage reduction after not being hit for 15 seconds, this is removed when you are hit\n" +
-                "Provides 2 life regen for you and everyone on your team"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

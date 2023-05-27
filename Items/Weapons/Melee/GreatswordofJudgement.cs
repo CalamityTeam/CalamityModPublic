@@ -6,16 +6,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class GreatswordofJudgement : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Greatsword of Judgement");
-            /* Tooltip.SetDefault("A pale white sword from a forgotten land\n" +
-                               "You can hear faint yet comforting whispers emanating from the blade\n" +
-                               "'No matter where you may be you are never alone\n" +
-                               "I shall always be at your side, my lord'\n" +
-                               "Fires a white orb that emits white rain on death for a time"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 78;

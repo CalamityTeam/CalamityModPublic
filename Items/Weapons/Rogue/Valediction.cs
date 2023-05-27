@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Valediction : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Valediction");
-            /* Tooltip.SetDefault("Throws a homing reaper scythe\n" +
-                "Stealth strikes spawn razorblade typhoons on enemy hits"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 80;

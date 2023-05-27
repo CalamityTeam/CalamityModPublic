@@ -18,18 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Elysian Tracers");
-            /* Tooltip.SetDefault("Ludicrous speed!\n" +
-                "Counts as wings\n" +
-                "Horizontal speed: 10.50\n" +
-                "Acceleration multiplier: 2.75\n" +
-                "Great vertical speed\n" +
-                "Flight time: 180\n" +
-                "36% increased running acceleration\n" +
-                "Greater mobility on ice\n" +
-                "Water and lava walking\n" +
-                "Immunity to lava and On Fire! debuff"); */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 10.5f, 2.75f);
+                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 10.5f, 2.75f);
         }
 
         public override void SetDefaults()

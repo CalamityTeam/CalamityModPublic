@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CadaverousCarrion : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cadaverous Carrion");
-            // Tooltip.SetDefault("Summons a gross Old Duke head on the ground");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 384;

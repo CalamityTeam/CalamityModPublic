@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class EarlyBloomRod : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Early Bloom Rod");
-            /* Tooltip.SetDefault("Fires six lines at once. Line never snaps.\n" +
-                "The early bird catches the fish."); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

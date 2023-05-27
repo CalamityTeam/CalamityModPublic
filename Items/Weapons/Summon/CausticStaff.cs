@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CausticStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Caustic Staff");
-            /* Tooltip.SetDefault("Summons a mini dragon to fight for you\n" +
-                "The dragon can inflict several debilitating debuffs if you hold a summon weapon or tool"); */
-        }
-
         public override void SetDefaults()
         {
             Item.mana = 10;

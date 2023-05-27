@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class AquaticDischarge : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aquatic Discharge");
-            // Tooltip.SetDefault("Enemies release electric sparks on hit");
-        }
-
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Rapier;

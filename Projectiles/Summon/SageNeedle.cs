@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Summon
         public const int OnDeathHealValue = 1;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sage Needle");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

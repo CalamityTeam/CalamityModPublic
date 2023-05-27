@@ -53,12 +53,6 @@ namespace CalamityMod.Items.Armor.GemTech
         public const int AllGemsLifeRegenBoostTime = 480;
         public const int AllGemsMultiWeaponLifeRegenBoostTime = 150;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gem Tech Headgear");
-            // Tooltip.SetDefault("The Devil said: Revel in your victory; You've earned your damning. Pack your things and leave.");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 40;

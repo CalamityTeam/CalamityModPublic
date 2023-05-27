@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Zen Potion");
-            // Tooltip.SetDefault("Vastly decreases enemy spawn rate");
         }
 
         public override void SetDefaults()

@@ -15,13 +15,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         private int counter = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Executioner's Blade");
-            /* Tooltip.SetDefault("Throws a stream of homing blades\n" +
-                "Stealth strikes summon a guillotine of blades on hit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 64;

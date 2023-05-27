@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
     [LegacyName("CosmiliteWorkbench")]
     public class CosmiliteWorkBench : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Cosmilite Work Bench");

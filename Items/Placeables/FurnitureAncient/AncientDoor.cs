@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
     public class AncientDoor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 14;

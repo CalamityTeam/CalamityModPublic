@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ClaretCannon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Claret Cannon");
-            /* Tooltip.SetDefault("Fires strings of 3 bullets\n" +
-                "Converts musket balls into bloody tears that drain enemy health"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 140;

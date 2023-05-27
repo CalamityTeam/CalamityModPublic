@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
     public class HostileLabTurret : ModItem
     {
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/LabTurret";
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Shoots laser beams at nearby players");
-        }
-
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.DraedonStructures.DraedonLabTurret>());

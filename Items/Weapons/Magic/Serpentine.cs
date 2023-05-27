@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Serpentine : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Serpentine");
-            // Tooltip.SetDefault("Casts a serpent that follows the mouse cursor");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 14;

@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Chibii Devourer (Flying)");
             Main.projPet[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;

@@ -5,10 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     public class VoidTable : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

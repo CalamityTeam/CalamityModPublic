@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class VerstaltiteFishingRod : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Verstaltite Fishing Rod");
-            /* Tooltip.SetDefault("Increased fishing power when in the tundra\n" +
-                "The ancient alloy's prismatic qualities are perfect for attracting fish"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

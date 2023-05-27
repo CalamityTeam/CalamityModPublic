@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class NuclearRod : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nuclear Rod");
-            /* Tooltip.SetDefault("Minions release an irradiated aura on enemy hits\n" +
-                               "Grants immunity to Irradiated"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

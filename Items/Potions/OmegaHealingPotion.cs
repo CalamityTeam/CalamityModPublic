@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Omega Healing Potion");
             Item.ResearchUnlockCount = 30;
         }
 

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BallOFuguProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ball O Fugu");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

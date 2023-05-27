@@ -10,10 +10,7 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Blood Rune");
-            /* Tooltip.SetDefault("Used with the Ice Barrage \n" +
-                "Found in some sort of runic landscape"); */
-        }
+                   }
 
         public override void SetDefaults()
         {

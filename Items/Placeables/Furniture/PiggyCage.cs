@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class PiggyCage : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Piggy Cage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

@@ -21,7 +21,6 @@ namespace CalamityMod.NPCs.Other
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Exhumed Brimstone Heart");
             Main.npcFrameCount[NPC.type] = 6;
         }
 

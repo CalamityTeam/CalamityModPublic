@@ -22,7 +22,6 @@ I did not answer. I had long since become deaf to the world outside my crusade. 
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Polterghast");
         }
 
         public override void SetDefaults()

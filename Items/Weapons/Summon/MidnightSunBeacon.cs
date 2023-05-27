@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public const float MachineGunRate = 18f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Midnight Sun Beacon");
-            // Tooltip.SetDefault("Summons a UFO to vaporize enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 150;

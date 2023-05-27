@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
         public const int OnHitIFrames = 5;
         public override string Texture => "CalamityMod/Items/Weapons/Melee/Lucrecia";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lucrecia");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(31);

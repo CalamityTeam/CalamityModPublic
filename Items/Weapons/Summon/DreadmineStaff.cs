@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class DreadmineStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dreadmine Staff");
-            // Tooltip.SetDefault("Summons a dreadmine turret to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 60;

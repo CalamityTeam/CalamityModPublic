@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CausticCroakerStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Caustic Croaker Staff");
-            // Tooltip.SetDefault("Summons a toad that explodes if enemies are nearby");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 8;

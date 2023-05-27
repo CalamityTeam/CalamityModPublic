@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class VeinBurster : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Vein Burster");
-            // Tooltip.SetDefault("Fires a blood ball that sticks to tiles and explodes");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 52;

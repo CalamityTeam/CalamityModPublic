@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Armor.Sulphurous
     [LegacyName("SulfurLeggings")]
     public class SulphurousLeggings : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sulphurous Leggings");
-            /* Tooltip.SetDefault("Movement speed increased by 10%\n" +
-                "Movement speed increased by 35% while submerged in liquid"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

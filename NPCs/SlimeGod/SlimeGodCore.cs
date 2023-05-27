@@ -45,7 +45,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Slime God");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
 			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }

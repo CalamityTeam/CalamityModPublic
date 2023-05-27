@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Polaris Piercing Lunge");
         }
         public override void SetDefaults()
         {

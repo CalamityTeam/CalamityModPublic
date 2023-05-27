@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Fungicide : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fungicide");
-            // Tooltip.SetDefault("Converts musket balls into fungal rounds that split on death");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 20;

@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class PoseidonTyphoon : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Poseidon Typhoon");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

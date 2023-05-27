@@ -46,7 +46,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         public ref float AttackTimer => ref NPC.ai[1];
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cloud Elemental");
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

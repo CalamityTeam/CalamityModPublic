@@ -21,7 +21,6 @@ namespace CalamityMod.Projectiles.Boss
         public const float BeamPosOffset = 16f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Gamma Disintegration Beam Telegraph");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 

@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BrimstoneHomer : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Homer");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

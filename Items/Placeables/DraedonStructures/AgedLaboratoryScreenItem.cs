@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class AgedLaboratoryScreenItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aged Laboratory Screen");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

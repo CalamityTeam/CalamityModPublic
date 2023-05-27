@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Enemy
 
         public float count = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Burst");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class DraedonsLogHell : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Environmental Pollution Log");
-            // Tooltip.SetDefault("[Environment Log] - Pollution and 'Wall of Flesh'\nClick to view its contents");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

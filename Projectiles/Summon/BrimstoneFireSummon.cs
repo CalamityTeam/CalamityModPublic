@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fire");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

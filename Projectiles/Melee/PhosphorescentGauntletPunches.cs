@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Melee
         public const float LungeSpeed = 19f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Punch");
             Main.projFrames[Projectile.type] = 14;
         }
 

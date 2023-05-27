@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Back)]
     public class GiantShell : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Giant Shell");
-            /* Tooltip.SetDefault("15% reduced movement speed\n" +
-                "Taking a hit will make you move very fast for a short time"); */
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 10;

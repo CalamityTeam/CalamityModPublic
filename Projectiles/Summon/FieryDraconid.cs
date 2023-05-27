@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Summon
         public const int FireballShootRate = 20;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fiery Draconid");
             Main.projFrames[Projectile.type] = 10;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;

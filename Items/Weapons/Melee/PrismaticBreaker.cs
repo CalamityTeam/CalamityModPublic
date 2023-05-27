@@ -34,12 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Prismatic Breaker");
-            /* Tooltip.SetDefault("Seems to belong to a certain magical girl. Radiates with intense cosmic energy.\n" +
-                "Fire to charge for a powerful rainbow laser\n" +
-                "Right click to instead swing the sword and fire rainbow colored waves\n" +
-                "The sword is boosted by both melee and ranged damage"); */
-            Item.staff[Item.type] = true;
+                       Item.staff[Item.type] = true;
 
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }

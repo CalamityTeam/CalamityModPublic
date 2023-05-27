@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Oblivion");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 400f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 16.5f;

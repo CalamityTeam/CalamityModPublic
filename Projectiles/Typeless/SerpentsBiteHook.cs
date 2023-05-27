@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Typeless
         public const float ReelbackSpeed = 14f;
         public const float LaunchSpeed = 18f;
         public const float GrappleRangInTiles = 28.125f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Serpent's Bite");
-        }
-
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);

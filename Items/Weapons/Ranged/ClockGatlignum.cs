@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ClockGatlignum : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Clock Gatlignum");
-            /* Tooltip.SetDefault("33% chance to not consume ammo\n" +
-                "Converts musket balls into strings of 3 high velocity bullets"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 55;

@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Armor.Aerospec
     [AutoloadEquip(EquipType.Head)]
     public class AerospecHelmet : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aerospec Helmet");
-            // Tooltip.SetDefault("5% increased movement speed and minion damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

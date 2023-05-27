@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Rocket Shard");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

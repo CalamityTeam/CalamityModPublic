@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class WindBlade : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wind Blade");
-            // Tooltip.SetDefault("Fires cyclones that suck enemies in");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 58;

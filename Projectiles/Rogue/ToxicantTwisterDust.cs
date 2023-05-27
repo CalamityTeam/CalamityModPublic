@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dust");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

@@ -19,7 +19,6 @@ namespace CalamityMod.NPCs.SulphurousSea
         public int boulderIndex;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Anthozoan Crab");
             Main.npcFrameCount[NPC.type] = 16;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

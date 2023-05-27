@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Dyes.HairDye
 {
     public class RageHairDye : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rage Hair Dye");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

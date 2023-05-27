@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/Aquashard";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aquashard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

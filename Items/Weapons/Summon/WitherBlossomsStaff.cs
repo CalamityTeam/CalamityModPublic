@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class WitherBlossomsStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wither Blossoms Staff");
-            /* Tooltip.SetDefault("Summons four decaying flowers over your head\n" +
-                               "The combined flowers consume two minion slots"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 50;

@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Void Tentacle");
         }
         public override void SetDefaults()
         {

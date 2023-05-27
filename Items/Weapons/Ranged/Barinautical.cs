@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Barinautical : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Barinautical");
-            // Tooltip.SetDefault("Converts wooden arrows into strings of 3 electric bolt arrows that explode");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 32;

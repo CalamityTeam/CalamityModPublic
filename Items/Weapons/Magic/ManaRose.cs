@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Mana Rose");
-            // Tooltip.SetDefault("Casts a mana flower that explodes into petals");
             Item.staff[Item.type] = true;
         }
 

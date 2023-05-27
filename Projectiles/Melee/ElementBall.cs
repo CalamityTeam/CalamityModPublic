@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

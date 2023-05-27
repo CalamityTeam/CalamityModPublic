@@ -15,11 +15,7 @@ namespace CalamityMod.Items.PermanentBoosters
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/BloodOrangeConsume");
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Blood Orange");
-            /* Tooltip.SetDefault("It has a distinctly sweet flavor and a strong aroma\n" +
-                               "Permanently increases maximum life by 25\n" +
-                               "Can only be used if the max amount of life fruit has been consumed"); */
-			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+           			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 18; // Life Fruit
         }
 

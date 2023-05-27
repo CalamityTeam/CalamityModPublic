@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/DeepSeaDumbbell";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deep Sea Dumbbell");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 26;

@@ -7,10 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 {
     public class ExoToilet : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Exo Toilet");

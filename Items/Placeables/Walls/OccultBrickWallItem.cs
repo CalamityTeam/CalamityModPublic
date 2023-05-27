@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Occult Brick Wall");
             Item.ResearchUnlockCount = 400;
         }
 

@@ -12,13 +12,6 @@ namespace CalamityMod.Items.PermanentBoosters
     {
         public int frameCounter = 0;
         public int frame = 0;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ectoheart");
-            /* Tooltip.SetDefault("Permanently increases Adrenaline Mode damage by 15% and damage reduction by 5%\n" +
-                "Revengeance drop"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ark of the Elements");
         }
         public override void SetDefaults()
         {

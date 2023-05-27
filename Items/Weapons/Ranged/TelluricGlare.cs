@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class TelluricGlare : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Telluric Glare");
-            // Tooltip.SetDefault("Fires volleys of four colossal radiant arrows which can pass through walls");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 216;

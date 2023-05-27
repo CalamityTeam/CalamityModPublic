@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Acid Mist");
             Main.projFrames[Projectile.type] = 10;
         }
 

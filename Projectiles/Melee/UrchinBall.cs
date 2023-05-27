@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public bool spike = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("UrchinBall");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 34;

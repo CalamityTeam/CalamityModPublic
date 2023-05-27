@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class BlackAnurian : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Black Anurian");
-            // Tooltip.SetDefault("Spews bubbles and homing plankton");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 21;

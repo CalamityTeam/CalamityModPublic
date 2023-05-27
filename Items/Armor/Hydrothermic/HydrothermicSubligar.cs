@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     [LegacyName("AtaxiaSubligar")]
     public class HydrothermicSubligar : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hydrothermic Subligar");
-            /* Tooltip.SetDefault("5% increased critical strike chance\n" +
-                "10% increased movement speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public static readonly SoundStyle SaxSound = new("CalamityMod/Sounds/Item/Saxophone/Sax", 6);
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Reed");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

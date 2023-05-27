@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class ManaJelly : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mana Jelly");
-            /* Tooltip.SetDefault("+20 max mana\n" +
-                "Standing still boosts mana regen"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
     public class FireTurret : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            /* Tooltip.SetDefault("Roasts nearby enemies with a flamethrower at full blast\n" +
-                "Cannot attack while a boss is alive"); */
-        }
-
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<PlayerFireTurret>());

@@ -16,11 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         internal bool limit = true;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Infinity");
-            /* Tooltip.SetDefault("Fires a barrage of energy bolts that split and bounce\n" +
-                "Right click to fire a barrage of normal bullets\n" +
-                "They say infinity is neverending, yet you hold it in your hands"); */
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

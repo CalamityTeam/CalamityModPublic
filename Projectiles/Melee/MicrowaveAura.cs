@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Melee
 
         private int radius = 100;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Microwave Radiation");
-        }
-
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.MeleeNoSpeed;

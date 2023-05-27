@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class RegulusRiot : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Regulus Riot");
-            // Tooltip.SetDefault(@"Fires a swift homing disk
-//Stealth strikes explode into energy stars");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 116;

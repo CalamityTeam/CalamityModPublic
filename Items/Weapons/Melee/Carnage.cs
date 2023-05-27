@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Carnage : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Carnage");
-            // Tooltip.SetDefault("Slain enemies erupt into homing blood");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 50;

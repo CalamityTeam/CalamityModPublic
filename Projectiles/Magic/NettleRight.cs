@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class NettleRight : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Thorn");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

@@ -9,11 +9,6 @@ namespace CalamityMod.Items.Tools
 {
     public class Gelpick : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gelpick");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 12;

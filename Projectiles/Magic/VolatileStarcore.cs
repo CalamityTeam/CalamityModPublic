@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Volatile Starcore");
             Main.projFrames[Projectile.type] = NumAnimationFrames;
         }
         public override void SetDefaults()

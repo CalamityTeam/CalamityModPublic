@@ -7,10 +7,6 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Amidias' Blessing");
-            /* Description.SetDefault("You are blessed by Amidias" +
-                                   "\nLets you breathe underwater, even in the Abyss!" +
-                                   "\nJust don't get hit..."); */
             Main.debuff[Type] = false;
             Main.buffNoSave[Type] = false;
         }

@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Titanium Shuriken");
-            // Tooltip.SetDefault("Stealth strikes act like a boomerang that spawns clones on enemy hits");
             Item.ResearchUnlockCount = 99;
         }
 

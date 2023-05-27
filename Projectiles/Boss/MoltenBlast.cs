@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Molten Blast");
             Main.projFrames[Projectile.type] = 4;
         }
 

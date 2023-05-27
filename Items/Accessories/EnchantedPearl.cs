@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class EnchantedPearl : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Enchanted Pearl");
-            /* Tooltip.SetDefault("Increases fishing skill\n" +
-                "Increases chance to catch crates"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

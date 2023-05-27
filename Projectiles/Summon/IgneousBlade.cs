@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Summon
         public bool Firing = false;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Igneous Blade");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
         }

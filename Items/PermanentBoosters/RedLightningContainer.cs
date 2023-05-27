@@ -11,13 +11,6 @@ namespace CalamityMod.Items.PermanentBoosters
     {
         public int frameCounter = 0;
         public int frame = 0;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Red Lightning Container");
-            /* Tooltip.SetDefault("Permanently increases the duration of Rage Mode by 1 second\n" +
-                "Revengeance drop"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

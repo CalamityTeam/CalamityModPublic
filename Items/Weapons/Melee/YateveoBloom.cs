@@ -16,11 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Yateveo Bloom");
-            /* Tooltip.SetDefault("A synthesis of jungle flora\n" +
-                "Throws a powerful rose flail\n" +
-                "Right click to stab with a flower spear"); */
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

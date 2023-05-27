@@ -15,16 +15,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         public const float WeaknessDR = 0.45f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Relic of Resilience");
-            /* Tooltip.SetDefault("Summons a bulwark at the mouse position\n" +
-                               "The bulwark is killed by enemies and all projectiles.\n" +
-                               "On death, the bulwark explodes into a rotating burst of shards\n" +
-                               "If an enemy is in the area of the shards, its next attack is much weaker. This effect has a cooldown\n" +
-                               "After a bit of time, the shards come together to reform the original bulwark.\n" +
-                               $"This reformation can only happen {ArtifactOfResilienceBulwark.MaxReformations} times.\n" +
-                               "You gain a small cooldown when summoning a new bulwark.\n" +
-                               "If a bulwark already exists, using this item will relocate it"); */
-            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
+                       ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

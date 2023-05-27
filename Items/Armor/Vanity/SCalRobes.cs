@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Calamitous Robes");
 
             if (Main.netMode != NetmodeID.Server)
             {

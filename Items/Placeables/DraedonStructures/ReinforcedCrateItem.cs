@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class ReinforcedCrateItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Reinforced Crate");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

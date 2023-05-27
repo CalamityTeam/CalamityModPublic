@@ -16,7 +16,6 @@ namespace CalamityMod.NPCs.OldDuke
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Tooth Ball");
         }
 
         public override void SetDefaults()

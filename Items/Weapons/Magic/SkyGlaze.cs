@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sky Glaze");
-            // Tooltip.SetDefault("Fires feathers from the sky that stick to enemies and tiles and explode");
             Item.staff[Item.type] = true;
         }
 

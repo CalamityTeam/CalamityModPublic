@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ClamorRifleProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Energy Bolt");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

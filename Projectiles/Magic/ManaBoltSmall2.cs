@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/ManaBoltSmall";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bolt");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

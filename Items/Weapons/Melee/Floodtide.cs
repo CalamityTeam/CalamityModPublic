@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Floodtide : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Floodtide");
-            // Tooltip.SetDefault("Launches sharks, because sharks are awesome!");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 89;

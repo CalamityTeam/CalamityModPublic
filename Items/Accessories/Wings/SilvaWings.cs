@@ -17,14 +17,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Silva Wings");
-            /* Tooltip.SetDefault("The purest of nature\n" +
-                "Horizontal speed: 11.00\n" +
-                "Acceleration multiplier: 2.8\n" +
-                "Excellent vertical speed\n" +
-                "Flight time: 270\n" +
-                "The Silva revive heals you to half health while wearing the Silva armor"); */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(270, 11f, 2.8f);
+                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(270, 11f, 2.8f);
         }
 
         public override void SetDefaults()

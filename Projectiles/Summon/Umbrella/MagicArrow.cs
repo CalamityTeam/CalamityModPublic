@@ -24,11 +24,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             }
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Vermillion Arrow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public static readonly SoundStyle ProjectileDeathSound = SoundID.NPCDeath39 with { Volume = 0.5f};
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Soul Edge");
-            // Tooltip.SetDefault("Fires the ghastly souls of long-deceased abyss dwellers");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 88;

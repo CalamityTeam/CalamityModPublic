@@ -9,15 +9,6 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("FabledTortoiseShell")]
     public class FlameLickedShell : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Flame-Licked Shell");
-            /* Tooltip.SetDefault("35% decreased movement speed\n" +
-                                "Enemies take damage when they hit you\n" +
-                                "You move faster and lose 18 defense for 3 seconds if you take damage\n" +
-                                "Grants immunity to lava and Armor Crunch"); */
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 36;

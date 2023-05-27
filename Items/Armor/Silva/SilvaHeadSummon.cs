@@ -19,12 +19,6 @@ namespace CalamityMod.Items.Armor.Silva
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/SilvaActivation");
         public static readonly SoundStyle DispelSound = new("CalamityMod/Sounds/Custom/AbilitySounds/SilvaDispel");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Silva Horned Hood");
-            // Tooltip.SetDefault("10% increased minion damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

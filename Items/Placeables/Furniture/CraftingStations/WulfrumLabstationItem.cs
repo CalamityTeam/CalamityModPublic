@@ -5,12 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     public class WulfrumLabstationItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wulfrum Labstation");
-            // Tooltip.SetDefault("Used for special crafting");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

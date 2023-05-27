@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TerraSpear : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spear");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

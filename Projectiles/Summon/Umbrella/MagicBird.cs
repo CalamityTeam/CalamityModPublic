@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bird");
             Main.projFrames[Projectile.type] = 7;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

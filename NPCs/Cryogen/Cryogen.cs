@@ -72,7 +72,6 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cryogen");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
 			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }

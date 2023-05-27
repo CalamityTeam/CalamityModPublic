@@ -11,10 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Aegis Blade");
-            /* Tooltip.SetDefault("Striking an enemy with the blade causes an earthen eruption\n" +
-                "Right click to fire an aegis bolt"); */
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

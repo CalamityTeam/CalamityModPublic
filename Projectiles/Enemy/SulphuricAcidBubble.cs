@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Acid Bubble");
             Main.projFrames[Projectile.type] = 7;
         }
 

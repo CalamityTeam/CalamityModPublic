@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Rogue
         public int hitCount = 0;
         private static float Radius = 47f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Star of Destruction");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 94;

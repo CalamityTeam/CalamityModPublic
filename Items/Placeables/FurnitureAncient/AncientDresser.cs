@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
     public class AncientDresser : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

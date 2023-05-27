@@ -15,7 +15,6 @@ namespace CalamityMod.NPCs.AcidRain
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Radiator");
             Main.npcFrameCount[NPC.type] = 4;
         }
 

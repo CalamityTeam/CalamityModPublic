@@ -5,11 +5,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class Phantom : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Phantom");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;

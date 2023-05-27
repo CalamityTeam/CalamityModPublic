@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     public class SludgeSplotchProj1 : ModProjectile
     {
         public static int sludgeDustType = 191;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sludge Splotch");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 14;

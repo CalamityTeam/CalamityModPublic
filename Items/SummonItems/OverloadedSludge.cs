@@ -12,11 +12,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Overloaded Sludge");
-            /* Tooltip.SetDefault("It looks corrupted\n" +
-                "Summons the Slime God\n" +
-                "Not consumable"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 5; // Abeemination / Deer Thing
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 5; // Abeemination / Deer Thing
         }
 
         public override void SetDefaults()

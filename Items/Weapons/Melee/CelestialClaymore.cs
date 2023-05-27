@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class CelestialClaymore : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Celestial Claymore");
-            // Tooltip.SetDefault("Spawns cosmic energy flames near the player that generate large explosions");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 80;

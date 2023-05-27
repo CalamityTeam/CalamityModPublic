@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CursedDagger : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cursed Dagger");
-            /* Tooltip.SetDefault("Throws bouncing daggers\n" +
-            "Stealth strikes are showered in cursed fireballs"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 34;

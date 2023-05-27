@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class SpectralstormCannon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spectralstorm Cannon");
-            /* Tooltip.SetDefault("70% chance to not consume flares\n" +
-                "Fires a storm of lost souls and flares"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 48;

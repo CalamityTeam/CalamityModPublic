@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class PestilentSlimeBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Pestilent Slime");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

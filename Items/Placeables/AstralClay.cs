@@ -7,7 +7,6 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astral Clay");
             Item.ResearchUnlockCount = 100;
         }
 

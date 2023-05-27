@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Boss
         public const int FadeinTime = 18;
         public const int FadeoutTime = 18;
         public override string Texture => "CalamityMod/Projectiles/StarProj";
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Majestic Sparkle");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 72;

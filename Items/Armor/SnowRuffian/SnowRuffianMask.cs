@@ -19,12 +19,6 @@ namespace CalamityMod.Items.Armor.SnowRuffian
             }
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Snow Ruffian Mask");
-            // Tooltip.SetDefault("2% increased rogue damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

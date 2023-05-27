@@ -16,7 +16,6 @@ Fate was cruel to many of their kind.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Queen Bee");
         }
 
         public override void SetDefaults()

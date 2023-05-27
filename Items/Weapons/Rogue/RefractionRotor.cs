@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class RefractionRotor : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Refraction Rotor");
-            /* Tooltip.SetDefault("Fires a huge prismatic disk shuriken\n" +
-                "The shuriken shatters moments after impact into homing rockets\n" +
-                "Stealth strikes shatter into many more rockets"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = Item.height = 120;

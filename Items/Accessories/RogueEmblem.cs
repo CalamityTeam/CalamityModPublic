@@ -6,12 +6,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class RogueEmblem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rogue Emblem");
-            // Tooltip.SetDefault("15% increased rogue damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

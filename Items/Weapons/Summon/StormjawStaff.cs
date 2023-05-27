@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class StormjawStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stormjaw Staff");
-            // Tooltip.SetDefault("Summons a baby stormlion to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 8;

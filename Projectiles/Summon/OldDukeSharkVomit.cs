@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Puke");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

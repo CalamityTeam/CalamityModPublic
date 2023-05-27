@@ -18,13 +18,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const int PoisonedDebuffTime = 240;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rusty Beacon Prototype");
-            /* Tooltip.SetDefault("Summons a long-abandoned drone to support you\n" +
-                               "The drone hovers in place and releases toxic waves that inflict irradiated and poisoned"); */
-        }
-
         public override void SetDefaults()
         {
             Item.mana = 10;

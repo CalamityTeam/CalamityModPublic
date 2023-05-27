@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class ForsakenSaber : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Forsaken Saber");
-            // Tooltip.SetDefault("Shoots two sand blades that alter their velocity as they travel");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 46;

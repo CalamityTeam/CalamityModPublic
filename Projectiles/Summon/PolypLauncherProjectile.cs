@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Summon
         public const float Gravity = 0.4f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Polyp Chunk");
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 

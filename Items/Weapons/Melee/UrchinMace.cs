@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("RedtideSword")]
     public class UrchinMace : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Urchin Mace");
-            // Tooltip.SetDefault("Throws out a whirlpool when released at full charge");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

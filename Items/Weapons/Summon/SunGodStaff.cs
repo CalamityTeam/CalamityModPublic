@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class SunGodStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sun God Staff");
-            /* Tooltip.SetDefault("Summons a solar god spirit to protect you\n" +
-                "There can only be one spirit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 60;

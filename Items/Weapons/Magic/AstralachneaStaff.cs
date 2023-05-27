@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astralachnea Staff");
-            // Tooltip.SetDefault("Fires a spread of homing astral spider fangs");
             Item.staff[Item.type] = true;
         }
 

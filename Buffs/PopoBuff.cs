@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Popo");
-            // Description.SetDefault("You are a snowman now!");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;

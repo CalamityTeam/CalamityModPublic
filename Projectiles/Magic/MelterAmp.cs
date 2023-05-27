@@ -8,7 +8,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Melter Amp");
             Main.projFrames[Projectile.type] = 3;
         }
 

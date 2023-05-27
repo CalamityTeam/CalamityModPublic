@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
     public class PlagueTurret : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            /* Tooltip.SetDefault("Ejects homing plague missiles towards nearby enemies\n" +
-                "Cannot attack while a boss is alive"); */
-        }
-
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<PlayerPlagueTurret>());

@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Rogue
         public const float InterpolationTime = 10;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Final Dawn");
             Main.projFrames[Projectile.type] = 4;
         }
         public override void SetDefaults()

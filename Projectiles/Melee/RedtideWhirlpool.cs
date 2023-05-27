@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public Player Owner => Main.player[Projectile.owner];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Whirlpool");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 60;

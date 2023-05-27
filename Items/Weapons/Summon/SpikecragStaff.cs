@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class SpikecragStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spikecrag Staff");
-            // Tooltip.SetDefault("Summons a spikecrag to protect you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 56;

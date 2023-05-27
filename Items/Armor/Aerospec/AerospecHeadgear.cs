@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Armor.Aerospec
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Aerospec Headgear");
-            // Tooltip.SetDefault("8% increased rogue damage and 5% increased movement speed");
 
             if (Main.netMode != NetmodeID.Server)
                 ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;

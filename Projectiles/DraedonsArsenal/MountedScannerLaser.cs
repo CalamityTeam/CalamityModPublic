@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Deathray");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

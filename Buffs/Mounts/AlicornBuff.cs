@@ -7,8 +7,6 @@ namespace CalamityMod.Buffs.Mounts
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Alicorn");
-            // Description.SetDefault("You beat DoG while drunk, you are truly fabulous!");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

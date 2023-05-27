@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Valaricicle2 : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Valaricicle");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class SlurperBobber : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Slurper Bobber");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/RealmRavagerBullet";
         private int bounce = 2;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shotgun Pellet");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

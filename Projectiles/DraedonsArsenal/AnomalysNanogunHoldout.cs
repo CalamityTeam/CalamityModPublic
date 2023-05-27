@@ -46,11 +46,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         }
         #endregion
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Anomaly's Nanogun");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 1;

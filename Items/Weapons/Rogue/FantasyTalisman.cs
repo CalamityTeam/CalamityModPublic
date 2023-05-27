@@ -12,10 +12,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fantasy Talisman");
-            // Tooltip.SetDefault(@"Fires high velocity talismans that ignore gravity
-//Talismans attach to enemies, causing them to release lost souls
-//Stealth strikes release more souls and leave behind souls as they travel");
             Item.ResearchUnlockCount = 99;
         }
 

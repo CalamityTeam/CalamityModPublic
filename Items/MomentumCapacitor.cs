@@ -12,12 +12,6 @@ namespace CalamityMod.Items
         internal const float MaxMomentumCharge = 5.8f; // +580% movemnt speed
         internal const int TotalFadeTime = 16;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Momentum Capacitor");
-            // Tooltip.SetDefault("While using the Momentum Capacitor,\n" + "your top speed will continuously and uncontrollably increase\n" + "This effect only works if there are no bosses alive");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

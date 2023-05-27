@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class ForbiddenSun : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Forbidden Sun");
-            // Tooltip.SetDefault("Casts a fire orb that emits a gigantic explosion on death");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 80;

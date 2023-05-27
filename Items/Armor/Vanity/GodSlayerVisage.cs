@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Head)]
     public class GodSlayerVisage : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("God Slayer Visage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

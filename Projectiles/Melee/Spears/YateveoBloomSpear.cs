@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class YateveoBloomSpear : BaseSpearProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Yateveo Bloom");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 40;

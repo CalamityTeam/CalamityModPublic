@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Summon
         public float Hue => OffsetAngle % MathHelper.TwoPi / MathHelper.TwoPi % 1f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Elemental Petal");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;

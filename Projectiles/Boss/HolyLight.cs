@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/StarProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Holy Light");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

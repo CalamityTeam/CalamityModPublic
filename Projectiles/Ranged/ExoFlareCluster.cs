@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Ranged
         public const float MaxDistanceFromTarget = 350f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Exo Flare Cluster");
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }
 

@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LightBall : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Light Ball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

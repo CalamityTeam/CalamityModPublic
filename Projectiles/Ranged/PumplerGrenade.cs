@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Ranged
         public ref float State => ref Projectile.ai[0];
         public static int MaxTime => 180;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Squash Shell");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 26;

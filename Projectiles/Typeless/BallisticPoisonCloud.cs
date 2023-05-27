@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ballistic Cloud");
             Main.projFrames[Projectile.type] = 10;
         }
 

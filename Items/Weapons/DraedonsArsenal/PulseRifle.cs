@@ -20,13 +20,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         private int BaseDamage = 1420;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Pulse Rifle");
-            /* Tooltip.SetDefault("Draedon's former pulse rifle, used in emergencies for creations which turned against him\n" +
-                "When the pulse hits a target it will arc to another nearby target"); */
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

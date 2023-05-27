@@ -31,7 +31,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sparkling Laser");
             Main.projFrames[Projectile.type] = 5;
         }
 

@@ -43,7 +43,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Holy Beam");
             Main.projFrames[Projectile.type] = 10;
         }
 

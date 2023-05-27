@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class AshenBathtub : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ashen Bathtub");

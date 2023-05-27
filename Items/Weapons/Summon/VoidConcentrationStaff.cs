@@ -11,16 +11,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class VoidConcentrationStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Void Concentration Staff");
-            /* Tooltip.SetDefault("Summons a foreboding aura that attacks by firing void orbs\n" +
-                               "Minion damage is increased by 5% while the aura is active\n" +
-                               "Requires three minion slots to use\n" +
-                               "Only one may exist\n" +
-                               "Right click to launch a black hole that grows in size"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 52;

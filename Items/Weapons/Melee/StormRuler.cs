@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class StormRuler : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Storm Ruler");
-            /* Tooltip.SetDefault("Only a storm can fell a greatwood\n" +
-                "Fires beams that generate tornadoes on death\n" +
-                "Tornadoes suck enemies in"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 80;

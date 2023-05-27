@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class FrostBlossomStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Frost Blossom Staff");
-            /* Tooltip.SetDefault("Summons a frozen flower over your head\n" +
-                "There can only be one flower"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 10;

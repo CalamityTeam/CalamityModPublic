@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class AshenChair : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            //Tooltip.SetDefault("This is a modded chair.");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

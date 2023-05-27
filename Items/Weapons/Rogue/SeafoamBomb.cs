@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class SeafoamBomb : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Seafoam Bomb");
-            // Tooltip.SetDefault(@"Throws a bomb that explodes into a bubble which deals extra damage to enemies
-//Stealth strikes are faster and explode into 5 bubbles");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

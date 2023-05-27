@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Svantechnical : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Svantechnical");
-            /* Tooltip.SetDefault("Fires several barrages of bullets\n" +
-                "Right click to zoom out"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 150;

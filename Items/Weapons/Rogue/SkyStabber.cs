@@ -14,14 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         private static int damage = 50;
         private static int knockBack = 2;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sky Stabber");
-            /* Tooltip.SetDefault("Throws up to 4 gravity-defying spiky balls\n" +
-                "Stealth strikes make the balls rain feathers onto enemies when they hit\n" +
-                "Right click to delete all existing spiky balls"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = damage;

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/DrizzlefishFire";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Drizzlefish Flames");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

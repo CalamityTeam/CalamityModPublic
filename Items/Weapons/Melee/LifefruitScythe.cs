@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class LifefruitScythe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lifehunt Scythe");
-            // Tooltip.SetDefault("Heals you on hit and shoots an energy scythe");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 62;

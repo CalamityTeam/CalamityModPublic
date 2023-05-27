@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Armor.Tarragon
     [LegacyName("TarragonHelm")]
     public class TarragonHeadMelee : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tarragon Helm");
-            /* Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
-                "5% increased damage reduction"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

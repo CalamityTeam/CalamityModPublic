@@ -15,11 +15,6 @@ namespace CalamityMod.Projectiles.Ranged
         private bool initialized = false;
         private int radianAmt = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aurora");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

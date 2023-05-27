@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class TrilobiteSpike : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spike");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

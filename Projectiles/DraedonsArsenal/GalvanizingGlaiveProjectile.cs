@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Galvanizing Glaive");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 90;
         }

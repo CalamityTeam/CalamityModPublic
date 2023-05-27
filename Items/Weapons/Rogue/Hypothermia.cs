@@ -15,13 +15,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         // For more consistent DPS, always alternates between throwing 1 and 2 instead of picking randomly
         private bool throwTwo = true;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hypothermia");
-            /* Tooltip.SetDefault("Throws a constant barrage of black ice shards\n" +
-                               "Stealth strikes hurl a set of razor sharp ice chunks that shatter on impact"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 46;

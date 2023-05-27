@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BloodBall : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blood Ball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

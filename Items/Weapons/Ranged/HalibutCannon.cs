@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class HalibutCannon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Halibut Cannon");
-            // Tooltip.SetDefault("Yes, it's still overpowered");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 50;

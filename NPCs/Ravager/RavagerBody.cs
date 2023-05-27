@@ -45,7 +45,6 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ravager");
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)

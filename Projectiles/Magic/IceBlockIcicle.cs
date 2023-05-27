@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class IceBlockIcicle : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Barrage");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 18;

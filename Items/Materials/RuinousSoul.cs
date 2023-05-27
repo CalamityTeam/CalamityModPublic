@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Ruinous Soul");
-            // Tooltip.SetDefault("A shard of the distant past");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
 			ItemID.Sets.SortingPriorityMaterials[Type] = 111;

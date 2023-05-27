@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class PrimordialAncient : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Primordial Ancient");
-            /* Tooltip.SetDefault("An ancient relic from an ancient land\n" +
-                "Casts a gigantic blast of dust"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 170;

@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
     // TODO -- StatigelWorkBench. I do not want to deal with capitalization issues.
     public class StatigelWorkbench : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Statigel Work Bench");

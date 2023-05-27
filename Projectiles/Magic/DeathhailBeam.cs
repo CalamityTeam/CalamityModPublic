@@ -24,11 +24,6 @@ namespace CalamityMod.Projectiles.Magic
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd", AssetRequestMode.ImmediateLoad).Value;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deathhail");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 22;

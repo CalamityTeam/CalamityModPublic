@@ -18,12 +18,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
         #endregion
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sand Sharknado Staff");
-            // Tooltip.SetDefault("Summons a sandnado to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 47;

@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Crag Bullhead"); //Bass substitute
-            // Tooltip.SetDefault("Its scales are scorching hot");
             Item.ResearchUnlockCount = 3;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

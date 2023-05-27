@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BloodBeam : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blood Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

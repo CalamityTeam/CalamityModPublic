@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class SlitheringEels : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Slithering Eels");
-            // Tooltip.SetDefault("Casts a magical acid eel that releases acid drops as it moves");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 80;

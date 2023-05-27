@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("CalamityRing")]
     public class VoidofCalamity : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Void of Calamity");
-            /* Tooltip.SetDefault("12% increase to all damage\n" +
-            "Brimstone fire rains down after getting hit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

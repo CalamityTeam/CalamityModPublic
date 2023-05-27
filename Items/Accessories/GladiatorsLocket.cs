@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class GladiatorsLocket : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gladiator's Locket");
-            /* Tooltip.SetDefault("Enemies drop a healing orb on kill\n" +
-                "Gain an increase to your damage and movement speed the lower your health is, up to 20%"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class EyeOfNight : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eye of Night");
-            // Tooltip.SetDefault("Summons a diseased eyeball that fires cells which attach to enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 28;

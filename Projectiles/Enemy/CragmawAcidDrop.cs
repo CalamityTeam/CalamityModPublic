@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Enemy
     public class CragmawAcidDrop : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Acid");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

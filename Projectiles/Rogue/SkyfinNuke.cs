@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SkyfinBombers";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Skyfin Nuke");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

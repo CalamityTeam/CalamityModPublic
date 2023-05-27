@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/DNA";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("DNA");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

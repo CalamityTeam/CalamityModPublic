@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Tools
     [LegacyName("MarniteSpear")]
     public class MarniteDeconstructor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Marnite Deconstructor");
-            // Tooltip.SetDefault("Its engine generates hardlight rays capable of excavating walls from a long distance\n" + "Ignores 10 points of enemy Defense");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 6;

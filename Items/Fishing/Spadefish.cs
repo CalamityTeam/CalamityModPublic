@@ -6,13 +6,6 @@ namespace CalamityMod.Items.Fishing
 {
     public class Spadefish : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spadefish");
-            /* Tooltip.SetDefault("How can a fish be used to dig through the ground?\n" +
-                "Some questions are best left unanswered."); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 15;

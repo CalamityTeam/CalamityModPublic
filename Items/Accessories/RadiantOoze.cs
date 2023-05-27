@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class RadiantOoze : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Radiant Ooze");
-            // Tooltip.SetDefault("You emit light and regen life more quickly at night");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

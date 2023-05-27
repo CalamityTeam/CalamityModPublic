@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class TerraFlameburster : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Terra Flameburster");
-            // Tooltip.SetDefault("80% chance to not consume gel");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 55;

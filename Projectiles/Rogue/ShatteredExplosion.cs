@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         bool dust = true;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shattered Sun Blast");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 150;

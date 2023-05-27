@@ -17,8 +17,6 @@ namespace CalamityMod.Items.Materials
         {
             Item.ResearchUnlockCount = 25;
 
-            // DisplayName.SetDefault("Scoria Bar");
-            // Tooltip.SetDefault("The smoke feels warm");
 
             ItemID.Sets.SortingPriorityMaterials[Type] = 95; // Stardust Fragment
             ItemID.Sets.AnimatesAsSoul[Type] = true;

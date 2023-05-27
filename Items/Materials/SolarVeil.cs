@@ -9,8 +9,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Solar Veil");
-            // Tooltip.SetDefault("Sunlight cannot penetrate the fabric of this cloth");
         }
 
         public override void SetDefaults()

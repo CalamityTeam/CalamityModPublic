@@ -10,11 +10,6 @@ namespace CalamityMod.Items.Tools
 {
     public class AstralPickaxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Pickaxe");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 65;

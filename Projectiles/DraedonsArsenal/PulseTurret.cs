@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Pulse Turret");
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 

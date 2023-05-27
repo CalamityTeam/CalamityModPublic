@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class GhastlySubBlast : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ghast Blast");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 18;

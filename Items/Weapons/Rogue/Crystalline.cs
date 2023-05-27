@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Crystalline : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crystalline");
-            /* Tooltip.SetDefault("Splits into several projectiles as it travels\n" +
-                               "Stealth strikes make the blade split more and create crystals when destroyed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 48;

@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Fishing
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Stuffed Fish");
-            // Tooltip.SetDefault("Right click to extract herbs and seeds");
             Item.ResearchUnlockCount = 10;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

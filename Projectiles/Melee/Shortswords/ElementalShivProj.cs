@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/ElementalShiv";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Elemental Shiv"); // TODO: Make this one function like PiercingStarlight
-        }
-
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(22);

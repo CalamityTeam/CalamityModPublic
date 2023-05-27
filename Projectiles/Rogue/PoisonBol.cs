@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/PoisonPack";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Poison Ball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

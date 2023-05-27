@@ -59,7 +59,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Biting Embrace");
         }
         public override void SetDefaults()
         {

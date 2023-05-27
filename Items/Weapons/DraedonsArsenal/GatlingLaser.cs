@@ -23,12 +23,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         // This is the amount of charge consumed every time the holdout projectile fires a laser.
         public const float HoldoutChargeUse = 0.0075f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gatling Laser");
-            // Tooltip.SetDefault("Large laser cannon used primarily by Yharim's fleet and base defense force");
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

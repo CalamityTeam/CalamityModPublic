@@ -5,11 +5,6 @@ namespace CalamityMod.Projectiles.Healing
 {
     public class EmpyreanHealOrb : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Empyrean Heal Orb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

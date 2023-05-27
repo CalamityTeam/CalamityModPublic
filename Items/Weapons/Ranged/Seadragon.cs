@@ -15,14 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         private int shotType = 1;
         private bool rocket = false;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Seadragon");
-            /* Tooltip.SetDefault("50% chance to not consume ammo\n" +
-                "Fires streams of water every other shot\n" +
-                "Fires a homing rocket every 18 shots, which explodes into fire shards on death"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 70;

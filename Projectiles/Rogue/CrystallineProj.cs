@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Crystalline";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crystalline");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

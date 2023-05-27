@@ -17,12 +17,6 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class EncryptedSchematicPlanetoid : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Encrypted Schematic (Planetoid)");
-            // Tooltip.SetDefault("Requires a Codebreaker with a basic decryption computer to decrypt");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

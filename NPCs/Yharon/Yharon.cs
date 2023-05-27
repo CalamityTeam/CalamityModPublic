@@ -70,7 +70,6 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Yharon, Dragon of Rebirth"); // phase 1 name
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class RougeSlash : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rouge Slash");
-            // Tooltip.SetDefault("Fires a wave of 3 rouge air slashes");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 132;

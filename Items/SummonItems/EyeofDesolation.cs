@@ -26,12 +26,7 @@ namespace CalamityMod.Items.SummonItems
         public int spawnYAdd = 0;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Eye of Desolation");
-            /* Tooltip.SetDefault("This is going to be a horrific night...\n" +
-                "Summons the Calamitas Clone when used during nighttime\n" +
-                "Enrages during the day\n" +
-                "Not consumable"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 10; // Pirate Map
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 10; // Pirate Map
         }
 
         public override void SetDefaults()

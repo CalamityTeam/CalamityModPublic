@@ -25,11 +25,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override Color LaserOverlayColor => Color.White;
         public override Color LightCastColor => Color.OrangeRed;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plasma Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

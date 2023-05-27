@@ -71,18 +71,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override string Texture => "CalamityMod/Items/Weapons/Melee/Galaxia"; //Base sprite for stuff like item browser and shit. yeah
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Galaxia");
-            /* Tooltip.SetDefault("FUNCTION_DESC\n" +
-            "FUNCTION_PASSIVE\n" +
-            "Freed from earthly shackles and coursing with cosmic power\n" +
-            "Has access to all of the attunements at all times\n" +
-            "Use right click to cycle the sword's attunement depending on the cursor's position\n" +
-            "Active Attunement : None\n" +
-            "Passive Blessing : None\n"); */
-        }
-
         #region tooltip editing
 
         public override void ModifyTooltips(List<TooltipLine> list)

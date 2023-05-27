@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class RustyChest : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

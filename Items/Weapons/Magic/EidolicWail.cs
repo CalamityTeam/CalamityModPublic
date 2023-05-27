@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class EidolicWail : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eidolic Wail");
-            /* Tooltip.SetDefault("Earrape\n" +
-                "Fires a string of bouncing sound waves that become stronger as they travel"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 126;

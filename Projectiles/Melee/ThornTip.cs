@@ -4,11 +4,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ThornTip : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Thorn");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

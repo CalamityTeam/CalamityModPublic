@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     [LegacyName("PurpleCandle")]
     public class ResilientCandle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Resilient Candle");
-            /* Tooltip.SetDefault("When placed, nearby players' defense blocks 5% more damage\n" +
-                "'Neither rain nor wind can snuff its undying flame'"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

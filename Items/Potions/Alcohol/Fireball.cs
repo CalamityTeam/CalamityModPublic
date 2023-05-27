@@ -10,10 +10,6 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            // DisplayName.SetDefault("Fireball");
-            // Tooltip.SetDefault(@"A great-tasting cinnamon whiskey
-//Multiplies all fire-based debuff damage by 1.25
-//Reduces life regen by 1");
         }
 
         public override void SetDefaults()

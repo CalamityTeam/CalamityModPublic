@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
     public class PlaguedPlateDoor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plagued Door");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 8;

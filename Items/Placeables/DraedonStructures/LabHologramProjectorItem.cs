@@ -10,11 +10,6 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class LabHologramProjectorItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lab Hologram Projector");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

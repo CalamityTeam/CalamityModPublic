@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Saros Sunfire");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

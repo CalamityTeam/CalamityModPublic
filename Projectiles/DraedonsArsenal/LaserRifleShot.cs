@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         private int dust = 127;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Laser Rifle");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 2;

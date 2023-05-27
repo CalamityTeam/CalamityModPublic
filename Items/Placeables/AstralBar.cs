@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Placeables
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Astral Bar");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 99; // Luminite
         }
 

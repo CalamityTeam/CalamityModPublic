@@ -17,11 +17,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cryo Key");
-            /* Tooltip.SetDefault("Summons Cryogen when used in the tundra\n" +
-                "Enrages outside the tundra\n" +
-                "Not consumable"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 7; // Mechanical Eye
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 7; // Mechanical Eye
         }
 
         public override void SetDefaults()

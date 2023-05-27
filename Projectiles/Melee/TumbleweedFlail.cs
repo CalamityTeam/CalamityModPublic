@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TumbleweedFlail : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tumbleweed");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 34;

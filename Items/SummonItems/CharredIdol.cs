@@ -13,12 +13,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Charred Idol");
-            /* Tooltip.SetDefault("Use at your own risk\n" +
-               "Summons the Brimstone Elemental when used in the Brimstone Crags\n" +
-               "Enrages outside the Brimstone Crags\n" +
-               "Not consumable"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 9; // Mechanical Skull
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 9; // Mechanical Skull
         }
 
         public override void SetDefaults()

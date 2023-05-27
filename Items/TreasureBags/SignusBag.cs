@@ -19,8 +19,6 @@ namespace CalamityMod.Items.TreasureBags
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;
-            // DisplayName.SetDefault("Treasure Bag (Signus, Envoy of the Devourer)");
-            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 			ItemID.Sets.BossBag[Item.type] = true;
         }
 

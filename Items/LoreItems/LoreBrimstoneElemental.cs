@@ -20,7 +20,6 @@ Neither were victorious, and despite her intentions, the city was razed by her f
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Brimstone Elemental");
         }
 
         public override void SetDefaults()

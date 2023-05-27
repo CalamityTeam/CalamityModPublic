@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class LanternCenter : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lantern Center");
-            // Tooltip.SetDefault("Lights up the night sky with celebratory lanterns");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

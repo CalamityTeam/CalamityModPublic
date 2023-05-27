@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Armor.Umbraphile
     [AutoloadEquip(EquipType.Body)]
     public class UmbraphileRegalia : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Umbraphile Regalia");
-            // Tooltip.SetDefault("10% increased rogue damage and 10% increased rogue crit");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 38;

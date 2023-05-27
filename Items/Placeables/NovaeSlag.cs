@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Novae Slag");
             Item.ResearchUnlockCount = 200;
 			ItemID.Sets.SortingPriorityExtractibles[Type] = 1; // Silt Block
         }

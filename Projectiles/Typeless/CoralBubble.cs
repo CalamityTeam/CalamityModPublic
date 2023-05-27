@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class CoralBubble : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bubble");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

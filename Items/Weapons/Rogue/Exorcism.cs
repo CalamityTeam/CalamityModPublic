@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Exorcism : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Exorcism");
-            /* Tooltip.SetDefault("Throws a hallowed cross which explodes into a flash of light that damages nearby enemies, closer enemies receiving more damage\n" +
-                               "As the cross travels downwards, the damage inflicted by both the cross and flash increases constantly\n" +
-                               "Stealth strikes cause the cross to be thrown with full damage immediately. Hallowed stars fall when the cross explodes"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

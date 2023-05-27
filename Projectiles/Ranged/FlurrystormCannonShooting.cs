@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Flurrystorm Cannon");
             Main.projFrames[Projectile.type] = 2;
         }
 

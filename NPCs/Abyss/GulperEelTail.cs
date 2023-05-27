@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Gulper Eel");
         }
 
         public override void SetDefaults()

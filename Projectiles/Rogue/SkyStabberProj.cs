@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         private static int Lifetime = 1200;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("SkyStabberProj");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 15;

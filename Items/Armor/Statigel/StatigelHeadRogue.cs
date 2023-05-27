@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Armor.Statigel
     [LegacyName("StatigelMask")]
     public class StatigelHeadRogue : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Statigel Mask");
-            /* Tooltip.SetDefault("10% increased rogue damage and 34% chance to not consume rogue items\n" +
-                "7% increased rogue critical strike chance and 5% increased movement speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

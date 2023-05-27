@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sapphire Crawler");
             Main.npcFrameCount[NPC.type] = 5;
         }
 

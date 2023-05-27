@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public static float radius = 64;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Infernal Explosion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = (int)radius * 2;

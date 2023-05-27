@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Tradewinds : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tradewinds");
-            // Tooltip.SetDefault("Casts fast moving sunlight feathers");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 31;

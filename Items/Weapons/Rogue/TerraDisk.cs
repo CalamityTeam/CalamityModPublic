@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static int BaseDamage = 100;
         public static float Speed = 12f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Terra Disk");
-            // Tooltip.SetDefault(@"Throws a disk that has a chance to generate several disks if enemies are near it
-//Stealth strikes travel slower and are rapidly orbited by the smaller disks");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 46;

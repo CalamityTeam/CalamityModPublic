@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class EssenceFlayer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Essence Flayer");
-            // Tooltip.SetDefault("Shoots an essence scythe that generates healing spirits on enemy kills");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 100;

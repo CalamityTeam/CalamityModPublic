@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Tools
 {
     public class GreatbayPickaxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Greatbay Pickaxe");
-            // Tooltip.SetDefault("Can mine Demonite, Crimtane, Meteorite, Sea Prisms and Sea Prism Crystals");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 9;

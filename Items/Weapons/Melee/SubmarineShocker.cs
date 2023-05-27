@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class SubmarineShocker : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Submarine Shocker");
-            // Tooltip.SetDefault("Enemies release electric sparks on hit");
-        }
-
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Rapier;

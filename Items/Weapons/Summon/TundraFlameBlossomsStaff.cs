@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class TundraFlameBlossomsStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tundra Flame Blossoms Staff");
-            /* Tooltip.SetDefault("Summons three flarefrost orchids over your head\n" +
-                "Each flower consumes one minion slot"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 40;

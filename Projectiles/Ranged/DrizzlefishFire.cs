@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         private int splitTimer = 30;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Drizzlefish Flames");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

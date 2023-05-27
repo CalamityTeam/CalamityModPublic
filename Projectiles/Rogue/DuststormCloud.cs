@@ -6,7 +6,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dust Cloud");
             Main.projFrames[Projectile.type] = 4;
         }
 

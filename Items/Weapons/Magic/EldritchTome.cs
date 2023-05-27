@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class EldritchTome : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Eldritch Tome");
-            // Tooltip.SetDefault("Casts eldritch tentacles to spear your enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 42;

@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Thorn Blossom");
-            // Tooltip.SetDefault("Every rose has its thorn");
             Item.staff[Item.type] = true;
         }
 

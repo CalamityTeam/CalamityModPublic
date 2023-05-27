@@ -8,14 +8,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 {
     public class UrsaSergeant : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ursa Sergeant");
-            /* Tooltip.SetDefault("15% decreased movement speed\n" +
-                "Immune to Astral Infection and Feral Bite\n" +
-                "Increased regeneration at lower health"); */
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 20;

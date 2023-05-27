@@ -21,7 +21,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Impious Immolator");
             Main.npcFrameCount[NPC.type] = 4;
         }
 

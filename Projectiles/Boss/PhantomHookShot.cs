@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class PhantomHookShot : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Phantom Hook Shot");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

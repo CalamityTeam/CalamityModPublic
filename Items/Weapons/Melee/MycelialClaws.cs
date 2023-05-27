@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class MycelialClaws : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mycelial Claws");
-            // Tooltip.SetDefault("Grants the Mushy buff for 6 seconds on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

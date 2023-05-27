@@ -6,12 +6,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class StarbusterCore : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Starbuster Core");
-            // Tooltip.SetDefault("Summons release an astral explosion on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

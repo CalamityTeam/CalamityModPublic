@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Pets
 {
     public class RottingEyeball : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rotting Eyeball");
-            // Tooltip.SetDefault("Summons a corrupted conglomeration");
-        }
-
         public override void SetDefaults()
         {
             /*item.DefaultToVanitypet(ModContent.ProjectileType<MiniHiveMind>(), ModContent.BuffType<HiveMindPet>());

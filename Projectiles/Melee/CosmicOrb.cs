@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicOrb : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Orb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.extraUpdates = 0;

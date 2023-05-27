@@ -5,10 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
     public class AbyssChest : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

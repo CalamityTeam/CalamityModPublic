@@ -19,7 +19,6 @@ namespace CalamityMod.NPCs.Abyss
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cuttlefish");
             Main.npcFrameCount[NPC.type] = 5;
         }
 

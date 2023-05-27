@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Magic
 
         private static float ExplosionRadius = 190.0f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sunburst");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 220;

@@ -8,14 +8,6 @@ namespace CalamityMod.Items.Mounts
 {
     public class ExoThrone : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Exo Box");
-            /* Tooltip.SetDefault("Materializes a quite cozy and extremely nimble flying Exo throne\n" +
-                "Replaced\n" +
-                "A comfortable gamer is a dangerous gamer"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

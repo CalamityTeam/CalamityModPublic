@@ -33,14 +33,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static readonly SoundStyle SwingSound = new("CalamityMod/Sounds/Item/TerratomereSwing");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Terratomere");
-            /* Tooltip.SetDefault("Linked to the essence of Terraria\n" +
-                               "Heals the player on true melee hits\n" +
-                               "Fires a piercing energy bolt that causes hit targets to explode and be slashed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 60;

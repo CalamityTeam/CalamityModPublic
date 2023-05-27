@@ -14,10 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Deathhail Staff");
-            /* Tooltip.SetDefault("Rain death upon your foes!\n" +
-                "Casts a storm of nebula lasers from the sky"); */
-            Item.staff[Item.type] = true;
+                       Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()

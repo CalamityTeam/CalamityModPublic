@@ -27,12 +27,6 @@ namespace CalamityMod.Items.Weapons.Magic
         public static Color GetSyncedLightColor() => GetLightColor(Main.DiscoG / 255f);
         public static Color GetRandomLightColor() => GetLightColor(Main.rand.NextFloat());
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Dance of Light");
-            // Tooltip.SetDefault("Barrages enemies with a hailstorm of Light Blades\n'And in a flash of light, nothing remains'");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 40;

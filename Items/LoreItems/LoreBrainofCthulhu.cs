@@ -16,7 +16,6 @@ Now, they are your stepping stones.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("The Brain of Cthulhu");
         }
 
         public override void SetDefaults()

@@ -7,16 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class BloomStone : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloom Stone");
-            /* Tooltip.SetDefault("One of the ancient relics\n" +
-                "You quickly regenerate life while on the ground\n" +
-                "This effect works best during daytime\n" +
-                "Flowers grow if you are standing on grass\n" +
-                "Random dye plants will grow while standing on grassless dirt"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 38;

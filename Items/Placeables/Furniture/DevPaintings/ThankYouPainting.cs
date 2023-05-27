@@ -14,11 +14,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 
 		public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Thank You");
-			/* Tooltip.SetDefault("Thanks to the entire team, everyone who supported, and those who all play the mod and keep it alive!\n" +
-			"The confines of this painting is not enough to fit the entire team\n" +
-			"Hold SHIFT to see a list of past and current developers"); */
-		}
+				}
 
 		public override void SetDefaults()
 		{

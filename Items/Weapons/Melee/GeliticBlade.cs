@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class GeliticBlade : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gelitic Blade");
-            // Tooltip.SetDefault("Fires a gel wave that slows down on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 62;

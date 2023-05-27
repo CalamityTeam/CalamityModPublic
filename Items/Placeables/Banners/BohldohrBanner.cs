@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class BohldohrBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bohldohr Banner");
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Bohldohr");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

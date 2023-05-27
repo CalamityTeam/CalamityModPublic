@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class LeonidCometSmall : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Comet");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;

@@ -12,8 +12,6 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Bloodfire Arrow");
-            // Tooltip.SetDefault("Heals you a small amount on enemy hits");
         }
 
         public override void SetDefaults()

@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class GleamingBolt2 : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bolt");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

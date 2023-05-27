@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ToxicantTwister : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Toxicant Twister");
-            /* Tooltip.SetDefault("Throws a slow moving boomerang\n" +
-                "After a few moments, the boomerang chooses a target and rapidly homes in\n" +
-                "Stealth strikes home in faster and rapidly release sand"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

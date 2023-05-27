@@ -25,11 +25,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd", AssetRequestMode.ImmediateLoad).Value;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ultima Ray");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 22;

@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Melee
         public int variant = -1;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Glacial Mist");
         }
         public override void SetDefaults()
         {

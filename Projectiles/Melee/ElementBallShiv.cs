@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ElementBallShiv : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shiv");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

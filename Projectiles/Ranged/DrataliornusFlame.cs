@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class DrataliornusFlame : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Drataliornus Arrow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 18;

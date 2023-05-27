@@ -117,10 +117,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Wulfrum Hat & Goggles");
-            /* Tooltip.SetDefault("10% increased minion damage\n"+
-                "Comes equipped with hair extensions" ); */
-        }
+                   }
         public override void SetDefaults()
         {
             Item.width = 18;
@@ -287,8 +284,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Wulfrum Jacket");
-            // Tooltip.SetDefault("5% increased damage reduction"); //Increases to 10 with the wulfrum bastion active
 
             if (Main.netMode != NetmodeID.Server)
             {
@@ -325,12 +320,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
     [LegacyName("WulfrumLeggings")]
     public class WulfrumOveralls : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wulfrum Overalls");
-            // Tooltip.SetDefault("Movement speed increased by 5%");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

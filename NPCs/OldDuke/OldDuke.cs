@@ -43,7 +43,6 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Old Duke");
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

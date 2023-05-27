@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
     [LegacyName("ProfanedBath")]
     public class ProfanedBathtub : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Profaned Bathtub");

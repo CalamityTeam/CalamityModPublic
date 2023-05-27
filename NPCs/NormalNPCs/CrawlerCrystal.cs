@@ -15,7 +15,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Crystal Crawler");
             Main.npcFrameCount[NPC.type] = 5;
         }
 

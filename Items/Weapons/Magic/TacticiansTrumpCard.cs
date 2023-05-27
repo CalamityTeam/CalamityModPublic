@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class TacticiansTrumpCard : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tactician's Trump Card");
-            /* Tooltip.SetDefault("Faint memories of a Princess from the future cross your mind...\n" +
-                "Fires a sword beam that electrifies enemies on hit"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 74;

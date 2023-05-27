@@ -55,11 +55,6 @@ namespace CalamityMod.Projectiles.Melee
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd", AssetRequestMode.ImmediateLoad).Value;
         private const float AimResponsiveness = 0.8f; // Last Prism is 0.92f. Lower makes the laser turn faster.
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Prismatic Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Marked for Death");
-            // Description.SetDefault("Damage reduction reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

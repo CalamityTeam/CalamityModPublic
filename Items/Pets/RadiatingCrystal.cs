@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Pets
 {
     public class RadiatingCrystal : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Radiating Crystal");
-            /* Tooltip.SetDefault("The crystal contains traces of holothurin\n" +
-                "Summons a radiator light pet\n" +
-                "Provides a small amount of light in the abyss"); */
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.WispinaBottle);

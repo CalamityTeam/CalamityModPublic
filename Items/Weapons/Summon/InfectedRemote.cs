@@ -31,17 +31,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const float EnemyTargetingRange = 1300f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Infected Remote");
-            /* Tooltip.SetDefault("Summons a humanoid-hybrid Plaguebringer, codenamed 'Virili', to aid you in battle\n" +
-                $"Virili requires {MinionSlotRequirement} minion slots to summon, and can only be summoned once\n" +
-                "Virili uses a variety of attacks which she cycles through on a timer\n" +
-                "All attacks spread the plague, as was her original design intention\n" +
-                "'A single note graces the back:'\n" +
-                "'WARNING: Subject is extremely corrosive and contagious. Avoid direct contact.'"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 50;

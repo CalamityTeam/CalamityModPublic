@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public static Item FalseLauncher = null;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rocket");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class WrathoftheAncients : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wrath of the Ancients");
-            // Tooltip.SetDefault("Summons an energy pulse at the cursor to periodically summon homing spirits");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 47;

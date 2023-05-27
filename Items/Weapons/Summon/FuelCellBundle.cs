@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class FuelCellBundle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fuel Cell Bundle");
-            // Tooltip.SetDefault("Releases a small, special variant of the plaguebringers");
-        }
-
         public override void SetDefaults()
         {
             Item.mana = 10;

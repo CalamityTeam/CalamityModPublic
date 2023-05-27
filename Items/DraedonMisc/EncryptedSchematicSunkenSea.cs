@@ -17,14 +17,6 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class EncryptedSchematicSunkenSea : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Schematic (Sunken Sea)");
-            /* Tooltip.SetDefault("Finely detailed diagrams of numerous devices and weaponry dance across the holographic screen.\n" +
-                "Picking up this item or holding it in your inventory permanently unlocks new recipes.\n" +
-                "Click to view its contents."); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

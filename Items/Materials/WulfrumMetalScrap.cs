@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Wulfrum Metal Scrap");
         }
 
         public override void SetDefaults()

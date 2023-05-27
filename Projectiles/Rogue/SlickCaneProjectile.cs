@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SlickCane";
 
         private bool initialized = false;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Slick Cane");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 42;

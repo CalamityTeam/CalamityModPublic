@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const int SpiralRings = 6;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Pulse Bolt");
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class ReaperToothNecklace : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Reaper Tooth Necklace");
-            // Tooltip.SetDefault("A grisly trophy from the ultimate predator\n" + "15% increased damage\n" + "Increases armor penetration by 15");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 44;

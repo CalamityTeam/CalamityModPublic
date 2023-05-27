@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Dyes
         public override void SafeSetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;
-            // DisplayName.SetDefault("Profaned Moonlight Dye");
         }
 
         public override void SafeSetDefaults()

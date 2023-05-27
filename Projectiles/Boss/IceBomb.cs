@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class IceBomb : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Bomb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

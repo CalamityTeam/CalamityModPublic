@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.Other
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Demon");
             Main.npcFrameCount[NPC.type] = 5;
         }
 

@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Alula Australis");
-            // Tooltip.SetDefault("Fires a beautiful aurora trailed by a star shower");
             Item.staff[Item.type] = true;
         }
 

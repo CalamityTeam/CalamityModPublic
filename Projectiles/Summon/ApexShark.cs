@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.Summon
         private int HitCooldown = 0;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ancient Mineral Shark");
             Main.projFrames[Projectile.type] = 8;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;

@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class InfernalKrisCinder : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Infernal Cinder");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

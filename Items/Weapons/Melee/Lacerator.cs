@@ -14,11 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Lacerator");
-            /* Tooltip.SetDefault("Enemies that are hit by the yoyo will have their life drained\n" +
-            "A very agile yoyo\n" +
-            "Someone thought this was a viable weapon against DoG at one point lol"); */
-            ItemID.Sets.Yoyo[Item.type] = true;
+                       ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }

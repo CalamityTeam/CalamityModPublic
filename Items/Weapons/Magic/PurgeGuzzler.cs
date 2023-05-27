@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         private const float Spread = 0.025f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Purge Guzzler");
-            // Tooltip.SetDefault("Emits three beams of holy energy in a tight spread");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 58;

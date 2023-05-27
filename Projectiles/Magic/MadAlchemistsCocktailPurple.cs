@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class MadAlchemistsCocktailPurple : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mad Alchemist's Purple Cocktail");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 24;

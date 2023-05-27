@@ -23,7 +23,6 @@ Is he but one soldier, of a malevolence far beyond…?";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("The Devourer of Gods");
         }
 
         public override void SetDefaults()

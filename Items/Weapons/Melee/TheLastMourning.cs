@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TheLastMourning : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Last Mourning");
-            // Tooltip.SetDefault("Summons flaming pumpkins and mourning skulls that split into fire orbs on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 94;

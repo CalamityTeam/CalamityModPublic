@@ -151,12 +151,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Rover Drive");
-            /* Tooltip.SetDefault($"Activates a protective matrix that can absorb {ProtectionMatrixDurabilityMax} damage and grants {ProtectionMatrixDefenseBoost} defense\n" +
-            $"However, the systems are fickle and the shield will need {ProtectionMatrixRechargeTime / 60} seconds to charge up fully\n" +
-            "Getting hit during the shield recharge period will reset it back to zero\n" +
-                "Can also be scrapped at an extractinator"); */
-
+           
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 

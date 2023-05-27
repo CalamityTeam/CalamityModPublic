@@ -18,7 +18,6 @@ I see no need to intervene in affairs beneath me and my people.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Golem");
         }
 
         public override void SetDefaults()

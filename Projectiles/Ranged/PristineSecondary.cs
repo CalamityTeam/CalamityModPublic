@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Ranged
         private int dust1 = (int)CalamityDusts.ProfanedFire;
         private int dust2 = ModContent.DustType<HolyFireDust>();
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fire");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 50;

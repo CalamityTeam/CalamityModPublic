@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Corrupt Slime Spawn");
             Main.npcFrameCount[NPC.type] = 2;
         }
 

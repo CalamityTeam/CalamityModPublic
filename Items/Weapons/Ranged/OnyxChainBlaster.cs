@@ -8,13 +8,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class OnyxChainBlaster : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Onyx Chain Blaster");
-            /* Tooltip.SetDefault("50% chance to not consume ammo\n" +
-                "Fires a spread of bullets and an onyx shard"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 40;

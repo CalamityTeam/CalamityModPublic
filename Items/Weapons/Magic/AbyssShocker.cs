@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class AbyssShocker : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Abyss Shocker");
-            // Tooltip.SetDefault("Fires an erratic lightning bolt that arcs and bounces between enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 28;

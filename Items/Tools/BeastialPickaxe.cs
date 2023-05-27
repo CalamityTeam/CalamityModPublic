@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Tools
 {
     public class BeastialPickaxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Beastial Pickaxe");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 35;

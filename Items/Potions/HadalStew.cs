@@ -16,11 +16,7 @@ namespace CalamityMod.Items.Potions
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Hadal Stew");
-            /* Tooltip.SetDefault("Only gives 50 seconds of Potion Sickness\n" +
-               "{$CommonItemTooltip.MediumStats}\n" +
-               "60 minute duration"); */
-               Item.ResearchUnlockCount = 30;
+                          Item.ResearchUnlockCount = 30;
         }
 
         public override void SetDefaults()

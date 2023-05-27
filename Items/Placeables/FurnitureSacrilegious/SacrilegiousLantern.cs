@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     public class SacrilegiousLantern : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sacrilegious Lantern");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

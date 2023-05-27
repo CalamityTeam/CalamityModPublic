@@ -13,12 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         // This value is also referenced by the God Slayer and Auric summoner helmets.
         public const int BaseDamage = 100; // originally 325
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Staff of the Mechworm");
-            // Tooltip.SetDefault("Summons an aerial mechworm to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;

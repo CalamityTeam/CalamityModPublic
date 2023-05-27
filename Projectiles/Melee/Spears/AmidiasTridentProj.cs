@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class AmidiasTridentProj : BaseSpearProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Trident");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 70;

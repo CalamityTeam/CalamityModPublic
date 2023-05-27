@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class TranquilityCandle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tranquility Candle");
-            // Tooltip.SetDefault("The mere presence of this candle calms surrounding enemies drastically");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

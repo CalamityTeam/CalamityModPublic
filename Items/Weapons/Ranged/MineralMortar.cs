@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class MineralMortar : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Mineral Mortar");
-            // Tooltip.SetDefault("Shoots an onyx bomb that explodes into sand sharks on death");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 30;

@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Explosion");
             Main.projFrames[Projectile.type] = 7;
         }
 

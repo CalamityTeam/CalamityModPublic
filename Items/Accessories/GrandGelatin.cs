@@ -7,14 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class GrandGelatin : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Grand Gelatin");
-            /* Tooltip.SetDefault("10% increased movement and jump speed\n" +
-                "+20 max life and mana\n" +
-                "Standing still boosts life and mana regen"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

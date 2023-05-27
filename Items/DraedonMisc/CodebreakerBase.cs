@@ -8,11 +8,6 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class CodebreakerBase : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Codebreaker Base");
-        }
-
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;

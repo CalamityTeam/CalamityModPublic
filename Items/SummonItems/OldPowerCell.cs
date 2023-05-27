@@ -13,11 +13,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Old Power Cell");
-            /* Tooltip.SetDefault("Summons the Golem when used in the Jungle Temple\n" +
-                "Enrages outside the Jungle Temple\n" +
-                "Not consumable"); */
-			NPCID.Sets.MPAllowedEnemies[NPCID.Golem] = true;
+           			NPCID.Sets.MPAllowedEnemies[NPCID.Golem] = true;
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 15; // Lihzahrd Power Cell
         }
 

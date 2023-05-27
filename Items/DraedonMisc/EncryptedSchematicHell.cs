@@ -17,12 +17,6 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class EncryptedSchematicHell : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Encrypted Schematic (Underworld)");
-            // Tooltip.SetDefault("Requires a Codebreaker with a sophisticated display to decrypt");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

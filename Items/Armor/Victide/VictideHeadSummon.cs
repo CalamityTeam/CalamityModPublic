@@ -14,12 +14,6 @@ namespace CalamityMod.Items.Armor.Victide
     public class VictideHeadSummon : ModItem
     {
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Victide Mask");
-            // Tooltip.SetDefault("10% increased minion damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

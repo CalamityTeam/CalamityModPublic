@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FlurrystormIceShard : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.friendly = true;

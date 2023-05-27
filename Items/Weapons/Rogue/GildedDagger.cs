@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class GildedDagger : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gilded Dagger");
-            /* Tooltip.SetDefault("Throws a shiny blade that ricochets towards another enemy on hit\n" +
-                "Stealth strikes cause the blade to home in after ricocheting, with each ricochet dealing 20% more damage\n" +
-                "Stealth strikes also have increased piercing"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

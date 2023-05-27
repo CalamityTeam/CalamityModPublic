@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class PolypLauncher : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Polyp Launcher");
-            // Tooltip.SetDefault("Summons a polyp bunch that launches coral chunks at nearby enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 12;

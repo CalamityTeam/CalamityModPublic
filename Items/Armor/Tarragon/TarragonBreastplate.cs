@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Armor.Tarragon
     [AutoloadEquip(EquipType.Body)]
     public class TarragonBreastplate : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tarragon Breastplate");
-            /* Tooltip.SetDefault("10% increased damage and 5% increased critical strike chance\n" +
-                    "+2 life regen and +40 max life"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.Crabulon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Crab Shroom");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }

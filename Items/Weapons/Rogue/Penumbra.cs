@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class Penumbra : RogueWeapon
     {
         public static float ShootSpeed = 8f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Penumbra");
-            /* Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls\n" +
-                               "Stealth strikes make the bomb manifest on the cursor and explode into more souls"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 46;

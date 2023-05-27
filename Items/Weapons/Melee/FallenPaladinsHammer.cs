@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("TruePaladinsHammer", "TruePaladinsHammerMelee", "TruePaladinsHammerRogue")]
     public class FallenPaladinsHammer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Fallen Paladin's Hammer");
-            // Tooltip.SetDefault("Explodes on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 14;

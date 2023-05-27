@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Armor.Victide
     [LegacyName("VictideHeadgear")]
     public class VictideHeadRogue : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Victide Headcrab");
-            // Tooltip.SetDefault("5% increased rogue damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

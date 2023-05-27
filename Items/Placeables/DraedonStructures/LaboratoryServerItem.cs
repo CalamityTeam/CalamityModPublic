@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class LaboratoryServerItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Laboratory Server");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

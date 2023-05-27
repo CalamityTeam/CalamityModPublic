@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bear");
             Main.projFrames[Projectile.type] = 22;
             Main.projPet[Projectile.type] = true;
         }

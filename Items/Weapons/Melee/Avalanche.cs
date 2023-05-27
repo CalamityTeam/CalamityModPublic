@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Avalanche : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Avalanche");
-            // Tooltip.SetDefault("Spawns ice bombs that explode after 3 seconds into ice shards on hit");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 64;

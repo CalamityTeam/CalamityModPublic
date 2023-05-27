@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Summon
         public override string Texture => "CalamityMod/Projectiles/Boss/YharonFireball";
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dragon Fireball");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;

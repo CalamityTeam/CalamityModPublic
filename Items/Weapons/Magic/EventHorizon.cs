@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class EventHorizon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Event Horizon");
-            /* Tooltip.SetDefault("Nothing, not even light, can return.\n" +
-            "Fires a ring of stars to home in on nearby enemies\n" +
-            "Stars spawn black holes on enemy hits"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 40;

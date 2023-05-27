@@ -14,10 +14,7 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Axe of Purity");
-            /* Tooltip.SetDefault("Left click to use as a tool\n" +
-                "Right click to cleanse evil"); */
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

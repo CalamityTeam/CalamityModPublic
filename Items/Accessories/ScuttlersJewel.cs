@@ -9,10 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Scuttler's Jewel");
-            /* Tooltip.SetDefault("Stealth strike projectiles spawn a jewel spike when destroyed\n" +
-                "Can also be broken down at an extractinator"); */
-            ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
+                       ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 
         public override void SetDefaults()

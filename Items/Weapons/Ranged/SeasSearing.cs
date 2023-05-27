@@ -13,10 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sea's Searing");
-            /* Tooltip.SetDefault("Fires a string of bubbles summoning a shower of bubbles on hit\n" +
-                "Right click to fire a slower, larger water blast that summons a water spout"); */
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

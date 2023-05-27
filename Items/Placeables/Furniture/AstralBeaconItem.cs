@@ -9,8 +9,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astral Beacon");
-            // Tooltip.SetDefault("Summons Astrum Deus in exchange for specific offerings");
         }
         public override void SetDefaults()
         {

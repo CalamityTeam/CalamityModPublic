@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/HellsSun";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hell's Sun");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 15;

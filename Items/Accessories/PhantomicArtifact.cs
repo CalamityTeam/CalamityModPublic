@@ -16,13 +16,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Phantomic Artifact");
-            /* Tooltip.SetDefault("Whenever your minions hit an enemy you will gain a random phantomic buff, does not stack with downgrades\n" +
-                "These buffs will either boost your defense, summon damage, or life regen for a while\n" +
-                "If you have the offensive boost, enemies hit by minions will sometimes be hit by phantomic knives\n" +
-                "If you have the regenerative boost, a phantomic heart will occasionally materialise granting massive health regen\n" +
-                "If you have the defensive boost, a phantomic bulwark will absorb 20% of the next projectile's damage that hits the bulwark, shattering it"); */
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
+                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

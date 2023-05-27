@@ -1,0 +1,32 @@
+DILF: {
+	TownNPCMood: {
+	}
+}
+
+FAP: {
+	TownNPCMood: {
+		LoveNPC_Stylist: "{NPCName} works wonders for my hair... among other things, hehe."
+		LoveNPC_BestiaryGirl: "{NPCName} is so fluffy and squishy! She also says my alicorn form is 'mega rad'."
+		LikeNPC_Truffle: "{NPCName} makes me so hungry... I wonder how great of a trip he'd give..."
+		LikeNPC_PartyGirl: "{NPCName} would make for a great bartender some day. She really knows how to liven the mood!"
+		DislikeNPC_DD2Bartender: "{NPCName} is so bald. Maybe if he'd stop trying to date me he'd finally grow some hair."
+		DislikeNPC_TaxCollector: "{NPCName} had best keep his distance... he wouldn't want to wake up one morning with a pipe bomb in his mailbox."
+		HateNPC_GoblinTinkerer: "{NPCName} was so terrible that I had to FORCE him to have a better reforge system. Why would you house me next to him? Do you enjoy watching me relive the stress he gave me!?"
+		HateNPC_Angler: "{NPCName} never stops blabbering about his inane fishing quests. Get me away from him before I stomp him into the ground!"
+	}
+}
+
+SEAHOE: {
+	TownNPCMood: {
+	}
+}
+
+THIEF: {
+	TownNPCMood: {
+	}
+}
+
+WITCH: {
+	TownNPCMood: {
+	}
+}

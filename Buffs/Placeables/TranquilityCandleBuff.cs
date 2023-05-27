@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.Placeables
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Tranquility Candle");
-            // Description.SetDefault("Spawn rates around the candle are reduced!");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

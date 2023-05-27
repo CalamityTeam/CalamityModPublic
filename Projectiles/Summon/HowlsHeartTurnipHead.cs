@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Turnip-Head");
             Main.projFrames[Projectile.type] = 5;
             Main.projPet[Projectile.type] = true;
         }

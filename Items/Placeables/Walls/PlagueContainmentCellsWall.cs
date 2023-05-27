@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.Walls
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;
-            // DisplayName.SetDefault("Plagueplate Wall");
         }
 
         public override void SetDefaults()

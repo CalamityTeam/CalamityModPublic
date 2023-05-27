@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class SandDollar : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sand Dollar");
-            /* Tooltip.SetDefault("Throws up to 2 returning sand dollars\n" +
-            "Stealth strikes throw 2 long ranged sand dollars that explode into coral shards on enemy hits"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

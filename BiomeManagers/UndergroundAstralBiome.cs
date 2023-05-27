@@ -17,11 +17,6 @@ namespace CalamityMod.BiomeManagers
 
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("AstralInfectionUnderground") ?? MusicID.Space;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Underground");
-        }
-
         public override bool IsBiomeActive(Player player)
         {
             return !player.ZoneDungeon && BiomeTileCounterSystem.AstralTiles > 950 && (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight || player.ZoneUnderworldHeight);

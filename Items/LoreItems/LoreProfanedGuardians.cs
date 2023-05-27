@@ -18,7 +18,6 @@ Draw her out from hiding. Have no mercy, for the Profaned Goddess shows none her
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("The Profaned Guardians");
         }
 
         public override void SetDefaults()

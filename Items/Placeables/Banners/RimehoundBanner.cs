@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class RimehoundBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rimehound Banner");
-            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Rimehound");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 10;

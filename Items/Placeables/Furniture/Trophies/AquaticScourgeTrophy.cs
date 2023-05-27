@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class AquaticScourgeTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aquatic Scourge Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

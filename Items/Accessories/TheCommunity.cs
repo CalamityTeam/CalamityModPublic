@@ -16,13 +16,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Community");
-            /* Tooltip.SetDefault("The heart of (most of) the Terraria community\n" +
-                "Starts off with weak buffs to all of your stats\n" +
-                "The stat buffs become more powerful as you progress\n" +
-                "Reduces the DoT effects of harmful debuffs inflicted on you\n" +
-                "Thank you to all of my supporters who made this mod a reality\n"); */
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 10));
+                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 10));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

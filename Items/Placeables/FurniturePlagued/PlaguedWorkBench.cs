@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
     [LegacyName("PlaguedPlateWorkbench")]
     public class PlaguedWorkBench : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plagued Work Bench");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 8;

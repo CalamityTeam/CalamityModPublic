@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class SeashineSword : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Seashine Sword");
-            // Tooltip.SetDefault("Shoots an aqua sword beam");
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.EnchantedSword);

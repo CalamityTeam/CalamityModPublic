@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class ShadecrystalTome : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shadecrystal Barrage");
-            // Tooltip.SetDefault("Summons rapid fire shadecrystals, can shoot two crystals at once");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 25;

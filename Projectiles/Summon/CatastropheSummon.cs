@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Summon
         public override string Texture => "CalamityMod/NPCs/SupremeCalamitas/SupremeCatastrophe";
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Catastrophe");
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;

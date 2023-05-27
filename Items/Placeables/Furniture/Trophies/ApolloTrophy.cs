@@ -6,11 +6,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class ApolloTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Apollo Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = Item.height = 32;

@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class NuclearTerrorTrophy : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nuclear Terror Trophy");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

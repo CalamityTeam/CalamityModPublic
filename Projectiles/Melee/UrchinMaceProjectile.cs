@@ -19,11 +19,6 @@ namespace CalamityMod.Projectiles.Melee
         public float WindupProgress => MathHelper.Clamp(Windup, 0, MaxWindup) / MaxWindup;
         public static float whirlpoolDamageMultiplier = 2f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Urchin Mace");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 60;

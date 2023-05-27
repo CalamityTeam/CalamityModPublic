@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Armor.Silva
     [AutoloadEquip(EquipType.Body)]
     public class SilvaArmor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Silva Armor");
-            /* Tooltip.SetDefault("+80 max life\n" +
-                       "12% increased damage and 8% increased critical strike chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

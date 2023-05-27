@@ -36,11 +36,6 @@ namespace CalamityMod.Projectiles.Summon
         public Vector2 CnidarianPos => Segments[SegmentCount - 1].position;
         public float TotalChainLength => (SegmentCount - 1) * SegmentCount;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cnidarian");
-        }
-
         public override void SetDefaults()
         {
             Projectile.aiStyle = -1;

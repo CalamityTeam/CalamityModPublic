@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
     public class BloodstainedGlove : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloodstained Glove");
-            // Tooltip.SetDefault("Stealth strikes have +8 armor penetration and heal for 2 HP");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

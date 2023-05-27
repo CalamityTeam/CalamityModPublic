@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Final Dawn");
             Main.projFrames[Projectile.type] = 9;
         }
         public override void SetDefaults()

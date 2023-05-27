@@ -13,11 +13,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Seafood");
-            /* Tooltip.SetDefault("Summons the Aquatic Scourge when used in the Sulphurous Sea\n" +
-                "Enrages outside the Sulphurous Sea\n" +
-                "Not consumable"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 8; // Mechanical Worm
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 8; // Mechanical Worm
         }
 
         public override void SetDefaults()

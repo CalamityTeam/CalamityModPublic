@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Aorta");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 11f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 260f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 8.5f;

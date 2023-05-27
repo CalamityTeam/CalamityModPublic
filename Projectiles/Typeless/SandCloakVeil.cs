@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Typeless
         private const float radius = 272f;
         private const int duration = 900;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dust Veil");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 450;

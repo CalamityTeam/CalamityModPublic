@@ -14,13 +14,6 @@ namespace CalamityMod.Items.Accessories
         // BAD Minishark! You will NOT become stupid sleeper agent item!
         public const int AcidCreationCooldown = 25;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rusty Medallion");
-            /* Tooltip.SetDefault("Causes most ranged weapons to release acid droplets from the sky\n" +
-                "Grants immunity to Irradiated"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

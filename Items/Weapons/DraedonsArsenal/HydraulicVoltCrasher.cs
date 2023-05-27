@@ -15,13 +15,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         // This is the amount of charge consumed every frame the holdout projectile is summoned, i.e. the weapon is in use.
         public const float HoldoutChargeUse = 0.002f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hydraulic Volt Crasher");
-            /* Tooltip.SetDefault("Good for both stamping metal plates and instantly fusing them, as well as crushing enemies\n" +
-            "An electrically charged jackhammer which shocks all nearby foes on hit"); */
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astralachnea");
 
             Main.npcFrameCount[NPC.type] = 5;
 

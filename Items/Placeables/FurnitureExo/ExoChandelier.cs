@@ -8,10 +8,6 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 {
     public class ExoChandelier : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Exo Chandelier");

@@ -11,16 +11,6 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public const int BulletShootRate = 125;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tactical Plague Engine");
-            /* Tooltip.SetDefault("Summons a plague jet to pummel your enemies into submission\n" +
-                               "Jets will fire bullets from your inventory\n" +
-                               "50% chance to not consume ammo\n" +
-                               "Sometimes shoots a missile instead of a bullet\n" +
-                               "Missiles do not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 140;

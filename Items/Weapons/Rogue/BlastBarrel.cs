@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class BlastBarrel : RogueWeapon
     {
         public const int BaseDamage = 32;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blast Barrel");
-            /* Tooltip.SetDefault("Throws a rolling barrel that explodes on wall collision\n" +
-                               "Stealth strikes makes the barrel bounce twice before disappearing with varied effects after each bounce\n" +
-                               "'Some people used to jump over these'"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 48;

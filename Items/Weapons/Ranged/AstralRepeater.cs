@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AstralRepeater : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Bow");
-            // Tooltip.SetDefault("Fires a burst of three arrows");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 99;

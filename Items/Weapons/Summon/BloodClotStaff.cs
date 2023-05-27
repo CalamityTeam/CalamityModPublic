@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class BloodClotStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blood Clot Staff");
-            // Tooltip.SetDefault("Summons a blood clot to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 7;

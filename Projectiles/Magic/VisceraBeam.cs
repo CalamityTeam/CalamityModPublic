@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public float healAmt = 1f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Viscera");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

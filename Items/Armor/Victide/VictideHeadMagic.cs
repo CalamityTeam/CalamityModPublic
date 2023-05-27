@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Armor.Victide
     [LegacyName("VictideMask")]
     public class VictideHeadMagic : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Victide Hermit Helmet");
-            // Tooltip.SetDefault("5% increased magic damage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

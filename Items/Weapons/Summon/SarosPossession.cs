@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class SarosPossession : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Saros Possession");
-            /* Tooltip.SetDefault("Gain absolute control over light itself\n" +
-                               "Can only be summoned once\n" +
-                               "Uses 8 minion slots"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 500;

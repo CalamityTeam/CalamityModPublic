@@ -13,7 +13,6 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Phantom Spirit");
             Main.npcFrameCount[NPC.type] = 5;
         }
 

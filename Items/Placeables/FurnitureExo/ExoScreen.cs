@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 {
     public class ExoScreen : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Exo Screen");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

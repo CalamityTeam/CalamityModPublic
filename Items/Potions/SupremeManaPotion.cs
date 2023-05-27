@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Supreme Mana Potion");
             Item.ResearchUnlockCount = 30;
         }
 

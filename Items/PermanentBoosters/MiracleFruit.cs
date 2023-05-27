@@ -15,11 +15,7 @@ namespace CalamityMod.Items.PermanentBoosters
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/MiracleFruitConsume");
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Miracle Fruit");
-            /* Tooltip.SetDefault("Refreshing and cool, perhaps even a bit minty\n" +
-                               "Permanently increases maximum life by 25\n" +
-                               "Can only be used if the max amount of life fruit has been consumed"); */
-			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+           			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 18; // Life Fruit
         }
 

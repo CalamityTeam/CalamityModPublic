@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class CometQuasher : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Comet Quasher");
-            // Tooltip.SetDefault("Summons a swarm of meteors from the sky on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 46;

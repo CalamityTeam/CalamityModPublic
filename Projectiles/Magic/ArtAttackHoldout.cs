@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override string Texture => "CalamityMod/Items/Weapons/Magic/ArtAttack";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Art Attack");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 70;

@@ -18,7 +18,6 @@ Unfortunately for you, that puts you in their crosshairs. Give them a battle wor
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("The Mechanical Trio");
         }
 
         public override void SetDefaults()

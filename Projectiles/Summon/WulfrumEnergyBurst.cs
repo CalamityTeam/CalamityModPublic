@@ -44,7 +44,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bolt");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;

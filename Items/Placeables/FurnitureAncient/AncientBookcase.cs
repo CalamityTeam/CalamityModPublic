@@ -5,10 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
     public class AncientBookcase : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

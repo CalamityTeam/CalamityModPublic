@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.Mounts
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bumbledoge");
-            // Description.SetDefault("Wait a second. That's not right...");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class NeedlerProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Needle");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

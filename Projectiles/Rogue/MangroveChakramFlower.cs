@@ -9,11 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/BeamingBolt";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Flower");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 30;

@@ -21,11 +21,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.coldDamage = true;
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Icicle");
-        }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Frostburn2, 180);

@@ -7,14 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class GiantTortoiseShell : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Giant Tortoise Shell");
-            /* Tooltip.SetDefault("10% decreased movement speed\n" +
-                "Enemies take damage when they hit you\n" +
-                "Grants immunity to Armor Crunch"); */
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 14;

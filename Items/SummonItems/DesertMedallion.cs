@@ -14,11 +14,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Desert Medallion");
-            /* Tooltip.SetDefault("Summons the Desert Scourge when used in the Desert\n" +
-                "Enrages outside the Desert\n" +
-                "Not consumable"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
         }
 
         public override void SetDefaults()

@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class AbyssBlade : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Abyss Blade");
-            /* Tooltip.SetDefault("Fires short-range tridents\n" +
-                "Hitting enemies will inflict the crush depth debuff\n" +
-                "The lower the enemies' defense, the more damage they take from this debuff"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 74;

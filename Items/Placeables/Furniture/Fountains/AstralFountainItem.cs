@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
 {
     public class AstralFountainItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Astral Water Fountain");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

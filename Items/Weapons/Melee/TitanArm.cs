@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TitanArm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Titan Arm");
-            /* Tooltip.SetDefault("Slap Hand but better\n" +
-            "Sends enemies straight to the stars at the speed of light"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 46;

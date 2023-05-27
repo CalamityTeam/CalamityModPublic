@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneBall : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Brimstone Fireball");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

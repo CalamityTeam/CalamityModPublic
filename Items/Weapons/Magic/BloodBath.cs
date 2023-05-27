@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Blood Bath");
-            // Tooltip.SetDefault("Drenches your foes in blood");
             Item.staff[Item.type] = true;
         }
 

@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DragonPowFlail : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Dragon Pow");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 50;

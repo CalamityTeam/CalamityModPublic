@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystalShard : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Holy Crystal Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

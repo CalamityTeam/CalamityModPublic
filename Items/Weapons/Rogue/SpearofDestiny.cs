@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class SpearofDestiny : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spear of Destiny");
-            /* Tooltip.SetDefault("Throws three spears with the outer two having homing capabilities\n" +
-            "Stealth strikes cause all three spears to home in, ignore tiles, and pierce more"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 52;

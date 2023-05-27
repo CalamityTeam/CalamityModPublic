@@ -5,10 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
     public class StatigelBookcase : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

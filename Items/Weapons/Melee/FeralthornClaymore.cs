@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class FeralthornClaymore : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Feralthorn Claymore");
-            // Tooltip.SetDefault("Summons thorns on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 68;

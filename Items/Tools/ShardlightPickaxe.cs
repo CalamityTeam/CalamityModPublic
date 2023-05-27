@@ -8,11 +8,6 @@ namespace CalamityMod.Items.Tools
 {
     public class ShardlightPickaxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shardlight Pickaxe");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 28;

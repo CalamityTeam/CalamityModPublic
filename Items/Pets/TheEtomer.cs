@@ -13,14 +13,6 @@ namespace CalamityMod.Items.Pets
     [LegacyName("RotomRemote")]
     public class TheEtomer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Etomer");
-            /* Tooltip.SetDefault("Summons an electric troublemaker\n" +
-                "A little note is attached:\n" +
-                "Thank you, Aloe! Very much appreciated from Ben"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 0;

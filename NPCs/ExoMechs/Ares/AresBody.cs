@@ -156,7 +156,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public static readonly SoundStyle LaserEndSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresCircleLaserEnd");
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("XF-09 Ares");
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = NPC.oldPos.Length;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

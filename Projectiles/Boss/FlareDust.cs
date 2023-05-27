@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Flare Dust");
             Main.projFrames[Projectile.type] = 5;
         }
 

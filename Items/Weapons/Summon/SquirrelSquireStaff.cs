@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class SquirrelSquireStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Squirrel Squire Staff");
-            // Tooltip.SetDefault("Summons a squirrel squire to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 8;

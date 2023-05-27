@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Gamma Bullet");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

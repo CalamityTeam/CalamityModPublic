@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Final Dawn");
         }
         public override void SetDefaults()
         {

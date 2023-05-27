@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Shadowfish");
-            // Tooltip.SetDefault("Darkness spreads");
             Item.ResearchUnlockCount = 3;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

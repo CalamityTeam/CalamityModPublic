@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Cryophobia : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cryophobia");
-            /* Tooltip.SetDefault("Chill\n" +
-                "Fires an icy wave that splits multiple times and explodes into shards"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 96;

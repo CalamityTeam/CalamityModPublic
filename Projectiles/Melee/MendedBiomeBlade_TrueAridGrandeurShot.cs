@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Arid Shredder");
         }
         public override void SetDefaults()
         {

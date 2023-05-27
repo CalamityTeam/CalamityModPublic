@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
     [AutoloadEquip(EquipType.Body)]
     public class BloodflareBodyArmor : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Bloodflare Body Armor");
-            /* Tooltip.SetDefault("12% increased damage and 8% increased critical strike chance\n" +
-                       "+40 max life"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

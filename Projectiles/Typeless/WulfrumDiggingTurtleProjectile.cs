@@ -51,11 +51,6 @@ namespace CalamityMod.Projectiles.Typeless
         public static int MaxPickPower = 160;
         public static float ClearSpaceDiagonal = 50;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Digging Turtle");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

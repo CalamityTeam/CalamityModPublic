@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Lionfish : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Lionfish");
-            /* Tooltip.SetDefault("Sticks to enemies and injects a potent toxin\n" +
-            "Stealth strikes are trailed by homing urchin spikes"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 40;

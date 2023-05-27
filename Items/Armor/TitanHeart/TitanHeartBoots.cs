@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Armor.TitanHeart
     [AutoloadEquip(EquipType.Legs)]
     public class TitanHeartBoots : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Titan Heart Boots");
-            // Tooltip.SetDefault("4% increased rogue damage, 10% increased rogue velocity, and 5% increased rogue knockback");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

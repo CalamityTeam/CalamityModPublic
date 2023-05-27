@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     [LegacyName("TheReaper")]
     public class TheOldReaper : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Old Reaper");
-            /* Tooltip.SetDefault("Slice 'n dice\n" +
-                "Stealth strikes throw four at once"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 106;

@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ancient");
             Main.projFrames[Projectile.type] = 6;
         }
 

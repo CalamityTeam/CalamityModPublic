@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astral Infection");
-            // Description.SetDefault("Your flesh is melting off");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

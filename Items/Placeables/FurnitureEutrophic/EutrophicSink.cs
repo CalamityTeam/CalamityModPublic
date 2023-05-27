@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
     public class EutrophicSink : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Counts as a water source");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

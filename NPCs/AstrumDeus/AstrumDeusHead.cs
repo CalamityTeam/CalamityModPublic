@@ -40,7 +40,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astrum Deus");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)

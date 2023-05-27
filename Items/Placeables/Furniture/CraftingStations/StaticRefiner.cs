@@ -5,11 +5,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     public class StaticRefiner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Used for special crafting");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

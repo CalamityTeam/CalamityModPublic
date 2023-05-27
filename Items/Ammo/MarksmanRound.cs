@@ -10,10 +10,7 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Marksman Round");
-            /* Tooltip.SetDefault("A carefully crafted round which can be ricocheted off of midair coins\n" +
-                "This allows other guns to utilize the coins tossed by Crackshot Colt and Midas Prime"); */
-        }
+                   }
 
         public override void SetDefaults()
         {

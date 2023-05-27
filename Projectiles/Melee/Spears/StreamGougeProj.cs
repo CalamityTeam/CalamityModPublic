@@ -24,11 +24,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public ref float SpinDirection => ref Projectile.ai[1];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stream Gouge");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 40;

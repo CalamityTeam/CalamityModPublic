@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class LaboratoryElectricPanelItem : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Laboratory Electric Panel");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 12;

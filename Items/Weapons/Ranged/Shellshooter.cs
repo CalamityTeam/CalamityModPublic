@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Shellshooter : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shellshooter");
-            /* Tooltip.SetDefault("Fires slow but powerful arrows\n" +
-                                "Converts wooden arrows into heavy piercing seashells"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 40;

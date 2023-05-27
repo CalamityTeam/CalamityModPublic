@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Melee
         public const float maxScale = 1.8f;
         public bool initialized = false;
         public float startYVelSign = 0f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Beam");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 42;

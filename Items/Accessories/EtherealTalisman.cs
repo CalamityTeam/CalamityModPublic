@@ -10,15 +10,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class EtherealTalisman : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ethereal Talisman");
-            /* Tooltip.SetDefault("15% increased magic damage, 5% increased magic critical strike chance and 10% decreased mana usage\n" +
-                "+150 max mana\n" +
-                "Increases pickup range for mana stars\n" +
-                "You automatically use mana potions when needed if visibility is on"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

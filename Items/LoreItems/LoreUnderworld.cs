@@ -17,7 +17,6 @@ Such is the unfortunate price of war, though I have no regrets fighting for my p
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("The Underworld");
         }
 
         public override void SetDefaults()

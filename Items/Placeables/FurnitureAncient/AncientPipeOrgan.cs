@@ -6,10 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
     [LegacyName("AncientPiano")]
     public class AncientPipeOrgan : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ancient Pipe Organ");

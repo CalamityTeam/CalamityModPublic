@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ShatteredSun : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shattered Sun");
-            /* Tooltip.SetDefault("Throws daggers that split into scorching homing daggers\n" +
-                "Stealth strikes fire volleys of homing daggers from the player on dagger hits that suck enemies in"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 56;

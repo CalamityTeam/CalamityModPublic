@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
     {
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/WavePounder";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wave Pounder");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

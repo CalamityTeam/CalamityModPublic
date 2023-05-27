@@ -31,7 +31,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Exo Pulse Laser");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }

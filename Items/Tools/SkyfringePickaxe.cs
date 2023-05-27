@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Tools
 {
     public class SkyfringePickaxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Skyfringe Pickaxe");
-            // Tooltip.SetDefault("Able to mine Hellstone");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 12;

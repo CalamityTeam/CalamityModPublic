@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Crushax : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Crushax");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

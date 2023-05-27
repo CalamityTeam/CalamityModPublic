@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SevensStrikerPlatinumCoin : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Platinum Coin");
-        }
-
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.PlatinumCoin);

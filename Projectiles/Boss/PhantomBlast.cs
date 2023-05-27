@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class PhantomBlast : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Phantom Blast");
-        }
-
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

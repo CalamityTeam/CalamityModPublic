@@ -30,11 +30,6 @@ namespace CalamityMod.Projectiles.Magic
 
 
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Coral Spout");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

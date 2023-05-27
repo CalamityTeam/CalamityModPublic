@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
     public class UltimusCleaver : ModItem
     {
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ultimus Cleaver");
-            // Tooltip.SetDefault("Launches damaging homing sparks and explodes on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 130;

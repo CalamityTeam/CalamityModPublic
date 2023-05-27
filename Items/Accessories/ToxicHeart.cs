@@ -10,14 +10,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class ToxicHeart : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Toxic Heart");
-            /* Tooltip.SetDefault("Summons a plague aura around you that damages nearby enemies\n" +
-        "Makes you immune to the Plague debuff\n"+
-        "Multiplies all sickness-based debuff damage by 1.5"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

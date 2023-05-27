@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Accessories
         public const int RaiderCooldown = 5;
         public static readonly SoundStyle StealthHitSound = new("CalamityMod/Sounds/Custom/RaidersTalismanStealthHit");
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Raider's Talisman");
-            /* Tooltip.SetDefault($"Landing a stealth strike grants a {(int)RaiderBonus}% crit bonus to non-stealth strikes\n" +
-                $"This crit bonus decays over {RaiderCooldown} seconds"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class SandstormGun : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sandstorm");
-            /* Tooltip.SetDefault("Fires sand bullets that explode and slow enemies on hit\n" +
-                "50% chance to not consume sand"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 80;

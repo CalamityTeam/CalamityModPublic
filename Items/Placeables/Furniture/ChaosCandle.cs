@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class ChaosCandle : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Chaos Candle");
-            // Tooltip.SetDefault("The mere presence of this candle enrages surrounding enemies drastically");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 16;

@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public ref float ProjectileType => ref Projectile.ai[0];
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aura");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

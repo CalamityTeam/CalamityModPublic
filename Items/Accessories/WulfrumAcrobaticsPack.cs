@@ -24,16 +24,6 @@ namespace CalamityMod.Items.Accessories
         public static readonly SoundStyle ReleaseSound = new("CalamityMod/Sounds/Custom/WulfrumHookDisengage") { Volume = 0.7f, MaxInstances = 1, SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest };
 
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Wulfrum Acrobatics Pack");
-            /* Tooltip.SetDefault("Transforms equipped hooks into a wulfrum slingshot\n" +
-            "The slingshot allows for advanced rope-swinging physics\n" +
-            "Automatically grapples nearby walls if a lethal fall is detected\n" +
-            "This safety feature won't activate if DOWN is held\n" +
-            "8% increased movement speed"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

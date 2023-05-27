@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class SoulHarvester : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Soul Harvester");
-            /* Tooltip.SetDefault("Shoots a soul scythe\n" +
-                "Enemies explode when on low health, spreading the plague"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 62;

@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepSeaDumbbellWeight : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deep Sea Dumbbell");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

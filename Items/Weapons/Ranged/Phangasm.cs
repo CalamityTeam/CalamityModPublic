@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Phangasm : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Phangasm");
-            /* Tooltip.SetDefault("Fires a spread of 5 arrows and emits phantom arrows on enemy hits\n" +
-                            "66% chance to not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 180;

@@ -20,7 +20,6 @@ Notably, they now are all reclusive or exceedingly violent. It is tragic how the
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Dragonfolly");
         }
 
         public override void SetDefaults()

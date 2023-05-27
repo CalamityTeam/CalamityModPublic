@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class TheMaelstrom : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Maelstrom");
-            // Tooltip.SetDefault("Fires charged Reaper Sharks that explode into water");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 530;

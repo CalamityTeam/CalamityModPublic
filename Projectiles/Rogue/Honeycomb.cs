@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         private const float radius = 15f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Honeycomb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

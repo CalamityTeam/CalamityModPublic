@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ink Cloud");
             Main.projFrames[Projectile.type] = 10;
         }
 

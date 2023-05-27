@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CorroslimeStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Corroslime Staff");
-            // Tooltip.SetDefault("Summons a corro slime to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 24;

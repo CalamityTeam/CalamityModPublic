@@ -16,7 +16,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Cosmic Guardian");
         }
 
         public override void SetDefaults()

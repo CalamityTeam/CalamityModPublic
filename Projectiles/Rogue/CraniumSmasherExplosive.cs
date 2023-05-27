@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CraniumSmasherExplosive : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Explosive Cranium Smasher");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 50;

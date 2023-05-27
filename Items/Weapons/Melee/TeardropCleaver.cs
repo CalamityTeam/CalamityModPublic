@@ -7,12 +7,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TeardropCleaver : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Teardrop Cleaver");
-            // Tooltip.SetDefault("Makes your enemies cry");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 56;

@@ -13,13 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public const int ActiveFlameLimit = 15;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Guidelight of Oblivion");
-            /* Tooltip.SetDefault("Shadows dream of endless fire, flames devour and embers swoop\n" +
-            "Summons a lantern turret to fight for you"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 75;

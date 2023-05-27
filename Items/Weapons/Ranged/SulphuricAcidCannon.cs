@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class SulphuricAcidCannon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Sulphuric Acid Cannon");
-            // Tooltip.SetDefault("Fires an acidic shot that sticks to enemies and dissolves them");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 144;

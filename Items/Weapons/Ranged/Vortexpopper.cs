@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Vortexpopper : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Vortexpopper");
-            // Tooltip.SetDefault("Fires bubbles everywhere that pop into bullets");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 30;

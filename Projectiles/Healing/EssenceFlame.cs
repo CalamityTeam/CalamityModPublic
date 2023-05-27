@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Healing
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Flame");
             Main.projFrames[Projectile.type] = 4;
         }
 

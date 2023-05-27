@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Greentide : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Greentide");
-            // Tooltip.SetDefault("Summons teeth from the sky on hit");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 95;

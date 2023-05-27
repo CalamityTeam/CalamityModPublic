@@ -11,15 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class DeificThunderbolt : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Deific Thunderbolt");
-            // Tooltip.SetDefault(@"Fires a lightning bolt to electrocute enemies
-//The lightning bolt travels faster while it is raining
-//Summons lightning from the sky on impact
-//Stealth strikes summon more lightning and travel faster");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 466;

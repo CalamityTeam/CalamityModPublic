@@ -7,11 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class BabyFlakCrabCage : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Baby Flak Crab Cage");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

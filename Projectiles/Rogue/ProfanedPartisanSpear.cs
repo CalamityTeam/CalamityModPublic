@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public int timer = 0;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Profaned Spear");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

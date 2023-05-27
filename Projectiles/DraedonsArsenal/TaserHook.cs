@@ -35,11 +35,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public const float ReelbackSpeed = 25f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Taser");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 14;

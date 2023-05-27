@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Armor.GodSlayer
     {
         public const int DashIFrames = 12;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("God Slayer Chestplate");
-            /* Tooltip.SetDefault("+60 max life\n" +
-                       "Enemies take damage when they hit you\n" +
-                       "11% increased damage and 6% increased critical strike chance"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

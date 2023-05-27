@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Gauss Nuke");
             Main.projFrames[Type] = 12;
         }
 

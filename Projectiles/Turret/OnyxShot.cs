@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Turret
         public bool ableToHit = true;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Onyx Shot");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

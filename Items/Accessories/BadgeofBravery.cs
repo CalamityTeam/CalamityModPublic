@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class BadgeofBravery : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Badge of Bravery");
-            /* Tooltip.SetDefault("15% increased melee speed\n" +
-                               "Increases melee damage and melee crit by 5%\n" +
-                               "+5 melee armor penetration"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

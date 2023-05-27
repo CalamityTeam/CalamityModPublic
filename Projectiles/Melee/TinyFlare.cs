@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TinyFlare : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Flare");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

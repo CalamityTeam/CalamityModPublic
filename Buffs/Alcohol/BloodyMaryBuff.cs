@@ -8,8 +8,6 @@ namespace CalamityMod.Buffs.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bloody Mary");
-            // Description.SetDefault("Damage and movement speed boosted during a Blood Moon, life regen and defense reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

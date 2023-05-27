@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ScourgeoftheSeas : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Scourge of the Seas");
-            /* Tooltip.SetDefault("Snaps apart into a venomous cloud upon striking an enemy\n" +
-            "Stealth strikes are coated with vile toxins, afflicting enemies with a powerful debuff"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 56;

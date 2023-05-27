@@ -14,7 +14,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            // DisplayName.SetDefault("Armored Digger");
         }
 
         public override void SetDefaults()

@@ -18,7 +18,6 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Overloaded Soldier");
             Main.npcFrameCount[NPC.type] = 14;
         }
 

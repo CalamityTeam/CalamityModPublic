@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Starmada";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Starmada");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 122;

@@ -5,11 +5,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SevensStrikerGrape : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Grapes");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

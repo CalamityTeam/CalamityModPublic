@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Fishing
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Glimmering Gemfish");
-            // Tooltip.SetDefault("Right click to extract gems");
             Item.ResearchUnlockCount = 10;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

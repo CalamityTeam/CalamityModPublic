@@ -14,11 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Condemnation");
-            /* Tooltip.SetDefault("Fires powerful scarlet bolts suffused with hateful magics\n" +
-                "Hold left click to load up to eight bolts for powerful burst fire\n" +
-                "Hold right click to use the repeater full auto"); */
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

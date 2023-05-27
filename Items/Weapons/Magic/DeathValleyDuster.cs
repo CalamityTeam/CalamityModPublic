@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Magic
     [LegacyName("DeathValley")]
     public class DeathValleyDuster : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Death Valley Duster");
-            // Tooltip.SetDefault("Casts a large blast of dust");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 123;

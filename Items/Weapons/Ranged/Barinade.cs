@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Barinade : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Barinade");
-            // Tooltip.SetDefault("Converts wooden arrows into electric bolt arrows that explode");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 9;

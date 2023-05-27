@@ -9,14 +9,6 @@ namespace CalamityMod.Items.Pets
 {
     public class ThiefsDime : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Thief's Dime");
-            /* Tooltip.SetDefault("Once worthless treasure, now a relic of a thief's companionship\n" +
-            "Summons Goldie the coin to light your way and collects nearby coins\n" +
-            "Provides a small amount of light in the abyss"); */
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.WispinaBottle);

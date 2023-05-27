@@ -12,14 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class RecitationoftheBeast : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Recitation of the Beast");
-            /* Tooltip.SetDefault("A thousand years sealed in the demon's realm will teach you a thing or two\n" +
-                               "Summons beast scythes around the player in a small circle,\n" +
-                               "before firing toward the cursor and home in to nearby enemies"); */
-        }
-
         public override void SetDefaults()
         {
             Item.mana = 24;

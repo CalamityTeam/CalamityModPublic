@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class HerringStaff : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Herring Staff");
-            // Tooltip.SetDefault("Summons a group of herrings to fight for you");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 17;

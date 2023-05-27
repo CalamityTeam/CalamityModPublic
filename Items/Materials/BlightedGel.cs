@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Blighted Gel");
         }
 
         public override void SetDefaults()

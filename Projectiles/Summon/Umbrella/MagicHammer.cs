@@ -33,7 +33,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Marmalade Hammer");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 4;
         }

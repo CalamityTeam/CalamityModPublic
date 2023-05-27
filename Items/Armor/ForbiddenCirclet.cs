@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Armor
         public const int tornadoBaseDmg = 80;
         public const float tornadoBaseKB = 1f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Forbidden Circlet");
-            // Tooltip.SetDefault("10% increased summon damage and 15% increased rogue velocity");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

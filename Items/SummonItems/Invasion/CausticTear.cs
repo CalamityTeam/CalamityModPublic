@@ -10,10 +10,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Caustic Tear");
-            /* Tooltip.SetDefault("Causes an acidic downpour in the Sulphurous Sea\n" +
-                "Not consumable"); */
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
+           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
 
         }
 

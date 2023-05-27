@@ -7,11 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PhantasmalRuinGhost : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Phantasmal Afterimage");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;

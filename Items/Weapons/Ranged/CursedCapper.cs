@@ -8,12 +8,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class CursedCapper : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cursed Capper");
-            // Tooltip.SetDefault("Fires cursed bullets");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 31;

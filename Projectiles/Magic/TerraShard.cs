@@ -6,11 +6,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shard");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 20;

@@ -16,7 +16,6 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Fearless Goldfish Warrior");
             Main.npcFrameCount[NPC.type] = 10;
         }
 

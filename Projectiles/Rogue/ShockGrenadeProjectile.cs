@@ -14,11 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
         public static int spriteWidth = 14;
         public static int spriteHeight = 30;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Shock Grenade");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

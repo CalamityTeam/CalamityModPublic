@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Mine");
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 

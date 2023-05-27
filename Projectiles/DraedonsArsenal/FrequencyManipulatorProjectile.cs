@@ -17,11 +17,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         }
         public const int TotalSpins = 2;
         public const float SpinTime = 30f;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Frequency Manipulator");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 34;

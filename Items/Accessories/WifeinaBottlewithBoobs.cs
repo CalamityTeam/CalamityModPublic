@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class WifeinaBottlewithBoobs : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rare Elemental in a Bottle");
-            /* Tooltip.SetDefault("Summons a sand elemental to heal you\n" +
-                ";D"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;

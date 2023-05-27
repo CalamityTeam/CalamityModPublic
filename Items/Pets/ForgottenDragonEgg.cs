@@ -10,12 +10,6 @@ namespace CalamityMod.Items.Pets
 {
     public class ForgottenDragonEgg : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Forgotten Dragon Egg");
-            // Tooltip.SetDefault("Calls Akato, son of Yharon, to your side");
-        }
-
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.ZephyrFish);

@@ -11,13 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     [LegacyName("Shroomerang")]
     public class InfestedClawmerang : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Infested Clawmerang");
-            // Tooltip.SetDefault(@"Fires a slow, long-ranged boomerang
-//Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing spores");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

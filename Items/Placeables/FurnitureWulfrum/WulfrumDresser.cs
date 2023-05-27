@@ -5,10 +5,6 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
 {
     public class WulfrumDresser : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.width = 38;

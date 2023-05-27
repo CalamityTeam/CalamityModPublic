@@ -5,11 +5,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScarletDevilBullet : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gungnir Bullet");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;

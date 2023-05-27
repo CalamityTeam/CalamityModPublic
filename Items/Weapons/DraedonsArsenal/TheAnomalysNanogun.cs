@@ -22,14 +22,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public static readonly SoundStyle PlasmaShotSFX = new("CalamityMod/Sounds/Item/AnomalysNanogunPlasmaShot");
         public bool PlasmaChargeSelected = true;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("The Anomaly's Nanogun");
-            /* Tooltip.SetDefault("'Welcome to the party, pal'\n" +
-                "Left click to charge up 5 rapid-fire plasma beams\n" +
-                "Right click to launch 3 fission bombs"); */
-        }
-
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

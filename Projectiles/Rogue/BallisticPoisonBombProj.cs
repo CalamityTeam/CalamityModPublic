@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BallisticPoisonBombProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Poison Bomb");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 24;

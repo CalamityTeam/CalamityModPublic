@@ -24,11 +24,6 @@ namespace CalamityMod.BiomeManagers
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer23";
         public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer23";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Thermal Vents");
-        }
-
         public override bool IsBiomeActive(Player player)
         {
             return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && BiomeTileCounterSystem.Layer3Tiles >= 200 &&

@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Ranged
         public const float MaxTargetDistance = 750f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Exo Spark");
             Main.projFrames[Projectile.type] = 3;
         }
 

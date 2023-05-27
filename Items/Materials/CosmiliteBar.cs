@@ -16,8 +16,6 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-            // DisplayName.SetDefault("Cosmilite Bar");
-            // Tooltip.SetDefault("A chunk of durable and highly resilient cosmic steel");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 114;
         }
 

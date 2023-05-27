@@ -159,11 +159,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
         }
         #endregion
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Redtide Spear");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 56;

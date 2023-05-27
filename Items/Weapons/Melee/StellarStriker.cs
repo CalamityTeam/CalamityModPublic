@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class StellarStriker : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Stellar Striker");
-            // Tooltip.SetDefault("Summons a swarm of lunar flares from the sky on enemy hits");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 90;

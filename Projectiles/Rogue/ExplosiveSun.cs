@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ExplosiveSun : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Explosive Sun");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 22;

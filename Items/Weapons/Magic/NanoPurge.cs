@@ -12,12 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public const int UseTime = 20;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Nano Purge");
-            // Tooltip.SetDefault("Fires a barrage of nano lasers");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 73;

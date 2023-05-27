@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Large Ritual Candle");
-            // Tooltip.SetDefault("Right click to place in a different style");
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

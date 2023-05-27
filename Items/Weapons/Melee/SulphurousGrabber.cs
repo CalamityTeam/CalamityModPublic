@@ -9,11 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sulphurous Grabber");
-            /* Tooltip.SetDefault("Occasionally releases a ring of colored bubbles\n" +
-            "The yoyo powers up after touching a green bubble\n" +
-            "A very agile yoyo"); */
-            ItemID.Sets.Yoyo[Item.type] = true;
+                       ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }

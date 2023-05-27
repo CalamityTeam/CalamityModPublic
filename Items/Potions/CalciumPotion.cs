@@ -11,8 +11,6 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-            // DisplayName.SetDefault("Calcium Potion");
-            // Tooltip.SetDefault("Grants immunity to fall damage");
         }
 
         public override void SetDefaults()

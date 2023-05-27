@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class Regenator : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Regenator");
-            /* Tooltip.SetDefault("Greatly improves life regeneration\n" +
-                                "However, your health cannot exceed 50% of its maximum"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

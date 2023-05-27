@@ -13,11 +13,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         private const int TimeLeft = 600;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Ice Blast");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 10;

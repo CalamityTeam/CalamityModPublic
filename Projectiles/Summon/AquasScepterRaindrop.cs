@@ -6,7 +6,6 @@ namespace CalamityMod.Projectiles.Summon
 	public class AquasScepterRaindrop : ModProjectile
 	{
 		public override void SetStaticDefaults() {
-			// DisplayName.SetDefault("Rain Droplet");
 			// Sets the amount of frames this minion has on its spritesheet
 			Main.projFrames[Projectile.type] = 1;
         }

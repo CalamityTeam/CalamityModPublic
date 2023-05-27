@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class TomeofFates : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Tome of Fates");
-            /* Tooltip.SetDefault("Casts cosmic tentacles to spear your enemies\n" +
-                "Can randomly fire a red tentacle for immense damage"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 110;

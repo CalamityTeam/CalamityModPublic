@@ -11,16 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public const float ExplosionDamageMultiplier = 3f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Hellborn");
-            /* Tooltip.SetDefault("Fires a spread of 3 bullets\n" +
-                "Converts musket balls into explosive bullets\n" +
-                "Enemies that touch the gun while it's being fired trigger a massive explosion\n" +
-                "After the explosion, this gun gains a massive boost to damage, fire rate and knockback for 10 seconds\n" +
-                "These stat bonuses slowly decay over time"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 20;

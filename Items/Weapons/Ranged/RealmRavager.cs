@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class RealmRavager : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Realm Ravager");
-            /* Tooltip.SetDefault("Shoots a burst of 3 to 4 bullets\n" +
-                "Converts musket balls into explosive bullets"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 50;

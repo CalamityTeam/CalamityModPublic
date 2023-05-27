@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/CursedDagger";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Cursed Dagger Projectile");
-        }
-
         public override void SetDefaults()
         {
             Projectile.localNPCHitCooldown = 10;

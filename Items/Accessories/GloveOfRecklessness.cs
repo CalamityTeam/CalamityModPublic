@@ -8,14 +8,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
     public class GloveOfRecklessness : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Glove of Recklessness");
-            /* Tooltip.SetDefault("Increases rogue attack speed by 15% but decreases damage by 13%\n" +
-                               "15% increased stealth regeneration\n" +
-                               "Adds inaccuracy to rogue weapons"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 28;

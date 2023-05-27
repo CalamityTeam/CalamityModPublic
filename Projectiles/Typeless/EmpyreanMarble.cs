@@ -8,11 +8,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override string Texture => "CalamityMod/Projectiles/Healing/EmpyreanHealOrb";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Empyrean Marble");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 4;

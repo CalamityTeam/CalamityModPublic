@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Acid Bubble");
             Main.projFrames[Projectile.type] = 7;
         }
 

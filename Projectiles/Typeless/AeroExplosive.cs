@@ -12,11 +12,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override string Texture => "CalamityMod/Items/Weapons/Typeless/Skynamite";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Aeroboom");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 15;

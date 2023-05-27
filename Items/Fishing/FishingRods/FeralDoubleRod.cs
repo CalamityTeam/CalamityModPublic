@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class FeralDoubleRod : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Feral Double Rod");
-            /* Tooltip.SetDefault("Fires two lines at once.\n" +
-                "Just as you have tamed the jungle monster, you can now tame the fish in the sea."); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 24;

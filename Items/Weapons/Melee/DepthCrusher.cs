@@ -13,11 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Depth Crusher");
-            /* Tooltip.SetDefault("Hitting enemies will inflict the crush depth debuff\n" +
-                "The lower the enemies' defense, the more damage they take from this debuff\n" +
-                "Right click to use without hammering down walls"); */
-
+           
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

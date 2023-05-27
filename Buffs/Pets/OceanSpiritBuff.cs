@@ -9,8 +9,6 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Ocean Spirit");
-            // Description.SetDefault("Small and cute");
             Main.buffNoTimeDisplay[Type] = true;
             Main.lightPet[Type] = true;
         }

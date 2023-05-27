@@ -12,10 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Crystal Piercer");
-            /* Tooltip.SetDefault("Throws a crystal javelin that pierces infinitely\n" +
-            "Stealth strikes travel through blocks, ignore gravity, and summon crystal shards as they fly"); */
-            Item.ResearchUnlockCount = 99;
+                       Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

@@ -5,11 +5,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Explosion");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 500;

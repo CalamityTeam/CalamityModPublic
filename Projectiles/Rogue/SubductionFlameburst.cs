@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
         public int frameX = 0;
         public int frameY = 0;
         public int currentFrame => frameY + frameX * 4;
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Flame Pillar");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 81;

@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 	{
 		public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Nuclear Terror Relic");
 
 		}
 

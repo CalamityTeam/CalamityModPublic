@@ -43,7 +43,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Rending Scissors");
         }
         public override void SetDefaults()
         {

@@ -9,12 +9,6 @@ namespace CalamityMod.Items.Tools
 {
     public class BlossomPickaxe : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Blossom Pickaxe");
-            // Tooltip.SetDefault("Can mine Auric Ore");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 92;

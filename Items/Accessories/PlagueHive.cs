@@ -8,14 +8,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class PlagueHive : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Plague Hive");
-            /* Tooltip.SetDefault("All attacks inflict the Plague and grants immunity to the Plague\n" +
-                   "Releases bees when damaged that inflict the Plague\n" +
-                   "Projectiles spawn plague seekers on enemy hits"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 42;

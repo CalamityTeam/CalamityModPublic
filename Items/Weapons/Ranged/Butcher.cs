@@ -10,13 +10,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Butcher : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Butcher");
-            /* Tooltip.SetDefault("Fires bullets faster and more accurately the longer you hold the trigger\n" +
-                            "25% chance to not consume ammo"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 15;

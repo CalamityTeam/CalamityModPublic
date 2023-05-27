@@ -11,11 +11,6 @@ namespace CalamityMod.Projectiles.Summon
         public ref float Target => ref Projectile.ai[0];
         public Vector2 initialVelocity;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Spark");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 6;

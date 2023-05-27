@@ -11,12 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("VirulentKatana")]
     public class Virulence : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Virulence");
-            // Tooltip.SetDefault("Fires a plague cloud");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 96;

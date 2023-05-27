@@ -11,8 +11,6 @@ namespace CalamityMod.Buffs.StatBuffs
         public const float RunAccelerationBoost = 0.15f;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Kami Injection");
-            // Description.SetDefault("Increased max movement speed, acceleration and damage");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

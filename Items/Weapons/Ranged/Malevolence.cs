@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Malevolence : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Malevolence");
-            /* Tooltip.SetDefault("Fires two arrows at once\n" +
-                "Converts wooden arrows into plague arrows that explode into bees on death"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 56;
