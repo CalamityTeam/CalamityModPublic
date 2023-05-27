@@ -210,6 +210,8 @@ namespace CalamityMod.Particles
         /// </summary>
         public static Texture2D GetTexture(int type) => particleTextures[type];
 
+        #pragma warning disable CS0414
         private static string noteToEveryone = "This particle system was inspired by spirit mod's own particle system, with permission granted by Yuyutsu. Love you spirit mod! -Iban";
+        #pragma warning restore CS0414
     }
 }

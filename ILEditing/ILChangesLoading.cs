@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.FurnitureExo;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
@@ -28,9 +27,6 @@ namespace CalamityMod.ILEditing
             exoDoorOpen = ModContent.TileType<ExoDoorOpen>();
             exoDoorClosed = ModContent.TileType<ExoDoorClosed>();
 
-            // Re-initialize the projectile cache list.
-            OrderedProjectiles = new List<OrderedProjectileEntry>();
-
             // Graphics
             Terraria.IL_Main.DoDraw += AdditiveDrawing;
             Terraria.On_Main.DrawGore += DrawForegroundStuff;
@@ -39,8 +35,6 @@ namespace CalamityMod.ILEditing
             Terraria.On_Main.SortDrawCacheWorms += DrawFusableParticles;
             Terraria.On_Main.DrawInfernoRings += DrawForegroundParticles;
             
-            // ERROR
-            Terraria.IL_Main.DrawInterface_40_InteractItemIcon += MakeMouseHoverItemsSupportAnimations;
             // ERROR
             Terraria.GameContent.Drawing.On_TileDrawing.DrawPartialLiquid += DrawCustomLava;
             // ERROR
@@ -147,8 +141,6 @@ namespace CalamityMod.ILEditing
 
             // Fix vanilla bugs exposed by Calamity mechanics
             Terraria.IL_NPC.NPCLoot += FixSplittingWormBannerDrops;
-            // Should not be necessary in 1.4
-            // IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
 
             //Additional detours that are in their own item files given they are only relevant to these specific items:
             //Rover drive detours on Player.DrawInfernoRings to draw its shield

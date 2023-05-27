@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Pets
     {
         private int playerStill = 0;
         private bool fly = false;
-        private int idleTimer = 0;
 
         public override void SetStaticDefaults()
         {
@@ -303,8 +302,6 @@ namespace CalamityMod.Projectiles.Pets
                 {
                     Projectile.frame = 5;
                 }
-
-                idleTimer = 0;
             }
         }
 

@@ -759,6 +759,9 @@ namespace CalamityMod
         #region Vanilla Recipe Edits
         internal static void EditVanillaRecipes()
         {
+            // Disable warnings for unused stuff as they can continue to be used freely
+            #pragma warning disable CS8321
+
             // Predicates for specifying which recipes to edit
             static Func<Recipe, bool> Vanilla(int itemID) => r => r.Mod is null && r.HasResult(itemID);
             static Func<Recipe, bool> VanillaEach(params int[] itemIDs) => r => r.Mod is null && itemIDs.Any(r.HasResult);
@@ -801,6 +804,7 @@ namespace CalamityMod
                     return;
                 r.requiredTile[idx] = newTileID;
             };
+            #pragma warning restore CS8321
 
             var edits = new Dictionary<Func<Recipe, bool>, Action<Recipe>>(128)
             {

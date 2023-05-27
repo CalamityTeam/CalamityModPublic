@@ -118,8 +118,6 @@ namespace CalamityMod.Tiles.Crags.Tree
                 //also dont place branches below a certain threshold
                 if (Main.rand.Next(2) == 0 && branchSegmentDelay == 0 && k > 5)
                 {
-                    float divide = 1.65f;
-
                     if (k > 1 && k < 10)
                     {
                         Framing.GetTileSafely(i, j - k).TileFrameX = 3 * 18;
@@ -300,9 +298,6 @@ namespace CalamityMod.Tiles.Crags.Tree
                 xOff = 0;
             }
 
-            int frameSizeX = 16;
-            int frameSizeY = 16;
-            int frameSize = 16;
             int frameOff = 0;
 
             Vector2 offset = new((xOff * 2) - (frameOff / 2), 0);
