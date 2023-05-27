@@ -42,7 +42,6 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetStaticDefaults()
         {
-
             Main.npcFrameCount[NPC.type] = 23;
             NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
             NPCID.Sets.AttackFrameCount[NPC.type] = 4;
