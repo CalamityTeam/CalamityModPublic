@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Waywasher : ModItem
+    public class Waywasher : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
             Item.damage = 16;

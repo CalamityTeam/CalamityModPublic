@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class EvergladeSpray : ModItem
+    public class EvergladeSpray : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
             Item.damage = 28;

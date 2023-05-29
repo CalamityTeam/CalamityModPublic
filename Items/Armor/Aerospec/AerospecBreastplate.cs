@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Aerospec
     [AutoloadEquip(EquipType.Body)]
     public class AerospecBreastplate : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

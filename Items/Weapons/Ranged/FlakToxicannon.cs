@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class FlakToxicannon : ModItem
+    public class FlakToxicannon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetStaticDefaults()
         {
                    }

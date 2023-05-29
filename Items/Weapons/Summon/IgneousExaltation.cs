@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class IgneousExaltation : ModItem
+    public class IgneousExaltation : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetStaticDefaults()
         {
                        Item.staff[Item.type] = true;

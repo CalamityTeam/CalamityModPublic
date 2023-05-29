@@ -6,8 +6,9 @@ using CalamityMod.Items.Placeables;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class CausticEdge : ModItem
+    public class CausticEdge : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 46;

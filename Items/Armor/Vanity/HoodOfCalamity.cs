@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Vanity
     [LegacyName("CalamityHood")]
     public class HoodOfCalamity : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Vanity";
         public override void SetStaticDefaults()
         {
 

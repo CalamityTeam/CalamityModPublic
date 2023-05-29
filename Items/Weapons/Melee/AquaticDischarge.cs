@@ -7,8 +7,9 @@ using CalamityMod.Projectiles.Melee.Shortswords;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class AquaticDischarge : ModItem
+    public class AquaticDischarge : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Rapier;

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     [LegacyName("AtaxiaHelmet")]
     public class HydrothermicHeadSummon : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

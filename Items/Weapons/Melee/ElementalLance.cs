@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("SpatialLance")]
-    public class ElementalLance : ModItem
+    public class ElementalLance : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
                        ItemID.Sets.Spears[Item.type] = true;

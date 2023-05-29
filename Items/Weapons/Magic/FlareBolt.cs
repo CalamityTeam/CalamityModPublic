@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class FlareBolt : ModItem
+    public class FlareBolt : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
             Item.damage = 42;

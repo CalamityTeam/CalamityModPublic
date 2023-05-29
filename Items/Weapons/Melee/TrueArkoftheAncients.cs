@@ -14,8 +14,9 @@ using static Terraria.ModLoader.ModContent;
 namespace CalamityMod.Items.Weapons.Melee
 {
     // TODO -- CANNOT RENAME THIS to ArkoftheAncients without corrupting existing items
-    public class TrueArkoftheAncients : ModItem
+    public class TrueArkoftheAncients : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public float Combo = 1f;
         public float Charge = 0f;
         public static float chargeDamageMultiplier = 1.45f; //Extra damage from charge

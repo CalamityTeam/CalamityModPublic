@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Megalodon : ModItem
+    public class Megalodon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         private int shotType = 0;
 
         public override void SetDefaults()

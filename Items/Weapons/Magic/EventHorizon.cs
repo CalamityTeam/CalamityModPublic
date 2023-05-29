@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class EventHorizon : ModItem
+    public class EventHorizon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
             Item.width = 40;

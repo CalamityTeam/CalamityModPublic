@@ -13,8 +13,9 @@ using Terraria.DataStructures;
 namespace CalamityMod.Items.Armor.Demonshade
 {
     [AutoloadEquip(EquipType.Head)]
-    public class DemonshadeHelm : ModItem, IExtendedHat
+    public class DemonshadeHelm : ModItem, IExtendedHat, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DemonshadeEnrage");
 
         public override void SetDefaults()

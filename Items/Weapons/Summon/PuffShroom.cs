@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class PuffShroom : ModItem
+    public class PuffShroom : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
             Item.damage = 14;

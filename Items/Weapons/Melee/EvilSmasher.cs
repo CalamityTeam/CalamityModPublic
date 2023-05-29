@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class EvilSmasher : ModItem
+    public class EvilSmasher : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 64;

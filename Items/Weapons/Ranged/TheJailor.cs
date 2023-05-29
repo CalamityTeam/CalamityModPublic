@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class TheJailor : ModItem
+    public class TheJailor : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 360;

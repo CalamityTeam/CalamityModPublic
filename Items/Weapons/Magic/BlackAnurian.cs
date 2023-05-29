@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class BlackAnurian : ModItem
+    public class BlackAnurian : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
             Item.damage = 21;

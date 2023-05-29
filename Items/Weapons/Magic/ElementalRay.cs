@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class ElementalRay : ModItem
+    public class ElementalRay : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
         {
                        Item.staff[Item.type] = true;

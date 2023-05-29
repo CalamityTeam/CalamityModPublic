@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Magic
 {
     [LegacyName("DeathValley")]
-    public class DeathValleyDuster : ModItem
+    public class DeathValleyDuster : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
             Item.damage = 123;

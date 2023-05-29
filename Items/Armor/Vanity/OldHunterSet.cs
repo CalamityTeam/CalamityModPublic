@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Head)]
     public class OldHunterHat : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Vanity";
         public override void SetDefaults()
         {
             Item.width = 18;
@@ -31,8 +31,9 @@ namespace CalamityMod.Items.Armor.Vanity
     }
 
     [AutoloadEquip(EquipType.Body)]
-    public class OldHunterShirt : ModItem, IBulkyArmor
+    public class OldHunterShirt : ModItem, IBulkyArmor, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.Vanity";
         public string BulkTexture => "CalamityMod/Items/Armor/Vanity/OldHunterShirt_Bulk";
 
         public override void Load()
@@ -83,7 +84,7 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Legs)]
     public class OldHunterPants : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Vanity";
         public override void SetDefaults()
         {
             Item.width = 18;

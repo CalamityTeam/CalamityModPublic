@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Magic
 {
     [LegacyName("SirensSong")]
-    public class AnahitasArpeggio : ModItem
+    public class AnahitasArpeggio : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
             Item.damage = 92;

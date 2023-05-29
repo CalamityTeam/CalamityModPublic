@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor.Demonshade
     [AutoloadEquip(EquipType.Legs)]
     public class DemonshadeGreaves : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

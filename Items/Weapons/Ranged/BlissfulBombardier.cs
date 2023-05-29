@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class BlissfulBombardier : ModItem
+    public class BlissfulBombardier : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 84;

@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class TerraLance : ModItem
+    public class TerraLance : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
             ItemID.Sets.Spears[Item.type] = true;

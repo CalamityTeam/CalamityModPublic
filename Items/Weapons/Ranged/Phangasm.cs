@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Phangasm : ModItem
+    public class Phangasm : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 180;

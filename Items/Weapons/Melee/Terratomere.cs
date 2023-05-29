@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Terratomere : ModItem
+    public class Terratomere : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public const int SwingTime = 83;
 
         public const int SlashLifetime = 27;

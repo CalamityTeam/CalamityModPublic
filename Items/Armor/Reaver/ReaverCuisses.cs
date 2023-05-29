@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Reaver
     [AutoloadEquip(EquipType.Legs)]
     public class ReaverCuisses : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetDefaults()
         {
             Item.width = 22;

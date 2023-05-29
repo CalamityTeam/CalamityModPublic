@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Magic
 {
     [LegacyName("T1000")]
-    public class AetherfluxCannon : ModItem
+    public class AetherfluxCannon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public const int UseTime = 36;
 
         public override void SetDefaults()

@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class DodusHandcannon : ModItem
+    public class DodusHandcannon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.width = 62;

@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Onyxia : ModItem
+    public class Onyxia : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         const int NotConsumeAmmo = 50;
 
         public override void SetDefaults()

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor.Victide
     [LegacyName("VictideHelmet")]
     public class VictideHeadSummon : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
 
         public override void SetDefaults()
         {

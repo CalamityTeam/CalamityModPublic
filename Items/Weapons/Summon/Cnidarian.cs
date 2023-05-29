@@ -10,8 +10,9 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class Cnidarian : ModItem
+    public class Cnidarian : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override string Texture => "CalamityMod/Items/Weapons/Summon/CnidarianFishingRod";
 
         public override void SetDefaults()

@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class CindersOfLament : ModItem
+    public class CindersOfLament : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
             Item.mana = 10;

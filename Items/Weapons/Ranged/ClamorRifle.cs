@@ -8,8 +8,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class ClamorRifle : ModItem
+    public class ClamorRifle : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 36;

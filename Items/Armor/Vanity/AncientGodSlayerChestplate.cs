@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Body)]
     public class AncientGodSlayerChestplate : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Vanity";
         public override void SetDefaults()
         {
             Item.width = 28;

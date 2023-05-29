@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class RainbowPartyCannon : ModItem
+    public class RainbowPartyCannon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public static readonly Color[] ColorSet = new Color[]
         {
             new Color(188, 192, 193), // White

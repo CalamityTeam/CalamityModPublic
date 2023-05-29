@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Armor.GodSlayer
     [AutoloadEquip(EquipType.Legs)]
     public class GodSlayerLeggings : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

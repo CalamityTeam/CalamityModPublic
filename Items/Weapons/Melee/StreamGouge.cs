@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class StreamGouge : ModItem
+    public class StreamGouge : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public const int SpinTime = 45;
 
         public const int SpearFireTime = 24;

@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Umbraphile
     [AutoloadEquip(EquipType.Legs)]
     public class UmbraphileBoots : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetDefaults()
         {
             Item.width = 22;

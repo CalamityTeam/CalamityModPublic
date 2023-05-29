@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class YanmeisKnife : ModItem
+    public class YanmeisKnife : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Typeless";
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/YanmeiKnifeHit");
         public static readonly SoundStyle ExpireSound = new("CalamityMod/Sounds/Custom/YanmeiKnifeExpire");
         

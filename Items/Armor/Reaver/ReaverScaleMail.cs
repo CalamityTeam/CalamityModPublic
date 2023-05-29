@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Reaver
     [AutoloadEquip(EquipType.Body)]
     public class ReaverScaleMail : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetStaticDefaults()
         {
            

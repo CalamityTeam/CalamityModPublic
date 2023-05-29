@@ -7,8 +7,9 @@ using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Pumpler : ModItem
+    public class Pumpler : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
 
         public const int MaxPumpkins = 5;
         public override void SetDefaults()

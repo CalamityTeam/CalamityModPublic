@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Ranged
 {
     [LegacyName("MepheticSprayer")]
-    public class BlightSpewer : ModItem
+    public class BlightSpewer : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 110;

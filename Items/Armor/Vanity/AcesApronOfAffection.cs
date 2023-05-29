@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Vanity
     [LegacyName("ApronOfAffection")]
     public class AcesApronOfAffection : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Vanity";
         public override void SetDefaults()
         {
             Item.width = 18;

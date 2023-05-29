@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class PlasmaRod : ModItem
+    public class PlasmaRod : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
         {
                        Item.staff[Item.type] = true;

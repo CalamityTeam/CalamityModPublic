@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class VileFeeder : ModItem
+    public class VileFeeder : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public static int BaseDamage = 9;
 
         public override void SetDefaults()

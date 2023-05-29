@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class PristineFury : ModItem
+    public class PristineFury : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public int frameCounter = 0;
         public int frame = 0;
         public static int BaseDamage = 77;

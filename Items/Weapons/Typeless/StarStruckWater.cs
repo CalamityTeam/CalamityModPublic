@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class StarStruckWater : ModItem
+    public class StarStruckWater : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Typeless";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;

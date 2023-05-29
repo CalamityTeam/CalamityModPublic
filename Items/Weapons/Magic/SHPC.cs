@@ -9,8 +9,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class SHPC : ModItem
+    public class SHPC : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
         {
                        ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;

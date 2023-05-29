@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class SeashineSword : ModItem
+    public class SeashineSword : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.EnchantedSword);

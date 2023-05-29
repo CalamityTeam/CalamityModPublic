@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Summon
 {
     [LegacyName("BensUmbrella")]
-    public class TemporalUmbrella : ModItem
+    public class TemporalUmbrella : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
             Item.damage = 193;

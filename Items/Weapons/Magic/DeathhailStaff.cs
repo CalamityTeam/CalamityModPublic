@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class DeathhailStaff : ModItem
+    public class DeathhailStaff : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
         {
                        Item.staff[Item.type] = true;

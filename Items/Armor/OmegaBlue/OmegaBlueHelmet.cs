@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor.OmegaBlue
     [AutoloadEquip(EquipType.Head)]
     public class OmegaBlueHelmet : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
 
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/OmegaBlueAbility");
 

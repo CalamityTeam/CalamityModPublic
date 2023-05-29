@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class SomaPrime : ModItem
+    public class SomaPrime : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         private static readonly float XYInaccuracy = 0.32f;
 
         public override void SetDefaults()

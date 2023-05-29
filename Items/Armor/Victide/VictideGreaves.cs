@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Armor.Victide
     [LegacyName("VictideLeggings")]
     public class VictideGreaves : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetStaticDefaults()
         {
            

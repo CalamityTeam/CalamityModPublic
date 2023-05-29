@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor.Sulphurous
     [LegacyName("SulfurLeggings")]
     public class SulphurousLeggings : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetDefaults()
         {
             Item.width = 22;

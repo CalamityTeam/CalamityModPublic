@@ -10,8 +10,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class FlakKraken : ModItem
+    public class FlakKraken : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 88;

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor.GodSlayer
     [AutoloadEquip(EquipType.Body)]
     public class GodSlayerChestplate : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public const int DashIFrames = 12;
 
         public override void SetDefaults()

@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class RelicOfDeliverance : ModItem
+    public class RelicOfDeliverance : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Typeless";
         public override void SetDefaults()
         {
             Item.width = 32;

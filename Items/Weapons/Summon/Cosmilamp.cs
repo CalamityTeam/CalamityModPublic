@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class Cosmilamp : ModItem
+    public class Cosmilamp : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public const int BeamShootRate = 105;
 
         public const float MaxTargetingDistance = 1360f;

@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class HeliumFlash : ModItem
+    public class HeliumFlash : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         internal const float ExplosionDamageMultiplier = 0.125f;
 
         public override void SetStaticDefaults()

@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Infinity : ModItem
+    public class Infinity : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         internal int rotation = 0;
         internal bool limit = true;
         public override void SetStaticDefaults()

@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class OpalStriker : ModItem
+    public class OpalStriker : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/OpalStrike");
 
         public override void SetDefaults()

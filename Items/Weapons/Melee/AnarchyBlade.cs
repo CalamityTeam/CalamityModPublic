@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class AnarchyBlade : ModItem
+    public class AnarchyBlade : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         private static int BaseDamage = 150;
 
         public override void SetDefaults()

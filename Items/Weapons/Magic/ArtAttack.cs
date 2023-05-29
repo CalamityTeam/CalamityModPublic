@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class ArtAttack : ModItem
+    public class ArtAttack : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public const int MaxDamageBoostTime = 300;
         public const float MaxDamageBoostFactor = 25f;
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/ArtAttackCast");

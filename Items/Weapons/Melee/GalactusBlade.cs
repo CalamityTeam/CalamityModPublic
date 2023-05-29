@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("GalacticaBlade")]
-    public class GalactusBlade : ModItem
+    public class GalactusBlade : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
                        ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;

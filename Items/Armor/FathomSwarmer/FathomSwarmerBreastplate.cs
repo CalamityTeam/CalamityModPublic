@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Armor.FathomSwarmer
     [AutoloadEquip(EquipType.Body)]
     public class FathomSwarmerBreastplate : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetStaticDefaults()
         {
            

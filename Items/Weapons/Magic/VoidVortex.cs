@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class VoidVortex : ModItem
+    public class VoidVortex : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public const int OrbFireRate = 16;
 
         public override void SetStaticDefaults()

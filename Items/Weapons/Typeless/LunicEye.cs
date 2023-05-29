@@ -8,8 +8,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class LunicEye : ModItem
+    public class LunicEye : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Typeless";
         public override void SetDefaults()
         {
             Item.DamageType = AverageDamageClass.Instance;

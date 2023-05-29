@@ -7,8 +7,9 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class ForgottenApexWand : ModItem
+    public class ForgottenApexWand : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
             Item.width = 44;

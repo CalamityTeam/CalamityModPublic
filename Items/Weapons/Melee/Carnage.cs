@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Carnage : ModItem
+    public class Carnage : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 50;

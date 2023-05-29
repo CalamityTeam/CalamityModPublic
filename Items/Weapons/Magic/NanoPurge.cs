@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Magic
 {
     [LegacyName("Purge")]
-    public class NanoPurge : ModItem
+    public class NanoPurge : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public const int UseTime = 20;
 
         public override void SetDefaults()

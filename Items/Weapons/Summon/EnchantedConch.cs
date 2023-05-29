@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Summon
 {
     [LegacyName("MagicalConch")]
-    public class EnchantedConch : ModItem
+    public class EnchantedConch : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
             Item.damage = 20;

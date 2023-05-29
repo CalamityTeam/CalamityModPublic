@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class PurgeGuzzler : ModItem
+    public class PurgeGuzzler : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         private const float Spread = 0.025f;
 
         public override void SetDefaults()

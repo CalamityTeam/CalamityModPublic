@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ForbiddenOathblade : ModItem
+    public class ForbiddenOathblade : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 74;

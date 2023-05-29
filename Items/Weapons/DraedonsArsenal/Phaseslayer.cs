@@ -13,8 +13,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class Phaseslayer : ModItem
+    public class Phaseslayer : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public const int Damage = 980;
         // When below this percentage of charge, the sword is small instead of big.
         public const float SizeChargeThreshold = 0.25f;

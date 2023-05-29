@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
     [AutoloadEquip(EquipType.Head)]
     public class SnowRuffianMask : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         private bool shouldBoost = false;
 
 

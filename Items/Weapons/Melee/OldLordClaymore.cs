@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("OldLordOathsword")]
-    public class OldLordClaymore : ModItem
+    public class OldLordClaymore : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public bool RMBchannel = false;
 
         public override void SetDefaults()

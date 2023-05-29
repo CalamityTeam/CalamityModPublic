@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor.OmegaBlue
     [LegacyName("OmegaBlueLeggings")]
     public class OmegaBlueTentacles : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)

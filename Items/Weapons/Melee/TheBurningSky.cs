@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class TheBurningSky : ModItem
+    public class TheBurningSky : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         private const int ProjectilesPerBarrage = 6;
 
         public override void SetStaticDefaults()

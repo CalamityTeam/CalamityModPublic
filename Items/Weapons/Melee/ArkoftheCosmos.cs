@@ -16,8 +16,9 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ArkoftheCosmos : ModItem
+    public class ArkoftheCosmos : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public float Combo = 0f;
         public float Charge = 0f;
 

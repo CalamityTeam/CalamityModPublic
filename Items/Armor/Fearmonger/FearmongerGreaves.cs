@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor.Fearmonger
     [AutoloadEquip(EquipType.Legs)]
     public class FearmongerGreaves : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

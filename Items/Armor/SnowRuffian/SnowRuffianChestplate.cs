@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
     [AutoloadEquip(EquipType.Body)]
     public class SnowRuffianChestplate : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void Load()
         {
             if (Main.netMode == NetmodeID.Server)

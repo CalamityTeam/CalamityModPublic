@@ -9,8 +9,9 @@ using System;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class WulfrumController : ModItem
+    public class WulfrumController : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
             Item.damage = 16;

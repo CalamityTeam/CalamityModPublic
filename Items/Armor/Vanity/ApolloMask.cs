@@ -7,11 +7,11 @@ using Terraria.DataStructures;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class ApolloMask : ModItem, IExtendedHat
+    public class ApolloMask : ModItem, IExtendedHat, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.Vanity";
         public override void SetStaticDefaults()
         {
-
             if (Main.netMode != NetmodeID.Server)
             {
                 int equipSlotHead = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);

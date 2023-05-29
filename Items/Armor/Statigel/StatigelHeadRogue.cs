@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor.Statigel
     [LegacyName("StatigelMask")]
     public class StatigelHeadRogue : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

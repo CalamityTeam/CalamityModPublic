@@ -14,8 +14,9 @@ using static Terraria.ModLoader.ModContent;
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("DraedonsExoblade")]
-    public class Exoblade : ModItem
+    public class Exoblade : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public static readonly SoundStyle SwingSound = new("CalamityMod/Sounds/Item/ExobladeSwing") { MaxInstances = 3, PitchVariance = 0.6f, Volume = 0.8f };
         public static readonly SoundStyle BigSwingSound = new("CalamityMod/Sounds/Item/ExobladeBigSwing") { MaxInstances = 3, PitchVariance = 0.2f };
         public static readonly SoundStyle BigHitSound = new("CalamityMod/Sounds/Item/ExobladeBigHit") { PitchVariance = 0.2f };

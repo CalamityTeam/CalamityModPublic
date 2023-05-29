@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class WarloksMoonFist : ModItem
+    public class WarloksMoonFist : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public const int SlotCount = 4;
 
         public const int PunchCooldownTime = 36;

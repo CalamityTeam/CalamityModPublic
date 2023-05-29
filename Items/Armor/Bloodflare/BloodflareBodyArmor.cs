@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
     [AutoloadEquip(EquipType.Body)]
     public class BloodflareBodyArmor : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -14,8 +14,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class PrismaticBreaker : ModItem
+    public class PrismaticBreaker : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         internal static readonly Color[] colors = new Color[]
         {
             new Color(255, 0, 0, 50), //Red

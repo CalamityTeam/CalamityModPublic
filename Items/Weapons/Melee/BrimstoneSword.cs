@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("ProfanedSword")]
-    public class BrimstoneSword : ModItem
+    public class BrimstoneSword : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
                        ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;

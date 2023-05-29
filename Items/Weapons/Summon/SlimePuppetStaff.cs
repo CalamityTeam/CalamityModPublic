@@ -10,8 +10,9 @@ using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class SlimePuppetStaff : ModItem
+    public class SlimePuppetStaff : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetStaticDefaults()
         {
             // In other words, bootleg mage :TaxEvasion:

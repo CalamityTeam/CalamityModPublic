@@ -7,8 +7,9 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class SpectralstormCannon : ModItem
+    public class SpectralstormCannon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 48;

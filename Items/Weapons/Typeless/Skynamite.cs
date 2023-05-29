@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Typeless
 {
     [LegacyName("AeroDynamite")]
-    public class Skynamite : ModItem
+    public class Skynamite : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Typeless";
         public const int Damage = 250;
         public const float Knockback = 10f;
 

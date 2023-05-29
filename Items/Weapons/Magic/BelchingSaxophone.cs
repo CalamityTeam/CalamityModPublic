@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class BelchingSaxophone : ModItem
+    public class BelchingSaxophone : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public const int BaseDamage = 32;
         private int counter = 0;
 

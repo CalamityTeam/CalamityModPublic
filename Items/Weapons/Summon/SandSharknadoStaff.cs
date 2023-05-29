@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class SandSharknadoStaff : ModItem
+    public class SandSharknadoStaff : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         #region Other stats for easy modifcation
 
         public const float ProjVel = 30f;

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
 
     public class HydrothermicHeadMelee : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

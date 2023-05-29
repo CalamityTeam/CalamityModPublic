@@ -11,8 +11,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Roxcalibur : ModItem
+    public class Roxcalibur : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         private int Roxcooldown = 901;
         private int RoxCanUse = 0;
         private int RoxCanAlt = 0;

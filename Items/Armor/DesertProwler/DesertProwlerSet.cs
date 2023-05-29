@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
     [AutoloadEquip(EquipType.Head)]
     public class DesertProwlerHat : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public static readonly SoundStyle SmokeBombSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerSmokeBomb");
         public static readonly SoundStyle SmokeBombEndSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerSmokeBombEnd");
         public static readonly SoundStyle CDResetSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerCDReset");
@@ -205,8 +205,9 @@ namespace CalamityMod.Items.Armor.DesertProwler
     }
 
     [AutoloadEquip(EquipType.Body)]
-    public class DesertProwlerShirt : ModItem, IBulkyArmor
+    public class DesertProwlerShirt : ModItem, IBulkyArmor, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public string BulkTexture => "CalamityMod/Items/Armor/DesertProwler/DesertProwlerShirt_Bulk";
 
         public override void SetStaticDefaults()
@@ -251,7 +252,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
     [AutoloadEquip(EquipType.Legs)]
     public class DesertProwlerPants : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

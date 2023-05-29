@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor.Reaver
     [LegacyName("ReaverHelm")]
     public class ReaverHeadTank : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         //Defense and DR Helm
         public override void SetDefaults()
         {

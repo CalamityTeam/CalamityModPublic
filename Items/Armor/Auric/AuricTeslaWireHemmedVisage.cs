@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor.Auric
     [AutoloadEquip(EquipType.Head)]
     public class AuricTeslaWireHemmedVisage : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor";
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;
