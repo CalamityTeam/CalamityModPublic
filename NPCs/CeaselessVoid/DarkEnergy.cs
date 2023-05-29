@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[NPC.type] = 6;
+            Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
@@ -37,8 +37,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             AIType = -1;
             NPC.GetNPCDamage();
             NPC.dontTakeDamage = true;
-            NPC.width = 80;
-            NPC.height = 80;
+            NPC.width = 64;
+            NPC.height = 64;
             NPC.defense = 50;
             NPC.lifeMax = BossRushEvent.BossRushActive ? MaxBossRushHP : MaxHP;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -198,7 +198,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D mainTexture = TextureAssets.Npc[NPC.type].Value;
-            Texture2D glowTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/CeaselessVoid/DarkEnergyGlow2").Value;
             Vector2 drawPos = NPC.Center - screenPos;
             SpriteEffects spriteEffects = SpriteEffects.None;
             Vector2 drawOrigin = new Vector2(mainTexture.Width / 2, mainTexture.Height / Main.npcFrameCount[NPC.type] / 2);
@@ -213,22 +212,21 @@ namespace CalamityMod.NPCs.CeaselessVoid
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Color color36 = Color.White * NPC.Opacity;
-            float amount9 = 0.5f;
-            int num153 = 5;
+            Color white = Color.White * NPC.Opacity;
+            int trailCount = 5;
 
             drawPos -= new Vector2(mainTexture.Width, mainTexture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             drawPos += drawOrigin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num155 = 1; num155 < num153; num155 += 2)
+                for (int i = 1; i < trailCount; i += 2)
                 {
                     Color trailColor = drawColor;
-                    trailColor = Color.Lerp(trailColor, color36, amount9);
+                    trailColor = Color.Lerp(trailColor, white, 0.5f);
                     trailColor = NPC.GetAlpha(trailColor);
-                    trailColor *= (num153 - num155) / 15f;
-                    Vector2 trailPos = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                    trailColor *= (trailCount - i) / 15f;
+                    Vector2 trailPos = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     trailPos -= new Vector2(mainTexture.Width, mainTexture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                     trailPos += drawOrigin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(mainTexture, trailPos, NPC.frame, trailColor, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
@@ -240,32 +238,23 @@ namespace CalamityMod.NPCs.CeaselessVoid
             if (NPC.dontTakeDamage)
                 return false;
 
-            mainTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/CeaselessVoid/DarkEnergyGlow").Value;
-            Color mainColor = Color.Lerp(Color.White, Color.Cyan, 0.5f) * NPC.Opacity;
+            Texture2D glowTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/CeaselessVoid/DarkEnergyGlow").Value;
             Color glowColor = Color.Lerp(Color.White, Color.Fuchsia, 0.5f) * NPC.Opacity;
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num163 = 1; num163 < num153; num163++)
+                for (int i = 1; i < trailCount; i++)
                 {
-                    Color trailColor2 = mainColor;
-                    trailColor2 = Color.Lerp(trailColor2, color36, amount9);
+                    Color trailColor2 = glowColor;
+                    trailColor2 = Color.Lerp(trailColor2, white, 0.5f);
                     trailColor2 = NPC.GetAlpha(trailColor2);
-                    trailColor2 *= (num153 - num163) / 15f;
-                    Vector2 trailPos2 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                    trailPos2 -= new Vector2(mainTexture.Width, mainTexture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                    trailColor2 *= (trailCount - i) / 15f;
+                    Vector2 trailPos2 = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                    trailPos2 -= new Vector2(glowTexture.Width, glowTexture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                     trailPos2 += drawOrigin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(mainTexture, trailPos2, NPC.frame, trailColor2, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
-
-                    Color trailColor2Glow = glowColor;
-                    trailColor2Glow = Color.Lerp(trailColor2Glow, color36, amount9);
-                    trailColor2Glow = NPC.GetAlpha(trailColor2Glow);
-                    trailColor2Glow *= (num153 - num163) / 15f;
-                    spriteBatch.Draw(glowTexture, trailPos2, NPC.frame, trailColor2Glow, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
+                    spriteBatch.Draw(glowTexture, trailPos2, NPC.frame, trailColor2, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
                 }
             }
-
-            spriteBatch.Draw(mainTexture, drawPos, NPC.frame, mainColor, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
 
             spriteBatch.Draw(glowTexture, drawPos, NPC.frame, glowColor, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
 

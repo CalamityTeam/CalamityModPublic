@@ -28,15 +28,6 @@ namespace CalamityMod.Tiles
             AddMapEntry(new Color(13, 88, 130), Language.GetText("MapObject.Banner"));
         }
 
-        // TODO -- encode these giant switch statements as a sequence in the main class' lists section
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            int style = frameX / 18;
-            int banner = CalamityUtils.GetBannerItem(style);
-            if (banner != -1)
-                Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, banner);
-        }
-
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (!closer)

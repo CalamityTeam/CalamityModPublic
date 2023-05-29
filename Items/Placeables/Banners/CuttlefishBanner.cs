@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetDefaults()
         {
-            Item.width = 10;
-            Item.height = 24;
+            Item.width = 12;
+            Item.height = 30;
             Item.maxStack = 9999;
             Item.useTurn = true;
             Item.autoReuse = true;
