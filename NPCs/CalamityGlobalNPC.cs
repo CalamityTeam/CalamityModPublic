@@ -4332,9 +4332,7 @@ namespace CalamityMod.NPCs
             if (target.Calamity().snowman)
             {
                 if (npc.type == NPCID.Demon || npc.type == NPCID.VoodooDemon || npc.type == NPCID.RedDevil)
-                {
                     target.AddBuff(BuffType<PopoNoselessBuff>(), 36000);
-                }
             }
 
             switch (npc.type)
@@ -4399,6 +4397,11 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Lavabat:
                     target.AddBuff(BuffID.OnFire, 180);
+                    break;
+
+                case NPCID.RuneWizard:
+                    if (CalamityWorld.getFixedBoi)
+                        target.AddBuff(BuffType<MiracleBlight>(), 600);
                     break;
 
                 default:

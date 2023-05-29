@@ -4975,6 +4975,7 @@ namespace CalamityMod.CalPlayer
             if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && hurtInfo.Damage > 0)
                 Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");            
         }
+
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
             Player.HurtModifiers modifiers = new Player.HurtModifiers();
@@ -5115,6 +5116,10 @@ namespace CalamityMod.CalPlayer
                 else if (proj.type == ProjectileID.BloodShot)
                 {
                     Player.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
+                }
+                else if (proj.type == ProjectileID.RuneBlast && CalamityWorld.getFixedBoi)
+                {
+                    Player.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
                 }
             }
 
