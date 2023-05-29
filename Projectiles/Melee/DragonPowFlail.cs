@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class DragonPowFlail : ModProjectile
+    public class DragonPowFlail : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override void SetDefaults()
         {
             Projectile.width = 50;

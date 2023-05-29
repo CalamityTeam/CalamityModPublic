@@ -3,8 +3,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class LeviPet : ModProjectile
+    public class LeviPet : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 5;

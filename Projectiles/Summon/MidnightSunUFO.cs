@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MidnightSunUFO : ModProjectile
+    public class MidnightSunUFO : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public const float DistanceToCheck = 2600f;
         public override void SetStaticDefaults()
         {

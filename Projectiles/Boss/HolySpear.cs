@@ -13,8 +13,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class HolySpear : ModProjectile
+    public class HolySpear : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         Vector2 velocity = Vector2.Zero;
 
         public override void SetStaticDefaults()

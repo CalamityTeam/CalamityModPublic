@@ -5,8 +5,9 @@ using Microsoft.Xna.Framework;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlateProjectile : ModProjectile
+    public class PlateProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionShot[Projectile.type] = true;

@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems.Invasion
 {
-    public class CausticTear : ModItem
+    public class CausticTear : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye

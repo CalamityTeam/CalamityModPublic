@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class CoralSpike : ModProjectile
+    public class CoralSpike : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public ref float ChargeCompletion => ref Projectile.ai[0];
 
         public static int DustPick => Main.rand.NextBool(2) ? 255 : Main.rand.NextBool() ? 282 : Main.rand.NextBool() ? 281 : 280;

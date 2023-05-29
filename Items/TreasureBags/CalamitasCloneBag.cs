@@ -17,8 +17,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.TreasureBags
 {
     [LegacyName("CalamitasBag")]
-    public class CalamitasCloneBag : ModItem
+    public class CalamitasCloneBag : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.TreasureBags";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;

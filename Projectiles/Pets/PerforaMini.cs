@@ -5,8 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class PerforaMini : ModProjectile
+    public class PerforaMini : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 8;

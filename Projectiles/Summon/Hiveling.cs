@@ -5,8 +5,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class Hiveling : ModProjectile
+    public class Hiveling : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/NPCs/Astral/Hiveling";
 
         public override void SetStaticDefaults()

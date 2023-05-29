@@ -9,8 +9,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class UniverseSplitterField : ModProjectile
+    public class UniverseSplitterField : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public float Timer

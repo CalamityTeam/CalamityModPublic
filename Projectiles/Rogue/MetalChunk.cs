@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class MetalChunk : ModProjectile
+    public class MetalChunk : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/MetalMonstrosity";
 
         public override void SetDefaults()

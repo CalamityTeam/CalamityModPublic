@@ -8,8 +8,9 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Tools
 {
-    public class BobbitHook : ModItem
+    public class BobbitHook : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             // Instead of copying these values, we can clone and modify the ones we want to copy

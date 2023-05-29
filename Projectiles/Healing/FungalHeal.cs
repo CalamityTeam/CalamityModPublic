@@ -2,8 +2,9 @@
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class FungalHeal : ModProjectile
+    public class FungalHeal : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Healing";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

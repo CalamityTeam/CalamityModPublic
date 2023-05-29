@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class PoleWarperSummon : ModProjectile
+    public class PoleWarperSummon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public float AngularOffset = 0f;
         public const float MaximumRepulsionSpeed = 13f;
         public float Time

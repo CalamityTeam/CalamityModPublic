@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class IonBlast : ModProjectile
+    public class IonBlast : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;

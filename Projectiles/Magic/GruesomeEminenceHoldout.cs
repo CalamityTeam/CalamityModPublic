@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class GruesomeEminenceHoldout : ModProjectile
+    public class GruesomeEminenceHoldout : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public Player Owner => Main.player[Projectile.owner];
 
         public override void SetDefaults()

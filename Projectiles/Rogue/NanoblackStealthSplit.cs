@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class NanoblackStealthSplit : ModProjectile
+    public class NanoblackStealthSplit : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/NanoblackReaper";
 
         private static int Lifetime = 300;

@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class EmpyreanGlob : ModProjectile
+    public class EmpyreanGlob : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override void SetDefaults()
         {
             Projectile.width = 20;

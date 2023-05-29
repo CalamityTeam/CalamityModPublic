@@ -5,8 +5,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class AtlantisSpear2 : ModProjectile
+    public class AtlantisSpear2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
 
         public override void SetDefaults()

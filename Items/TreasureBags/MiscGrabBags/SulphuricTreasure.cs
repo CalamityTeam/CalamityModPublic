@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags.MiscGrabBags
 {
-    public class SulphuricTreasure : ModItem
+    public class SulphuricTreasure : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.TreasureBags";
         internal static readonly int[] SulphuricTreasurePotions = new int[]
         {
             ItemID.SpelunkerPotion,

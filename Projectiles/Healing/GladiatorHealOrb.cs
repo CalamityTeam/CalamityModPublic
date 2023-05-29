@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Healing
 {
-    public class GladiatorHealOrb : ModProjectile
+    public class GladiatorHealOrb : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Healing";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public int target = -1;
         public override void SetStaticDefaults()

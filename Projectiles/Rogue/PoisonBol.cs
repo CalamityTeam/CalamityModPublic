@@ -6,8 +6,9 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PoisonBol : ModProjectile
+    public class PoisonBol : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/PoisonPack";
 
         public override void SetDefaults()

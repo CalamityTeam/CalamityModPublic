@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class HermitCrabMinion : ModProjectile
+    public class HermitCrabMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private int playerStill = 0;
         private bool fly = false;
         private bool spawnDust = true;

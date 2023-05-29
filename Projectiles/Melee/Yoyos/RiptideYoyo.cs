@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class RiptideYoyo : ModProjectile
+    public class RiptideYoyo : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private const int MaxUpdates = 2;
 
         public override void SetStaticDefaults()

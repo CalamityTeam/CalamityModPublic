@@ -8,8 +8,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class FlowersOfMortalityPetal : ModProjectile
+    public class FlowersOfMortalityPetal : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
         public ref float OffsetAngle => ref Projectile.ai[0];
         public ref float Time => ref Projectile.ai[1];

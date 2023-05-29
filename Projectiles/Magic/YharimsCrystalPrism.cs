@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class YharimsCrystalPrism : ModProjectile
+    public class YharimsCrystalPrism : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public const int NumBeams = 6;
         public const float MaxCharge = 180f;
         public const float DamageStart = 30f;

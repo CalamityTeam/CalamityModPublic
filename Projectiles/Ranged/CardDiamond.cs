@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class CardDiamond : ModProjectile
+    public class CardDiamond : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;

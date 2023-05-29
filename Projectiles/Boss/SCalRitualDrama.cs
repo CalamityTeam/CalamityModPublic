@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SCalRitualDrama : ModProjectile
+    public class SCalRitualDrama : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public ref float Time => ref Projectile.ai[0];
         public const int TotalRitualTime = 270;

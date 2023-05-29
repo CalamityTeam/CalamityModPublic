@@ -5,8 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class HoneycombFragment : ModProjectile
+    public class HoneycombFragment : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override void SetDefaults()
         {
             Projectile.friendly = true;

@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ArcherfishShot : ModProjectile
+    public class ArcherfishShot : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

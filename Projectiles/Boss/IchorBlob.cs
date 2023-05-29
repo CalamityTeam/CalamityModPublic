@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class IchorBlob : ModProjectile
+    public class IchorBlob : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;

@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ShatteredSunScorchedBlade : ModProjectile
+    public class ShatteredSunScorchedBlade : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         int counter = 0;
         bool stealthOrigin = false;
 

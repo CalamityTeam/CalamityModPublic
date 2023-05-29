@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SandnadoMinion : ModProjectile
+    public class SandnadoMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
 
         public CalamityPlayer ModdedOwner => Owner.Calamity();

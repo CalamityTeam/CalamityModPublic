@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class CondemnationHoldout : ModProjectile
+    public class CondemnationHoldout : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private Player Owner => Main.player[Projectile.owner];
 
         private ref float CurrentChargingFrames => ref Projectile.ai[0];

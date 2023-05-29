@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ExecutionersBladeStealthProj : ModProjectile
+    public class ExecutionersBladeStealthProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ExecutionersBlade";
 
         public override void SetStaticDefaults()

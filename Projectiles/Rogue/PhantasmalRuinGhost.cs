@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PhantasmalRuinGhost : ModProjectile
+    public class PhantasmalRuinGhost : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override void SetDefaults()
         {
             Projectile.width = 30;

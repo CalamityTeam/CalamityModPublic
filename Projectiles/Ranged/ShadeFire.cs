@@ -3,8 +3,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ShadeFire : ModProjectile
+    public class ShadeFire : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

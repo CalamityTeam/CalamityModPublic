@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class AresPlasmaBolt : ModProjectile
+    public class AresPlasmaBolt : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         private const int timeLeft = 360;
 
         private const float maxVelocity = 10f;

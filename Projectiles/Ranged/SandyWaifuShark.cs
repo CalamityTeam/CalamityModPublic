@@ -6,8 +6,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SandyWaifuShark : ModProjectile
+    public class SandyWaifuShark : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 8;

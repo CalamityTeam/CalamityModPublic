@@ -11,8 +11,9 @@ using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class AstralFlame : ModProjectile
+    public class AstralFlame : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;

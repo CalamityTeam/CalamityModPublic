@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing
 {
-    public class SunbeamFish : ModItem
+    public class SunbeamFish : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 10;

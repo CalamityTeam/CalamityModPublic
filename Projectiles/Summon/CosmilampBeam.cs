@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class CosmilampBeam : ModProjectile
+    public class CosmilampBeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         internal PrimitiveTrail TrailDrawer;
 
         public ref float Timer => ref Projectile.ai[0];

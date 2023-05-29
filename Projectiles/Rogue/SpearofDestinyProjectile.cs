@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SpearofDestinyProjectile : ModProjectile
+    public class SpearofDestinyProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SpearofDestiny";
 
         private bool initialized = false;

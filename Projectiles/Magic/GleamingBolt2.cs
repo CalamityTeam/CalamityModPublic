@@ -4,8 +4,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class GleamingBolt2 : ModProjectile
+    public class GleamingBolt2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override void SetDefaults()
         {
             Projectile.width = 14;

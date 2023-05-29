@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class ArtemisLaser : ModProjectile
+    public class ArtemisLaser : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public float TelegraphDelay
         {
             get => Projectile.localAI[1];

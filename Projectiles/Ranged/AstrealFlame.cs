@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class AstrealFlame : ModProjectile
+    public class AstrealFlame : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Healing/EssenceFlame";
 
         public override void SetStaticDefaults()

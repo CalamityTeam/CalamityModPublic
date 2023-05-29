@@ -5,8 +5,9 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BettyExplosion : ModProjectile
+    public class BettyExplosion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

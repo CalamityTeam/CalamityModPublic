@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class GelDartProjectile : ModProjectile
+    public class GelDartProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/GelDart";
 
         public override void SetDefaults()

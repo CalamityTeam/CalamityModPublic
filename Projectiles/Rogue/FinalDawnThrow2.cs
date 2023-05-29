@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FinalDawnThrow2 : ModProjectile
+    public class FinalDawnThrow2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         bool HasHitEnemy = false;
         public override void SetStaticDefaults()
         {

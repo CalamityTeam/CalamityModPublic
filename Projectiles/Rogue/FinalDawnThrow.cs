@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FinalDawnThrow : ModProjectile
+    public class FinalDawnThrow : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public const float DesiredSpeed = 38;
         public const float InterpolationTime = 15;
         public override void SetStaticDefaults()

@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class EternityHex : ModProjectile
+    public class EternityHex : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         internal PrimitiveTrail LemniscateDrawer = null;

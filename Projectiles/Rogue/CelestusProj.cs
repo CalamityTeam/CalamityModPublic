@@ -9,8 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class CelestusProj : ModProjectile
+    public class CelestusProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         private bool initialized = false;
         private float speed = 25f;
 

@@ -7,8 +7,9 @@ using System;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class TundraFlameBlossomsOrb : ModProjectile
+    public class TundraFlameBlossomsOrb : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
 
         public ref float TimerForCharging => ref Projectile.ai[0];

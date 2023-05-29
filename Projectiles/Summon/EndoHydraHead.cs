@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class EndoHydraHead : ModProjectile
+    public class EndoHydraHead : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Vector2 DeltaPosition;
         public Vector2 DeltaPositionMoving;
         public Vector2[] OldVelocities = new Vector2[20];

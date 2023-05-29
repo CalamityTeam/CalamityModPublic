@@ -7,8 +7,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ImpactRound : ModProjectile
+    public class ImpactRound : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Ranged/AMRShot";
 
         private bool initialized = false;

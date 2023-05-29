@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class JudgementProj : ModProjectile
+    public class JudgementProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         int whiteLightTimer = 5;

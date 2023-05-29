@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SkeletalDragonMother : ModProjectile
+    public class SkeletalDragonMother : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public const float DistanceToCheck = 1100f;
         public override void SetStaticDefaults()
         {

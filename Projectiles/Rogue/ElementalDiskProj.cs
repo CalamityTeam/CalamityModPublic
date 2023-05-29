@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ElementalDiskProj : ModProjectile
+    public class ElementalDiskProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ElementalDisk";
         private int Lifetime = 400;
         private int ReboundTime = 30;

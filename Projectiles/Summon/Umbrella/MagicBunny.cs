@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.Umbrella
 {
-    public class MagicBunny : ModProjectile
+    public class MagicBunny : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;

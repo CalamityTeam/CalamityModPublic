@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class BrokenApolloLens : ModProjectile
+    public class BrokenApolloLens : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public ref float Time => ref Projectile.ai[0];
 
         public override void SetDefaults()

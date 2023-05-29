@@ -9,8 +9,9 @@ using Terraria.Utilities;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DynamicPursuerElectricity : ModProjectile
+    public class DynamicPursuerElectricity : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         internal PrimitiveTrail LightningDrawer;
 
         public const int MaximumBranchingIterations = 3;

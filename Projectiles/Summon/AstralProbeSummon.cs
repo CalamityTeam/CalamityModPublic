@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AstralProbeSummon : ModProjectile
+    public class AstralProbeSummon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
 
         public CalamityPlayer moddedOwner => Owner.Calamity();

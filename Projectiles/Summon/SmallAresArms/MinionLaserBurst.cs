@@ -5,8 +5,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
-    public class MinionLaserBurst : ModProjectile
+    public class MinionLaserBurst : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Boss/ThanatosLaser";
 
         public override void SetStaticDefaults()

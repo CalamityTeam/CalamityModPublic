@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class VeneratedKnife : ModProjectile
+    public class VeneratedKnife : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         int lifetime = 150;
 
         public override void SetStaticDefaults()

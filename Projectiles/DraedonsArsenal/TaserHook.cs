@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class TaserHook : ModProjectile
+    public class TaserHook : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public enum TaserAIState
         {
             Firing,

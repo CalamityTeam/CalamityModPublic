@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class AmidiasWhirlpool : ModProjectile
+    public class AmidiasWhirlpool : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;

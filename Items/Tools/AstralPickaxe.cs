@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {
-    public class AstralPickaxe : ModItem
+    public class AstralPickaxe : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.damage = 65;

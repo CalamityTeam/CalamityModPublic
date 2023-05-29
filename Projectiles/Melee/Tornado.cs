@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Tornado : ModProjectile
+    public class Tornado : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/TornadoProj";
 
         public override void SetDefaults()

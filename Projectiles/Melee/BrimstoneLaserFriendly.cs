@@ -8,8 +8,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class BrimstoneLaserFriendly : ModProjectile
+    public class BrimstoneLaserFriendly : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/BrimstoneLaser";
 
         public override void SetDefaults()

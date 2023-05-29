@@ -5,8 +5,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class FlareBat : ModProjectile
+    public class FlareBat : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 5;

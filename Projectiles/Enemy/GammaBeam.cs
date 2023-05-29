@@ -10,8 +10,9 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class GammaBeam : ModProjectile
+    public class GammaBeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public override string Texture => "CalamityMod/Projectiles/Enemy/CragmawBeam";
 
         // How long this laser can exist before it is deleted.

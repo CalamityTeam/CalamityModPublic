@@ -17,8 +17,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class AquaticScourgeBag : ModItem
+    public class AquaticScourgeBag : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.TreasureBags";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;

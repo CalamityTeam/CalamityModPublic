@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class PhantomBlast2 : ModProjectile
+    public class PhantomBlast2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

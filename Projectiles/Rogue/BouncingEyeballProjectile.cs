@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BouncingEyeballProjectile : ModProjectile
+    public class BouncingEyeballProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/BouncingEyeball";
 
         private int Bounces = 5;

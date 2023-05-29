@@ -7,8 +7,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FeatherKnifeProjectile : ModProjectile
+    public class FeatherKnifeProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/FeatherKnife";
 
         public override void SetDefaults()

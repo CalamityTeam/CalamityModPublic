@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class AtaraxiaMain : ModProjectile
+    public class AtaraxiaMain : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private static int NumAnimationFrames = 5;
         private static int AnimationFrameTime = 9;
 

@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-    public class StreamGougeProj : ModProjectile
+    public class StreamGougeProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public int Time;
 
         public Player Owner => Main.player[Projectile.owner];

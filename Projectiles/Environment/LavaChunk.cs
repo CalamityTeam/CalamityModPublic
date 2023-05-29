@@ -4,8 +4,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Environment
 {
-    public class LavaChunk : ModProjectile
+    public class LavaChunk : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 6;

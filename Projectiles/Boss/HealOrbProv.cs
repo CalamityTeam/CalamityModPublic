@@ -7,8 +7,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class HealOrbProv : ModProjectile
+    public class HealOrbProv : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

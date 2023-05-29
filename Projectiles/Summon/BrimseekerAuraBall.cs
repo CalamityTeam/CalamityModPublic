@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class BrimseekerAuraBall : ModProjectile
+    public class BrimseekerAuraBall : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public bool Initialized = false;
         public Projectile ParentProjectile => CalamityUtils.FindProjectileByIdentity((int)Projectile.ai[0], Projectile.owner);
         public float Outwardness

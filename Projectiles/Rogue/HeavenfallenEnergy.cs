@@ -5,8 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class HeavenfallenEnergy : ModProjectile
+    public class HeavenfallenEnergy : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public bool raining => Projectile.ai[1] == 0f;

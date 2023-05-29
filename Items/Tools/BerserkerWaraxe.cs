@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {
-    public class BerserkerWaraxe : ModItem
+    public class BerserkerWaraxe : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.damage = 51;

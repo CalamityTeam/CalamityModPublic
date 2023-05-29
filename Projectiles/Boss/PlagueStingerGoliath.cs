@@ -6,8 +6,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class PlagueStingerGoliath : ModProjectile
+    public class PlagueStingerGoliath : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetDefaults()
         {
             Projectile.width = 10;

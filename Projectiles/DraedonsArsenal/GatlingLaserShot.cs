@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class GatlingLaserShot : ModProjectile
+    public class GatlingLaserShot : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         private int dust = 182;

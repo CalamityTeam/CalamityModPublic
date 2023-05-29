@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class GodSlayerSlugProj : ModProjectile
+    public class GodSlayerSlugProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private const int Lifetime = 600;
         private const int NoDrawFrames = 2;
         // 25 instead of 24 because it is decremented once immediately after turning blue

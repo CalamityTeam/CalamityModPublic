@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class StormMarkHostile : ModProjectile
+    public class StormMarkHostile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

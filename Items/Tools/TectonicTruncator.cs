@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Tools
 {
     [LegacyName("ChaoswarpedSlashaxe")]
-    public class TectonicTruncator : ModItem
+    public class TectonicTruncator : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.damage = 68;

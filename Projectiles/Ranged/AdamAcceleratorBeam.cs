@@ -12,8 +12,9 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class AdamAcceleratorBeam : ModProjectile
+    public class AdamAcceleratorBeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private const int Lifetime = 24;
 
         private const float MaxBeamScale = 1.2f;

@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PhantomGuy : ModProjectile
+    public class PhantomGuy : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/NPCs/Polterghast/PhantomFuckYou";
 
         public override void SetStaticDefaults()

@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class MaulerAcidDrop : ModProjectile
+    public class MaulerAcidDrop : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
         public override void SetDefaults()
         {

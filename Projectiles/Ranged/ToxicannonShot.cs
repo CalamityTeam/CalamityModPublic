@@ -7,8 +7,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ToxicannonShot : ModProjectile
+    public class ToxicannonShot : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Enemy/FlakAcid";
 
         public override void SetStaticDefaults()

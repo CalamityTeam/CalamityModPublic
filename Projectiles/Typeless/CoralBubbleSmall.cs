@@ -7,8 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class CoralBubbleSmall : ModProjectile
+    public class CoralBubbleSmall : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Typeless/CoralBubble";
 
         public override void SetDefaults()

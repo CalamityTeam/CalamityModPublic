@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TheAtomSplitterDuplicate : ModProjectile
+    public class TheAtomSplitterDuplicate : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public ref float Time => ref Projectile.ai[0];
         public ref float Lifetime => ref Projectile.ai[1];
         public override void SetStaticDefaults()

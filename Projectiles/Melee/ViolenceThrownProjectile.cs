@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ViolenceThrownProjectile : ModProjectile
+    public class ViolenceThrownProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         internal PrimitiveTrail StreakDrawer = null;
         internal Player Owner => Main.player[Projectile.owner];
         internal ref float Time => ref Projectile.ai[0];

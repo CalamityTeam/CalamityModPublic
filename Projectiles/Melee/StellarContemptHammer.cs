@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class StellarContemptHammer : ModProjectile
+    public class StellarContemptHammer : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/StellarContempt";
 
         private static float RotationIncrement = 0.22f;

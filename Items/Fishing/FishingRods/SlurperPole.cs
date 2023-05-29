@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class SlurperPole : ModItem
+    public class SlurperPole : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             ItemID.Sets.CanFishInLava[Item.type] = true;

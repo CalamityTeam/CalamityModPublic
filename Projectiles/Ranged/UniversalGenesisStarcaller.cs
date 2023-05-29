@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class UniversalGenesisStarcaller : ModProjectile
+    public class UniversalGenesisStarcaller : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;

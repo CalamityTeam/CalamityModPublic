@@ -12,8 +12,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class BirbAura : ModProjectile
+    public class BirbAura : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         float timer = 135f;
         float timeBeforeVanish = 0f;
 

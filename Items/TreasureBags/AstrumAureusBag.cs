@@ -22,8 +22,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.TreasureBags
 {
     [LegacyName("AstrageldonBag")]
-    public class AstrumAureusBag : ModItem
+    public class AstrumAureusBag : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.TreasureBags";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;

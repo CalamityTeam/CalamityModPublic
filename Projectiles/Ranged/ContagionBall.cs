@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ContagionBall : ModProjectile
+    public class ContagionBall : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override void SetDefaults()
         {
             Projectile.width = 10;

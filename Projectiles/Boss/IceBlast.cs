@@ -9,8 +9,9 @@ using CalamityMod.NPCs.Cryogen;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class IceBlast : ModProjectile
+    public class IceBlast : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         private const int TimeLeft = 600;
 
         public override void SetDefaults()

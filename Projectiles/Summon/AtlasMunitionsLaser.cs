@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AtlasMunitionsLaser : ModProjectile
+    public class AtlasMunitionsLaser : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = 4;

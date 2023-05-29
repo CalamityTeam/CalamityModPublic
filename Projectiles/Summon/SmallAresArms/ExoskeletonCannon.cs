@@ -10,8 +10,9 @@ using CalamityMod.Buffs.Summon;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
-    public abstract class ExoskeletonCannon : ModProjectile
+    public abstract class ExoskeletonCannon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public int ShootTimer;
 
         public int HoverOffsetIndex => (int)Projectile.ai[0];

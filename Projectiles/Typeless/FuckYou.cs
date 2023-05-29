@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class FuckYou : ModProjectile
+    public class FuckYou : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 5;

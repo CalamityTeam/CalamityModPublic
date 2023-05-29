@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.Umbrella
 {
-    public class MagicArrow : ModProjectile
+    public class MagicArrow : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public float Behavior = 0f;
 		private const float drawOffset = -MathHelper.PiOver4 + MathHelper.Pi;
         public VertexStrip TrailDrawer;

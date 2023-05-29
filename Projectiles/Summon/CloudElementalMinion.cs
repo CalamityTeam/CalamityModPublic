@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class CloudElementalMinion : ModProjectile
+    public class CloudElementalMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public int dust = 3;
 
         public override void SetStaticDefaults()

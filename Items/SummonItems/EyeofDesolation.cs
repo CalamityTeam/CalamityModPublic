@@ -13,8 +13,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.SummonItems
 {
     [LegacyName("BlightedEyeball")]
-    public class EyeofDesolation : ModItem
+    public class EyeofDesolation : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.SummonItems";
         public Rectangle safeBox = default;
         public int spawnX = 0;
         public int spawnX2 = 0;

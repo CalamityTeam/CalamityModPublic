@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class CorroslimeMinion : ModProjectile
+    public class CorroslimeMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public float dust = 0f;
 
         public override void SetStaticDefaults()

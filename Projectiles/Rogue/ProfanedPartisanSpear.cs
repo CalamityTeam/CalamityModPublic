@@ -6,8 +6,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ProfanedPartisanSpear : ModProjectile
+    public class ProfanedPartisanSpear : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public int timer = 0;
 
         public override void SetDefaults()

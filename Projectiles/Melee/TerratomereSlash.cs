@@ -6,8 +6,9 @@ using System;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TerratomereSlash : ModProjectile
+    public class TerratomereSlash : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/ExobeamSlash";
 
         public override void SetDefaults()

@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class StealthRain : ModProjectile
+    public class StealthRain : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Boss/ShaderainHostile";
 
         public override void SetDefaults()

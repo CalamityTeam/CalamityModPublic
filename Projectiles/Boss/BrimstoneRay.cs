@@ -15,8 +15,9 @@ using ReLogic.Content;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class BrimstoneRay : ModProjectile
+    public class BrimstoneRay : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;

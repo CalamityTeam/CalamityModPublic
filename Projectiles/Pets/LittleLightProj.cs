@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets
 {
-    public class LittleLightProj : ModProjectile
+    public class LittleLightProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         public Player Owner => Main.player[Projectile.owner];
 
         public Color LightColor => new Color(160, 251, 255);

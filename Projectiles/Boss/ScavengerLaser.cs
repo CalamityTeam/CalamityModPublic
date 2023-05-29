@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class ScavengerLaser : ModProjectile
+    public class ScavengerLaser : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 5;

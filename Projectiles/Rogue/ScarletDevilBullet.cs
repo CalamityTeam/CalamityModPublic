@@ -3,8 +3,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ScarletDevilBullet : ModProjectile
+    public class ScarletDevilBullet : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override void SetDefaults()
         {
             Projectile.width = 16;

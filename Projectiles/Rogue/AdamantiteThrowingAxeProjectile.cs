@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AdamantiteThrowingAxeProjectile : ModProjectile
+    public class AdamantiteThrowingAxeProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/AdamantiteThrowingAxe";
 
         public override void SetDefaults()

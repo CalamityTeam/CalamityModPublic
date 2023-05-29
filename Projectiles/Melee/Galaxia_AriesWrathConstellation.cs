@@ -9,8 +9,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class AriesWrathConstellation : ModProjectile
+    public class AriesWrathConstellation : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public Player Owner => Main.player[Projectile.owner];
         public ref float Timer => ref Projectile.ai[0];

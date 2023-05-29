@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class BallisticPoisonCloud : ModProjectile
+    public class BallisticPoisonCloud : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 10;

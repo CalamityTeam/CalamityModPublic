@@ -7,8 +7,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class InfernadoFriendly : ModProjectile
+    public class InfernadoFriendly : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         bool intersectingSomething = false;
         public override void SetStaticDefaults()
         {

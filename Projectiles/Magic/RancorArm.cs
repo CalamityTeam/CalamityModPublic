@@ -12,8 +12,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class RancorArm : ModProjectile
+    public class RancorArm : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public Vector2 IdealPosition;
         public Player Owner => Main.player[Projectile.owner];
         public float RotationDirection => Projectile.rotation + Projectile.ai[0];

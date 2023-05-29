@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class CrystalPiercerShard : ModProjectile
+    public class CrystalPiercerShard : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         private bool initialized = false;
 
         public override void SetDefaults()

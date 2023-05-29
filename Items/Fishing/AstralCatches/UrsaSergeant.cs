@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
-    public class UrsaSergeant : ModItem
+    public class UrsaSergeant : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetDefaults()
         {
             Item.defense = 20;

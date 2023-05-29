@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class TheMaelstromShark : ModProjectile
+    public class TheMaelstromShark : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public PrimitiveTrail LightningTrailDrawer = null;
         public override void SetStaticDefaults()
         {

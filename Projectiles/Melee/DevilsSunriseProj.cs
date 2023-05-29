@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class DevilsSunriseProj : ModProjectile
+    public class DevilsSunriseProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private int red;
         private const int greenAndBlue = 100;
 

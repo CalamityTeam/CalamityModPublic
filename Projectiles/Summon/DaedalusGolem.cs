@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class DaedalusGolem : ModProjectile
+    public class DaedalusGolem : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public int AttackTimer;
         public bool UsingChargedLaserAttack;
         public const int ChargedPelletAttackTime = 30;

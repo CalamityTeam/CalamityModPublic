@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MK2FlaskSummon : ModProjectile
+    public class MK2FlaskSummon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Items/Weapons/Summon/FuelCellBundle";
 
         public override void SetStaticDefaults()

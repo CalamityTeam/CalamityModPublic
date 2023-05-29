@@ -12,8 +12,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class WulfrumKnifeProj : ModProjectile
+    public class WulfrumKnifeProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         internal PrimitiveTrail TrailDrawer;
         internal Color PrimColorMult = Color.White;
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/WulfrumKnife";

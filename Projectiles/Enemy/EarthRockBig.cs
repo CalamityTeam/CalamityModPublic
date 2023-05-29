@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class EarthRockBig : ModProjectile
+    public class EarthRockBig : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

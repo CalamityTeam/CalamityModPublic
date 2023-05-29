@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class RedLightning : ModProjectile
+    public class RedLightning : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/LightningProj";
 
         public override void SetStaticDefaults()

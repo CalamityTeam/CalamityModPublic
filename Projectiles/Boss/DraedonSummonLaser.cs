@@ -10,8 +10,9 @@ using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DraedonSummonLaser : ModProjectile
+    public class DraedonSummonLaser : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public const float LaserLength = 3800f;
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

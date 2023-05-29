@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class BrimstoneHellblast2 : ModProjectile
+    public class BrimstoneHellblast2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;

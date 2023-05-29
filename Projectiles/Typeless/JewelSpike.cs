@@ -3,8 +3,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class JewelSpike : ModProjectile
+    public class JewelSpike : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
 		public ref float RealPenetrate => ref Projectile.ai[0];
 		public const int MaxPenetrate = 2;
 

@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class GalaxyStar : ModProjectile
+    public class GalaxyStar : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public bool madeCoolMagicSound = false;
         public override void SetStaticDefaults()
         {

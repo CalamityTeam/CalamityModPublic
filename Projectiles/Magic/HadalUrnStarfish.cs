@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class HadalUrnStarfish : ModProjectile
+    public class HadalUrnStarfish : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;

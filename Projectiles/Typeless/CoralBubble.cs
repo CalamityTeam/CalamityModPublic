@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class CoralBubble : ModProjectile
+    public class CoralBubble : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override void SetDefaults()
         {
             Projectile.width = 28;

@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.SummonItems
 {
     [LegacyName("BulbofDoom")]
-    public class Portabulb : ModItem
+    public class Portabulb : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			NPCID.Sets.MPAllowedEnemies[NPCID.Plantera] = true;

@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class EndoCooperBody : ModProjectile
+    public class EndoCooperBody : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private int AttackMode = 0;
         private int LimbID = 0;
         private int laserdirection = 1;

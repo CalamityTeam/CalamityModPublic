@@ -11,8 +11,9 @@ using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SevensStrikerHoldout : ModProjectile
+    public class SevensStrikerHoldout : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public bool rolling = true; // If the slot machine is currently rolling
         public bool shotonce = false; // So that the first shot doesn't consume two ammo
         public int shottimer = 0; // Solely exists so that the Platinum shots aren't instantaneous

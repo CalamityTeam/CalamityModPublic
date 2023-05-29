@@ -5,8 +5,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ForbiddenSunProjectile : ModProjectile
+    public class ForbiddenSunProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Melee/VolcanicFireball";
 
         public override void SetStaticDefaults()

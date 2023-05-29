@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class LostSoulGold : ModProjectile
+    public class LostSoulGold : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public ref float Time => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {

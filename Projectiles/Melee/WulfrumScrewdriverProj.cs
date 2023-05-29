@@ -16,8 +16,9 @@ using Terraria.Graphics.Effects;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class WulfrumScrewdriverProj : ModProjectile
+    public class WulfrumScrewdriverProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/WulfrumScrewdriver";
         public float Timer => MaxTime - Projectile.timeLeft;
         public float LifetimeCompletion => Timer / (float)MaxTime;

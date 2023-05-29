@@ -9,8 +9,9 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Tools
 {
-    public class WulfrumDiggingTurtle : ModItem
+    public class WulfrumDiggingTurtle : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public override void SetStaticDefaults()
         {
                        Item.ResearchUnlockCount = 10;

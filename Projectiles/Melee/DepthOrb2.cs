@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class DepthOrb2 : ModProjectile
+    public class DepthOrb2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/DepthOrb";
 
         public override void SetDefaults()

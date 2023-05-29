@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class AstralStar : ModProjectile
+    public class AstralStar : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         private int noTileHitCounter = 120;
 
         public override void SetStaticDefaults()

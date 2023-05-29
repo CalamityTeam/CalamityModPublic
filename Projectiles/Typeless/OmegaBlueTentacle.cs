@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class OmegaBlueTentacle : ModProjectile
+    public class OmegaBlueTentacle : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public bool initSegments = false;
         public Vector2[] segment = new Vector2[6];
 

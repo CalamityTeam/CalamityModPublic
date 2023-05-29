@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class DarkIce : ModProjectile
+    public class DarkIce : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Melee/DarkIceZero";
 
         public override void SetDefaults()

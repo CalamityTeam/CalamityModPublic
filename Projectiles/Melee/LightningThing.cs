@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Weapons.Melee;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class LightningThing : ModProjectile
+    public class LightningThing : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

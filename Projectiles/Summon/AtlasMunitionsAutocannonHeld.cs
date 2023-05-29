@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AtlasMunitionsAutocannonHeld : ModProjectile
+    public class AtlasMunitionsAutocannonHeld : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public bool HasInitialized;
 
         public float HeatInterpolant;

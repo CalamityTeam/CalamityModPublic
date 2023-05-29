@@ -7,8 +7,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class LightningCloud : ModProjectile
+    public class LightningCloud : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 6;

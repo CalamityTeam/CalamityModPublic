@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class NecroplasmicBeacon : ModItem
+    public class NecroplasmicBeacon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil

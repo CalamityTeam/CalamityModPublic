@@ -11,8 +11,9 @@ using System;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class TitaniumRailgunScope : ModProjectile
+    public class TitaniumRailgunScope : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public ref float Charge => ref Projectile.ai[0];
         // Stores the max charge before firing, then stores the target post-recoil rotation after firing
         public ref float MaxChargeOrTargetRotation => ref Projectile.ai[1];

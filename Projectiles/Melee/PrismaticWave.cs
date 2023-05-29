@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PrismaticWave : ModProjectile
+    public class PrismaticWave : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private int alpha = 50;
         public Color[] colors = new Color[]
         {

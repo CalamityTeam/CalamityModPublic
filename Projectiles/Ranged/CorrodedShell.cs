@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class CorrodedShell : ModProjectile
+    public class CorrodedShell : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override void SetDefaults()
         {
             Projectile.width = 14;

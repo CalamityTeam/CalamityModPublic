@@ -7,8 +7,9 @@ using System;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SandPoisonCloudOldDuke : ModProjectile
+    public class SandPoisonCloudOldDuke : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 10;

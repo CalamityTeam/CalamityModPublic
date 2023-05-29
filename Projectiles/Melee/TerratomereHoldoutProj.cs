@@ -14,8 +14,9 @@ using System.Linq;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TerratomereHoldoutProj : ModProjectile
+    public class TerratomereHoldoutProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public PrimitiveTrail SlashDrawer = null;
 
         public Player Owner => Main.player[Projectile.owner];

@@ -5,8 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class VanquisherArrowSplit : ModProjectile
+    public class VanquisherArrowSplit : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Items/Ammo/VanquisherArrow";
 
         public override void SetDefaults()

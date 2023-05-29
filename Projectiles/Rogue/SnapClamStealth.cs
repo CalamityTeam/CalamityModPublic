@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SnapClamStealth : ModProjectile
+    public class SnapClamStealth : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public int clamCounter = 0;
         public bool openClam = true;
         public bool onEnemy = false;

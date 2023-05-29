@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class FallenPaladinsHammerProj : ModProjectile
+    public class FallenPaladinsHammerProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/FallenPaladinsHammer";
 
         public override void SetStaticDefaults()

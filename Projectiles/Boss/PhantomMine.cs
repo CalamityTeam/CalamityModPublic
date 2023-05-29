@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class PhantomMine : ModProjectile
+    public class PhantomMine : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

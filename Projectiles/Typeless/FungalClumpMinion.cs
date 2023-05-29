@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class FungalClumpMinion : ModProjectile
+    public class FungalClumpMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         private bool returnToPlayer = false;
 
         public override void SetStaticDefaults()

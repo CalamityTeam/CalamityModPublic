@@ -6,8 +6,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class EmesisGore : ModProjectile
+    public class EmesisGore : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public int HurtCounter = 0;
         public const int HurtTimeIncrement = 10;
         public override void SetDefaults()

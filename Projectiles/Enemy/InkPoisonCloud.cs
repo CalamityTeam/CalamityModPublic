@@ -7,8 +7,9 @@ using System;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class InkPoisonCloud : ModProjectile
+    public class InkPoisonCloud : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 10;

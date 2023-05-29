@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class HiveBomb : ModProjectile
+    public class HiveBomb : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public static Item FalseLauncher = null;
 
         public override void SetDefaults()

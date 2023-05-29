@@ -15,8 +15,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ArkoftheCosmosParryHoldout : ModProjectile
+    public class ArkoftheCosmosParryHoldout : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight";
 
         private bool initialized = false;

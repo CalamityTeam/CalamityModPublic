@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PhantasmalSoul : ModProjectile
+    public class PhantasmalSoul : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         private const int Lifetime = 300;
         private const int NoHomingFrames = 40;
         private const int NoHitFrames = 10;

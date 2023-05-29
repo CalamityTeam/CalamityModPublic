@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class GaussRifleExplosion : ModProjectile
+    public class GaussRifleExplosion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public float Time

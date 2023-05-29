@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class NanoblackSplit : ModProjectile
+    public class NanoblackSplit : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         private static int SpriteWidth = 52;
         private static int Lifetime = 90;
         private static float MaxRotationSpeed = 0.25f;

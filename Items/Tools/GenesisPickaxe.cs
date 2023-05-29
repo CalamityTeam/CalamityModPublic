@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Tools
 {
     [LegacyName("GallantPickaxe")]
-    public class GenesisPickaxe : ModItem
+    public class GenesisPickaxe : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             // These stats exactly match vanilla's Luminite pickaxes.

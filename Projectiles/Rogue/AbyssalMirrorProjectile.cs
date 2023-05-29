@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AbyssalMirrorProjectile : ModProjectile
+    public class AbyssalMirrorProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 3;

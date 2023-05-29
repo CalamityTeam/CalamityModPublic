@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Fishing
 {
     [LegacyName("Xerocodile")]
-    public class Gorecodile : ModItem
+    public class Gorecodile : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 10;

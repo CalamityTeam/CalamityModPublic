@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DesecratedWaterProj : ModProjectile
+    public class DesecratedWaterProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/DesecratedWater";
 
         public override void SetDefaults()

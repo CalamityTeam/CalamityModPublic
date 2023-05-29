@@ -11,8 +11,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DeusRitualDrama : ModProjectile
+    public class DeusRitualDrama : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public static readonly SoundStyle PulseSound = new("CalamityMod/Sounds/Custom/AstralBeaconOrbPulse");
 
         public float Time

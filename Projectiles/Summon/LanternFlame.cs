@@ -6,8 +6,9 @@ using CalamityMod.Buffs.DamageOverTime;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class LanternFlame : ModProjectile
+    public class LanternFlame : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private bool playSound = true;
 
         public override void SetStaticDefaults()

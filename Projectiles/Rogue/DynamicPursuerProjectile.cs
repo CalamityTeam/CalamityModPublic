@@ -11,8 +11,9 @@ using CalamityMod.Projectiles.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DynamicPursuerProjectile : ModProjectile
+    public class DynamicPursuerProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public bool ReturningToPlayer
         {
             get => Projectile.ai[0] == 1f;

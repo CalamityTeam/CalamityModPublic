@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class TrackingDiskProjectile : ModProjectile
+    public class TrackingDiskProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/TrackingDisk";
 
         public bool ReturningToPlayer

@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BloodsoakedCrashax : ModProjectile
+    public class BloodsoakedCrashax : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/BloodsoakedCrasher";
 
         private int bounce = 3; //number of times it bounces

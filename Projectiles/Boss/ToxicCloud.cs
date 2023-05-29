@@ -9,8 +9,9 @@ using System;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class ToxicCloud : ModProjectile
+    public class ToxicCloud : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 10;

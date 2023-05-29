@@ -9,8 +9,9 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class DarkIceZero : ModProjectile
+    public class DarkIceZero : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override void SetDefaults()
         {
             Projectile.width = 28;

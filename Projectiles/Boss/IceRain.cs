@@ -11,8 +11,9 @@ using CalamityMod.NPCs.Cryogen;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class IceRain : ModProjectile
+    public class IceRain : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetDefaults()
         {
             Projectile.width = 10;

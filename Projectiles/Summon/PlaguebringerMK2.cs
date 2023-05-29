@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlaguebringerMK2 : ModProjectile
+    public class PlaguebringerMK2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public const float DistanceToCheck = 1000.0001f;
         public override void SetStaticDefaults()
         {

@@ -7,8 +7,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class Ancient2 : ModProjectile
+    public class Ancient2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Magic/Ancient";
 
         public override void SetStaticDefaults()

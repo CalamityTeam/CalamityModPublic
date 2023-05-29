@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AuroradicalStar : ModProjectile
+    public class AuroradicalStar : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public int[] dustTypes = new int[]
         {
             ModContent.DustType<AstralBlue>(),

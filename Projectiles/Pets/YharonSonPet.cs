@@ -5,8 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class YharonSonPet : ModProjectile
+    public class YharonSonPet : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         public Player player => Main.player[Projectile.owner];
         private static int xFrameAmt = 3;
         private static int yFrameAmt = 16;

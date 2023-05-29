@@ -7,8 +7,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TenebreusTidesWaterSpear : ModProjectile
+    public class TenebreusTidesWaterSpear : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Magic/UndinesRetributionSpear";
 
         private int penetrationAmt = 4;

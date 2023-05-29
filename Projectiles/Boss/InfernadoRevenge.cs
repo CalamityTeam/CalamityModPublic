@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class InfernadoRevenge : ModProjectile
+    public class InfernadoRevenge : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         internal PrimitiveTrail TornadoDrawer;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public const int TornadoHeight = 8800;

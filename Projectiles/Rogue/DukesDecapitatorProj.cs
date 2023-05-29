@@ -6,8 +6,9 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DukesDecapitatorProj : ModProjectile
+    public class DukesDecapitatorProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         float rotationAmount = 1.5f;
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/DukesDecapitator";
         public override void SetStaticDefaults()

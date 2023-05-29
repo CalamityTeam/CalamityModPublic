@@ -18,8 +18,9 @@ using Terraria.Utilities;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class StormfrontLightning : ModProjectile
+    public class StormfrontLightning : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         internal PrimitiveTrail LightningDrawer;
 
         private int noTileHitCounter = 81; //Using other projectile's methods to not collide until a certain time has passed, allowing use inside caves

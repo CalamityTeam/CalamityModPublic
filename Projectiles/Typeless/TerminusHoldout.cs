@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class TerminusHoldout : ModProjectile
+    public class TerminusHoldout : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public SlotId ActivationSoundSlot;
 
         public Player Owner => Main.player[Projectile.owner];

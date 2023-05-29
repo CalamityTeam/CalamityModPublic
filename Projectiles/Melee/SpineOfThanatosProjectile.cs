@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class SpineOfThanatosProjectile : ModProjectile
+    public class SpineOfThanatosProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public List<Vector2> WhipPoints = new List<Vector2>();
         public Player Owner => Main.player[Projectile.owner];
         public float CurrentBendFactor => MaximumBendFactor * CalamityUtils.Convert01To010(Time / Lifetime);

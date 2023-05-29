@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlaguebringerSummon : ModProjectile
+    public class PlaguebringerSummon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public const float auraRange = 960f;
         private int auraCounter = 0;
         public override void SetStaticDefaults()

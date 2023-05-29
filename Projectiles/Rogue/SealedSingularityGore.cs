@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SealedSingularityGore : ModProjectile
+    public class SealedSingularityGore : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override void SetDefaults()
         {
             Projectile.friendly = true;

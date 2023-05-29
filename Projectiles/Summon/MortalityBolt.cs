@@ -4,8 +4,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MortalityBolt : ModProjectile
+    public class MortalityBolt : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public Color ProjectileColor => Main.hslToRgb(Projectile.localAI[0], 1f, 0.5f);

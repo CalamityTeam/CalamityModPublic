@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class EarlyBloomRod : ModItem
+    public class EarlyBloomRod : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetDefaults()
         {
             Item.width = 24;

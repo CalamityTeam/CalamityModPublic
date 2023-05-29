@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class AcidicReed : ModProjectile
+    public class AcidicReed : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
 
         public static readonly SoundStyle SaxSound = new("CalamityMod/Sounds/Item/Saxophone/Sax", 6);
 

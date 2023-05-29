@@ -14,8 +14,9 @@ using CalamityMod.Items.Tools;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class WulfrumLureSignal : ModProjectile
+    public class WulfrumLureSignal : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public ref float Time => ref Projectile.ai[0];

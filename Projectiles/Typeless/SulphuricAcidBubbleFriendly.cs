@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class SulphuricAcidBubbleFriendly : ModProjectile
+    public class SulphuricAcidBubbleFriendly : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Enemy/SulphuricAcidBubble";
 
         private bool fromArmour = false;

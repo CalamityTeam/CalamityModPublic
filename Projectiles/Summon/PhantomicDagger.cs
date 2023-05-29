@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PhantomicDagger : ModProjectile
+    public class PhantomicDagger : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private bool homing = false;
 
         public override void SetStaticDefaults()

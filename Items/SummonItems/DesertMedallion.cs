@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.SummonItems
 {
     [LegacyName("DriedSeafood")]
-    public class DesertMedallion : ModItem
+    public class DesertMedallion : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye

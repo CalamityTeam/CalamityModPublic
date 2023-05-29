@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.Umbrella
 {
-    public class MagicRifle : ModProjectile
+    public class MagicRifle : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public VertexStrip TrailDrawer;
 		public bool drawTrail = false;
 		public bool leftSide = false;

@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ColdDivinityPointyThing : ModProjectile
+    public class ColdDivinityPointyThing : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public int recharging = -1;
         public bool circling = true;
         public bool circlingPlayer = true;

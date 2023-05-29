@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ExoVortex2 : ModProjectile
+    public class ExoVortex2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public PrimitiveTrail EnergyTrail = null;
 
         public float Hue => Projectile.ai[0];

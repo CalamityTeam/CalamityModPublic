@@ -8,8 +8,9 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PuffWarrior : ModProjectile
+    public class PuffWarrior : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
 		public Player Owner => Main.player[Projectile.owner];
 
 		public Tile GroundTile => CalamityUtils.ParanoidTileRetrieval((int)Projectile.Bottom.X / 16, (int)Projectile.Bottom.Y / 16);

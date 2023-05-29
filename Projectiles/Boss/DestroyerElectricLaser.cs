@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DestroyerElectricLaser : ModProjectile
+    public class DestroyerElectricLaser : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override void SetDefaults()
         {
             Projectile.ignoreWater = true;

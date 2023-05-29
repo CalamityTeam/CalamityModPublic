@@ -14,8 +14,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TrueGrovetendersTouch : ModProjectile
+    public class TrueGrovetendersTouch : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private NPC[] excludedTargets = new NPC[4];
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_GrovetendersTouchBlade";
         private bool initialized = false;

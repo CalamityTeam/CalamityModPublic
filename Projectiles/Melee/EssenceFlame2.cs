@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class EssenceFlame2 : ModProjectile
+    public class EssenceFlame2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Healing/EssenceFlame";
 
         public override void SetStaticDefaults()

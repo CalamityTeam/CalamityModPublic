@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class OnyxLabSeeker : ModProjectile
+    public class OnyxLabSeeker : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public ref float Time => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Items/LabFinders/OnyxSeekingMechanism";
 

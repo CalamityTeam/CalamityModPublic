@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class AstralStarMagic : ModProjectile
+    public class AstralStarMagic : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Typeless/AstralStar";
 
         private int noTileHitCounter = 120;

@@ -5,8 +5,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MidnightSunBeaconProj : ModProjectile
+    public class MidnightSunBeaconProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Items/Weapons/Summon/MidnightSunBeacon";
 
         public override void SetStaticDefaults()

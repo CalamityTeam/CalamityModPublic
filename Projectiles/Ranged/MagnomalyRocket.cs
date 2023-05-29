@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class MagnomalyRocket : ModProjectile
+    public class MagnomalyRocket : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private bool spawnedAura = false;
         public override void SetStaticDefaults()
         {

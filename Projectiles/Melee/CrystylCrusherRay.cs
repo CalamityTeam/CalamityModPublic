@@ -11,8 +11,9 @@ using CalamityMod.Items.Tools;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CrystylCrusherRay : ModProjectile
+    public class CrystylCrusherRay : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
 
         // Use a different style for constant so it is very clear in code when a constant is used

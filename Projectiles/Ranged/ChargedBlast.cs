@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ChargedBlast : ModProjectile
+    public class ChargedBlast : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
         public override void SetDefaults()

@@ -14,8 +14,9 @@ using ReLogic.Content;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Exobeam : ModProjectile
+    public class Exobeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public int TargetIndex = -1;
 
         public static float MaxWidth = 30;

@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class HyperiusBulletProj : ModProjectile
+    public class HyperiusBulletProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private Color currentColor = Color.Black;
 
         public override void SetStaticDefaults()

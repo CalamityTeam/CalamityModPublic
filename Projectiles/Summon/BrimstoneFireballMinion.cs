@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class BrimstoneFireballMinion : ModProjectile
+    public class BrimstoneFireballMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneHellfireball";
 
         public override void SetStaticDefaults()

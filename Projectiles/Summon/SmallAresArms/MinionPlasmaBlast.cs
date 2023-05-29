@@ -6,8 +6,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
-    public class MinionPlasmaBlast : ModProjectile
+    public class MinionPlasmaBlast : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Boss/AresPlasmaFireball";
 
         public override void SetStaticDefaults()

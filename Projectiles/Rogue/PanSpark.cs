@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PanSpark : ModProjectile
+    public class PanSpark : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         private bool initialized = false;
 
         public override void SetStaticDefaults()

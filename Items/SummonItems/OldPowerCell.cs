@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class OldPowerCell : ModItem
+    public class OldPowerCell : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.SummonItems";
         public override string Texture => $"Terraria/Images/Item_{ItemID.LihzahrdPowerCell}";
 
         public override void SetStaticDefaults()

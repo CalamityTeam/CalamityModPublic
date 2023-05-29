@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PressurizedBubbleStream : ModProjectile
+    public class PressurizedBubbleStream : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public static int FireTime = 60;

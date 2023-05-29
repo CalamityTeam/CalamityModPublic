@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PhantomicShield : ModProjectile
+    public class PhantomicShield : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public const float floatDist = 50f;
 
         public int deathTimer = 240;

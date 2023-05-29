@@ -7,8 +7,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TitaniumShurikenProjectile : ModProjectile
+    public class TitaniumShurikenProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/TitaniumShuriken";
 
         private static float RotationIncrement = 0.22f;

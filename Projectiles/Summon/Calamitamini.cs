@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class Calamitamini : ModProjectile
+    public class Calamitamini : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public const float Range = 1300f;
         public const float SeparationAnxietyMin = 1500f;
         public const float SeparationAnxietyMax = 3200f;

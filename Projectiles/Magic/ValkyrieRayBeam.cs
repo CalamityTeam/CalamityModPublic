@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ValkyrieRayBeam : ModProjectile
+    public class ValkyrieRayBeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         private const int Lifetime = 24;
         private const int BeamDustID = 73;
 

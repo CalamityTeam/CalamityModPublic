@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Pets
 {
-    public class Sparks : ModProjectile
+    public class Sparks : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         private int color = 0;
 
         public override void SetStaticDefaults()

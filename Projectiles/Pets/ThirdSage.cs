@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Pets
 {
-    public class ThirdSage : ModProjectile
+    public class ThirdSage : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         public override void SetStaticDefaults()
         {
             Main.projPet[Projectile.type] = true;

@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
-    public class ProcyonidPrawn : ModItem
+    public class ProcyonidPrawn : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;

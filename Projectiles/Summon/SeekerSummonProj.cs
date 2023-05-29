@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SeekerSummonProj : ModProjectile
+    public class SeekerSummonProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
         public ref float CircleAngleRatio => ref Projectile.ai[0];
         public ref float Time => ref Projectile.ai[1];

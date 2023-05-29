@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {
-    public class SkyfringePickaxe : ModItem
+    public class SkyfringePickaxe : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.damage = 12;

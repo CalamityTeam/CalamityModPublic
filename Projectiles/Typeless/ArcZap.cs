@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class ArcZap : ModProjectile
+    public class ArcZap : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public bool ableToHit = false;
         public NPC selectedTarget;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

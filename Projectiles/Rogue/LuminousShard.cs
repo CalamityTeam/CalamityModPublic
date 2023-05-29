@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class LuminousShard : ModProjectile
+    public class LuminousShard : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         bool gravity = false;
 
         public override void SetDefaults()

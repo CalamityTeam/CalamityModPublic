@@ -1,8 +1,9 @@
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class LightBallExplosion : ModProjectile
+    public class LightBallExplosion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

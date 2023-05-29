@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class EnergyShell : ModProjectile
+    public class EnergyShell : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         private bool playedSound = false;
 
         public override void SetStaticDefaults()

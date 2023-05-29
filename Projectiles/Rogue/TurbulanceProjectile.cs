@@ -5,8 +5,9 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TurbulanceProjectile : ModProjectile
+    public class TurbulanceProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Turbulance";
 
         public override void SetStaticDefaults()

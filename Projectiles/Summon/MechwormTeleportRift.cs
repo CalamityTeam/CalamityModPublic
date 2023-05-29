@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MechwormTeleportRift : ModProjectile
+    public class MechwormTeleportRift : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/StarProj";
 
         public ref float GeneralRotationalOffset => ref Projectile.ai[0];

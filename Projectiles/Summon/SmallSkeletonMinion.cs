@@ -9,8 +9,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SmallSkeletonMinion : ModProjectile
+    public class SmallSkeletonMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public int Variant;
         public override void SetStaticDefaults()
         {

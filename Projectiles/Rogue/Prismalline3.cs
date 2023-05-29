@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 using CalamityMod.Projectiles.Ranged;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Prismalline3 : ModProjectile
+    public class Prismalline3 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Prismalline";
 
         public override void SetDefaults()

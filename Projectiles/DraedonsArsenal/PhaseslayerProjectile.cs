@@ -17,8 +17,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class PhaseslayerProjectile : ModProjectile
+    public class PhaseslayerProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/Phaseslayer";
 
         // The "average" or "expected" swing speed which the sword's damage balance is based off of.

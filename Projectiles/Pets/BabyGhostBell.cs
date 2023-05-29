@@ -4,8 +4,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class BabyGhostBell : ModProjectile
+    public class BabyGhostBell : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         private bool underwater = false;
 
         public override void SetStaticDefaults()

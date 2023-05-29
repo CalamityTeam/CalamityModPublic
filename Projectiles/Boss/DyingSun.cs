@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DyingSun : ModProjectile
-    {        
+    public class DyingSun : ModProjectile, ILocalizedModType
+    {
+        public string LocalizationCategory => "Projectiles.Boss";        
         public PrimitiveTrail FireDrawer;
         public ref float Time => ref Projectile.ai[0];
         public ref float Radius => ref Projectile.ai[1];

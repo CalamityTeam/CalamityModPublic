@@ -3,8 +3,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Dark : ModProjectile
+    public class Dark : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private const int speedTimerMax = 60;
         private int speedTimer = speedTimerMax;
 

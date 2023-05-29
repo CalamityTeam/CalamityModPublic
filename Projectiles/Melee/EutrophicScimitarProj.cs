@@ -5,8 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class EutrophicScimitarProj : ModProjectile
+    public class EutrophicScimitarProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 3;

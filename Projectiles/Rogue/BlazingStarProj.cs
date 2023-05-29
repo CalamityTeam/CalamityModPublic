@@ -8,8 +8,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BlazingStarProj : ModProjectile
+    public class BlazingStarProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/BlazingStar";
 
         public const int Lifetime = 1540;

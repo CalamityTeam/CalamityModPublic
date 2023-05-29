@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DoGDeath : ModProjectile
+    public class DoGDeath : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public float TelegraphDelay
         {
             get => Projectile.ai[0];

@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class PendantProjectile1 : ModProjectile
+    public class PendantProjectile1 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override void SetDefaults()
         {
             Projectile.width = 10;

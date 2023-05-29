@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DestructionBolt : ModProjectile
+    public class DestructionBolt : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public int dustType = 191;
         public override void SetStaticDefaults()
         {

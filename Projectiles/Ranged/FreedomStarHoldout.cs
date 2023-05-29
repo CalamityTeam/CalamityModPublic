@@ -9,8 +9,9 @@ using CalamityMod.Items;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class FreedomStarHoldout : ModProjectile
+    public class FreedomStarHoldout : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private const float OrbLargeGateValue = 80f;
         private const float LaserGateValue = 180f;
         private const float LaserLargeGateValue = 660f;

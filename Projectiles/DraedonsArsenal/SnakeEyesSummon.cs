@@ -8,8 +8,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class SnakeEyesSummon : ModProjectile
+    public class SnakeEyesSummon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public bool SufferingFromSeparationAnxiety = false;
         public Vector2 OldCenter;
         public Vector2 Destination;

@@ -5,8 +5,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SubductionFlameburst : ModProjectile
+    public class SubductionFlameburst : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public int frameX = 0;
         public int frameY = 0;
         public int currentFrame => frameY + frameX * 4;

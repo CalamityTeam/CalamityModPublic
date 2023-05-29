@@ -7,8 +7,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class BurningMeteor : ModProjectile
+    public class BurningMeteor : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private int noTileHitCounter = 120;
 
         public override void SetStaticDefaults()

@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
     // TODO -- Abstract away most of the direct vector math away in here into things like SafeDirectionTo calls.
-    public class AtaraxiaHoming : ModProjectile
+    public class AtaraxiaHoming : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private static int NumAnimationFrames = 5;
         private static int AnimationFrameTime = 9;
         private static float HomingStartRange = 300f;

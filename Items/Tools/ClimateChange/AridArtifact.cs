@@ -3,8 +3,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Tools.ClimateChange
 {
-    public class AridArtifact : ModItem
+    public class AridArtifact : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.width = 20;

@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
     // Photoviscerator right click split projectile (attached flares to the flare cluster)
-    public class ExoFlare : ModProjectile
+    public class ExoFlare : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public float OffsetSpeed

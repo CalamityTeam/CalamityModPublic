@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class GemTechYellowShard : ModProjectile
+    public class GemTechYellowShard : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public const int IntangibleFrames = 12;
 
         public ref float Time => ref Projectile.ai[0];

@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {
-    public class Gelpick : ModItem
+    public class Gelpick : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.damage = 12;

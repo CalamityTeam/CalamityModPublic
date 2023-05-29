@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class YharimsCrystalBeam : ModProjectile
+    public class YharimsCrystalBeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         private const float PiBeamDivisor = MathHelper.Pi / YharimsCrystalPrism.NumBeams;
 
         private const float MaxDamageMultiplier = 3f;

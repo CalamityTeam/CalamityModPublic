@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SupernovaSpike : ModProjectile
+    public class SupernovaSpike : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Rogue/BallisticPoisonBombSpike";
 
         private Color currentColor = Color.Black;

@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class SulphuricAcidMist : ModProjectile
+    public class SulphuricAcidMist : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 10;

@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SeraphimProjectile : ModProjectile
+    public class SeraphimProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public const float InitialSpeed = 64f;
         public const float SlowdownSpeed = 7f;
         public const int SlowdownTime = 50;

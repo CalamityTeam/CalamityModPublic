@@ -13,8 +13,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ExtantAbhorrenceMonolith : ModProjectile
+    public class ExtantAbhorrenceMonolith : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrenceMonolith";
         public Player Owner => Main.player[Projectile.owner];
         public float Timer => (100f - Projectile.timeLeft) / 100f;

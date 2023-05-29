@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ButcherGun : ModProjectile
+    public class ButcherGun : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Butcher";
 
         public override void SetDefaults()

@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
     [LegacyName("ChaoticFish")]
-    public class Havocfish : ModItem
+    public class Havocfish : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
                        Item.ResearchUnlockCount = 10;

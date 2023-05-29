@@ -8,8 +8,9 @@ namespace CalamityMod.Items.Tools
 {
     //Its not like its a renamed version of the spear, but i put this here more as a way to "refund" the item, so it doesnt end up rotting as an unloaded item.
     [LegacyName("MarniteSpear")]
-    public class MarniteDeconstructor : ModItem
+    public class MarniteDeconstructor : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.damage = 6;

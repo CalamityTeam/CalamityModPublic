@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class IgneousBladeStrike : ModProjectile
+    public class IgneousBladeStrike : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Summon/IgneousBlade";
 
         public override void SetStaticDefaults()

@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
     // Photoviscerator right click main projectile (invisible flare cluster bomb)
-    public class ExoFlareCluster : ModProjectile
+    public class ExoFlareCluster : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public const float MinDistanceFromTarget = 45f;

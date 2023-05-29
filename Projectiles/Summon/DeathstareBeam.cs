@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class DeathstareBeam : ModProjectile
+    public class DeathstareBeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public ref float OwnerUUID => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {

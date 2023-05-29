@@ -13,8 +13,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class EnormousConsumingVortex : ModProjectile
+    public class EnormousConsumingVortex : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public Player Owner => Main.player[Projectile.owner];
 
         public float Time

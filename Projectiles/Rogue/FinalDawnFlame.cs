@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FinalDawnFlame : ModProjectile
+    public class FinalDawnFlame : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         internal struct Flame
         {
             public Vector2 Position;

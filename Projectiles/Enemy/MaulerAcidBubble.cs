@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class MaulerAcidBubble : ModProjectile
+    public class MaulerAcidBubble : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public ref float Time => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Projectiles/Enemy/SulphuricAcidBubble";
         public override void SetStaticDefaults()

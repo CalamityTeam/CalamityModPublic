@@ -12,8 +12,9 @@ using Terraria.GameContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TaintedBladeSlasher : ModProjectile
+    public class TaintedBladeSlasher : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         internal PrimitiveTrail TrailDrawer = null;
         public ref float SwordItemID => ref Projectile.ai[1];
         public ref float VerticalOffset => ref Projectile.localAI[0];

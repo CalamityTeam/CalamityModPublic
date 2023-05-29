@@ -7,8 +7,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TenebreusTidesWaterSword : ModProjectile
+    public class TenebreusTidesWaterSword : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private int penetrationAmt = 4;
         private bool dontDraw = false;
         private int drawInt = 0;

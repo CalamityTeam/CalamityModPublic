@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class LunarBolt2 : ModProjectile
+    public class LunarBolt2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Ranged/LunarBolt";
 
         public override void SetDefaults()

@@ -15,8 +15,9 @@ using CalamityMod.NPCs.PlaguebringerGoliath;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlaguePrincess : ModProjectile
+    public class PlaguePrincess : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public enum ViriliAIState
         {
             HoverNearOwner,

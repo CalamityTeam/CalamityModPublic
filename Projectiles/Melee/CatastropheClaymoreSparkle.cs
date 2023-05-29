@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CatastropheClaymoreSparkle : ModProjectile
+    public class CatastropheClaymoreSparkle : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public ref float ProjectileType => ref Projectile.ai[0];

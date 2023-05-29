@@ -5,8 +5,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class RiftReelerBobber : ModProjectile
+    public class RiftReelerBobber : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         private bool initialized = false;
         private Color fishingLineColor;
         public Color[] PossibleLineColors = new Color[]

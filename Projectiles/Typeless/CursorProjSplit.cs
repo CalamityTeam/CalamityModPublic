@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class CursorProjSplit : ModProjectile
+    public class CursorProjSplit : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Typeless/CursorProj";
 
         public override void SetStaticDefaults()

@@ -8,8 +8,9 @@ using Terraria.Utilities;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class StormfrontRazorProjectile : ModProjectile
+    public class StormfrontRazorProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/StormfrontRazor";
 
         public override void SetStaticDefaults()

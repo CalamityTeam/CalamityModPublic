@@ -14,8 +14,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ArkoftheAncientsSwungBlade : ModProjectile
+    public class ArkoftheAncientsSwungBlade : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/FracturedArk";
 
         private bool initialized = false;

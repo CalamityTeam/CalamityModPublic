@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class FreedomStarBeam : ModProjectile
+    public class FreedomStarBeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private const int Lifetime = 840;
         private const int TimeToReachMaxSize = 480;
         private const int TimeToShrink = 60;

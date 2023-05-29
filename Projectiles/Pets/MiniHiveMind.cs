@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class MiniHiveMind : ModProjectile
+    public class MiniHiveMind : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         private int reelBackCooldown = 0;
         private int charging = 0;
 

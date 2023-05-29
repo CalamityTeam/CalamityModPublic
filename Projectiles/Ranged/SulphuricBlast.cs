@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SulphuricBlast : ModProjectile
+    public class SulphuricBlast : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public const int TotalSecondsToStick = 8;
         public override void SetStaticDefaults()
         {

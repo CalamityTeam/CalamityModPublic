@@ -12,8 +12,9 @@ using CalamityMod.Items.Weapons.Ranged;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ExoCrystalArrow : ModProjectile
+    public class ExoCrystalArrow : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public PrimitiveTrail PierceAfterimageDrawer = null;
 
         public bool CreateLightning => Projectile.ai[0] == 1f;
