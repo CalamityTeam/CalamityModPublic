@@ -11,12 +11,12 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-                   }
+        }
 
         public override void SetDefaults()
         {
             Item.width = 28;
-            Item.height = 18;
+            Item.height = 30;
             Item.useTurn = true;
             Item.maxStack = 9999;
             Item.rare = ItemRarityID.Orange;

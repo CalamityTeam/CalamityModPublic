@@ -1,41 +1,69 @@
 AbovegroundAstralBiome: {
+	DisplayName: Astral Infection
+	TownNPCDialogueName: Astral Infection
 }
 
 AbovegroundAstralDesertBiome: {
+	DisplayName: Astral Desert Surface
+	TownNPCDialogueName: Astral Desert
 }
 
 AbovegroundAstralSnowBiome: {
+	DisplayName: Astral Snow Surface
+	TownNPCDialogueName: Astral Snow
 }
 
 AbyssLayer1Biome: {
+	DisplayName: Sulphuric Depths
+	TownNPCDialogueName: Sulphuric Depths
 }
 
 AbyssLayer2Biome: {
+	DisplayName: Murky Waters
+	TownNPCDialogueName: Murky Waters
 }
 
 AbyssLayer3Biome: {
+	DisplayName: Thermal Vents
+	TownNPCDialogueName: Thermal Vents
 }
 
 AbyssLayer4Biome: {
+	DisplayName: The Void
+	TownNPCDialogueName: Void
 }
 
 AcidRainBiome: {
+	DisplayName: Acid Rain
+	TownNPCDialogueName: Acid Rain
 }
 
 ArsenalLabBiome: {
+	DisplayName: Arsenal Labs
+	TownNPCDialogueName: Arsenal Lab
 }
 
 BrimstoneCragsBiome: {
+	DisplayName: Brimstone Crags
+	TownNPCDialogueName: Brimstone Crags
 }
 
 SulphurousSeaBiome: {
+	DisplayName: Sulphurous Sea
+	TownNPCDialogueName: Sulphurous Sea
 }
 
 SunkenSeaBiome: {
+	DisplayName: Sunken Sea
+	TownNPCDialogueName: Sunken Sea
 }
 
 UndergroundAstralBiome: {
+	DisplayName: Astral Underground
+	TownNPCDialogueName: Underground Astral Infection
 }
 
 AbovegroundAstralBiomeSurface: {
+	DisplayName: Astral Surface
+	TownNPCDialogueName: Astral Infection
 }
