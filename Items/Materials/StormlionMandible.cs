@@ -5,8 +5,9 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Materials
 {
-    public class StormlionMandible : ModItem
+    public class StormlionMandible : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

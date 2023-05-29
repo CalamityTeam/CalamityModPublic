@@ -12,8 +12,9 @@ using System;
 
 namespace CalamityMod.Items.DraedonMisc
 {
-    public class LongRangedSensorArray : ModItem
+    public class LongRangedSensorArray : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.DraedonItems";
         public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/LongRangeSensorArrayInstall");
         public override void SetDefaults()
         {

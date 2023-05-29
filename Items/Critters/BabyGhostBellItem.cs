@@ -5,8 +5,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Critters
 {
-    public class BabyGhostBellItem : ModItem
+    public class BabyGhostBellItem : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

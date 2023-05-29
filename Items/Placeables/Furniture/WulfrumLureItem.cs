@@ -6,8 +6,9 @@ using CalamityMod.Tiles.Furniture;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-    public class WulfrumLureItem : ModItem
+    public class WulfrumLureItem : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public static int SignalTime = 30 * 60;
         public static int SpawnIntervals = 4 * 60;
         public static int MaxEnemiesPerWave = 3;

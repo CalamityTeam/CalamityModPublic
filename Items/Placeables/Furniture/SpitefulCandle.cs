@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture
 {
     [LegacyName("YellowCandle")]
-    public class SpitefulCandle : ModItem
+    public class SpitefulCandle : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 28;

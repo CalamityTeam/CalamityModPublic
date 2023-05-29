@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
-    public class Margarita : ModItem
+    public class Margarita : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Potions";
         public static int BuffType = ModContent.BuffType<MargaritaBuff>();
         public static int BuffDuration = 10800;
 

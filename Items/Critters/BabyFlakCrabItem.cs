@@ -5,8 +5,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Critters
 {
-    public class BabyFlakCrabItem : ModItem
+    public class BabyFlakCrabItem : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

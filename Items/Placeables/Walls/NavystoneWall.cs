@@ -3,8 +3,9 @@ using WallTiles = CalamityMod.Walls;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Walls
 {
-    public class NavystoneWall : ModItem
+    public class NavystoneWall : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;

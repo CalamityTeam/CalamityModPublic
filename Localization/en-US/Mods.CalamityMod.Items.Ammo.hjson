@@ -1,0 +1,169 @@
+AccelerationRound: {
+	DisplayName: Acceleration Round
+	Tooltip: Gains speed over time
+}
+
+ArcticArrow: {
+	DisplayName: Arctic Arrow
+	Tooltip: Freezes enemies for a short time
+}
+
+AstralSolution: {
+	DisplayName: Astral Solution
+	Tooltip:
+		'''
+		Used by the Clentaminator
+		Spreads the Astral Infection
+		'''
+}
+
+BloodfireArrow: {
+	DisplayName: Bloodfire Arrow
+	Tooltip: Heals you a small amount on enemy hits
+}
+
+BloodfireBullet: {
+	DisplayName: Bloodfire Bullet
+	Tooltip:
+		'''
+		Accelerates your life regeneration on hit
+		Deals bonus damage based on your current life regeneration
+		'''
+}
+
+BloodRune: {
+	DisplayName: Blood Rune
+	Tooltip:
+		'''
+		Used with the Ice Barrage 
+		Found in some sort of runic landscape
+		'''
+}
+
+BubonicRound: {
+	DisplayName: Bubonic Round
+	Tooltip:
+		'''
+		Bursts into virulent plague on contact
+		Ignores 25% of enemy defense
+		'''
+}
+
+ElysianArrow: {
+	DisplayName: Elysian Arrow
+	Tooltip: Summons meteors from the sky on death
+}
+
+EnhancedNanoRound: {
+	DisplayName: Enhanced Nano Round
+	Tooltip: Confuses enemies and releases a cloud of nanites when enemies die
+}
+
+FlashRound: {
+	DisplayName: Flash Round
+	Tooltip: Gives off a concussive blast that confuses enemies in a large area for a short time
+}
+
+GodSlayerSlug: {
+	DisplayName: God Slayer Slug
+	Tooltip:
+		'''
+		Heavy ammunition with unlimited piercing that tears through spacetime
+		After a slug lands a hit, if it strikes a wall or runs out of targets to pierce,
+		it warps backwards through space and supercharges, exploding on impact
+		'''
+}
+
+HolyFireBullet: {
+	DisplayName: Holy Fire Bullet
+	Tooltip: Explosive holy bullets
+}
+
+HyperiusBullet: {
+	DisplayName: Hyperius Bullet
+	Tooltip:
+		'''
+		Your enemies might have a bad time
+		Spawns additional bullets on enemy hits
+		'''
+}
+
+IcicleArrow: {
+	DisplayName: Icicle Arrow
+	Tooltip: Shatters into shards on impact
+}
+
+IcyBullet: {
+	DisplayName: Icy Bullet
+	Tooltip:
+		'''
+		Can hit up to three times
+		Breaks into ice shards on last impact
+		'''
+}
+
+MarksmanRound: {
+	DisplayName: Marksman Round
+	Tooltip:
+		'''
+		A carefully crafted round which can be ricocheted off of midair coins
+		This allows other guns to utilize the coins tossed by Crackshot Colt and Midas Prime
+		'''
+}
+
+MortarRound: {
+	DisplayName: Mortar Round
+	Tooltip:
+		'''
+		Large blast radius. Will destroy tiles
+		Used by normal guns
+		'''
+}
+
+NapalmArrow: {
+	DisplayName: Napalm Arrow
+	Tooltip: Explodes into fire shards
+}
+
+RubberMortarRound: {
+	DisplayName: Rubber Mortar Round
+	Tooltip:
+		'''
+		Large blast radius
+		Will destroy tiles on each bounce
+		Used by normal guns
+		'''
+}
+
+SuperballBullet: {
+	DisplayName: Superball Bullet
+	Tooltip: Bounces at extreme speeds
+}
+
+TerraArrow: {
+	DisplayName: Terra Arrow
+	Tooltip: Travels incredibly quickly and explodes into more arrows when it hits a certain velocity
+}
+
+TerraBullet: {
+	DisplayName: Terra Bullet
+	Tooltip: Explodes and splits into homing terra shards on death
+}
+
+VanquisherArrow: {
+	DisplayName: Vanquisher Arrow
+	Tooltip:
+		'''
+		Pierces through tiles
+		Spawns extra homing arrows as it travels
+		'''
+}
+
+VeriumBullet: {
+	DisplayName: Verium Bullet
+	Tooltip:
+		'''
+		There is no escape!
+		Homes in after striking an enemy
+		'''
+}

@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.LabFinders
 {
     [LegacyName("PurpleSeekingMechanism")]
-    public class YellowSeekingMechanism : ModItem
+    public class YellowSeekingMechanism : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.DraedonItems";
         public override void SetDefaults()
         {
             Item.width = 24;

@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class DarksunFragment : ModItem
+    public class DarksunFragment : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public int frameCounter = 0;
         public int frame = 0;
         public override void SetStaticDefaults()

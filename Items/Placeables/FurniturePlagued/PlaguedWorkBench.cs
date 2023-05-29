@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
     [LegacyName("PlaguedPlateWorkbench")]
-    public class PlaguedWorkBench : ModItem
+    public class PlaguedWorkBench : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 8;

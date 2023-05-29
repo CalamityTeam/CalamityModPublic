@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Ores
 {
     [LegacyName("ExodiumClusterOre")]
-    public class ExodiumCluster : ModItem
+    public class ExodiumCluster : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

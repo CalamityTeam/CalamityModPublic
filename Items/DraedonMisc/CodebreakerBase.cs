@@ -6,8 +6,9 @@ using CalamityMod.Items.Placeables.DraedonStructures;
 
 namespace CalamityMod.Items.DraedonMisc
 {
-    public class CodebreakerBase : ModItem
+    public class CodebreakerBase : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.DraedonItems";
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;

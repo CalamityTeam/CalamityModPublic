@@ -6,8 +6,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Banners
 {
     [LegacyName("FlounderBanner")]
-    public class SulflounderBanner : ModItem
+    public class SulflounderBanner : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 10;

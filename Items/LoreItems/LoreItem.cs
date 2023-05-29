@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public abstract class LoreItem : ModItem
+    public abstract class LoreItem : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Lore";
         // This line is the short, generic lore tooltip which indicates there is more to be read.
         // It can be overridden as desired for flavor.
         public virtual string ShortTooltip => "Whispers from on high dance in your ears...";

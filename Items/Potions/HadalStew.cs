@@ -9,8 +9,9 @@ using System.Linq;
 namespace CalamityMod.Items.Potions
 {
     [LegacyName("SunkenStew")]
-    public class HadalStew : ModItem
+    public class HadalStew : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Potions";
         public static int BuffType = BuffID.WellFed2;
         public static int BuffDuration = 216000;
 

@@ -3,8 +3,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables
 {
-    public class AbyssGravel : ModItem
+    public class AbyssGravel : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Banners
 {
     [LegacyName("PitbullBanner")]
-    public class RotdogBanner : ModItem
+    public class RotdogBanner : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 10;

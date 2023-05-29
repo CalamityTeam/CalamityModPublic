@@ -3,8 +3,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     [LegacyName("MonolithCrafting")]
-    public class MonolithAmalgam : ModItem
+    public class MonolithAmalgam : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Monolith Amalgam");

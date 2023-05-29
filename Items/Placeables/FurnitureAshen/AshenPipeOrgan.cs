@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     [LegacyName("AshenPiano")]
-    public class AshenPipeOrgan : ModItem
+    public class AshenPipeOrgan : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ashen Pipe Organ");

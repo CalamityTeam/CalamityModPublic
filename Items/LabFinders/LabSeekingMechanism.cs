@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.LabFinders
 {
     [LegacyName("MysteriousMechanism")]
-    public class LabSeekingMechanism : ModItem
+    public class LabSeekingMechanism : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.DraedonItems";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

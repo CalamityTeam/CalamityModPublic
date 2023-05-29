@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
     [LegacyName("ChaoticBrick")]
-    public class ScoriaBrick : ModItem
+    public class ScoriaBrick : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults() => Item.ResearchUnlockCount = 100;
 
         public override void SetDefaults()

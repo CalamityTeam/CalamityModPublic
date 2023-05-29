@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Pets
 {
     [LegacyName("IbarakiBox")]
-    public class HermitsBoxofOneHundredMedicines : ModItem
+    public class HermitsBoxofOneHundredMedicines : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Pets";
         public override void SetDefaults()
         {
             Item.damage = 0;

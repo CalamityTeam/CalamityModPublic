@@ -3,8 +3,9 @@ using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureMonolith
 {
-    public class MonolithChest : ModItem
+    public class MonolithChest : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Monolith Chest");

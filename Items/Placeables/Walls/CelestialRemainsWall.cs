@@ -5,8 +5,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Walls
 {
     [LegacyName("AstralFossilWall")]
-    public class CelestialRemainsWall : ModItem
+    public class CelestialRemainsWall : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;

@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-    public class StarlightFuelCell : ModItem
+    public class StarlightFuelCell : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetDefaults()
         {
             Item.width = 20;

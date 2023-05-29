@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class AscendantSpiritEssence : ModItem
+    public class AscendantSpiritEssence : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public int frameCounter = 0;
         public int frame = 0;
         public override void SetStaticDefaults()

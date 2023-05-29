@@ -1,0 +1,221 @@
+AerialiteBar.DisplayName: Aerialite Bar
+AncientBoneDust.DisplayName: Ancient Bone Dust
+ArmoredShell.DisplayName: Armored Shell
+
+AscendantSpiritEssence: {
+	DisplayName: Ascendant Spirit Essence
+	Tooltip: A catalyst of the highest caliber formed by fusing powerful souls
+}
+
+AshesofAnnihilation: {
+	DisplayName: Ashes of Annihilation
+	Tooltip: The smoldering essence of the Witch's wrath
+}
+
+AshesofCalamity.DisplayName: Ashes of Calamity
+
+AuricBar: {
+	DisplayName: Auric Bar
+	Tooltip: Boundless power emanates from the metal
+}
+
+BeetleJuice.DisplayName: Beetle Juice
+BlightedGel.DisplayName: Blighted Gel
+BloodOrb.DisplayName: Blood Orb
+BloodSample.DisplayName: Blood Sample
+Bloodstone.DisplayName: Bloodstone
+BloodstoneCore.DisplayName: Bloodstone Core
+CoreofCalamity.DisplayName: Core of Calamity
+CoreofEleum.DisplayName: Core of Eleum
+CoreofHavoc.DisplayName: Core of Havoc
+CoreofSunlight.DisplayName: Core of Sunlight
+
+CorrodedFossil: {
+	DisplayName: Corroded Fossil
+	Tooltip: It's very sturdy
+}
+
+CosmiliteBar: {
+	DisplayName: Cosmilite Bar
+	Tooltip: A chunk of durable and highly resilient cosmic steel
+}
+
+CryonicBar.DisplayName: Cryonic Bar
+DarkPlasma.DisplayName: Dark Plasma
+
+DarksunFragment: {
+	DisplayName: Darksun Fragment
+	Tooltip: An impacted crystal suffused with opposing celestial energies
+}
+
+DemonicBoneAsh.DisplayName: Demonic Bone Ash
+
+DepthCells: {
+	DisplayName: Depth Cells
+	Tooltip: The cells of abyssal creatures
+}
+
+DesertFeather.DisplayName: Desert Feather
+
+DivineGeode: {
+	DisplayName: Divine Geode
+	Tooltip: A chunk of crystallized holy energy
+}
+
+DubiousPlating.DisplayName: Dubious Plating
+
+EffulgentFeather: {
+	DisplayName: Effulgent Feather
+	Tooltip: It vibrates with fluffy golden energy
+}
+
+EndothermicEnergy: {
+	DisplayName: Endothermic Energy
+	Tooltip: Its deathly chill sucks the life from its surroundings
+}
+
+EnergyCore: {
+	DisplayName: Energy Core
+	Tooltip: It pulses with energy
+}
+
+EssenceofEleum: {
+	DisplayName: Essence of Eleum
+	Tooltip: The essence of cold creatures
+}
+
+EssenceofHavoc: {
+	DisplayName: Essence of Havoc
+	Tooltip: The essence of desolate creatures
+}
+
+EssenceofSunlight: {
+	DisplayName: Essence of Sunlight
+	Tooltip: The essence of sky, light, and storm creatures
+}
+
+ExoPrism: {
+	DisplayName: Exo Prism
+	Tooltip: Fractal energies shimmer across its surface
+}
+
+GalacticaSingularity: {
+	DisplayName: Galactica Singularity
+	Tooltip: A shard of the cosmos
+}
+
+GrandScale: {
+	DisplayName: Grand Scale
+	Tooltip: Large scale of an apex predator
+}
+
+InfectedArmorPlating.DisplayName: Infected Armor Plating
+LifeAlloy.DisplayName: Life Alloy
+LivingShard.DisplayName: Living Shard
+
+Lumenyl: {
+	DisplayName: Lumenyl
+	Tooltip: A shard of lumenous energy
+}
+
+MeldBlob.DisplayName: Meld Blob
+MeldConstruct.DisplayName: Meld Construct
+
+MiracleMatter: {
+	DisplayName: Miracle Matter
+	Tooltip:
+		'''
+		Its amorphous form contains untold potential
+		One is required for every Exo Weapon
+		'''
+}
+
+MolluskHusk: {
+	DisplayName: Mollusk Husk
+	Tooltip: The remains of a mollusk
+}
+
+MurkyPaste.DisplayName: Murky Paste
+MysteriousCircuitry.DisplayName: Mysterious Circuitry
+
+NightmareFuel: {
+	DisplayName: Nightmare Fuel
+	Tooltip: May drain your sanity
+}
+
+PearlShard.DisplayName: Pearl Shard
+PerennialBar.DisplayName: Perennial Bar
+
+Phantoplasm: {
+	DisplayName: Phantoplasm
+	Tooltip: It churns and seethes with ghastly malice
+}
+
+PlagueCellCanister.DisplayName: Plague Cell Canister
+
+PlasmaDriveCore: {
+	DisplayName: Prototype Plasma Drive Core
+	Tooltip: Despite all the time it spent in storage, its furnace still burns strong
+}
+
+PurifiedGel.DisplayName: Purified Gel
+
+ReaperTooth: {
+	DisplayName: Reaper Tooth
+	Tooltip: Sharp enough to cut diamonds
+}
+
+RottenMatter.DisplayName: Rotten Matter
+
+RuinousSoul: {
+	DisplayName: Ruinous Soul
+	Tooltip: A shard of the distant past
+}
+
+ScoriaBar: {
+	DisplayName: Scoria Bar
+	Tooltip: The smoke feels warm
+}
+
+SeaRemains.DisplayName: Sea Remains
+
+ShadowspecBar: {
+	DisplayName: Shadowspec Bar
+	Tooltip: A vile, black metal, so horrendous and powerful as to defy explanation
+}
+
+SolarVeil: {
+	DisplayName: Solar Veil
+	Tooltip: Sunlight cannot penetrate the fabric of this cloth
+}
+
+Stardust.DisplayName: Stardust
+StormlionMandible.DisplayName: Stormlion Mandible
+SulphuricScale.DisplayName: Sulphuric Scale
+
+SuspiciousScrap: {
+	DisplayName: Suspicious Scrap
+	Tooltip: Looks like it may be part of a greater whole...
+}
+
+TitanHeart: {
+	DisplayName: Titan Heart
+	Tooltip: Can be offered up at the Astral Beacon
+}
+
+TrapperBulb.DisplayName: Trapper Bulb
+TwistingNether.DisplayName: Twisting Nether
+UelibloomBar.DisplayName: Uelibloom Bar
+UnholyCore.DisplayName: Unholy Core
+
+UnholyEssence: {
+	DisplayName: Unholy Essence
+	Tooltip: The essence of profaned creatures
+}
+
+WulfrumMetalScrap.DisplayName: Wulfrum Metal Scrap
+
+YharonSoulFragment: {
+	DisplayName: Yharon Soul Fragment
+	Tooltip: A shard of a draconic Auric Soul
+}

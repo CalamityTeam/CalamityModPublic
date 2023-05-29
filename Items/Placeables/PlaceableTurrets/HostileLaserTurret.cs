@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
-    public class HostileLaserTurret : ModItem
+    public class HostileLaserTurret : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/LaserTurret";
         public override void SetDefaults()
         {

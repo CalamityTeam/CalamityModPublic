@@ -4,8 +4,9 @@ using Terraria.ID;
 using WallTiles = CalamityMod.Walls;
 namespace CalamityMod.Items.Placeables.Walls
 {
-    public class SmoothBrimstoneSlagWall : ModItem
+    public class SmoothBrimstoneSlagWall : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;

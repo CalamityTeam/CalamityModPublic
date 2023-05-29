@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
-    public class MoscowMule : ModItem
+    public class MoscowMule : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Potions";
         internal static readonly int CritBoost = 3;
 
         public override void SetStaticDefaults()

@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
     [LegacyName("PlaguedPlate")]
-    public class PlaguedContainmentBrick : ModItem
+    public class PlaguedContainmentBrick : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

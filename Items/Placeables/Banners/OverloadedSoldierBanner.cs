@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class OverloadedSoldierBanner : ModItem
+    public class OverloadedSoldierBanner : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 10;

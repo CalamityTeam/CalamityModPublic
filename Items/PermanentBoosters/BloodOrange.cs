@@ -10,8 +10,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-    public class BloodOrange : ModItem
+    public class BloodOrange : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/BloodOrangeConsume");
         public override void SetStaticDefaults()
         {

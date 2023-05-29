@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
-    public class AstralBar : ModItem
+    public class AstralBar : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public int frameCounter = 0;
         public int frame = 0;
         public override void SetStaticDefaults()

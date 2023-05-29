@@ -4,8 +4,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
     [LegacyName("OccultChest")]
-    public class OtherworldlyChest : ModItem
+    public class OtherworldlyChest : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Otherworldly Chest");

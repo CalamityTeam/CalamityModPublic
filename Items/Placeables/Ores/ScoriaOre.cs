@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Ores
 {
     [LegacyName("ChaoticOre")]
-    public class ScoriaOre : ModItem
+    public class ScoriaOre : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

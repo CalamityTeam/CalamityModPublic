@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class CosmiliteBar : ModItem
+    public class CosmiliteBar : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public int frameCounter = 0;
         public int frame = 0;
 
