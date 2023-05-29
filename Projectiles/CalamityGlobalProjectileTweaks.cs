@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -205,7 +206,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.TerrarianBeam, Do(LocalIFrames(-1)) }, // Terrarian yoyo orbs
                 { ProjectileID.TheEyeOfCthulhu, Do(LocalIFrames(10)) }, // this is the yoyo
                 { ProjectileID.TheRottedFork, trueMelee },
-                { ProjectileID.ThornBall, defenseDamage }, // Plantera bouncing thorn balls
+                { ProjectileID.ThornBall, Do(CalamityWorld.getFixedBoi ? IgnoreWater : DontIgnoreWater, DefenseDamage) }, // Plantera bouncing thorn balls
                 { ProjectileID.TinShortswordStab, trueMelee },
                 { ProjectileID.TitaniumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.TitaniumDrill, trueMeleeNoSpeed },
@@ -473,6 +474,19 @@ namespace CalamityMod.Projectiles
         }
         internal static IProjectileTweak TileCollide => new TileCollideRule(true);
         internal static IProjectileTweak NoTileCollide => new TileCollideRule(false);
+        #endregion
+
+        #region Ignore Water
+        internal class IgnoreWaterRule : IProjectileTweak
+        {
+            internal readonly bool flag = true;
+
+            public IgnoreWaterRule(bool iw) => flag = iw;
+            public bool AppliesTo(Projectile proj) => true;
+            public void ApplyTweak(Projectile proj) => proj.ignoreWater = flag;
+        }
+        internal static IProjectileTweak IgnoreWater => new IgnoreWaterRule(true);
+        internal static IProjectileTweak DontIgnoreWater => new IgnoreWaterRule(false);
         #endregion
 
         #region Time Left
