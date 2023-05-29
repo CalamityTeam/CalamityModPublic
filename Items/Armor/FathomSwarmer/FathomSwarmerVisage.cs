@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.FathomSwarmer
 {
     [AutoloadEquip(EquipType.Head)]
-    public class FathomSwarmerVisage : ModItem
+    public class FathomSwarmerVisage : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

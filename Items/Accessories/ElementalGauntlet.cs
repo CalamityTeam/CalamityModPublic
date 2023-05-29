@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
-    public class ElementalGauntlet : ModItem
+    public class ElementalGauntlet : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 22;

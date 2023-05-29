@@ -7,8 +7,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Accessories
 {
     [LegacyName("CalamityRing")]
-    public class VoidofCalamity : ModItem
+    public class VoidofCalamity : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 20;

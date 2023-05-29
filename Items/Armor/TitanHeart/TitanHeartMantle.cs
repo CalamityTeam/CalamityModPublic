@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.TitanHeart
 {
     [AutoloadEquip(EquipType.Body)]
-    public class TitanHeartMantle : ModItem
+    public class TitanHeartMantle : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetStaticDefaults()
         {
            

@@ -5,8 +5,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class BumblefuckMask : ModItem
+    public class BumblefuckMask : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetStaticDefaults()
         {
 

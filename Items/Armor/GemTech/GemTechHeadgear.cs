@@ -13,8 +13,9 @@ using static Terraria.ModLoader.ModContent;
 namespace CalamityMod.Items.Armor.GemTech
 {
     [AutoloadEquip(EquipType.Head)]
-    public class GemTechHeadgear : ModItem
+    public class GemTechHeadgear : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public const int GemBreakDamageLowerBound = 100;
         public const int GemDamage = 40000;
         public const int GemDamageSoftcapThreshold = 100000;

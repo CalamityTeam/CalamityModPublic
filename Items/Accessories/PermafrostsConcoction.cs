@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class PermafrostsConcoction : ModItem
+    public class PermafrostsConcoction : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.accessory = true;

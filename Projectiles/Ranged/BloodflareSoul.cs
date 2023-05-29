@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
             float num953 = 30f * Projectile.ai[1]; //100
             float scaleFactor12 = 6f * Projectile.ai[1]; //5
             float num954 = 600f;
-            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) - 1.57f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
             Lighting.AddLight(Projectile.Center, 0.5f, 0.2f, 0.9f);
             if (Main.player[Projectile.owner].active && !Main.player[Projectile.owner].dead)
             {

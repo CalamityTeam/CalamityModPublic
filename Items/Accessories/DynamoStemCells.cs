@@ -9,8 +9,9 @@ using Terraria.GameContent;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class DynamoStemCells : ModItem
+    public class DynamoStemCells : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));

@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Silva
 {
     [AutoloadEquip(EquipType.Body)]
-    public class SilvaArmor : ModItem
+    public class SilvaArmor : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 34;

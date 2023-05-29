@@ -11,11 +11,12 @@ namespace CalamityMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
     [LegacyName("DiscordianWings")]
-    public class HadalMantle : ModItem
+    public class HadalMantle : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories.Wings";
         public override void SetStaticDefaults()
         {
-                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 7.75f, 1.5f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 7.75f, 1.5f);
         }
 
         public override void SetDefaults()

@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.SnowRuffian
 {
     [AutoloadEquip(EquipType.Head)]
-    public class SnowRuffianMask : ModItem
+    public class SnowRuffianMask : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         private bool shouldBoost = false;
 
 

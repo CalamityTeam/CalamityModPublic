@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.PlagueReaper
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class PlagueReaperStriders : ModItem
+    public class PlagueReaperStriders : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

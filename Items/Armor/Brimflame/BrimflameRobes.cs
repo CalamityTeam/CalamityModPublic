@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Brimflame
 {
     [AutoloadEquip(EquipType.Body)]
-    public class BrimflameRobes : ModItem
+    public class BrimflameRobes : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetStaticDefaults()
         {
 

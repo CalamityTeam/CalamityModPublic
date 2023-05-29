@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Body)]
-    public class CirrusDress : ModItem
+    public class CirrusDress : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         /* How to obtain
          * 1 - Have alcohol poisoning
          * 2 - Visit the Stylist while Cirrus is alive in the world

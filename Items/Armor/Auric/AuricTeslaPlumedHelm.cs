@@ -12,8 +12,9 @@ using CalamityMod.Items.Armor.Tarragon;
 namespace CalamityMod.Items.Armor.Auric
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AuricTeslaPlumedHelm : ModItem
+    public class AuricTeslaPlumedHelm : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

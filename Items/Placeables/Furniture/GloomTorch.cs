@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             Item.ResearchUnlockCount = 100;
 			ItemID.Sets.Torches[Item.type] = true;
+            ItemID.Sets.SingleUseInGamepad[Type] = true;
             ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.ShimmerTorch;
         }
 
@@ -31,12 +32,6 @@ namespace CalamityMod.Items.Placeables.Furniture
             Item.flame = true;
             Item.value = 500;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			// Vanilla usually matches sorting methods with the right type of item, but sometimes, like with torches, it doesn't. Make sure to set whichever items manually if need be.
-			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Torches;
-		}
 
         public override void HoldItem(Player player)
         {

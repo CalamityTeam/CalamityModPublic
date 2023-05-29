@@ -8,8 +8,9 @@ namespace CalamityMod.Items.Armor.Daedalus
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("DaedalusHat")]
-    public class DaedalusHeadMagic : ModItem
+    public class DaedalusHeadMagic : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -11,8 +11,9 @@ namespace CalamityMod.Items.Armor.Reaver
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("ReaverHeadgear")]
-    public class ReaverHeadExplore : ModItem
+    public class ReaverHeadExplore : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 22;

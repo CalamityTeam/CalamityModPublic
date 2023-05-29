@@ -8,8 +8,9 @@ namespace CalamityMod.Items.Armor.Hydrothermic
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("AtaxiaHeadgear")]
-    public class HydrothermicHeadRanged : ModItem
+    public class HydrothermicHeadRanged : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

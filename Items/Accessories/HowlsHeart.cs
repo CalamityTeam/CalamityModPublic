@@ -13,8 +13,9 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class HowlsHeart : ModItem
+    public class HowlsHeart : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public const int HowlDamage = 45;
 
         public override void SetStaticDefaults()

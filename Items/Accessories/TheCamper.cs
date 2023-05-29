@@ -9,8 +9,9 @@ namespace CalamityMod.Items.Accessories
 {
     //Dedicated to Dzicozan
     [AutoloadEquip(EquipType.Back)]
-    public class TheCamper : ModItem
+    public class TheCamper : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         int auraCounter = 0;
 
         public override void SetDefaults()

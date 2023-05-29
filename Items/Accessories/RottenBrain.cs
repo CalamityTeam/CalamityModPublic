@@ -7,8 +7,9 @@ using Terraria.Localization;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class RottenBrain : ModItem
+    public class RottenBrain : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 34;

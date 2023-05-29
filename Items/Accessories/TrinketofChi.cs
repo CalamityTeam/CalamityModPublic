@@ -6,8 +6,9 @@ using CalamityMod.Buffs.StatBuffs;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class TrinketofChi : ModItem
+    public class TrinketofChi : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         internal const int ChiBuffTimerMax = 900;
 
         public override void SetDefaults()

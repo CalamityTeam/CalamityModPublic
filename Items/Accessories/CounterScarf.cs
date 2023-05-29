@@ -7,8 +7,9 @@ using CalamityMod.CalPlayer.Dashes;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Neck)]
-    public class CounterScarf : ModItem
+    public class CounterScarf : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 26;

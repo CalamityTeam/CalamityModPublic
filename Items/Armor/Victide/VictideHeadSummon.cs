@@ -11,8 +11,9 @@ namespace CalamityMod.Items.Armor.Victide
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("VictideHelmet")]
-    public class VictideHeadSummon : ModItem
+    public class VictideHeadSummon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
 
         public override void SetDefaults()
         {

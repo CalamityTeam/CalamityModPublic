@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class SpectralVeil : ModItem
+    public class SpectralVeil : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public const float TeleportRange = 845f;
         public override void SetDefaults()
         {

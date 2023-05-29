@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class GravistarSabaton : ModItem
+    public class GravistarSabaton : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 20;

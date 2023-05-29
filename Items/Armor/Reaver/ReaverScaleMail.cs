@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Reaver
 {
     [AutoloadEquip(EquipType.Body)]
-    public class ReaverScaleMail : ModItem
+    public class ReaverScaleMail : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetStaticDefaults()
         {
            

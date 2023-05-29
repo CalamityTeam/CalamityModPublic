@@ -5,8 +5,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class SlimeGodMask : ModItem
+    public class SlimeGodMask : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetStaticDefaults()
         {
 

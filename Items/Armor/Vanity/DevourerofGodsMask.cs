@@ -5,8 +5,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class DevourerofGodsMask : ModItem
+    public class DevourerofGodsMask : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetStaticDefaults()
         {
 

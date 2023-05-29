@@ -9,8 +9,9 @@ namespace CalamityMod.Items.Armor.Tarragon
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("TarragonHelmet")]
-    public class TarragonHeadRogue : ModItem
+    public class TarragonHeadRogue : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

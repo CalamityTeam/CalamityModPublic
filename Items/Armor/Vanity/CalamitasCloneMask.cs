@@ -6,8 +6,9 @@ namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("CalamitasMask")]
-    public class CalamitasCloneMask : ModItem
+    public class CalamitasCloneMask : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetStaticDefaults()
         {
 

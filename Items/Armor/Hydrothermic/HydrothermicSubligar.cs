@@ -7,8 +7,9 @@ namespace CalamityMod.Items.Armor.Hydrothermic
 {
     [AutoloadEquip(EquipType.Legs)]
     [LegacyName("AtaxiaSubligar")]
-    public class HydrothermicSubligar : ModItem
+    public class HydrothermicSubligar : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

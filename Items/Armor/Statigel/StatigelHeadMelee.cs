@@ -9,8 +9,9 @@ namespace CalamityMod.Items.Armor.Statigel
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("StatigelHelm")]
-    public class StatigelHeadMelee : ModItem
+    public class StatigelHeadMelee : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

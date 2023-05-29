@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Plaguebringer
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class PlaguebringerPistons : ModItem
+    public class PlaguebringerPistons : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public int counter = 0;
         public override void SetDefaults()
         {

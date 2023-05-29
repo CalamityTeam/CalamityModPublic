@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.TitanHeart
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class TitanHeartBoots : ModItem
+    public class TitanHeartBoots : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

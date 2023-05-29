@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.GodSlayer
 {
     [AutoloadEquip(EquipType.Body)]
-    public class GodSlayerChestplate : ModItem
+    public class GodSlayerChestplate : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public const int DashIFrames = 12;
 
         public override void SetDefaults()

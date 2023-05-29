@@ -7,8 +7,9 @@ using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class BlunderBooster : ModItem
+    public class BlunderBooster : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 30;

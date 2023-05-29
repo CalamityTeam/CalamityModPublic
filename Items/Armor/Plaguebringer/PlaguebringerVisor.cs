@@ -9,8 +9,9 @@ using CalamityMod.CalPlayer.Dashes;
 namespace CalamityMod.Items.Armor.Plaguebringer
 {
     [AutoloadEquip(EquipType.Head)]
-    public class PlaguebringerVisor : ModItem
+    public class PlaguebringerVisor : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public const int PlagueDashIFrames = 12;
 
         public override void SetDefaults()

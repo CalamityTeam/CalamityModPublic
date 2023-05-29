@@ -17,8 +17,9 @@ using static Terraria.ModLoader.ModContent;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Back)]
-    public class WulfrumAcrobaticsPack : ModItem
+    public class WulfrumAcrobaticsPack : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Custom/WulfrumHookShoot") { Volume = 0.7f,  MaxInstances = 1, SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest};
         public static readonly SoundStyle GrabSound = new("CalamityMod/Sounds/Custom/WulfrumHookGrapple") { Volume = 0.7f, MaxInstances = 1, SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest };
         public static readonly SoundStyle ReleaseSound = new("CalamityMod/Sounds/Custom/WulfrumHookDisengage") { Volume = 0.7f, MaxInstances = 1, SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest };

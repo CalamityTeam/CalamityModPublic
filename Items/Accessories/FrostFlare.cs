@@ -6,8 +6,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class FrostFlare : ModItem
+    public class FrostFlare : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));

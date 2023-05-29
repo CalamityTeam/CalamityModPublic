@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Umbraphile
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class UmbraphileBoots : ModItem
+    public class UmbraphileBoots : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 22;

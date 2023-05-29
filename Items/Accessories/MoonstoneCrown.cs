@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Face)]
-    public class MoonstoneCrown : ModItem
+    public class MoonstoneCrown : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         // Base damage of lunar flares on stealth strikes. Increased by rogue damage stats, but not stealth damage.
         internal const int BaseDamage = 85;
 

@@ -280,8 +280,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
     [AutoloadEquip(EquipType.Body)]
     [LegacyName("WulfrumArmor")]
-    public class WulfrumJacket : ModItem
+    public class WulfrumJacket : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetStaticDefaults()
         {
 
@@ -318,8 +319,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
     [AutoloadEquip(EquipType.Legs)]
     [LegacyName("WulfrumLeggings")]
-    public class WulfrumOveralls : ModItem
+    public class WulfrumOveralls : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

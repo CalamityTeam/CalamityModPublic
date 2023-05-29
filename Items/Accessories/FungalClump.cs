@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class FungalClump : ModItem
+    public class FungalClump : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public const int FungalClumpDamage = 10;
 
         public override void SetDefaults()

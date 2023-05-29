@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Bloodflare
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class BloodflareCuisses : ModItem
+    public class BloodflareCuisses : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

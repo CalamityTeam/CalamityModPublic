@@ -12,8 +12,9 @@ using Terraria.GameContent;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Back)]
-    public class QuiverofNihility : ModItem
+    public class QuiverofNihility : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 42;

@@ -8,8 +8,9 @@ namespace CalamityMod.Items.Armor.Empyrean
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("XerocMask")]
-    public class EmpyreanMask : ModItem
+    public class EmpyreanMask : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)

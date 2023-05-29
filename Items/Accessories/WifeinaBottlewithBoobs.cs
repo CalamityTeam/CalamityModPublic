@@ -8,8 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class WifeinaBottlewithBoobs : ModItem
+    public class WifeinaBottlewithBoobs : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 20;

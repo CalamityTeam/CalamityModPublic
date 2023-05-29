@@ -8,8 +8,9 @@ using CalamityMod.Items.Armor.Daedalus;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shield)]
-    public class OrnateShield : ModItem
+    public class OrnateShield : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public const int ShieldSlamIFrames = 12;
 
         public override void SetDefaults()

@@ -1,0 +1,210 @@
+AureateBooster: {
+	DisplayName: Aureate Booster
+	Tooltip:
+		'''
+		Horizontal speed: 8.00
+		Acceleration multiplier: 1.5
+		Good vertical speed
+		Flight time: 120
+		'Mach speed with style!'
+		'''
+}
+
+CelestialTracers: {
+	DisplayName: Celestial Tracers
+	Tooltip:
+		'''
+		Counts as wings
+		Horizontal speed: 12.00
+		Acceleration multiplier: 3.0
+		Excellent vertical speed
+		Flight time: 250
+		50% increased running acceleration
+		Greater mobility on ice
+		Water and lava walking
+		Immunity to the On Fire! debuff
+		Temporary immunity to lava
+		Being hit for over 200 damage will make you immune for an extended period of time
+		'Taking speed EVEN FURTHER BEYOND!'
+		'''
+}
+
+DrewsWings: {
+	DisplayName: Drew's Wings
+	Tooltip:
+		'''
+		Horizontal speed: 12.00
+		Acceleration multiplier: 3.0
+		Excellent vertical speed
+		Flight time: 361
+		'Absolutely Fabulous'
+		'''
+}
+
+ElysianTracers: {
+	DisplayName: Elysian Tracers
+	Tooltip:
+		'''
+		Counts as wings
+		Horizontal speed: 10.50
+		Acceleration multiplier: 2.75
+		Great vertical speed
+		Flight time: 180
+		36% increased running acceleration
+		Greater mobility on ice
+		Water and lava walking
+		Immunity to the On Fire! debuff
+		Temporary immunity to lava
+		'Ludicrous speed!'
+		'''
+}
+
+ElysianWings: {
+	DisplayName: Elysian Wings
+	Tooltip:
+		'''
+		Horizontal speed: 9.50
+		Acceleration multiplier: 2.7
+		Great vertical speed
+		Flight time: 240
+		Temporary immunity to lava and 10% increased movement speed
+		Blessed by the Profaned Flame
+		'''
+}
+
+ExodusWings: {
+	DisplayName: Exodus Wings
+	Tooltip:
+		'''
+		Horizontal speed: 9.00
+		Acceleration multiplier: 2.5
+		Great vertical speed
+		Flight time: 180
+		5% increased rogue damage and critical strike chance while wearing the Empyrean Armor
+		Pulsing with an alien heartbeat
+		'''
+}
+
+HadalMantle: {
+	DisplayName: Hadal Mantle
+	Tooltip:
+		'''
+		Horizontal speed: 7.75
+		Acceleration multiplier: 1.5
+		Average vertical speed
+		Flight time: 180
+		5% increased damage while wearing the Hydrothermic Armor
+		Fueled by the fury of the depths
+		'''
+}
+
+HadarianWings: {
+	DisplayName: Hadarian Wings
+	Tooltip:
+		'''
+		This line gets modified below
+		Horizontal speed: 9.00
+		Acceleration multiplier: 1.75
+		Good vertical speed
+		Flight time: 90
+		Powered by the Astral Infection
+		'''
+}
+
+MOAB: {
+	DisplayName: MOAB
+	Tooltip:
+		'''
+		Counts as wings
+		Horizontal speed: 6.50
+		Acceleration multiplier: 1.0
+		Good vertical speed
+		Flight time: 75
+		10% increased jump speed and allows constant jumping
+		Grants the player cloud, blizzard, and sandstorm mid-air jumps
+		'The Mother Of All Balloons'
+		'''
+}
+
+SeraphTracers: {
+	DisplayName: Seraph Tracers
+	Tooltip:
+		'''
+		Counts as wings
+		Horizontal speed: 9.00
+		Acceleration multiplier: 2.5
+		Good vertical speed
+		Flight time: 140
+		24% increased running acceleration
+		Greater mobility on ice
+		Water and lava walking
+		Immunity to the On Fire! debuff
+		Temporary immunity to lava
+		'Ludicrous speed!'
+		'''
+}
+
+SilvaWings: {
+	DisplayName: Silva Wings
+	Tooltip:
+		'''
+		Horizontal speed: 11.00
+		Acceleration multiplier: 2.8
+		Excellent vertical speed
+		Flight time: 270
+		The Silva revive heals you to half health while wearing the Silva armor
+		'The purest of nature'
+		'''
+}
+
+SkylineWings: {
+	DisplayName: Skyline Wings
+	Tooltip:
+		'''
+		Horizontal speed: 6.25
+		Acceleration multiplier: 1.0
+		Average vertical speed
+		Flight time: 80
+		'''
+}
+
+SoulofCryogen: {
+	DisplayName: Soul of Cryogen
+	Tooltip:
+		'''
+		Counts as wings
+		Horizontal speed: 6.25
+		Acceleration multiplier: 1.0
+		Average vertical speed
+		Flight time: 120
+		7% increase to all damage
+		All melee attacks and projectiles inflict frostburn
+		Icicles rain down as you fly
+		'''
+}
+
+StarlightWings: {
+	DisplayName: Starlight Wings
+	Tooltip:
+		'''
+		Horizontal speed: 7.50
+		Acceleration multiplier: 1.0
+		Average vertical speed
+		Flight time: 150
+		5% increased damage and critical strike chance while wearing the Daedalus Armor
+		Wings of the Nightingale
+		'''
+}
+
+TarragonWings: {
+	DisplayName: Tarragon Wings
+	Tooltip:
+		'''
+		Horizontal speed: 9.50
+		Acceleration multiplier: 2.5
+		Great vertical speed
+		Flight time: 250
+		+15 defense and +2 life regen while wearing the Tarragon Armor
+		'Born of the jungle'
+		'''
+}

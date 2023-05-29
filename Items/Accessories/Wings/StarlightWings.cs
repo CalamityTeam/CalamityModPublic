@@ -10,11 +10,12 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
-    public class StarlightWings : ModItem
+    public class StarlightWings : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories.Wings";
         public override void SetStaticDefaults()
         {
-                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(150, 7.5f, 1f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(150, 7.5f, 1f);
         }
 
         public override void SetDefaults()

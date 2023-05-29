@@ -19,8 +19,9 @@ using ReLogic.Utilities;
 namespace CalamityMod.Items.Armor.DesertProwler
 {
     [AutoloadEquip(EquipType.Head)]
-    public class DesertProwlerHat : ModItem
+    public class DesertProwlerHat : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public static readonly SoundStyle SmokeBombSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerSmokeBomb");
         public static readonly SoundStyle SmokeBombEndSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerSmokeBombEnd");
         public static readonly SoundStyle CDResetSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerCDReset");
@@ -248,8 +249,9 @@ namespace CalamityMod.Items.Armor.DesertProwler
     }
 
     [AutoloadEquip(EquipType.Legs)]
-    public class DesertProwlerPants : ModItem
+    public class DesertProwlerPants : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

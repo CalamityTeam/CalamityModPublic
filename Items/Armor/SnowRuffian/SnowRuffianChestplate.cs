@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.SnowRuffian
 {
     [AutoloadEquip(EquipType.Body)]
-    public class SnowRuffianChestplate : ModItem
+    public class SnowRuffianChestplate : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void Load()
         {
             if (Main.netMode == NetmodeID.Server)

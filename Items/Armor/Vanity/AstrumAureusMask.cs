@@ -6,8 +6,9 @@ namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("AureusMask")]
-    public class AstrumAureusMask : ModItem
+    public class AstrumAureusMask : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetStaticDefaults()
         {
 

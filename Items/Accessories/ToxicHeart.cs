@@ -8,8 +8,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class ToxicHeart : ModItem
+    public class ToxicHeart : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 28;

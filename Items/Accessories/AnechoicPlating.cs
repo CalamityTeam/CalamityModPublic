@@ -5,8 +5,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class AnechoicPlating : ModItem
+    public class AnechoicPlating : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 26;

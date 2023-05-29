@@ -6,8 +6,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Accessories
 {
     [LegacyName("ManaOverloader")]
-    public class ManaPolarizer : ModItem
+    public class ManaPolarizer : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 30;

@@ -6,8 +6,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
-    public class GloveOfRecklessness : ModItem
+    public class GloveOfRecklessness : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 28;

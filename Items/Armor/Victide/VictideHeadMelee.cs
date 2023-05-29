@@ -8,8 +8,9 @@ namespace CalamityMod.Items.Armor.Victide
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("VictideHelm")]
-    public class VictideHeadMelee : ModItem
+    public class VictideHeadMelee : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

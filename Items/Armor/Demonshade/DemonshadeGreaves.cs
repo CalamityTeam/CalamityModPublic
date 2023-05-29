@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Demonshade
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class DemonshadeGreaves : ModItem
+    public class DemonshadeGreaves : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

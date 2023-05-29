@@ -11,8 +11,9 @@ namespace CalamityMod.Items.Armor.Silva
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("SilvaMaskedCap")]
-    public class SilvaHeadMagic : ModItem
+    public class SilvaHeadMagic : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 24;

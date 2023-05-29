@@ -11,11 +11,12 @@ namespace CalamityMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
     [LegacyName("AureateWings")]
-    public class AureateBooster : ModItem
+    public class AureateBooster : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories.Wings";
         public override void SetStaticDefaults()
         {
-                       ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 8f, 1.5f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 8f, 1.5f);
         }
 
         public override void SetDefaults()

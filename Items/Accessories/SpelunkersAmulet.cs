@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
     [LegacyName("ChaosAmulet")]
-    public class SpelunkersAmulet : ModItem
+    public class SpelunkersAmulet : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 22;

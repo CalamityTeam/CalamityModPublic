@@ -8,8 +8,9 @@ using CalamityMod.Items.Armor.DesertProwler;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class OldHunterHat : ModItem
+    public class OldHunterHat : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;
@@ -80,8 +81,9 @@ namespace CalamityMod.Items.Armor.Vanity
     }
 
     [AutoloadEquip(EquipType.Legs)]
-    public class OldHunterPants : ModItem
+    public class OldHunterPants : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

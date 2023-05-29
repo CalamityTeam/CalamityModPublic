@@ -5,8 +5,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class FungalCarapace : ModItem
+    public class FungalCarapace : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.defense = 6;

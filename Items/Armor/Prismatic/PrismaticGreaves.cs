@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Prismatic
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class PrismaticGreaves : ModItem
+    public class PrismaticGreaves : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void SetDefaults()
         {
             Item.width = 18;

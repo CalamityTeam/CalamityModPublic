@@ -6,8 +6,9 @@ namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Body)]
     [LegacyName("CalamityRobes")]
-    public class RobesOfCalamity : ModItem
+    public class RobesOfCalamity : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)

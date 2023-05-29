@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.OmegaBlue
 {
     [AutoloadEquip(EquipType.Head)]
-    public class OmegaBlueHelmet : ModItem
+    public class OmegaBlueHelmet : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor";
 
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/OmegaBlueAbility");
 

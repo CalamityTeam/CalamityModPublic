@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class RustyMedallion : ModItem
+    public class RustyMedallion : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public const int AcidDropBaseDamage = 9;
 
         // BAD Minishark! You will NOT become stupid sleeper agent item!
