@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;
-                   }
+        }
 
         public override void SetDefaults()
         {
@@ -45,7 +45,8 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(10).
                 AddTile(TileID.AlchemyTable).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

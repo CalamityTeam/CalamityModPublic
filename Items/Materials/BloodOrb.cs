@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Materials
         {
             CreateRecipe(10).
                 AddIngredient(ItemID.BloodMoonStarter).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

@@ -47,7 +47,8 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<BloodOrb>(20).
                 AddIngredient<DarkPlasma>().
                 AddTile(TileID.AlchemyTable).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

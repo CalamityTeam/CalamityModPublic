@@ -824,6 +824,7 @@ namespace CalamityMod
 
                 // Tier lock various items to a higher tier (sorted by progression)
                 { Vanilla(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
+                { r => r.HasResult(ItemID.HorseshoeBundle) && !r.HasIngredient(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
                 { Vanilla(ItemID.NightsEdge), AddIngredient(ModContent.ItemType<PurifiedGel>(), 5) },
                 { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
                 { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 12) },
@@ -1227,6 +1228,7 @@ namespace CalamityMod
             r.AddRecipeGroup("AnyCopperBar", 3);
             r.AddTile(TileID.Anvils);
             r.Register();
+            r.DisableDecraft();
 
             // Staff of Regrowth
             r = Recipe.Create(ItemID.StaffofRegrowth);
@@ -1844,6 +1846,33 @@ namespace CalamityMod
             r.AddIngredient(ItemID.SoulofMight);
             r.AddIngredient(ItemID.SoulofSight);
             r.Register();
+        }
+        #endregion
+
+        #region Shimmer Recipes
+        /// <summary>
+        /// Adds a shimmer recipe, while having the result transform into the ingredient's original result.
+        /// <para>This is used for inserting items into various shimmer result trees/loops, like the Class Emblem loop.</para>
+        /// </summary>
+        public static void InsertShimmerResult(int result, int ingredient)
+        {
+            ItemID.Sets.ShimmerTransformToItem[result] = ItemID.Sets.ShimmerTransformToItem[ingredient];
+            ItemID.Sets.ShimmerTransformToItem[ingredient] = result;
+        }
+        public static void AddShimmerRecipes()
+        {
+            // shorthand for the ID set
+            int[] convert = ItemID.Sets.ShimmerTransformToItem;
+
+            InsertShimmerResult(ModContent.ItemType<RogueEmblem>(), ItemID.SummonerEmblem);
+
+            // Pyramid loot edits. There's no good way to have this not be hardcoded.
+            convert[ItemID.PharaohsMask] = ItemID.PharaohsRobe;
+            convert[ItemID.PharaohsRobe] = ItemID.PharaohsMask;
+
+            convert[ItemID.AmberHook] = ItemID.SandstorminaBottle;
+            convert[ItemID.SandstorminaBottle] = ItemID.FlyingCarpet;
+            convert[ItemID.FlyingCarpet] = ItemID.AmberHook;
         }
         #endregion
     }
