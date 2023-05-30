@@ -3,6 +3,7 @@ using CalamityMod.Walls;
 using CalamityMod.Walls.DraedonStructures;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,6 +28,9 @@ namespace CalamityMod.Scenes.MusicScenes
             float hellLabDistance = Vector2.DistanceSquared(CalamityWorld.HellLabCenter, playerPosition);
             float iceLabDistance = Vector2.DistanceSquared(CalamityWorld.IceLabCenter, playerPosition);
             float cavernLabDistance = Vector2.DistanceSquared(CalamityWorld.CavernLabCenter, playerPosition);
+
+            // (Tile range * Pixels per tile)^2
+            double labRadius = Math.Pow(80f * 16f, 2);
 
             // Checks if the player is behind any wall that naturally generates in Bio Labs
             bool behindLabWall =
@@ -53,14 +57,14 @@ namespace CalamityMod.Scenes.MusicScenes
                 backWall.WallType == ModContent.WallType<RustedPlatePillar>() ||
                 backWall.WallType == ModContent.WallType<RustedPlatingWall>();
 
-            // Checks if the player is within a circular area from the center point of any Bio Lab
+            // Checks if the player is within a specified range from the center point of any Bio Lab
             bool nearBioLabPoint =
-                sunkenSeaLabDistance <= 1020f * 1020f ||
-                planetoidLabDistance <= 520f * 520f ||
-                jungleLabDistance <= 620f * 620f ||
-                hellLabDistance <= 700f * 700f ||
-                iceLabDistance <= 720f * 720f ||
-                cavernLabDistance <= 940f * 940f;
+                sunkenSeaLabDistance <= labRadius ||
+                planetoidLabDistance <= labRadius ||
+                jungleLabDistance <= labRadius ||
+                hellLabDistance <= labRadius ||
+                iceLabDistance <= labRadius ||
+                cavernLabDistance <= labRadius;
 
             return BiomeTileCounterSystem.ArsenalLabTiles > 150 && behindLabWall && nearBioLabPoint;
         }
