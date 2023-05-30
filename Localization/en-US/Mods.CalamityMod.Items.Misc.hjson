@@ -63,8 +63,8 @@ BloodOrange: {
 	DisplayName: Blood Orange
 	Tooltip:
 		'''
-		Permanently increases maximum life by 25
-		Can only be used if the max amount of life fruit has been consumed
+		Permanently increases maximum life by {0}
+		Can only be used once and requires the max amount of Life Fruits consumed
 		It has a distinctly sweet flavor and a strong aroma
 		'''
 }
@@ -81,15 +81,19 @@ CelestialOnion: {
 
 CometShard: {
 	DisplayName: Comet Shard
-	Tooltip: Permanently increases maximum mana by 50
+	Tooltip:
+		'''
+		Permanently increases maximum mana by {0}
+		Can only be used once and requires the max amount of Mana Crystals consumed
+		'''
 }
 
 Dragonfruit: {
 	DisplayName: Dragonfruit
 	Tooltip:
 		'''
-		Permanently increases maximum life by 25
-		Can only be used if the max amount of life fruit has been consumed
+		Permanently increases maximum life by {0}
+		Can only be used once and requires the max amount of Life Fruits consumed
 		Though somewhat bland, what taste can be described is unlike any other experienced
 		'''
 }
@@ -107,8 +111,8 @@ Elderberry: {
 	DisplayName: Elderberry
 	Tooltip:
 		'''
-		Permanently increases maximum life by 25
-		Can only be used if the max amount of life fruit has been consumed
+		Permanently increases maximum life by {0}
+		Can only be used once and requires the max amount of Life Fruits consumed
 		A tangy, tart flavor with a somewhat earthen touch
 		'''
 }
@@ -124,7 +128,11 @@ ElectrolyteGelPack: {
 
 EtherealCore: {
 	DisplayName: Ethereal Core
-	Tooltip: Permanently increases maximum mana by 50
+	Tooltip:
+		'''
+		Permanently increases maximum mana by {0}
+		Can only be used once and requires the max amount of Mana Crystals consumed
+		'''
 }
 
 InfernalBlood: {
@@ -140,8 +148,8 @@ MiracleFruit: {
 	DisplayName: Miracle Fruit
 	Tooltip:
 		'''
-		Permanently increases maximum life by 25
-		Can only be used if the max amount of life fruit has been consumed
+		Permanently increases maximum life by {0}
+		Can only be used once and requires the max amount of Life Fruits consumed
 		Refreshing and cool, perhaps even a bit minty
 		'''
 }
@@ -157,7 +165,11 @@ MushroomPlasmaRoot: {
 
 PhantomHeart: {
 	DisplayName: Phantom Heart
-	Tooltip: Permanently increases maximum mana by 50
+	Tooltip:
+		'''
+		Permanently increases maximum mana by {0}
+		Can only be used once and requires the max amount of Mana Crystals consumed
+		'''
 }
 
 RedLightningContainer: {

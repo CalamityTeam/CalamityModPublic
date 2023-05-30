@@ -89,10 +89,6 @@ namespace CalamityMod
         public static int ghostKillCount = 0;
         public static int sharkKillCount = 0;
 
-        // Textures
-        public static Asset<Texture2D> heartOriginal;
-        public static Asset<Texture2D> heartOriginal2;
-        public static Asset<Texture2D> manaOriginal;
         public static Asset<Texture2D> carpetOriginal;
 
         //Astral Sky/BG
@@ -177,10 +173,6 @@ namespace CalamityMod
         {
             Instance = this;
 
-            // Save vanilla textures.
-            heartOriginal = TextureAssets.Heart;
-            heartOriginal2 = TextureAssets.Heart2;
-            manaOriginal = TextureAssets.Mana;
             carpetOriginal = TextureAssets.FlyingCarpet;
 
             // Apply IL edits as soon as possible.
@@ -488,9 +480,6 @@ namespace CalamityMod
 
             if (!Main.dedServ)
             {
-                TextureAssets.Heart = heartOriginal;
-                TextureAssets.Heart2 = heartOriginal2;
-                TextureAssets.Mana = manaOriginal;
                 TextureAssets.FlyingCarpet = carpetOriginal;
                 GeneralParticleHandler.Unload();
             }
@@ -504,9 +493,6 @@ namespace CalamityMod
             SceneMetrics.GraveyardTileMin = 16;
             SceneMetrics.GraveyardTileThreshold = 28;
 
-            heartOriginal = null;
-            heartOriginal2 = null;
-            manaOriginal = null;
             carpetOriginal = null;
 
             /*
