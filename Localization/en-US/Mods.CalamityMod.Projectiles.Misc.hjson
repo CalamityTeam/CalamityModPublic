@@ -54,3 +54,20 @@ LavaChunk.DisplayName: Lava Chunk
 MurkySteam.DisplayName: Steam
 SmokeTelegraph.DisplayName: Smoke
 ThermalSteam.DisplayName: Steam
+// Turrets
+DraedonLaser.DisplayName: Draedon Laser
+DraedonLaserBuffer.DisplayName: Draedon Laser
+FireShot.DisplayName: Fire Shot
+FireShotBuffer.DisplayName: Fire Shot
+IceExplosion.DisplayName: Ice Gas
+IceShot.DisplayName: Ice Shot
+IceShotBuffer.DisplayName: Ice Shot
+LaserShot.DisplayName: Laser Shot
+LaserShotBuffer.DisplayName: Laser Shot
+OnyxShot.DisplayName: Onyx Shot
+OnyxShotBuffer.DisplayName: Onyx Shot
+PlagueExplosionGas.DisplayName: Plague Gas
+PlagueShot.DisplayName: Plague Shot
+PlagueShotBuffer.DisplayName: Plague Shot
+WaterShot.DisplayName: Water Shot
+WaterShotBuffer.DisplayName: Water Shot

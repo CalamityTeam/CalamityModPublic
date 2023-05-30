@@ -95,7 +95,10 @@ HadalStew: {
 		'''
 }
 
-OmegaHealingPotion.DisplayName: Omega Healing Potion
+OmegaHealingPotion: {
+	DisplayName: Omega Healing Potion
+	Tooltip: ""
+}
 
 PhotosynthesisPotion: {
 	DisplayName: Photosynthesis Potion
@@ -141,8 +144,15 @@ SulphurskinPotion: {
 	Tooltip: Reduces the effects of the sulphuric waters
 }
 
-SupremeHealingPotion.DisplayName: Supreme Healing Potion
-SupremeManaPotion.DisplayName: Supreme Mana Potion
+SupremeHealingPotion: {
+	DisplayName: Supreme Healing Potion
+	Tooltip: ""
+}
+
+SupremeManaPotion: {
+	DisplayName: Supreme Mana Potion
+	Tooltip: ""
+}
 
 TeslaPotion: {
 	DisplayName: Tesla Potion

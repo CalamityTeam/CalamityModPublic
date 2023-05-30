@@ -140,7 +140,10 @@ BladedgeGreatbow: {
 	Tooltip: Fires a spread of 4 arrows and 2 leaves at once
 }
 
-BlightSpewer.DisplayName: Blight Spewer
+BlightSpewer: {
+	DisplayName: Blight Spewer
+	Tooltip: ""
+}
 
 BlissfulBombardier: {
 	DisplayName: Blissful Bombardier
@@ -542,7 +545,10 @@ HalleysInferno: {
 		'''
 }
 
-HandheldTank.DisplayName: Handheld Tank
+HandheldTank: {
+	DisplayName: Handheld Tank
+	Tooltip: ""
+}
 
 HavocsBreath: {
 	DisplayName: Havoc's Breath

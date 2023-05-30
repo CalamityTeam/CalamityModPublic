@@ -36,7 +36,10 @@ GazeOfCrysthamyr: {
 		'''
 }
 
-TheCartofGods.DisplayName: The Cart of Gods
+TheCartofGods: {
+	DisplayName: The Cart of Gods
+	Tooltip: ""
+}
 
 OnyxExcavatorKey: {
 	DisplayName: Onyx Excavator Key

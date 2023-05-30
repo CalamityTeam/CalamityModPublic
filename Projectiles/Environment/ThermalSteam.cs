@@ -8,15 +8,15 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Environment
 {
-    public class ThermalSteam : ModProjectile, IAdditiveDrawer
+    public class ThermalSteam : ModProjectile, IAdditiveDrawer, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public const int Lifetime = 90;
 
         public override string Texture => "CalamityMod/Projectiles/Summon/SmallAresArms/MinionPlasmaGas";
 
         public override void SetStaticDefaults()
         {
-
             // This prevents the water from creating a universal distortion wherever it lands, thus making the geysers look weird.
             ProjectileID.Sets.NoLiquidDistortion[Type] = true;
         }

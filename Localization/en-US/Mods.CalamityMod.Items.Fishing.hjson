@@ -19,7 +19,10 @@ AstrophageItem: {
 	Tooltip: Summons an astrophage to follow you around
 }
 
-ProcyonidPrawn.DisplayName: Procyonid Prawn
+ProcyonidPrawn: {
+	DisplayName: Procyonid Prawn
+	Tooltip: ""
+}
 
 TwinklingPollox: {
 	DisplayName: Twinkling Pollox
@@ -48,7 +51,10 @@ Bloodfin: {
 		'''
 }
 
-Brimlish.DisplayName: Brimlish
+Brimlish: {
+	DisplayName: Brimlish
+	Tooltip: ""
+}
 
 BrimstoneCrate: {
 	DisplayName: Brimstone Crate
@@ -90,9 +96,16 @@ Shadowfish: {
 	Tooltip: Darkness spreads
 }
 
-Slurpfish.DisplayName: Slurpfish
+Slurpfish: {
+	DisplayName: Slurpfish
+	Tooltip: ""
+}
+
 /* Sunken Sea Catches */
-EutrophicSandfish.DisplayName: Eutrophic Sandfish
+EutrophicSandfish: {
+	DisplayName: Eutrophic Sandfish
+	Tooltip: ""
+}
 
 GreenwaveLoach: {
 	DisplayName: Greenwave Loach
@@ -124,7 +137,10 @@ SerpentsBite: {
 		'''
 }
 
-Serpentuna.DisplayName: Serpentuna
+Serpentuna: {
+	DisplayName: Serpentuna
+	Tooltip: ""
+}
 
 SparklingEmpress: {
 	DisplayName: Sparkling Empress
@@ -145,7 +161,10 @@ SunkenSailfish: {
 	Tooltip: Zooming at 60 miles per hour
 }
 
-SurfClam.DisplayName: Surf Clam
+SurfClam: {
+	DisplayName: Surf Clam
+	Tooltip: ""
+}
 
 /* Other Catches */
 EnchantedStarfish: {

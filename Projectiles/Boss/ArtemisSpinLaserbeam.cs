@@ -14,8 +14,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class ArtemisSpinLaserbeam : BaseLaserbeamProjectile
+    public class ArtemisSpinLaserbeam : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public PrimitiveTrail LaserDrawer
         {
             get;

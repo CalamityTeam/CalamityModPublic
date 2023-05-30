@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class SparklingLaser : BaseLaserbeamProjectile
+    public class SparklingLaser : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public bool playedSound = false;

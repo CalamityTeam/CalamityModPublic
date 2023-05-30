@@ -4,11 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 {
-	public class DesertScourgeRelic : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-		}
+	public class DesertScourgeRelic : ModItem, ILocalizedModType
+    {
+        public string LocalizationCategory => "Items.Placeables";
 
 		public override void SetDefaults()
 		{

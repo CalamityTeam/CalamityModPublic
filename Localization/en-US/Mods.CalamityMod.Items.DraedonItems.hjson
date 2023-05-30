@@ -29,7 +29,10 @@ AuricQuantumCoolingCell: {
 		'''
 }
 
-CodebreakerBase.DisplayName: Codebreaker Base
+CodebreakerBase: {
+	DisplayName: Codebreaker Base
+	Tooltip: ""
+}
 
 DecryptionComputer: {
 	DisplayName: Decryption Computer

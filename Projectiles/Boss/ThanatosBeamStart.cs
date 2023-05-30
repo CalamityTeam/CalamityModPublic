@@ -17,8 +17,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class ThanatosBeamStart : BaseLaserbeamProjectile
+    public class ThanatosBeamStart : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public int OwnerIndex
         {
             get => (int)Projectile.ai[1];

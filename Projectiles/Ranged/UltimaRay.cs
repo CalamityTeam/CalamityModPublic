@@ -7,8 +7,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class UltimaRay : BaseLaserbeamProjectile
+    public class UltimaRay : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public float HueOffset

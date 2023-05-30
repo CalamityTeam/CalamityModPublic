@@ -7,8 +7,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Turret
 {
-    public class DraedonLaser : ModProjectile
+    public class DraedonLaser : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
         // The DrawBeam method relies on localAI[0] for its calculations. A different parameter won't work.

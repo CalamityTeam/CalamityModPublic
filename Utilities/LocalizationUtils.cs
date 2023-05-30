@@ -38,7 +38,7 @@ namespace CalamityMod
                 return Language.GetText("ItemName." + ItemID.Search.GetName(itemID));
             }
             var modItem = ItemLoader.GetItem(itemID);
-            return Language.GetOrRegister("Mods." + modItem.Mod.Name + ".Items." + modItem.Name + ".DisplayName");
+            return Language.GetOrRegister($"Mods.{modItem.Mod.Name}.{modItem.LocalizationCategory}.{modItem.Name}.DisplayName");
         }
 
         /// <returns>

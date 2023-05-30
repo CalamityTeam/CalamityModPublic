@@ -73,8 +73,9 @@ namespace CalamityMod.Items.Accessories
         }
     }
 
-    public class MarniteRepulsionHitbox : ModProjectile
+    public class MarniteRepulsionHitbox : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public Player Owner => Main.player[Projectile.owner];

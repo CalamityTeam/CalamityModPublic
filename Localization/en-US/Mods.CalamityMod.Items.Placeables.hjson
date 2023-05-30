@@ -35,25 +35,75 @@ SunkenPylon: {
 		'''
 }
 
-AbyssGravel.DisplayName: Abyss Gravel
-Acidwood.DisplayName: Acidwood
-AerialiteBrick.DisplayName: Aerialite Brick
-AstralBar.DisplayName: Astral Bar
-AstralBrick.DisplayName: Astral Brick
-AstralClay.DisplayName: Astral Clay
-AstralDirt.DisplayName: Astral Dirt
+AbyssGravel: {
+	DisplayName: Abyss Gravel
+	Tooltip: ""
+}
+
+Acidwood: {
+	DisplayName: Acidwood
+	Tooltip: ""
+}
+
+AerialiteBrick: {
+	DisplayName: Aerialite Brick
+	Tooltip: ""
+}
+
+AstralBar: {
+	DisplayName: Astral Bar
+	Tooltip: ""
+}
+
+AstralBrick: {
+	DisplayName: Astral Brick
+	Tooltip: ""
+}
+
+AstralClay: {
+	DisplayName: Astral Clay
+	Tooltip: ""
+}
+
+AstralDirt: {
+	DisplayName: Astral Dirt
+	Tooltip: ""
+}
 
 AstralGrassSeeds: {
 	DisplayName: Astral Grass Seeds
 	Tooltip: Places grass on astral dirt
 }
 
-AstralIce.DisplayName: Astral Ice
-AstralMonolith.DisplayName: Astral Monolith
-AstralSand.DisplayName: Astral Sand
-AstralSandstone.DisplayName: Astral Sandstone
-AstralSnow.DisplayName: Astral Snow
-AstralStone.DisplayName: Astral Stone
+AstralIce: {
+	DisplayName: Astral Ice
+	Tooltip: ""
+}
+
+AstralMonolith: {
+	DisplayName: Astral Monolith
+	Tooltip: ""
+}
+
+AstralSand: {
+	DisplayName: Astral Sand
+	Tooltip: ""
+}
+
+AstralSandstone: {
+	DisplayName: Astral Sandstone
+	Tooltip: ""
+}
+
+AstralSnow: {
+	DisplayName: Astral Snow
+	Tooltip: ""
+}
+
+AstralStone: {
+	DisplayName: Astral Stone
+	Tooltip: ""
+}
 
 AcidEelBanner: {
 	DisplayName: Acid Eel Banner
@@ -635,26 +685,80 @@ WulfrumRoverBanner: {
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Wulfrum Rover"
 }
 
-BrimstoneSlab.DisplayName: Brimstone Slab
-BrimstoneSlag.DisplayName: Brimstone Slag
-CelestialRemains.DisplayName: Celestial Remains
+BrimstoneSlab: {
+	DisplayName: Brimstone Slab
+	Tooltip: ""
+}
+
+BrimstoneSlag: {
+	DisplayName: Brimstone Slag
+	Tooltip: ""
+}
+
+CelestialRemains: {
+	DisplayName: Celestial Remains
+	Tooltip: ""
+}
 
 CinderBlossomSeeds: {
 	DisplayName: Cinder Blossom Seeds
 	Tooltip: Places cinder blossom grass on scorched remains
 }
 
-CryonicBrick.DisplayName: Cryonic Brick
-AgedLaboratoryConsoleItem.DisplayName: Aged Laboratory Console
-AgedLaboratoryContainmentBoxItem.DisplayName: Aged Laboratory Containment Box
-AgedLaboratoryDisplayItem.DisplayName: Aged Laboratory Display
-AgedLaboratoryDoorItem.DisplayName: Aged Laboratory Door
-AgedLaboratoryElectricPanelItem.DisplayName: Aged Laboratory Electric Panel
-AgedLaboratoryScreenItem.DisplayName: Aged Laboratory Screen
-AgedLaboratoryServerItem.DisplayName: Aged Laboratory Server
-AgedLaboratoryTerminalItem.DisplayName: Aged Laboratory Terminal
-AgedReinforcedCrateItem.DisplayName: Aged Reinforced Crate
-AgedSecurityChest.DisplayName: Aged Security Chest
+CryonicBrick: {
+	DisplayName: Cryonic Brick
+	Tooltip: ""
+}
+
+AgedLaboratoryConsoleItem: {
+	DisplayName: Aged Laboratory Console
+	Tooltip: ""
+}
+
+AgedLaboratoryContainmentBoxItem: {
+	DisplayName: Aged Laboratory Containment Box
+	Tooltip: ""
+}
+
+AgedLaboratoryDisplayItem: {
+	DisplayName: Aged Laboratory Display
+	Tooltip: ""
+}
+
+AgedLaboratoryDoorItem: {
+	DisplayName: Aged Laboratory Door
+	Tooltip: ""
+}
+
+AgedLaboratoryElectricPanelItem: {
+	DisplayName: Aged Laboratory Electric Panel
+	Tooltip: ""
+}
+
+AgedLaboratoryScreenItem: {
+	DisplayName: Aged Laboratory Screen
+	Tooltip: ""
+}
+
+AgedLaboratoryServerItem: {
+	DisplayName: Aged Laboratory Server
+	Tooltip: ""
+}
+
+AgedLaboratoryTerminalItem: {
+	DisplayName: Aged Laboratory Terminal
+	Tooltip: ""
+}
+
+AgedReinforcedCrateItem: {
+	DisplayName: Aged Reinforced Crate
+	Tooltip: ""
+}
+
+AgedSecurityChest: {
+	DisplayName: Aged Security Chest
+	Tooltip: ""
+}
 
 ChargingStationItem: {
 	DisplayName: Charging Station
@@ -665,20 +769,75 @@ ChargingStationItem: {
 		'''
 }
 
-HazardChevronPanels.DisplayName: Hazard Chevron Panels
-LabHologramProjectorItem.DisplayName: Lab Hologram Projector
-LaboratoryConsoleItem.DisplayName: Laboratory Console
-LaboratoryContainmentBoxItem.DisplayName: Laboratory Containment Box
-LaboratoryDisplayItem.DisplayName: Laboratory Display
-LaboratoryDoorItem.DisplayName: Laboratory Door
-LaboratoryElectricPanelItem.DisplayName: Laboratory Electric Panel
-LaboratoryPanels.DisplayName: Laboratory Panels
-LaboratoryPipePlating.DisplayName: Laboratory Pipe Plating
-LaboratoryPlating.DisplayName: Laboratory Plating
-LaboratoryScreenItem.DisplayName: Laboratory Screen
-LaboratoryServerItem.DisplayName: Laboratory Server
-LaboratoryShelf.DisplayName: Laboratory Shelf
-LaboratoryTerminalItem.DisplayName: Laboratory Terminal
+HazardChevronPanels: {
+	DisplayName: Hazard Chevron Panels
+	Tooltip: ""
+}
+
+LabHologramProjectorItem: {
+	DisplayName: Lab Hologram Projector
+	Tooltip: ""
+}
+
+LaboratoryConsoleItem: {
+	DisplayName: Laboratory Console
+	Tooltip: ""
+}
+
+LaboratoryContainmentBoxItem: {
+	DisplayName: Laboratory Containment Box
+	Tooltip: ""
+}
+
+LaboratoryDisplayItem: {
+	DisplayName: Laboratory Display
+	Tooltip: ""
+}
+
+LaboratoryDoorItem: {
+	DisplayName: Laboratory Door
+	Tooltip: ""
+}
+
+LaboratoryElectricPanelItem: {
+	DisplayName: Laboratory Electric Panel
+	Tooltip: ""
+}
+
+LaboratoryPanels: {
+	DisplayName: Laboratory Panels
+	Tooltip: ""
+}
+
+LaboratoryPipePlating: {
+	DisplayName: Laboratory Pipe Plating
+	Tooltip: ""
+}
+
+LaboratoryPlating: {
+	DisplayName: Laboratory Plating
+	Tooltip: ""
+}
+
+LaboratoryScreenItem: {
+	DisplayName: Laboratory Screen
+	Tooltip: ""
+}
+
+LaboratoryServerItem: {
+	DisplayName: Laboratory Server
+	Tooltip: ""
+}
+
+LaboratoryShelf: {
+	DisplayName: Laboratory Shelf
+	Tooltip: ""
+}
+
+LaboratoryTerminalItem: {
+	DisplayName: Laboratory Terminal
+	Tooltip: ""
+}
 
 PowerCellFactoryItem: {
 	DisplayName: Power Cell Factory
@@ -689,14 +848,45 @@ PowerCellFactoryItem: {
 		'''
 }
 
-ReinforcedCrateItem.DisplayName: Reinforced Crate
-RustedPipes.DisplayName: Rusted Pipes
-RustedPlating.DisplayName: Rusted Plating
-RustedShelf.DisplayName: Rusted Shelf
-SecurityChest.DisplayName: Security Chest
-EutrophicGlass.DisplayName: Eutrophic Glass
-EutrophicSand.DisplayName: Eutrophic Sand
-AbyssTreasureChest.DisplayName: Ancient Treasure Chest
+ReinforcedCrateItem: {
+	DisplayName: Reinforced Crate
+	Tooltip: ""
+}
+
+RustedPipes: {
+	DisplayName: Rusted Pipes
+	Tooltip: ""
+}
+
+RustedPlating: {
+	DisplayName: Rusted Plating
+	Tooltip: ""
+}
+
+RustedShelf: {
+	DisplayName: Rusted Shelf
+	Tooltip: ""
+}
+
+SecurityChest: {
+	DisplayName: Security Chest
+	Tooltip: ""
+}
+
+EutrophicGlass: {
+	DisplayName: Eutrophic Glass
+	Tooltip: ""
+}
+
+EutrophicSand: {
+	DisplayName: Eutrophic Sand
+	Tooltip: ""
+}
+
+AbyssTreasureChest: {
+	DisplayName: Ancient Treasure Chest
+	Tooltip: ""
+}
 
 AlgalPrismTorch: {
 	DisplayName: Algal Prism Torch
@@ -708,8 +898,15 @@ AstralBeaconItem: {
 	Tooltip: Summons Astrum Deus in exchange for specific offerings
 }
 
-AstralChest.DisplayName: Astral Chest
-AstralTorch.DisplayName: Astral Torch
+AstralChest: {
+	DisplayName: Astral Chest
+	Tooltip: ""
+}
+
+AstralTorch: {
+	DisplayName: Astral Torch
+	Tooltip: ""
+}
 
 AuricToilet: {
 	DisplayName: Auric Toilet
@@ -720,15 +917,25 @@ AuricToilet: {
 		'''
 }
 
-BabyFlakCrabCage.DisplayName: Baby Flak Crab Cage
-BabyGhostBellJar.DisplayName: Baby Ghost Bell Jar
+BabyFlakCrabCage: {
+	DisplayName: Baby Flak Crab Cage
+	Tooltip: ""
+}
+
+BabyGhostBellJar: {
+	DisplayName: Baby Ghost Bell Jar
+	Tooltip: ""
+}
 
 AquaticScourgeRelic: {
 	DisplayName: Aquatic Scourge Relic
 	Tooltip: A glimpse into what could have been...
 }
 
-AstrumAureusRelic.DisplayName: Astrum Aureus Relic
+AstrumAureusRelic: {
+	DisplayName: Astrum Aureus Relic
+	Tooltip: ""
+}
 
 AstrumDeusRelic: {
 	DisplayName: Astrum Deus Relic
@@ -745,15 +952,25 @@ CalamitasCloneRelic: {
 	Tooltip: A glimpse into what could have been...
 }
 
-CalamitasRelic.DisplayName: Calamitas Relic
+CalamitasRelic: {
+	DisplayName: Calamitas Relic
+	Tooltip: ""
+}
 
 CeaselessVoidRelic: {
 	DisplayName: Ceaseless Void Relic
 	Tooltip: A glimpse into what could have been...
 }
 
-CrabulonRelic.DisplayName: Crabulon Relic
-CragmawMireRelic.DisplayName: Cragmaw Mire Relic
+CrabulonRelic: {
+	DisplayName: Crabulon Relic
+	Tooltip: ""
+}
+
+CragmawMireRelic: {
+	DisplayName: Cragmaw Mire Relic
+	Tooltip: ""
+}
 
 CryogenRelic: {
 	DisplayName: Cryogen Relic
@@ -770,25 +987,50 @@ DevourerOfGodsRelic: {
 	Tooltip: A glimpse into what could have been...
 }
 
-DraedonRelic.DisplayName: Draedon Relic
+DraedonRelic: {
+	DisplayName: Draedon Relic
+	Tooltip: ""
+}
 
 DragonfollyRelic: {
 	DisplayName: Dragonfolly Relic
 	Tooltip: A glimpse into what could have been...
 }
 
-GiantClamRelic.DisplayName: Giant Clam Relic
-GreatSandSharkRelic.DisplayName: Great Sand Shark Relic
+GiantClamRelic: {
+	DisplayName: Giant Clam Relic
+	Tooltip: ""
+}
+
+GreatSandSharkRelic: {
+	DisplayName: Great Sand Shark Relic
+	Tooltip: ""
+}
 
 HiveMindRelic: {
 	DisplayName: Hive Mind Relic
 	Tooltip: A glimpse into what could have been...
 }
 
-LeviathanAnahitaRelic.DisplayName: Leviathan and Anahita Relic
-MaulerRelic.DisplayName: Mauler Relic
-NuclearTerrorRelic.DisplayName: Nuclear Terror Relic
-OldDukeRelic.DisplayName: Old Duke Relic
+LeviathanAnahitaRelic: {
+	DisplayName: Leviathan and Anahita Relic
+	Tooltip: ""
+}
+
+MaulerRelic: {
+	DisplayName: Mauler Relic
+	Tooltip: ""
+}
+
+NuclearTerrorRelic: {
+	DisplayName: Nuclear Terror Relic
+	Tooltip: ""
+}
+
+OldDukeRelic: {
+	DisplayName: Old Duke Relic
+	Tooltip: ""
+}
 
 PerforatorsRelic: {
 	DisplayName: Perforators Relic
@@ -805,8 +1047,15 @@ PolterghastRelic: {
 	Tooltip: A glimpse into what could have been...
 }
 
-ProfanedGuardiansRelic.DisplayName: Profaned Guardians Relic
-ProvidenceRelic.DisplayName: Providence Relic
+ProfanedGuardiansRelic: {
+	DisplayName: Profaned Guardians Relic
+	Tooltip: ""
+}
+
+ProvidenceRelic: {
+	DisplayName: Providence Relic
+	Tooltip: ""
+}
 
 RavagerRelic: {
 	DisplayName: Ravager Relic
@@ -818,7 +1067,10 @@ SignusRelic: {
 	Tooltip: A glimpse into what will be...
 }
 
-SlimeGodRelic.DisplayName: Slime God Relic
+SlimeGodRelic: {
+	DisplayName: Slime God Relic
+	Tooltip: ""
+}
 
 StormWeaverRelic: {
 	DisplayName: Storm Weaver Relic
@@ -958,11 +1210,30 @@ EffigyOfDecay: {
 		'''
 }
 
-AbyssFountainItem.DisplayName: Abyss Water Fountain
-AstralFountainItem.DisplayName: Astral Water Fountain
-SulphurousFountainItem.DisplayName: Sulphuric Water Fountain
-SunkenSeaFountain.DisplayName: Sunken Water Fountain
-GloomTorch.DisplayName: Gloom Torch
+AbyssFountainItem: {
+	DisplayName: Abyss Water Fountain
+	Tooltip: ""
+}
+
+AstralFountainItem: {
+	DisplayName: Astral Water Fountain
+	Tooltip: ""
+}
+
+SulphurousFountainItem: {
+	DisplayName: Sulphuric Water Fountain
+	Tooltip: ""
+}
+
+SunkenSeaFountain: {
+	DisplayName: Sunken Water Fountain
+	Tooltip: ""
+}
+
+GloomTorch: {
+	DisplayName: Gloom Torch
+	Tooltip: ""
+}
 
 LanternCenter: {
 	DisplayName: Lantern Center
@@ -974,7 +1245,10 @@ NavyPrismTorch: {
 	Tooltip: Can be placed in water
 }
 
-PiggyCage.DisplayName: Piggy Cage
+PiggyCage: {
+	DisplayName: Piggy Cage
+	Tooltip: ""
+}
 
 RefractivePrismTorch: {
 	DisplayName: Refractive Prism Torch
@@ -990,8 +1264,15 @@ ResilientCandle: {
 		'''
 }
 
-RustyChest.DisplayName: Rusty Chest
-SeaMinnowJar.DisplayName: Sea Minnow Jar
+RustyChest: {
+	DisplayName: Rusty Chest
+	Tooltip: ""
+}
+
+SeaMinnowJar: {
+	DisplayName: Sea Minnow Jar
+	Tooltip: ""
+}
 
 SpitefulCandle: {
 	DisplayName: Spiteful Candle
@@ -1018,46 +1299,205 @@ TranquilityCandle: {
 	Tooltip: The mere presence of this candle calms surrounding enemies drastically
 }
 
-AnahitaTrophy.DisplayName: Anahita Trophy
-ApolloTrophy.DisplayName: Apollo Trophy
-AquaticScourgeTrophy.DisplayName: Aquatic Scourge Trophy
-AresTrophy.DisplayName: Ares Trophy
-ArtemisTrophy.DisplayName: Artemis Trophy
-AstrumAureusTrophy.DisplayName: Astrum Aureus Trophy
-AstrumDeusTrophy.DisplayName: Astrum Deus Trophy
-BrimstoneElementalTrophy.DisplayName: Brimstone Elemental Trophy
-CalamitasCloneTrophy.DisplayName: Calamitas Clone Trophy
-CataclysmTrophy.DisplayName: Cataclysm Trophy
-CatastropheTrophy.DisplayName: Catastrophe Trophy
-CeaselessVoidTrophy.DisplayName: Ceaseless Void Trophy
-CrabulonTrophy.DisplayName: Crabulon Trophy
-CragmawMireTrophy.DisplayName: Cragmaw Mire Trophy
-CryogenTrophy.DisplayName: Cryogen Trophy
-DesertScourgeTrophy.DisplayName: Desert Scourge Trophy
-DevourerofGodsTrophy.DisplayName: Devourer of Gods Trophy
-DragonfollyTrophy.DisplayName: Dragonfolly Trophy
-GiantClamTrophy.DisplayName: Giant Clam Trophy
-GreatSandSharkTrophy.DisplayName: Great Sand Shark Trophy
-HiveMindTrophy.DisplayName: Hive Mind Trophy
-LeviathanTrophy.DisplayName: Leviathan Trophy
-MaulerTrophy.DisplayName: Mauler Trophy
-NuclearTerrorTrophy.DisplayName: Nuclear Terror Trophy
-OldDukeTrophy.DisplayName: Old Duke Trophy
-PerforatorTrophy.DisplayName: Perforator Trophy
-PlaguebringerGoliathTrophy.DisplayName: Plaguebringer Goliath Trophy
-PolterghastTrophy.DisplayName: Polterghast Trophy
-ProfanedGuardianTrophy.DisplayName: Profaned Guardian Trophy
-ProvidenceTrophy.DisplayName: Providence Trophy
-RavagerTrophy.DisplayName: Ravager Trophy
-SignusTrophy.DisplayName: Signus Trophy
-SlimeGodTrophy.DisplayName: Slime God Trophy
-SupremeCalamitasTrophy.DisplayName: Calamitas Trophy
-SupremeCataclysmTrophy.DisplayName: Supreme Cataclysm Trophy
-SupremeCatastropheTrophy.DisplayName: Supreme Catastrophe Trophy
-ThanatosTrophy.DisplayName: Thanatos Trophy
-WeaverTrophy.DisplayName: Storm Weaver Trophy
-YharonTrophy.DisplayName: Yharon Trophy
-TwinklerInABottle.DisplayName: Twinkler in a Bottle
+AnahitaTrophy: {
+	DisplayName: Anahita Trophy
+	Tooltip: ""
+}
+
+ApolloTrophy: {
+	DisplayName: Apollo Trophy
+	Tooltip: ""
+}
+
+AquaticScourgeTrophy: {
+	DisplayName: Aquatic Scourge Trophy
+	Tooltip: ""
+}
+
+AresTrophy: {
+	DisplayName: Ares Trophy
+	Tooltip: ""
+}
+
+ArtemisTrophy: {
+	DisplayName: Artemis Trophy
+	Tooltip: ""
+}
+
+AstrumAureusTrophy: {
+	DisplayName: Astrum Aureus Trophy
+	Tooltip: ""
+}
+
+AstrumDeusTrophy: {
+	DisplayName: Astrum Deus Trophy
+	Tooltip: ""
+}
+
+BrimstoneElementalTrophy: {
+	DisplayName: Brimstone Elemental Trophy
+	Tooltip: ""
+}
+
+CalamitasCloneTrophy: {
+	DisplayName: Calamitas Clone Trophy
+	Tooltip: ""
+}
+
+CataclysmTrophy: {
+	DisplayName: Cataclysm Trophy
+	Tooltip: ""
+}
+
+CatastropheTrophy: {
+	DisplayName: Catastrophe Trophy
+	Tooltip: ""
+}
+
+CeaselessVoidTrophy: {
+	DisplayName: Ceaseless Void Trophy
+	Tooltip: ""
+}
+
+CrabulonTrophy: {
+	DisplayName: Crabulon Trophy
+	Tooltip: ""
+}
+
+CragmawMireTrophy: {
+	DisplayName: Cragmaw Mire Trophy
+	Tooltip: ""
+}
+
+CryogenTrophy: {
+	DisplayName: Cryogen Trophy
+	Tooltip: ""
+}
+
+DesertScourgeTrophy: {
+	DisplayName: Desert Scourge Trophy
+	Tooltip: ""
+}
+
+DevourerofGodsTrophy: {
+	DisplayName: Devourer of Gods Trophy
+	Tooltip: ""
+}
+
+DragonfollyTrophy: {
+	DisplayName: Dragonfolly Trophy
+	Tooltip: ""
+}
+
+GiantClamTrophy: {
+	DisplayName: Giant Clam Trophy
+	Tooltip: ""
+}
+
+GreatSandSharkTrophy: {
+	DisplayName: Great Sand Shark Trophy
+	Tooltip: ""
+}
+
+HiveMindTrophy: {
+	DisplayName: Hive Mind Trophy
+	Tooltip: ""
+}
+
+LeviathanTrophy: {
+	DisplayName: Leviathan Trophy
+	Tooltip: ""
+}
+
+MaulerTrophy: {
+	DisplayName: Mauler Trophy
+	Tooltip: ""
+}
+
+NuclearTerrorTrophy: {
+	DisplayName: Nuclear Terror Trophy
+	Tooltip: ""
+}
+
+OldDukeTrophy: {
+	DisplayName: Old Duke Trophy
+	Tooltip: ""
+}
+
+PerforatorTrophy: {
+	DisplayName: Perforator Trophy
+	Tooltip: ""
+}
+
+PlaguebringerGoliathTrophy: {
+	DisplayName: Plaguebringer Goliath Trophy
+	Tooltip: ""
+}
+
+PolterghastTrophy: {
+	DisplayName: Polterghast Trophy
+	Tooltip: ""
+}
+
+ProfanedGuardianTrophy: {
+	DisplayName: Profaned Guardian Trophy
+	Tooltip: ""
+}
+
+ProvidenceTrophy: {
+	DisplayName: Providence Trophy
+	Tooltip: ""
+}
+
+RavagerTrophy: {
+	DisplayName: Ravager Trophy
+	Tooltip: ""
+}
+
+SignusTrophy: {
+	DisplayName: Signus Trophy
+	Tooltip: ""
+}
+
+SlimeGodTrophy: {
+	DisplayName: Slime God Trophy
+	Tooltip: ""
+}
+
+SupremeCalamitasTrophy: {
+	DisplayName: Calamitas Trophy
+	Tooltip: ""
+}
+
+SupremeCataclysmTrophy: {
+	DisplayName: Supreme Cataclysm Trophy
+	Tooltip: ""
+}
+
+SupremeCatastropheTrophy: {
+	DisplayName: Supreme Catastrophe Trophy
+	Tooltip: ""
+}
+
+ThanatosTrophy: {
+	DisplayName: Thanatos Trophy
+	Tooltip: ""
+}
+
+WeaverTrophy: {
+	DisplayName: Storm Weaver Trophy
+	Tooltip: ""
+}
+
+YharonTrophy: {
+	DisplayName: Yharon Trophy
+	Tooltip: ""
+}
+
+TwinklerInABottle: {
+	DisplayName: Twinkler in a Bottle
+	Tooltip: ""
+}
 
 VigorousCandle: {
 	DisplayName: Vigorous Candle
@@ -1087,82 +1527,285 @@ WulfrumLureItem: {
 		'''
 }
 
-AbyssBathtub.DisplayName: Abyss Bathtub
-AbyssBed.DisplayName: Abyss Bed
-AbyssBookcase.DisplayName: Abyss Bookcase
-AbyssCandelabra.DisplayName: Abyss Candelabra
-AbyssCandle.DisplayName: Abyss Candle
-AbyssChair.DisplayName: Abyss Chair
-AbyssChandelier.DisplayName: Abyss Chandelier
-AbyssChest.DisplayName: Abyss Chest
-AbyssClock.DisplayName: Abyss Clock
-AbyssDoor.DisplayName: Abyss Door
-AbyssDresser.DisplayName: Abyss Dresser
-AbyssLamp.DisplayName: Abyss Lamp
-AbyssLantern.DisplayName: Abyss Lantern
+AbyssBathtub: {
+	DisplayName: Abyss Bathtub
+	Tooltip: ""
+}
+
+AbyssBed: {
+	DisplayName: Abyss Bed
+	Tooltip: ""
+}
+
+AbyssBookcase: {
+	DisplayName: Abyss Bookcase
+	Tooltip: ""
+}
+
+AbyssCandelabra: {
+	DisplayName: Abyss Candelabra
+	Tooltip: ""
+}
+
+AbyssCandle: {
+	DisplayName: Abyss Candle
+	Tooltip: ""
+}
+
+AbyssChair: {
+	DisplayName: Abyss Chair
+	Tooltip: ""
+}
+
+AbyssChandelier: {
+	DisplayName: Abyss Chandelier
+	Tooltip: ""
+}
+
+AbyssChest: {
+	DisplayName: Abyss Chest
+	Tooltip: ""
+}
+
+AbyssClock: {
+	DisplayName: Abyss Clock
+	Tooltip: ""
+}
+
+AbyssDoor: {
+	DisplayName: Abyss Door
+	Tooltip: ""
+}
+
+AbyssDresser: {
+	DisplayName: Abyss Dresser
+	Tooltip: ""
+}
+
+AbyssLamp: {
+	DisplayName: Abyss Lamp
+	Tooltip: ""
+}
+
+AbyssLantern: {
+	DisplayName: Abyss Lantern
+	Tooltip: ""
+}
 
 AbyssSink: {
 	DisplayName: Abyss Sink
 	Tooltip: Counts as a water source
 }
 
-AbyssSofa.DisplayName: Abyss Sofa
-AbyssSynth.DisplayName: Abyss Synth
-AbyssTable.DisplayName: Abyss Table
+AbyssSofa: {
+	DisplayName: Abyss Sofa
+	Tooltip: ""
+}
+
+AbyssSynth: {
+	DisplayName: Abyss Synth
+	Tooltip: ""
+}
+
+AbyssTable: {
+	DisplayName: Abyss Table
+	Tooltip: ""
+}
 
 AbyssTorch: {
 	DisplayName: Abyss Torch
 	Tooltip: Can be placed in water
 }
 
-AbyssWorkBench.DisplayName: Abyss Work Bench
-SmoothAbyssGravel.DisplayName: Smooth Abyss Gravel
-SmoothAbyssGravelPlatform.DisplayName: Smooth Abyss Gravel Platform
-AcidwoodBathtub.DisplayName: Acidwood Bathtub
-AcidwoodBed.DisplayName: Acidwood Bed
-AcidwoodBench.DisplayName: Acidwood Bench
-AcidwoodBookcase.DisplayName: Acidwood Bookcase
-AcidwoodCandelabra.DisplayName: Acidwood Candelabra
-AcidwoodCandle.DisplayName: Acidwood Candle
-AcidwoodChair.DisplayName: Acidwood Chair
-AcidwoodChandelier.DisplayName: Acidwood Chandelier
-AcidwoodChest.DisplayName: Acidwood Chest
-AcidwoodClock.DisplayName: Acidwood Clock
-AcidwoodDoor.DisplayName: Acidwood Door
-AcidwoodDresser.DisplayName: Acidwood Dresser
-AcidwoodLamp.DisplayName: Acidwood Lamp
-AcidwoodLantern.DisplayName: Acidwood Lantern
-AcidwoodPiano.DisplayName: Acidwood Piano
-AcidwoodPlatform.DisplayName: Acidwood Platform
+AbyssWorkBench: {
+	DisplayName: Abyss Work Bench
+	Tooltip: ""
+}
+
+SmoothAbyssGravel: {
+	DisplayName: Smooth Abyss Gravel
+	Tooltip: ""
+}
+
+SmoothAbyssGravelPlatform: {
+	DisplayName: Smooth Abyss Gravel Platform
+	Tooltip: ""
+}
+
+AcidwoodBathtub: {
+	DisplayName: Acidwood Bathtub
+	Tooltip: ""
+}
+
+AcidwoodBed: {
+	DisplayName: Acidwood Bed
+	Tooltip: ""
+}
+
+AcidwoodBench: {
+	DisplayName: Acidwood Bench
+	Tooltip: ""
+}
+
+AcidwoodBookcase: {
+	DisplayName: Acidwood Bookcase
+	Tooltip: ""
+}
+
+AcidwoodCandelabra: {
+	DisplayName: Acidwood Candelabra
+	Tooltip: ""
+}
+
+AcidwoodCandle: {
+	DisplayName: Acidwood Candle
+	Tooltip: ""
+}
+
+AcidwoodChair: {
+	DisplayName: Acidwood Chair
+	Tooltip: ""
+}
+
+AcidwoodChandelier: {
+	DisplayName: Acidwood Chandelier
+	Tooltip: ""
+}
+
+AcidwoodChest: {
+	DisplayName: Acidwood Chest
+	Tooltip: ""
+}
+
+AcidwoodClock: {
+	DisplayName: Acidwood Clock
+	Tooltip: ""
+}
+
+AcidwoodDoor: {
+	DisplayName: Acidwood Door
+	Tooltip: ""
+}
+
+AcidwoodDresser: {
+	DisplayName: Acidwood Dresser
+	Tooltip: ""
+}
+
+AcidwoodLamp: {
+	DisplayName: Acidwood Lamp
+	Tooltip: ""
+}
+
+AcidwoodLantern: {
+	DisplayName: Acidwood Lantern
+	Tooltip: ""
+}
+
+AcidwoodPiano: {
+	DisplayName: Acidwood Piano
+	Tooltip: ""
+}
+
+AcidwoodPlatform: {
+	DisplayName: Acidwood Platform
+	Tooltip: ""
+}
 
 AcidwoodSink: {
 	DisplayName: Acidwood Sink
 	Tooltip: Counts as a water source
 }
 
-AcidwoodTable.DisplayName: Acidwood Table
-AcidwoodWorkBench.DisplayName: Acidwood Work Bench
-AncientBasin.DisplayName: Ancient Basin
-AncientBathtub.DisplayName: Ancient Bathtub
-AncientBed.DisplayName: Ancient Bed
-AncientBookcase.DisplayName: Ancient Bookcase
-AncientChair.DisplayName: Ancient Chair
-AncientChandelier.DisplayName: Ancient Chandelier
-AncientDoor.DisplayName: Ancient Door
-AncientDresser.DisplayName: Ancient Dresser
-AncientLamp.DisplayName: Ancient Lamp
-AncientLantern.DisplayName: Ancient Lantern
-AncientMonolith.DisplayName: Ancient Monolith
-AncientPipeOrgan.DisplayName: Ancient Pipe Organ
+AcidwoodTable: {
+	DisplayName: Acidwood Table
+	Tooltip: ""
+}
+
+AcidwoodWorkBench: {
+	DisplayName: Acidwood Work Bench
+	Tooltip: ""
+}
+
+AncientBasin: {
+	DisplayName: Ancient Basin
+	Tooltip: ""
+}
+
+AncientBathtub: {
+	DisplayName: Ancient Bathtub
+	Tooltip: ""
+}
+
+AncientBed: {
+	DisplayName: Ancient Bed
+	Tooltip: ""
+}
+
+AncientBookcase: {
+	DisplayName: Ancient Bookcase
+	Tooltip: ""
+}
+
+AncientChair: {
+	DisplayName: Ancient Chair
+	Tooltip: ""
+}
+
+AncientChandelier: {
+	DisplayName: Ancient Chandelier
+	Tooltip: ""
+}
+
+AncientDoor: {
+	DisplayName: Ancient Door
+	Tooltip: ""
+}
+
+AncientDresser: {
+	DisplayName: Ancient Dresser
+	Tooltip: ""
+}
+
+AncientLamp: {
+	DisplayName: Ancient Lamp
+	Tooltip: ""
+}
+
+AncientLantern: {
+	DisplayName: Ancient Lantern
+	Tooltip: ""
+}
+
+AncientMonolith: {
+	DisplayName: Ancient Monolith
+	Tooltip: ""
+}
+
+AncientPipeOrgan: {
+	DisplayName: Ancient Pipe Organ
+	Tooltip: ""
+}
 
 AncientSink: {
 	DisplayName: Ancient Sink
 	Tooltip: Counts as a lava source
 }
 
-AncientSofa.DisplayName: Ancient Sofa
-AncientTable.DisplayName: Ancient Table
-AncientWorkBench.DisplayName: Ancient Work Bench
+AncientSofa: {
+	DisplayName: Ancient Sofa
+	Tooltip: ""
+}
+
+AncientTable: {
+	DisplayName: Ancient Table
+	Tooltip: ""
+}
+
+AncientWorkBench: {
+	DisplayName: Ancient Work Bench
+	Tooltip: ""
+}
 
 AshenAccentSlab: {
 	DisplayName: Ashen Accent Slab
@@ -1173,251 +1816,980 @@ AshenAccentSlab: {
 		'''
 }
 
-AshenBasin.DisplayName: Ashen Basin
-AshenBathtub.DisplayName: Ashen Bathtub
-AshenBed.DisplayName: Ashen Bed
-AshenBookcase.DisplayName: Ashen Bookcase
-AshenCandelabra.DisplayName: Ashen Candelabra
-AshenCandle.DisplayName: Ashen Candle
-AshenChair.DisplayName: Ashen Chair
-AshenChandelier.DisplayName: Ashen Chandelier
-AshenChest.DisplayName: Ashen Chest
-AshenDoor.DisplayName: Ashen Door
-AshenDresser.DisplayName: Ashen Dresser
-AshenLamp.DisplayName: Ashen Lamp
-AshenLantern.DisplayName: Ashen Lantern
-AshenMonolith.DisplayName: Ashen Monolith
-AshenPipeOrgan.DisplayName: Ashen Pipe Organ
-AshenPlatform.DisplayName: Ashen Platform
+AshenBasin: {
+	DisplayName: Ashen Basin
+	Tooltip: ""
+}
+
+AshenBathtub: {
+	DisplayName: Ashen Bathtub
+	Tooltip: ""
+}
+
+AshenBed: {
+	DisplayName: Ashen Bed
+	Tooltip: ""
+}
+
+AshenBookcase: {
+	DisplayName: Ashen Bookcase
+	Tooltip: ""
+}
+
+AshenCandelabra: {
+	DisplayName: Ashen Candelabra
+	Tooltip: ""
+}
+
+AshenCandle: {
+	DisplayName: Ashen Candle
+	Tooltip: ""
+}
+
+AshenChair: {
+	DisplayName: Ashen Chair
+	Tooltip: ""
+}
+
+AshenChandelier: {
+	DisplayName: Ashen Chandelier
+	Tooltip: ""
+}
+
+AshenChest: {
+	DisplayName: Ashen Chest
+	Tooltip: ""
+}
+
+AshenDoor: {
+	DisplayName: Ashen Door
+	Tooltip: ""
+}
+
+AshenDresser: {
+	DisplayName: Ashen Dresser
+	Tooltip: ""
+}
+
+AshenLamp: {
+	DisplayName: Ashen Lamp
+	Tooltip: ""
+}
+
+AshenLantern: {
+	DisplayName: Ashen Lantern
+	Tooltip: ""
+}
+
+AshenMonolith: {
+	DisplayName: Ashen Monolith
+	Tooltip: ""
+}
+
+AshenPipeOrgan: {
+	DisplayName: Ashen Pipe Organ
+	Tooltip: ""
+}
+
+AshenPlatform: {
+	DisplayName: Ashen Platform
+	Tooltip: ""
+}
 
 AshenSink: {
 	DisplayName: Ashen Sink
 	Tooltip: Counts as a lava source
 }
 
-AshenSlab.DisplayName: Ashen Slab
-AshenSofa.DisplayName: Ashen Sofa
-AshenTable.DisplayName: Ashen Table
-AshenWorkBench.DisplayName: Ashen Work Bench
-SmoothBrimstoneSlag.DisplayName: Smooth Brimstone Slag
-BotanicBathtub.DisplayName: Botanic Bathtub
-BotanicBed.DisplayName: Botanic Bed
-BotanicBench.DisplayName: Botanic Bench
-BotanicBookcase.DisplayName: Botanic Bookcase
-BotanicCandelabra.DisplayName: Botanic Candelabra
-BotanicCandle.DisplayName: Botanic Candle
-BotanicChair.DisplayName: Botanic Chair
-BotanicChandelier.DisplayName: Botanic Chandelier
-BotanicChest.DisplayName: Botanic Chest
-BotanicClock.DisplayName: Botanic Clock
-BotanicDoor.DisplayName: Botanic Door
-BotanicDresser.DisplayName: Botanic Dresser
-BotanicLamp.DisplayName: Botanic Lamp
-BotanicLantern.DisplayName: Botanic Lantern
-BotanicPiano.DisplayName: Botanic Piano
-BotanicPlatform.DisplayName: Botanic Platform
+AshenSlab: {
+	DisplayName: Ashen Slab
+	Tooltip: ""
+}
+
+AshenSofa: {
+	DisplayName: Ashen Sofa
+	Tooltip: ""
+}
+
+AshenTable: {
+	DisplayName: Ashen Table
+	Tooltip: ""
+}
+
+AshenWorkBench: {
+	DisplayName: Ashen Work Bench
+	Tooltip: ""
+}
+
+SmoothBrimstoneSlag: {
+	DisplayName: Smooth Brimstone Slag
+	Tooltip: ""
+}
+
+BotanicBathtub: {
+	DisplayName: Botanic Bathtub
+	Tooltip: ""
+}
+
+BotanicBed: {
+	DisplayName: Botanic Bed
+	Tooltip: ""
+}
+
+BotanicBench: {
+	DisplayName: Botanic Bench
+	Tooltip: ""
+}
+
+BotanicBookcase: {
+	DisplayName: Botanic Bookcase
+	Tooltip: ""
+}
+
+BotanicCandelabra: {
+	DisplayName: Botanic Candelabra
+	Tooltip: ""
+}
+
+BotanicCandle: {
+	DisplayName: Botanic Candle
+	Tooltip: ""
+}
+
+BotanicChair: {
+	DisplayName: Botanic Chair
+	Tooltip: ""
+}
+
+BotanicChandelier: {
+	DisplayName: Botanic Chandelier
+	Tooltip: ""
+}
+
+BotanicChest: {
+	DisplayName: Botanic Chest
+	Tooltip: ""
+}
+
+BotanicClock: {
+	DisplayName: Botanic Clock
+	Tooltip: ""
+}
+
+BotanicDoor: {
+	DisplayName: Botanic Door
+	Tooltip: ""
+}
+
+BotanicDresser: {
+	DisplayName: Botanic Dresser
+	Tooltip: ""
+}
+
+BotanicLamp: {
+	DisplayName: Botanic Lamp
+	Tooltip: ""
+}
+
+BotanicLantern: {
+	DisplayName: Botanic Lantern
+	Tooltip: ""
+}
+
+BotanicPiano: {
+	DisplayName: Botanic Piano
+	Tooltip: ""
+}
+
+BotanicPlatform: {
+	DisplayName: Botanic Platform
+	Tooltip: ""
+}
 
 BotanicSink: {
 	DisplayName: Botanic Sink
 	Tooltip: Counts as a honey source
 }
 
-BotanicTable.DisplayName: Botanic Table
-BotanicWorkBench.DisplayName: Botanic Work Bench
-CosmiliteBasin.DisplayName: Cosmilite Basin
-CosmiliteBathtub.DisplayName: Cosmilite Bathtub
-CosmiliteBed.DisplayName: Cosmilite Bed
-CosmiliteBookcase.DisplayName: Cosmilite Bookcase
-CosmiliteBrick.DisplayName: Cosmilite Brick
-CosmiliteCandelabra.DisplayName: Cosmilite Candelabra
-CosmiliteCandle.DisplayName: Cosmilite Candle
-CosmiliteChair.DisplayName: Cosmilite Chair
-CosmiliteChandelier.DisplayName: Cosmilite Chandelier
-CosmiliteChest.DisplayName: Cosmilite Chest
-CosmiliteClock.DisplayName: Cosmilite Clock
-CosmiliteDoor.DisplayName: Cosmilite Door
-CosmiliteDresser.DisplayName: Cosmilite Dresser
-CosmiliteLamp.DisplayName: Cosmilite Lamp
-CosmiliteLantern.DisplayName: Cosmilite Lantern
-CosmilitePiano.DisplayName: Cosmilite Piano
-CosmilitePlatform.DisplayName: Cosmilite Platform
-CosmiliteSconce.DisplayName: Cosmilite Sconce
+BotanicTable: {
+	DisplayName: Botanic Table
+	Tooltip: ""
+}
+
+BotanicWorkBench: {
+	DisplayName: Botanic Work Bench
+	Tooltip: ""
+}
+
+CosmiliteBasin: {
+	DisplayName: Cosmilite Basin
+	Tooltip: ""
+}
+
+CosmiliteBathtub: {
+	DisplayName: Cosmilite Bathtub
+	Tooltip: ""
+}
+
+CosmiliteBed: {
+	DisplayName: Cosmilite Bed
+	Tooltip: ""
+}
+
+CosmiliteBookcase: {
+	DisplayName: Cosmilite Bookcase
+	Tooltip: ""
+}
+
+CosmiliteBrick: {
+	DisplayName: Cosmilite Brick
+	Tooltip: ""
+}
+
+CosmiliteCandelabra: {
+	DisplayName: Cosmilite Candelabra
+	Tooltip: ""
+}
+
+CosmiliteCandle: {
+	DisplayName: Cosmilite Candle
+	Tooltip: ""
+}
+
+CosmiliteChair: {
+	DisplayName: Cosmilite Chair
+	Tooltip: ""
+}
+
+CosmiliteChandelier: {
+	DisplayName: Cosmilite Chandelier
+	Tooltip: ""
+}
+
+CosmiliteChest: {
+	DisplayName: Cosmilite Chest
+	Tooltip: ""
+}
+
+CosmiliteClock: {
+	DisplayName: Cosmilite Clock
+	Tooltip: ""
+}
+
+CosmiliteDoor: {
+	DisplayName: Cosmilite Door
+	Tooltip: ""
+}
+
+CosmiliteDresser: {
+	DisplayName: Cosmilite Dresser
+	Tooltip: ""
+}
+
+CosmiliteLamp: {
+	DisplayName: Cosmilite Lamp
+	Tooltip: ""
+}
+
+CosmiliteLantern: {
+	DisplayName: Cosmilite Lantern
+	Tooltip: ""
+}
+
+CosmilitePiano: {
+	DisplayName: Cosmilite Piano
+	Tooltip: ""
+}
+
+CosmilitePlatform: {
+	DisplayName: Cosmilite Platform
+	Tooltip: ""
+}
+
+CosmiliteSconce: {
+	DisplayName: Cosmilite Sconce
+	Tooltip: ""
+}
 
 CosmiliteSink: {
 	DisplayName: Cosmilite Sink
 	Tooltip: Counts as a water source
 }
 
-CosmiliteSofa.DisplayName: Cosmilite Sofa
-CosmiliteTable.DisplayName: Cosmilite Table
-CosmiliteWorkBench.DisplayName: Cosmilite Work Bench
-EutrophicBathtub.DisplayName: Eutrophic Bathtub
-EutrophicBed.DisplayName: Eutrophic Bed
-EutrophicBench.DisplayName: Eutrophic Bench
-EutrophicBookcase.DisplayName: Eutrophic Bookcase
-EutrophicCandelabra.DisplayName: Eutrophic Candelabra
-EutrophicCandle.DisplayName: Eutrophic Candle
-EutrophicChair.DisplayName: Eutrophic Chair
-EutrophicChandelier.DisplayName: Eutrophic Chandelier
-EutrophicChest.DisplayName: Eutrophic Chest
-EutrophicClock.DisplayName: Eutrophic Clock
-EutrophicDoor.DisplayName: Eutrophic Door
-EutrophicDresser.DisplayName: Eutrophic Dresser
-EutrophicLamp.DisplayName: Eutrophic Lamp
-EutrophicLantern.DisplayName: Eutrophic Lantern
-EutrophicPiano.DisplayName: Eutrophic Piano
-EutrophicPlatform.DisplayName: Eutrophic Platform
+CosmiliteSofa: {
+	DisplayName: Cosmilite Sofa
+	Tooltip: ""
+}
+
+CosmiliteTable: {
+	DisplayName: Cosmilite Table
+	Tooltip: ""
+}
+
+CosmiliteWorkBench: {
+	DisplayName: Cosmilite Work Bench
+	Tooltip: ""
+}
+
+EutrophicBathtub: {
+	DisplayName: Eutrophic Bathtub
+	Tooltip: ""
+}
+
+EutrophicBed: {
+	DisplayName: Eutrophic Bed
+	Tooltip: ""
+}
+
+EutrophicBench: {
+	DisplayName: Eutrophic Bench
+	Tooltip: ""
+}
+
+EutrophicBookcase: {
+	DisplayName: Eutrophic Bookcase
+	Tooltip: ""
+}
+
+EutrophicCandelabra: {
+	DisplayName: Eutrophic Candelabra
+	Tooltip: ""
+}
+
+EutrophicCandle: {
+	DisplayName: Eutrophic Candle
+	Tooltip: ""
+}
+
+EutrophicChair: {
+	DisplayName: Eutrophic Chair
+	Tooltip: ""
+}
+
+EutrophicChandelier: {
+	DisplayName: Eutrophic Chandelier
+	Tooltip: ""
+}
+
+EutrophicChest: {
+	DisplayName: Eutrophic Chest
+	Tooltip: ""
+}
+
+EutrophicClock: {
+	DisplayName: Eutrophic Clock
+	Tooltip: ""
+}
+
+EutrophicDoor: {
+	DisplayName: Eutrophic Door
+	Tooltip: ""
+}
+
+EutrophicDresser: {
+	DisplayName: Eutrophic Dresser
+	Tooltip: ""
+}
+
+EutrophicLamp: {
+	DisplayName: Eutrophic Lamp
+	Tooltip: ""
+}
+
+EutrophicLantern: {
+	DisplayName: Eutrophic Lantern
+	Tooltip: ""
+}
+
+EutrophicPiano: {
+	DisplayName: Eutrophic Piano
+	Tooltip: ""
+}
+
+EutrophicPlatform: {
+	DisplayName: Eutrophic Platform
+	Tooltip: ""
+}
 
 EutrophicSink: {
 	DisplayName: Eutrophic Sink
 	Tooltip: Counts as a water source
 }
 
-EutrophicTable.DisplayName: Eutrophic Table
-EutrophicWorkBench.DisplayName: Eutrophic Work Bench
-SmoothNavystone.DisplayName: Smooth Navystone
-ExoBathtub.DisplayName: Exo Bathtub
-ExoBed.DisplayName: Exo Bed
-ExoBookcase.DisplayName: Exo Bookcase
-ExoCandelabra.DisplayName: Exo Candelabra
-ExoCandle.DisplayName: Exo Candle
-ExoChair.DisplayName: Exo Chair
-ExoChandelier.DisplayName: Exo Chandelier
-ExoChest.DisplayName: Exo Chest
-ExoClock.DisplayName: Exo Clock
-ExoConsole.DisplayName: Exo Console
-ExoDisplay.DisplayName: Exo Display
-ExoDoor.DisplayName: Exo Door
-ExoDresser.DisplayName: Exo Dresser
-ExoKeyboard.DisplayName: Exo Keyboard
-ExoLamp.DisplayName: Exo Lamp
-ExoLantern.DisplayName: Exo Lantern
-ExoPlatform.DisplayName: Exo Platform
-ExoPlating.DisplayName: Exo Plating
-ExoPrismPanel.DisplayName: Exo Prism Panel
-ExoPrismPlatform.DisplayName: Exo Prism Platform
-ExoScreen.DisplayName: Exo Screen
-ExoServer.DisplayName: Exo Server
+EutrophicTable: {
+	DisplayName: Eutrophic Table
+	Tooltip: ""
+}
+
+EutrophicWorkBench: {
+	DisplayName: Eutrophic Work Bench
+	Tooltip: ""
+}
+
+SmoothNavystone: {
+	DisplayName: Smooth Navystone
+	Tooltip: ""
+}
+
+ExoBathtub: {
+	DisplayName: Exo Bathtub
+	Tooltip: ""
+}
+
+ExoBed: {
+	DisplayName: Exo Bed
+	Tooltip: ""
+}
+
+ExoBookcase: {
+	DisplayName: Exo Bookcase
+	Tooltip: ""
+}
+
+ExoCandelabra: {
+	DisplayName: Exo Candelabra
+	Tooltip: ""
+}
+
+ExoCandle: {
+	DisplayName: Exo Candle
+	Tooltip: ""
+}
+
+ExoChair: {
+	DisplayName: Exo Chair
+	Tooltip: ""
+}
+
+ExoChandelier: {
+	DisplayName: Exo Chandelier
+	Tooltip: ""
+}
+
+ExoChest: {
+	DisplayName: Exo Chest
+	Tooltip: ""
+}
+
+ExoClock: {
+	DisplayName: Exo Clock
+	Tooltip: ""
+}
+
+ExoConsole: {
+	DisplayName: Exo Console
+	Tooltip: ""
+}
+
+ExoDisplay: {
+	DisplayName: Exo Display
+	Tooltip: ""
+}
+
+ExoDoor: {
+	DisplayName: Exo Door
+	Tooltip: ""
+}
+
+ExoDresser: {
+	DisplayName: Exo Dresser
+	Tooltip: ""
+}
+
+ExoKeyboard: {
+	DisplayName: Exo Keyboard
+	Tooltip: ""
+}
+
+ExoLamp: {
+	DisplayName: Exo Lamp
+	Tooltip: ""
+}
+
+ExoLantern: {
+	DisplayName: Exo Lantern
+	Tooltip: ""
+}
+
+ExoPlatform: {
+	DisplayName: Exo Platform
+	Tooltip: ""
+}
+
+ExoPlating: {
+	DisplayName: Exo Plating
+	Tooltip: ""
+}
+
+ExoPrismPanel: {
+	DisplayName: Exo Prism Panel
+	Tooltip: ""
+}
+
+ExoPrismPlatform: {
+	DisplayName: Exo Prism Platform
+	Tooltip: ""
+}
+
+ExoScreen: {
+	DisplayName: Exo Screen
+	Tooltip: ""
+}
+
+ExoServer: {
+	DisplayName: Exo Server
+	Tooltip: ""
+}
 
 ExoSink: {
 	DisplayName: Exo Sink
 	Tooltip: Counts as a water, honey, and lava source
 }
 
-ExoSofa.DisplayName: Exo Sofa
-ExoTable.DisplayName: Exo Table
-ExoTerminal.DisplayName: Exo Terminal
-ExoToilet.DisplayName: Exo Toilet
-ExoWorkbench.DisplayName: Exo Workbench
-MonolithBathtub.DisplayName: Monolith Bathtub
-MonolithBed.DisplayName: Monolith Bed
-MonolithBench.DisplayName: Monolith Bench
-MonolithBookcase.DisplayName: Monolith Bookcase
-MonolithCandelabra.DisplayName: Monolith Candelabra
-MonolithCandle.DisplayName: Monolith Candle
-MonolithChair.DisplayName: Monolith Chair
-MonolithChandelier.DisplayName: Monolith Chandelier
-MonolithChest.DisplayName: Monolith Chest
-MonolithClock.DisplayName: Monolith Clock
-MonolithDoor.DisplayName: Monolith Door
-MonolithDresser.DisplayName: Monolith Dresser
-MonolithLamp.DisplayName: Monolith Lamp
-MonolithLantern.DisplayName: Monolith Lantern
-MonolithPiano.DisplayName: Monolith Piano
-MonolithPlatform.DisplayName: Monolith Platform
+ExoSofa: {
+	DisplayName: Exo Sofa
+	Tooltip: ""
+}
+
+ExoTable: {
+	DisplayName: Exo Table
+	Tooltip: ""
+}
+
+ExoTerminal: {
+	DisplayName: Exo Terminal
+	Tooltip: ""
+}
+
+ExoToilet: {
+	DisplayName: Exo Toilet
+	Tooltip: ""
+}
+
+ExoWorkbench: {
+	DisplayName: Exo Workbench
+	Tooltip: ""
+}
+
+MonolithBathtub: {
+	DisplayName: Monolith Bathtub
+	Tooltip: ""
+}
+
+MonolithBed: {
+	DisplayName: Monolith Bed
+	Tooltip: ""
+}
+
+MonolithBench: {
+	DisplayName: Monolith Bench
+	Tooltip: ""
+}
+
+MonolithBookcase: {
+	DisplayName: Monolith Bookcase
+	Tooltip: ""
+}
+
+MonolithCandelabra: {
+	DisplayName: Monolith Candelabra
+	Tooltip: ""
+}
+
+MonolithCandle: {
+	DisplayName: Monolith Candle
+	Tooltip: ""
+}
+
+MonolithChair: {
+	DisplayName: Monolith Chair
+	Tooltip: ""
+}
+
+MonolithChandelier: {
+	DisplayName: Monolith Chandelier
+	Tooltip: ""
+}
+
+MonolithChest: {
+	DisplayName: Monolith Chest
+	Tooltip: ""
+}
+
+MonolithClock: {
+	DisplayName: Monolith Clock
+	Tooltip: ""
+}
+
+MonolithDoor: {
+	DisplayName: Monolith Door
+	Tooltip: ""
+}
+
+MonolithDresser: {
+	DisplayName: Monolith Dresser
+	Tooltip: ""
+}
+
+MonolithLamp: {
+	DisplayName: Monolith Lamp
+	Tooltip: ""
+}
+
+MonolithLantern: {
+	DisplayName: Monolith Lantern
+	Tooltip: ""
+}
+
+MonolithPiano: {
+	DisplayName: Monolith Piano
+	Tooltip: ""
+}
+
+MonolithPlatform: {
+	DisplayName: Monolith Platform
+	Tooltip: ""
+}
 
 MonolithSink: {
 	DisplayName: Monolith Sink
 	Tooltip: Counts as a water source
 }
 
-MonolithTable.DisplayName: Monolith Table
-MonolithWorkBench.DisplayName: Monolith Work Bench
-OtherworldlyBathtub.DisplayName: Otherworldly Bathtub
-OtherworldlyBed.DisplayName: Otherworldly Bed
-OtherworldlyBookcase.DisplayName: Otherworldly Bookcase
-OtherworldlyCandelabra.DisplayName: Otherworldly Candelabra
-OtherworldlyCandle.DisplayName: Otherworldly Candle
-OtherworldlyChair.DisplayName: Otherworldly Chair
-OtherworldlyChandelier.DisplayName: Otherworldly Chandelier
-OtherworldlyChest.DisplayName: Otherworldly Chest
-OtherworldlyClock.DisplayName: Otherworldly Clock
-OtherworldlyDoor.DisplayName: Otherworldly Door
-OtherworldlyDresser.DisplayName: Otherworldly Dresser
-OtherworldlyLamp.DisplayName: Otherworldly Lamp
-OtherworldlyLantern.DisplayName: Otherworldly Lantern
-OtherworldlyPiano.DisplayName: Otherworldly Piano
-OtherworldlyPlatform.DisplayName: Otherworldly Platform
+MonolithTable: {
+	DisplayName: Monolith Table
+	Tooltip: ""
+}
+
+MonolithWorkBench: {
+	DisplayName: Monolith Work Bench
+	Tooltip: ""
+}
+
+OtherworldlyBathtub: {
+	DisplayName: Otherworldly Bathtub
+	Tooltip: ""
+}
+
+OtherworldlyBed: {
+	DisplayName: Otherworldly Bed
+	Tooltip: ""
+}
+
+OtherworldlyBookcase: {
+	DisplayName: Otherworldly Bookcase
+	Tooltip: ""
+}
+
+OtherworldlyCandelabra: {
+	DisplayName: Otherworldly Candelabra
+	Tooltip: ""
+}
+
+OtherworldlyCandle: {
+	DisplayName: Otherworldly Candle
+	Tooltip: ""
+}
+
+OtherworldlyChair: {
+	DisplayName: Otherworldly Chair
+	Tooltip: ""
+}
+
+OtherworldlyChandelier: {
+	DisplayName: Otherworldly Chandelier
+	Tooltip: ""
+}
+
+OtherworldlyChest: {
+	DisplayName: Otherworldly Chest
+	Tooltip: ""
+}
+
+OtherworldlyClock: {
+	DisplayName: Otherworldly Clock
+	Tooltip: ""
+}
+
+OtherworldlyDoor: {
+	DisplayName: Otherworldly Door
+	Tooltip: ""
+}
+
+OtherworldlyDresser: {
+	DisplayName: Otherworldly Dresser
+	Tooltip: ""
+}
+
+OtherworldlyLamp: {
+	DisplayName: Otherworldly Lamp
+	Tooltip: ""
+}
+
+OtherworldlyLantern: {
+	DisplayName: Otherworldly Lantern
+	Tooltip: ""
+}
+
+OtherworldlyPiano: {
+	DisplayName: Otherworldly Piano
+	Tooltip: ""
+}
+
+OtherworldlyPlatform: {
+	DisplayName: Otherworldly Platform
+	Tooltip: ""
+}
 
 OtherworldlySink: {
 	DisplayName: Otherworldly Sink
 	Tooltip: Counts as a water source
 }
 
-OtherworldlySofa.DisplayName: Otherworldly Sofa
-OtherworldlyStone.DisplayName: Otherworldly Stone
-OtherworldlyTable.DisplayName: Otherworldly Table
-OtherworldlyWorkBench.DisplayName: Otherworldly Work Bench
-BrokenPlaguedBed.DisplayName: Broken Plagued 'Bed'
-PlaguedContainmentBrick.DisplayName: Plagued Containment Brick
-PlaguedPlateBathtub.DisplayName: Plagued Bathtub
+OtherworldlySofa: {
+	DisplayName: Otherworldly Sofa
+	Tooltip: ""
+}
+
+OtherworldlyStone: {
+	DisplayName: Otherworldly Stone
+	Tooltip: ""
+}
+
+OtherworldlyTable: {
+	DisplayName: Otherworldly Table
+	Tooltip: ""
+}
+
+OtherworldlyWorkBench: {
+	DisplayName: Otherworldly Work Bench
+	Tooltip: ""
+}
+
+BrokenPlaguedBed: {
+	DisplayName: Broken Plagued 'Bed'
+	Tooltip: ""
+}
+
+PlaguedContainmentBrick: {
+	DisplayName: Plagued Containment Brick
+	Tooltip: ""
+}
+
+PlaguedPlateBathtub: {
+	DisplayName: Plagued Bathtub
+	Tooltip: ""
+}
 
 PlaguedPlateBed: {
 	DisplayName: Plagued 'Bed'
 	Tooltip: Counts as a bed
 }
 
-PlaguedPlateBookcase.DisplayName: Plagued Bookcase
-PlaguedPlateCandelabra.DisplayName: Plagued Candelabra
-PlaguedPlateCandle.DisplayName: Plagued Candle
-PlaguedPlateChair.DisplayName: Plagued Chair
-PlaguedPlateChandelier.DisplayName: Plagued Chandelier
-PlaguedPlateChest.DisplayName: Plagued Chest
-PlaguedPlateClock.DisplayName: Plagued Clock
-PlaguedPlateDoor.DisplayName: Plagued Door
-PlaguedPlateDresser.DisplayName: Plagued Dresser
-PlaguedPlateLamp.DisplayName: Plagued Lamp
-PlaguedPlateLantern.DisplayName: Plagued Lantern
-PlaguedPlatePiano.DisplayName: Plagued Piano
-PlaguedPlatePlatform.DisplayName: Plagued Shelf
+PlaguedPlateBookcase: {
+	DisplayName: Plagued Bookcase
+	Tooltip: ""
+}
+
+PlaguedPlateCandelabra: {
+	DisplayName: Plagued Candelabra
+	Tooltip: ""
+}
+
+PlaguedPlateCandle: {
+	DisplayName: Plagued Candle
+	Tooltip: ""
+}
+
+PlaguedPlateChair: {
+	DisplayName: Plagued Chair
+	Tooltip: ""
+}
+
+PlaguedPlateChandelier: {
+	DisplayName: Plagued Chandelier
+	Tooltip: ""
+}
+
+PlaguedPlateChest: {
+	DisplayName: Plagued Chest
+	Tooltip: ""
+}
+
+PlaguedPlateClock: {
+	DisplayName: Plagued Clock
+	Tooltip: ""
+}
+
+PlaguedPlateDoor: {
+	DisplayName: Plagued Door
+	Tooltip: ""
+}
+
+PlaguedPlateDresser: {
+	DisplayName: Plagued Dresser
+	Tooltip: ""
+}
+
+PlaguedPlateLamp: {
+	DisplayName: Plagued Lamp
+	Tooltip: ""
+}
+
+PlaguedPlateLantern: {
+	DisplayName: Plagued Lantern
+	Tooltip: ""
+}
+
+PlaguedPlatePiano: {
+	DisplayName: Plagued Piano
+	Tooltip: ""
+}
+
+PlaguedPlatePlatform: {
+	DisplayName: Plagued Shelf
+	Tooltip: ""
+}
 
 PlaguedPlateSink: {
 	DisplayName: Plagued Sink
 	Tooltip: Counts as a water source
 }
 
-PlaguedPlateSofa.DisplayName: Plagued Sofa
-PlaguedPlateTable.DisplayName: Plagued Table
-PlaguedWorkBench.DisplayName: Plagued Work Bench
-ProfanedBathtub.DisplayName: Profaned Bathtub
-ProfanedBed.DisplayName: Profaned Bed
-ProfanedBench.DisplayName: Profaned Bench
-ProfanedBookcase.DisplayName: Profaned Bookcase
-ProfanedCandelabra.DisplayName: Profaned Candelabra
-ProfanedCandle.DisplayName: Profaned Candle
-ProfanedChair.DisplayName: Profaned Chair
-ProfanedChandelier.DisplayName: Profaned Chandelier
-ProfanedChest.DisplayName: Profaned Chest
-ProfanedClock.DisplayName: Profaned Clock
-ProfanedCrystal.DisplayName: Profaned Crystal
-ProfanedDoor.DisplayName: Profaned Door
-ProfanedDresser.DisplayName: Profaned Dresser
-ProfanedLamp.DisplayName: Profaned Lamp
-ProfanedLantern.DisplayName: Profaned Lantern
-ProfanedPiano.DisplayName: Profaned Piano
-ProfanedPlatform.DisplayName: Profaned Platform
-ProfanedRock.DisplayName: Profaned Rock
+PlaguedPlateSofa: {
+	DisplayName: Plagued Sofa
+	Tooltip: ""
+}
+
+PlaguedPlateTable: {
+	DisplayName: Plagued Table
+	Tooltip: ""
+}
+
+PlaguedWorkBench: {
+	DisplayName: Plagued Work Bench
+	Tooltip: ""
+}
+
+ProfanedBathtub: {
+	DisplayName: Profaned Bathtub
+	Tooltip: ""
+}
+
+ProfanedBed: {
+	DisplayName: Profaned Bed
+	Tooltip: ""
+}
+
+ProfanedBench: {
+	DisplayName: Profaned Bench
+	Tooltip: ""
+}
+
+ProfanedBookcase: {
+	DisplayName: Profaned Bookcase
+	Tooltip: ""
+}
+
+ProfanedCandelabra: {
+	DisplayName: Profaned Candelabra
+	Tooltip: ""
+}
+
+ProfanedCandle: {
+	DisplayName: Profaned Candle
+	Tooltip: ""
+}
+
+ProfanedChair: {
+	DisplayName: Profaned Chair
+	Tooltip: ""
+}
+
+ProfanedChandelier: {
+	DisplayName: Profaned Chandelier
+	Tooltip: ""
+}
+
+ProfanedChest: {
+	DisplayName: Profaned Chest
+	Tooltip: ""
+}
+
+ProfanedClock: {
+	DisplayName: Profaned Clock
+	Tooltip: ""
+}
+
+ProfanedCrystal: {
+	DisplayName: Profaned Crystal
+	Tooltip: ""
+}
+
+ProfanedDoor: {
+	DisplayName: Profaned Door
+	Tooltip: ""
+}
+
+ProfanedDresser: {
+	DisplayName: Profaned Dresser
+	Tooltip: ""
+}
+
+ProfanedLamp: {
+	DisplayName: Profaned Lamp
+	Tooltip: ""
+}
+
+ProfanedLantern: {
+	DisplayName: Profaned Lantern
+	Tooltip: ""
+}
+
+ProfanedPiano: {
+	DisplayName: Profaned Piano
+	Tooltip: ""
+}
+
+ProfanedPlatform: {
+	DisplayName: Profaned Platform
+	Tooltip: ""
+}
+
+ProfanedRock: {
+	DisplayName: Profaned Rock
+	Tooltip: ""
+}
 
 ProfanedSink: {
 	DisplayName: Profaned Sink
 	Tooltip: Counts as a lava source
 }
 
-ProfanedSlab.DisplayName: Profaned Slab
-ProfanedTable.DisplayName: Profaned Table
-ProfanedWorkbench.DisplayName: Profaned Workbench
-RunicProfanedBrick.DisplayName: Runic Profaned Brick
-EyeOfTheAccursedBanner.DisplayName: Eye of the Accursed Banner
+ProfanedSlab: {
+	DisplayName: Profaned Slab
+	Tooltip: ""
+}
+
+ProfanedTable: {
+	DisplayName: Profaned Table
+	Tooltip: ""
+}
+
+ProfanedWorkbench: {
+	DisplayName: Profaned Workbench
+	Tooltip: ""
+}
+
+RunicProfanedBrick: {
+	DisplayName: Runic Profaned Brick
+	Tooltip: ""
+}
+
+EyeOfTheAccursedBanner: {
+	DisplayName: Eye of the Accursed Banner
+	Tooltip: ""
+}
 
 LargeRitualCandle: {
 	DisplayName: Large Ritual Candle
@@ -1433,194 +2805,720 @@ MonolithOfTheAccursed: {
 		'''
 }
 
-OccultBrickItem.DisplayName: Occult Brick
-OccultLegionnaireBanner.DisplayName: Occult Legionnaire Banner
-OccultPlatformItem.DisplayName: Occult Platform
+OccultBrickItem: {
+	DisplayName: Occult Brick
+	Tooltip: ""
+}
+
+OccultLegionnaireBanner: {
+	DisplayName: Occult Legionnaire Banner
+	Tooltip: ""
+}
+
+OccultPlatformItem: {
+	DisplayName: Occult Platform
+	Tooltip: ""
+}
 
 RitualCandle: {
 	DisplayName: Ritual Candle
 	Tooltip: Press <right> to place in a different style
 }
 
-SacrilegiousBathtub.DisplayName: Sacrilegious Bathtub
-SacrilegiousBed.DisplayName: Sacrilegious Bed
-SacrilegiousBench.DisplayName: Sacrilegious Bench
-SacrilegiousBookcase.DisplayName: Sacrilegious Bookcase
-SacrilegiousCandelabra.DisplayName: Sacrilegious Candelabra
-SacrilegiousCandle.DisplayName: Sacrilegious Candle
-SacrilegiousChair.DisplayName: Sacrilegious Chair
-SacrilegiousChandelier.DisplayName: Sacrilegious Chandelier
-SacrilegiousChest.DisplayName: Sacrilegious Chest
-SacrilegiousClock.DisplayName: Sacrilegious Clock
-SacrilegiousDoor.DisplayName: Sacrilegious Door
-SacrilegiousDresser.DisplayName: Sacrilegious Dresser
-SacrilegiousLamp.DisplayName: Sacrilegious Lamp
-SacrilegiousLantern.DisplayName: Sacrilegious Lantern
-SacrilegiousOrgan.DisplayName: Sacrilegious Organ
+SacrilegiousBathtub: {
+	DisplayName: Sacrilegious Bathtub
+	Tooltip: ""
+}
+
+SacrilegiousBed: {
+	DisplayName: Sacrilegious Bed
+	Tooltip: ""
+}
+
+SacrilegiousBench: {
+	DisplayName: Sacrilegious Bench
+	Tooltip: ""
+}
+
+SacrilegiousBookcase: {
+	DisplayName: Sacrilegious Bookcase
+	Tooltip: ""
+}
+
+SacrilegiousCandelabra: {
+	DisplayName: Sacrilegious Candelabra
+	Tooltip: ""
+}
+
+SacrilegiousCandle: {
+	DisplayName: Sacrilegious Candle
+	Tooltip: ""
+}
+
+SacrilegiousChair: {
+	DisplayName: Sacrilegious Chair
+	Tooltip: ""
+}
+
+SacrilegiousChandelier: {
+	DisplayName: Sacrilegious Chandelier
+	Tooltip: ""
+}
+
+SacrilegiousChest: {
+	DisplayName: Sacrilegious Chest
+	Tooltip: ""
+}
+
+SacrilegiousClock: {
+	DisplayName: Sacrilegious Clock
+	Tooltip: ""
+}
+
+SacrilegiousDoor: {
+	DisplayName: Sacrilegious Door
+	Tooltip: ""
+}
+
+SacrilegiousDresser: {
+	DisplayName: Sacrilegious Dresser
+	Tooltip: ""
+}
+
+SacrilegiousLamp: {
+	DisplayName: Sacrilegious Lamp
+	Tooltip: ""
+}
+
+SacrilegiousLantern: {
+	DisplayName: Sacrilegious Lantern
+	Tooltip: ""
+}
+
+SacrilegiousOrgan: {
+	DisplayName: Sacrilegious Organ
+	Tooltip: ""
+}
 
 SacrilegiousSink: {
 	DisplayName: Sacrilegious Sink
 	Tooltip: Counts as a water, honey, and lava source
 }
 
-SacrilegiousTable.DisplayName: Sacrilegious Table
-SacrilegiousWorkBench.DisplayName: Sacrilegious Work Bench
-SilvaBathtub.DisplayName: Silva Bathtub
-SilvaBed.DisplayName: Silva Bed
-SilvaBench.DisplayName: Silva Bench
-SilvaBookcase.DisplayName: Silva Bookcase
-SilvaCandelabra.DisplayName: Silva Candelabra
-SilvaCandle.DisplayName: Silva Candle
-SilvaChair.DisplayName: Silva Chair
-SilvaChandelier.DisplayName: Silva Chandelier
-SilvaChest.DisplayName: Silva Chest
-SilvaClock.DisplayName: Silva Clock
-SilvaCrystal.DisplayName: Silva Crystal
-SilvaDoor.DisplayName: Silva Door
-SilvaDresser.DisplayName: Silva Dresser
-SilvaLamp.DisplayName: Silva Lamp
-SilvaLantern.DisplayName: Silva Lantern
-SilvaPiano.DisplayName: Silva Piano
-SilvaPlatform.DisplayName: Silva Platform
+SacrilegiousTable: {
+	DisplayName: Sacrilegious Table
+	Tooltip: ""
+}
+
+SacrilegiousWorkBench: {
+	DisplayName: Sacrilegious Work Bench
+	Tooltip: ""
+}
+
+SilvaBathtub: {
+	DisplayName: Silva Bathtub
+	Tooltip: ""
+}
+
+SilvaBed: {
+	DisplayName: Silva Bed
+	Tooltip: ""
+}
+
+SilvaBench: {
+	DisplayName: Silva Bench
+	Tooltip: ""
+}
+
+SilvaBookcase: {
+	DisplayName: Silva Bookcase
+	Tooltip: ""
+}
+
+SilvaCandelabra: {
+	DisplayName: Silva Candelabra
+	Tooltip: ""
+}
+
+SilvaCandle: {
+	DisplayName: Silva Candle
+	Tooltip: ""
+}
+
+SilvaChair: {
+	DisplayName: Silva Chair
+	Tooltip: ""
+}
+
+SilvaChandelier: {
+	DisplayName: Silva Chandelier
+	Tooltip: ""
+}
+
+SilvaChest: {
+	DisplayName: Silva Chest
+	Tooltip: ""
+}
+
+SilvaClock: {
+	DisplayName: Silva Clock
+	Tooltip: ""
+}
+
+SilvaCrystal: {
+	DisplayName: Silva Crystal
+	Tooltip: ""
+}
+
+SilvaDoor: {
+	DisplayName: Silva Door
+	Tooltip: ""
+}
+
+SilvaDresser: {
+	DisplayName: Silva Dresser
+	Tooltip: ""
+}
+
+SilvaLamp: {
+	DisplayName: Silva Lamp
+	Tooltip: ""
+}
+
+SilvaLantern: {
+	DisplayName: Silva Lantern
+	Tooltip: ""
+}
+
+SilvaPiano: {
+	DisplayName: Silva Piano
+	Tooltip: ""
+}
+
+SilvaPlatform: {
+	DisplayName: Silva Platform
+	Tooltip: ""
+}
 
 SilvaSink: {
 	DisplayName: Silva Sink
 	Tooltip: Counts as a water source
 }
 
-SilvaTable.DisplayName: Silva Table
-SilvaWorkBench.DisplayName: Silva Work Bench
-StatigelBathtub.DisplayName: Statigel Bathtub
-StatigelBed.DisplayName: Statigel Bed
-StatigelBlock.DisplayName: Statigel Block
-StatigelBookcase.DisplayName: Statigel Bookcase
-StatigelCandelabra.DisplayName: Statigel Candelabra
-StatigelCandle.DisplayName: Statigel Candle
-StatigelChair.DisplayName: Statigel Chair
-StatigelChandelier.DisplayName: Statigel Chandelier
-StatigelChest.DisplayName: Statigel Chest
-StatigelClock.DisplayName: Statigel Clock
-StatigelDoor.DisplayName: Statigel Door
-StatigelDresser.DisplayName: Statigel Dresser
-StatigelLamp.DisplayName: Statigel Lamp
-StatigelLantern.DisplayName: Statigel Lantern
-StatigelPiano.DisplayName: Statigel Piano
-StatigelPlatform.DisplayName: Statigel Platform
+SilvaTable: {
+	DisplayName: Silva Table
+	Tooltip: ""
+}
+
+SilvaWorkBench: {
+	DisplayName: Silva Work Bench
+	Tooltip: ""
+}
+
+StatigelBathtub: {
+	DisplayName: Statigel Bathtub
+	Tooltip: ""
+}
+
+StatigelBed: {
+	DisplayName: Statigel Bed
+	Tooltip: ""
+}
+
+StatigelBlock: {
+	DisplayName: Statigel Block
+	Tooltip: ""
+}
+
+StatigelBookcase: {
+	DisplayName: Statigel Bookcase
+	Tooltip: ""
+}
+
+StatigelCandelabra: {
+	DisplayName: Statigel Candelabra
+	Tooltip: ""
+}
+
+StatigelCandle: {
+	DisplayName: Statigel Candle
+	Tooltip: ""
+}
+
+StatigelChair: {
+	DisplayName: Statigel Chair
+	Tooltip: ""
+}
+
+StatigelChandelier: {
+	DisplayName: Statigel Chandelier
+	Tooltip: ""
+}
+
+StatigelChest: {
+	DisplayName: Statigel Chest
+	Tooltip: ""
+}
+
+StatigelClock: {
+	DisplayName: Statigel Clock
+	Tooltip: ""
+}
+
+StatigelDoor: {
+	DisplayName: Statigel Door
+	Tooltip: ""
+}
+
+StatigelDresser: {
+	DisplayName: Statigel Dresser
+	Tooltip: ""
+}
+
+StatigelLamp: {
+	DisplayName: Statigel Lamp
+	Tooltip: ""
+}
+
+StatigelLantern: {
+	DisplayName: Statigel Lantern
+	Tooltip: ""
+}
+
+StatigelPiano: {
+	DisplayName: Statigel Piano
+	Tooltip: ""
+}
+
+StatigelPlatform: {
+	DisplayName: Statigel Platform
+	Tooltip: ""
+}
 
 StatigelSink: {
 	DisplayName: Statigel Sink
 	Tooltip: Counts as a water source
 }
 
-StatigelSofa.DisplayName: Statigel Sofa
-StatigelTable.DisplayName: Statigel Table
-StatigelWorkbench.DisplayName: Statigel Workbench
-StratusBathtub.DisplayName: Stratus Bathtub
-StratusBed.DisplayName: Stratus Bed
-StratusBookcase.DisplayName: Stratus Bookcase
-StratusBricks.DisplayName: Stratus Brick
-StratusCandelabra.DisplayName: Stratus Candelabra
-StratusCandle.DisplayName: Stratus Candle
-StratusChair.DisplayName: Stratus Chair
-StratusChandelier.DisplayName: Stratus Chandelier
-StratusChest.DisplayName: Stratus Chest
-StratusClock.DisplayName: Stratus Clock
-StratusDoor.DisplayName: Stratus Door
-StratusDresser.DisplayName: Stratus Dresser
-StratusLamp.DisplayName: Stratus Lamp
-StratusLantern.DisplayName: Stratus Lantern
-StratusPiano.DisplayName: Stratus Piano
-StratusPlatform.DisplayName: Stratus Platform
+StatigelSofa: {
+	DisplayName: Statigel Sofa
+	Tooltip: ""
+}
+
+StatigelTable: {
+	DisplayName: Statigel Table
+	Tooltip: ""
+}
+
+StatigelWorkbench: {
+	DisplayName: Statigel Workbench
+	Tooltip: ""
+}
+
+StratusBathtub: {
+	DisplayName: Stratus Bathtub
+	Tooltip: ""
+}
+
+StratusBed: {
+	DisplayName: Stratus Bed
+	Tooltip: ""
+}
+
+StratusBookcase: {
+	DisplayName: Stratus Bookcase
+	Tooltip: ""
+}
+
+StratusBricks: {
+	DisplayName: Stratus Brick
+	Tooltip: ""
+}
+
+StratusCandelabra: {
+	DisplayName: Stratus Candelabra
+	Tooltip: ""
+}
+
+StratusCandle: {
+	DisplayName: Stratus Candle
+	Tooltip: ""
+}
+
+StratusChair: {
+	DisplayName: Stratus Chair
+	Tooltip: ""
+}
+
+StratusChandelier: {
+	DisplayName: Stratus Chandelier
+	Tooltip: ""
+}
+
+StratusChest: {
+	DisplayName: Stratus Chest
+	Tooltip: ""
+}
+
+StratusClock: {
+	DisplayName: Stratus Clock
+	Tooltip: ""
+}
+
+StratusDoor: {
+	DisplayName: Stratus Door
+	Tooltip: ""
+}
+
+StratusDresser: {
+	DisplayName: Stratus Dresser
+	Tooltip: ""
+}
+
+StratusLamp: {
+	DisplayName: Stratus Lamp
+	Tooltip: ""
+}
+
+StratusLantern: {
+	DisplayName: Stratus Lantern
+	Tooltip: ""
+}
+
+StratusPiano: {
+	DisplayName: Stratus Piano
+	Tooltip: ""
+}
+
+StratusPlatform: {
+	DisplayName: Stratus Platform
+	Tooltip: ""
+}
 
 StratusSink: {
 	DisplayName: Stratus Sink
 	Tooltip: Counts as a water source
 }
 
-StratusSofa.DisplayName: Stratus Sofa
-StratusStarPlatformItem.DisplayName: Stratus Star Platform
-StratusTable.DisplayName: Stratus Table
-StratusWorkbench.DisplayName: Stratus Workbench
-SmoothVoidstone.DisplayName: Smooth Voidstone
-SmoothVoidstonePlatform.DisplayName: Smooth Voidstone Platform
-VoidBathtub.DisplayName: Void Bathtub
-VoidBed.DisplayName: Void Bed
-VoidBookcase.DisplayName: Void Bookcase
-VoidCandelabra.DisplayName: Void Candelabra
-VoidCandle.DisplayName: Void Candle
-VoidChair.DisplayName: Void Chair
-VoidChandelier.DisplayName: Void Chandelier
-VoidChest.DisplayName: Void Chest
-VoidDoor.DisplayName: Void Door
-VoidDresser.DisplayName: Void Dresser
-VoidLamp.DisplayName: Void Lamp
-VoidLantern.DisplayName: Void Lantern
-VoidObelisk.DisplayName: Void Obelisk
-VoidPiano.DisplayName: Void Piano
+StratusSofa: {
+	DisplayName: Stratus Sofa
+	Tooltip: ""
+}
+
+StratusStarPlatformItem: {
+	DisplayName: Stratus Star Platform
+	Tooltip: ""
+}
+
+StratusTable: {
+	DisplayName: Stratus Table
+	Tooltip: ""
+}
+
+StratusWorkbench: {
+	DisplayName: Stratus Workbench
+	Tooltip: ""
+}
+
+SmoothVoidstone: {
+	DisplayName: Smooth Voidstone
+	Tooltip: ""
+}
+
+SmoothVoidstonePlatform: {
+	DisplayName: Smooth Voidstone Platform
+	Tooltip: ""
+}
+
+VoidBathtub: {
+	DisplayName: Void Bathtub
+	Tooltip: ""
+}
+
+VoidBed: {
+	DisplayName: Void Bed
+	Tooltip: ""
+}
+
+VoidBookcase: {
+	DisplayName: Void Bookcase
+	Tooltip: ""
+}
+
+VoidCandelabra: {
+	DisplayName: Void Candelabra
+	Tooltip: ""
+}
+
+VoidCandle: {
+	DisplayName: Void Candle
+	Tooltip: ""
+}
+
+VoidChair: {
+	DisplayName: Void Chair
+	Tooltip: ""
+}
+
+VoidChandelier: {
+	DisplayName: Void Chandelier
+	Tooltip: ""
+}
+
+VoidChest: {
+	DisplayName: Void Chest
+	Tooltip: ""
+}
+
+VoidDoor: {
+	DisplayName: Void Door
+	Tooltip: ""
+}
+
+VoidDresser: {
+	DisplayName: Void Dresser
+	Tooltip: ""
+}
+
+VoidLamp: {
+	DisplayName: Void Lamp
+	Tooltip: ""
+}
+
+VoidLantern: {
+	DisplayName: Void Lantern
+	Tooltip: ""
+}
+
+VoidObelisk: {
+	DisplayName: Void Obelisk
+	Tooltip: ""
+}
+
+VoidPiano: {
+	DisplayName: Void Piano
+	Tooltip: ""
+}
 
 VoidSink: {
 	DisplayName: Void Sink
 	Tooltip: Counts as a water source
 }
 
-VoidSofa.DisplayName: Void Sofa
-VoidstoneSlab.DisplayName: Voidstone Slab
-VoidTable.DisplayName: Void Table
-VoidWorkbench.DisplayName: Void Workbench
-WulfrumBathtub.DisplayName: Wulfrum Bathtub
-WulfrumBed.DisplayName: Wulfrum Bed
-WulfrumBookcase.DisplayName: Wulfrum Bookcase
-WulfrumCandelabra.DisplayName: Wulfrum Candelabra
-WulfrumCandle.DisplayName: Wulfrum Candle
-WulfrumChair.DisplayName: Wulfrum Chair
-WulfrumChandelier.DisplayName: Wulfrum Chandelier
-WulfrumClock.DisplayName: Wulfrum Clock
-WulfrumDresser.DisplayName: Wulfrum Dresser
-WulfrumLamp.DisplayName: Wulfrum Lamp
-WulfrumLantern.DisplayName: Wulfrum Lantern
-WulfrumPiano.DisplayName: Wulfrum Piano
-WulfrumPlating.DisplayName: Wulfrum Plating
-WulfrumSink.DisplayName: Wulfrum Sink
-WulfrumSofa.DisplayName: Wulfrum Sofa
-WulfrumTable.DisplayName: Wulfrum Table
-WulfrumToilet.DisplayName: Wulfrum Toilet
-WulfrumWorkbench.DisplayName: Wulfrum Workbench
-HardenedAstralSand.DisplayName: Hardened Astral Sand
-HardenedSulphurousSandstone.DisplayName: Hardened Sulphurous Sandstone
-LivingBrimstoneFireBlock.DisplayName: Living Brimstone Fire Block
-LivingGodSlayerFireBlock.DisplayName: Living God Slayer Fire Block
-LivingHolyFireBlock.DisplayName: Living Holy Fire Block
+VoidSofa: {
+	DisplayName: Void Sofa
+	Tooltip: ""
+}
+
+VoidstoneSlab: {
+	DisplayName: Voidstone Slab
+	Tooltip: ""
+}
+
+VoidTable: {
+	DisplayName: Void Table
+	Tooltip: ""
+}
+
+VoidWorkbench: {
+	DisplayName: Void Workbench
+	Tooltip: ""
+}
+
+WulfrumBathtub: {
+	DisplayName: Wulfrum Bathtub
+	Tooltip: ""
+}
+
+WulfrumBed: {
+	DisplayName: Wulfrum Bed
+	Tooltip: ""
+}
+
+WulfrumBookcase: {
+	DisplayName: Wulfrum Bookcase
+	Tooltip: ""
+}
+
+WulfrumCandelabra: {
+	DisplayName: Wulfrum Candelabra
+	Tooltip: ""
+}
+
+WulfrumCandle: {
+	DisplayName: Wulfrum Candle
+	Tooltip: ""
+}
+
+WulfrumChair: {
+	DisplayName: Wulfrum Chair
+	Tooltip: ""
+}
+
+WulfrumChandelier: {
+	DisplayName: Wulfrum Chandelier
+	Tooltip: ""
+}
+
+WulfrumClock: {
+	DisplayName: Wulfrum Clock
+	Tooltip: ""
+}
+
+WulfrumDresser: {
+	DisplayName: Wulfrum Dresser
+	Tooltip: ""
+}
+
+WulfrumLamp: {
+	DisplayName: Wulfrum Lamp
+	Tooltip: ""
+}
+
+WulfrumLantern: {
+	DisplayName: Wulfrum Lantern
+	Tooltip: ""
+}
+
+WulfrumPiano: {
+	DisplayName: Wulfrum Piano
+	Tooltip: ""
+}
+
+WulfrumPlating: {
+	DisplayName: Wulfrum Plating
+	Tooltip: ""
+}
+
+WulfrumSink: {
+	DisplayName: Wulfrum Sink
+	Tooltip: ""
+}
+
+WulfrumSofa: {
+	DisplayName: Wulfrum Sofa
+	Tooltip: ""
+}
+
+WulfrumTable: {
+	DisplayName: Wulfrum Table
+	Tooltip: ""
+}
+
+WulfrumToilet: {
+	DisplayName: Wulfrum Toilet
+	Tooltip: ""
+}
+
+WulfrumWorkbench: {
+	DisplayName: Wulfrum Workbench
+	Tooltip: ""
+}
+
+HardenedAstralSand: {
+	DisplayName: Hardened Astral Sand
+	Tooltip: ""
+}
+
+HardenedSulphurousSandstone: {
+	DisplayName: Hardened Sulphurous Sandstone
+	Tooltip: ""
+}
+
+LivingBrimstoneFireBlock: {
+	DisplayName: Living Brimstone Fire Block
+	Tooltip: ""
+}
+
+LivingGodSlayerFireBlock: {
+	DisplayName: Living God Slayer Fire Block
+	Tooltip: ""
+}
+
+LivingHolyFireBlock: {
+	DisplayName: Living Holy Fire Block
+	Tooltip: ""
+}
 
 DraedonsAmbienceMusicBox: {
 	DisplayName: Music Box (Draedon's Ambience)
 	Tooltip: Plays high tech ambience by PinpinNeon
 }
 
-Navystone.DisplayName: Navystone
-NovaeSlag.DisplayName: Novae Slag
-AerialiteOre.DisplayName: Aerialite Ore
-AerialiteOreDisenchanted.DisplayName: Disenchanted Aerialite Ore
-AstralOre.DisplayName: Astral Ore
+Navystone: {
+	DisplayName: Navystone
+	Tooltip: ""
+}
+
+NovaeSlag: {
+	DisplayName: Novae Slag
+	Tooltip: ""
+}
+
+AerialiteOre: {
+	DisplayName: Aerialite Ore
+	Tooltip: ""
+}
+
+AerialiteOreDisenchanted: {
+	DisplayName: Disenchanted Aerialite Ore
+	Tooltip: ""
+}
+
+AstralOre: {
+	DisplayName: Astral Ore
+	Tooltip: ""
+}
 
 AuricOre: {
 	DisplayName: Auric Ore
 	Tooltip: Infused with long lost draconic energies
 }
 
-CryonicOre.DisplayName: Cryonic Ore
+CryonicOre: {
+	DisplayName: Cryonic Ore
+	Tooltip: ""
+}
 
 ExodiumCluster: {
 	DisplayName: Exodium Cluster
 	Tooltip: A cold cluster from the great unknown
 }
 
-HallowedOre.DisplayName: Hallowed Ore
-InfernalSuevite.DisplayName: Infernal Suevite
-PerennialOre.DisplayName: Perennial Ore
-ScoriaOre.DisplayName: Scoria Ore
-UelibloomOre.DisplayName: Uelibloom Ore
-PerennialBrick.DisplayName: Perennial Brick
-PlantyMush.DisplayName: Planty Mush
+HallowedOre: {
+	DisplayName: Hallowed Ore
+	Tooltip: ""
+}
+
+InfernalSuevite: {
+	DisplayName: Infernal Suevite
+	Tooltip: ""
+}
+
+PerennialOre: {
+	DisplayName: Perennial Ore
+	Tooltip: ""
+}
+
+ScoriaOre: {
+	DisplayName: Scoria Ore
+	Tooltip: ""
+}
+
+UelibloomOre: {
+	DisplayName: Uelibloom Ore
+	Tooltip: ""
+}
+
+PerennialBrick: {
+	DisplayName: Perennial Brick
+	Tooltip: ""
+}
+
+PlantyMush: {
+	DisplayName: Planty Mush
+	Tooltip: ""
+}
 
 Cinderplate: {
 	DisplayName: Cinderplate
@@ -1657,85 +3555,462 @@ PrismShard: {
 	Tooltip: Glows brighter underwater
 }
 
-PyreMantle.DisplayName: Pyre Mantle
-PyreMantleMolten.DisplayName: Molten Pyre Mantle
-ScorchedBone.DisplayName: Scorched Bone
-ScorchedRemains.DisplayName: Scorched Remains
-ScoriaBrick.DisplayName: Scoria Brick
-SeaPrism.DisplayName: Sea Prism
-SeaPrismBrick.DisplayName: Sea Prism Brick
+PyreMantle: {
+	DisplayName: Pyre Mantle
+	Tooltip: ""
+}
+
+PyreMantleMolten: {
+	DisplayName: Molten Pyre Mantle
+	Tooltip: ""
+}
+
+ScorchedBone: {
+	DisplayName: Scorched Bone
+	Tooltip: ""
+}
+
+ScorchedRemains: {
+	DisplayName: Scorched Remains
+	Tooltip: ""
+}
+
+ScoriaBrick: {
+	DisplayName: Scoria Brick
+	Tooltip: ""
+}
+
+SeaPrism: {
+	DisplayName: Sea Prism
+	Tooltip: ""
+}
+
+SeaPrismBrick: {
+	DisplayName: Sea Prism Brick
+	Tooltip: ""
+}
 
 SpineSapling: {
 	DisplayName: Small Spine
 	Tooltip: Plants Giant Spine saplings on Brimstone Slag
 }
 
-SulphurousSand.DisplayName: Sulphurous Sand
-SulphurousSandstone.DisplayName: Sulphurous Sandstone
-SulphurousShale.DisplayName: Sulphurous Shale
-UelibloomBrick.DisplayName: Uelibloom Brick
-VernalSoil.DisplayName: Vernal Soil
-Voidstone.DisplayName: Voidstone
-AbyssGravelWallItem.DisplayName: Abyss Gravel Wall
-AcidwoodWallItem.DisplayName: Acidwood Wall
-AerialiteBrickWall.DisplayName: Aerialite Brick Wall
-AshenSlabWall.DisplayName: Ashen Slab Wall
-AstralBrickWall.DisplayName: Astral Brick Wall
-AstralDirtWall.DisplayName: Astral Dirt Wall
-AstralGrassWall.DisplayName: Astral Grass Wall
-AstralIceWall.DisplayName: Astral Ice Wall
-AstralMonolithWall.DisplayName: Astral Monolith Wall
-AstralSandstoneWall.DisplayName: Astral Sandstone Wall
-AstralSnowWall.DisplayName: Astral Snow Wall
-AstralStoneWall.DisplayName: Astral Stone Wall
-BrimstoneSlabWall.DisplayName: Brimstone Slab Wall
-BrimstoneSlagWall.DisplayName: Brimstone Slag Wall
-CelestialRemainsWall.DisplayName: Celestial Remains Wall
-CinderplateWall.DisplayName: Cinderplate Wall
-CosmiliteBrickWall.DisplayName: Cosmilite Brick Wall
-CryonicBrickWall.DisplayName: Cryonic Brick Wall
-HazardChevronWall.DisplayName: Hazard Chevron Wall
-LaboratoryPanelWall.DisplayName: Laboratory Panel Wall
-LaboratoryPlateBeam.DisplayName: Laboratory Plate Beam
-LaboratoryPlatePillar.DisplayName: Laboratory Plate Pillar
-LaboratoryPlatingWall.DisplayName: Laboratory Plating Wall
-RustedPlateBeam.DisplayName: Rusted Plate Beam
-RustedPlatePillar.DisplayName: Rusted Plate Pillar
-RustedPlatingWall.DisplayName: Rusted Plating Wall
-ElumplateWall.DisplayName: Elumplate Wall
-EutrophicSandWall.DisplayName: Unsafe Eutrophic Sand Wall
-EutrophicSandWallSafe.DisplayName: Eutrophic Sand Wall
-ExoPlatingWallItem.DisplayName: Exo Plating Wall
-ExoPrismPanelWallItem.DisplayName: Exo Prism Panel Wall
-FloralWall.DisplayName: Floral Wall
-HardenedAstralSandWall.DisplayName: Hardened Astral Sand Wall
-HardenedSulphurousSandstoneWall.DisplayName: Hardened Sulphurous Sandstone Wall
-HavocplateWall.DisplayName: Havocplate Wall
-NavyplateWall.DisplayName: Navyplate Wall
-NavystoneWall.DisplayName: Unsafe Navystone Wall
-NavystoneWallSafe.DisplayName: Navystone Wall
-OccultBrickWallItem.DisplayName: Occult Brick Wall
-OnyxplateWall.DisplayName: Onyxplate Wall
-OtherworldlyStoneWall.DisplayName: Otherworldly Stone Wall
-PerennialBrickWall.DisplayName: Perennial Brick Wall
-PlagueContainmentCellsWall.DisplayName: Plagueplate Wall
-PlaguedPlateWall.DisplayName: Plagued Containment Wall
-ProfanedCrystalWall.DisplayName: Profaned Crystal Wall
-ProfanedRockWall.DisplayName: Profaned Rock Wall
-ProfanedSlabWall.DisplayName: Profaned Slab Wall
-RunicProfanedBrickWall.DisplayName: Runic Profaned Brick Wall
-ScorchedBoneWall.DisplayName: Scorched Bone Wall
-ScoriaBrickWall.DisplayName: Scoria Brick Wall
-SilvaWall.DisplayName: Silva Wall
-SmoothAbyssGravelWall.DisplayName: Smooth Abyss Gravel Wall
-SmoothBrimstoneSlagWall.DisplayName: Smooth Brimstone Slag Wall
-SmoothNavystoneWall.DisplayName: Smooth Navystone Wall
-SmoothVoidstoneWall.DisplayName: Smooth Voidstone Wall
-StatigelWall.DisplayName: Statigel Wall
-StratusWall.DisplayName: Stratus Wall
-SulphurousSandstoneWall.DisplayName: Sulphurous Sandstone Wall
-SulphurousSandWall.DisplayName: Sulphurous Sand Wall
-SulphurousShaleWall.DisplayName: Sulphurous Shale Wall
-UelibloomBrickWall.DisplayName: Uelibloom Brick Wall
-VoidstoneSlabWall.DisplayName: Voidstone Slab Wall
-VoidstoneWall.DisplayName: Voidstone Wall
+SulphurousSand: {
+	DisplayName: Sulphurous Sand
+	Tooltip: ""
+}
+
+SulphurousSandstone: {
+	DisplayName: Sulphurous Sandstone
+	Tooltip: ""
+}
+
+SulphurousShale: {
+	DisplayName: Sulphurous Shale
+	Tooltip: ""
+}
+
+UelibloomBrick: {
+	DisplayName: Uelibloom Brick
+	Tooltip: ""
+}
+
+VernalSoil: {
+	DisplayName: Vernal Soil
+	Tooltip: ""
+}
+
+Voidstone: {
+	DisplayName: Voidstone
+	Tooltip: ""
+}
+
+AbyssGravelWallItem: {
+	DisplayName: Abyss Gravel Wall
+	Tooltip: ""
+}
+
+AcidwoodWallItem: {
+	DisplayName: Acidwood Wall
+	Tooltip: ""
+}
+
+AerialiteBrickWall: {
+	DisplayName: Aerialite Brick Wall
+	Tooltip: ""
+}
+
+AshenSlabWall: {
+	DisplayName: Ashen Slab Wall
+	Tooltip: ""
+}
+
+AstralBrickWall: {
+	DisplayName: Astral Brick Wall
+	Tooltip: ""
+}
+
+AstralDirtWall: {
+	DisplayName: Astral Dirt Wall
+	Tooltip: ""
+}
+
+AstralGrassWall: {
+	DisplayName: Astral Grass Wall
+	Tooltip: ""
+}
+
+AstralIceWall: {
+	DisplayName: Astral Ice Wall
+	Tooltip: ""
+}
+
+AstralMonolithWall: {
+	DisplayName: Astral Monolith Wall
+	Tooltip: ""
+}
+
+AstralSandstoneWall: {
+	DisplayName: Astral Sandstone Wall
+	Tooltip: ""
+}
+
+AstralSnowWall: {
+	DisplayName: Astral Snow Wall
+	Tooltip: ""
+}
+
+AstralStoneWall: {
+	DisplayName: Astral Stone Wall
+	Tooltip: ""
+}
+
+BrimstoneSlabWall: {
+	DisplayName: Brimstone Slab Wall
+	Tooltip: ""
+}
+
+BrimstoneSlagWall: {
+	DisplayName: Brimstone Slag Wall
+	Tooltip: ""
+}
+
+CelestialRemainsWall: {
+	DisplayName: Celestial Remains Wall
+	Tooltip: ""
+}
+
+CinderplateWall: {
+	DisplayName: Cinderplate Wall
+	Tooltip: ""
+}
+
+CosmiliteBrickWall: {
+	DisplayName: Cosmilite Brick Wall
+	Tooltip: ""
+}
+
+CryonicBrickWall: {
+	DisplayName: Cryonic Brick Wall
+	Tooltip: ""
+}
+
+HazardChevronWall: {
+	DisplayName: Hazard Chevron Wall
+	Tooltip: ""
+}
+
+LaboratoryPanelWall: {
+	DisplayName: Laboratory Panel Wall
+	Tooltip: ""
+}
+
+LaboratoryPlateBeam: {
+	DisplayName: Laboratory Plate Beam
+	Tooltip: ""
+}
+
+LaboratoryPlatePillar: {
+	DisplayName: Laboratory Plate Pillar
+	Tooltip: ""
+}
+
+LaboratoryPlatingWall: {
+	DisplayName: Laboratory Plating Wall
+	Tooltip: ""
+}
+
+RustedPlateBeam: {
+	DisplayName: Rusted Plate Beam
+	Tooltip: ""
+}
+
+RustedPlatePillar: {
+	DisplayName: Rusted Plate Pillar
+	Tooltip: ""
+}
+
+RustedPlatingWall: {
+	DisplayName: Rusted Plating Wall
+	Tooltip: ""
+}
+
+ElumplateWall: {
+	DisplayName: Elumplate Wall
+	Tooltip: ""
+}
+
+EutrophicSandWall: {
+	DisplayName: Unsafe Eutrophic Sand Wall
+	Tooltip: ""
+}
+
+EutrophicSandWallSafe: {
+	DisplayName: Eutrophic Sand Wall
+	Tooltip: ""
+}
+
+ExoPlatingWallItem: {
+	DisplayName: Exo Plating Wall
+	Tooltip: ""
+}
+
+ExoPrismPanelWallItem: {
+	DisplayName: Exo Prism Panel Wall
+	Tooltip: ""
+}
+
+FloralWall: {
+	DisplayName: Floral Wall
+	Tooltip: ""
+}
+
+HardenedAstralSandWall: {
+	DisplayName: Hardened Astral Sand Wall
+	Tooltip: ""
+}
+
+HardenedSulphurousSandstoneWall: {
+	DisplayName: Hardened Sulphurous Sandstone Wall
+	Tooltip: ""
+}
+
+HavocplateWall: {
+	DisplayName: Havocplate Wall
+	Tooltip: ""
+}
+
+NavyplateWall: {
+	DisplayName: Navyplate Wall
+	Tooltip: ""
+}
+
+NavystoneWall: {
+	DisplayName: Unsafe Navystone Wall
+	Tooltip: ""
+}
+
+NavystoneWallSafe: {
+	DisplayName: Navystone Wall
+	Tooltip: ""
+}
+
+OccultBrickWallItem: {
+	DisplayName: Occult Brick Wall
+	Tooltip: ""
+}
+
+OnyxplateWall: {
+	DisplayName: Onyxplate Wall
+	Tooltip: ""
+}
+
+OtherworldlyStoneWall: {
+	DisplayName: Otherworldly Stone Wall
+	Tooltip: ""
+}
+
+PerennialBrickWall: {
+	DisplayName: Perennial Brick Wall
+	Tooltip: ""
+}
+
+PlagueContainmentCellsWall: {
+	DisplayName: Plagueplate Wall
+	Tooltip: ""
+}
+
+PlaguedPlateWall: {
+	DisplayName: Plagued Containment Wall
+	Tooltip: ""
+}
+
+ProfanedCrystalWall: {
+	DisplayName: Profaned Crystal Wall
+	Tooltip: ""
+}
+
+ProfanedRockWall: {
+	DisplayName: Profaned Rock Wall
+	Tooltip: ""
+}
+
+ProfanedSlabWall: {
+	DisplayName: Profaned Slab Wall
+	Tooltip: ""
+}
+
+RunicProfanedBrickWall: {
+	DisplayName: Runic Profaned Brick Wall
+	Tooltip: ""
+}
+
+ScorchedBoneWall: {
+	DisplayName: Scorched Bone Wall
+	Tooltip: ""
+}
+
+ScoriaBrickWall: {
+	DisplayName: Scoria Brick Wall
+	Tooltip: ""
+}
+
+SilvaWall: {
+	DisplayName: Silva Wall
+	Tooltip: ""
+}
+
+SmoothAbyssGravelWall: {
+	DisplayName: Smooth Abyss Gravel Wall
+	Tooltip: ""
+}
+
+SmoothBrimstoneSlagWall: {
+	DisplayName: Smooth Brimstone Slag Wall
+	Tooltip: ""
+}
+
+SmoothNavystoneWall: {
+	DisplayName: Smooth Navystone Wall
+	Tooltip: ""
+}
+
+SmoothVoidstoneWall: {
+	DisplayName: Smooth Voidstone Wall
+	Tooltip: ""
+}
+
+StatigelWall: {
+	DisplayName: Statigel Wall
+	Tooltip: ""
+}
+
+StratusWall: {
+	DisplayName: Stratus Wall
+	Tooltip: ""
+}
+
+SulphurousSandstoneWall: {
+	DisplayName: Sulphurous Sandstone Wall
+	Tooltip: ""
+}
+
+SulphurousSandWall: {
+	DisplayName: Sulphurous Sand Wall
+	Tooltip: ""
+}
+
+SulphurousShaleWall: {
+	DisplayName: Sulphurous Shale Wall
+	Tooltip: ""
+}
+
+UelibloomBrickWall: {
+	DisplayName: Uelibloom Brick Wall
+	Tooltip: ""
+}
+
+VoidstoneSlabWall: {
+	DisplayName: Voidstone Slab Wall
+	Tooltip: ""
+}
+
+VoidstoneWall: {
+	DisplayName: Voidstone Wall
+	Tooltip: ""
+}
+
+HardenedEutrophicSand: {
+	DisplayName: Hardened Eutrophic Sand
+	Tooltip: ""
+}
+
+FireTurret: {
+	DisplayName: Fire Turret
+	Tooltip: ""
+}
+
+HostileFireTurret: {
+	DisplayName: Hostile Fire Turret
+	Tooltip: ""
+}
+
+HostileIceTurret: {
+	DisplayName: Hostile Ice Turret
+	Tooltip: ""
+}
+
+HostileLabTurret: {
+	DisplayName: Hostile Lab Turret
+	Tooltip: ""
+}
+
+HostileLaserTurret: {
+	DisplayName: Hostile Laser Turret
+	Tooltip: ""
+}
+
+HostileOnyxTurret: {
+	DisplayName: Hostile Onyx Turret
+	Tooltip: ""
+}
+
+HostilePlagueTurret: {
+	DisplayName: Hostile Plague Turret
+	Tooltip: ""
+}
+
+HostileWaterTurret: {
+	DisplayName: Hostile Water Turret
+	Tooltip: ""
+}
+
+IceTurret: {
+	DisplayName: Ice Turret
+	Tooltip: ""
+}
+
+LabTurret: {
+	DisplayName: Lab Turret
+	Tooltip: ""
+}
+
+LaserTurret: {
+	DisplayName: Laser Turret
+	Tooltip: ""
+}
+
+OnyxTurret: {
+	DisplayName: Onyx Turret
+	Tooltip: ""
+}
+
+PlagueTurret: {
+	DisplayName: Plague Turret
+	Tooltip: ""
+}
+
+WaterTurret: {
+	DisplayName: Water Turret
+	Tooltip: ""
+}

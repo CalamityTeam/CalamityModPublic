@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
-    public class MinionGaussBoom : BaseMassiveExplosionProjectile
+    public class MinionGaussBoom : BaseMassiveExplosionProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override int Lifetime => 60;
 
         // No screenshake is used for the sake of gameplay convenience.

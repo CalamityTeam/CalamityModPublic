@@ -8,16 +8,55 @@ AndroombaItem: {
 		'''
 }
 
-BabyFlakCrabItem.DisplayName: "{$Mods.CalamityMod.NPCs.BabyFlakCrab.DisplayName}"
-BabyGhostBellItem.DisplayName: "{$Mods.CalamityMod.NPCs.BabyGhostBell.DisplayName}"
-NanodroidDysfunctionalItem.DisplayName: Dysfunctional Nanodroid
-NanodroidItem.DisplayName: "{$Mods.CalamityMod.NPCs.Nanodroid.DisplayName}"
-NanodroidPlagueGreenItem.DisplayName: Green Plague Nanodroid
-NanodroidPlagueRedItem.DisplayName: Red Plague Nanodroid
-PiggyItem.DisplayName: "{$Mods.CalamityMod.NPCs.Piggy.DisplayName}"
-RepairUnitItem.DisplayName: "{$Mods.CalamityMod.NPCs.RepairUnitCritter.DisplayName}"
-SeaMinnowItem.DisplayName: "{$Mods.CalamityMod.NPCs.SeaMinnow.DisplayName}"
-TwinklerItem.DisplayName: "{$Mods.CalamityMod.NPCs.Twinkler.DisplayName}"
+BabyFlakCrabItem: {
+	DisplayName: "{$Mods.CalamityMod.NPCs.BabyFlakCrab.DisplayName}"
+	Tooltip: ""
+}
+
+BabyGhostBellItem: {
+	DisplayName: "{$Mods.CalamityMod.NPCs.BabyGhostBell.DisplayName}"
+	Tooltip: ""
+}
+
+NanodroidDysfunctionalItem: {
+	DisplayName: Dysfunctional Nanodroid
+	Tooltip: ""
+}
+
+NanodroidItem: {
+	DisplayName: "{$Mods.CalamityMod.NPCs.Nanodroid.DisplayName}"
+	Tooltip: ""
+}
+
+NanodroidPlagueGreenItem: {
+	DisplayName: Green Plague Nanodroid
+	Tooltip: ""
+}
+
+NanodroidPlagueRedItem: {
+	DisplayName: Red Plague Nanodroid
+	Tooltip: ""
+}
+
+PiggyItem: {
+	DisplayName: "{$Mods.CalamityMod.NPCs.Piggy.DisplayName}"
+	Tooltip: ""
+}
+
+RepairUnitItem: {
+	DisplayName: "{$Mods.CalamityMod.NPCs.RepairUnitCritter.DisplayName}"
+	Tooltip: ""
+}
+
+SeaMinnowItem: {
+	DisplayName: "{$Mods.CalamityMod.NPCs.SeaMinnow.DisplayName}"
+	Tooltip: ""
+}
+
+TwinklerItem: {
+	DisplayName: "{$Mods.CalamityMod.NPCs.Twinkler.DisplayName}"
+	Tooltip: ""
+}
 
 // Permanent Boosters
 BloodOrange: {

@@ -1,7 +1,22 @@
-AbyssalWarhammer.DisplayName: Abyssal Warhammer
-AerialHamaxe.DisplayName: Aerial Hamaxe
-AstralHamaxe.DisplayName: Astral Hamaxe
-AstralPickaxe.DisplayName: Astral Pickaxe
+AbyssalWarhammer: {
+	DisplayName: Abyssal Warhammer
+	Tooltip: ""
+}
+
+AerialHamaxe: {
+	DisplayName: Aerial Hamaxe
+	Tooltip: ""
+}
+
+AstralHamaxe: {
+	DisplayName: Astral Hamaxe
+	Tooltip: ""
+}
+
+AstralPickaxe: {
+	DisplayName: Astral Pickaxe
+	Tooltip: ""
+}
 
 AxeofPurity: {
 	DisplayName: Axe of Purity
@@ -12,8 +27,15 @@ AxeofPurity: {
 		'''
 }
 
-BeastialPickaxe.DisplayName: Beastial Pickaxe
-BerserkerWaraxe.DisplayName: Berserker Waraxe
+BeastialPickaxe: {
+	DisplayName: Beastial Pickaxe
+	Tooltip: ""
+}
+
+BerserkerWaraxe: {
+	DisplayName: Berserker Waraxe
+	Tooltip: ""
+}
 
 BlossomPickaxe: {
 	DisplayName: Blossom Pickaxe
@@ -70,8 +92,15 @@ CrystylCrusher: {
 		'''
 }
 
-FellerofEvergreens.DisplayName: Feller of Evergreens
-Gelpick.DisplayName: Gelpick
+FellerofEvergreens: {
+	DisplayName: Feller of Evergreens
+	Tooltip: ""
+}
+
+Gelpick: {
+	DisplayName: Gelpick
+	Tooltip: ""
+}
 
 GenesisPickaxe: {
 	DisplayName: Genesis Pickaxe
@@ -119,7 +148,10 @@ MarniteObliterator: {
 		'''
 }
 
-ReefclawHamaxe.DisplayName: Reefclaw Hamaxe
+ReefclawHamaxe: {
+	DisplayName: Reefclaw Hamaxe
+	Tooltip: ""
+}
 
 SeismicHampick: {
 	DisplayName: Seismic Hampick
@@ -131,14 +163,20 @@ SeismicHampick: {
 		'''
 }
 
-ShardlightPickaxe.DisplayName: Shardlight Pickaxe
+ShardlightPickaxe: {
+	DisplayName: Shardlight Pickaxe
+	Tooltip: ""
+}
 
 SkyfringePickaxe: {
 	DisplayName: Skyfringe Pickaxe
 	Tooltip: Able to mine Hellstone
 }
 
-TectonicTruncator.DisplayName: Tectonic Truncator
+TectonicTruncator: {
+	DisplayName: Tectonic Truncator
+	Tooltip: ""
+}
 
 WulfrumDiggingTurtle: {
 	DisplayName: Wulfrum Digging Turtle
@@ -149,7 +187,10 @@ WulfrumDiggingTurtle: {
 		'''
 }
 
-WulfrumDrill.DisplayName: Wulfrum Drill
+WulfrumDrill: {
+	DisplayName: Wulfrum Drill
+	Tooltip: ""
+}
 
 WulfrumScaffoldKit: {
 	DisplayName: Wulfrum Scaffold Kit

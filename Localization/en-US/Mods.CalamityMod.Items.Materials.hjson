@@ -1,6 +1,17 @@
-AerialiteBar.DisplayName: Aerialite Bar
-AncientBoneDust.DisplayName: Ancient Bone Dust
-ArmoredShell.DisplayName: Armored Shell
+AerialiteBar: {
+	DisplayName: Aerialite Bar
+	Tooltip: ""
+}
+
+AncientBoneDust: {
+	DisplayName: Ancient Bone Dust
+	Tooltip: ""
+}
+
+ArmoredShell: {
+	DisplayName: Armored Shell
+	Tooltip: ""
+}
 
 AscendantSpiritEssence: {
 	DisplayName: Ascendant Spirit Essence
@@ -12,23 +23,65 @@ AshesofAnnihilation: {
 	Tooltip: The smoldering essence of the Witch's wrath
 }
 
-AshesofCalamity.DisplayName: Ashes of Calamity
+AshesofCalamity: {
+	DisplayName: Ashes of Calamity
+	Tooltip: ""
+}
 
 AuricBar: {
 	DisplayName: Auric Bar
 	Tooltip: Boundless power emanates from the metal
 }
 
-BeetleJuice.DisplayName: Beetle Juice
-BlightedGel.DisplayName: Blighted Gel
-BloodOrb.DisplayName: Blood Orb
-BloodSample.DisplayName: Blood Sample
-Bloodstone.DisplayName: Bloodstone
-BloodstoneCore.DisplayName: Bloodstone Core
-CoreofCalamity.DisplayName: Core of Calamity
-CoreofEleum.DisplayName: Core of Eleum
-CoreofHavoc.DisplayName: Core of Havoc
-CoreofSunlight.DisplayName: Core of Sunlight
+BeetleJuice: {
+	DisplayName: Beetle Juice
+	Tooltip: ""
+}
+
+BlightedGel: {
+	DisplayName: Blighted Gel
+	Tooltip: ""
+}
+
+BloodOrb: {
+	DisplayName: Blood Orb
+	Tooltip: ""
+}
+
+BloodSample: {
+	DisplayName: Blood Sample
+	Tooltip: ""
+}
+
+Bloodstone: {
+	DisplayName: Bloodstone
+	Tooltip: ""
+}
+
+BloodstoneCore: {
+	DisplayName: Bloodstone Core
+	Tooltip: ""
+}
+
+CoreofCalamity: {
+	DisplayName: Core of Calamity
+	Tooltip: ""
+}
+
+CoreofEleum: {
+	DisplayName: Core of Eleum
+	Tooltip: ""
+}
+
+CoreofHavoc: {
+	DisplayName: Core of Havoc
+	Tooltip: ""
+}
+
+CoreofSunlight: {
+	DisplayName: Core of Sunlight
+	Tooltip: ""
+}
 
 CorrodedFossil: {
 	DisplayName: Corroded Fossil
@@ -40,29 +93,45 @@ CosmiliteBar: {
 	Tooltip: A chunk of durable and highly resilient cosmic steel
 }
 
-CryonicBar.DisplayName: Cryonic Bar
-DarkPlasma.DisplayName: Dark Plasma
+CryonicBar: {
+	DisplayName: Cryonic Bar
+	Tooltip: ""
+}
+
+DarkPlasma: {
+	DisplayName: Dark Plasma
+	Tooltip: ""
+}
 
 DarksunFragment: {
 	DisplayName: Darksun Fragment
 	Tooltip: An impacted crystal suffused with opposing celestial energies
 }
 
-DemonicBoneAsh.DisplayName: Demonic Bone Ash
+DemonicBoneAsh: {
+	DisplayName: Demonic Bone Ash
+	Tooltip: ""
+}
 
 DepthCells: {
 	DisplayName: Depth Cells
 	Tooltip: The cells of abyssal creatures
 }
 
-DesertFeather.DisplayName: Desert Feather
+DesertFeather: {
+	DisplayName: Desert Feather
+	Tooltip: ""
+}
 
 DivineGeode: {
 	DisplayName: Divine Geode
 	Tooltip: A chunk of crystallized holy energy
 }
 
-DubiousPlating.DisplayName: Dubious Plating
+DubiousPlating: {
+	DisplayName: Dubious Plating
+	Tooltip: ""
+}
 
 EffulgentFeather: {
 	DisplayName: Effulgent Feather
@@ -109,17 +178,35 @@ GrandScale: {
 	Tooltip: Large scale of an apex predator
 }
 
-InfectedArmorPlating.DisplayName: Infected Armor Plating
-LifeAlloy.DisplayName: Life Alloy
-LivingShard.DisplayName: Living Shard
+InfectedArmorPlating: {
+	DisplayName: Infected Armor Plating
+	Tooltip: ""
+}
+
+LifeAlloy: {
+	DisplayName: Life Alloy
+	Tooltip: ""
+}
+
+LivingShard: {
+	DisplayName: Living Shard
+	Tooltip: ""
+}
 
 Lumenyl: {
 	DisplayName: Lumenyl
 	Tooltip: A shard of lumenous energy
 }
 
-MeldBlob.DisplayName: Meld Blob
-MeldConstruct.DisplayName: Meld Construct
+MeldBlob: {
+	DisplayName: Meld Blob
+	Tooltip: ""
+}
+
+MeldConstruct: {
+	DisplayName: Meld Construct
+	Tooltip: ""
+}
 
 MiracleMatter: {
 	DisplayName: Miracle Matter
@@ -135,37 +222,60 @@ MolluskHusk: {
 	Tooltip: The remains of a mollusk
 }
 
-MurkyPaste.DisplayName: Murky Paste
-MysteriousCircuitry.DisplayName: Mysterious Circuitry
+MurkyPaste: {
+	DisplayName: Murky Paste
+	Tooltip: ""
+}
+
+MysteriousCircuitry: {
+	DisplayName: Mysterious Circuitry
+	Tooltip: ""
+}
 
 NightmareFuel: {
 	DisplayName: Nightmare Fuel
 	Tooltip: May drain your sanity
 }
 
-PearlShard.DisplayName: Pearl Shard
-PerennialBar.DisplayName: Perennial Bar
+PearlShard: {
+	DisplayName: Pearl Shard
+	Tooltip: ""
+}
+
+PerennialBar: {
+	DisplayName: Perennial Bar
+	Tooltip: ""
+}
 
 Phantoplasm: {
 	DisplayName: Phantoplasm
 	Tooltip: It churns and seethes with ghastly malice
 }
 
-PlagueCellCanister.DisplayName: Plague Cell Canister
+PlagueCellCanister: {
+	DisplayName: Plague Cell Canister
+	Tooltip: ""
+}
 
 PlasmaDriveCore: {
 	DisplayName: Prototype Plasma Drive Core
 	Tooltip: Despite all the time it spent in storage, its furnace still burns strong
 }
 
-PurifiedGel.DisplayName: Purified Gel
+PurifiedGel: {
+	DisplayName: Purified Gel
+	Tooltip: ""
+}
 
 ReaperTooth: {
 	DisplayName: Reaper Tooth
 	Tooltip: Sharp enough to cut diamonds
 }
 
-RottenMatter.DisplayName: Rotten Matter
+RottenMatter: {
+	DisplayName: Rotten Matter
+	Tooltip: ""
+}
 
 RuinousSoul: {
 	DisplayName: Ruinous Soul
@@ -177,7 +287,10 @@ ScoriaBar: {
 	Tooltip: The smoke feels warm
 }
 
-SeaRemains.DisplayName: Sea Remains
+SeaRemains: {
+	DisplayName: Sea Remains
+	Tooltip: ""
+}
 
 ShadowspecBar: {
 	DisplayName: Shadowspec Bar
@@ -189,9 +302,20 @@ SolarVeil: {
 	Tooltip: Sunlight cannot penetrate the fabric of this cloth
 }
 
-Stardust.DisplayName: Stardust
-StormlionMandible.DisplayName: Stormlion Mandible
-SulphuricScale.DisplayName: Sulphuric Scale
+Stardust: {
+	DisplayName: Stardust
+	Tooltip: ""
+}
+
+StormlionMandible: {
+	DisplayName: Stormlion Mandible
+	Tooltip: ""
+}
+
+SulphuricScale: {
+	DisplayName: Sulphuric Scale
+	Tooltip: ""
+}
 
 SuspiciousScrap: {
 	DisplayName: Suspicious Scrap
@@ -203,17 +327,35 @@ TitanHeart: {
 	Tooltip: Can be offered up at the Astral Beacon
 }
 
-TrapperBulb.DisplayName: Trapper Bulb
-TwistingNether.DisplayName: Twisting Nether
-UelibloomBar.DisplayName: Uelibloom Bar
-UnholyCore.DisplayName: Unholy Core
+TrapperBulb: {
+	DisplayName: Trapper Bulb
+	Tooltip: ""
+}
+
+TwistingNether: {
+	DisplayName: Twisting Nether
+	Tooltip: ""
+}
+
+UelibloomBar: {
+	DisplayName: Uelibloom Bar
+	Tooltip: ""
+}
+
+UnholyCore: {
+	DisplayName: Unholy Core
+	Tooltip: ""
+}
 
 UnholyEssence: {
 	DisplayName: Unholy Essence
 	Tooltip: The essence of profaned creatures
 }
 
-WulfrumMetalScrap.DisplayName: Wulfrum Metal Scrap
+WulfrumMetalScrap: {
+	DisplayName: Wulfrum Metal Scrap
+	Tooltip: ""
+}
 
 YharonSoulFragment: {
 	DisplayName: Yharon Soul Fragment

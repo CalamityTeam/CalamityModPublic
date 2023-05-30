@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class AquasScepterCloud : ModProjectile
+	public class AquasScepterCloud : ModProjectile, ILocalizedModType
 	{
+		public string LocalizationCategory => "Projectiles.Summon";
         public ref float LightningTimer => ref Projectile.ai[0];
         public ref float RainTimer => ref Projectile.ai[1];
 

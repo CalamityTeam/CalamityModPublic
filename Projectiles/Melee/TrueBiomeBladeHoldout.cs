@@ -14,8 +14,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TrueBiomeBladeHoldout : ModProjectile //Visuals
+    public class TrueBiomeBladeHoldout : ModProjectile, ILocalizedModType //Visuals
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private Player Owner => Main.player[Projectile.owner];
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.ModItem as OmegaBiomeBlade).CanUseItem(Owner) : false;
         public bool OwnerMayChannel => Owner.itemAnimation == 0 && OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead;
@@ -26,9 +27,6 @@ namespace CalamityMod.Projectiles.Melee
         private Item associatedItem;
         const int ChannelTime = 120;
 
-        public override void SetStaticDefaults()
-        {
-        }
         public override string Texture => "CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade";
         public bool drawIndrawHeldProjInFrontOfHeldItemAndArms = true;
         public override void SetDefaults()

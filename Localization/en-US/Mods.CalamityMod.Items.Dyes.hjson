@@ -1,34 +1,169 @@
-AerialiteDye.DisplayName: Aerialite Dye
-AstralBlueDye.DisplayName: Astral Blue Dye
-AstralDye.DisplayName: Astral Flesh Dye
-AstralOrangeDye.DisplayName: Astral Orange Dye
-AstralSwirlDye.DisplayName: Astral Swirl Dye
-AuricDye.DisplayName: Auric Dye
-BloodflareDye.DisplayName: Bloodflare Dye
-BlueCosmicFlameDye.DisplayName: Blue Cosmic Flame Dye
-BlueStatigelDye.DisplayName: Blue Statigel Dye
-BrimflameDye.DisplayName: Brimflame Dye
-CalamitousDye.DisplayName: Calamitous Dye
-CeaselessDye.DisplayName: Ceaseless Dye
-CosmiliteDye.DisplayName: Cosmilite Dye
-CryonicDye.DisplayName: Cryonic Dye
-DefiledFlameDye.DisplayName: Defiled Flame Dye
-DragonSoulDye.DisplayName: Dragon Soul Dye
-ElementalDye.DisplayName: Elemental Dye
-EndothermicDye.DisplayName: Endothermic Dye
-ExoDye.DisplayName: Exo Dye
-AdrenalineHairDye.DisplayName: Adrenaline Hair Dye
-RageHairDye.DisplayName: Rage Hair Dye
-StealthHairDye.DisplayName: Stealth Hair Dye
-WingTimeHairDye.DisplayName: Wing Time Hair Dye
-NightmareDye.DisplayName: Nightmare Dye
-PhantoplasmDye.DisplayName: Phantoplasm Dye
-PinkCosmicFlameDye.DisplayName: Pink Cosmic Flame Dye
-PinkStatigelDye.DisplayName: Pink Statigel Dye
-ProfanedFlameDye.DisplayName: Profaned Flame Dye
-ProfanedMoonlightDye.DisplayName: Profaned Moonlight Dye
-ReaverDye.DisplayName: Reaver Dye
-ShadowspecDye.DisplayName: Shadowspec Dye
-SlimeGodDye.DisplayName: Slime God Dye
-StratusDye.DisplayName: Stratus Dye
-SwirlingCosmicFlameDye.DisplayName: Swirling Cosmic Flame Dye
+AerialiteDye: {
+	DisplayName: Aerialite Dye
+	Tooltip: ""
+}
+
+AstralBlueDye: {
+	DisplayName: Astral Blue Dye
+	Tooltip: ""
+}
+
+AstralDye: {
+	DisplayName: Astral Flesh Dye
+	Tooltip: ""
+}
+
+AstralOrangeDye: {
+	DisplayName: Astral Orange Dye
+	Tooltip: ""
+}
+
+AstralSwirlDye: {
+	DisplayName: Astral Swirl Dye
+	Tooltip: ""
+}
+
+AuricDye: {
+	DisplayName: Auric Dye
+	Tooltip: ""
+}
+
+BloodflareDye: {
+	DisplayName: Bloodflare Dye
+	Tooltip: ""
+}
+
+BlueCosmicFlameDye: {
+	DisplayName: Blue Cosmic Flame Dye
+	Tooltip: ""
+}
+
+BlueStatigelDye: {
+	DisplayName: Blue Statigel Dye
+	Tooltip: ""
+}
+
+BrimflameDye: {
+	DisplayName: Brimflame Dye
+	Tooltip: ""
+}
+
+CalamitousDye: {
+	DisplayName: Calamitous Dye
+	Tooltip: ""
+}
+
+CeaselessDye: {
+	DisplayName: Ceaseless Dye
+	Tooltip: ""
+}
+
+CosmiliteDye: {
+	DisplayName: Cosmilite Dye
+	Tooltip: ""
+}
+
+CryonicDye: {
+	DisplayName: Cryonic Dye
+	Tooltip: ""
+}
+
+DefiledFlameDye: {
+	DisplayName: Defiled Flame Dye
+	Tooltip: ""
+}
+
+DragonSoulDye: {
+	DisplayName: Dragon Soul Dye
+	Tooltip: ""
+}
+
+ElementalDye: {
+	DisplayName: Elemental Dye
+	Tooltip: ""
+}
+
+EndothermicDye: {
+	DisplayName: Endothermic Dye
+	Tooltip: ""
+}
+
+ExoDye: {
+	DisplayName: Exo Dye
+	Tooltip: ""
+}
+
+AdrenalineHairDye: {
+	DisplayName: Adrenaline Hair Dye
+	Tooltip: ""
+}
+
+RageHairDye: {
+	DisplayName: Rage Hair Dye
+	Tooltip: ""
+}
+
+StealthHairDye: {
+	DisplayName: Stealth Hair Dye
+	Tooltip: ""
+}
+
+WingTimeHairDye: {
+	DisplayName: Wing Time Hair Dye
+	Tooltip: ""
+}
+
+NightmareDye: {
+	DisplayName: Nightmare Dye
+	Tooltip: ""
+}
+
+PhantoplasmDye: {
+	DisplayName: Phantoplasm Dye
+	Tooltip: ""
+}
+
+PinkCosmicFlameDye: {
+	DisplayName: Pink Cosmic Flame Dye
+	Tooltip: ""
+}
+
+PinkStatigelDye: {
+	DisplayName: Pink Statigel Dye
+	Tooltip: ""
+}
+
+ProfanedFlameDye: {
+	DisplayName: Profaned Flame Dye
+	Tooltip: ""
+}
+
+ProfanedMoonlightDye: {
+	DisplayName: Profaned Moonlight Dye
+	Tooltip: ""
+}
+
+ReaverDye: {
+	DisplayName: Reaver Dye
+	Tooltip: ""
+}
+
+ShadowspecDye: {
+	DisplayName: Shadowspec Dye
+	Tooltip: ""
+}
+
+SlimeGodDye: {
+	DisplayName: Slime God Dye
+	Tooltip: ""
+}
+
+StratusDye: {
+	DisplayName: Stratus Dye
+	Tooltip: ""
+}
+
+SwirlingCosmicFlameDye: {
+	DisplayName: Swirling Cosmic Flame Dye
+	Tooltip: ""
+}

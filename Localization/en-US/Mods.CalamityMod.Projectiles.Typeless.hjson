@@ -8,6 +8,8 @@ ArtifactOfResilienceShard4.DisplayName: Artifact Shard
 ArtifactOfResilienceShard5.DisplayName: Artifact Shard
 ArtifactOfResilienceShard6.DisplayName: Artifact Shard
 AstralFallingSand.DisplayName: Astral Falling Sand
+AstralSandBallFalling.DisplayName: Astral Sand
+AstralSandBallGun.DisplayName: Astral Sand
 AstralSpray.DisplayName: Astral Spray
 AstralStar.DisplayName: Star
 BallisticPoisonCloud.DisplayName: Ballistic Cloud
@@ -44,6 +46,7 @@ EmpyreanGlob.DisplayName: Empyeran Glob
 EmpyreanMarble.DisplayName: Empyrean Marble
 EmpyreanStellarDetritus.DisplayName: Empyrean Stellar Detritus
 EnergyShell.DisplayName: Energy Shell
+EutrophicSandBallGun.DisplayName: Eutrophic Sand
 FeralDoubleBobber.DisplayName: Feral Bobber
 FuckYou.DisplayName: Explosion
 FungalClumpMinion.DisplayName: Fungal Clump
@@ -106,6 +109,7 @@ StarStruckWaterBottle.DisplayName: Bottle
 StickyFeatherAero.DisplayName: Feather
 SuicideBomberDemon.DisplayName: Demon
 SulphuricAcidBubbleFriendly.DisplayName: Acid Bubble
+SulphurousSandBallGun.DisplayName: Sulphurous Sand
 TarraEnergy.DisplayName: Tarra Energy
 TerminusHoldout.DisplayName: Terminus Holdout
 TeslaAura.DisplayName: Tesla's Electricity

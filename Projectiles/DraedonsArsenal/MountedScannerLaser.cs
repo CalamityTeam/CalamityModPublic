@@ -9,8 +9,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class MountedScannerLaser : BaseLaserbeamProjectile
+    public class MountedScannerLaser : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public int OwnerIndex

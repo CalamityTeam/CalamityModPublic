@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Placeables
 {
-    public class CinderBlossomSeeds : ModItem
-	{
+    public class CinderBlossomSeeds : ModItem, ILocalizedModType
+    {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
 		{
 			Item.ResearchUnlockCount = 25;

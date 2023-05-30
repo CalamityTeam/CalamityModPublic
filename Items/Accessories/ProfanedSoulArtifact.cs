@@ -10,11 +10,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class ProfanedSoulArtifact : ModItem //My precious babs <3 ~Amber
+    public class ProfanedSoulArtifact : ModItem, ILocalizedModType //My precious babs <3 ~Amber
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
-                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

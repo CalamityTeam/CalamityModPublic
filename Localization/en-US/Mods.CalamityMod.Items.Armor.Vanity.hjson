@@ -3,32 +3,135 @@ AcesApronOfAffection: {
 	Tooltip: "'Great for hugging people'"
 }
 
-AnahitaMask.DisplayName: Anahita Mask
-AncientGodSlayerChestplate.DisplayName: Ancient God Slayer Chestplate
-AncientGodSlayerHelm.DisplayName: Ancient God Slayer Helm
-AncientGodSlayerLeggings.DisplayName: Ancient God Slayer Leggings
-ApolloMask.DisplayName: Apollo Mask
-AquaticScourgeMask.DisplayName: Aquatic Scourge Mask
-AresMask.DisplayName: Ares Mask
-ArtemisMask.DisplayName: Artemis Mask
-AshenHorns.DisplayName: Ashen Horns
-AstrumAureusMask.DisplayName: Astrum Aureus Mask
-AstrumDeusMask.DisplayName: Astrum Deus Mask
-BrimstoneWaifuMask.DisplayName: Brimstone Elemental Mask
-BumblefuckMask.DisplayName: Dragonfolly Mask
-CalamitasCloneMask.DisplayName: Calamitas Clone Mask
-CeaselessVoidMask.DisplayName: Ceaseless Void Mask
-CrabulonMask.DisplayName: Crabulon Mask
-CryogenMask.DisplayName: Cryogen Mask
-DesertScourgeMask.DisplayName: Desert Scourge Mask
-DevourerofGodsMask.DisplayName: Devourer of Gods Mask
-DraedonMask.DisplayName: Draedon Mask
-GodSlayerHornedHelm.DisplayName: God Slayer Horned Helm
-GodSlayerVisage.DisplayName: God Slayer Visage
-HiveMindMask.DisplayName: Hive Mind Mask
-HoodOfCalamity.DisplayName: Hood of Calamity
-LeviathanMask.DisplayName: Leviathan Mask
-OldDukeMask.DisplayName: Old Duke Mask
+AnahitaMask: {
+	DisplayName: Anahita Mask
+	Tooltip: ""
+}
+
+AncientGodSlayerChestplate: {
+	DisplayName: Ancient God Slayer Chestplate
+	Tooltip: ""
+}
+
+AncientGodSlayerHelm: {
+	DisplayName: Ancient God Slayer Helm
+	Tooltip: ""
+}
+
+AncientGodSlayerLeggings: {
+	DisplayName: Ancient God Slayer Leggings
+	Tooltip: ""
+}
+
+ApolloMask: {
+	DisplayName: Apollo Mask
+	Tooltip: ""
+}
+
+AquaticScourgeMask: {
+	DisplayName: Aquatic Scourge Mask
+	Tooltip: ""
+}
+
+AresMask: {
+	DisplayName: Ares Mask
+	Tooltip: ""
+}
+
+ArtemisMask: {
+	DisplayName: Artemis Mask
+	Tooltip: ""
+}
+
+AshenHorns: {
+	DisplayName: Ashen Horns
+	Tooltip: ""
+}
+
+AstrumAureusMask: {
+	DisplayName: Astrum Aureus Mask
+	Tooltip: ""
+}
+
+AstrumDeusMask: {
+	DisplayName: Astrum Deus Mask
+	Tooltip: ""
+}
+
+BrimstoneWaifuMask: {
+	DisplayName: Brimstone Elemental Mask
+	Tooltip: ""
+}
+
+BumblefuckMask: {
+	DisplayName: Dragonfolly Mask
+	Tooltip: ""
+}
+
+CalamitasCloneMask: {
+	DisplayName: Calamitas Clone Mask
+	Tooltip: ""
+}
+
+CeaselessVoidMask: {
+	DisplayName: Ceaseless Void Mask
+	Tooltip: ""
+}
+
+CrabulonMask: {
+	DisplayName: Crabulon Mask
+	Tooltip: ""
+}
+
+CryogenMask: {
+	DisplayName: Cryogen Mask
+	Tooltip: ""
+}
+
+DesertScourgeMask: {
+	DisplayName: Desert Scourge Mask
+	Tooltip: ""
+}
+
+DevourerofGodsMask: {
+	DisplayName: Devourer of Gods Mask
+	Tooltip: ""
+}
+
+DraedonMask: {
+	DisplayName: Draedon Mask
+	Tooltip: ""
+}
+
+GodSlayerHornedHelm: {
+	DisplayName: God Slayer Horned Helm
+	Tooltip: ""
+}
+
+GodSlayerVisage: {
+	DisplayName: God Slayer Visage
+	Tooltip: ""
+}
+
+HiveMindMask: {
+	DisplayName: Hive Mind Mask
+	Tooltip: ""
+}
+
+HoodOfCalamity: {
+	DisplayName: Hood of Calamity
+	Tooltip: ""
+}
+
+LeviathanMask: {
+	DisplayName: Leviathan Mask
+	Tooltip: ""
+}
+
+OldDukeMask: {
+	DisplayName: Old Duke Mask
+	Tooltip: ""
+}
 
 OldHunterHat: {
 	DisplayName: Old Hunter Hat
@@ -45,22 +148,97 @@ OldHunterShirt: {
 	Tooltip: "'Attire fashioned after the appearance of hunters from a faraway land'"
 }
 
-PerforatorMask.DisplayName: Perforator Mask
-PlaguebringerGoliathMask.DisplayName: Plaguebringer Goliath Mask
-PolterghastMask.DisplayName: Polterghast Mask
-ProfanedGuardianMask.DisplayName: Profaned Guardian Mask
-ProvidenceMask.DisplayName: Providence Mask
-RavagerMask.DisplayName: Ravager Mask
-RobesOfCalamity.DisplayName: Robes of Calamity
-SCalBoots.DisplayName: Calamitous Boots
-SCalMask.DisplayName: Calamitous Hood
-SCalRobes.DisplayName: Calamitous Robes
-SignusMask.DisplayName: Signus Mask
-SilvaHelm.DisplayName: Silva Helm
-SilvaHornedHelm.DisplayName: Silva Horned Helm
-SilvaMask.DisplayName: Silva Mask
-SlimeGodMask.DisplayName: Slime God Mask
-SlimeGodMask2.DisplayName: Slime God Mask
-StormWeaverMask.DisplayName: Storm Weaver Mask
-ThanatosMask.DisplayName: Thanatos Mask
-YharonMask.DisplayName: Yharon Mask
+PerforatorMask: {
+	DisplayName: Perforator Mask
+	Tooltip: ""
+}
+
+PlaguebringerGoliathMask: {
+	DisplayName: Plaguebringer Goliath Mask
+	Tooltip: ""
+}
+
+PolterghastMask: {
+	DisplayName: Polterghast Mask
+	Tooltip: ""
+}
+
+ProfanedGuardianMask: {
+	DisplayName: Profaned Guardian Mask
+	Tooltip: ""
+}
+
+ProvidenceMask: {
+	DisplayName: Providence Mask
+	Tooltip: ""
+}
+
+RavagerMask: {
+	DisplayName: Ravager Mask
+	Tooltip: ""
+}
+
+RobesOfCalamity: {
+	DisplayName: Robes of Calamity
+	Tooltip: ""
+}
+
+SCalBoots: {
+	DisplayName: Calamitous Boots
+	Tooltip: ""
+}
+
+SCalMask: {
+	DisplayName: Calamitous Hood
+	Tooltip: ""
+}
+
+SCalRobes: {
+	DisplayName: Calamitous Robes
+	Tooltip: ""
+}
+
+SignusMask: {
+	DisplayName: Signus Mask
+	Tooltip: ""
+}
+
+SilvaHelm: {
+	DisplayName: Silva Helm
+	Tooltip: ""
+}
+
+SilvaHornedHelm: {
+	DisplayName: Silva Horned Helm
+	Tooltip: ""
+}
+
+SilvaMask: {
+	DisplayName: Silva Mask
+	Tooltip: ""
+}
+
+SlimeGodMask: {
+	DisplayName: Slime God Mask
+	Tooltip: ""
+}
+
+SlimeGodMask2: {
+	DisplayName: Slime God Mask
+	Tooltip: ""
+}
+
+StormWeaverMask: {
+	DisplayName: Storm Weaver Mask
+	Tooltip: ""
+}
+
+ThanatosMask: {
+	DisplayName: Thanatos Mask
+	Tooltip: ""
+}
+
+YharonMask: {
+	DisplayName: Yharon Mask
+	Tooltip: ""
+}

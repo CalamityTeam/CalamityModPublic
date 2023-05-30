@@ -9,8 +9,9 @@ using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.Turret
 {
-    public class PlagueShot : ModProjectile
+    public class PlagueShot : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/Ranged/GoliathRocket";
         public override void SetDefaults()
         {

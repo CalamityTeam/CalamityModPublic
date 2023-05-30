@@ -9,8 +9,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Turret
 {
-    public class LaserShot : BaseLaserbeamProjectile
+    public class LaserShot : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public bool DoneHitting
         {
             get => Projectile.ai[1] == 1f;
