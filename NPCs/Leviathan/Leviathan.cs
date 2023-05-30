@@ -826,6 +826,15 @@ namespace CalamityMod.NPCs.Leviathan
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).AddIf((info) => LastAnLStanding(), ModContent.ItemType<LeviathanAnahitaRelic>());
 
+            // GFB Boulder, Pizza and Ring drop
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ItemID.BouncyBoulder, 1, 1, 9999);
+                GFBOnly.Add(ItemID.Boulder, 1, 1, 9999);
+                GFBOnly.Add(ItemID.Pizza, 1, 1, 9999);
+                GFBOnly.Add(ItemID.GreedyRing);
+            }
+
             // Lore
             bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding();
             npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<LoreAbyss>(), desc: DropHelper.FirstKillText);
