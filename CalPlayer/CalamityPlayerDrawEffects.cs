@@ -114,30 +114,6 @@ namespace CalamityMod.CalPlayer
                 Player.armorEffectDrawShadowSubtle = false;
             }
 
-			// Hearts
-            Asset<Texture2D> bOrange = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartBloodOrange");
-            Asset<Texture2D> mFruit = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartMiracleFruit");
-            Asset<Texture2D> eBerry = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartElderberry");
-            Asset<Texture2D> dFruit = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartDragonfruit");
-            Asset<Texture2D> heartOriginal = CalamityMod.heartOriginal; // Life crystal
-            Asset<Texture2D> heartOriginal2 = CalamityMod.heartOriginal2; // Life fruit
-
-            int totalFruit =
-                (calamityPlayer.mFruit ? 1 : 0) +
-                (calamityPlayer.bOrange ? 1 : 0) +
-                (calamityPlayer.eBerry ? 1 : 0) +
-                (calamityPlayer.dFruit ? 1 : 0);
-
-            TextureAssets.Heart2 = totalFruit switch
-            {
-                4 => dFruit,
-                3 => eBerry,
-                2 => mFruit,
-                1 => bOrange,
-                _ => heartOriginal2,
-            };
-            TextureAssets.Heart = heartOriginal;
-
             if (calamityPlayer.tRegen)
             {
                 if (Main.rand.NextBool(10) && drawInfo.shadow == 0f)

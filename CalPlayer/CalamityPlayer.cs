@@ -32,6 +32,7 @@ using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
+using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
@@ -1389,11 +1390,6 @@ namespace CalamityMod.CalPlayer
             // Max health bonuses
             if (absorber)
                 Player.statLifeMax2 += sponge ? 30 : 20;
-            Player.statLifeMax2 +=
-                (mFruit ? 25 : 0) +
-                (bOrange ? 25 : 0) +
-                (eBerry ? 25 : 0) +
-                (dFruit ? 25 : 0);
             if (fleshKnuckles)
                 Player.statLifeMax2 += 45;
 
@@ -2055,6 +2051,22 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+        #region Modify Max Health and Mana
+        public override void ModifyMaxStats(out StatModifier health, out StatModifier mana)
+        {
+            health = StatModifier.Default;
+            health.Base = bOrange.ToInt() * BloodOrange.LifeBoost
+                        + mFruit.ToInt() * MiracleFruit.LifeBoost
+                        + eBerry.ToInt() * Elderberry.LifeBoost
+                        + dFruit.ToInt() * Dragonfruit.LifeBoost;
+
+            mana = StatModifier.Default;
+            mana.Base = cShard.ToInt() * CometShard.ManaBoost
+                        + eCore.ToInt() * EtherealCore.ManaBoost
+                        + pHeart.ToInt() * PhantomHeart.ManaBoost;
+        }
+        #endregion
+
         #region Screen Position Movements
         public override void ModifyScreenPosition()
         {
@@ -2480,7 +2492,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Keybinds
-
         public Item FindAccessory(int itemID)
         {
             for (int i = 0; i < 10; i++)
@@ -2490,8 +2501,6 @@ namespace CalamityMod.CalPlayer
             }
             return new Item();
         }
-
-        
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {

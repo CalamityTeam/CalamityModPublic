@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.PermanentBoosters
@@ -13,6 +14,10 @@ namespace CalamityMod.Items.PermanentBoosters
     public class PhantomHeart : ModItem, ILocalizedModType
     {
         public string LocalizationCategory => "Items.Misc";
+
+        public const int ManaBoost = 50;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaBoost);
+
         public override void SetStaticDefaults()
         {
 			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
@@ -31,30 +36,23 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.pHeart)
-            {
-                string key = "Mods.CalamityMod.Misc.PhantomHeartText";
-                Color messageColor = Color.Magenta;
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
-
-                return false;
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.ConsumedManaCrystals == Player.ManaCrystalMax;
 
         public override bool? UseItem(Player player)
         {
+            CalamityPlayer modPlayer = player.Calamity();
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
                 player.itemTime = Item.useTime;
-                if (Main.myPlayer == player.whoAmI)
+                if (modPlayer.pHeart)
                 {
-                    player.ManaEffect(50);
+                    string key = "Mods.CalamityMod.Misc.PhantomHeartText";
+                    Color messageColor = Color.Magenta;
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    return false;
                 }
-                CalamityPlayer modPlayer = player.Calamity();
+
+                player.UseManaMaxIncreasingItem(ManaBoost);
                 modPlayer.pHeart = true;
             }
             return true;
@@ -62,10 +60,10 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
 
             if (line != null && Main.LocalPlayer.Calamity().pHeart)
-                line.Text = "[c/8a8a8a:You have already consumed this item]";
+                line.Text += "\n" + CalamityUtils.GetTextValue("Misc.GenericConsumedText");
         }
 
         public override void AddRecipes()

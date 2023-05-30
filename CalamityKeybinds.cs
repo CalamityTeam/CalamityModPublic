@@ -22,20 +22,20 @@ namespace CalamityMod
         public override void Load()
         {
             // Register keybinds
-            NormalityRelocatorHotKey = KeybindLoader.RegisterKeybind(Mod, "Normality Relocator", "Z");
-            RageHotKey = KeybindLoader.RegisterKeybind(Mod, "Rage Mode", "V");
-            AdrenalineHotKey = KeybindLoader.RegisterKeybind(Mod, "Adrenaline Mode", "B");
-            AegisHotKey = KeybindLoader.RegisterKeybind(Mod, "Elysian Guard", "N");
-            SetBonusHotKey = KeybindLoader.RegisterKeybind(Mod, "Armor Set Bonus", "Y");
-            AstralTeleportHotKey = KeybindLoader.RegisterKeybind(Mod, "Astral Teleport", "P");
-            AstralArcanumUIHotkey = KeybindLoader.RegisterKeybind(Mod, "Astral Arcanum UI Toggle", "O");
-            SandCloakHotkey = KeybindLoader.RegisterKeybind(Mod, "Sand Cloak Effect", "C");
-            SpectralVeilHotKey = KeybindLoader.RegisterKeybind(Mod, "Spectral Veil Teleport", "Z");
-            PlaguePackHotKey = KeybindLoader.RegisterKeybind(Mod, "Booster Dash", "Q");
-            AngelicAllianceHotKey = KeybindLoader.RegisterKeybind(Mod, "Angelic Alliance Blessing", "G");
-            GodSlayerDashHotKey = KeybindLoader.RegisterKeybind(Mod, "God Slayer Dash", "H");
-            ExoChairSlowdownHotkey = KeybindLoader.RegisterKeybind(Mod, "Exo Chair Slow Down", "RightShift");
-            DashHotkey = KeybindLoader.RegisterKeybind(Mod, "Dash Double Tap Override", "F");
+            NormalityRelocatorHotKey = KeybindLoader.RegisterKeybind(Mod, "NormalityRelocator", "Z");
+            RageHotKey = KeybindLoader.RegisterKeybind(Mod, "RageMode", "V");
+            AdrenalineHotKey = KeybindLoader.RegisterKeybind(Mod, "AdrenalineMode", "B");
+            AegisHotKey = KeybindLoader.RegisterKeybind(Mod, "ElysianGuard", "N");
+            SetBonusHotKey = KeybindLoader.RegisterKeybind(Mod, "ArmorSetBonus", "Y");
+            AstralTeleportHotKey = KeybindLoader.RegisterKeybind(Mod, "AstralTeleport", "P");
+            AstralArcanumUIHotkey = KeybindLoader.RegisterKeybind(Mod, "AstralArcanumUIToggle", "O");
+            SandCloakHotkey = KeybindLoader.RegisterKeybind(Mod, "SandCloakEffect", "C");
+            SpectralVeilHotKey = KeybindLoader.RegisterKeybind(Mod, "SpectralVeilTeleport", "Z");
+            PlaguePackHotKey = KeybindLoader.RegisterKeybind(Mod, "BoosterDash", "Q");
+            AngelicAllianceHotKey = KeybindLoader.RegisterKeybind(Mod, "AngelicAllianceBlessing", "G");
+            GodSlayerDashHotKey = KeybindLoader.RegisterKeybind(Mod, "GodSlayerDash", "H");
+            ExoChairSlowdownHotkey = KeybindLoader.RegisterKeybind(Mod, "ExoChairSlowDown", "RightShift");
+            DashHotkey = KeybindLoader.RegisterKeybind(Mod, "DashDoubleTapOverride", "F");
         }
 
         public override void Unload()

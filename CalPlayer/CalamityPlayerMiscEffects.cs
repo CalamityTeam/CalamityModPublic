@@ -112,9 +112,6 @@ namespace CalamityMod.CalPlayer
             // Misc effects, because I don't know what else to call it
             MiscEffects();
 
-            // Max life and mana effects
-            MaxLifeAndManaEffects();
-
             // Standing still effects
             StandingStillEffects();
 
@@ -601,6 +598,14 @@ namespace CalamityMod.CalPlayer
 
         private void MiscEffects()
         {
+            // Update Carpet textures
+            if (Main.netMode != NetmodeID.Server && Player.whoAmI == Main.myPlayer)
+            {
+                Asset<Texture2D> carpetAuric = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuricCarpet");
+                Asset<Texture2D> carpetOriginal = CalamityMod.carpetOriginal;
+                TextureAssets.FlyingCarpet = (auricSet ? carpetAuric : carpetOriginal);
+            }
+
             // Calculate/reset DoG cart rotations based on whether the DoG cart is in use.
             if (Player.mount.Active && Player.mount.Type == ModContent.MountType<DoGCartMount>())
             {
@@ -721,14 +726,6 @@ namespace CalamityMod.CalPlayer
                         spiritOriginBullseyeShootCountdown = 45;
                 }
             }
-
-            // Max mana bonuses
-            Player.statManaMax2 +=
-                (permafrostsConcoction ? 50 : 0) +
-                (pHeart ? 50 : 0) +
-                (eCore ? 50 : 0) +
-                (cShard ? 50 : 0) +
-                (starBeamRye ? 50 : 0);
 
             // Life Steal nerf
             // Reduces Normal Mode life steal recovery rate from 0.6/s to 0.5/s
@@ -1580,7 +1577,10 @@ namespace CalamityMod.CalPlayer
 
             //Permafrost's Concoction bonuses/debuffs
             if (permafrostsConcoction)
+            {
                 Player.manaCost *= 0.85f;
+                Player.statManaMax2 += 50;
+            }
 
             if (encased)
             {
@@ -2103,47 +2103,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Max Life And Mana Effects
-        private void MaxLifeAndManaEffects()
-        {
-            // New textures
-            if (Main.netMode != NetmodeID.Server && Player.whoAmI == Main.myPlayer)
-            {
-                Asset<Texture2D> cometShard = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaCometShard");
-                Asset<Texture2D> etherealCore = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaEtherealCore");
-                Asset<Texture2D> phantomHeart = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaPhantomHeart");
-                Asset<Texture2D> manaOriginal = CalamityMod.manaOriginal;
-                Asset<Texture2D> carpetAuric = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaReplacements/AuricCarpet");
-                Asset<Texture2D> carpetOriginal = CalamityMod.carpetOriginal;
-
-                int totalManaBoost =
-                    (pHeart ? 1 : 0) +
-                    (eCore ? 1 : 0) +
-                    (cShard ? 1 : 0);
-                switch (totalManaBoost)
-                {
-                    case 3:
-                        TextureAssets.Mana = phantomHeart;
-                        break;
-                    case 2:
-                        TextureAssets.Mana = etherealCore;
-                        break;
-                    case 1:
-                        TextureAssets.Mana = cometShard;
-                        break;
-                    default:
-                        TextureAssets.Mana = manaOriginal;
-                        break;
-                }
-
-                if (auricSet)
-                    TextureAssets.FlyingCarpet = carpetAuric;
-                else
-                    TextureAssets.FlyingCarpet = carpetOriginal;
-            }
-        }
-        #endregion
-
         #region Standing Still Effects
         private void StandingStillEffects()
         {
@@ -2531,6 +2490,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.GetDamage<MagicDamageClass>() += 0.08f;
                 Player.manaCost *= 0.9f;
+                Player.statManaMax2 += 50;
             }
 
             if (moscowMule)

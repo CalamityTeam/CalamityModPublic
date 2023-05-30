@@ -12,6 +12,7 @@ IceSchematicRecipeCondition: Place a schematic from the lab within the frozen ca
 /* Item Messages */
 ThirdSageBlessingText: You have been blessed by the Third Sage!
 ThirdSageBlessingText2: The Third Sage has rescinded its blessing...
+GenericConsumedText: "[c/8a8a8a:You have already consumed this item]"
 BloodOrangeText: You have already consumed a Blood Orange. Eating any more would not be good for you.
 MiracleFruitText: You have already consumed a Miracle Fruit. Having another would make you sick.
 ElderberryText: You have already consumed an Elderberry. It is probably not wise to eat more than one.
