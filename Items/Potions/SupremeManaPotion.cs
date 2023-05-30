@@ -35,7 +35,8 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.SuperManaPotion, 15).
                 AddIngredient<Phantoplasm>().
                 AddTile(TileID.Bottles).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

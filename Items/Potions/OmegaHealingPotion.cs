@@ -38,7 +38,8 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<SupremeHealingPotion>(20).
                 AddIngredient<AscendantSpiritEssence>().
                 AddTile(TileID.Bottles).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

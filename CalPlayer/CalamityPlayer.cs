@@ -6431,6 +6431,7 @@ namespace CalamityMod.CalPlayer
                     int proj = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanBomb>(), 9999, 10f, Player.whoAmI);
                     if (Main.projectile[proj].whoAmI.WithinBounds(Main.maxProjectiles))
                     {
+                        Main.projectile[proj].timeLeft = 10;
                         Main.projectile[proj].scale = 6f;
                         Main.projectile[proj].friendly = true;
                         Main.projectile[proj].netUpdate = true;

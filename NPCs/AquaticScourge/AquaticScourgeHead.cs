@@ -255,6 +255,9 @@ namespace CalamityMod.NPCs.AquaticScourge
             npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<AquaticScourgeRelic>());
 
+            // GFB troll drop
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<SupremeBaitTackleBoxFishingStation>());
+
             // Lore
             bool firstASKill() => !DownedBossSystem.downedAquaticScourge;
             npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<LoreAquaticScourge>(), desc: DropHelper.FirstKillText);

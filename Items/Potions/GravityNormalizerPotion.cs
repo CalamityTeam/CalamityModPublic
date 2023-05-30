@@ -47,7 +47,8 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<BloodOrb>(10).
                 AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

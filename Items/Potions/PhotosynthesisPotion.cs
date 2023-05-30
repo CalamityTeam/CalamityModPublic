@@ -46,7 +46,8 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<BloodOrb>(40).
                 AddIngredient<EssenceofSunlight>().
                 AddTile(TileID.AlchemyTable).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

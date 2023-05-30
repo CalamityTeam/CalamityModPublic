@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -15,6 +15,11 @@ namespace CalamityMod.Systems
         #endregion
 
         #region Recipes
+        public override void PostSetupContent()
+        {
+            CalamityRecipes.AddShimmerRecipes();
+        }
+
         public override void AddRecipeGroups() => CalamityRecipes.AddRecipeGroups();
 
         public override void AddRecipes() => CalamityRecipes.AddRecipes();
