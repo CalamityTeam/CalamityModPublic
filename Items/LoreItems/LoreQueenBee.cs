@@ -7,12 +7,6 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgeQueenBee")]
     public class LoreQueenBee : LoreItem
     {
-        public override string Lore =>
-@"While of tremendous size, these creatures are docile until aggravated. Their idyllic demeanor is a rarity nowadays, a thing of beauty.
-In the past, entire villages would spring up around these grand hives, peacefully harvesting their share of the honey and protecting them from danger.
-Though its death is understandable given the circumstances, I do feel pity for these majestic beings.
-Fate was cruel to many of their kind.";
-
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

@@ -7,14 +7,6 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgeTwins")]
     public class LoreTwins : LoreItem
     {
-        public override string Lore =>
-@"Not all of warfare is open combat. Logistics and intelligence are paramount to decisive victory.
-These machines are my finest scouts and agents, reborn in a form that gives them Sight unrivaled.
-Archers or snipers, spies or assassins. An enemy is only as safe as you allow him to be.
-Draedon understood well that the only fair fight is the one you win.
-His assistance was infallible, and his calculus cold and cruel.
-Not even the most evasive target stood a chance.";
-
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

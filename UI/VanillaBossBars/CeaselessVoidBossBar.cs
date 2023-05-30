@@ -27,8 +27,16 @@ namespace CalamityMod.UI.VanillaBossBars
 			if (!target.active)
 				return false;
 
+            // Get the boss health, obviously
+            life = target.life;
+            lifeMax = target.lifeMax;
+
             // Normal boss health
             float lifePercent = Utils.Clamp(life / lifeMax, 0f, 1f);
+            
+            // Reset the shield
+            shield = 0f;
+            shieldMax = 0f;
 
             // Determine the shield health
             // Amount of Dark Energies expected from each phase/difficulty

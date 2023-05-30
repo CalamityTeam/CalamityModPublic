@@ -46,6 +46,10 @@ namespace CalamityMod.UI.VanillaBossBars
                 }
             }
 
+            // Reset the shield
+            shield = 0f;
+            shieldMax = 0f;
+
             // Determine Anahita's shield health only if she's solo (she can't just block Leviathan out of existence)
             if (target.type == NPCType<Anahita>() && !NPC.AnyNPCs(NPCType<Leviathan>()))
             {       

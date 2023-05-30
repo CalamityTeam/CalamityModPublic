@@ -1,485 +1,706 @@
+ShortTooltip:
+	'''
+	[c/e3af40:Whispers from on high dance in your ears...]
+	[c/bebebe:Press "Left Shift" to listen closer]
+	'''
+
 LoreAbyss: {
 	DisplayName: The Abyss
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		While there are many sightless crevasses in the deep sea, this one is a unique geological marvel.
+		It is located unsettlingly close to the shoreline. Somehow, even eons of tectonics could not seal or crush it.
+		The isolated Abyss is the debatably tranquil home of the naiad Anahita and some reclusive sea creatures.
+		Here, I disposed of the burgeoning remains of Silva, the Goddess of Life itself. Obviously, she of all Gods refused to truly die.
+		My wishes were that she would be forgotten, but her tenacity is remarkable.
+		Diffused, her influence inundated that pit of crushing pressure with flora and fauna aplenty.
+		Her great roots continue to thrash and tear at the impossibly dense stone, growing uncontrollably.
+		She will soon remake it in her image. I can think of no worse fate for this accursed, hadal domain.
 		'''
 }
 
 LoreAquaticScourge: {
 	DisplayName: Aquatic Scourge
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Another once grand sea serpent, well-adapted to its harsh environs.
+		Unlike the other Scourge, which was half starved and chasing scraps for its next meal, it lived comfortably.
+		Microorganisms evolve rapidly, so it was able to maintain its filter feeding habits as the sea putrefied.
+		What a stark contrast to the rest of the ecosystem. Nearly every other creature in the Sulphur Sea is hostile.
+		A shame that its last bastion of tranquility has fallen.
 		'''
 }
 
 LoreArchmage: {
 	DisplayName: The Archmage
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		He yet lives…?! I thought him slain by Calamitas. It appears she imprisoned the Archmage to spare his life.
+		I assumed that frigid mass was an old construct of his, running amok without its master to shepherd it.
+		Permafrost was an old ally of mine, wielding the prestigious title of Archmage and great renown.
+		His wisdom guided my original conquests, or rather, made much of them possible at all.
+		As my crusade evolved and my ambitions grew, he expressed vehement disapproval.
+		Where once he saw justice, there was now tyranny. He departed, and the Witch not long after.
 		'''
 }
 
 LoreAstralInfection: {
 	DisplayName: Astral Infection
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		This twisted dreamscape is a starborne equivalent of the mundane rot you see in your lands.
+		I do not claim to understand the process in detail, but even the stars above can die. Left unchecked, their corpses bloat and fester.
+		Typically, some semblance of order is maintained. It is not unlike the circle of life.
+		Cosmic beings patrol the fathomless void and pick at the carrion, leaving clean bones.
+		The infection itself is a disturbance from deep space. It has a mind of its own, and projects its will upon life and land.
+		Those whose minds can grasp the true form of the universe, are largely immune.
+		They cannot be starstruck by a supposed higher truth, let alone one preached by a pustule.
 		'''
 }
 
 LoreAstrumAureus: {
 	DisplayName: Astrum Aureus
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Ever pragmatic, Draedon dispatched this machine to locate and analyze the source of the Astral Infection.
+		While nominally for reconnaissance, the Aureus model is heavily armed and can scale any terrain.
+		It performed admirably, at least until it was assimilated into the Infection.
+		Sapient minds have enough willpower to resist the Infection's call indefinitely.
+		However, even the finest silicon is not beyond its reach. Draedon prefers his creations to serve, after all.
+		With this experiment concluded, he will certainly be examining you next. Watch yourself.
 		'''
 }
 
 LoreAstrumDeus: {
 	DisplayName: Astrum Deus
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		On our world, this being is revered as the God of the night sky. It is said to devour dying stars and birth new ones in turn.
+		Unlike the many Gods you or I know, it is guiltless. An important distinction, for it was equally as diseased as they.
+		The infection that tainted its body is from beyond Terraria. Neither I nor Draedon recognize it fully.
+		With its will subsumed, it hurled a chunk of infested astral matter at our world, then came to guard it.
+		Thankfully, such a grandiose being that walks amongst the stars is likely not truly dead.
+		While the land has paid a terrible price, the price of a wrongful conviction is higher still.
 		'''
 }
 
 LoreAwakening: {
 	DisplayName: Awakening
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		The tombs of the Dragons stir. My eyes lift to see ancient dust dancing from high ledges.
+		These grand wings… how long has it been since I was a hero worthy of their name?
+		It feels like centuries have passed, yet all I've done is blink.
+		Look upon my works, as they are… Ruined. None would dare seek me out; tread my path.
+		Naught awaits them in this cruel world.
 		'''
 }
 
 LoreAzafure: {
 	DisplayName: Azafure
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Oft called the First City, its tumultuous history stretches back to the Draconic Era.
+		An odd jewel of civilization, the immense heat of the underworld provided it unlimited potential in defense and industry.
+		Such was the renown of the forgemasters that when I swayed them to my cause, I was never lacking for arms.
+		It pains me to say even in hindsight, but their artisanry paved the downfall of the entire city.
+		For the Witch and I, the air here will forever be laden with regret. There is nothing to be done
 		'''
 }
 
 LoreBloodMoon: {
 	DisplayName: Blood Moon
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		This malevolence is not the work of any God. Blood moons trace their origins to the dawn of history.
+		It is an occurrence equally sinister and banal. Everyone is acclimated to the shambling hordes of undead.
+		Organized societies are not threatened in the slightest. If anything, they welcome the opportunity to train green foot soldiers.
+		Those with fire in their veins may strike out on their own, to revel in the slaughter.
+		That is how I remember the sleepless nights from my younger days… Knee deep in corpses.
 		'''
 }
 
 LoreBrainofCthulhu: {
 	DisplayName: The Brain of Cthulhu
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		It is true that unspeakable abominations may now be commonplace, largely by my hand.
+		Though they have always been a product of the folly of the Gods, the same Gods would cull them in equal measure.
+		My decimation of the falsely divine left many old horrors unconstrained, with new ones birthed every year.
+		Now, they are your stepping stones.
 		'''
 }
 
 LoreBrimstoneElemental: {
 	DisplayName: Brimstone Elemental
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		A peculiar being. Until recently, she had laid dormant for ages, posing as the city's silent matron.
+		As its economy boomed, traces of brimstone found their way all across the known world.
+		It was never clear why her slumber ended. At first she stirred. The people were cautiously optimistic.
+		When she woke, it was horrific. Her inferno billowed through the streets. None were safe.
+		Fate had a sick sense of humor that day, for Calamitas was there to match her.
+		Perhaps the two were attuned somehow. They fought to a standstill, fire against fire.
+		Neither were victorious, and despite her intentions, the city was razed by her flames.
 		'''
 }
 
 LoreCalamitas: {
 	DisplayName: Calamitas
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		None have borne the brunt of misfortune quite like the Brimstone Witch, Calamitas.
+		When first I saw her, she was still a girl. Prostrated in my court, garbed in charred rags, trembling.
+		I could not grasp the unfathomable, raw power of the fell magics that coursed through her.
+		She could scant control it herself. Permafrost recognized this immediately. With a pained face, he counseled me to look after her.
+		The Witch entered his tutelage, and soon after, my service. She was ablaze with desire to douse the Gods in her wicked wrath.
+		Indeed, the faithful already quaked in her presence. Her name was a moniker of theirs, one uttered quietly in fear.
+		In my campaigns, I counted on her sheer capacity for annihilation as my ace in the hole.
+		No man, no army, no city, and no God could stand against her unbridled fury.
+		Eventually, the girl's horrific sin was too much for her to bear. She left my side along with her mentor.
+		The weight of her deeds haunts her to this day. She despises me, and I cannot blame her.
+		Please, if you would, show her respect where I did not.
 		'''
 }
 
 LoreCalamitasClone: {
 	DisplayName: Calamitas Clone
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		I had seen this monster roaming the night in the past, and thought nothing of it.
+		With its technology, it was certainly one of Draedon's creations.
+		But, to think it was housing a clone of the Witch… Detestable.
+		Surely Calamitas would want nothing to do with such a project.
+		I know not how it wields her brimstone magic. Perhaps some day one of us may find answers.
 		'''
 }
 
 LoreCeaselessVoid: {
 	DisplayName: Ceaseless Void
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		A contained, previously inert portal sealed in the Dungeon. The presiding cult kept it a closely guarded secret.
+		Upon sighting the Devourer of Gods, their leader hurriedly led me to its chamber to reveal its existence to me.
+		The portal led to the Devourer's home. It was identical to his, only ancient and perfectly stable.
+		The serpent claimed it, too, was his creation. Its permanence was a mistake he later rectified.
+		But this rift was unquestionably far older than he. It dated back to the Golden Age of Dragons.
+		His lie was thin and forced. Something far more powerful than the Devourer was at hand.
+		Its eerie persistence gnawed at my mind. It did not just threaten me. It threatened everyone. Everything.
+		Even when faced with blatant lies and harrowing danger, I simply walked away and did not return.
 		'''
 }
 
 LoreCorruption: {
 	DisplayName: The Corruption
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		To not properly dispose of the essence of a slain God is a fatal mistake. This wasteland stands as proof of such.
+		Having slain my first Gods, I turned a blind eye as corrupt essence gushed from their rent forms and burrowed into the bowels of Terraria.
+		The mere existence of this putrid place proves that the Gods of old were beyond redemption.
 		'''
 }
 
 LoreCrabulon: {
 	DisplayName: Crabulon
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Fungus and a sea crab. One sought a host; the other, a new home.
+		These mushrooms possess a disturbing amount of tenacity. Nothing that lays down to die in their domain is left to rest.
+		It is this sort of ghastly, forceful exertion of control over the unwilling that led me down my path.
 		'''
 }
 
 LoreCrimson: {
 	DisplayName: The Crimson
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		The foul air, the morbid fauna, the disgusting terrain… Here lies my first mistake of my crusade.
+		The essence of a God does not simply vanish when the body dies. It must be properly disposed of or destroyed entirely.
+		Essence of a pious God could never fester into a mire as dreadful as this.
 		'''
 }
 
 LoreCynosure: {
 	DisplayName: Cynosure
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		You now stand at the brink of infinity. The power you have amassed is extraordinary.
+		Valor and deceit, truth and falsehood, loyalty and betrayal… you are beyond these notions.
+		All, you have rent asunder as they crossed your path. The very land now bends to your will.
+		Do you not see how the grass parts where you step, how the stars illuminate where you gaze?
+		Terraria itself kneels to you, whether it be out of fear or respect.
+		This is the strength the Dragons held. The primordial power they commanded.
+		Little stands between us now. If you did not seek battle with me, I doubt you would have come so far.
+		When you are prepared, seek the grave of the Light, at the summit of the Dragon Aerie.
+		I await your challenge.
 		'''
 }
 
 LoreDesertScourge: {
 	DisplayName: Desert Scourge
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Once, it was a majestic sea serpent that threatened none but the microscopic creatures it consumed.
+		After Ilmeris was incinerated, it became familiar with the hunt. To survive, it quickly learned to seek greater prey.
+		Unfortunately for the scourge, it seems that it too was prey in the end. After all, there is always a bigger fish in the sea.
 		'''
 }
 
 LoreDestroyer: {
 	DisplayName: The Destroyer
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		The Godseeker Knights of my company were far and away my finest soldiers.
+		They championed my cause, and I championed them in return.
+		I bestowed upon them hulking armor and colossal weaponry, so their Might would never falter.
+		Some days, I would take time to train by their side, inspiring them to new heights of righteous fury.
+		Draedon understood well, and granted them these massive forms, bristling with weaponry and interlocked armor forged of blessed metal.
+		While in truth it was repurposed mining equipment, their sheer presence on the battlefield was immense.
 		'''
 }
 
 LoreDevourerofGods: {
 	DisplayName: The Devourer of Gods
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		The infamous, otherworldly glutton, in the flesh. His imposing title was self-granted, but truth made it stick.
+		He is a formidable foe, capable of swallowing Gods whole, absorbing their essence in its entirety.
+		I ordered Draedon to armor his gargantuan form, so he could safely best even great Gods in single combat.
+		Fittingly, he had a serpent's tongue. He manipulated me incessantly, driving me to awful acts.
+		I recruited him out of desperation. My war had dragged on for decades, and I would do anything to have it end.
+		It was then my negligence was born. My descent began the moment recruiting this scoundrel crossed my mind.
+		His absence of loyalty was clear as day, even at the time. However, I suspect it goes beyond that.
+		The Devourer's alien capabilities and domineering tactics hint that his allegiance lay elsewhere.
+		Is he but one soldier, of a malevolence far beyond…?
 		'''
 }
 
 LoreDragonfolly: {
 	DisplayName: Dragonfolly
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Near the close of the Draconic Era, there are records of the “impure” Dragon species.
+		Wyverns, basilisks, Pigrons and the like are documented, though none are sure how exactly they came to be.
+		To this day, scholars argue over the true names and lineages of these creatures.
+		Names aside, it is clear the first offshoots are pure enough to retain the great strength of their forebears.
+		Naturally, this led them to be targeted by cruel divine mandates, and most were hunted to extinction.
+		It is known that Fishrons, Follies, and the Abyssal Wyrms survived the purging hunts of the Deific Era.
+		Notably, they now are all reclusive or exceedingly violent. It is tragic how they evolved to be that way.
 		'''
 }
 
 LoreDukeFishron: {
 	DisplayName: Duke Fishron
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Outlandish as they may seem, this species is the single mightiest of the seas.
+		They are relentless hunters and can easily spend significant time out of the water.
+		Folklore holds that the Fishrons claim heritage from the true Dragons, countless years back.
+		While there are many such tales of creatures of draconic descent, this case is factual.
+		Genetic heritage or not, though, the Fishrons lack Dragonblood, or Auric souls. I would well know.
 		'''
 }
 
 LoreEaterofWorlds: {
 	DisplayName: The Eater of Worlds
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Any powerful being will call forth fable and legend, of both its grandeur and terror. That monstrous worm was no exception.
+		That measly thing, devouring a planet? Ridiculous. However, ridicule spreads quickly with even an ounce of truth behind it.
+		One will not need to search long for examples. We are all surrounded by rampant superstition and assumption.
+		I myself have been subjected to a litany of baseless boasts and accusations in my time.
 		'''
 }
 
 LoreEmpressofLight: {
 	DisplayName: Empress of Light
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Though her title is lofty, she is more an emissary for the powers beyond and forces of nature.
+		In broad daylight, she can channel the Primordial Light itself, making her nigh untouchable.
+		Thankfully, left with only starlight to wield, she falls like any other graceless despot.
+		Her penchant for leeching the strength of other great beings is uniquely deplorable.
+		It made her sickeningly obedient. Dependent, but willingly so, as they enabled her to slake her base thirst.
+		I had deigned to slay her myself for her treachery, but she was a notoriously evasive mark.
 		'''
 }
 
 LoreExoMechs: {
 	DisplayName: The Exo Mechanical Trio
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		What a terrifying marvel of engineering. Draedon's specialty always lay in the machines of war, but these are immaculate.
+		His bold claim that no God can match his work is, however, incorrect. He is not privy to the Traitor almighty.
+		Regardless, from steel and wit alone, he has forged engines of destruction that rival Calamitas.
+		It brings me little comfort to remark that even she, at least, has a heart to speak of.
+		Draedon is an amoral monster beyond compare. He is entirely devoid of humanity and compassion.
+		With technology this incomprehensibly advanced, he stands at the precipice of apotheosis.
+		He can fabricate such dreadful, synthetic nightmares at will. His resources must be nigh unlimited.
+		Were he to lose his temper, if he even has one, all of life's hopes would be smothered in an instant, silenced by a torrent of silicon.
+		Though, perhaps you may leverage his unimaginable craft to your advantage, and seek insight from him.
 		'''
 }
 
 LoreEyeofCthulhu: {
 	DisplayName: The Eye of Cthulhu
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		In ages past, heroes made names for themselves facing such monsters.
+		Now they run rampant, spawning from vile influences left unchecked. They blend well with the horrific injustice of their forebears.
+		Slaying one merely paves the way for a dozen more. Surely this does not concern you, either.
 		'''
 }
 
 LoreGolem: {
 	DisplayName: Golem
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		What a sad, piteous thing. Truly, a mockery in every sense of the word.
+		The Lihzahrds were abandoned by their deity long ago. They set upon creating the idol as a replacement.
+		The result is an amalgamation of the concepts and themes of many Gods, most prominently the heat of the sun.
+		It is a far cry from a mechanical god… for the better. The alternative is too chilling to consider.
+		While I believe it barely deserves mention, the Lihzahrds revere it unflinchingly.
+		I see no need to intervene in affairs beneath me and my people.
 		'''
 }
 
 LoreHiveMind: {
 	DisplayName: The Hive Mind
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Some semblance of a God's mind may survive death, like the twitches of a crushed insect.
+		What little remains attempts to convene, to coalesce in worship, so that its power may yet be restored. How pitiful.
+		Fortunately for us, the futility of this effort is unmatched. The biomass obeys, but nothing is accomplished.
+		Far from all divine power flows from faith. A God is forged of its own strength; followers may choose to worship.
 		'''
 }
 
 LoreKingSlime: {
 	DisplayName: King Slime
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Given time, these gelatinous creatures absorb each other and slowly grow in both size and strength.
+		There is little need to worry about this. Naturally, slimes are nearly mindless and amass only by chance.
+		Though it appears they are capable of absorbing knowledge, if only in rudimentary form.
 		'''
 }
 
 LoreLeviathanAnahita: {
 	DisplayName: Leviathan and Anahita
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Although she claims dominion over all the world's oceans, in truth she is a recluse of the deep.
+		Elementals pose a grave threat to all those around them. Other Elementals are no exception.
+		Anahita was driven from her home in the Abyss by Silva's encroaching greenery.
+		Accounts vary as to the majestic beast at her side. Some claim Anahita summoned the Leviathan herself.
+		Regardless of what you believe, they are inseparable even in death.
+		Such stalwart loyalty! It reminds me of Yharon.
 		'''
 }
 
 LoreMechs: {
 	DisplayName: The Mechanical Trio
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		These unwieldy beasts of steel were the experiments of Draedon, my former colleague and prodigious engineer.
+		His intent was to fuel a war machine with soul energy, allowing it to fight with purpose and zeal.
+		The creations were a success; so much so, that the souls continued to express their own free will.
+		Draedon was displeased. But these were my soldiers, and their loyalty was forged anew in iron.
+		I dismissed them from duty, and yet here they are, scouring the land for evidence of the divine.
+		Unfortunately for you, that puts you in their crosshairs. Give them a battle worth dying in.
 		'''
 }
 
 LoreOldDuke: {
 	DisplayName: The Old Duke
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		That was possibly one of the oldest mundane living beings on the face of the planet.
+		The first Fishrons were spotted in the middle of the Draconic Era. What exotic prestige…!
+		Fishrons were one of the original offshoots of pure-blooded Auric Dragons.
+		They are so old and venerated that many historians are convinced they are the original sea monsters of folklore.
+		This particular Duke's guile is self-evident; it evaded centuries of hunting, and until now had survived a most thorough poisoning.
+		Above almost all others, this creature was a living fable. One must wonder what goes through the mind of a fading legend.
 		'''
 }
 
 LorePerforators: {
 	DisplayName: The Perforators and Their Hive
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		These creatures were unique, for they wielded the slain Gods' power as purely as possible, veins flowing with spilt ichor.
+		All that exists in the Crimson is truly the divine turned inside out; their gore now glistens with its perverse treachery, for all to bear witness.
+		The mire reeks of centuries of vile manipulation and callous domination of the hapless.
+		Judgment is long passed, and extinction is left waiting.
 		'''
 }
 
 LorePlaguebringerGoliath: {
 	DisplayName: Plaguebringer Goliath
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		An innocent queen, forced to bear an agonizing existence. This is nothing short of a crime against nature.
+		Without consulting me, Draedon sought to weaponize the already well-organized Jungle bees.
+		When he revealed his finished project, I was enraged. Enslaving the bees was despicable.
+		Draedon cared little for my outrage and returned to his other work without further incident.
+		From that point on, I stopped making requests of Draedon. He had shown me his true colors.
+		In my later days I was far from virtuous. But I would not shackle a creature to fight in my name.
+		That would make me no better than the divine scoundrels I pursued.
 		'''
 }
 
 LorePlantera: {
 	DisplayName: Plantera
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		This floral aberration is another example of the volatile power of harnessed souls.
+		Taking their mastery of agriculture to new heights, the Jungle settlers bred a special sprout.
+		Through ritual blessing of the soil, it was fed legions of souls.
+		Elders of the village wished to bring forth a new age of botanical prosperity.
+		Indeed, the plant was awe inspiring. But it was wild and untamed, with a will of its own.
+		Now that you have slain it, still more disorderly spiritual energies are flooding the lands.
+		The village's ignorance was shameful in its own right, but this is worse still.
 		'''
 }
 
 LorePolterghast: {
 	DisplayName: Polterghast
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		The further my war dragged on, the further I sank into negligence. This specter is the crux of my failure.
+		I hid behind my excuses, calling them duties. Fighting the gods. Training. Ruling.
+		I had the time and resources to devote. I was simply paralyzed by apathy.
+		The scores of prisoners I kept in the dungeon I claimed perished alongside their jailors.
+		Within those hexed walls, none may know rest, and their souls coalesced into a formless monster.
+		Boiling with rage, wallowing in sorrow, screaming in madness. The amalgamation was uncontrollable.
+		The dragon cult was furious, their leader demanding I put the haunt down myself.
+		I did not answer. I had long since become deaf to the world outside my crusade. Do not fall as I have.
 		'''
 }
 
 LorePrelude: {
 	DisplayName: Prelude
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		In ages past, now named the Draconic Era, the majestic Dragons protected Terraria from all threats.
+		Their famed might was put to the ultimate test by an aberrant behemoth from beyond the stars.
+		Fighting with all their strength, the Dragons could wound and weaken it, but not destroy it.
+		Lacking options, they tore the monster down to a shadow of its former self, and sealed it away.
+		What is left of it now lies imprisoned in the Moon, as far away as the Dragons could banish it.
+		Much of dragonkind was lost as casualties in that struggle, and they never recovered.
+		Zeratros himself was gravely injured. It seemed his power, along with his life, would be lost forever.
+		One mortal, sworn to the service of the Dragons, rose in determination to save their virtuous King.
 		'''
 }
 
 LoreProfanedGuardians: {
 	DisplayName: The Profaned Guardians
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		The Guardians are rather simple constructs, extensions of the Profaned Goddess' power.
+		They are given partial autonomy to hunt down threats and are rarely seen outside of temples sanctified in her name.
+		She has been attempting to expand her domain, and it is no surprise she sees you as her largest threat.
+		After all, it was you that finished off the star-spawned horror that catalyzed the downfall of the Dragons.
+		Draw her out from hiding. Have no mercy, for the Profaned Goddess shows none herself.
 		'''
 }
 
 LoreProvidence: {
 	DisplayName: Providence, the Profaned Goddess
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		A glorious day.
+		Deeds of valor of this caliber are enshrined in legend. Of this age, only the Witch, Braelor and myself can compare.
+		Providence was perhaps one of the wickedest Gods, hellbent on purification through erasure.
+		Her worshippers saw little value in life. Pain was not a price they felt justified to pay.
+		The Profaned Goddess promised her followers she would end inequality by reducing all to featureless ash.
+		Those devoted to her were weak-willed, and yet she reigned as one of the mightiest Gods.
+		Perhaps it was their easily-swayed nature, that let her draw so much power from them...
 		'''
 }
 
 LoreQueenBee: {
 	DisplayName: Queen Bee
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		While of tremendous size, these creatures are docile until aggravated. Their idyllic demeanor is a rarity nowadays, a thing of beauty.
+		In the past, entire villages would spring up around these grand hives, peacefully harvesting their share of the honey and protecting them from danger.
+		Though its death is understandable given the circumstances, I do feel pity for these majestic beings.
+		Fate was cruel to many of their kind.
 		'''
 }
 
 LoreQueenSlime: {
 	DisplayName: Queen Slime
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Having fled after your battle, it seems the Slime God fashioned a new guardian from the unleashed essences.
+		Ensnared in the absorption process of its newfound power, it could not flee again.
+		Or, perhaps, it was overcome by arrogance or desperation.
+		A glorious hunt, a fine foe. Now you know you must chase them to the ends of Terraria.
 		'''
 }
 
 LoreRavager: {
 	DisplayName: The Ravager
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		A sickening flesh golem built for the sole purpose of savage, relentless destruction.
+		The monstrosity was a desperate bid to turn the tides against my God-seeking armies.
+		I could scarcely believe it myself, but it was born of a ritual of great sacrifice, performed in ardent faith.
+		The ritual condemned and fused the bodies and souls of their fallen allies into this hideous thing.
+		When the warlocks pledged their very lives to it as an offering, it awoke and swiftly slew them.
+		Now caked in fresh blood, it hungered for more, and set off on an aimless rampage.
+		I suppose its brutality serves as a reminder to be careful what you believe.
 		'''
 }
 
 LoreRequiem: {
 	DisplayName: Requiem
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		As the Light Dragon was fading, the monk visited him. Nearly none understand what transpired that day.
+		Most say his passing was eased. The truth? Zeratros' Auric soul was consumed, utterly.
+		The monk stood, wreathed in Primordial Light, and declared themselves Xeroc, the First God.
+		When a Dragon is laid to rest on the Aerie, its powers are relinquished so they may one day return.
+		Xeroc renounced their sworn oath and broke the cycle, becoming a traitor without equal.
+		Word of the ascension spread quickly. Many attempted to follow suit and claim an Auric soul for themselves.
+		Now you know… Good intentions or no, all Gods are sinners. Each and every one complicit in genocide.
+		Wherever your journey may lead, whether you are with me or against, may fortune favor you.
+		For nothing else will.
 		'''
 }
 
 LoreSignus: {
 	DisplayName: Signus
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		An aberration that defies all explanation, borne of the Distortion and revered by the Onyx Kinsmen.
+		Almost all information about this entity is sourced from that enigmatic clan. All else is hearsay.
+		It has been reported to manifest in multiple places at once. Its capacity for deceit and ruthless cunning is peerless.
+		Statis' compatriot Braelor dueled me to a standstill. With our blades locked, the ronin lunged for the lethal blow.
+		The Devourer is not one for honor or loyalty. But he sensed weakness. Hesitation. An easy prey.
+		The serpent ensnared both my assailants in a dimensional vortex. He assured me they were as good as dead.
+		Yet, Statis must have struck a bargain with Signus, as he escaped his banishment unscathed.
 		'''
 }
 
 LoreSkeletron: {
 	DisplayName: Skeletron
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		A sorry old man, cursed by an even older cult, caught trespassing on their ancient library.
+		They were once my friends. Their leader is infatuated with Dragons, and dreams of resurrecting one.
+		The very walls of that place are cursed further still. The magic has long since faded, and the soldiers rotted.
+		Do not expect to learn much from those tattered tomes. They were penned with misguided zeal.
 		'''
 }
 
 LoreSkeletronPrime: {
 	DisplayName: Skeletron Prime
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		So consumed by hatred were some souls, that they pledged they would do anything in my name.
+		Their devotion was unerring. Absolute. No atrocity was beyond them; their vengeance knew no bounds.
+		I organized them into shock troops, dreaded for their flamethrowers and incendiaries.
+		Leveling places of worship and torching those falsely devout, their expertise lay in unmaking faith with flame.
+		Draedon understood well. For them he crafted a visage so grim, it evoked oblivion itself.
 		'''
 }
 
 LoreSlimeGod: {
 	DisplayName: The Slime God
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		An old clan once revered this thing as a paragon of the balance of nature. Now its purity is sullied by freshly absorbed muck and grime.
+		The gelatinous being neither knows nor cares for the last surviving clansman.
+		Such tragedy is all too common in worship.
+		Alas, the Slime God is wise enough to be cowardly, fleeing battles it cannot win when its servants are destroyed.
+		Perhaps fortune will favor you if you catch it unaware.
 		'''
 }
 
 LoreStormWeaver: {
 	DisplayName: Storm Weaver
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		This beast, while of lesser stature than the Devourer, is a great danger in its own right.
+		They are clearly of the same species. Even this serpent was known to devour Wyverns whole.
+		Very little is known about the realm or space that the Great Devourer hails from.
+		Even Draedon and his obsessive research has been unable to discern its true nature.
+		The Weaver slipped through a rift from this place opened by the Devourer, and he has monitored it since.
+		In his mind, the lesser serpent's similar powers could lead it to be too threatening for him to let live.
+		He thinks himself invincible. Little does he know, he has ever stood in a similar position.
 		'''
 }
 
 LoreSulphurSea: {
 	DisplayName: Sulphur Sea
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		This seaside has never been pleasant, though it has seen far better days.
+		Incessant fumes rising from the industry of Azafure inundate the water with caustic ions.
+		Yet still, the hardy life adapted. No doubt aided by Silva as she burrowed through to the underworld.
+		Long considered uninhabitable, its further deterioration led Draedon to designate it as a dumping ground.
+		Years of careless mass waste disposal has now left the coast's transformation irreversible.
 		'''
 }
 
 LoreTwins: {
 	DisplayName: The Twins
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		Not all of warfare is open combat. Logistics and intelligence are paramount to decisive victory.
+		These machines are my finest scouts and agents, reborn in a form that gives them Sight unrivaled.
+		Archers or snipers, spies or assassins. An enemy is only as safe as you allow him to be.
+		Draedon understood well that the only fair fight is the one you win.
+		His assistance was infallible, and his calculus cold and cruel.
+		Not even the most evasive target stood a chance.
 		'''
 }
 
 LoreUnderworld: {
 	DisplayName: The Underworld
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		The hellish reputation the underworld gets is rather a modern thing.
+		The layers of ash choking the previously great cities are still warm.
+		The more domineering of Gods wished for me to champion their cause, and rule their society from here.
+		Yet, surrounded by magma as it were, Azafure simply burned when their wishes were not met.
+		Such is the unfortunate price of war, though I have no regrets fighting for my people.
 		'''
 }
 
 LoreWallofFlesh: {
 	DisplayName: The Wall of Flesh
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		To contain the essence of a slain God is no small thing. It is rather a towering, ghastly construct.
+		The Wall was lashed together with foul sinew and fouler magics, forming a rudimentary prison of flesh.
+		It served its purpose: halting the diffusion of undue divine influence.
+		Were it not for this alchemical breakthrough, the very world I fought for may have been lost in the carnage I wrought.
+		My methods have since evolved. I need not contain such essences, when they can be devoured.
+		May you channel my valor in combating the resulting outpour of energies.
 		'''
 }
 
 LoreYharon: {
 	DisplayName: Yharon, Resplendent Phoenix
-	Tooltip:
+	Lore:
 		'''
-		[c/e3af40:Whispers from on high dance in your ears...]
-		[c/bebebe:Press "Left Shift" to listen closer]
+		The return of the Age of Dragons, dashed. Just like that, it is but ashes in the wind…
+		Yharon was the last of the Auric Dragons. As a phoenix, his domain of power includes rebirth.
+		The Gods thought him culled with the rest of his kind, but he returned as an egg, hidden on the Aerie.
+		I was destined to consume his Auric soul when he hatched, and rule forever as God-King.
+
+		[c/FCA92B:Destiny is for the weak.]
+
+		I rejected their whims, and upended their scheme. I was sentenced to execution for treason.
+		Their meek, ingratiated swine cast both Yharon's egg and I into the magma of Hell.
+		The intense heat hideously scarred me, but birthed Yharon anew. He rose, wreathed in fire, and saved my life.
+		From that day, our souls were one. He shared with me the tale of Zeratros, and the genocide of his kind.
+		I promised him I would have justice. So the war began, Yharon rallying all as a beacon of hope.
+		Now, that hope is long withered. I am but a husk of the hero I once was, and this is the ultimate proof.
+		Yharon may yet return, as he does, but he… he has bade me farewell.
 		'''
 }

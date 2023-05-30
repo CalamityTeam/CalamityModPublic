@@ -9,15 +9,6 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgeProvidence")]
     public class LoreProvidence : LoreItem
     {
-        public override string Lore =>
-@"A glorious day.
-Deeds of valor of this caliber are enshrined in legend. Of this age, only the Witch, Braelor and myself can compare.
-Providence was perhaps one of the wickedest Gods, hellbent on purification through erasure.
-Her worshippers saw little value in life. Pain was not a price they felt justified to pay.
-The Profaned Goddess promised her followers she would end inequality by reducing all to featureless ash.
-Those devoted to her were weak-willed, and yet she reigned as one of the mightiest Gods.
-Perhaps it was their easily-swayed nature, that let her draw so much power from them…";
-
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

@@ -33,8 +33,8 @@ namespace CalamityMod.UI.VanillaBossBars
 			if (!target.active)
 				return false;
 
-            life = 0;
-            lifeMax = 0;
+            life = 0f;
+            lifeMax = 0f;
 
             // Add max health by feeding the data of false NPCs
             FalseNPCSegment = new NPC();
