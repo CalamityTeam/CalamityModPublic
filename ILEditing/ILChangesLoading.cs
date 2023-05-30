@@ -36,13 +36,13 @@ namespace CalamityMod.ILEditing
             Terraria.On_Main.DrawInfernoRings += DrawForegroundParticles;
             
             // ERROR
-            //Terraria.GameContent.Drawing.On_TileDrawing.DrawPartialLiquid += DrawCustomLava;
+            Terraria.GameContent.Drawing.On_TileDrawing.DrawPartialLiquid += DrawCustomLava;
             // ERROR
-            //Terraria.IL_WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
+            Terraria.IL_WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
             // ERROR
-            //Terraria.GameContent.Liquid.IL_LiquidRenderer.InternalDraw += ChangeWaterQuadColors;
+            Terraria.GameContent.Liquid.IL_LiquidRenderer.InternalDraw += ChangeWaterQuadColors;
             // ERROR
-            //Terraria.IL_Main.oldDrawWater += DrawCustomLava3;
+            Terraria.IL_Main.oldDrawWater += DrawCustomLava3;
             
             Terraria.Graphics.Light.On_TileLightScanner.GetTileLight += MakeSulphSeaWaterBetter;
             Terraria.GameContent.Drawing.On_TileDrawing.PreDrawTiles += ClearForegroundStuff;
@@ -61,7 +61,7 @@ namespace CalamityMod.ILEditing
             Terraria.IL_Player.ApplyEquipFunctional += ScopesRequireVisibilityToZoom;
             
             // ERROR
-            //Terraria.IL_Player.Hurt += RemoveRNGFromDodges;
+            Terraria.IL_Player.Hurt += RemoveRNGFromDodges;
             
             Terraria.IL_Player.DashMovement += FixAllDashMechanics;
             Terraria.On_Player.DoCommonDashHandle += ApplyDashKeybind;
@@ -88,7 +88,7 @@ namespace CalamityMod.ILEditing
             // Damage and health balance
             
             // ERROR
-            //Terraria.IL_Main.DamageVar += AdjustDamageVariance;
+            Terraria.IL_Main.DamageVar += AdjustDamageVariance;
             
             Terraria.IL_Projectile.Damage += MakeTagDamageMultiplicative;
             Terraria.IL_NPC.ScaleStats_ApplyExpertTweaks += RemoveExpertHardmodeScaling;
@@ -128,7 +128,7 @@ namespace CalamityMod.ILEditing
             Terraria.On_NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             
             // ERROR
-            //Terraria.IL_NPC.SpawnNPC += MakeVoodooDemonDollWork;
+            Terraria.IL_NPC.SpawnNPC += MakeVoodooDemonDollWork;
             
             // TODO -- Beat Lava Slimes once and for all
             // IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
