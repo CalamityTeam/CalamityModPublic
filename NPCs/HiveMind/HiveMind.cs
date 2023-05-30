@@ -1176,6 +1176,16 @@ namespace CalamityMod.NPCs.HiveMind
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<HiveMindRelic>());
 
+            // GFB class emblem drops
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ItemID.WarriorEmblem);
+                GFBOnly.Add(ItemID.RangerEmblem);
+                GFBOnly.Add(ItemID.SorcererEmblem);
+                GFBOnly.Add(ItemID.SummonerEmblem);
+                GFBOnly.Add(ModContent.ItemType<RogueEmblem>());
+            }
+
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<LoreHiveMind>(), desc: DropHelper.FirstKillText);
         }

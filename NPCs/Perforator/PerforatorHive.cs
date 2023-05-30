@@ -28,6 +28,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using CalamityMod.Items.Ammo;
 
 namespace CalamityMod.NPCs.Perforator
 {
@@ -573,6 +574,9 @@ namespace CalamityMod.NPCs.Perforator
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<PerforatorsRelic>());
+
+            // GFB Vanquisher Arrow drop
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<VanquisherArrow>(), 1, 1, 9999);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<LorePerforators>(), desc: DropHelper.FirstKillText);

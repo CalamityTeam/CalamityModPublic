@@ -665,7 +665,6 @@ namespace CalamityMod.NPCs.DesertScourge
             }
         }
 
-        #region Loot
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.SandBlock;
@@ -752,10 +751,12 @@ namespace CalamityMod.NPCs.DesertScourge
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<DesertScourgeRelic>());
 
+            // GFB Acidic Rain Barrel drop
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<AcidicRainBarrel>());
+
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<LoreDesertScourge>(), desc: DropHelper.FirstKillText);
         }
-        #endregion
 
         public override void HitEffect(NPC.HitInfo hit)
         {
