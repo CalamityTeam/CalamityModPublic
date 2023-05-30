@@ -24,8 +24,9 @@ using static Terraria.ModLoader.ModContent;
 namespace CalamityMod.Items.Armor.MarniteArchitect
 {
     [AutoloadEquip(EquipType.Head)]
-    public class MarniteArchitectHeadgear : ModItem
+    public class MarniteArchitectHeadgear : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
 
         public static readonly SoundStyle LiftSpawnSound = new("CalamityMod/Sounds/Item/MarniteLiftSummon");
         public static readonly SoundStyle LiftGoAwaySound = new("CalamityMod/Sounds/Item/MarniteLiftUnsummon");
@@ -145,8 +146,9 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
     }
 
     [AutoloadEquip(EquipType.Body)]
-    public class MarniteArchitectToga : ModItem
+    public class MarniteArchitectToga : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void Load()
         {
             if (Main.netMode == NetmodeID.Server)

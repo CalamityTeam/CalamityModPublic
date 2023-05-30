@@ -10,8 +10,9 @@ using ReLogic.Content;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class UniverseSplitterSmallBeam : ModProjectile
+    public class UniverseSplitterSmallBeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         // Pretty self explanatory
         public const int FadeinTime = 25;
         public const int MovementTime = 60;

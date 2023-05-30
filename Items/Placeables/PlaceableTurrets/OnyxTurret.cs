@@ -10,8 +10,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
-    public class OnyxTurret : ModItem
+    public class OnyxTurret : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<PlayerOnyxTurret>());

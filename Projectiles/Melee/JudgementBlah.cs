@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class JudgementBlah : ModProjectile
+    public class JudgementBlah : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private int whiteLightTimer = 5;
 
         public override void SetStaticDefaults()

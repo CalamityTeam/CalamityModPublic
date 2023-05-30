@@ -9,8 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AstralProbeRound : ModProjectile
+    public class AstralProbeRound : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Boss/AstralLaser";
 
         public override void SetStaticDefaults()

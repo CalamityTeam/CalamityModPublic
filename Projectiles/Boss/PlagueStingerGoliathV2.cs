@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class PlagueStingerGoliathV2 : ModProjectile
+    public class PlagueStingerGoliathV2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/Boss/PlagueStingerGoliath";
 
         public override void SetDefaults()

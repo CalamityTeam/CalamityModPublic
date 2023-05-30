@@ -9,8 +9,9 @@ using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class CelestialJewel : ModItem
+    public class CelestialJewel : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.defense = 8;

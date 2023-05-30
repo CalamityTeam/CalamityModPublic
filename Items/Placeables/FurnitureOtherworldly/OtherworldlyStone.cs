@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
     [LegacyName("OccultStone")]
-    public class OtherworldlyStone : ModItem
+    public class OtherworldlyStone : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

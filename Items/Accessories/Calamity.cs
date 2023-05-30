@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class Calamity : ModItem
+    public class Calamity : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public const float MaxNPCSpeed = 5f;
 
         // This is ONLY the direct DPS of having the cursor over the enemy, not the damage from the flames debuff.

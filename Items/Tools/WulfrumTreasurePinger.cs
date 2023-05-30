@@ -13,8 +13,9 @@ using Terraria.ModLoader.IO;
 
 namespace CalamityMod.Items.Tools
 {
-    public class WulfrumTreasurePinger : ModItem
+    public class WulfrumTreasurePinger : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public static readonly SoundStyle ScanBeepSound = new("CalamityMod/Sounds/Item/WulfrumPing") { PitchVariance = 0.1f };
         public static readonly SoundStyle ScanBeepBreakSound = new("CalamityMod/Sounds/Item/WulfrumPingBreak");
         public static readonly SoundStyle RechargeBeepSound = new("CalamityMod/Sounds/Item/WulfrumPingReady") { PitchVariance = 0.1f };

@@ -8,8 +8,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class MountedScannerSummon : ModProjectile
+    public class MountedScannerSummon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public float AngularOffsetRelativeToPlayer
         {
             get => Projectile.ai[0];

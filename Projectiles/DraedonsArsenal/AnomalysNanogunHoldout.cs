@@ -12,8 +12,9 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class AnomalysNanogunHoldout : ModProjectile
+    public class AnomalysNanogunHoldout : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         #region Properties
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public static Texture2D ScopeTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/AnomalysNanogunScope", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;

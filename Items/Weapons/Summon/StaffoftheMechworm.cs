@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class StaffoftheMechworm : ModItem
+    public class StaffoftheMechworm : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         // This value is also referenced by the God Slayer and Auric summoner helmets.
         public const int BaseDamage = 100; // originally 325
         public override void SetDefaults()

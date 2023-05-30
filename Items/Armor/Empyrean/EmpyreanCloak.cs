@@ -7,8 +7,9 @@ namespace CalamityMod.Items.Armor.Empyrean
 {
     [AutoloadEquip(EquipType.Body)]
     [LegacyName("XerocPlateMail")]
-    public class EmpyreanCloak : ModItem
+    public class EmpyreanCloak : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)

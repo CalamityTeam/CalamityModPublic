@@ -8,8 +8,9 @@ using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ReaperProjectile : ModProjectile
+    public class ReaperProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/TheOldReaper";
 
         public override void SetStaticDefaults()

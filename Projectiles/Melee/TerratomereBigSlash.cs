@@ -8,8 +8,9 @@ using Terraria.Graphics.Shaders;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TerratomereBigSlash : ModProjectile
+    public class TerratomereBigSlash : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public int TargetIndex = -1;
 
         public PrimitiveTrail SlashDrawer = null;

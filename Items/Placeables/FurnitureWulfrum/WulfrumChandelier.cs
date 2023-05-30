@@ -3,8 +3,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureWulfrum
 {
-    public class WulfrumChandelier : ModItem
+    public class WulfrumChandelier : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 46;

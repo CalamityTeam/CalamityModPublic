@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class SuspiciousScrap : ModItem
+    public class SuspiciousScrap : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

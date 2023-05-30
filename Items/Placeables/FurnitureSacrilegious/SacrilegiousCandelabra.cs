@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
-    public class SacrilegiousCandelabra : ModItem
+    public class SacrilegiousCandelabra : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 32;

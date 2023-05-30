@@ -5,8 +5,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
-    public class AshenDoor : ModItem
+    public class AshenDoor : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 14;

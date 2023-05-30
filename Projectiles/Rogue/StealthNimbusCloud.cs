@@ -4,8 +4,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class StealthNimbusCloud : ModProjectile
+    public class StealthNimbusCloud : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Magic/ShadeNimbusCloud";
 
         public override void SetStaticDefaults()

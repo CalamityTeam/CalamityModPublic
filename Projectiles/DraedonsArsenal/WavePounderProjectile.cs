@@ -6,8 +6,9 @@ using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class WavePounderProjectile : ModProjectile
+    public class WavePounderProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/WavePounder";
 
         public override void SetDefaults()

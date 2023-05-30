@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("Whirlpool")]
-    public class Riptide : ModItem
+    public class Riptide : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
                        ItemID.Sets.Yoyo[Item.type] = true;

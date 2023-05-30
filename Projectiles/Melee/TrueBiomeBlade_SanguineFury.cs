@@ -14,8 +14,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class SanguineFury : ModProjectile
+    public class SanguineFury : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_SanguineFury";
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;

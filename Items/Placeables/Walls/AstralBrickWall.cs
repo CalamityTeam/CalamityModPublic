@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Walls
 {
-    public class AstralBrickWall : ModItem
+    public class AstralBrickWall : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;

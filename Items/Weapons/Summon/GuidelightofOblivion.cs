@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Summon
 {
     [LegacyName("LanternoftheSoul")]
-    public class GuidelightofOblivion : ModItem
+    public class GuidelightofOblivion : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public const int ActiveFlameLimit = 15;
 
         public override void SetDefaults()

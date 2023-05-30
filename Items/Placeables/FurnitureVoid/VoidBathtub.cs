@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     [LegacyName("VoidBath")]
-    public class VoidBathtub : ModItem
+    public class VoidBathtub : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Void Bathtub");

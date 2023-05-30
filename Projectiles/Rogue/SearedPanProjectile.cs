@@ -10,8 +10,9 @@ using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SearedPanProjectile : ModProjectile
+    public class SearedPanProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         internal enum SearedPanTypes
         {
             VenLocket = 0,

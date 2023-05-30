@@ -10,8 +10,9 @@ using System;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class AnomalysNanogunPlasmaBeam : BaseLaserbeamProjectile
+    public class AnomalysNanogunPlasmaBeam : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
 
         // All 3 point to the same so that BaseLaserbeamProjectile can still be used with an animated laser

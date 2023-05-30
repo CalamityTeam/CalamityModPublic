@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Materials
 {
     [LegacyName("CruptixBar")]
-    public class ScoriaBar : ModItem
+    public class ScoriaBar : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;

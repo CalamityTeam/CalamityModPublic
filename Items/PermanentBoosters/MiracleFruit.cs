@@ -10,8 +10,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-    public class MiracleFruit : ModItem
+    public class MiracleFruit : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/MiracleFruitConsume");
         public override void SetStaticDefaults()
         {

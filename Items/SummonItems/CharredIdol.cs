@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class CharredIdol : ModItem
+    public class CharredIdol : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 9; // Mechanical Skull

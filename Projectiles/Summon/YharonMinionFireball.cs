@@ -8,8 +8,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class YharonMinionFireball : ModProjectile
+    public class YharonMinionFireball : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public ref float InitialSpeed => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Projectiles/Boss/YharonFireball";
         public override void SetStaticDefaults()

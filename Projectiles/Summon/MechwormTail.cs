@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MechwormTail : ModProjectile
+    public class MechwormTail : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private int playerMinionSlots = 0;
         private bool runCheck = true;
 

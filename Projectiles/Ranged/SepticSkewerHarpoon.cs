@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SepticSkewerHarpoon : ModProjectile
+    public class SepticSkewerHarpoon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override void SetDefaults()
         {
             Projectile.width = 4;

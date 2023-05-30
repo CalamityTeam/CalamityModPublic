@@ -6,8 +6,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shoes)]
-    public class IronBoots : ModItem
+    public class IronBoots : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 26;

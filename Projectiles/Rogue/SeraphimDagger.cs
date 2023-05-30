@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SeraphimDagger : ModProjectile
+    public class SeraphimDagger : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public const int SlowdownTime = 45;
         public const int AimTime = 25;
         public ref float Time => ref Projectile.ai[0];

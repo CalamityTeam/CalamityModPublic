@@ -12,8 +12,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TrueAncientBeam : ModProjectile //The boring plain one
+    public class TrueAncientBeam : ModProjectile, ILocalizedModType //The boring plain one
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueArkoftheAncientsGlow";
 
         public override void SetStaticDefaults()

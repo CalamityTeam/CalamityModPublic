@@ -3,8 +3,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class EmpyreanHealOrb : ModProjectile
+    public class EmpyreanHealOrb : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Healing";
         public override void SetDefaults()
         {
             Projectile.width = 4;

@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ElementalExcalibur : ModItem
+    public class ElementalExcalibur : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         private static int BaseDamage = 2000;
         private int BeamType = 0;
         private const int alpha = 50;

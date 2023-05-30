@@ -5,8 +5,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class RadiatorPet : ModProjectile
+    public class RadiatorPet : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         private bool fly = false;
 
         public override void SetStaticDefaults()

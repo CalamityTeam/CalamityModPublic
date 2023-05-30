@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class YinYo : ModItem
+    public class YinYo : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
                        ItemID.Sets.Yoyo[Item.type] = true;

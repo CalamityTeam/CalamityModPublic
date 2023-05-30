@@ -9,8 +9,9 @@ namespace CalamityMod.Items.Armor.Statigel
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("StatigelHeadgear")]
-    public class StatigelHeadRanged : ModItem
+    public class StatigelHeadRanged : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

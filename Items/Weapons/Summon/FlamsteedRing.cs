@@ -17,8 +17,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Summon
 {
     [LegacyName("PrototypeAndromechaRing")]
-    public class FlamsteedRing : ModItem
+    public class FlamsteedRing : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         //Note: In the future i may just do some changes to this item, and the cripple effect will probably be gone. But in the meanwhile
         //- Iban
         public static readonly SoundStyle CrippleSound = new("CalamityMod/Sounds/Custom/AndromedaCripple");

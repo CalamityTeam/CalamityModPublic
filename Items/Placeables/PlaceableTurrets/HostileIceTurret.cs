@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
-    public class HostileIceTurret : ModItem
+    public class HostileIceTurret : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/IceTurret";
         public override void SetDefaults()
         {

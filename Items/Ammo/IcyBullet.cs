@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Ammo
 {
-    public class IcyBullet : ModItem
+    public class IcyBullet : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Ammo";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;

@@ -14,18 +14,13 @@ using static CalamityMod.CalamityUtils;
 namespace CalamityMod.Items.Weapons.Magic
 {
     [LegacyName("WulfrumStaff")]
-    public class WulfrumProsthesis : ModItem, IHideFrontArm
+    public class WulfrumProsthesis : ModItem, IHideFrontArm, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisShoot") { PitchVariance = 0.1f, Volume = 0.55f };
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisHit") { PitchVariance = 0.1f, Volume = 0.75f , MaxInstances = 3};
         public static readonly SoundStyle SuckSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisSucc") { Volume = 0.5f };
         public static readonly SoundStyle SuckStopSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisSuccStop") { Volume = 0.5f };
-
-        public override void SetStaticDefaults()
-        {
-                       //Lore about how magic is not always a given for everyone, and how some unlucky people sometimes resort to voluntarily cutting their limbs to use magic augmented prosthesis
-            //1 : Informs about magic as a narrative thing, 2 : Informs about wulfrum energy being partly magical.
-        }
 
         internal static Asset<Texture2D> RealSprite;
 

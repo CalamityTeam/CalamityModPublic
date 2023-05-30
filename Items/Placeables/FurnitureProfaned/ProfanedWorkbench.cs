@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
     // TODO -- ProfanedWorkBench. I do not want to deal with capitalization issues
-    public class ProfanedWorkbench : ModItem
+    public class ProfanedWorkbench : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Profaned Work Bench");

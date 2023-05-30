@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Ranged
 {
     [LegacyName("Scorpion")]
-    public class Scorpio : ModItem
+    public class Scorpio : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetStaticDefaults()
         {
                        ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;

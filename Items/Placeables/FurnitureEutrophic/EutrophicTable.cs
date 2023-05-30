@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
-    public class EutrophicTable : ModItem
+    public class EutrophicTable : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 28;

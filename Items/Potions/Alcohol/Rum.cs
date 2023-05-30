@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
-    public class Rum : ModItem
+    public class Rum : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Potions";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

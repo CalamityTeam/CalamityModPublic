@@ -6,8 +6,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Waist)]
-    public class DepthCharm : ModItem
+    public class DepthCharm : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 26;

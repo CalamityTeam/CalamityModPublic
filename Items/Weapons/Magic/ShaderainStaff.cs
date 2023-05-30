@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class ShaderainStaff : ModItem
+    public class ShaderainStaff : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         #region Other stats
 
         // Stats for the shaderain.

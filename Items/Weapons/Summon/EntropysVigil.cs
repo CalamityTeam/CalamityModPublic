@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Summon
 {
     [LegacyName("BlightedEyeStaff")]
-    public class EntropysVigil : ModItem
+    public class EntropysVigil : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
             Item.damage = 40;

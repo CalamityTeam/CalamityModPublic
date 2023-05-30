@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AncientGodSlayerHelm : ModItem
+    public class AncientGodSlayerHelm : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.Vanity";
         public override void SetDefaults()
         {
             Item.width = 28;

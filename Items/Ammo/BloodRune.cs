@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Ammo
 {
-    public class BloodRune : ModItem
+    public class BloodRune : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Ammo";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;

@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.Umbrella
 {
-    public class MagicTree : ModProjectile
+    public class MagicTree : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Summon/Umbrella/TreeForest";
         private Tree TreeType = Tree.Forest;
         private enum Tree

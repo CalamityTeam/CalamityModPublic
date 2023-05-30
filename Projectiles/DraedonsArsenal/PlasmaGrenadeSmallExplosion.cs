@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class PlasmaGrenadeSmallExplosion : ModProjectile
+    public class PlasmaGrenadeSmallExplosion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public float Time
         {
             get => Projectile.ai[0];

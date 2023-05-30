@@ -22,8 +22,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("WulfrumHelmet")]
     [LegacyName("WulfrumHeadSummon")]
-    public class WulfrumHat : ModItem, IExtendedHat
+    public class WulfrumHat : ModItem, IExtendedHat, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         #region big hat
         public string ExtensionTexture => "CalamityMod/Items/Armor/Wulfrum/WulfrumHat_HeadExtension";
         public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => -Vector2.UnitY * 2f;
@@ -280,8 +281,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
     [AutoloadEquip(EquipType.Body)]
     [LegacyName("WulfrumArmor")]
-    public class WulfrumJacket : ModItem
+    public class WulfrumJacket : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetStaticDefaults()
         {
 
@@ -318,8 +320,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
     [AutoloadEquip(EquipType.Legs)]
     [LegacyName("WulfrumLeggings")]
-    public class WulfrumOveralls : ModItem
+    public class WulfrumOveralls : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

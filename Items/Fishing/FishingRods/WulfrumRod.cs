@@ -6,8 +6,9 @@ using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class WulfrumRod : ModItem
+    public class WulfrumRod : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetDefaults()
         {
             Item.width = 24;

@@ -5,8 +5,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class AstralachneaBanner : ModItem
+    public class AstralachneaBanner : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 10;

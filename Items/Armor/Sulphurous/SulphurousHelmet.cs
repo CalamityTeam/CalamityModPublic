@@ -9,8 +9,9 @@ namespace CalamityMod.Items.Armor.Sulphurous
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("SulfurHelmet")]
-    public class SulphurousHelmet : ModItem
+    public class SulphurousHelmet : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetDefaults()
         {
             Item.width = 26;

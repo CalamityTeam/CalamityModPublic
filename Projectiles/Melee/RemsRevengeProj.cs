@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class RemsRevengeProj : ModProjectile
+    public class RemsRevengeProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private int hitCounter = 0;
 
         public override void SetStaticDefaults()

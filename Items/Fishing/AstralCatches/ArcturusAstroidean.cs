@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
-    public class ArcturusAstroidean : ModItem
+    public class ArcturusAstroidean : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

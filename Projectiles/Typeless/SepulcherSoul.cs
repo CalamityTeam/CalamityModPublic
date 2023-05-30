@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class SepulcherSoul : ModProjectile
+    public class SepulcherSoul : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public ref float Time => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {

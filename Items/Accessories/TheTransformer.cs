@@ -9,8 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class TheTransformer : ModItem
+    public class TheTransformer : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 16));

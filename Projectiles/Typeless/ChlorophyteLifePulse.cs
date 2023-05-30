@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class ChlorophyteLifePulse : ModProjectile
+    public class ChlorophyteLifePulse : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public const int Lifetime = 95;
         public float LifetimeCompletion => 1f - Projectile.timeLeft / (float)Lifetime;
         public override void SetDefaults()

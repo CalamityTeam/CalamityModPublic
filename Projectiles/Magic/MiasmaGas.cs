@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class MiasmaGas : ModProjectile
+    public class MiasmaGas : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;

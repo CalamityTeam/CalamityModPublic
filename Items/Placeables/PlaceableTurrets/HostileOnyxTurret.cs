@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
-    public class HostileOnyxTurret : ModItem
+    public class HostileOnyxTurret : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/OnyxTurret";
         public override void SetDefaults()
         {

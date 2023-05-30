@@ -1,0 +1,309 @@
+/* Astral Infection Catches */
+AldebaranAlewife: {
+	DisplayName: Aldebaran Alewife
+	Tooltip: A star-struck entity in the form of a fish
+}
+
+ArcturusAstroidean: {
+	DisplayName: Arcturus Astroidean
+	Tooltip: Increases fishing power if used in the Astral Infection or Sulphurous Sea
+}
+
+AstralCrate: {
+	DisplayName: Astral Crate
+	Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+}
+
+AstrophageItem: {
+	DisplayName: Astrophage
+	Tooltip: Summons an astrophage to follow you around
+}
+
+ProcyonidPrawn: {
+	DisplayName: Procyonid Prawn
+	Tooltip: ""
+}
+
+TwinklingPollox: {
+	DisplayName: Twinkling Pollox
+	Tooltip: The scales gleam like crystals
+}
+
+UrsaSergeant: {
+	DisplayName: Ursa Sergeant
+	Tooltip:
+		'''
+		Decreased movement speed by 15%
+		Immune to Astral Infection and Feral Bite
+		Increased regeneration at lower health
+		'''
+}
+
+/* Brimstone Crag Catches */
+Bloodfin: {
+	DisplayName: Bloodfin
+	Tooltip:
+		'''
+		Grants a buff that boosts life regen for 10 seconds
+		The life regen boost is stronger if below 75% health
+		10 second duration
+		'The wonders of angiogenesis'
+		'''
+}
+
+Brimlish: {
+	DisplayName: Brimlish
+	Tooltip: ""
+}
+
+BrimstoneCrate: {
+	DisplayName: Brimstone Crate
+	Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+}
+
+CharredLasher: {
+	DisplayName: Charred Lasher
+	Tooltip: This elusive fish is a prized commodity
+}
+
+CoastalDemonfish: {
+	DisplayName: Coastal Demonfish
+	Tooltip: The horns lay a curse on those who touch it
+}
+
+CragBullhead: {
+	DisplayName: Crag Bullhead
+	Tooltip: Its scales are scorching hot
+}
+
+DragoonDrizzlefish: {
+	DisplayName: Dragoon Drizzlefish
+	Tooltip:
+		'''
+		Fires an inaccurate spread of fireballs
+		The brimstone sac appears to contain fuel
+		'Revenge is a dish best served flaming hot'
+		'''
+}
+
+Havocfish: {
+	DisplayName: Havocfish
+	Tooltip: Press <right> to extract essence
+}
+
+Shadowfish: {
+	DisplayName: Shadowfish
+	Tooltip: Darkness spreads
+}
+
+Slurpfish: {
+	DisplayName: Slurpfish
+	Tooltip: ""
+}
+
+/* Sunken Sea Catches */
+EutrophicSandfish: {
+	DisplayName: Eutrophic Sandfish
+	Tooltip: ""
+}
+
+GreenwaveLoach: {
+	DisplayName: Greenwave Loach
+	Tooltip: An endangered fish that is highly prized in the market
+}
+
+PrismaticGuppy: {
+	DisplayName: Prismatic Guppy
+	Tooltip: Throwing these in an aquarium would be insanity
+}
+
+RustedJingleBell: {
+	DisplayName: Rusted Jingle Bell
+	Tooltip:
+		'''
+		Summons a baby ghost bell light pet
+		Provides a moderate amount of light while underwater
+		'''
+}
+
+SerpentsBite: {
+	DisplayName: Serpent's Bite
+	Tooltip:
+		'''
+		Reach: 28.125
+		Launch Velocity: 18
+		Reelback Velocity: 14
+		Pull Velocity: 12
+		'''
+}
+
+Serpentuna: {
+	DisplayName: Serpentuna
+	Tooltip: ""
+}
+
+SparklingEmpress: {
+	DisplayName: Sparkling Empress
+	Tooltip:
+		'''
+		Fires a concentrated laser to annihilate your foes
+		Defeated enemies explode into prism shards
+		'''
+}
+
+SunkenCrate: {
+	DisplayName: Sunken Crate
+	Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+}
+
+SunkenSailfish: {
+	DisplayName: Sunken Sailfish
+	Tooltip: Zooming at 60 miles per hour
+}
+
+SurfClam: {
+	DisplayName: Surf Clam
+	Tooltip: ""
+}
+
+/* Other Catches */
+EnchantedStarfish: {
+	DisplayName: Enchanted Starfish
+	Tooltip: Permanently increases maximum mana by 20
+}
+
+FishofEleum: {
+	DisplayName: Fish of Eleum
+	Tooltip: Press <right> to extract essence
+}
+
+FishofFlight: {
+	DisplayName: Fish of Flight
+	Tooltip: Press <right> to extract souls
+}
+
+FishofLight: {
+	DisplayName: Fish of Light
+	Tooltip: Press <right> to extract souls
+}
+
+FishofNight: {
+	DisplayName: Fish of Night
+	Tooltip: Press <right> to extract souls
+}
+
+GlimmeringGemfish: {
+	DisplayName: Glimmering Gemfish
+	Tooltip: Press <right> to extract gems
+}
+
+Gorecodile: {
+	DisplayName: Gorecodile
+	Tooltip: Press <right> to extract blood orbs
+}
+
+Spadefish: {
+	DisplayName: Spadefish
+	Tooltip:
+		'''
+		'How can a fish be used to dig through the ground?
+		Some questions are best left unanswered...'
+		'''
+}
+
+StuffedFish: {
+	DisplayName: Stuffed Fish
+	Tooltip: Press <right> to extract herbs and seeds
+}
+
+SulphurousCrate: {
+	DisplayName: Sulphurous Crate
+	Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+}
+
+SunbeamFish: {
+	DisplayName: Sunbeam Fish
+	Tooltip: Press <right> to extract essence
+}
+
+/* Fishing Rods */
+EarlyBloomRod: {
+	DisplayName: Early Bloom Rod
+	Tooltip:
+		'''
+		Fires six lines at once. Line never snaps
+		'The early bird catches the fish'
+		'''
+}
+
+FeralDoubleRod: {
+	DisplayName: Feral Double Rod
+	Tooltip:
+		'''
+		Fires two lines at once
+		Just as you have tamed the jungle monster, you can now tame the fish in the sea
+		'''
+}
+
+HeronRod: {
+	DisplayName: Heron Rod
+	Tooltip:
+		'''
+		Increased fishing power in space
+		'A silent head and beak lanced down and plucked it out by the head,
+		and the beak swallowed the little fish while its tail waved frantically.'
+		'''
+}
+
+NavyFishingRod: {
+	DisplayName: Navy Fishing Rod
+	Tooltip:
+		'''
+		While held, slowly electrifies nearby enemies
+		'The sea is a city.
+		Just below are highways, boulevards, streets and roundabouts bustling with submarine traffic.'
+		'''
+}
+
+RiftReeler: {
+	DisplayName: Rift Reeler
+	Tooltip:
+		'''
+		Fires three to five lines at once
+		Can fish in lava
+		'The battlefield is a scene of constant chaos.
+		The winner will be the one who controls that chaos, both the pole and the fish.'
+		'''
+}
+
+SlurperPole: {
+	DisplayName: Slurper Pole
+	Tooltip:
+		'''
+		Can fish in lava
+		'It is the burning lava of the soul that has a furnace within--a very volcano of grief and sorrow.'
+		'''
+}
+
+TheDevourerofCods: {
+	DisplayName: The Devourer of Cods
+	Tooltip:
+		'''
+		Fires ten lines at once. Line never snaps and can fish from lava
+		'The devourer was once just an Eater of Shoals'
+		'''
+}
+
+VerstaltiteFishingRod: {
+	DisplayName: Verstaltite Fishing Rod
+	Tooltip:
+		'''
+		Increased fishing power when in the tundra
+		The ancient alloy's prismatic qualities are perfect for attracting fish
+		'''
+}
+
+WulfrumRod: {
+	DisplayName: Wulfrum Fishing Pole
+	Tooltip: "'This barely works, but it's better than nothing...'"
+}

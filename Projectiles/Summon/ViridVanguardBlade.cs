@@ -14,8 +14,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ViridVanguardBlade : ModProjectile
+    public class ViridVanguardBlade : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public enum ViridVanguardAIState
         {
             CircleOwner,

@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ToxicantTwisterTwoPointZero : ModProjectile
+    public class ToxicantTwisterTwoPointZero : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ToxicantTwister";
 
         private int lifeTime = 300;

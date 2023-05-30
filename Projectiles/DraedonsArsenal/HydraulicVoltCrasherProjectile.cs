@@ -10,8 +10,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class HydraulicVoltCrasherProjectile : ModProjectile
+    public class HydraulicVoltCrasherProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public Player Owner => Main.player[Projectile.owner];
         private int chargeCooldown = 0;
 

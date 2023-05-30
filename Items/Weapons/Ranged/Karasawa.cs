@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Ranged
 {
     // TODO -- This weapon is a disgrace to its Armored Core heritage. It needs a full rework.
-    public class Karasawa : ModItem
+    public class Karasawa : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/MechGaussRifle");
 
         public override void SetDefaults()

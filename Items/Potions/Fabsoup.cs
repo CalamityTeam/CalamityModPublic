@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    public class Fabsoup : ModItem
+    public class Fabsoup : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Potions";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/SoupConsumption");
         
         public override void SetDefaults()

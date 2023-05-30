@@ -4,8 +4,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class BloodSpit : ModProjectile
+    public class BloodSpit : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public const int OnDeathHealValue = 1;
 
         public Player Owner => Main.player[Projectile.owner];

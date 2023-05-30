@@ -5,8 +5,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Materials
 {
     [LegacyName("VictoryShard")]
-    public class PearlShard : ModItem
+    public class PearlShard : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;

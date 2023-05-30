@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class BrimstoneHellfireballFriendly : ModProjectile
+    public class BrimstoneHellfireballFriendly : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneHellfireball";
 
         public override void SetStaticDefaults()

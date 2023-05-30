@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags.MiscGrabBags
 {
-    public class SandyAnglingKit : ModItem
+    public class SandyAnglingKit : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.TreasureBags";
         public override void SetStaticDefaults()
         {
                        Item.ResearchUnlockCount = 10;

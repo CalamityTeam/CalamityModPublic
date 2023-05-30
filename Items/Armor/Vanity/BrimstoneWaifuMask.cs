@@ -5,8 +5,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class BrimstoneWaifuMask : ModItem
+    public class BrimstoneWaifuMask : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.Vanity";
         public override void SetStaticDefaults()
         {
 

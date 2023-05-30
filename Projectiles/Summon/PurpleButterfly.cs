@@ -8,8 +8,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PurpleButterfly : ModProjectile
+    public class PurpleButterfly : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public int dust = 3;
 
         public override void SetStaticDefaults()

@@ -12,8 +12,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TrueDecaysRetort : ModProjectile
+    public class TrueDecaysRetort : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_DecaysRetort";
         private bool initialized = false;
         public Vector2 direction = Vector2.Zero;

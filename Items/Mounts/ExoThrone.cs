@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class ExoThrone : ModItem
+    public class ExoThrone : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Mounts";
         public override void SetDefaults()
         {
             Item.width = 32;

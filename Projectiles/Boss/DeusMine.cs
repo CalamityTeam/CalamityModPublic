@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DeusMine : ModProjectile
+    public class DeusMine : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         private const int MaxTimeLeft = 600;
         private const int FadeTime = 85;
 

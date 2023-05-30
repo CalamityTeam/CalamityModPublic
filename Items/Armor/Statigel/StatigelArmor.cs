@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Statigel
 {
     [AutoloadEquip(EquipType.Body)]
-    public class StatigelArmor : ModItem
+    public class StatigelArmor : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetStaticDefaults()
         {
 

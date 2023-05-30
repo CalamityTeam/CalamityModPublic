@@ -13,8 +13,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class GatlingLaser : ModItem
+    public class GatlingLaser : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/GatlingLaserFireStart");
         public static readonly SoundStyle FireLoopSound = new("CalamityMod/Sounds/Item/GatlingLaserFireLoop");
         public static readonly SoundStyle FireEndSound = new("CalamityMod/Sounds/Item/GatlingLaserFireEnd");

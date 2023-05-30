@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PlanarRipperBolt : ModProjectile
+    public class PlanarRipperBolt : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Rogue/ShockGrenadeBolt";
 
         public static int frameWidth = 12;

@@ -9,8 +9,9 @@ namespace CalamityMod.Items.Armor.Tarragon
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("TarragonMask")]
-    public class TarragonHeadMagic : ModItem
+    public class TarragonHeadMagic : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -5,8 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class RotomPet : ModProjectile
+    public class RotomPet : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         private bool initialized = false;
 
         private Form RotomType = Form.Normal;

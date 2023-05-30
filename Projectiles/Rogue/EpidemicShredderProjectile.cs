@@ -7,8 +7,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class EpidemicShredderProjectile : ModProjectile
+    public class EpidemicShredderProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/EpidemicShredder";
 
         public override void SetDefaults()

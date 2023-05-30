@@ -11,8 +11,9 @@ using static CalamityMod.CalamityUtils;
 namespace CalamityMod.Items.Materials
 {
     [LegacyName("WulfrumShard")]
-    public class WulfrumMetalScrap : ModItem
+    public class WulfrumMetalScrap : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void Load()
         {
             Terraria.On_Item.CanFillEmptyAmmoSlot += AvoidDefaultingToAmmoSlot;

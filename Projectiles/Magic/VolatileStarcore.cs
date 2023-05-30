@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class VolatileStarcore : ModProjectile
+    public class VolatileStarcore : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         private static int Lifetime = 240;
         private static int NumAnimationFrames = 6;
         private static int AnimationFrameTime = 2;

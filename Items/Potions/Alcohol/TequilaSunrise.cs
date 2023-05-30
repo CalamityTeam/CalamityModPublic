@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
-    public class TequilaSunrise : ModItem
+    public class TequilaSunrise : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Potions";
         internal static readonly int CritBoost = 8;
         public override void SetStaticDefaults()
         {

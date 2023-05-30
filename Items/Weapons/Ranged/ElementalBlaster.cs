@@ -7,8 +7,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class ElementalBlaster : ModItem
+    public class ElementalBlaster : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 55;

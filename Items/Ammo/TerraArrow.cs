@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Ammo
 {
-    public class TerraArrow : ModItem
+    public class TerraArrow : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Ammo";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;

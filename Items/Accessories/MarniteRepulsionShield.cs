@@ -16,8 +16,9 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Back)]
     //Its not like its a renamed version of the bayonet, but i put this here more as a way to "refund" the item, so it doesnt end up rotting as an unloaded item.
     [LegacyName("MarniteBayonet")]
-    public class MarniteRepulsionShield : ModItem
+    public class MarniteRepulsionShield : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 24;
@@ -72,8 +73,9 @@ namespace CalamityMod.Items.Accessories
         }
     }
 
-    public class MarniteRepulsionHitbox : ModProjectile
+    public class MarniteRepulsionHitbox : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public Player Owner => Main.player[Projectile.owner];

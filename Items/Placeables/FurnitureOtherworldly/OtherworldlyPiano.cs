@@ -3,8 +3,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
     [LegacyName("OccultPiano")]
-    public class OtherworldlyPiano : ModItem
+    public class OtherworldlyPiano : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Otherworldly Piano");

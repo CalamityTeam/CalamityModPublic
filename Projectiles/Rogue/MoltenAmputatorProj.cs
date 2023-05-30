@@ -8,8 +8,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class MoltenAmputatorProj : ModProjectile
+    public class MoltenAmputatorProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/MoltenAmputator";
         private const int FramesBeforeReturning = 15;
         private const int FramesPerBlob = 8;

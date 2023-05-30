@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class EmpyreanMarble : ModProjectile
+    public class EmpyreanMarble : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Healing/EmpyreanHealOrb";
 
         public override void SetDefaults()

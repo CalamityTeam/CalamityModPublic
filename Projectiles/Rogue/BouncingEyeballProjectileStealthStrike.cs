@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BouncingEyeballProjectileStealthStrike : ModProjectile
+    public class BouncingEyeballProjectileStealthStrike : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public const float Bounciness = 1.35f;
 
         public override void SetStaticDefaults()

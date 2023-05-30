@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
-    public class CosmilitePlatform : ModItem
+    public class CosmilitePlatform : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 200;

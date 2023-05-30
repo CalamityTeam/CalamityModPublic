@@ -8,8 +8,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class YharimsGift : ModItem
+    public class YharimsGift : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public int dragonTimer = 60;
 
         public override void SetDefaults()

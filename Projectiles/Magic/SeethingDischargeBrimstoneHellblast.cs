@@ -9,8 +9,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class SeethingDischargeBrimstoneHellblast : ModProjectile
+    public class SeethingDischargeBrimstoneHellblast : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         private bool initialized = false;
         public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneHellblast";
 

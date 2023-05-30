@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
-    public class PrismaticGuppy : ModItem
+    public class PrismaticGuppy : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;

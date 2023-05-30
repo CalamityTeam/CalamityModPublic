@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Materials
 {
     [LegacyName("Lumenite")]
-    public class Lumenyl : ModItem
+    public class Lumenyl : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;

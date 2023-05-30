@@ -8,8 +8,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class DeathstareEyeball : ModProjectile
+    public class DeathstareEyeball : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         // This does not need to be synced. It is used solely for drawcode/visuals and is intended to be local.
         public float PupilScale = 1f;
         public const int BeamFireRate = 60;

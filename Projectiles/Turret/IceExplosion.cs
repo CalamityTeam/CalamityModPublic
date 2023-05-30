@@ -9,8 +9,9 @@ using CalamityMod.DataStructures;
 
 namespace CalamityMod.Projectiles.Turret
 {
-    public class IceExplosion : ModProjectile, IAdditiveDrawer
+    public class IceExplosion : ModProjectile, IAdditiveDrawer, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public bool ableToHit = true;
         public float randomRotation1 = Main.rand.NextFloat(0f, MathHelper.TwoPi);
         public float randomRotation2 = Main.rand.NextFloat(0f, MathHelper.TwoPi);

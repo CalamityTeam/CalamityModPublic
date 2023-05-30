@@ -7,8 +7,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class RoseStone : ModItem
+    public class RoseStone : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 20;

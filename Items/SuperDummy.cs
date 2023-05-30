@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
-    public class SuperDummy : ModItem
+    public class SuperDummy : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetDefaults()
         {
             Item.damage = 0;

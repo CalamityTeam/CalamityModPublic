@@ -10,8 +10,9 @@ namespace CalamityMod.Items.Armor.GodSlayer
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("GodSlayerHelm")]
-    public class GodSlayerHeadMelee : ModItem
+    public class GodSlayerHeadMelee : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

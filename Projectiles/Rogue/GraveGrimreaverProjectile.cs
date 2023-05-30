@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class GraveGrimreaverProjectile : ModProjectile
+    public class GraveGrimreaverProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/GraveGrimreaver";
 
         public override void SetStaticDefaults()

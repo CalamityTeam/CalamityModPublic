@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TerraDiskProjectile2 : ModProjectile
+    public class TerraDiskProjectile2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         private double rotation = 0;
         public override void SetStaticDefaults()
         {

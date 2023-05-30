@@ -11,8 +11,9 @@ using ReLogic.Content;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PrismaticBeam : BaseLaserbeamProjectile
+    public class PrismaticBeam : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
 
         public static readonly Color[] Colors = new Color[]

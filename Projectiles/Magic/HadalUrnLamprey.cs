@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class HadalUrnLamprey : ModProjectile
+    public class HadalUrnLamprey : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         int invistimer = 0;
         public override void SetStaticDefaults()
         {

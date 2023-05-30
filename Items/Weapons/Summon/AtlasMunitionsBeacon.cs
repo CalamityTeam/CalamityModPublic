@@ -9,8 +9,9 @@ using CalamityMod.Rarities;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class AtlasMunitionsBeacon : ModItem
+    public class AtlasMunitionsBeacon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public const float TargetRange = 2400f;
 
         public const float OverdriveModeRange = 720f;

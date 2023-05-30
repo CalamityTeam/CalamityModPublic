@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("PwnagehammerMelee", "PwnagehammerRogue")]
-    public class Pwnagehammer : ModItem
+    public class Pwnagehammer : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 66;

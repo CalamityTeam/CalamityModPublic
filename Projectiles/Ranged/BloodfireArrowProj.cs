@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class BloodfireArrowProj : ModProjectile
+    public class BloodfireArrowProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Ammo/BloodfireArrow";
 
         public override void SetStaticDefaults()

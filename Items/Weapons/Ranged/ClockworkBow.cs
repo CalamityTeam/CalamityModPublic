@@ -7,8 +7,9 @@ using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class ClockworkBow : ModItem
+    public class ClockworkBow : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public const int MaxBolts = 6;
         public override void SetDefaults()
         {

@@ -4,8 +4,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class HowlsHeartTurnipHead : ModProjectile
+    public class HowlsHeartTurnipHead : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private bool fly = false;
 
         public override void SetStaticDefaults()

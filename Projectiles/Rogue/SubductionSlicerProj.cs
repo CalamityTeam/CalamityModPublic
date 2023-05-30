@@ -8,8 +8,9 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SubductionSlicerProj : ModProjectile
+    public class SubductionSlicerProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SubductionSlicer";
 
         public override void SetDefaults()

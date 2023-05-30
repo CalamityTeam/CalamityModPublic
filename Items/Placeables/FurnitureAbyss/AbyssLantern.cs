@@ -5,8 +5,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
-    public class AbyssLantern : ModItem
+    public class AbyssLantern : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 26;

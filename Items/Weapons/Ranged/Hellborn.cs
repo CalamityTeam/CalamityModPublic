@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Hellborn : ModItem
+    public class Hellborn : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public const float ExplosionDamageMultiplier = 3f;
 
         public override void SetDefaults()

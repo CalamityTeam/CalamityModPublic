@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class DevilsSunrise : ModItem
+    public class DevilsSunrise : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public static int BaseDamage = 480;
 
         public override void SetDefaults()

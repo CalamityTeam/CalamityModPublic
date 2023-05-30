@@ -10,8 +10,9 @@ using Terraria.Audio;
 namespace CalamityMod.Items.Armor.PlagueReaper
 {
     [AutoloadEquip(EquipType.Head)]
-    public class PlagueReaperMask : ModItem
+    public class PlagueReaperMask : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/PlagueReaperAbility");
 
         public override void SetDefaults()

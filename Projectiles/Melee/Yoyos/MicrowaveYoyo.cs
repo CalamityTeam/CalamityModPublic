@@ -12,8 +12,9 @@ using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class MicrowaveYoyo : ModProjectile
+    public class MicrowaveYoyo : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private const float Radius = 100f;
         private SlotId mmmmmm;
         private bool spawnedAura = false;

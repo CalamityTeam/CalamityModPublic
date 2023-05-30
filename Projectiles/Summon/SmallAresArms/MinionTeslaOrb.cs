@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
-    public class MinionTeslaOrb : ModProjectile
+    public class MinionTeslaOrb : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public ref float Identity => ref Projectile.ai[0];
 
         public ref float Time => ref Projectile.ai[1];

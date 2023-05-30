@@ -12,8 +12,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class DecaysRetort : ModProjectile
+    public class DecaysRetort : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_DecaysRetort";
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;

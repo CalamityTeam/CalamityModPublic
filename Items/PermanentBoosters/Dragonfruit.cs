@@ -12,8 +12,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-    public class Dragonfruit : ModItem
+    public class Dragonfruit : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/DragonfruitConsume");
         public override void SetStaticDefaults()
         {

@@ -9,8 +9,9 @@ using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class PulseTurret : ModProjectile
+    public class PulseTurret : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;

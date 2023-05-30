@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Pets
 {
-    public class LadShark : ModProjectile
+    public class LadShark : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         public override void SetStaticDefaults()
         {
             Main.projPet[Projectile.type] = true;

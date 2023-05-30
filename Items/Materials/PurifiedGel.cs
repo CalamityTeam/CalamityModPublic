@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
-    public class PurifiedGel : ModItem
+    public class PurifiedGel : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;

@@ -4,11 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 {
-	public class CeaselessVoidRelic : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-		}
+	public class CeaselessVoidRelic : ModItem, ILocalizedModType
+    {
+        public string LocalizationCategory => "Items.Placeables";
 
 		public override void SetDefaults()
 		{

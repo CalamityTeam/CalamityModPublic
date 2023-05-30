@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class HeavenlyGale : ModItem
+    public class HeavenlyGale : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public const int ShootDelay = 32;
 
         public const int ArrowsPerBurst = 10;

@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
-    public class MurkyPaste : ModItem
+    public class MurkyPaste : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

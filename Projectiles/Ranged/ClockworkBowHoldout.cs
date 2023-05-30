@@ -11,8 +11,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ClockworkBowHoldout : ModProjectile
+    public class ClockworkBowHoldout : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
 
         public override void SetStaticDefaults()
         {

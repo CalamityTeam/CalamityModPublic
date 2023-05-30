@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     [LegacyName("MaulerBanner")]
-    public class MaulerTrophy : ModItem
+    public class MaulerTrophy : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 30;

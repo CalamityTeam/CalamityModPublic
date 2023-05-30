@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class VoidConcentrationBlackhole : ModProjectile
+    public class VoidConcentrationBlackhole : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private int damage = 0;
 
         public override void SendExtraAI(BinaryWriter writer)

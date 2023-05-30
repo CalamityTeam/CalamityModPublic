@@ -7,8 +7,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class EyeofMagnus : ModItem
+    public class EyeofMagnus : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Typeless";
         public override void SetDefaults()
         {
             Item.DamageType = AverageDamageClass.Instance;

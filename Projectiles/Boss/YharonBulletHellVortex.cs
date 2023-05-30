@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class YharonBulletHellVortex : ModProjectile
+    public class YharonBulletHellVortex : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public ref float TimeCountdown => ref Projectile.ai[0];
         public int victim = 0;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

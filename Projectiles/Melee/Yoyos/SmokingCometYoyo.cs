@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class SmokingCometYoyo : ModProjectile
+    public class SmokingCometYoyo : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         // Declare max updates as a contant up here since it will be used in many places
         private const int MaxUpdates = 2;
 

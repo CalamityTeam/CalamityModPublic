@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Ranged
 {
     [LegacyName("Megafleet")]
-    public class Voidragon : ModItem
+    public class Voidragon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         private int shotType = 1;
 
         public override void SetStaticDefaults()

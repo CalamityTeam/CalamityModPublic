@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
-    public class AshenAccentSlab : ModItem
+    public class AshenAccentSlab : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override string Texture => "CalamityMod/Items/Placeables/FurnitureAshen/AshenSlab";
 
         public override void SetStaticDefaults()

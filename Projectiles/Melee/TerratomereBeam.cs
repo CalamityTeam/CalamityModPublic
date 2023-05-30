@@ -7,8 +7,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TerratomereBeam : ModProjectile
+    public class TerratomereBeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public Vector2[] ControlPoints;
         
         public PrimitiveTrail SlashDrawer = null;

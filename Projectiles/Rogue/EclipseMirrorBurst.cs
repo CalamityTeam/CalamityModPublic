@@ -4,8 +4,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class EclipseMirrorBurst : ModProjectile
+    public class EclipseMirrorBurst : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         private int frameCounter = 0;
         private int frameX = 0;
         private int frameY = 0;

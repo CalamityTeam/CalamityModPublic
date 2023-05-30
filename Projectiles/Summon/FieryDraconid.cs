@@ -11,8 +11,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class FieryDraconid : ModProjectile
+    public class FieryDraconid : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
         public ref float AttackTimer => ref Projectile.ai[0];
         public ref float RamCountdown => ref Projectile.ai[1];

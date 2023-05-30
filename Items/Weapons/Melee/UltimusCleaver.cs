@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class UltimusCleaver : ModItem
+    public class UltimusCleaver : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
 
         public override void SetDefaults()
         {

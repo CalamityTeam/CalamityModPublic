@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class CnidarianSpark : ModProjectile
+    public class CnidarianSpark : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public ref float Target => ref Projectile.ai[0];
         public Vector2 initialVelocity;
 

@@ -7,8 +7,9 @@ namespace CalamityMod.Items.Armor.Empyrean
 {
     [AutoloadEquip(EquipType.Legs)]
     [LegacyName("XerocCuisses")]
-    public class EmpyreanCuisses : ModItem
+    public class EmpyreanCuisses : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

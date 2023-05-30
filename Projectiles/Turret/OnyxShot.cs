@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Turret
 {
-    public class OnyxShot : ModProjectile
+    public class OnyxShot : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public bool ableToHit = true;
         public override void SetStaticDefaults()
         {

@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
-    public class DesertScourgeTrophy : ModItem
+    public class DesertScourgeTrophy : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 30;

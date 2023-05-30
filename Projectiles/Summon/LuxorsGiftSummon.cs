@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class LuxorsGiftSummon : ModProjectile
+    public class LuxorsGiftSummon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private int dust = 3;
 
         public override void SetStaticDefaults()

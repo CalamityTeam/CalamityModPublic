@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PrismMine : ModProjectile
+    public class PrismMine : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public List<Vector2> MinesToConnectTo = new List<Vector2>();
         public ref float Time => ref Projectile.ai[0];
         public const float DamageFactorLowerBound = 0.425f;

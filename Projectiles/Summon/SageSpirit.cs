@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SageSpirit : ModProjectile
+    public class SageSpirit : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         internal Player Owner => Main.player[Projectile.owner];
         internal ref float AttackTimer => ref Projectile.ai[0];
         internal ref float PlayerFlyTime => ref Projectile.ai[1];

@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class GammaHead : ModProjectile
+    public class GammaHead : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Vector2 CurrentPositionOffset;
         public Vector2 IdealPositionOffset;
         public Vector2[] OldVelocities = new Vector2[20];

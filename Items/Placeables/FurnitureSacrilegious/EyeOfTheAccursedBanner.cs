@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
-    public class EyeOfTheAccursedBanner : ModItem
+    public class EyeOfTheAccursedBanner : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 26;

@@ -9,8 +9,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DragonShit : ModProjectile
+    public class DragonShit : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public NPC target;
         public Vector2 rotationVector = Vector2.UnitY * -13f;
 

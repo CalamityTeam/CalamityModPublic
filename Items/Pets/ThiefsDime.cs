@@ -7,8 +7,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Pets
 {
-    public class ThiefsDime : ModItem
+    public class ThiefsDime : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Pets";
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.WispinaBottle);

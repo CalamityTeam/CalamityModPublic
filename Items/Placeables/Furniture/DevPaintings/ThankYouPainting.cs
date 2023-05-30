@@ -8,13 +8,10 @@ using static Microsoft.Xna.Framework.Input.Keys;
 
 namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 {
-	public class ThankYouPainting : ModItem
-	{
+	public class ThankYouPainting : ModItem, ILocalizedModType
+    {
+        public string LocalizationCategory => "Items.Placeables";
 		public const int DropInt = 100;
-
-		public override void SetStaticDefaults()
-		{
-				}
 
 		public override void SetDefaults()
 		{

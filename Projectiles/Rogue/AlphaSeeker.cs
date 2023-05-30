@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AlphaSeeker : ModProjectile
+    public class AlphaSeeker : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         private const float MaxSpeed = 15f;
         private const float HomingStartRange = 400f;
 

@@ -9,8 +9,9 @@ using Microsoft.Xna.Framework;
 namespace CalamityMod.Items.Accessories
 {
     [LegacyName("LureofEnthrallment")]
-    public class PearlofEnthrallment : ModItem
+    public class PearlofEnthrallment : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 56;

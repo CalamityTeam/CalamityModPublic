@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class HadalUrnJellyfish : ModProjectile
+    public class HadalUrnJellyfish : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         bool neartarget = false;
         public override void SetStaticDefaults()
         {

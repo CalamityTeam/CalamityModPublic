@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     [LegacyName("ProfanedBasin")]
-    public class ProfanedCrucible : ModItem
+    public class ProfanedCrucible : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Profaned Crucible");

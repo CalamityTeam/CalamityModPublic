@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PrismaticEnergyBlast : BaseLaserbeamProjectile
+    public class PrismaticEnergyBlast : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public bool ExplodedYet
         {
             get => Projectile.ai[1] == 1f;

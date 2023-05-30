@@ -9,8 +9,9 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class AstralChunk : ModItem
+    public class AstralChunk : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 14; // Frost Moon

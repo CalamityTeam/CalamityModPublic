@@ -5,8 +5,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     [LegacyName("AstrageldonTrophy")]
-    public class AstrumAureusTrophy : ModItem
+    public class AstrumAureusTrophy : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 30;

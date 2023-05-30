@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class MidnightSunBeacon : ModItem
+    public class MidnightSunBeacon : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public const float MachineGunRate = 18f;
 
         public override void SetDefaults()

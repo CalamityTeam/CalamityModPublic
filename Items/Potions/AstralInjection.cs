@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    public class AstralInjection : ModItem
+    public class AstralInjection : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Potions";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;

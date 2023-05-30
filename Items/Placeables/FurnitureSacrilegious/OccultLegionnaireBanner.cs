@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
-    public class OccultLegionnaireBanner : ModItem
+    public class OccultLegionnaireBanner : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 26;

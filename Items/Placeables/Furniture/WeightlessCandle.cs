@@ -5,8 +5,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Furniture
 {
     [LegacyName("BlueCandle")]
-    public class WeightlessCandle : ModItem
+    public class WeightlessCandle : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 28;

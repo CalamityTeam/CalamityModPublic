@@ -5,11 +5,9 @@ using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items
 {
-    public class BleachBall : ModItem
+    public class BleachBall : ModItem, ILocalizedModType
     {
-        public override void SetStaticDefaults()
-        {
-        }
+        public string LocalizationCategory => "Items.Misc";
         public override void SetDefaults()
         {
             Item.width = 38;

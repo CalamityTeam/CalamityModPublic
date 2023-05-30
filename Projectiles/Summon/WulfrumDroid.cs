@@ -18,8 +18,9 @@ using System.IO;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class WulfrumDroid : ModProjectile
+    public class WulfrumDroid : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public static readonly SoundStyle HelloSound = new("CalamityMod/Sounds/Custom/WulfrumDroidSpawnBeep") { PitchVariance = 0.4f };
         public static readonly SoundStyle PewSound = new("CalamityMod/Sounds/Custom/WulfrumDroidFire") { PitchVariance = 0.4f, Volume = 0.6f, MaxInstances = 0 };
         public static readonly SoundStyle RandomChirpSound = new("CalamityMod/Sounds/Custom/WulfrumDroidChirp", 4) { PitchVariance = 0.3f };

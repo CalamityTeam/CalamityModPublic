@@ -2,8 +2,9 @@
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TarraThornTip : ModProjectile
+    public class TarraThornTip : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Magic/NettleTip";
 
         public override void SetDefaults()

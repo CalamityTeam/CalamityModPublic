@@ -7,8 +7,9 @@ using System;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class EternityBook : ModProjectile
+    public class EternityBook : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public float Time
         {
             get => Projectile.ai[0];

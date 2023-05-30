@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class MadAlchemistsCocktailGlove : ModItem
+    public class MadAlchemistsCocktailGlove : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         private int flaskIndex = 0;
 
         private static int[] flaskIDs;

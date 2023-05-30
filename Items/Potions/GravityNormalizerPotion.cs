@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    public class GravityNormalizerPotion : ModItem
+    public class GravityNormalizerPotion : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Potions";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 20;

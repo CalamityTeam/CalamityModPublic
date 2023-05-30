@@ -8,8 +8,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class SeethingDischarge : ModItem
+    public class SeethingDischarge : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
             Item.damage = 52;

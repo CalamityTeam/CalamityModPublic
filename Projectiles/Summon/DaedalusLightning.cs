@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class DaedalusLightning : ModProjectile
+    public class DaedalusLightning : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         internal PrimitiveTrail LightningDrawer;
 
         public const int MaximumBranchingIterations = 3;

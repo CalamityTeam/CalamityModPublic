@@ -5,8 +5,9 @@ using CalamityMod.Items.Materials;
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     [LegacyName("EutrophicCrafting")]
-    public class EutrophicShelf : ModItem
+    public class EutrophicShelf : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Eutrophic Shelf");

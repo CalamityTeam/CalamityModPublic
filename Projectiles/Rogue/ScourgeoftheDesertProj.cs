@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ScourgeoftheDesertProj : ModProjectile
+    public class ScourgeoftheDesertProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ScourgeoftheDesert";
 
         private int StealthDamageCap = 0;

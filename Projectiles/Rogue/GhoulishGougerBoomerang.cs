@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class GhoulishGougerBoomerang : ModProjectile
+    public class GhoulishGougerBoomerang : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/GhoulishGouger";
 
         private const int FramesBeforeReturning = 50;

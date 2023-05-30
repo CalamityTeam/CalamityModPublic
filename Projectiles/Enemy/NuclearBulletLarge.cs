@@ -5,8 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class NuclearBulletLarge : ModProjectile
+    public class NuclearBulletLarge : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public override void SetDefaults()
         {
             Projectile.width = 30;

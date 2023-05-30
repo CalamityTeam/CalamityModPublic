@@ -15,8 +15,9 @@ using CalamityMod.UI.DraedonLogs;
 
 namespace CalamityMod.Items.DraedonMisc
 {
-    public class EncryptedSchematicPlanetoid : ModItem
+    public class EncryptedSchematicPlanetoid : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.DraedonItems";
         public override void SetDefaults()
         {
             Item.width = 42;

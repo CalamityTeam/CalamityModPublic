@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ProfanedEnergy : ModProjectile
+    public class ProfanedEnergy : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/NPCs/NormalNPCs/ImpiousImmolator";
 
         private float count = 0f;

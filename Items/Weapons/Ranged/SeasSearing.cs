@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class SeasSearing : ModItem
+    public class SeasSearing : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public static int BaseDamage = 40;
 
         public override void SetStaticDefaults()

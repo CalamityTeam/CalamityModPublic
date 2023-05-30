@@ -6,8 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class ArchAmaryllis : ModItem
+    public class ArchAmaryllis : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;

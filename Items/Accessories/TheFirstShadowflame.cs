@@ -10,8 +10,9 @@ using Terraria.GameContent;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class TheFirstShadowflame : ModItem
+    public class TheFirstShadowflame : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));

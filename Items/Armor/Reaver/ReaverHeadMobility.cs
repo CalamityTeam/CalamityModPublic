@@ -8,8 +8,9 @@ namespace CalamityMod.Items.Armor.Reaver
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("ReaverVisage")]
-    public class ReaverHeadMobility : ModItem
+    public class ReaverHeadMobility : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         //Jump/Flight Boosts and Movement Speed Helm
         public override void SetDefaults()
         {

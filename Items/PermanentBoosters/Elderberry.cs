@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-    public class Elderberry : ModItem
+    public class Elderberry : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/ElderberryConsume");
         public override void SetStaticDefaults()
         {

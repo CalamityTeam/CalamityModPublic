@@ -13,8 +13,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class DevilsDevastation : ModItem
+    public class DevilsDevastation : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
                        ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;

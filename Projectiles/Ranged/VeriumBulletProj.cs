@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class VeriumBulletProj : ModProjectile
+    public class VeriumBulletProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private float speed = 0f;
         public override void SetStaticDefaults()
         {

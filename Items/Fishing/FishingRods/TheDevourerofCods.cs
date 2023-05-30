@@ -11,8 +11,9 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class TheDevourerofCods : ModItem
+    public class TheDevourerofCods : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             ItemID.Sets.CanFishInLava[Item.type] = true;

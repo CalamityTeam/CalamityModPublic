@@ -1,6 +1,7 @@
 ﻿using System.Security.Policy;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
+using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Systems;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -15,6 +16,7 @@ namespace CalamityMod.BiomeManagers
     {
         public override ModWaterStyle WaterStyle => CalamityWorld.getFixedBoi ? ModContent.Find<ModWaterStyle>("CalamityMod/PissWater") : ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater");
         public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => CalamityWorld.getFixedBoi ?ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/PissSeaSurfaceBGStyle") : ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/SulphurSeaSurfaceBGStyle");
+        public override int BiomeTorchItemType => ModContent.ItemType<SulphurousTorch>();
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
         public override string BestiaryIcon => "CalamityMod/BiomeManagers/SulphurousSeaIcon";
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/SulphurBG";

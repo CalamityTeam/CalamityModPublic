@@ -14,8 +14,9 @@ using CalamityMod.Items.Armor.Tarragon;
 namespace CalamityMod.Items.Armor.Auric
 {
     [AutoloadEquip(EquipType.Body)]
-    public class AuricTeslaBodyArmor : ModItem
+    public class AuricTeslaBodyArmor : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void Load()
         {
             // All code below runs only if we're not loading on a server

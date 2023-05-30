@@ -9,8 +9,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-    public class CometShard : ModItem
+    public class CometShard : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
 			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)

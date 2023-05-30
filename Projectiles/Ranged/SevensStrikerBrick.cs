@@ -5,8 +5,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SevensStrikerBrick : ModProjectile
+    public class SevensStrikerBrick : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ThrowingBrick";
 
         public override void SetDefaults()

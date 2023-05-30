@@ -3,8 +3,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Stormfrontspark : ModProjectile
+    public class Stormfrontspark : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         //At first I thought about deleting em but then had an idea to give em some flair.
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

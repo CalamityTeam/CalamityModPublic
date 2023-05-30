@@ -6,8 +6,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class WrathwingSpear : ModProjectile
+    public class WrathwingSpear : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         private const float FireballAngleVariance = 0.07f;
 
         public override void SetStaticDefaults()

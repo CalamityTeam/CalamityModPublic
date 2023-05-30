@@ -1,0 +1,63 @@
+Brimrose: {
+	DisplayName: Brimrose
+	Tooltip: Summons a brimrose mount
+}
+
+ExoThrone: {
+	DisplayName: Exo Box
+	Tooltip:
+		'''
+		Materializes a quite cozy and extremely nimble flying Exo throne
+		Replaced
+		'A comfortable gamer is a dangerous gamer'
+		'''
+}
+
+Fabsol: {
+	DisplayName: Princess Spirit in a Bottle
+	Tooltip:
+		'''
+		Summons the spirit of Cirrus, the Drunk Princess, in her alicorn form
+		Mounting will transform Cirrus, dismounting transforms her back
+		'''
+}
+
+FollyFeed: {
+	DisplayName: Folly Feed
+	Tooltip: Summons a monstrosity
+}
+
+GazeOfCrysthamyr: {
+	DisplayName: Gaze of Crysthamyr
+	Tooltip:
+		'''
+		Summons a shadow dragon
+		Hold W to ascend faster
+		'''
+}
+
+TheCartofGods: {
+	DisplayName: The Cart of Gods
+	Tooltip: ""
+}
+
+OnyxExcavatorKey: {
+	DisplayName: Onyx Excavator Key
+	Tooltip:
+		'''
+		Summons a drill to drill through the world so you can destroy all the neat world generation
+		with complete disregard for all the creatures that inhabit these lands. I am sure the EPA and PETA would like
+		to have a word with you afterwards.
+		The power of the destruction scales with the highest powered pickaxe in your inventory
+		'''
+}
+
+SuspiciousLookingJellyBean: {
+	DisplayName: Suspicious Looking Jelly Bean
+	Tooltip: JELLY BEAN
+}
+
+TundraLeash: {
+	DisplayName: Tundra Leash
+	Tooltip: Summons a Rimehound mount
+}

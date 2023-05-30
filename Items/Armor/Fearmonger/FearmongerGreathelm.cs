@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Fearmonger
 {
     [AutoloadEquip(EquipType.Head)]
-    public class FearmongerGreathelm : ModItem
+    public class FearmongerGreathelm : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

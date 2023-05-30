@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class PearlGod : ModItem
+    public class PearlGod : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         private const int defaultSpread = 1;
         private int spread = defaultSpread;
         private bool finalShot = false;

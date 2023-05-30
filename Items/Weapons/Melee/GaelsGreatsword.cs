@@ -10,8 +10,9 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class GaelsGreatsword : ModItem
+    public class GaelsGreatsword : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         // Weapon attribute constants
         public static readonly int BaseDamage = 780;
         public static readonly float GiantSkullDamageMultiplier = 1.5f;

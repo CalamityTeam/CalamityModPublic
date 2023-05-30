@@ -9,8 +9,9 @@ using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class GatlingLaserProj : ModProjectile
+    public class GatlingLaserProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         private SlotId gatlingLaserLoopID;
         private bool fireLasers = false;
 

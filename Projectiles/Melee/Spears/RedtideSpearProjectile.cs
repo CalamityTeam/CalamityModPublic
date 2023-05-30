@@ -11,8 +11,9 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-    public class RedtideSpearProjectile : ModProjectile
+    public class RedtideSpearProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public Player Owner => Main.player[Projectile.owner];
         public static int Lifetime = 28;
         public int Timer => Lifetime - Projectile.timeLeft;

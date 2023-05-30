@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.PermanentBoosters
 {
     [LegacyName("MLGRune2")]
-    public class CelestialOnion : ModItem
+    public class CelestialOnion : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetDefaults()
         {
             Item.width = 28;

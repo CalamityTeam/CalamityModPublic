@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.GemTech
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class GemTechSchynbaulds : ModItem
+    public class GemTechSchynbaulds : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 28;

@@ -11,8 +11,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class GaussPistol : ModItem
+    public class GaussPistol : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

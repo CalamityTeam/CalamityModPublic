@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class BloodfireBulletProj : ModProjectile
+    public class BloodfireBulletProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private const int Lifetime = 600;
 
         public override void SetStaticDefaults()

@@ -4,8 +4,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
     [LegacyName("OccultDoor")]
-    public class OtherworldlyDoor : ModItem
+    public class OtherworldlyDoor : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Otherworldly Door");

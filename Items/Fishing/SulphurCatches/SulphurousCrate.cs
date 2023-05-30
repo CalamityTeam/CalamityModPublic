@@ -20,8 +20,9 @@ using CrateTile = CalamityMod.Tiles.Abyss.SulphurousCrateTile;
 namespace CalamityMod.Items.Fishing.SulphurCatches
 {
     [LegacyName("AbyssalCrate")]
-    public class SulphurousCrate : ModItem
+    public class SulphurousCrate : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

@@ -12,8 +12,9 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class WulfrumBolt : ModProjectile
+    public class WulfrumBolt : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public ref float OriginalRotation => ref Projectile.ai[0];
         public NPC Target
         {

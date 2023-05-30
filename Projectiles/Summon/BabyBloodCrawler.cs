@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class BabyBloodCrawler : ModProjectile
+    public class BabyBloodCrawler : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public float dust = 0f;
         public int spiderCount = 0;
         public bool countedAlready = false;

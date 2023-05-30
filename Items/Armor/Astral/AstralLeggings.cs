@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Astral
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class AstralLeggings : ModItem
+    public class AstralLeggings : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
     [LegacyName("AncientPiano")]
-    public class AncientPipeOrgan : ModItem
+    public class AncientPipeOrgan : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ancient Pipe Organ");

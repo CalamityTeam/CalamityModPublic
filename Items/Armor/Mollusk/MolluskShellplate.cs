@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Mollusk
 {
     [AutoloadEquip(EquipType.Body)]
-    public class MolluskShellplate : ModItem
+    public class MolluskShellplate : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetDefaults()
         {
             Item.width = 30;

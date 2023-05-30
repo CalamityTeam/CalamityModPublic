@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class Vehemence : ModProjectile
+    public class Vehemence : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public ref float Time => ref Projectile.ai[0];
         public Player Owner => Main.player[Projectile.owner];
         public override void SetStaticDefaults()

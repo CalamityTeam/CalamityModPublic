@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class HydraulicVoltCrasher : ModItem
+    public class HydraulicVoltCrasher : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         // This is the amount of charge consumed every frame the holdout projectile is summoned, i.e. the weapon is in use.
         public const float HoldoutChargeUse = 0.002f;
 

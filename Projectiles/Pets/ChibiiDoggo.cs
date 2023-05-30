@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Pets
 {
-    public class ChibiiDoggo : ModProjectile
+    public class ChibiiDoggo : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         public int trueType;
         public bool previousCollide = false;
         public bool yFlip = false; //used to suppress y velocity (pet fastfalls with an extra update per tick otherwise)

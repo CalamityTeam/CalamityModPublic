@@ -9,32 +9,36 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class AstralSandBallFalling : ModProjectile
+    public class AstralSandBallFalling : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Typeless/SandBallAstral";
         public override void SetDefaults() => Projectile.FallingSandSetup(false);
         public override void AI() => Projectile.FallingSandAI(108, false);
         public override void Kill(int timeLeft) => Projectile.SpawnSand(ModContent.TileType<AstralSand>(), ModContent.ItemType<Items.Placeables.AstralSand>());
     }
 
-    public class AstralSandBallGun : ModProjectile
+    public class AstralSandBallGun : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Typeless/SandBallAstral";
         public override void SetDefaults() => Projectile.FallingSandSetup();
         public override void AI() => Projectile.FallingSandAI(108);
         public override void Kill(int timeLeft) => Projectile.SpawnSand(ModContent.TileType<AstralSand>(), ModContent.ItemType<Items.Placeables.AstralSand>());
     }
 
-    public class EutrophicSandBallGun : ModProjectile
+    public class EutrophicSandBallGun : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Typeless/SandBallEutrophic";
         public override void SetDefaults() => Projectile.FallingSandSetup();
         public override void AI() => Projectile.FallingSandAI(108); // Weirdly same dusts as Astral
         public override void Kill(int timeLeft) => Projectile.SpawnSand(ModContent.TileType<EutrophicSand>(), ModContent.ItemType<Items.Placeables.EutrophicSand>());
     }
 
-    public class SulphurousSandBallGun : ModProjectile
+    public class SulphurousSandBallGun : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Typeless/SandBallSulphurous";
         public override void SetDefaults() => Projectile.FallingSandSetup();
         public override void AI() => Projectile.FallingSandAI(32);

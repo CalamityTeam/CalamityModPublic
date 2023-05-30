@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FinalDawnFireball : ModProjectile
+    public class FinalDawnFireball : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public const float DesiredSpeed = 30;
         public const float InterpolationTime = 10;
         public override void SetStaticDefaults()

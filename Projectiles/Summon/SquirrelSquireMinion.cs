@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SquirrelSquireMinion : ModProjectile
+    public class SquirrelSquireMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public ref float AttackTimer => ref Projectile.ai[1];
         public bool Attacking
         {

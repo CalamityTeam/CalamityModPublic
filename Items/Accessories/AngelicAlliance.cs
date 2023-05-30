@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
     //Developer item, dedicatee: Nincity
-    public class AngelicAlliance : ModItem
+    public class AngelicAlliance : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/AngelicAllianceActivation");
 
         public override void SetDefaults()

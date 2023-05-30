@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TrueAridGrandeurShot : ModProjectile
+    public class TrueAridGrandeurShot : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_AridGrandeurExtra";
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;

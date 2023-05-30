@@ -6,8 +6,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Tools
 {
-    public class MarniteObliterator : ModItem
+    public class MarniteObliterator : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/MarniteObliteratorUse") { PitchVariance = 0.3f };
 
         public override void SetDefaults()

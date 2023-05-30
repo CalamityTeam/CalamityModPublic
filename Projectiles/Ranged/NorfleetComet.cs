@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class NorfleetComet : ModProjectile
+    public class NorfleetComet : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Melee/GalacticaComet";
 
         private int noTileHitCounter = 120;

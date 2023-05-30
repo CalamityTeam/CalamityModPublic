@@ -15,8 +15,9 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class WulfrumScrew : ModProjectile
+    public class WulfrumScrew : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         internal PrimitiveTrail TrailDrawer;
         internal Color PrimColorMult = Color.White;
 

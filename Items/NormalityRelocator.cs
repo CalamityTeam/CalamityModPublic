@@ -10,11 +10,12 @@ using System.Linq;
 
 namespace CalamityMod.Items
 {
-    public class NormalityRelocator : ModItem
+    public class NormalityRelocator : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
-                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

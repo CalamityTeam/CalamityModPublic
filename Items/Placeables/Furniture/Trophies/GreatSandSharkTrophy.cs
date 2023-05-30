@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     [LegacyName("GreatSandSharkBanner")]
-    public class GreatSandSharkTrophy : ModItem
+    public class GreatSandSharkTrophy : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 30;

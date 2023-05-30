@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class HomingGammaBullet : ModProjectile
+    public class HomingGammaBullet : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private int targetNPC = -1;
         private List<int> previousNPCs = new List<int>() { -1 };
 

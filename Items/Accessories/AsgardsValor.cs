@@ -8,8 +8,9 @@ using CalamityMod.CalPlayer.Dashes;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shield)]
-    public class AsgardsValor : ModItem
+    public class AsgardsValor : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public const int ShieldSlamIFrames = 12;
 
         public override void SetDefaults()

@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class AresExoskeleton : ModItem
+    public class AresExoskeleton : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public int FrameCounter = 0;
 
         public int Frame = 0;

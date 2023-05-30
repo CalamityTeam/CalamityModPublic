@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ShadeNimbusCloud : ModProjectile
+    public class ShadeNimbusCloud : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public bool StartFading = false;
         
         public override void SetStaticDefaults()

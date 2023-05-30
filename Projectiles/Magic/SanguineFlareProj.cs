@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class SanguineFlareProj : ModProjectile
+    public class SanguineFlareProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         private int x;
         private double speed = 10;
         private float startSpeedY = 0f;

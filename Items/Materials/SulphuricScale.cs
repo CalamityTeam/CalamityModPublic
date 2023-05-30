@@ -5,8 +5,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Materials
 {
     [LegacyName("SulfuricScale")]
-    public class SulphuricScale : ModItem
+    public class SulphuricScale : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;

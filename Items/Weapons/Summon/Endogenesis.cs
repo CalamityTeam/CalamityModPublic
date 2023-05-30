@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class Endogenesis : ModItem
+    public class Endogenesis : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         //Cooper be like cool
 
         public static int AttackMode = 0;

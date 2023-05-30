@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Tools
 {
     [LegacyName("FlamebeakHampick")]
-    public class SeismicHampick : ModItem
+    public class SeismicHampick : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         private const int PickPower = 210;
         private const int HammerPower = 95;
 

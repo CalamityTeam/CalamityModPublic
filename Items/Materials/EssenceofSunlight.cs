@@ -8,8 +8,9 @@ using Terraria.GameContent;
 namespace CalamityMod.Items.Materials
 {
     [LegacyName("EssenceofCinder")]
-    public class EssenceofSunlight : ModItem
+    public class EssenceofSunlight : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;

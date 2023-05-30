@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Environment
 {
-    public class BrimstoneGeyser : ModProjectile
+    public class BrimstoneGeyser : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         private int dustType = (int)CalamityDusts.Brimstone;

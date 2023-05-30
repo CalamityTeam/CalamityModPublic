@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
-    public class Rock : ModItem
+    public class Rock : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 0;

@@ -14,8 +14,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     // still awkward that the item called Plasma Rifle is the same class and exact same tier as this item
-    public class PlasmaCaster : ModItem
+    public class PlasmaCaster : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/PlasmaCasterFire");
 
         public const int BaseDamage = 705;

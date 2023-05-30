@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class DrizzlefishFire : ModProjectile
+    public class DrizzlefishFire : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private int splitTimer = 30;
 
         public override void SetDefaults()

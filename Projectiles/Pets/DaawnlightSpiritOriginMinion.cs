@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets
 {
-    public class DaawnlightSpiritOriginMinion : ModProjectile
+    public class DaawnlightSpiritOriginMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         public Player Owner => Main.player[Projectile.owner];
         public override void SetStaticDefaults()
         {

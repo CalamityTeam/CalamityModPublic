@@ -12,8 +12,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DoGBeamPortal : ModProjectile
+    public class DoGBeamPortal : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public bool start = true;
 
         public override void SetStaticDefaults()

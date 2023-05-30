@@ -2,8 +2,9 @@
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DuststormCloudStealth : ModProjectile
+    public class DuststormCloudStealth : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Rogue/DuststormCloud";
 
         public override void SetStaticDefaults()

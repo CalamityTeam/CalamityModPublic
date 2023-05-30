@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class DivineHatchetBoomerang : ModProjectile
+    public class DivineHatchetBoomerang : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/SeekingScorcher";
 
         private bool hasHitEnemy = false;

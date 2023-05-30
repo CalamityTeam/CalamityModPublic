@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SignusScythe : ModProjectile
+    public class SignusScythe : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         private int counter = 0;
 
         public override void SetStaticDefaults()

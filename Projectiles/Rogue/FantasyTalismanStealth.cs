@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FantasyTalismanStealth : ModProjectile
+    public class FantasyTalismanStealth : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Rogue/FantasyTalismanProj";
 
         public override void SetStaticDefaults()

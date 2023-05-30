@@ -13,8 +13,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class AuricBar : ModItem
+    public class AuricBar : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public static Asset<Texture2D> GlowTexture { get; private set; }
 
         public override void Load()

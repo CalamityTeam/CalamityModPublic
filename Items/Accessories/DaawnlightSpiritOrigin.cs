@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class DaawnlightSpiritOrigin : ModItem
+    public class DaawnlightSpiritOrigin : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         // "Despite the seemingly insane numbers here, I think this item might actually be underpowered"
         // hindsight: the item was not underpowered. Ozzatron 05NOV2021
         //

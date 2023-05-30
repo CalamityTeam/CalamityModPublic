@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Pets
 {
-    public class RottingEyeball : ModItem
+    public class RottingEyeball : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Pets";
         public override void SetDefaults()
         {
             /*item.DefaultToVanitypet(ModContent.ProjectileType<MiniHiveMind>(), ModContent.BuffType<HiveMindPet>());

@@ -5,8 +5,9 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
-    public class CosmiliteBasin : ModItem
+    public class CosmiliteBasin : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 8;

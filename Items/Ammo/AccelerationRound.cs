@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Ammo
 {
     [LegacyName("AccelerationBullet")]
-    public class AccelerationRound : ModItem
+    public class AccelerationRound : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Ammo";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;

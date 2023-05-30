@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools.ClimateChange
 {
-    public class Cosmolight : ModItem
+    public class Cosmolight : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         // Hardcoded times set by the vanilla Journey Mode buttons.
         // These are "halfway through day" and "halfway through night" respectively.
         private const int NoonCutoff = 27000;

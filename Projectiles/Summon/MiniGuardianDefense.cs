@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MiniGuardianDefense : ModProjectile
+    public class MiniGuardianDefense : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
 
         public bool SpawnedFromPSC => Projectile.ai[0] == 1f;

@@ -6,8 +6,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Accessories
 {
     [LegacyName("SirensHeart")]
-    public class AquaticHeart : ModItem
+    public class AquaticHeart : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void Load()
         {
             // All code below runs only if we're not loading on a server

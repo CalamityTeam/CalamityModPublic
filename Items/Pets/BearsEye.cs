@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Pets
 {
     [LegacyName("BearEye")]
-    public class BearsEye : ModItem
+    public class BearsEye : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Pets";
         public override void SetStaticDefaults()
         {
         }

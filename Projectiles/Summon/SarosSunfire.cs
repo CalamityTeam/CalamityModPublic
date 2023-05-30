@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SarosSunfire : ModProjectile
+    public class SarosSunfire : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
         
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

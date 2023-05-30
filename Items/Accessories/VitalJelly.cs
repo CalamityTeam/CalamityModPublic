@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class VitalJelly : ModItem
+    public class VitalJelly : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 20;

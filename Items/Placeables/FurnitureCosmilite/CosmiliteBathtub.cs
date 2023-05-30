@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
-    public class CosmiliteBathtub : ModItem
+    public class CosmiliteBathtub : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Cosmilite Bathtub");

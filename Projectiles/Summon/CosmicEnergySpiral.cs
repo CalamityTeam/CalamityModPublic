@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class CosmicEnergySpiral : ModProjectile
+    public class CosmicEnergySpiral : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private bool justSpawned = true;
 
         public override void SetStaticDefaults()

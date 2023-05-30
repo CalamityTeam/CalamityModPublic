@@ -8,8 +8,9 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class FeralDoubleRod : ModItem
+    public class FeralDoubleRod : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetDefaults()
         {
             Item.width = 24;

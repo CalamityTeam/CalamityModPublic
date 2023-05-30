@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Critters
 {
-    public class TwinklerItem : ModItem
+    public class TwinklerItem : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

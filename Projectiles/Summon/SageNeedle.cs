@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SageNeedle : ModProjectile
+    public class SageNeedle : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public const int OnDeathHealValue = 1;
         public override void SetStaticDefaults()
         {

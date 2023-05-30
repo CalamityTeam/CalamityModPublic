@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Pets
 {
-    public class CosmicPlushie : ModItem
+    public class CosmicPlushie : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Pets";
         public override void SetDefaults()
         {
             Item.damage = 0;

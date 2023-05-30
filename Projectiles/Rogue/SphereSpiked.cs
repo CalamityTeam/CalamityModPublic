@@ -5,8 +5,9 @@ using Microsoft.Xna.Framework;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SphereSpiked : ModProjectile
+    public class SphereSpiked : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/DefectiveSphere";
 
         public override void SetStaticDefaults()

@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Prismatic
 {
     [AutoloadEquip(EquipType.Head)]
-    public class PrismaticHelmet : ModItem
+    public class PrismaticHelmet : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

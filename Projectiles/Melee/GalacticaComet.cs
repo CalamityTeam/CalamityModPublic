@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class GalacticaComet : ModProjectile
+    public class GalacticaComet : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private int noTileHitCounter = 120;
 
         public override void SetStaticDefaults()

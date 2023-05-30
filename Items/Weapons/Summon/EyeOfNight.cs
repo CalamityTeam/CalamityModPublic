@@ -8,8 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class EyeOfNight : ModItem
+    public class EyeOfNight : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
             Item.damage = 28;

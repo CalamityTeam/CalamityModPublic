@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ElementalGlassStar : ModProjectile
+    public class ElementalGlassStar : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         const float MaxTime = 120;
         public float Timer => MaxTime - Projectile.timeLeft;
 

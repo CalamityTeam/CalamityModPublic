@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BarrelShrapnel : ModProjectile
+    public class BarrelShrapnel : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public bool hitTile = false;
         public override void SetStaticDefaults()
         {

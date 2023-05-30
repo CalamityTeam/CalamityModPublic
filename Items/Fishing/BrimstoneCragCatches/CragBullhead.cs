@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
-    public class CragBullhead : ModItem
+    public class CragBullhead : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;

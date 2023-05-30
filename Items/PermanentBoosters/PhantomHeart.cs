@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-    public class PhantomHeart : ModItem
+    public class PhantomHeart : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
 			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)

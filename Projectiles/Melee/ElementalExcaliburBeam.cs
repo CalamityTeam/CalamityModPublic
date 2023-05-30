@@ -9,8 +9,9 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ElementalExcaliburBeam : ModProjectile
+    public class ElementalExcaliburBeam : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private int alpha = 50;
         private bool playedSound = false;
 

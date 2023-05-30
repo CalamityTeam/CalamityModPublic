@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("ExsanguinationLance")]
-    public class VulcaniteLance : ModItem
+    public class VulcaniteLance : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
             ItemID.Sets.Spears[Item.type] = true;

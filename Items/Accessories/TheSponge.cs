@@ -15,8 +15,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
     [LegacyName("Sponge")]
-    public class TheSponge : ModItem
+    public class TheSponge : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override string Texture => (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) ? "CalamityMod/Items/Accessories/TheSpongeReal" : "CalamityMod/Items/Accessories/TheSponge";
 
         public override void SetStaticDefaults()

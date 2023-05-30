@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class KelvinCatalystBoomerang : ModProjectile
+    public class KelvinCatalystBoomerang : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/KelvinCatalyst";
         public int AIState = 0;
 

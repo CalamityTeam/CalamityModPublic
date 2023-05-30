@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("RoyalKnives", "RoyalKnivesMelee", "RoyalKnivesRogue")]
-    public class IllustriousKnives : ModItem
+    public class IllustriousKnives : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 44;

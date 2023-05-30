@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ChickenCannonHeld : ModProjectile
+    public class ChickenCannonHeld : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         static float FireRate = 33f;
         //The first shot from the holdout doesnt consume ammo, this is because the ammo is already consumed by the fact the player needs to consume ammo to shoot it
         public ref float FreeShotLoaded => ref Projectile.ai[0];

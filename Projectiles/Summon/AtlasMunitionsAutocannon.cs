@@ -12,8 +12,9 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AtlasMunitionsAutocannon : ModProjectile
+    public class AtlasMunitionsAutocannon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public int GeneralTimer;
 
         public bool CannonIsMounted = true;

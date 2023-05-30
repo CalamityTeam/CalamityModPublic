@@ -14,8 +14,9 @@ using Terraria.Graphics.Shaders;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PumplerHoldout : ModProjectile
+    public class PumplerHoldout : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
 
         public override void SetStaticDefaults()
         {

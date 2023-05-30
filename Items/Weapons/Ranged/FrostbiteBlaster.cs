@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class FrostbiteBlaster : ModItem
+    public class FrostbiteBlaster : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 50;

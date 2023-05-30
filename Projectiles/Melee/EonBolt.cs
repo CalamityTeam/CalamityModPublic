@@ -10,8 +10,9 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class EonBolt : ModProjectile
+    public class EonBolt : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         internal PrimitiveTrail TrailDrawer;
 
         public override string Texture => "CalamityMod/Projectiles/Melee/GalaxiaBolt";

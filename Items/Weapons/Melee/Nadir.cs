@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Nadir : ModItem
+    public class Nadir : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public static int BaseDamage = 280;
         public static float ShootSpeed = 12f;
 

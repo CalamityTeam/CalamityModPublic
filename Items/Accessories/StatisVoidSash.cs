@@ -14,8 +14,9 @@ using Microsoft.Xna.Framework.Graphics;
 namespace CalamityMod.Items.Accessories
 {
     [LegacyName("StatisBeltOfCurses")]
-    public class StatisVoidSash : ModItem
+    public class StatisVoidSash : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 3));

@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class CryoBlast : ModProjectile
+    public class CryoBlast : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         private const float Spread = 0.15f;
 
         public override void SetStaticDefaults()

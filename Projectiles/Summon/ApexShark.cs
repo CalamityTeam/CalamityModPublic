@@ -10,8 +10,9 @@ using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ApexShark : ModProjectile
+    public class ApexShark : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Ranged/SandyWaifuShark";
 
         private int HitCooldown = 0;

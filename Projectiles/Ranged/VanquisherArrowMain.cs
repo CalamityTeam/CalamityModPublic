@@ -6,8 +6,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class VanquisherArrowMain : ModProjectile
+    public class VanquisherArrowMain : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Ammo/VanquisherArrow";
 
         public override void SetDefaults()

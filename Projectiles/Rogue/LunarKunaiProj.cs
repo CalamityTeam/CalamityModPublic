@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class LunarKunaiProj : ModProjectile
+    public class LunarKunaiProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         bool lunarEnhance = false;
 
         public override void SetStaticDefaults()

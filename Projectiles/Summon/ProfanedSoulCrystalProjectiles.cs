@@ -13,8 +13,9 @@ namespace CalamityMod.Projectiles.Summon
     #region Mage Projectiles
 
     #region Main Fireball
-    public class ProfanedCrystalMageFireball : ModProjectile
+    public class ProfanedCrystalMageFireball : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
@@ -184,8 +185,9 @@ namespace CalamityMod.Projectiles.Summon
     #endregion
 
     #region Fireball Split
-    public class ProfanedCrystalMageFireballSplit : ModProjectile
+    public class ProfanedCrystalMageFireballSplit : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private int damage;
         private int hits = 0;
         private NPC target = null;
@@ -367,8 +369,9 @@ namespace CalamityMod.Projectiles.Summon
     #endregion
 
     #region Melee Projectile
-    public class ProfanedCrystalMeleeSpear : ModProjectile
+    public class ProfanedCrystalMeleeSpear : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
@@ -522,8 +525,9 @@ namespace CalamityMod.Projectiles.Summon
     #region Ranger Projectiles
 
     #region Meteors
-    public class ProfanedCrystalRangedHuges : ModProjectile
+    public class ProfanedCrystalRangedHuges : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         bool boomerSwarm = false;
         bool kill = false;
         NPC target = null;
@@ -790,8 +794,9 @@ namespace CalamityMod.Projectiles.Summon
 
     #region Fireballs
 
-    public class ProfanedCrystalRangedSmalls : ModProjectile
+    public class ProfanedCrystalRangedSmalls : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
@@ -892,8 +897,9 @@ namespace CalamityMod.Projectiles.Summon
 
     #region Rogue Projectile
 
-    public class ProfanedCrystalRogueShard : ModProjectile
+    public class ProfanedCrystalRogueShard : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override void SetDefaults()
         {
             Projectile.width = 34;
@@ -1171,8 +1177,9 @@ namespace CalamityMod.Projectiles.Summon
 
     #region Bab Spears
 
-    public class MiniGuardianSpear : ModProjectile
+    public class MiniGuardianSpear : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;

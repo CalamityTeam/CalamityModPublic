@@ -12,8 +12,9 @@ using System;
 
 namespace CalamityMod.Items.DraedonMisc
 {
-    public class DecryptionComputer : ModItem
+    public class DecryptionComputer : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.DraedonItems";
         public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/DecryptionComputerInstall");
 
         public override void SetDefaults()

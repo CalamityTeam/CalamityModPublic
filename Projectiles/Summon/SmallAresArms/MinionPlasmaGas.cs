@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
-    public class MinionPlasmaGas : ModProjectile, IAdditiveDrawer
+    public class MinionPlasmaGas : ModProjectile, IAdditiveDrawer, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public ref float LightPower => ref Projectile.ai[0];
 
         public ref float Time => ref Projectile.ai[1];

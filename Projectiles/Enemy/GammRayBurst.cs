@@ -14,8 +14,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class GammaRayBurst : BaseLaserbeamProjectile
+    public class GammaRayBurst : BaseLaserbeamProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public PrimitiveTrail LaserDrawer
         {
             get;

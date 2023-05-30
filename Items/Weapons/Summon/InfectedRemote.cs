@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class InfectedRemote : ModItem
+    public class InfectedRemote : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public const int DefaultIframes = 10;
 
         public const int ChargeIframes = 2;

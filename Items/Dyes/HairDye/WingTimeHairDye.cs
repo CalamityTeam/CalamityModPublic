@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Dyes.HairDye
 {
-    public class WingTimeHairDye : ModItem
+    public class WingTimeHairDye : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Dyes";
         public override void SetDefaults()
         {
             Item.width = 20;

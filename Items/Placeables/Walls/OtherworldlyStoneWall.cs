@@ -5,8 +5,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Walls
 {
     [LegacyName("OccultStoneWall")]
-    public class OtherworldlyStoneWall : ModItem
+    public class OtherworldlyStoneWall : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;

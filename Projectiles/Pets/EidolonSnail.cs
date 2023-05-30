@@ -7,8 +7,9 @@ using System;
 
 namespace CalamityMod.Projectiles.Pets
 {
-    public class EidolonSnail : ModProjectile
+    public class EidolonSnail : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         private int playerStill = 0;
         private bool fly = false;
 

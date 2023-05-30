@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class CragmawExplosion : ModProjectile
+    public class CragmawExplosion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public int FrameX = 0;
         public int FrameY = 0;
         public int CurrentFrame => FrameY + FrameX * 14;

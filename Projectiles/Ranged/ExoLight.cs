@@ -11,8 +11,9 @@ using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Ranged
 {
     // Photoviscerator left click side projectile (waving light)
-    public class ExoLight : ModProjectile
+    public class ExoLight : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public Vector2 InitialCenter;

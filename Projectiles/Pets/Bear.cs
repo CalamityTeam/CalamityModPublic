@@ -5,8 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class Bear : ModProjectile
+    public class Bear : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         public int chosenIdle = 0;
         public int idleTimer = 0;
         public int playerStill = 0;

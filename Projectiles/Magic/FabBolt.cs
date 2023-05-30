@@ -7,8 +7,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class FabBolt : ModProjectile
+    public class FabBolt : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         internal PrimitiveTrail TrailDrawer;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

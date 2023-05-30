@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class TeslaCannonShot : ModProjectile
+    public class TeslaCannonShot : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         private int[] dustArray = new int[7] { 56, 111, 137, 160, 206, 229, 226 };

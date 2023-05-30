@@ -9,8 +9,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class PolarisParrotfish : ModItem
+    public class PolarisParrotfish : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetStaticDefaults()
         {
                        Item.staff[Item.type] = true; //so it doesn't look weird af when holding it

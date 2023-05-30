@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Drataliornus : ModItem
+    public class Drataliornus : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         private const double RightClickDamageRatio = 0.6;
 
         public override void SetStaticDefaults()

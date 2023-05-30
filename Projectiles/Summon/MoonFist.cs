@@ -13,8 +13,9 @@ using CalamityMod.Dusts;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MoonFist : ModProjectile
+    public class MoonFist : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public int DelayUntilNextPunch;
 
         public int FistIndex => (int)Projectile.ai[0];

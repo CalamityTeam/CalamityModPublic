@@ -10,8 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PrismTooth : ModProjectile
+    public class PrismTooth : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         internal PrimitiveTrail TrailDrawer;
         public const int Lifetime = 80;
         public Player Owner => Main.player[Projectile.owner];

@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class BloodyWormFood : ModItem
+    public class BloodyWormFood : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 5; // Abeemination / Deer Thing

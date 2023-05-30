@@ -11,8 +11,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AtlasMunitionsDropPod : ModProjectile
+    public class AtlasMunitionsDropPod : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
 
         public float TileCollisionYThreshold => Projectile.ai[0];

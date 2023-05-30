@@ -780,7 +780,10 @@ PolarisBuff: {
 	Description: The Northern Star empowers your life regeneration
 }
 
-ProfanedCrystalBuff.DisplayName: Devotion
+ProfanedCrystalBuff: {
+	DisplayName: Devotion
+	Description: You are an emissary of the profaned goddess now!
+}
 
 RageMode: {
 	DisplayName: Rage Mode

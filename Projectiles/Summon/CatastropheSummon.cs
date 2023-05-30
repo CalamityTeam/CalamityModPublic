@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class CatastropheSummon : ModProjectile
+    public class CatastropheSummon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public ref float Time => ref Projectile.ai[0];
         public bool LookingAtPlayer => Time < 45f;
         public override string Texture => "CalamityMod/NPCs/SupremeCalamitas/SupremeCatastrophe";

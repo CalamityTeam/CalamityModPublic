@@ -8,8 +8,9 @@ using CalamityMod.NPCs.Yharon;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class DragonPow : ModItem
+    public class DragonPow : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public static float Speed = 13f;
         public static float ReturnSpeed = 20f;
         public static float SparkSpeed = 0.6f;

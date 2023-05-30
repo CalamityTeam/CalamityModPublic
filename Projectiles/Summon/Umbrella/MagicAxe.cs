@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.Umbrella
 {
-    public class MagicAxe : ModProjectile
+    public class MagicAxe : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public float Behavior = 0f;
 		public ref float ChargeCooldown => ref Projectile.ai[1];
 		public ref float TreeCounter => ref Projectile.localAI[0];

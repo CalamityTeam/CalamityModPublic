@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class RefractionRotorProjectile : ModProjectile
+    public class RefractionRotorProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public const int EnergyShotCount = 6;
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/RefractionRotor";
 

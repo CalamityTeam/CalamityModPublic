@@ -8,8 +8,9 @@ using CalamityMod.Dusts;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class AstralMeteorProj : ModProjectile
+    public class AstralMeteorProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Enemy";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;

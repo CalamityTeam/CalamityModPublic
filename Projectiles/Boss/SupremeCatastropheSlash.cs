@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SupremeCatastropheSlash : ModProjectile
+    public class SupremeCatastropheSlash : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public ref float Time => ref Projectile.ai[0];
 
         public override void SetStaticDefaults()

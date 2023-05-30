@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
     // Photoviscerator left click main projectile (the flamethrower itself)
-    public class ExoFire : ModProjectile
+    public class ExoFire : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public bool ProducedAcceleration = false;

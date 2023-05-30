@@ -4,8 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Orbacle : ModProjectile
+    public class Orbacle : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private static int Lifetime = 40;
 
         public override void SetDefaults()

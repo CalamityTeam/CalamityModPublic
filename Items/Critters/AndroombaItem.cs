@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Critters
 {
-    public class AndroombaItem : ModItem
+    public class AndroombaItem : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

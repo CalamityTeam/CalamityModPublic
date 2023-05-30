@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.DraedonStructures
 {
-    public class LabHologramProjectorItem : ModItem
+    public class LabHologramProjectorItem : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 22;

@@ -7,8 +7,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ValkyrieRayStaff : ModProjectile
+    public class ValkyrieRayStaff : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Items/Weapons/Magic/ValkyrieRay";
 
         private const float AimResponsiveness = 0.66f;

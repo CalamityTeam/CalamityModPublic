@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Dyes
 {
-    public abstract class BaseDye : ModItem
+    public abstract class BaseDye : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Dyes";
         public abstract ArmorShaderData ShaderDataToBind
         {
             get;

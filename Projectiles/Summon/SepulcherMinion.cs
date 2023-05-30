@@ -13,8 +13,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SepulcherMinion : ModProjectile
+    public class SepulcherMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public struct SepulcherSegment
         {
             public Vector2 CurrentPosition;

@@ -10,8 +10,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class SuicideBomberDemon : ModProjectile
+    public class SuicideBomberDemon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public bool HasDamagedSomething
         {
             get => Projectile.ai[0] == 1f;

@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class IgneousBlade : ModProjectile
+    public class IgneousBlade : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public bool Firing = false;
         public override void SetStaticDefaults()
         {

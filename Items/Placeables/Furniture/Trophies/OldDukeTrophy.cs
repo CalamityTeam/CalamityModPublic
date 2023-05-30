@@ -3,8 +3,9 @@ using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
-    public class OldDukeTrophy : ModItem
+    public class OldDukeTrophy : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 30;

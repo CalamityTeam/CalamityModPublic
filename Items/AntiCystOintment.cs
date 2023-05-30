@@ -4,11 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
-    public class AntiCystOintment : ModItem
+    public class AntiCystOintment : ModItem, ILocalizedModType
     {
-        public override void SetStaticDefaults()
-        {
-        }
+        public string LocalizationCategory => "Items.Misc";
         public override void SetDefaults()
         {
             Item.width = 44;

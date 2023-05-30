@@ -9,8 +9,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class HallowedStarSummon : ModProjectile
+    public class HallowedStarSummon : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         private int noTileHitCounter = 120;
 
         public override void SetStaticDefaults()

@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FinalDawnProjectile : ModProjectile
+    public class FinalDawnProjectile : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public const float MaxChargeTime = 20f;
         public override void SetStaticDefaults()
         {

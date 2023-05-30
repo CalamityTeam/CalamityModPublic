@@ -7,8 +7,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Neck)]
-    public class AbyssalAmulet : ModItem
+    public class AbyssalAmulet : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 26;

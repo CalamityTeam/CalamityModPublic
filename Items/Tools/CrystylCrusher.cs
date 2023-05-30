@@ -12,8 +12,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {
-    public class CrystylCrusher : ModItem
+    public class CrystylCrusher : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Tools";
         private static int PickPower = 1000;
         private static float LaserSpeed = 14f;
 

@@ -6,8 +6,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Banners
 {
     [LegacyName("CatfishBanner")]
-    public class ToxicatfishBanner : ModItem
+    public class ToxicatfishBanner : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 10;

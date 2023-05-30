@@ -19,8 +19,9 @@ using Terraria.GameContent;
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("BiomeBlade")]
-    public class BrokenBiomeBlade : ModItem
+    public class BrokenBiomeBlade : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Melee";
         public Attunement mainAttunement = null;
         public Attunement secondaryAttunement = null;
         public int Combo = 0;

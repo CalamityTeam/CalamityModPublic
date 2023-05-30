@@ -10,13 +10,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class AquasScepter : ModItem
+	public class AquasScepter : ModItem, ILocalizedModType
 	{
+		public string LocalizationCategory => "Items.Weapons.Summon";
 		public override void SetStaticDefaults()
 		{
-		 //Yes, it's cheesy, I know. It's a joke.
-
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 			ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
 			ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
 		}

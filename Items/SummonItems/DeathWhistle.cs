@@ -9,8 +9,9 @@ using Terraria.DataStructures;
 namespace CalamityMod.Items.SummonItems
 {
     [LegacyName("AncientMedallion")]
-    public class DeathWhistle : ModItem
+    public class DeathWhistle : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear

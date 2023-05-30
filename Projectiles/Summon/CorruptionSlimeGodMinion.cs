@@ -6,8 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class CorruptionSlimeGodMinion : ModProjectile
+    public class CorruptionSlimeGodMinion : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public float dust = 0f;
 
         public override void SetStaticDefaults()

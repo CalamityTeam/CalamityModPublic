@@ -4,12 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 {
-	public class CrabulonRelic : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-
-		}
+	public class CrabulonRelic : ModItem, ILocalizedModType
+    {
+        public string LocalizationCategory => "Items.Placeables";
 
 		public override void SetDefaults()
 		{

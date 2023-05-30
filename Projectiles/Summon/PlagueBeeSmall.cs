@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlagueBeeSmall : ModProjectile
+    public class PlagueBeeSmall : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Rogue/PlaguenadeBee";
 
         public override void SetStaticDefaults()

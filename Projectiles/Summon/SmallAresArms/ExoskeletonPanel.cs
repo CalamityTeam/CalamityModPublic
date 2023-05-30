@@ -12,8 +12,9 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
-    public class ExoskeletonPanel : ModProjectile
+    public class ExoskeletonPanel : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public enum IconType
         {
             Inactive,

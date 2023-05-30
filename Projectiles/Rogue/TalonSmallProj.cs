@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TalonSmallProj : ModProjectile
+    public class TalonSmallProj : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         private static float SineFrequency = 0.05f;
         private static float SineAmplitude = 0.008f;
         private static float RotationIncrement = 0.26f;

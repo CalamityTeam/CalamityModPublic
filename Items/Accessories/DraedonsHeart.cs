@@ -11,8 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class DraedonsHeart : ModItem
+    public class DraedonsHeart : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Accessories";
         private const double ContactDamageReduction = 0.15D;
 
         // Duration of Nanomachines in frames.

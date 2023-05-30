@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
-    public class MinionGaussNuke : ModProjectile
+    public class MinionGaussNuke : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 76;

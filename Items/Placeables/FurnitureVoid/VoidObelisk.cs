@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     [LegacyName("VoidClock")]
-    public class VoidObelisk : ModItem
+    public class VoidObelisk : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Void Obelisk");

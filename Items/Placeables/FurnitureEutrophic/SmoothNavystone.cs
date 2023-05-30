@@ -4,8 +4,9 @@ using Terraria.ModLoader; // If you are using c# 6, you can use: "using static T
 
 namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
-    public class SmoothNavystone : ModItem
+    public class SmoothNavystone : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

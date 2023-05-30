@@ -5,8 +5,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PrismShurikenBlade : ModProjectile
+    public class PrismShurikenBlade : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 22;

@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LabFinders
 {
-    public class WhiteSeekingMechanism : ModItem
+    public class WhiteSeekingMechanism : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.DraedonItems";
         public override void SetDefaults()
         {
             Item.width = 24;

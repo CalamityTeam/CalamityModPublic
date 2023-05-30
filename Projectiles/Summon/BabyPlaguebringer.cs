@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class BabyPlaguebringer : ModProjectile
+    public class BabyPlaguebringer : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Pets/PlaguebringerBab";
 
         public override void SetStaticDefaults()

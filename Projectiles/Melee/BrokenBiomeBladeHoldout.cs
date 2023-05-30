@@ -13,8 +13,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class BrokenBiomeBladeHoldout : ModProjectile //Visuals
+    public class BrokenBiomeBladeHoldout : ModProjectile, ILocalizedModType //Visuals
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         private Player Owner => Main.player[Projectile.owner];
 
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.ModItem as BrokenBiomeBlade).CanUseItem(Owner) : false;

@@ -5,8 +5,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class VerstaltiteBobber : ModProjectile
+    public class VerstaltiteBobber : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override void SetDefaults()
         {
             //projectile.CloneDefaults(360); //Wooden Bobber

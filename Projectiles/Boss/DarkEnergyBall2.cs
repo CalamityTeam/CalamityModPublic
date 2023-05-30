@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DarkEnergyBall2 : ModProjectile
+    public class DarkEnergyBall2 : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/Boss/DarkEnergyBall";
 
         public override void SetStaticDefaults()

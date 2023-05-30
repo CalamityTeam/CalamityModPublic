@@ -7,8 +7,9 @@ using Terraria.ID;
 namespace CalamityMod.Items.Materials
 {
     [LegacyName("EbonianGel")]
-    public class BlightedGel : ModItem
+    public class BlightedGel : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;

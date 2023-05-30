@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Healing
 {
-    public class PhantomicHeart : ModProjectile
+    public class PhantomicHeart : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Healing";
         private int floatTimer = 0;
 
         public override void SetStaticDefaults()

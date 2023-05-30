@@ -3,8 +3,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Healing
 {
-    public class DemonHeal : ModProjectile
+    public class DemonHeal : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Healing";
         public Player Owner => Main.player[Projectile.owner];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

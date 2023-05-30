@@ -11,8 +11,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class LeonidProgenitorBombshell : ModProjectile
+    public class LeonidProgenitorBombshell : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/LeonidProgenitor";
 
         public override void SetDefaults()

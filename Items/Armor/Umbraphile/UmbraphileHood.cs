@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Umbraphile
 {
     [AutoloadEquip(EquipType.Head)]
-    public class UmbraphileHood : ModItem
+    public class UmbraphileHood : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetDefaults()
         {
             Item.width = 22;

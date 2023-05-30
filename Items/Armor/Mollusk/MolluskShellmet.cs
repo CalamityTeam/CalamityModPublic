@@ -11,8 +11,9 @@ using Microsoft.Xna.Framework;
 namespace CalamityMod.Items.Armor.Mollusk
 {
     [AutoloadEquip(EquipType.Head)]
-    public class MolluskShellmet : ModItem
+    public class MolluskShellmet : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetDefaults()
         {
             Item.width = 22;

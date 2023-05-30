@@ -8,8 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class DaedalusGolemStaff : ModItem
+    public class DaedalusGolemStaff : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetStaticDefaults()
         {
             // Funny Hollow Knight reference.

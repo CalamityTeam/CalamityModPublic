@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class GazeOfCrysthamyr : ModItem
+    public class GazeOfCrysthamyr : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Mounts";
         public override void SetStaticDefaults()
         {
            

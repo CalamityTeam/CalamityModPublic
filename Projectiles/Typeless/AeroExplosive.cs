@@ -8,8 +8,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class AeroExplosive : ModProjectile
+    public class AeroExplosive : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Items/Weapons/Typeless/Skynamite";
 
         public override void SetDefaults()

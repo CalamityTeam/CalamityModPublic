@@ -6,8 +6,9 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Projectiles.Turret
 {
-    public class WaterShotBuffer : ModProjectile
+    public class WaterShotBuffer : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

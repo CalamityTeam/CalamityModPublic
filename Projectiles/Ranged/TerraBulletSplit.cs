@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class TerraBulletSplit : ModProjectile
+    public class TerraBulletSplit : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Ranged";
         private float speed = 0f;
         public override void SetStaticDefaults()
         {

@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class OmnibladeSwing : ModProjectile
+    public class OmnibladeSwing : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public Player Owner => Main.player[Projectile.owner];
 
         public override void SetStaticDefaults()

@@ -6,8 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.LivingFire
 {
-    public class LivingGodSlayerFireBlock : ModItem
+    public class LivingGodSlayerFireBlock : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

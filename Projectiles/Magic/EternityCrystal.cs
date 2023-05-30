@@ -10,8 +10,9 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class EternityCrystal : ModProjectile
+    public class EternityCrystal : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Magic";
         public bool Collapsing = false;
         public float TargetOffsetRadius = 480f;
         public float DegreesToSpin = 2f;

@@ -6,8 +6,9 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Exoboom : ModProjectile
+    public class Exoboom : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

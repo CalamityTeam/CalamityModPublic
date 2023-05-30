@@ -14,8 +14,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class TrackingDisk : RogueWeapon
+    public class TrackingDisk : RogueWeapon, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public override void SetStaticDefaults()
         {
                    }

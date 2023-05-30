@@ -9,8 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class DragonsBreath : ModItem
+    public class DragonsBreath : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Weapons.Ranged";
         public const int BetweenShotsPause = 15;
         public const int PelletsPerShot = 6;
         public const float FullAutoFireRateMult = 0.8f;

@@ -6,8 +6,9 @@ using CalamityMod.Items.Placeables.Walls;
 
 namespace CalamityMod.Items.Placeables
 {
-    public class Acidwood : ModItem
+    public class Acidwood : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

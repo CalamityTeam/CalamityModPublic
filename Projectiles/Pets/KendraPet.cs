@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class KendraPet : ModProjectile
+    public class KendraPet : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Pets";
         public static readonly SoundStyle BarkSound = new("CalamityMod/Sounds/Item/KendraBark");
 
         private int chosenIdle = 0;

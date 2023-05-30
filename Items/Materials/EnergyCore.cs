@@ -4,8 +4,9 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
-    public class EnergyCore : ModItem
+    public class EnergyCore : ModItem, ILocalizedModType
     {
+        public string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

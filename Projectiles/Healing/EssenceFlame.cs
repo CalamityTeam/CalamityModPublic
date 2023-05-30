@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class EssenceFlame : ModProjectile
+    public class EssenceFlame : ModProjectile, ILocalizedModType
     {
+        public string LocalizationCategory => "Projectiles.Healing";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
