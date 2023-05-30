@@ -1,11 +1,16 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.OmegaBlue;
+using CalamityMod.Items.Fishing;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.DevPaintings;
+using CalamityMod.Items.Potions;
+using CalamityMod.Items.Potions.Alcohol;
+using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -1165,6 +1170,9 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.WallofFleshMasterTrophy);
                     rev.Add(ItemID.WallOfFleshGoatMountItem, 4);
 
+                    // GFB Amalgam drop
+                    GFB.Add(ModContent.ItemType<TheAmalgam>());
+
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<LoreUnderworld>(), desc: DropHelper.FirstKillText);
                     npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<LoreWallofFlesh>(), desc: DropHelper.FirstKillText);
@@ -1184,6 +1192,9 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.QueenSlimeMasterTrophy);
                     rev.Add(ItemID.QueenSlimePetItem, 4);
+
+                    // GFB Bottomless Shimmer Bucket drop
+                    GFB.Add(ItemID.BottomlessShimmerBucket);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedQueenSlime, ModContent.ItemType<LoreQueenSlime>(), desc: DropHelper.FirstKillText);
@@ -1206,6 +1217,9 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.DestroyerMasterTrophy);
                     rev.Add(ItemID.DestroyerPetItem, 4);
+                    
+                    // GFB Bloodworm drop
+                    GFB.Add(ModContent.ItemType<BloodwormItem>());
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss1, ModContent.ItemType<LoreDestroyer>(), desc: DropHelper.FirstKillText);
@@ -1246,6 +1260,9 @@ namespace CalamityMod.NPCs
                     rev.AddIf((info) => IsLastTwinStanding(info), ItemID.TwinsMasterTrophy);
                     rev.AddIf((info) => IsLastTwinStanding(info), ItemID.TwinsPetItem, 4);
 
+                    // GFB The Eye of Cthulhu drop
+                    GFB.AddIf((info) => IsLastTwinStanding(info), ItemID.TheEyeOfCthulhu);
+
                     // Lore
                     npcLoot.AddConditionalPerPlayer((info) => !NPC.downedMechBoss2 && IsLastTwinStanding(info), ModContent.ItemType<LoreTwins>(), desc: DropHelper.FirstKillText);
                     npcLoot.AddConditionalPerPlayer(ShouldDropMechLore, ModContent.ItemType<LoreMechs>(), desc: DropHelper.MechBossText);
@@ -1267,6 +1284,9 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.SkeletronPrimeMasterTrophy);
                     rev.Add(ItemID.SkeletronPrimePetItem, 4);
+
+                    // GFB Bone Wings drop
+                    GFB.Add(ItemID.BoneWings);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss3, ModContent.ItemType<LoreSkeletronPrime>(), desc: DropHelper.FirstKillText);
@@ -1329,6 +1349,9 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.PlanteraMasterTrophy);
                     rev.Add(ItemID.PlanteraPetItem, 4);
 
+                    // GFB Life Fruit drop
+                    GFB.Add(ItemID.LifeFruit, 1, 1, 9999);
+
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedPlantBoss, ModContent.ItemType<LorePlantera>(), desc: DropHelper.FirstKillText);
                     break;
@@ -1383,6 +1406,14 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.GolemMasterTrophy);
                     rev.Add(ItemID.GolemPetItem, 4);
+
+                    // GFB Vision Potion drop
+                    GFB.Add(ItemID.NightOwlPotion, 1, 1, 9999);
+                    GFB.Add(ItemID.ShinePotion, 1, 1, 9999);
+                    GFB.Add(ItemID.HunterPotion, 1, 1, 9999);
+                    GFB.Add(ItemID.TrapsightPotion, 1, 1, 9999);
+                    GFB.Add(ItemID.SpelunkerPotion, 1, 1, 9999);
+                    GFB.Add(ModContent.ItemType<PotionofOmniscience>(), 1, 1, 9999);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedGolemBoss, ModContent.ItemType<LoreGolem>(), desc: DropHelper.FirstKillText);
@@ -1460,6 +1491,30 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.DukeFishronMasterTrophy);
                     rev.Add(ItemID.DukeFishronPetItem, 4);
 
+                    // GFB Old Die and Fish drop
+                    GFB.Add(ModContent.ItemType<OldDie>());
+                    GFB.Add(ItemID.Fish);
+                    GFB.Add(ItemID.FishBowl);
+                    GFB.Add(ItemID.FishCostumeFinskirt);
+                    GFB.Add(ItemID.FishCostumeMask);
+                    GFB.Add(ItemID.FishCostumeShirt);
+                    GFB.Add(ItemID.FishermansGuide);
+                    GFB.Add(ItemID.FisherofSouls);
+                    GFB.Add(ItemID.FishFinder);
+                    GFB.Add(ItemID.FishHook);
+                    GFB.Add(ItemID.FishingBobber);
+                    GFB.Add(ItemID.FishingPotion, 1, 1, 9999);
+                    GFB.Add(ItemID.FishingSeaweed, 1, 1, 9999);
+                    GFB.Add(ItemID.FishMinecart);
+                    GFB.Add(ItemID.Fishotron);
+                    GFB.Add(ItemID.Fishron);
+                    GFB.Add(ItemID.FishStatue, 1, 1, 9999);
+                    GFB.Add(ModContent.ItemType<FishboneBoomerang>());
+                    GFB.Add(ModContent.ItemType<FishofEleum>(), 1, 1, 9999);
+                    GFB.Add(ModContent.ItemType<FishofFlight>(), 1, 1, 9999);
+                    GFB.Add(ModContent.ItemType<FishofLight>(), 1, 1, 9999);
+                    GFB.Add(ModContent.ItemType<FishofNight>(), 1, 1, 9999);
+
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedFishron, ModContent.ItemType<LoreDukeFishron>(), desc: DropHelper.FirstKillText);
                     break;
@@ -1509,6 +1564,10 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.FairyQueenMasterTrophy);
                     rev.Add(ItemID.FairyQueenPetItem, 4);
 
+                    // GFB Fabsol's Vodka and Terraformer drop
+                    GFB.Add(ModContent.ItemType<FabsolsVodka>(), 1, 1, 9999);
+                    GFB.Add(ItemID.Clentaminator2);
+
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedEmpressOfLight, ModContent.ItemType<LoreEmpressofLight>(), desc: DropHelper.FirstKillText);
 
@@ -1520,6 +1579,9 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.LunaticCultistPetItem, 4);
 
                     npcLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
+
+                    // GFB Luminite Brick drop
+                    GFB.Add(ItemID.LunarBrick, 1, 1, 9999);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedAncientCultist, ModContent.ItemType<LorePrelude>(), desc: DropHelper.FirstKillText);
@@ -1567,6 +1629,11 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.MoonLordMasterTrophy);
                     rev.Add(ItemID.MoonLordPetItem, 4);
+
+                    // GFB Omega Blue Armor drop
+                    GFB.Add(ModContent.ItemType<OmegaBlueHelmet>());
+                    GFB.Add(ModContent.ItemType<OmegaBlueChestplate>());
+                    GFB.Add(ModContent.ItemType<OmegaBlueTentacles>());
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedMoonlord, ModContent.ItemType<LoreRequiem>(), desc: DropHelper.FirstKillText);
