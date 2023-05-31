@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Pets;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -18,6 +19,7 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(29, 37, 58), CalamityUtils.GetItemName<AbyssShellFossil>());
             DustType = 33;
             RegisterItemDrop(ModContent.ItemType<AbyssShellFossil>());
+            FlexibleTileWand.RubblePlacementLarge.AddVariations(ModContent.ItemType<AbyssShellFossil>(), Type, 0);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

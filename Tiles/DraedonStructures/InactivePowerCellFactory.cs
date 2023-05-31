@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.Enums;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -35,6 +36,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             AddMapEntry(new Color(67, 72, 81), CreateMapEntryName());
 
             RegisterItemDrop(ModContent.ItemType<PowerCellFactoryItem>());
+            FlexibleTileWand.RubblePlacementLarge.AddVariations(ModContent.ItemType<PowerCellFactoryItem>(), Type, 0);
         }
 
         public override bool CanExplode(int i, int j) => false;
