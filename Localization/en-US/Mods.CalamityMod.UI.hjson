@@ -43,12 +43,20 @@ Bloodthirsty: {
 
 Ephemeral: {
 	DisplayName: Ephemeral
-	Description: Causes the damage output of this item to discharge from exhaustive use.\nIts damage returns naturally when not being used. It starts off with more damage than it normally would have.
+	Description:
+		'''
+		Causes the damage output of this item to discharge from exhaustive use.
+		Its damage returns naturally when not being used. It starts off with more damage than it normally would have.
+		'''
 }
 
 Hellbound: {
 	DisplayName: Hellbound
-	Description: Causes minions to be created with a 40 second timer.\nOnce it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.
+	Description:
+		'''
+		Causes minions to be created with a 40 second timer.
+		Once it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.
+		'''
 }
 
 Tainted: {
@@ -63,12 +71,20 @@ Traitorous: {
 
 Withering: {
 	DisplayName: Withering
-	Description: When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%.\nAfter this, you gain a damage boost while holding this item but also take exponential damage over time the longer you hold it.
+	Description:
+		'''
+		When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%.
+		After this, you gain a damage boost while holding this item but also take exponential damage over time the longer you hold it.
+		'''
 }
 
 Persecuted: {
 	DisplayName: Persecuted
-	Description: When attacked, or over time, demon portals appear near you.\nIf sufficiently damaged they are friendly; otherwise they attack you. They become angered if a portal is damaged.
+	Description:
+		'''
+		When attacked, or over time, demon portals appear near you.
+		If sufficiently damaged they are friendly; otherwise they attack you. They become angered if a portal is damaged.
+		'''
 }
 
 Lecherous: {

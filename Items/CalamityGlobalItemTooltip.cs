@@ -196,7 +196,7 @@ namespace CalamityMod.Items
         {
             if (!item.IsAir && AppliedEnchantment.HasValue)
             {
-                foreach (string line in AppliedEnchantment.Value.Description.Split('\n'))
+                foreach (string line in AppliedEnchantment.Value.Description.ToString().Split('\n'))
                 {
                     TooltipLine descriptionLine = new TooltipLine(Mod, "Enchantment", CalamityUtils.ColorMessage(line, Color.DarkRed));
                     tooltips.Add(descriptionLine);

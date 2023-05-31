@@ -8,11 +8,6 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgeCrabulon")]
     public class LoreCrabulon : LoreItem
     {
-        public override string Lore =>
-@"Fungus and a sea crab. One sought a host; the other, a new home.
-These mushrooms possess a disturbing amount of tenacity. Nothing that lays down to die in their domain is left to rest.
-It is this sort of ghastly, forceful exertion of control over the unwilling that led me down my path.";
-
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

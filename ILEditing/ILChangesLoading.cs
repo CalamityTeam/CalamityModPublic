@@ -86,10 +86,7 @@ namespace CalamityMod.ILEditing
             Terraria.On_Player.SlopeDownMovement += CustomGrapplePreStepUp;
 
             // Damage and health balance
-            
-            // ERROR
-            Terraria.IL_Main.DamageVar += AdjustDamageVariance;
-            
+            Terraria.On_Main.DamageVar_float_int_float += AdjustDamageVariance;            
             Terraria.IL_Projectile.Damage += MakeTagDamageMultiplicative;
             Terraria.IL_NPC.ScaleStats_ApplyExpertTweaks += RemoveExpertHardmodeScaling;
             Terraria.IL_Projectile.AI_001 += AdjustChlorophyteBullets;
@@ -124,7 +121,7 @@ namespace CalamityMod.ILEditing
 
             // Removal of vanilla stupidity
             Terraria.GameContent.Events.IL_Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
-            Terraria.IL_Item.Prefix += RelaxPrefixRequirements;
+            Terraria.IL_Item.TryGetPrefixStatMultipliersForItem += RelaxPrefixRequirements;
             Terraria.On_NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             
             // ERROR

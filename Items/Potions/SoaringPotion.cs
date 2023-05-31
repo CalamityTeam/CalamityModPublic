@@ -48,7 +48,8 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<BloodOrb>(30).
                 AddIngredient(ItemID.SoulofFlight).
                 AddTile(TileID.AlchemyTable).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

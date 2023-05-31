@@ -61,7 +61,8 @@ namespace CalamityMod.Items.SummonItems
                 AddIngredient<TwistingNether>().
                 AddIngredient<DarkPlasma>().
                 AddTile(TileID.LunarCraftingStation).
-                Register();
+                Register()
+                .DisableDecraft();
 
             // sequence breaking recipe
             CreateRecipe().
@@ -69,7 +70,8 @@ namespace CalamityMod.Items.SummonItems
                 AddIngredient<GalacticaSingularity>(10).
                 AddIngredient<Phantoplasm>(40).
                 AddTile(TileID.LunarCraftingStation).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

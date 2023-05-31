@@ -8,14 +8,6 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgeLeviathanandSiren", "KnowledgeLeviathanAnahita")]
     public class LoreLeviathanAnahita : LoreItem
     {
-        public override string Lore =>
-@"Although she claims dominion over all the world's oceans, in truth she is a recluse of the deep.
-Elementals pose a grave threat to all those around them. Other Elementals are no exception.
-Anahita was driven from her home in the Abyss by Silva's encroaching greenery.
-Accounts vary as to the majestic beast at her side. Some claim Anahita summoned the Leviathan herself.
-Regardless of what you believe, they are inseparable even in death.
-Such stalwart loyalty! It reminds me of Yharon.";
-
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

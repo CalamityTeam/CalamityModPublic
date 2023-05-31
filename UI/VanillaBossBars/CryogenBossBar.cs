@@ -30,6 +30,14 @@ namespace CalamityMod.UI.VanillaBossBars
 			if (!target.active)
 				return false;
 
+            // Get the boss health, obviously
+            life = target.life;
+            lifeMax = target.lifeMax;
+            
+            // Reset the shield
+            shield = 0f;
+            shieldMax = 0f;
+
             // Determine the shield health
             for (int i = 0; i < Main.maxNPCs; i++)
 			{

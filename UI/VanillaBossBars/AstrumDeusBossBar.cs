@@ -24,6 +24,7 @@ namespace CalamityMod.UI.VanillaBossBars
 			if (!target.active && !FindMoreWorms(ref info))
 				return false;
 
+            // Reset the health
             life = 0f;
             lifeMax = 0f;
 

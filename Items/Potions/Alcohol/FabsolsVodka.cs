@@ -46,7 +46,8 @@ namespace CalamityMod.Items.Potions.Alcohol
                 AddIngredient<BloodOrb>(40).
                 AddIngredient(ItemID.CrystalShard).
                 AddTile(TileID.AlchemyTable).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

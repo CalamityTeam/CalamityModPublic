@@ -12,8 +12,7 @@ namespace CalamityMod.Projectiles.Melee
         public string LocalizationCategory => "Projectiles.Melee";
         public override void SetDefaults()
         {
-            Projectile.width = 34;
-            Projectile.height = 34;
+            Projectile.width = Projectile.height = 42;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;

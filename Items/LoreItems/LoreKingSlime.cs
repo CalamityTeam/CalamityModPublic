@@ -7,11 +7,6 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgeKingSlime")]
     public class LoreKingSlime : LoreItem
     {
-        public override string Lore =>
-@"Given time, these gelatinous creatures absorb each other and slowly grow in both size and strength.
-There is little need to worry about this. Naturally, slimes are nearly mindless and amass only by chance.
-Though it appears they are capable of absorbing knowledge, if only in rudimentary form.";
-
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

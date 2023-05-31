@@ -7,13 +7,13 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 
-namespace CalamityMod.UI.TextureReplacements
+namespace CalamityMod.UI.ResourceSets
 {
-    public class CalamityTextureOverlay : ModResourceOverlay
+    public class CalamityResourceOverlay : ModResourceOverlay
     {
         // Most of this is taken from ExampleMod. See that for additional explanations.
 		private Dictionary<string, Asset<Texture2D>> vanillaAssetCache = new();
-        public string baseFolder = "CalamityMod/UI/TextureReplacements/";
+        public string baseFolder = "CalamityMod/UI/ResourceSets/";
 
         // Determines which health UI to draw based on player upgrades.
         public string LifeTexturePath()
@@ -52,20 +52,15 @@ namespace CalamityMod.UI.TextureReplacements
             string fancyFolder = "Images/UI/PlayerResourceSets/FancyClassic/";
             string barsFolder = "Images/UI/PlayerResourceSets/HorizontalBars/";
 
-            // Auric Flying Carpet
-            if (asset == TextureAssets.FlyingCarpet && Main.LocalPlayer.Calamity().auricSet)
-            {
-                context.texture = ModContent.Request<Texture2D>($"{baseFolder}AuricCarpet");
-                context.Draw();
-            }
-
             if (ManaTexturePath() != string.Empty)
             {
+                // Draw stars for Classic and Fancy
                 if (asset == TextureAssets.Mana || CompareAssets(asset, fancyFolder + "Star_Fill"))
                 {
                     context.texture = ModContent.Request<Texture2D>(ManaTexturePath() + "Star");
                     context.Draw();
                 }
+                // Draw mana bars
                 else if (CompareAssets(asset, barsFolder + "MP_Fill"))
                 {
                     context.texture = ModContent.Request<Texture2D>(ManaTexturePath() + "Bar");
@@ -82,7 +77,7 @@ namespace CalamityMod.UI.TextureReplacements
                 context.texture = ModContent.Request<Texture2D>(LifeTexturePath() + "Heart");
 			    context.Draw();
             }
-            // Draw bars
+            // Draw health bars
 			else if (CompareAssets(asset, barsFolder + "HP_Fill") || CompareAssets(asset, barsFolder + "HP_Fill_Honey"))
 			{
                 context.texture = ModContent.Request<Texture2D>(LifeTexturePath() + "Bar");

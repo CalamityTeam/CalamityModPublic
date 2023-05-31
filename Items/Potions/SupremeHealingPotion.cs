@@ -36,7 +36,8 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.SuperHealingPotion, 4).
                 AddIngredient<Bloodstone>(3).
                 AddTile(TileID.Bottles).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

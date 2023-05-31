@@ -8,12 +8,6 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgePerforators")]
     public class LorePerforators : LoreItem
     {
-        public override string Lore =>
-@"These creatures were unique, for they wielded the slain Gods' power as purely as possible, veins flowing with spilt ichor.
-All that exists in the Crimson is truly the divine turned inside out; their gore now glistens with its perverse treachery, for all to bear witness.
-The mire reeks of centuries of vile manipulation and callous domination of the hapless.
-Judgment is long passed, and extinction is left waiting.";
-
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

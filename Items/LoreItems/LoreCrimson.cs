@@ -7,11 +7,6 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgeCrimson")]
     public class LoreCrimson : LoreItem
     {
-        public override string Lore =>
-@"The foul air, the morbid fauna, the disgusting terrain… Here lies my first mistake of my crusade.
-The essence of a God does not simply vanish when the body dies. It must be properly disposed of or destroyed entirely.
-Essence of a pious God could never fester into a mire as dreadful as this.";
-
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

@@ -49,7 +49,8 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<BloodOrb>(10).
                 AddIngredient<PearlShard>().
                 AddTile(TileID.AlchemyTable).
-                Register();
+                Register()
+                .DisableDecraft();
         }
     }
 }

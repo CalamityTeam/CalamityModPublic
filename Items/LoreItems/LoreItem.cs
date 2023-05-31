@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
@@ -9,24 +10,15 @@ namespace CalamityMod.Items.LoreItems
     public abstract class LoreItem : ModItem, ILocalizedModType
     {
         public string LocalizationCategory => "Items.Lore";
-        // This line is the short, generic lore tooltip which indicates there is more to be read.
-        // It can be overridden as desired for flavor.
-        public virtual string ShortTooltip => "Whispers from on high dance in your ears...";
-        public virtual Color ShortTooltipColor => new(227, 175, 64); // #E3AF40
 
-        // This line is what tells the player to hold Shift. There is essentially no reason to change it
-        public virtual string LeftShiftExpandTooltip => "Press \"Left Shift\" to listen closer";
-        public virtual Color LeftShiftExpandColor => new(190, 190, 190); // #BEBEBE
+        // All lore items initially have a short tooltip which indicates there is more to be read.
+        public override LocalizedText Tooltip => CalamityUtils.GetText($"{LocalizationCategory}.ShortTooltip");
 
-        // This string contains the actual lore of the lore item
-        public virtual string Lore => "";
         // By default, lore text appears in white, but this can be changed.
         public virtual Color? LoreColor => null;
 
         public override void SetStaticDefaults()
         {
-            string basicLine = ShortTooltipColor.ColorMessage(ShortTooltip, true);
-            string leftShift = LeftShiftExpandColor.ColorMessage(LeftShiftExpandTooltip, false);
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
@@ -42,7 +34,7 @@ namespace CalamityMod.Items.LoreItems
         // All lore items use the same code for holding SHIFT to extend tooltips.
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            TooltipLine fullLore = new(Mod, "CalamityMod:Lore", Lore);
+            TooltipLine fullLore = new(Mod, "CalamityMod:Lore", this.GetLocalizedValue("Lore"));
             if (LoreColor.HasValue)
                 fullLore.OverrideColor = LoreColor.Value;
             CalamityUtils.HoldShiftTooltip(tooltips, new TooltipLine[] { fullLore }, true);

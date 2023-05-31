@@ -16,6 +16,9 @@
         // This is a const because it replaces a hardcoded value in vanilla
         internal const float BalloonJumpSpeedBoost = 0.75f;
 
+        // Altered default damage deviation
+        internal const int NewDefaultDamageVariationPercent = 5;
+
         // Sharpening Station grants this much armor penetration to melee weapons.
         internal const float SharpeningStationArmorPenetration = 5f;
 

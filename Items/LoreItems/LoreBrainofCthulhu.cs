@@ -7,12 +7,6 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgeBrainofCthulhu")]
     public class LoreBrainofCthulhu : LoreItem
     {
-        public override string Lore =>
-@"It is true that unspeakable abominations may now be commonplace, largely by my hand.
-Though they have always been a product of the folly of the Gods, the same Gods would cull them in equal measure.
-My decimation of the falsely divine left many old horrors unconstrained, with new ones birthed every year.
-Now, they are your stepping stones.";
-
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

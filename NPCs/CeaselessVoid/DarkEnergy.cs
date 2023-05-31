@@ -23,9 +23,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public const int MaxHP = 12000;
         public const int MaxBossRushHP = 20000;
 
+        // Texture info. Also used for the projectile variants.
+        public const int HitboxSize = 64;
+        public const int FrameCount = 8;
+
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[NPC.type] = 8;
+            Main.npcFrameCount[NPC.type] = FrameCount;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
@@ -37,8 +41,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             AIType = -1;
             NPC.GetNPCDamage();
             NPC.dontTakeDamage = true;
-            NPC.width = 64;
-            NPC.height = 64;
+            NPC.width = NPC.height = HitboxSize;
             NPC.defense = 50;
             NPC.lifeMax = BossRushEvent.BossRushActive ? MaxBossRushHP : MaxHP;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;

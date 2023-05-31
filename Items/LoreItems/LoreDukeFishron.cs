@@ -7,13 +7,6 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgeDukeFishron")]
     public class LoreDukeFishron : LoreItem
     {
-        public override string Lore =>
-@"Outlandish as they may seem, this species is the single mightiest of the seas.
-They are relentless hunters and can easily spend significant time out of the water.
-Folklore holds that the Fishrons claim heritage from the true Dragons, countless years back.
-While there are many such tales of creatures of draconic descent, this case is factual.
-Genetic heritage or not, though, the Fishrons lack Dragonblood, or Auric souls. I would well know.";
-
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Chat;
@@ -174,7 +175,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             int cost = CurrentlyHeldItem.value * 4;
 
             // Increase the cost of enchanting significantly if doing so would upgrade the item directly.
-            if (SelectedEnchantment.HasValue && SelectedEnchantment.Value.Name == CalamityUtils.GetTextValue(EnchantmentManager.ExhumedNamePath))
+            if (SelectedEnchantment.HasValue && SelectedEnchantment.Value.Name == CalamityUtils.GetText(EnchantmentManager.ExhumedNamePath))
                 cost = (int)MathHelper.Min(cost, Item.buyPrice(5)) * 5;
 
             // Make it 20% cheaper if the player has the Discount Card or Greedy Ring
@@ -202,7 +203,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
             Vector2 scale = new Vector2(0.8f, 0.825f) * MathHelper.Clamp(ResolutionRatio, 0.825f, 1f) * Main.UIScale;
 
-            string unifiedDescription = SelectedEnchantment.Value.Description.Replace("\n", " ");
+            string unifiedDescription = SelectedEnchantment.Value.Description.ToString().Replace("\n", " ");
             foreach (string line in Utils.WordwrapString(unifiedDescription, FontAssets.MouseText.Value, 400, 16, out _))
             {
                 if (string.IsNullOrEmpty(line))
@@ -349,10 +350,11 @@ namespace CalamityMod.UI.CalamitasEnchants
         public static void DrawEnchantmentName(SpriteBatch spriteBatch, Vector2 nameDrawCenter)
         {
             Vector2 scale = new Vector2(0.8f, 0.745f) * Main.UIScale;
-            float textWidth = FontAssets.MouseText.Value.MeasureString(SelectedEnchantment.Value.Name).X * scale.X;
+            string enchName = SelectedEnchantment.Value.Name.ToString();
+            float textWidth = FontAssets.MouseText.Value.MeasureString(enchName).X * scale.X;
             Color drawColor = SelectedEnchantment.Value.Equals(EnchantmentManager.ClearEnchantment) ? Color.White : Color.Orange;
             nameDrawCenter.X -= textWidth * 0.5f;
-            ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, SelectedEnchantment.Value.Name, nameDrawCenter, drawColor, 0f, Vector2.Zero, scale);
+            ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, enchName, nameDrawCenter, drawColor, 0f, Vector2.Zero, scale);
         }
 
         public static void InteractWithEnchantIcon(int cost)
@@ -369,12 +371,14 @@ namespace CalamityMod.UI.CalamitasEnchants
             if (cost <= 0 || !Main.LocalPlayer.CanAfford(cost))
                 return;
 
+            bool IsExhuming = SelectedEnchantment.Value.Name == CalamityUtils.GetText(EnchantmentManager.ExhumedNamePath);
+
             int oldPrefix = CurrentlyHeldItem.prefix;
             CurrentlyHeldItem.SetDefaults(CurrentlyHeldItem.type);
             CurrentlyHeldItem.Prefix(oldPrefix);
             CurrentlyHeldItem = CurrentlyHeldItem.Clone();
 
-            if (SelectedEnchantment.Value.Name == CalamityUtils.GetTextValue(EnchantmentManager.ExhumedNamePath))
+            if (IsExhuming)
             {
                 CurrentlyHeldItem.SetDefaults(EnchantmentManager.ItemUpgradeRelationship[CurrentlyHeldItem.type]);
                 CurrentlyHeldItem.Prefix(oldPrefix);
@@ -385,6 +389,10 @@ namespace CalamityMod.UI.CalamitasEnchants
                 SelectedEnchantment.Value.CreationEffect?.Invoke(CurrentlyHeldItem);
             }
 
+            /*
+            TODO -- Currently bugged. Apparently, CalamityGlobalItem isn't loaded for tooltipPrefixComparisonItem
+            This makes the modifier texts warped in numbers but at least it's not destroying the UI
+
             // Update the compare item. This is used to check comparisons when showing reforge tooltip bonuses.
             // Updating it with the same bonuses as what was applied to the real item will negate the incorrect numbers,
             // such as absurd damage boosts.
@@ -392,11 +400,12 @@ namespace CalamityMod.UI.CalamitasEnchants
                 Main.tooltipPrefixComparisonItem = new Item();
             Main.tooltipPrefixComparisonItem.SetDefaults(Main.tooltipPrefixComparisonItem.type);
 
-            if (SelectedEnchantment.Value.Name != CalamityUtils.GetTextValue(EnchantmentManager.ExhumedNamePath))
+            if (!IsExhuming)
             {
                 Main.tooltipPrefixComparisonItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
                 SelectedEnchantment.Value.CreationEffect?.Invoke(Main.tooltipPrefixComparisonItem);
             }
+            */
 
             // Take away the money for the cost.
             Main.LocalPlayer.BuyItem(cost);
@@ -404,7 +413,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             // Reset the enchantment index to prevent index problems on a different item.
             EnchantIndex = 0;
 
-            if (SelectedEnchantment.Value.Name == CalamityUtils.GetTextValue(EnchantmentManager.ExhumedNamePath))
+            if (IsExhuming)
                 SoundEngine.PlaySound(EXSound, Main.LocalPlayer.Center);
             else
                 SoundEngine.PlaySound(EnchSound, Main.LocalPlayer.Center);

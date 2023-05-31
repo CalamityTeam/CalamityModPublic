@@ -1,12 +1,13 @@
 using System;
 using Terraria;
+using Terraria.Localization;
 
 namespace CalamityMod.UI.CalamitasEnchants
 {
     public struct Enchantment
     {
-        public string Name;
-        public string Description;
+        public LocalizedText Name;
+        public LocalizedText Description;
         public string IconTexturePath;
         public Action<Item> CreationEffect;
         public Action<Player> HoldEffect;
@@ -16,7 +17,7 @@ namespace CalamityMod.UI.CalamitasEnchants
         // This is internal because CanBeAppliedTo should be used over this field directly.
         // Using that has the benefit of null checks and is objectively superior to using the raw delegate.
         internal Predicate<Item> ApplyRequirement;
-        public Enchantment(string name, string description, int id, string iconTexturePath, Action<Item> creationEffect, Action<Player> holdEffect, Predicate<Item> requirement)
+        public Enchantment(LocalizedText name, LocalizedText description, int id, string iconTexturePath, Action<Item> creationEffect, Action<Player> holdEffect, Predicate<Item> requirement)
         {
             Name = name;
             Description = description;
@@ -26,7 +27,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             ID = id;
             IconTexturePath = iconTexturePath;
         }
-        public Enchantment(string name, string description, int id, string iconTexturePath, Action<Player> holdEffect, Predicate<Item> requirement)
+        public Enchantment(LocalizedText name, LocalizedText description, int id, string iconTexturePath, Action<Player> holdEffect, Predicate<Item> requirement)
         {
             Name = name;
             Description = description;
@@ -36,7 +37,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             ID = id;
             IconTexturePath = iconTexturePath;
         }
-        public Enchantment(string name, string description, int id, string iconTexturePath, Action<Item> creationEffect, Predicate<Item> requirement)
+        public Enchantment(LocalizedText name, LocalizedText description, int id, string iconTexturePath, Action<Item> creationEffect, Predicate<Item> requirement)
         {
             Name = name;
             Description = description;
