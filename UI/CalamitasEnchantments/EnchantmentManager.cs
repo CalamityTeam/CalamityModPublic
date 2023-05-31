@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.UI.CalamitasEnchants
@@ -69,8 +70,8 @@ namespace CalamityMod.UI.CalamitasEnchants
             if (secondaryArgumentCount > 7)
                 throw new ArgumentNullException("ERROR: A maximum of 6 arguments can be supplied to this command.");
 
-            string name = string.Empty;
-            string description = string.Empty;
+            LocalizedText name = LocalizedText.Empty;
+            LocalizedText description = LocalizedText.Empty;
             int id = -1;
             string iconTexturePath = null;
             Predicate<Item> requirement = null;
@@ -78,16 +79,16 @@ namespace CalamityMod.UI.CalamitasEnchants
             Action<Player> holdEffect = null;
 
             // First element - the name.
-            if (parameters.ElementAt(0) is string nameElement)
+            if (parameters.ElementAt(0) is LocalizedText nameElement)
                 name = nameElement;
             else
-                throw new ArgumentException("The first argument to this command must be a string.");
+                throw new ArgumentException("The first argument to this command must be a LocalizedText.");
 
             // Second element - the description.
-            if (parameters.ElementAt(1) is string descriptionElement)
+            if (parameters.ElementAt(1) is LocalizedText descriptionElement)
                 description = descriptionElement;
             else
-                throw new ArgumentException("The second argument to this command must be a string.");
+                throw new ArgumentException("The second argument to this command must be a LocalizedText.");
 
             // Third element - the ID.
             if (parameters.ElementAt(2) is int idElement)
@@ -148,28 +149,28 @@ namespace CalamityMod.UI.CalamitasEnchants
         {
             EnchantmentList = new List<Enchantment>
             {
-                new Enchantment(CalamityUtils.GetTextValue(ExhumedNamePath), CalamityUtils.GetTextValue("UI.Exhumed.Description"),
+                new Enchantment(CalamityUtils.GetText(ExhumedNamePath), CalamityUtils.GetText("UI.Exhumed.Description"),
                     1,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Exhumed",
                     null,
                     null,
                     item => ItemUpgradeRelationship.ContainsKey(item.type)),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Indignant.DisplayName"), CalamityUtils.GetTextValue("UI.Indignant.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Indignant.DisplayName"), CalamityUtils.GetText("UI.Indignant.Description"),
                     100,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Indignant",
                     null,
                     player => player.Calamity().cursedSummonsEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<SummonDamageClass>() && !item.IsWhip()),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Aflame.DisplayName"), CalamityUtils.GetTextValue("UI.Aflame.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Aflame.DisplayName"), CalamityUtils.GetText("UI.Aflame.Description"),
                     200,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Aflame",
                     null,
                     player => player.Calamity().flamingItemEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>() && !item.IsWhip()),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Oblatory.DisplayName"), CalamityUtils.GetTextValue("UI.Oblatory.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Oblatory.DisplayName"), CalamityUtils.GetText("UI.Oblatory.Description"),
                     300,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Oblatory",
                     item =>
@@ -180,21 +181,21 @@ namespace CalamityMod.UI.CalamitasEnchants
                     player => player.Calamity().lifeManaEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MagicDamageClass>() && item.mana > 0 && item.type != ModContent.ItemType<Eternity>()),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Resentful.DisplayName"), CalamityUtils.GetTextValue("UI.Resentful.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Resentful.DisplayName"), CalamityUtils.GetText("UI.Resentful.Description"),
                     400,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Resentful",
                     null,
                     player => player.Calamity().farProximityRewardEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.IsTrueMelee() && item.type != ModContent.ItemType<FinalDawn>()),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Bloodthirsty.DisplayName"), CalamityUtils.GetTextValue("UI.Bloodthirsty.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Bloodthirsty.DisplayName"), CalamityUtils.GetText("UI.Bloodthirsty.Description"),
                     500,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Bloodthirsty",
                     null,
                     player => player.Calamity().closeProximityRewardEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.IsTrueMelee() && item.type != ModContent.ItemType<FinalDawn>()),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Ephemeral.DisplayName"), CalamityUtils.GetTextValue("UI.Ephemeral.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Ephemeral.DisplayName"), CalamityUtils.GetText("UI.Ephemeral.Description"),
                     600,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Ephemeral",
                     null,
@@ -202,14 +203,14 @@ namespace CalamityMod.UI.CalamitasEnchants
                     item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>() && !item.CountsAsClass<RogueDamageClass>() &&
                     !item.channel && item.type != ModContent.ItemType<HeavenlyGale>()),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Hellbound.DisplayName"), CalamityUtils.GetTextValue("UI.Hellbound.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Hellbound.DisplayName"), CalamityUtils.GetText("UI.Hellbound.Description"),
                     700,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Hellbound",
                     null,
                     player => player.Calamity().explosiveMinionsEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<SummonDamageClass>() && !item.IsWhip()),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Tainted.DisplayName"), CalamityUtils.GetTextValue("UI.Tainted.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Tainted.DisplayName"), CalamityUtils.GetText("UI.Tainted.Description"),
                     800,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Tainted",
                     item => item.useTime = item.useAnimation = 25,
@@ -247,28 +248,28 @@ namespace CalamityMod.UI.CalamitasEnchants
                     },
                     item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MeleeDamageClass>() && !item.noUseGraphic && item.shoot > ProjectileID.None),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Traitorous.DisplayName"), CalamityUtils.GetTextValue("UI.Traitorous.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Traitorous.DisplayName"), CalamityUtils.GetText("UI.Traitorous.Description"),
                     900,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Traitorous",
                     null,
                     player => player.Calamity().manaMonsterEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MagicDamageClass>() && item.mana > 0),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Withering.DisplayName"), CalamityUtils.GetTextValue("UI.Withering.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Withering.DisplayName"), CalamityUtils.GetText("UI.Withering.Description"),
                     1000,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Withered",
                     null,
                     player => player.Calamity().witheringWeaponEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>()),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Persecuted.DisplayName"), CalamityUtils.GetTextValue("UI.Persecuted.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Persecuted.DisplayName"), CalamityUtils.GetText("UI.Persecuted.Description"),
                     1100,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Persecuted",
                     null,
                     player => player.Calamity().persecutedEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None),
 
-                new Enchantment(CalamityUtils.GetTextValue("UI.Lecherous.DisplayName"), CalamityUtils.GetTextValue("UI.Lecherous.Description"),
+                new Enchantment(CalamityUtils.GetText("UI.Lecherous.DisplayName"), CalamityUtils.GetText("UI.Lecherous.Description"),
                     1200,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Lecherous",
                     null,
@@ -300,8 +301,8 @@ namespace CalamityMod.UI.CalamitasEnchants
             };
 
             // Special disenchantment thing. This is separated from the list on purpose.
-            ClearEnchantment = new Enchantment(CalamityUtils.GetTextValue("UI.Disenchant"),
-                string.Empty,
+            ClearEnchantment = new Enchantment(CalamityUtils.GetText("UI.Disenchant"),
+                LocalizedText.Empty,
                 ClearEnchantmentID,
                 null,
                 item =>
