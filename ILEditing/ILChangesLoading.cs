@@ -124,7 +124,7 @@ namespace CalamityMod.ILEditing
 
             // Removal of vanilla stupidity
             Terraria.GameContent.Events.IL_Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
-            Terraria.IL_Item.Prefix += RelaxPrefixRequirements;
+            Terraria.IL_Item.TryGetPrefixStatMultipliersForItem += RelaxPrefixRequirements;
             Terraria.On_NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             
             // ERROR
