@@ -346,6 +346,17 @@ namespace CalamityMod.NPCs.AstrumDeus
             lastWorm.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentStardust, 1, 16, 24, 20, 32));
             lastWorm.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<MeldBlob>(), 1, 16, 24, 20, 32));
 
+            // GFB Worm and Spaghetti drop
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ItemID.Worm, 1, 1, 9999);
+                GFBOnly.Add(ItemID.CanOfWorms, 1, 1, 9999);
+                GFBOnly.Add(ItemID.GummyWorm, 1, 1, 9999);
+                GFBOnly.Add(ItemID.TruffleWorm, 1, 1, 9999);
+                GFBOnly.Add(ItemID.EnchantedNightcrawler, 1, 1, 9999);
+                GFBOnly.Add(ItemID.Spaghetti, 1, 1, 9999);
+            }
+
             // Lore
             bool firstDeusKill(DropAttemptInfo info) => !DownedBossSystem.downedAstrumDeus && !ShouldNotDropThings(info.npc);
             npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<LoreAstrumDeus>(), desc: DropHelper.FirstKillText);
