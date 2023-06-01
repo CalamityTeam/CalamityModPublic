@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
+    // Thanks a lot for naming it Caustic Edge :)
     public class TrueCausticEdge : ModItem, ILocalizedModType
     {
         public string LocalizationCategory => "Items.Weapons.Melee";
@@ -54,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CausticEdge>().
+                AddIngredient<TaintedBlade>().
                 AddRecipeGroup("AnyEvilFlask", 5).
                 AddIngredient(ItemID.FlaskofPoison, 5).
                 AddIngredient(ItemID.Deathweed, 4).

@@ -19,10 +19,10 @@ namespace CalamityMod.UI.VanillaBossBars
         public NPC FalseNPCSegment;
         public List<int> SlimeGodSlimes = new List<int>
         {
-            NPCType<CrimulanSlimeGod>(),
-            NPCType<EbonianSlimeGod>(),
-            NPCType<SplitCrimulanSlimeGod>(),
-            NPCType<SplitEbonianSlimeGod>()
+            NPCType<CrimulanPaladin>(),
+            NPCType<EbonianPaladin>(),
+            NPCType<SplitCrimulanPaladin>(),
+            NPCType<SplitEbonianPaladin>()
         };
 
         public override Asset<Texture2D> GetIconTexture(ref Rectangle? iconFrame) => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<SlimeGodCore>()]];
@@ -38,9 +38,9 @@ namespace CalamityMod.UI.VanillaBossBars
 
             // Add max health by feeding the data of false NPCs
             FalseNPCSegment = new NPC();
-            FalseNPCSegment.SetDefaults(NPCType<CrimulanSlimeGod>(), target.GetMatchingSpawnParams());
+            FalseNPCSegment.SetDefaults(NPCType<CrimulanPaladin>(), target.GetMatchingSpawnParams());
             lifeMax += FalseNPCSegment.lifeMax;
-            FalseNPCSegment.SetDefaults(NPCType<EbonianSlimeGod>(), target.GetMatchingSpawnParams());
+            FalseNPCSegment.SetDefaults(NPCType<EbonianPaladin>(), target.GetMatchingSpawnParams());
             lifeMax += FalseNPCSegment.lifeMax;
 
             // Determine the current health of each slime

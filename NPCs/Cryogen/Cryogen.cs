@@ -1291,7 +1291,7 @@ namespace CalamityMod.NPCs.Cryogen
                     ModContent.ItemType<Icebreaker>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
-                normalOnly.Add(ModContent.ItemType<ColdDivinity>(), 10);
+                normalOnly.Add(ModContent.ItemType<GlacialEmbrace>(), 10);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CryogenMask>(), 7);

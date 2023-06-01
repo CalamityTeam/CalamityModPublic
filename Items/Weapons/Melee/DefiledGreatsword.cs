@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class TrueTyrantYharimsUltisword : ModItem, ILocalizedModType
+    [LegacyName("TrueTyrantYharimsUltisword")]
+    public class DefiledGreatsword : ModItem, ILocalizedModType
     {
         public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
@@ -76,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<TyrantYharimsUltisword>().
+                AddIngredient<BlightedCleaver>().
                 AddIngredient<CoreofCalamity>().
                 AddIngredient<UelibloomBar>(15).
                 AddTile(TileID.DemonAltar).

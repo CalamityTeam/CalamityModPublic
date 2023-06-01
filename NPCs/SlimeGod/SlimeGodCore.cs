@@ -132,8 +132,8 @@ namespace CalamityMod.NPCs.SlimeGod
             if (Main.netMode != NetmodeID.MultiplayerClient && !slimesSpawned)
             {
                 slimesSpawned = true;
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<EbonianSlimeGod>());
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CrimulanSlimeGod>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<EbonianPaladin>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CrimulanPaladin>());
             }
 
             // Set damage
@@ -184,7 +184,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 // Make sure Opacity is set to 0.8f if it's below that when the vanish phase starts
                 if (NPC.ai[3] == 0f)
                 {
-                    if (!NPC.AnyNPCs(ModContent.NPCType<EbonianSlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<CrimulanSlimeGod>()))
+                    if (!NPC.AnyNPCs(ModContent.NPCType<EbonianPaladin>()) && !NPC.AnyNPCs(ModContent.NPCType<CrimulanPaladin>()))
                     {
                         NPC.ai[3] = 1f;
                         NPC.Opacity = 0.8f;
@@ -285,8 +285,8 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         for (int x = 0; x < Main.maxNPCs; x++)
                         {
-                            if (Main.npc[x].type == ModContent.NPCType<EbonianSlimeGod>() || Main.npc[x].type == ModContent.NPCType<SplitEbonianSlimeGod>() ||
-                                Main.npc[x].type == ModContent.NPCType<CrimulanSlimeGod>() || Main.npc[x].type == ModContent.NPCType<SplitCrimulanSlimeGod>())
+                            if (Main.npc[x].type == ModContent.NPCType<EbonianPaladin>() || Main.npc[x].type == ModContent.NPCType<SplitEbonianPaladin>() ||
+                                Main.npc[x].type == ModContent.NPCType<CrimulanPaladin>() || Main.npc[x].type == ModContent.NPCType<SplitCrimulanPaladin>())
                             {
                                 Main.npc[x].active = false;
                                 Main.npc[x].netUpdate = true;
@@ -477,10 +477,10 @@ namespace CalamityMod.NPCs.SlimeGod
             // If they are far apart, try to stay towards the closest slime.
             // If no slimes exist, or they are all extremely far away, try to stay near the target player instead.
             // TODO -- Consider renaming the big slime god's internal names to be more intuitive?
-            int crimulanSlimeID = ModContent.NPCType<CrimulanSlimeGod>();
-            int crimulanSlimeSplitID = ModContent.NPCType<SplitCrimulanSlimeGod>();
-            int ebonianSlimeID = ModContent.NPCType<EbonianSlimeGod>();
-            int ebonianSlimeSplitID = ModContent.NPCType<SplitEbonianSlimeGod>();
+            int crimulanSlimeID = ModContent.NPCType<CrimulanPaladin>();
+            int crimulanSlimeSplitID = ModContent.NPCType<SplitCrimulanPaladin>();
+            int ebonianSlimeID = ModContent.NPCType<EbonianPaladin>();
+            int ebonianSlimeSplitID = ModContent.NPCType<SplitEbonianPaladin>();
             List<NPC> largeSlimes = new();
 
             float ignoreGeneralAreaDistanceThreshold = 750f;

@@ -1052,8 +1052,8 @@ CloudyWaifu: {
 	Description: The Cloud Elemental will protect you
 }
 
-ColdDivinityBuff: {
-	DisplayName: Cold Divinity
+GlacialEmbraceBuff: {
+	DisplayName: Glacial Embrace
 	Description: The magic of the ancient ice castle will aid you
 }
 

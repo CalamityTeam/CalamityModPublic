@@ -164,10 +164,10 @@ namespace CalamityMod.UI
             OneToMany[NPCType<RavagerLegLeft>()] = Rav;
             OneToMany[NPCType<RavagerHead>()] = Rav;
 
-            int[] SlimeGod = new int[] { NPCType<EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>(),
-                NPCType<CrimulanSlimeGod>(), NPCType<SplitCrimulanSlimeGod>() };
-            OneToMany[NPCType<EbonianSlimeGod>()] = SlimeGod;
-            OneToMany[NPCType<CrimulanSlimeGod>()] = SlimeGod;
+            int[] SlimeGod = new int[] { NPCType<EbonianPaladin>(), NPCType<SplitEbonianPaladin>(),
+                NPCType<CrimulanPaladin>(), NPCType<SplitCrimulanPaladin>() };
+            OneToMany[NPCType<EbonianPaladin>()] = SlimeGod;
+            OneToMany[NPCType<CrimulanPaladin>()] = SlimeGod;
 
             SetupBossExclusionList();
             SetupMinibossHPBarList();

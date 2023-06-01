@@ -4,7 +4,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class SmallSightseerBanner : ModItem, ILocalizedModType
+    [LegacyName("SmallSightseerBanner")]
+    public class SightseerColliderBanner : ModItem, ILocalizedModType
     {
         public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()

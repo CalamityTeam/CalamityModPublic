@@ -5,7 +5,8 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class BigSightseerBanner : ModItem, ILocalizedModType
+    [LegacyName("BigSightseerBanner")]
+    public class SightseerSpitterBanner : ModItem, ILocalizedModType
     {
         public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()

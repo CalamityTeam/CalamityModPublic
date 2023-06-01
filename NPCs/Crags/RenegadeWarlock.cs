@@ -10,7 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
 {
-    public class CultistAssassin : ModNPC
+    public class RenegadeWarlock : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.Crags
                 NPC.lifeMax = 3000;
             }
             Banner = NPC.type;
-            BannerItem = ModContent.ItemType<CultistAssassinBanner>();
+            BannerItem = ModContent.ItemType<RenegadeWarlockBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -85,9 +85,9 @@ namespace CalamityMod.NPCs.Crags
                     int count = CalamityWorld.getFixedBoi ? 20 : 1; // remember that old oversight in the draedon update?
                     for (int g = 0; g < count; g++)
                     {
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CultistAssassin").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CultistAssassin2").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CultistAssassin3").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("RenegadeWarlock").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("RenegadeWarlock2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("RenegadeWarlock3").Type, NPC.scale);
                     }
                 }
             }

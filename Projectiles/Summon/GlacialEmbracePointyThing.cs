@@ -9,7 +9,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ColdDivinityPointyThing : ModProjectile, ILocalizedModType
+    public class GlacialEmbracePointyThing : ModProjectile, ILocalizedModType
     {
         public string LocalizationCategory => "Projectiles.Summon";
         public int recharging = -1;
@@ -147,13 +147,13 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (player.dead)
             {
-                modPlayer.coldDivinity = false;
+                modPlayer.GlacialEmbrace = false;
             }
             if (circlingPlayer)
             {
                 Projectile.minionSlots = 1f;
                 Projectile.timeLeft = 2;
-                if (!modPlayer.coldDivinity && recharging > 0)
+                if (!modPlayer.GlacialEmbrace && recharging > 0)
                     Projectile.Kill();
 
             }
@@ -238,7 +238,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (Main.projectile[i].active && Main.projectile[i].owner == Projectile.owner && Main.projectile[i].type == Projectile.type)
                 {
-                    ColdDivinityPointyThing pointy = (ColdDivinityPointyThing)Main.projectile[i].ModProjectile;
+                    GlacialEmbracePointyThing pointy = (GlacialEmbracePointyThing)Main.projectile[i].ModProjectile;
                     if (Main.projectile[i].ai[1] > 2f)
                         circlers += Main.rand.Next(1, 4);
                 }
