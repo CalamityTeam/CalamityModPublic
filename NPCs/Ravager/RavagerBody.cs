@@ -27,6 +27,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.NPCs.Ravager
 {
@@ -973,7 +974,6 @@ namespace CalamityMod.NPCs.Ravager
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-
             // Mark Ravager as dead
             DownedBossSystem.downedRavager = true;
             CalamityNetcode.SyncWorld();
@@ -1017,6 +1017,15 @@ namespace CalamityMod.NPCs.Ravager
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<RavagerRelic>());
+
+            // GFB Sans drops
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ItemID.Skull);
+                GFBOnly.Add(ItemID.Bone, 1, 1, 9999);
+                GFBOnly.Add(ItemID.Hotdog, 1, 1, 9999);
+                GFBOnly.Add(ModContent.ItemType<AncientBoneDust>(), 1, 1, 9999);
+            }
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedRavager, ModContent.ItemType<LoreRavager>(), desc: DropHelper.FirstKillText);
