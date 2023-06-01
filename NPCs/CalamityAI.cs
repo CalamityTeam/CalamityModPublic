@@ -3554,6 +3554,16 @@ namespace CalamityMod.NPCs
             int gfbLength = phase1Length / 10;
             int maxLength = CalamityWorld.getFixedBoi && doubleWormPhase ? gfbLength : doubleWormPhase ? phase2Length : phase1Length;
 
+            // Become gradually more pissed as more worms are killed
+            int gfbMaxWormCount = 10;
+            int gfbWormCount = 0;
+            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                gfbWormCount = NPC.CountNPCS(ModContent.NPCType<AstrumDeusHead>());
+            if (gfbWormCount > gfbMaxWormCount)
+                gfbWormCount = gfbMaxWormCount;
+            if (gfbWormCount > 0)
+                enrageScale += (gfbMaxWormCount - gfbWormCount) * 0.111f;
+
             // Split into two worms
             if (head)
             {
@@ -3741,7 +3751,7 @@ namespace CalamityMod.NPCs
 
             // Emit light
             if (!CalamityWorld.getFixedBoi)
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+                Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             // Dust and alpha effects
             if ((head || Main.npc[(int)npc.ai[1]].alpha < 128) && !npc.dontTakeDamage)
