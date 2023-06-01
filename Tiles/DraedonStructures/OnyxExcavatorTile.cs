@@ -17,6 +17,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileSolid[Type] = false;
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
             TileObjectData.newTile.Width = 8;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
@@ -26,9 +27,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
-
             AddMapEntry(new Color(128, 0, 128), CreateMapEntryName());
-
             RegisterItemDrop(ModContent.ItemType<OnyxExcavatorKey>());
             FlexibleTileWand.RubblePlacementLarge.AddVariations(ModContent.ItemType<OnyxExcavatorKey>(), Type, 0);
         }
