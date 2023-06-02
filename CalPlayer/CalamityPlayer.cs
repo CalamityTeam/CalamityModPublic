@@ -971,6 +971,7 @@ namespace CalamityMod.CalPlayer
         public bool perditionBeacon = false;
         public bool MoonFist = false;
         public bool AresCannons = false;
+        public bool celestialDragons = false;
 
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
 
@@ -2001,6 +2002,7 @@ namespace CalamityMod.CalPlayer
             perditionBeacon = false;
             MoonFist = false;
             AresCannons = false;
+            celestialDragons = false;
 
             disableVoodooSpawns = false;
             disablePerfCystSpawns = false;
