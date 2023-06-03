@@ -144,6 +144,24 @@ namespace CalamityMod.ILEditing
         }
         #endregion Voodoo Demon Doll Spawn Manipulations
 
+        #region Remove Feral Bite Random Debuffs
+        private static void RemoveFeralBiteRandomDebuffs(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            // Find the random debuff duration multiplier for the debuffs inflicted by Feral Bite.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.01f))) // The 0.01f random debuff duration multiplier.
+            {
+                LogFailure("Remove Feral Bite Random Debuffs", "Could not locate the Feral Bite random debuff duration multiplier.");
+                return;
+            }
+
+            // Remove and change to 0f, this makes the random debuffs from Feral Bite have 0 duration.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0f);
+        }
+        #endregion
+
         #region Disabling of Lava Slime Lava Creation
         private static void RemoveLavaDropsFromExpertLavaSlimes(ILContext il)
         {

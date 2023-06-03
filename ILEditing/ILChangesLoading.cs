@@ -120,6 +120,7 @@ namespace CalamityMod.ILEditing
             Terraria.IO.On_WorldFile.ClearTempTiles += ClearModdedTempTiles;
 
             // Removal of vanilla stupidity
+            Terraria.IL_Player.UpdateBuffs += RemoveFeralBiteRandomDebuffs;
             Terraria.GameContent.Events.IL_Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
             Terraria.IL_Item.TryGetPrefixStatMultipliersForItem += RelaxPrefixRequirements;
             Terraria.On_NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
