@@ -30,7 +30,7 @@ namespace CalamityMod.Systems
         #region ModifyWorldGenTasks
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
-            //Evil Floating Island
+            // Evil Floating Island
             int islandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Floating Island Houses"));
             if (islandIndex != -1)
             {
@@ -41,14 +41,14 @@ namespace CalamityMod.Systems
                 }));
             }
 
-            //Calamity's biome chests in the dungeon
+            // Calamity's biome chests in the dungeon
             int DungeonChestIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
             if (DungeonChestIndex != -1)
             {
                 tasks.Insert(DungeonChestIndex + 1, new PassLegacy("CalamityDungeonBiomeChests", MiscWorldgenRoutines.GenerateBiomeChests));
             }
 
-            //Larger Jungle Temple
+            // Larger Jungle Temple
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
             tasks[JungleTempleIndex] = new PassLegacy("Jungle Temple", (progress, config) =>
             {
@@ -56,7 +56,7 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTemple();
             });
 
-            //Improved Golem arena
+            // Improved Golem arena
             int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
             tasks[JungleTempleIndex2] = new PassLegacy("Temple", (progress, config) =>
             {
@@ -67,7 +67,7 @@ namespace CalamityMod.Systems
                 Main.tileSolid[232] = false;
             });
 
-            //Better Lihzahrd altar (consistency?)
+            // Better Lihzahrd altar (consistency?)
             int LihzahrdAltarIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lihzahrd Altars"));
             tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altars", (progress, config) =>
             {
@@ -75,7 +75,7 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTempleLihzahrdAltar();
             });
 
-            //Giant beehive
+            // Giant beehive
             int giantHiveIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Hives"));
             if (giantHiveIndex != -1)
             {
@@ -93,7 +93,7 @@ namespace CalamityMod.Systems
                 }));
             }
 
-            //mechanic shed
+            // Mechanic Shed
             int mechanicIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
             if (mechanicIndex != -1)
             {
@@ -104,7 +104,7 @@ namespace CalamityMod.Systems
                 }));
             }
 
-            //Vernal pass
+            // Vernal pass
             int vernalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Muds Walls In Jungle"));
             if (vernalIndex != -1)
             {
@@ -115,7 +115,7 @@ namespace CalamityMod.Systems
                 }));
             }
 
-            //Sunken sea
+            // Sunken sea
             int SunkenSeaIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Settle Liquids Again"));
             if (SunkenSeaIndex != -1)
             {
@@ -130,11 +130,11 @@ namespace CalamityMod.Systems
                 }));
             }
 
-            //All further tasks occur after vanilla worldgen is completed
+            // All further tasks occur after vanilla worldgen is completed
             int FinalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
             if (FinalIndex != -1)
             {
-                //Reallocate gems so rarity corresponds to depth
+                // Reallocate gems so rarity corresponds to depth
                 int currentFinalIndex = FinalIndex;
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Gem Depth Adjustment", (progress, config) =>
                 {
@@ -143,7 +143,7 @@ namespace CalamityMod.Systems
                     MiscWorldgenRoutines.SmartGemGen();
                 }));
 
-                //Forsaken Archive structure in the Dungeon
+                // Forsaken Archive structure in the Dungeon
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Forsaken Archive", (progress, config) =>
                 {
                     progress.Message = Language.GetOrRegister("Mods.Calamity.UI.DungeonArchive").Value;
@@ -151,10 +151,10 @@ namespace CalamityMod.Systems
                     DungeonArchive.PlaceArchive();
                 }));
 
-                //Planetoids
+                // Planetoids
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Planetoids", Planetoid.GenerateAllBasePlanetoids));
 
-                //Sulphurous Sea (Step 1)
+                // Sulphurous Sea (Step 1)
                 int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
                 if (SulphurIndex != -1)
                 {
@@ -166,20 +166,20 @@ namespace CalamityMod.Systems
                     }));
                 }
 
-                //Brimstone Crags
+                // Brimstone Crags
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Brimstone Crag", (progress, config) =>
                 {
                     progress.Message = Language.GetOrRegister("Mods.Calamity.UI.BrimstoneCrags").Value;
                     BrimstoneCrag.GenAllCragsStuff();
                 }));
 
-                //Biome shrines
+                // Biome shrines
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Special Shrines", (progress, config) =>
                 {
                     progress.Message = Language.GetOrRegister("Mods.Calamity.UI.HiddenShrines").Value;
 
-                    //Cuts down on worldgen time to process the right one.
-                    //TODO -- Possible Both Evils compat whenever
+                    // Cuts down on worldgen time to process the right one.
+                    // TODO -- Possible Both Evils compat whenever
                     if (WorldGen.crimson)
                     {
                         progress.Message = Language.GetOrRegister("Mods.Calamity.UI.CrimsonShrine").Value;
@@ -210,15 +210,15 @@ namespace CalamityMod.Systems
                     UndergroundShrines.PlaceSurfaceShrine(GenVars.structures);
                 }));
 
-                //aerialite
-                //this MUST generate after the evil island, otherwise the ores keep getting painted from the evil island gen
+                // Aerialite
+                // This MUST generate after the evil island, otherwise the ores keep getting painted from the evil island gen
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Aerialite", (progress, config) =>
                 {
                     progress.Message = Language.GetOrRegister("Mods.Calamity.UI.Aerialite").Value;
                     AerialiteOreGen.Generate(false);
                 }));
 
-                //Draedon Labs
+                // Draedon Labs
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Draedon Structures", (progress, config) =>
                 {
                     progress.Message = Language.GetOrRegister("Mods.Calamity.UI.DraedonLabs").Value;
@@ -266,21 +266,21 @@ namespace CalamityMod.Systems
                     }
                 }));
 
-                //Abyss
+                // Abyss
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Abyss", (progress, config) =>
                 {
                     progress.Message = Language.GetOrRegister("Mods.Calamity.UI.Abyss").Value;
                     Abyss.PlaceAbyss();
                 }));
 
-                //Sulphurous Sea (Part 2, after Abyss)
+                // Sulphurous Sea (Part 2, after Abyss)
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Sulphur Sea 2", (progress, config) =>
                 {
                     progress.Message = Language.GetOrRegister("Mods.Calamity.UI.SulphurSea2").Value;
                     SulphurousSea.SulphurSeaGenerationAfterAbyss();
                 }));
 
-                //Roxcalibur
+                // Roxcalibur
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Roxcalibur", (progress, config) =>
                 {
                     progress.Message = Language.GetOrRegister("Mods.Calamity.UI.Roxcalibur").Value;
@@ -289,7 +289,7 @@ namespace CalamityMod.Systems
             }
         }
 
-        //An Astral Meteor always falls at the beginning of Hardmode.
+        // An Astral Meteor always falls at the beginning of Hardmode.
         public override void ModifyHardmodeTasks(List<GenPass> tasks)
         {
             int announceIndex = tasks.FindIndex(match => match.Name == "Hardmode Announcement");
@@ -310,20 +310,20 @@ namespace CalamityMod.Systems
                 Chest chest = Main.chest[chestIndex];
                 if (chest != null)
                 {
-                    //Checks which sheet a chest belongs to
+                    // Checks which sheet a chest belongs to
                     bool isContainer1 = Main.tile[chest.x, chest.y].TileType == TileID.Containers;
                     bool isContainer2 = Main.tile[chest.x, chest.y].TileType == TileID.Containers2;
 
-                    //Pre-1.4 chests
+                    // Pre-1.4 chests
                     bool isBrownChest = isContainer1 && Main.tile[chest.x, chest.y].TileFrameX == 0;
-                    bool isGoldChest = isContainer1 && (Main.tile[chest.x, chest.y].TileFrameX == 36 || Main.tile[chest.x, chest.y].TileFrameX == 2*36); //Includes Locked Gold Chests
+                    bool isGoldChest = isContainer1 && (Main.tile[chest.x, chest.y].TileFrameX == 36 || Main.tile[chest.x, chest.y].TileFrameX == 2 * 36); // Includes Locked Gold Chests
                     bool isMahoganyChest = isContainer1 && Main.tile[chest.x, chest.y].TileFrameX == 8 * 36;
                     bool isIvyChest = isContainer1 && Main.tile[chest.x, chest.y].TileFrameX == 10 * 36;
                     bool isIceChest = isContainer1 &&  Main.tile[chest.x, chest.y].TileFrameX == 11 * 36;
                     bool isMushroomChest = isContainer1 && Main.tile[chest.x, chest.y].TileFrameX == 32 * 36;
                     bool isMarniteChest = isContainer1 && (Main.tile[chest.x, chest.y].TileFrameX == 50 * 36 || Main.tile[chest.x, chest.y].TileFrameX == 51 * 36);
 
-                    //1.4 chests
+                    // 1.4 chests
                     bool isDeadManChest = isContainer2 && Main.tile[chest.x, chest.y].TileFrameX == 4 * 36;
                     bool isSandstoneChest = isContainer2 && Main.tile[chest.x, chest.y].TileFrameX == 10 * 36;
 
@@ -354,6 +354,111 @@ namespace CalamityMod.Systems
                                     chest.item[inventoryIndex].stack = WorldGen.genRand.Next(3, 6);
                                 }
                                 break;
+                            }
+                        }
+                    }
+
+                    // Give Dead Man's Chests better loot.
+                    if (isDeadManChest)
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            // Cavern Dead Man's Chests
+                            if (chest.y > GenVars.lavaLine)
+                            {
+                                if (chest.item[inventoryIndex].type == ItemID.Dynamite)
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.StickyDynamite);
+
+                                if (chest.item[inventoryIndex].type == ItemID.JestersArrow)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.HolyArrow);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(25, 51);
+                                }
+
+                                if (chest.item[inventoryIndex].type == ItemID.SilverBar ||
+                                    chest.item[inventoryIndex].type == ItemID.TungstenBar ||
+                                    chest.item[inventoryIndex].type == ItemID.GoldBar ||
+                                    chest.item[inventoryIndex].type == ItemID.PlatinumBar)
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(6, 16);
+
+                                if (chest.item[inventoryIndex].type == ItemID.FlamingArrow)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.HellfireArrow);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(25, 51);
+                                }
+
+                                if (chest.item[inventoryIndex].type == ItemID.ThrowingKnife)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.PoisonedKnife);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(25, 51);
+                                }
+
+                                if (chest.item[inventoryIndex].type == ItemID.HealingPotion)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.RestorationPotion);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(3, 6);
+                                }
+
+                                if (chest.item[inventoryIndex].type == ItemID.RecallPotion)
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.PotionOfReturn);
+
+                                if (chest.item[inventoryIndex].type == ItemID.Torch)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.UltrabrightTorch);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(15, 30);
+                                }
+
+                                if (chest.item[inventoryIndex].type == ItemID.Glowstick)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.SpelunkerGlowstick);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(15, 30);
+                                }
+
+                                if (chest.item[inventoryIndex].type == ItemID.GoldCoin)
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(2, 4);
+                            }
+
+                            // Underground Dead Man's Chests
+                            else
+                            {
+                                if (chest.item[inventoryIndex].type == ItemID.Bomb)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.StickyBomb);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(10, 20);
+                                }
+
+                                if (chest.item[inventoryIndex].type == ItemID.Rope)
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(100, 201);
+
+                                if (chest.item[inventoryIndex].type == ItemID.IronBar ||
+                                    chest.item[inventoryIndex].type == ItemID.LeadBar ||
+                                    chest.item[inventoryIndex].type == ItemID.SilverBar ||
+                                    chest.item[inventoryIndex].type == ItemID.TungstenBar)
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(10, 20);
+
+                                if (chest.item[inventoryIndex].type == ItemID.WoodenArrow)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.FlamingArrow);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(25, 50);
+                                }
+
+                                if (chest.item[inventoryIndex].type == ItemID.Shuriken)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.ThrowingKnife);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(25, 50);
+                                }
+
+                                if (chest.item[inventoryIndex].type == ItemID.LesserHealingPotion)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.HealingPotion);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(3, 6);
+                                }
+
+                                if (chest.item[inventoryIndex].type == ItemID.SilverCoin)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.GoldCoin);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(1, 3);
+                                }
                             }
                         }
                     }

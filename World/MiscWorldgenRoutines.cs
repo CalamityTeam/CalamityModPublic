@@ -214,7 +214,7 @@ namespace CalamityMod.World
         }
         #endregion
 
-        #region ChasmGenerator
+        #region Chasm Generator
         public static void ChasmGenerator(int i, int j, int steps, bool ocean = false)
         {
             float num = steps; //850 small 1450 medium 2050 large
