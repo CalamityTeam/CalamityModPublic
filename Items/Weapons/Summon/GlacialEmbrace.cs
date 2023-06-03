@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class ColdDivinity : ModItem, ILocalizedModType
+    [LegacyName("ColdDivinity")]
+    public class GlacialEmbrace : ModItem, ILocalizedModType
     {
         public string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.knockBack = 4.5f;
             Item.UseSound = SoundID.Item30;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<ColdDivinityPointyThing>();
+            Item.shoot = ModContent.ProjectileType<GlacialEmbracePointyThing>();
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
 
@@ -43,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Summon
             }
             if (player.altFunctionUse != 2 && totalMinionSlots < player.maxMinions)
             {
-                player.AddBuff(ModContent.BuffType<ColdDivinityBuff>(), 120, true);
+                player.AddBuff(ModContent.BuffType<GlacialEmbraceBuff>(), 120, true);
                 position = Main.MouseWorld;
                 int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 if (Main.projectile.IndexInRange(p))
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI)
                     {
-                        if (!(Main.projectile[i].ModProjectile as ColdDivinityPointyThing).circlingPlayer)
+                        if (!(Main.projectile[i].ModProjectile as GlacialEmbracePointyThing).circlingPlayer)
                             continue;
                         pointyThingCount++;
                     }
@@ -64,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].ai[1] == 0f)
                     {
-                        if (!(Main.projectile[i].ModProjectile as ColdDivinityPointyThing).circlingPlayer)
+                        if (!(Main.projectile[i].ModProjectile as GlacialEmbracePointyThing).circlingPlayer)
                             continue;
                         Main.projectile[i].ai[0] = angle;
                         Main.projectile[i].netUpdate = true;

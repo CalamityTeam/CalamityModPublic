@@ -500,8 +500,8 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref DD2CrystalIndex, NPCID.DD2EterniaCrystal);
             ResetSavedIndex(ref hiveMind, NPCType<HiveMind.HiveMind>());
             ResetSavedIndex(ref perfHive, NPCType<PerforatorHive>());
-            ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>());
-            ResetSavedIndex(ref slimeGodRed, NPCType<CrimulanSlimeGod>(), NPCType<SplitCrimulanSlimeGod>());
+            ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.EbonianPaladin>(), NPCType<SplitEbonianPaladin>());
+            ResetSavedIndex(ref slimeGodRed, NPCType<CrimulanPaladin>(), NPCType<SplitCrimulanPaladin>());
             ResetSavedIndex(ref slimeGod, NPCType<SlimeGodCore>());
             ResetSavedIndex(ref laserEye, NPCID.Retinazer);
             ResetSavedIndex(ref fireEye, NPCID.Spazmatism);
@@ -3086,7 +3086,7 @@ namespace CalamityMod.NPCs
 
                     case NPCAIStyleID.Fighter:
                         if (npc.type == NPCType<Stormlion>() ||
-                            npc.type == NPCType<AstralachneaGround>() || npc.type == NPCType<CultistAssassin>())
+                            npc.type == NPCType<AstralachneaGround>() || npc.type == NPCType<RenegadeWarlock>())
                         {
                             return CalamityGlobalAI.BuffedFighterAI(npc, Mod);
                         }

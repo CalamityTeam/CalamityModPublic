@@ -5,7 +5,8 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class CultistAssassinBanner : ModItem, ILocalizedModType
+    [LegacyName("CultistAssassinBanner")]
+    public class RenegadeWarlockBanner : ModItem, ILocalizedModType
     {
         public string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()

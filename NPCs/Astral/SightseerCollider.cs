@@ -17,7 +17,7 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
-    public class SmallSightseer : ModNPC
+    public class SightseerCollider : ModNPC
     {
         private static Texture2D glowmask;
 
@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Astral
             Main.npcFrameCount[NPC.type] = 4;
 
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/SmallSightseerGlow", AssetRequestMode.ImmediateLoad).Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/SightseerColliderGlow", AssetRequestMode.ImmediateLoad).Value;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 PortraitPositionXOverride = 0
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 0, 10, 0);
             NPC.aiStyle = -1;
             Banner = NPC.type;
-            BannerItem = ModContent.ItemType<SmallSightseerBanner>();
+            BannerItem = ModContent.ItemType<SightseerColliderBanner>();
             if (DownedBossSystem.downedAstrumAureus)
             {
                 NPC.damage = 58;
@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.Astral
                     for (int i = 0; i < 5; i++)
                     {
                         float rand = Main.rand.NextFloat(-0.18f, 0.18f);
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(Main.rand.NextFloat(0f, NPC.width), Main.rand.NextFloat(0f, NPC.height)), NPC.velocity * rand, Mod.Find<ModGore>("SmallSightseerGore" + i).Type);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(Main.rand.NextFloat(0f, NPC.width), Main.rand.NextFloat(0f, NPC.height)), NPC.velocity * rand, Mod.Find<ModGore>("SightseerColliderGore" + i).Type);
                     }
                 }
             }

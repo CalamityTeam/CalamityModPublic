@@ -471,7 +471,13 @@ namespace CalamityMod.NPCs.OldDuke
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (hurtInfo.Damage > 0)
+            {
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 480);
+                if (CalamityWorld.getFixedBoi)
+                {
+                    target.AddBuff(BuffID.Rabies, Main.rand.Next(180, 601));
+                }
+            }
         }
 
         public override void HitEffect(NPC.HitInfo hit)

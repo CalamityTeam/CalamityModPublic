@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class ColdDivinityBuff : ModBuff
+    public class GlacialEmbraceBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
@@ -16,8 +16,8 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.coldDivinity = true;
-            if (!modPlayer.coldDivinity)
+            modPlayer.GlacialEmbrace = true;
+            if (!modPlayer.GlacialEmbrace)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

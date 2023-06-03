@@ -69,7 +69,7 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<HoarfrostBow>(),
                 ModContent.ItemType<SnowstormStaff>(),
             }));
-            itemLoot.Add(ModContent.ItemType<ColdDivinity>(), 10);
+            itemLoot.Add(ModContent.ItemType<GlacialEmbrace>(), 10);
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<SoulofCryogen>());

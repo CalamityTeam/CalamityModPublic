@@ -698,13 +698,13 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
-            if (player.ActiveItem().type == ModContent.ItemType<ColdDivinity>())
+            if (player.ActiveItem().type == ModContent.ItemType<GlacialEmbrace>())
             {
                 bool canContinue = true;
                 int count = 0;
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<ColdDivinityPointyThing>() && Main.projectile[i].owner == player.whoAmI)
+                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<GlacialEmbracePointyThing>() && Main.projectile[i].owner == player.whoAmI)
                     {
                         if (Main.projectile[i].ai[1] > 1f)
                         {
@@ -713,7 +713,7 @@ namespace CalamityMod.Items
                         }
                         else if (Main.projectile[i].ai[1] == 0f)
                         {
-                            if (((ColdDivinityPointyThing)Main.projectile[i].ModProjectile).circlingPlayer)
+                            if (((GlacialEmbracePointyThing)Main.projectile[i].ModProjectile).circlingPlayer)
                                 count++;
                         }
                     }
@@ -732,8 +732,8 @@ namespace CalamityMod.Items
                         {
                             if (Main.projectile.Length == Main.maxProjectiles)
                                 break;
-                            int coldDivinityDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(80);
-                            int projj = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), coldDivinityDamage, 1f, player.whoAmI, angle, 2f);
+                            int GlacialEmbraceDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(80);
+                            int projj = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<GlacialEmbracePointyThing>(), GlacialEmbraceDamage, 1f, player.whoAmI, angle, 2f);
                             Main.projectile[projj].originalDamage = 80;
 
                             angle += angleVariance;

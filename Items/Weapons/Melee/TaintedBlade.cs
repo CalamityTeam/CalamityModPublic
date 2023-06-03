@@ -6,7 +6,8 @@ using CalamityMod.Items.Placeables;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class CausticEdge : ModItem, ILocalizedModType
+    [LegacyName("CausticEdge")]
+    public class TaintedBlade : ModItem, ILocalizedModType
     {
         public string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()

@@ -14,7 +14,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SlimeGod
 {
     [AutoloadBossHead]
-    public class SplitCrimulanSlimeGod : ModNPC
+    public class SplitEbonianPaladin : ModNPC
     {
         private float bossLife;
 
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetDefaults()
         {
             NPC.Calamity().canBreakPlayerDefense = true;
-            NPC.LifeMaxNERB(1875, 2250, 80000);
+            NPC.LifeMaxNERB(2000, 2400, 110000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.BossBar = Main.BigBossProgressBar.NeverValid;
@@ -43,7 +43,9 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.width = 150;
             NPC.height = 92;
             NPC.scale = 0.8f;
-            NPC.defense = 10;
+            NPC.defense = 8;
+            NPC.aiStyle = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             AnimationType = NPCID.KingSlime;
             NPC.value = Item.buyPrice(0, 1, 0, 0);
@@ -53,8 +55,6 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            NPC.aiStyle = -1;
-            AIType = -1;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
         }
@@ -88,8 +88,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void AI()
         {
-            if (CalamityGlobalNPC.slimeGodRed < 0 || !Main.npc[CalamityGlobalNPC.slimeGodRed].active)
-                CalamityGlobalNPC.slimeGodRed = NPC.whoAmI;
+            if (CalamityGlobalNPC.slimeGodPurple < 0 || !Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
+                CalamityGlobalNPC.slimeGodPurple = NPC.whoAmI;
 
             bool bossRush = BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || bossRush;
@@ -102,8 +102,8 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.damage = NPC.defDamage;
             if (NPC.localAI[1] == 1f)
             {
-                NPC.defense = NPC.defDefense + 20;
-                NPC.damage = NPC.defDamage + 22;
+                NPC.defense = NPC.defDefense + 16;
+                NPC.damage = NPC.defDamage + 20;
             }
 
             float scale = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 0.6f : Main.getGoodWorld ? 0.8f : 1f;
@@ -121,13 +121,13 @@ namespace CalamityMod.NPCs.SlimeGod
 
             Player player = Main.player[NPC.target];
 
-            if (NPC.ai[0] != 3f && (player.dead || !player.active))
+            if (NPC.ai[0] != 4f && (player.dead || !player.active))
             {
                 NPC.TargetClosest();
                 player = Main.player[NPC.target];
                 if (player.dead || !player.active)
                 {
-                    NPC.ai[0] = 3f;
+                    NPC.ai[0] = 4f;
                     NPC.ai[1] = 0f;
                     NPC.ai[2] = 0f;
                     NPC.ai[3] = 0f;
@@ -138,9 +138,10 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.timeLeft = 1800;
 
             bool enraged = true;
-            if (CalamityGlobalNPC.slimeGodPurple != -1)
+            bool hyperMode = NPC.localAI[1] == 1f;
+            if (CalamityGlobalNPC.slimeGodRed != -1)
             {
-                if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
+                if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
                 {
                     enraged = false;
                 }
@@ -148,12 +149,7 @@ namespace CalamityMod.NPCs.SlimeGod
             if (bossRush)
             {
                 enraged = true;
-            }
-
-            if (NPC.localAI[1] != 1f)
-            {
-                if (enraged)
-                    NPC.defense = NPC.defDefense * 2;
+                hyperMode = true;
             }
 
             // Teleport
@@ -166,7 +162,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 // Slow down dramatically
                 NPC.velocity.X *= 0.5f;
 
-                NPC.ai[0] = 5f;
+                NPC.ai[0] = 6f;
                 NPC.ai[1] = 0f;
                 NPC.ai[2] = 0f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -229,7 +225,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 bool phaseThroughTilesToReachTarget = Vector2.Distance(player.Center, NPC.Center) > 2400f || !Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height);
                 if (Main.netMode != NetmodeID.MultiplayerClient && phaseThroughTilesToReachTarget)
                 {
-                    NPC.ai[0] = 4f;
+                    NPC.ai[0] = 5f;
                     NPC.ai[1] = 0f;
                     NPC.ai[2] = 0f;
                     NPC.netUpdate = true;
@@ -239,14 +235,14 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     NPC.TargetClosest();
                     NPC.velocity.X *= 0.8f;
-                    NPC.ai[1] += 1f;
+                    NPC.ai[1] += hyperMode ? 2f : 1f;
 
-                    float jumpGateValue = 35f;
-                    float velocityX = death ? 11.5f : revenge ? 10.5f : expertMode ? 9.5f : 7.5f;
+                    float jumpGateValue = 40f;
+                    float velocityX = death ? 10f : revenge ? 9f : expertMode ? 8f : 6f;
                     if (revenge)
                     {
-                        float moveBoost = death ? 11f * (1f - lifeRatio) : 7f * (1f - lifeRatio);
-                        float speedBoost = death ? 2.25f * (1f - lifeRatio) : 1.5f * (1f - lifeRatio);
+                        float moveBoost = death ? 15f * (1f - lifeRatio) : 10f * (1f - lifeRatio);
+                        float speedBoost = death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
                         jumpGateValue -= moveBoost;
                         velocityX += speedBoost;
                     }
@@ -259,13 +255,13 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (speedMult > 2f)
                         speedMult = 2f;
 
-                    float velocityY = 4f;
+                    float velocityY = 5f;
                     if (!Collision.CanHit(NPC.Center, 1, 1, player.Center, 1, 1))
                         velocityY += 2f;
 
                     if (NPC.ai[1] > jumpGateValue)
                     {
-                        velocityX *= 1.25f;
+                        velocityY *= 1.25f;
                         NPC.ai[1] = 0f;
                         NPC.velocity.Y -= velocityY * speedMult;
                         NPC.velocity.X = (velocityX + distanceSpeedBoost) * NPC.direction;
@@ -300,7 +296,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 if (NPC.velocity.Y == 0f)
                 {
-                    float phaseSwitchGateValue = 180f;
+                    float phaseSwitchGateValue = 210f;
                     bool switchPhase = NPC.ai[2] >= phaseSwitchGateValue;
                     if (switchPhase)
                     {
@@ -310,18 +306,22 @@ namespace CalamityMod.NPCs.SlimeGod
                             {
                                 default:
                                 case 1:
-                                    NPC.ai[0] = 2f;
+                                    NPC.ai[0] = Main.rand.NextBool() ? 2f : 3f;
                                     break;
 
                                 case 2:
-                                    NPC.ai[0] = 1f;
+                                    NPC.ai[0] = Main.rand.NextBool() ? 3f : (hyperMode ? 2f : 1f);
+                                    break;
+
+                                case 3:
+                                    NPC.ai[0] = Main.rand.NextBool() ? (hyperMode ? 3f : 1f) : 2f;
                                     break;
                             }
 
-                            if (NPC.ai[0] == 1f)
+                            if (NPC.ai[0] == 2f)
                             {
                                 NPC.noTileCollide = true;
-                                NPC.velocity.Y = death ? -11f : revenge ? -10f : expertMode ? -9f : -8f;
+                                NPC.velocity.Y = death ? -10f : revenge ? -9f : expertMode ? -8f : -7f;
                             }
 
                             NPC.ai[1] = 0f;
@@ -334,6 +334,19 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
             }
             else if (NPC.ai[0] == 1f)
+            {
+                NPC.velocity.X *= 0.8f;
+
+                NPC.ai[1] += 1f;
+                if (NPC.ai[1] >= 15f)
+                {
+                    NPC.localAI[2] = NPC.ai[0];
+                    NPC.ai[0] = 0f;
+                    NPC.ai[1] = 0f;
+                    NPC.netUpdate = true;
+                }
+            }
+            else if (NPC.ai[0] == 2f)
             {
                 NPC.noTileCollide = true;
                 NPC.noGravity = true;
@@ -354,13 +367,13 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.ai[1] += 1f;
                     vector272 = player.Center - NPC.Center;
                     vector272.Normalize();
-                    vector272 *= death ? 11f : revenge ? 10f : expertMode ? 9f : 8f;
+                    vector272 *= death ? 10f : revenge ? 9f : expertMode ? 8f : 7f;
                     NPC.velocity = (NPC.velocity * 4f + vector272) / 5f;
 
                     if (NPC.ai[1] > 12f)
                     {
                         NPC.ai[1] = 0f;
-                        NPC.ai[0] = 1.1f;
+                        NPC.ai[0] = 2.1f;
                         NPC.ai[2] = 0f;
                         NPC.velocity = vector272;
                     }
@@ -375,14 +388,14 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
 
                     vector272.Normalize();
-                    vector272 *= (death ? 13f : revenge ? 12f : expertMode ? 11f : 10f) + distanceSpeedBoost;
+                    vector272 *= (death ? 12f : revenge ? 11f : expertMode ? 10f : 9f) + distanceSpeedBoost;
                     NPC.velocity = (NPC.velocity * 5f + vector272) / 6f;
                 }
             }
-            else if (NPC.ai[0] == 1.1f)
+            else if (NPC.ai[0] == 2.1f)
             {
                 bool atTargetPosition = NPC.position.Y + NPC.height >= player.position.Y;
-                if (NPC.ai[2] == 0f && (atTargetPosition || NPC.localAI[1] == 0f) && Collision.CanHit(NPC.Center, 1, 1, player.Center, 1, 1) && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+                if (NPC.ai[2] == 0f && atTargetPosition && Collision.CanHit(NPC.Center, 1, 1, player.Center, 1, 1) && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                 {
                     NPC.ai[2] = 1f;
                     NPC.netUpdate = true;
@@ -396,19 +409,23 @@ namespace CalamityMod.NPCs.SlimeGod
                         SoundEngine.PlaySound(SlimeGodCore.BigShotSound, NPC.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            // Eruption of slime balls that fall down
-                            float projectileVelocity = 8f;
-                            int type = ModContent.ProjectileType<UnstableCrimulanGlob>();
+                            // Eruption of slime balls
+                            float projectileVelocity = 4f;
+                            int type = ModContent.ProjectileType<UnstableEbonianGlob>();
                             int damage = NPC.GetProjectileDamage(type);
                             Vector2 destination = new Vector2(NPC.Center.X, NPC.Center.Y - 100f) - NPC.Center;
                             destination.Normalize();
                             destination *= projectileVelocity;
-                            int numProj = 3;
-                            float rotation = MathHelper.ToRadians(45);
+                            int numProj = 9;
+                            float rotation = MathHelper.ToRadians(90);
                             for (int i = 0; i < numProj; i++)
                             {
-                                Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 30f * NPC.scale, perturbedSpeed * 1.5f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                // Spawn projectiles 0, 1, 2, 6, 7 and 8
+                                if (i < 3 || i > 5)
+                                {
+                                    Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitY * 30f * NPC.scale + Vector2.Normalize(perturbedSpeed) * 30f * NPC.scale, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                }
                             }
 
                             // Fire slime balls directly at players with a max of 2
@@ -444,11 +461,11 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.noGravity = true;
 
                 NPC.velocity.Y += 0.5f;
-                float velocityLimit = bossRush ? 22f : death ? 16f : revenge ? 15f : expertMode ? 14f : 13f;
+                float velocityLimit = bossRush ? 20f : death ? 15f : revenge ? 14f : expertMode ? 13f : 12f;
                 if (NPC.velocity.Y > velocityLimit)
                     NPC.velocity.Y = velocityLimit;
             }
-            else if (NPC.ai[0] == 2f)
+            else if (NPC.ai[0] == 3f)
             {
                 if (NPC.velocity.Y == 0f)
                 {
@@ -460,23 +477,23 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         NPC.ai[1] = 0f;
 
-                        NPC.velocity.Y -= 3f;
+                        NPC.velocity.Y -= 6f;
                         if (player.position.Y + player.height < NPC.Center.Y)
-                            NPC.velocity.Y -= 1.25f;
+                            NPC.velocity.Y -= 1.2f;
                         if (player.position.Y + player.height < NPC.Center.Y - 40f)
-                            NPC.velocity.Y -= 1.5f;
+                            NPC.velocity.Y -= 1.4f;
                         if (player.position.Y + player.height < NPC.Center.Y - 80f)
-                            NPC.velocity.Y -= 1.75f;
+                            NPC.velocity.Y -= 1.7f;
                         if (player.position.Y + player.height < NPC.Center.Y - 120f)
                             NPC.velocity.Y -= 2f;
                         if (player.position.Y + player.height < NPC.Center.Y - 160f)
-                            NPC.velocity.Y -= 2.25f;
+                            NPC.velocity.Y -= 2.2f;
                         if (player.position.Y + player.height < NPC.Center.Y - 200f)
-                            NPC.velocity.Y -= 2.5f;
+                            NPC.velocity.Y -= 2.4f;
                         if (!Collision.CanHit(NPC.Center, 1, 1, player.Center, 1, 1))
                             NPC.velocity.Y -= 2f;
 
-                        NPC.velocity.X = ((death ? 14f : revenge ? 13f : expertMode ? 12f : 11f) + distanceSpeedBoost) * NPC.direction;
+                        NPC.velocity.X = ((death ? 11f : revenge ? 10f : expertMode ? 9f : 8f) + distanceSpeedBoost) * NPC.direction;
                         NPC.ai[2] += 1f;
                     }
                     else
@@ -485,14 +502,14 @@ namespace CalamityMod.NPCs.SlimeGod
                 else
                 {
                     NPC.velocity.X *= 0.98f;
-                    float velocityLimit = (death ? 5.5f : revenge ? 5f : expertMode ? 4.5f : 4f);
+                    float velocityLimit = (death ? 6.5f : revenge ? 6f : expertMode ? 5.5f : 5f);
                     if (NPC.direction < 0 && NPC.velocity.X > -velocityLimit)
                         NPC.velocity.X = -velocityLimit;
                     if (NPC.direction > 0 && NPC.velocity.X < velocityLimit)
                         NPC.velocity.X = velocityLimit;
                 }
 
-                if (NPC.ai[2] >= 3f && NPC.velocity.Y == 0f)
+                if (NPC.ai[2] >= 2f && NPC.velocity.Y == 0f)
                 {
                     NPC.localAI[2] = NPC.ai[0];
                     NPC.ai[0] = 0f;
@@ -501,7 +518,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.netUpdate = true;
                 }
             }
-            else if (NPC.ai[0] == 3f)
+            else if (NPC.ai[0] == 4f)
             {
                 NPC.noTileCollide = true;
                 NPC.Opacity -= 0.03f;
@@ -514,7 +531,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 NPC.velocity.X *= 0.98f;
             }
-            else if (NPC.ai[0] == 4f)
+            else if (NPC.ai[0] == 5f)
             {
                 if (NPC.velocity.X > 0f)
                     NPC.direction = 1;
@@ -544,7 +561,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 NPC.velocity = (NPC.velocity * 4f + distanceFromTarget) / 5f;
             }
-            else if (NPC.ai[0] == 5f)
+            else if (NPC.ai[0] == 6f)
             {
                 // Avoid cheap bullshit
                 NPC.damage = 0;
@@ -557,19 +574,19 @@ namespace CalamityMod.NPCs.SlimeGod
                 if (NPC.ai[1] >= teleportTime && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     NPC.Bottom = new Vector2(NPC.localAI[0], NPC.localAI[3]);
-                    NPC.ai[0] = 6f;
+                    NPC.ai[0] = 7f;
                     NPC.ai[1] = 0f;
                     NPC.netUpdate = true;
                 }
 
                 if (Main.netMode == NetmodeID.MultiplayerClient && NPC.ai[1] >= teleportTime * 2f)
                 {
-                    NPC.ai[0] = 6f;
+                    NPC.ai[0] = 7f;
                     NPC.ai[1] = 0f;
                 }
 
                 // Emit teleport dust
-                Color dustColor = Color.Crimson;
+                Color dustColor = Color.Lavender;
                 dustColor.A = 150;
                 for (int num245 = 0; num245 < 10; num245++)
                 {
@@ -578,7 +595,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     Main.dust[num246].velocity *= 0.5f;
                 }
             }
-            else if (NPC.ai[0] == 6f)
+            else if (NPC.ai[0] == 7f)
             {
                 // Avoid cheap bullshit
                 NPC.damage = 0;
@@ -603,7 +620,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
 
                 // Emit teleport dust
-                Color dustColor = Color.Crimson;
+                Color dustColor = Color.Lavender;
                 dustColor.A = 150;
                 for (int num245 = 0; num245 < 10; num245++)
                 {
@@ -635,17 +652,13 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)((double)NPC.lifeMax * 0.15);
+                    int num660 = (int)((double)NPC.lifeMax * 0.2);
                     if ((float)(NPC.life + num660) < bossLife)
                     {
                         bossLife = (float)NPC.life;
                         int x = (int)(NPC.position.X + (float)Main.rand.Next(NPC.width - 32));
                         int y = (int)(NPC.position.Y + (float)Main.rand.Next(NPC.height - 32));
-                        int num663 = ModContent.NPCType<CrimsonSlimeSpawn>();
-                        if (Main.rand.NextBool(3))
-                        {
-                            num663 = ModContent.NPCType<CrimsonSlimeSpawn2>();
-                        }
+                        int num663 = ModContent.NPCType<CorruptSlimeSpawn>();
                         int num664 = NPC.NewNPC(NPC.GetSource_FromAI(), x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
                         Main.npc[num664].SetDefaults(num663);
                         Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
@@ -661,7 +674,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override Color? GetAlpha(Color drawColor)
         {
-            Color lightColor = new Color(Main.DiscoR, 100, 150, NPC.alpha);
+            Color lightColor = new Color(200, 150, Main.DiscoB, NPC.alpha);
             Color newColor = NPC.localAI[1] == 1f ? lightColor : drawColor;
             return newColor * NPC.Opacity;
         }
@@ -683,7 +696,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void HitEffect(NPC.HitInfo hit)
         {
-            Color dustColor = Color.Crimson;
+            Color dustColor = Color.Lavender;
             dustColor.A = 150;
             for (int k = 0; k < 5; k++)
             {
@@ -726,7 +739,7 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (hurtInfo.Damage > 0)
-                target.AddBuff(BuffID.Darkness, 240, true);
+                target.AddBuff(BuffID.Weak, 240, true);
         }
     }
 }

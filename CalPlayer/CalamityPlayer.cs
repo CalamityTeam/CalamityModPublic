@@ -933,7 +933,7 @@ namespace CalamityMod.CalPlayer
         public bool saros = false;
         public bool plaguebringerMK2 = false;
         public bool igneousExaltation = false;
-        public bool coldDivinity = false;
+        public bool GlacialEmbrace = false;
         public bool voidAura = false;
         public bool voidAuraDamage = false;
         public bool voidConcentrationAura = false;
@@ -1963,7 +1963,7 @@ namespace CalamityMod.CalPlayer
             providenceStabber = false;
             plaguebringerMK2 = false;
             igneousExaltation = false;
-            coldDivinity = false;
+            GlacialEmbrace = false;
             voidAura = false;
             voidAuraDamage = false;
             voidConcentrationAura = false;

@@ -467,10 +467,10 @@ namespace CalamityMod
                     npc = ModContent.NPCType<AstralProbe>();
                     break;
                 case 32:
-                    npc = ModContent.NPCType<SmallSightseer>();
+                    npc = ModContent.NPCType<SightseerCollider>();
                     break;
                 case 33:
-                    npc = ModContent.NPCType<BigSightseer>();
+                    npc = ModContent.NPCType<SightseerSpitter>();
                     break;
                 case 34:
                     npc = ModContent.NPCType<Aries>();
@@ -638,7 +638,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<BloomSlime>();
                     break;
                 case 95:
-                    npc = ModContent.NPCType<CultistAssassin>();
+                    npc = ModContent.NPCType<RenegadeWarlock>();
                     break;
                 case 96:
                     npc = ModContent.NPCType<ReaperShark>();

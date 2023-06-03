@@ -706,10 +706,10 @@ namespace CalamityMod
                 { ModContent.NPCType<HiveMind>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<PerforatorHive>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<SlimeGodCore>(), 9000 }, // 2:30 (150 seconds) -- total length of Slime God fight
-                { ModContent.NPCType<EbonianSlimeGod>(), 4500 }, // 1:15 (75 seconds)
-                { ModContent.NPCType<CrimulanSlimeGod>(), 4500 }, // 1:15 (75 seconds)
-                { ModContent.NPCType<SplitEbonianSlimeGod>(), 4500 }, // 1:15 (75 seconds) -- split slimes should spawn at 1:15 and die at around 2:30
-                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 4500 }, // 1:15 (75 seconds)
+                { ModContent.NPCType<EbonianPaladin>(), 4500 }, // 1:15 (75 seconds)
+                { ModContent.NPCType<CrimulanPaladin>(), 4500 }, // 1:15 (75 seconds)
+                { ModContent.NPCType<SplitEbonianPaladin>(), 4500 }, // 1:15 (75 seconds) -- split slimes should spawn at 1:15 and die at around 2:30
+                { ModContent.NPCType<SplitCrimulanPaladin>(), 4500 }, // 1:15 (75 seconds)
                 { ModContent.NPCType<Cryogen>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<AquaticScourgeHead>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<AquaticScourgeBody>(), 7200 },
@@ -814,10 +814,10 @@ namespace CalamityMod
                 { ModContent.NPCType<PerforatorBodySmall>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorTailSmall>(), velocityScaleMin },
                 { ModContent.NPCType<SlimeGodCore>(), velocityScaleMin },
-                { ModContent.NPCType<EbonianSlimeGod>(), velocityScaleMin },
-                { ModContent.NPCType<CrimulanSlimeGod>(), velocityScaleMin },
-                { ModContent.NPCType<SplitEbonianSlimeGod>(), velocityScaleMin },
-                { ModContent.NPCType<SplitCrimulanSlimeGod>(), velocityScaleMin },
+                { ModContent.NPCType<EbonianPaladin>(), velocityScaleMin },
+                { ModContent.NPCType<CrimulanPaladin>(), velocityScaleMin },
+                { ModContent.NPCType<SplitEbonianPaladin>(), velocityScaleMin },
+                { ModContent.NPCType<SplitCrimulanPaladin>(), velocityScaleMin },
                 { ModContent.NPCType<CorruptSlimeSpawn>(), velocityScaleMin },
                 { ModContent.NPCType<Cryogen>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeHead>(), bitingEnemeyVelocityScale },

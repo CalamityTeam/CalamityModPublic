@@ -140,8 +140,8 @@ Cnidarian: {
 		'''
 }
 
-ColdDivinity: {
-	DisplayName: Cold Divinity
+GlacialEmbrace: {
+	DisplayName: Glacial Embrace
 	Tooltip:
 		'''
 		Summons the power of the ancient ice castle

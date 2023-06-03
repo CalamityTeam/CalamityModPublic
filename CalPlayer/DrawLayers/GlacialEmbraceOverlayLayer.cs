@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer.DrawLayers
 {
-    public class ColdDivinityOverlayLayer : PlayerDrawLayer
+    public class GlacialEmbraceOverlayLayer : PlayerDrawLayer
     {
         public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Skin);
 
@@ -14,12 +14,12 @@ namespace CalamityMod.CalPlayer.DrawLayers
         {
             Player drawPlayer = drawInfo.drawPlayer;
             CalamityPlayer modPlayer = drawPlayer.Calamity();
-            return drawInfo.shadow == 0f && !drawPlayer.dead && modPlayer.coldDivinity;
+            return drawInfo.shadow == 0f && !drawPlayer.dead && modPlayer.GlacialEmbrace;
         }
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/ColdDivinityBody").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/GlacialEmbraceBody").Value;
             int drawX = (int)(drawInfo.Center.X - Main.screenPosition.X);
             int drawY = (int)(drawInfo.Center.Y - Main.screenPosition.Y);
             Player drawPlayer = drawInfo.drawPlayer;

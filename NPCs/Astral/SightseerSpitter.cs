@@ -17,7 +17,7 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
-    public class BigSightseer : ModNPC
+    public class SightseerSpitter : ModNPC
     {
         private static Texture2D glowmask;
 
@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.Astral
         {
             Main.npcFrameCount[NPC.type] = 4;
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/BigSightseerGlow", AssetRequestMode.ImmediateLoad).Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/SightseerSpitterGlow", AssetRequestMode.ImmediateLoad).Value;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.7f,
@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.aiStyle = -1;
             Banner = NPC.type;
-            BannerItem = ModContent.ItemType<BigSightseerBanner>();
+            BannerItem = ModContent.ItemType<SightseerSpitterBanner>();
             if (DownedBossSystem.downedAstrumAureus)
             {
                 NPC.damage = 85;
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.Astral
                     for (int i = 0; i < 5; i++)
                     {
                         float rand = Main.rand.NextFloat(-0.18f, 0.18f);
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(Main.rand.NextFloat(0f, NPC.width), Main.rand.NextFloat(0f, NPC.height)), NPC.velocity * rand, Mod.Find<ModGore>("BigSightseerGore" + i).Type);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(Main.rand.NextFloat(0f, NPC.width), Main.rand.NextFloat(0f, NPC.height)), NPC.velocity * rand, Mod.Find<ModGore>("SightseerSpitterGore" + i).Type);
                     }
                 }
             }
@@ -248,7 +248,7 @@ namespace CalamityMod.NPCs.Astral
         {
             if (modifiers.GetDamage(NPC.damage, 0f, 0f) > 0)
             {
-				if (target.HasNPCBannerBuff(ModContent.NPCType<BigSightseer>()))
+				if (target.HasNPCBannerBuff(ModContent.NPCType<SightseerSpitter>()))
 				{
 					if (Main.expertMode)
 						modifiers.IncomingDamageMultiplier *= 0.5f;

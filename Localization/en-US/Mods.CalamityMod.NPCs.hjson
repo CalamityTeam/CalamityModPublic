@@ -57,14 +57,14 @@ AstralProbe.DisplayName: Astral Probe
 AstralSeekerSpit.DisplayName: Seeker Spit
 AstralSlime.DisplayName: Astral Slime
 Atlas.DisplayName: Atlas
-BigSightseer.DisplayName: Big Sightseer
+SightseerSpitter.DisplayName: Sightseer Spitter
 FusionFeeder.DisplayName: Fusion Feeder
 Hadarian.DisplayName: Hadarian
 HiveEnemy.DisplayName: Hive
 Hiveling.DisplayName: Hiveling
 Mantis.DisplayName: Mantis
 Nova.DisplayName: Nova
-SmallSightseer.DisplayName: Small Sightseer
+SightseerCollider.DisplayName: Sightseer Collider
 StellarCulex.DisplayName: Stellar Culex
 Twinkler.DisplayName: Twinkler
 AstrumAureus.DisplayName: Astrum Aureus
@@ -86,7 +86,7 @@ CrabShroom.DisplayName: Crab Shroom
 Crabulon.DisplayName: Crabulon
 CalamityEye.DisplayName: Calamity Eye
 CharredSlime.DisplayName: Charred Slime
-CultistAssassin.DisplayName: Cultist Assassin
+RenegadeWarlock.DisplayName: Renegade Warlock
 DespairStone.DisplayName: Despair Stone
 HeatSpirit.DisplayName: Heat Spirit
 Scryllar.DisplayName: Scryllar
@@ -245,11 +245,11 @@ CorruptSlimeSpawn.DisplayName: Corrupt Slime Spawn
 CorruptSlimeSpawn2.DisplayName: Corrupt Slime Spawn
 CrimsonSlimeSpawn.DisplayName: Crimson Slime Spawn
 CrimsonSlimeSpawn2.DisplayName: Crimson Slime Spawn
-CrimulanSlimeGod.DisplayName: Crimulan Slime God
-EbonianSlimeGod.DisplayName: Ebonian Slime God
+CrimulanPaladin.DisplayName: Crimulan Paladin
+EbonianPaladin.DisplayName: Ebonian Paladin
 SlimeGodCore.DisplayName: The Slime God
-SplitCrimulanSlimeGod.DisplayName: Crimulan Slime God
-SplitEbonianSlimeGod.DisplayName: Ebonian Slime God
+SplitCrimulanPaladin.DisplayName: Crimulan Paladin
+SplitEbonianPaladin.DisplayName: Ebonian Paladin
 StormWeaverBody.DisplayName: Storm Weaver
 StormWeaverHead.DisplayName: Storm Weaver
 StormWeaverTail.DisplayName: Storm Weaver

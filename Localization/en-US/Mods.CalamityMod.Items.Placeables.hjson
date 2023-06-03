@@ -167,7 +167,7 @@ AstralSlimeBanner: {
 
 AtlasBanner: {
 	DisplayName: Atlas Banner
-	Tooltip: "{$CommonItemTooltip.BannerBonus}Atlas Banner"
+	Tooltip: "{$CommonItemTooltip.BannerBonus}Atlas"
 }
 
 BabyFlakCrabBanner: {
@@ -185,9 +185,9 @@ BelchingCoralBanner: {
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Belching Coral"
 }
 
-BigSightseerBanner: {
-	DisplayName: Big Sightseer Banner
-	Tooltip: "{$CommonItemTooltip.BannerBonus}Big Sightseer"
+SightseerSpitterBanner: {
+	DisplayName: Sightseer Spitter Banner
+	Tooltip: "{$CommonItemTooltip.BannerBonus}Sightseer Spitter"
 }
 
 BlindedAnglerBanner: {
@@ -280,9 +280,9 @@ CrystalCrawlerBanner: {
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Crystal Crawler"
 }
 
-CultistAssassinBanner: {
-	DisplayName: Cultist Assassin Banner
-	Tooltip: "{$CommonItemTooltip.BannerBonus}Cultist Assassin"
+RenegadeWarlockBanner: {
+	DisplayName: Renegade Warlock Banner
+	Tooltip: "{$CommonItemTooltip.BannerBonus}Renegade Warlock"
 }
 
 CuttlefishBanner: {
@@ -590,9 +590,9 @@ SkyfinBanner: {
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Skyfin"
 }
 
-SmallSightseerBanner: {
-	DisplayName: Small Sightseer Banner
-	Tooltip: "{$CommonItemTooltip.BannerBonus}Small Sightseer"
+SightseerColliderBanner: {
+	DisplayName: Sightseer Collider Banner
+	Tooltip: "{$CommonItemTooltip.BannerBonus}Sightseer Collider"
 }
 
 SoulSlurperBanner: {
