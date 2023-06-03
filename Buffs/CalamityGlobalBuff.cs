@@ -74,6 +74,10 @@ namespace CalamityMod.Buffs
                 player.buffImmune[BuffID.Frozen] = true;
                 player.buffImmune[BuffID.Chilled] = true;
             }
+            else if (type == BuffID.Rabies)
+            {
+                player.GetDamage<GenericDamageClass>() -= 0.2f;
+            }
         }
 
         public override void Update(int type, NPC npc, ref int buffIndex)
