@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.aiStyle = -1;
             Projectile.DamageType = DamageClass.Summon;
             Projectile.netImportant = true;
+            Projectile.minion = true;
         }
 
         public override void OnSpawn(IEntitySource source)

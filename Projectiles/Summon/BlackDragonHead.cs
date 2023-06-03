@@ -37,6 +37,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.DamageType = DamageClass.Summon;
             Projectile.netImportant = true;
             Projectile.minionSlots = 2;
+            Projectile.minion = true;
 
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 100;
@@ -57,8 +58,45 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.timeLeft = 2;
                 }
             }
+            Projectile.ai[0]++;
+            // Hover to the left because evil is not right or something
+            Vector2 idealPos = new Vector2(player.Center.X - 200, player.Center.Y - 50);
+            float distanceFromOwner = Projectile.Distance(idealPos);
 
-            Projectile.ChargingMinionAI(2000f, 2500f, 3200f, 300f, 0, 45f, 36f, 8f, new Vector2(0f, -60f), 12f, 12f, true, true, 1);
+            NPC target = CalamityUtils.MinionHoming(Projectile.position, 2500, player, true, true);
+            if (target != null && Projectile.position.Distance(player.position) <= 2500)
+            {
+                AttackTarget(target);
+            }
+            else
+            {
+                float hoverAcceleration = 0.2f;
+                if (distanceFromOwner < 200f)
+                    hoverAcceleration = 0.12f;
+                if (distanceFromOwner < 140f)
+                    hoverAcceleration = 0.06f;
+
+                if (distanceFromOwner > 100f)
+                {
+                    if (Math.Abs(player.Center.X - Projectile.Center.X) > 20f)
+                        Projectile.velocity.X += hoverAcceleration * Math.Sign(idealPos.X - Projectile.Center.X);
+                    if (Math.Abs(player.Center.Y - Projectile.Center.Y) > 10f)
+                        Projectile.velocity.Y += hoverAcceleration * Math.Sign(idealPos.Y - Projectile.Center.Y);
+                }
+                else if (Projectile.velocity.Length() > 1f)
+                    Projectile.velocity *= 0.96f;
+
+                if (Math.Abs(Projectile.velocity.Y) < 1f)
+                    Projectile.velocity.Y -= 0.1f;
+
+                if (Projectile.velocity.Length() > 25)
+                    Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 25;
+            }
+            if (distanceFromOwner > 5000)
+            {
+                Projectile.Center = player.Center;
+            }
+
             Projectile.rotation = Projectile.velocity.ToRotation();
             segments.Clear();
             foreach (var projectile in Main.projectile)
@@ -85,37 +123,56 @@ namespace CalamityMod.Projectiles.Summon
                         segments[i].ModProjectile<BlackDragonTail>().SegmentMove();
                 }
             }
-            // Fly away from the white dragon
-            float pushForce = 0.1f;
-            for (int k = 0; k < Main.maxProjectiles; k++)
+        }
+        internal void AttackTarget(NPC target)
+        {
+            float idealFlyAcceleration = 0.18f;
+
+            Vector2 destination = target.Center;
+            float distanceFromDestination = Projectile.Distance(destination);
+
+            // Get a swerve effect if somewhat far from the target.
+            if (Projectile.Distance(destination) > 425f)
             {
-                Projectile otherProj = Main.projectile[k];
-                // Short circuits to make the loop as fast as possible
-                if (!otherProj.active || k == Projectile.whoAmI)
-                    continue;
+                destination += (Projectile.ai[0] % 30f / 30f * MathHelper.TwoPi).ToRotationVector2() * 145f;
+                distanceFromDestination = Projectile.Distance(destination);
+                idealFlyAcceleration *= 2.5f;
+            }
 
-                // If the other projectile is indeed the same owned by the same player and they're too close, nudge them away.
-                bool sameProjType = otherProj.type == ModContent.ProjectileType<WhiteDragonHead>();
-                float taxicabDist = Vector2.Distance(Projectile.Center, otherProj.Center);
-                float distancegate = 80f;
-                if (sameProjType && taxicabDist < distancegate)
-                {
-                    if (Projectile.position.X < otherProj.position.X)
-                        Projectile.velocity.X -= pushForce;
-                    else
-                        Projectile.velocity.X += pushForce;
+            // Charge if the target is far away.
+            if (distanceFromDestination > 1500f)
+                idealFlyAcceleration = MathHelper.Min(6f, Projectile.ai[1] + 1f);
 
-                    if (Projectile.position.Y < otherProj.position.Y)
-                        Projectile.velocity.Y -= pushForce;
-                    else
-                        Projectile.velocity.Y += pushForce;
-                }
+            Projectile.ai[1] = MathHelper.Lerp(Projectile.ai[1], idealFlyAcceleration, 0.3f);
+
+            float directionToTargetOrthogonality = Vector2.Dot(Projectile.velocity.SafeNormalize(Vector2.Zero), Projectile.SafeDirectionTo(destination));
+
+            // Fly towards the target if it's far.
+            if (distanceFromDestination > 320f)
+            {
+                float speed = Projectile.velocity.Length();
+                if (speed < 23f)
+                    speed += 0.08f;
+
+                if (speed > 32f)
+                    speed -= 0.08f;
+
+                // Go faster if the line of sight is aiming closely at the target.
+                if (directionToTargetOrthogonality < 0.85f && directionToTargetOrthogonality > 0.5f)
+                    speed += 16f;
+
+                // And go slower otherwise so that the dragon can angle towards the target more accurately.
+                if (directionToTargetOrthogonality < 0.5f && directionToTargetOrthogonality > -0.7f)
+                    speed -= 16f;
+
+                speed = MathHelper.Clamp(speed, 16f, 34f);
+
+                Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.AngleTo(destination), Projectile.ai[1]).ToRotationVector2() * speed;
             }
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            lightColor = Color.White;
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D texBody = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/BlackDragonBody").Value;
             Texture2D texBody2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/BlackDragonBody2").Value;
@@ -128,7 +185,7 @@ namespace CalamityMod.Projectiles.Summon
                     SpriteEffects fx = Math.Abs(segments[i].rotation) > MathHelper.PiOver2 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
                     if (i < segments.Count - 1)
                     {
-                        Main.EntitySpriteDraw((i == 5 || i == 16) ? texBody2 : texBody, segments[i].Center - Main.screenPosition, null, segments[i].GetAlpha(lightColor), segments[i].rotation + MathHelper.Pi / 2f, texBody.Size() / 2f, segments[i].scale, fx, 0);
+                        Main.EntitySpriteDraw((i == 5 || i == 12) ? texBody2 : texBody, segments[i].Center - Main.screenPosition, null, segments[i].GetAlpha(lightColor), segments[i].rotation + MathHelper.Pi / 2f, texBody.Size() / 2f, segments[i].scale, fx, 0);
                     }
                     else if (i < segments.Count)
                     {
