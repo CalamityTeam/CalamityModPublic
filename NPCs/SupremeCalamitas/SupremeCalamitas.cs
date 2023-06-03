@@ -79,6 +79,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public bool spawnArena = false;
         public bool enteredBrothersPhase = false;
         public bool hasSummonedBrothers = false;
+        public bool cirrus = false;
 
         public int giveUpCounter = 1200;
         public int phaseChange = 0;
@@ -269,6 +270,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             writer.Write(spawnArena);
             writer.Write(hasSummonedBrothers);
             writer.Write(enteredBrothersPhase);
+            writer.Write(cirrus);
             writer.Write(NPC.dontTakeDamage);
             writer.Write(NPC.chaseable);
 
@@ -320,6 +322,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             spawnArena = reader.ReadBoolean();
             hasSummonedBrothers = reader.ReadBoolean();
             enteredBrothersPhase = reader.ReadBoolean();
+            cirrus = reader.ReadBoolean();
             NPC.dontTakeDamage = reader.ReadBoolean();
             NPC.chaseable = reader.ReadBoolean();
 
@@ -2730,6 +2733,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             Texture2D texture2D15 = DownedBossSystem.downedCalamitas && !BossRushEvent.BossRushActive ? TextureAssets.Npc[NPC.type].Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded").Value;
 
+            if (cirrus)
+            {
+                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCirrus").Value;
+            }
+
             Vector2 vector11 = new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[NPC.type] / 2f);
             Color color36 = Color.White;
             float amount9 = 0.5f;
@@ -2821,7 +2829,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             GameShaders.Misc["CalamityMod:SupremeShield"].UseImage1("Images/Misc/Perlin");
 
             Color forcefieldColor = Color.DarkViolet;
-            Color secondaryForcefieldColor = Color.Red * 1.4f;
+            Color secondaryForcefieldColor = (cirrus ? Color.HotPink : Color.Red) * 1.4f;
 
             if (!NPC.dontTakeDamage && (willCharge || NPC.ai[1] == 2f))
             {
