@@ -48,7 +48,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = Projectile.SentryLifeTime;
             Projectile.penetrate = -1;
             Projectile.tileCollide = true;
-            Projectile.minion = true;
             Projectile.sentry = true;
             Projectile.DamageType = DamageClass.Summon;
         }
