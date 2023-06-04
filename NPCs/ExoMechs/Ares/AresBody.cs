@@ -143,6 +143,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         // Max distance from the target before they are unable to hear sound telegraphs
         private const float soundDistance = 4800f;
 
+        // Distance the player has to be away from Ares in order to trigger the Deathray Spiral enrage
+        private const float DeathrayEnrageDistance = 2480f;
+
         // Timers for the Tesla and Plasma Arms so that they fire at the proper times when they spawn and enter new phases
         public const float plasmaArmStartTimer = 260f;
         public const float teslaArmStartTimer = 80f;
@@ -813,6 +816,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 // Move close to target, reduce velocity when close enough, create telegraph beams, fire deathrays
                 case (int)Phase.Deathrays:
 
+                    // Set flight time to max during Deathray Spiral
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < DeathrayEnrageDistance)
+                        {
+                            if (Main.player[Main.myPlayer].wingTime < Main.player[Main.myPlayer].wingTimeMax)
+                                Main.player[Main.myPlayer].wingTime = Main.player[Main.myPlayer].wingTimeMax;
+                        }
+                    }
+
                     if (distanceFromTarget > deathrayDistanceGateValue && calamityGlobalNPC.newAI[3] == 0f)
                     {
                         Vector2 desiredVelocity2 = Vector2.Normalize(distanceFromDestination) * baseVelocity;
@@ -821,7 +834,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     else
                     {
                         // Enrage if the target is more than the deathray length away
-                        if (distanceFromTarget > 2480f && EnragedState == (float)Enraged.No)
+                        if (distanceFromTarget > DeathrayEnrageDistance && EnragedState == (float)Enraged.No)
                         {
                             // Play enrage sound
                             if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
