@@ -63,38 +63,79 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 idealPos = new Vector2(player.Center.X - 200, player.Center.Y - 50);
             float distanceFromOwner = Projectile.Distance(idealPos);
 
+            if (distanceFromOwner > 3000)
+            {
+                Projectile.Center = player.Center;
+                Projectile.netUpdate = true;
+            }
+
             NPC target = CalamityUtils.MinionHoming(Projectile.position, 2500, player, true, true);
             if (target != null && Projectile.position.Distance(player.position) <= 2500)
             {
-                AttackTarget(target);
+                Vector2 targetDistance = target.Center - Projectile.Center;
+                (targetDistance.X > 0f).ToDirectionInt();
+                (targetDistance.Y > 0f).ToDirectionInt();
+                float speed = 0.3f; 
+                if (targetDistance.Length() < 900f)
+                {
+                    speed = 0.45f;
+                }
+                if (targetDistance.Length() < 600f)
+                {
+                    speed = 0.6f;
+                }
+                if (targetDistance.Length() < 300f)
+                {
+                    speed = 0.8f;
+                }
+                if (targetDistance.Length() > target.Size.Length() * 0.75f)
+                {
+                    Projectile.velocity += Vector2.Normalize(targetDistance) * speed * 1.5f;
+                    if (Vector2.Dot(Projectile.velocity, targetDistance) < 0.25f)
+                    {
+                        Projectile.velocity *= 0.8f;
+                    }
+                }
+                if (Projectile.velocity.Length() > 50)
+                {
+                    Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 50;
+                }
             }
             else
             {
-                float hoverAcceleration = 0.2f;
-                if (distanceFromOwner < 200f)
-                    hoverAcceleration = 0.12f;
-                if (distanceFromOwner < 140f)
-                    hoverAcceleration = 0.06f;
-
-                if (distanceFromOwner > 100f)
+                float speed = 0.2f;
+                Vector2 playerDistance = idealPos - Projectile.Center;
+                if (playerDistance.Length() < 200f)
                 {
-                    if (Math.Abs(player.Center.X - Projectile.Center.X) > 20f)
-                        Projectile.velocity.X += hoverAcceleration * Math.Sign(idealPos.X - Projectile.Center.X);
-                    if (Math.Abs(player.Center.Y - Projectile.Center.Y) > 10f)
-                        Projectile.velocity.Y += hoverAcceleration * Math.Sign(idealPos.Y - Projectile.Center.Y);
+                    speed = 0.12f;
                 }
-                else if (Projectile.velocity.Length() > 1f)
+                if (playerDistance.Length() < 140f)
+                {
+                    speed = 0.06f;
+                }
+                if (playerDistance.Length() > 100f)
+                {
+                    if (Math.Abs(idealPos.X - Projectile.Center.X) > 20f)
+                    {
+                        Projectile.velocity.X = Projectile.velocity.X + speed * Math.Sign(idealPos.X - Projectile.Center.X);
+                    }
+                    if (Math.Abs(idealPos.Y - Projectile.Center.Y) > 10f)
+                    {
+                        Projectile.velocity.Y = Projectile.velocity.Y + speed * Math.Sign(idealPos.Y - Projectile.Center.Y);
+                    }
+                }
+                else if (Projectile.velocity.Length() > 2f)
+                {
                     Projectile.velocity *= 0.96f;
-
+                }
                 if (Math.Abs(Projectile.velocity.Y) < 1f)
-                    Projectile.velocity.Y -= 0.1f;
-
-                if (Projectile.velocity.Length() > 25)
-                    Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 25;
-            }
-            if (distanceFromOwner > 5000)
-            {
-                Projectile.Center = player.Center;
+                {
+                    Projectile.velocity.Y = Projectile.velocity.Y - 0.1f;
+                }
+                if (Projectile.velocity.Length() > 25f)
+                {
+                    Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 25f;
+                }
             }
 
             Projectile.rotation = Projectile.velocity.ToRotation();
