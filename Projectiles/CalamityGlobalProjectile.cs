@@ -80,12 +80,12 @@ namespace CalamityMod.Projectiles
         public int pointBlankShotDuration = 0;
         public const int DefaultPointBlankDuration = 18; // 18 frames
 
-        // Temporary damage reduction effects.
-        public int damageReductionTimer = 0;
+        // Temporary flat damage reduction effects. This is typically used for parry effects such as Ark of the Ancients
+        public int flatDRTimer = 0;
         /// <summary>
-        /// The amount of damage substracted from the projectile's own damage count when hitting the player. Resets to 0 if the damageReductionTimer variable drops to 0
+        /// The amount of final damage substracted from the projectile's own damage count when hitting the player. Resets to 0 if the flatDRTimer variable drops to 0
         /// </summary>
-        public int damageReduction = 0;
+        public int flatDR = 0;
 
         /// <summary>
         /// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
@@ -2417,11 +2417,11 @@ namespace CalamityMod.Projectiles
         #region PostAI
         public override void PostAI(Projectile projectile)
         {
-            if (projectile.FinalExtraUpdate() && damageReductionTimer > 0)
+            if (projectile.FinalExtraUpdate() && flatDRTimer > 0)
             {
-                damageReductionTimer--;
-                if (damageReductionTimer <= 0)
-                    damageReduction = 0;
+                flatDRTimer--;
+                if (flatDRTimer <= 0)
+                    flatDR = 0;
             }
 
             // optimization to remove conversion X/Y loop for irrelevant projectiles
@@ -2538,14 +2538,14 @@ namespace CalamityMod.Projectiles
         #region ModifyHitPlayer
         public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {
-            modifiers.FinalDamage *= damageReduction * (Main.expertMode ? 0.75f : 0.5f);
+            modifiers.FinalDamage.Flat -= flatDR;
         }
         #endregion
 
         #region CanDamage + CanHit
         public override bool? CanDamage(Projectile projectile)
         {
-            if (projectile.hostile && (projectile.damage - (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f)) <= 0))
+            if (projectile.hostile && (projectile.damage - flatDR <= 0))
                 return false;
 
             switch (projectile.type)

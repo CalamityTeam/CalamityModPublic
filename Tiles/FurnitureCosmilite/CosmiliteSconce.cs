@@ -25,6 +25,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             TileObjectData.newTile.AnchorWall = true;
             TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.StyleLineSkip = 2;
 
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(253, 221, 3), CalamityUtils.GetText("Tiles.Sconce"));

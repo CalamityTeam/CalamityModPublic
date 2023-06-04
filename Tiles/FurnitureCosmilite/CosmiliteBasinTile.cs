@@ -23,6 +23,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetText("Tiles.Basin"));
             AnimationFrameHeight = 54;
