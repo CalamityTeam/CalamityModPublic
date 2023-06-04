@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         const string ParryTooltip = "Pressing right click will snip out the scissor blades in front of you\n" +
         "Hitting an enemy with it will parry them, granting you brief invulnerability\n" +
-        "You can also parry projectiles to make them deal 200 less damage for a short period\n" +
+        "You can also parry projectiles to make them deal 100 less damage for a short period\n" +
         "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
 
         const string BlastTooltip = "Pressing right click while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges\n" +

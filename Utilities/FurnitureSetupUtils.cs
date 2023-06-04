@@ -790,6 +790,7 @@ namespace CalamityMod
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
 
             // All candelabras count as light sources.
@@ -816,6 +817,7 @@ namespace CalamityMod
             TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.newTile.DrawYOffset = offset;
+            TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
 
             // All candles count as light sources.
@@ -879,6 +881,7 @@ namespace CalamityMod
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 1, 1);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
 
             // All chandeliers count as light sources.
@@ -1099,6 +1102,7 @@ namespace CalamityMod
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
 
             // All floor lamps count as light sources.
@@ -1122,6 +1126,7 @@ namespace CalamityMod
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2Top);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
 
             // All hanging lanterns count as light sources.
@@ -1386,6 +1391,7 @@ namespace CalamityMod
             TileObjectData.newTile.Origin = new Point16(0, 3);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
+            TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
 
             mt.AddMapEntry(mapColor, Language.GetText("MapObject.WaterFountain"));

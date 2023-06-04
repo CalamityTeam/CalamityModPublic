@@ -19,6 +19,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Main.tileLavaDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.ProfanedCrucible>());
             AnimationFrameHeight = 54;

@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Typeless
                             SoundEngine.PlaySound(SoundID.Item65);
                             if (Main.netMode != NetmodeID.Server)
                             {
-                                Gore shard = Gore.NewGoreDirect(Projectile.GetSource_ItemUse(Owner.HeldItem), Owner.Center, Main.rand.NextVector2Circular(4f, 4f), Mod.Find<ModGore>("WulfrumPinger2").Type, Main.rand.NextFloat(0.5f, 1f));
+                                Gore shard = Gore.NewGoreDirect(Projectile.GetSource_FromThis(), Owner.Center, Main.rand.NextVector2Circular(4f, 4f), Mod.Find<ModGore>("WulfrumPinger2").Type, Main.rand.NextFloat(0.5f, 1f));
                                 shard.timeLeft = 10;
                                 shard.alpha = 100 - Main.rand.Next(0, 60);
                             }

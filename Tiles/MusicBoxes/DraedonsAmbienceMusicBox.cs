@@ -20,6 +20,7 @@ namespace CalamityMod.Tiles.MusicBoxes
             TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.DrawYOffset = 2;
+            TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(Type);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName(ItemID.MusicBox));

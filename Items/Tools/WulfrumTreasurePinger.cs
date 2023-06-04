@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Tools
             {
                 int scrapRefund = Main.rand.Next(0, 4);
                 if (scrapRefund > 0)
-                    player.QuickSpawnItem(Item.GetSource_ItemUse(Item), ModContent.ItemType<WulfrumMetalScrap>(), scrapRefund);
+                    player.QuickSpawnItem(Item.GetSource_FromThis(), ModContent.ItemType<WulfrumMetalScrap>(), scrapRefund);
 
                 Item.TurnToAir();
 
@@ -109,7 +109,7 @@ namespace CalamityMod.Items.Tools
                         Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(9f, 9f);
                         float shrapnelScale = Main.rand.NextFloat(0.8f, 1f);
 
-                        Gore.NewGore(Item.GetSource_ItemUse(Item), centerPosition, shrapnelVelocity, Mod.Find<ModGore>("WulfrumPinger" + Main.rand.Next(1, 5).ToString()).Type, shrapnelScale);
+                        Gore.NewGore(Item.GetSource_FromThis(), centerPosition, shrapnelVelocity, Mod.Find<ModGore>("WulfrumPinger" + Main.rand.Next(1, 5).ToString()).Type, shrapnelScale);
                     }
                 }
 

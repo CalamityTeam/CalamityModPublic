@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         const string ParryTooltip = "Pressing right click will extend the Ark out in front of you\n" +
         "Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
-        "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
+        "You can also parry projectiles and temporarily make them deal 50 less damage\n" +
         "Parrying empowers the next 10 swings of the sword, boosting damage and letting them throw projectiles";
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

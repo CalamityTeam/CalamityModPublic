@@ -25,6 +25,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             TileObjectData.newTile.Origin = new Point16(1, 0);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 1, 1);
+            TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(Type);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(235, 166, 135), Language.GetText("MapObject.Chandelier"));

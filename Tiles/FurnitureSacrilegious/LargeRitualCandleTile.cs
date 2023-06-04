@@ -31,6 +31,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             TileObjectData.newTile.Origin = new Point16(0, 4);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.StyleLineSkip = 4;
             TileObjectData.addTile(Type);
 
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);

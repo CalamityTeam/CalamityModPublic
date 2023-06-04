@@ -122,11 +122,11 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         GeneralParryEffects();
 
-                        //Reduce the projectile's damage by 100 for a second.
-                        if (proj.Calamity().damageReduction < 100)
-                            proj.Calamity().damageReduction = 100;
-                        if (proj.Calamity().damageReductionTimer < 60)
-                            proj.Calamity().damageReductionTimer = 60;
+                        //Reduce the projectile's damage by 50 for a second.
+                        if (proj.Calamity().flatDR < 50)
+                            proj.Calamity().flatDR = 50;
+                        if (proj.Calamity().flatDRTimer < 60)
+                            proj.Calamity().flatDRTimer = 60;
 
                         //Bounce off the player if they are in the air
                         if (Owner.velocity.Y != 0)

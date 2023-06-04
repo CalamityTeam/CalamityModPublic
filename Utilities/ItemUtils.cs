@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Prefixes;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -30,7 +31,7 @@ namespace CalamityMod
 
         #region Color Constants
         internal static readonly Color DevItemColor = new Color(255, 0, 255);
-        internal static readonly Color DonatorItemColor = new Color(139, 0, 0);
+        internal static readonly Color DonatorItemColor = new Color(196, 35, 44);
         #endregion
 
         // TODO -- This probably isn't the best place to put this but it needs to be somewhere easily accessible.
@@ -122,7 +123,8 @@ namespace CalamityMod
             else if (item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<SummonMeleeSpeedDamageClass>())
             {
                 // Terrarian (has its own special "Legendary" for marketing reasons)
-                if (item.type == ItemID.Terrarian)
+                // Other items that want to use Legendary2 are also compatible
+                if (item.type == ItemID.Terrarian || PrefixLegacy.ItemSets.ItemsThatCanHaveLegendary2[item.type])
                 {
                     int[][] terrarianReforgeTiers = new int[][]
                     {
@@ -136,8 +138,8 @@ namespace CalamityMod
                 
                 // Yoyos, Flails, Spears, etc.
                 // Spears actually work fine with Legendary, but vanilla doesn't give it to them, so we won't either.
-                // Zenith, rapiers, and whips are specifically excluded from this, so they get broadsword reforges despite not scaling with melee speed.
-                else if ((item.channel || item.noMelee) && item.type != ItemID.Zenith && item.useStyle != ItemUseStyleID.Rapier && !item.CountsAsClass<SummonMeleeSpeedDamageClass>())
+                // Rapiers, whips, and other specific vanilla weapons (ie. Zenith or Excalibur) are specifically excluded from this, so they get broadsword reforges despite not scaling with melee speed.
+                else if ((item.channel || item.noMelee) && item.useStyle != ItemUseStyleID.Rapier && !item.CountsAsClass<SummonMeleeSpeedDamageClass>() && !PrefixLegacy.ItemSets.SwordsHammersAxesPicks[item.type])
                 {
                     int[][] meleeNoSpeedReforgeTiers = new int[][]
                     {

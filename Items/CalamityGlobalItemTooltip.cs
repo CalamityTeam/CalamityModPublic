@@ -198,7 +198,7 @@ namespace CalamityMod.Items
             {
                 foreach (string line in AppliedEnchantment.Value.Description.ToString().Split('\n'))
                 {
-                    TooltipLine descriptionLine = new TooltipLine(Mod, "Enchantment", CalamityUtils.ColorMessage(line, Color.DarkRed));
+                    TooltipLine descriptionLine = new TooltipLine(Mod, "Enchantment", CalamityUtils.ColorMessage(line, CalamityUtils.DonatorItemColor));
                     tooltips.Add(descriptionLine);
                 }
             }
