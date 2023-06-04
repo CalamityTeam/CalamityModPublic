@@ -140,8 +140,8 @@ namespace CalamityMod.Tiles
             Tile tile = Main.tile[i, j];
 
             // Fruit from trees upon tree destruction
-            // 50% chance to drop 1 to 2 fruit
-            if (!effectOnly && !fail && Main.netMode != NetmodeID.MultiplayerClient && TileID.Sets.IsShakeable[type] && WorldGen.genRand.NextBool())
+            // 25% chance to drop 1 to 2 fruit
+            if (!effectOnly && !fail && Main.netMode != NetmodeID.MultiplayerClient && TileID.Sets.IsShakeable[type] && WorldGen.genRand.NextBool(4))
             {
                 GetTreeBottom(i, j, out int treeX, out int treeY);
                 TreeTypes treeType = WorldGen.GetTreeType(Main.tile[treeX, treeY].TileType);
