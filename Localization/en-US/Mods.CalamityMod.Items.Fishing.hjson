@@ -1,3 +1,8 @@
+// Quest fish tooltips
+CaughtInAstral: "'Caught in the Astral Infection'"
+CaughtInBrimstoneCrag: "'Caught in the Brimstone Crag'"
+CaughtInSunkenSea: "'Caught in the Sunken Sea'"
+
 /* Astral Infection Catches */
 AldebaranAlewife: {
 	DisplayName: Aldebaran Alewife
@@ -53,7 +58,7 @@ Bloodfin: {
 
 Brimlish: {
 	DisplayName: Brimlish
-	Tooltip: ""
+	QuestDescription: When you defeated the Brimstone Elemental, her children fell in the lava as a result of the aftermath. Rumors say they mutated a fish, and I'd love if you fetched one for my new lava-filled fish tank.
 }
 
 BrimstoneCrate: {
@@ -98,13 +103,13 @@ Shadowfish: {
 
 Slurpfish: {
 	DisplayName: Slurpfish
-	Tooltip: ""
+	QuestDescription: Y'know, it'd be an absolute calamity if I sent you to the ancient ruins in the depths of hell to catch a fish. And I plan to do just that. Now scram! The fish isn't going to catch itself.
 }
 
 /* Sunken Sea Catches */
 EutrophicSandfish: {
 	DisplayName: Eutrophic Sandfish
-	Tooltip: ""
+	QuestDescription: You ever get to see what would happen if a lizard that lived in the desert scurried too deep underground? I did, and they sure are cool! But it's way too slippery for me to get my hands on it now. You go and get it so I can keep it as a pet!
 }
 
 GreenwaveLoach: {
@@ -139,7 +144,7 @@ SerpentsBite: {
 
 Serpentuna: {
 	DisplayName: Serpentuna
-	Tooltip: ""
+	QuestDescription: Sea serpents are pretty but not as pretty as the look on someone's face when they find one in their chair. I need you to fetch me the props for my next big scare, and the deadline is tomorrow.
 }
 
 SparklingEmpress: {
@@ -163,7 +168,7 @@ SunkenSailfish: {
 
 SurfClam: {
 	DisplayName: Surf Clam
-	Tooltip: ""
+	QuestDescription: Did you know that clams are a delicacy? Rumor has it that a big colony lives beneath the Desert. Just talking about them makes me hungry. I need you to fetch one for me, so I can practice my culinary skills and curb my hunger.
 }
 
 /* Other Catches */

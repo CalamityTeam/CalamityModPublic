@@ -39,7 +39,7 @@ namespace CalamityMod
         public VertexWidthFunction WidthFunction;
         public VertexColorFunction ColorFunction;
 
-        public BasicEffect BaseEffect;
+        public static BasicEffect BaseEffect;
         public MiscShaderData SpecialShader;
         public TrailPointRetrievalFunction TrailPointFunction;
 
@@ -64,11 +64,12 @@ namespace CalamityMod
             if (specialShader != null)
                 SpecialShader = specialShader;
 
-            BaseEffect = new BasicEffect(Main.instance.GraphicsDevice)
-            {
-                VertexColorEnabled = true,
-                TextureEnabled = false
-            };
+            if (BaseEffect is null)
+                BaseEffect = new BasicEffect(Main.instance.GraphicsDevice)
+                {
+                    VertexColorEnabled = true,
+                    TextureEnabled = false
+                };
             UpdateBaseEffect(out _, out _);
         }
 
