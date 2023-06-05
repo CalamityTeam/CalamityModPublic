@@ -72,70 +72,31 @@ namespace CalamityMod.Projectiles.Summon
             NPC target = CalamityUtils.MinionHoming(Projectile.position, 2500, player, true, true);
             if (target != null && Projectile.position.Distance(player.position) <= 2500)
             {
-                Vector2 targetDistance = target.Center - Projectile.Center;
-                (targetDistance.X > 0f).ToDirectionInt();
-                (targetDistance.Y > 0f).ToDirectionInt();
-                float speed = 0.3f; 
-                if (targetDistance.Length() < 900f)
-                {
-                    speed = 0.45f;
-                }
-                if (targetDistance.Length() < 600f)
-                {
-                    speed = 0.6f;
-                }
-                if (targetDistance.Length() < 300f)
-                {
-                    speed = 0.8f;
-                }
-                if (targetDistance.Length() > target.Size.Length() * 0.75f)
-                {
-                    Projectile.velocity += Vector2.Normalize(targetDistance) * speed * 1.5f;
-                    if (Vector2.Dot(Projectile.velocity, targetDistance) < 0.25f)
-                    {
-                        Projectile.velocity *= 0.8f;
-                    }
-                }
-                if (Projectile.velocity.Length() > 50)
-                {
-                    Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 50;
-                }
+                AttackTarget(target);
             }
             else
             {
-                float speed = 0.2f;
-                Vector2 playerDistance = idealPos - Projectile.Center;
-                if (playerDistance.Length() < 200f)
+                float hoverAcceleration = 0.2f;
+                if (distanceFromOwner < 200f)
+                    hoverAcceleration = 0.12f;
+                if (distanceFromOwner < 140f)
+                    hoverAcceleration = 0.06f;
+
+                if (distanceFromOwner > 100f)
                 {
-                    speed = 0.12f;
+                    if (Math.Abs(player.Center.X - Projectile.Center.X) > 20f)
+                        Projectile.velocity.X += hoverAcceleration * Math.Sign(idealPos.X - Projectile.Center.X);
+                    if (Math.Abs(player.Center.Y - Projectile.Center.Y) > 10f)
+                        Projectile.velocity.Y += hoverAcceleration * Math.Sign(idealPos.Y - Projectile.Center.Y);
                 }
-                if (playerDistance.Length() < 140f)
-                {
-                    speed = 0.06f;
-                }
-                if (playerDistance.Length() > 100f)
-                {
-                    if (Math.Abs(idealPos.X - Projectile.Center.X) > 20f)
-                    {
-                        Projectile.velocity.X = Projectile.velocity.X + speed * Math.Sign(idealPos.X - Projectile.Center.X);
-                    }
-                    if (Math.Abs(idealPos.Y - Projectile.Center.Y) > 10f)
-                    {
-                        Projectile.velocity.Y = Projectile.velocity.Y + speed * Math.Sign(idealPos.Y - Projectile.Center.Y);
-                    }
-                }
-                else if (Projectile.velocity.Length() > 2f)
-                {
+                else if (Projectile.velocity.Length() > 1f)
                     Projectile.velocity *= 0.96f;
-                }
+
                 if (Math.Abs(Projectile.velocity.Y) < 1f)
-                {
-                    Projectile.velocity.Y = Projectile.velocity.Y - 0.1f;
-                }
-                if (Projectile.velocity.Length() > 25f)
-                {
-                    Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 25f;
-                }
+                    Projectile.velocity.Y -= 0.1f;
+
+                if (Projectile.velocity.Length() > 25)
+                    Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 25;
             }
 
             Projectile.rotation = Projectile.velocity.ToRotation();
@@ -167,6 +128,7 @@ namespace CalamityMod.Projectiles.Summon
         }
         internal void AttackTarget(NPC target)
         {
+
             float idealFlyAcceleration = 0.18f;
 
             Vector2 destination = target.Center;
@@ -175,6 +137,7 @@ namespace CalamityMod.Projectiles.Summon
             // Get a swerve effect if somewhat far from the target.
             if (Projectile.Distance(destination) > 425f)
             {
+                Projectile.ai[2] = 0;
                 destination += (Projectile.ai[0] % 30f / 30f * MathHelper.TwoPi).ToRotationVector2() * 145f;
                 distanceFromDestination = Projectile.Distance(destination);
                 idealFlyAcceleration *= 2.5f;
@@ -209,6 +172,14 @@ namespace CalamityMod.Projectiles.Summon
                 speed = MathHelper.Clamp(speed, 16f, 34f);
 
                 Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.AngleTo(destination), Projectile.ai[1]).ToRotationVector2() * speed;
+
+                // failsafe to prevent orbiting
+                Projectile.ai[2]++;
+                if (Projectile.ai[2] >= 90)
+                {
+                    Projectile.velocity = Projectile.DirectionTo(destination) * 30;
+                    Projectile.ai[2] = 0;
+                }
             }
         }
 

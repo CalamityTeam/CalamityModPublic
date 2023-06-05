@@ -64,6 +64,11 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 idealPos = new Vector2(player.Center.X + 200, player.Center.Y - 50);
             float distanceFromOwner = Projectile.Distance(idealPos);
 
+            if (distanceFromOwner > 5000)
+            {
+                Projectile.Center = player.Center;
+            }
+
             NPC target = CalamityUtils.MinionHoming(Projectile.position, 2500, player, true, true);
             if (target != null && Projectile.position.Distance(player.position) <= 2500)
             {
@@ -94,10 +99,6 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 25;
             }
 
-            if (distanceFromOwner > 5000)
-            {
-                Projectile.Center = player.Center;
-            }
             Projectile.rotation = Projectile.velocity.ToRotation();
             segments.Clear();
             foreach (var projectile in Main.projectile)
@@ -135,6 +136,7 @@ namespace CalamityMod.Projectiles.Summon
             // Get a swerve effect if somewhat far from the target.
             if (Projectile.Distance(destination) > 425f)
             {
+                Projectile.ai[2] = 0;
                 destination += (Projectile.ai[0] % 30f / 30f * MathHelper.TwoPi).ToRotationVector2() * 145f;
                 distanceFromDestination = Projectile.Distance(destination);
                 idealFlyAcceleration *= 2.5f;
@@ -169,6 +171,14 @@ namespace CalamityMod.Projectiles.Summon
                 speed = MathHelper.Clamp(speed, 16f, 34f);
 
                 Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.AngleTo(destination), Projectile.ai[1]).ToRotationVector2() * speed;
+
+                // failsafe to prevent orbiting
+                Projectile.ai[2]++;
+                if (Projectile.ai[2] >= 90)
+                {
+                    Projectile.velocity = Projectile.DirectionTo(destination) * 30;
+                    Projectile.ai[2] = 0;
+                }
             }
         }
 
