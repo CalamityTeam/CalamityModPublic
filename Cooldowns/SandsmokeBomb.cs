@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Items.Armor.DesertProwler;
 using CalamityMod.Particles;
@@ -19,7 +20,7 @@ namespace CalamityMod.Cooldowns
 
         public static new string ID => "SandsmokeBomb";
         public override bool ShouldDisplay => true;
-        public override string DisplayName => PowerActive ? "Sandsmoke Bomb Duration" : "Sandsmoke Bomb Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText("UI.Cooldowns.SandsmokeBomb" + (PowerActive ? "Active" : "Cooldown"));
         public override string Texture => "CalamityMod/Cooldowns/SandsmokeBomb";
         public override string OutlineTexture => "CalamityMod/Cooldowns/SandsmokeBombOutline";
         public override string OverlayTexture => "CalamityMod/Cooldowns/SandsmokeBombOverlay";

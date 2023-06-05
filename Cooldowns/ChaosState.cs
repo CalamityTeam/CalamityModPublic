@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.Audio;
+using Terraria.Localization;
 
 namespace CalamityMod.Cooldowns
 {
@@ -8,7 +9,7 @@ namespace CalamityMod.Cooldowns
         public static new string ID => "ChaosState";
 
         public override bool ShouldDisplay => CalamityConfig.Instance.VanillaCooldownDisplay && instance.player.chaosState;
-        public override string DisplayName => "Teleportation Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/ChaosState" + skinTexture;
         public override Color OutlineColor => outlineColor;
         public override Color CooldownStartColor => Color.Lerp(cooldownColorStart, cooldownColorEnd, 1 - instance.Completion);

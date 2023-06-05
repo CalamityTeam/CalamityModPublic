@@ -121,11 +121,11 @@ namespace CalamityMod.Systems
         }
 
         public abstract Asset<Texture2D> Texture { get; }
-        public virtual string ExpandedDescription => "";
+        public virtual LocalizedText ExpandedDescription => LocalizedText.Empty;
 
         public float DifficultyScale;
-        public string Name;
-        public string ShortDescription;
+        public LocalizedText Name;
+        public LocalizedText ShortDescription;
 
         public string ActivationTextKey;
         public string DeactivationTextKey;
@@ -167,11 +167,11 @@ namespace CalamityMod.Systems
         public NoDifficulty()
         {
             DifficultyScale = 0;
-            Name = "None";
-            ShortDescription = "The classic Terraria experience, with no Calamity difficulty changes";
+            Name = CalamityUtils.GetText("UI.NoDifficulty");
+            ShortDescription = CalamityUtils.GetText("UI.NoDifficultyInfo");
             
-            ActivationTextKey = "";
-            DeactivationTextKey = "";
+            ActivationTextKey = string.Empty;
+            DeactivationTextKey = string.Empty;
 
             ActivationSound = SoundID.MenuTick with { Volume = 1f};
 
@@ -199,35 +199,24 @@ namespace CalamityMod.Systems
             }
         }
         
-        public override string ExpandedDescription
+        public override LocalizedText ExpandedDescription
         {
             get
             {
-                string mainColor = "B55362";
-
                 string rageKey = "[c/FFCE85:" + CalamityKeybinds.RageHotKey.TooltipHotkeyString() + "]";
                 string adrenKey = "[c/79DFBF:" + CalamityKeybinds.AdrenalineHotKey.TooltipHotkeyString() + "]";
-
-
-                return ("[c/"+mainColor+":Enables the][c/85FFE9: Adrenaline] [c/"+mainColor+":mechanic. You gain Adrenaline while fighting bosses. Getting hit drops Adrenaline back to 0] \n" +
-                        "[c/"+mainColor+":    When Adrenaline is maxed, press] " + adrenKey + " [c/"+mainColor+":for a large damage boost] \n" +
-                        "[c/"+mainColor+":Enables the ][c/FF8B54:Rage][c/"+mainColor+": mechanic. You gain Rage when in proximity of enemies or by using certain items] \n" +
-                        "[c/"+mainColor+":    When Rage is maxed, press] " + rageKey + " [c/"+mainColor+":for a temporary damage boost] \n" +
-                        "[c/"+mainColor+":Most foes have higher stats and more aggressive AIs] \n" +
-                        "[c/"+mainColor+":Bosses have new AI mechanics, new phases, and will drop Master Mode loot. Enemies spawn more frequently] \n" +
-                        "[c/F7342A:This mode is more difficult than Expert. Be sure to prepare for the challenge]");
-
+                return CalamityUtils.GetText("UI.RevengeanceExpandedInfo").WithFormatArgs(rageKey, adrenKey);
             }
         }
 
         public RevengeanceDifficulty()
         {
             DifficultyScale = 0.25f;
-            Name = "Revengeance";
-            ShortDescription = "[c/F54254:The intended Calamity experience!]";
+            Name = CalamityUtils.GetText("UI.Revengeance");
+            ShortDescription = CalamityUtils.GetText("UI.RevengeanceShortInfo");
 
-            ActivationTextKey = "Mods.CalamityMod.UI.RevengeText";
-            DeactivationTextKey = "Mods.CalamityMod.UI.RevengeText2";
+            ActivationTextKey = "Mods.CalamityMod.UI.RevengeanceActivate";
+            DeactivationTextKey = "Mods.CalamityMod.UI.RevengeanceDeactivate";
 
             ActivationSound = SoundID.Item119;
 
@@ -255,19 +244,16 @@ namespace CalamityMod.Systems
             }
         }
         
-        public override string ExpandedDescription =>"[c/B834E0:All foes will pose a much larger threat with highly aggressive AIs and increased damage] \n" +
-                        "[c/B834E0:Bosses have substantially harder AI changes. Enemies are even more numerous and can easily overwhelm you] \n" +
-                        "[c/B834E0:Debuffs are especially lethal and the Abyss is significantly more dangerous] \n" +
-                        "[c/E945FF:Vigilance and tenacity are crucial to survival]";
+        public override LocalizedText ExpandedDescription => CalamityUtils.GetText("UI.DeathExpandedInfo");
 
         public DeathDifficulty()
         {
             DifficultyScale = 0.5f;
-            Name = "Death";
-            ShortDescription = "[c/C82DF7:A tougher challenge for the more experienced, or for those that want a step up from Revengeance Mode]";
+            Name = CalamityUtils.GetText("UI.Death");
+            ShortDescription = CalamityUtils.GetText("UI.DeathShortInfo");
 
-            ActivationTextKey = "Mods.CalamityMod.UI.DeathText";
-            DeactivationTextKey = "Mods.CalamityMod.UI.DeathText2";
+            ActivationTextKey = "Mods.CalamityMod.UI.DeathActivate";
+            DeactivationTextKey = "Mods.CalamityMod.UI.DeathDeactivate";
 
             ActivationSound = DemonshadeHelm.ActivationSound;
 
@@ -280,7 +266,7 @@ namespace CalamityMod.Systems
 
             for (int i = 0; i < tierList.Length; i++)
             {
-                if (tierList[i].Name == "Revengeance")
+                if (tierList[i].Name == CalamityUtils.GetText("UI.Revengeance"))
                     return i;
             }
 

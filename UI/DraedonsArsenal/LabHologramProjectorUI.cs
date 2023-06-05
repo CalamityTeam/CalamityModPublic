@@ -21,24 +21,12 @@ namespace CalamityMod.UI.DraedonsArsenal
         {
             List<string> dialogueOptions = new List<string>()
             {
-                "To any personnel engaged in the laboratories. Please wear your steel engraved ID badge at all times. It is the easiest method to discern your body if any accidents do occur.",
-                "To experiment is to fail. To fail is to learn. To learn is to advance.",
-                "Apparent danger while researching serves only to enhance the research experience.",
-
-                "Laser-type weapon prototypes are incredibly lethal and are not to be used within presentation halls.",
-                "High-energy plasma emissions have adverse effects on both flesh and metal. Do not attempt to handle vented plasma.",
-                "Electric shocks from military equipment are intended to be fatal. If you survive such a shock, that is a clear indicator that the device is not functioning properly. Please report any such cases.",
-                "All employees are hereby notified that they will be held accountable for any collateral damage caused by Gauss weapon fire, even during sanctioned testing exercises.",
-                "Security Field Emitters will vaporize all unauthorized equipment and personnel. Please leave personal effects in the designated lockers off-site. This also means: Do not bring any family members who are not enlisted as personnel.",
-
-                "If one does manage to breach restricted testing facilities, do at least record any unexpected burns, lacerations, bruising, fractur... ...trauma, shocks and otherwise. Thank you.",
-                "The power grid has been... ...eavily compromised. Abort research and proceed to the emergency exits located at... ...and egress with haste.",
-                "Notify the Security Department of any aggressive local fauna immediately."
+                "Text1", "Text2", "Text3", "Text4", "Text5", "Text6", "Text7", "Text8", "Text9", "Text10", "Text11"
             };
             if (NPC.downedAncientCultist)
-                dialogueOptions.Add("Sensors have detected a significant breach in the spacetime continuum.");
+                dialogueOptions.Add("PostCultistText");
 
-            return Main.rand.NextBool(5000) ? "Please help. I'm stuck in this hologram machine." : Main.rand.Next(dialogueOptions.ToArray());
+            return Main.rand.NextBool(5000) ? "EasterEgg" : Main.rand.Next(dialogueOptions.ToArray());
         }
         public static void Draw(SpriteBatch spriteBatch)
         {
@@ -78,7 +66,7 @@ namespace CalamityMod.UI.DraedonsArsenal
 
             // Pick text to display, if it has not already been picked.
             if (string.IsNullOrEmpty(mp.CurrentlyViewedHologramText))
-                mp.CurrentlyViewedHologramText = ChooseDialogue();
+                mp.CurrentlyViewedHologramText = CalamityUtils.GetText("UI.Hologram." + ChooseDialogue()).ToString();
 
             Color backgroundColor = new Color(200, 200, 200, 200);
 

@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Cooldowns
@@ -12,7 +13,7 @@ namespace CalamityMod.Cooldowns
     {
         public static new string ID => "OmegaBlue";
         public override bool ShouldDisplay => true;
-        public override string DisplayName => instance.timeLeft > 1500 ? "Abyssal Madness" : "Abyssal Madness Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText("UI.Cooldowns.OmegaBlue" + (instance.timeLeft > 1500 ? "Active" : "Cooldown"));
         public override string Texture => instance.timeLeft > 1500 ? "CalamityMod/Cooldowns/OmegaBlueActive" : "CalamityMod/Cooldowns/OmegaBlue";
         public override string OutlineTexture => "CalamityMod/Cooldowns/OmegaBlueOutline";
         public override string OverlayTexture => "CalamityMod/Cooldowns/OmegaBlueOverlay";

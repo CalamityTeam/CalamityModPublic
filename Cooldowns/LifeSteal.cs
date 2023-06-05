@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Terraria.Localization;
 
 namespace CalamityMod.Cooldowns
 {
@@ -6,7 +7,7 @@ namespace CalamityMod.Cooldowns
     {
         public static new string ID => "LifeSteal";
         public override bool ShouldDisplay => instance.player.lifeSteal < 0f;
-        public override string DisplayName => "Life Steal Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/LifeSteal";
         public override Color OutlineColor => new Color(255, 142, 165);
         public override Color CooldownStartColor => Color.Lerp(new Color(255, 216, 216), new Color(255, 117, 117), instance.Completion);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Terraria.Localization;
 
 namespace CalamityMod.Cooldowns
 {
@@ -7,7 +8,7 @@ namespace CalamityMod.Cooldowns
         public static new string ID => "RogueBooster";
 
         public override bool ShouldDisplay => true;
-        public override string DisplayName => "Rogue Booster Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/" + skinTexture;
         public override Color OutlineColor => outlineColor;
         public override Color CooldownStartColor => Color.Lerp(cooldownColorStart, cooldownColorEnd, 1 - instance.Completion);

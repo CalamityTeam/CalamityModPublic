@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.Localization;
 using static CalamityMod.CalamityUtils;
 using static Terraria.ModLoader.ModContent;
 
@@ -18,7 +19,7 @@ namespace CalamityMod.Cooldowns
         public static new string ID => "DivingPlatesBreaking";
         public override bool CanTickDown => !instance.player.Calamity().abyssalDivingSuit;
         public override bool ShouldDisplay => instance.player.Calamity().abyssalDivingSuit;
-        public override string DisplayName => "Abyssal Diving Suit Plates Durability";
+        public override LocalizedText DisplayName => GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/DivingSuitBreakingPlates";
         public override string OutlineTexture => "CalamityMod/Cooldowns/DivingSuitBrokenPlatesOutline";
         public override string OverlayTexture => "CalamityMod/Cooldowns/DivingSuitBrokenPlatesOverlay";
@@ -57,7 +58,7 @@ namespace CalamityMod.Cooldowns
 
         public static new string ID => "DivingPlatesBroken";
         public override bool ShouldDisplay => true;
-        public override string DisplayName => "Abyssal Diving Suit Broken Plates";
+        public override LocalizedText DisplayName => GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/DivingSuitBrokenPlates";
         public override Color OutlineColor => new Color(194, 173, 146);
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);

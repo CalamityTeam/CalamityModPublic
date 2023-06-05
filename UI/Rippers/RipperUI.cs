@@ -195,7 +195,7 @@ namespace CalamityMod.UI.Rippers
 
                 // Add hover text if the mouse is over Rage bar
                 string rageStr = MakeRipperPercentString(modPlayer.rage, modPlayer.rageMax);
-                Main.instance.MouseText($"Rage: {rageStr}");
+                Main.instance.MouseText($"{CalamityUtils.GetTextValue("UI.Rage")}: {rageStr}");
 
                 // The bar is draggable if enabled in config.
                 Vector2 newScreenRatioPosition = rageScreenRatioPos;
@@ -235,7 +235,7 @@ namespace CalamityMod.UI.Rippers
                     Main.LocalPlayer.mouseInterface = true;
 
                 // Add hover text if the mouse is over the bar
-                string adrenNameStr = modPlayer.draedonsHeart ? "Nanomachines" : "Adrenaline";
+                string adrenNameStr = CalamityUtils.GetTextValue("UI." + (modPlayer.draedonsHeart ? "Nanomachines" : "Adrenaline"));
                 string adrenAmountStr = MakeRipperPercentString(modPlayer.adrenaline, modPlayer.adrenalineMax);
                 Main.instance.MouseText($"{adrenNameStr}: {adrenAmountStr}");
 

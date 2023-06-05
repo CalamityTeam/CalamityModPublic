@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.UI
@@ -28,25 +29,16 @@ namespace CalamityMod.UI
         private static bool Open;
 
         private static Texture2D CircleTextures;
-        private static string[] CircleNames;
 
         private static int LastHovered;
 
         public static void Load(Mod mod)
         {
             CircleTextures = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/AstralArcanumCircles", AssetRequestMode.ImmediateLoad).Value;
-            CircleNames = new string[]
-            {
-                "Underworld",
-                "Dungeon",
-                "Jungle",
-                "Random"
-            };
         }
 
         public static void Unload()
         {
-            CircleNames = null;
             CircleTextures = null;
         }
 
@@ -129,10 +121,25 @@ namespace CalamityMod.UI
                     SoundEngine.PlaySound(SoundID.MenuTick);
             }
 
-            string text = "Select";
-            if (selectedCircle != -1)
+            // Default to "Select"
+            string text = Language.GetTextValue("LegacyMisc.53");
+
+            switch (selectedCircle)
             {
-                text = CircleNames[selectedCircle];
+                case 0:
+                    text = Language.GetTextValue("Bestiary_Biomes.TheUnderworld");
+                    break;
+                case 1:
+                    text = Language.GetTextValue("Bestiary_Biomes.TheDungeon");
+                    break;
+                case 2:
+                    text = Language.GetTextValue("Bestiary_Biomes.Jungle");
+                    break;
+                case 3: // Random
+                    text = Language.GetTextValue("LegacyMenu.27");
+                    break;
+                default:
+                    break;
             }
 
             Vector2 size = FontAssets.MouseText.Value.MeasureString(text);

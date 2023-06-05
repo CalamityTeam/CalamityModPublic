@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Cooldowns
@@ -12,7 +13,7 @@ namespace CalamityMod.Cooldowns
     {
         public static new string ID => "PlagueBlackout";
         public override bool ShouldDisplay => instance.timeLeft <= 1500;
-        public override string DisplayName => "Plague Blackout Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/PlagueBlackout";
         public override Color OutlineColor => new Color(174, 237, 122);
         public override Color CooldownStartColor => Color.DarkSlateGray;
