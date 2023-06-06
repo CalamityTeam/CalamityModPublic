@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Cooldowns
@@ -8,7 +9,7 @@ namespace CalamityMod.Cooldowns
     {
         public static new string ID => "UniverseSplitter";
         public override bool ShouldDisplay => true;
-        public override string DisplayName => "Universe Splitter Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/UniverseSplitter";
         public override Color OutlineColor => rainbowMode;
         public override Color CooldownStartColor => rainbowMode;

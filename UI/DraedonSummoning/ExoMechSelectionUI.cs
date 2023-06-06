@@ -61,20 +61,20 @@ namespace CalamityMod.UI.DraedonSummoning
                 case ExoMech.Destroyer:
                     iconScale = DestroyerIconScale;
                     iconMechTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/HeadIcon_THanos").Value;
-                    description = "Thanatos, a serpentine terror with impervious armor and innumerable laser turrets.";
+                    description = CalamityUtils.GetTextValue("UI.ThanatosIcon");
                     hoverSound = ThanatosHoverSound;
                     break;
                 case ExoMech.Prime:
                     iconScale = PrimeIconScale;
                     iconMechTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/HeadIcon_Ares").Value;
-                    description = "Ares, a heavyweight, diabolical monstrosity with four Exo superweapons.";
+                    description = CalamityUtils.GetTextValue("UI.AresIcon");
                     hoverSound = AresHoverSound;
                     break;
                 default:
                 case ExoMech.Twins:
                     iconScale = TwinsIconScale;
                     iconMechTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/HeadIcon_ArtemisApollo").Value;
-                    description = "Artemis and Apollo, a pair of extremely persistent automatons with unstable energy reserves.";
+                    description = CalamityUtils.GetTextValue("UI.ArtemisApolloIcon");
                     hoverSound = TwinsHoverSound;
                     break;
             }

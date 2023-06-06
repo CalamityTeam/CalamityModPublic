@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.UI;
@@ -15,10 +16,9 @@ namespace CalamityMod.Cooldowns
         public bool PowerActive => instance.timeLeft > WulfrumHat.BastionCooldown;
         public float DurabilityPercent => (instance.timeLeft - WulfrumHat.BastionCooldown) / (float)WulfrumHat.BastionTime;
 
-
         public static new string ID => "WulfrumBastion";
         public override bool ShouldDisplay => true;
-        public override string DisplayName => PowerActive ? "Power Armor Durability" : "Wulfrum Bastion Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText("UI.Cooldowns.WulfrumBastion" + (PowerActive ? "Active" : "Cooldown"));
         public override string Texture => PowerActive ? "CalamityMod/Cooldowns/WulfrumBastionActive" : "CalamityMod/Cooldowns/WulfrumBastion";
         public override string OutlineTexture => "CalamityMod/Cooldowns/WulfrumBastionOutline";
         public override string OverlayTexture => "CalamityMod/Cooldowns/WulfrumBastionOverlay";

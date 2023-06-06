@@ -102,7 +102,7 @@ namespace CalamityMod.UI.DraedonsArsenal
 				// If the mouse is on top of the meter, show the exact numeric charge.
                 string percentString = (100f * modItem.ChargeRatio).ToString("n2");
                 // Tooltip only goes to one decimal place, but the meter displays two. This doesn't help the player much at all but hey, it's a thing.
-                Main.instance.MouseText($"Current Charge: {percentString}%", 0, 0, -1, -1, -1, -1);
+                Main.instance.MouseText($"{CalamityUtils.GetTextValue("UI.Charge")}: {percentString}%", 0, 0, -1, -1, -1, -1);
 
 				Vector2 newScreenRatioPosition = screenRatioPosition;
 				// Handle mouse dragging

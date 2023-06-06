@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Terraria.Localization;
 
 namespace CalamityMod.Cooldowns
 {
@@ -6,7 +7,7 @@ namespace CalamityMod.Cooldowns
     {
         public static new string ID => "SandCloak";
         public override bool ShouldDisplay => true;
-        public override string DisplayName => "Sand Cloak Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/SandCloak";
         public override Color OutlineColor => new Color(209, 176, 114);
         public override Color CooldownStartColor => new Color(100, 64, 44);

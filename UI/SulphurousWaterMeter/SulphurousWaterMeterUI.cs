@@ -89,7 +89,7 @@ namespace CalamityMod.UI.SulphurousWaterMeter
                 if (modPlayer.SulphWaterPoisoningLevel > 0f && modPlayer.SulphWaterUIOpacity >= 0f)
                 {
                     string poisonText = (modPlayer.SulphWaterPoisoningLevel * 100f).ToString("n2");
-                    string textToDisplay = $"Sulphuric Poisoning: {poisonText}/100";
+                    string textToDisplay = $"{CalamityUtils.GetTextValue("UI.SulphurousWater")}: {poisonText}/100";
                     Main.instance.MouseText(textToDisplay, 0, 0, -1, -1, -1, -1);
                     modPlayer.SulphWaterUIOpacity = MathHelper.Lerp(modPlayer.SulphWaterUIOpacity, 0.25f, 0.035f);
                 }

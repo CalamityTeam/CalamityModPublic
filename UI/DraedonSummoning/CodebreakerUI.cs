@@ -409,7 +409,7 @@ namespace CalamityMod.UI.DraedonSummoning
         public static void DisplayCostText(Vector2 drawPosition, int totalCellsCost)
         {
             // Display the cost text.
-            string text = "Cost: ";
+            string text = CalamityUtils.GetTextValue("UI.Cost");
             drawPosition.X -= GeneralScale * 30f;
             Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, text, drawPosition.X, drawPosition.Y + GeneralScale * 20f, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, GeneralScale);
 
@@ -507,7 +507,7 @@ namespace CalamityMod.UI.DraedonSummoning
             Vector2 scale = new Vector2(1f, 0.3f) * GeneralScale;
             Main.spriteBatch.Draw(textPanelTexture, drawPosition, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, scale, 0, 0);
 
-            string confirmationText = "Are you sure?";
+            string confirmationText = CalamityUtils.GetTextValue("UI.ConfirmationText");
             Vector2 confirmationTextPosition = drawPosition - FontAssets.MouseText.Value.MeasureString(confirmationText) * GeneralScale * 0.5f + Vector2.UnitY * GeneralScale * 4f;
             ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, confirmationText, confirmationTextPosition, Color.Red, 0f, Vector2.Zero, Vector2.One * GeneralScale);
         }
@@ -616,11 +616,12 @@ namespace CalamityMod.UI.DraedonSummoning
 
             // And display a text indicator that describes the function of the button.
             // The color of the text cycles through the exo mech crystal palette.
-            string contactText = "Contact";
+            string contactTextKey = "Contact";
             if (DownedBossSystem.downedExoMechs)
-                contactText = "Summon";
+                contactTextKey = "Summon";
             if (codebreakerTileEntity.ContainsBloodSample)
-                contactText = "Evoke";
+                contactTextKey = "Evoke";
+            string contactText = CalamityUtils.GetTextValue("UI." + contactTextKey);
 
             Color contactTextColor = CalamityUtils.MulticolorLerp((float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.7f) * 0.5f + 0.5f, CalamityUtils.ExoPalette);
 
@@ -656,7 +657,7 @@ namespace CalamityMod.UI.DraedonSummoning
 
             // And display a text indicator that describes the function of the button.
             // The color of the text is the same as Draedon's talk color.
-            string communicateText = "Communicate";
+            string communicateText = CalamityUtils.GetTextValue("UI.Communicate");
 
             // Center the draw position.
             drawPosition.X -= FontAssets.MouseText.Value.MeasureString(communicateText).X * GeneralScale * 0.5f;
@@ -666,7 +667,7 @@ namespace CalamityMod.UI.DraedonSummoning
 
         public static void DisplayNotStrongEnoughErrorText(Vector2 drawPosition)
         {
-            string text = "Encryption unsolveable: Upgrades required.";
+            string text = CalamityUtils.GetTextValue("UI.UpgradesRequired");
             Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, text, drawPosition.X, drawPosition.Y, Color.IndianRed * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, GeneralScale);
         }
     }

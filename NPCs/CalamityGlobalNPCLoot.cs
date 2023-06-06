@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Armor.OmegaBlue;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -16,6 +15,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.NormalNPCs;
@@ -1170,8 +1170,9 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.WallofFleshMasterTrophy);
                     rev.Add(ItemID.WallOfFleshGoatMountItem, 4);
 
-                    // GFB Amalgam drop
-                    GFB.Add(ModContent.ItemType<TheAmalgam>());
+                    // GFB Eye of Magnus and Flesh Wall drops
+                    GFB.Add(ModContent.ItemType<EyeofMagnus>());
+                    GFB.Add(ItemID.FleshBlockWall);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<LoreUnderworld>(), desc: DropHelper.FirstKillText);
@@ -1630,10 +1631,8 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.MoonLordMasterTrophy);
                     rev.Add(ItemID.MoonLordPetItem, 4);
 
-                    // GFB Omega Blue Armor drop
-                    GFB.Add(ModContent.ItemType<OmegaBlueHelmet>());
-                    GFB.Add(ModContent.ItemType<OmegaBlueChestplate>());
-                    GFB.Add(ModContent.ItemType<OmegaBlueTentacles>());
+                    // GFB Calamari's Lament drop
+                    GFB.Add(ModContent.ItemType<CalamarisLament>());
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedMoonlord, ModContent.ItemType<LoreRequiem>(), desc: DropHelper.FirstKillText);

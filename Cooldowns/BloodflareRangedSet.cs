@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.Audio;
+using Terraria.Localization;
 
 namespace CalamityMod.Cooldowns
 {
@@ -7,7 +8,7 @@ namespace CalamityMod.Cooldowns
     {
         public static new string ID => "BloodflareRangedSet";
         public override bool ShouldDisplay => true;
-        public override string DisplayName => "Bloodflare Soul Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/BloodflareRangedSet";
         public override Color OutlineColor => new Color(255, 205, 219);
         public override Color CooldownStartColor => new Color(216, 60, 90);

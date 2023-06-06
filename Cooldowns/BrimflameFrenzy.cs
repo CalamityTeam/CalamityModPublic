@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Cooldowns
@@ -10,7 +11,7 @@ namespace CalamityMod.Cooldowns
     {
         public static new string ID => "BrimflameFrenzy";
         public override bool ShouldDisplay => true;
-        public override string DisplayName => "Brimflame Frenzy Cooldown";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/BrimflameFrenzy";
         public override Color OutlineColor => new Color(211, 124, 93);
         public override Color CooldownStartColor => Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - instance.Completion);

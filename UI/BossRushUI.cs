@@ -31,7 +31,7 @@ namespace CalamityMod.UI
                 return invasionBasedCompletion + bossBasedCompletion / BossRushEvent.Bosses.Count;
             }
         }
-        public override string InvasionName => "Boss Rush";
+        public override string InvasionName => CalamityUtils.GetTextValue("Events.BossRush");
         public override Color InvasionBarColor => Color.DarkSlateBlue;
         public override Texture2D IconTexture => ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/BossRushIcon").Value;
 

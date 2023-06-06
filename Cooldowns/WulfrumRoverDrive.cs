@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.Localization;
 using static CalamityMod.CalamityUtils;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Items.Accessories;
@@ -21,7 +22,7 @@ namespace CalamityMod.Cooldowns
         public static new string ID => "WulfrumRoverDriveDurability";
         public override bool CanTickDown => !instance.player.GetModPlayer<RoverDrivePlayer>().RoverDriveOn || instance.timeLeft <= 0;
         public override bool ShouldDisplay => instance.player.GetModPlayer<RoverDrivePlayer>().RoverDriveOn;
-        public override string DisplayName => "Protective Matrix Durability";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/WulfrumRoverDriveActive";
         public override string OutlineTexture => "CalamityMod/Cooldowns/WulfrumRoverDriveOutline";
         public override string OverlayTexture => "CalamityMod/Cooldowns/WulfrumRoverDriveOverlay";
@@ -79,7 +80,7 @@ namespace CalamityMod.Cooldowns
 
         public static new string ID => "WulfrumRoverDriveRecharge";
         public override bool ShouldDisplay => true;
-        public override string DisplayName => "Protective Matrix Recharge";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/WulfrumRoverDrive";
         public override bool SavedWithPlayer => false;
         public override bool PersistsThroughDeath => false;

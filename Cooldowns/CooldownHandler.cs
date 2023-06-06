@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Localization;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
@@ -54,7 +55,7 @@ namespace CalamityMod.Cooldowns
         /// <summary>
         /// The name of the cooldown instance, appears when the player hovers over the indicator
         /// </summary>
-        public virtual string DisplayName => "";
+        public virtual LocalizedText DisplayName => LocalizedText.Empty;
 
         /// <summary>
         /// Whether or not this cooldown instance should appear in the cooldown rack UI.

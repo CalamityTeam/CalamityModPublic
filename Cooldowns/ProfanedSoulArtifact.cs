@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Terraria.Localization;
 
 namespace CalamityMod.Cooldowns
 {
@@ -6,7 +7,7 @@ namespace CalamityMod.Cooldowns
     {
         public static new string ID => "ProfanedSoulArtifact";
         public override bool ShouldDisplay => true;
-        public override string DisplayName => "Profaned Soul Artifact Burnout";
+        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/ProfanedSoulArtifact";
         public override Color OutlineColor => new Color(255, 191, 73);
         public override Color CooldownStartColor => new Color(181, 136, 177);

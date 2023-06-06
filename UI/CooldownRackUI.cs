@@ -68,7 +68,7 @@ namespace CalamityMod.UI
 
                 if (iconRectangle.Intersects(mouse))
                 {
-                    mouseHover = handler.DisplayName;
+                    mouseHover = handler.DisplayName.ToString();
                     iconOpacity = MathHelper.Clamp((float)Math.Sin(Main.GlobalTimeWrappedHourly % MathHelper.Pi) * 2f, 0, 1) * 0.1f + 0.9f;
                 }
 

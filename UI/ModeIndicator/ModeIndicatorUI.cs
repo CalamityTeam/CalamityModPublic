@@ -91,8 +91,8 @@ namespace CalamityMod.UI.ModeIndicator
 
             Texture2D indicatorTexture = GetCurrentDifficulty.Texture.Value;
 
-            GetDifficultyStatus(out string difficultyText);
-            GetLockStatus(out string lockText, out bool locked);
+            GetDifficultyStatus(out LocalizedText difficultyText);
+            GetLockStatus(out LocalizedText lockText, out bool locked);
 
             //Grows the icon when hovering it.
             if (MouseScreenArea.Intersects(MainClickArea))
@@ -144,7 +144,7 @@ namespace CalamityMod.UI.ModeIndicator
                 spriteBatch.Draw(outlineTexture, DrawCenter, null, Color.White * opacity, 0f, outlineTexture.Size() * 0.5f, MainIconScale, SpriteEffects.None, 0f);
             }
 
-            string extraDescText = "";
+            string extraDescText = string.Empty;
             if (menuOpenTransitionTime > 0 || menuOpen)
                 ManageHexIcons(spriteBatch, out extraDescText);
 
@@ -154,13 +154,13 @@ namespace CalamityMod.UI.ModeIndicator
             if (locked)
                 DrawLock(spriteBatch);
 
-            if (difficultyText != "" || extraDescText != "")
+            if (difficultyText != LocalizedText.Empty || extraDescText != string.Empty)
             {
-                string textToDisplay = difficultyText;
-                if (difficultyText != "")
+                string textToDisplay = difficultyText.ToString();
+                if (difficultyText != LocalizedText.Empty)
                 {
-                    if (lockText != "")
-                        textToDisplay += "\n" + lockText;
+                    if (lockText != LocalizedText.Empty)
+                        textToDisplay += "\n" + lockText.ToString();
                 }
 
                 else
@@ -197,49 +197,46 @@ namespace CalamityMod.UI.ModeIndicator
                 Main.LocalPlayer.mouseInterface = true;
                 Main.instance.MouseText(textToDisplay);
             }
-
-           
-
-
             TickVariables();
         }
 
-        public static void GetDifficultyStatus(out string text)
+        public static void GetDifficultyStatus(out LocalizedText text)
         {
-            text = "";
+            text = LocalizedText.Empty;
             if (MouseScreenArea.Intersects(MainClickArea))
             {
                 //Display the first non-none difficulty by default
-                string modeToDisplay = Difficulties[1].Name;
+                string modeToDisplay = Difficulties[1].Name.ToString();
                 bool anyActiveMode = false;
 
                 for (int i = 1; i < Difficulties.Length; i++)
                 {
                     if (GetCurrentDifficulty == Difficulties[i])
                     {
-                        modeToDisplay = Difficulties[i].Name;
+                        modeToDisplay = Difficulties[i].Name.ToString();
                         anyActiveMode = true;
                     }
                 }
-
-                text = $"{modeToDisplay} Mode is {(anyActiveMode ? "active" : "not active")}.";
+                string modeStr = CalamityUtils.GetTextValue("UI.ModeAppend");
+                string activeText = CalamityUtils.GetTextValue("UI." + (anyActiveMode ? "Active" : "NotActive"));
+                text = CalamityUtils.GetText("UI.DifficultyStatusText").WithFormatArgs(modeToDisplay + modeStr, activeText.ToLower());
             }
         }
 
         //Checks if the mode change is available or not, and jiggles the lock icon if the player clicks on it.
-        public static void GetLockStatus(out string text, out bool locked)
+        public static void GetLockStatus(out LocalizedText text, out bool locked)
         {
             locked = false;
-            text = "[c/919191:Click to select a difficulty mode]";
+            text = CalamityUtils.GetText("UI.DifficultyClickText");
             if (!Main.expertMode && GetCurrentDifficulty == Difficulties[0])
             {
                 locked = true;
-                text = "[c/919191:Higher difficulty modes can only be toggled in Expert Mode or above]";
+                text = CalamityUtils.GetText("UI.ExpertDifficultyLock");
             }
             else if (CalamityPlayer.areThereAnyDamnBosses || BossRushEvent.BossRushActive)
             {
                 locked = true;
-                text = "[c/919191:"+ Language.GetTextValue("Mods.CalamityMod.UI.ChangingTheRules") + "]";
+                text = CalamityUtils.GetText("UI.ChangingTheRules");
             }
 
             //Shakes the lock if it automatically changed, because a boss was summoned
@@ -311,7 +308,7 @@ namespace CalamityMod.UI.ModeIndicator
 
             Texture2D outlineTexture = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/ModeIndicatorOutline").Value;
 
-            text = "";
+            text = string.Empty;
             bool modeHovered = false;
 
             for (int i = 0; i < tiers; i++)
@@ -373,24 +370,24 @@ namespace CalamityMod.UI.ModeIndicator
         #region Difficulty toggling
         public static string GetDifficultyText(DifficultyMode mode)
         {
-            string preface = "";
+            LocalizedText preface = mode.Name;
             if (mode == GetCurrentDifficulty)
-                preface = "Currently Selected : ";
+                preface = CalamityUtils.GetText("UI.CurrentlySelected").WithFormatArgs(mode.Name.ToString());
 
-            string text = mode.Name + "\n" + mode.ShortDescription;
+            string text = "\n" + mode.ShortDescription.ToString();
 
             //Not scuffed anymore
-            if (mode.ExpandedDescription != "")
+            if (mode.ExpandedDescription != LocalizedText.Empty)
             {
                 //Show the description either if the player is holding shift.
                 if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
-                    text += "\n" + mode.ExpandedDescription;
+                    text += "\n" + mode.ExpandedDescription.ToString();
 
                 else
-                    text += "\n[c/737373:Hold the 'Shift' key for more information]";
+                    text += "\n" + CalamityUtils.GetTextValue("UI.DifficultyShiftText");
             }
 
-            return preface + text;
+            return preface.ToString() + text;
         }
 
         public static void SwitchToDifficulty(DifficultyMode mode)
@@ -411,7 +408,7 @@ namespace CalamityMod.UI.ModeIndicator
                 {
                     if (Difficulties[i].Enabled)
                     {
-                        if (Difficulties[i].DeactivationTextKey != "")
+                        if (Difficulties[i].DeactivationTextKey != string.Empty)
                             DisplayLocalizedText(Difficulties[i].DeactivationTextKey, Difficulties[i].ChatTextColor);
                         Difficulties[i].Enabled = false;
                     }
@@ -441,7 +438,7 @@ namespace CalamityMod.UI.ModeIndicator
                 }
             }
 
-            if (mode.ActivationTextKey != "")
+            if (mode.ActivationTextKey != string.Empty)
                 DisplayLocalizedText(mode.ActivationTextKey, mode.ChatTextColor);
 
             mode.Enabled = true;

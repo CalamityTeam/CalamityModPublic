@@ -1,15 +1,12 @@
-AcidRainEvent: {
-	AcidRainStart: A toxic downpour falls over the wasteland seas!
-	AcidRainEnd: The sulphuric skies begin to clear...
-}
-
-BossRushEvent: {
-	BossRushStartText: Ah, another contender. Very well, may the ritual commence!
-	BossRushTierOneEndText: Oh, you're still alive? Unexpected, but don't get complacent just yet.
-	BossRushTierTwoEndText: Persistent, aren't you? Perhaps you have some hope of prosperity, unlike past challengers.
-	BossRushTierThreeEndText: Your perseverance is truly a trait to behold. You've come further than even the demigods in a short time.
-	BossRushTierThreeEndText2: May your skills remain sharp for the last challenges.
-	BossRushTierFourEndText: So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods.
-	BossRushTierFourEndText2: Go forth and conquer until the ritual's end!
-	BossRushTierFiveEndText: Hmm? What, you expected a reward beyond this mere pebble? Patience, the true reward will come apparent in time...
-}
+AcidRain: Acid Rain
+AcidRainStart: A toxic downpour falls over the wasteland seas!
+AcidRainEnd: The sulphuric skies begin to clear...
+BossRush: Boss Rush
+BossRushStartText: Ah, another contender. Very well, may the ritual commence!
+BossRushTierOneEndText: Oh, you're still alive? Unexpected, but don't get complacent just yet.
+BossRushTierTwoEndText: Persistent, aren't you? Perhaps you have some hope of prosperity, unlike past challengers.
+BossRushTierThreeEndText: Your perseverance is truly a trait to behold. You've come further than even the demigods in a short time.
+BossRushTierThreeEndText2: May your skills remain sharp for the last challenges.
+BossRushTierFourEndText: So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods.
+BossRushTierFourEndText2: Go forth and conquer until the ritual's end!
+BossRushTierFiveEndText: Hmm? What, you expected a reward beyond this mere pebble? Patience, the true reward will come apparent in time...

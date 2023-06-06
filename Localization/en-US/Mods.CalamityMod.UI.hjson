@@ -1,16 +1,131 @@
-DefenseDamage: Defense Damage
-RevengeText: Revengeance is active.
-RevengeText2: Revengeance is not active.
-DeathText: Death is active; enjoy the fun.
-DeathText2: Death is not active; not fun enough for you?
-ArmageddonText: Bosses will now kill you instantly.
-ArmageddonText2: Bosses will no longer kill you instantly.
-ArmageddonDodgeDisable: All of your dodges are now disabled.
-ArmageddonDodgeEnable: All of your dodges are now re-enabled.
-ChangingTheRules: You cannot change the rules now!
 SmallWorldWarning: "[c/ff00000:SMALL WORLDS NOT SUPPORTED BY CALAMITY]"
+// Main UI Elements
+Adrenaline: Adrenaline
+Nanomachines: Nanomachines
+Rage: Rage
+Charge: Current Charge
+DefenseDamage: Defense Damage
+SulphurousWater: Sulphuric Poisoning
+Stealth: Stealth
+StealthShiftText: Hold SHIFT for more information on Rogue stealth
+StealthInfoText:
+	'''
+	Rogue stealth builds while not attacking and slower while moving
+	Once you have built max stealth, you will be able to perform a Stealth Strike
+	Rogue stealth only reduces when you attack, it does not reduce while moving
+	The higher your rogue stealth the higher your rogue damage and crit
+	Having more stealth regeneration slightly decreases the damage bonus from stealth
+	This is offset by you being able to use stealth strikes far more often
+	'''
+// Difficulty UI
+DifficultyStatusText: "{0} is {1}."
+ModeAppend: " Mode"
+Active: Active
+NotActive: Not active
+DifficultyShiftText: "[c/737373:Hold the 'Shift' key for more information]"
+CurrentlySelected: Currently Selected : {0}
+DifficultyClickText: "[c/919191:Click to select a difficulty mode]"
+ExpertDifficultyLock: "[c/919191:Higher difficulty modes can only be toggled in Expert Mode or above]"
+ChangingTheRules: "[c/919191:You cannot change the rules now!]"
+NoDifficulty: None
+NoDifficultyInfo: The classic Terraria experience, with no Calamity difficulty changes
+Revengeance: Revengeance
+RevengeanceShortInfo: "[c/F54254:The intended Calamity experience!]"
+RevengeanceExpandedInfo:
+	'''
+	[c/B55362:Enables the] [c/85FFE9:Adrenaline] [c/B55362:mechanic. You gain Adrenaline while fighting bosses. Getting hit drops Adrenaline back to 0]
+	[c/B55362:    When Adrenaline is maxed, press] {0} [c/B55362:for a large damage boost]
+	[c/B55362:Enables the] [c/FF8B54:Rage] [c/B55362:mechanic. You gain Rage when in proximity of enemies or by using certain items]
+	[c/B55362:    When Rage is maxed, press] {1} [c/B55362:for a temporary damage boost]
+	[c/B55362:Most foes have higher stats and more aggressive AIs]
+	[c/B55362:Bosses have new AI mechanics, new phases, and will drop Master Mode loot. Enemies spawn more frequently]
+	[c/F7342A:This mode is more difficult than Expert. Be sure to prepare for the challenge]
+	'''
+RevengeanceActivate: Revengeance is active.
+RevengeanceDeactivate: Revengeance is not active.
+Death: Death
+DeathShortInfo: "[c/C82DF7:A tougher challenge for the more experienced, or for those that want a step up from Revengeance Mode]"
+DeathExpandedInfo:
+	'''
+	[c/B834E0:All foes will pose a much larger threat with highly aggressive AIs and increased damage]
+	[c/B834E0:Bosses have substantially harder AI changes. Enemies are even more numerous and can easily overwhelm you]
+	[c/B834E0:Debuffs are especially lethal and the Abyss is significantly more dangerous]
+	[c/E945FF:Vigilance and tenacity are crucial to survival]
+	'''
+DeathActivate: Death is active; enjoy the fun.
+DeathDeactivate: Death is not active; not fun enough for you?
 
-/* Enchantments */
+// Cooldowns
+Cooldowns: {
+	AquaticHeartIceShield: Ice Shield Cooldown
+	BloodflareFrenzy: Blood Frenzy Cooldown
+	BloodflareRangedSet: Bloodflare Soul Cooldown
+	BrimflameFrenzy: Brimflame Frenzy Cooldown
+	ChaosState: Teleportation Cooldown
+	CounterScarf: Scarf Cooldown
+	DivineBless: Divine Bless Cooldown
+	DivingPlatesBreaking: Abyssal Diving Suit Plates Durability
+	DivingPlatesBroken: Abyssal Diving Suit Broken Plates
+	EvasionScarf: Scarf Cooldown
+	FleshTotem: Contact Damage Halving Cooldown
+	GlobalDodge: Dodge Cooldown
+	GodSlayerDash: God Slayer Dash Cooldown
+	InkBomb: Ink Bomb Cooldown
+	LifeSteal: Life Steal Cooldown
+	LionHeartShield: Energy Shell Cooldown
+	NebulousCore: Nebulous Core Cooldown
+	OmegaBlueActive: Abyssal Madness
+	OmegaBlueCooldown: Abyssal Madness Cooldown
+	PermafrostConcoction: Permafrost's Concoction Cooldown
+	PlagueBlackout: Plague Blackout Cooldown
+	PotionSickness: Healing Cooldown
+	PrismaticLaser: Prismatic Laser Barrage Cooldown
+	ProfanedSoulArtifact: Profaned Soul Artifact Burnout
+	RelicOfResilience: Relic of Resilience Cooldown
+	RogueBooster: Rogue Booster Cooldown
+	SandCloak: Sand Cloak Cooldown
+	SandsmokeBombActive: Sandsmoke Bomb Duration
+	SandsmokeBombCooldown: Sandsmoke Bomb Cooldown
+	SilvaRevive: Silva Revive Cooldown
+	TarragonCloak: Tarragon Cloak Cooldown
+	TarragonImmunity: Tarragon Immunity Cooldown
+	UniverseSplitter: Universe Splitter Cooldown
+	WulfrumBastionActive: Power Armor Durability
+	WulfrumBastionCooldown: Wulfrum Bastion Cooldown
+	WulfrumRoverDriveDurability: Protective Matrix Durability
+	WulfrumRoverDriveRecharge: Protective Matrix Recharge
+}
+
+// Draedon UI
+Contact: Contact
+Summon: Summon
+Evoke: Evoke
+Communicate: Communicate
+Cost: "Cost: "
+ConfirmationText: Are you sure?
+UpgradesRequired: Encryption unsolveable: Upgrades required.
+ThanatosIcon: Thanatos, a serpentine terror with impervious armor and innumerable laser turrets.
+AresIcon: Ares, a heavyweight, diabolical monstrosity with four Exo superweapons.
+ArtemisApolloIcon: Artemis and Apollo, a pair of extremely persistent automatons with unstable energy reserves.
+
+// Hologram Texts
+Hologram: {
+	Text1: To any personnel engaged in the laboratories. Please wear your steel engraved ID badge at all times. It is the easiest method to discern your body if any accidents do occur.
+	Text2: To experiment is to fail. To fail is to learn. To learn is to advance.
+	Text3: Apparent danger while researching serves only to enhance the research experience.
+	Text4: Laser-type weapon prototypes are incredibly lethal and are not to be used within presentation halls.
+	Text5: High-energy plasma emissions have adverse effects on both flesh and metal. Do not attempt to handle vented plasma.
+	Text6: Electric shocks from military equipment are intended to be fatal. If you survive such a shock, that is a clear indicator that the device is not functioning properly. Please report any such cases.
+	Text7: All employees are hereby notified that they will be held accountable for any collateral damage caused by Gauss weapon fire, even during sanctioned testing exercises.
+	Text8: Security Field Emitters will vaporize all unauthorized equipment and personnel. Please leave personal effects in the designated lockers off-site. This also means: Do not bring any family members who are not enlisted as personnel.
+	Text9: If one does manage to breach restricted testing facilities, do at least record any unexpected burns, lacerations, bruising, fractur... ...trauma, shocks and otherwise. Thank you.
+	Text10: The power grid has been... ...eavily compromised. Abort research and proceed to the emergency exits located at... ...and egress with haste.
+	Text11: Notify the Security Department of any aggressive local fauna immediately
+	PostCultistText: Sensors have detected a significant breach in the spacetime continuum.
+	EasterEgg: Please help. I'm stuck in this hologram machine.
+}
+
+// Enchantments
 Exhumed: {
 	DisplayName: Exhumed
 	Description: Transforms this item into something significantly stronger.
@@ -93,7 +208,7 @@ Lecherous: {
 }
 
 Disenchant: Disenchant
-/* Worldgen Tasks */
+// Worldgen Tasks
 EvilIslandCorrupt: Adding a putrid floating island
 EvilIslandCrimson: Adding a grotesque floating island
 BetterJungleTemple: Building a bigger jungle temple
