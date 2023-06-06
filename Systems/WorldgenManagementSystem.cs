@@ -364,7 +364,7 @@ namespace CalamityMod.Systems
                         for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                         {
                             // Cavern Dead Man's Chests
-                            if (chest.y > GenVars.lavaLine)
+                            if (chest.y > GenVars.lavaLine || (chest.y <= GenVars.lavaLine && Main.remixWorld))
                             {
                                 if (chest.item[inventoryIndex].type == ItemID.Dynamite)
                                     chest.item[inventoryIndex].SetDefaults(ItemID.StickyDynamite);
