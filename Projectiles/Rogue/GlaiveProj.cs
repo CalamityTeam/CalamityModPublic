@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class GlaiveProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Glaive";
 
         private static int Lifetime = 180;

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FinalDawnFireball : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public const float DesiredSpeed = 30;
         public const float InterpolationTime = 10;
         public override void SetStaticDefaults()

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class WulfrumEnergyBurst : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public ref float OriginalRotation => ref Projectile.ai[0];
         public NPC Target
         {

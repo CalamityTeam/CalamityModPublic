@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class GhastlyBlast : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const float DriftVelocity = 10f;
         private const float FramesBeforeSlowing = 8f;
         private const float MaximumWaitFrames = 360f;

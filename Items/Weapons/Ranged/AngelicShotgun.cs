@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AngelicShotgun : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         private static int BaseDamage = 96;
         private static float BulletSpeed = 12f;
 

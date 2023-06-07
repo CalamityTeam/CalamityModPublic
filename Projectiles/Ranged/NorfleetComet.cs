@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class NorfleetComet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Melee/GalacticaComet";
 
         private int noTileHitCounter = 120;

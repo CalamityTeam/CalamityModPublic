@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class WulfrumManaDrain : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private SlotId SuccSoundSlot;
         public Player Owner => Main.player[Projectile.owner];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

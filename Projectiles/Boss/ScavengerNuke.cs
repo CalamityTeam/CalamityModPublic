@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ScavengerNuke : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public static readonly SoundStyle ExplosionSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerMissileExplosion");
         public override void SetStaticDefaults()
         {

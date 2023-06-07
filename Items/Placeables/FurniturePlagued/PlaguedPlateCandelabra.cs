@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
     public class PlaguedPlateCandelabra : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 8;

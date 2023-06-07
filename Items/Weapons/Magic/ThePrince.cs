@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class ThePrince : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public const int FlameSplitCount = 6;
         public override void SetStaticDefaults()
         {

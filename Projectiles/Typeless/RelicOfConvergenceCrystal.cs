@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class RelicOfConvergenceCrystal : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public const int SoundInterval = 15;
         public const int TotalCrystalsToDraw = 3;
         public const int CrystalsDrawTime = 90;

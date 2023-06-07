@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Dyes.HairDye
 {
     public class AdrenalineHairDye : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Dyes";
+        public new string LocalizationCategory => "Items.Dyes";
         public override void SetDefaults()
         {
             Item.width = 20;

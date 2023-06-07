@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SolarElementalBeam : BaseLaserbeamProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override float MaxScale => 1f;
         public override float MaxLaserLength => 1000f;
         public override float Lifetime => 30f;

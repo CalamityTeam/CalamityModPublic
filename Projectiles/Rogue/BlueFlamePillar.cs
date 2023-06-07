@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BlueFlamePillar : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public int frameX = 0;
         public int frameY = 0;
         public int currentFrame => frameY + frameX * 6;

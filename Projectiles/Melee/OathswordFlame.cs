@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class OathswordFlame : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override void SetDefaults()
         {
             Projectile.width = 20;

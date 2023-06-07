@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
     [LegacyName("AncientWorkbench")]
     public class AncientWorkBench : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ancient Work Bench");

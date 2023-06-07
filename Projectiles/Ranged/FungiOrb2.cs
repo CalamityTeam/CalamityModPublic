@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FungiOrb2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Ranged/FungiOrb";
 
         public override void SetDefaults()

@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GrovetendersTouch : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchBlade";
         private bool initialized = false;
         public Player Owner => Main.player[Projectile.owner];

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class InkBombHostile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Enemy";
+        public new string LocalizationCategory => "Projectiles.Enemy";
         public override void SetDefaults()
         {
             Projectile.width = 30;

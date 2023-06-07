@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepSeaDumbbell3 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/DeepSeaDumbbell";
 
         public override void SetDefaults()

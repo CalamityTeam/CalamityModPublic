@@ -12,7 +12,7 @@ namespace CalamityMod.Items
 {
     public class NormalityRelocator : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Misc";
+        public new string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));

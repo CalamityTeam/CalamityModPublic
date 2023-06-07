@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneWave : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         private int x;
 
         public override void SetStaticDefaults()

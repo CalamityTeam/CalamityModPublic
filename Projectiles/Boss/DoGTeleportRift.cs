@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DoGTeleportRift : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/StarProj";
 
         public override void SetDefaults()

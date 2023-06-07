@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
     [LegacyName("SCalAltarItem")]
     public class AltarOfTheAccursedItem : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.createTile = ModContent.TileType<SCalAltarLarge>();

@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class GammaSlimeBanner : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<IrradiatedSlimeBanner>();

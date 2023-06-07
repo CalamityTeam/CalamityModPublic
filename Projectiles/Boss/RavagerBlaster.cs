@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class RavagerBlaster : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/NPCs/Ravager/RavagerHead";
         public static readonly SoundStyle SANSCharge = new("CalamityMod/Sounds/Custom/Ravager/GasterBlasterCharge");
         public static readonly SoundStyle SANSFire = new("CalamityMod/Sounds/Custom/Ravager/GasterBlasterFire");

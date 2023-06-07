@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class RainbowRocket : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public enum PartyCannonExplosionType
         {
             Pink = 0,

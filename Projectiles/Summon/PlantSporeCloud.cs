@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PlantSporeCloud : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         private int counter = 0;
 
         public override void SetStaticDefaults()

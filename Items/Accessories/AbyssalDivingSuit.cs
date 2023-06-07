@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class AbyssalDivingSuit : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void Load()
         {
             // All code below runs only if we're not loading on a server

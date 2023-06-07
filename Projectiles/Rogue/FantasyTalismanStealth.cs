@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FantasyTalismanStealth : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Rogue/FantasyTalismanProj";
 
         public override void SetStaticDefaults()

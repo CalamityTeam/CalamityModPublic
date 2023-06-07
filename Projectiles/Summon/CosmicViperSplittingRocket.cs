@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CosmicViperSplittingRocket : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionShot[Projectile.type] = true;

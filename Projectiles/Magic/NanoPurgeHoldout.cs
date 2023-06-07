@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class NanoPurgeHoldout : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const int FramesPerFireRateIncrease = 36;
         private static int[] LaserOffsetByAnimationFrame = { 4, 3, 0, 3 };
 

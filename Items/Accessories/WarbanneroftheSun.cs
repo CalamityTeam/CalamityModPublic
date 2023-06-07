@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("SamuraiBadge")]
     public class WarbanneroftheSun : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         internal const float MaxBonus = 0.2f;
         internal const float MaxDistance = 480f;
 

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PlantTentacle : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         private int counter = 0;
         private float desiredDistance = 150f;
 

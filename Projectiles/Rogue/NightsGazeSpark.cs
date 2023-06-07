@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class NightsGazeSpark : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public static int lifetime = 150;
 
         public override void SetDefaults()

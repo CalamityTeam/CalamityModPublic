@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("GalaxySmasherMelee", "GalaxySmasherRogue")]
     public class GalaxySmasher : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public static int BaseDamage = 300;
         public static float Speed = 18f;
 

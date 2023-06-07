@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SulphuricBlast : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public const int TotalSecondsToStick = 8;
         public override void SetStaticDefaults()
         {

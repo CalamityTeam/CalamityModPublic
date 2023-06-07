@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Dyes
 {
     public abstract class BaseDye : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Dyes";
+        public new string LocalizationCategory => "Items.Dyes";
         public abstract ArmorShaderData ShaderDataToBind
         {
             get;

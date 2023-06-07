@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Materials
     [LegacyName("WulfrumShard")]
     public class WulfrumMetalScrap : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Materials";
+        public new string LocalizationCategory => "Items.Materials";
         public override void Load()
         {
             Terraria.On_Item.CanFillEmptyAmmoSlot += AvoidDefaultingToAmmoSlot;

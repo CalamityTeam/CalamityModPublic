@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DevilsSunriseProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private int red;
         private const int greenAndBlue = 100;
 

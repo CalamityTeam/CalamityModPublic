@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class GiantIbanRobotOfDoom : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public int FrameX = 0;
         public int FrameY = 0;
         public int CurrentFrame

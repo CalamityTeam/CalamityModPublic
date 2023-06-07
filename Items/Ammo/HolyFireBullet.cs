@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Ammo
 {
     public class HolyFireBullet : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Ammo";
+        public new string LocalizationCategory => "Items.Ammo";
         internal const float ExplosionMultiplier = 0.33f;
 
         public override void SetStaticDefaults()

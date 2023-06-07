@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class GammaCanister : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const float Gravity = 0.2f;
         public override void SetStaticDefaults()
         {

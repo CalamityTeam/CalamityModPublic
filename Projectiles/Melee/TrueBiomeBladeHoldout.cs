@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TrueBiomeBladeHoldout : ModProjectile, ILocalizedModType //Visuals
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private Player Owner => Main.player[Projectile.owner];
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.ModItem as OmegaBiomeBlade).CanUseItem(Owner) : false;
         public bool OwnerMayChannel => Owner.itemAnimation == 0 && OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead;

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("Interfacer")]
     public class Disseminator : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 52;

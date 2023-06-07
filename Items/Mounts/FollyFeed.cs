@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Mounts
     [LegacyName("BirdSeed")]
     public class FollyFeed : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Mounts";
+        public new string LocalizationCategory => "Items.Mounts";
         public override void SetDefaults()
         {
             Item.width = 34;

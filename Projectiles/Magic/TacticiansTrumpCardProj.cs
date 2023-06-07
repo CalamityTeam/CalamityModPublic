@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class TacticiansTrumpCardProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override void SetDefaults()
         {
             Projectile.width = 20;

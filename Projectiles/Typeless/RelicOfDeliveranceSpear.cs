@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class RelicOfDeliveranceSpear : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public Vector2 IdealVelocity = -Vector2.UnitY * MinChargeSpeed;
         public const int MaxCharges = 3;
         public const float DustSpawnInterval = 3f;

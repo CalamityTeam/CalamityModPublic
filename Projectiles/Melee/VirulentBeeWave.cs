@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class VirulentBeeWave : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/VirulentWave";
 
         public override void SetStaticDefaults()

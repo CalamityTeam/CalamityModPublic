@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Critters
 {
     public class AndroombaItem : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Misc";
+        public new string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

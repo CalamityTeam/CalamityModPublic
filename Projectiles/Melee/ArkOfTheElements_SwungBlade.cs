@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ArkoftheElementsSwungBlade : ModProjectile, ILocalizedModType //"Kill la kill reference i wish"? Stop wishing, start creating!
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight";
 
         private bool initialized = false;

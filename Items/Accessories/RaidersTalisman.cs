@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class RaidersTalisman : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public const float RaiderBonus = 12f;
         public const int RaiderCooldown = 5;
         public static readonly SoundStyle StealthHitSound = new("CalamityMod/Sounds/Custom/RaidersTalismanStealthHit");

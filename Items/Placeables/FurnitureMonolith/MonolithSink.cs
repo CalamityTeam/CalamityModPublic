@@ -5,7 +5,7 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
 {
     public class MonolithSink : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Monolith Sink");

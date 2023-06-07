@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ExoLightningBolt : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         internal PrimitiveTrail LightningDrawer;
 
         public bool HasPlayedSound;

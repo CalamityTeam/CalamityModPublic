@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ExobladeProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public Player Owner => Main.player[Projectile.owner];
 
         public PrimitiveTrail SlashDrawer = null;

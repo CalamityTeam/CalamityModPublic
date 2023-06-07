@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
 	public class AquasScepterTeslaAura : ModProjectile, ILocalizedModType
 	{
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         static float TeslaAuraScale = 3f; //Changing this float will change the radius of the hitbox and scale of the sprite at the same time, making the visual match the hitbox no matter what size is chosen.
         public bool ableToHit = true; // bool that controls the state of CanDamage()
 		public override void SetStaticDefaults() {

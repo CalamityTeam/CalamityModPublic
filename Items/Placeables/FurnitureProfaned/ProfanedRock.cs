@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
     public class ProfanedRock : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 12;

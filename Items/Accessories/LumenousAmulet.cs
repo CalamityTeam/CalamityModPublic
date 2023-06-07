@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Neck)]
     public class LumenousAmulet : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 26;

@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class WavePounder : RogueWeapon, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
+        public new string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();

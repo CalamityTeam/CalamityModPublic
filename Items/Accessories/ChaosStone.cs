@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class ChaosStone : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 7));

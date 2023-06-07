@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using CalamityMod.Items.DraedonMisc;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace CalamityMod.UI.DraedonLogs
@@ -8,9 +9,7 @@ namespace CalamityMod.UI.DraedonLogs
         public override int TotalPages => 1;
         public override string GetTextByPage()
         {
-            return "I have since made progress to even greater weapons than these, but they remain creations to be proud of.\n" + 
-                "No progress can be made without a desire that comes from dissatisfaction.\n" +
-                "Addendum: The time has come. You are ready.";
+            return CalamityUtils.GetTextValueFromModItem<EncryptedSchematicIce>("Content");
         }
         public override Texture2D GetTextureByPage()
         {

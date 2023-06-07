@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
     // Thanks a lot for naming it Caustic Edge :)
     public class TrueCausticEdge : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 64;

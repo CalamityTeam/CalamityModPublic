@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class MercurialTidesBlast : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTidesShockwave";
         public Player Owner => Main.player[Projectile.owner];
         public float Timer => (60f - Projectile.timeLeft) / 100f;

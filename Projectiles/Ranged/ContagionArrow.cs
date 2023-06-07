@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ContagionArrow : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         private int addBallTimer = 10;
 
         public override void SetStaticDefaults()

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Shield)]
     public class ShieldoftheHighRuler : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public const int ShieldSlamIFrames = 12;
         public const float EoCDashVelocity = 14.5f;
         public const float TabiDashVelocity = 18.9f;

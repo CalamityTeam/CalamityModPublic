@@ -5,7 +5,7 @@ namespace CalamityMod.Projectiles.Healing
 {
     public class CactusHealOrb : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Healing";
+        public new string LocalizationCategory => "Projectiles.Healing";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

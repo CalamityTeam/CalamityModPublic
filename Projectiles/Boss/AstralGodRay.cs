@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AstralGodRay : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         private const float LaserLength = 80f;
         private const float LaserLengthChangeRate = 2f;
 

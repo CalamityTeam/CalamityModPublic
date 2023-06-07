@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
     //Developer item, dedicatee: Mishiro Usui/Amber Sienna
     public class ProfanedSoulCrystal : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         /**
          * Notes: Drops from providence if the only damage source during the fight is from typeless damage or the profaned soul and the owners of those babs do not have profaned crystal.
          * All projectiles are in ProfanedSoulCrystalProjectiles.cs in the summon projectile directory

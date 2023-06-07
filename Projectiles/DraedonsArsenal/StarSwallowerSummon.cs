@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class StarSwallowerSummon : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public bool FlyUntilNearPlayer;
         public float HopCooldown = 0f;
         public float AcidShootTimer = 0f;

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Pets
 {
     public class ChromaticOrb : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Pets";
+        public new string LocalizationCategory => "Items.Pets";
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.WispinaBottle);

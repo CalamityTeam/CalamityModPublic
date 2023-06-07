@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class DaedalusGolem : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public int AttackTimer;
         public bool UsingChargedLaserAttack;
         public const int ChargedPelletAttackTime = 30;

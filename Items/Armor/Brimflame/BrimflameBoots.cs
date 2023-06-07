@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Brimflame
     [AutoloadEquip(EquipType.Legs)]
     public class BrimflameBoots : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Hardmode";
+        public new string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.PermanentBoosters
 {
     public class CometShard : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Misc";
+        public new string LocalizationCategory => "Items.Misc";
 
         public const int ManaBoost = 50;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaBoost);

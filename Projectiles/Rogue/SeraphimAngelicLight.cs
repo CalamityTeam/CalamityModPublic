@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SeraphimAngelicLight : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public ref float Time => ref Projectile.ai[0];
 
         public override void SetStaticDefaults()

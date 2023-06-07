@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DeusMine : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         private const int MaxTimeLeft = 600;
         private const int FadeTime = 85;
 

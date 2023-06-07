@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class YharimsCrystalBeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const float PiBeamDivisor = MathHelper.Pi / YharimsCrystalPrism.NumBeams;
 
         private const float MaxDamageMultiplier = 3f;

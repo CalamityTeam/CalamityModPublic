@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Feather : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Magic/TradewindsProjectile";
 
         public override void SetDefaults()

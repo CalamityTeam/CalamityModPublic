@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class FourSeasonsGalaxia : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public Attunement mainAttunement = null;
 
         //Used for passive effects. On hit proc is never used but its just there so i can pass it as a reference in the passiveeffect function

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CrimsonSlimeGodMinion : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public float dust = 0f;
 
         public override void SetStaticDefaults()

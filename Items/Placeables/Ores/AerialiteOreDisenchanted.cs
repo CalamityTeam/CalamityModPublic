@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.Ores
 {
     public class AerialiteOreDisenchanted : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

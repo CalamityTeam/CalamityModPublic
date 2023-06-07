@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ForbiddenSunProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Melee/VolcanicFireball";
 
         public override void SetStaticDefaults()

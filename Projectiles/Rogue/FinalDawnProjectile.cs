@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FinalDawnProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public const float MaxChargeTime = 20f;
         public override void SetStaticDefaults()
         {

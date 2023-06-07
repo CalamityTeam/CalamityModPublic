@@ -9,7 +9,7 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class DraedonsLogSunkenSea : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.DraedonItems";
+        public new string LocalizationCategory => "Items.DraedonItems";
         public override void SetDefaults()
         {
             Item.width = 28;

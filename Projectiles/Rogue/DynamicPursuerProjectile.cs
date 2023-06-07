@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DynamicPursuerProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public bool ReturningToPlayer
         {
             get => Projectile.ai[0] == 1f;

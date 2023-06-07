@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class RiptideYoyo : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private const int MaxUpdates = 2;
 
         public override void SetStaticDefaults()

@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     [LegacyName("ChaoticFish")]
     public class Havocfish : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
                        Item.ResearchUnlockCount = 10;

@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Materials
 {
     public class Bloodstone : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Materials";
+        public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class RendingNeedle : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
 
         internal PrimitiveTrail TrailDrawer;
         public override void SetStaticDefaults()

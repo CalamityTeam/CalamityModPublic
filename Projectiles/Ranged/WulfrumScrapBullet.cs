@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class WulfrumScrapBullet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         internal PrimitiveTrail TrailDrawer;
 
         public override void SetStaticDefaults()

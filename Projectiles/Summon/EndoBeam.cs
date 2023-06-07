@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class EndoBeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         // For if this laser should stop firing if it hits a tile

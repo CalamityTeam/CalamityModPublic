@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ExoVortex2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public PrimitiveTrail EnergyTrail = null;
 
         public float Hue => Projectile.ai[0];

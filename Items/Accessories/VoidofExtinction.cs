@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class VoidofExtinction : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public const int FireProjectiles = 2;
         public const float FireAngleSpread = 120;
         public int FireCountdown = 0;

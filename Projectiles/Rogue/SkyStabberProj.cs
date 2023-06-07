@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SkyStabberProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SkyStabber";
 
         private static int Lifetime = 1200;

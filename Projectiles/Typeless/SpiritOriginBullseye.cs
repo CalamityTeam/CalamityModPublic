@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class SpiritOriginBullseye : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public Player Owner => Main.player[Projectile.owner];
         public NPC Target => Main.npc[(int)Projectile.ai[0]];
         public bool FadingOut

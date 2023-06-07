@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
     [LegacyName("BloodflareHelmet")]
     public class BloodflareHeadSummon : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PostMoonLord";
+        public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

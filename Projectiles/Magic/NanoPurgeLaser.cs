@@ -5,7 +5,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class NanoPurgeLaser : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const float LaserLength = 40f;
         private const float LaserLengthChangeRate = 1.5f;
 

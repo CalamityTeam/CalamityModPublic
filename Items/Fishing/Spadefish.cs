@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Fishing
 {
     public class Spadefish : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override void SetDefaults()
         {
             Item.damage = 15;

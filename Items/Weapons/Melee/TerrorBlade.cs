@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TerrorBlade : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         internal const float TerrorBlastMultiplier = 0.3f;
 
         public override void SetDefaults()

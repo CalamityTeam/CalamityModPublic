@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ValkyrieRayBeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const int Lifetime = 24;
         private const int BeamDustID = 73;
 

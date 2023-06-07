@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PulsePistolShot : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public NPC Target

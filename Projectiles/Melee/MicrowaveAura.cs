@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class MicrowaveAura : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         private int radius = 100;

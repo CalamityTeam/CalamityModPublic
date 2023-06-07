@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
     [LegacyName("DriedSeafood")]
     public class DesertMedallion : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.SummonItems";
+        public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye

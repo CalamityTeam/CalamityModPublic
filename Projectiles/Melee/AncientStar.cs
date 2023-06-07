@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AncientStar : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         const float MaxTime = 120;
         public float Timer => MaxTime - Projectile.timeLeft;
 

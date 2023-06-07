@@ -9,7 +9,7 @@ namespace CalamityMod.Items.SummonItems
 {
     public class EidolonTablet : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.SummonItems";
+        public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			NPCID.Sets.MPAllowedEnemies[NPCID.CultistBoss] = true;

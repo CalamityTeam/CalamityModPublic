@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Wingman : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
             Item.damage = 70;

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CataclysmSummon : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public ref float Time => ref Projectile.ai[0];
         public bool LookingAtPlayer => Time < 45f;
         public override string Texture => "CalamityMod/NPCs/SupremeCalamitas/SupremeCataclysm";

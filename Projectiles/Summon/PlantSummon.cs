@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PlantSummon : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         private bool initialized = false;
         private bool enraged = false;
         private int pinkSeed = ModContent.ProjectileType<PlantSeed>();

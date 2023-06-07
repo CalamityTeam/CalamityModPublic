@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class CryonicShield : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public Player Owner => Main.player[Projectile.owner];
         public override string Texture => "CalamityMod/NPCs/Cryogen/CryogenShield";
 

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FishboneBoomerangProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         internal PrimitiveTrail TrailRenderer;
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/FishboneBoomerang";
 

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PlasmaGrenadeProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/PlasmaGrenade";
 
         private static readonly float Gravity = 0.09f;

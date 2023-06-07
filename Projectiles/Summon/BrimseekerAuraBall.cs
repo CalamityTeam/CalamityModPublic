@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BrimseekerAuraBall : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public bool Initialized = false;
         public Projectile ParentProjectile => CalamityUtils.FindProjectileByIdentity((int)Projectile.ai[0], Projectile.owner);
         public float Outwardness

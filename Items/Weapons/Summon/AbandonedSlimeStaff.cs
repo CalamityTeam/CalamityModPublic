@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class AbandonedSlimeStaff : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         int slimeSlots;
         public override void SetDefaults()
         {

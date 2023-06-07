@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class TaserHook : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public enum TaserAIState
         {
             Firing,

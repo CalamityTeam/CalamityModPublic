@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 {
     public abstract class BaseSpearProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public enum SpearType
         {
             TypicalSpear,

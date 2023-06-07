@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BabyPlaguebringer : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Pets/PlaguebringerBab";
 
         public override void SetStaticDefaults()

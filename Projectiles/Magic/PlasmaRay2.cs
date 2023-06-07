@@ -5,7 +5,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class PlasmaRay2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

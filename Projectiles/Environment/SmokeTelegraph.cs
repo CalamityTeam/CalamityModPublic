@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Environment
 {
     public class SmokeTelegraph : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         private int dustType = 31;

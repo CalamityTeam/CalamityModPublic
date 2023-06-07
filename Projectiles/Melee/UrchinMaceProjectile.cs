@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class UrchinMaceProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public Player Owner => Main.player[Projectile.owner];
         public override string Texture => "CalamityMod/Items/Weapons/Melee/UrchinMace";
 

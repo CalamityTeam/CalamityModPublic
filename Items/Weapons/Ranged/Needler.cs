@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Needler : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 52;

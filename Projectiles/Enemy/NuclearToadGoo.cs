@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class NuclearToadGoo : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Enemy";
+        public new string LocalizationCategory => "Projectiles.Enemy";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 3;

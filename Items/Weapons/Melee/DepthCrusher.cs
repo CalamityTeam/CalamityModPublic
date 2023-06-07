@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("DepthBlade")]
     public class DepthCrusher : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         private const int HammerPower = 70;
 
         public override void SetStaticDefaults()

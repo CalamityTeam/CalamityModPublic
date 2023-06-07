@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StealthNimbusCloud : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Magic/ShadeNimbusCloud";
 
         public override void SetStaticDefaults()

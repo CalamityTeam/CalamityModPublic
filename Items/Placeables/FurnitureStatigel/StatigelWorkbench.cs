@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
     // TODO -- StatigelWorkBench. I do not want to deal with capitalization issues.
     public class StatigelWorkbench : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Statigel Work Bench");

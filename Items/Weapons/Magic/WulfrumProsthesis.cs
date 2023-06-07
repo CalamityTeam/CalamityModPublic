@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
     [LegacyName("WulfrumStaff")]
     public class WulfrumProsthesis : ModItem, IHideFrontArm, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisShoot") { PitchVariance = 0.1f, Volume = 0.55f };
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisHit") { PitchVariance = 0.1f, Volume = 0.75f , MaxInstances = 3};
         public static readonly SoundStyle SuckSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisSucc") { Volume = 0.5f };

@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Corrocloud3 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 8;

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BigNuke : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public static Item FalseLauncher = null;
 
         public override void SetStaticDefaults()

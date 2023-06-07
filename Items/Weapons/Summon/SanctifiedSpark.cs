@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Summon
     [LegacyName("EnergyStaff")]
     public class SanctifiedSpark : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;

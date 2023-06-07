@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor.GemTech
     [AutoloadEquip(EquipType.Head)]
     public class GemTechHeadgear : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PostMoonLord";
+        public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public const int GemBreakDamageLowerBound = 100;
         public const int GemDamage = 40000;
         public const int GemDamageSoftcapThreshold = 100000;

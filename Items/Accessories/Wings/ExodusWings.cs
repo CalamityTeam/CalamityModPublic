@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories.Wings
     [AutoloadEquip(EquipType.Wings)]
     public class ExodusWings : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories.Wings";
+        public new string LocalizationCategory => "Items.Accessories.Wings";
         public override void SetStaticDefaults()
         {
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 9f, 2.5f);

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class HypothermiaShard : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         private float counter = 0f;
         public override void SetDefaults()
         {

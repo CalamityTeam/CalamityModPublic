@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class FlyingOrthocera : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const float SearchDistance = 850f;
 
         public override void SetStaticDefaults()

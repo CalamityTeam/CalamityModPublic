@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class RainbowComet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public ref float Time => ref Projectile.ai[0];
         public const float FadeinTime = 40f;
         public override void SetStaticDefaults()

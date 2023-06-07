@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
 {
     public class MonolithLantern : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Monolith Lantern");

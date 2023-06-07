@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class WifeinaBottle : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public const int ElementalDamage = 45;
 
         public override void SetDefaults()

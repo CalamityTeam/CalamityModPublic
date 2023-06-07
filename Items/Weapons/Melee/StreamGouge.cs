@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class StreamGouge : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public const int SpinTime = 45;
 
         public const int SpearFireTime = 24;

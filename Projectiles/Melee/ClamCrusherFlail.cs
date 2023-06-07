@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ClamCrusherFlail : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public int finalDamage;
 
         public override void SetDefaults()

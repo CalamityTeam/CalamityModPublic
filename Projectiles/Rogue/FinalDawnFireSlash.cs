@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FinalDawnFireSlash : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public bool HasRegeneratedStealth = false;
         public const float StealthReturnRatio = 0.25f;
         public override void SetStaticDefaults()

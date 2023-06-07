@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TerraDiskProjectile2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         private double rotation = 0;
         public override void SetStaticDefaults()
         {

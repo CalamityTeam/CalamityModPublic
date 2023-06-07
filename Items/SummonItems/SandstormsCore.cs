@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
 {
     public class SandstormsCore : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.SummonItems";
+        public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 12; // Frost Legion

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
     public class RustedJingleBell : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.WispinaBottle);

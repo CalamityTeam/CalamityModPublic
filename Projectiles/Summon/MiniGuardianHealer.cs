@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MiniGuardianHealer : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;

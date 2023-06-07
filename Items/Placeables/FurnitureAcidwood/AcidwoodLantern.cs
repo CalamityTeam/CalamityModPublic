@@ -5,7 +5,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 {
     public class AcidwoodLantern : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Acidwood Lantern");

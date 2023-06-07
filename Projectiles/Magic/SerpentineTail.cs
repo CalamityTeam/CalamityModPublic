@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SerpentineTail : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     [LegacyName("LaserRifle")]
     public class HeavyLaserRifle : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
+        public new string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/LaserRifleFire");
 
         public override void SetDefaults()

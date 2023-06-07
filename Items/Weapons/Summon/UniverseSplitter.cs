@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class UniverseSplitter : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public const float ItemUseDustMaxRadius = 36f;
         public override void SetStaticDefaults()
         {

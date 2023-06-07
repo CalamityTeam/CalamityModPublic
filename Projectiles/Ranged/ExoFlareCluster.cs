@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
     // Photoviscerator right click main projectile (invisible flare cluster bomb)
     public class ExoFlareCluster : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public const float MinDistanceFromTarget = 45f;

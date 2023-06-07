@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
     [LegacyName("AshenPiano")]
     public class AshenPipeOrgan : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ashen Pipe Organ");

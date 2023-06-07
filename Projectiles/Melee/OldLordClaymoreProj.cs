@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class OldLordClaymoreProj : BaseIdleHoldoutProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public enum SwingState
         {
             Default,

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class EXPLODINGFROG : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const float MinExplodeDistance = 120f;
         public const float ExplodeWaitTime = 45f;
         public const float ExplosionAngleVariance = 0.8f;

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ApoctolithShard : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Rogue/AbyssalMirrorProjectile";
 
         public override void SetStaticDefaults()

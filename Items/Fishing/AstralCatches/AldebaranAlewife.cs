@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 {
     public class AldebaranAlewife : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;

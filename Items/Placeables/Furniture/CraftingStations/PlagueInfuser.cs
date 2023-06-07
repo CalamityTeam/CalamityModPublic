@@ -5,7 +5,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     public class PlagueInfuser : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 8;

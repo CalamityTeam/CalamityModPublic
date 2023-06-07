@@ -21,7 +21,7 @@ namespace CalamityMod.Items.TreasureBags
     [LegacyName("SCalBag", "SupremeCalamitasCoffer")]
     public class CalamitasCoffer : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.TreasureBags";
+        public new string LocalizationCategory => "Items.TreasureBags";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class VoidFieldGenerator : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public bool start = true;
         public BaseFusableParticleSet.FusableParticle voidaura;
 

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class LeviathanSpawner : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         internal ref float Time => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

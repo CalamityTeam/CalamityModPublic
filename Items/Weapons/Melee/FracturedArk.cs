@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("ArkoftheAncients")]
     public class FracturedArk : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public float Combo = 1f;
         public float Charge = 0f;
         public static float chargeDamageMultiplier = 1.5f; //Extra damage from charge

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
     [LegacyName("AbyssalCrate")]
     public class SulphurousCrate : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

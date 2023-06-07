@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SmallSkeletonMinion : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public int Variant;
         public override void SetStaticDefaults()
         {

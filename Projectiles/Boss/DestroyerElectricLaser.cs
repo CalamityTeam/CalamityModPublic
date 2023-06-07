@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DestroyerElectricLaser : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override void SetDefaults()
         {
             Projectile.ignoreWater = true;

@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class VerstaltiteBobber : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override void SetDefaults()
         {
             //projectile.CloneDefaults(360); //Wooden Bobber

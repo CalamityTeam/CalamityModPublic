@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresPlasmaFireball : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         private const int timeLeft = 120;
 
         public override void SetStaticDefaults()

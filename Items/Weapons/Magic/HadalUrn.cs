@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class HadalUrn : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/HadalUrnOpen");
         public override void SetDefaults()
         {

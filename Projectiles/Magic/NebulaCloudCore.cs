@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class NebulaCloudCore : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const float IntendedVelocity = 4f;
 
         public override void SetStaticDefaults()

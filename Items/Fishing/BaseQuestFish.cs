@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Fishing
         // Location where the fish is caught for purpose of tooltips and dialogues. Can be copied from other tooltips as needed.
         public virtual LocalizedText Location => LocalizedText.Empty;
 
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override LocalizedText Tooltip => Location;
 
         public override void SetStaticDefaults()

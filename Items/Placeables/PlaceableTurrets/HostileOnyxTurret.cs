@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
     public class HostileOnyxTurret : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/OnyxTurret";
         public override void SetDefaults()
         {

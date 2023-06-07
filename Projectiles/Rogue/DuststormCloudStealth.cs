@@ -4,7 +4,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DuststormCloudStealth : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Rogue/DuststormCloud";
 
         public override void SetStaticDefaults()

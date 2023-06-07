@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class OverlyDramaticDukeSummoner : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/Boss/OldDukeVortex";
 
         public override void SetStaticDefaults()

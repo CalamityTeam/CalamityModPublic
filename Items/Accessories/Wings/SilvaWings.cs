@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories.Wings
     [AutoloadEquip(EquipType.Wings)]
     public class SilvaWings : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories.Wings";
+        public new string LocalizationCategory => "Items.Accessories.Wings";
         public override void SetStaticDefaults()
         {
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(270, 11f, 2.8f);

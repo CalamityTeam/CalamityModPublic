@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class MagneticOrb : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const int Lifetime = 120;
         private const float FramesPerBeam = 12f;
 

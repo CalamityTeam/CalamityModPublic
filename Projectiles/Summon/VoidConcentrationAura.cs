@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class VoidConcentrationAura : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public int timer = 0;
 

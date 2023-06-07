@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Magic
     //Holdout, but invisible. It may as well be named "CoralSpoutHandler"
     public class CoralSpoutHoldout : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public static float MaxCharge = 50;

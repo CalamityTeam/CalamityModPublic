@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 {
     public class ExoPrismPanel : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

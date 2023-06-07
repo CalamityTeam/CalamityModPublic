@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ApolloChargeTelegraph : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public Vector2[] ChargePositions = new Vector2[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

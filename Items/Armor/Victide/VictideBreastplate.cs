@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Victide
     [AutoloadEquip(EquipType.Body)]
     public class VictideBreastplate : ModItem, IBulkyArmor, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PreHardmode";
+        public new string LocalizationCategory => "Items.Armor.PreHardmode";
         public string BulkTexture => "CalamityMod/Items/Armor/Victide/VictideBreastplate_Bulk";
 
         public override void Load()

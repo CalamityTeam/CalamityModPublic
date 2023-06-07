@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FossilShardThrown : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Ranged/FossilShard";
 
         public override void SetDefaults()

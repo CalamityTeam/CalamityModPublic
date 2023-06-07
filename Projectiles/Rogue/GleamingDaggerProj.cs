@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class GleamingDaggerProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         private bool hasHitEnemy = false;
         private int targetNPC = -1;
         private List<int> previousNPCs = new List<int>() { -1 };

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class ArcZap : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public bool ableToHit = false;
         public NPC selectedTarget;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

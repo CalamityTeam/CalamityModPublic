@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class ViridVanguard : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public const int HorizontalSlashChargeTime = 14;
 
         public const float HorizontalSlashSpeed = 44f;

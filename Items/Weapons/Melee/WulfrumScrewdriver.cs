@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("WulfrumBlade")]
     public class WulfrumScrewdriver : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public static int DefaultTime = 10;
         public static readonly SoundStyle ThrustSound = new("CalamityMod/Sounds/Item/WulfrumScrewdriverThrust") { PitchVariance = 0.4f };
         public static readonly SoundStyle ThudSound = new("CalamityMod/Sounds/Item/WulfrumScrewdriverThud") { PitchVariance = 0.2f, Volume = 0.7f };

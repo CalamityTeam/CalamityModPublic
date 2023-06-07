@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Orbacle : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private static int Lifetime = 40;
 
         public override void SetDefaults()

@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class DarkGodsSheath : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 48;

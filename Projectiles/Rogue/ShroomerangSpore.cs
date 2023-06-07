@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShroomerangSpore : BaseSporeSacProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Ranged/FungiOrb";
 
         private bool initialized = false;

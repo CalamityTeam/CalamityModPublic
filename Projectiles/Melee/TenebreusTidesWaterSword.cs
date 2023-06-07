@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TenebreusTidesWaterSword : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private int penetrationAmt = 4;
         private bool dontDraw = false;
         private int drawInt = 0;

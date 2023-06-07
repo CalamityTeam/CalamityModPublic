@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BrimstoneDartMinion : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneBarrage";
 
         public override void SetStaticDefaults()

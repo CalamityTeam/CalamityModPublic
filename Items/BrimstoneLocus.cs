@@ -7,7 +7,7 @@ namespace CalamityMod.Items
 {
     public class BrimstoneLocus : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Misc";
+        public new string LocalizationCategory => "Items.Misc";
         public override void SetDefaults()
         {
             Item.width = 20;

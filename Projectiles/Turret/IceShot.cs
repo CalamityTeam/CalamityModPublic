@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Turret
 {
     public class IceShot : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public override void SetDefaults()
         {
             Projectile.width = 22;

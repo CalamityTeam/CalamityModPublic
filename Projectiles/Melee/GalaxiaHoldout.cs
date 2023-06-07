@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalaxiaHoldout : ModProjectile, ILocalizedModType //Visuals. Now much simpler than before!
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private Player Owner => Main.player[Projectile.owner];
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.ModItem as FourSeasonsGalaxia).CanUseItem(Owner) : false;
         public ref float Initialized => ref Projectile.ai[0];

@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Materials
 {
     public class AuricBar : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Materials";
+        public new string LocalizationCategory => "Items.Materials";
         public static Asset<Texture2D> GlowTexture { get; private set; }
 
         public override void Load()

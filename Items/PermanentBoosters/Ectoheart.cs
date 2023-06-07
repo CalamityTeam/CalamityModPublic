@@ -10,7 +10,7 @@ namespace CalamityMod.Items.PermanentBoosters
 {
     public class Ectoheart : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Misc";
+        public new string LocalizationCategory => "Items.Misc";
         public int frameCounter = 0;
         public int frame = 0;
         public override void SetDefaults()

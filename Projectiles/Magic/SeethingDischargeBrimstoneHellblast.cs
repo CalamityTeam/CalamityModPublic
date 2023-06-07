@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SeethingDischargeBrimstoneHellblast : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private bool initialized = false;
         public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneHellblast";
 

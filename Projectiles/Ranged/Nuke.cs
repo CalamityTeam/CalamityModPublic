@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class Nuke : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public int flarePowderTimer = 12;
         public static Item FalseLauncher = null;
 

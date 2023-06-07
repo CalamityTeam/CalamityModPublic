@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor.Silva
     [LegacyName("SilvaMaskedCap")]
     public class SilvaHeadMagic : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PostMoonLord";
+        public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 24;

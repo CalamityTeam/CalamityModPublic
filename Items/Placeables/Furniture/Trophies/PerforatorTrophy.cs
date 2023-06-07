@@ -5,7 +5,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class PerforatorTrophy : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 30;

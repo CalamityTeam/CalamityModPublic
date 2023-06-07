@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class BrimstoneHellfireballFriendly2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

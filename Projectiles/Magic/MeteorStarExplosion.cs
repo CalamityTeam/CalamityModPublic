@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class MeteorStarExplosion : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 7;

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class PoseidonTyphoon : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override void SetDefaults()
         {
             Projectile.width = 30;

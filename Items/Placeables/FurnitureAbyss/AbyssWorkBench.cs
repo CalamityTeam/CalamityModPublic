@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
     [LegacyName("AbyssWorkbench")]
     public class AbyssWorkBench : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Abyss Work Bench");

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Tools
 {
     public class AstralHamaxe : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Tools";
+        public new string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.damage = 80;

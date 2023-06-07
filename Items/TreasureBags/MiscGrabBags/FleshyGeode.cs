@@ -9,7 +9,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
     [LegacyName("FleshyGeodeT1")]
     public class FleshyGeode : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.TreasureBags";
+        public new string LocalizationCategory => "Items.TreasureBags";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 10;

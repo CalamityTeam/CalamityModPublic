@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
     public class Bloodfin : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public static int BuffType = ModContent.BuffType<BloodfinBoost>();
         public static int BuffDuration = 600;
 

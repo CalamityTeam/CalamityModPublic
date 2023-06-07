@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
     [LegacyName("Judgement", "Judgment")]
     public class TheDanceofLight : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public const int HitsPerFlash = 300;
         public const int FlashBaseDamage = 16000;
 

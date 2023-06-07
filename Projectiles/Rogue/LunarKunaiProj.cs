@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class LunarKunaiProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         bool lunarEnhance = false;
 
         public override void SetStaticDefaults()

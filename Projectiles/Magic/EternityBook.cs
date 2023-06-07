@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EternityBook : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public float Time
         {
             get => Projectile.ai[0];

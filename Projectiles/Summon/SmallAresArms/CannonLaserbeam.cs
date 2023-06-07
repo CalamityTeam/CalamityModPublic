@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
     public class CannonLaserbeam : BaseLaserbeamProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public Player Owner => Main.player[Projectile.owner];

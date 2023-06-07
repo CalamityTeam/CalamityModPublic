@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SludgeSplotchProj1 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public static int sludgeDustType = 191;
         public override void SetDefaults()
         {

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AetherfluxCannonHoldout : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const int FramesPerFireRateIncrease = 36;
 
         private Player Owner => Main.player[Projectile.owner];

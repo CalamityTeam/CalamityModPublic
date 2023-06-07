@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BladecrestOathswordProj : BaseIdleHoldoutProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public enum SwingState
         {
             Default,

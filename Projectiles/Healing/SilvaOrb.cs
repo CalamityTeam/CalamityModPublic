@@ -5,7 +5,7 @@ namespace CalamityMod.Projectiles.Healing
 {
     public class SilvaOrb : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Healing";
+        public new string LocalizationCategory => "Projectiles.Healing";
         public override void SetDefaults()
         {
             Projectile.width = 22;

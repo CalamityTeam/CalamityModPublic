@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories.Vanity
     [LegacyName("WulfrumHeadMagic")]
     public class AbandonedWulfrumHelmet : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)

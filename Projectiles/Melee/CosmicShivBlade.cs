@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicShivBlade : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public const int penetrateMax = 12;
         public const float maxScale = 1.8f;
         public bool initialized = false;

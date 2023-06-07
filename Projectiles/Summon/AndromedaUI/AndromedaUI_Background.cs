@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
 {
     public class AndromedaUI_Background : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public int FadeoutTime = -1;
         public Vector2 PlayerOffset = Vector2.Zero;
         public static readonly int FadeoutTimeMax = 40;

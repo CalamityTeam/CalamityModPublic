@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class WulfrumBattery : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public static readonly SoundStyle ExtraDropSound = new("CalamityMod/Sounds/Custom/WulfrumExtraDrop") { PitchVariance = 0.3f };
 
         public override void SetStaticDefaults()

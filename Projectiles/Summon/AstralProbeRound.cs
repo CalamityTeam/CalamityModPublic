@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class AstralProbeRound : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Boss/AstralLaser";
 
         public override void SetStaticDefaults()

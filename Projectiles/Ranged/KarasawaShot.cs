@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class KarasawaShot : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         private int dust1 = 187; //160

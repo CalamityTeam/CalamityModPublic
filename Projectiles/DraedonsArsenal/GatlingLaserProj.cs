@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class GatlingLaserProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         private SlotId gatlingLaserLoopID;
         private bool fireLasers = false;
 

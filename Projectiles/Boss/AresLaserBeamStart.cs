@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresLaserBeamStart : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         private const int maxFrames = 5;
         private int frameDrawn = 0;
 

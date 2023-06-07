@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class Affliction : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 38;

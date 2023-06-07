@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class GoldiePet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Pets";
+        public new string LocalizationCategory => "Projectiles.Pets";
         public Player Owner => Main.player[Projectile.owner];
 
         public ref float RotationTimer => ref Projectile.ai[0];

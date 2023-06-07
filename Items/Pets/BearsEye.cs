@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Pets
     [LegacyName("BearEye")]
     public class BearsEye : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Pets";
+        public new string LocalizationCategory => "Items.Pets";
         public override void SetStaticDefaults()
         {
         }

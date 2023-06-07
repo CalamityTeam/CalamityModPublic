@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ArtemisSpinLaserbeam : BaseLaserbeamProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public PrimitiveTrail LaserDrawer
         {
             get;

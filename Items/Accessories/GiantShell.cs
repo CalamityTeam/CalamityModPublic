@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Back)]
     public class GiantShell : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.defense = 10;

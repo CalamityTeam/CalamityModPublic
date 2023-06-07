@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("Seabow")]
     public class ReedBlowgun : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public static readonly SoundStyle BubbleBurstSound = new ("CalamityMod/Sounds/Custom/PistolShrimpBubbleBurst") { PitchVariance = 0.15f, Volume = 0.2f};
 
         public override void SetStaticDefaults()

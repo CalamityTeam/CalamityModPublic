@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor.Empyrean
     [LegacyName("XerocMask")]
     public class EmpyreanMask : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PostMoonLord";
+        public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)

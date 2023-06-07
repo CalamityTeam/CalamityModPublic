@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Body)]
     public class SCalRobes : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Vanity";
+        public new string LocalizationCategory => "Items.Armor.Vanity";
         public override void SetStaticDefaults()
         {
 

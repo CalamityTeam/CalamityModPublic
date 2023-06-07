@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 {
     public class MagicHammer : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public float Behavior = 0f;
 		public float PivotPointX = 0f;
 		public float PivotPointY = 0f;

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.SummonItems
 {
     public class Seafood : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.SummonItems";
+        public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 8; // Mechanical Worm

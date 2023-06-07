@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HiveMissile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public static Item FalseLauncher = null;
 
         public override void SetDefaults()

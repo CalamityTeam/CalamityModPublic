@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StormfrontRazorProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/StormfrontRazor";
 
         public override void SetStaticDefaults()

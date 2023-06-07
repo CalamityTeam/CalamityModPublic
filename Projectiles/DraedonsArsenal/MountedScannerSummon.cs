@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class MountedScannerSummon : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public float AngularOffsetRelativeToPlayer
         {
             get => Projectile.ai[0];

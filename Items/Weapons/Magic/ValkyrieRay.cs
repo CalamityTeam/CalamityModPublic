@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class ValkyrieRay : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         // The base use time of the weapon is 47: 28 charge frames + 19 cooldown frames.
         // The rate at which it progresses through its charge and discharge cycle is dynamically sped up by reforges.
         // This math is handled in its holdout projectile, ValkyrieRayStaff.

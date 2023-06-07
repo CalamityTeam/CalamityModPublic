@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
     [LegacyName("BloodflareHornedHelm")]
     public class BloodflareHeadRanged : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PostMoonLord";
+        public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/BloodflareRangerActivation");
 
         public override void SetDefaults()

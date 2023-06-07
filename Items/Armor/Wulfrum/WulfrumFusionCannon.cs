@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
     public class WulfrumFusionCannon : HeldOnlyItem, IHideFrontArm, ILocalizedModType
     {
         // This is a weapon, but not, I DNC
-        public string LocalizationCategory => "Items.Armor.PreHardmode";
+        public new string LocalizationCategory => "Items.Armor.PreHardmode";
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisShoot") { PitchVariance = 0.1f, Volume = 0.4f };
         public override string Texture => "CalamityMod/Items/Armor/Wulfrum/WulfrumFusionCannon";
 

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SHPB : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public int explosionTimer = 120;
 
         public override void SetStaticDefaults()

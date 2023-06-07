@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor.Auric
     [AutoloadEquip(EquipType.Head)]
     public class AuricTeslaHoodedFacemask : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PostMoonLord";
+        public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

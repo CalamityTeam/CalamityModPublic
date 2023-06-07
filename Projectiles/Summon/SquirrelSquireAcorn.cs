@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SquirrelSquireAcorn : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const float Gravity = 0.5f;
         public override void SetStaticDefaults()
         {

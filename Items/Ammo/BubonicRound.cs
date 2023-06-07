@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Ammo
     [LegacyName("AcidBullet", "AcidRound")]
     public class BubonicRound : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Ammo";
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetStaticDefaults() => Item.ResearchUnlockCount = 99;
 
         public override void SetDefaults()

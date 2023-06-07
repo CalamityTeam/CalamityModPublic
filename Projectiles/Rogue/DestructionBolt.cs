@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DestructionBolt : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public int dustType = 191;
         public override void SetStaticDefaults()
         {

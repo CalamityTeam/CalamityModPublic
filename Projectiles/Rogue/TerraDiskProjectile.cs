@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TerraDiskProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/TerraDisk";
 
         private bool initialized = false;

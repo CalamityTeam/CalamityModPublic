@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
     public class DragoonDrizzlefish : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true; //so it doesn't look weird af when holding it

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class RedLightning : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/LightningProj";
 
         public override void SetStaticDefaults()

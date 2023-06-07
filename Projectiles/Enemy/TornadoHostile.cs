@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class TornadoHostile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Enemy";
+        public new string LocalizationCategory => "Projectiles.Enemy";
         public override string Texture => "CalamityMod/Projectiles/TornadoProj";
 
         public override void SetStaticDefaults()

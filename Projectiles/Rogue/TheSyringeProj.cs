@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TheSyringeProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/TheSyringe";
 
         public override void SetStaticDefaults()

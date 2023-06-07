@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class SandCloakVeil : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         private const float radius = 272f;
         private const int duration = 900;
 

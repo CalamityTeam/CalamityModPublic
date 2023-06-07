@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class GaussDagger : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
+        public new string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public const int HitsRequiredForFlux = 2;
         public override void SetStaticDefaults()
         {

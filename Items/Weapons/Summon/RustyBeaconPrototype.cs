@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class RustyBeaconPrototype : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public const int PulseReleaseRate = 120;
 
         public const int PulseLifetime = 95;

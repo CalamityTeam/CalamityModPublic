@@ -7,7 +7,7 @@ namespace CalamityMod.Items.SummonItems
 {
     public class BloodwormItem : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.SummonItems";
+        public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil

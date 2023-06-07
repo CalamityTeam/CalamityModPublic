@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class RiftReelerBobber : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         private bool initialized = false;
         private Color fishingLineColor;
         public Color[] PossibleLineColors = new Color[]

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DarkOrb : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/LightningProj";
 
         private bool start = true;

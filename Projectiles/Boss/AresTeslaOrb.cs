@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresTeslaOrb : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public ref float Identity => ref Projectile.ai[0];
         public PrimitiveTrail LightningDrawer;
         public PrimitiveTrail LightningBackgroundDrawer;

@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class VirulentWave : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;

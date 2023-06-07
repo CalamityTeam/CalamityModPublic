@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Materials
     [LegacyName("CalamityDust")]
     public class AshesofCalamity : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Materials";
+        public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;

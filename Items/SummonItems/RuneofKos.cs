@@ -16,7 +16,7 @@ namespace CalamityMod.Items.SummonItems
     [LegacyName("RuneofCos")]
     public class RuneofKos : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.SummonItems";
+        public new string LocalizationCategory => "Items.SummonItems";
         public static readonly SoundStyle CVSound = new("CalamityMod/Sounds/Item/CeaselessVoidSpawn");
         public static readonly SoundStyle SignutSound = new("CalamityMod/Sounds/Item/SignusSpawn");
         public static readonly SoundStyle StormSound = new("CalamityMod/Sounds/Item/StormWeaverSpawn");

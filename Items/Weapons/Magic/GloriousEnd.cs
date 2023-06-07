@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class GloriousEnd : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public static int PlayerExplosionDmgMin = 50;
         public static int PlayerExplosionDmgMax = 60;
         public override void SetDefaults()

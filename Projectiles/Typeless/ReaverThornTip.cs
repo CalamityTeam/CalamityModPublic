@@ -4,7 +4,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class ReaverThornTip : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Melee/ThornTip";
 
         public override void SetDefaults()

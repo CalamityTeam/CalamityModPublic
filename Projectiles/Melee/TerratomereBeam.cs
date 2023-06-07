@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TerratomereBeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public Vector2[] ControlPoints;
         
         public PrimitiveTrail SlashDrawer = null;

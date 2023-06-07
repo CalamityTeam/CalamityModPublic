@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class MirrorBlade : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         private int baseDamage = 100;
 
         public override void SetDefaults()

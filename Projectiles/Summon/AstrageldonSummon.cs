@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class AstrageldonSummon : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public bool dust = false;
         private int attackCounter = 1;
         private int teleportCounter = 400;

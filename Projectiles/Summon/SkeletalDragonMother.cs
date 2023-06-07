@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SkeletalDragonMother : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const float DistanceToCheck = 1100f;
         public override void SetStaticDefaults()
         {

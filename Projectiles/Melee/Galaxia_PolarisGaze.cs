@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class PolarisGaze : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra"; //Red cuz close range yget the deal
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;

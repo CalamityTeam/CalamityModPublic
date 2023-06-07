@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class ViridVanguardBlade : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public enum ViridVanguardAIState
         {
             CircleOwner,

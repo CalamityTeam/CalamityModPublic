@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class SoulEdge : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public static readonly SoundStyle ProjectileDeathSound = SoundID.NPCDeath39 with { Volume = 0.5f};
 
         public override void SetDefaults()

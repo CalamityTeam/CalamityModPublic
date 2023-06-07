@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Neck)]
     public class StatisCurse : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));

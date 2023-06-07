@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class WitherBlossom : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
         public ref float OffsetAngle => ref Projectile.ai[0];
         public ref float Time => ref Projectile.ai[1];

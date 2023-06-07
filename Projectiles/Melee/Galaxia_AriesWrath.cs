@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AriesWrath : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private NPC[] excludedTargets = new NPC[4];
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2";
         public Player Owner => Main.player[Projectile.owner];

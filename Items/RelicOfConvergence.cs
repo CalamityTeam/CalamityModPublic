@@ -7,7 +7,7 @@ namespace CalamityMod.Items
 {
     public class RelicOfConvergence : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Misc";
+        public new string LocalizationCategory => "Items.Misc";
         public override void SetStaticDefaults()
         {
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;

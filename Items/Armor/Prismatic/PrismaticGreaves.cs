@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor.Prismatic
     [AutoloadEquip(EquipType.Legs)]
     public class PrismaticGreaves : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PostMoonLord";
+        public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

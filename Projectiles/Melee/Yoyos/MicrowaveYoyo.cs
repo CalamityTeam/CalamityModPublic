@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class MicrowaveYoyo : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private const float Radius = 100f;
         private SlotId mmmmmm;
         private bool spawnedAura = false;

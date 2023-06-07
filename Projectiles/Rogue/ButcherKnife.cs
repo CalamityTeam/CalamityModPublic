@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ButcherKnife : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         private static float RotationIncrement = 0.22f;
         private static float ReboundTime = 26f;
 

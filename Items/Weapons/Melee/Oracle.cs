@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Oracle : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public const int YoyoBaseDamage = 170;
         public const int AuraBaseDamage = 100;
         public const int AuraMaxDamage = 220;

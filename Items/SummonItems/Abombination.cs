@@ -11,7 +11,7 @@ namespace CalamityMod.Items.SummonItems
     [LegacyName("Abomination")]
     public class Abombination : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.SummonItems";
+        public new string LocalizationCategory => "Items.SummonItems";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PBGSummon");
         public override void SetStaticDefaults()
         {

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AcidShrapnel : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Rogue/BarrelShrapnel";
 
         public bool HitTile = false;

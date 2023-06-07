@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class PhoenixsPride : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2"; //The blue one, since this is long range
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;

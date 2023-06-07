@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class PumplerGrenade : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public ref float State => ref Projectile.ai[0];
         public static int MaxTime => 180;
 

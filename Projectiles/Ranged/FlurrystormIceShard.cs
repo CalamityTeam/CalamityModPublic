@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FlurrystormIceShard : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override void SetDefaults()
         {
             Projectile.friendly = true;

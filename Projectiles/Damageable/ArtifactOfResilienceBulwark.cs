@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Damageable
 {
     public class ArtifactOfResilienceBulwark : DamageableProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public int Reformations = 0;
         public const int MaxReformations = 3;
         public override int LifeMax => 1;

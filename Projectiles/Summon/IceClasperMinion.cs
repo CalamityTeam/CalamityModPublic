@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class IceClasperMinion : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
 
         private int dust = 3;
 

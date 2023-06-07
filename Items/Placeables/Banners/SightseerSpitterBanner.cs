@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables.Banners
     [LegacyName("BigSightseerBanner")]
     public class SightseerSpitterBanner : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 10;

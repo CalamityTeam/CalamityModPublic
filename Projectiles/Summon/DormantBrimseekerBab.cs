@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class DormantBrimseekerBab : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const float DistanceToCheck = 1600f;
         public const int TurnTime = 12;
         public bool SeekingTarget = false;

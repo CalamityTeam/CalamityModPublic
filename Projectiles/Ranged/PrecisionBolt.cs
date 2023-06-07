@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class PrecisionBolt : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         NPC potentialTarget = null;
         public override void SetDefaults()
         {

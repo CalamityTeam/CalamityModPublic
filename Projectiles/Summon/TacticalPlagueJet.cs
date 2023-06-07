@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class TacticalPlagueJet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public static Item FalseGun = null;
         public static Item PlagueEngine = null;
 

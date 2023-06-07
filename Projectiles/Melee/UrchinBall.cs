@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class UrchinBall : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public bool spike = false;
 
         public override void SetDefaults()

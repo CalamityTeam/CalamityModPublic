@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class OracleYoyo : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public int AuraFrame;
 
         // projectile.localAI[1] is the Aura Charge of the red lightning aura

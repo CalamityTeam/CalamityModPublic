@@ -5,7 +5,7 @@ namespace CalamityMod.Items.Placeables.Walls
 {
     public class SulphurousSandstoneWall : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;

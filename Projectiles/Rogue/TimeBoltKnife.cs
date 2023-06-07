@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TimeBoltKnife : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/TimeBolt";
 
         private int maxPenetrate = 6;

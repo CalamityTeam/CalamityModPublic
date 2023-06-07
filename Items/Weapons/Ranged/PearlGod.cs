@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class PearlGod : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         private const int defaultSpread = 1;
         private int spread = defaultSpread;
         private bool finalShot = false;

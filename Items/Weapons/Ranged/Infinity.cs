@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Infinity : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         internal int rotation = 0;
         internal bool limit = true;
         public override void SetStaticDefaults()

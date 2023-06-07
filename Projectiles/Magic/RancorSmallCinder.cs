@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class RancorSmallCinder : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public ref float Time => ref Projectile.ai[0];
         public ref float Lifetime => ref Projectile.ai[1];
         public override void SetStaticDefaults()

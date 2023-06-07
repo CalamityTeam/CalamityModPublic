@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TerratomereExplosion : ModProjectile, IAdditiveDrawer, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 520;

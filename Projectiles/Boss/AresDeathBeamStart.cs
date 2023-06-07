@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresDeathBeamStart : BaseLaserbeamProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public int OwnerIndex

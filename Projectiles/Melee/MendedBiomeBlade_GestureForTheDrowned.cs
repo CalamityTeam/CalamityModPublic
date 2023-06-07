@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GestureForTheDrowned : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueBiomeBlade";
         Vector2 direction = Vector2.Zero;
         public Player Owner => Main.player[Projectile.owner];

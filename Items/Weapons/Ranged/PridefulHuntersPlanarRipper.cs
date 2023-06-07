@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("PrideHuntersPlanarRipper")]
     public class PridefulHuntersPlanarRipper : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         private int counter = 0;
 
         public override void SetDefaults()

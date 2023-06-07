@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class NapalmArrowProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Ammo/NapalmArrow";
 
         public override void SetDefaults()

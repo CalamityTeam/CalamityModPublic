@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EnchantedAxe2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/EnchantedAxe";
 
         public override void SetDefaults()

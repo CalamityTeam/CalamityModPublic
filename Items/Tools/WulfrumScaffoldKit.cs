@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Tools
 {
     public class WulfrumScaffoldKit : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Tools";
+        public new string LocalizationCategory => "Items.Tools";
         public int storedScrap = 0;
         public static int TilesPerScrap = 40;
         public static int TileTime = 6 * 60;

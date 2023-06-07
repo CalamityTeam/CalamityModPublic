@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Materials
     [LegacyName("CalamitousEssence")]
     public class AshesofAnnihilation : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Materials";
+        public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;

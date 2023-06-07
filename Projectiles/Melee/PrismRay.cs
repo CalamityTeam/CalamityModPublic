@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class PrismRay : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public Vector2 StartingPosition;
         public Color RayColor => CalamityUtils.MulticolorLerp(RayHue, CalamityUtils.ExoPalette);
         public Color HueDownscaledRayColor => RayColor * 0.66f;

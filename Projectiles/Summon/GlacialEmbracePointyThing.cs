@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class GlacialEmbracePointyThing : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public int recharging = -1;
         public bool circling = true;
         public bool circlingPlayer = true;

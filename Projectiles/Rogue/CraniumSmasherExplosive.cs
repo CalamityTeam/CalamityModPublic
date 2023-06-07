@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CraniumSmasherExplosive : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override void SetDefaults()
         {
             Projectile.width = 50;

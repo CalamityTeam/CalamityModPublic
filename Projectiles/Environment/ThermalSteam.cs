@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Environment
 {
     public class ThermalSteam : ModProjectile, IAdditiveDrawer, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public const int Lifetime = 90;
 
         public override string Texture => "CalamityMod/Projectiles/Summon/SmallAresArms/MinionPlasmaGas";

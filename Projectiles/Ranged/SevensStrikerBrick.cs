@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SevensStrikerBrick : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ThrowingBrick";
 
         public override void SetDefaults()

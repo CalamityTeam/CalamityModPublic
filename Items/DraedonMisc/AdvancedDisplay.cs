@@ -14,7 +14,7 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class AdvancedDisplay : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.DraedonItems";
+        public new string LocalizationCategory => "Items.DraedonItems";
         public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/AdvancedDisplayInstall");
         public override void SetDefaults()
         {

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class CragmawVibeCheckChain : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Enemy";
+        public new string LocalizationCategory => "Projectiles.Enemy";
         public bool ReelingPlayer = false;
         public const int Lifetime = 360;
         public override void SetDefaults()

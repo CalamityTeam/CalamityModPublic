@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CrescentMoonFlail : BaseWhipProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public int moonCounter = 6;
 
         public override void SetDefaults()

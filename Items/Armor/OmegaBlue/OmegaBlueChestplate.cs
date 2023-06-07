@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor.OmegaBlue
     [AutoloadEquip(EquipType.Body)]
     public class OmegaBlueChestplate : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PostMoonLord";
+        public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetStaticDefaults()
         {
             if (Main.netMode == NetmodeID.Server)

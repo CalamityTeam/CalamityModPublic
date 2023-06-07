@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PlagueBeeSmall : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Rogue/PlaguenadeBee";
 
         public override void SetStaticDefaults()

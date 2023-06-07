@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class AeroStone : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));

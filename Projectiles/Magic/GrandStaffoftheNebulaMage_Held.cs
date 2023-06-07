@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class GrandStaffoftheNebulaMage_Held : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const int TotalXFrames = 2;
         private const int TotalYFrames = 8;
         private const int FrameTimer = 6;

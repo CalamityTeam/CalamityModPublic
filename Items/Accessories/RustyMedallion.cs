@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class RustyMedallion : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public const int AcidDropBaseDamage = 9;
 
         // BAD Minishark! You will NOT become stupid sleeper agent item!

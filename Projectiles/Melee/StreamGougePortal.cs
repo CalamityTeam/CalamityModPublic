@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class StreamGougePortal : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public static readonly SoundStyle SpawnSound = new SoundStyle("CalamityMod/Sounds/Custom/SwiftSlice")
         {
             PitchVariance = 0.1f

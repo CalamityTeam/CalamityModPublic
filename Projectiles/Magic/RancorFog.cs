@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class RancorFog : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public ref float LightPower => ref Projectile.ai[0];
 
         public override void SetDefaults()

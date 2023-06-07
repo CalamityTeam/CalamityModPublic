@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
     public class OnyxTurret : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<PlayerOnyxTurret>());

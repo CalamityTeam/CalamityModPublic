@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class SwordsmithsPrideBeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public NPC target;
         public Player Owner => Main.player[Projectile.owner];
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_SwordsmithsPrideBeam";

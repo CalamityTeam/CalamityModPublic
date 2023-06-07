@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DraedonSummonLaser : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public const float LaserLength = 3800f;
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

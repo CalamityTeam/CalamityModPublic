@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class AnomalysNanogunMPFBBoom : BaseMassiveExplosionProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public static readonly SoundStyle MPFBExplosion = new("CalamityMod/Sounds/Item/AnomalysNanogunMPFBExplosion");
         public override int Lifetime => 40;
         public override bool UsesScreenshake => true;

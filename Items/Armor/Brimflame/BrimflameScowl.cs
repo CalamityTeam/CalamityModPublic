@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor.Brimflame
     [AutoloadEquip(EquipType.Head)]
     public class BrimflameScowl : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Hardmode";
+        public new string LocalizationCategory => "Items.Armor.Hardmode";
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/AngelicAllianceActivation");
 
         // TODO -- what the fuck is this? this is not how you implement a set bonus

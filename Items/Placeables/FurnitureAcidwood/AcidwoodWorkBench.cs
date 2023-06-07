@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
     [LegacyName("AcidwoodWorkbench")]
     public class AcidwoodWorkBench : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Acidwood Work Bench");

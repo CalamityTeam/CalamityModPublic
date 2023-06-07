@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class VeneratedKnife : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         int lifetime = 150;
 
         public override void SetStaticDefaults()

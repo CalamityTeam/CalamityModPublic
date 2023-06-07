@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TheAtomSplitterProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         // Atom splitting is cool and all, but actual thermonuclear meltdown levels of DPS is unacceptable.
         // DO NOT increase this unless you are ABSOLUTELY SURE you know what will happen.
         private const float NormalSplitMultiplier = 0.7f;

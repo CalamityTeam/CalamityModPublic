@@ -8,7 +8,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
 {
     public class SulphuricTreasure : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.TreasureBags";
+        public new string LocalizationCategory => "Items.TreasureBags";
         internal static readonly int[] SulphuricTreasurePotions = new int[]
         {
             ItemID.SpelunkerPotion,

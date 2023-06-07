@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor.Demonshade
     [AutoloadEquip(EquipType.Body)]
     public class DemonshadeBreastplate : ModItem, IDrawArmOverShoulderpad, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PostMoonLord";
+        public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public string FrontArmTexture => "CalamityMod/Items/Armor/Demonshade/DemonshadeBreastplate_Arms";
 
         public override void SetDefaults()

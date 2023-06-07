@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class EndoCooperLimbs : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         private int AttackMode = 0;
         public override void SetStaticDefaults()
         {

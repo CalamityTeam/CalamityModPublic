@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class BorealisBomber : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetStaticDefaults()
         {
                        Item.staff[Item.type] = true;

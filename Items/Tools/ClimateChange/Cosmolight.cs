@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 {
     public class Cosmolight : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Tools";
+        public new string LocalizationCategory => "Items.Tools";
         // Hardcoded times set by the vanilla Journey Mode buttons.
         // These are "halfway through day" and "halfway through night" respectively.
         private const int NoonCutoff = 27000;

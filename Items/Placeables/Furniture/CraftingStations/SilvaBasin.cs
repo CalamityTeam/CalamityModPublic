@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     public class SilvaBasin : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Effulgent Manipulator");

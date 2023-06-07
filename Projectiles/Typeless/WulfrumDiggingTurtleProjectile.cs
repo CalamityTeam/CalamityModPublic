@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class WulfrumDiggingTurtleProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public static readonly SoundStyle IdleSound = new("CalamityMod/Sounds/Custom/WulfrumSawIdle") { IsLooped = true, Volume = 0.8f, MaxInstances = 0 };
         public static readonly SoundStyle CuttingSound = new("CalamityMod/Sounds/Custom/WulfrumSawCutting") { IsLooped = true, Volume = 0.7f, MaxInstances = 0 };
         public static readonly SoundStyle BreakingSound = new("CalamityMod/Sounds/Custom/WulfrumMachineBreak");

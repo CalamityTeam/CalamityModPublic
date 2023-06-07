@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HyperiusSplit : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Ranged/HyperiusBulletProj";
         private Color currentColor = Color.Black;
 

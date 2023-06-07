@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
     public class AbyssBathtub : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Abyss Bathtub");

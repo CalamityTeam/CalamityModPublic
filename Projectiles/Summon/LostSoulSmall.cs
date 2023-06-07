@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class LostSoulSmall : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public ref float Time => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {

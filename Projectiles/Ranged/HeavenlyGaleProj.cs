@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HeavenlyGaleProj : BaseIdleHoldoutProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public bool OwnerCanShoot => Owner.HasAmmo(Owner.ActiveItem()) && !Owner.noItems && !Owner.CCed;
 
         public float StringReelbackInterpolant

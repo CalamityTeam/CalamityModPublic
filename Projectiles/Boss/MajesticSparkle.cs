@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class MajesticSparkle : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public ref float Time => ref Projectile.ai[0];
         public ref float ColorSpectrumHue => ref Projectile.ai[1];
         public const int Lifetime = 90;

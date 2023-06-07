@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class PurityProjection : ModProjectile, ILocalizedModType //The boring plain one
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_PurityProjection";
 
         public override void SetStaticDefaults()

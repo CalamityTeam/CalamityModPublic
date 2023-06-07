@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
     [LegacyName("Vehemenc")]
     public class Vehemence : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public const int BaseDamage = 5185;
         public const float SkullRatio = 0.08f;
 

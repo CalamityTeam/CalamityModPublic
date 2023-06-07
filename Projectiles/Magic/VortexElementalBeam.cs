@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class VortexElementalBeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public const int Lifetime = 30;
         public const float LightningTurnRandomnessFactor = 1.7f;
         public ref float InitialVelocityAngle => ref Projectile.ai[0];

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CosmilampMinion : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
 
         public int HoverOffsetIndex => (int)Projectile.ai[0];
