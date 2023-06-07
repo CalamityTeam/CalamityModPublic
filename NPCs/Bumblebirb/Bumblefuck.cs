@@ -25,7 +25,6 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Pets;
 using CalamityMod.Items.Potions;
 
 namespace CalamityMod.NPCs.Bumblebirb
