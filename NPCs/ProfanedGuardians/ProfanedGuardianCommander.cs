@@ -21,6 +21,7 @@ using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Events;
 using Terraria.Audio;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
@@ -1165,6 +1166,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<ProfanedGuardiansRelic>());
+
+            // GFB Chicken Nugget and Divine Geode drops
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ItemID.ChickenNugget, 1, 1, 9999);
+                GFBOnly.Add(ModContent.ItemType<DivineGeode>(), 1, 25, 30);
+            }
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedGuardians, ModContent.ItemType<LoreProfanedGuardians>(), desc: DropHelper.FirstKillText);

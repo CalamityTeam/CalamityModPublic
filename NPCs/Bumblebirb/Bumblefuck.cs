@@ -25,6 +25,8 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Pets;
+using CalamityMod.Items.Potions;
 
 namespace CalamityMod.NPCs.Bumblebirb
 {
@@ -448,6 +450,9 @@ namespace CalamityMod.NPCs.Bumblebirb
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<DragonfollyRelic>());
+
+            // GFB Omega Healing Potion drop
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<OmegaHealingPotion>(), 1, 50, 100);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<LoreDragonfolly>(), desc: DropHelper.FirstKillText);
