@@ -1,4 +1,4 @@
-/* Recipe Conditions */
+// Recipe Conditions
 Tier1ArsenalRecipeCondition: View an unencrypted schematic from the lab near the Sunken Sea
 Tier2ArsenalRecipeCondition: Decrypt a schematic from the lab in the large planetoid in the sky
 Tier3ArsenalRecipeCondition: Decrypt a schematic from the lab deep within the jungle
@@ -9,7 +9,8 @@ PlanetoidSchematicRecipeCondition: Place a schematic from the lab in the large p
 JungleSchematicRecipeCondition: Place a schematic from the lab deep within the jungle in your inventory at least once
 UnderworldSchematicRecipeCondition: Place a schematic from the lab near the edges of the underworld in your inventory at least once
 IceSchematicRecipeCondition: Place a schematic from the lab within the frozen caverns in your inventory at least once
-/* Item Messages */
+// Item Messages
+LearnedSchematic: You learned how to create new things!
 ThirdSageBlessingText: You have been blessed by the Third Sage!
 ThirdSageBlessingText2: The Third Sage has rescinded its blessing...
 GenericConsumedText: "[c/8a8a8a:You have already consumed this item]"

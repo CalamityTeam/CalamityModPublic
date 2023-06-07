@@ -327,7 +327,7 @@ namespace CalamityMod.TileEntities
                         SyncContainedStuff();
                     }
                     else if (anythingChanged)
-                        CombatText.NewText(Main.LocalPlayer.Hitbox, Color.Cyan, "You learned how to create new things!", true);
+                        CombatText.NewText(Main.LocalPlayer.Hitbox, Color.Cyan, CalamityUtils.GetTextValue("Misc.LearnedSchematic"), true);
                 }
             }
         }
