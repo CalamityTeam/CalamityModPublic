@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using System.IO;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -116,6 +117,9 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.owner == Main.myPlayer)
             {
                 int totalProjectiles = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 8 : 6;
+                if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                    totalProjectiles *= 2;
+
                 float radians = MathHelper.TwoPi / totalProjectiles;
                 int type = ModContent.ProjectileType<HolyFire2>();
                 float velocity = 5f;

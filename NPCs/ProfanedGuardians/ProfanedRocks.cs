@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         NPC.noGravity = false;
                         NPC.velocity.Y += 0.1f;
 
-                        // Die if insied any tiles
+                        // Die if inside any tiles
                         if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                         {
                             if (NPC.DeathSound.HasValue)
@@ -200,6 +200,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     // Start off slow
                     Vector2 finalVelocity = NPC.SafeDirectionTo(player.Center, -Vector2.UnitY) * chargeSpeed;
+                    if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                        finalVelocity *= Main.rand.NextFloat(1f, 1.7f);
+
                     NPC.Calamity().newAI[2] = finalVelocity.X;
                     NPC.Calamity().newAI[3] = finalVelocity.Y;
                     NPC.velocity = finalVelocity * 0.1f;

@@ -28,6 +28,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Enemy;
 
 namespace CalamityMod.NPCs.Ravager
 {
@@ -574,6 +575,33 @@ namespace CalamityMod.NPCs.Ravager
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        bool anyRockPillars = NPC.AnyNPCs(ModContent.NPCType<RockPillar>());
+                        bool anyFlamePillars = NPC.AnyNPCs(ModContent.NPCType<FlamePillar>());
+
+                        if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                        {
+                            if (!expertMode || anyRockPillars || anyFlamePillars)
+                                SoundEngine.PlaySound(PillarSound, NPC.Center);
+
+                            // Eruption of bouncing rock projectiles
+                            float projectileVelocity = 12f;
+                            int type = ModContent.ProjectileType<EarthRockBig>();
+                            Vector2 destination = new Vector2(NPC.Center.X, NPC.Center.Y - 100f) - NPC.Center;
+                            destination.Normalize();
+                            destination *= projectileVelocity;
+                            int numProj = 11;
+                            float rotation = MathHelper.ToRadians(90);
+                            for (int i = 0; i < numProj; i++)
+                            {
+                                // Spawn projectiles 0, 1, 2, 3, 7, 8, 9 and 10
+                                if (i < 4 || i > 6)
+                                {
+                                    Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitY * 30f * NPC.scale + Vector2.Normalize(perturbedSpeed) * 30f * NPC.scale, perturbedSpeed, type, 60, 0f, Main.myPlayer);
+                                }
+                            }
+                        }
+
                         if (expertMode)
                         {
                             for (int i = 0; i < Main.maxNPCs; i++)
@@ -587,19 +615,17 @@ namespace CalamityMod.NPCs.Ravager
                             }
 
                             int spawnDistance = 360;
-                            bool anyrockpillars = NPC.AnyNPCs(ModContent.NPCType<RockPillar>());
-                            bool anyflamepillars = NPC.AnyNPCs(ModContent.NPCType<FlamePillar>());
 
-                            if (!anyrockpillars || !anyflamepillars)
+                            if (!anyRockPillars || !anyFlamePillars)
                             {
                                 SoundEngine.PlaySound(PillarSound, NPC.Center);
                             }
-                            if (!anyrockpillars || Main.getGoodWorld)
+                            if (!anyRockPillars || Main.getGoodWorld)
                             {
                                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.Center.X - spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
                                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.Center.X + spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
                             }
-                            else if (!anyflamepillars || Main.getGoodWorld)
+                            else if (!anyFlamePillars || Main.getGoodWorld)
                             {
                                 float distanceMultiplier = finalPhase ? 2.5f : 2f;
                                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)player.Center.X - (int)(spawnDistance * distanceMultiplier), (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());

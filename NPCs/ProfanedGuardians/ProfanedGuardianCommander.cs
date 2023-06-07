@@ -268,7 +268,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                 if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && CalamityWorld.getFixedBoi && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    // gain more health once the healer's channel heal is done
+                    // Gain more health once the healer's channel heal is done
                     NPC.lifeMax += 7500;
                     NPC.life += NPC.lifeMax - NPC.life;
                     NPC.HealEffect(NPC.lifeMax - NPC.life, true);
@@ -373,6 +373,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float maxChargeVelocity = (bossRush || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
             if (Main.getGoodWorld)
                 maxChargeVelocity *= 1.15f;
+            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                maxChargeVelocity *= 2f;
 
             float inertia = (bossRush || biomeEnraged) ? 40f : death ? 45f : revenge ? 47f : expertMode ? 50f : 55f;
             if (lifeRatio < 0.5f)
@@ -953,6 +955,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             // -60 degrees offset
                             if (revenge)
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, -laserVelocity, type, damage, 0f, Main.myPlayer, -beamDirection * MathHelper.TwoPi / rotation, NPC.whoAmI);
+
+                            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                            {
+                                rotation *= 0.33f;
+                                laserVelocity = laserVelocity.RotatedBy(-(double)beamDirection * MathHelper.TwoPi / 2f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, laserVelocity, ModContent.ProjectileType<ProvidenceHolyRay>(), damage, 0f, Main.myPlayer, beamDirection * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, -laserVelocity, ModContent.ProjectileType<ProvidenceHolyRay>(), damage, 0f, Main.myPlayer, -beamDirection * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                            }
 
                             NPC.netUpdate = true;
                         }
