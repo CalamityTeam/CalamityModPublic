@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class FungalClump : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public const int FungalClumpDamage = 10;
 
         public override void SetDefaults()

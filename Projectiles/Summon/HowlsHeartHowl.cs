@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class HowlsHeartHowl : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public bool initialized = false;
 
         public override void SetStaticDefaults()

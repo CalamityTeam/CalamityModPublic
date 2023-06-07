@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Tools
 {
     public class WulfrumDiggingTurtle : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Tools";
+        public new string LocalizationCategory => "Items.Tools";
         public override void SetStaticDefaults()
         {
                        Item.ResearchUnlockCount = 10;

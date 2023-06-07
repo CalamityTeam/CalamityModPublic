@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class HadalUrnHoldout : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public static readonly SoundStyle UrnSound = new("CalamityMod/Sounds/Item/HadalUrnClose");
 
         public int manatimer = 0;

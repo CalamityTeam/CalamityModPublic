@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TruePurityProjection : ModProjectile, ILocalizedModType //The boring plain one. With cool homing now
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public NPC target;
         public Player Owner => Main.player[Projectile.owner];
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_PurityProjection";

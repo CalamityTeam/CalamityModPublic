@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("XerocsGreatsword")]
     public class EntropicClaymore : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 130;

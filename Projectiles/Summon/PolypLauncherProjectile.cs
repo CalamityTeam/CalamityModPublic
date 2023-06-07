@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PolypLauncherProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const float Gravity = 0.4f;
         public override void SetStaticDefaults()
         {

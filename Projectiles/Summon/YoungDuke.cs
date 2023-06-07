@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class YoungDuke : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const float DistanceBeforeCharge = 420f;
 
         public override void SetStaticDefaults()

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PhaseslayerBeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public const int Lifetime = 180;
         public override void SetStaticDefaults()
         {

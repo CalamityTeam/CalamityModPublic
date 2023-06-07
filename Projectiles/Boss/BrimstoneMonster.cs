@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneMonster : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneMonsterSpawn");
         public static readonly SoundStyle DroneSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneMonsterDrone");
 

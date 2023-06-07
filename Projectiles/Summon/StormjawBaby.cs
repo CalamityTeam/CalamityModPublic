@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class StormjawBaby : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public float dust = 0f;
         private int sparkCounter = 0;
         private int targetIndex = -1;

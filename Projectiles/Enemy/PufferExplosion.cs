@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class PufferExplosion : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Enemy";
+        public new string LocalizationCategory => "Projectiles.Enemy";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

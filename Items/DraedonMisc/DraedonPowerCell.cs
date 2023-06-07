@@ -9,7 +9,7 @@ namespace CalamityMod.Items.DraedonMisc
     [LegacyName("PowerCell")]
     public class DraedonPowerCell : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.DraedonItems";
+        public new string LocalizationCategory => "Items.DraedonItems";
         // This is how much Charge each Power Cell is worth when charging. Leave this at 1.
         public const float ChargeValue = 1f;
 

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Heresy : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
         {
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));

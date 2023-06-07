@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables
     [LegacyName("ChaoticBrick")]
     public class ScoriaBrick : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults() => Item.ResearchUnlockCount = 100;
 
         public override void SetDefaults()

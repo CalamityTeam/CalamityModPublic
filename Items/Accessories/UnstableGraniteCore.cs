@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("UnstablePrism")]
     public class UnstableGraniteCore : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));

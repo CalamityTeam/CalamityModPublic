@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class InfernalBlade2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Magic/InfernalBlade";
 
         public override void SetDefaults()

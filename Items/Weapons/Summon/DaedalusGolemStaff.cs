@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class DaedalusGolemStaff : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetStaticDefaults()
         {
             // Funny Hollow Knight reference.

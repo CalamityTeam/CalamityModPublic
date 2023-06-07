@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FinalDawnFlame : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         internal struct Flame
         {
             public Vector2 Position;

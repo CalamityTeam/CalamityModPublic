@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShatteredSunScorchedBlade : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         int counter = 0;
         bool stealthOrigin = false;
 

@@ -4,7 +4,7 @@ namespace CalamityMod.Items.Placeables
 {
     public class SulphurousShale : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

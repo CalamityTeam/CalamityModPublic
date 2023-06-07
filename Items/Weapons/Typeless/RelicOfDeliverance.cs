@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 {
     public class RelicOfDeliverance : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Typeless";
+        public new string LocalizationCategory => "Items.Weapons.Typeless";
         public override void SetDefaults()
         {
             Item.width = 32;

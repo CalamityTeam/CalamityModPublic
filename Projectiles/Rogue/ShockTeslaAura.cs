@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShockTeslaAura : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Typeless/TeslaAura";
 
         private const float radius = 98f;

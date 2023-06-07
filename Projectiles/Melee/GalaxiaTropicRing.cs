@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalaxiaTropicRing : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public Player Owner => Main.player[Projectile.owner];
         public ref float Mode => ref Projectile.ai[0];
         public ref float Fade => ref Projectile.ai[1];

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class RustyBeaconPulse : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public float LifetimeCompletion => 1f - Projectile.timeLeft / (float)RustyBeaconPrototype.PulseLifetime;
 
         public override void SetDefaults()

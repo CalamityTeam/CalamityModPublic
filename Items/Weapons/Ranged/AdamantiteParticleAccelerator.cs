@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AdamantiteParticleAccelerator : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public const int ChargeFrames = 28;
         public const int CooldownFrames = 16;
         public static readonly Color[] LightColors = new Color[] { new Color(235, 40, 121), new Color(49, 161, 246) }; //beam colors

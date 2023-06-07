@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class Bear : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Pets";
+        public new string LocalizationCategory => "Projectiles.Pets";
         public int chosenIdle = 0;
         public int idleTimer = 0;
         public int playerStill = 0;

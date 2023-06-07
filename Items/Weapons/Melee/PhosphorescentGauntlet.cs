@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class PhosphorescentGauntlet : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public const int OnHitIFrames = 15;
 
         public override void SetDefaults()

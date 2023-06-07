@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CosmicViperSummon : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public static Item FalseGun = null;
         public static Item CosmicViper = null;
 

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class MarniteDeconstructorProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Tools/MarniteDeconstructor";
         public static Asset<Texture2D> GlowmaskTex;
         public static Asset<Texture2D> BloomTex;

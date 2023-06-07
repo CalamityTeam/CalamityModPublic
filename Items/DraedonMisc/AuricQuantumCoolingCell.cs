@@ -17,7 +17,7 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class AuricQuantumCoolingCell : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.DraedonItems";
+        public new string LocalizationCategory => "Items.DraedonItems";
         public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/AuricQuantumCoolingCellInstallNew");
         public override void SetDefaults()
         {

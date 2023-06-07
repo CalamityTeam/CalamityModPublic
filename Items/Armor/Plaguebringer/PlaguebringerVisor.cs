@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
     [AutoloadEquip(EquipType.Head)]
     public class PlaguebringerVisor : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Hardmode";
+        public new string LocalizationCategory => "Items.Armor.Hardmode";
         public const int PlagueDashIFrames = 12;
 
         public override void SetDefaults()

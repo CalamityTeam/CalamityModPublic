@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Eternity : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public const int BaseDamage = 840;
         public const int ExplosionDamage = 8400;
         public const int MaxHomers = 40;

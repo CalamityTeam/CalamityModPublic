@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EclipseMirrorBurst : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         private int frameCounter = 0;
         private int frameX = 0;
         private int frameY = 0;

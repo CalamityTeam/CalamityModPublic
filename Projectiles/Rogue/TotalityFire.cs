@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TotalityFire : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         private bool initialized = false;
 
         public override void SetStaticDefaults()

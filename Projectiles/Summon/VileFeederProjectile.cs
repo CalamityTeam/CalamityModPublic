@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class VileFeederProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         private int bounce = 3;
 
         public override void SetStaticDefaults()

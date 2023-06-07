@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class SupremeCataclysmFist : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public ref float Time => ref Projectile.ai[0];
 
         public override void SetStaticDefaults()

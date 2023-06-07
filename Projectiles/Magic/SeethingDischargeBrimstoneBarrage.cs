@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SeethingDischargeBrimstoneBarrage : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneBarrage";
 
         public override void SetStaticDefaults()

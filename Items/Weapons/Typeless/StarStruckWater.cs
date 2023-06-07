@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 {
     public class StarStruckWater : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Typeless";
+        public new string LocalizationCategory => "Items.Weapons.Typeless";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
     [LegacyName("AngryChickenStaff")]
     public class YharonsKindleStaff : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public const int Damage = 300;
         public const float ReboundRamDamageFactor = 2f;
         public override void SetDefaults()

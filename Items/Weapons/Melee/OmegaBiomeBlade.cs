@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
     // TODO -- CANNOT RENAME this and True Biome Blade to "TrueBiomeBlade" and "BiomeBlade" internally without corrupting existing items
     public class OmegaBiomeBlade : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public Attunement mainAttunement = null;
         public Attunement secondaryAttunement = null;
         public Projectile MeatHook;

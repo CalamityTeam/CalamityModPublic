@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepWounderProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/DeepWounder";
 
         public override void SetDefaults()

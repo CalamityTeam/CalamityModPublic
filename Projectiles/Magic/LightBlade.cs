@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LightBlade : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const int Lifetime = 300;
         private const int NumAfterimages = 8;
         private const float LightBrightness = 0.7f;

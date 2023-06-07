@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class StardustElementalBeam : BaseLaserbeamProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override float MaxScale => 0.85f;
         public override float MaxLaserLength => 1000f;
         public override float Lifetime => 30f;

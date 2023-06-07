@@ -760,7 +760,7 @@ namespace CalamityMod.ILEditing
         #endregion General Particle Rendering
 
         #region Custom Lava Visuals
-        private static void DrawCustomLava(Terraria.GameContent.Drawing.On_TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
+        /*private static void DrawCustomLava(Terraria.GameContent.Drawing.On_TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
         {
             if (liquidType != 1)
             {
@@ -799,7 +799,7 @@ namespace CalamityMod.ILEditing
             {
                 Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
             }
-        }
+        }*/
 
         private static void ChangeWaterQuadColors(ILContext il)
         {

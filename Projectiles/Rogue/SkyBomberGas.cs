@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SkyBomberGas : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override void SetDefaults()
         {
             Projectile.width = 32;

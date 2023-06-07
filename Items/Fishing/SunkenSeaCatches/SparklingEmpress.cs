@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
     public class SparklingEmpress : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public static int BaseDamage = 10;
 
         public override void SetStaticDefaults()

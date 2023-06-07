@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class PwnagehammerProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/Pwnagehammer";
 
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.16f, PitchVariance = 0.16f };

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class MidnightSunBeacon : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public const float MachineGunRate = 18f;
 
         public override void SetDefaults()

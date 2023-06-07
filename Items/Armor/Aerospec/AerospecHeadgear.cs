@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Armor.Aerospec
     [AutoloadEquip(EquipType.Head)]
     public class AerospecHeadgear : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PreHardmode";
+        public new string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetStaticDefaults()
         {
 

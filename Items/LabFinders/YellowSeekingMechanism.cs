@@ -11,7 +11,7 @@ namespace CalamityMod.Items.LabFinders
     [LegacyName("PurpleSeekingMechanism")]
     public class YellowSeekingMechanism : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.DraedonItems";
+        public new string LocalizationCategory => "Items.DraedonItems";
         public override void SetDefaults()
         {
             Item.width = 24;

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class RancorLaserbeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public PrimitiveTrail RayDrawer = null;
         public Player Owner => Main.player[Projectile.owner];
         public Projectile MagicCircle

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class TheAnomalysNanogun : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
+        public new string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public static readonly SoundStyle PlasmaChargeSFX = new("CalamityMod/Sounds/Item/AnomalysNanogunPlasmaCharge");
         public static readonly SoundStyle MPFBShotSFX = new("CalamityMod/Sounds/Item/AnomalysNanogunMPFBShot");
         public static readonly SoundStyle PlasmaShotSFX = new("CalamityMod/Sounds/Item/AnomalysNanogunPlasmaShot");

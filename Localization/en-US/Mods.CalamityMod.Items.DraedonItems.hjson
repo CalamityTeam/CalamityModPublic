@@ -7,7 +7,7 @@ DraedonPowerCell: {
 		'''
 }
 
-/* Codebreaker Pieces */
+// Codebreaker Pieces
 AdvancedDisplay: {
 	DisplayName: Advanced Display
 	Tooltip:
@@ -64,7 +64,7 @@ VoltageRegulationSystem: {
 		'''
 }
 
-/* Draedon Logs */
+// Draedon Logs
 DraedonsLogHell: {
 	DisplayName: Environmental Pollution Log
 	Tooltip:
@@ -72,6 +72,9 @@ DraedonsLogHell: {
 		[Environment Log] - Pollution and 'Wall of Flesh'
 		Click to view its contents
 		'''
+	ContentPage1: The Underworld is a realm with history dating back more than a millenia when the Crags were first settled, and acts as a glance into both the modern and ancient world simultaneously. Prior to my joining of Yharim’s forces, Azafure was the center of scientific advancement in this world. Explosives, firearms, smithing techniques, and even entire schools of magic have roots in the city. It is doubtless that the city has been largely aided by the fact that forging is trivial in the Underworld, along with an abundance of food due to Silva’s essence dripping down from the Abyss above. Due to this, it has prospered even with the occasional attack from Demons.
+	ContentPage2: Azafure has not existed without consequence, of course. Any society on such a large scale leaves an ecological footprint behind. This can be seen most clearly in the sea far above the city, appropriately known as the Sulphurous Sea. Brimstone fumes became intense enough in the city that they began rising up through the Abyss via a process akin to osmosis, and eventually reached the sea. Reducing the pollution the city creates, particularly from forging, is a goal Yharim wishes for me to prioritize. I see little need in it, yet it is a field of study few in this world have delved into. I refuse to squander an opportunity for scientific breakthrough.
+	ContentPage3: A particular being here has been the subject of my interest: a massive wall created from biological material lies in this place created many years ago by the greatest mages Azafure has to offer. It is a living being, though only just. It lacks both pain and emotion, and brings terror to all who lay their eyes upon it. It is kept protected via high security by the city, and so few aside from the Godseeker’s closest allies have had the opportunity to observe it. For as long as Azafure continues to stand, it is unlikely to ever be truly released. Yet, I do not deny that I would be fascinated to see the effects its release would have on the world.
 }
 
 DraedonsLogJungle: {
@@ -81,6 +84,9 @@ DraedonsLogJungle: {
 		[Nanomachine Experimentation Results] - 'The Plague'
 		Click to view its contents
 		'''
+	ContentPage1: It would not be a stretch to call the jungle the hub of this planet. All is centered around it, and none know not of it. It brings me no small amount of unease to see the uncomfortable, raw forms of the living beings who pass through on their journeys above. Fortunately, these labs provide everything I need in my research and more. There is little need to visit the surface, save for Yharim's summons.
+	ContentPage2: Few travel down here, with far fewer making the expedition to reach as far down as this research station. As such, I have taken to using this isolation to develop advanced nanotechnology for use in controlling the minds of biologicals. I yearn for it to be capable of spreading from organism to organism, a perfected blend of a virus and nanotechnology. Yet, it has been an arduous task even with my newly developed technologies. Further experimentation and research are required.
+	ContentPage3: Continued experiments have led to significant results. With a mechanically modified Queen Bee as a primary host, it may act as the core of a hive mind of those my plague has touched. However, Yharim was outraged upon learning of my experiments here and decried them as inhumane. After a brief verbal conflict, he wordlessly left and I have not heard from him since. Fortunately, I need not rely on the slayer of gods any longer, nor have I needed to for years.
 }
 
 DraedonsLogPlanetoid: {
@@ -90,6 +96,9 @@ DraedonsLogPlanetoid: {
 		[Space and Soil Survey] - Low Terraria Orbit
 		Click to view its contents
 		'''
+	ContentPage1: High above even the sky islands upheaved long ago lies a fascinating geological phenomenon. Though, unlike the islands, their airborne nature appears to have formed more naturally. I speculate that they formed long ago when the world was in its infancy judging by soil samples I have taken while testing high atmosphere plant growth. Perhaps these "planetoids", as many refer to them as, formed via meteor strikes tossing matter high into the atmosphere. This would simultaneously explain many geological oddities I have found on the world's surface.
+	ContentPage2: Travel between worlds is a fascination of mine. The planets within reasonable distance to this provide no use to me in terms of materials or study opportunities they could provide. And so, I wish to go further beyond this mere cluster of planets some day. It will likely take many more decades of technological progress, however, as travel between worlds would take years even at the maximum speed physical matter can currently go. Perhaps I will find a way to shatter this limit once this world holds my interest no longer.
+	ContentPage3: A request from Yharim has been delivered. An inquiry to create a suit of armor for the serpent that has joined his forces recently, the "Devourer of Gods" as the serpent calls himself. He is a bothersome yet fascinating being. And so, I have taken the opportunity so that I may learn more of his home dimension. Using materials from his place of origin, I have forged armor of immense size and durability yet extreme flexibility. It is certainly one of the most unique materials I have worked with and has advanced my knowledge greatly. Though, I have learned more than I expected to about the cosmic beast from this. Perhaps more than he wished for me to.
 }
 
 DraedonsLogSnowBiome: {
@@ -99,6 +108,9 @@ DraedonsLogSnowBiome: {
 		[Material Science Report] - Archmage's 'Cryonic Metal'
 		Click to view its contents
 		'''
+	ContentPage1: A freezing tundra, where only creatures that have adapted to the subzero temperatures thrive. Few sapient beings have ever permanently resided here, save for miners and the Archmage. With this fact in mind, Yharim has requested I observe this place for oddities due to the armies largely having glossed over this location. Additionally, I have been requested by the Archmage to perform studies on his frigid metals. There is little else to do in this frozen wasteland, and so his request has been accepted.
+	ContentPage2: Cryonic Ore, as the Archmage simply calls it, is a material seemingly akin to iced over glass. One would assume it is a fragile material at a glance, yet upon testing it is clear that is not the case. Plating made out of it has been found to be more durable and resilient than mythril alloy via flexural and tensile testing, followed by destruction attempts. Yet, it is but a fraction of the weight. Perhaps mass amounts of this material could be used to forge armor for units who disdain for the usual burden of metal plating. I will likely inquire further about the creation methods of Cryonic Ore to achieve this.
+	ContentPage3: As described earlier, Cryonic Ore was developed by the Archmage, Permafrost. Despite his position as the mage of mages, he has little will to engage in combat. He instead acts as advisor to Yharim, assisting in much of the management of cities and towns taken by or sided with the Godkiller. In addition, he seems to have bonded with the girl who arrived seeking Yharim some months ago, acting as a fatherly figure to her. I myself have taken an interest in her immense natural power.
 }
 
 DraedonsLogSunkenSea: {
@@ -108,9 +120,12 @@ DraedonsLogSunkenSea: {
 		[Bioform Research] - Aquatic Life of Ilmeris
 		Click to view its contents
 		'''
+	ContentPage1: A hub of diverse ocean life, and all that remains of Ilmeris that is unscorched. Once its rural outskirts, it is now the final fragment of a once powerful kingdom. It is fortunate that the Witch only focused on attacking the cities proper, and spared some amount of the sea from the Incineration. I have long yearned to research these waters in great depth, yet was never able due to the ongoing conflict. Although many species went extinct in the devastation, many still thrive down here in its depths. It is in this lab that I may finally study the aquatic life properly and learn of their nature.
+	ContentPage2: Although the marine life in these caves do have eyes, some of their eyes are weak and process few colors. All they are made to see is the light of the sea prisms that surround them, with many creatures relying on them to guide their way through the submerged caverns. Their tough, gnarled hides possess crystal growths that I had originally assumed were the prisms settling on their backs. However, dissection results reveal that they instead possess these crystals internally, and the growths are a result of internal sea prisms bursting out of their hides. The growth of these crystals reaches such an extent that some creatures are more geological than biological in certain areas.
+	ContentPage3: Of the specimens here, the abnormally large clams capture my interest the most. Many times larger than the average person, their weight is so great that they lack the ability to move via the same methods as their smaller counterparts. Instead, they rely on teleportation to transport their hulking, heavily armored bodies. They seem to have once possessed further magical powers according to scouts. However, as they were seen only from afar, their reports could have easily been mistaken. Alternatively, their source of power simply could have faded after Ilmeris' downfall. It is unwise to entirely discount the latter possibility.
 }
 
-/* Lab Finders */
+// Lab Finders
 CyanSeekingMechanism: {
 	DisplayName: Cyan Seeking Mechanism
 	Tooltip: Moves swiftly towards a lab deep below the desert
@@ -146,25 +161,52 @@ YellowSeekingMechanism: {
 	Tooltip: Moves swiftly towards a lab within the sky
 }
 
-/* Schematics */
+// Schematics
+SchematicUnlocked:
+	'''
+	Has already been decrypted.
+	Click to view its contents.
+	Unlocked recipes:
+	'''
+
 EncryptedSchematicHell: {
 	DisplayName: Encrypted Schematic (Underworld)
 	Tooltip: Requires a Codebreaker with a sophisticated display to decrypt
+	Content:
+		'''
+		Only the highest ranking in the battalions of Yharim's army held these weapons. However these are still not my most potent tools. Those...characters could not be trusted with them.
+		Addendum: The final piece remains. Travel now from the hottest fire this land has to offer, to the most frigid cold. I cannot deny having some sense of poetic symmetry.
+		'''
 }
 
 EncryptedSchematicIce: {
 	DisplayName: Encrypted Schematic (Ice)
 	Tooltip: Requires a Codebreaker with a complex voltage regulation system to decrypt
+	Content:
+		'''
+		I have since made progress to even greater weapons than these, but they remain creations to be proud of. No progress can be made without a desire that comes from dissatisfaction.
+		Addendum: The time has come. You are ready.
+		'''
 }
 
 EncryptedSchematicJungle: {
 	DisplayName: Encrypted Schematic (Jungle)
 	Tooltip: Requires a Codebreaker with a fine tuned, long range sensor to decrypt
+	Content:
+		'''
+		As rank progresses, so often does the lethality of equipment. In the hands of competent soldiers, the weapons have the ability to make change. However, competent soldiers take no action but orders from above.
+		Addendum: If you read this, you have come far. Do not disappoint. Go now to Hell, for the next component stored in what were once my forges.
+		'''
 }
 
 EncryptedSchematicPlanetoid: {
 	DisplayName: Encrypted Schematic (Planetoid)
 	Tooltip: Requires a Codebreaker with a basic decryption computer to decrypt
+	Content:
+		'''
+		Within an army, as weapons do, the soldiers serve different purposes. That distinction is crucial, as the wrong tool in the wrong hands—no matter how potent—may as well be a wooden club.
+		Addendum: Seek out my base of operations closest to the Lihzahrd's home. I wish you the best of luck with all sincerity, for it has been a long time since I have had a worthy test subject.
+		'''
 }
 
 EncryptedSchematicSunkenSea: {
@@ -174,5 +216,12 @@ EncryptedSchematicSunkenSea: {
 		Finely detailed diagrams of numerous devices and weaponry dance across the holographic screen
 		Picking up this item or holding it in your inventory permanently unlocks new recipes
 		Click to view its contents
+		'''
+	Content:
+		'''
+		The weaponry I supply to the workers of the laboratories is weak. Hardly suited for battle.
+		However, they suffice for self defense against any lab mechanisms or creations which may have gone rogue.
+		Addendum: For those who think themselves powerful, search the upper bounds of this planet's atmosphere for a structure similar to that of the Sunken Seas.
+		I will know by the end if you are worthy of battling my creations.
 		'''
 }

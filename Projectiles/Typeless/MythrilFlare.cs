@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class MythrilFlare : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public PrimitiveTrail FlameTrailDrawer = null;
         public ref float Time => ref Projectile.ai[0];
         public const int AttackDelay = 22;

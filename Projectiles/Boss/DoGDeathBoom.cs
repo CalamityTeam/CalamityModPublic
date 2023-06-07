@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DoGDeathBoom : BaseMassiveExplosionProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override int Lifetime => 180;
         public override bool UsesScreenshake => true;
         public override float GetScreenshakePower(float pulseCompletionRatio) => CalamityUtils.Convert01To010(pulseCompletionRatio) * 28f;

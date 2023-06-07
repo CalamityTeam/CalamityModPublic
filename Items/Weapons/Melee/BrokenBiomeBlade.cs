@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("BiomeBlade")]
     public class BrokenBiomeBlade : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public Attunement mainAttunement = null;
         public Attunement secondaryAttunement = null;
         public int Combo = 0;

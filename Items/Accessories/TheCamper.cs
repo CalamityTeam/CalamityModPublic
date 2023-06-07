@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Back)]
     public class TheCamper : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         int auraCounter = 0;
 
         public override void SetDefaults()

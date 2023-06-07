@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
 	public class AquasScepter : ModItem, ILocalizedModType
 	{
-		public string LocalizationCategory => "Items.Weapons.Summon";
+		public new string LocalizationCategory => "Items.Weapons.Summon";
 		public override void SetStaticDefaults()
 		{
 			ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;

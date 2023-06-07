@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables.Ores
     [LegacyName("ExodiumClusterOre")]
     public class ExodiumCluster : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

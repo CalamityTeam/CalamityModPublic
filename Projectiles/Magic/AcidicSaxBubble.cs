@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AcidicSaxBubble : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public float counter = 0f;
         public float counter2 = 0f;
         public int killCounter = 0;

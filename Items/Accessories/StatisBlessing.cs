@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Neck)]
     public class StatisBlessing : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 28;

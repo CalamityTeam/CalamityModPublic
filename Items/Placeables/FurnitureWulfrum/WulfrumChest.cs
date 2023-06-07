@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
 {
     public class WulfrumChest : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;

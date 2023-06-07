@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
     [AutoloadEquip(EquipType.Legs)]
     public class PlaguebringerPistons : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Hardmode";
+        public new string LocalizationCategory => "Items.Armor.Hardmode";
         public int counter = 0;
         public override void SetDefaults()
         {

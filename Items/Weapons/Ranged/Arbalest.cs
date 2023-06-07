@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Arbalest : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         private int totalProjectiles = 1;
         private float arrowScale = 0.5f;
 

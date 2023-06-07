@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EventHorizonBlackhole : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public int killCounter = 21;
 
         public override void SetStaticDefaults()

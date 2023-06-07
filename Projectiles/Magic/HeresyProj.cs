@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class HeresyProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public Player Owner => Main.player[Projectile.owner];
         public float ShootIntensity => MathHelper.SmoothStep(0f, 1f, Utils.GetLerpValue(0f, 275f, Time, true));
         public ref float Time => ref Projectile.ai[0];

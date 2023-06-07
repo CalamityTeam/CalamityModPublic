@@ -5,7 +5,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
     public class StatigelLamp : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 26;

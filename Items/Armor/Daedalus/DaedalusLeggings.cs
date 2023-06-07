@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Daedalus
     [AutoloadEquip(EquipType.Legs)]
     public class DaedalusLeggings : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Hardmode";
+        public new string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

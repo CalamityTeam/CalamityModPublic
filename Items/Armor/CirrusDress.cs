@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Body)]
     public class CirrusDress : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Hardmode";
+        public new string LocalizationCategory => "Items.Armor.Hardmode";
         /* How to obtain
          * 1 - Have alcohol poisoning
          * 2 - Visit the Stylist while Cirrus is alive in the world

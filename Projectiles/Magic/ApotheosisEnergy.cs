@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ApotheosisEnergy : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         internal PrimitiveTrail TrailDrawer = null;
 
         public override void SetStaticDefaults()

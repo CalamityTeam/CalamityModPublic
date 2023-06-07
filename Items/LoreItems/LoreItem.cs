@@ -9,7 +9,7 @@ namespace CalamityMod.Items.LoreItems
 {
     public abstract class LoreItem : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Lore";
+        public new string LocalizationCategory => "Items.Lore";
 
         // All lore items initially have a short tooltip which indicates there is more to be read.
         public override LocalizedText Tooltip => CalamityUtils.GetText($"{LocalizationCategory}.ShortTooltip");

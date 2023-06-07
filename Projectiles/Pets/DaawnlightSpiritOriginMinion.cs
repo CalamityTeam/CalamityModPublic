@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class DaawnlightSpiritOriginMinion : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Pets";
+        public new string LocalizationCategory => "Projectiles.Pets";
         public Player Owner => Main.player[Projectile.owner];
         public override void SetStaticDefaults()
         {

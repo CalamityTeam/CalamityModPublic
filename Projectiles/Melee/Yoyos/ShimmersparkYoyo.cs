@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class ShimmersparkYoyo : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 16f;

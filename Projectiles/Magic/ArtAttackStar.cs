@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ArtAttackStar : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public PrimitiveTrail TrailDrawer = null;
         public Player Owner => Main.player[Projectile.owner];
         public ref float Time => ref Projectile.ai[0];

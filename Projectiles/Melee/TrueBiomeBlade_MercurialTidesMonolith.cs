@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class MercurialTidesMonolith : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTidesMonolith";
         public Player Owner => Main.player[Projectile.owner];
         public float Timer => (100f - Projectile.timeLeft) / 100f;

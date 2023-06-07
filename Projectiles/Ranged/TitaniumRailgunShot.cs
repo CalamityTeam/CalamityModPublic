@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TitaniumRailgunShot : BaseLaserbeamProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
         public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid", AssetRequestMode.ImmediateLoad).Value;

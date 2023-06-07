@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HighExplosivePeanutShell : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         private const int Lifetime = 180;
 
         public override void SetStaticDefaults()

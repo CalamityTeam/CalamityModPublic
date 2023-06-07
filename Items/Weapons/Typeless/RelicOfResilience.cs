@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 {
     public class RelicOfResilience : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Typeless";
+        public new string LocalizationCategory => "Items.Weapons.Typeless";
         public const int CooldownSeconds = 5;
         public const float WeaknessDR = 0.45f;
         public override void SetStaticDefaults()

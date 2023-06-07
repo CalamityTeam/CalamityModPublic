@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceHolyRay : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;

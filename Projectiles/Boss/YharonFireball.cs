@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class YharonFireball : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         private float speedX = -3f;
         private float speedX2 = -5f;
 

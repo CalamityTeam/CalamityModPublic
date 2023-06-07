@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MidnightSunShot : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 1;

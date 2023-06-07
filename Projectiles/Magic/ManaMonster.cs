@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ManaMonster : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public ref float Time => ref Projectile.ai[0];
         public Player Target => Main.player[Projectile.owner];
         public const int NPCAttackTime = 50;

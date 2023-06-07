@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class OldDukeGore : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;

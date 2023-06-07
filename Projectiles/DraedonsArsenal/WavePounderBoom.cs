@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class WavePounderBoom : BaseMassiveExplosionProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public override int Lifetime => 60;
         public override bool UsesScreenshake => Projectile.Calamity().stealthStrike;
         public override float GetScreenshakePower(float pulseCompletionRatio) => CalamityUtils.Convert01To010(pulseCompletionRatio) * 16f;

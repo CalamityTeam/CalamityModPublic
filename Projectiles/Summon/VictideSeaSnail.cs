@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class VictideSeaSnail : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public ref float DustTimer => ref Projectile.localAI[0];
         public ref float FireCooldown => ref Projectile.localAI[1];
         public ref float PeekingOut => ref Projectile.ai[0];

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class FreedomStar : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         // This is the amount of charge consumed every time the holdout projectile fires various projectiles.
         public const float HoldoutChargeUse_Orb = 0.004f;
         public const float HoldoutChargeUse_OrbLarge = 0.005f;

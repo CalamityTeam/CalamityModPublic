@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class HadalUrnIsopod : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

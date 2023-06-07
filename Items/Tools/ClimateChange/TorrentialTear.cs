@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 {
     public class TorrentialTear : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Tools";
+        public new string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.width = 20;

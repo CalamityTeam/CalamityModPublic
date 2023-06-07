@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HydraHead : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Hydra";
 
         public Vector2 CurrentPositionOffset;

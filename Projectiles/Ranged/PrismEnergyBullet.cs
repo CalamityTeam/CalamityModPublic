@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class PrismEnergyBullet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public ref float CurrentLaserLength => ref Projectile.ai[0];
         public ref float Time => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/LaserProj";

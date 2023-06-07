@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 {
     public abstract class BaseShortswordProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public enum ShortswordType
         {
             TypicalShortsword

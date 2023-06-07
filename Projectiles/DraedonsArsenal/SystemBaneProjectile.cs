@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class SystemBaneProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/SystemBane";
 
         public float Time

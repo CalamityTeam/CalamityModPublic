@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class InfernalRift : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;

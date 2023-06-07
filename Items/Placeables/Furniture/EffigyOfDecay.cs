@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class EffigyOfDecay : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 22;

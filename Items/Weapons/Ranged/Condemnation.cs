@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Condemnation : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public const int MaxLoadedArrows = 8;
 
         public override void SetStaticDefaults()

@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ScorchedEarthRocket : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 10;

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EelDrop : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
 
         public override void SetStaticDefaults()

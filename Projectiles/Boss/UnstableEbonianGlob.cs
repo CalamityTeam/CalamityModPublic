@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class UnstableEbonianGlob : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

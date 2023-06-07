@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class ResurrectionButterfly : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
             Item.damage = 55;

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class GodKiller : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;

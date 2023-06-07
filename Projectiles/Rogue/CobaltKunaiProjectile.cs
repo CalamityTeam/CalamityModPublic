@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CobaltKunaiProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/CobaltKunai";
 
         public override void SetDefaults()

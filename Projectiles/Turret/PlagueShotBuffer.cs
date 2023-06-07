@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Turret
 {
     public class PlagueShotBuffer : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()

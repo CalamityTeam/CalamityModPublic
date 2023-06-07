@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class BossRushTierAnimation : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public int Tier => (int)Projectile.ai[0];
 
         public Player Owner => Main.player[Projectile.owner];

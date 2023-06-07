@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class MidasPrime : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         internal static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/CrackshotColtShot") { PitchVariance = 0.1f };
 
         // Internal storage used to keep track between UseItem and Shoot hooks whether a gold coin was queued up

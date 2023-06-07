@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SlitheringEelProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public struct EelSegment
         {
             public Vector2 CurrentPosition;

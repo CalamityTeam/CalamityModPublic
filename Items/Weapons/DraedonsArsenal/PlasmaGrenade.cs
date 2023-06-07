@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class PlasmaGrenade : RogueWeapon, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
+        public new string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public static readonly SoundStyle ExplosionSound = new("CalamityMod/Sounds/Item/PlasmaGrenadeExplosion");
 
         public override void SetDefaults()

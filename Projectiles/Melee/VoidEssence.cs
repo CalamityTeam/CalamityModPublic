@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class VoidEssence : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private const int NumAnimationFrames = 4;
         private const int AnimationFrameTime = 12;
         private const float TentacleRange = 140f;

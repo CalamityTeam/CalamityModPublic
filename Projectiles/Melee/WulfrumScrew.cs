@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class WulfrumScrew : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         internal PrimitiveTrail TrailDrawer;
         internal Color PrimColorMult = Color.White;
 

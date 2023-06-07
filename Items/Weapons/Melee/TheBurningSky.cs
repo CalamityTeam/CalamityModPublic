@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TheBurningSky : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         private const int ProjectilesPerBarrage = 6;
 
         public override void SetStaticDefaults()

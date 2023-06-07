@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.Furniture
     [LegacyName("PinkCandle")]
     public class VigorousCandle : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 28;

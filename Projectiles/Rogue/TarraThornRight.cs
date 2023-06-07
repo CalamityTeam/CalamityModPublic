@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TarraThornRight : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Magic/NettleRight";
 
         public override void SetDefaults()

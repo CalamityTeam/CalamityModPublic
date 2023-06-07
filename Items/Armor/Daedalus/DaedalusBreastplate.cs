@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Daedalus
     [AutoloadEquip(EquipType.Body)]
     public class DaedalusBreastplate : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Hardmode";
+        public new string LocalizationCategory => "Items.Armor.Hardmode";
         public override void Load()
         {
             if (Main.netMode == NetmodeID.Server)

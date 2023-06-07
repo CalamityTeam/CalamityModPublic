@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class StarStruckWaterBottle : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Items/Weapons/Typeless/StarStruckWater";
 
         public override void SetDefaults()

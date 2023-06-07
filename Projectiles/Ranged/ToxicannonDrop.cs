@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ToxicannonDrop : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
 
         public override void SetStaticDefaults()

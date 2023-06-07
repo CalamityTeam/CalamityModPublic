@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PrismRocket : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public float ExponentialAccelerationFactor => Projectile.Calamity().stealthStrike ? 1.027f : 1.015f;
         public float MaxHomingSpeed => Projectile.Calamity().stealthStrike ? 26f : 21f;
         public const int Lifetime = 150;

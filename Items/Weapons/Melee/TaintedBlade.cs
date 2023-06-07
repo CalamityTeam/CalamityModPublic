@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("CausticEdge")]
     public class TaintedBlade : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
             Item.width = 46;

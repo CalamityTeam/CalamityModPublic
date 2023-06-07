@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class GoldenEagle : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         private const float Spread = 0.0425f;
 
         public override void SetDefaults()

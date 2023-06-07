@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ManaChargedCoral : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public Player Owner => Main.player[Projectile.owner];
         public static float FullMana => 180f;
         public ref float ManaCharge => ref Projectile.ai[0];

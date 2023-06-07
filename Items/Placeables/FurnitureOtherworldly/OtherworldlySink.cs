@@ -5,7 +5,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
     [LegacyName("OccultSink")]
     public class OtherworldlySink : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Otherworldly Sink");

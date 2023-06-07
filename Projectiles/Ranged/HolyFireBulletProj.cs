@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HolyFireBulletProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         private const int Lifetime = 600;
         private static readonly Color Alpha = new Color(1f, 1f, 1f, 0f);
 

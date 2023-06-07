@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
     [LegacyName("AshenWorkbench")]
     public class AshenWorkBench : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ashen Work Bench");

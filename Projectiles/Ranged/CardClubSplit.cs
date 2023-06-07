@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class CardClubSplit : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;

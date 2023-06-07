@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class OceanSpirit : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Pets";
+        public new string LocalizationCategory => "Projectiles.Pets";
         private bool underwater = false;
         private int sleepyTimer = 0;
         private int lightLevel = 0;

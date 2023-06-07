@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class LuminousShard : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         bool gravity = false;
 
         public override void SetDefaults()

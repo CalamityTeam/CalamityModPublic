@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("DaedalusEmblem")]
     public class DeadshotBrooch : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 46;

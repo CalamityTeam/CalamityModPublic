@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class AdamantiteAcceleratorHoldout : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/AdamantiteParticleAccelerator";
         const float maxTimeAnim = 35;
         public Player Owner => Main.player[Projectile.owner];

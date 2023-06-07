@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MalachiteStealth : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         private const int lifeSpan = 300;
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Malachite";
 

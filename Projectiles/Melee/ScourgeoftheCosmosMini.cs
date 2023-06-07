@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ScourgeoftheCosmosMini : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private int bounce = 3;
 
         public override void SetStaticDefaults()

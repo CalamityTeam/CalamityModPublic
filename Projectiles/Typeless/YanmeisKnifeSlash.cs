@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class YanmeisKnifeSlash : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         // This is a rather weird thing, but it's what the patron asked for.
         public static readonly Func<NPC, bool> CanRecieveCoolEffectsFrom = (npc) =>
         {

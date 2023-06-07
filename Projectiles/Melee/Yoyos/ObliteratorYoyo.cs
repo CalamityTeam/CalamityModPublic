@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class ObliteratorYoyo : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private const int FramesPerShot = 5;
 
         // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates

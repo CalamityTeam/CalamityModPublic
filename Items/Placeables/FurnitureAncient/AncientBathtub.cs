@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
     public class AncientBathtub : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Ancient Bathtub");

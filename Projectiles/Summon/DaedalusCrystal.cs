@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class DaedalusCrystal : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public int dust = 3;
 
         public override void SetStaticDefaults()

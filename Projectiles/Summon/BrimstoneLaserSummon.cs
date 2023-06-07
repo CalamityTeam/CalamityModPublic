@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BrimstoneLaserSummon : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/Melee/BrimstoneLaser";
 
         public override void SetStaticDefaults()

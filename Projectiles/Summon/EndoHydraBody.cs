@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class EndoHydraBody : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public int TargetNPCIndex
         {
             get => (int)Projectile.ai[0];

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class OmegaBlueTentacle : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public bool initSegments = false;
         public Vector2[] segment = new Vector2[6];
 

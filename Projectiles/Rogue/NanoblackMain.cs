@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class NanoblackMain : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/NanoblackReaper";
 
         private const float RotationIncrement = 0.22f;

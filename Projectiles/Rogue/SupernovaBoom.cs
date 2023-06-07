@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SupernovaBoom : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public int frameX = 0;
         public int frameY = 0;
         private const int horizontalFrames = 5;

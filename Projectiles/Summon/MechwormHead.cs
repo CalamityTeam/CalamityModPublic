@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MechwormHead : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         internal enum AttackState : byte
         {
             PortalGateCharge,

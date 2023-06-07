@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class ToxicMinnowCloud : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Enemy";
+        public new string LocalizationCategory => "Projectiles.Enemy";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 10;

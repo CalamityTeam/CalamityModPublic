@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalaxiaBolt : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public NPC target;
         public Player Owner => Main.player[Projectile.owner];
 

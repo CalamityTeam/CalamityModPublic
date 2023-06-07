@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class OldDukeVortex : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/OldDukeVortex");
 
         public override void SetStaticDefaults()

@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables
     [LegacyName("AstralSilt")]
     public class NovaeSlag : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 200;

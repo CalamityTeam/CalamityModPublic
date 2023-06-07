@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Cyclone : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public int dustvortex = 0;
         public override void SetStaticDefaults()
         {

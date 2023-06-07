@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class RotomPet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Pets";
+        public new string LocalizationCategory => "Projectiles.Pets";
         private bool initialized = false;
 
         private Form RotomType = Form.Normal;

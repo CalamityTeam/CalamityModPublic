@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CnidarianJellyfishOnTheString : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const int SegmentCount = 10;
         public const float SegmentDistance = 20;
         public static int FadeoutTime = 20;

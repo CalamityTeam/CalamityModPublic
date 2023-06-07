@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     public class VoidDoor : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 14;

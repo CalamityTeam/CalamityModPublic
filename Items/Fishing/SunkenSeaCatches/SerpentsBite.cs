@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
     public class SerpentsBite : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override void SetDefaults()
         {
             // Instead of copying these values, we can clone and modify the ones we want to copy

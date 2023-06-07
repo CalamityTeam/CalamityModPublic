@@ -13,7 +13,7 @@ namespace CalamityMod.Items.SummonItems
     [LegacyName("BossRush")]
     public class Terminus : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.SummonItems";
+        public new string LocalizationCategory => "Items.SummonItems";
         public override void SetDefaults()
         {
             Item.rare = ItemRarityID.Blue;

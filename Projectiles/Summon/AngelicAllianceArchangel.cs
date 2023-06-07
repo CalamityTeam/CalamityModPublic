@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class AngelicAllianceArchangel : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         private int lifeSpan = 900;
         public override void SetStaticDefaults()
         {

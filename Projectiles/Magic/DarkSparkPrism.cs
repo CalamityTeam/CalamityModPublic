@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class DarkSparkPrism : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Items/Weapons/Magic/DarkSpark";
 
         public override void SetStaticDefaults()

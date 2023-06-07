@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class RainbowPartyCannonProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public Player Owner => Main.player[Projectile.owner];
         public ref float Time => ref Projectile.ai[0];
         public const float ChargeDelay = 60f;

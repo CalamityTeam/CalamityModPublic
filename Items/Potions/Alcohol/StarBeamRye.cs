@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Potions.Alcohol
 {
     public class StarBeamRye : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Potions";
+        public new string LocalizationCategory => "Items.Potions";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

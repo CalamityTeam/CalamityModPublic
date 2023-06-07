@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class YharonSonPet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Pets";
+        public new string LocalizationCategory => "Projectiles.Pets";
         public Player player => Main.player[Projectile.owner];
         private static int xFrameAmt = 3;
         private static int yFrameAmt = 16;

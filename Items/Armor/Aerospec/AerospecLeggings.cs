@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Aerospec
     [AutoloadEquip(EquipType.Legs)]
     public class AerospecLeggings : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PreHardmode";
+        public new string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetDefaults()
         {
             Item.width = 18;

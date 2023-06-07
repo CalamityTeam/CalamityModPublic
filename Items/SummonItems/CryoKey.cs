@@ -15,7 +15,7 @@ namespace CalamityMod.Items.SummonItems
 {
     public class CryoKey : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.SummonItems";
+        public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
            			ItemID.Sets.SortingPriorityBossSpawns[Type] = 7; // Mechanical Eye

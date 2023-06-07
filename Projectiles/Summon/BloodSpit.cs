@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BloodSpit : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const int OnDeathHealValue = 1;
 
         public Player Owner => Main.player[Projectile.owner];

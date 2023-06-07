@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class CoralSpout : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public static readonly SoundStyle ChargeSound = SoundID.LiquidsHoneyWater with { Type = SoundType.Sound };
 
         public static int FullChargeExtraDamage = 6; //Extra damage dealt by each coral chunkits b when fully charging a shot

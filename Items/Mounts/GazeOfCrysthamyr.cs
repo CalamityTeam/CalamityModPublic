@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Mounts
 {
     public class GazeOfCrysthamyr : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Mounts";
+        public new string LocalizationCategory => "Items.Mounts";
         public override void SetStaticDefaults()
         {
            

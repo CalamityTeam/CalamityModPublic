@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class ScuttlersJewel : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
                        ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;

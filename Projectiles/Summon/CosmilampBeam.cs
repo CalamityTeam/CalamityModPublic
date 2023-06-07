@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CosmilampBeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         internal PrimitiveTrail TrailDrawer;
 
         public ref float Timer => ref Projectile.ai[0];

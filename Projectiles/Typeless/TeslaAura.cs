@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class TeslaAura : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         private const float radius = 98f;
         private const int framesX = 3;
         private const int framesY = 6;

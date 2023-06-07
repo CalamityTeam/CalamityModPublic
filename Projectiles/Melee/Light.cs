@@ -5,7 +5,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Light : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private const int speedTimerMax = 60;
         private int speedTimer = 0;
 

@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 {
     public class ExoToilet : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Exo Toilet");

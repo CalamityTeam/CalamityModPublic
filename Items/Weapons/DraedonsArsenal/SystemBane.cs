@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class SystemBane : RogueWeapon, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
+        public new string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public const int MaxDeployedProjectiles = 5;
 
         public override void SetDefaults()

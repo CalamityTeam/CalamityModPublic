@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class UniverseSplitterHugeBeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         // Pretty self explanatory
         public const int TotalFadeoutTime = 25;
         public const int TimeLeft = 180;

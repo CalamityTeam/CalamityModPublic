@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CrystalPiercerProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/CrystalPiercer";
 
         public override void SetStaticDefaults()

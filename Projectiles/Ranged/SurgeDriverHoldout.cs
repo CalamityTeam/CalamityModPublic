@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SurgeDriverHoldout : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public Player Owner => Main.player[Projectile.owner];
         public bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
         public ref float ShootCountdown => ref Projectile.ai[0];

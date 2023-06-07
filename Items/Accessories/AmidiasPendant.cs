@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class AmidiasPendant : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public const int ShardProjectiles = 2;
         public const float ShardAngleSpread = 120;
         public int ShardCountdown = 0;

@@ -4,7 +4,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class KeelhaulGeyserBottom : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;

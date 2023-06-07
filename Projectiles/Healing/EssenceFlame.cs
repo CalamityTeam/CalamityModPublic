@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Healing
 {
     public class EssenceFlame : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Healing";
+        public new string LocalizationCategory => "Projectiles.Healing";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;

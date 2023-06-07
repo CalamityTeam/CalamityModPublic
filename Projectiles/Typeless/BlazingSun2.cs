@@ -4,7 +4,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class BlazingSun2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override void SetDefaults()
         {
             Projectile.width = 130;

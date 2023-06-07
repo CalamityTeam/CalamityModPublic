@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class VoidVortex : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public const int OrbFireRate = 16;
 
         public override void SetStaticDefaults()

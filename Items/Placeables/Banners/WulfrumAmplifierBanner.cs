@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.Banners
     [LegacyName("WulfrumPylonBanner")]
     public class WulfrumAmplifierBanner : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 10;

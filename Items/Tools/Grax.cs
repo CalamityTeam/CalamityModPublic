@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Tools
 {
     public class Grax : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Tools";
+        public new string LocalizationCategory => "Items.Tools";
         private const int HammerPower = 110;
         private const int AxePower = 180 / 5;
 

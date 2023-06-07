@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresGaussNukeProjectileSpark : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         private const int timeLeft = 180;
 
         public override void SetStaticDefaults()

@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Tools
 {
     public class AerialHamaxe : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Tools";
+        public new string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.damage = 20;

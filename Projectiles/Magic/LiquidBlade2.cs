@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LiquidBlade2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Magic/LightBlade";
 
         public override void SetDefaults()

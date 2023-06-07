@@ -5,7 +5,7 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
     public class EutrophicSink : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 28;

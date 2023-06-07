@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class NychthemeronOrb : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public static float[] playerDists = new float[10] { 48f, 80f, 80f, 80f, 80f, 112f, 112f, 112f, 112f, 112f };
         public static float[] rotationSpeeds = new float[10] { 0.1f, -0.075f, -0.075f, -0.075f, -0.075f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f };
 

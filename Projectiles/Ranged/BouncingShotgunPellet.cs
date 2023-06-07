@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BouncingShotgunPellet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Ranged/RealmRavagerBullet";
         private int bounce = 2;
         public override void SetDefaults()

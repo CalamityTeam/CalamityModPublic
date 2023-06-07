@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MoonFistTeleportVisual : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 2;

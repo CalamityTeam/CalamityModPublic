@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SearedPanProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         internal enum SearedPanTypes
         {
             VenLocket = 0,

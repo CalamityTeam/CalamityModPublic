@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScarletDevilProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         internal PrimitiveTrail TrailDrawer;
         public ref float ShootTimer => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ScarletDevil";

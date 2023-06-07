@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 {
     public class MagicHat : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public const float Range = 1500.0001f;
 
         public override void SetStaticDefaults()

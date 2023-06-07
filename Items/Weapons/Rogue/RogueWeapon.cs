@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public abstract class RogueWeapon : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Rogue";
+        public new string LocalizationCategory => "Items.Weapons.Rogue";
         // Apparently custom damage classes for weapons still don't allow for generic weapon prefixes
         public override bool WeaponPrefix() => true;
 

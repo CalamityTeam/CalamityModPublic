@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SpiritCongregation : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public Vector2 HoverOffset = Vector2.Zero;
         public ref float Time => ref Projectile.ai[0];
         public ref float BaseDamage => ref Projectile.ai[1];

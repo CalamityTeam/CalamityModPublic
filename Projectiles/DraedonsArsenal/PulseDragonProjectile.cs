@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PulseDragonProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public bool ReelingBack
         {
             get => Projectile.timeLeft <= ReelbackTime;

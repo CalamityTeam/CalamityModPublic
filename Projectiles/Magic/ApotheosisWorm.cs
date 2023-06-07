@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ApotheosisWorm : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         internal class Segment
         {
             // Doing a typical byte seems to cause the thing to flicker when doing super fast fades.

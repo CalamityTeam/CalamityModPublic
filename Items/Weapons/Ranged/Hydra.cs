@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Hydra : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         //Editable stats:
         public const int BulletsPerShot = 4;
         public const float ShotSpread = 10f; //in degrees

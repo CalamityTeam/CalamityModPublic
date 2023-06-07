@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BrimstoneHellfireballFriendly : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneHellfireball";
 
         public override void SetStaticDefaults()

@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AtlantisSpear2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
 
         public override void SetDefaults()

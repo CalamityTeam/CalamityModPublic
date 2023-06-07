@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 {
     public class AstrophageItem : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.ZephyrFish);

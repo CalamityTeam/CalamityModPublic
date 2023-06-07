@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StealthNimbus : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Boss/ShadeNimbusHostile";
 
         public override void SetStaticDefaults()

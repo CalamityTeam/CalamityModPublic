@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class ShatteredCommunity : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         // The percentage of a full Rage bar that is gained every second with the Shattered Community equipped.
         public const float RagePerSecond = 0.02f;
 

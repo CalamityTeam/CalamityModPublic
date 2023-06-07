@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class VileClot : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override void SetDefaults()
         {
             Projectile.width = 12;

@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("StellarContemptMelee", "StellarContemptRogue")]
     public class StellarContempt : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public static int BaseDamage = 300;
         public static float Speed = 18f;
 

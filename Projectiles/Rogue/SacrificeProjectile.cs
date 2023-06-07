@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SacrificeProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public Player Owner => Main.player[Projectile.owner];
         public bool StickingToAnything => Projectile.ai[0] == 1f;
         public bool ReturningToOwner => Projectile.ai[0] == 2f;

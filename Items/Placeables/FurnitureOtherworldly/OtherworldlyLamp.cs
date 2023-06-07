@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
     [LegacyName("OccultLamp")]
     public class OtherworldlyLamp : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Otherworldly Lamp");

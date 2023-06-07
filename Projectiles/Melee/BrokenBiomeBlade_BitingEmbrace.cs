@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BitingEmbrace : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbraceSmall";
 
         private bool initialized = false;

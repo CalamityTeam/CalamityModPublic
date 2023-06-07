@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class HoneycombFragment : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override void SetDefaults()
         {
             Projectile.friendly = true;

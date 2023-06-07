@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class RedirectingGildedSoul : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public ref float BurstIntensity => ref Projectile.ai[0];
         public ref float Time => ref Projectile.ai[1];
         public override void SetStaticDefaults()

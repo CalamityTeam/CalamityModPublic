@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Mounts
 {
     public class Brimrose : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Mounts";
+        public new string LocalizationCategory => "Items.Mounts";
         public override void SetDefaults()
         {
             Item.width = 64;

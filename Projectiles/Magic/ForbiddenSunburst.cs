@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ForbiddenSunburst : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         private static float ExplosionRadius = 190.0f;

@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
     public class CosmiliteBrick : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

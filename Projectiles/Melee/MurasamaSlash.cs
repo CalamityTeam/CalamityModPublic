@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class MurasamaSlash : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public int frameX = 0;
         public int frameY = 0;
 

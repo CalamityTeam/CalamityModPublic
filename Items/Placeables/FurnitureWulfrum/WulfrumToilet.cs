@@ -5,7 +5,7 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
 {
     public class WulfrumToilet : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 26;

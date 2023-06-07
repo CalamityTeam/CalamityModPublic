@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TerratomereSlashCreator : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public NPC Target => Main.npc[(int)Projectile.ai[0]];
         
         public float SlashDirection

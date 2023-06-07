@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class CragmawBeam : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Enemy";
+        public new string LocalizationCategory => "Projectiles.Enemy";
         // How long this laser can exist before it is deleted.
         public const int Lifetime = 120;
 

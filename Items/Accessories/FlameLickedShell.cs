@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("FabledTortoiseShell")]
     public class FlameLickedShell : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.defense = 36;

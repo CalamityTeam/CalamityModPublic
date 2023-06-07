@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class HadalUrnLamprey : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         int invistimer = 0;
         public override void SetStaticDefaults()
         {

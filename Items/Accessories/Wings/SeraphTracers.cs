@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories.Wings
     [LegacyName("InfinityBoots")]
     public class SeraphTracers : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories.Wings";
+        public new string LocalizationCategory => "Items.Accessories.Wings";
         public override void SetStaticDefaults()
         {
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(140, 9f, 2.6f);

@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class ReaverThornBase : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Melee/ThornBase";
 
         public override void SetDefaults()

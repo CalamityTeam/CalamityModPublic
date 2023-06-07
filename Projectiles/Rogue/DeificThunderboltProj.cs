@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DeificThunderboltProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         private bool playedSound = false;
 
         public override void SetStaticDefaults()

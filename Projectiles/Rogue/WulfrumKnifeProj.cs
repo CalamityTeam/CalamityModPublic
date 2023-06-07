@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class WulfrumKnifeProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         internal PrimitiveTrail TrailDrawer;
         internal Color PrimColorMult = Color.White;
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/WulfrumKnife";

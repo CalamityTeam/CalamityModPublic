@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class FlareDust2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/Boss/FlareBomb";
 
         public override void SetStaticDefaults()

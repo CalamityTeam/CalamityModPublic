@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GaelSkull2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/GaelSkull";
 
         public override void SetStaticDefaults()

@@ -8,7 +8,7 @@ namespace CalamityMod.Items.LabFinders
     [LegacyName("MysteriousMechanism")]
     public class LabSeekingMechanism : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.DraedonItems";
+        public new string LocalizationCategory => "Items.DraedonItems";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

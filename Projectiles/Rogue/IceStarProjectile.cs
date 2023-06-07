@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IceStarProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/IceStar";
 
         private bool initStealth = false;

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class AnomalysNanogunMPFBDevastator : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = 4;

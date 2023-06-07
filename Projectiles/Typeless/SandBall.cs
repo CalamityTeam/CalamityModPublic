@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class AstralSandBallFalling : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Typeless/SandBallAstral";
         public override void SetDefaults() => Projectile.FallingSandSetup(false);
         public override void AI() => Projectile.FallingSandAI(108, false);
@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Typeless
 
     public class AstralSandBallGun : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Typeless/SandBallAstral";
         public override void SetDefaults() => Projectile.FallingSandSetup();
         public override void AI() => Projectile.FallingSandAI(108);
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Typeless
 
     public class EutrophicSandBallGun : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Typeless/SandBallEutrophic";
         public override void SetDefaults() => Projectile.FallingSandSetup();
         public override void AI() => Projectile.FallingSandAI(108); // Weirdly same dusts as Astral
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Typeless
 
     public class SulphurousSandBallGun : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/Typeless/SandBallSulphurous";
         public override void SetDefaults() => Projectile.FallingSandSetup();
         public override void AI() => Projectile.FallingSandAI(32);

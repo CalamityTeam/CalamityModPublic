@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ClockworkBow : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public const int MaxBolts = 6;
         public override void SetDefaults()
         {

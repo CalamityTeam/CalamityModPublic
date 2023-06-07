@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class CrackshotColt : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         // Crackshot Colt uses the same sound as Midas Prime, just quieter.
         private static SoundStyle ShootSound => MidasPrime.ShootSound with { Volume = 0.6f };
 

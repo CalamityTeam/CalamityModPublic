@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Ammo
     [LegacyName("AccelerationBullet")]
     public class AccelerationRound : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Ammo";
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;

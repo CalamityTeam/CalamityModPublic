@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class VanquisherArrowMain : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Ammo/VanquisherArrow";
 
         public override void SetDefaults()

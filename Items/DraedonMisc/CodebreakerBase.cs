@@ -8,7 +8,7 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class CodebreakerBase : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.DraedonItems";
+        public new string LocalizationCategory => "Items.DraedonItems";
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;

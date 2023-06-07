@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class ForbiddenCirclet : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Hardmode";
+        public new string LocalizationCategory => "Items.Armor.Hardmode";
         public const int manaCost = 60;
         public const int tornadoBaseDmg = 80;
         public const float tornadoBaseKB = 1f;

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Brick : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ThrowingBrick";
 
         public override void SetDefaults()

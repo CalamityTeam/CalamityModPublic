@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class PurityProjectionSigil : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private NPC target => Main.npc[(int)Projectile.ai[0]];
 
         public Player Owner => Main.player[Projectile.owner];

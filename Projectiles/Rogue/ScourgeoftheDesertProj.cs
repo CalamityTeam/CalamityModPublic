@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScourgeoftheDesertProj : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ScourgeoftheDesert";
 
         private int StealthDamageCap = 0;

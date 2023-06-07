@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Razorwind : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/TornadoProj";
 
         public override void SetStaticDefaults()

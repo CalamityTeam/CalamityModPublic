@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class PandemicYoyo : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;

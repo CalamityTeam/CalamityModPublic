@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.Pylons
 {
     public class AstralPylon : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(ModContent.TileType<AstralPylonTile>());

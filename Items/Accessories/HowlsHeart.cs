@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class HowlsHeart : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public const int HowlDamage = 45;
 
         public override void SetStaticDefaults()

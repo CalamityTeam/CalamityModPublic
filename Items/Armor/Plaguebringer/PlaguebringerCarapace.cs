@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
     [AutoloadEquip(EquipType.Body)]
     public class PlaguebringerCarapace : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Hardmode";
+        public new string LocalizationCategory => "Items.Armor.Hardmode";
         public override void SetStaticDefaults()
         {
            

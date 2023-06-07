@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class WulfrumHook : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public Player Owner => Main.player[Projectile.owner];
         internal PrimitiveTrail TrailRenderer;
 

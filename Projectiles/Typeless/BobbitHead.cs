@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class BobbitHead : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public const float PullSpeed = 24f;
         public const float ReelbackSpeed = 28f;
         public const float LaunchSpeed = 25f;

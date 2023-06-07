@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class LeviathanBomb : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         private bool visible = false;
 
         public override void SetDefaults()

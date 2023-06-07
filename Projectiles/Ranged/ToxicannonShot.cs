@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ToxicannonShot : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Enemy/FlakAcid";
 
         public override void SetStaticDefaults()

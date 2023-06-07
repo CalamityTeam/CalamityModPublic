@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class Dreadmine : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.SentryShot[Projectile.type] = true;

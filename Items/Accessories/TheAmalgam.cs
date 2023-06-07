@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
     // TODO -- this item includes a dodge accessory, Brain of Cthulhu
     public class TheAmalgam : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(9, 6));

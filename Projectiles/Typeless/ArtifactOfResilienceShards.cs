@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
     // TODO -- Make this one projectile with multiple frames instead of multiple projectiles with one frame.
     public class ArtifactOfResilienceShard1 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public int Timer = 0;
         public Vector2 StartingPosition;
         public const int MaxTimeLeft = 360;
@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Typeless
     }
     public class ArtifactOfResilienceShard2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public int Timer = 0;
         public Vector2 StartingPosition;
         public const float MaxRadius = 660f;
@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Typeless
     }
     public class ArtifactOfResilienceShard3 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public int Timer = 0;
         public Vector2 StartingPosition;
         public const float MaxRadius = 660f;
@@ -218,7 +218,7 @@ namespace CalamityMod.Projectiles.Typeless
     }
     public class ArtifactOfResilienceShard4 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public int Timer = 0;
         public Vector2 StartingPosition;
         public const float MaxRadius = 660f;
@@ -256,7 +256,7 @@ namespace CalamityMod.Projectiles.Typeless
     }
     public class ArtifactOfResilienceShard5 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public int Timer = 0;
         public Vector2 StartingPosition;
         public const float MaxRadius = 660f;
@@ -294,7 +294,7 @@ namespace CalamityMod.Projectiles.Typeless
     }
     public class ArtifactOfResilienceShard6 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public int Timer = 0;
         public Vector2 StartingPosition;
         public const float MaxRadius = 660f;

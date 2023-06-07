@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     [LegacyName("EffluviumBow")]
     public class HoarfrostBow : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Ranged";
+        public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
             Item.damage = 56;

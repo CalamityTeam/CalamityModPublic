@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class RougeSlash : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
             Item.damage = 132;

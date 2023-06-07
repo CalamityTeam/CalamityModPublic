@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class SubsumingVortex : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Magic";
+        public new string LocalizationCategory => "Items.Weapons.Magic";
         public const int RightClickVortexCount = 3;
 
         public const int VortexReleaseRate = 27;

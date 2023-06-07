@@ -17,7 +17,7 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class EncryptedSchematicSunkenSea : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.DraedonItems";
+        public new string LocalizationCategory => "Items.DraedonItems";
         public override void SetDefaults()
         {
             Item.width = 42;
@@ -60,33 +60,37 @@ namespace CalamityMod.Items.DraedonMisc
                 int insertIndex = list.FindIndex(x => x.Name == "Tooltip2" && x.Mod == "Terraria");
                 if (insertIndex != -1)
                 {
-                    TooltipLine meleeDisplay = new TooltipLine(this.Mod, "CalamityMod:MeleeDisplay", $"[i:{ModContent.ItemType<GaussDagger>()}] Gauss Dagger");
+                    int meleeItem = ModContent.ItemType<GaussDagger>();
+                    TooltipLine meleeDisplay = new TooltipLine(this.Mod, "CalamityMod:MeleeDisplay", $"[i:{meleeItem}] {CalamityUtils.GetItemName(meleeItem)}");
                     meleeDisplay.OverrideColor = new Color(236, 255, 31);
                     list.Insert(insertIndex + 1, meleeDisplay);
 
-                    TooltipLine rangedDisplay = new TooltipLine(this.Mod, "CalamityMod:RangedDisplay", $"[i:{ModContent.ItemType<Taser>()}] Taser");
+                    int rangedItem = ModContent.ItemType<Taser>();
+                    TooltipLine rangedDisplay = new TooltipLine(this.Mod, "CalamityMod:RangedDisplay", $"[i:{rangedItem}] {CalamityUtils.GetItemName(rangedItem)}");
                     rangedDisplay.OverrideColor = new Color(31, 242, 245);
                     list.Insert(insertIndex + 2, rangedDisplay);
 
-                    TooltipLine mageDisplay = new TooltipLine(this.Mod, "CalamityMod:MageDisplay", $"[i:{ModContent.ItemType<PulsePistol>()}] Pulse Pistol");
+                    int mageItem = ModContent.ItemType<PulsePistol>();
+                    TooltipLine mageDisplay = new TooltipLine(this.Mod, "CalamityMod:MageDisplay", $"[i:{mageItem}] {CalamityUtils.GetItemName(mageItem)}");
                     mageDisplay.OverrideColor = new Color(201, 41, 255);
                     list.Insert(insertIndex + 3, mageDisplay);
 
-                    TooltipLine summonDisplay = new TooltipLine(this.Mod, "CalamityMod:SummonDisplay", $"[i:{ModContent.ItemType<StarSwallowerContainmentUnit>()}] Star Swallower Containment Unit");
+                    int summonItem = ModContent.ItemType<StarSwallowerContainmentUnit>();
+                    TooltipLine summonDisplay = new TooltipLine(this.Mod, "CalamityMod:SummonDisplay", $"[i:{summonItem}] {CalamityUtils.GetItemName(summonItem)}");
                     summonDisplay.OverrideColor = new Color(149, 243, 43);
                     list.Insert(insertIndex + 4, summonDisplay);
 
-                    TooltipLine rogueDisplay = new TooltipLine(this.Mod, "CalamityMod:RogueDisplay", $"[i:{ModContent.ItemType<TrackingDisk>()}] Tracking Disk");
+                    int rogueItem = ModContent.ItemType<TrackingDisk>();
+                    TooltipLine rogueDisplay = new TooltipLine(this.Mod, "CalamityMod:RogueDisplay", $"[i:{rogueItem}] {CalamityUtils.GetItemName(rogueItem)}");
                     rogueDisplay.OverrideColor = new Color(255, 64, 31);
                     list.Insert(insertIndex + 5, rogueDisplay);
 
-                    TooltipLine machineDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{ModContent.ItemType<DecryptionComputer>()}] Decryption Computer");
+                    int codeItem = ModContent.ItemType<DecryptionComputer>();
+                    TooltipLine machineDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{codeItem}] {CalamityUtils.GetItemName(codeItem)}");
                     machineDisplay.OverrideColor = new Color(165, 118, 104);
                     list.Insert(insertIndex + 6, machineDisplay);
-
                 }
             }
-
         }
 
         public override bool? UseItem(Player player)

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class BrimlingPet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Pets";
+        public new string LocalizationCategory => "Projectiles.Pets";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 8;

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Face)]
     public class Abaddon : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 26;

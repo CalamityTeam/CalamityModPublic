@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Armor.Tarragon
     [AutoloadEquip(EquipType.Legs)]
     public class TarragonLeggings : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PostMoonLord";
+        public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public override void SetDefaults()
         {
             Item.width = 18;

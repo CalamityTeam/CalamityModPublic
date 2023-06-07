@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SupernovaSpike : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Rogue/BallisticPoisonBombSpike";
 
         private Color currentColor = Color.Black;

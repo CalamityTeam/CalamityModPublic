@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
     public class SunkenCrate : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;

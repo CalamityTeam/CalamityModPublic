@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PuffCloud : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 7;

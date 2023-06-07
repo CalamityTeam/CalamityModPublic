@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class CondemnationArrowHoming : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/Ranged/CondemnationArrow";
         public ref float Time => ref Projectile.ai[0];
         public override void SetStaticDefaults()

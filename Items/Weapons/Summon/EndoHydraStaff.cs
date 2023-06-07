@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class EndoHydraStaff : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
             Item.width = 58;

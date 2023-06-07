@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Materials
 {
     public class MeldBlob : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Materials";
+        public new string LocalizationCategory => "Items.Materials";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class GemTechArmorGem : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Typeless";
+        public new string LocalizationCategory => "Projectiles.Typeless";
         public ref float Time => ref Projectile.ai[0];
         public ref float Variant => ref Projectile.ai[1];
         public const int UpwardFlyTime = 24;

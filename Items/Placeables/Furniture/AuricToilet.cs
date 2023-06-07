@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class AuricToilet : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 12;

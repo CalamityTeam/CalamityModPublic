@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     public class RitualCandle : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;

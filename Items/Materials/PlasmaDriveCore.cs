@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Materials
 {
     public class PlasmaDriveCore : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Materials";
+        public new string LocalizationCategory => "Items.Materials";
         public override void SetDefaults()
         {
             Item.width = 30;

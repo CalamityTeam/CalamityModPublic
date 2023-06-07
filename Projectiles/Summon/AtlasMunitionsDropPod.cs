@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class AtlasMunitionsDropPod : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
 
         public float TileCollisionYThreshold => Projectile.ai[0];

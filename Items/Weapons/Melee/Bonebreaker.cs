@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Bonebreaker : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Melee";
+        public new string LocalizationCategory => "Items.Weapons.Melee";
         public const int BaseDamage = 60;
 
         public override void SetDefaults()

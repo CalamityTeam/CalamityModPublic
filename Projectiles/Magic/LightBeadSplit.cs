@@ -4,7 +4,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LightBeadSplit : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => "CalamityMod/Projectiles/Magic/LightBead";
 
         public override void SetDefaults()

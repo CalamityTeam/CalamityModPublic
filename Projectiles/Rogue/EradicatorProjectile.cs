@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EradicatorProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Eradicator";
         private const float RotationIncrement = 0.09f;
         private const int Lifetime = 350;

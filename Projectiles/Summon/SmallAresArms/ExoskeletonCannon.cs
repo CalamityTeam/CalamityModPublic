@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
     public abstract class ExoskeletonCannon : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public int ShootTimer;
 
         public int HoverOffsetIndex => (int)Projectile.ai[0];

@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class Astrophage : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Pets";
+        public new string LocalizationCategory => "Projectiles.Pets";
         private bool fly = false;
 
         public override void SetStaticDefaults()

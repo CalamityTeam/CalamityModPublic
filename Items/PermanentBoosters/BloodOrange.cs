@@ -13,7 +13,7 @@ namespace CalamityMod.Items.PermanentBoosters
 {
     public class BloodOrange : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Misc";
+        public new string LocalizationCategory => "Items.Misc";
 
         public const int LifeBoost = 25;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(LifeBoost);

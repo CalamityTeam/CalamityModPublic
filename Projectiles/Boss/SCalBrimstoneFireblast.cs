@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class SCalBrimstoneFireblast : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public static readonly SoundStyle ImpactSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneFireblastImpact");
         public override void SetStaticDefaults()
         {

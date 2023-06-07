@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class GammaAcid : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Enemy";
+        public new string LocalizationCategory => "Projectiles.Enemy";
         public override string Texture => "CalamityMod/Projectiles/Enemy/FlakAcid";
 
         public override void SetStaticDefaults()

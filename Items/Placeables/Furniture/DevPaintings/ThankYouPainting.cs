@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 {
 	public class ThankYouPainting : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
 		public const int DropInt = 100;
 
 		public override void SetDefaults()

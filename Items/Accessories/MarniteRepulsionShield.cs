@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("MarniteBayonet")]
     public class MarniteRepulsionShield : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 24;
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Accessories
 
     public class MarniteRepulsionHitbox : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public Player Owner => Main.player[Projectile.owner];

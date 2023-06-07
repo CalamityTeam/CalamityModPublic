@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EclipsesStealth : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/EclipsesFall";
 
         // For more consistent DPS, always alternates between spawning 1 and 2 spears instead of picking randomly

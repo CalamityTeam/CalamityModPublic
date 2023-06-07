@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystalShard : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;

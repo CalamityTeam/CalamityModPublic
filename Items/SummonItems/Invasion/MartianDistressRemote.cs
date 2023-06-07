@@ -9,7 +9,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
     [LegacyName("MartianDistressBeacon")]
     public class MartianDistressRemote : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.SummonItems";
+        public new string LocalizationCategory => "Items.SummonItems";
         public int frameCounter = 0;
         public int frame = 0;
         public override void SetStaticDefaults()

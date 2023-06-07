@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalileosPlanet : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private float radius = 84f;
 
         public override void SetStaticDefaults()

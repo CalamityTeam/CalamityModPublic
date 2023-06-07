@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Head)]
     public class GodSlayerVisage : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.Vanity";
+        public new string LocalizationCategory => "Items.Armor.Vanity";
         public override void SetDefaults()
         {
             Item.width = 18;

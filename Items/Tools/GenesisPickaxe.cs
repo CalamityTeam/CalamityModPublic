@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Tools
     [LegacyName("GallantPickaxe")]
     public class GenesisPickaxe : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Tools";
+        public new string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             // These stats exactly match vanilla's Luminite pickaxes.

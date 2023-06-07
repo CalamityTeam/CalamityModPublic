@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor.Sulphurous
     [LegacyName("SulfurBreastplate")]
     public class SulphurousBreastplate : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Armor.PreHardmode";
+        public new string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetDefaults()
         {
             Item.width = 24;

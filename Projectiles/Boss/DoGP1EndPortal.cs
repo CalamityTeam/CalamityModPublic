@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DoGP1EndPortal : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public ref float TimeCountdown => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class PhasedGodRay : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const float LaserLength = 80f;
         private const float LaserLengthChangeRate = 2f;
 

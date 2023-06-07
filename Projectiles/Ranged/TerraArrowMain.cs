@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraArrowMain : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Ammo/TerraArrow";
 
         private bool initialized = false;

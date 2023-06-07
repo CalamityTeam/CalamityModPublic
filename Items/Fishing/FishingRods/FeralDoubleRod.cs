@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class FeralDoubleRod : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Fishing";
+        public new string LocalizationCategory => "Items.Fishing";
         public override void SetDefaults()
         {
             Item.width = 24;

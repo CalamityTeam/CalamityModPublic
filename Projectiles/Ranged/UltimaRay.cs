@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class UltimaRay : BaseLaserbeamProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public float HueOffset

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ProfanedPartisanSpear : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public int timer = 0;
 
         public override void SetDefaults()

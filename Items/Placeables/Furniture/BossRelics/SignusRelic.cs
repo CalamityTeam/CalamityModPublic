@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 {
 	public class SignusRelic : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
 
 		public override void SetDefaults()
 		{

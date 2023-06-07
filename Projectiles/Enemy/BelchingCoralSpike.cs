@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class BelchingCoralSpike : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Enemy";
+        public new string LocalizationCategory => "Projectiles.Enemy";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;

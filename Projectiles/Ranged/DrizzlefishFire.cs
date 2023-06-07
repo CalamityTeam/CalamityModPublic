@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class DrizzlefishFire : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         private int splitTimer = 30;
 
         public override void SetDefaults()

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class AuroraFire : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         private const int framesBeforeTurning = 70;

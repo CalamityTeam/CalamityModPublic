@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Tools
     [LegacyName("PurityAxe")]
     public class AxeofPurity : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Tools";
+        public new string LocalizationCategory => "Items.Tools";
         private static int AxePower = 125 / 5;
         private static float PowderSpeed = 21f;
 

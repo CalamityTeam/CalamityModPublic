@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Turret
 {
     public class PlagueExplosionGas : ModProjectile, IAdditiveDrawer, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public bool ableToHit = true;
         public float randomRotation1 = Main.rand.NextFloat(0f, MathHelper.TwoPi);
         public float randomRotation2 = Main.rand.NextFloat(0f, MathHelper.TwoPi);

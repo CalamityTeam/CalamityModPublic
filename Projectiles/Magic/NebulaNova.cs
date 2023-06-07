@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class NebulaNova : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Magic";
         private const int TotalXFrames = 2;
         private const int TotalYFrames = 7;
         private const int FrameTimer = 4;

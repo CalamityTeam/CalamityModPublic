@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class SpatialSpear : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override void SetDefaults()
         {
             Projectile.width = 10;

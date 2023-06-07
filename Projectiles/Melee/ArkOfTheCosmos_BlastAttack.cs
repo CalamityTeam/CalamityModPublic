@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ArkoftheCosmosBlast : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight"; //Umm actually the rending scissors are for aote mr programmer what the hel.. it gets changed in predraw anywyas
 
         private bool initialized = false;

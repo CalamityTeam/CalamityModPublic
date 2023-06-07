@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class UltimaBowProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Ranged";
+        public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Ultima";
 
         public float Time

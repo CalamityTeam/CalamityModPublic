@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class SulphurousGrabberYoyo : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private int bubbleCounter = 0;
         private bool bubbleStronk = false;
         private int bubbleStronkCounter = 0;

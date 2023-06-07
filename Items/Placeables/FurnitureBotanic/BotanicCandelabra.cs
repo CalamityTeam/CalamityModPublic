@@ -5,7 +5,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
 {
     public class BotanicCandelabra : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 28;

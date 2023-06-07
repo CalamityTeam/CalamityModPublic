@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SeraphimAngelicLight2 : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public bool FireSmallLaser => Projectile.ai[0] == 1f;
         public ref float Time => ref Projectile.ai[1];
         public const int Lifetime = SeraphimProjectile.SlowdownTime + SeraphimDagger.SlowdownTime;

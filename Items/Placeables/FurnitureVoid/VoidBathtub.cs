@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
     [LegacyName("VoidBath")]
     public class VoidBathtub : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Void Bathtub");

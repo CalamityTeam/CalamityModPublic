@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Tools
     [LegacyName("MarniteSpear")]
     public class MarniteDeconstructor : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Tools";
+        public new string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
             Item.damage = 6;

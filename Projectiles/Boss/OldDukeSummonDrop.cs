@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class OldDukeSummonDrop : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Boss";
+        public new string LocalizationCategory => "Projectiles.Boss";
         public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
 
         public override void SetStaticDefaults()

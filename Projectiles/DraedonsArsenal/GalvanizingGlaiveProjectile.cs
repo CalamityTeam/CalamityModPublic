@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class GalvanizingGlaiveProjectile : BaseSpearProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc"; // In misc rather than melee
+        public new string LocalizationCategory => "Projectiles.Misc"; // In misc rather than melee
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

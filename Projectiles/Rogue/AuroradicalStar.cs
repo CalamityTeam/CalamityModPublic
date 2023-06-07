@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AuroradicalStar : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public int[] dustTypes = new int[]
         {
             ModContent.DustType<AstralBlue>(),

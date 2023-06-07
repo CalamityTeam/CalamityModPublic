@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class TacticalPlagueEngine : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Weapons.Summon";
+        public new string LocalizationCategory => "Items.Weapons.Summon";
         public const int BulletShootRate = 125;
 
         public override void SetDefaults()

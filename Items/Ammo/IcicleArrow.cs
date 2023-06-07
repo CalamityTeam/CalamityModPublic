@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Ammo
 {
     public class IcicleArrow : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Ammo";
+        public new string LocalizationCategory => "Items.Ammo";
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;

@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
     [LegacyName("CosmiliteWorkbench")]
     public class CosmiliteWorkBench : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.SetNameOverride("Cosmilite Work Bench");

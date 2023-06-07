@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class OrichalcumSpikedGemstoneProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/OrichalcumSpikedGemstone";
 
         public override void SetDefaults()

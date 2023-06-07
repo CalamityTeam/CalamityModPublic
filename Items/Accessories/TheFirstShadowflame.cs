@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class TheFirstShadowflame : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories";
+        public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));

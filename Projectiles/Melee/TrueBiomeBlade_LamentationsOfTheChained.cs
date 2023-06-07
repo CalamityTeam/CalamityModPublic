@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class LamentationsOfTheChained : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Melee";
+        public new string LocalizationCategory => "Projectiles.Melee";
         private NPC[] excludedTargets = new NPC[4];
 
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChained";

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BlunderBoosterLightning : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public static int frameWidth = 12;
         public static int frameHeight = 26;
 

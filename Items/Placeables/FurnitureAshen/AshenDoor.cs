@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class AshenDoor : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
             Item.width = 14;

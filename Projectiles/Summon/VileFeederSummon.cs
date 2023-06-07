@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class VileFeederSummon : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         private bool spawnDust = true;
         private int eaterCooldown = 0;
 

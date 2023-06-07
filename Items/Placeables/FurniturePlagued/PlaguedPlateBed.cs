@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
     public class PlaguedPlateBed : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Placeables";
+        public new string LocalizationCategory => "Items.Placeables";
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<BrokenPlaguedBed>();

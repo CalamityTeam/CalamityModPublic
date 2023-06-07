@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
     // The file name is a specific request from the patron
     public class NiceCock : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue";
+        public new string LocalizationCategory => "Projectiles.Rogue";
         public bool homing = false;
         public int Timer = 0;
         private bool initialized = false;

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories.Wings
     [AutoloadEquip(EquipType.Wings)]
     public class SoulofCryogen : ModItem, ILocalizedModType
     {
-        public string LocalizationCategory => "Items.Accessories.Wings";
+        public new string LocalizationCategory => "Items.Accessories.Wings";
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 3));

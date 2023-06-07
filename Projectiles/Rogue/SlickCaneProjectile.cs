@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SlickCaneProjectile : BaseSpearProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Rogue"; // Would be melee otherwise
+        public new string LocalizationCategory => "Projectiles.Rogue"; // Would be melee otherwise
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SlickCane";
 
         private bool initialized = false;

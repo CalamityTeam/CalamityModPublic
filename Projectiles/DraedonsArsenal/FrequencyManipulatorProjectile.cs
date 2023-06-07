@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class FrequencyManipulatorProjectile : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Misc";
+        public new string LocalizationCategory => "Projectiles.Misc";
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/FrequencyManipulator";
 
         public float Time
