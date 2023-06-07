@@ -70,6 +70,9 @@ namespace CalamityMod.Projectiles
         // If true, this projectile can apply the infinitely-stacking Shred debuff iconic to Soma Prime.
         public bool appliesSomaShred = false;
 
+        // If true, this projectile breaks through 10% of enemy DR
+        public bool deepcoreBullet = false;
+
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
 
@@ -2511,6 +2514,12 @@ namespace CalamityMod.Projectiles
 
             if (modPlayer.flamingItemEnchant && !projectile.minion && !projectile.npcProj && !projectile.Calamity().CreatedByPlayerDash)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
+
+            if (deepcoreBullet && !(modifiers.SuperArmor || target.defense > 999 || target.Calamity().DR >= 0.95f || target.Calamity().unbreakableDR))
+            {
+                //Bypassup to DR
+                modifiers.FinalDamage /= 1f - MathHelper.Clamp(target.Calamity().DR, 0, 0.1f);
+            }
 
             if (modPlayer.farProximityRewardEnchant)
             {

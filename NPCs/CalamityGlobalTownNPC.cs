@@ -1592,6 +1592,7 @@ namespace CalamityMod.NPCs
                 .AddWithCustomValue(ItemID.SpelunkerPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc)
                 .AddWithCustomValue(ItemID.ObsidianSkinPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough, Condition.DownedSkeletron);
                 AddScalingPotion(ref shop, ItemID.EndurancePotion, Condition.DownedSkeletron);
+                shop.Add(ModContent.ItemType<DeepcoreGK2>(), Condition.DownedMechBossAny);
             }
 
             if (type == NPCID.ArmsDealer)

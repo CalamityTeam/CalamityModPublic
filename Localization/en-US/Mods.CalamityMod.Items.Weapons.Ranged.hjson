@@ -347,6 +347,15 @@ DarkechoGreatbow: {
 		'''
 }
 
+DeepcoreGK2: {
+	DisplayName: Deepcore GK2
+	Tooltip:
+		'''
+		Ignores 20 points of enemy defense and up to 10% damage reduction 
+		'For rock and stone!'
+		'''
+}
+
 Deathwind: {
 	DisplayName: Deathwind
 	Tooltip:
