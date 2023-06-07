@@ -2134,7 +2134,7 @@ namespace CalamityMod.Projectiles
             {
                 // 5% chance every frame to get a random velocity multiplier (this is actually rolled twice per frame, due to the extra update in GFB)
                 if (Main.rand.Next(100) >= 95)
-                    projectile.velocity *= Main.rand.NextFloat(0.9f, 1.1f);
+                    projectile.velocity *= Main.rand.NextFloat(0.9f, 1.25f);
             }
 
             // Accelerate for 1.5 seconds to full velocity
