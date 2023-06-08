@@ -1092,7 +1092,7 @@ namespace CalamityMod.NPCs.Providence
                             if (nightAI)
                                 projectileVelocityY *= 2f;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom.X, shootFrom.Y, NPC.velocity.X * 0.25f, projectileVelocityY, ModContent.ProjectileType<HolyFire>(), holyFireDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom.X, shootFrom.Y, NPC.velocity.X * 0.25f, projectileVelocityY, ModContent.ProjectileType<HolyFire>(), holyFireDamage, 0f, Main.myPlayer);
                         }
                     }
 
@@ -1420,7 +1420,7 @@ namespace CalamityMod.NPCs.Providence
 
                             projectileVelocityY += expertMode ? 4f : 3f;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom.X, shootFrom.Y, NPC.velocity.X * 0.25f, projectileVelocityY, ModContent.ProjectileType<HolyBomb>(), holyBombDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom.X, shootFrom.Y, NPC.velocity.X * 0.25f, projectileVelocityY, ModContent.ProjectileType<HolyBomb>(), holyBombDamage, 0f, Main.myPlayer);
                         }
                     }
 
@@ -1478,7 +1478,12 @@ namespace CalamityMod.NPCs.Providence
                                 }
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
+
+                                    if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, -vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
+                                }
                             }
 
                             if (spearRateIncrease > 1f)
@@ -1500,7 +1505,12 @@ namespace CalamityMod.NPCs.Providence
                         }
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
+
+                            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, -velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
+                        }
                     }
 
                     NPC.ai[3] += 1f;
@@ -1928,6 +1938,13 @@ namespace CalamityMod.NPCs.Providence
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<ProvidenceRelic>());
+
+            // GFB ASE and Exo Prism drops
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ModContent.ItemType<AscendantSpiritEssence>(), 1, 1, 99);
+                GFBOnly.Add(ModContent.ItemType<ExoPrism>(), 1, 3, 9);
+            }
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<LoreProvidence>(), desc: DropHelper.FirstKillText);

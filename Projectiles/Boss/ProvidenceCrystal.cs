@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Boss
                 dust34.velocity.X = 0f;
                 dust34.noGravity = true;
                 dust34.fadeIn = 1f;
-                dust34.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(6.2831854820251465) * (4f * Main.rand.NextFloat() + 26f);
+                dust34.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * (4f * Main.rand.NextFloat() + 26f);
                 dust34.scale = 0.5f;
             }
 

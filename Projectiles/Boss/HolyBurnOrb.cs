@@ -55,7 +55,19 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.timeLeft = 160;
             }
 
-            if (Projectile.velocity.Length() < 16f)
+            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+            {
+                if (Projectile.velocity.Length() < 12f && Projectile.ai[1] == 0f)
+                {
+                    Projectile.velocity *= 1.02f;
+                }
+                else
+                {
+                    Projectile.ai[1] += 0.05f;
+                    Projectile.velocity *= MathHelper.Lerp(0.95f, 1.05f, (float)Math.Abs(Math.Sin(Projectile.ai[1])));
+                }
+            }
+            else if (Projectile.velocity.Length() < 16f)
                 Projectile.velocity *= 1.01f;
         }
 
