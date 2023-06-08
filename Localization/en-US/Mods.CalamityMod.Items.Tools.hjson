@@ -87,7 +87,7 @@ CrystylCrusher: {
 	DisplayName: Crystyl Crusher
 	Tooltip:
 		'''
-		Press <right> to swing normally
+		Hold <right> to channel a beam that destroys just about anything
 		'Gotta dig faster, gotta go deeper'
 		'''
 }
