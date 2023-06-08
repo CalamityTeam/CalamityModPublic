@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.damage = 45;
-            Item.ArmorPenetration = 20;
+            Item.ArmorPenetration = 15;
             Item.DamageType = DamageClass.Ranged;
             Item.noMelee = true;
             Item.width = 142;
@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shoot = ProjectileID.Bullet;
             Item.shootSpeed = 20f;
             Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().donorItem = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
@@ -42,8 +43,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (p.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[p].Calamity().deepcoreBullet = true;
-                Main.projectile[p].scale = 222;
-                Main.projectile[p].tileCollide = false;
+                Main.projectile[p].scale = 2;
             }
             return false;
         }
