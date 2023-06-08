@@ -5039,7 +5039,7 @@ namespace CalamityMod.NPCs
             }
 
             // Max spawn amount
-            int maxBirbs = revenge ? 3 : 2;
+            int maxBirbs = (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge) ? 12 : revenge ? 3 : 2;
 
             // Variable for charging
             float chargeDistance = 600f;
@@ -5334,13 +5334,16 @@ namespace CalamityMod.NPCs
 
                 float velocity = 8f + (enrageScale - 1f) * 2f;
                 float scaleFactor17 = velocity + npc.ai[2] + value53.Length() / 120f;
+                if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                    scaleFactor17 *= 2f;
+
                 float num1309 = 20f;
                 value53.Normalize();
                 value53 *= scaleFactor17;
                 npc.velocity = (npc.velocity * (num1309 - 1f) + value53) / num1309;
 
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 120f || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
+                if (npc.ai[1] >= ((CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge) ? 60f : 120f) || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
                 {
                     npc.TargetClosest();
                     npc.ai[0] = 0f;
@@ -5516,12 +5519,14 @@ namespace CalamityMod.NPCs
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        bool spawnFlag = NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && (npc.ai[1] == 140f || (revenge && npc.ai[1] == 155f) || npc.ai[1] == 170f);
+                        bool gfbSpawnFlag = CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge && (npc.ai[1] == 145f || npc.ai[1] == 150f || npc.ai[1] == 160f || npc.ai[1] == 165f);
+                        bool spawnFlag = NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && (npc.ai[1] == 140f || (revenge && npc.ai[1] == 155f) || npc.ai[1] == 170f || gfbSpawnFlag);
                         if (spawnFlag)
                         {
                             Vector2 vector7 = npc.Center + (MathHelper.TwoPi * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 50f * (0.6f + Main.rand.NextFloat() * 0.4f);
                             if (Vector2.Distance(vector7, player.Center) > 150f)
                                 NPC.NewNPC(npc.GetSource_FromAI(), (int)vector7.X, (int)vector7.Y, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI);
+
                             npc.netUpdate = true;
                         }
                     }
