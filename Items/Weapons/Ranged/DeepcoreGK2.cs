@@ -29,6 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shootSpeed = 20f;
             Item.useAmmo = AmmoID.Bullet;
             Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
