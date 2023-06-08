@@ -2547,8 +2547,8 @@ namespace CalamityMod.Projectiles
                     for (int i = 0; i < numSparks; i++)
                     {
                         Vector2 sparkVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(0.6f) * Main.rand.NextFloat(2f, 8f);
-                        Color sparkColor = Color.Lerp(Color.Silver, Color.Gold, Main.rand.NextFloat(0.7f));
-                        sparkColor = Color.Lerp(sparkColor, Color.Orange, Main.rand.NextFloat());
+                        Color sparkColor = Color.Lerp(Color.AliceBlue, Color.DarkSlateBlue, Main.rand.NextFloat(0.7f));
+                        sparkColor = Color.Lerp(sparkColor, Color.CornflowerBlue, Main.rand.NextFloat());
                         SparkParticle sparke = new(cen, -sparkVelocity, false, 10, 0.5f, sparkColor);
                         GeneralParticleHandler.SpawnParticle(sparke);
                     }
