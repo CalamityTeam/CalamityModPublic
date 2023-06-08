@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
@@ -50,6 +51,11 @@ namespace CalamityMod.Projectiles.Magic
         internal ref float Time => ref Projectile.ai[0];
         internal ref float FlyAcceleration => ref Projectile.ai[1];
         internal ref float JawRotation => ref Projectile.localAI[1];
+
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+        }
 
         public override void SetDefaults()
         {

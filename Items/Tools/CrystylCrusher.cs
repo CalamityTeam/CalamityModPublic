@@ -33,16 +33,15 @@ namespace CalamityMod.Items.Tools
             Item.useTime = 3;
             Item.useAnimation = 3;
             Item.pick = PickPower;
-            // tile boost intentionally missing, usually 50
+            Item.tileBoost = 50;
 
             Item.DamageType = DamageClass.Melee;
-            Item.noMelee = true;
             Item.channel = true;
             Item.width = 70;
             Item.height = 70;
-            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.shootSpeed = LaserSpeed;
-            Item.UseSound = ChargeSound;
+            Item.UseSound = SoundID.Item1;
             Item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
 
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
@@ -67,17 +66,24 @@ namespace CalamityMod.Items.Tools
             if (Main.myPlayer == player.whoAmI)
                 player.Calamity().rightClickListener = true;
 
-            if (player.Calamity().mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<CrystylCrusherRay>()] <= 0)
+            if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen && !Main.blockMouse)
+            {
+                //Don't shoot out a visual blade if you already have one out
+                if (Main.projectile.Any(n => n.active && n.type == ModContent.ProjectileType<CrystylCrusherRay>() && n.owner == player.whoAmI))
+                    return;
+
+                int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(Item.damage);
+                float kb = player.GetTotalKnockback<MeleeDamageClass>().ApplyTo(Item.knockBack);
+                Projectile.NewProjectile(Item.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<CrystylCrusherRay>(), damage, kb, player.whoAmI);
+                Item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
+                Item.tileBoost = -6;
+                Item.autoReuse = false;
+            }
+            else if (player.ownedProjectileCounts[ModContent.ProjectileType<CrystylCrusherRay>()] <= 0)
             {
                 Item.shoot = ProjectileID.None;
                 Item.tileBoost = 50;
                 Item.autoReuse = true;
-            }
-            else
-            {
-                Item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
-                Item.tileBoost = -6;
-                Item.autoReuse = false;
             }
         }
 
@@ -85,11 +91,11 @@ namespace CalamityMod.Items.Tools
         {
             if (player.altFunctionUse == 2)
             {
-                Item.noMelee = false;
+                Item.noMelee = true;
             }
             else
             {
-                Item.noMelee = true;
+                Item.noMelee = false;
             }
 
             return base.UseItem(player);
@@ -99,16 +105,16 @@ namespace CalamityMod.Items.Tools
         {
             if (player.altFunctionUse == 2f)
             {
-                Item.UseSound = SoundID.Item1;
-                Item.useStyle = ItemUseStyleID.Swing;
-                Item.useTurn = true;
+                Item.useStyle = ItemUseStyleID.Shoot;
+                Item.UseSound = null;
+                Item.useTurn = false;
             }
 
             else
             {
-                Item.UseSound = null;
-                Item.useStyle = ItemUseStyleID.Shoot;
-                Item.useTurn = false;
+                Item.useStyle = ItemUseStyleID.Swing;
+                Item.UseSound = SoundID.Item1;
+                Item.useTurn = true;
             }
         }
 
@@ -125,7 +131,7 @@ namespace CalamityMod.Items.Tools
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            if (player.altFunctionUse == 2)
+            if (player.altFunctionUse == 1)
                 return;
 
             if (Main.rand.NextBool(3))
@@ -136,7 +142,7 @@ namespace CalamityMod.Items.Tools
                     57,
                     58
                 });
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, dustType);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, dustType);
             }
         }
 

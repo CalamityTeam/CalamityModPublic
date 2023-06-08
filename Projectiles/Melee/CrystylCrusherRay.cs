@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee
         private void ChargeLaser(Player player)
         {
             // Kill the projectile if the player stops channeling
-            if (!player.channel)
+            if (!(player.Calamity().mouseRight && player.active && !player.dead))
             {
                 Projectile.Kill();
             }

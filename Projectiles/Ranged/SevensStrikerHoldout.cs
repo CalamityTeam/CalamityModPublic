@@ -197,6 +197,9 @@ namespace CalamityMod.Projectiles.Ranged
                             }
                         }
                     }
+                    // Update the roll sound position
+                    if (SoundEngine.TryGetActiveSound(RouletteSoundSlot, out var rouletteSound) && rouletteSound.IsPlaying)
+                        rouletteSound.Position = Projectile.Center;
                 }
                 // If the player can't use the gun, KILL it
                 else
