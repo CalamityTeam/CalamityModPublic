@@ -351,7 +351,7 @@ DeepcoreGK2: {
 	DisplayName: Deepcore GK2
 	Tooltip:
 		'''
-		Ignores 20 points of enemy defense and up to 10% damage reduction 
+		Bullets are twice as large and ignores 15 points of enemy defense
 		'For rock and stone!'
 		'''
 }
