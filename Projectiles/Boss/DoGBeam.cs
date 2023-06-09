@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -23,6 +24,9 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 960;
+
+            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                Projectile.extraUpdates = 1;
         }
 
         public override void AI()

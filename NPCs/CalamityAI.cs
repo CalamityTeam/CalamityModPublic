@@ -4375,8 +4375,7 @@ namespace CalamityMod.NPCs
             else if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-            // Scale multiplier based on nearby active tiles
-            float tileEnrageMult = bossRush ? 1.375f : bossRush ? 1.25f : 1f;
+            float tileEnrageMult = (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge) ? 1.5f : bossRush ? 1.375f : 1f;
             npc.Calamity().CurrentlyEnraged = tileEnrageMult > 1f && !bossRush;
 
             // Set AI variable to be used by Dark Energies
@@ -4389,7 +4388,7 @@ namespace CalamityMod.NPCs
             if (!anyDarkEnergies)
             {
                 // This is here because it's used in multiple places
-                float suckDistance = bossRush ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f;
+                float suckDistance = (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge) ? 2400f : bossRush ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f;
 
                 // Move closer to the target before trying to succ
                 if (movingDuringSuccPhase)

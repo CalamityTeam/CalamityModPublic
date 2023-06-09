@@ -31,6 +31,9 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
             Projectile.Opacity = 0f;
+
+            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                Projectile.extraUpdates = 1;
         }
 
         public override void AI()
