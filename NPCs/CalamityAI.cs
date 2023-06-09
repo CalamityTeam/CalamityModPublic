@@ -5930,6 +5930,10 @@ namespace CalamityMod.NPCs
                 chargeVelocity *= 1.05f;
             }
 
+            // The dumbest thing to ever exist
+            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                chargeVelocity *= 1.25f;
+
             if (exhausted)
                 idlePhaseVelocity *= 0.25f;
 
@@ -6078,6 +6082,10 @@ namespace CalamityMod.NPCs
                 npc.damage = npc.defDamage * 2;
                 npc.defense = npc.defDefense * 3;
             }
+
+            // The dumbest thing to ever exist
+            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                chargeTime *= 2;
 
             // Set variables for spawn effects
             if (npc.localAI[0] == 0f)
@@ -6352,8 +6360,44 @@ namespace CalamityMod.NPCs
             // Charge
             else if (npc.ai[0] == 1f)
             {
-                // Accelerate
-                npc.velocity *= 1.01f;
+                // The dumbest thing to ever exist
+                if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge && npc.ai[2] % 10f == 0f)
+                {
+                    // Rotation and direction
+                    int dir = Math.Sign(player.Center.X - npc.Center.X);
+                    if (dir != 0)
+                    {
+                        if (npc.ai[2] == 0f && dir != npc.direction)
+                            npc.rotation += pie;
+
+                        npc.direction = dir;
+
+                        if (npc.spriteDirection != -npc.direction)
+                            npc.rotation += pie;
+
+                        npc.spriteDirection = -npc.direction;
+                    }
+
+                    Vector2 distanceVector = player.Center + player.velocity * 20f - npc.Center;
+                    npc.velocity = Vector2.Normalize(distanceVector) * chargeVelocity;
+                    npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+
+                    // Direction
+                    if (dir != 0)
+                    {
+                        npc.direction = dir;
+
+                        if (npc.spriteDirection == 1)
+                            npc.rotation += pie;
+
+                        npc.spriteDirection = -npc.direction;
+                    }
+                }
+                else
+                {
+                    // Accelerate
+                    npc.velocity *= 1.01f;
+                }
 
                 // Spawn dust
                 int num24 = 7;
@@ -6669,8 +6713,44 @@ namespace CalamityMod.NPCs
             // Charge
             else if (npc.ai[0] == 6f)
             {
-                // Accelerate
-                npc.velocity *= 1.01f;
+                // The dumbest thing to ever exist
+                if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge && npc.ai[2] % 8f == 0f)
+                {
+                    // Rotation and direction
+                    int dir = Math.Sign(player.Center.X - npc.Center.X);
+                    if (dir != 0)
+                    {
+                        if (npc.ai[2] == 0f && dir != npc.direction)
+                            npc.rotation += pie;
+
+                        npc.direction = dir;
+
+                        if (npc.spriteDirection != -npc.direction)
+                            npc.rotation += pie;
+
+                        npc.spriteDirection = -npc.direction;
+                    }
+
+                    Vector2 distanceVector = player.Center + player.velocity * 20f - npc.Center;
+                    npc.velocity = Vector2.Normalize(distanceVector) * chargeVelocity;
+                    npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+
+                    // Direction
+                    if (dir != 0)
+                    {
+                        npc.direction = dir;
+
+                        if (npc.spriteDirection == 1)
+                            npc.rotation += pie;
+
+                        npc.spriteDirection = -npc.direction;
+                    }
+                }
+                else
+                {
+                    // Accelerate
+                    npc.velocity *= 1.01f;
+                }
 
                 // Spawn dust
                 int num29 = 7;
@@ -7015,8 +7095,44 @@ namespace CalamityMod.NPCs
             // Charge
             else if (npc.ai[0] == 11f)
             {
-                // Accelerate
-                npc.velocity *= 1.01f;
+                // The dumbest thing to ever exist
+                if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge && npc.ai[2] % 6f == 0f)
+                {
+                    // Rotation and direction
+                    int dir = Math.Sign(player.Center.X - npc.Center.X);
+                    if (dir != 0)
+                    {
+                        if (npc.ai[2] == 0f && dir != npc.direction)
+                            npc.rotation += pie;
+
+                        npc.direction = dir;
+
+                        if (npc.spriteDirection != -npc.direction)
+                            npc.rotation += pie;
+
+                        npc.spriteDirection = -npc.direction;
+                    }
+
+                    Vector2 distanceVector = player.Center + player.velocity * 20f - npc.Center;
+                    npc.velocity = Vector2.Normalize(distanceVector) * chargeVelocity;
+                    npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+
+                    // Direction
+                    if (dir != 0)
+                    {
+                        npc.direction = dir;
+
+                        if (npc.spriteDirection == 1)
+                            npc.rotation += pie;
+
+                        npc.spriteDirection = -npc.direction;
+                    }
+                }
+                else
+                {
+                    // Accelerate
+                    npc.velocity *= 1.01f;
+                }
 
                 // Spawn dust
                 int num34 = 7;
