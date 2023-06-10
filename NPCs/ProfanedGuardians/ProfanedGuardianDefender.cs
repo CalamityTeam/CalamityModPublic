@@ -387,7 +387,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
             }
 
-            if (CalamityWorld.getFixedBoi)
+            // This causes bugs due to the return
+            /*if (CalamityWorld.getFixedBoi)
             {
                 if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
                 {
@@ -401,7 +402,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Vector2 midPoint = ((guardPos - playerPos) / 1.25f) + playerPos;
                 NPC.position = midPoint;
                 return;
-            }
+            }*/
 
             float moveVelocity = (bossRush || biomeEnraged) ? 24f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
             if (Main.getGoodWorld)

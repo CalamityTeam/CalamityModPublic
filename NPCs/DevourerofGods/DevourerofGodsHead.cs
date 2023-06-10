@@ -740,10 +740,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     // Fireballs
                     // Check angle and distance to make sure it's realistic that they'd be fired
-                    if (NPC.Opacity >= 1f && distanceFromTarget > 480f && NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f))
+                    if (NPC.Opacity >= 1f && (distanceFromTarget > 480f || (CalamityWorld.LegendaryMode && CalamityWorld.revenge)) && NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f))
                     {
                         calamityGlobalNPC.newAI[0] += 1f;
-                        if (calamityGlobalNPC.newAI[0] >= 150f && calamityGlobalNPC.newAI[0] % (phase7 ? 30f : 60f) == 0f)
+                        if (calamityGlobalNPC.newAI[0] >= ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 50f : 150f) && calamityGlobalNPC.newAI[0] % (phase7 ? 30f : 60f) == 0f)
                         {
                             float fireballSpeed = 8f;
                             Vector2 fireballVelocity = Vector2.Normalize(player.Center - NPC.Center) * fireballSpeed + NPC.velocity * 0.5f;
