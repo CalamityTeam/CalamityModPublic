@@ -27,6 +27,9 @@ BabyBloodCrawler.DisplayName: Baby Blood Crawler
 BabyPlaguebringer.DisplayName: Baby Plaguebringer
 BelladonnaPetal.DisplayName: Belladonna Petal
 BelladonnaSpirit.DisplayName: Belladonna Spirit
+BlackDragonBody.DisplayName: Black Celestial Dragon
+BlackDragonHead.DisplayName: Black Celestial Dragon
+BlackDragonTail.DisplayName: Black Celestial Dragon
 BlackHawkBullet.DisplayName: Black Hawk Bullet
 BlackHawkSummon.DisplayName: Black Hawk
 BloodBreath.DisplayName: Fire
@@ -284,6 +287,9 @@ VolcanicFireballSummon.DisplayName: Volcanic Fireball
 WaterElementalMinion.DisplayName: Anahita
 WaterElementalSong.DisplayName: Siren Song
 WaterSpearFriendly.DisplayName: Spear
+WhiteDragonBody.DisplayName: White Celestial Dragon
+WhiteDragonHead.DisplayName: White Celestial Dragon
+WhiteDragonTail.DisplayName: White Celestial Dragon
 WitherBlossom.DisplayName: Wither Blossom
 WitherBolt.DisplayName: Wither Bolt
 WulfrumDroid.DisplayName: Wulfrum Droid

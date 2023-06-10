@@ -1217,6 +1217,11 @@ IgneousExaltationBuff: {
 	Description: A blade is orbiting you
 }
 
+KingofConstellationsBuff: {
+	DisplayName: Celestial Dragons
+	Description: The celestial dragons will protect you
+}
+
 LilPlaguebringerBuff: {
 	DisplayName: Lil' Plaguebringer
 	Description: The Plaguebringer will protect you

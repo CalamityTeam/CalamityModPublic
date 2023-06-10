@@ -347,6 +347,15 @@ DarkechoGreatbow: {
 		'''
 }
 
+DeepcoreGK2: {
+	DisplayName: Deepcore GK2
+	Tooltip:
+		'''
+		Bullets are twice as large and ignores 15 points of enemy defense
+		'For rock and stone!'
+		'''
+}
+
 Deathwind: {
 	DisplayName: Deathwind
 	Tooltip:

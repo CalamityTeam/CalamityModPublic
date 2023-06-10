@@ -7,6 +7,7 @@ using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -69,6 +70,9 @@ namespace CalamityMod.Projectiles
 
         // If true, this projectile can apply the infinitely-stacking Shred debuff iconic to Soma Prime.
         public bool appliesSomaShred = false;
+
+        // If true, this projectile creates impact sparks upon hitting enemies
+        public bool deepcoreBullet = false;
 
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
@@ -2531,6 +2535,24 @@ namespace CalamityMod.Projectiles
             {
                 if (!WorldUtils.Find(projectile.Center.ToTileCoordinates(), Searches.Chain(new Searches.Down(12), new Conditions.IsSolid()), out _))
                     modifiers.SourceDamage /= 1.5f;
+            }
+
+            // create sparks on hit to hammer in the defense shredding 
+            if (deepcoreBullet)
+            {
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Vector2 cen = Vector2.Lerp(projectile.Center, target.Center, 0.65f);
+                    int numSparks = Main.rand.Next(2, 5);
+                    for (int i = 0; i < numSparks; i++)
+                    {
+                        Vector2 sparkVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(0.6f) * Main.rand.NextFloat(2f, 8f);
+                        Color sparkColor = Color.Lerp(Color.AliceBlue, Color.DarkSlateBlue, Main.rand.NextFloat(0.7f));
+                        sparkColor = Color.Lerp(sparkColor, Color.CornflowerBlue, Main.rand.NextFloat());
+                        SparkParticle sparke = new(cen, -sparkVelocity, false, 10, 0.5f, sparkColor);
+                        GeneralParticleHandler.SpawnParticle(sparke);
+                    }
+                }
             }
         }
         #endregion

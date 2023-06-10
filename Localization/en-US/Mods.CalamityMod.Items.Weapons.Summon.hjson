@@ -449,6 +449,15 @@ InfectedRemote: {
 		'''
 }
 
+KingofConstellationsTenryu: {
+	DisplayName: King of Constellations, Tenryū
+	Tooltip:
+		'''
+		Uses 4 minion slots to summon a pair of celestial dragons to fight for you
+		'The ones who will devour the Unmoving Star'
+		'''
+}
+
 Metastasis: {
 	DisplayName: Metastasis
 	Tooltip:
