@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.StormWeaver
             bool phase2 = NPC.life / (float)NPC.lifeMax < 0.8f;
 
             // Update armored settings to naked settings
-            if (phase2)
+            if (phase2 && (!CalamityWorld.getFixedBoi || !CalamityWorld.LegendaryMode || !CalamityWorld.revenge))
             {
                 // Spawn armor gore and set other crucial variables
                 if (NPC.takenDamageMultiplier == 2f)
@@ -242,7 +242,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            bool phase2 = lifeRatio < 0.8f;
+            bool phase2 = lifeRatio < 0.8f && (!CalamityWorld.getFixedBoi || !CalamityWorld.LegendaryMode || !revenge);
             bool phase3 = lifeRatio < 0.55f;
 
             // Gate value that decides when Storm Weaver will charge

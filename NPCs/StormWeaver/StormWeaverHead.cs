@@ -26,6 +26,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Sounds;
+using CalamityMod.Items.Accessories;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
@@ -183,7 +184,7 @@ namespace CalamityMod.NPCs.StormWeaver
             bool phase4 = lifeRatio < 0.3f;
 
             // Update armored settings to naked settings
-            if (phase2)
+            if (phase2 && (!CalamityWorld.getFixedBoi || !CalamityWorld.LegendaryMode || !revenge))
             {
                 // Spawn armor gore, roar and set other crucial variables
                 if (!NPC.chaseable)
@@ -274,7 +275,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
 
                 // Used for body and tail projectile firing timings in phase 1
-                if (!phase2)
+                if (!phase2 || (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge))
                     NPC.localAI[0] += 1f;
             }
 
@@ -820,7 +821,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            bool phase2 = lifeRatio < 0.8f;
+            bool phase2 = lifeRatio < 0.8f && (!CalamityWorld.getFixedBoi || !CalamityWorld.LegendaryMode || !revenge);
             bool phase3 = lifeRatio < 0.55f;
 
             // Gate value that decides when Storm Weaver will charge
@@ -1009,6 +1010,13 @@ namespace CalamityMod.NPCs.StormWeaver
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<StormWeaverRelic>());
+
+            // GFB Rampart of Deities and The Sponge drop
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ModContent.ItemType<RampartofDeities>());
+                GFBOnly.Add(ModContent.ItemType<TheSponge>());
+            }
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedStormWeaver, ModContent.ItemType<LoreStormWeaver>(), desc: DropHelper.FirstKillText);

@@ -236,8 +236,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CeaselessVoidRelic>());
 
-            // GFB Eclipse Mirror drop
-            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<EclipseMirror>());
+            // GFB Eclipse Mirror and Nucleogenesis drop
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ModContent.ItemType<EclipseMirror>());
+                GFBOnly.Add(ModContent.ItemType<Nucleogenesis>());
+            }
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCeaselessVoid, ModContent.ItemType<LoreCeaselessVoid>(), desc: DropHelper.FirstKillText);
