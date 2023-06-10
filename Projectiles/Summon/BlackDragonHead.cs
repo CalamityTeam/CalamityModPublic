@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
     // HUGE credit to Dozezoze for lending his worm projectile code
     public class BlackDragonHead : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         Dictionary<int, Projectile> segments = new Dictionary<int, Projectile>();
         public override void SetStaticDefaults()
         {

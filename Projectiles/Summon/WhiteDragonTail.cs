@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class WhiteDragonTail : ModProjectile, ILocalizedModType
     {
-        public string LocalizationCategory => "Projectiles.Summon";
+        public new string LocalizationCategory => "Projectiles.Summon";
         public int segmentIndex = 1;
 
         public override void SetStaticDefaults()
