@@ -200,7 +200,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     // Start off slow
                     Vector2 finalVelocity = NPC.SafeDirectionTo(player.Center, -Vector2.UnitY) * chargeSpeed;
-                    if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                    if (CalamityWorld.LegendaryMode && revenge)
                         finalVelocity *= Main.rand.NextFloat(1f, 1.7f);
 
                     NPC.Calamity().newAI[2] = finalVelocity.X;

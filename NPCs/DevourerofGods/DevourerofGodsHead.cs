@@ -451,9 +451,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.ai[3] = 0f;
                 calamityGlobalNPC.newAI[2] = 0f;
 
-                NPC.velocity.Y -= 3f;
-                if ((double)NPC.position.Y < Main.topWorld + 16f)
-                    NPC.velocity.Y -= 3f;
+                NPC.velocity.Y -= 4f;
 
                 int bodyType = ModContent.NPCType<DevourerofGodsBody>();
                 int tailType = ModContent.NPCType<DevourerofGodsTail>();
@@ -759,6 +757,41 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, fireballVelocity, type, damage, 0f, Main.myPlayer);
+
+                            if (CalamityWorld.LegendaryMode && revenge)
+                            {
+                                for (int l = 0; l < 8; l++)
+                                {
+                                    int dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 170, 0f, 0f, 100, default, 1f);
+                                    float dustVelocityYAdd = Math.Abs(Main.dust[dust].velocity.Y) * 0.5f;
+                                    if (Main.dust[dust].velocity.Y < 0f)
+                                        Main.dust[dust].velocity.Y = 2f + dustVelocityYAdd;
+                                    if (Main.rand.NextBool())
+                                    {
+                                        Main.dust[dust].scale = 0.25f;
+                                        Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                                    }
+                                }
+
+                                int numBlobs = 4;
+                                type = ModContent.ProjectileType<IchorBlob>();
+                                damage = 60;
+
+                                for (int i = 0; i < numBlobs; i++)
+                                {
+                                    Vector2 blobVelocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+                                    blobVelocity.Normalize();
+                                    blobVelocity *= Main.rand.Next(400, 801) * (bossRush ? 0.02f : 0.01f);
+                                    blobVelocity *= Main.rand.NextFloat() + 1f;
+
+                                    float blobVelocityYAdd = Math.Abs(blobVelocity.Y) * 0.5f;
+                                    if (blobVelocity.Y < 2f)
+                                        blobVelocity.Y = 2f + blobVelocityYAdd;
+
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitY * 50f, blobVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                                }
+                            }
                         }
                     }
                     else if (distanceFromTarget < 240f)
@@ -1073,6 +1106,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                         num188 += Vector2.Distance(destination, NPC.Center) * 0.005f;
                         num189 += Vector2.Distance(destination, NPC.Center) * 0.00025f;
 
+                        if (CalamityWorld.LegendaryMode && revenge)
+                        {
+                            if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(10f))
+                                num188 *= 2f;
+                        }
+
                         float num48 = num188 * 1.3f;
                         float num49 = num188 * 0.7f;
                         float num50 = NPC.velocity.Length();
@@ -1222,6 +1261,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                         }
                         else if (increaseSpeed)
                             groundPhaseTurnSpeed *= 2f;
+
+                        if (CalamityWorld.LegendaryMode && revenge)
+                        {
+                            if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(10f))
+                                fallSpeed *= 2f;
+                        }
 
                         if (!flies)
                         {
@@ -1809,6 +1854,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                         num189 += distanceFromTarget * 0.0001f * (1f - lifeRatio);
                     }
 
+                    if (CalamityWorld.LegendaryMode && revenge)
+                    {
+                        if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(10f))
+                            num188 *= 2f;
+                    }
+
                     float num48 = num188 * 1.3f;
                     float num49 = num188 * 0.7f;
                     float num50 = NPC.velocity.Length();
@@ -1946,6 +1997,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                         groundPhaseTurnSpeed *= 4f;
                     else if (increaseSpeed)
                         groundPhaseTurnSpeed *= 2f;
+
+                    if (CalamityWorld.LegendaryMode && revenge)
+                    {
+                        if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(10f))
+                            fallSpeed *= 2f;
+                    }
 
                     if (!flies)
                     {
@@ -2217,7 +2274,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     float mult = revenge ? 1.5f : 3f;
                     for (int i = 0; i < totalSpreads; i++)
                     {
-                        int totalProjectiles = bossRush ? 18 : 12;
+                        int totalProjectiles = (CalamityWorld.LegendaryMode && revenge) ? 30 : bossRush ? 18 : 12;
                         float radians = MathHelper.TwoPi / totalProjectiles;
                         float newVelocity = finalVelocity - i * mult;
                         float velocityMult = 1f + ((finalVelocity - newVelocity) / (newVelocity * 2f) / 100f);
@@ -2513,6 +2570,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
+
+            // GFB Auric Bar drop
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<AuricBar>(), 1, 1, 5);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<LoreDevourerofGods>(), desc: DropHelper.FirstKillText);

@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.Opacity = 0f;
 
-            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                 Projectile.extraUpdates = 1;
         }
 

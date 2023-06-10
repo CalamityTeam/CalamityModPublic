@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.owner == Main.myPlayer)
             {
                 int totalProjectiles = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 8 : 6;
-                if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                     totalProjectiles *= 2;
 
                 float radians = MathHelper.TwoPi / totalProjectiles;

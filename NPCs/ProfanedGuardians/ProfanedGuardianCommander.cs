@@ -374,7 +374,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float maxChargeVelocity = (bossRush || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
             if (Main.getGoodWorld)
                 maxChargeVelocity *= 1.15f;
-            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+            if (CalamityWorld.LegendaryMode && revenge)
                 maxChargeVelocity *= 2f;
 
             float inertia = (bossRush || biomeEnraged) ? 40f : death ? 45f : revenge ? 47f : expertMode ? 50f : 55f;
@@ -957,7 +957,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             if (revenge)
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, -laserVelocity, type, damage, 0f, Main.myPlayer, -beamDirection * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
-                            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                            if (CalamityWorld.LegendaryMode && revenge)
                             {
                                 rotation *= 0.33f;
                                 laserVelocity = laserVelocity.RotatedBy(-(double)beamDirection * MathHelper.TwoPi / 2f);

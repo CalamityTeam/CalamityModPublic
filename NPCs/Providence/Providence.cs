@@ -1481,7 +1481,7 @@ namespace CalamityMod.NPCs.Providence
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
 
-                                    if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                                    if (CalamityWorld.LegendaryMode && revenge)
                                         Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, -vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
                                 }
                             }
@@ -1508,7 +1508,7 @@ namespace CalamityMod.NPCs.Providence
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
 
-                            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                            if (CalamityWorld.LegendaryMode && revenge)
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, -velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
                         }
                     }

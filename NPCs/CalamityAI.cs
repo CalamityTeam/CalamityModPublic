@@ -3557,7 +3557,7 @@ namespace CalamityMod.NPCs
             // Become gradually more pissed as more worms are killed
             int gfbMaxWormCount = 10;
             int gfbWormCount = 0;
-            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+            if (CalamityWorld.LegendaryMode && revenge)
                 gfbWormCount = NPC.CountNPCS(ModContent.NPCType<AstrumDeusHead>());
             if (gfbWormCount > gfbMaxWormCount)
                 gfbWormCount = gfbMaxWormCount;
@@ -4375,7 +4375,7 @@ namespace CalamityMod.NPCs
             else if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-            float tileEnrageMult = (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge) ? 1.5f : bossRush ? 1.375f : 1f;
+            float tileEnrageMult = (CalamityWorld.LegendaryMode && revenge) ? 1.5f : bossRush ? 1.375f : 1f;
             npc.Calamity().CurrentlyEnraged = tileEnrageMult > 1f && !bossRush;
 
             // Set AI variable to be used by Dark Energies
@@ -4388,7 +4388,7 @@ namespace CalamityMod.NPCs
             if (!anyDarkEnergies)
             {
                 // This is here because it's used in multiple places
-                float suckDistance = (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge) ? 2400f : bossRush ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f;
+                float suckDistance = (CalamityWorld.LegendaryMode && revenge) ? 2400f : bossRush ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f;
 
                 // Move closer to the target before trying to succ
                 if (movingDuringSuccPhase)
@@ -5038,7 +5038,7 @@ namespace CalamityMod.NPCs
             }
 
             // Max spawn amount
-            int maxBirbs = (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge) ? 12 : revenge ? 3 : 2;
+            int maxBirbs = (CalamityWorld.LegendaryMode && revenge) ? 12 : revenge ? 3 : 2;
 
             // Variable for charging
             float chargeDistance = 600f;
@@ -5333,7 +5333,7 @@ namespace CalamityMod.NPCs
 
                 float velocity = 8f + (enrageScale - 1f) * 2f;
                 float scaleFactor17 = velocity + npc.ai[2] + value53.Length() / 120f;
-                if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                if (CalamityWorld.LegendaryMode && revenge)
                     scaleFactor17 *= 2f;
 
                 float num1309 = 20f;
@@ -5342,7 +5342,7 @@ namespace CalamityMod.NPCs
                 npc.velocity = (npc.velocity * (num1309 - 1f) + value53) / num1309;
 
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= ((CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge) ? 60f : 120f) || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
+                if (npc.ai[1] >= ((CalamityWorld.LegendaryMode && revenge) ? 60f : 120f) || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
                 {
                     npc.TargetClosest();
                     npc.ai[0] = 0f;
@@ -5518,7 +5518,7 @@ namespace CalamityMod.NPCs
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        bool gfbSpawnFlag = CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge && (npc.ai[1] == 145f || npc.ai[1] == 150f || npc.ai[1] == 160f || npc.ai[1] == 165f);
+                        bool gfbSpawnFlag = CalamityWorld.LegendaryMode && revenge && (npc.ai[1] == 145f || npc.ai[1] == 150f || npc.ai[1] == 160f || npc.ai[1] == 165f);
                         bool spawnFlag = NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && (npc.ai[1] == 140f || (revenge && npc.ai[1] == 155f) || npc.ai[1] == 170f || gfbSpawnFlag);
                         if (spawnFlag)
                         {
@@ -5931,7 +5931,7 @@ namespace CalamityMod.NPCs
             }
 
             // The dumbest thing to ever exist
-            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+            if (CalamityWorld.LegendaryMode && revenge)
                 chargeVelocity *= 1.25f;
 
             if (exhausted)
@@ -6084,7 +6084,7 @@ namespace CalamityMod.NPCs
             }
 
             // The dumbest thing to ever exist
-            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+            if (CalamityWorld.LegendaryMode && revenge)
                 chargeTime *= 2;
 
             // Set variables for spawn effects
@@ -6361,7 +6361,7 @@ namespace CalamityMod.NPCs
             else if (npc.ai[0] == 1f)
             {
                 // The dumbest thing to ever exist
-                if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge && npc.ai[2] % 10f == 0f)
+                if (CalamityWorld.LegendaryMode && revenge && npc.ai[2] % 10f == 0f)
                 {
                     // Rotation and direction
                     int dir = Math.Sign(player.Center.X - npc.Center.X);
@@ -6714,7 +6714,7 @@ namespace CalamityMod.NPCs
             else if (npc.ai[0] == 6f)
             {
                 // The dumbest thing to ever exist
-                if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge && npc.ai[2] % 8f == 0f)
+                if (CalamityWorld.LegendaryMode && revenge && npc.ai[2] % 8f == 0f)
                 {
                     // Rotation and direction
                     int dir = Math.Sign(player.Center.X - npc.Center.X);
@@ -7096,7 +7096,7 @@ namespace CalamityMod.NPCs
             else if (npc.ai[0] == 11f)
             {
                 // The dumbest thing to ever exist
-                if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge && npc.ai[2] % 6f == 0f)
+                if (CalamityWorld.LegendaryMode && revenge && npc.ai[2] % 6f == 0f)
                 {
                     // Rotation and direction
                     int dir = Math.Sign(player.Center.X - npc.Center.X);

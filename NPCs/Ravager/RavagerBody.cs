@@ -578,7 +578,7 @@ namespace CalamityMod.NPCs.Ravager
                         bool anyRockPillars = NPC.AnyNPCs(ModContent.NPCType<RockPillar>());
                         bool anyFlamePillars = NPC.AnyNPCs(ModContent.NPCType<FlamePillar>());
 
-                        if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                        if (CalamityWorld.LegendaryMode && revenge)
                         {
                             if (!expertMode || anyRockPillars || anyFlamePillars)
                                 SoundEngine.PlaySound(PillarSound, NPC.Center);
