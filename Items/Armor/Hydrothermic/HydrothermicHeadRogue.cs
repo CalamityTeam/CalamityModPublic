@@ -33,11 +33,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased rogue damage\n" +
-				"+110 maximum stealth\n" +
-                "Inferno effect when below 50% life\n" +
-                "Rogue weapons unleash a volley of homing chaos flames around the player every 2.5 seconds\n" +
-                "You emit a blazing explosion when you are hit";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<HydrothermicArmor>("CommonSetBonus");
             var modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaVolley = true;

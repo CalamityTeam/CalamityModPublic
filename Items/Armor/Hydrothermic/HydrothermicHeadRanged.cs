@@ -33,10 +33,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased ranged damage\n" +
-                "Inferno effect when below 50% life\n" +
-                "You fire a homing chaos flare when using ranged weapons every 0.33 seconds\n" +
-                "You emit a blazing explosion when you are hit";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<HydrothermicArmor>("CommonSetBonus");
             var modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaBolt = true;

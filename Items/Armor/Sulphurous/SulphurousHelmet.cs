@@ -28,10 +28,7 @@ namespace CalamityMod.Items.Armor.Sulphurous
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "+70 maximum stealth\n" +
-				"Attacking and being attacked by enemies inflicts poison\n" +
-                "Grants an additional jump that summons a sulphurous bubble\n" +
-                "Provides increased underwater mobility and reduces the severity of the sulphuric waters";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.sulfurSet = true;
             modPlayer.sulfurJump = true;

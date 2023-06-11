@@ -31,10 +31,7 @@ namespace CalamityMod.Items.Armor.Astral
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased movement speed and +3 max minions\n" +
-                "35% increased damage and 25% increased critical strike chance\n" +
-                "Whenever you crit an enemy, a barrage of stars will rain down\n" +
-                "This effect has a 1 second cooldown before it can trigger again";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.astralStarRain = true;
             player.moveSpeed += 0.05f;

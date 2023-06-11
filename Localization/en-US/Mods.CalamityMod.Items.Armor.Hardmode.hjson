@@ -10,6 +10,13 @@ AstralBreastplate: {
 AstralHelm: {
 	DisplayName: Astral Helm
 	Tooltip: Danger detection
+	SetBonus:
+		'''
+		5% increased movement speed and +3 max minions
+		35% increased damage and 25% increased critical strike chance
+		Whenever you crit an enemy, a barrage of stars will rain down
+		This effect has a 1 second cooldown before it can trigger again
+		'''
 }
 
 AstralLeggings: {
@@ -47,6 +54,14 @@ BrimflameScowl: {
 		Increases maximum mana by 70 and reduces mana usage by 10%
 		Immunity to On Fire!, Brimstone Flames and Frostburn
 		'''
+	SetBonus:
+		'''
+		Grants an additional 15% increased magic damage and crit
+		Press {0} to trigger a brimflame frenzy effect
+		While under this effect, you get an additional 40% increase to magic damage
+		However, this comes at the cost of rapid life loss and no mana regeneration
+		This can be toggled off, however, a brimflame frenzy has a 30 second cooldown
+		'''
 }
 
 CirrusDress: {
@@ -72,6 +87,12 @@ DaedalusHeadMagic: {
 		13% increased magic damage and 7% increased magic critical strike chance
 		10% reduced mana usage and +60 max mana
 		'''
+	SetBonus:
+		'''
+		5% increased magic damage
+		You have a 10% chance to absorb physical attacks and projectiles when hit
+		If you absorb an attack you are healed for 1/2 of that attack's damage
+		'''
 }
 
 DaedalusHeadMelee: {
@@ -80,6 +101,14 @@ DaedalusHeadMelee: {
 		'''
 		10% increased melee damage and critical strike chance
 		15% increased melee speed
+		'''
+	SetBonus:
+		'''
+		5% increased melee damage
+		Enemies are more likely to target you
+		You reflect projectiles back at enemies
+		Reflected projectiles deal 50% less damage to you
+		This reflect has a 90 second cooldown which is shared with all other dodges and reflects
 		'''
 }
 
@@ -90,6 +119,11 @@ DaedalusHeadRanged: {
 		13% increased ranged damage and 7% increased ranged critical strike chance
 		Reduces ammo usage by 20%
 		'''
+	SetBonus:
+		'''
+		5% increased ranged damage
+		Getting hit causes you to emit a blast of crystal shards
+		'''
 }
 
 DaedalusHeadRogue: {
@@ -99,11 +133,22 @@ DaedalusHeadRogue: {
 		13% increased rogue damage and 7% increased rogue critical strike chance, increases rogue velocity by 15%
 		5% increased movement speed
 		'''
+	SetBonus:
+		'''
+		5% increased rogue damage
+		+105 maximum stealth
+		Rogue projectiles throw out crystal shards as they travel
+		'''
 }
 
 DaedalusHeadSummon: {
 	DisplayName: Daedalus Mask
 	Tooltip: 5% increased minion damage
+	SetBonus:
+		'''
+		20% increased minion damage and +2 max minions
+		A daedalus crystal floats above you to protect you
+		'''
 }
 
 DaedalusLeggings: {
@@ -143,11 +188,26 @@ FathomSwarmerVisage: {
 		5% increased minion damage
 		Provides breathing and light underwater
 		'''
+	SetBonus:
+		'''
+		10% increased minion damage and +2 max minions
+		Grants the ability to climb walls
+		30% increased minion damage while submerged in liquid
+		Provides a moderate amount of light and moderately reduces breath loss in the abyss
+		'''
 }
 
 ForbiddenCirclet: {
 	DisplayName: Forbidden Circlet
 	Tooltip: 10% increased minion damage and 15% increased rogue velocity
+	SetBonus:
+		'''
+		+40 maximum stealth
+		Press {0} to call an ancient storm to the cursor location
+		The ancient storm costs {1} mana and benefits from both summon and rogue bonuses
+		Rogue stealth strikes spawn homing eaters on enemy hits
+		Rogue and summon attacks will scale off of the stat with a higher boost
+		'''
 }
 
 HydrothermicArmor: {
@@ -157,6 +217,11 @@ HydrothermicArmor: {
 		+20 max life
 		8% increased damage and 4% increased critical strike chance
 		'''
+	CommonSetBonus:
+		'''
+		Inferno effect when below 50% life
+		You emit a blazing explosion when you are hit
+		'''
 }
 
 HydrothermicHeadMagic: {
@@ -165,6 +230,11 @@ HydrothermicHeadMagic: {
 		'''
 		12% increased magic damage, +100 max mana, and 10% increased magic critical strike chance
 		Temporary immunity to lava, and immunity to fire damage
+		'''
+	SetBonus:
+		'''
+		5% increased magic damage and 15% reduced mana usage
+		Magic attacks summon damaging and healing flare orbs on hit
 		'''
 }
 
@@ -177,6 +247,12 @@ HydrothermicHeadMelee: {
 		Melee attacks and melee projectiles inflict on fire
 		Temporary immunity to lava and immunity to fire damage
 		'''
+	SetBonus:
+		'''
+		5% increased melee damage
+		Enemies are more likely to target you
+		Melee attacks and projectiles cause chaos flames to erupt on enemy hits
+		'''
 }
 
 HydrothermicHeadRanged: {
@@ -185,6 +261,11 @@ HydrothermicHeadRanged: {
 		'''
 		12% increased ranged damage and 10% increased ranged critical strike chance
 		Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage
+		'''
+	SetBonus:
+		'''
+		5% increased ranged damage
+		You fire a homing chaos flare when using ranged weapons every 0.33 seconds
 		'''
 }
 
@@ -196,6 +277,12 @@ HydrothermicHeadRogue: {
 		50% chance to not consume rogue items and 5% increased movement speed
 		Temporary immunity to lava and immunity to fire damage
 		'''
+	SetBonus:
+		'''
+		5% increased rogue damage
+		+110 maximum stealth
+		Rogue weapons unleash a volley of homing chaos flames around the player every 2.5 seconds
+		'''
 }
 
 HydrothermicHeadSummon: {
@@ -204,6 +291,11 @@ HydrothermicHeadSummon: {
 		'''
 		5% increased minion damage and increased minion knockback
 		Temporary immunity to lava and immunity to fire damage
+		'''
+	SetBonus:
+		'''
+		40% increased minion damage and +2 max minions
+		Summons a hydrothermic vent to protect you
 		'''
 }
 
@@ -231,6 +323,12 @@ MolluskShellmet: {
 		'''
 		5% increased damage and 4% increased critical strike chance
 		You can move freely through liquids
+		'''
+	SetBonus:
+		'''
+		Two shellfishes aid you in combat
+		10% increased damage
+		Your horizontal movement is slowed
 		'''
 }
 
@@ -270,11 +368,25 @@ PlaguebringerVisor: {
 		15% increased minion damage
 		+20 max life
 		'''
+	SetBonus:
+		'''
+		Grants a plague dash to ram enemies and afflict them with the plague
+		Summons a lil' plaguebringer to protect you and empower nearby minions
+		+3 max minions
+		'''
 }
 
 PlagueReaperMask: {
 	DisplayName: Plague Reaper Mask
 	Tooltip: 10% increased ranged damage and 8% increased ranged critical strike chance
+	SetBonus:
+		'''
+		25% reduced ammo usage and 5% increased flight time
+		Enemies receive 10% more damage from ranged projectiles when afflicted by the Plague
+		Getting hit causes plague cinders to rain from above
+		Press {0} to blind yourself for 5 seconds but massively boost your ranged damage
+		This has a 25 second cooldown.
+		'''
 }
 
 PlagueReaperStriders: {
@@ -311,11 +423,27 @@ ReaverHeadExplore: {
 		20% increased mining speed and block/wall placement speed
 		Temporary immunity to lava and can move freely through liquids
 		'''
+	SetBonus:
+		'''
+		Highlights all treasure nearby
+		Increased item grab range and block placement range
+		Mining tiles restores breath while underwater
+		Summons a reaver orb to light up the area around you
+		Reduces enemy aggression, even in the abyss
+		Provides a small amount of light in the abyss
+		'''
 }
 
 ReaverHeadMobility: {
 	DisplayName: Reaver Visage
 	Tooltip: 10% increased jump speed and 15% increased movement speed
+	SetBonus:
+		'''
+		Grants immunity to fall damage and allows constant jumping
+		10% increased flight time and horizontal wing speed
+		Hooks fly out and retract 10% faster
+		Reduces the cooldown of dashes
+		'''
 }
 
 ReaverHeadTank: {
@@ -325,6 +453,16 @@ ReaverHeadTank: {
 		15% increased damage reduction but 30% decreased damage
 		+50 max life
 		Passively regenerates one health point every second
+		'''
+	SetBonus:
+		'''
+		+10 defense and +3 life regen
+		Enemies are more likely to target you
+		Reduces the life regen lost from damage over time debuffs by 20%
+		All attacks have a small chance to steal life and speed up the rate of life regen
+		20% decreased movement speed and flight time
+		Enemy damage is reflected and summons a thorn spike
+		Reaver Rage has a 25% chance to activate when you are damaged
 		'''
 }
 
@@ -358,6 +496,13 @@ TitanHeartMask: {
 		5% increased rogue damage and knockback
 		Rogue weapons inflict the Astral Infection debuff
 		'''
+	SetBonus:
+		'''
+		15% increased rogue damage and knockback
+		+100 maximum stealth
+		Stealth strikes deal double knockback and cause an astral explosion
+		Grants immunity to knockback
+		'''
 }
 
 UmbraphileBoots: {
@@ -372,6 +517,12 @@ UmbraphileBoots: {
 UmbraphileHood: {
 	DisplayName: Umbraphile Hood
 	Tooltip: 8% increased rogue damage and 10% increased rogue velocity
+	SetBonus:
+		'''
+		+110 maximum stealth
+		Rogue weapons have a chance to create explosions on hit
+		Stealth strikes always create an explosion
+		'''
 }
 
 UmbraphileRegalia: {

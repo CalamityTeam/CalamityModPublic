@@ -35,11 +35,11 @@ namespace CalamityMod.Items.Armor.Wulfrum
         public static readonly SoundStyle SetBreakSound = new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionBreak");
         public static readonly SoundStyle SetBreakSoundSafe = new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionBreakSafely");
 
+        public static int MinionSlotBoost = 1;
         public static int BastionBuildTime = (int)(0.55f * 60);
         public static int BastionTime = 30 * 60;
         public static int TimeLostPerHit = 2 * 60;
         public static int BastionCooldown = 20 * 60;
-
 
         internal static Item DummyCannon = new Item(); //Used for the attack swap. Basically we force the player to hold a fake item.
 
@@ -115,10 +115,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
             orig();
         }
 
-
-        public override void SetStaticDefaults()
-        {
-                   }
         public override void SetDefaults()
         {
             Item.width = 18;
@@ -140,8 +136,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
             armorPlayer.wulfrumSet = true;
 
-            player.setBonus = "+1 max minion"; //The cooler part of the set bonus happens in modifytooltips because i can't recolor it otherwise. Madge
-            player.maxMinions++;
+            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(MinionSlotBoost).ToString(); //The cooler part of the set bonus happens in modifytooltips because i can't recolor it otherwise. Madge
+            player.maxMinions += MinionSlotBoost;
             if (PowerModeEngaged(player, out var cd))
             {
                 if (cd.timeLeft == BastionCooldown + BastionTime)
@@ -153,11 +149,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
                 player.statDefense += 13;
                 player.endurance += 0.05f; //10% Dr in total with the chestplate
 
-
                 //Can't account for previous fullbody transformations but at this point, whatever.
                 Item headItem = player.armor[10].type != 0 ? player.armor[10] : player.armor[0];
                 bool hatVisible = !transformationPlayer.transformationActive && headItem.type == ItemType<WulfrumHat>();
-
 
                 //Spawn the hat
                 if (cd.timeLeft == BastionCooldown + BastionTime - (int)(BastionBuildTime * 0.9f) && hatVisible)
@@ -166,13 +160,11 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     GeneralParticleHandler.SpawnParticle(leftoverHat);
                 }
 
-
                 //Visuals
                 if (cd.timeLeft < BastionCooldown + BastionTime - BastionBuildTime)
                     player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = true;
                 else if (cd.timeLeft <= BastionCooldown + BastionTime - (int)(BastionBuildTime * 0.9f))
                     player.GetModPlayer<WulfrumTransformationPlayer>().forceHelmetOn = true;
-
 
                 //Swapping the arm.
                 if (DummyCannon.IsAir)
@@ -240,21 +232,19 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
                 if (setBonusIndex != -1)
                 {
-                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", "Wulfrum Bastion - Double tap DOWN while dismounted to equip wulfrum power armor");
+                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", CalamityUtils.GetTextValueFromModItem<WulfrumHat>("AbilityBrief"));
                     setBonus1.OverrideColor = Color.Lerp(new Color(194, 255, 67), new Color(112, 244, 244), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips.Insert(setBonusIndex + 1, setBonus1);
 
-                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", "While the armor is active, you can only use the integrated fusion cannon, but your defensive stats are increased");
+                    int AmmoItem = ModContent.ItemType<WulfrumMetalScrap>();
+                    string AmmoDisplay = $"[i:{AmmoItem}] {CalamityUtils.GetItemName(AmmoItem)}";
+                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", CalamityUtils.GetTextFromModItem<WulfrumHat>("AbilityDescription").WithFormatArgs(AmmoDisplay).ToString());
                     setBonus2.OverrideColor = new Color(110, 192, 93);
                     tooltips.Insert(setBonusIndex + 2, setBonus2);
 
-                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", "Calling down the armor consumes one piece of wulfrum metal scrap, and the armor will lose durability faster when hit");
-                    setBonus3.OverrideColor = new Color(110, 192, 93);
-                    tooltips.Insert(setBonusIndex + 3, setBonus3);
-
                     if (!Main.keyState.IsKeyDown(LeftShift))
                     {
-                        TooltipLine itemDisplay = new TooltipLine(item.Mod, "CalamityMod:ArmorItemDisplay", "Hold SHIFT to see the stats of the fusion cannon");
+                        TooltipLine itemDisplay = new TooltipLine(item.Mod, "CalamityMod:ArmorItemDisplay", CalamityUtils.GetTextValueFromModItem<WulfrumHat>("ShiftToExpand"));
                         itemDisplay.OverrideColor = new Color(190, 190, 190);
                         tooltips.Add(itemDisplay);
                     }
@@ -286,7 +276,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
         public new string LocalizationCategory => "Items.Armor.PreHardmode";
         public override void SetStaticDefaults()
         {
-
             if (Main.netMode != NetmodeID.Server)
             {
                 var equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);

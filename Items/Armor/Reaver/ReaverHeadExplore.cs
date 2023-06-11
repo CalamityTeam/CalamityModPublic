@@ -36,12 +36,7 @@ namespace CalamityMod.Items.Armor.Reaver
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Highlights all treasure nearby\n" +
-                "Increased item grab range and block placement range\n" +
-                "Mining tiles restores breath while underwater\n" +
-                "Summons a reaver orb to light up the area around you\n" +
-                "Reduces enemy aggression, even in the abyss\n" +
-                "Provides a small amount of light in the abyss";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.reaverExplore = true;
             modPlayer.wearingRogueArmor = true;

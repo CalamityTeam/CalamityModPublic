@@ -66,12 +66,7 @@ namespace CalamityMod.Items.Armor.OmegaBlue
         public override void UpdateArmorSet(Player player)
         {
             var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = "Increases armor penetration by 15\n" +
-                "10% increased damage and critical strike chance and +2 max minions\n" +
-                "Short-ranged tentacles heal you by sucking enemy life\n" +
-                "Press " + hotkey + " to activate abyssal madness for 5 seconds\n" +
-                "Abyssal madness increases damage, critical strike chance, and tentacle aggression/range\n" +
-                "This effect has a 25 second cooldown";
+            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(hotkey).ToString();
 
             var mp = player.Calamity();
             player.GetArmorPenetration<GenericDamageClass>() += 15;

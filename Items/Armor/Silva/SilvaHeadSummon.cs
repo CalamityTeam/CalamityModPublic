@@ -45,12 +45,7 @@ namespace CalamityMod.Items.Armor.Silva
             modPlayer.silvaSet = true;
             modPlayer.silvaSummon = true;
             modPlayer.WearingPostMLSummonerSet = true;
-            player.setBonus = "65% increased minion damage and +5 max minions\n" +
-                "All projectiles spawn healing leaf orbs on enemy hits\n" +
-                "Max run speed and acceleration boosted by 5%\n" +
-                "If you are reduced to 1 HP you will not die from any further damage for 8 seconds\n" +
-                "This effect has a 5 minute cooldown. The cooldown does not decrement if any bosses or events are active.\n" +
-                "Summons an ancient leaf prism to blast your enemies with life energy";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<SilvaArmor>("CommonSetBonus");
             if (player.whoAmI == Main.myPlayer)
             {
                 var source = player.GetSource_ItemUse(Item);

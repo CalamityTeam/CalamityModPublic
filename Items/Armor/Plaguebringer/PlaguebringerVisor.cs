@@ -42,9 +42,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Grants a plague dash to ram enemies and afflict them with the plague\n" +
-            "Summons a lil' plaguebringer to protect you and empower nearby minions\n" +
-            "+3 max minions";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
 
             player.Calamity().plaguebringerPatronSet = true;
             player.Calamity().DashID = PlaguebringerArmorDash.ID;

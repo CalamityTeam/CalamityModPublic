@@ -38,11 +38,7 @@ namespace CalamityMod.Items.Armor.Silva
             var modPlayer = player.Calamity();
             modPlayer.silvaSet = true;
             modPlayer.silvaMage = true;
-            player.setBonus = "All projectiles spawn healing leaf orbs on enemy hits\n" +
-                "Max run speed and acceleration boosted by 5%\n" +
-                "If you are reduced to 1 HP you will not die from any further damage for 8 seconds\n" +
-                "This effect has a 5 minute cooldown. The cooldown does not decrement if any bosses or events are active.\n" +
-                "Magic projectiles which cannot pierce will occasionally set off potent blasts of nature energy";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<SilvaArmor>("CommonSetBonus");
         }
 
         public override void UpdateEquip(Player player)

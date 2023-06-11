@@ -37,15 +37,10 @@ namespace CalamityMod.Items.Armor.PlagueReaper
         public override void UpdateArmorSet(Player player)
         {
             var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = "25% reduced ammo usage and 5% increased flight time\n" +
-                "Enemies receive 10% more damage from ranged projectiles when afflicted by the Plague\n" +
-                "Getting hit causes plague cinders to rain from above\n" +
-                "Press " + hotkey + " to blind yourself for 5 seconds but massively boost your ranged damage\n" +
-                "This has a 25 second cooldown.";
+            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(hotkey).ToString();
             var modPlayer = player.Calamity();
             modPlayer.plagueReaper = true;
             player.ammoCost75 = true;
-
 
             var hasPlagueBlackoutCD = modPlayer.cooldowns.TryGetValue(PlagueBlackout.ID, out var cd);
             if (hasPlagueBlackoutCD && cd.timeLeft > 1500)

@@ -39,9 +39,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
             var modPlayer = player.Calamity();
             modPlayer.snowRuffianSet = true;
             modPlayer.rogueStealthMax += 0.5f;
-            player.setBonus = "5% increased rogue damage\n" +
-                "+50 maximum stealth\n" +
-                "You can glide to negate fall damage";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             player.GetDamage<ThrowingDamageClass>() += 0.05f;
             player.Calamity().wearingRogueArmor = true;
 

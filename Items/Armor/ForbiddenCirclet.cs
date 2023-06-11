@@ -39,11 +39,7 @@ namespace CalamityMod.Items.Armor
         {
             int stormMana = (int)(manaCost * player.manaCost);
             string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = "+40 maximum stealth\n" +
-					"Press " + hotkey + " to call an ancient storm to the cursor location\n" +
-                    "The ancient storm costs " + stormMana + " mana and benefits from both summon and rogue bonuses\n" +
-                    "Rogue stealth strikes spawn homing eaters on enemy hits\n" +
-                    "Rogue and summon attacks will scale off of the stat with a higher boost";
+            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(hotkey, stormMana).ToString();
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.forbiddenCirclet = true;
             modPlayer.rogueStealthMax += 0.4f;

@@ -36,14 +36,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
             var modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareMelee = true;
-            player.setBonus = "Greatly increases life regen\n" +
-                "Enemies are more likely to target you\n" +
-                "Enemies below 50% life drop a heart when struck\n" +
-                "This effect has a 5 second cooldown\n" +
-                "True melee strikes will heal you\n" +
-                "After striking an enemy 15 times with true melee you will enter a blood frenzy for 5 seconds\n" +
-                "During this you will gain 25% increased melee damage, critical strike chance, and contact damage is halved\n" +
-                "This effect has a 30 second cooldown";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<BloodflareBodyArmor>("CommonSetBonus");
             player.crimsonRegen = true;
             player.aggro += 900;
         }

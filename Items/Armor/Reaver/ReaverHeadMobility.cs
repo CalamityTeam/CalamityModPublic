@@ -37,10 +37,7 @@ namespace CalamityMod.Items.Armor.Reaver
             var modPlayer = player.Calamity();
             modPlayer.reaverSpeed = true;
             modPlayer.wearingRogueArmor = true;
-            player.setBonus = "Grants immunity to fall damage and allows constant jumping\n" +
-                "10% increased flight time and horizontal wing speed\n" +
-                "Hooks fly out and retract 10% faster\n" +
-                "Reduces the cooldown of dashes";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             player.noFallDmg = true;
             player.autoJump = true;
             if (player.miscCounter % 3 == 2 && player.dashDelay > 0)

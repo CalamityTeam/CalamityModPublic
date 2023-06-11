@@ -38,11 +38,7 @@ namespace CalamityMod.Items.Armor.Tarragon
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
             modPlayer.WearingPostMLSummonerSet = true;
-            player.setBonus = "50% increased minion damage and +3 max minions\n" +
-                "Reduces enemy spawn rates\n" +
-                "Increased heart pickup range\n" +
-                "Enemies have a chance to drop extra hearts on death\n" +
-                "Summons a life aura around you that damages nearby enemies";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<TarragonBreastplate>("CommonSetBonus");
             player.GetDamage<SummonDamageClass>() += 0.5f;
             player.maxMinions += 3;
         }

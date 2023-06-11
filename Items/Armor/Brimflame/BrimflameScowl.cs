@@ -78,11 +78,7 @@ namespace CalamityMod.Items.Armor.Brimflame
             player.GetDamage<MagicDamageClass>() += 0.15f;
             player.GetCritChance<MagicDamageClass>() += 15;
             var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = "Grants an additional 15% increased magic damage and crit\n" +
-                "Press " + hotkey + " to trigger a brimflame frenzy effect\n" +
-                "While under this effect, you get an additional 40% increase to magic damage\n" +
-                "However, this comes at the cost of rapid life loss and no mana regeneration\n" +
-                "This can be toggled off, however, a brimflame frenzy has a 30 second cooldown";
+            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(hotkey).ToString();
         }
 
         public override void AddRecipes()

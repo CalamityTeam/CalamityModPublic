@@ -40,10 +40,7 @@ namespace CalamityMod.Items.Armor.Prismatic
             player.manaCost *= 0.85f;
             player.manaRegenBonus += 8;
             var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = "+40 max mana and 15% reduced mana cost\n" +
-                "Increased mana regeneration rate\n" +
-                "Press " + hotkey + " to unleash a barrage of death lasers at the cursor for the next 5 seconds\n" +
-                "This has a 30 second cooldown";
+            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(hotkey).ToString();
         }
 
         public override void UpdateEquip(Player player)

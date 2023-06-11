@@ -38,13 +38,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
             modPlayer.bloodflareThrowing = true;
             modPlayer.rogueStealthMax += 1.2f;
             modPlayer.wearingRogueArmor = true;
-            player.setBonus = "Greatly increases life regen\n" +
-                "Enemies below 50% life drop a heart when struck\n" +
-                "This effect has a 5 second cooldown\n" +
-				"+120 maximum stealth\n" +
-                "Being over 80% life boosts your defense by 30 and rogue crit by 5%\n" +
-                "Being below 80% life boosts your rogue damage by 10%\n" +
-                "Rogue critical strikes have a 50% chance to heal you";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<BloodflareBodyArmor>("CommonSetBonus");
             player.crimsonRegen = true;
         }
 
