@@ -3890,103 +3890,91 @@ namespace CalamityMod.CalPlayer
             {
                 if (alcoholPoisoning)
                 {
-                    if (Main.rand.NextBool())
-                        damageSource = PlayerDeathReason.ByCustomReason(Player.name + " downed too many shots.");
-                    else
-                        damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s liver failed.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AlcoholBig" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (vHex)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was charred by the brimstone inferno.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.VulnerabilityHex").Format(Player.name));
                 }
                 if (ZoneCalamity && Player.lavaWet)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s soul was released by the lava.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SearingLava").Format(Player.name));
                 }
                 if (gsInferno)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s soul was extinguished.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.GodSlayerInferno").Format(Player.name));
                 }
                 if (sulphurPoison)
                 {
                     if (Main.rand.NextBool(2))
-                        damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was melted by the toxic waste.");
+                        damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SulphuricPoisoning").Format(Player.name));
                     else
                         damageSource = PlayerDeathReason.ByOther(9);
                 }
                 if (dragonFire)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s ashes scatter in the wind.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Dragonfire").Format(Player.name));
                 }
                 if (miracleBlight)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + (Main.rand.NextBool() ? " was blown away by miraculous technological advancements." : " disintegrated from the overpowering exotic resonance."));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.MiracleBlight" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (hInferno)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was turned to ashes by the Profaned Goddess.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.HolyInferno").Format(Player.name));
                 }
                 if (hFlames || banishingFire)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " fell prey to their sins.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.HolyFlames").Format(Player.name));
                 }
                 if (shadowflame)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s spirit was turned to ash.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Shadowflame").Format(Player.name));
                 }
                 if (bBlood)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " became a blood geyser.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BurningBlood").Format(Player.name));
                 }
                 if (cDepth)
                 {
-                    if (Main.rand.NextBool())
-                        damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was crushed by the pressure.");
-                    else
-                        damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s lungs collapsed.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CrushDepth" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (bFlames || weakBrimstoneFlames)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was consumed by the black flames.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BrimstoneFlames").Format(Player.name));
                 }
                 if (pFlames)
                 {
-                    if (Main.rand.NextBool())
-                        damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s flesh was melted by the plague.");
-                    else
-                        damageSource = PlayerDeathReason.ByCustomReason(Player.name + " didn't vaccinate.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Plague" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (astralInfection)
                 {
-                    if (Main.rand.NextBool())
-                        damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s infection spread too far.");
-                    else
-                        damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s skin was replaced by the astral virus.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AstralInfection" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (nightwither)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was incinerated by lunar rays.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Nightwither").Format(Player.name));
                 }
                 if (vaporfied)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " vaporized into thin air.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Vaporfied").Format(Player.name));
                 }
                 if (manaOverloader || ManaBurn)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s life was completely converted into mana.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ManaConversion").Format(Player.name));
                 }
                 if (bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine || Player.tipsy)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " succumbed to alcohol sickness.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AlcoholSmall").Format(Player.name));
                 }
                 if (witheredDebuff)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " withered away.");
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Withered").Format(Player.name));
                 }
             }
             if (profanedCrystalBuffs && !profanedCrystalHide)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was summoned too soon.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProfanedSoulCrystal").Format(Player.name));
             }
 
             if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
@@ -6892,7 +6880,7 @@ namespace CalamityMod.CalPlayer
                     Player.HealEffect(-5);
                     Player.statLife -= 5;
                     if (Player.statLife <= 0)
-                        Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name} converted all of their life to mana."), 1000, -1);
+                        Player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ManaConversionAlt").Format(Player.name)), 1000, -1);
                 }
 
                 for (int i = 0; i < 8; i++)

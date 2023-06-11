@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 --player.statLife;
             if (player.statLife <= 0)
             {
-                PlayerDeathReason pdr = PlayerDeathReason.ByCustomReason(Main.rand.NextBool(2) ? player.name + " suffered from severe anemia." : player.name + " was unable to obtain a blood transfusion.");
+                PlayerDeathReason pdr = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BloodBoiler" + Main.rand.Next(1, 2 + 1)).Format(player.name));
                 player.KillMe(pdr, 1000.0, 0, false);
                 return false;
             }

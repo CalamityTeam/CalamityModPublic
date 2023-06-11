@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Potions
         public new string LocalizationCategory => "Items.Potions";
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 20;
             Item.ResearchUnlockCount = 30;
         }
 
@@ -43,7 +42,7 @@ namespace CalamityMod.Items.Potions
             }
             if (player.statLife <= 0)
             {
-                player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s blood vessels burst from drug overdose."), 1000.0, 0, false);
+                player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AstralInjection").Format(player.name)), 1000.0, 0, false);
             }
         }
 

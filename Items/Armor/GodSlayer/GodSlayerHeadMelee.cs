@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor.GodSlayer
             modPlayer.godSlayer = true;
             modPlayer.godSlayerDamage = true;
             var hotkey = CalamityKeybinds.GodSlayerDashHotKey.TooltipHotkeyString();
-            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextFromModItem<GodSlayerChestplate>("CommonSetBonus").WithFormatArgs(hotkey, GodslayerArmorDash.GodslayerCooldown).ToString();
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextFromModItem<GodSlayerChestplate>("CommonSetBonus").Format(hotkey, GodslayerArmorDash.GodslayerCooldown);
             player.thorns += 2.5f;
             player.aggro += 1000;
 

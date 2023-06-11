@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareRanged = true;
             var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(hotkey).ToString() + "\n" + CalamityUtils.GetTextValueFromModItem<BloodflareBodyArmor>("CommonSetBonus");
+            player.setBonus = this.GetLocalization("SetBonus").Format(hotkey) + "\n" + CalamityUtils.GetTextValueFromModItem<BloodflareBodyArmor>("CommonSetBonus");
             player.crimsonRegen = true;
         }
 

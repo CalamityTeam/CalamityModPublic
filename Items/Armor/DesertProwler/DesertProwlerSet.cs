@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void UpdateArmorSet(Player player)
         {           
-            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(FlatDamageBonus).ToString(); //More gets edited in elsewhere
+            player.setBonus = this.GetLocalization("SetBonus").Format(FlatDamageBonus); //More gets edited in elsewhere
 
             DesertProwlerPlayer armorPlayer = player.GetModPlayer<DesertProwlerPlayer>();
             armorPlayer.desertProwlerSet = true;
@@ -174,7 +174,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
                     setBonus1.OverrideColor = Color.Lerp(new Color(255, 229, 156), new Color(233, 225, 198), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips.Insert(setBonusIndex + 1, setBonus1);
 
-                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", CalamityUtils.GetTextFromModItem<DesertProwlerHat>("AbilityDescription").WithFormatArgs(FreeCrit, BonusDamageCap, LightsOutReset / 60f).ToString());
+                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", CalamityUtils.GetTextFromModItem<DesertProwlerHat>("AbilityDescription").Format(FreeCrit, BonusDamageCap, LightsOutReset / 60f));
                     setBonus2.OverrideColor = new Color(204, 181, 72);
                     tooltips.Insert(setBonusIndex + 2, setBonus2);
                 }

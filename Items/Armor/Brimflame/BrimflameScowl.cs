@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Armor.Brimflame
             player.GetDamage<MagicDamageClass>() += 0.15f;
             player.GetCritChance<MagicDamageClass>() += 15;
             var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(hotkey).ToString();
+            player.setBonus = this.GetLocalization("SetBonus").Format(hotkey);
         }
 
         public override void AddRecipes()

@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor.Tarragon
             modPlayer.tarraMelee = true;
             player.aggro += 800;
             var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(hotkey).ToString() + "\n" + CalamityUtils.GetTextValueFromModItem<TarragonBreastplate>("CommonSetBonus");
+            player.setBonus = this.GetLocalization("SetBonus").Format(hotkey) + "\n" + CalamityUtils.GetTextValueFromModItem<TarragonBreastplate>("CommonSetBonus");
         }
 
         public override void UpdateEquip(Player player)

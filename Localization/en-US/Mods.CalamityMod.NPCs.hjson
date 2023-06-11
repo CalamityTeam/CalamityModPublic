@@ -285,21 +285,9 @@ SoulSeekerSupreme.DisplayName: Soul Seeker
 SupremeCalamitas.DisplayName: Supreme Witch, Calamitas
 SupremeCataclysm.DisplayName: Cataclysm
 SupremeCatastrophe.DisplayName: Catastrophe
-
-AndroombaFriendly: {
-	DisplayName: Androomba Pal
-
-	TownNPCMood: {
-		Princess_LovesNPC: I like {NPCName}.
-		LikeNPC_Princess: I like {NPCName}.
-		HateCrowded: I hate how crowded I am.
-		DislikeCrowded: I dislike how crowded I am.
-		LoveSpace: I love having so much space.
-		FarFromHome: I am too far from home.
-		NoHome: I hate not having a home.
-		Content: I am content.
-	}
-}
+Yharon.DisplayName: Yharon, Dragon of Rebirth
+// Town NPCs, Pets, etc
+AndroombaFriendly.DisplayName: Androomba Pal
 
 DILF: {
 	DisplayName: Archmage
@@ -308,7 +296,7 @@ DILF: {
 		Content: The weather is cool today.
 		NoHome: Without a place to rest, my studies cannot proceed. Could you procure me a living space? I no longer like to make my homes using ice magic.
 		LoveSpace: Too many people can disrupt the flow of mana. I much prefer the breathing room here.
-		FarFromHome: My sense of direction is…subpar. I loathe to admit it, but I have a tendency to not venture outside too often.
+		FarFromHome: My sense of direction is... subpar. I loathe to admit it, but I have a tendency to not venture outside too often.
 		DislikeCrowded: My spells are precise, and cannot be interrupted. I would like some more room to practice with them.
 		HateCrowded: I'd hate for one of your associates to be caught up in my magic. Alas, there are too many here to mitigate that risk.
 		LikeBiome: The temperature here allows me to save my magic power, as my creations can sustain their shape without melting in the cold.
@@ -412,5 +400,3 @@ WITCH: {
 		Princess_LovesNPC: I like {NPCName}.
 	}
 }
-
-Yharon.DisplayName: Yharon, Dragon of Rebirth

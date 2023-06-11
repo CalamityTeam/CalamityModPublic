@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.TownNPCs
     {
         public override void SetStaticDefaults()
         {
-
             Main.npcFrameCount[NPC.type] = 25;
             NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
             NPCID.Sets.AttackFrameCount[NPC.type] = 4;
@@ -101,10 +100,11 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override string GetChat()
         {
+            Player player = Main.player[Main.myPlayer];
             if (CalamityWorld.getFixedBoi)
             {
-                Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, -1, false);
-                SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, Main.player[Main.myPlayer].Center);
+                player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CirrusSlap").Format(player.name)), player.statLife / 2, -player.direction, false, false, -1, false);
+                SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, player.Center);
             }
 
             if (CalamityUtils.AnyBossNPCS())
@@ -139,8 +139,8 @@ namespace CalamityMod.NPCs.TownNPCs
                 }
                 else
                 {
-                    Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, -1, false); ;
-                    SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, Main.player[Main.myPlayer].Center);
+                    player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CirrusSlap").Format(player.name)), player.statLife / 2, -player.direction, false, false, -1, false); ;
+                    SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, player.Center);
                     return "Sorry, I have no moral compass at the moment.";
                 }
             }
@@ -228,16 +228,16 @@ namespace CalamityMod.NPCs.TownNPCs
             if (witch != -1)
                 dialogue.Add("The abuse " + Main.npc[witch].GivenName + " went through is something I can hardly comprehend. I'd offer her a drink, but I don't think she'd enjoy it.");
 
-            if (Main.player[Main.myPlayer].Calamity().chibii)
+            if (player.Calamity().chibii)
                 dialogue.Add("The hell is that? Looks like something I'd carry around if I was 5 years old.");
 
-            if (Main.player[Main.myPlayer].Calamity().aquaticHeart && !Main.player[Main.myPlayer].Calamity().aquaticHeartHide)
+            if (player.Calamity().aquaticHeart && !player.Calamity().aquaticHeartHide)
                 dialogue.Add("Nice scales... is it hot in here or is it just me?");
 
-            if (Main.player[Main.myPlayer].Calamity().fabsolVodka)
+            if (player.Calamity().fabsolVodka)
                 dialogue.Add("Do you like my vodka? I created it by mixing fairy dust, crystallized cave sweat and other magical crap.");
 
-            if (Main.player[Main.myPlayer].HasItem(ModContent.ItemType<Fabsol>()))
+            if (player.HasItem(ModContent.ItemType<Fabsol>()))
             {
                 dialogue.Add("So... you found my special bottle. Hope you enjoy it, I know I will.");
                 dialogue.Add("Be sure to dismount me once in a while, I get tired. And besides, I can't rip you off-I mean offer you excellent deals you won't find anywhere else if you're riding me 24/7.");
@@ -350,7 +350,8 @@ namespace CalamityMod.NPCs.TownNPCs
                 .Register();
         }
 
-        public override void ModifyActiveShop(string shopName, Item[] items)
+        // TODO -- This breaks the shop.
+        /*public override void ModifyActiveShop(string shopName, Item[] items)
         {
             for (int i = 0; i < items.Length; i++)
             {
@@ -359,7 +360,7 @@ namespace CalamityMod.NPCs.TownNPCs
                     items[i].shopCustomPrice = Item.buyPrice(gold: 8);
                 }
             }
-        }
+        }*/
 
         // Make this Town NPC teleport to the Queen statue when triggered.
         public override bool CanGoToStatue(bool toKingStatue) => !toKingStatue;

@@ -20,6 +20,7 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             Main.npcFrameCount[NPC.type] = 9;
             Main.npcCatchable[NPC.type] = true;
+            NPCID.Sets.NoTownNPCHappiness[Type] = true;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
             value.Position.Y += 16;
             value.PortraitPositionYOverride = 36f;

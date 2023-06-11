@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor.Prismatic
             player.manaCost *= 0.85f;
             player.manaRegenBonus += 8;
             var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(hotkey).ToString();
+            player.setBonus = this.GetLocalization("SetBonus").Format(hotkey);
         }
 
         public override void UpdateEquip(Player player)

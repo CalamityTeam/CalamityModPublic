@@ -538,7 +538,7 @@ namespace CalamityMod.CalPlayer
 
                     var yeetVec = Vector2.Normalize(Player.Center - touchedTile.ToWorldCoordinates());
                     Player.velocity += yeetVec * auricRejectionKB;
-                    Player.Hurt(PlayerDeathReason.ByCustomReason(Player.name + " was not worthy."), auricRejectionDamage, 0);
+                    Player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AuricRejection").Format(Player.name)), auricRejectionDamage, 0);
                     Player.AddBuff(BuffID.Electrified, 300);
                     SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/ExoMechs/TeslaShoot1"));
                 }
@@ -1348,7 +1348,7 @@ namespace CalamityMod.CalPlayer
                     Player.statLife = upperHealthLimit;
 
                 if (necroReviveCounter >= NecroArmorSetChange.PostMortemDuration * 60)
-                    Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name} fell to the inevitable."), 1000, -1);
+                    Player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.NecroRevive").Format(Player.name)), 1000, -1);
                 else if (necroReviveCounter % 60 == 59)
                     SoundEngine.PlaySound(SoundID.Item17, Player.Center);
             }

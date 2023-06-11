@@ -102,7 +102,7 @@ PlasmaCaster: {
 	DisplayName: Plasma Caster
 	Tooltip:
 		'''
-		Press {InputTrigger_UseOrAttack} to fire a large, exploding plasma bolt
+		Press <left> to fire a large, exploding plasma bolt
 		Press <right> to fire in turbo mode, increasing rate of fire but with hindered accuracy
 		'''
 }
@@ -211,7 +211,7 @@ TheAnomalysNanogun: {
 	DisplayName: The Anomaly's Nanogun
 	Tooltip:
 		'''
-		Press {InputTrigger_UseOrAttack} to charge up 5 rapid-fire plasma beams
+		Press <left> to charge up 5 rapid-fire plasma beams
 		Press <right> to launch 3 fission bombs
 		'Welcome to the party, pal'
 		'''

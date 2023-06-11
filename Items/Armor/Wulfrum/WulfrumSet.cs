@@ -136,7 +136,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
             armorPlayer.wulfrumSet = true;
 
-            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(MinionSlotBoost).ToString(); //The cooler part of the set bonus happens in modifytooltips because i can't recolor it otherwise. Madge
+            player.setBonus = this.GetLocalization("SetBonus").Format(MinionSlotBoost); //The cooler part of the set bonus happens in modifytooltips because i can't recolor it otherwise. Madge
             player.maxMinions += MinionSlotBoost;
             if (PowerModeEngaged(player, out var cd))
             {
@@ -238,7 +238,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
                     int AmmoItem = ModContent.ItemType<WulfrumMetalScrap>();
                     string AmmoDisplay = $"[i:{AmmoItem}] {CalamityUtils.GetItemName(AmmoItem)}";
-                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", CalamityUtils.GetTextFromModItem<WulfrumHat>("AbilityDescription").WithFormatArgs(AmmoDisplay).ToString());
+                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", CalamityUtils.GetTextFromModItem<WulfrumHat>("AbilityDescription").Format(AmmoDisplay));
                     setBonus2.OverrideColor = new Color(110, 192, 93);
                     tooltips.Insert(setBonusIndex + 2, setBonus2);
 

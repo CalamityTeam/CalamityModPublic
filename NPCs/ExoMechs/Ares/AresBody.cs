@@ -844,7 +844,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
                             // Draedon comments on how foolish it is to run
                             if (Main.netMode != NetmodeID.MultiplayerClient)
-                                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossMessages.DraedonAresEnrageText", Draedon.TextColor);
+                                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.DraedonAresEnrageText", Draedon.TextColor);
 
                             // Enrage
                             EnragedState = (float)Enraged.Yes;

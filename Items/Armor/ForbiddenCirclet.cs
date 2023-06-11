@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
         {
             int stormMana = (int)(manaCost * player.manaCost);
             string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = this.GetLocalization("SetBonus").WithFormatArgs(hotkey, stormMana).ToString();
+            player.setBonus = this.GetLocalization("SetBonus").Format(hotkey, stormMana);
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.forbiddenCirclet = true;
             modPlayer.rogueStealthMax += 0.4f;
