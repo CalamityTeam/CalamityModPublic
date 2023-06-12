@@ -59,7 +59,7 @@ namespace CalamityMod.Systems
                             // Total darkness
                             float signusDarkness = signusLifeRatio * multiplier;
                             darkRatio = MathHelper.Clamp(signusDarkness, 0f, 1f);
-                            scale += MaxSignusDarkness * darkRatio;
+                            scale += ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? (MaxSignusDarkness * 2f) : MaxSignusDarkness) * darkRatio;
                         }
                     }
                 }

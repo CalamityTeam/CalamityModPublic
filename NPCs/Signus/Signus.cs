@@ -552,7 +552,7 @@ namespace CalamityMod.NPCs.Signus
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int totalLamps = Main.getGoodWorld && !CalamityWorld.getFixedBoi ? 10 : 5;
+                    int totalLamps = (Main.getGoodWorld && !CalamityWorld.getFixedBoi) ? 10 : 5;
                     if (NPC.CountNPCS(ModContent.NPCType<CosmicLantern>()) < totalLamps)
                     {
                         bool buffed = false;
@@ -682,8 +682,8 @@ namespace CalamityMod.NPCs.Signus
                         if ((phase2 || buffed) && NPC.ai[2] % 3f == 0f)
                         {
                             SoundEngine.PlaySound(SoundID.Item73, NPC.Center);
-                            int type = ModContent.ProjectileType<EssenceDust>();
-                            int damage = NPC.GetProjectileDamage(type);
+                            int type = (CalamityWorld.LegendaryMode && revenge) ? ModContent.ProjectileType<PeanutRocket>() : ModContent.ProjectileType<EssenceDust>();
+                            int damage = (CalamityWorld.LegendaryMode && revenge) ? 60 : NPC.GetProjectileDamage(type);
                             Vector2 velocity = CalamityWorld.getFixedBoi ? new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)) : Vector2.Zero;
                             if (Main.getGoodWorld)
                             {
