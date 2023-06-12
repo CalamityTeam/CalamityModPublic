@@ -37,9 +37,7 @@ namespace CalamityMod.Items.Armor.Mollusk
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Two shellfishes aid you in combat\n" +
-                              "10% increased damage\n" +
-                              "Your horizontal movement is slowed";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             player.GetDamage<GenericDamageClass>() += 0.1f;
             modPlayer.molluskSet = true;

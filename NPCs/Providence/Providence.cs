@@ -1278,7 +1278,7 @@ namespace CalamityMod.NPCs.Providence
                     if (NPC.ai[3] >= (phaseTime * 1.5f) && !text)
                     {
                         text = true;
-                        string key = "Mods.CalamityMod.BossMessages.ProfanedBossText";
+                        string key = "Mods.CalamityMod.Status.Boss.ProfanedBossText";
                         Color messageColor = Color.Orange;
 
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -1853,9 +1853,9 @@ namespace CalamityMod.NPCs.Providence
             // If Providence has not been killed, notify players of Uelibloom Ore
             if (!DownedBossSystem.downedProvidence)
             {
-                string key2 = "Mods.CalamityMod.ProgressionMessages.ProfanedBossText3";
+                string key2 = "Mods.CalamityMod.Status.Progression.ProfanedBossText3";
                 Color messageColor2 = Color.Orange;
-                string key3 = "Mods.CalamityMod.ProgressionMessages.TreeOreText";
+                string key3 = "Mods.CalamityMod.Status.Progression.TreeOreText";
                 Color messageColor3 = Color.LightGreen;
 
                 CalamityUtils.SpawnOre(ModContent.TileType<UelibloomOre>(), 17E-05, 0.55f, 0.9f, 8, 14, TileID.Mud);
@@ -1868,7 +1868,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
-                    Main.NewText(Language.GetTextValue("Mods.CalamityMod.ProgressionMessages.ProfanedBossText4"), Color.DarkOrange);
+                    Main.NewText(Language.GetTextValue("Mods.CalamityMod.Status.Progression.ProfanedBossText4"), Color.DarkOrange);
                 }
             }
 
@@ -2594,7 +2594,7 @@ namespace CalamityMod.NPCs.Providence
                 Target.statLife -= NegativeHealValue;
                 if (Target.statLife < 0)
                 {
-                    PlayerDeathReason CustomSource = PlayerDeathReason.ByCustomReason(Target.name + " burst into sinless ash.");
+                    PlayerDeathReason CustomSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProvidenceMelt").Format(Target.name));
                     Target.KillMe(CustomSource, NegativeHealValue, 0);
                 }
                 NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, Target.whoAmI, NegativeHealValue);

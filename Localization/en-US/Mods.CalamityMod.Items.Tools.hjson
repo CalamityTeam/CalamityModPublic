@@ -158,7 +158,7 @@ SeismicHampick: {
 	Tooltip:
 		'''
 		Capable of mining Lihzahrd Bricks
-		Press {InputTrigger_UseOrAttack} to use as a pickaxe
+		Press <left> to use as a pickaxe
 		Press <right> to use as a hammer
 		'''
 }

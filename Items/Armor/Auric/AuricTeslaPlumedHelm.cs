@@ -36,8 +36,7 @@ namespace CalamityMod.Items.Armor.Auric
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Rogue Tarragon, Bloodflare and God Slayer armor effects\n" +
-				"+130 maximum stealth";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraThrowing = true;

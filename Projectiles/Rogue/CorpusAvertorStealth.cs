@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Main.myPlayer == player.whoAmI)
                     player.HealEffect(-lifeLossAmt, true);
                 if (player.statLife <= 0)
-                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " became the blood god's sacrifice."), 1000.0, 0, false);
+                    player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CorpusAvertor").Format(player.name)), 1000.0, 0, false);
             }
             else if (Main.LocalPlayer.team == player.team && player.team != 0)
             {

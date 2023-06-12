@@ -290,7 +290,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             // Notify players that Astral Ore can be mined if Deus has never been killed yet
             if (!DownedBossSystem.downedAstrumDeus)
             {
-                string key = "Mods.CalamityMod.ProgressionMessages.AstralBossText";
+                string key = "Mods.CalamityMod.Status.Progression.AstralBossText";
                 Color messageColor = Color.Gold;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

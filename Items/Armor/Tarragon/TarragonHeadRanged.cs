@@ -37,10 +37,7 @@ namespace CalamityMod.Items.Armor.Tarragon
             var modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraRanged = true;
-            player.setBonus = "Reduces enemy spawn rates\n" +
-                "Increased heart pickup range\n" +
-                "Enemies have a chance to drop extra hearts on death\n" +
-                "Ranged projectiles split into homing life energy and leaves on death";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<TarragonBreastplate>("CommonSetBonus");
         }
 
         public override void UpdateEquip(Player player)

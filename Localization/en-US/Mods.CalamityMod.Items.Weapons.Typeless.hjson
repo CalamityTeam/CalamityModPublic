@@ -35,9 +35,9 @@ RelicOfDeliverance: {
 	DisplayName: Relic of Deliverance
 	Tooltip:
 		'''
-		Press {InputTrigger_UseOrAttack} to begin charging up a lunging spear attack
-		Press {InputTrigger_UseOrAttack} again to release the charge and lunge towards the cursor
-		Pressing {InputTrigger_UseOrAttack} while lunging to redirect the lunge to the cursor
+		Press <left> to begin charging up a lunging spear attack
+		Press <left> again to release the charge and lunge towards the cursor
+		Pressing <left> while lunging to redirect the lunge to the cursor
 		Holding any other item will cancel the charge
 		'''
 }

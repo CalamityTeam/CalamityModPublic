@@ -35,10 +35,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "40% increased minion damage and +2 max minions\n" +
-                "Inferno effect when below 50% life\n" +
-                "Summons a hydrothermic vent to protect you\n" +
-                "You emit a blazing explosion when you are hit";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<HydrothermicArmor>("CommonSetBonus");
             var modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.chaosSpirit = true;

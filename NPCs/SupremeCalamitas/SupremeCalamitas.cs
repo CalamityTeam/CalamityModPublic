@@ -440,7 +440,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (!bossRush)
                 {
-                    string key = "Mods.CalamityMod.BossMessages.SCalSummonText";
+                    string key = "Mods.CalamityMod.Status.Boss.SCalSummonText";
                     if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -841,7 +841,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (!bossRush)
                 {
-                    string key = "Mods.CalamityMod.BossMessages.SCalBH2Text";
+                    string key = "Mods.CalamityMod.Status.Boss.SCalBH2Text";
                     if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -902,7 +902,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (!bossRush)
                 {
-                    string key = "Mods.CalamityMod.BossMessages.SCalBH3Text";
+                    string key = "Mods.CalamityMod.Status.Boss.SCalBH3Text";
                     if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -972,7 +972,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (!bossRush)
                 {
-                    string key = "Mods.CalamityMod.BossMessages.SCalBH4Text";
+                    string key = "Mods.CalamityMod.Status.Boss.SCalBH4Text";
                     if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -1041,7 +1041,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFifthAttack && lifeRatio <= 0.1f)
             {
-                string key = "Mods.CalamityMod.BossMessages.SCalBH5Text";
+                string key = "Mods.CalamityMod.Status.Boss.SCalBH5Text";
 
                 if (!bossRush)
                 {
@@ -1094,11 +1094,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
                     else if (giveUpCounter == 900 && !bossRush)
-                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossMessages.SCalAcceptanceText1", textColor);
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.SCalAcceptanceText1", textColor);
                     else if(giveUpCounter == 600 && !bossRush)
-                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossMessages.SCalAcceptanceText2", textColor);
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.SCalAcceptanceText2", textColor);
                     else if(giveUpCounter == 300 && !bossRush)
-                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossMessages.SCalAcceptanceText3", textColor);
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.SCalAcceptanceText3", textColor);
                     if (giveUpCounter <= 0)
                     {
                         if (bossRush)
@@ -1142,7 +1142,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     if (!bossRush)
                     {
-                        string key = "Mods.CalamityMod.BossMessages.SCalDesparationText4";
+                        string key = "Mods.CalamityMod.Status.Boss.SCalDesparationText4";
                         if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -1154,7 +1154,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     if (!bossRush)
                     {
-                        string key = "Mods.CalamityMod.BossMessages.SCalDesparationText3";
+                        string key = "Mods.CalamityMod.Status.Boss.SCalDesparationText3";
                         if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -1166,7 +1166,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     if (!bossRush)
                     {
-                        string key = "Mods.CalamityMod.BossMessages.SCalDesparationText2";
+                        string key = "Mods.CalamityMod.Status.Boss.SCalDesparationText2";
                         if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -1178,7 +1178,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     if (!bossRush)
                     {
-                        string key = "Mods.CalamityMod.BossMessages.SCalDesparationText1";
+                        string key = "Mods.CalamityMod.Status.Boss.SCalDesparationText1";
                         if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -1247,7 +1247,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (!bossRush)
                 {
-                    string key = "Mods.CalamityMod.BossMessages.SCalPhase2Text";
+                    string key = "Mods.CalamityMod.Status.Boss.SCalPhase2Text";
                     if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -1261,7 +1261,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     if (!bossRush)
                     {
-                        string key = "Mods.CalamityMod.BossMessages.SCalSeekerRingText";
+                        string key = "Mods.CalamityMod.Status.Boss.SCalSeekerRingText";
                         if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -2362,9 +2362,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             if (attackCastDelay == 0)
             {
-                string key = "Mods.CalamityMod.BossMessages.SCalStartText";
+                string key = "Mods.CalamityMod.Status.Boss.SCalStartText";
                 if (NPC.life <= NPC.lifeMax * 0.08)
-                    key = "Mods.CalamityMod.BossMessages.SCalSepulcher2Text";
+                    key = "Mods.CalamityMod.Status.Boss.SCalSepulcher2Text";
 
                 if (!BossRushEvent.BossRushActive)
                 {
@@ -2488,7 +2488,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (!BossRushEvent.BossRushActive)
                 {
-                    string key = "Mods.CalamityMod.BossMessages.SCalBrothersText";
+                    string key = "Mods.CalamityMod.Status.Boss.SCalBrothersText";
                     if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);

@@ -214,7 +214,7 @@ namespace CalamityMod.Projectiles.Pets
                     }
                     else
                     {
-                        player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " couldn't stand the sharp objects."), 500, 0);
+                        player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ChibiiDoggo").Format(player.name)), 500, 0);
                     }
                     player.RemoveAllIFrames();
                 }

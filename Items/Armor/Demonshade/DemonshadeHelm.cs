@@ -42,11 +42,7 @@ namespace CalamityMod.Items.Armor.Demonshade
         public override void UpdateArmorSet(Player player)
         {
             var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
-            player.setBonus = "100% increased minion damage and +10 max minions\n" +
-                "Shadowbeams and demon scythes will fire down when you are hit\n" +
-                "A friendly red devil follows you around\n" +
-                "Press " + hotkey + " to enrage nearby enemies with a dark magic spell for 10 seconds\n" +
-                "This makes them take 2.25x total damage, but they will deal 1.25x damage to you";
+            player.setBonus = this.GetLocalization("SetBonus").Format(hotkey);
             var modPlayer = player.Calamity();
             modPlayer.dsSetBonus = true;
             modPlayer.wearingRogueArmor = true;

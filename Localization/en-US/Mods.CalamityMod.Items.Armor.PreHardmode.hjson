@@ -1,31 +1,53 @@
 AerospecBreastplate: {
 	DisplayName: Aerospec Breastplate
 	Tooltip: 3% increased critical strike chance
+	CommonSetBonus:
+		'''
+		Taking over 25 damage in one hit will cause a spread of homing feathers to fall
+		Allows you to fall more quickly and disables fall damage
+		'''
 }
 
 AerospecHat: {
 	DisplayName: Aerospec Hat
 	Tooltip: 8% increased magic damage and +20 max mana
+	SetBonus: 5% increased movement speed and magic critical strike chance
 }
 
 AerospecHeadgear: {
 	DisplayName: Aerospec Headgear
 	Tooltip: 8% increased rogue damage and 5% increased movement speed
+	SetBonus:
+		'''
+		5% increased movement speed and rogue critical strike chance
+		+80 maximum stealth
+		'''
 }
 
 AerospecHelm: {
 	DisplayName: Aerospec Helm
 	Tooltip: 8% increased melee damage
+	SetBonus:
+		'''
+		5% increased movement speed and melee critical strike chance
+		Enemies are more likely to target you
+		'''
 }
 
 AerospecHelmet: {
 	DisplayName: Aerospec Helmet
 	Tooltip: 5% increased movement speed and minion damage
+	SetBonus:
+		'''
+		11% increased minion damage and +1 max minion
+		Summons a valkyrie to protect you
+		'''
 }
 
 AerospecHood: {
 	DisplayName: Aerospec Hood
 	Tooltip: 8% increased ranged damage
+	SetBonus: 5% increased movement speed and ranged critical strike chance
 }
 
 AerospecLeggings: {
@@ -36,6 +58,15 @@ AerospecLeggings: {
 DesertProwlerHat: {
 	DisplayName: Desert Prowler Hat
 	Tooltip: 4% increased ranged critical strike chance and 20% chance to not consume ammo
+	SetBonus: Ranged attacks deal an extra {0} flat damage
+	AbilityBrief: Sandsmoke Bomb - Double tap DOWN to shroud yourself in a small cloud of sand
+	AbilityDescription:
+		'''
+		While the sand cloud is active, gain increased mobility but heavily reduced defense
+		Using a ranged weapon instantly dispels the sand cloak, but guarantees a supercrit for {0}% damage
+		The super crit applies only as long as the resulting hit wouldn't exceed {1} damage
+		Landing the killing blow on an enemy with this shot shortens the ability's cooldown to {2} seconds
+		'''
 }
 
 DesertProwlerPants: {
@@ -51,6 +82,12 @@ DesertProwlerShirt: {
 MarniteArchitectHeadgear: {
 	DisplayName: Marnite Architect Headgear
 	Tooltip: Increases block placement range by 5
+	AbilityBrief: Marnite Lift - You can summon a lift under your feet to reach higher up
+	AbilityDescription:
+		'''
+		The lift gets summoned when the mount hotkey gets pressed [c/D4C870:without any mounts equipped]
+		Using the Up and Down keys can change the lift's height
+		'''
 }
 
 MarniteArchitectToga: {
@@ -71,11 +108,23 @@ SnowRuffianGreaves: {
 SnowRuffianMask: {
 	DisplayName: Snow Ruffian Mask
 	Tooltip: 2% increased rogue damage
+	SetBonus:
+		'''
+		5% increased rogue damage
+		+50 maximum stealth
+		You can glide to negate fall damage
+		'''
 }
 
 StatigelArmor: {
 	DisplayName: Statigel Armor
 	Tooltip: 5% increased critical strike chance
+	CommonSetBonus:
+		'''
+		When you take over 100 damage in one hit you become immune to damage for an extended period of time
+		Grants an extra jump and increased jump height
+		12% increased jump speed
+		'''
 }
 
 StatigelGreaves: {
@@ -99,6 +148,7 @@ StatigelHeadMelee: {
 		10% increased melee damage and melee speed
 		7% increased melee critical strike chance
 		'''
+	SetBonus: Enemies are more likely to target you
 }
 
 StatigelHeadRanged: {
@@ -117,11 +167,17 @@ StatigelHeadRogue: {
 		10% increased rogue damage and 34% chance to not consume rogue items
 		7% increased rogue critical strike chance and 5% increased movement speed
 		'''
+	SetBonus: +90 maximum stealth
 }
 
 StatigelHeadSummon: {
 	DisplayName: Statigel Hood
 	Tooltip: Increased minion knockback
+	SetBonus:
+		'''
+		18% increased minion damage and +1 max minion
+		Summons a mini slime god to fight for you, the type depends on what world evil you have
+		'''
 }
 
 SulphurousBreastplate: {
@@ -136,6 +192,13 @@ SulphurousHelmet: {
 		4% increased rogue damage
 		2% increased rogue critical strike chance
 		Grants underwater breathing
+		'''
+	SetBonus:
+		'''
+		+70 maximum stealth
+		Attacking and being attacked by enemies inflicts poison
+		Grants an additional jump that summons a sulphurous bubble
+		Provides increased underwater mobility and reduces the severity of the sulphuric waters
 		'''
 }
 
@@ -154,6 +217,13 @@ VictideBreastplate: {
 		'''
 		5% increased damage reduction and critical strike chance
 		+5 defense and 10% increased damage reduction while submerged in liquid
+		'''
+	CommonSetBonus:
+		'''
+		+3 life regen and 10% increased magic damage while submerged in liquid
+		When using any weapon you have a 10% chance to throw a returning seashell projectile
+		This seashell does true damage and does not benefit from any damage class
+		Provides increased underwater mobility and slightly reduces breath loss in the abyss
 		'''
 }
 
@@ -174,6 +244,7 @@ VictideHeadMagic: {
 VictideHeadMelee: {
 	DisplayName: Victide Shellmet
 	Tooltip: 5% increased melee damage
+	SetBonus: Enemies are more likely to target you
 }
 
 VictideHeadRanged: {
@@ -184,11 +255,17 @@ VictideHeadRanged: {
 VictideHeadRogue: {
 	DisplayName: Victide Headcrab
 	Tooltip: 5% increased rogue damage
+	SetBonus: +60 maximum stealth
 }
 
 VictideHeadSummon: {
 	DisplayName: Victide Mask
 	Tooltip: 10% increased minion damage
+	SetBonus:
+		'''
+		+1 max minion
+		Summons a sea snail to protect you
+		'''
 }
 
 WulfrumFusionCannon: {
@@ -208,6 +285,14 @@ WulfrumHat: {
 		10% increased minion damage
 		Comes equipped with hair extensions
 		'''
+	SetBonus: +1 max minion
+	AbilityBrief: Wulfrum Bastion - Double tap DOWN while dismounted to equip wulfrum power armor
+	AbilityDescription:
+		'''
+		While the armor is active, you can only use the integrated fusion cannon, but your defensive stats are increased
+		Calling down the armor consumes one piece of {0}, and the armor will lose durability faster when hit
+		'''
+	ShiftToExpand: Hold SHIFT to see the stats of the fusion cannon
 }
 
 WulfrumJacket: {

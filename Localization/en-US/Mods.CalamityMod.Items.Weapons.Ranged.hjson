@@ -248,7 +248,7 @@ Condemnation: {
 	Tooltip:
 		'''
 		Fires powerful scarlet bolts suffused with hateful magics
-		Hold {InputTrigger_UseOrAttack} to load up to eight bolts for powerful burst fire
+		Hold <left> to load up to eight bolts for powerful burst fire
 		Hold <right> to use the repeater full auto
 		'''
 }
@@ -388,7 +388,7 @@ DragonsBreath: {
 	DisplayName: Dragon's Breath
 	Tooltip:
 		'''
-		Press {InputTrigger_UseOrAttack} to fire in two-shot bursts
+		Press <left> to fire in two-shot bursts
 		The first shot is a spread of 6 normal bullets
 		The second shot is a tight spread of 6 Dragon's Breath rounds
 		Press <right> to fire full auto and mix the bullets randomly, but deal 20% less damage
@@ -494,8 +494,8 @@ FreedomStar: {
 	DisplayName: Freedom Star
 	Tooltip:
 		'''
-		Tap {InputTrigger_UseOrAttack} to fire energy orbs
-		Hold {InputTrigger_UseOrAttack} to charge and fire a beam that explodes on hit
+		Tap <left> to fire energy orbs
+		Hold <left> to charge and fire a beam that explodes on hit
 		'''
 }
 
@@ -610,7 +610,7 @@ Hydra: {
 		'''
 		Fires a spread of 4 toxic bullets
 		Grows a gun-head every 3 seconds, up to a maximum of 3 heads
-		Press {InputTrigger_UseOrAttack} to command any existing heads to fire
+		Press <left> to command any existing heads to fire
 		Press <right> to launch the heads for powerful explosive damage
 		[c/9D80B0:Fusion of heavy machinery and Lernaean blood]
 		'''
@@ -888,7 +888,7 @@ PristineFury: {
 
 Pumpler: {
 	DisplayName: Pumpler
-	Tooltip: Hold {InputTrigger_UseOrAttack} to load up to five pumpkin grenades at once
+	Tooltip: Hold <left> to load up to five pumpkin grenades at once
 }
 
 RealmRavager: {
@@ -1115,7 +1115,7 @@ SurgeDriver: {
 	DisplayName: Surge Driver
 	Tooltip:
 		'''
-		Press {InputTrigger_UseOrAttack} to release a laser ray that explodes on collision
+		Press <left> to release a laser ray that explodes on collision
 		Press <right> to release a barrage of laser beams that release homing energy on enemy hits
 		'''
 }
@@ -1172,7 +1172,7 @@ TheSevensStriker: {
 	DisplayName: The Sevens Striker
 	Tooltip:
 		'''
-		Press {InputTrigger_UseOrAttack} to consume 1 coin and play a slot machine
+		Press <left> to consume 1 coin and play a slot machine
 		The quality of the outcome depends on the coin used
 		Press <right> to rapidly fire a barrage of coins
 		The coin barrage has an 80% chance to save ammo and will not fire platinum coins

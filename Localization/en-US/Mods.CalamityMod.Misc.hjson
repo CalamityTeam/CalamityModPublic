@@ -10,6 +10,7 @@ JungleSchematicRecipeCondition: Place a schematic from the lab deep within the j
 UnderworldSchematicRecipeCondition: Place a schematic from the lab near the edges of the underworld in your inventory at least once
 IceSchematicRecipeCondition: Place a schematic from the lab within the frozen caverns in your inventory at least once
 // Item Messages
+ShiftToExpand: Hold SHIFT to see an expanded description
 LearnedSchematic: You learned how to create new things!
 ThirdSageBlessingText: You have been blessed by the Third Sage!
 ThirdSageBlessingText2: The Third Sage has rescinded its blessing...

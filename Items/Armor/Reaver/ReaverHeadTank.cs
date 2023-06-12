@@ -42,13 +42,7 @@ namespace CalamityMod.Items.Armor.Reaver
             player.aggro += 600;
             modPlayer.reaverDefense = true;
             modPlayer.wearingRogueArmor = true;
-            player.setBonus = "+10 defense and +3 life regen\n" +
-            "Enemies are more likely to target you\n" +
-            "Reduces the life regen lost from damage over time debuffs by 20%\n" +
-            "All attacks have a small chance to steal life and speed up the rate of life regen\n" +
-            "20% decreased movement speed and flight time\n" +
-            "Enemy damage is reflected and summons a thorn spike\n" +
-            "Reaver Rage has a 25% chance to activate when you are damaged";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             //Reaver Rage provides 30% damage to offset the helm "bonus", 5 def, and 5% melee speed.
         }
 

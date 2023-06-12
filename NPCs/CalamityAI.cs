@@ -1312,7 +1312,7 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                string key = "Mods.CalamityMod.BossMessages.CalamitasBossText3";
+                string key = "Mods.CalamityMod.Status.Boss.CalamitasBossText3";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -1348,7 +1348,7 @@ namespace CalamityMod.NPCs
                             NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Catastrophe>(), npc.whoAmI);
                         }
 
-                        string key = "Mods.CalamityMod.BossMessages.CalamitasBossText2";
+                        string key = "Mods.CalamityMod.Status.Boss.CalamitasBossText2";
                         Color messageColor = Color.Orange;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
 

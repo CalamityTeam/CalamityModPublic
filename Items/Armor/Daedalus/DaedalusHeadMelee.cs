@@ -33,11 +33,7 @@ namespace CalamityMod.Items.Armor.Daedalus
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased melee damage\n" +
-                "Enemies are more likely to target you\n" +
-                "You reflect projectiles back at enemies\n" +
-                "Reflected projectiles deal 50% less damage to you\n" +
-                "This reflect has a 90 second cooldown which is shared with all other dodges and reflects";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.daedalusReflect = true;
             player.GetDamage<MeleeDamageClass>() += 0.05f;

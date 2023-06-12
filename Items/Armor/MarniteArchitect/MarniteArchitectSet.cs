@@ -94,7 +94,7 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Marnite Lift";
+            player.setBonus = "Marnite Lift"; //Replaced below
             player.GetModPlayer<MarniteArchitectPlayer>().setEquipped = true;
         }
 
@@ -116,17 +116,12 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
 
                 if (setBonusIndex != -1)
                 {
-                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", "Marnite Lift - You can summon a lift under your feet to reach higher up");
-                    setBonus1.OverrideColor = Color.Lerp(new Color(255, 243, 161), new Color(137, 162, 255), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
-                    tooltips[setBonusIndex] = setBonus1;
+                    tooltips[setBonusIndex].Text = CalamityUtils.GetTextValueFromModItem<MarniteArchitectHeadgear>("AbilityBrief");
+                    tooltips[setBonusIndex].OverrideColor = Color.Lerp(new Color(255, 243, 161), new Color(137, 162, 255), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
 
-                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", "The lift gets summoned when the mount hotkey gets pressed [c/D4C870:without any mounts equipped]");
-                    setBonus2.OverrideColor = new Color(145, 197, 239);
-                    tooltips.Insert(setBonusIndex + 1, setBonus2);
-
-                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", "Using the Up and Down keys can change the lift's height");
-                    setBonus3.OverrideColor = new Color(145, 197, 239);
-                    tooltips.Insert(setBonusIndex + 2, setBonus3);
+                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", CalamityUtils.GetTextValueFromModItem<MarniteArchitectHeadgear>("AbilityDescription"));
+                    setBonus1.OverrideColor = new Color(145, 197, 239);
+                    tooltips.Insert(setBonusIndex + 1, setBonus1);
                 }
 
             }

@@ -42,9 +42,10 @@ namespace CalamityMod.Projectiles.Boss
                     {
                         Main.player[num487].statLife = Main.player[num487].statLifeMax2;
                     }
+                    // TODO -- but why
                     if (Main.player[num487].statLife < 0)
                     {
-                        Main.player[num487].KillMe(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " burst into sinless ash."), 1000.0, 0, false);
+                        Main.player[num487].KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProvidenceMelt").Format(Main.player[num487].name)), 1000.0, 0, false);
                     }
                     NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, num487, (float)num492, 0f, 0f, 0, 0, 0);
                 }

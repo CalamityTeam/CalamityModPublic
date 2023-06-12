@@ -71,7 +71,7 @@ namespace CalamityMod.Tiles.Astral
 
             if (Main.dayTime)
             {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossMessages.DeusAltarRejectNightText", FailColor);
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.DeusAltarRejectNightText", FailColor);
                 return false;
             }
 

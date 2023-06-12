@@ -34,9 +34,7 @@ namespace CalamityMod.Items.Armor.Umbraphile
             var modPlayer = player.Calamity();
             modPlayer.umbraphileSet = true;
             modPlayer.rogueStealthMax += 1.1f;
-            player.setBonus = "+110 maximum stealth\n" +
-				"Rogue weapons have a chance to create explosions on hit\n" +
-                "Stealth strikes always create an explosion";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             player.Calamity().wearingRogueArmor = true;
         }
 
