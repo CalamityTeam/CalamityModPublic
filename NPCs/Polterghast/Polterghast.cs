@@ -1149,6 +1149,12 @@ namespace CalamityMod.NPCs.Polterghast
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<PolterghastRelic>());
 
+            // GFB Cell Phone drop
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ItemID.CellPhone);
+            }
+
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<LorePolterghast>(), desc: DropHelper.FirstKillText);
         }

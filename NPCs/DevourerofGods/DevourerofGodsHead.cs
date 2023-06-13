@@ -7,9 +7,11 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Placeables.FurnitureAbyss;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -2567,6 +2569,47 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<DevourerOfGodsRelic>());
+
+            // GFB torch and Wand drops
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ModContent.ItemType<TheWand>());
+
+                // this will be disastrous for the torch economy
+                int dropRate = 10;
+                int dropMin = 1;
+                int dropMax = 9999;
+                GFBOnly.Add(ItemID.Torch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.PurpleTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.YellowTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.GreenTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.RedTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.WhiteTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.OrangeTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.PinkTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.RainbowTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.IceTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.BoneTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.UltrabrightTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.DemonTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.CursedTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.IchorTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.DesertTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.CoralTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.CorruptTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.CrimsonTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.HallowedTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.JungleTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.MushroomTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.ShimmerTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<AbyssTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<AlgalPrismTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<AstralTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<GloomTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<NavyPrismTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<RefractivePrismTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<SulphurousTorch>(), dropRate, dropMin, dropMax);
+            }
 
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);

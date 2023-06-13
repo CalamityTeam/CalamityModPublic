@@ -936,6 +936,13 @@ namespace CalamityMod.NPCs.Signus
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<SignusRelic>());
 
+            // GFB Nanotech and Ethereal Talisman drops
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ModContent.ItemType<Nanotech>());
+                GFBOnly.Add(ModContent.ItemType<EtherealTalisman>());
+            }
+
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSignus, ModContent.ItemType<LoreSignus>(), desc: DropHelper.FirstKillText);
         }

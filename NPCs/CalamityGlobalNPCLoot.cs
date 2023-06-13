@@ -905,8 +905,8 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.KingSlimeMasterTrophy);
                     rev.Add(ItemID.KingSlimePetItem, 4);
 
-                    // GFB Purified Gel drop
-                    GFB.Add(ModContent.ItemType<PurifiedGel>(), 1, 45, 55);
+                    // GFB Aureus Cell drop
+                    GFB.Add(ModContent.ItemType<AureusCell>(), 1, 45, 55);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedSlimeKing, ModContent.ItemType<LoreKingSlime>(), desc: DropHelper.FirstKillText);

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -1543,6 +1544,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).AddIf(CanDropLoot, ModContent.ItemType<DraedonRelic>());
+
+            // GFB Broken Water Filter
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ModContent.ItemType<BrokenWaterFilter>());
+            }
 
             // Lore item
             mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs, desc: DropHelper.FirstKillText), ModContent.ItemType<LoreExoMechs>()));
