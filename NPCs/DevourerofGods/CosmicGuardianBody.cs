@@ -6,13 +6,14 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.DevourerofGods
 {
     public class CosmicGuardianBody : ModNPC
     {
         public int invinceTime = 180;
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.CosmicGuardianHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

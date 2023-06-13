@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
@@ -18,6 +19,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
 {
     public class PlagueChargerLarge : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.PlagueCharger.DisplayName");
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;

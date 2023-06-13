@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
@@ -9,7 +10,7 @@ namespace CalamityMod.NPCs.SunkenSea
     {
         public float speed = 6f;
         public float turnSpeed = 0.125f;
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.SeaSerpent1.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

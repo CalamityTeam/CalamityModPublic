@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.GameContent;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
@@ -13,7 +14,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     public class SepulcherTail : ModNPC
     {
         private bool setAlpha = false;
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.SepulcherHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

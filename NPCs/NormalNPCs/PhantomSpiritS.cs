@@ -6,11 +6,13 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class PhantomSpiritS : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.PhantomSpirit.DisplayName");
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 5;

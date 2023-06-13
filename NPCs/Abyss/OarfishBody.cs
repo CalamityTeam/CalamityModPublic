@@ -2,12 +2,14 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
     public class OarfishBody : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.OarfishHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

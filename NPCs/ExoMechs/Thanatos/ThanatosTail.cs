@@ -9,6 +9,7 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
@@ -46,7 +47,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         private const float timeToOpenAndFireLasers = 36f;
 
         private const float segmentCloseTimerDecrement = 0.2f;
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.ThanatosHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

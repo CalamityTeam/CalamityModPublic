@@ -4,12 +4,14 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
     public class DesertScourgeBody : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.DesertScourgeHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

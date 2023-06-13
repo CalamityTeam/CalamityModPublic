@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SlimeGod
@@ -15,7 +16,7 @@ namespace CalamityMod.NPCs.SlimeGod
     public class CrimsonSlimeSpawn2 : ModNPC
     {
         public float spikeTimer = 60f;
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.CrimsonSlimeSpawn.DisplayName");
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 5;

@@ -2,11 +2,13 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
     public class SeaSerpent4 : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.SeaSerpent1.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

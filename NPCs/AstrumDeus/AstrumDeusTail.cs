@@ -8,12 +8,14 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
     public class AstrumDeusTail : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.AstrumDeusHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

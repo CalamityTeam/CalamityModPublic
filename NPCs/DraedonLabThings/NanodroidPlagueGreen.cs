@@ -4,12 +4,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DraedonLabThings
 {
     public class NanodroidPlagueGreen : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.Nanodroid.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

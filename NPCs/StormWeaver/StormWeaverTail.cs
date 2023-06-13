@@ -7,6 +7,7 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.StormWeaver
@@ -14,7 +15,7 @@ namespace CalamityMod.NPCs.StormWeaver
     public class StormWeaverTail : ModNPC
     {
         private int invinceTime = 180;
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.StormWeaverHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

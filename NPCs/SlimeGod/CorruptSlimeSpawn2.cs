@@ -5,12 +5,14 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
     public class CorruptSlimeSpawn2 : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.CorruptSlimeSpawn.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

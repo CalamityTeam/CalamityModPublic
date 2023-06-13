@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 
@@ -8,6 +9,7 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class BobbitWormSegment : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.BobbitWormHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
