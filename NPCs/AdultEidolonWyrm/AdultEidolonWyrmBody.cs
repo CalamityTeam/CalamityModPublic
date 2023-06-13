@@ -6,12 +6,14 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AdultEidolonWyrm
 {
     public class AdultEidolonWyrmBody : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.AdultEidolonWyrmHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

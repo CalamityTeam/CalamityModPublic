@@ -5,6 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
@@ -58,7 +59,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         }
         public Player Target => Main.player[NPC.target];
         public SepulcherArmLimb[] Limbs = new SepulcherArmLimb[4];
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.SepulcherHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

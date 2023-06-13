@@ -12,6 +12,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DevourerofGods
@@ -36,7 +37,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         private int invinceTime = 720;
         private bool setOpacity = false;
         private bool phase2Started = false;
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.DevourerofGodsHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

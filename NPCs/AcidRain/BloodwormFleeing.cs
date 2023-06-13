@@ -2,16 +2,17 @@
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.AcidRain
 {
     public class BloodwormFleeing : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.BloodwormNormal.DisplayName");
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 5;
-            NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true };
-            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, bestiaryData);
+            this.HideFromBestiary();
         }
 
         public override void SetDefaults()

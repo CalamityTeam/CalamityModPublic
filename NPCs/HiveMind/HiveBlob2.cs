@@ -5,16 +5,17 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.HiveMind
 {
     public class HiveBlob2 : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.HiveBlob.DisplayName");
         public override void SetStaticDefaults()
         {
-            NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true };
-            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, bestiaryData);
+            this.HideFromBestiary();
         }
 
         public override void SetDefaults()

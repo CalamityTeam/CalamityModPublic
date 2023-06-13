@@ -8,12 +8,14 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
     public class StormWeaverBody : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.StormWeaverHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

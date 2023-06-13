@@ -7,12 +7,14 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
     public class AquaticScourgeBody : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.AquaticScourgeHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

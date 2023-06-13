@@ -8,12 +8,14 @@ using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Perforator
 {
     public class PerforatorTailMedium : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.PerforatorHeadMedium.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

@@ -1,34 +1,24 @@
 Bloatfish.DisplayName: Bloatfish
 BobbitWormHead.DisplayName: Bobbit Worm
-BobbitWormSegment.DisplayName: Bobbit Worm
 BoxJellyfish.DisplayName: Box Jellyfish
 ChaoticPuffer.DisplayName: Chaotic Puffer
 ColossalSquid.DisplayName: Colossal Squid
 Cuttlefish.DisplayName: Cuttlefish
 DevilFish.DisplayName: Devil Fish
 DevilFishAlt.DisplayName: Devil Fish
-EidolonWyrmBody.DisplayName: Eidolon Wyrm
-EidolonWyrmBodyAlt.DisplayName: Eidolon Wyrm
 EidolonWyrmHead.DisplayName: Eidolon Wyrm
-EidolonWyrmTail.DisplayName: Eidolon Wyrm
 GiantSquid.DisplayName: Giant Squid
-GulperEelBody.DisplayName: Gulper Eel
-GulperEelBodyAlt.DisplayName: Gulper Eel
 GulperEelHead.DisplayName: Gulper Eel
-GulperEelTail.DisplayName: Gulper Eel
 Laserfish.DisplayName: Laserfish
 LuminousCorvina.DisplayName: Luminous Corvina
 MirageJelly.DisplayName: Mirage Jelly
 MorayEel.DisplayName: Moray Eel
-OarfishBody.DisplayName: Oarfish
 OarfishHead.DisplayName: Oarfish
-OarfishTail.DisplayName: Oarfish
 ReaperShark.DisplayName: Reaper Shark
 ToxicMinnow.DisplayName: Toxic Minnow
 Viperfish.DisplayName: Viperfish
 AcidEel.DisplayName: Acid Eel
 BabyFlakCrab.DisplayName: Baby Flak Crab
-BloodwormFleeing.DisplayName: Bloodworm
 BloodwormNormal.DisplayName: Bloodworm
 CragmawMire.DisplayName: Cragmaw Mire
 FlakCrab.DisplayName: Flak Crab
@@ -42,22 +32,14 @@ Radiator.DisplayName: Radiator
 Skyfin.DisplayName: Skyfin
 SulphurousSkater.DisplayName: Sulphurous Skater
 Trilobite.DisplayName: Trilobite
-AdultEidolonWyrmBody.DisplayName: Adult Eidolon Wyrm
-AdultEidolonWyrmBodyAlt.DisplayName: Adult Eidolon Wyrm
 AdultEidolonWyrmHead.DisplayName: Adult Eidolon Wyrm
-AdultEidolonWyrmTail.DisplayName: Adult Eidolon Wyrm
-AquaticScourgeBody.DisplayName: Aquatic Scourge
-AquaticScourgeBodyAlt.DisplayName: Aquatic Scourge
 AquaticScourgeHead.DisplayName: Aquatic Scourge
-AquaticScourgeTail.DisplayName: Aquatic Scourge
 Aries.DisplayName: Aries
 AstralachneaGround.DisplayName: Astralachnea
-AstralachneaWall.DisplayName: Astralachnea
 AstralProbe.DisplayName: Astral Probe
 AstralSeekerSpit.DisplayName: Seeker Spit
 AstralSlime.DisplayName: Astral Slime
 Atlas.DisplayName: Atlas
-SightseerSpitter.DisplayName: Sightseer Spitter
 FusionFeeder.DisplayName: Fusion Feeder
 Hadarian.DisplayName: Hadarian
 HiveEnemy.DisplayName: Hive
@@ -65,13 +47,12 @@ Hiveling.DisplayName: Hiveling
 Mantis.DisplayName: Mantis
 Nova.DisplayName: Nova
 SightseerCollider.DisplayName: Sightseer Collider
+SightseerSpitter.DisplayName: Sightseer Spitter
 StellarCulex.DisplayName: Stellar Culex
 Twinkler.DisplayName: Twinkler
 AstrumAureus.DisplayName: Astrum Aureus
 AureusSpawn.DisplayName: Aureus Spawn
-AstrumDeusBody.DisplayName: Astrum Deus
 AstrumDeusHead.DisplayName: Astrum Deus
-AstrumDeusTail.DisplayName: Astrum Deus
 Brimling.DisplayName: Brimling
 BrimstoneElemental.DisplayName: Brimstone Elemental
 Bumblefuck.DisplayName: The Dragonfolly
@@ -94,23 +75,12 @@ ScryllarRage.DisplayName: Scryllar
 SoulSlurper.DisplayName: Soul Slurper
 Cryogen.DisplayName: Cryogen
 CryogenShield.DisplayName: Cryogen's Shield
-DesertNuisanceBody.DisplayName: A Desert Nuisance
 DesertNuisanceHead.DisplayName: A Desert Nuisance
-DesertNuisanceTail.DisplayName: A Desert Nuisance
-DesertScourgeBody.DisplayName: Desert Scourge
 DesertScourgeHead.DisplayName: Desert Scourge
-DesertScourgeTail.DisplayName: Desert Scourge
-CosmicGuardianBody.DisplayName: Cosmic Guardian
 CosmicGuardianHead.DisplayName: Cosmic Guardian
-CosmicGuardianTail.DisplayName: Cosmic Guardian
-DevourerofGodsBody.DisplayName: The Devourer of Gods
 DevourerofGodsHead.DisplayName: The Devourer of Gods
-DevourerofGodsTail.DisplayName: The Devourer of Gods
 Androomba.DisplayName: Androomba
 Nanodroid.DisplayName: Nanodroid
-NanodroidDysfunctional.DisplayName: Nanodroid
-NanodroidPlagueGreen.DisplayName: Nanodroid
-NanodroidPlagueRed.DisplayName: Nanodroid
 RepairUnitCritter.DisplayName: Repair Unit
 Apollo.DisplayName: XS-03 Apollo
 AresBody.DisplayName: XF-09 Ares
@@ -120,15 +90,11 @@ AresPlasmaFlamethrower.DisplayName: XF-09 Ares Plasma Cannon
 AresTeslaCannon.DisplayName: XF-09 Ares Tesla Cannon
 Artemis.DisplayName: XS-01 Artemis
 Draedon.DisplayName: Draedon
-ThanatosBody1.DisplayName: XM-05 Thanatos
-ThanatosBody2.DisplayName: XM-05 Thanatos
 ThanatosHead.DisplayName: XM-05 Thanatos
-ThanatosTail.DisplayName: XM-05 Thanatos
 GreatSandShark.DisplayName: Great Sand Shark
 DankCreeper.DisplayName: Dank Creeper
 DarkHeart.DisplayName: Dark Heart
 HiveBlob.DisplayName: Hive Blob
-HiveBlob2.DisplayName: Hive Blob
 HiveMind.DisplayName: The Hive Mind
 HiveTumor.DisplayName: Hive Tumor
 Anahita.DisplayName: Anahita
@@ -137,9 +103,7 @@ AquaticAberration.DisplayName: Aquatic Aberration
 Leviathan.DisplayName: The Leviathan
 LeviathanStart.DisplayName: ???
 AeroSlime.DisplayName: Aero Slime
-ArmoredDiggerBody.DisplayName: Armored Digger
 ArmoredDiggerHead.DisplayName: Armored Digger
-ArmoredDiggerTail.DisplayName: Armored Digger
 AuroraSpirit.DisplayName: Aurora Spirit
 BloomSlime.DisplayName: Bloom Slime
 Bohldohr.DisplayName: Bohldohr
@@ -168,12 +132,8 @@ MantisShrimp.DisplayName: Mantis Shrimp
 OverloadedSoldier.DisplayName: Overloaded Soldier
 PerennialSlime.DisplayName: Perennial Slime
 PhantomSpirit.DisplayName: Phantom Spirit
-PhantomSpiritL.DisplayName: Phantom Spirit
-PhantomSpiritM.DisplayName: Phantom Spirit
-PhantomSpiritS.DisplayName: Phantom Spirit
 Piggy.DisplayName: Piggy
 ProfanedEnergyBody.DisplayName: Profaned Energy
-ProfanedEnergyLantern.DisplayName: Profaned Energy
 Rimehound.DisplayName: Rimehound
 Rotdog.DisplayName: Rotdog
 ScornEater.DisplayName: Scorn Eater
@@ -196,17 +156,11 @@ CalamitasEnchantDemon.DisplayName: Demon
 DemonPortal.DisplayName: Mysterious Portal
 ExhumedHeart.DisplayName: Exhumed Brimstone Heart
 LecherousOrb.DisplayName: Lecherous Orb
-PerforatorBodyLarge.DisplayName: The Perforator
-PerforatorBodyMedium.DisplayName: The Perforator
-PerforatorBodySmall.DisplayName: The Perforator
 PerforatorCyst.DisplayName: Perforator Cyst
 PerforatorHeadLarge.DisplayName: The Perforator
 PerforatorHeadMedium.DisplayName: The Perforator
 PerforatorHeadSmall.DisplayName: The Perforator
 PerforatorHive.DisplayName: The Perforator Hive
-PerforatorTailLarge.DisplayName: The Perforator
-PerforatorTailMedium.DisplayName: The Perforator
-PerforatorTailSmall.DisplayName: The Perforator
 PlaguebringerGoliath.DisplayName: The Plaguebringer Goliath
 PlagueHomingMissile.DisplayName: Plague Homing Missile
 PlagueMine.DisplayName: Plague Mine
@@ -214,7 +168,6 @@ Melter.DisplayName: Melter
 PestilentSlime.DisplayName: Pestilent Slime
 PlaguebringerMiniboss.DisplayName: Plaguebringer
 PlagueCharger.DisplayName: Plague Charger
-PlagueChargerLarge.DisplayName: Plague Charger
 Plagueshell.DisplayName: Plagueshell
 Viruling.DisplayName: Viruling
 PhantomFuckYou.DisplayName: Phantom
@@ -231,28 +184,18 @@ ProvSpawnHealer.DisplayName: Providence Healer
 ProvSpawnOffense.DisplayName: Providence Offense
 FlamePillar.DisplayName: Flame Pillar
 RavagerBody.DisplayName: Ravager
-RavagerClawLeft.DisplayName: Ravager
-RavagerClawRight.DisplayName: Ravager
-RavagerHead.DisplayName: Ravager
-RavagerHead2.DisplayName: Ravager
-RavagerLegLeft.DisplayName: Ravager
-RavagerLegRight.DisplayName: Ravager
 RockPillar.DisplayName: Rock Pillar
 CosmicLantern.DisplayName: Cosmic Lantern
 CosmicMine.DisplayName: Cosmic Mine
 Signus.DisplayName: Signus, Envoy of the Devourer
 CorruptSlimeSpawn.DisplayName: Corrupt Slime Spawn
-CorruptSlimeSpawn2.DisplayName: Corrupt Slime Spawn
 CrimsonSlimeSpawn.DisplayName: Crimson Slime Spawn
-CrimsonSlimeSpawn2.DisplayName: Crimson Slime Spawn
 CrimulanPaladin.DisplayName: Crimulan Paladin
 EbonianPaladin.DisplayName: Ebonian Paladin
 SlimeGodCore.DisplayName: The Slime God
 SplitCrimulanPaladin.DisplayName: Crimulan Paladin
 SplitEbonianPaladin.DisplayName: Ebonian Paladin
-StormWeaverBody.DisplayName: Storm Weaver
 StormWeaverHead.DisplayName: Storm Weaver
-StormWeaverTail.DisplayName: Storm Weaver
 AnthozoanCrab.DisplayName: Anthozoan Crab
 AquaticUrchin.DisplayName: Aquatic Urchin
 BelchingCoral.DisplayName: Belching Coral
@@ -271,16 +214,8 @@ PrismBack.DisplayName: Prism-Back
 SeaFloaty.DisplayName: Sea Floaty
 SeaMinnow.DisplayName: Sea Minnow
 SeaSerpent1.DisplayName: Sea Serpent
-SeaSerpent2.DisplayName: Sea Serpent
-SeaSerpent3.DisplayName: Sea Serpent
-SeaSerpent4.DisplayName: Sea Serpent
-SeaSerpent5.DisplayName: Sea Serpent
 BrimstoneHeart.DisplayName: Brimstone Heart
-SepulcherArm.DisplayName: Sepulcher
-SepulcherBody.DisplayName: Sepulcher
-SepulcherBodyEnergyBall.DisplayName: Sepulcher
 SepulcherHead.DisplayName: Sepulcher
-SepulcherTail.DisplayName: Sepulcher
 SoulSeekerSupreme.DisplayName: Soul Seeker
 SupremeCalamitas.DisplayName: Supreme Witch, Calamitas
 SupremeCataclysm.DisplayName: Cataclysm
