@@ -351,6 +351,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.realLife < 0 || NPC.realLife >= Main.maxNPCs || Main.npc[NPC.realLife] is null)
+                return true;
+            if (Main.npc[NPC.realLife].type != ModContent.NPCType<DevourerofGodsHead>())
+                return true;
+
             float disintegrationFactor = Main.npc[NPC.realLife].ModNPC<DevourerofGodsHead>().DeathAnimationTimer / 640f;
             if (disintegrationFactor > 0f)
             {

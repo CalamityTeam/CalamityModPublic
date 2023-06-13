@@ -637,7 +637,7 @@ namespace CalamityMod.NPCs.Abyss
         {
             if (CalamityWorld.getFixedBoi && clone)
             {
-                typeName = "Tiny Squid";
+                typeName = CalamityUtils.GetTextValue("NPCs.TinySquid");
             }
         }
     }

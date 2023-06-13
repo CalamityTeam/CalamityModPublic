@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (CalamityWorld.getFixedBoi)
             {
-                typeName = "Mechanized Serpent";
+                typeName = CalamityUtils.GetTextValue("NPCs.MechanizedSerpent");
             }
         }
 

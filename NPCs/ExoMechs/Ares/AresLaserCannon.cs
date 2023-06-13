@@ -703,7 +703,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             if (Main.npc[index].ModNPC<AresBody>().exoMechdusa)
             {
-                typeName = "XB-∞ Hekate Laser Cannon";
+                typeName = this.GetLocalizedValue("HekateName");
             }
         }
 

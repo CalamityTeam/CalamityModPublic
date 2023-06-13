@@ -1551,7 +1551,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         {
             if (exoMechdusa)
             {
-                typeName = NameToDisplay = "Blazing Eye of XB-∞ Hekate";
+                typeName = NameToDisplay = this.GetLocalizedValue("HekateName");
             }
         }
 

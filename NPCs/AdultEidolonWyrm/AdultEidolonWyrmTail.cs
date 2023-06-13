@@ -160,7 +160,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         {
             if (CalamityWorld.getFixedBoi)
             {
-                typeName = "Jared";
+                typeName = CalamityUtils.GetTextValue("NPCs.Jared");
             }
         }
     }

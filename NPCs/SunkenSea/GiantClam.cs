@@ -464,11 +464,11 @@ namespace CalamityMod.NPCs.SunkenSea
             {
                 if (Main.hardMode)
                 {
-                    typeName = "Supreme Clamitas";
+                    typeName = CalamityUtils.GetTextValue("NPCs.SupremeClamitas");
                 }
                 else
                 {
-                    typeName = "Clamitas";
+                    typeName = CalamityUtils.GetTextValue("NPCs.Clamitas");
                 }
             }
         }

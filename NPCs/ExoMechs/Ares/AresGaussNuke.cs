@@ -654,7 +654,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             if (Main.npc[index].ModNPC<AresBody>().exoMechdusa)
             {
-                typeName = "XB-∞ Hekate Gauss Nuke";
+                typeName = this.GetLocalizedValue("HekateName");
             }
         }
 

@@ -1226,7 +1226,7 @@ namespace CalamityMod.NPCs.Cryogen
         {
             if (CalamityWorld.getFixedBoi)
             {
-                typeName = "Pyrogen";
+                typeName = CalamityUtils.GetTextValue("NPCs.Pyrogen");
             }
         }
 
