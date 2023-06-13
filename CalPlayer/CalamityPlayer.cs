@@ -6433,7 +6433,7 @@ namespace CalamityMod.CalPlayer
 
             if ((CalamityWorld.death || BossRushEvent.BossRushActive) && areThereAnyDamnBosses)
             {
-                chatText = "Now is not the time!";
+                chatText = CalamityUtils.GetTextValue("Vanilla.NurseChat.HealNotAllowed");
                 return false;
             }
 
@@ -6846,8 +6846,8 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityConfig.Instance.WikiStatusMessage)
             {
-                Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Note: The Fandom wiki is no longer supported by Calamity.] " + $"[i:{ItemID.Book}]");
-                Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] " + $"[i:{ItemID.Book}]");
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus1");
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus2");
             }
         }
 

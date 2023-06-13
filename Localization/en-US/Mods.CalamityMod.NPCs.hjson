@@ -291,6 +291,24 @@ AndroombaFriendly.DisplayName: Androomba Pal
 
 DILF: {
 	DisplayName: Archmage
+	Name.Permafrost: Permafrost
+
+	Chat: {
+		Homeless1: I have not seen such a sky in decades. Who are you, to so brazenly march against that Tyrant?
+		Homeless2: I... deeply appreciate you rescuing me from being trapped within my frozen castle. It's been many, many years.
+		Normal1: If you have a request, make it quick. I am in the process of weaving a spell, which requires great focus.
+		Normal2: You have the makings of a gifted mage. Tell me, what do you think of ice magic?
+		Normal3: Flowers and the like don't hold a candle to the beauty of intricately formed ice.
+		Day1: The sun beats down harshly upon my creations here. If you would allow me to conjure a blizzard every now and then...
+		Day2: I must admit, I'm not quite used to this weather. It's far too warm for my tastes...
+		Night1: Nightfall is a good time for practicing magic. We mages often rely on celestial bodies and their fragments to enhance our mana.
+		Night2: Necromancy was never a field I found interesting. Why utilize the rotting corpses of people, when you could form far more elegant servants of ice?
+		Party: Sometimes... I feel like all I'm good for during these events is making ice cubes and slushies.
+		BloodMoon1: If your blood were to thoroughly freeze, it would be quite fatal.
+		BloodMoon2: The undead which roam tonight are still monsters of blood and guts, but they seem... fresher.
+		MoonLordDefeated1: It is shocking, to see you have come so far. I wish you the best of luck on your future endeavours.
+		MoonLordDefeated2: You, having bested so many beings, even deities, I wonder if I have anything left to offer you.
+	}
 
 	TownNPCMood: {
 		Content: The weather is cool today.
@@ -311,6 +329,69 @@ DILF: {
 
 FAP: {
 	DisplayName: Drunk Princess
+	Name.Cirrus: Cirrus
+
+	Chat: {
+		BossAlive: Why are you talking to me right now? Shouldn't you be bumbling around and dying for my amusement?
+		Homeless1: I could smell my vodka from MILES away!
+		Homeless2: Have any spare rooms available? Preferably candle-lit with a hefty supply of booze?
+		BloodMoon1: I'm gonna make some Bloody Marys to relax, celery included. Want one?
+		BloodMoon2: If you're too lazy to craft potions normally, try Blood Orbs. Blood is fuel, dumbass.
+		BloodMoon3: I'm trying to not be bitchy tonight, but it's hard when everyone else won't shut up.
+		BloodMoonSlap: Sorry, I have no moral compass at the moment.
+		Normal1: I HATE WALMART! ...Anyway, what do you want this time?
+		Normal2: Drink something that turns you into a magical flying unicorn so you can be just like me.
+		Normal3: Did anyone ever tell you that large assets cause back pain? Well, they were right.
+		Normal4: Deals so good I'll [$$!$] myself! ...Sorry, just had a minor stroke!
+		Archmage: I never realized how well-endowed {0} was. It had to be the largest icicle I'd ever seen.
+		BrimstoneWitch: The abuse {0} went through is something I can hardly comprehend. I'd offer her a drink, but I don't think she'd enjoy it.
+		Tavernkeep1: My booze will always be better than {0}'s, and nobody can convince me otherwise.
+		Tavernkeep2: Tell {0} to stop calling me. He's not wanted.
+		Tavernkeep3: I've had to tell baldie where my eyes are so many times that I've lost count.
+		Stylist1: Ever since {0} moved in I haven't been drinking as much... a strange but not unwelcome feeling.
+		Stylist2: You can't stop me from trying to move in with {0}.
+		Stylist3: I love it when {0}'s hands get sticky from all that... wax.
+		Day1: I'm literally balls drunk off my sass right now, what do you want?
+		Day2: I'm either laughing because I'm drunk or because I've lost my mind, probably both.
+		Day3: When I'm drunk I'm way happier... at least until the talking worms start to appear.
+		Day4: I should reprogram the whole mod, while drunk, then send it back to the testers.
+		DayStylist1: "{0} helped me learn to accept my past. It's been rough, but I think I'm on the right track now."
+		DayStylist2: Might go out for a jog later with {0}. Nice day for it.
+		DayDrunk1: I drink to forget certain... things. What things, you might ask? Well, the point is to forget them, isn't it?
+		DayDrunk2: What a great day! Might just drink so much that I get poisoned again.
+		Night1: A perfect night to light some candles, drink some wine and relax.
+		Night2: Here's a challenge... take a shot for every time you've had to look at the wiki. Oh wait, you'd die.
+		Night3: Yes, everyone knows the mechworm is buggy. Well, not anymore, but still.
+		Night4: You lost or something? I don't mind company, but I'd rather be left alone at night.
+		Night5: Are you sure you're 21? ...Alright, fine, but don't tell anyone I sold you these.
+		NightStylist: I should watch some movies with {0} tonight. You could come too, but only if you bring snacks for us.
+		Party: You'll always find me at parties where booze is involved... well, you'll always find BOOZE where I'M involved!
+		AcidRain: I'm melting! Put a stop to this inclement weather this instant before it ruins my hair!
+		Martians: You should probably deal with those ayy lmaos before anything else, but whatever.
+		CryogenDefeated: God I can't wait to smash some ice again! ...For drinks, of course.
+		LeviathanDefeated: How could you murder such a beautiful creature!? ...The blue sexy one, not the obese cucumber.
+		MoonLordDefeated: Ever wondered why the Moon Lord needed so many tentacles? Uh... on second thought, I won't answer that.
+		PolterghastDefeated: I saw a ghost down by the old train tracks back at my homeland once, flailing wildly at the lily pads... frightening times those were.
+		DoGDefeated: I hear it's amazing when the famous Devourer of Gods out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!
+		HasChibii: The hell is that? Looks like something I'd carry around if I was 5 years old.
+		HasAnahitaTrans: Nice scales... is it hot in here or is it just me?
+		HasVodka: Do you like my vodka? I created it by mixing fairy dust, crystallized cave sweat and other magical crap.
+		HasAlicorn1: So... you found my special bottle. Hope you enjoy it, I know I will.
+		HasAlicorn2: Be sure to dismount me once in a while, I get tired. And besides, I can't rip you off-I mean offer you excellent deals you won't find anywhere else if you're riding me 24/7.
+		HasAlicorn3: Before you ask, no, I do NOT have a heart on my butt while in human form. Don't question my transformation preferences!
+	}
+
+	// Death Count stuffs
+	DeathCountButton: Death Count + Donors
+	DeathCount: You have failed {0} {^0:time;times}.
+	Death10000: Congratulations! You are now, officially, the biggest loser in Terraria's history! Who was number two? Hell if I know.
+	Death5000: I'm not sure what to say this time. That you're bad and should feel bad? That much was known already.
+	Death2500: Bless your heart. I could dodge better than you even if I were drunk high.
+	Death1000: It is said the average Terrarian has a lifespan of 2 minutes or less. ...Well, not really, but I feel like you'd be part of that statistic.
+	Death500: Your inability to avoid dying to even the most basic of attacks is astonishing to me.
+	Death250: I admire your tenacity. Keep it up, your enemies are racking up quite the kill count!
+	Death100: Consider lowering the difficulty. If you found that statement irritating, good.
+	DonorShoutout: Hey {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23} and {24}! You're all pretty good!
 
 	TownNPCMood: {
 		Content: It's 5 o'clock somewhere.
@@ -342,6 +423,69 @@ FAP: {
 
 SEAHOE: {
 	DisplayName: Sea King
+	Name.Amidias: Amidias
+
+	Chat: {
+		Homeless1: How much more has the world fallen to ruin? Even the Tyrant's empire...
+		Homeless2: I do not expect a kingdom from you, but I would appreciate a safe haven.
+		Day1: My home may have been destroyed and my people lost... But I will assist you to honor their memory.
+		Day2: How odd it is, that your people leave the care of those yet to be born to the females. Our males carry the eggs until they hatch.
+		Day3: How can I survive on land? Ah, that is a secret. No, actually... I can breathe air like you!
+		Day4: Ah, if only you could have seen the beauty of a kingdom submerged in water. The way the light refracted and shone over our coral homes...
+		Night1: There lurk horrifying creatures beyond the light of our homes. You should take care.
+		Night2: My eyes are not well suited to bright lights after so many years of darkness. The peace of the night is welcome.
+		Night3: Oh, me? I do not sleep, it is part of my nature.
+		Angler1: Meet me at {0}'s house at night. We will throw him to the Trashers.
+		Angler2: Not sure how {0} has not been roasted and digested by now, hanging around the sulphuric seas for so long. Perhaps it got to his head.
+		BrimstoneWitch: I must admit, the Witch's presence is unsettling to me. But so many years have passed, and she too has suffered much.
+		DrunkPrincess: Rumor has it {0} drinks to forget her troubled past.
+		PartyGirl: "{0} asked if my nose could be used as a vuvuzela. What is a vuvuzela?"
+		BloodMoon1: Since ancient times people have said that deities cause celestial events. Which one then, is the cause for these?
+		BloodMoon2: I've never been keen on these nights. Such violence.
+		Hardmode1: Your presence is now known to a great many things. It is unlikely that they will be as friendly towards you as I have been.
+		Hardmode2: Hm... The veil has fallen, and the world begins to show its true colors. I hope you will trek a righteous path, though even I am not sure what that may be.
+		MoonLordDefeated1: These days, the night sky feels... just a little less oppressive now.
+		MoonLordDefeated2: Some of these beings I had thought previously to be only legends. To see them in all their glory... what a macabre privilege.
+		DoGDefeated: To see that Tyrant's serpent free of its shackles. It gave me chills.
+	}
+
+	Help: {
+		YharonDefeated1: Auric is near impossible to work with without being attuned to a Dragon or using the claimed soul of a Dragon to perform a "mock" attunement. However, if one can work with it truly powerful things can be created; enough so that using it in anything was deemed heretical by the Gods.
+		YharonDefeated2: The Golden Heretic, Yharim, possesses strength that may just surpass all of the Gods. When you face him, be well prepared for the battle of your life.
+		YharonDefeated3: Draedon isn't a frontline fighter; he is a scientist and inventor. He is unlikely to face you directly, and will likely have his creations confront you instead. Be prepared for anything that blasphemous machine could throw at you.
+		DoGDefeated1: The Devourer's armor was specially made by Draedon. Extremely flexible yet durable and massive, it may be one of his most impressive creations. I shudder to think of what unholy things he may be able to create now, if his research has not stopped.
+		DoGDefeated2: With the cosmic steel you can fashion many of your weapons into much more powerful forms.
+		DoGDefeated3: The Devourer of Gods is truly an enigma. Some say it's not even from this world at all. What is known is that he is a being that can devour the essence of Gods entirely, leaving absolutely nothing left. It's no wonder Yharim recruited that monster.
+		PolterghastDefeated1: The Abyss holds many secrets revealed with time. Checking it out again may not be a bad idea.
+		PolterghastDefeated2: Ah... I can sense a powerful change in the weather. You may want to venture to the Sulphurous Seas once more during the rain to experience it.
+		ProvidenceDefeated1: The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some... risky consequences.
+		ProvidenceDefeated2: I do wonder what has happened to Braelor and Statis. I have heard or seen very little of either. In my days, both were great heroes to those who worshiped the Gods. Have they been killed, captured, or are they simply in hiding?
+		MoonLordDefeated1: Your adventure focuses to the jungle it seems. The Dragonfolly and its swarming offspring should be eliminated before their numbers spiral out of control.
+		MoonLordDefeated2: Profaned creatures now lurk in the Hallow and in Hell. If you destroy enough and gather their essence together you shall be able to capture the attention of the Profaned Guardians.
+		MoonLordDefeated3: The Profaned Guardians serve Providence, one of the few Gods even I despise. The Guardians attempt to eliminate threats to their Goddess preemptively, and it is likely that their next target is you.
+		MoonLordDefeated4: Providence can likely be drawn out for combat by using the relic her Guardians left behind. I wonder... Why has Yharim not challenged her? Is he simply that negligent now?
+		MoonLordDefeated5: Providence was a great threat to Yharim and his army. She would appear out of seemingly thin air, wreck havoc, and vanish before much damage could be done to her. Perhaps she would be overconfident in facing but a single warrior.
+		GolemDefeated1: The men at the front of the dungeon are performing a ritual to keep the Moon Lord contained in his prison. In order to gain Yharim's attention, however, you may need to defeat them.
+		GolemDefeated2: The Abyss has become far more active than before. You might be able to mine some of the volcanic rubble contained within.
+		GolemDefeated3: The nature of this plague in the jungle bothers me; it certainly is not the average infection. From afar they seem normal, yet up close it is obvious that the infected creatures are equipped with lights and metallic plating. Whatever it may be, it certainly isn't natural.
+		Hardmode1: I would recommend saving some of your old items. You never know if you can engineer them into stronger weapons in the future.
+		Hardmode2: If you take an idol down to the Brimstone Crags you might be able to see just what is lurking in the shadows.
+		Hardmode3: Azafure, the city founded in the Brimstone Crags, was one of the first places to support Yharim in his war. Now, it is nothing more than ruins... Just what happened there?
+		Hardmode4: If you've gathered the souls used to power those automatons head once more to the jungle. You will find a powerful enemy to fight, which will unleash the full fervor of the jungle once defeated. Do not underestimate it!
+		Hardmode5: Be careful when defeating Plantera and the Golem. You might accidentally unleash a new threat in the jungle that needs to be quelled.
+		Hardmode6: When exploring the jungle temple be careful. You may not wish to disturb the Lihzahrd's idol, the Golem. It's quite the destructive force.
+		Hardmode7: Have you ever heard of the Archmage, Permafrost? Once an advisor to Yharim, he one day vanished and Calamitas abandoned Yharim's cause soon after. From what I know, Permafrost was akin to a father to her. Perhaps if she had something to do with his disappearance, he may yet live...?
+		PreHardmode1: There are rumors of ores that lay in latency. When you defeat certain bosses you will undo the ancient magic which conceals those materials.
+		PreHardmode2: Have you heard of the city in the Brimstone Crags? It lies in the Underworld, and was constructed beneath the Abyss. It was once the oldest and largest city in the world, though it seems nothing but danger lies there now. It would be wise to avoid it.
+		PreHardmode3: Ah yes, the Abyss. That trench is full of powerful creatures that could devour you in a heartbeat. I would explore the dungeon first.
+		PreHardmode4: The Sulphurous Seas are dangerous. The toxic waters will burn your skin, but if you can brave them you will be able to reach the Abyss, where there are powerful weapons and dangers aplenty.
+		PreHardmode5: The Sulphurous Sea was created more than a millenia ago, but it has gotten truly unbearable in the past decades. It's the fault of that accursed robot, Draedon, dumping waste and abandoned projects in there constantly. It's viler than it's ever been, thanks to him.
+		PreHardmode6: Be careful what you attack in the {0}. You might just unveil a greater threat than what was there before.
+		PreHardmode7: Scattered across the lands are shrines dedicated to the gods. They contain powerful gear that may help you on your adventures.
+		PreHardmode8: I assume you have heard of the legendary ninja, Statis? He and his clan worshiped the God of slime, who may be a survivor of the war due to its trickery and knowing when to hide or flee.
+		PreHardmode9: The {0} is a relatively recent development in the world, and its formation marked the start of Yharim's treacherous war. Although the source of its growth would be sealed away, nothing was ever done about the original manifestations.
+		PreHardmode10: Throughout the world lie various structures left behind by Draedon. Archaic defenses may remain, but the goods inside may be worth your while.
+	}
 
 	TownNPCMood: {
 		Content: I am satisfied.
@@ -364,6 +508,66 @@ SEAHOE: {
 THIEF: {
 	DisplayName: Bandit
 
+	Name: {
+		Laura: Laura
+		Mie: Mie
+		Bonnie: Bonnie
+		Sarah: Sarah
+		Diane: Diane
+		Kate: Kate
+		Penelope: Penelope
+		Marisa: Marisa
+		Maribel: Maribel
+		Valerie: Valerie
+		Jessica: Jessica
+		Rowan: Rowan
+		Jessie: Jessie
+		Jade: Jade
+		Hearn: Hearn
+		Amber: Amber
+		Anne: Anne
+		Indiana: Indiana
+	}
+
+	Chat: {
+		BloodMoon1: Oy, watch where you're going or I might just use you for dart practice.
+		BloodMoon2: Bet you'd look good as a pincushion, amiright?
+		BloodMoon3: Zombies don't dodge very well. Maybe you'll do a bit better.
+		BloodMoon4: Hey, careful over there. I've rigged the place. One wrong step and you're going to get a knife in your forehead.
+		Normal1: Anything is a weapon if you throw it hard enough.
+		Normal2: That's your chucking arm? You need to work out more.
+		Normal3: Listen here. It's all in the wrist, the wrist! Oh, forget it.
+		Normal4: Eh you know how it goes; steal from the rich, give to the poor, but I do take a cut of the profit.
+		Normal5: Snakes! Why does it always have to be snakes!
+		Normal6: It's super nice you know, to just have everything you want. Some people never got that luxury.
+		Normal7: It's not stealing! I'm just borrowing it until I die!
+		Night1: Hm, the stars are too bright tonight. Makes sneaking around a little more difficult.
+		Night2: You think those stars that fall occasionally would make good throwing weapons?
+		BrimstoneWitch: Hey, hey, has {0} seriously moved in here with us? Why???
+		DrunkPrincess: I learned never to steal {0}'s drinks. She doesn't appreciate me right now, so I'll go back to hiding.
+		Merchant: Don't tell {0}, but I took some of his stuff and replaced it with Angel Statues.
+		NurseArmsDealer: Don't tell {0} that I was responsible for {1}'s injuries.
+		NamedLaura: The nice thing about maps is I can track anything that has fallen.
+		NamedPenelope: Imagine how fast you could throw if you just had more hands.
+		NamedValerie: I also take food for currency.
+		NamedRowan: Usually I only think of animals as food or target practice, but dragons are an exception.
+		Jungle: I'd rather not be here. This place has bad vibes, y'know? It brings back some unpleasant memories.
+		Party: Where is my party hat? Well, I stole it of course.
+		Hardmode1: All sorts of new weapons to be found and looted. Get to that, and I'll share some of my collection too!
+		Hardmode2: There's so much scrap around this land with valuable parts to them. Makes you wonder who could afford to leave em all around.
+		Hardmode3: Crypts, tombs, dungeons, those're all just treasure troves to me. The dead are dead, they've got nothing to do with it.
+		MoonLordDefeated1: If you find anything cool, make sure to drop by and show it to me, I promise I'll keep my hands off it.
+		MoonLordDefeated2: So many new things to steal, I can't think of where to start!
+		MoonLordDefeated3: If I end up angering some deities or whatever, would you mind taking the blame for me?
+		HasBoneGlove: Wouldn't be the first time I used remains as weapons.
+		HasValediction: Oh man, did you rip that off a shark!? Now that's a weapon!
+	}
+
+	RefundButton: Refund
+	Refund1: Want in on a little secret? Since {0} always gets so much cash from you, I've been stealing some of it as we go. I need you to keep quiet about it, so here.
+	Refund2: Hey, if government officials can get tax, why can't I? The heck do you mean that these two things are nothing alike?
+	NoRefund: Sorry, I got nothing. Perhaps you could reforge something and come back later...
+
 	TownNPCMood: {
 		Content: It's been going well!
 		NoHome: You have a place to bunk? Sleeping on the ground makes me stiff and sore.
@@ -383,6 +587,27 @@ THIEF: {
 
 WITCH: {
 	DisplayName: Brimstone Witch
+	Name.Calamitas: Calamitas
+
+	Chat: {
+		EasterEgg: Mrrp is cringe.
+		Homeless1: I'm considering moving back to that old cave of mine.
+		Homeless2: I certainly can't return to Yharim's old dwellings now, have you got any places to stay?
+		Normal1: I can't pay rent, but if you've got any dead relative you want me to try and... what? You don't?
+		Normal2: One of these days, I was thinking of starting a garden with the flowers from the old capitol of hell. I love the smell of brimstone in the morning.
+		Normal3: I think I've settled comfortably, thank you very much.
+		Normal4: Many seasons have gone by since I first met with the Tyrant, and only now did I break free. I wish I'd been stronger...
+		Normal5: If you've got any curses you want dispelled... well I'm not your person.
+		BloodMoon1: Such an unnatural shade of red. Nothing like my brimstone flames.
+		BloodMoon2: I can't work with nights like these. The stars seem to have shrunk away in fear.
+		Night1: These undead are horrific, I can't stand to look at them. How could anyone be satisfied with such amateur work?
+		Night2: I don't think it's a stretch to say that astrology is utter nonsense... but it was a hobby of mine once.
+		DrunkPrincess: I wonder if {0} ever feels cold given how revealing her dress is. Perhaps she should cover up a bit more.
+		SeaKing: I cannot understand the Sea King. He does not seem to want me dead. That amount of compassion I just can't understand.
+		Party: If another person asks me if I can dance or not, I will light their hat on fire.
+	}
+
+	EnchantButton: Enchant
 
 	TownNPCMood: {
 		Content: I can't complain, really.
