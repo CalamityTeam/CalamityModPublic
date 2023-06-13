@@ -109,8 +109,6 @@ namespace CalamityMod.ILEditing
 
             // World generation
             Terraria.IL_WorldGen.Pyramid += ReplacePharaohSetInPyramids;
-            Terraria.IL_WorldGen.MakeDungeon += PreventDungeonHorizontalCollisions;
-            Terraria.IL_WorldGen.DungeonHalls += PreventDungeonHallCollisions;
             Terraria.IL_WorldGen.GrowLivingTree += BlockLivingTreesNearOcean;
             Terraria.On_WorldGen.SmashAltar += PreventSmashAltarCode;
             Terraria.IL_WorldGen.hardUpdateWorld += AdjustChlorophyteSpawnRate;

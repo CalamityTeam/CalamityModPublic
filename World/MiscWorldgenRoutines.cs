@@ -25,45 +25,7 @@ namespace CalamityMod.World
 {
     public class MiscWorldgenRoutines
     {
-        #region Dungeon Biome Chests
-        public static void GenerateBiomeChests(GenerationProgress progress, GameConfiguration config)
-        {
-            progress.Message = "Adding a new Biome Chest";
-
-            // Get dungeon size field infos.
-            int MinX = (int)typeof(GenVars).GetField("dMinX", BindingFlags.Static | BindingFlags.Public).GetValue(null) + 25;
-            int MaxX = (int)typeof(GenVars).GetField("dMaxX", BindingFlags.Static | BindingFlags.Public).GetValue(null) - 25;
-            int MaxY = (int)typeof(GenVars).GetField("dMaxY", BindingFlags.Static | BindingFlags.Public).GetValue(null) - 25;
-
-            int[] ChestTypes = { ModContent.TileType<AstralChestLocked>() };
-            int[] ItemTypes = { ModContent.ItemType<HeavenfallenStardisk>() };
-            int[] ChestStyles = { 1 }; // Astral Chest generates in style 1, which is locked
-
-            for (int i = 0; i < ChestTypes.Length; ++i)
-            {
-                Chest chest = null;
-                int attempts = 0;
-
-                // Try 1000 times to place the chest somewhere in the dungeon.
-                // The placement algorithm ensures that if it tries to appear in midair, it is moved down to the floor.
-                while (chest == null && attempts < 1000)
-                {
-                    attempts++;
-                    int x = WorldGen.genRand.Next(MinX, MaxX);
-                    int y = WorldGen.genRand.Next((int)Main.worldSurface, MaxY);
-                    if (Main.wallDungeon[Main.tile[x, y].WallType] && !Main.tile[x, y].HasTile)
-                        chest = AddChestWithLoot(x, y, (ushort)ChestTypes[i], tileStyle: ChestStyles[i]);
-                }
-
-                // If a chest was placed, force its first item to be the unique Biome Chest weapon.
-                if (chest != null)
-                {
-                    chest.item[0].SetDefaults(ItemTypes[i]);
-                    chest.item[0].Prefix(-1);
-                }
-            }
-        }
-
+        #region Place Chests
         internal static Chest AddChestWithLoot(int i, int j, ushort type = TileID.Containers, uint startingSlot = 1, int tileStyle = 0)
         {
             int chestIndex = -1;
@@ -84,6 +46,7 @@ namespace CalamityMod.World
 
             if (chestIndex < 0)
                 return null;
+
             Chest chest = Main.chest[chestIndex];
             PlaceLootInChest(ref chest, type, startingSlot);
             return chest;
@@ -97,10 +60,11 @@ namespace CalamityMod.World
             {
                 if (!condition)
                     return;
+
                 c.item[itemIndex].SetDefaults(id, false);
 
                 // Don't set quantity unless quantity is specified
-                if(minQuantity > 0)
+                if (minQuantity > 0)
                 {
                     // Max quantity cannot be less than min quantity. It's zero if not specified, meaning you get exactly minQuantity.
                     if (maxQuantity < minQuantity)
