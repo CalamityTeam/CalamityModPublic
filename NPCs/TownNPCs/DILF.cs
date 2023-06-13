@@ -17,6 +17,7 @@ using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace CalamityMod.NPCs.TownNPCs
 {
@@ -25,7 +26,6 @@ namespace CalamityMod.NPCs.TownNPCs
     {
         public override void SetStaticDefaults()
         {
-
             Main.npcFrameCount[NPC.type] = 25;
             NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
             NPCID.Sets.AttackFrameCount[NPC.type] = 4;
@@ -37,8 +37,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 .SetBiomeAffection<SnowBiome>(AffectionLevel.Like)
                 .SetBiomeAffection<DesertBiome>(AffectionLevel.Dislike) 
                 .SetNPCAffection(NPCID.Wizard, AffectionLevel.Like) 
-                .SetNPCAffection(NPCID.Cyborg, AffectionLevel.Dislike)
-            ;
+                .SetNPCAffection(NPCID.Cyborg, AffectionLevel.Dislike);
 			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
 				Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
 			};
@@ -81,53 +80,48 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */ => DownedBossSystem.downedCryogen;
+        public override bool CanTownNPCSpawn(int numTownNPCs) => DownedBossSystem.downedCryogen;
 
-		public override List<string> SetNPCNameList() => new List<string>() { "Permafrost" };
+		public override List<string> SetNPCNameList() => new List<string>() { this.GetLocalizedValue("Name.Permafrost") };
 
         public override string GetChat()
         {
             if (NPC.homeless && !CalamityWorld.foundHomePermafrost)
-            {
-                if (Main.rand.NextBool(2))
-                    return "I have not seen such a sky in decades. Who are you, to so brazenly march against that Tyrant?";
-                else
-                    return "I... deeply appreciate you rescuing me from being trapped within my frozen castle. It's been many, many years.";
-            }
+                return this.GetLocalizedValue("Chat.Homeless" + Main.rand.Next(1, 2 + 1));
 
-            IList<string> dialogue = new List<string>();
+            WeightedRandom<string> dialogue = new WeightedRandom<string>();
+
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal1"));
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal2"));
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal3"));
 
             if (Main.dayTime && !Main.player[Main.myPlayer].ZoneSnow)
             {
-                dialogue.Add("The sun beats down harshly upon my creations here. If you would allow me to conjure a blizzard every now and then...");
-                dialogue.Add("I must admit, I'm not quite used to this weather. It's far too warm for my tastes...");
+                dialogue.Add(this.GetLocalizedValue("Chat.Day1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Day2"));
             }
-            else
+            else if (!Main.dayTime)
             {
-                dialogue.Add("Nightfall is a good time for practicing magic. We mages often rely on celestial bodies and their fragments to enhance our mana.");
-                dialogue.Add("Necromancy was never a field I found interesting. Why utilize the rotting corpses of people, when you could form far more elegant servants of ice?");
+                dialogue.Add(this.GetLocalizedValue("Chat.Night1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Night2"));
             }
-
-            dialogue.Add("If you have a request, make it quick. I am in the process of weaving a spell, which requires great focus.");
-            dialogue.Add("You have the makings of a gifted mage. Tell me, what do you think of ice magic?");
-            dialogue.Add("Flowers and the like don't hold a candle to the beauty of intricately formed ice.");
 
             if (BirthdayParty.PartyIsUp)
-                dialogue.Add("Sometimes... I feel like all I'm good for during these events is making ice cubes and slushies.");
+                dialogue.Add(this.GetLocalizedValue("Chat.Party"));
 
             if (Main.bloodMoon)
             {
-                dialogue.Add("If your blood were to thoroughly freeze, it would be quite fatal.");
-                dialogue.Add("The undead which roam tonight are still monsters of blood and guts, but they seem... fresher.");
+                dialogue.Add(this.GetLocalizedValue("Chat.BloodMoon1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.BloodMoon2"));
             }
 
             if (NPC.downedMoonlord)
             {
-                dialogue.Add("It is shocking, to see you have come so far. I wish you the best of luck on your future endeavours.");
-                dialogue.Add("You, having bested so many beings, even deities, I wonder if I have anything left to offer you.");
+                dialogue.Add(this.GetLocalizedValue("Chat.MoonLordDefeated1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.MoonLordDefeated2"));
             }
 
-            return dialogue[Main.rand.Next(dialogue.Count)];
+            return dialogue;
         }
 
         public override void SetChatButtons(ref string button, ref string button2)

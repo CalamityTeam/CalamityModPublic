@@ -1011,11 +1011,11 @@ namespace CalamityMod.NPCs.StormWeaver
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<StormWeaverRelic>());
 
-            // GFB Rampart of Deities and The Sponge drop
+            // GFB Elemental Gauntlet and Quiver drops
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
-                GFBOnly.Add(ModContent.ItemType<RampartofDeities>());
-                GFBOnly.Add(ModContent.ItemType<TheSponge>());
+                GFBOnly.Add(ModContent.ItemType<ElementalGauntlet>());
+                GFBOnly.Add(ModContent.ItemType<ElementalQuiver>());
             }
 
             // Lore

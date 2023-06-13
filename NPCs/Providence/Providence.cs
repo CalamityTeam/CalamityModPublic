@@ -1939,11 +1939,11 @@ namespace CalamityMod.NPCs.Providence
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<ProvidenceRelic>());
 
-            // GFB ASE and Exo Prism drops
+            // GFB ASE and Blasphemous Donut drops
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
                 GFBOnly.Add(ModContent.ItemType<AscendantSpiritEssence>(), 1, 1, 99);
-                GFBOnly.Add(ModContent.ItemType<ExoPrism>(), 1, 3, 9);
+                GFBOnly.Add(ModContent.ItemType<BlasphemousDonut>(), 1, 1117, 2201); // reference to the versions the guards were added and got their latest resprites
             }
 
             // Lore
