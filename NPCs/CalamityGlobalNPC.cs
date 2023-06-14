@@ -3657,17 +3657,10 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCAIStyleID.GraniteElemental:
-                        if (npc.type == NPCType<CosmicElemental>())
+                        switch (npc.type)
                         {
-                            return CalamityGlobalAI.BuffedGraniteElementalAI(npc, Mod);
-                        }
-                        else
-                        {
-                            switch (npc.type)
-                            {
-                                case NPCID.GraniteFlyer:
-                                    return CalamityGlobalAI.BuffedGraniteElementalAI(npc, Mod);
-                            }
+                            case NPCID.GraniteFlyer:
+                                return CalamityGlobalAI.BuffedGraniteElementalAI(npc, Mod);
                         }
                         break;
 
@@ -3714,6 +3707,7 @@ namespace CalamityMod.NPCs
                     npc.lavaImmune = true;
                     npc.dontTakeDamage = true;
                     npc.noTileCollide = true;
+                    npc.rarity = 0;
 
                     // Teleport to the player if far enough away.
                     if (Vector2.Distance(npc.Center, targetData.Center) > 1000f)

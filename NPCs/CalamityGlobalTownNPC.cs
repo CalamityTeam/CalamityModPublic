@@ -1124,7 +1124,7 @@ namespace CalamityMod.NPCs
                     if (Main.rand.NextBool(15) && Main.hardMode)
                         chat = CalamityUtils.GetText("Vanilla.StylistChat.Hardmode").Format(worldEvil);
                     if (Main.rand.NextBool(15) && fapsol != -1)
-                        chat = CalamityUtils.GetText("Vanilla.StylistChat.DrunkPrincess" + Main.rand.Next(1, 2 + 1)).Format(Main.npc[fapsol].GivenName);
+                        chat = CalamityUtils.GetText("Vanilla.StylistChat.DrunkPrincess" + (ChildSafety.Disabled ? Main.rand.Next(1, 2 + 1) : 1)).Format(Main.npc[fapsol].GivenName);
                     if ((Main.rand.NextBool(npc.GivenName == "Amber" ? 10 : 15)) && Main.LocalPlayer.Calamity().pArtifact)
                     {
                         if (Main.LocalPlayer.Calamity().profanedCrystalBuffs)

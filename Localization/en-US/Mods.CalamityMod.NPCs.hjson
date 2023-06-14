@@ -148,7 +148,6 @@ AuroraSpirit.DisplayName: Aurora Spirit
 BloomSlime.DisplayName: Bloom Slime
 Bohldohr.DisplayName: Bohldohr
 Cnidrion.DisplayName: Cnidrion
-CosmicElemental.DisplayName: Cosmic Elemental
 CrawlerAmber.DisplayName: Amber Crawler
 CrawlerAmethyst.DisplayName: Amethyst Crawler
 CrawlerCrystal.DisplayName: Crystal Crawler
@@ -323,8 +322,8 @@ FAP: {
 		BloodMoonSlap: Sorry, I have no moral compass at the moment.
 		Normal1: I HATE WALMART! ...Anyway, what do you want this time?
 		Normal2: Drink something that turns you into a magical flying unicorn so you can be just like me.
-		Normal3: Did anyone ever tell you that large assets cause back pain? Well, they were right.
-		Normal4: Deals so good I'll [$$!$] myself! ...Sorry, just had a minor stroke!
+		Normal3: Deals so good I'll [$$!$] myself! ...Sorry, just had a minor stroke!
+		Normal4: Did anyone ever tell you that large assets cause back pain? Well, they were right.
 		Archmage: I never realized how well-endowed {0} was. It had to be the largest icicle I'd ever seen.
 		BrimstoneWitch: The abuse {0} went through is something I can hardly comprehend. I'd offer her a drink, but I don't think she'd enjoy it.
 		Tavernkeep1: My booze will always be better than {0}'s, and nobody can convince me otherwise.

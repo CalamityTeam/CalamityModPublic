@@ -255,11 +255,6 @@ ColossalSquidBanner: {
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Colossal Squid"
 }
 
-CosmicElementalBanner: {
-	DisplayName: Cosmic Elemental Banner
-	Tooltip: "{$CommonItemTooltip.BannerBonus}Cosmic Elemental"
-}
-
 CrimulanBlightSlimeBanner: {
 	DisplayName: Crimulan Blight Slime Banner
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Crimulan Blight Slime"

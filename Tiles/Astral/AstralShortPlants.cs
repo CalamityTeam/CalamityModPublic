@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;
@@ -50,11 +51,17 @@ namespace CalamityMod.Tiles.Astral
 			}
 		}
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY) 
+        public override IEnumerable<Item> GetItemDrops(int i, int j)
         {
-            if (Main.rand.Next(20) == 0)
-            {
-                Item.NewItem(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16f, ModContent.ItemType<Items.Placeables.AstralGrassSeeds>());
+            Vector2 worldPosition = new Vector2(i, j).ToWorldCoordinates();
+            Player nearestPlayer = Main.player[Player.FindClosest(worldPosition, 16, 16)];
+            if (nearestPlayer.active)
+            {                
+                if (nearestPlayer.ActiveItem().type == ItemID.Sickle)
+                    yield return new Item(ItemID.Hay, Main.rand.Next(1, 2 + 1));
+                
+                if (Main.rand.NextBool(20))
+                    yield return new Item(ModContent.ItemType<Items.Placeables.AstralGrassSeeds>());
             }
         }
     }

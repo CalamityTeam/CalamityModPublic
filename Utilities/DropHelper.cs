@@ -112,14 +112,14 @@ namespace CalamityMod
         #endregion
 
         #region Bestiary Text
-        public static string FirstKillText = "Drops only on the first kill";
-        public static string MechBossText = "Drops on the first kill of the final Mechanical Boss";
-        public static string CynosureText = "Drops once you have defeated both Draedon and Calamitas";
+        public static string FirstKillText = CalamityUtils.GetTextValue("Misc.DropCondition.FirstKill");
+        public static string MechBossText = CalamityUtils.GetTextValue("Misc.DropCondition.MechBoss");
+        public static string CynosureText = CalamityUtils.GetTextValue("Misc.DropCondition.Cynosure");
 
-        public static string ProvidenceHallowText = "Drops if Providence was summoned in the Hallow\nor if Providence is only attacked during nighttime";
-        public static string ProvidenceUnderworldText = "Drops if Providence was summoned in the Underworld\nor if Providence is only attacked during nighttime";
-        public static string ProvidenceNightText = "Drops if Providence is only attacked during nighttime";
-        public static string ProvidenceChallengeText = $"Drops if Providence was defeated only with the [i:{ModContent.ItemType<ProfanedSoulArtifact>()}] Profaned Soul Artifact\nThis is an Expert Mode drop rate";
+        public static string ProvidenceHallowText = CalamityUtils.GetTextValue("Misc.DropCondition.ProvidenceHallow");
+        public static string ProvidenceUnderworldText = CalamityUtils.GetTextValue("Misc.DropCondition.ProvidenceUnderworld");
+        public static string ProvidenceNightText = CalamityUtils.GetTextValue("Misc.DropCondition.ProvidenceNight");
+        public static string ProvidenceChallengeText = CalamityUtils.GetText("Misc.DropCondition.ProvidenceChallenge").Format($"[i:{ModContent.ItemType<ProfanedSoulArtifact>()}]" + CalamityUtils.GetItemName<ProfanedSoulArtifact>().ToString());
 
         #endregion
 

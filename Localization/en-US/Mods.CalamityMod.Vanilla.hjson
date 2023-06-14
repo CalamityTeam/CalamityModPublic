@@ -55,7 +55,7 @@ MechanicChat: {
 	MoonLordDefeated: What do you mean your traps aren't making the cut? Don't look at me!
 	Eclipse: Um... should my nightlight be on?
 	AcidRain: Maybe I should've waterproofed my gadgets... They're starting to corrode.
-	DrunkPrincess: Well, I like " + Main.npc[fapsol].GivenName + ", but I, ah... I have my eyes on someone else.
+	DrunkPrincess: Well, I like {0}, but I, ah... I have my eyes on someone else.
 }
 
 MerchantChat: {
@@ -111,8 +111,8 @@ SteampunkerChat: {
 
 StylistChat: {
 	Hardmode: Please don't catch space lice. Or {0} lice. Or just lice in general.
-	DrunkPrincess1: Sometimes I catch {0} sneaking up from behind me.
-	DrunkPrincess2: "{0} is always trying to brighten my mood... even if, deep down, I know she's sad..."
+	DrunkPrincess1: "{0} is always trying to brighten my mood... even if, deep down, I know she's sad..."
+	DrunkPrincess2: Sometimes I catch {0} sneaking up from behind me.
 	ProfanedSoulCrystal1: They look so cute and yet, I can feel their immense power just by being near them. What are you?
 	ProfanedSoulCrystal2: I hate to break it to you, but you don't have hair to cut or style, hun.
 	ProfanedDonuts: Aww, they're so cute, do they have names?
