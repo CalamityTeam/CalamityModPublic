@@ -518,6 +518,10 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Ores below here
+                // Celestial Tracers give immunity to block contact effects
+                if (cTracers)
+                    return;
+
                 // Astral Ore inflicts Astral Infection briefly on contact
                 if (tile.TileType == astralOreID)
                     Player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);

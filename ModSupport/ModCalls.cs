@@ -13,6 +13,7 @@ using CalamityMod.UI.DraedonSummoning;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod
@@ -2429,8 +2430,8 @@ namespace CalamityMod
                 case "CreateNameExtensionHandlerForHealthBar":
                     if (args.Length < 4)
                         return new ArgumentNullException("ERROR: Must specify a extension name as a string, the main NPC type as an int, and the other NPC types to check for as ints the rest of the arguments.");
-                    if (!(args[1] is string name))
-                        return new ArgumentException("ERROR: The first argument to \"CreateNameExtensionHandlerForHealthBar\" must be a string.");
+                    if (!(args[1] is LocalizedText name))
+                        return new ArgumentException("ERROR: The first argument to \"CreateNameExtensionHandlerForHealthBar\" must be a LocalizedText.");
                     if (!castID(args[1], out int npcType4))
                         return new ArgumentException("ERROR: The second argument to \"CreateNameExtensionHandlerForHealthBar\" must be an int or short ID.");
                     if (!args.Skip(3).All(a => a is int))

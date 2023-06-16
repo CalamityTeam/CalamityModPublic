@@ -1437,7 +1437,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
             if (exoMechdusa)
             {
-                typeName = "XB-∞ Hekate";
+                typeName = this.GetLocalizedValue("HekateName");
             }
         }
 

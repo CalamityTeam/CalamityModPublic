@@ -32,6 +32,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.UI.BigProgressBar;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 using static Terraria.ModLoader.ModContent;
@@ -65,9 +66,9 @@ namespace CalamityMod.UI
     {
         public struct BossEntityExtension
         {
-            public string NameOfExtensions;
+            public LocalizedText NameOfExtensions;
             public int[] TypesToSearchFor;
-            public BossEntityExtension(string name, params int[] types)
+            public BossEntityExtension(LocalizedText name, params int[] types)
             {
                 NameOfExtensions = name;
                 TypesToSearchFor = types;
@@ -277,14 +278,14 @@ namespace CalamityMod.UI
         {
             EntityExtensionHandler = new Dictionary<int, BossEntityExtension>()
             {
-                [NPCID.EaterofWorldsHead] = new BossEntityExtension("Segments", NPCID.EaterofWorldsHead, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail),
-                [NPCID.BrainofCthulhu] = new BossEntityExtension("Creepers", NPCID.Creeper),
-                [NPCID.SkeletronHead] = new BossEntityExtension("Hands", NPCID.SkeletronHand),
-                [NPCID.SkeletronPrime] = new BossEntityExtension("Arms", NPCID.PrimeCannon, NPCID.PrimeSaw, NPCID.PrimeVice, NPCID.PrimeLaser),
-                [NPCID.MartianSaucerCore] = new BossEntityExtension("Guns", NPCID.MartianSaucerTurret, NPCID.MartianSaucerCannon),
-                [NPCID.PirateShip] = new BossEntityExtension("Cannons", NPCID.PirateShipCannon),
-                [NPCType<CeaselessVoid>()] = new BossEntityExtension("Dark Energy", NPCType<DarkEnergy>()),
-                [NPCType<RavagerBody>()] = new BossEntityExtension("Body Parts", NPCType<RavagerClawLeft>(), NPCType<RavagerClawRight>(), NPCType<RavagerLegLeft>(), NPCType<RavagerLegRight>()),
+                [NPCID.EaterofWorldsHead] = new BossEntityExtension(CalamityUtils.GetText("UI.ExtensionName.Segments"), NPCID.EaterofWorldsHead, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail),
+                [NPCID.BrainofCthulhu] = new BossEntityExtension(CalamityUtils.GetText("UI.ExtensionName.Creepers"), NPCID.Creeper),
+                [NPCID.SkeletronHead] = new BossEntityExtension(CalamityUtils.GetText("UI.ExtensionName.Hands"), NPCID.SkeletronHand),
+                [NPCID.SkeletronPrime] = new BossEntityExtension(CalamityUtils.GetText("UI.ExtensionName.Arms"), NPCID.PrimeCannon, NPCID.PrimeSaw, NPCID.PrimeVice, NPCID.PrimeLaser),
+                [NPCID.MartianSaucerCore] = new BossEntityExtension(CalamityUtils.GetText("UI.ExtensionName.Guns"), NPCID.MartianSaucerTurret, NPCID.MartianSaucerCannon),
+                [NPCID.PirateShip] = new BossEntityExtension(CalamityUtils.GetText("UI.ExtensionName.Cannons"), NPCID.PirateShipCannon),
+                [NPCType<CeaselessVoid>()] = new BossEntityExtension(CalamityUtils.GetText("UI.ExtensionName.DarkEnergy"), NPCType<DarkEnergy>()),
+                [NPCType<RavagerBody>()] = new BossEntityExtension(CalamityUtils.GetText("UI.ExtensionName.BodyParts"), NPCType<RavagerClawLeft>(), NPCType<RavagerClawRight>(), NPCType<RavagerLegLeft>(), NPCType<RavagerLegRight>()),
             };
         }
 
@@ -406,7 +407,7 @@ namespace CalamityMod.UI
             if (npc.type == NPCType<Artemis>())
                 canAddBar = false;
             if (npc.type == NPCType<Apollo>())
-                overridingName = npc.ModNPC<Apollo>().exoMechdusa ? "Eyes of XB-∞ Hekate" : "XS-01 Artemis and XS-03 Apollo";
+                overridingName = CalamityUtils.GetTextValue("UI.ExoTwinsName" + (npc.ModNPC<Apollo>().exoMechdusa ? "Hekate" : "Normal"));
 
             if (canAddBar)
                 Bars.Add(new BossHPUI(index, overridingName));
@@ -725,7 +726,8 @@ namespace CalamityMod.UI
                     {
                         int totalExtraEntities = CalamityUtils.CountNPCsBetter(extraEntityData.TypesToSearchFor);
 
-                        string text = $"({extraEntityData.NameOfExtensions} left: {totalExtraEntities})";
+                        string extensionName = extraEntityData.NameOfExtensions.ToString();
+                        string text = CalamityUtils.GetText("UI.ExtensionDisplay").Format(extensionName, totalExtraEntities);
                         Vector2 textAreaSize = FontAssets.ItemStack.Value.MeasureString(text) * SmallTextScale;
                         float horizontalDrawPosition = Math.Max(x, x + mainBarWidth - textAreaSize.X);
                         float verticalDrawPosition = y + MainBarYOffset + 17;

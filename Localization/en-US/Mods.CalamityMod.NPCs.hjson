@@ -3,6 +3,7 @@ BobbitWormHead.DisplayName: Bobbit Worm
 BoxJellyfish.DisplayName: Box Jellyfish
 ChaoticPuffer.DisplayName: Chaotic Puffer
 ColossalSquid.DisplayName: Colossal Squid
+TinySquid: Tiny Squid
 Cuttlefish.DisplayName: Cuttlefish
 DevilFish.DisplayName: Devil Fish
 DevilFishAlt.DisplayName: Devil Fish
@@ -33,6 +34,7 @@ Skyfin.DisplayName: Skyfin
 SulphurousSkater.DisplayName: Sulphurous Skater
 Trilobite.DisplayName: Trilobite
 AdultEidolonWyrmHead.DisplayName: Adult Eidolon Wyrm
+Jared: Jared
 AquaticScourgeHead.DisplayName: Aquatic Scourge
 Aries.DisplayName: Aries
 AstralachneaGround.DisplayName: Astralachnea
@@ -55,6 +57,7 @@ AureusSpawn.DisplayName: Aureus Spawn
 AstrumDeusHead.DisplayName: Astrum Deus
 Brimling.DisplayName: Brimling
 BrimstoneElemental.DisplayName: Brimstone Elemental
+Bumblebirb: Bumblebirb
 Bumblefuck.DisplayName: The Dragonfolly
 Bumblefuck2.DisplayName: Draconic Swarmer
 CalamitasClone.DisplayName: Calamitas Clone
@@ -74,7 +77,9 @@ Scryllar.DisplayName: Scryllar
 ScryllarRage.DisplayName: Scryllar
 SoulSlurper.DisplayName: Soul Slurper
 Cryogen.DisplayName: Cryogen
+Pyrogen: Pyrogen
 CryogenShield.DisplayName: Cryogen's Shield
+PyrogenShield: Pyrogen's Shield
 DesertNuisanceHead.DisplayName: A Desert Nuisance
 DesertScourgeHead.DisplayName: Desert Scourge
 CosmicGuardianHead.DisplayName: Cosmic Guardian
@@ -82,15 +87,49 @@ DevourerofGodsHead.DisplayName: The Devourer of Gods
 Androomba.DisplayName: Androomba
 Nanodroid.DisplayName: Nanodroid
 RepairUnitCritter.DisplayName: Repair Unit
-Apollo.DisplayName: XS-03 Apollo
-AresBody.DisplayName: XF-09 Ares
-AresGaussNuke.DisplayName: XF-09 Ares Gauss Nuke
-AresLaserCannon.DisplayName: XF-09 Ares Laser Cannon
-AresPlasmaFlamethrower.DisplayName: XF-09 Ares Plasma Cannon
-AresTeslaCannon.DisplayName: XF-09 Ares Tesla Cannon
-Artemis.DisplayName: XS-01 Artemis
+
+Apollo: {
+	DisplayName: XS-03 Apollo
+	HekateName: Corrosive Eye of XB-∞ Hekate
+}
+
+AresBody: {
+	DisplayName: XF-09 Ares
+	HekateName: XB-∞ Hekate
+}
+
+AresGaussNuke: {
+	DisplayName: XF-09 Ares Gauss Nuke
+	HekateName: XB-∞ Hekate Gauss Nuke
+}
+
+AresLaserCannon: {
+	DisplayName: XF-09 Ares Laser Cannon
+	HekateName: XB-∞ Hekate Laser Cannon
+}
+
+AresPlasmaFlamethrower: {
+	DisplayName: XF-09 Ares Plasma Cannon
+	HekateName: XB-∞ Hekate Plasma Cannon
+}
+
+AresTeslaCannon: {
+	DisplayName: XF-09 Ares Tesla Cannon
+	HekateName: XB-∞ Hekate Tesla Cannon
+}
+
+Artemis: {
+	DisplayName: XS-01 Artemis
+	HekateName: Blazing Eye of XB-∞ Hekate
+}
+
 Draedon.DisplayName: Draedon
-ThanatosHead.DisplayName: XM-05 Thanatos
+
+ThanatosHead: {
+	DisplayName: XM-05 Thanatos
+	HekateName: Spine of XB-∞ Hekate
+}
+
 GreatSandShark.DisplayName: Great Sand Shark
 DankCreeper.DisplayName: Dank Creeper
 DarkHeart.DisplayName: Dark Heart
@@ -104,11 +143,11 @@ Leviathan.DisplayName: The Leviathan
 LeviathanStart.DisplayName: ???
 AeroSlime.DisplayName: Aero Slime
 ArmoredDiggerHead.DisplayName: Armored Digger
+MechanizedSerpent: Mechanized Serpent
 AuroraSpirit.DisplayName: Aurora Spirit
 BloomSlime.DisplayName: Bloom Slime
 Bohldohr.DisplayName: Bohldohr
 Cnidrion.DisplayName: Cnidrion
-CosmicElemental.DisplayName: Cosmic Elemental
 CrawlerAmber.DisplayName: Amber Crawler
 CrawlerAmethyst.DisplayName: Amethyst Crawler
 CrawlerCrystal.DisplayName: Crystal Crawler
@@ -150,6 +189,7 @@ WulfrumGyrator.DisplayName: Wulfrum Gyrator
 WulfrumHovercraft.DisplayName: Wulfrum Hovercraft
 WulfrumRover.DisplayName: Wulfrum Rover
 OldDuke.DisplayName: The Old Duke
+BoomerDuke: The Boomer Duke
 OldDukeToothBall.DisplayName: Tooth Ball
 SulphurousSharkron.DisplayName: Sulphurous Sharkron
 CalamitasEnchantDemon.DisplayName: Demon
@@ -172,6 +212,9 @@ Plagueshell.DisplayName: Plagueshell
 Viruling.DisplayName: Viruling
 PhantomFuckYou.DisplayName: Phantom
 Polterghast.DisplayName: Polterghast
+Necroghast: Necroghast
+Necroplasm: Necroplasm
+Polterplasm: Polterplasm
 PolterghastHook.DisplayName: Polterghast Hook
 PolterPhantom.DisplayName: Polterghast
 ProfanedGuardianCommander.DisplayName: Guardian Commander
@@ -210,6 +253,8 @@ Clam.DisplayName: Clam
 EutrophicRay.DisplayName: Eutrophic Ray
 GhostBell.DisplayName: Ghost Bell
 GiantClam.DisplayName: Giant Clam
+Clamitas: Clamitas
+SupremeClamitas: Supreme Clamitas
 PrismBack.DisplayName: Prism-Back
 SeaFloaty.DisplayName: Sea Floaty
 SeaMinnow.DisplayName: Sea Minnow
@@ -221,6 +266,7 @@ SupremeCalamitas.DisplayName: Supreme Witch, Calamitas
 SupremeCataclysm.DisplayName: Cataclysm
 SupremeCatastrophe.DisplayName: Catastrophe
 Yharon.DisplayName: Yharon, Dragon of Rebirth
+YharonPhase2: Yharon, Resplendent Phoenix
 // Town NPCs, Pets, etc
 AndroombaFriendly.DisplayName: Androomba Pal
 
@@ -276,8 +322,8 @@ FAP: {
 		BloodMoonSlap: Sorry, I have no moral compass at the moment.
 		Normal1: I HATE WALMART! ...Anyway, what do you want this time?
 		Normal2: Drink something that turns you into a magical flying unicorn so you can be just like me.
-		Normal3: Did anyone ever tell you that large assets cause back pain? Well, they were right.
-		Normal4: Deals so good I'll [$$!$] myself! ...Sorry, just had a minor stroke!
+		Normal3: Deals so good I'll [$$!$] myself! ...Sorry, just had a minor stroke!
+		Normal4: Did anyone ever tell you that large assets cause back pain? Well, they were right.
 		Archmage: I never realized how well-endowed {0} was. It had to be the largest icicle I'd ever seen.
 		BrimstoneWitch: The abuse {0} went through is something I can hardly comprehend. I'd offer her a drink, but I don't think she'd enjoy it.
 		Tavernkeep1: My booze will always be better than {0}'s, and nobody can convince me otherwise.

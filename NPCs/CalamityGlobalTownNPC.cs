@@ -59,7 +59,8 @@ namespace CalamityMod.NPCs
 
         public static int TaxesToCollectLimit => (int)(Item.buyPrice(0, 50, 0, 0) * TaxYieldFactor);
 
-        #region Town NPC Patreon Name Sets
+        // TODO -- Update all Discord tags here to new Discord usernames.
+		#region Town NPC Patreon Name Sets
         private static readonly string[] AnglerNames =
         {
             "Dazren",
@@ -272,6 +273,7 @@ namespace CalamityMod.NPCs
             "Smoogle", // <@!709968379334623274> (smoogle#5672)
             "The Meowurer of Gods", // <@!385949114271268864> (GP#7876)
             "Katsafaros", // <@!190595401328492544> (NavyGuy#2650)
+			"Lucerne", // <@!271954788676141066> (lord_lucerne)
         };
         private static readonly string[] TownCatSiameseNames = null;
         private static readonly string[] TownCatBlackNames =
@@ -1124,7 +1126,7 @@ namespace CalamityMod.NPCs
                     if (Main.rand.NextBool(15) && Main.hardMode)
                         chat = CalamityUtils.GetText("Vanilla.StylistChat.Hardmode").Format(worldEvil);
                     if (Main.rand.NextBool(15) && fapsol != -1)
-                        chat = CalamityUtils.GetText("Vanilla.StylistChat.DrunkPrincess" + Main.rand.Next(1, 2 + 1)).Format(Main.npc[fapsol].GivenName);
+                        chat = CalamityUtils.GetText("Vanilla.StylistChat.DrunkPrincess" + (ChildSafety.Disabled ? Main.rand.Next(1, 2 + 1) : 1)).Format(Main.npc[fapsol].GivenName);
                     if ((Main.rand.NextBool(npc.GivenName == "Amber" ? 10 : 15)) && Main.LocalPlayer.Calamity().pArtifact)
                     {
                         if (Main.LocalPlayer.Calamity().profanedCrystalBuffs)

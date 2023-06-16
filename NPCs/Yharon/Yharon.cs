@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs.Yharon
         public override void ModifyTypeName(ref string typeName)
         {
             if (startSecondAI)
-                typeName = "Yharon, Resplendent Phoenix"; // phase 2 name
+                typeName = CalamityUtils.GetTextValue("NPCs.YharonPhase2"); // phase 2 name
         }
 
         public override void SendExtraAI(BinaryWriter writer)

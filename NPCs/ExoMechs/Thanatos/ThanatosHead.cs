@@ -1254,7 +1254,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         {
             if (exoMechdusa)
             {
-                typeName = "Spine of XB-∞ Hekate";
+                typeName = this.GetLocalizedValue("HekateName");
             }
         }
 

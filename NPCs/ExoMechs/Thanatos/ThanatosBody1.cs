@@ -611,9 +611,15 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (Main.npc[(int)NPC.ai[2]].ModNPC<ThanatosHead>().exoMechdusa)
+            int index = (int)NPC.ai[2];
+            if (index < 0 || index >= Main.maxNPCs || Main.npc[index] is null)
+                return;
+            if (Main.npc[index].type != ModContent.NPCType<ThanatosHead>())
+                return;
+
+            if (Main.npc[index].ModNPC<ThanatosHead>().exoMechdusa)
             {
-                typeName = "Spine of XB-∞ Hekate";
+                typeName = CalamityUtils.GetTextValue("NPCs.ThanatosHead.HekateName");
             }
         }
 

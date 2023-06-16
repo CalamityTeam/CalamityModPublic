@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.Personalities;
@@ -136,18 +137,21 @@ namespace CalamityMod.NPCs.TownNPCs
             dialogue.Add(this.GetLocalizedValue("Chat.Normal1"));
             dialogue.Add(this.GetLocalizedValue("Chat.Normal2"));
             dialogue.Add(this.GetLocalizedValue("Chat.Normal3"));
-            dialogue.Add(this.GetLocalizedValue("Chat.Normal4"));
+            if (ChildSafety.Disabled)
+                dialogue.Add(this.GetLocalizedValue("Chat.Normal4"));
 
             int tavernKeep = NPC.FindFirstNPC(NPCID.DD2Bartender);
             if (tavernKeep != -1)
             {
                 dialogue.Add(this.GetLocalization("Chat.Tavernkeep1").Format(Main.npc[tavernKeep].GivenName));
                 dialogue.Add(this.GetLocalization("Chat.Tavernkeep2").Format(Main.npc[tavernKeep].GivenName));
-                dialogue.Add(this.GetLocalizedValue("Chat.Tavernkeep3"));
+
+                if (ChildSafety.Disabled)
+                    dialogue.Add(this.GetLocalizedValue("Chat.Tavernkeep3"));
             }
 
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
-            if (permadong != -1)
+            if (permadong != -1 && ChildSafety.Disabled)
                 dialogue.Add(this.GetLocalization("Chat.Archmage").Format(Main.npc[wife].GivenName));
 
             int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
@@ -157,8 +161,11 @@ namespace CalamityMod.NPCs.TownNPCs
             if (wifeIsAround)
             {
                 dialogue.Add(this.GetLocalization("Chat.Stylist1").Format(Main.npc[wife].GivenName));
-                dialogue.Add(this.GetLocalization("Chat.Stylist2").Format(Main.npc[wife].GivenName));
-                dialogue.Add(this.GetLocalization("Chat.Stylist3").Format(Main.npc[wife].GivenName));
+                if (ChildSafety.Disabled)
+                {
+                    dialogue.Add(this.GetLocalization("Chat.Stylist2").Format(Main.npc[wife].GivenName));
+                    dialogue.Add(this.GetLocalization("Chat.Stylist3").Format(Main.npc[wife].GivenName));
+                }
             }
 
             if (Main.dayTime)
@@ -200,7 +207,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.invasionType == InvasionID.MartianMadness)
                 dialogue.Add(this.GetLocalizedValue("Chat.Martians"));
 
-            if (DownedBossSystem.downedCryogen)
+            if (DownedBossSystem.downedCryogen && ChildSafety.Disabled)
                 dialogue.Add(this.GetLocalizedValue("Chat.CryogenDefeated"));
 
             if (DownedBossSystem.downedLeviathan)
@@ -218,7 +225,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (player.Calamity().chibii)
                 dialogue.Add(this.GetLocalizedValue("Chat.HasChibii"));
 
-            if (player.Calamity().aquaticHeart && !player.Calamity().aquaticHeartHide)
+            if (player.Calamity().aquaticHeart && !player.Calamity().aquaticHeartHide && ChildSafety.Disabled)
                 dialogue.Add(this.GetLocalizedValue("Chat.HasAnahitaTrans"));
 
             if (player.Calamity().fabsolVodka)
@@ -228,7 +235,8 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 dialogue.Add(this.GetLocalizedValue("Chat.HasAlicorn1"));
                 dialogue.Add(this.GetLocalizedValue("Chat.HasAlicorn2"));
-                dialogue.Add(this.GetLocalizedValue("Chat.HasAlicorn3"));
+                if (ChildSafety.Disabled)
+                    dialogue.Add(this.GetLocalizedValue("Chat.HasAlicorn3"));
             }
 
             return dialogue;

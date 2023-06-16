@@ -134,9 +134,9 @@ namespace CalamityMod.NPCs.Polterghast
         {
             typeName = nameStage switch
             {
-                2 => "Necroghast",
-                3 => "Necroplasm",
-                _ => "Polterghast",
+                2 => CalamityUtils.GetTextValue("NPCs.Necroghast"),
+                3 => CalamityUtils.GetTextValue("NPCs.Necroplasm"),
+                _ => this.GetLocalizedValue("DisplayName"),
             };
         }
 
@@ -1070,7 +1070,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                     if (CalamityWorld.getFixedBoi)
                     {
-                        NPC.GivenName = "Polterplasm";
+                        NPC.GivenName = CalamityUtils.GetTextValue("NPCs.Polterplasm");
                     }
                 }
             }

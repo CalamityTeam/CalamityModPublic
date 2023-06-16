@@ -118,8 +118,8 @@ namespace CalamityMod.NPCs.AcidRain
             // Increase bloodworm spawn rate relative to the number of existing bloodworms, parabolic multiplier ranging from 5x spawn rate with 0 blood worms to 1x with 5 or more
             int bloodwormAmt = NPC.CountNPCS(NPC.type);
             float spawnMult = bloodwormAmt > 5 ? 1f : (float)(0.16 * Math.Pow(5 - bloodwormAmt, 2)) + 1f;
-            float baseSpawnRate = AcidRainEvent.OldDukeHasBeenEncountered ? 2.569f : 5.138f;
-            float spawnRate = SpawnCondition.WormCritter.Chance * baseSpawnRate * spawnMult;
+            float baseSpawnRate = DownedBossSystem.downedBoomerDuke ? 0.1f : AcidRainEvent.OldDukeHasBeenEncountered ? 0.4f : 0.2f;
+            float spawnRate = baseSpawnRate * spawnMult;
 
             return spawnRate;
         }

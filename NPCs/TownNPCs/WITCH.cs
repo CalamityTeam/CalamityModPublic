@@ -6,6 +6,7 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.UI.CalamitasEnchants;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.Personalities;
@@ -116,7 +117,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
 
             int fab = NPC.FindFirstNPC(NPCType<FAP>());
-            if (fab != -1)
+            if (fab != -1 && ChildSafety.Disabled)
                 dialogue.Add(this.GetLocalization("Chat.DrunkPrincess").Format(Main.npc[fab].GivenName), 1.45);
 
             if (NPC.AnyNPCs(NPCType<SEAHOE>()))

@@ -580,9 +580,6 @@ namespace CalamityMod
                 case 73:
                     npc = ModContent.NPCType<CrawlerCrystal>();
                     break;
-                case 75:
-                    npc = ModContent.NPCType<CosmicElemental>();
-                    break;
                 case 76:
                     npc = ModContent.NPCType<Horse>();
                     break;

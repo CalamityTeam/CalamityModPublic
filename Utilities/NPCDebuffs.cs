@@ -318,7 +318,6 @@ namespace CalamityMod
                 { ModContent.NPCType<ArmoredDiggerBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
                 { ModContent.NPCType<ArmoredDiggerTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
                 { ModContent.NPCType<Eidolist>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<CosmicElemental>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
 
                 { ModContent.NPCType<SeaUrchin>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Poisoned, BuffID.Venom }) },
                 { ModContent.NPCType<Frogfish>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Poisoned, BuffID.Venom }) },

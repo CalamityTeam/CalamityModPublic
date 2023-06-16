@@ -48,7 +48,15 @@ namespace CalamityMod.Items.PermanentBoosters
     public class CelestialOnionAccessorySlot : ModAccessorySlot
     {
         // Celestial Onion does not work in Master Mode.
-        public override bool IsEnabled() => !Main.masterMode && (Player?.Calamity().extraAccessoryML ?? false);
+        public override bool IsEnabled()
+        {
+            // GetModPlayer will throw an index error in this step of the loading process for whatever reason
+            // We prematurely stop it from getting to that point
+            if (!Player.active || !Main.masterMode)
+                return false;
+            
+            return Player.Calamity().extraAccessoryML;
+        }
         public override bool IsHidden() => IsEmpty && !IsEnabled();
     }
 }

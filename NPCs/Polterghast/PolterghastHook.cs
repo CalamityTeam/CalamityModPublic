@@ -309,6 +309,9 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (CalamityGlobalNPC.ghostBoss < 0 || !NPC.active || NPC.IsABestiaryIconDummy)
+                return true;
+
             Color lightRed = new Color(255, 100, 100, 255);
 
             float chargePhaseGateValue = 480f;

@@ -1884,12 +1884,12 @@ namespace CalamityMod.NPCs.Providence
             // Drops Rune of Cos on first kill
             npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofKos>(), desc: DropHelper.FirstKillText);
 
-            npcLoot.AddIf(info =>
+            npcLoot.AddConditionalPerPlayer(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.biomeType != 2 || !prov.hasTakenDaytimeDamage;
             }, ModContent.ItemType<ElysianWings>(), desc: DropHelper.ProvidenceHallowText);
-            npcLoot.AddIf(info =>
+            npcLoot.AddConditionalPerPlayer(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.biomeType == 2 || !prov.hasTakenDaytimeDamage;
