@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.World;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class PhantomMine : ModProjectile, ILocalizedModType
@@ -35,6 +37,26 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     Projectile.velocity.Normalize();
                     Projectile.velocity *= Projectile.ai[0];
+                }
+
+                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                {
+                    if (Projectile.velocity.Length() >= Projectile.ai[0])
+                    {
+                        if (Projectile.owner == Main.myPlayer)
+                        {
+                            int totalProjectiles = 8;
+                            float radians = MathHelper.TwoPi / totalProjectiles;
+                            for (int i = 0; i < totalProjectiles; i++)
+                            {
+                                Vector2 vector = new Vector2(0f, -8f).RotatedBy(radians * i);
+                                int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<PhantomShot2>() : ModContent.ProjectileType<PhantomShot>();
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vector, type, Projectile.damage, 0f, Main.myPlayer);
+                            }
+                        }
+
+                        Projectile.Kill();
+                    }
                 }
             }
         }

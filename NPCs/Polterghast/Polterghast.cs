@@ -228,11 +228,10 @@ namespace CalamityMod.NPCs.Polterghast
                 chargePhaseGateValue *= 0.5f;
 
             bool chargePhase = calamityGlobalNPC.newAI[0] >= chargePhaseGateValue;
-            int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1; 
+            int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1;
             if (CalamityWorld.getFixedBoi)
-            {
                 chargeAmt = phase4 ? int.MaxValue : getPissed ? 6 : phase3 ? 4 : phase2 ? 3 : 2;
-            }
+
             float chargeVelocity = getPissed ? 28f : phase3 ? 24f : phase2 ? 22f : 20f;
             float chargeAcceleration = getPissed ? 0.7f : phase3 ? 0.6f : phase2 ? 0.55f : 0.5f;
             float chargeDistance = 480f;
@@ -246,8 +245,9 @@ namespace CalamityMod.NPCs.Polterghast
                 chargeVelocity *= 2;
                 chargeAcceleration *= 2;
                 chargeDistance *= 3;
+
                 if (!phase4)
-                chargeAmt *= 2;
+                    chargeAmt *= 2;
             }
 
             // Only get a new target while not charging

@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.Polterghast
             direction *= 0.5f;
             NPC.rotation = direction.ToRotation();
 
-            if (!chargePhase)
+            if (!chargePhase || (CalamityWorld.LegendaryMode && CalamityWorld.revenge))
             {
                 NPC.ai[2] += 1f;
                 float shootMineGateValue = 150f;
@@ -124,10 +124,13 @@ namespace CalamityMod.NPCs.Polterghast
             double dist = 500;
             NPC.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - NPC.width / 2;
             NPC.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - NPC.height / 2;
+
             float SPEEN = 1f - lifeRatio * 2f;
             if (SPEEN < 0f)
                 SPEEN = 0f;
+
             NPC.ai[1] += (Main.getGoodWorld ? 1.5f : 0.5f) + SPEEN;
+
             return false;
         }
 
