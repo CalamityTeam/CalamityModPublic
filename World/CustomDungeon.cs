@@ -257,9 +257,11 @@ namespace CalamityMod.World
             int num13 = 0;
             int num14 = 1000;
             int num15 = 0;
-            int num16 = Main.maxTilesX / 100;
+            int num16 = Main.maxTilesX / 200;
             if (WorldGen.getGoodWorldGen)
-                num16 *= 3;
+                num16 *= 6;
+            if (CalamityWorld.getFixedBoi)
+                num16 *= 4;
 
             while (num15 < num16)
             {

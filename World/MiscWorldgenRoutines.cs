@@ -438,10 +438,20 @@ namespace CalamityMod.World
                     {
                         if (Main.tile[x, y] != null)
                         {
-                            if (Main.tile[x, y].TileType == TileID.Emerald || Main.tile[x, y].TileType == TileID.Sapphire)
-                                Main.tile[x, y].TileType = TileID.Diamond;
-                            else if (Main.tile[x, y].TileType == TileID.Topaz || Main.tile[x, y].TileType == TileID.Amethyst)
-                                Main.tile[x, y].TileType = TileID.Ruby;
+                            if (Main.remixWorld)
+                            {
+                                if (Main.tile[x, y].TileType == TileID.Diamond || Main.tile[x, y].TileType == TileID.Ruby)
+                                    Main.tile[x, y].TileType = TileID.Topaz;
+                                else if (Main.tile[x, y].TileType == TileID.Emerald || Main.tile[x, y].TileType == TileID.Sapphire)
+                                    Main.tile[x, y].TileType = TileID.Amethyst;
+                            }
+                            else
+                            {
+                                if (Main.tile[x, y].TileType == TileID.Emerald || Main.tile[x, y].TileType == TileID.Sapphire)
+                                    Main.tile[x, y].TileType = TileID.Diamond;
+                                else if (Main.tile[x, y].TileType == TileID.Topaz || Main.tile[x, y].TileType == TileID.Amethyst)
+                                    Main.tile[x, y].TileType = TileID.Ruby;
+                            }
                         }
                     }
                     else if (y > verticalStartFactor_Layer2)
@@ -458,10 +468,20 @@ namespace CalamityMod.World
                     {
                         if (Main.tile[x, y] != null)
                         {
-                            if (Main.tile[x, y].TileType == TileID.Diamond || Main.tile[x, y].TileType == TileID.Ruby)
-                                Main.tile[x, y].TileType = TileID.Topaz;
-                            else if (Main.tile[x, y].TileType == TileID.Emerald || Main.tile[x, y].TileType == TileID.Sapphire)
-                                Main.tile[x, y].TileType = TileID.Amethyst;
+                            if (Main.remixWorld)
+                            {
+                                if (Main.tile[x, y].TileType == TileID.Emerald || Main.tile[x, y].TileType == TileID.Sapphire)
+                                    Main.tile[x, y].TileType = TileID.Diamond;
+                                else if (Main.tile[x, y].TileType == TileID.Topaz || Main.tile[x, y].TileType == TileID.Amethyst)
+                                    Main.tile[x, y].TileType = TileID.Ruby;
+                            }
+                            else
+                            {
+                                if (Main.tile[x, y].TileType == TileID.Diamond || Main.tile[x, y].TileType == TileID.Ruby)
+                                    Main.tile[x, y].TileType = TileID.Topaz;
+                                else if (Main.tile[x, y].TileType == TileID.Emerald || Main.tile[x, y].TileType == TileID.Sapphire)
+                                    Main.tile[x, y].TileType = TileID.Amethyst;
+                            }
                         }
                     }
                 }
