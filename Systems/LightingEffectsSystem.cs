@@ -5,6 +5,7 @@ using CalamityMod.Skies;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -58,8 +59,13 @@ namespace CalamityMod.Systems
 
                             // Total darkness
                             float signusDarkness = signusLifeRatio * multiplier;
+                            float maxGFBSignusDarkness = MaxSignusDarkness * 2f;
                             darkRatio = MathHelper.Clamp(signusDarkness, 0f, 1f);
-                            scale += ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? (MaxSignusDarkness * 2f) : MaxSignusDarkness) * darkRatio;
+                            scale += ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? maxGFBSignusDarkness : MaxSignusDarkness) * darkRatio;
+
+                            // Headcrab darkness
+                            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                                ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, maxGFBSignusDarkness * -darkRatio, 0.3f);
                         }
                     }
                 }
