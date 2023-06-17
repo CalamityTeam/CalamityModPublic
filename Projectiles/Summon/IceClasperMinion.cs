@@ -30,6 +30,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public ref float TimerForShooting => ref Projectile.ai[1];
 
+        public ref float AfterimageInterpolant => ref Projectile.localAI[0];
+
         public bool hasSpawned = false;
         
         public new string LocalizationCategory => "Projectiles.Summon";
@@ -38,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
@@ -71,7 +73,7 @@ namespace CalamityMod.Projectiles.Summon
                 hasSpawned = true;
             }
 
-            // Detects a target at a given distance:
+            // Detects a target at a given distance.
             NPC potentialTarget = Projectile.Center.MinionHoming(AncientIceChunk.EnemyDistanceDetection, Owner);
             switch (CurrentState)
             {
@@ -83,6 +85,7 @@ namespace CalamityMod.Projectiles.Summon
                     break;
             }
 
+            // Flavor dust visual to show that it is ghostly.
             if (Main.rand.NextBool(10))
             {
                 int ghostDust = Dust.NewDust(Projectile.position, 31, 62, 56, -0.5f * Projectile.rotation.ToRotationVector2().X, -0.5f * Projectile.rotation.ToRotationVector2().Y);
@@ -93,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
             DoAnimation();
             DoRotation(potentialTarget);
             Lighting.AddLight(Projectile.Center, Color.Cyan.ToVector3());
-            Projectile.MinionAntiClump();
+            Projectile.MinionAntiClump(0.5f);
         }
 
         #region Methods
@@ -101,14 +104,14 @@ namespace CalamityMod.Projectiles.Summon
         public void State_FollowOwner(NPC target)
         {
             // If the minion starts to get far, force the minion to go to you.
-            if (Projectile.WithinRange(Owner.Center, AncientIceChunk.EnemyDistanceDetection) && !Projectile.WithinRange(Owner.Center, 300f))
+            if (Projectile.WithinRange(Owner.Center, AncientIceChunk.EnemyDistanceDetection) && !Projectile.WithinRange(Owner.Center, AncientIceChunk.MaxDistanceFromOwner + 100f))
             {
                 Projectile.velocity = (Owner.Center - Projectile.Center) / 30f;
                 Projectile.netUpdate = true;
             } 
 
             // The minion will change directions to you if it's going away from you, meaning it'll just hover around you.
-            else if (!Projectile.WithinRange(Owner.Center, 160f))
+            else if (!Projectile.WithinRange(Owner.Center, AncientIceChunk.MaxDistanceFromOwner))
             {
                 Projectile.velocity = (Projectile.velocity * 37f + Projectile.SafeDirectionTo(Owner.Center) * 17f) / 40f;
                 Projectile.netUpdate = true;
@@ -122,9 +125,11 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.netUpdate = true;
             }
 
+            // If the target is not null but not in range to dash: shoot.
+            // If in range to dash: dash.
             if (target is not null)
             {
-                if (Projectile.WithinRange(target.Center, AncientIceChunk.DistanceToDash))
+                if (Owner.WithinRange(target.Center, AncientIceChunk.DistanceToDash))
                 {
                     CurrentState = IceClasperAIState.Ram;
                     Projectile.netUpdate = true;
@@ -136,7 +141,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public void State_Ram(NPC target)
         {
-            if (target is null || !Owner.WithinRange(Projectile.Center, AncientIceChunk.EnemyDistanceDetection))
+            // If there's no target while dashing or the player's gone far enough from the target: back to shooting.
+            if (target is null || !Owner.WithinRange(Projectile.Center, AncientIceChunk.DistanceToStopDash))
             {
                 CurrentState = IceClasperAIState.FollowOwner;
                 Projectile.netUpdate = true;
@@ -163,26 +169,19 @@ namespace CalamityMod.Projectiles.Summon
                 int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                 Projectile.Center, 
                 velocity, 
-                ModContent.ProjectileType<IceClasperProjectile>(), 
-                Projectile.damage, 
+                ModContent.ProjectileType<IceClasperSummonProjectile>(), 
+                (int)(Projectile.damage * AncientIceChunk.ProjectileDMGMultiplier), 
                 Projectile.knockBack, 
                 Projectile.owner);
 
                 if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Projectile.originalDamage;
+                    Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * AncientIceChunk.ProjectileDMGMultiplier);
 
+                // Flavor recoil effect.
                 Projectile.velocity -= velocity * .1f;
 
-                // Make a dust effect for the firing effect.
-                for (int i = 0; i < 25; i++)
-                {
-                    int shootDust = Dust.NewDust(Projectile.Center, 31, 0, 172, Projectile.rotation.ToRotationVector2().X, Projectile.rotation.ToRotationVector2().Y, 0, default, 1.5f);
-                    Main.dust[shootDust].noLight = true;
-                    Main.dust[shootDust].noLightEmittence = true;
-                    Main.dust[shootDust].noGravity = true;
-                }
-
-                SoundEngine.PlaySound(SoundID.Item43, Projectile.Center);
+                // For the fucking love of any god you can think of, this sound sucks but I can't find another one that fits better.
+                SoundEngine.PlaySound(SoundID.Item28, Projectile.Center);
 
                 TimerForShooting = 0f;
                 Projectile.netUpdate = true;
@@ -195,9 +194,9 @@ namespace CalamityMod.Projectiles.Summon
         public void DoRotation(NPC target)
         {
             if (target is null)
-                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.velocity.ToRotation(), .3f);    
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.velocity.ToRotation(), .15f);    
             else if (target is not null && !Projectile.WithinRange(target.Center, AncientIceChunk.DistanceToDash))
-                Projectile.rotation = Projectile.rotation.AngleTowards(CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, target, 20f).ToRotation(), .3f);
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(target.Center), .15f);
         }
 
         public void DoAnimation()
@@ -234,6 +233,8 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
+        public override bool? CanDamage() => (CurrentState == IceClasperAIState.Ram) ? null : false;
+
         public override bool PreDraw(ref Color lightColor)
         {
             NPC target = Projectile.Center.MinionHoming(1200f, Owner);
@@ -243,11 +244,16 @@ namespace CalamityMod.Projectiles.Summon
             Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
             Vector2 origin = frame.Size() * 0.5f;
 
-            if (target is not null && Projectile.WithinRange(target.Center, 450f))
+            // Flavor fade-in-and-out for afterimages.
+            AfterimageInterpolant += ((target is not null && Owner.WithinRange(target.Center, 450f)) || CurrentState == IceClasperAIState.Ram) ? .05f : -.05f;
+            AfterimageInterpolant = MathHelper.Clamp(AfterimageInterpolant, 0f, 1f);
+            float AfterimageFade = MathHelper.Lerp(0f, 1f, AfterimageInterpolant);
+
+            if (CalamityConfig.Instance.Afterimages)
             {
                 for (int i = 0; i < Projectile.oldPos.Length; i++)
                 {
-                    Color afterimageDrawColor = Color.Cyan with { A = 150 } * Projectile.Opacity * (1f - i / (float)Projectile.oldPos.Length);
+                    Color afterimageDrawColor = new Color(0.05f, 0.33f, 0.63f) with { A = 25 } * Projectile.Opacity * (1f - i / (float)Projectile.oldPos.Length) * AfterimageFade;
                     Vector2 afterimageDrawPosition = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition;
                     Main.EntitySpriteDraw(texture, afterimageDrawPosition, frame, afterimageDrawColor, Projectile.rotation - MathHelper.PiOver2, origin, Projectile.scale, SpriteEffects.None, 0);
                 }

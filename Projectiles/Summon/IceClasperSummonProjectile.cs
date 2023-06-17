@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class IceClasperProjectile : ModProjectile, ILocalizedModType
+    public class IceClasperSummonProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
 
@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.idStaticNPCHitCooldown = 10;
             Projectile.timeLeft = 300;
 
-            Projectile.width = 12;
-            Projectile.height = 12;
+            Projectile.width = 28;
+            Projectile.height = 28;
             Projectile.DamageType = DamageClass.Summon;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
@@ -37,8 +37,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            int bootlegTexture = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 172, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1.5f);
-            Main.dust[bootlegTexture].noGravity = true;
+            int trailDust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 172, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1.5f);
+            Main.dust[trailDust].noGravity = true;
 
             Lighting.AddLight(Projectile.Center, Color.Cyan.ToVector3());
         }

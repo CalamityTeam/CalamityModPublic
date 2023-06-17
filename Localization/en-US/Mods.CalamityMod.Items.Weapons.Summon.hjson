@@ -12,7 +12,12 @@ AbandonedSlimeStaff: {
 
 AncientIceChunk: {
 	DisplayName: Ancient Ice Chunk
-	Tooltip: Summons an ice clasper to fight for you
+	Tooltip:
+		'''
+		Summons an ice clasper to fight for you
+		The clasper fires ice shards at distant enemies
+		While you are close to enemies, it will aggressively bash them with frozen fury
+		'''
 }
 
 AquasScepter: {

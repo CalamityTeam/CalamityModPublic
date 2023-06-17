@@ -11,12 +11,14 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         #region Other stats
 
-        public static int IFrames = 30;
+        public static int IFrames = 20;
         public static float EnemyDistanceDetection = 1200f;
-        public static float MaxDistanceFromOwner = 200f;
-        public static float DistanceToDash = 250f;
-        public static float MinVelocity = 20f;
-        public static float TimeToShoot = 100f; // In frames.
+        public static float MaxDistanceFromOwner = 400f; // Max distance the minions can be while shooting or idling.
+        public static float DistanceToDash = 250f; // Min distance to start dashing.
+        public static float DistanceToStopDash = 800f; // Max distance the player can be so the minions continue dashing.
+        public static float MinVelocity = 12f;
+        public static float TimeToShoot = 80f; // In frames.
+        public static float ProjectileDMGMultiplier = 1.5f; // They're kinda' weak. 
 
         #endregion
         
@@ -24,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 31;
+            Item.damage = 25;
             Item.mana = 10;
             Item.width = 30;
             Item.height = 30;
