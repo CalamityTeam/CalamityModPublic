@@ -14,6 +14,7 @@ namespace CalamityMod.Systems
     public class LightingEffectsSystem : ModSystem
     {
         public const float MaxSignusDarkness = -0.4f;
+        public const float MaxGFBSignusDarkness = MaxSignusDarkness * 2f;
         public const float MaxAbyssDarkness = -0.7f;
         public override void ModifyLightingBrightness(ref float scale)
         {
@@ -59,13 +60,8 @@ namespace CalamityMod.Systems
 
                             // Total darkness
                             float signusDarkness = signusLifeRatio * multiplier;
-                            float maxGFBSignusDarkness = MaxSignusDarkness * 2f;
                             darkRatio = MathHelper.Clamp(signusDarkness, 0f, 1f);
-                            scale += ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? maxGFBSignusDarkness : MaxSignusDarkness) * darkRatio;
-
-                            // Headcrab darkness
-                            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
-                                ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, maxGFBSignusDarkness * -darkRatio, 0.3f);
+                            scale += (CalamityWorld.LegendaryMode ? MaxGFBSignusDarkness : MaxSignusDarkness) * darkRatio;
                         }
                     }
                 }
