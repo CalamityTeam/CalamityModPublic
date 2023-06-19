@@ -9,10 +9,12 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
-{
+{   
     [LegacyName("DuneHopper")]
     public class WaveSkipper : RogueWeapon
     {
+        public static int SpreadAngle = 8;
+        
         public override void SetDefaults()
         {
             Item.width = 44;
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 44;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
-            Item.shoot = ModContent.ProjectileType<DuneHopperProjectile>();
+            Item.shoot = ModContent.ProjectileType<WaveSkipperProjectile>();
             Item.shootSpeed = 12f;
             Item.DamageType = RogueDamageClass.Instance;
         }
@@ -36,12 +38,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int numProj = 3;
-                float rotation = MathHelper.ToRadians(3);
-                for (int i = 0; i < numProj; i++)
+                for (int i = -SpreadAngle; i < SpreadAngle * 2; i += SpreadAngle)
                 {
-                    Vector2 perturbedSpeed = new Vector2(velocity.X - 3f, velocity.Y - 3f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                    int stealth = Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<DuneHopperProjectile>(), damage, knockback, player.whoAmI);
+                    Vector2 spreadVelocity = player.SafeDirectionTo(Main.MouseWorld).RotatedBy(MathHelper.ToRadians(i)) * Item.shootSpeed;
+                    int stealth = Projectile.NewProjectile(source, position, spreadVelocity, ModContent.ProjectileType<WaveSkipperProjectile>(), damage, knockback, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }
