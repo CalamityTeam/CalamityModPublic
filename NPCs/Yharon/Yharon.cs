@@ -10,6 +10,7 @@ using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -127,7 +128,7 @@ namespace CalamityMod.NPCs.Yharon
         public override void ModifyTypeName(ref string typeName)
         {
             if (startSecondAI)
-                typeName = "Yharon, Resplendent Phoenix"; // phase 2 name
+                typeName = CalamityUtils.GetTextValue("NPCs.YharonPhase2"); // phase 2 name
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -1565,7 +1566,7 @@ namespace CalamityMod.NPCs.Yharon
             {
                 moveCloser = true;
 
-                string key = "Mods.CalamityMod.BossMessages.FlameText";
+                string key = "Mods.CalamityMod.Status.Boss.FlameText";
                 Color messageColor = Color.Orange;
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -2888,6 +2889,13 @@ namespace CalamityMod.NPCs.Yharon
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<YharonRelic>());
 
+            // GFB Egg drop
+            // He is the dragon of rebirth afterall
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ModContent.ItemType<YharonEgg>());
+            }
+
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedYharon, ModContent.ItemType<LoreYharon>(), desc: DropHelper.FirstKillText);
         }
@@ -2911,7 +2919,7 @@ namespace CalamityMod.NPCs.Yharon
             {
                 CalamityUtils.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, 0.75f, 0.9f, 10, 20);
 
-                string key = "Mods.CalamityMod.ProgressionMessages.AuricOreText";
+                string key = "Mods.CalamityMod.Status.Progression.AuricOreText";
                 Color messageColor = Color.Gold;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

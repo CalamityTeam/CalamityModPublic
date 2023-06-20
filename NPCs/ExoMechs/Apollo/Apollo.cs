@@ -1760,7 +1760,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
         {
             if (exoMechdusa)
             {
-                typeName = NameToDisplay = "Corrosive Eye of XB-∞ Hekate";
+                typeName = NameToDisplay = this.GetLocalizedValue("HekateName");
             }
         }
 

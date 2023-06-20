@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
             if (CalamityWorld.getFixedBoi)
             {
-                typeName = "Bumblebirb";
+                typeName = CalamityUtils.GetTextValue("NPCs.Bumblebirb");
             }
         }
 

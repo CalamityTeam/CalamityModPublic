@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Rogue;
@@ -7,39 +8,20 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using CalamityMod.Items;
+using Terraria.Utilities;
 
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
     public class THIEF : ModNPC
     {
-        public static List<string> PossibleNames = new List<string>()
-        {
-            // Patron names
-            "Xplizzy", // <@!98826096237109248> (Whitegiraffe#6342)
-            "Freakish", // <@!750363283520749598> (Freakish#0001)
-            "Calder", // <@!601897959176798228> (Paltham#8859)
-            "Hunter Jinx", // <@!757401399783850134> (Jinx_enthusiast#1580)
-            "Goose", // <@!591421917706321962> (DullElili#8016)
-			"Jackson", // <@!525827730646892549> (ChowChow, Sin of Sleep Schedules#1235)
-
-            // Original names
-            "Laura", "Mie", "Bonnie",
-            "Sarah", "Diane", "Kate",
-            "Penelope", "Marisa", "Maribel",
-            "Valerie", "Jessica", "Rowan",
-            "Jessie", "Jade", "Hearn",
-            "Amber", "Anne", "Indiana"
-        };
-
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 23;
@@ -53,8 +35,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 .SetBiomeAffection<DesertBiome>(AffectionLevel.Like)
                 .SetBiomeAffection<JungleBiome>(AffectionLevel.Dislike)
                 .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Like)
-                .SetNPCAffection(NPCID.Dryad, AffectionLevel.Dislike)
-            ;
+                .SetNPCAffection(NPCID.Dryad, AffectionLevel.Dislike);
             NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
                 Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
             };
@@ -97,122 +78,129 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
+        public override bool CanTownNPCSpawn(int numTownNPCs)
         {
+            if (CalamityWorld.spawnedBandit)
+                return true;
+
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
                 bool rich = player.InventoryHas(ItemID.PlatinumCoin) || player.PortableStorageHas(ItemID.PlatinumCoin);
                 if (player.active && rich)
-                {
-                    return NPC.downedBoss3 || CalamityWorld.spawnedBandit;
-                }
+                    return NPC.downedBoss3;
             }
-            return CalamityWorld.spawnedBandit;
+            return false;
         }
 
-        public override List<string> SetNPCNameList() => PossibleNames;
+        public override List<string> SetNPCNameList() => new List<string>()
+        {
+            // Patron names
+            "Xplizzy", // <@!98826096237109248> (Whitegiraffe#6342)
+            "Freakish", // <@!750363283520749598> (Freakish#0001)
+            "Calder", // <@!601897959176798228> (Paltham#8859)
+            "Hunter Jinx", // <@!757401399783850134> (Jinx_enthusiast#1580)
+            "Goose", // <@!591421917706321962> (DullElili#8016)
+            "Jackson", // <@!525827730646892549> (ChowChow, Sin of Sleep Schedules#1235)
+
+            // Original names
+            this.GetLocalizedValue("Name.Laura"),
+            this.GetLocalizedValue("Name.Mie"),
+            this.GetLocalizedValue("Name.Bonnie"),
+            this.GetLocalizedValue("Name.Sarah"),
+            this.GetLocalizedValue("Name.Diane"),
+            this.GetLocalizedValue("Name.Kate"),
+            this.GetLocalizedValue("Name.Penelope"),
+            this.GetLocalizedValue("Name.Marisa"),
+            this.GetLocalizedValue("Name.Maribel"),
+            this.GetLocalizedValue("Name.Valerie"),
+            this.GetLocalizedValue("Name.Jessica"),
+            this.GetLocalizedValue("Name.Rowan"),
+            this.GetLocalizedValue("Name.Jessie"),
+            this.GetLocalizedValue("Name.Jade"),
+            this.GetLocalizedValue("Name.Hearn"),
+            this.GetLocalizedValue("Name.Amber"),
+            this.GetLocalizedValue("Name.Anne"),
+            this.GetLocalizedValue("Name.Indiana")
+        };
 
         public override string GetChat()
         {
-            List<string> PossibleDialogs = new List<string>();
-            if (!Main.dayTime && Main.bloodMoon)
-            {
-                PossibleDialogs.Add("Oy, watch where you're going or I might just use you for dart practice.");
-                PossibleDialogs.Add("Bet you'd look good as a pincushion, amiright?");
-                PossibleDialogs.Add("Zombies don't dodge very well. Maybe you'll do a bit better.");
-                PossibleDialogs.Add("Hey, careful over there. I've rigged the place. One wrong step and you're going to get a knife in your forehead.");
-            }
-            else if (!Main.dayTime && !Main.bloodMoon)
-            {
-                PossibleDialogs.Add("Hm, the stars are too bright tonight. Makes sneaking around a little more difficult.");
-                PossibleDialogs.Add("You think those stars that fall occasionally would make good throwing weapons?");
-            }
+            if (Main.bloodMoon)
+                return this.GetLocalizedValue("Chat.BloodMoon" + Main.rand.Next(1, 4 + 1));
+            
+            WeightedRandom<string> dialogue = new WeightedRandom<string>();
 
-            if (BirthdayParty.PartyIsUp)
-            {
-                PossibleDialogs.Add("Where is my party hat? Well, I stole it of course.");
-            }
-            if (NPC.GivenName == "Laura")
-            {
-                PossibleDialogs.Add("The nice thing about maps is I can track anything that has fallen.");
-            }
-            if (NPC.GivenName == "Penelope")
-            {
-                PossibleDialogs.Add("Imagine how fast you could throw if you just had more hands.");
-            }
-            if (NPC.GivenName == "Valerie")
-            {
-                PossibleDialogs.Add("I also take food for currency.");
-            }
-            if (NPC.GivenName == "Rowan")
-            {
-                PossibleDialogs.Add("Usually I only think of animals as food or target practice, but dragons are an exception.");
-            }
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal1"));
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal2"));
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal3"));
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal4"));
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal5"));
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal6"));
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal7"));
 
-            PossibleDialogs.Add("Anything is a weapon if you throw it hard enough.");
-            PossibleDialogs.Add("That's your chucking arm? You need to work out more.");
-            PossibleDialogs.Add("Listen here. It's all in the wrist, the wrist! Oh, forget it.");
-            PossibleDialogs.Add("Eh you know how it goes; steal from the rich, give to the poor, but I do take a cut of the profit.");
-            PossibleDialogs.Add("Snakes! Why does it always have to be snakes!");
-            PossibleDialogs.Add("It's super nice you know, to just have everything you want. Some people never got that luxury.");
-            PossibleDialogs.Add("It's not stealing! I'm just borrowing it until I die!");
-
-            if (Main.LocalPlayer.InventoryHas(ItemID.BoneGlove))
+            if (!Main.dayTime)
             {
-                PossibleDialogs.Add("Wouldn't be the first time I used remains as weapons.");
-            }
-            if (Main.hardMode)
-            {
-                PossibleDialogs.Add("All sorts of new weapons to be found and looted. Get to that, and I'll share some of my collection too!");
-                PossibleDialogs.Add("There's so much scrap around this land with valuable parts to them. Makes you wonder who could afford to leave em all around.");
-                PossibleDialogs.Add("Crypts, tombs, dungeons, those're all just treasure troves to me. The dead are dead, they've got nothing to do with it.");
-            }
-            if (NPC.downedMoonlord)
-            {
-                PossibleDialogs.Add("If you find anything cool, make sure to drop by and show it to me, I promise I'll keep my hands off it.");
-                PossibleDialogs.Add("So many new things to steal, I can't think of where to start!");
-                PossibleDialogs.Add("If I end up angering some deities or whatever, would you mind taking the blame for me?");
-            }
-            if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Valediction>()))
-            {
-                PossibleDialogs.Add("Oh man, did you rip that off a shark!? Now that's a weapon!");
-            }
-            if (Main.LocalPlayer.ZoneJungle)
-            {
-                PossibleDialogs.Add("I'd rather not be here. This place has bad vibes, y'know? It brings back some unpleasant memories.");
-            }
-
-            int merchantIndex = NPC.FindFirstNPC(NPCID.Merchant);
-            if (merchantIndex != -1)
-            {
-                NPC nerd = Main.npc[merchantIndex];
-                PossibleDialogs.Add($"Don't tell {nerd.GivenName}, but I took some of his stuff and replaced it with Angel Statues.");
+                dialogue.Add(this.GetLocalizedValue("Chat.Night1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Night2"));
             }
 
             int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
-            if(witch != -1)
-            {
-                PossibleDialogs.Add("Hey, hey, has Calamitas seriously moved in here with us? Why???");
-            }
+            if (witch != -1)
+                dialogue.Add(this.GetLocalization("Chat.BrimstoneWitch").Format(Main.npc[witch].GivenName));
 
+            //please help me I'm stuck in a children's video game - Fabsol
             int cirrusIndex = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
             if (cirrusIndex != -1)
-            {
-                NPC cirrus = Main.npc[cirrusIndex]; //please help me I'm stuck in a children's video game - Fabsol
-                PossibleDialogs.Add($"I learned never to steal {cirrus.GivenName}'s drinks. She doesn't appreciate me right now, so I'll go back to hiding.");
-            }
+                dialogue.Add(this.GetLocalization("Chat.DrunkPrincess").Format(Main.npc[cirrusIndex].GivenName));
+            
+            int merchantIndex = NPC.FindFirstNPC(NPCID.Merchant);
+            if (merchantIndex != -1)
+                dialogue.Add(this.GetLocalization("Chat.Merchant").Format(Main.npc[merchantIndex].GivenName));
 
             int armsDealerIndex = NPC.FindFirstNPC(NPCID.ArmsDealer);
             int nurseIndex = NPC.FindFirstNPC(NPCID.Nurse);
             if (armsDealerIndex != -1 && nurseIndex != -1)
+                dialogue.Add(this.GetLocalization("Chat.NurseArmsDealer").Format(Main.npc[nurseIndex].GivenName, Main.npc[armsDealerIndex].GivenName));
+
+            if (NPC.GivenName == this.GetLocalizedValue("Name.Laura"))
+                dialogue.Add(this.GetLocalizedValue("Chat.NamedLaura"));
+
+            if (NPC.GivenName == this.GetLocalizedValue("Name.Penelope"))
+                dialogue.Add(this.GetLocalizedValue("Chat.NamedPenelope"));
+
+            if (NPC.GivenName == this.GetLocalizedValue("Name.Valerie"))
+                dialogue.Add(this.GetLocalizedValue("Chat.NamedValerie"));
+
+            if (NPC.GivenName == this.GetLocalizedValue("Name.Rowan"))
+                dialogue.Add(this.GetLocalizedValue("Chat.NamedRowan"));
+
+            if (Main.LocalPlayer.ZoneJungle)
+                dialogue.Add(this.GetLocalizedValue("Chat.Jungle"));
+
+            if (BirthdayParty.PartyIsUp)
+                dialogue.Add(this.GetLocalizedValue("Chat.Party"));
+
+            if (Main.hardMode)
             {
-                NPC cheeseMachine = Main.npc[nurseIndex];
-                NPC minisharkMan = Main.npc[armsDealerIndex];
-                PossibleDialogs.Add($"Don't tell {cheeseMachine.GivenName} that I was responsible for {minisharkMan.GivenName}'s injuries.");
+                dialogue.Add(this.GetLocalizedValue("Chat.Hardmode1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Hardmode2"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Hardmode3"));
+            }
+            if (NPC.downedMoonlord)
+            {
+                dialogue.Add(this.GetLocalizedValue("Chat.MoonLordDefeated1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.MoonLordDefeated2"));
+                dialogue.Add(this.GetLocalizedValue("Chat.MoonLordDefeated3"));
             }
 
-            return PossibleDialogs[Main.rand.Next(PossibleDialogs.Count)];
+            if (Main.LocalPlayer.InventoryHas(ItemID.BoneGlove))
+                dialogue.Add(this.GetLocalizedValue("Chat.HasBoneGlove"));
+
+            if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Valediction>()))
+                dialogue.Add(this.GetLocalizedValue("Chat.HasValediction"));
+
+            return dialogue;
         }
 
         public string Refund()
@@ -232,31 +220,30 @@ namespace CalamityMod.NPCs.TownNPCs
                     Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.PlatinumCoin, coinCounts[3]);
 
                 CalamityWorld.MoneyStolenByBandit = 0;
-                NPC goblinFucker = Main.npc[goblinIndex];
                 SoundEngine.PlaySound(SoundID.Coins); // Money dink sound
+                CalamityNetcode.SyncWorld();
                 switch (Main.rand.Next(2))
                 {
                     case 0:
-                        return $"Want in on a little secret? Since {goblinFucker.GivenName} always gets so much cash from you, I've been stealing some of it as we go. I need you to keep quiet about it, so here.";
+                        return this.GetLocalization("Refund1").Format(Main.npc[goblinIndex].GivenName);
                     case 1:
-                        return "Hey, if government officials can get tax, why can't I? The heck do you mean that these two things are nothing alike?";
+                        return this.GetLocalizedValue("Refund2");
                 }
-                CalamityNetcode.SyncWorld();
             }
-            return "Sorry, I got nothing. Perhaps you could reforge something and come back later...";
+            return this.GetLocalizedValue("NoRefund");
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             var something = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/TownNPCs/THIEF" + (BirthdayParty.PartyIsUp ? "Alt" : "")).Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY) - new Vector2(0f, 6f), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, something, 0);
+            spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + (BirthdayParty.PartyIsUp ? "Alt" : "")).Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY) - new Vector2(0f, 6f), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, something, 0);
             return false;
         }
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
-            button2 = "Refund";
+            button2 = this.GetLocalizedValue("RefundButton");;
         }
 
         public override void OnChatButtonClicked(bool firstButton, ref string shopName)

@@ -36,11 +36,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
             var modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareMage = true;
-            player.setBonus = "Greatly increases life regen\n" +
-                "Enemies below 50% life drop a heart when struck\n" +
-                "This effect has a 5 second cooldown\n" +
-                "Magic weapons fire ghostly bolts every 1.67 seconds\n" +
-                "Magic critical strikes cause flame explosions every 2 seconds";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<BloodflareBodyArmor>("CommonSetBonus");
             player.crimsonRegen = true;
         }
 

@@ -21,26 +21,48 @@ AuricTeslaCuisses: {
 AuricTeslaHoodedFacemask: {
 	DisplayName: Auric Tesla Hooded Facemask
 	Tooltip: 30% increased ranged damage and critical strike chance
+	SetBonus: Ranged Tarragon, Bloodflare and God Slayer armor effects
 }
 
 AuricTeslaPlumedHelm: {
 	DisplayName: Auric Tesla Plumed Helm
 	Tooltip: 20% increased rogue damage, critical strike chance and 5% increased movement speed
+	SetBonus:
+		'''
+		Rogue Tarragon, Bloodflare and God Slayer armor effects
+		+130 maximum stealth
+		'''
 }
 
 AuricTeslaRoyalHelm: {
 	DisplayName: Auric Tesla Royal Helm
 	Tooltip: 20% increased melee damage and critical strike chance
+	SetBonus:
+		'''
+		Melee Tarragon, Bloodflare and God Slayer effects
+		Enemies are more likely to target you
+		'''
 }
 
 AuricTeslaSpaceHelmet: {
 	DisplayName: Auric Tesla Space Helmet
 	Tooltip: 15% increased minion damage
+	SetBonus:
+		'''
+		Summoner Tarragon, Bloodflare and Silva armor effects
+		Max run speed and acceleration boosted by 5%
+		+6 max minions and 75% increased minion damage"
+		'''
 }
 
 AuricTeslaWireHemmedVisage: {
 	DisplayName: Auric Tesla Wire-Hemmed Visage
 	Tooltip: 30% increased magic damage, 20% increased magic critical strike chance, +100 max mana and 20% reduced mana usage
+	SetBonus:
+		'''
+		Magic Tarragon, Bloodflare and Silva armor effects
+		Max run speed and acceleration boosted by 5%
+		'''
 }
 
 BloodflareBodyArmor: {
@@ -49,6 +71,12 @@ BloodflareBodyArmor: {
 		'''
 		12% increased damage and 8% increased critical strike chance
 		+40 max life
+		'''
+	CommonSetBonus:
+		'''
+		Greatly increases life regen
+		Enemies below 50% life drop a heart when struck
+		This effect has a 5 second cooldown
 		'''
 }
 
@@ -64,6 +92,11 @@ BloodflareHeadMagic: {
 		You can move freely through liquids and have temporary immunity to lava
 		20% increased magic damage, 10% increased magic critical strike chance, +100 max mana and 17% reduced mana usage
 		'''
+	SetBonus:
+		'''
+		Magic weapons fire ghostly bolts every 1.67 seconds
+		Magic critical strikes cause flame explosions every 2 seconds
+		'''
 }
 
 BloodflareHeadMelee: {
@@ -72,6 +105,14 @@ BloodflareHeadMelee: {
 		'''
 		You can move freely through liquids and have temporary immunity to lava
 		10% increased melee damage and critical strike chance
+		'''
+	SetBonus:
+		'''
+		Enemies are more likely to target you
+		True melee strikes will heal you
+		After striking an enemy 15 times with true melee you will enter a blood frenzy for 5 seconds
+		During this you will gain 25% increased melee damage, critical strike chance, and contact damage is halved
+		This effect has a 30 second cooldown
 		'''
 }
 
@@ -82,6 +123,12 @@ BloodflareHeadRanged: {
 		You can move freely through liquids and have temporary immunity to lava
 		10% increased ranged damage and critical strike chance
 		'''
+	SetBonus:
+		'''
+		Press {0} to unleash the lost souls of polterghast to destroy your enemies
+		This effect has a 30 second cooldown
+		Ranged weapons fire bloodsplosion orbs every 2.5 seconds
+		'''
 }
 
 BloodflareHeadRogue: {
@@ -91,6 +138,13 @@ BloodflareHeadRogue: {
 		You can move freely through liquids and have temporary immunity to lava
 		10% increased rogue damage and critical strike chance, 5% increased movement speed
 		'''
+	SetBonus:
+		'''
+		+120 maximum stealth
+		Being over 80% life boosts your defense by 30 and rogue crit by 5%
+		Being below 80% life boosts your rogue damage by 10%
+		Rogue critical strikes have a 50% chance to heal you
+		'''
 }
 
 BloodflareHeadSummon: {
@@ -99,6 +153,13 @@ BloodflareHeadSummon: {
 		'''
 		You can move freely through liquids and have temporary immunity to lava
 		5% increased minion damage
+		'''
+	SetBonus:
+		'''
+		50% increased minion damage and +3 max minions
+		Summons polterghast mines to circle you
+		At 90% life and above you gain 10% increased minion damage
+		At 50% life and below you gain 20 defense and 2 life regen
 		'''
 }
 
@@ -121,6 +182,14 @@ DemonshadeGreaves: {
 DemonshadeHelm: {
 	DisplayName: Demonshade Helm
 	Tooltip: 30% increased damage and 15% increased critical strike chance
+	SetBonus:
+		'''
+		100% increased minion damage and +10 max minions
+		Shadowbeams and demon scythes will fire down when you are hit
+		A friendly red devil follows you around
+		Press {0} to enrage nearby enemies with a dark magic spell for 10 seconds
+		This makes them take 2.25x total damage, but they will deal 1.25x damage to you
+		'''
 }
 
 EmpyreanCloak: {
@@ -149,6 +218,13 @@ EmpyreanMask: {
 		11% increased rogue damage and critical strike chance, 5% increased movement speed
 		Temporary immunity to lava
 		'''
+	SetBonus:
+		'''
+		9% increased rogue damage and velocity
+		+115 maximum stealth
+		Rogue projectiles have special effects on enemy hits
+		Imbued with cosmic wrath and rage when you are damaged
+		'''
 }
 
 FearmongerGreathelm: {
@@ -158,6 +234,15 @@ FearmongerGreathelm: {
 		Pure terror radiates from your eyes
 		+60 max mana and 10% reduced mana usage
 		10% increased minion damage
+		'''
+	SetBonus:
+		'''
+		20% increased minion damage and +2 max minions
+		Minions no longer deal less damage while wielding non-summoner weapons
+		Immunity to all forms of frost and flame
+		All minion attacks grant colossal life regeneration
+		15% increased damage reduction during the Pumpkin and Frost Moons
+		This extra damage reduction ignores the soft cap
 		'''
 }
 
@@ -189,6 +274,33 @@ GemTechBodyArmor: {
 GemTechHeadgear: {
 	DisplayName: Gem Tech Headgear
 	Tooltip: "'The Devil said: Revel in your victory; You've earned your damning. Pack your things and leave.'"
+	AbilityBrief: Power Gems - Six gem fragments idly orbit you; one for each class, and a base gem
+	AbilityDescription:
+		'''
+		Each active gem provides a bonus for its respective class, while the defensive gem grants defensive boosts
+		Powerful enemy hits will dislodge gems, launching them into the nearest enemy for huge damage
+		Lost gems regenerate after a while
+		The lost gem is the same class as the weapon you are using, so better prepare for some weapon switching action!
+		'''
+	GeneralGemInfo:
+		'''
+		A gem is lost when you take more than {0} damage in a single hit.
+		The type of gem lost is the same as the class of the previous when you used
+		If said gem has already been lost, the base gem is lost instead
+		When a gem is lost, it breaks off and homes towards the nearest enemy or boss, if one is present, dealing a base of {1} damage
+		Gems have a {2} second delay before they appear again"
+		'''
+	RedGemInfo: "[i:{0}] The red gem grants {1} maximum stealth, increased rogue stats, and makes stealth only consumable by rogue weapons"
+	YellowGemInfo: "[i:{0}] The yellow gem provides increased melee stats and makes melee attacks release shards on hit with a cooldown. This cooldown is shorter for true melee attacks"
+	GreenGemInfo: "[i:{0}] The green gem provides increased ranged stats and causes flechettes to fly swiftly towards targets when they are damaged by a ranged projectile"
+	BlueGemInfo: "[i:{0}] The blue gem grants {1} extra maximum minions, increased minion damage, and negates the minion damage penalty while wielding non-summoner weapons"
+	PurpleGemInfo: "[i:{0}] The violet gem grants {1} extra maximum mana, increased magic stats, and makes mana rapidly regenerate when holding a non-magic weapon"
+	PinkGemInfo: "[i:{0}] The pink base gem grants {1} extra defense, extra damage reduction, increased movement speed, jump speed, and +{2} life regen"
+	GemBonusInfo:
+		'''
+		When all gems exist simultaneously, hitting a target with any weapon grants you +{0} life regen for {1} seconds
+		This is increased to +{2} life regen if a weapon of another class is used during that {1} second period for {3} seconds
+		'''
 }
 
 GemTechSchynbaulds: {
@@ -204,21 +316,43 @@ GodSlayerChestplate: {
 		Enemies take damage when they hit you
 		11% increased damage and 6% increased critical strike chance
 		'''
+	CommonSetBonus:
+		'''
+		Allows you to dash for an immense distance in 8 directions
+		Press {0} while holding down the movement keys in the direction you want to dash
+		Enemies you dash through take massive damage
+		During the dash you are immune to most debuffs
+		The dash has a {1} second cooldown
+		'''
 }
 
 GodSlayerHeadMelee: {
 	DisplayName: God Slayer Horned Greathelm
 	Tooltip: 14% increased melee damage and critical strike chance
+	SetBonus:
+		'''
+		Enemies are more likely to target you
+		Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts
+		Enemies take a lot of damage when they hit you
+		An attack that would deal 80 damage or less will have its damage reduced to 1
+		'''
 }
 
 GodSlayerHeadRanged: {
 	DisplayName: God Slayer Helmet
 	Tooltip: 14% increased ranged damage and critical strike chance
+	SetBonus: You fire a god killer shrapnel round while firing ranged weapons every 2.5 seconds
 }
 
 GodSlayerHeadRogue: {
 	DisplayName: God Slayer Mask
 	Tooltip: 14% increased rogue damage and critical strike chance, 5% increased movement speed
+	SetBonus:
+		'''
+		+120 maximum stealth
+		While at full HP all of your rogue stats are boosted by 10%
+		If you take over 80 damage in one hit you will be given extra immunity frames
+		'''
 }
 
 GodSlayerLeggings: {
@@ -246,6 +380,15 @@ OmegaBlueHelmet: {
 		'''
 		You can move freely through liquids
 		12% increased damage and 8% increased critical strike chance
+		'''
+	SetBonus:
+		'''
+		Increases armor penetration by 15
+		10% increased damage and critical strike chance and +2 max minions
+		Short-ranged tentacles heal you by sucking enemy life
+		Press {0} to activate abyssal madness for 5 seconds
+		Abyssal madness increases damage, critical strike chance, and tentacle aggression/range
+		This effect has a 25 second cooldown
 		'''
 }
 
@@ -277,6 +420,13 @@ PrismaticHelmet: {
 		Enemies with less than 500 max health deal no contact damage
 		This does not occur while a boss is alive
 		'''
+	SetBonus:
+		'''
+		+40 max mana and 15% reduced mana cost
+		Increased mana regeneration rate
+		Press {0} to unleash a barrage of death lasers at the cursor for the next 5 seconds
+		This has a 30 second cooldown
+		'''
 }
 
 PrismaticRegalia: {
@@ -297,6 +447,13 @@ SilvaArmor: {
 		+80 max life
 		12% increased damage and 8% increased critical strike chance
 		'''
+	CommonSetBonus:
+		'''
+		All projectiles spawn healing leaf orbs on enemy hits
+		Max run speed and acceleration boosted by 5%
+		If you are reduced to 1 HP you will not die from any further damage for 8 seconds
+		This effect has a 5 minute cooldown. The cooldown does not decrement if any bosses or events are active.
+		'''
 }
 
 SilvaHeadMagic: {
@@ -306,11 +463,17 @@ SilvaHeadMagic: {
 		23% increased magic damage and 13% increased magic critical strike chance
 		+100 max mana and 19% reduced mana usage
 		'''
+	SetBonus: Magic projectiles which cannot pierce will occasionally set off potent blasts of nature energy
 }
 
 SilvaHeadSummon: {
 	DisplayName: Silva Horned Hood
 	Tooltip: 10% increased minion damage
+	SetBonus:
+		'''
+		65% increased minion damage and +5 max minions
+		Summons an ancient leaf prism to blast your enemies with life energy
+		'''
 }
 
 SilvaLeggings: {
@@ -329,6 +492,12 @@ TarragonBreastplate: {
 		10% increased damage and 5% increased critical strike chance
 		+2 life regen and +40 max life
 		'''
+	CommonSetBonus:
+		'''
+		Reduces enemy spawn rates
+		Increased heart pickup range
+		Enemies have a chance to drop extra hearts on death
+		'''
 }
 
 TarragonHeadMagic: {
@@ -338,6 +507,12 @@ TarragonHeadMagic: {
 		Can move freely through liquids
 		20% increased magic damage and 10% increased magic critical strike chance
 		5% increased damage reduction, +100 max mana, and 15% reduced mana usage
+		'''
+	SetBonus:
+		'''
+		On every 5th critical strike you will fire a leaf storm
+		Magic projectiles heal you on enemy hits
+		Amount healed is based on projectile damage
 		'''
 }
 
@@ -349,6 +524,13 @@ TarragonHeadMelee: {
 		10% increased melee damage and critical strike chance
 		5% increased damage reduction
 		'''
+	SetBonus:
+		'''
+		Enemies are more likely to target you
+		You have a 25% chance to gain a life regen buff when you take damage
+		Press {0} to cloak yourself in life energy that heavily reduces enemy contact damage for 10 seconds
+		This has a 30 second cooldown
+		'''
 }
 
 TarragonHeadRanged: {
@@ -359,24 +541,32 @@ TarragonHeadRanged: {
 		10% increased ranged damage and critical strike chance
 		5% increased damage reduction
 		'''
+	SetBonus: Ranged projectiles split into homing life energy and leaves on death
 }
 
 TarragonHeadRogue: {
 	DisplayName: Tarragon Helmet
 	Tooltip:
 		'''
-		Can move freely through liquids, 5% increased movement speed
 		10% increased rogue damage and critical strike chance
-		5% increased damage reduction
+		5% increased damage reduction and movement speed
+		'''
+	SetBonus:
+		'''
+		+115 maximum stealth
+		After every 25 rogue critical hits you will gain 3 seconds of damage immunity
+		This effect can only occur once every 30 seconds
+		While under the effects of a debuff you gain 10% increased rogue damage
 		'''
 }
 
 TarragonHeadSummon: {
 	DisplayName: Tarragon Horned Helm
-	Tooltip:
+	Tooltip: 5% increased damage reduction and minion damage
+	SetBonus:
 		'''
-		Can move freely through liquids
-		5% increased damage reduction and minion damage
+		50% increased minion damage and +3 max minions
+		Summons a life aura around you that damages nearby enemies
 		'''
 }
 

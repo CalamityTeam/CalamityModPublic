@@ -447,10 +447,10 @@ Exoblade: {
 	DisplayName: Exoblade
 	Tooltip:
 		'''
-		Press {InputTrigger_UseOrAttack} to release multiple energy beams that home in on enemies and slice them on hit
+		Press <left> to release multiple energy beams that home in on enemies and slice them on hit
 		Press <right> to dash in the direction of the cursor with the blade
 		Enemy hits from the blade during the dash result in massive damage and a rebound
-		Press {InputTrigger_UseOrAttack} immediately after a rebound to perform a powerful slash that explodes on enemy hits
+		Press <left> immediately after a rebound to perform a powerful slash that explodes on enemy hits
 		'''
 }
 
@@ -774,7 +774,7 @@ OldLordClaymore: {
 	Tooltip:
 		'''
 		Holding <right> rapidly absorbs energy into the blade until it is charged
-		Press {InputTrigger_UseOrAttack} while charged to fly in the direction of the cursor
+		Press <left> while charged to fly in the direction of the cursor
 		Using the lunge resets the blade's charge to zero
 		'''
 }
@@ -918,7 +918,7 @@ Roxcalibur: {
 	Tooltip:
 		'''
 		The hellish Wall of Flesh holds the key to this weapon's power
-		Press {InputTrigger_UseOrAttack} to shoot several rock shards
+		Press <left> to shoot several rock shards
 		Press <right> to dive downwards and bounce off enemies
 		Diving into blocks creates a shockwave
 		You couldn't get it out of the rock, so you just brought the rock instead

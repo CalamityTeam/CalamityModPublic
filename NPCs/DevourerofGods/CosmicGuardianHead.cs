@@ -137,10 +137,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
             {
-                NPC.velocity.Y -= 3f;
-                if ((double)NPC.position.Y < Main.topWorld + 16f)
-                    NPC.velocity.Y -= 3f;
-
+                NPC.velocity.Y -= 4f;
+                
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
                 {
                     for (int a = 0; a < Main.maxNPCs; a++)
@@ -166,9 +164,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 // Prevents them from doing damage while despawning.
                 NPC.Opacity = 0.99f;
 
-                NPC.velocity.Y -= 1f;
-                if ((double)NPC.position.Y < Main.topWorld + 16f)
-                    NPC.velocity.Y -= 1f;
+                NPC.velocity.Y -= 4f;
 
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
                 {

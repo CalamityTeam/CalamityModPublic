@@ -36,8 +36,7 @@ namespace CalamityMod.Items.Armor.Auric
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Magic Tarragon, Bloodflare and Silva armor effects\n" +
-                "Max run speed and acceleration boosted by 5%";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraMage = true;

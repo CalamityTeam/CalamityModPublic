@@ -37,6 +37,9 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.defense = 45;
             NPC.DR_NERD(0.1f);
             NPC.LifeMaxNERB(62500, 75000, 60000);
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                NPC.lifeMax *= 4;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;

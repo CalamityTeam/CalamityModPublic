@@ -200,7 +200,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     // Start off slow
                     Vector2 finalVelocity = NPC.SafeDirectionTo(player.Center, -Vector2.UnitY) * chargeSpeed;
-                    if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                    if (CalamityWorld.LegendaryMode && revenge)
                         finalVelocity *= Main.rand.NextFloat(1f, 1.7f);
 
                     NPC.Calamity().newAI[2] = finalVelocity.X;
@@ -307,7 +307,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            int npcType = (int)NPC.ai[2];
+            int npcType = (int)MathHelper.Clamp(NPC.ai[2], 1f, 6f);
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedRocks" + npcType.ToString()).Value;
             Vector2 drawOrigin = new Vector2(texture.Width / 2, texture.Height / 2);
             Vector2 drawPos = NPC.Center - screenPos;

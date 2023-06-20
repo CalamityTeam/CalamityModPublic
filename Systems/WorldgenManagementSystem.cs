@@ -41,12 +41,13 @@ namespace CalamityMod.Systems
                 }));
             }
 
-            // Calamity's biome chests in the dungeon
-            int DungeonChestIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
-            if (DungeonChestIndex != -1)
+            // Replace the entire fucking Dungeon generation pass because nothing else will work as intended
+            int DungeonIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
+            tasks[DungeonIndex] = new PassLegacy("Dungeon", (progress, config) =>
             {
-                tasks.Insert(DungeonChestIndex + 1, new PassLegacy("CalamityDungeonBiomeChests", MiscWorldgenRoutines.GenerateBiomeChests));
-            }
+                progress.Message = Language.GetOrRegister("Mods.Calamity.UI.BetterDungeon").Value;
+                CustomDungeon.NewDungeon();
+            });
 
             // Larger Jungle Temple
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));

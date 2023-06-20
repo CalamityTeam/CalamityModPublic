@@ -5,6 +5,7 @@ using CalamityMod.Skies;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -13,6 +14,7 @@ namespace CalamityMod.Systems
     public class LightingEffectsSystem : ModSystem
     {
         public const float MaxSignusDarkness = -0.4f;
+        public const float MaxGFBSignusDarkness = MaxSignusDarkness * 2f;
         public const float MaxAbyssDarkness = -0.7f;
         public override void ModifyLightingBrightness(ref float scale)
         {
@@ -59,7 +61,7 @@ namespace CalamityMod.Systems
                             // Total darkness
                             float signusDarkness = signusLifeRatio * multiplier;
                             darkRatio = MathHelper.Clamp(signusDarkness, 0f, 1f);
-                            scale += MaxSignusDarkness * darkRatio;
+                            scale += (CalamityWorld.LegendaryMode ? MaxGFBSignusDarkness : MaxSignusDarkness) * darkRatio;
                         }
                     }
                 }

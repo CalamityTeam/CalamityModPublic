@@ -9,6 +9,7 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
@@ -46,7 +47,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         private const float timeToOpenAndFireLasers = 36f;
 
         private const float segmentCloseTimerDecrement = 0.2f;
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.ThanatosHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -610,9 +611,15 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (Main.npc[(int)NPC.ai[2]].ModNPC<ThanatosHead>().exoMechdusa)
+            int index = (int)NPC.ai[2];
+            if (index < 0 || index >= Main.maxNPCs || Main.npc[index] is null)
+                return;
+            if (Main.npc[index].type != ModContent.NPCType<ThanatosHead>())
+                return;
+
+            if (Main.npc[index].ModNPC<ThanatosHead>().exoMechdusa)
             {
-                typeName = "Spine of XB-∞ Hekate";
+                typeName = CalamityUtils.GetTextValue("NPCs.ThanatosHead.HekateName");
             }
         }
 

@@ -46,6 +46,7 @@ using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Systems;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -518,6 +519,10 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Ores below here
+                // Celestial Tracers give immunity to block contact effects
+                if (cTracers)
+                    return;
+
                 // Astral Ore inflicts Astral Infection briefly on contact
                 if (tile.TileType == astralOreID)
                     Player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
@@ -538,7 +543,7 @@ namespace CalamityMod.CalPlayer
 
                     var yeetVec = Vector2.Normalize(Player.Center - touchedTile.ToWorldCoordinates());
                     Player.velocity += yeetVec * auricRejectionKB;
-                    Player.Hurt(PlayerDeathReason.ByCustomReason(Player.name + " was not worthy."), auricRejectionDamage, 0);
+                    Player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AuricRejection").Format(Player.name)), auricRejectionDamage, 0);
                     Player.AddBuff(BuffID.Electrified, 300);
                     SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/ExoMechs/TeslaShoot1"));
                 }
@@ -1348,7 +1353,7 @@ namespace CalamityMod.CalPlayer
                     Player.statLife = upperHealthLimit;
 
                 if (necroReviveCounter >= NecroArmorSetChange.PostMortemDuration * 60)
-                    Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name} fell to the inevitable."), 1000, -1);
+                    Player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.NecroRevive").Format(Player.name)), 1000, -1);
                 else if (necroReviveCounter % 60 == 59)
                     SoundEngine.PlaySound(SoundID.Item17, Player.Center);
             }
@@ -2062,6 +2067,49 @@ namespace CalamityMod.CalPlayer
             {
                 abyssBreathCD = 0;
                 abyssDeath = false;
+
+                // Signus headcrab darkness
+                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                {
+                    if (CalamityGlobalNPC.signus != -1)
+                    {
+                        if (Main.npc[CalamityGlobalNPC.signus].active)
+                        {
+                            if (Vector2.Distance(Main.LocalPlayer.Center, Main.npc[CalamityGlobalNPC.signus].Center) <= 5200f)
+                            {
+                                float darkRatio = MathHelper.Clamp(caveDarkness, 0f, 1f);
+                                float signusLifeRatio = 1f - (Main.npc[CalamityGlobalNPC.signus].life / Main.npc[CalamityGlobalNPC.signus].lifeMax);
+
+                                // Reduce the power of Signus darkness based on your light level.
+                                float multiplier = 1f;
+                                switch (Main.LocalPlayer.GetCurrentAbyssLightLevel())
+                                {
+                                    case 0:
+                                        break;
+                                    case 1:
+                                    case 2:
+                                        multiplier = 0.75f;
+                                        break;
+                                    case 3:
+                                    case 4:
+                                        multiplier = 0.5f;
+                                        break;
+                                    case 5:
+                                    case 6:
+                                        multiplier = 0.25f;
+                                        break;
+                                    default:
+                                        multiplier = 0f;
+                                        break;
+                                }
+
+                                float signusDarkness = signusLifeRatio * multiplier;
+                                darkRatio = MathHelper.Clamp(signusDarkness, 0f, 1f);
+                                ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, LightingEffectsSystem.MaxGFBSignusDarkness * -darkRatio, 0.3f);
+                            }
+                        }
+                    }
+                }
             }
         }
         #endregion

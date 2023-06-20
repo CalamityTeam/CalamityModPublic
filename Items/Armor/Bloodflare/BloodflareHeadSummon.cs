@@ -37,13 +37,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareSummon = true;
             modPlayer.WearingPostMLSummonerSet = true;
-            player.setBonus = "50% increased minion damage and +3 max minions\n" +
-                "Greatly increases life regen\n" +
-                "Enemies below 50% life drop a heart when struck\n" +
-                "This effect has a 5 second cooldown\n" +
-                "Summons polterghast mines to circle you\n" +
-                "At 90% life and above you gain 10% increased minion damage\n" +
-                "At 50% life and below you gain 20 defense and 2 life regen";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<BloodflareBodyArmor>("CommonSetBonus");
             player.crimsonRegen = true;
             player.GetDamage<SummonDamageClass>() += 0.5f;
             player.maxMinions += 3;

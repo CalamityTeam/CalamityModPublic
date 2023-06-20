@@ -54,6 +54,21 @@ DeathExpandedInfo:
 	'''
 DeathActivate: Death is active; enjoy the fun.
 DeathDeactivate: Death is not active; not fun enough for you?
+// Calamity Health Bar
+ExoTwinsNameNormal: XS-01 Artemis and XS-03 Apollo
+ExoTwinsNameHekate: Eyes of XB-∞ Hekate
+ExtensionDisplay: ({0} left: {1})
+
+ExtensionName: {
+	Segments: Segments
+	Creepers: Creepers
+	Hands: Hands
+	Arms: Arms
+	Guns: Guns
+	Cannons: Cannons
+	DarkEnergy: Dark Energy
+	BodyParts: Body Parts
+}
 
 // Cooldowns
 Cooldowns: {
@@ -211,6 +226,7 @@ Disenchant: Disenchant
 // Worldgen Tasks
 EvilIslandCorrupt: Adding a putrid floating island
 EvilIslandCrimson: Adding a grotesque floating island
+BetterDungeon: Building a better dungeon
 BetterJungleTemple: Building a bigger jungle temple
 JungleTempleAltar: Placing the Lihzahrd altar
 GiantBeehive: Building a giant beehive

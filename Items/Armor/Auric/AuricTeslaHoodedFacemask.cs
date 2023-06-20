@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor.Auric
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Ranged Tarragon, Bloodflare and God Slayer armor effects";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraRanged = true;

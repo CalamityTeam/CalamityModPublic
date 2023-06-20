@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
 
@@ -17,7 +18,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public NPC AheadSegment => Main.npc[(int)NPC.ai[1]];
         public NPC HeadSegment => Main.npc[(int)NPC.ai[2]];
         public ref float AttackTimer => ref NPC.localAI[0];
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.SepulcherHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

@@ -1278,7 +1278,7 @@ namespace CalamityMod.NPCs.Providence
                     if (NPC.ai[3] >= (phaseTime * 1.5f) && !text)
                     {
                         text = true;
-                        string key = "Mods.CalamityMod.BossMessages.ProfanedBossText";
+                        string key = "Mods.CalamityMod.Status.Boss.ProfanedBossText";
                         Color messageColor = Color.Orange;
 
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -1481,7 +1481,7 @@ namespace CalamityMod.NPCs.Providence
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
 
-                                    if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                                    if (CalamityWorld.LegendaryMode && revenge)
                                         Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, -vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
                                 }
                             }
@@ -1508,7 +1508,7 @@ namespace CalamityMod.NPCs.Providence
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
 
-                            if (CalamityWorld.getFixedBoi && CalamityWorld.LegendaryMode && revenge)
+                            if (CalamityWorld.LegendaryMode && revenge)
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, -velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
                         }
                     }
@@ -1853,9 +1853,9 @@ namespace CalamityMod.NPCs.Providence
             // If Providence has not been killed, notify players of Uelibloom Ore
             if (!DownedBossSystem.downedProvidence)
             {
-                string key2 = "Mods.CalamityMod.ProgressionMessages.ProfanedBossText3";
+                string key2 = "Mods.CalamityMod.Status.Progression.ProfanedBossText3";
                 Color messageColor2 = Color.Orange;
-                string key3 = "Mods.CalamityMod.ProgressionMessages.TreeOreText";
+                string key3 = "Mods.CalamityMod.Status.Progression.TreeOreText";
                 Color messageColor3 = Color.LightGreen;
 
                 CalamityUtils.SpawnOre(ModContent.TileType<UelibloomOre>(), 17E-05, 0.55f, 0.9f, 8, 14, TileID.Mud);
@@ -1868,7 +1868,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
-                    Main.NewText(Language.GetTextValue("Mods.CalamityMod.ProgressionMessages.ProfanedBossText4"), Color.DarkOrange);
+                    Main.NewText(Language.GetTextValue("Mods.CalamityMod.Status.Progression.ProfanedBossText4"), Color.DarkOrange);
                 }
             }
 
@@ -1884,12 +1884,12 @@ namespace CalamityMod.NPCs.Providence
             // Drops Rune of Cos on first kill
             npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofKos>(), desc: DropHelper.FirstKillText);
 
-            npcLoot.AddIf(info =>
+            npcLoot.AddConditionalPerPlayer(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.biomeType != 2 || !prov.hasTakenDaytimeDamage;
             }, ModContent.ItemType<ElysianWings>(), desc: DropHelper.ProvidenceHallowText);
-            npcLoot.AddIf(info =>
+            npcLoot.AddConditionalPerPlayer(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.biomeType == 2 || !prov.hasTakenDaytimeDamage;
@@ -1939,11 +1939,11 @@ namespace CalamityMod.NPCs.Providence
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<ProvidenceRelic>());
 
-            // GFB ASE and Exo Prism drops
+            // GFB ASE and Blasphemous Donut drops
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
                 GFBOnly.Add(ModContent.ItemType<AscendantSpiritEssence>(), 1, 1, 99);
-                GFBOnly.Add(ModContent.ItemType<ExoPrism>(), 1, 3, 9);
+                GFBOnly.Add(ModContent.ItemType<BlasphemousDonut>(), 1, 1117, 2201); // reference to the versions the guards were added and got their latest resprites
             }
 
             // Lore
@@ -2594,7 +2594,7 @@ namespace CalamityMod.NPCs.Providence
                 Target.statLife -= NegativeHealValue;
                 if (Target.statLife < 0)
                 {
-                    PlayerDeathReason CustomSource = PlayerDeathReason.ByCustomReason(Target.name + " burst into sinless ash.");
+                    PlayerDeathReason CustomSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProvidenceMelt").Format(Target.name));
                     Target.KillMe(CustomSource, NegativeHealValue, 0);
                 }
                 NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, Target.whoAmI, NegativeHealValue);

@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.ai[2] += 1f;
                 if (NPC.ai[3] == 0f)
                 {
-                    if (NPC.ai[2] > 120f)
+                    if (NPC.ai[2] > ((CalamityWorld.LegendaryMode && revenge) ? 12f : 120f))
                     {
                         NPC.ai[2] = 0f;
                         NPC.ai[3] = 1f;
@@ -309,6 +309,9 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (CalamityGlobalNPC.ghostBoss < 0 || !NPC.active || NPC.IsABestiaryIconDummy)
+                return true;
+
             Color lightRed = new Color(255, 100, 100, 255);
 
             float chargePhaseGateValue = 480f;

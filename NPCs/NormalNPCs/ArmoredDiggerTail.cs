@@ -4,12 +4,14 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class ArmoredDiggerTail : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.ArmoredDiggerHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -130,7 +132,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (CalamityWorld.getFixedBoi)
             {
-                typeName = "Mechanized Serpent";
+                typeName = CalamityUtils.GetTextValue("NPCs.MechanizedSerpent");
             }
         }
 

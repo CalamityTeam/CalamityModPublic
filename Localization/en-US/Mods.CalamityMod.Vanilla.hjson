@@ -1,0 +1,150 @@
+// Vanilla NPC dialogues added by Calamity
+AnglerChat.SeaKing: Someone tell {0} to quit trying to throw me out of town, it's not going to work.
+
+ArmsDealerChat: {
+	MentionQuadBarrel: That old man left a cranky old gun on his deathbed. You catching my drift?
+	HasQuadBarrel: Hah! Look at that rusty old shotty. It looks straight out of the 70's!
+	DoGDefeated: Is it me or are your weapons getting bigger and bigger?
+	Eclipse: That's the biggest moth I've ever seen for sure. You'd need one big gun to take one of those down.
+}
+
+ClothierChat: {
+	PolterghastDefeated: Whatever that thing was, I'm glad it's gone now
+	MoonLordDefeated1: Who you gonna call?
+	MoonLordDefeated2: Those screams... I'm not sure why, but I feel like a nameless fear has awoken in my heart.
+	MoonLordDefeated3: I can faintly hear ghostly shrieks from the dungeon... and not ones I'm familiar with at all. Just what is going on in there?
+	MoonLordPresent: Houston, we've had a problem.
+}
+
+CyborgChat: {
+	MoonLordDefeated1: Always shoot for the moon! It has clearly worked before.
+	MoonLordDefeated2: Draedon? He's... a little 'high octane' if you know what I mean.
+	MentionPlague: Those oversized bugs terrorizing the jungle... Surely you of all people could shut them down!
+	Rain: All these moments will be lost in time. Like tears... in the rain.
+}
+
+DemolitionistChat.DoGDefeated: God Slayer Dynamite? Boy do I like the sound of that!
+
+DryadChat: {
+	DarksunEclipse: There's a dark solar energy emanating from the moths that appear during this time. Ah, as you progress further the moths get more powerful...
+	Hardmode: That starborne illness sits upon this land like a blister. Do even more vile forces of corruption exist in worlds beyond?
+	DrunkPrincessShroom: "{0} put me up to this."
+	Mushroom: I'm not here for any reason! Just picking up mushrooms for uh, later use.
+	SulphurSea: My ancestor was lost here long ago. I must pay my respects to her.
+}
+
+DyeTraderChat: {
+	Normal: Have you seen those gemstone creatures in the caverns? Their colors are simply breathtaking!
+	Archmage: Do you think {0} knows how to 'let it go?'
+}
+
+GoblinTinkererChat: {
+	Bandit: Hey, is it just me or have my pockets gotten lighter ever since {0} arrived?
+	MoonLordDefeated: You know... we haven't had an invasion in a while...
+}
+
+GuideChat: {
+	ProvidenceDefeated1: Seems like extinguishing that butterfly caused its life to seep into the hallowed areas, try taking a peek there and see what you can find!
+	ProvidenceDefeated2: I've heard there is a portal of antimatter absorbing everything it can see in the dungeon, try using the Rune of Kos there!
+	MoonLordDefeated: The dungeon seems even more restless than usual, watch out for the powerful abominations stirring up in there.
+	Hardmode1: Could you be so kind as to, ah... check hell for me...? I left someone I kind of care about down there.
+	Hardmode2: I have this sudden shiver up my spine, like a meteor just fell and thousands of innocent creatures turned into monsters from the stars.
+}
+
+MechanicChat: {
+	MoonLordDefeated: What do you mean your traps aren't making the cut? Don't look at me!
+	Eclipse: Um... should my nightlight be on?
+	AcidRain: Maybe I should've waterproofed my gadgets... They're starting to corrode.
+	DrunkPrincess: Well, I like {0}, but I, ah... I have my eyes on someone else.
+}
+
+MerchantChat: {
+	MoonLordDefeated: Each night seems only more foreboding than the last. I feel unthinkable terrors are watching your every move.
+	Eclipse: Are you daft?! Turn off those lamps!
+	AcidRain: If this acid rain keeps up, there'll be a shortage of Dirt Blocks soon enough!
+	Bandit: I happen to have several Angel Statues at the moment, a truely rare commodity. Want one?
+}
+
+NurseChat.HealNotAllowed: Now is not the time!
+
+PainterChat: {
+	Corruption: A little sickness isn't going to stop me from doing my work as an artist!
+	Crimson: There's a surprising art to this area. A sort of horrifying, eldritch feeling. It inspires me!
+	Archmage: Think {0} would let me paint him like one of his French girls?!
+	Tundra: I'm not exactly suited for this cold weather. Still looks pretty, though.
+	Desert: I hate sand. It's coarse, and rough and gets in my paint.
+	Hallow: Do you think unicorn blood could be used as a good pigment or resin? No I'm not going to find out myself.
+	Space: I can't work in this environment. All of my paint just floats off.
+	Jungle: Painting the tortoises in a still life isn't going so well.
+	Astral: I can't paint a still life if the fruit grows legs and walks away.
+	Underworld1: On the canvas, things get heated around here all the time. Like the environment!
+	Underworld2: Sorry, I'm all out of watercolors. They keep evaporating.
+	Crags: Roses, really? That's such an overrated thing to paint.
+	SulphurSea: Fun fact! Sulphur was used as pigment once upon a time! Or was it Cinnabar?
+	Abyss: Easiest landscape I've ever painted in my life.
+}
+
+PartyGirlChat: {
+	DrunkPrincess: I have a feeling we're going to have absolutely fantastic parties with {0} around!
+	Eclipse1: I think my light display is turning into an accidental bug zapper. At least the monsters are enjoying it.
+	Eclipse2: Ooh! I love parties where everyone wears a scary costume!
+}
+
+PirateChat: {
+	PreLeviathan: Aye, I've heard of a mythical creature in the oceans, singing with an alluring voice. Careful when yer fishin out there.
+	WetScourgeDefeated: I have to thank ye again for takin' care of that sea serpent. Or was that another one...
+	DrunkPrincess: Twenty-nine bottles of beer on the wall...
+	SeaKing: I remember legends about that {0}. He ain't quite how the stories make him out to be though.
+	Ocean: Now this is a scene that I can admire any time! I feel like something is watching me though.
+	SulphurSea1: It ain't much of a sight, but there's still life living in these waters.
+	SulphurSea2: Me ship might just sink from the acid alone.
+}
+
+SkeletonMerchantChat.Normal: What'dya buyin'?
+
+SteampunkerChat: {
+	HasPortalGun: Just what is that contraption? It makes my Teleporters look like child's play!
+	MoonLordDefeated: Yep! I'm also considering being a space pirate now.
+	Astral: Some of my machines are starting to go haywire thanks to this Astral Infection. I probably shouldn't have built them here
+	Hallow: I'm sorry I really don't have any Unicorn proof tech here, you're on your own.
+}
+
+StylistChat: {
+	Hardmode: Please don't catch space lice. Or {0} lice. Or just lice in general.
+	DrunkPrincess1: "{0} is always trying to brighten my mood... even if, deep down, I know she's sad..."
+	DrunkPrincess2: Sometimes I catch {0} sneaking up from behind me.
+	ProfanedSoulCrystal1: They look so cute and yet, I can feel their immense power just by being near them. What are you?
+	ProfanedSoulCrystal2: I hate to break it to you, but you don't have hair to cut or style, hun.
+	ProfanedDonuts: Aww, they're so cute, do they have names?
+}
+
+TavernkeepChat: {
+	FullMoon: Care for a little Moonshine?
+	DrunkPrincess: Sheesh, {0} is a little cruel, isn't she? I never claimed to be an expert on anything but ale!
+}
+
+TaxCollectorChat: {
+	DoGDefeated: Devourer of what, you said? Devourer of Funds, if its payroll is anything to go by!
+	PreBrimmy: Perhaps with all that time you've got you could check those old ruins? Certainly something of value in it for you!
+	HasSlickCane: Goodness! That cane has swagger!
+	Has500Plat: Where and how are you getting all of this money?
+	Has100Plat: BAH! Doesn't seem like I'll ever be able to quarrel with the debts of the town again!
+}
+
+TravellingMerchantChat.DrunkPrincessMerchant: Tell {0} I'll take up her offer and meet with her at the back of {1}'s house.
+
+TruffleChat: {
+	Normal: I don't feel very safe; I think there's pigs following me around and it frightens me.
+	DrunkPrincess: Sometimes, {0} just looks at me funny and I'm not sure how I feel about that.
+}
+
+WitchDoctorChat: {
+	BloodMoon: This is as good a time as any to pick up the best ingredients for potions.
+	PrePlantera: I have unique items if you show me that you have bested the guardian of this jungle.
+	Jungle: My home here has an extensive history and a mysterious past. You'll find out quickly just how extensive it is...
+}
+
+WizardChat: {
+	Hardmode: Space just got way too close for comfort.
+	MentionRoD: I wanted to sell you a special rod I found in the Hallow, but it appears I have misplaced it. Maybe a trip back there would refresh my memory.
+}

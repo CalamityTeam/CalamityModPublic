@@ -33,9 +33,7 @@ namespace CalamityMod.Items.Armor.Daedalus
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased rogue damage\n" +
-				"+105 maximum stealth\n" +
-                "Rogue projectiles throw out crystal shards as they travel";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.daedalusSplit = true;
             modPlayer.rogueStealthMax += 1.05f;

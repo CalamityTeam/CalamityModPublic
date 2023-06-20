@@ -26,6 +26,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
         public static readonly SoundStyle SmokeBombEndSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerSmokeBombEnd");
         public static readonly SoundStyle CDResetSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerCDReset");
 
+        public static int FlatDamageBonus = 1;
         public static int SmokeCooldown = 25 * 60;
         public static int SmokeDuration = 5 * 60;
         public static int LightsOutReset = (int)(1.5f * 60);
@@ -81,8 +82,8 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void UpdateArmorSet(Player player)
         {           
-            player.setBonus = "Ranged attacks deal an extra 1 flat damage"; //More gets edited in elsewhere
-            
+            player.setBonus = this.GetLocalization("SetBonus").Format(FlatDamageBonus); //More gets edited in elsewhere
+
             DesertProwlerPlayer armorPlayer = player.GetModPlayer<DesertProwlerPlayer>();
             armorPlayer.desertProwlerSet = true;
 
@@ -169,19 +170,13 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
                 if (setBonusIndex != -1)
                 {
-                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", "Sandsmoke Bomb - Double tap DOWN to shroud yourself in a small cloud of sand");
+                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", CalamityUtils.GetTextValueFromModItem<DesertProwlerHat>("AbilityBrief"));
                     setBonus1.OverrideColor = Color.Lerp(new Color(255, 229, 156), new Color(233, 225, 198), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips.Insert(setBonusIndex + 1, setBonus1);
 
-                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", "While the sand cloud is active, gain increased mobility but heavily reduced defense");
+                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", CalamityUtils.GetTextFromModItem<DesertProwlerHat>("AbilityDescription").Format(FreeCrit, BonusDamageCap, LightsOutReset / 60f));
                     setBonus2.OverrideColor = new Color(204, 181, 72);
                     tooltips.Insert(setBonusIndex + 2, setBonus2);
-
-                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", $"Using a ranged weapon instantly dispels the sand cloak, but guarantees a supercrit for {FreeCrit}% damage\n" +
-                        $"The super crit applies only as long as the resulting hit wouldn't exceed {BonusDamageCap} damage\n" +
-                        $"Landing the killing blow on an enemy with this shot shortens the ability's cooldown to {LightsOutReset / 60f} seconds");
-                    setBonus3.OverrideColor = new Color(204, 181, 72);
-                    tooltips.Insert(setBonusIndex + 3, setBonus3);
                 }
             }
         }
@@ -212,7 +207,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void SetStaticDefaults()
         {
-
             if (Main.netMode == NetmodeID.Server)
                 return;
 
@@ -232,7 +226,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => DesertProwlerHat.ModifySetTooltips(this, tooltips);
-
 
         public override void UpdateEquip(Player player)
         {
@@ -301,7 +294,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
         public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
         {
             if (desertProwlerSet && item.CountsAsClass<RangedDamageClass>() && item.ammo == AmmoID.None)
-                damage.Flat += 1f;
+                damage.Flat += DesertProwlerHat.FlatDamageBonus;
         }
 
         public override void PostUpdate()

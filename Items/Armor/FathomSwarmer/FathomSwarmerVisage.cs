@@ -32,10 +32,7 @@ namespace CalamityMod.Items.Armor.FathomSwarmer
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "10% increased minion damage and +2 max minions\n" +
-                "Grants the ability to climb walls\n" +
-                "30% increased minion damage while submerged in liquid\n" +
-                "Provides a moderate amount of light and moderately reduces breath loss in the abyss";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.fathomSwarmer = true;
             player.spikedBoots = 2;

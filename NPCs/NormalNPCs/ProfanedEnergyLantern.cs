@@ -5,12 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class ProfanedEnergyLantern : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.ProfanedEnergyBody.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

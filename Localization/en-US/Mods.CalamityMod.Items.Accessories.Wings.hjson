@@ -19,11 +19,9 @@ CelestialTracers: {
 		Acceleration multiplier: 3.0
 		Excellent vertical speed
 		Flight time: 250
-		50% increased running acceleration
-		Greater mobility on ice
-		Water and lava walking
-		Immunity to the On Fire! debuff
-		Temporary immunity to lava
+		50% increased running acceleration and greater mobility on ice
+		Provides the ability to walk on water, honey, and lava
+		Grants immunity to fire, lava, and harmful block effects
 		Being hit for over 200 damage will make you immune for an extended period of time
 		'Taking speed EVEN FURTHER BEYOND!'
 		'''
@@ -50,11 +48,9 @@ ElysianTracers: {
 		Acceleration multiplier: 2.75
 		Great vertical speed
 		Flight time: 180
-		36% increased running acceleration
-		Greater mobility on ice
-		Water and lava walking
-		Immunity to the On Fire! debuff
-		Temporary immunity to lava
+		36% increased running acceleration and greater mobility on ice
+		Provides the ability to walk on water, honey, and lava
+		Grants immunity to fire and lava
 		'Ludicrous speed!'
 		'''
 }
@@ -135,11 +131,9 @@ SeraphTracers: {
 		Acceleration multiplier: 2.5
 		Good vertical speed
 		Flight time: 140
-		24% increased running acceleration
-		Greater mobility on ice
-		Water and lava walking
-		Immunity to the On Fire! debuff
-		Temporary immunity to lava
+		24% increased running acceleration and greater mobility on ice
+		Provides the ability to walk on water, honey, and lava
+		Grants immunity to fire and lava
 		'Ludicrous speed!'
 		'''
 }

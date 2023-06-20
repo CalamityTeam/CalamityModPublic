@@ -36,8 +36,7 @@ namespace CalamityMod.Items.Armor.Daedalus
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "20% increased minion damage and +2 max minions\n" +
-                "A daedalus crystal floats above you to protect you";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.daedalusCrystal = true;
             if (player.whoAmI == Main.myPlayer)

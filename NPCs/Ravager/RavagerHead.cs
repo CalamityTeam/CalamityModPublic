@@ -4,6 +4,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
 
@@ -12,6 +13,7 @@ namespace CalamityMod.NPCs.Ravager
     public class RavagerHead : ModNPC
     {
         public static readonly SoundStyle MissileSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerMissileLaunch");
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.RavagerBody.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

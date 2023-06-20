@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs.OldDuke
         {
             if (CalamityWorld.getFixedBoi)
             {
-                typeName = "The Boomer Duke";
+                typeName = CalamityUtils.GetTextValue("NPCs.BoomerDuke");
             }
         }
 

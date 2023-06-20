@@ -1,3 +1,29 @@
+// Drop Conditions
+DropCondition: {
+	FirstKill: Drops only on the first kill
+	MechBoss: Drops on the first kill of the final Mechanical Boss
+	Cynosure: Drops once you have defeated both Draedon and Calamitas
+	ProvidenceHallow:
+		'''
+		Drops if Providence was summoned in the Hallow
+		or if Providence is only attacked during nighttime
+		'''
+	ProvidenceUnderworld:
+		'''
+		Drops if Providence was summoned in the Underworld
+		or if Providence is only attacked during nighttime
+		'''
+	ProvidenceNight: Drops if Providence is only attacked during nighttime
+	ProvidenceChallenge:
+		'''
+		Drops if Providence was defeated only with the {0}
+		{$Bestiary_ItemDropConditions.IsExpert}
+		'''
+}
+
+// Status
+WikiStatus1: "[i:149][c/EE4939:Note: The Fandom wiki is no longer supported by Calamity.] [i:149]"
+WikiStatus2: "[i:149][c/EE4939:Check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] [i:149]"
 // Recipe Conditions
 Tier1ArsenalRecipeCondition: View an unencrypted schematic from the lab near the Sunken Sea
 Tier2ArsenalRecipeCondition: Decrypt a schematic from the lab in the large planetoid in the sky
@@ -10,6 +36,7 @@ JungleSchematicRecipeCondition: Place a schematic from the lab deep within the j
 UnderworldSchematicRecipeCondition: Place a schematic from the lab near the edges of the underworld in your inventory at least once
 IceSchematicRecipeCondition: Place a schematic from the lab within the frozen caverns in your inventory at least once
 // Item Messages
+ShiftToExpand: Hold SHIFT to see an expanded description
 LearnedSchematic: You learned how to create new things!
 ThirdSageBlessingText: You have been blessed by the Third Sage!
 ThirdSageBlessingText2: The Third Sage has rescinded its blessing...

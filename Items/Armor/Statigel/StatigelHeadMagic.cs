@@ -28,9 +28,7 @@ namespace CalamityMod.Items.Armor.Statigel
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
-                    "Grants an extra jump and increased jump height\n" +
-                    "12% increased jump speed";
+            player.setBonus = CalamityUtils.GetTextValueFromModItem<StatigelArmor>("CommonSetBonus");
             var modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             modPlayer.statigelJump = true;

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
 
@@ -12,6 +13,7 @@ namespace CalamityMod.NPCs.Ravager
 {
     public class RavagerHead2 : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.RavagerBody.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();

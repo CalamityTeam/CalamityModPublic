@@ -653,7 +653,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             if (Main.npc[index].ModNPC<AresBody>().exoMechdusa)
             {
-                typeName = "XB-∞ Hekate Plasma Flamethrower";
+                typeName = this.GetLocalizedValue("HekateName");
             }
         }
 

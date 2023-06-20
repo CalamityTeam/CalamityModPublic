@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             // Show message
             if (!halfLife && phase3 && expertMode)
             {
-                string key = "Mods.CalamityMod.BossMessages.PlagueBossText";
+                string key = "Mods.CalamityMod.Status.Boss.PlagueBossText";
                 Color messageColor = Color.Lime;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 SoundEngine.PlaySound(NukeWarningSound, NPC.Center);

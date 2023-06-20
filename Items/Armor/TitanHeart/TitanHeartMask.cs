@@ -27,10 +27,7 @@ namespace CalamityMod.Items.Armor.TitanHeart
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "15% increased rogue damage and knockback\n" +
-					"+100 maximum stealth\n" +
-                    "Stealth strikes deal double knockback and cause an astral explosion\n" +
-                    "Grants immunity to knockback";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.titanHeartSet = true;
             player.GetDamage<ThrowingDamageClass>() += 0.15f;

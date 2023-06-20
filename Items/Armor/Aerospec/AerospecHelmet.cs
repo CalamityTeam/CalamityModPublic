@@ -33,10 +33,7 @@ namespace CalamityMod.Items.Armor.Aerospec
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "11% increased minion damage and +1 max minion\n" +
-                "Summons a valkyrie to protect you\n" +
-                "Taking over 25 damage in one hit will cause a spread of homing feathers to fall\n" +
-                "Allows you to fall more quickly and disables fall damage";
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<AerospecBreastplate>("CommonSetBonus");
             var modPlayer = player.Calamity();
             modPlayer.valkyrie = true;
             modPlayer.aeroSet = true;

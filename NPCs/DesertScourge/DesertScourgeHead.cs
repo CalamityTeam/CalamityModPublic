@@ -677,9 +677,9 @@ namespace CalamityMod.NPCs.DesertScourge
             // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open and Sandstorms can happen
             if (!DownedBossSystem.downedDesertScourge)
             {
-                string key = "Mods.CalamityMod.ProgressionMessages.OpenSunkenSea";
+                string key = "Mods.CalamityMod.Status.Progression.OpenSunkenSea";
                 Color messageColor = Color.Aquamarine;
-                string key2 = "Mods.CalamityMod.ProgressionMessages.SandstormTrigger";
+                string key2 = "Mods.CalamityMod.Status.Progression.SandstormTrigger";
                 Color messageColor2 = Color.PaleGoldenrod;
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -751,8 +751,8 @@ namespace CalamityMod.NPCs.DesertScourge
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<DesertScourgeRelic>());
 
-            // GFB Acidic Rain Barrel drop
-            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<AcidicRainBarrel>());
+            // GFB Sand Shark Tooth Necklace drop
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<SandSharkToothNecklace>());
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<LoreDesertScourge>(), desc: DropHelper.FirstKillText);

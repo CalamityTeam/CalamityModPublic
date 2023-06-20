@@ -38,8 +38,7 @@ namespace CalamityMod.Items.Armor.Auric
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Melee Tarragon, Bloodflare and God Slayer effects\n" +
-                "Enemies are more likely to target you";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraMelee = true;

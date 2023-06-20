@@ -7,9 +7,11 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Placeables.FurnitureAbyss;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -451,9 +453,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.ai[3] = 0f;
                 calamityGlobalNPC.newAI[2] = 0f;
 
-                NPC.velocity.Y -= 3f;
-                if ((double)NPC.position.Y < Main.topWorld + 16f)
-                    NPC.velocity.Y -= 3f;
+                NPC.velocity.Y -= 4f;
 
                 int bodyType = ModContent.NPCType<DevourerofGodsBody>();
                 int tailType = ModContent.NPCType<DevourerofGodsTail>();
@@ -549,7 +549,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 // Dialogue the moment the second phase starts
                 if (NPC.localAI[2] == 60f)
                 {
-                    string key = "Mods.CalamityMod.BossMessages.EdgyBossText5";
+                    string key = "Mods.CalamityMod.Status.Boss.EdgyBossText5";
                     Color messageColor = Color.Cyan;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
@@ -707,7 +707,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                     calamityGlobalNPC.newAI[3] = 0f;
 
                                     // Anger message
-                                    string key = "Mods.CalamityMod.BossMessages.EdgyBossText6";
+                                    string key = "Mods.CalamityMod.Status.Boss.EdgyBossText6";
                                     Color messageColor = Color.Cyan;
                                     CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -742,10 +742,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     // Fireballs
                     // Check angle and distance to make sure it's realistic that they'd be fired
-                    if (NPC.Opacity >= 1f && distanceFromTarget > 480f && NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f))
+                    if (NPC.Opacity >= 1f && (distanceFromTarget > 480f || (CalamityWorld.LegendaryMode && CalamityWorld.revenge)) && NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f))
                     {
                         calamityGlobalNPC.newAI[0] += 1f;
-                        if (calamityGlobalNPC.newAI[0] >= 150f && calamityGlobalNPC.newAI[0] % (phase7 ? 30f : 60f) == 0f)
+                        if (calamityGlobalNPC.newAI[0] >= ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 50f : 150f) && calamityGlobalNPC.newAI[0] % (phase7 ? 30f : 60f) == 0f)
                         {
                             float fireballSpeed = 8f;
                             Vector2 fireballVelocity = Vector2.Normalize(player.Center - NPC.Center) * fireballSpeed + NPC.velocity * 0.5f;
@@ -759,6 +759,41 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, fireballVelocity, type, damage, 0f, Main.myPlayer);
+
+                            if (CalamityWorld.LegendaryMode && revenge)
+                            {
+                                for (int l = 0; l < 8; l++)
+                                {
+                                    int dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 170, 0f, 0f, 100, default, 1f);
+                                    float dustVelocityYAdd = Math.Abs(Main.dust[dust].velocity.Y) * 0.5f;
+                                    if (Main.dust[dust].velocity.Y < 0f)
+                                        Main.dust[dust].velocity.Y = 2f + dustVelocityYAdd;
+                                    if (Main.rand.NextBool())
+                                    {
+                                        Main.dust[dust].scale = 0.25f;
+                                        Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                                    }
+                                }
+
+                                int numBlobs = 4;
+                                type = ModContent.ProjectileType<IchorBlob>();
+                                damage = 60;
+
+                                for (int i = 0; i < numBlobs; i++)
+                                {
+                                    Vector2 blobVelocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+                                    blobVelocity.Normalize();
+                                    blobVelocity *= Main.rand.Next(400, 801) * (bossRush ? 0.02f : 0.01f);
+                                    blobVelocity *= Main.rand.NextFloat() + 1f;
+
+                                    float blobVelocityYAdd = Math.Abs(blobVelocity.Y) * 0.5f;
+                                    if (blobVelocity.Y < 2f)
+                                        blobVelocity.Y = 2f + blobVelocityYAdd;
+
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitY * 50f, blobVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                                }
+                            }
                         }
                     }
                     else if (distanceFromTarget < 240f)
@@ -1073,6 +1108,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                         num188 += Vector2.Distance(destination, NPC.Center) * 0.005f;
                         num189 += Vector2.Distance(destination, NPC.Center) * 0.00025f;
 
+                        if (CalamityWorld.LegendaryMode && revenge)
+                        {
+                            if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(10f))
+                                num188 *= 2f;
+                        }
+
                         float num48 = num188 * 1.3f;
                         float num49 = num188 * 0.7f;
                         float num50 = NPC.velocity.Length();
@@ -1222,6 +1263,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                         }
                         else if (increaseSpeed)
                             groundPhaseTurnSpeed *= 2f;
+
+                        if (CalamityWorld.LegendaryMode && revenge)
+                        {
+                            if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(10f))
+                                fallSpeed *= 2f;
+                        }
 
                         if (!flies)
                         {
@@ -1468,7 +1515,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         if (revenge)
                             spawnDoGCountdown = 10;
 
-                        string key = "Mods.CalamityMod.BossMessages.EdgyBossText";
+                        string key = "Mods.CalamityMod.Status.Boss.EdgyBossText";
                         Color messageColor = Color.Cyan;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -1809,6 +1856,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                         num189 += distanceFromTarget * 0.0001f * (1f - lifeRatio);
                     }
 
+                    if (CalamityWorld.LegendaryMode && revenge)
+                    {
+                        if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(10f))
+                            num188 *= 2f;
+                    }
+
                     float num48 = num188 * 1.3f;
                     float num49 = num188 * 0.7f;
                     float num50 = NPC.velocity.Length();
@@ -1946,6 +1999,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                         groundPhaseTurnSpeed *= 4f;
                     else if (increaseSpeed)
                         groundPhaseTurnSpeed *= 2f;
+
+                    if (CalamityWorld.LegendaryMode && revenge)
+                    {
+                        if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(10f))
+                            fallSpeed *= 2f;
+                    }
 
                     if (!flies)
                     {
@@ -2217,7 +2276,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     float mult = revenge ? 1.5f : 3f;
                     for (int i = 0; i < totalSpreads; i++)
                     {
-                        int totalProjectiles = bossRush ? 18 : 12;
+                        int totalProjectiles = (CalamityWorld.LegendaryMode && revenge) ? 30 : bossRush ? 18 : 12;
                         float radians = MathHelper.TwoPi / totalProjectiles;
                         float newVelocity = finalVelocity - i * mult;
                         float velocityMult = 1f + ((finalVelocity - newVelocity) / (newVelocity * 2f) / 100f);
@@ -2442,11 +2501,11 @@ namespace CalamityMod.NPCs.DevourerofGods
             // If DoG has not been killed yet, notify players that the holiday moons are buffed
             if (!DownedBossSystem.downedDoG)
             {
-                string key = "Mods.CalamityMod.ProgressionMessages.DoGBossText";
+                string key = "Mods.CalamityMod.Status.Progression.DoGBossText";
                 Color messageColor = Color.Cyan;
-                string key2 = "Mods.CalamityMod.ProgressionMessages.DoGBossText2";
+                string key2 = "Mods.CalamityMod.Status.Progression.DoGBossText2";
                 Color messageColor2 = Color.Orange;
-                string key3 = "Mods.CalamityMod.ProgressionMessages.DargonBossText";
+                string key3 = "Mods.CalamityMod.Status.Progression.DargonBossText";
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 CalamityUtils.DisplayLocalizedText(key2, messageColor2);
@@ -2511,8 +2570,52 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<DevourerOfGodsRelic>());
 
+            // GFB torch and Wand drops
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ModContent.ItemType<TheWand>());
+
+                // this will be disastrous for the torch economy
+                int dropRate = 10;
+                int dropMin = 1;
+                int dropMax = 9999;
+                GFBOnly.Add(ItemID.Torch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.PurpleTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.YellowTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.GreenTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.RedTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.WhiteTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.OrangeTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.PinkTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.RainbowTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.IceTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.BoneTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.UltrabrightTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.DemonTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.CursedTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.IchorTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.DesertTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.CoralTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.CorruptTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.CrimsonTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.HallowedTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.JungleTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.MushroomTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ItemID.ShimmerTorch, dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<AbyssTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<AlgalPrismTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<AstralTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<GloomTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<NavyPrismTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<RefractivePrismTorch>(), dropRate, dropMin, dropMax);
+                GFBOnly.Add(ModContent.ItemType<SulphurousTorch>(), dropRate, dropMin, dropMax);
+            }
+
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
+
+            // GFB Auric Bar drop
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<AuricBar>(), 1, 1, 5);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<LoreDevourerofGods>(), desc: DropHelper.FirstKillText);
@@ -2636,9 +2739,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 string text = Utils.SelectRandom(Main.rand, new string[]
                 {
-                    "Mods.CalamityMod.BossMessages.EdgyBossText2",
-                    "Mods.CalamityMod.BossMessages.EdgyBossText3",
-                    "Mods.CalamityMod.BossMessages.EdgyBossText4"
+                    "Mods.CalamityMod.Status.Boss.EdgyBossText2",
+                    "Mods.CalamityMod.Status.Boss.EdgyBossText3",
+                    "Mods.CalamityMod.Status.Boss.EdgyBossText4"
                 });
                 Color messageColor = Color.Cyan;
                 Rectangle location = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);

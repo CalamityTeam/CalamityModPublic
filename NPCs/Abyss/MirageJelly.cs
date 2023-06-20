@@ -226,6 +226,7 @@ namespace CalamityMod.NPCs.Abyss
             npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<LifeJelly>(), 7, 5));
             npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<ManaJelly>(), 7, 5));
             npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<VitalJelly>(), 7, 5));
+            npcLoot.Add(ItemID.JellyfishNecklace, 10);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

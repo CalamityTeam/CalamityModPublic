@@ -36,50 +36,6 @@ namespace CalamityMod.ILEditing
         }
         #endregion Replacement of Pharaoh Set in Pyramids
 
-        #region Fixing of Abyss/Dungeon Interactions
-        private static void PreventDungeonHorizontalCollisions(ILContext il)
-        {
-            // Prevent the Dungeon from appearing near the Sulph sea.
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStsfld<WorldGen>("dungeonY")))
-            {
-                LogFailure("Dungeon/Abyss Collision Avoidance (Starting Position)", "Could not locate the dungeon's vertical position.");
-                return;
-            }
-
-            cursor.EmitDelegate<Action>(() =>
-            {
-                GenVars.dungeonX = Utils.Clamp(GenVars.dungeonX, SulphurousSea.BiomeWidth + 167, Main.maxTilesX - SulphurousSea.BiomeWidth - 167);
-
-                // Adjust the Y position of the dungeon to accomodate for the X shift.
-                WorldUtils.Find(new Point(GenVars.dungeonX, GenVars.dungeonY), Searches.Chain(new Searches.Down(9001), new Conditions.IsSolid()), out Point result);
-                GenVars.dungeonY = result.Y - 10;
-            });
-        }
-
-        private static void PreventDungeonHallCollisions(ILContext il)
-        {
-            // Prevent the Dungeon's halls from getting anywhere near the Abyss.
-            var cursor = new ILCursor(il);
-
-            // Forcefully clamp the X position of the new hall end.
-            // This prevents a hall, and as a result, the dungeon, from ever impeding on the Abyss/Sulph Sea.
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(6)))
-            {
-                LogFailure("Dungeon/Abyss Collision Avoidance (Halls)", "Could not locate the hall horizontal position.");
-                return;
-            }
-
-            cursor.Emit(OpCodes.Ldloc, 6);
-            cursor.EmitDelegate<Func<Vector2, Vector2>>(unclampedValue =>
-            {
-                unclampedValue.X = MathHelper.Clamp(unclampedValue.X, SulphurousSea.BiomeWidth + 25, Main.maxTilesX - SulphurousSea.BiomeWidth - 25);
-                return unclampedValue;
-            });
-            cursor.Emit(OpCodes.Stloc, 6);
-        }
-        #endregion Fixing of Abyss/Dungeon Interactions
-
         #region Fixing of Living Tree/Sulphurous Sea Interactions
         private static void BlockLivingTreesNearOcean(ILContext il)
         {

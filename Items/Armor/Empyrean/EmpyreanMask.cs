@@ -65,10 +65,7 @@ namespace CalamityMod.Items.Armor.Empyrean
             var modPlayer = player.Calamity();
             modPlayer.xerocSet = true;
             modPlayer.rogueStealthMax += 1.15f;
-            player.setBonus = "9% increased rogue damage and velocity\n" +
-				"+115 maximum stealth\n" +
-                "Rogue projectiles have special effects on enemy hits\n" +
-                "Imbued with cosmic wrath and rage when you are damaged";
+            player.setBonus = this.GetLocalizedValue("SetBonus");
             if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
             {
                 player.AddBuff(BuffID.Wrath, 2);

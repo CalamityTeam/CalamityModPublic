@@ -134,9 +134,9 @@ namespace CalamityMod.NPCs.Polterghast
         {
             typeName = nameStage switch
             {
-                2 => "Necroghast",
-                3 => "Necroplasm",
-                _ => "Polterghast",
+                2 => CalamityUtils.GetTextValue("NPCs.Necroghast"),
+                3 => CalamityUtils.GetTextValue("NPCs.Necroplasm"),
+                _ => this.GetLocalizedValue("DisplayName"),
             };
         }
 
@@ -228,11 +228,10 @@ namespace CalamityMod.NPCs.Polterghast
                 chargePhaseGateValue *= 0.5f;
 
             bool chargePhase = calamityGlobalNPC.newAI[0] >= chargePhaseGateValue;
-            int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1; 
+            int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1;
             if (CalamityWorld.getFixedBoi)
-            {
                 chargeAmt = phase4 ? int.MaxValue : getPissed ? 6 : phase3 ? 4 : phase2 ? 3 : 2;
-            }
+
             float chargeVelocity = getPissed ? 28f : phase3 ? 24f : phase2 ? 22f : 20f;
             float chargeAcceleration = getPissed ? 0.7f : phase3 ? 0.6f : phase2 ? 0.55f : 0.5f;
             float chargeDistance = 480f;
@@ -246,8 +245,9 @@ namespace CalamityMod.NPCs.Polterghast
                 chargeVelocity *= 2;
                 chargeAcceleration *= 2;
                 chargeDistance *= 3;
+
                 if (!phase4)
-                chargeAmt *= 2;
+                    chargeAmt *= 2;
             }
 
             // Only get a new target while not charging
@@ -1070,7 +1070,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                     if (CalamityWorld.getFixedBoi)
                     {
-                        NPC.GivenName = "Polterplasm";
+                        NPC.GivenName = CalamityUtils.GetTextValue("NPCs.Polterplasm");
                     }
                 }
             }
@@ -1093,14 +1093,14 @@ namespace CalamityMod.NPCs.Polterghast
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     SoundEngine.PlaySound(ReaperShark.SearchRoarSound, Main.player[Main.myPlayer].Center);
 
-                string key = "Mods.CalamityMod.ProgressionMessages.GhostBossText";
+                string key = "Mods.CalamityMod.Status.Progression.GhostBossText";
                 Color messageColor = Color.RoyalBlue;
-                string sulfSeaBoostMessage = "Mods.CalamityMod.ProgressionMessages.GhostBossText4";
+                string sulfSeaBoostMessage = "Mods.CalamityMod.Status.Progression.GhostBossText4";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
                 if ((Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || CalamityWorld.getFixedBoi)
                 {
-                    sulfSeaBoostMessage = "Mods.CalamityMod.ProgressionMessages.AprilFools2"; // Goddamn boomer duke moments
+                    sulfSeaBoostMessage = "Mods.CalamityMod.Status.Progression.AprilFools2"; // Goddamn boomer duke moments
                 }
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -1148,6 +1148,12 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<PolterghastRelic>());
+
+            // GFB Cell Phone drop
+            var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+            {
+                GFBOnly.Add(ItemID.CellPhone);
+            }
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<LorePolterghast>(), desc: DropHelper.FirstKillText);

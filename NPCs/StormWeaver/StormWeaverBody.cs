@@ -8,12 +8,14 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
     public class StormWeaverBody : ModNPC
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.StormWeaverHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -105,7 +107,7 @@ namespace CalamityMod.NPCs.StormWeaver
             Player player = Main.player[NPC.target];
 
             // Update armored settings to naked settings
-            if (phase2 && (!CalamityWorld.getFixedBoi || !CalamityWorld.LegendaryMode || !revenge))
+            if (phase2 && (!CalamityWorld.LegendaryMode || !revenge))
             {
                 // Spawn armor gore and set other crucial variables
                 if (!NPC.chaseable)
@@ -250,7 +252,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            bool phase2 = lifeRatio < 0.8f && (!CalamityWorld.getFixedBoi || !CalamityWorld.LegendaryMode || !revenge);
+            bool phase2 = lifeRatio < 0.8f && (!CalamityWorld.LegendaryMode || !revenge);
             bool phase3 = lifeRatio < 0.55f;
 
             // Gate value that decides when Storm Weaver will charge

@@ -989,7 +989,6 @@ namespace CalamityMod
                 NPCType<BloomSlime>(),
                 NPCType<Bohldohr>(),
                 NPCType<CalamityEye>(),
-                NPCType<CosmicElemental>(),
                 NPCType<CrimulanBlightSlime>(),
                 NPCType<Cryon>(),
                 NPCType<CryoSlime>(),

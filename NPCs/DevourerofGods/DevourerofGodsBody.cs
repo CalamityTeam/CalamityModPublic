@@ -14,6 +14,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DevourerofGods
@@ -34,7 +35,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         private bool setOpacity = false;
         private bool phase2Started = false;
         public int SegmentIndex;
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.DevourerofGodsHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -350,6 +351,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.realLife < 0 || NPC.realLife >= Main.maxNPCs || Main.npc[NPC.realLife] is null)
+                return true;
+            if (Main.npc[NPC.realLife].type != ModContent.NPCType<DevourerofGodsHead>())
+                return true;
+
             float disintegrationFactor = Main.npc[NPC.realLife].ModNPC<DevourerofGodsHead>().DeathAnimationTimer / 640f;
             if (disintegrationFactor > 0f)
             {

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
@@ -17,10 +18,9 @@ namespace CalamityMod.NPCs.Astral
     public class AstralachneaWall : ModNPC
     {
         private static Texture2D glowmask;
-
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.AstralachneaGround.DisplayName");
         public override void SetStaticDefaults()
         {
-
             Main.npcFrameCount[NPC.type] = 4;
 
             if (!Main.dedServ)

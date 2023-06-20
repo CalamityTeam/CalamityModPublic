@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.Cryogen
         {
             if (CalamityWorld.getFixedBoi)
             {
-                typeName = "Pyrogen's Shield";
+                typeName = CalamityUtils.GetTextValue("NPCs.PyrogenShield");
             }
         }
 
