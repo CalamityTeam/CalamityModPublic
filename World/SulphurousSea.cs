@@ -129,6 +129,9 @@ namespace CalamityMod.World
         {
             get
             {
+                if (CalamityWorld.getFixedBoi)
+                    return (int)((Main.maxTilesY - 200) * 0.2f);
+
                 float depthFactor = Main.maxTilesX switch
                 {
                     // Small worlds.
@@ -174,7 +177,7 @@ namespace CalamityMod.World
         };
 
         // Vines cannot grow any higher than this. This is done to prevent vines from growing very close to the sea surface.
-        public static int VineGrowTopLimit => YStart + 100;
+        public static int VineGrowTopLimit => (CalamityWorld.getFixedBoi ? (int)Main.rockLayer : YStart + 100);
         #endregion
 
         #region Placement Methods
@@ -186,7 +189,10 @@ namespace CalamityMod.World
             // Settle the foundation for the sea. This involves creating the base sulphurous sea block, old tile cleanup, and creating water at the surface.
             DetermineYStart();
             GenerateSandBlock();
-            RemoveStupidTilesAboveSea();
+
+            if (!CalamityWorld.getFixedBoi)
+                RemoveStupidTilesAboveSea();
+
             GenerateShallowTopWater();
             GenerateIsland();
 
@@ -198,7 +204,9 @@ namespace CalamityMod.World
             // Lay down decorations and post-processing effects after the caves are generated.
             DecideHardSandstoneLine();
             MakeSurfaceLessRigid();
-            LayTreesOnSurface();
+
+            if (!CalamityWorld.getFixedBoi)
+                LayTreesOnSurface();
         }
         
         public static void SulphurSeaGenerationAfterAbyss()
@@ -227,7 +235,7 @@ namespace CalamityMod.World
                 xCheckPosition += Abyss.AtLeftSideOfWorld.ToDirectionInt();
             }
             while (CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y).TileType == TileID.Ebonstone);
-            YStart = determinedPoint.Y;
+            YStart = CalamityWorld.getFixedBoi ? (int)((Main.maxTilesY - 200) * 0.2f) : determinedPoint.Y;
         }
 
         public static void GenerateSandBlock()
@@ -269,10 +277,13 @@ namespace CalamityMod.World
                 }
 
                 // Obliterate old palm trees.
-                for (int y = top - 75; y < top + 50; y++)
+                if (!CalamityWorld.getFixedBoi)
                 {
-                    if (Main.tile[x, y].TileType == TileID.PalmTree)
-                        WorldGen.KillTile(x, y);
+                    for (int y = top - 75; y < top + 50; y++)
+                    {
+                        if (Main.tile[x, y].TileType == TileID.PalmTree)
+                            WorldGen.KillTile(x, y);
+                    }
                 }
             }
         }
@@ -706,24 +717,27 @@ namespace CalamityMod.World
             }
 
             // Plant new trees.
-            for (int x = BiomeWidth - 10; x <= BiomeWidth + beachWidth; x++)
+            if (!CalamityWorld.getFixedBoi)
             {
-                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
-                if (!WorldGen.genRand.NextBool(10))
-                    continue;
+                for (int x = BiomeWidth - 10; x <= BiomeWidth + beachWidth; x++)
+                {
+                    int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
+                    if (!WorldGen.genRand.NextBool(10))
+                        continue;
 
-                int y = YStart - 30;
-                if (!WorldUtils.Find(new Point(trueX, y), Searches.Chain(new Searches.Down(100), new Conditions.IsTile(sandID)), out Point treePlantPosition))
-                    continue;
+                    int y = YStart - 30;
+                    if (!WorldUtils.Find(new Point(trueX, y), Searches.Chain(new Searches.Down(100), new Conditions.IsTile(sandID)), out Point treePlantPosition))
+                        continue;
 
-                treePlantPosition.Y--;
+                    treePlantPosition.Y--;
 
-                // Place the saplings and try to grow them.
-                WorldGen.PlaceTile(treePlantPosition.X, treePlantPosition.Y, ModContent.TileType<AcidWoodTreeSapling>());
-                Main.tile[treePlantPosition].TileType = TileID.Saplings;
-                Main.tile[treePlantPosition].Get<TileWallWireStateData>().HasTile = true;
-                if (!WorldGen.GrowPalmTree(treePlantPosition.X, treePlantPosition.Y))
-                    WorldGen.KillTile(treePlantPosition.X, treePlantPosition.Y);
+                    // Place the saplings and try to grow them.
+                    WorldGen.PlaceTile(treePlantPosition.X, treePlantPosition.Y, ModContent.TileType<AcidWoodTreeSapling>());
+                    Main.tile[treePlantPosition].TileType = TileID.Saplings;
+                    Main.tile[treePlantPosition].Get<TileWallWireStateData>().HasTile = true;
+                    if (!WorldGen.GrowPalmTree(treePlantPosition.X, treePlantPosition.Y))
+                        WorldGen.KillTile(treePlantPosition.X, treePlantPosition.Y);
+                }
             }
         }
 
@@ -962,7 +976,7 @@ namespace CalamityMod.World
             for (int i = 0; i < BiomeWidth; i++)
             {
                 int x = GetActualX(i);
-                for (int y = YStart - 140; y < Main.rockLayer; y++)
+                for (int y = YStart - 140; y < (CalamityWorld.getFixedBoi ? (Main.maxTilesY - 200) : Main.rockLayer); y++)
                 {
                     Tile tile = Main.tile[x, y];
                     Tile tileUp = Main.tile[x, y - 1];

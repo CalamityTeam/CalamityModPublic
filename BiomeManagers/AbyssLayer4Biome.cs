@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables.FurnitureAbyss;
 using CalamityMod.Systems;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,8 +29,14 @@ namespace CalamityMod.BiomeManagers
 
         public override bool IsBiomeActive(Player player)
         {
-            return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && BiomeTileCounterSystem.Layer4Tiles >= 200 &&
-            playerYTileCoords > Main.rockLayer + Main.maxTilesY * 0.268;
+            if (CalamityWorld.getFixedBoi)
+            {
+                return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && BiomeTileCounterSystem.Layer4Tiles >= 200 &&
+                playerYTileCoords <= SulphurousSea.YStart - (int)((Main.maxTilesY - 200) * 0.6f);
+            }
+
+            return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords2) && BiomeTileCounterSystem.Layer4Tiles >= 200 &&
+            playerYTileCoords2 > Main.rockLayer + Main.maxTilesY * 0.268;
         }
     }
 }

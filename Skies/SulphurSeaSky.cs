@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
@@ -56,6 +57,9 @@ namespace CalamityMod.Skies
             {
                 sulphurSeaHeight = (World.SulphurousSea.YStart + (int)Main.worldSurface) / 140;
             }
+
+            if (CalamityWorld.getFixedBoi)
+                sulphurSeaHeight = Main.maxTilesY - 200;
 
             if (maxDepth >= 1f && minDepth < 1f)
             {

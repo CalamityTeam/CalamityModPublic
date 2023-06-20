@@ -11,7 +11,7 @@ namespace CalamityMod.BiomeManagers
 {
     public class AbyssLayer1Biome : ModBiome
     {
-        //keep this here even though layer one now uses a tile check, cannot be bothered to move it for now
+        // Keep this here even though layer one now uses a tile check, cannot be bothered to move it for now
         public static bool MeetsBaseAbyssRequirement(Player player, out int playerYTileCoords)
         {
             Point point = player.Center.ToTileCoordinates();
@@ -37,12 +37,15 @@ namespace CalamityMod.BiomeManagers
             if (WeakReferenceSupport.InAnySubworld())
                 return false;
 
-            int abyssStartHeight = (SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90;
+            int abyssStartHeight = CalamityWorld.getFixedBoi ? SulphurousSea.YStart : ((SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90);
+
+            if (CalamityWorld.getFixedBoi)
+                return !player.lavaWet && !player.honeyWet && abyssPosX && playerYTileCoords < abyssStartHeight && playerYTileCoords <= Main.maxTilesY - 200;
 
             return !player.lavaWet && !player.honeyWet && abyssPosX && playerYTileCoords >= abyssStartHeight && playerYTileCoords <= Main.maxTilesY - 200;
         }
 
-        //temporarily use sulphur for now
+        // Temporarily use sulphur for now
         public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater");
         public override int BiomeTorchItemType => ModContent.ItemType<AbyssTorch>();
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
@@ -66,9 +69,15 @@ namespace CalamityMod.BiomeManagers
         {
             Point point = player.Center.ToTileCoordinates();
 
-            int abyssStartHeight = (SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90;
+            int abyssStartHeight = CalamityWorld.getFixedBoi ? SulphurousSea.YStart : ((SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90);
 
-            return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && point.Y >= abyssStartHeight &&
+            if (CalamityWorld.getFixedBoi)
+            {
+                return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && point.Y < abyssStartHeight &&
+                BiomeTileCounterSystem.Layer1Tiles >= 200 && !player.Calamity().ZoneAbyssLayer2 && !player.Calamity().ZoneAbyssLayer3 && !player.Calamity().ZoneAbyssLayer4;
+            }
+
+            return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords2) && point.Y >= abyssStartHeight &&
             BiomeTileCounterSystem.Layer1Tiles >= 200 && !player.Calamity().ZoneAbyssLayer2 && !player.Calamity().ZoneAbyssLayer3 && !player.Calamity().ZoneAbyssLayer4;
         }
     }
