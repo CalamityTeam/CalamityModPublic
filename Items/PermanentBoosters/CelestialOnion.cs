@@ -52,7 +52,7 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             // GetModPlayer will throw an index error in this step of the loading process for whatever reason
             // We prematurely stop it from getting to that point
-            if (!Player.active || !Main.masterMode)
+            if (!Player.active || Main.masterMode)
                 return false;
             
             return Player.Calamity().extraAccessoryML;
