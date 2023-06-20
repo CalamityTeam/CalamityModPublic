@@ -13,6 +13,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent;
+using System.IO;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -50,14 +51,15 @@ namespace CalamityMod.NPCs.NormalNPCs
         public float MaxVelocity = 10f;
         public float DistanceFromPlayer = 500f;
         
+        // Although it is weird that Death Mode less projectiles, the AI also changes, making it a shotgun spread of 3 projectiles, so it'd be 2*3.
         public float AmountOfProjectiles = (CalamityWorld.death) ? 2f : (CalamityWorld.revenge) ? 4f : (Main.expertMode) ? 3f : 3f;
-        public float TimeBetweenProjectiles = (CalamityWorld.death) ? 50f : (CalamityWorld.revenge) ? 25f : (Main.expertMode) ? 35f : 45f;
+        public float TimeBetweenProjectiles = (CalamityWorld.death) ? 50f : (CalamityWorld.revenge) ? 35f : (Main.expertMode) ? 40f : 45f;
         public float TimeBetweenBurst = (CalamityWorld.death) ? 240f : 180f;
-        public float ProjectileSpeed = 10f;
+        public float ProjectileSpeed = 8f;
 
         public float TimeBeforeDash = (CalamityWorld.revenge) ? 100f : 120f;
         public float TimeDashing = 100f;
-        public float DashSpeed = 8f;
+        public float DashSpeed = 6f;
 
         #endregion
 
@@ -81,8 +83,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.width = 50;
             NPC.height = 50;
             NPC.defense = 12;
-            NPC.lifeMax = 600;
-            NPC.knockBackResist = 0.35f;
+            NPC.lifeMax = 500;
+            NPC.knockBackResist = 0.25f;
             NPC.noTileCollide = true;
             NPC.aiStyle = -1;
             AIType = -1;
@@ -107,6 +109,18 @@ namespace CalamityMod.NPCs.NormalNPCs
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("An enemy which knows no bounds in hunting its prey. In blizzards where visibility is low, they have been known to glaciate and capture travelers. What happens to the victims is unknown.")
             });
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(rotationDir);
+            writer.Write(checkedRotationDir);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            rotationDir = reader.ReadInt32();
+            checkedRotationDir = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -141,6 +155,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 rotationDir = (Main.rand.NextBool(2)).ToDirectionInt();
                 checkedRotationDir = true;
+                NPC.netUpdate = true;
             }
 
             Vector2 shootingPos = player.Center + new Vector2(MathF.Cos(RotationIncrease) * rotationDir, MathF.Sin(RotationIncrease) * rotationDir) * DistanceFromPlayer;
@@ -148,6 +163,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             NPC.velocity = Vector2.Lerp(NPC.velocity, (shootingPos - NPC.Center).SafeNormalize(Vector2.Zero) * 6f, .1f);
             NPC.velocity = Vector2.Clamp(NPC.velocity, new Vector2(-MaxVelocity, -MaxVelocity), new Vector2(MaxVelocity, MaxVelocity));
+
+            NPC.netUpdate = true;
         }
 
         public void State_Shooting(Player player)
@@ -164,6 +181,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Vector2 vecToPlayer = NPC.SafeDirectionTo(player.Center);
                     Vector2 projVelocity = vecToPlayer * ProjectileSpeed;
+                    int type = ModContent.ProjectileType<IceClasperEnemyProjectile>();
 
                     // If Death Mode on, the enemy will shoot out a spead of projectiles, instead of a burst.
                     if (death)
@@ -174,23 +192,25 @@ namespace CalamityMod.NPCs.NormalNPCs
                             int projectile = Projectile.NewProjectile(NPC.GetSource_FromAI(), 
                                 NPC.Center + projVelocity.SafeNormalize(Vector2.Zero) * 10f,
                                 spreadVelocity,
-                                ModContent.ProjectileType<IceClasperProjectile>(), 
+                                type, 
                                 24, 
                                 0f, 
                                 Main.myPlayer);
                             Main.projectile[projectile].timeLeft = 300;
                         }
+                        NPC.netUpdate = true;
                     }
                     else
                     {
                         int projectile = Projectile.NewProjectile(NPC.GetSource_FromAI(), 
                             NPC.Center + projVelocity.SafeNormalize(Vector2.Zero) * 10f,
                             projVelocity,
-                            ModContent.ProjectileType<IceClasperProjectile>(), 
+                            type, 
                             24, 
                             0f, 
                             Main.myPlayer);
                         Main.projectile[projectile].timeLeft = 300;
+                        NPC.netUpdate = true;
                     }
 
                     // Recoil effect when shooting.
@@ -215,8 +235,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             else if (AITimer >= TimeBetweenBurst / 2f && AITimer < TimeBetweenBurst)
             {
                 Vector2 randPos = Main.rand.NextVector2CircularEdge(100f, 100f);
-                Dust telegraphDust = Dust.NewDustPerfect(NPC.Center + randPos, 172, NPC.DirectionFrom(NPC.Center + NPC.velocity + randPos) * Main.rand.NextFloat(5f, 7f));
+                Dust telegraphDust = Dust.NewDustPerfect(NPC.Center + randPos, 172, NPC.DirectionFrom(NPC.Center + NPC.velocity + randPos) * Main.rand.NextFloat(5f, 7f), 0, default, 1.5f);
                 telegraphDust.noGravity = true;
+                NPC.netUpdate = true;
             }
         }   
 
@@ -293,6 +314,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot) => (isDashing) ? true : false;
+
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<EssenceofEleum>());
@@ -318,7 +341,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 for (int i = 0; i < NPC.oldPos.Length; i++)
                 {
-                    Color afterimageDrawColor = Color.Cyan with { A = 125 } * NPC.Opacity * (1f - i / (float)NPC.oldPos.Length) * AfterimageFade;
+                    Color afterimageDrawColor = new Color(0.79f, 0.94f, 0.98f) with { A = 125 } * NPC.Opacity * (1f - i / (float)NPC.oldPos.Length) * AfterimageFade;
                     Vector2 afterimageDrawPosition = NPC.oldPos[i] + NPC.Size * 0.5f - screenPos;
                     spriteBatch.Draw(texture, afterimageDrawPosition, NPC.frame, afterimageDrawColor, NPC.rotation - MathHelper.PiOver2, origin, NPC.scale, SpriteEffects.None, 0f);
                 }

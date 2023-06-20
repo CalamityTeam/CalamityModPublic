@@ -80,7 +80,6 @@ DestructionStar.DisplayName: Star of Destruction
 DragonShit.DisplayName: Fire
 DukesDecapitatorBubble.DisplayName: Bubble
 DukesDecapitatorProj.DisplayName: Decapitator
-DuneHopperProjectile.DisplayName: Scourge
 DuststormCloud.DisplayName: Dust Cloud
 DuststormCloudStealth.DisplayName: Dust Cloud
 DuststormInABottleProj.DisplayName: Duststorm
@@ -323,3 +322,4 @@ WrathwingCinder.DisplayName: Wrathwing Eruption
 WrathwingFireball.DisplayName: Wrathwing Fireball
 WrathwingSpear.DisplayName: Wrathwing
 WulfrumKnifeProj.DisplayName: Knife
+WaveSkipperProjectile.DisplayName: Scourge

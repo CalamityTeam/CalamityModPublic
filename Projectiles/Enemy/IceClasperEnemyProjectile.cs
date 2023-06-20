@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class IceClasperProjectile : ModProjectile, ILocalizedModType
+    public class IceClasperEnemyProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Enemy";
 
