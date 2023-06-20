@@ -41,9 +41,9 @@ namespace CalamityMod.World
             int x = Main.maxTilesX;
             int y = Main.maxTilesY;
             int genLimit = x / 2;
-            int rockLayer = CalamityWorld.getFixedBoi ? SulphurousSea.YStart : (int)Main.rockLayer;
+            int rockLayer = Main.remixWorld ? SulphurousSea.YStart : (int)Main.rockLayer;
 
-            int abyssChasmY = CalamityWorld.getFixedBoi ? SulphurousSea.YStart : y - 250; //Underworld = y - 200
+            int abyssChasmY = Main.remixWorld ? SulphurousSea.YStart : y - 250; //Underworld = y - 200
             AbyssChasmBottom = abyssChasmY - 100; //850 small 1450 medium 2050 large
             int abyssChasmX = AtLeftSideOfWorld ? genLimit - (genLimit - 135) + 35 : genLimit + (genLimit - 135) - 35; //2100 - 1965 = 135 : 2100 + 1965 = 4065
 
@@ -67,7 +67,7 @@ namespace CalamityMod.World
                     //normally i would organize each layer of blocks by the order of how they are placed in the abyss
                     //but i cannot be bothered, and when i do it, it keeps messing up or making certain parts like transitions not gen right
                     //i have at least left comments so people reading will know what does what
-                    if (CalamityWorld.getFixedBoi)
+                    if (Main.remixWorld)
                     {
                         if (abyssIndex2 <= rockLayer)
                         {
@@ -318,18 +318,18 @@ namespace CalamityMod.World
                 maxAbyssIslands = 16; //Medium World
             }
 
-            PlaceSnailFossil(abyssChasmX, CalamityWorld.getFixedBoi ? (int)GenVars.worldSurfaceLow + 120 : AbyssChasmBottom + 45);
+            PlaceSnailFossil(abyssChasmX, Main.remixWorld ? (int)GenVars.worldSurfaceLow + 120 : AbyssChasmBottom + 45);
 
             //place a single abyss island under the terminus shrine
-            AbyssIsland(abyssChasmX, CalamityWorld.getFixedBoi ? (int)GenVars.worldSurfaceLow + 80 : AbyssChasmBottom + 5, 65, 75, 40, 45, ModContent.TileType<Voidstone>(), false, false, false);
+            AbyssIsland(abyssChasmX, Main.remixWorld ? (int)GenVars.worldSurfaceLow + 80 : AbyssChasmBottom + 5, 65, 75, 40, 45, ModContent.TileType<Voidstone>(), false, false, false);
 
             //place terminus shrine
             UndergroundShrines.SpecialHut((ushort)ModContent.TileType<SmoothVoidstone>(), (ushort)ModContent.TileType<Voidstone>(),
-            (ushort)ModContent.WallType<VoidstoneWallUnsafe>(), UndergroundShrines.UndergroundShrineType.Abyss, abyssChasmX, CalamityWorld.getFixedBoi ? (int)GenVars.worldSurfaceLow + 75 : AbyssChasmBottom);
+            (ushort)ModContent.WallType<VoidstoneWallUnsafe>(), UndergroundShrines.UndergroundShrineType.Abyss, abyssChasmX, Main.remixWorld ? (int)GenVars.worldSurfaceLow + 75 : AbyssChasmBottom);
 
             //place islands in the sulphuric depths layer
             //start placing islands at the world surface so the abyss hole isnt completely empty
-            int abyssStartHeight = CalamityWorld.getFixedBoi ? rockLayer - (int)((y - 200) * 0.2f) : (SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90;
+            int abyssStartHeight = Main.remixWorld ? rockLayer - (int)((y - 200) * 0.2f) : (SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90;
             for (int sulphurIslandY = abyssStartHeight; sulphurIslandY <= rockLayer - 25; sulphurIslandY++)
             {
                 int islandLocationX = abyssChasmX;
@@ -376,7 +376,7 @@ namespace CalamityMod.World
             }
 
             //islands for layer 2
-            int islandLocationY = CalamityWorld.getFixedBoi ? rockLayer - (int)((y - 200) * 0.4f) : rockLayer;
+            int islandLocationY = Main.remixWorld ? rockLayer - (int)((y - 200) * 0.4f) : rockLayer;
 
             for (int islands = 0; islands < maxAbyssIslands; islands++)
             {
@@ -430,14 +430,14 @@ namespace CalamityMod.World
                 islandLocationY += islandLocationOffset;
 
                 //do not place anymore islands when the third layer is reached
-                if (islandLocationY >= (CalamityWorld.getFixedBoi ? rockLayer - (int)((y - 200) * 0.2f) : (rockLayer + y * 0.145) - 10))
+                if (islandLocationY >= (Main.remixWorld ? rockLayer - (int)((y - 200) * 0.2f) : (rockLayer + y * 0.145) - 10))
                 {
                     break;
                 }
             }
 
             //islands for layer 3
-            for (int thermalIslandY = CalamityWorld.getFixedBoi ? rockLayer - (int)((y - 200) * 0.6f) : (int)(rockLayer + y * 0.145); thermalIslandY <= (CalamityWorld.getFixedBoi ? rockLayer - (int)((y - 200) * 0.4f) : (int)(rockLayer + y * 0.270)); thermalIslandY++)
+            for (int thermalIslandY = Main.remixWorld ? rockLayer - (int)((y - 200) * 0.6f) : (int)(rockLayer + y * 0.145); thermalIslandY <= (Main.remixWorld ? rockLayer - (int)((y - 200) * 0.4f) : (int)(rockLayer + y * 0.270)); thermalIslandY++)
             {
                 int islandLocationX = abyssChasmX;
                 int islandLocationOffset = WorldGen.genRand.Next(18, 30);
@@ -480,14 +480,14 @@ namespace CalamityMod.World
                 thermalIslandY += islandLocationOffset;
 
                 //do not place anymore islands when the fourth layer is reached
-                if (thermalIslandY >= (CalamityWorld.getFixedBoi ? rockLayer - (int)((y - 200) * 0.4f) : (rockLayer + y * 0.270) - 10))
+                if (thermalIslandY >= (Main.remixWorld ? rockLayer - (int)((y - 200) * 0.4f) : (rockLayer + y * 0.270) - 10))
                 {
                     break;
                 }
             }
 
             //place some islands lining the walls in layer 4
-            for (int voidIslandY = CalamityWorld.getFixedBoi ? rockLayer - (int)((y - 200) * 0.8f) : (int)(rockLayer + y * 0.275); voidIslandY <= (CalamityWorld.getFixedBoi ? rockLayer - (int)((y - 200) * 0.6f) : AbyssChasmBottom - 20); voidIslandY++)
+            for (int voidIslandY = Main.remixWorld ? rockLayer - (int)((y - 200) * 0.8f) : (int)(rockLayer + y * 0.275); voidIslandY <= (Main.remixWorld ? rockLayer - (int)((y - 200) * 0.6f) : AbyssChasmBottom - 20); voidIslandY++)
             {
                 if (WorldGen.genRand.NextBool(8))
                 {
@@ -569,7 +569,7 @@ namespace CalamityMod.World
             //ambient tiles and pots
             for (int abyssIndex = abyssMinX + 5; abyssIndex < abyssMaxX - 5; abyssIndex++)
             {
-                for (int abyssIndex2 = 0; abyssIndex2 < (CalamityWorld.getFixedBoi ? rockLayer : Main.maxTilesY - 200); abyssIndex2++)
+                for (int abyssIndex2 = 0; abyssIndex2 < (Main.remixWorld ? rockLayer : Main.maxTilesY - 200); abyssIndex2++)
                 {
                     Tile tileToGrowVineOn = Main.tile[abyssIndex, abyssIndex2];
 
@@ -578,7 +578,7 @@ namespace CalamityMod.World
                         Tile tile = Main.tile[abyssIndex, abyssIndex2 + 1];
 
                         //above the 4th layer
-                        if (abyssIndex2 < (CalamityWorld.getFixedBoi ? rockLayer : Main.maxTilesY - 200) && WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1))
+                        if (abyssIndex2 < (Main.remixWorld ? rockLayer : Main.maxTilesY - 200) && WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1))
                         {
                             //sulphur shale stuff 
                             if (tile.TileType == ModContent.TileType<SulphurousShale>())
@@ -733,7 +733,7 @@ namespace CalamityMod.World
 
                         //pots
                         if ((tile.TileType == ModContent.TileType<AbyssGravel>() || tile.TileType == ModContent.TileType<PyreMantle>() || 
-                        tile.TileType == ModContent.TileType<Voidstone>()) && abyssIndex2 > (CalamityWorld.getFixedBoi ? rockLayer - (int)((y - 200) * 0.8f) : rockLayer))
+                        tile.TileType == ModContent.TileType<Voidstone>()) && abyssIndex2 > (Main.remixWorld ? rockLayer - (int)((y - 200) * 0.8f) : rockLayer))
                         {
                             if (WorldGen.genRand.NextBool(5))
                             {
@@ -743,7 +743,7 @@ namespace CalamityMod.World
                         }
 
                         //sulphur pots
-                        else if (tile.TileType == ModContent.TileType<SulphurousShale>() && abyssIndex2 < (CalamityWorld.getFixedBoi ? Main.maxTilesY - 200 : (int)Main.worldSurface))
+                        else if (tile.TileType == ModContent.TileType<SulphurousShale>() && abyssIndex2 < (Main.remixWorld ? Main.maxTilesY - 200 : (int)Main.worldSurface))
                         {
                             if (WorldGen.genRand.NextBool(3))
                             {
@@ -1170,7 +1170,7 @@ namespace CalamityMod.World
             //loop to unlock all abyss treasure chests
             for (int x = abyssMinX; x < abyssMaxX; x++)
             {
-                for (int y = CalamityWorld.getFixedBoi ? SulphurousSea.YStart - (int)((Main.maxTilesY - 200) * 0.4f) : (int)Main.worldSurface; y < Main.maxTilesY - 300; y++)
+                for (int y = Main.remixWorld ? SulphurousSea.YStart - (int)((Main.maxTilesY - 200) * 0.4f) : (int)Main.worldSurface; y < Main.maxTilesY - 300; y++)
                 {
                     //make SURE to check for the entire chest at once, otherwise it will break when unlocking
                     if (Main.tile[x, y].TileType == ModContent.TileType<Tiles.Abyss.AbyssTreasureChest>() && //top left

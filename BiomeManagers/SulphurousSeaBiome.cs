@@ -70,7 +70,7 @@ namespace CalamityMod.BiomeManagers
                 }
             }
             
-            if (CalamityWorld.getFixedBoi)
+            if (Main.remixWorld)
                 return (BiomeTileCounterSystem.SulphurTiles >= 300 || (point.Y > SulphurousSea.YStart && point.Y < Main.maxTilesY - 200 && sulphurPosX)) && !player.Calamity().ZoneAbyss;
 
             return (BiomeTileCounterSystem.SulphurTiles >= 300 || (point.Y < (Main.rockLayer - Main.maxTilesY / 13) && sulphurPosX)) && !player.Calamity().ZoneAbyss;

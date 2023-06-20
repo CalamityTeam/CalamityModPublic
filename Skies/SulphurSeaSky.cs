@@ -58,7 +58,7 @@ namespace CalamityMod.Skies
                 sulphurSeaHeight = (World.SulphurousSea.YStart + (int)Main.worldSurface) / 140;
             }
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.remixWorld)
                 sulphurSeaHeight = Main.maxTilesY - 200;
 
             if (maxDepth >= 1f && minDepth < 1f)

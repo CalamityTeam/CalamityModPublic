@@ -37,9 +37,9 @@ namespace CalamityMod.BiomeManagers
             if (WeakReferenceSupport.InAnySubworld())
                 return false;
 
-            int abyssStartHeight = CalamityWorld.getFixedBoi ? SulphurousSea.YStart : ((SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90);
+            int abyssStartHeight = Main.remixWorld ? SulphurousSea.YStart : ((SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90);
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.remixWorld)
                 return !player.lavaWet && !player.honeyWet && abyssPosX && playerYTileCoords < abyssStartHeight && playerYTileCoords <= Main.maxTilesY - 200;
 
             return !player.lavaWet && !player.honeyWet && abyssPosX && playerYTileCoords >= abyssStartHeight && playerYTileCoords <= Main.maxTilesY - 200;
@@ -69,9 +69,9 @@ namespace CalamityMod.BiomeManagers
         {
             Point point = player.Center.ToTileCoordinates();
 
-            int abyssStartHeight = CalamityWorld.getFixedBoi ? SulphurousSea.YStart : ((SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90);
+            int abyssStartHeight = Main.remixWorld ? SulphurousSea.YStart : ((SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90);
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.remixWorld)
             {
                 return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && point.Y < abyssStartHeight &&
                 BiomeTileCounterSystem.Layer1Tiles >= 200 && !player.Calamity().ZoneAbyssLayer2 && !player.Calamity().ZoneAbyssLayer3 && !player.Calamity().ZoneAbyssLayer4;

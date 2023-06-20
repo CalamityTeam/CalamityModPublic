@@ -29,7 +29,7 @@ namespace CalamityMod.BiomeManagers
 
         public override bool IsBiomeActive(Player player)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.remixWorld)
             {
                 return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && BiomeTileCounterSystem.Layer4Tiles >= 200 &&
                 playerYTileCoords <= SulphurousSea.YStart - (int)((Main.maxTilesY - 200) * 0.6f);

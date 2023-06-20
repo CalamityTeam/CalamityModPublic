@@ -129,7 +129,7 @@ namespace CalamityMod.World
         {
             get
             {
-                if (CalamityWorld.getFixedBoi)
+                if (Main.remixWorld)
                     return (int)((Main.maxTilesY - 200) * 0.2f);
 
                 float depthFactor = Main.maxTilesX switch
@@ -177,7 +177,7 @@ namespace CalamityMod.World
         };
 
         // Vines cannot grow any higher than this. This is done to prevent vines from growing very close to the sea surface.
-        public static int VineGrowTopLimit => (CalamityWorld.getFixedBoi ? (int)Main.rockLayer : YStart + 100);
+        public static int VineGrowTopLimit => (Main.remixWorld ? (int)Main.rockLayer : YStart + 100);
         #endregion
 
         #region Placement Methods
@@ -190,7 +190,7 @@ namespace CalamityMod.World
             DetermineYStart();
             GenerateSandBlock();
 
-            if (!CalamityWorld.getFixedBoi)
+            if (!Main.remixWorld)
                 RemoveStupidTilesAboveSea();
 
             GenerateShallowTopWater();
@@ -205,7 +205,7 @@ namespace CalamityMod.World
             DecideHardSandstoneLine();
             MakeSurfaceLessRigid();
 
-            if (!CalamityWorld.getFixedBoi)
+            if (!Main.remixWorld)
                 LayTreesOnSurface();
         }
         
@@ -235,7 +235,7 @@ namespace CalamityMod.World
                 xCheckPosition += Abyss.AtLeftSideOfWorld.ToDirectionInt();
             }
             while (CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y).TileType == TileID.Ebonstone);
-            YStart = CalamityWorld.getFixedBoi ? (int)((Main.maxTilesY - 200) * 0.2f) : determinedPoint.Y;
+            YStart = Main.remixWorld ? (int)((Main.maxTilesY - 200) * 0.2f) : determinedPoint.Y;
         }
 
         public static void GenerateSandBlock()
@@ -277,7 +277,7 @@ namespace CalamityMod.World
                 }
 
                 // Obliterate old palm trees.
-                if (!CalamityWorld.getFixedBoi)
+                if (!Main.remixWorld)
                 {
                     for (int y = top - 75; y < top + 50; y++)
                     {
@@ -717,7 +717,7 @@ namespace CalamityMod.World
             }
 
             // Plant new trees.
-            if (!CalamityWorld.getFixedBoi)
+            if (!Main.remixWorld)
             {
                 for (int x = BiomeWidth - 10; x <= BiomeWidth + beachWidth; x++)
                 {
@@ -976,7 +976,7 @@ namespace CalamityMod.World
             for (int i = 0; i < BiomeWidth; i++)
             {
                 int x = GetActualX(i);
-                for (int y = YStart - 140; y < (CalamityWorld.getFixedBoi ? (Main.maxTilesY - 200) : Main.rockLayer); y++)
+                for (int y = YStart - 140; y < (Main.remixWorld ? (Main.maxTilesY - 200) : Main.rockLayer); y++)
                 {
                     Tile tile = Main.tile[x, y];
                     Tile tileUp = Main.tile[x, y - 1];
