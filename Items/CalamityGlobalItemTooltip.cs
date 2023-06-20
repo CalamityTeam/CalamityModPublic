@@ -573,6 +573,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.FrozenTurtleShell)
                 EditTooltipByNum(0, (line) => line.Text = "Puts a shell around the owner when below 50% life that reduces damage by 15%");
 
+            if (item.type == ItemID.FrozenShield)
+                EditTooltipByNum(1, (line) => line.Text = "Puts a shell around the owner when below 50% life that reduces damage by 15%");
+
             // Ale and Sake rebalance.
             if (item.type == ItemID.Ale || item.type == ItemID.Sake)
                 EditTooltipByNum(0, (line) => line.Text = "Increases melee damage and speed by 10% and reduces defense by 10%");

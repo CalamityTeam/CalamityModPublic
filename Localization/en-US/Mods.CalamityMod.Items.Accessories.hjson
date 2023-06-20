@@ -1285,7 +1285,7 @@ RampartofDeities: {
 		'''
 		Causes stars to fall and gives increased immune time when damaged
 		Provides life regeneration and reduces the cooldown of healing potions
-		Absorbs 25% of damage done to players on your team
+		Absorbs 15% of damage done to players on your team
 		This effect is only active above 25% life
 		Grants immunity to knockback
 		Puts a shell around the owner when below 50% life that reduces damage taken
