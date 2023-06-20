@@ -235,7 +235,7 @@ namespace CalamityMod.World
                 xCheckPosition += Abyss.AtLeftSideOfWorld.ToDirectionInt();
             }
             while (CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y).TileType == TileID.Ebonstone);
-            YStart = Main.remixWorld ? (int)((Main.maxTilesY - 200) * 0.2f) : determinedPoint.Y;
+            YStart = Main.remixWorld ? (int)((Main.maxTilesY - 200) * 0.8f) : determinedPoint.Y;
         }
 
         public static void GenerateSandBlock()
@@ -678,7 +678,7 @@ namespace CalamityMod.World
             ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
 
             // Stop immediately if for some strange reason a valid tile could not be located for the beach starting point.
-            if (!WorldUtils.Find(new Point(BiomeWidth + 4, (int)GenVars.worldSurfaceLow - 20), searchCondition, out Point determinedPoint))
+            if (!WorldUtils.Find(new Point(BiomeWidth + 4, Main.remixWorld ? YStart : (int)GenVars.worldSurfaceLow - 20), searchCondition, out Point determinedPoint))
                 return;
 
             Tile tileAtEdge = CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y);
