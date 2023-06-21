@@ -37,11 +37,13 @@ namespace CalamityMod.Projectiles.Boss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -111,8 +113,9 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 11f, Projectile.ai[1] - 1f);
             }
             int tornadoSpeed = 10;
-            int breakThreshold = -300;
-            bool breakapart = CalamityWorld.getFixedBoi && Projectile.ai[0] <= breakThreshold;
+            int breakThreshold = 300;
+            Projectile.localAI[1] += 1f;
+            bool breakapart = CalamityWorld.getFixedBoi && Projectile.localAI[1] >= breakThreshold;
             if (Projectile.ai[0] <= 0f && !breakapart)
             {
                 float num622 = 0.104719758f;
@@ -124,9 +127,12 @@ namespace CalamityMod.Projectiles.Boss
                 num624 = (float)(Math.Cos((double)(num622 * -(double)Projectile.ai[0])) - 0.5) * num623;
                 Projectile.position.X += num624 * -Projectile.direction;
             }
-            if (Projectile.ai[0] == breakThreshold && CalamityWorld.getFixedBoi)
+            if (Projectile.localAI[1] == breakThreshold && CalamityWorld.getFixedBoi)
             {
                 Projectile.velocity.X = Main.rand.NextBool(2) ? -tornadoSpeed : tornadoSpeed;
+
+                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                    Projectile.velocity.X *= 1.5f;
             }
 
             if (Projectile.timeLeft == 600)

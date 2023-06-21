@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Boss
                         Projectile.hostile = true;
                         Projectile.width = Projectile.height = (int)(408f * Projectile.scale);
                         float inertia = 5f;
-                        float speed = 5.35f;
+                        float speed = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 10.7f : 5.35f;
                         float minDist = 160f;
                         if (victim >= 0 && Main.player[victim].active && !Main.player[victim].dead)
                         {
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Boss
                         }
 
                         // Fly away from other vortices
-                        float pushForce = 0.05f;
+                        float pushForce = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 0.1f : 0.05f;
                         for (int k = 0; k < Main.maxProjectiles; k++)
                         {
                             Projectile otherProj = Main.projectile[k];

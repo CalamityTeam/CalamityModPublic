@@ -684,11 +684,10 @@ namespace CalamityMod.NPCs.Signus
                             SoundEngine.PlaySound(SoundID.Item73, NPC.Center);
                             int type = (CalamityWorld.LegendaryMode && revenge) ? ModContent.ProjectileType<PeanutRocket>() : ModContent.ProjectileType<EssenceDust>();
                             int damage = (CalamityWorld.LegendaryMode && revenge) ? 60 : NPC.GetProjectileDamage(type);
-                            Vector2 velocity = CalamityWorld.getFixedBoi ? new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)) : Vector2.Zero;
-                            if (Main.getGoodWorld)
+                            Vector2 velocity = CalamityWorld.getFixedBoi ? new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11)) : Vector2.Zero;
+                            if (Main.getGoodWorld && !CalamityWorld.getFixedBoi)
                             {
-                                velocity.Normalize();
-                                velocity *= 1.05f;
+                                velocity = new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6));
                             }
                             int ai = buffed ? 69 : 0;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter, velocity, type, damage, 0f, Main.myPlayer, ai);
