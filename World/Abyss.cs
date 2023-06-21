@@ -303,29 +303,24 @@ namespace CalamityMod.World
             }
 
             //initial hole
-            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX, (int)GenVars.worldSurfaceLow + 65, AbyssChasmBottom, true);
-            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX - 22, (int)GenVars.worldSurfaceLow, AbyssChasmBottom, true);
-            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX + 22, (int)GenVars.worldSurfaceLow, AbyssChasmBottom, true);
+            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX, Main.remixWorld ? 100 : (int)GenVars.worldSurfaceLow + 65, Main.remixWorld ? AbyssChasmBottom + 110 : AbyssChasmBottom, true);
+            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX - 22, Main.remixWorld ? 35 : (int)GenVars.worldSurfaceLow, AbyssChasmBottom, true);
+            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX + 22, Main.remixWorld ? 35 : (int)GenVars.worldSurfaceLow, AbyssChasmBottom, true);
 
             int maxAbyssIslands = 11; //Small World
-
             if (y > 2100)
-            {
                 maxAbyssIslands = 20; //Large World
-            }
             else if (y > 1500)
-            {
                 maxAbyssIslands = 16; //Medium World
-            }
 
-            PlaceSnailFossil(abyssChasmX, Main.remixWorld ? (int)GenVars.worldSurfaceLow + 120 : AbyssChasmBottom + 45);
+            PlaceSnailFossil(abyssChasmX, Main.remixWorld ? 145 : AbyssChasmBottom + 45);
 
             //place a single abyss island under the terminus shrine
-            AbyssIsland(abyssChasmX, Main.remixWorld ? (int)GenVars.worldSurfaceLow + 80 : AbyssChasmBottom + 5, 65, 75, 40, 45, ModContent.TileType<Voidstone>(), false, false, false);
+            AbyssIsland(abyssChasmX, Main.remixWorld ? 105 : AbyssChasmBottom + 5, 65, 75, 40, 45, ModContent.TileType<Voidstone>(), false, false, false);
 
             //place terminus shrine
             UndergroundShrines.SpecialHut((ushort)ModContent.TileType<SmoothVoidstone>(), (ushort)ModContent.TileType<Voidstone>(),
-            (ushort)ModContent.WallType<VoidstoneWallUnsafe>(), UndergroundShrines.UndergroundShrineType.Abyss, abyssChasmX, Main.remixWorld ? (int)GenVars.worldSurfaceLow + 75 : AbyssChasmBottom);
+            (ushort)ModContent.WallType<VoidstoneWallUnsafe>(), UndergroundShrines.UndergroundShrineType.Abyss, abyssChasmX, Main.remixWorld ? 100 : AbyssChasmBottom);
 
             //place islands in the sulphuric depths layer
             //start placing islands at the world surface so the abyss hole isnt completely empty
