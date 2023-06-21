@@ -182,6 +182,7 @@ namespace CalamityMod.World
         public static void ChasmGenerator(int i, int j, int steps, bool ocean = false)
         {
             float num = steps; //850 small 1450 medium 2050 large
+            int limitIncrease = Main.remixWorld ? 110 : 0;
             if (ocean)
             {
                 int tileYLookup = j;
@@ -256,14 +257,14 @@ namespace CalamityMod.World
                 }
                 else
                 {
-                    if ((double)vector.Y > Abyss.AbyssChasmBottom)
+                    if ((double)vector.Y > (Abyss.AbyssChasmBottom + limitIncrease))
                     {
                         num3 -= WorldGen.genRand.Next(5) + 8;
                     }
                 }
                 if (Main.maxTilesY > 2100)
                 {
-                    if (((double)vector.Y > Abyss.AbyssChasmBottom && num > 0f && ocean) ||
+                    if (((double)vector.Y > (Abyss.AbyssChasmBottom + limitIncrease) && num > 0f && ocean) ||
                     (vector.Y >= Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
@@ -271,7 +272,7 @@ namespace CalamityMod.World
                 }
                 else if (Main.maxTilesY > 1500)
                 {
-                    if (((double)vector.Y > Abyss.AbyssChasmBottom && num > 0f && ocean) ||
+                    if (((double)vector.Y > (Abyss.AbyssChasmBottom + limitIncrease) && num > 0f && ocean) ||
                     (vector.Y > Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
@@ -279,7 +280,7 @@ namespace CalamityMod.World
                 }
                 else
                 {
-                    if (((double)vector.Y > Abyss.AbyssChasmBottom && num > 0f && ocean) ||
+                    if (((double)vector.Y > (Abyss.AbyssChasmBottom + limitIncrease) && num > 0f && ocean) ||
                     (vector.Y > Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
