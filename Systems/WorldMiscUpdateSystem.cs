@@ -349,6 +349,9 @@ namespace CalamityMod.Systems
                 {
                     double spawnRate = 100000D;
 
+                    if (CalamityWorld.LegendaryMode && revenge)
+                        spawnRate *= 0.25D;
+
                     if (revenge)
                         spawnRate *= 0.85D;
 

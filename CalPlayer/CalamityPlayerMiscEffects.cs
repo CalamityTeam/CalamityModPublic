@@ -1868,12 +1868,12 @@ namespace CalamityMod.CalPlayer
                 {
                     // Abyss depth variables
                     Point point = Player.Center.ToTileCoordinates();
-                    double abyssSurface = Main.rockLayer - Main.maxTilesY * 0.05;
-                    double abyssLevel1 = Main.rockLayer + Main.maxTilesY * 0.03;
-                    double totalAbyssDepth = Main.maxTilesY - 250D - abyssSurface;
-                    double totalAbyssDepthFromLayer1 = Main.maxTilesY - 250D - abyssLevel1;
-                    double playerAbyssDepth = point.Y - abyssSurface;
-                    double playerAbyssDepthFromLayer1 = point.Y - abyssLevel1;
+                    double abyssSurface = Main.remixWorld ? SulphurousSea.YStart : (Main.rockLayer - Main.maxTilesY * 0.05);
+                    double abyssLevel1 = Main.remixWorld ? (SulphurousSea.YStart - Main.maxTilesY * 0.05) : (Main.rockLayer + Main.maxTilesY * 0.03);
+                    double totalAbyssDepth = Main.remixWorld ? SulphurousSea.YStart : (Main.maxTilesY - 250D - abyssSurface);
+                    double totalAbyssDepthFromLayer1 = Main.remixWorld ? (SulphurousSea.YStart - Main.maxTilesY * 0.05) : (Main.maxTilesY - 250D - abyssLevel1);
+                    double playerAbyssDepth = Main.remixWorld ? (totalAbyssDepth - point.Y) : (point.Y - abyssSurface);
+                    double playerAbyssDepthFromLayer1 = Main.remixWorld ? (abyssLevel1 - point.Y) : (point.Y - abyssLevel1);
                     double depthRatio = playerAbyssDepth / totalAbyssDepth;
                     double depthRatioFromAbyssLayer1 = playerAbyssDepthFromLayer1 / totalAbyssDepthFromLayer1;
 
@@ -1924,7 +1924,7 @@ namespace CalamityMod.CalPlayer
                     }
 
                     // Breath lost while at zero breath
-                    double breathLoss = point.Y > abyssLevel1 ? 50D * depthRatioFromAbyssLayer1 : 0D;
+                    double breathLoss = Main.remixWorld ? (point.Y < abyssLevel1 ? 50D * depthRatioFromAbyssLayer1 : 0D) : (point.Y > abyssLevel1 ? 50D * depthRatioFromAbyssLayer1 : 0D);
 
                     // Breath Loss Multiplier, depending on gear
                     double breathLossMult = 1D -

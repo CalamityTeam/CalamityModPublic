@@ -210,7 +210,7 @@ namespace CalamityMod
             if (mp.littleLightPet)
                 light += 3;
             if (mp.profanedCrystalBuffs && !mp.ZoneAbyss)
-                light += Main.dayTime || player.lavaWet ? 2 : 1; // not sure how you'd be in lava in the abyss but go ham I guess
+                light += (Main.dayTime || player.lavaWet) ? 2 : 1; // not sure how you'd be in lava in the abyss but go ham I guess
             return light;
         }
 
