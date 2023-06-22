@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.Abyss
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water)
             {
                 if (CalamityGlobalNPC.bobbitWormBottom.Contains(-1))
-                    return SpawnCondition.CaveJellyfish.Chance * 0.85f;
+                    return Main.remixWorld ? 2.75f : SpawnCondition.CaveJellyfish.Chance * 0.85f;
             }
             return 0f;
         }

@@ -40,7 +40,7 @@ namespace CalamityMod.BiomeManagers
             int abyssStartHeight = Main.remixWorld ? SulphurousSea.YStart : ((SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90);
 
             if (Main.remixWorld)
-                return !player.lavaWet && !player.honeyWet && abyssPosX && playerYTileCoords < abyssStartHeight && playerYTileCoords <= Main.maxTilesY - 200;
+                return !player.lavaWet && !player.honeyWet && abyssPosX && playerYTileCoords < abyssStartHeight;
 
             return !player.lavaWet && !player.honeyWet && abyssPosX && playerYTileCoords >= abyssStartHeight && playerYTileCoords <= Main.maxTilesY - 200;
         }
