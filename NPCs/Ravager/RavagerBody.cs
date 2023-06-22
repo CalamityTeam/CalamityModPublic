@@ -239,7 +239,7 @@ namespace CalamityMod.NPCs.Ravager
 
             if (CalamityWorld.getFixedBoi)
             {
-                bool finalStand = lifeRatio < 0.1f; //At 10% body health, does the funny final attack
+                bool finalStand = lifeRatio < 0.2f; //At 20% body health, does the funny final attack
                 NPC.localAI[1]++;
                 
                 Vector2 Pos = player.Center; //Spawn projectiles based on player's center. Having it be based on the boss turned out weird. (Except for final)
@@ -298,13 +298,13 @@ namespace CalamityMod.NPCs.Ravager
                     if (NPC.localAI[1] > 1180f) //3 seconds
                         NPC.localAI[1] = 0f;
                     else if (NPC.localAI[1] % 60 == 0) //3 blasts from the side
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - lineOffset, Pos.Y, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - lineOffset, Pos.Y, Pos.X, Pos.Y, type, damage * 2, 0f, Main.myPlayer, 0f, 4f);
                 }
                 else if (NPC.localAI[1] >= 300f) //Choose an attack after 5 seconds
                 {
                     NPC.localAI[1] = 1000f * Main.rand.Next(1, 6 + (immunePhase ? 0 : 4)); //doubled chance for everything except attack 1
                 }
-                else if (NPC.localAI[1] >= 60f && Main.rand.NextBool(2000)) //About 10% chance to reset the timer and instead summon a blue pillar
+                else if (NPC.localAI[1] >= 60f && Main.rand.NextBool(1200)) //About 5% chance to reset the timer and instead summon a blue pillar
                 {
                     int laser = ModContent.ProjectileType<RavagerBlast>();
                     float blueOffset1 = 2400f;

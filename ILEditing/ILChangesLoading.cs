@@ -59,10 +59,7 @@ namespace CalamityMod.ILEditing
             // Mechanics / features
             Terraria.On_NPC.ApplyTileCollision += AllowTriggeredFallthrough;
             Terraria.IL_Player.ApplyEquipFunctional += ScopesRequireVisibilityToZoom;
-            
-            // ERROR
-            //Terraria.IL_Player.Hurt += RemoveRNGFromDodges;
-            
+            Terraria.On_Player.Hurt_PlayerDeathReason_int_int_bool_bool_int_bool_float_float_float += RemoveRNGFromDodges;
             Terraria.IL_Player.DashMovement += FixAllDashMechanics;
             Terraria.On_Player.DoCommonDashHandle += ApplyDashKeybind;
             Terraria.IL_Player.GiveImmuneTimeForCollisionAttack += MakeShieldSlamIFramesConsistent;
