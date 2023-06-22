@@ -437,7 +437,7 @@ namespace CalamityMod.NPCs.Abyss
         {
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
             {
-                return Main.remixWorld ? 1.8f : SpawnCondition.CaveJellyfish.Chance * 0.6f;
+                return Main.remixWorld ? 5.4f : SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }
             return 0f;
         }

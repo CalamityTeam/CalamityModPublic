@@ -318,11 +318,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water)
             {
-                return Main.remixWorld ? 0.75f : 0.25f;
+                return Main.remixWorld ? 2.25f : 0.25f;
             }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water)
             {
-                return Main.remixWorld ? 1.5f : 0.5f;
+                return Main.remixWorld ? 4.5f : 0.5f;
             }
             return 0f;
         }

@@ -359,11 +359,11 @@ namespace CalamityMod.NPCs.Abyss
         {
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<GulperEelHead>()))
             {
-                return Main.remixWorld ? 0.9f : SpawnCondition.CaveJellyfish.Chance * 0.3f;
+                return Main.remixWorld ? 2.7f : SpawnCondition.CaveJellyfish.Chance * 0.3f;
             }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<GulperEelHead>()))
             {
-                return Main.remixWorld ? 1.8f : SpawnCondition.CaveJellyfish.Chance * 0.6f;
+                return Main.remixWorld ? 5.4f : SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }
             return 0f;
         }
