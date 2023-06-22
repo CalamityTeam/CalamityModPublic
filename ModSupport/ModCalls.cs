@@ -1624,6 +1624,16 @@ namespace CalamityMod
             cgi.canFirePointBlankShots = enabled;
             return cgi.canFirePointBlankShots;
         }
+
+        // Set a projectile's point blank duration
+        public static void SetPointBlankDuration(Projectile projectile, int duration)
+        {
+            if (projectile != null)
+                projectile.Calamity().pointBlankShotDuration = duration;
+        }
+
+        // Gets a projectile's current point blank duration
+        public static int GetPointBlankDuration(Projectile projectile) => projectile?.Calamity()?.pointBlankShotDuration ?? 0;
         #endregion
 
         #region Amalgam Potion Buff List
@@ -2190,7 +2200,7 @@ namespace CalamityMod
                 case "SetProjectileDefenseDamage":
                     {
                         if (args.Length < 2)
-                            return new ArgumentNullException("ERROR: Must specify both an Projectile and if the Projectile can deal defense damage as a bool.");
+                            return new ArgumentNullException("ERROR: Must specify both a Projectile and if the Projectile can deal defense damage as a bool.");
                         if (args.Length < 3)
                             return new ArgumentNullException("ERROR: Must specify the ability to deal defense damage as a bool.");
                         if (!(args[2] is bool))
@@ -2312,6 +2322,34 @@ namespace CalamityMod
                     if (!isValidItemArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"SetFirePointBlank\" must be an Item or an int.");
                     return SetFirePointBlank(castItem(args[1]), firePointBlank);
+
+                case "SetPointBlankDuration":
+                case "SetProjectilePointBlank":
+                case "SetProjectilePointBlankDuration":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both a Projectile and point blank duration as an int.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify the point blank duration as an int.");
+                        if (!(args[2] is int pbDuration))
+                            return new ArgumentException("ERROR: The second argument to \"SetPointBlankDuration\" must be an int.");
+                        if (!isValidProjectileArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetPointBlankDuration\" must be a Projectile.");
+
+                        SetPointBlankDuration(castProjectile(args[1]), pbDuration);
+                        return null;
+                    }
+
+                case "GetPointBlankDuration":
+                case "GetProjectilePointBlank":
+                case "GetProjectilePointBlankDuration":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify a Projectile.");
+                        if (!isValidProjectileArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetPointBlankDuration\" must be a Projectile.");
+                        return GetPointBlankDuration(castProjectile(args[1]));
+                    }
 
                 case "NoDodges":
                 case "DodgesDisabled":
