@@ -27,6 +27,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using static CalamityMod.NPCs.ExoMechs.Ares.AresBody;
 
 namespace CalamityMod.NPCs
 {
@@ -96,9 +97,16 @@ namespace CalamityMod.NPCs
 
             Player player = Main.player[npc.target];
 
-            bool notOcean = player.position.Y < 400f ||
+            bool notOcean = player.position.Y < 300f ||
                 player.position.Y > Main.worldSurface * 16.0 ||
                 (player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680));
+
+            // Check for the flipped Abyss
+            if (Main.remixWorld)
+            {
+                notOcean = player.position.Y < (Main.maxTilesY - 200) * 0.8f || player.position.Y > Main.maxTilesY - 200 ||
+                    (player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680));
+            }
 
             // Enrage
             if (head)
@@ -6042,6 +6050,14 @@ namespace CalamityMod.NPCs
             bool enrage = !bossRush &&
                 (player.position.Y < 300f || player.position.Y > Main.worldSurface * 16.0 ||
                 (player.position.X > 8000f && player.position.X < (Main.maxTilesX * 16 - 8000)));
+
+            // Check for the flipped Abyss
+            if (Main.remixWorld)
+            {
+                enrage = !bossRush &&
+                    (player.position.Y < (Main.maxTilesY - 200) * 0.8f || player.position.Y > Main.maxTilesY - 200 ||
+                    (player.position.X > 8000f && player.position.X < (Main.maxTilesX * 16 - 8000)));
+            }
 
             // Enrage
             if (enrage)
