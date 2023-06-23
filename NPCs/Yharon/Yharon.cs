@@ -1937,7 +1937,10 @@ namespace CalamityMod.NPCs.Yharon
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 if (CalamityWorld.LegendaryMode && revenge)
-                                    NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<Bumblefuck>());
+                                {
+                                    if (!NPC.AnyNPCs(ModContent.NPCType<Bumblefuck>()))
+                                        NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<Bumblefuck>());
+                                }
 
                                 Vector2 center = targetData.Center + new Vector2(0f, -540f);
                                 NPC.Center = center;
