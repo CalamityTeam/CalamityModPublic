@@ -4,47 +4,53 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 {
-    public static class ImpMinionAI
+    public static class HornetMinionAI
     {
-        public static bool DoImpMinionAI(Projectile projectile)
+        public static bool DoHornetMinionAI(Projectile projectile)
         {
             Player owner = Main.player[projectile.owner];
-            ref float timerToShoot = ref projectile.ai[0];
+            ref float timerToBurst = ref projectile.ai[0];
+            ref float timerForProjectiles = ref projectile.ai[1];
             projectile.aiStyle = -1;
 
             float enemyDistanceDetection = 1200f;
-            float fireRate = 120f; // In frames.
-            float projVelocity = 20f;
+            float amountOfProjectilesPerBurst = 3f;
+            float timeBetweenBurst = 180f;
+            float timeBetweenProjectiles = 20f;
+            float projVelocity = 15f;
 
-            // Detects a target.
             NPC target = projectile.Center.MinionHoming(enemyDistanceDetection, owner);
 
             if (target is not null)
             {
-                if (timerToShoot >= fireRate && Main.myPlayer == projectile.owner)
+                timerToBurst++;
+                if (timerToBurst >= timeBetweenBurst)
                 {
-                    int fireball = Projectile.NewProjectile(projectile.GetSource_FromThis(),
-                        projectile.Center,
-                        CalamityUtils.CalculatePredictiveAimToTarget(projectile.Center, target.Center, target.velocity, projVelocity),
-                        ProjectileID.ImpFireball,
-                        projectile.damage,
-                        projectile.knockBack,
-                        owner.whoAmI);
+                    timerForProjectiles++;
 
-                    if (Main.projectile.IndexInRange(fireball))
+                    if (timerForProjectiles % timeBetweenProjectiles == 0f && Main.myPlayer == projectile.owner)
                     {
-                        Main.projectile[fireball].originalDamage = projectile.originalDamage;
-                        Main.projectile[fireball].usesLocalNPCImmunity = true;
-                        Main.projectile[fireball].localNPCHitCooldown = 30;
-                        Main.projectile[fireball].usesIDStaticNPCImmunity = false;
+                        int stinger = Projectile.NewProjectile(projectile.GetSource_FromThis(),
+                            projectile.Center,
+                            CalamityUtils.CalculatePredictiveAimToTarget(projectile.Center, target.Center, target.velocity, projVelocity),
+                            ProjectileID.HornetStinger,
+                            projectile.damage,
+                            projectile.knockBack,
+                            owner.whoAmI);
+
+                        if (Main.projectile.IndexInRange(stinger))
+                            Main.projectile[stinger].originalDamage = projectile.originalDamage;
+                    
+                        projectile.netUpdate = true;
                     }
-                
-                    timerToShoot = 0f;
-                    projectile.netUpdate = true;
+
+                    if (timerForProjectiles >= timeBetweenProjectiles * amountOfProjectilesPerBurst)
+                    {
+                        timerForProjectiles = 0f;
+                        timerToBurst = 0f;
+                        projectile.netUpdate = true;
+                    }
                 }
-            
-                if (timerToShoot < fireRate)
-                    timerToShoot++;
             }
 
             CheckMinionExistence(owner, projectile);
@@ -60,25 +66,21 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
             // Just so the minion doesn't stay weirdly still.
             if (projectile.velocity == Vector2.Zero)
                 projectile.velocity += new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-
-            // Flavor fire dust effect.
-            int dustEffect = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, Main.rand.NextBool(2) ? 1f : -1f, Main.rand.NextBool(2) ? 1f : -1f);
-            Main.dust[dustEffect].noGravity = true;
-
+            
             return false;
         }
 
         #region Methods
-        
+
         public static void CheckMinionExistence(Player owner, Projectile projectile)
         {
-            owner.AddBuff(BuffID.ImpMinion, 1);
-            if (projectile.type != ProjectileID.FlyingImp)
+            owner.AddBuff(BuffID.HornetMinion, 1);
+            if (projectile.type != ProjectileID.Hornet)
                 return;
-            
+
             if (owner.dead)
-                owner.impMinion = false;
-            if (owner.impMinion)
+                owner.hornetMinion = false;
+            if (owner.hornetMinion)
                 projectile.timeLeft = 2;
         }
 
@@ -91,11 +93,12 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 
         public static void DecideDirection(NPC target, Projectile projectile)
         {
-            // Both results are negated because some individual decided to make the minion look at the left in the sprite instead of the right.
+            // Both directions are negated because some individual decided to make the minion look at the left in the sprite instead of the right.
             if (target is not null)
                 projectile.direction = projectile.spriteDirection = (target.Center.X - projectile.Center.X < 0).ToDirectionInt();
             else
                 projectile.direction = projectile.spriteDirection = -projectile.velocity.X.DirectionalSign();
+                
         }
 
         public static void FollowPlayer(Player owner, Projectile projectile, float enemyDistanceDetection)

@@ -173,6 +173,10 @@ namespace CalamityMod.Projectiles
         {
             #region Vanilla Minion AI Changes
 
+            // Hornet Staff's minion changes.
+            if (projectile.type == ProjectileID.Hornet)
+                return HornetMinionAI.DoHornetMinionAI(projectile);
+            
             // Imp Staff's minion changes.
             if (projectile.type == ProjectileID.FlyingImp)
                 return ImpMinionAI.DoImpMinionAI(projectile);
