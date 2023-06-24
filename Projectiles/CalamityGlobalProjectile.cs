@@ -171,6 +171,14 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
+            #region Vanilla Minion AI Changes
+
+            // Imp Staff's minion changes.
+            if (projectile.type == ProjectileID.FlyingImp)
+                return ImpMinionAI.DoImpMinionAI(projectile);
+
+            #endregion
+            
             if (!Main.player[projectile.owner].ActiveItem().IsAir && !Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots)
                 pointBlankShotDuration = 0;
 
