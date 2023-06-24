@@ -9,47 +9,33 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
         public static bool DoHornetMinionAI(Projectile projectile)
         {
             Player owner = Main.player[projectile.owner];
-            ref float timerToBurst = ref projectile.ai[0];
-            ref float timerForProjectiles = ref projectile.ai[1];
+            ref float timerToShoot = ref projectile.ai[0];
             projectile.aiStyle = -1;
 
             float enemyDistanceDetection = 1200f;
-            float amountOfProjectilesPerBurst = 3f;
-            float timeBetweenBurst = 180f;
-            float timeBetweenProjectiles = 20f;
+            float fireRate = 90f;
             float projVelocity = 15f;
 
             NPC target = projectile.Center.MinionHoming(enemyDistanceDetection, owner);
 
             if (target is not null)
             {
-                timerToBurst++;
-                if (timerToBurst >= timeBetweenBurst)
+                timerToShoot++;
+                if (timerToShoot >= fireRate && Main.myPlayer == projectile.owner)
                 {
-                    timerForProjectiles++;
+                    int stinger = Projectile.NewProjectile(projectile.GetSource_FromThis(),
+                        projectile.Center,
+                        CalamityUtils.CalculatePredictiveAimToTarget(projectile.Center, target.Center, target.velocity, projVelocity),
+                        ProjectileID.HornetStinger,
+                        projectile.damage,
+                        projectile.knockBack,
+                        owner.whoAmI);
 
-                    if (timerForProjectiles % timeBetweenProjectiles == 0f && Main.myPlayer == projectile.owner)
-                    {
-                        int stinger = Projectile.NewProjectile(projectile.GetSource_FromThis(),
-                            projectile.Center,
-                            CalamityUtils.CalculatePredictiveAimToTarget(projectile.Center, target.Center, target.velocity, projVelocity),
-                            ProjectileID.HornetStinger,
-                            projectile.damage,
-                            projectile.knockBack,
-                            owner.whoAmI);
-
-                        if (Main.projectile.IndexInRange(stinger))
-                            Main.projectile[stinger].originalDamage = projectile.originalDamage;
+                    if (Main.projectile.IndexInRange(stinger))
+                        Main.projectile[stinger].originalDamage = projectile.originalDamage;
                     
-                        projectile.netUpdate = true;
-                    }
-
-                    if (timerForProjectiles >= timeBetweenProjectiles * amountOfProjectilesPerBurst)
-                    {
-                        timerForProjectiles = 0f;
-                        timerToBurst = 0f;
-                        projectile.netUpdate = true;
-                    }
+                    timerToShoot = 0f;
+                    projectile.netUpdate = true;
                 }
             }
 
