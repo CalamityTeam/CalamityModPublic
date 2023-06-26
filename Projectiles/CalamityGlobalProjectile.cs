@@ -171,7 +171,11 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
-            #region Vanilla Minion AI Changes
+            #region Vanilla Summons AI Changes
+
+            //
+            // MINION AI CHANGES:
+            //
 
             // Hornet Staff's minion changes.
             if (projectile.type == ProjectileID.Hornet)
@@ -180,6 +184,14 @@ namespace CalamityMod.Projectiles
             // Imp Staff's minion changes.
             if (projectile.type == ProjectileID.FlyingImp)
                 return ImpMinionAI.DoImpMinionAI(projectile);
+
+            //
+            // SENTRY AI CHANGES:
+            //
+
+            // Deerclop's sentry drop projectile changes.
+            if (projectile.type == ProjectileID.HoundiusShootiusFireball)
+                return HoundiusShootiusFireballAI.DoHoundiusShootiusFireballAI(projectile);
 
             #endregion
             
