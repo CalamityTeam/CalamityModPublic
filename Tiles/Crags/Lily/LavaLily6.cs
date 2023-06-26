@@ -45,16 +45,15 @@ namespace CalamityMod.Tiles.Crags.Lily
 
         internal static void DrawLilyTop(int i, int j, Texture2D tex, Rectangle? source, Vector2? offset = null, Vector2? origin = null, bool Glow = false)
         {
-            Tile tile = Main.tile[i, j];
             Vector2 drawPos = new Vector2(i, j).ToWorldCoordinates() - Main.screenPosition + (offset ?? new Vector2(0, -2));
             Color color = Lighting.GetColor(i, j);
 
             Main.spriteBatch.Draw(tex, drawPos, source, Glow ? Color.White : color, 0, origin ?? source.Value.Size() / 3f, 1f, SpriteEffects.None, 0f);
         }
 
-		public static Vector2 TileOffset => Lighting.LegacyEngine.Mode > 1 ? Vector2.Zero : Vector2.One * 12;
+        public static Vector2 TileOffset => Lighting.LegacyEngine.Mode > 1 && Main.GameZoomTarget == 1 ? Vector2.Zero : Vector2.One * 12;
 
-		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
 			//draw the glowmask on the lily base
 			Tile tile = Framing.GetTileSafely(i, j);
