@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             // Periodically fire beams along the laser perpendicular to its direction.
-            float laserFireRate = expertMode ? 80f : 160f;
+            float laserFireRate = (CalamityWorld.LegendaryMode && revenge) ? 60f : expertMode ? 80f : 160f;
             if (Main.npc[OwnerIndex].Calamity().newAI[2] % laserFireRate == 0f)
             {
                 // Play a laser sound to go with the beams.
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Boss
                         float radians = MathHelper.TwoPi / totalProjectiles;
                         for (int j = 0; j < totalProjectiles; j++)
                         {
-                            Vector2 projVelocity = Projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2) * 12f;
+                            Vector2 projVelocity = (CalamityWorld.LegendaryMode && revenge) ? new Vector2(Main.rand.Next(-12, 12), Main.rand.Next(-12, 12)) : Projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2) * 12f;
                             Projectile.NewProjectile(Projectile.GetSource_FromThis(), laserFirePosition, projVelocity, type, damage, 0f, Main.myPlayer, 0f, -1f);
                         }
                         laserFirePosition += beamDirection * distanceBetweenProjectiles;
