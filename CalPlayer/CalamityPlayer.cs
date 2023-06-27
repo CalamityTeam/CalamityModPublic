@@ -4333,7 +4333,7 @@ namespace CalamityMod.CalPlayer
             // Stealth strike damage multipliers are applied here.
             // TODO -- stealth should be its own damage class and this should be applied as player StealthDamage *= XYZ
             if (proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
-                modifiers.SourceDamage *= (float)bonusStealthDamage;
+                modifiers.SourceDamage *= (float)bonusStealthDamage + 1; // Default bonusStealthDamage is 0, a 1 has to be added to take the damage of the weapon.
 
             // Screwdriver adds 5% bonus damage to all piercing projectiles.
             if (screwdriver)

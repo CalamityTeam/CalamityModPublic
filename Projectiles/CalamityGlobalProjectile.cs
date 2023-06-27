@@ -171,6 +171,30 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
+            #region Vanilla Summons AI Changes
+
+            //
+            // MINION AI CHANGES:
+            //
+
+            // Hornet Staff's minion changes.
+            if (projectile.type == ProjectileID.Hornet)
+                return HornetMinionAI.DoHornetMinionAI(projectile);
+            
+            // Imp Staff's minion changes.
+            if (projectile.type == ProjectileID.FlyingImp)
+                return ImpMinionAI.DoImpMinionAI(projectile);
+
+            //
+            // SENTRY AI CHANGES:
+            //
+
+            // Deerclop's sentry drop projectile changes.
+            if (projectile.type == ProjectileID.HoundiusShootiusFireball)
+                return HoundiusShootiusFireballAI.DoHoundiusShootiusFireballAI(projectile);
+
+            #endregion
+            
             if (!Main.player[projectile.owner].ActiveItem().IsAir && !Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots)
                 pointBlankShotDuration = 0;
 

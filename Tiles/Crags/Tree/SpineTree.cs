@@ -116,7 +116,7 @@ namespace CalamityMod.Tiles.Crags.Tree
 
                 //chance to place a branch segment
                 //also dont place branches below a certain threshold
-                if (Main.rand.Next(2) == 0 && branchSegmentDelay == 0 && k > 5)
+                if (Main.rand.NextBool(2) && branchSegmentDelay == 0 && k > 5)
                 {
                     if (k > 1 && k < 10)
                     {
@@ -271,7 +271,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             }
         }
 
-        public static Vector2 TileOffset => Lighting.LegacyEngine.Mode > 1 ? Vector2.Zero : Vector2.One * 12;
+        public static Vector2 TileOffset => Lighting.LegacyEngine.Mode > 1 && Main.GameZoomTarget == 1 ? Vector2.Zero : Vector2.One * 12;
 
         public static Vector2 TileCustomPosition(int i, int j, Vector2? off = null)
         {
@@ -280,7 +280,6 @@ namespace CalamityMod.Tiles.Crags.Tree
 
         internal static void DrawTreeSegments(int i, int j, Texture2D tex, Rectangle? source, Vector2? offset = null, Vector2? origin = null, bool Glow = false)
         {
-            Tile tile = Main.tile[i, j];
             Vector2 drawPos = new Vector2(i, j).ToWorldCoordinates() - Main.screenPosition + (offset ?? new Vector2(0, -2));
             Color color = Lighting.GetColor(i, j);
 
@@ -290,7 +289,6 @@ namespace CalamityMod.Tiles.Crags.Tree
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Framing.GetTileSafely(i, j);
-            Color col = Lighting.GetColor(i, j);
             float xOff = (float)Math.Sin((j * 19) * 0.04f) * 1.2f;
 
             if (xOff == 1 && (j / 4f) == 0)
@@ -299,9 +297,6 @@ namespace CalamityMod.Tiles.Crags.Tree
             }
 
             int frameOff = 0;
-
-            Vector2 offset = new((xOff * 2) - (frameOff / 2), 0);
-            Vector2 pos = TileCustomPosition(i, j) - offset;
 
             Vector2 baseSegmentOffset = new Vector2((xOff * 2) - (frameOff / 2) + 26, 14);
             Vector2 treeSegmentOffset = new Vector2((xOff * 2) - (frameOff / 2) + 25, 14);
