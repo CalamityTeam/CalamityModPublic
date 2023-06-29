@@ -33,35 +33,21 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
         {
             // Different drop rates on Normal and Expert, so define normal first, then expert
             var normalOnly = itemLoot.DefineNormalOnlyDropSet();
-            normalOnly.Add(ItemID.HighTestFishingLine, 60);
-            normalOnly.Add(ItemID.TackleBox, 60);
-            normalOnly.Add(ItemID.AnglerEarring, 60);
-            normalOnly.Add(ItemID.FishermansGuide, 40);
-            normalOnly.Add(ItemID.WeatherRadio, 40);
-            normalOnly.Add(ItemID.Sextant, 40);
-            normalOnly.Add(ItemID.AnglerHat, 20);
-            normalOnly.Add(ItemID.AnglerVest, 20);
-            normalOnly.Add(ItemID.AnglerPants, 20);
+            normalOnly.Add(ItemID.FishermansGuide, 20);
+            normalOnly.Add(ItemID.WeatherRadio, 20);
+            normalOnly.Add(ItemID.Sextant, 20);
             normalOnly.Add(ItemID.FishingPotion, 3, 2, 3);
             normalOnly.Add(ItemID.SonarPotion, 3, 2, 3);
             normalOnly.Add(ItemID.CratePotion, 3, 2, 3);
-            normalOnly.AddIf(() => NPC.downedBoss3, ItemID.GoldenBugNet, 80);
             normalOnly.Add(ItemID.GoldCoin, 1, 1, 2);
 
             var expertPlus = itemLoot.DefineConditionalDropSet(new Conditions.IsExpert());
-            expertPlus.Add(ItemID.HighTestFishingLine, 48);
-            expertPlus.Add(ItemID.TackleBox, 48);
-            expertPlus.Add(ItemID.AnglerEarring, 48);
-            expertPlus.Add(ItemID.FishermansGuide, 32);
-            expertPlus.Add(ItemID.WeatherRadio, 32);
-            expertPlus.Add(ItemID.Sextant, 32);
-            expertPlus.Add(ItemID.AnglerHat, 16);
-            expertPlus.Add(ItemID.AnglerVest, 16);
-            expertPlus.Add(ItemID.AnglerPants, 16);
+            expertPlus.Add(ItemID.FishermansGuide, 16);
+            expertPlus.Add(ItemID.WeatherRadio, 16);
+            expertPlus.Add(ItemID.Sextant, 16);
             expertPlus.Add(ItemID.FishingPotion, 2, 2, 3);
             expertPlus.Add(ItemID.SonarPotion, 2, 2, 3);
             expertPlus.Add(ItemID.CratePotion, 2, 2, 3);
-            expertPlus.AddIf(() => NPC.downedBoss3, ItemID.GoldenBugNet, 64);
             expertPlus.Add(ItemID.GoldCoin, 1, 2, 3);
         }
     }

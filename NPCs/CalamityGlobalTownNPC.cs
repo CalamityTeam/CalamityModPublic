@@ -1284,7 +1284,6 @@ namespace CalamityMod.NPCs
                 AddScalingPotion(ref shop, ItemID.ArcheryPotion, Condition.DownedEyeOfCthulhu);
                 shop.Add(ItemID.HealingPotion, potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc)
                 .Add(ItemID.ManaPotion, potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc)
-                .AddWithCustomValue(ItemID.TitanPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough, Condition.DownedSkeletron)
                 .Add(ItemID.Flare, hasFlareGunUpgrade)
                 .Add(ItemID.BlueFlare, hasFlareGunUpgrade)
                 .Add(ItemID.ApprenticeBait, Condition.DownedEyeOfCthulhu)
@@ -1304,13 +1303,6 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Demolitionist)
             {
-
-                shop.AddWithCustomValue(ItemID.MiningPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough, Condition.DownedEyeOfCthulhu);
-                AddScalingPotion(ref shop, ItemID.IronskinPotion, Condition.DownedEyeOfCthulhu);
-                shop.AddWithCustomValue(ItemID.ShinePotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc)
-                .AddWithCustomValue(ItemID.SpelunkerPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc)
-                .AddWithCustomValue(ItemID.ObsidianSkinPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough, Condition.DownedSkeletron);
-                AddScalingPotion(ref shop, ItemID.EndurancePotion, Condition.DownedSkeletron);
                 shop.Add(ModContent.ItemType<DeepcoreGK2>(), Condition.DownedMechBossAny);
             }
 
@@ -1323,10 +1315,7 @@ namespace CalamityMod.NPCs
                 .AddWithCustomValue(ItemID.Uzi, Item.buyPrice(gold: 45), Condition.DownedPlantera)
                 .AddWithCustomValue(ItemID.TacticalShotgun, Item.buyPrice(gold: 60), Condition.DownedGolem)
                 .AddWithCustomValue(ItemID.SniperRifle, Item.buyPrice(gold: 60), Condition.DownedGolem)
-                .AddWithCustomValue(ItemID.RifleScope, Item.buyPrice(gold: 60), Condition.DownedGolem)
-                .AddWithCustomValue(ItemID.AmmoReservationPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.HunterPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.BattlePotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc);
+                .AddWithCustomValue(ItemID.RifleScope, Item.buyPrice(gold: 60), Condition.DownedGolem);
             }
 
             if (type == NPCID.Stylist)
@@ -1349,10 +1338,6 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Dryad)
             {
-                shop.AddWithCustomValue(ItemID.ThornsPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.FeatherfallPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.RegenerationPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc);
-                AddScalingPotion(ref shop, ItemID.SwiftnessPotion, Condition.DownedEowOrBoc);
                 shop.AddWithCustomValue(ItemID.JungleRose, Item.buyPrice(gold: 2))
                 .AddWithCustomValue(ItemID.NaturesGift, Item.buyPrice(gold: 10))
                 .Add(ItemType<RomajedaOrchid>())
@@ -1397,10 +1382,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Wizard)
             {
-                AddScalingPotion(ref shop, ItemID.ManaRegenerationPotion);
-                AddScalingPotion(ref shop, ItemID.MagicPowerPotion);
-                shop.AddWithCustomValue(ItemID.GravitationPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
-                .Add(ItemType<HowlsHeart>())
+                shop.Add(ItemType<HowlsHeart>())
                 .AddWithCustomValue(ItemID.MagicMissile, Item.buyPrice(gold: 5))
                 .AddWithCustomValue(ItemID.RodofDiscord, Item.buyPrice(gold: 10), Condition.Hardmode, Condition.InHallow)
                 .AddWithCustomValue(ItemID.SpectreStaff, Item.buyPrice(gold: 25), Condition.DownedGolem)
@@ -1411,12 +1393,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.WitchDoctor)
             {
-                AddScalingPotion(ref shop, ItemID.SummoningPotion);
-                shop.AddWithCustomValue(ItemID.CalmingPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough);
-                AddScalingPotion(ref shop, ItemID.RagePotion);
-                AddScalingPotion(ref shop, ItemID.WrathPotion);
-                shop.AddWithCustomValue(ItemID.InfernoPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
-                .Add(ItemType<SunkenSeaFountain>())
+                shop.Add(ItemType<SunkenSeaFountain>())
                 .Add(ItemType<SulphurousFountainItem>())
                 .Add(ItemType<AbyssFountainItem>(), Condition.Hardmode)
                 .Add(ItemType<AstralFountainItem>(), Condition.Hardmode)

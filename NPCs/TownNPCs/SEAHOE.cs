@@ -201,7 +201,6 @@ namespace CalamityMod.NPCs.TownNPCs
         }
         public override void AddShops()
         {
-            Condition potionSells = new("While the Town NPC Potion Selling configuration option is enabled", () => CalamityConfig.Instance.PotionSelling);
             Condition downedOldDuke = new("If The Old Duke has been defeated", () => DownedBossSystem.downedBoomerDuke);
 
             NPCShop shop = new(Type);
@@ -214,9 +213,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 .Add(ModContent.ItemType<AmidiasTrident>())
                 .Add(ModContent.ItemType<EnchantedConch>())
                 .Add(ModContent.ItemType<PolypLauncher>())
-                .AddWithCustomValue(ItemID.GillsPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.WaterWalkingPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.FlipperPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
                 .AddWithCustomValue(ItemID.TruffleWorm, Item.buyPrice(gold: 10), Condition.Hardmode)
                 .AddWithCustomValue(ModContent.ItemType<BloodwormItem>(), Item.buyPrice(2), downedOldDuke)
                 .AddWithCustomValue(ItemID.ShrimpPoBoy, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnough, Condition.InBeach)

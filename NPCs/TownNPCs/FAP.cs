@@ -302,9 +302,7 @@ namespace CalamityMod.NPCs.TownNPCs
             Condition downedAureus = new("If Astrum Aureus has been defeated", () => DownedBossSystem.downedAstrumAureus);
 
             NPCShop shop = new(Type);
-            shop.AddWithCustomValue(ItemID.HeartreachPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.LifeforcePotion, Item.buyPrice(gold: 8), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.LovePotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnough)
+            shop.AddWithCustomValue(ItemID.LovePotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnough)
                 .AddWithCustomValue(ModContent.ItemType<GrapeBeer>(), Item.buyPrice(silver: 30))
                 .AddWithCustomValue(ModContent.ItemType<RedWine>(), Item.buyPrice(gold: 1))
                 .AddWithCustomValue(ModContent.ItemType<Whiskey>(), Item.buyPrice(gold: 2))
@@ -338,22 +336,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 .AddWithCustomValue(ItemID.UnicornHorn, Item.buyPrice(0, 2, 50), Condition.HappyEnough, Condition.InHallow)
                 .AddWithCustomValue(ItemID.Milkshake, Item.buyPrice(gold: 5), Condition.HappyEnough, Condition.InHallow, Condition.NpcIsPresent(NPCID.Stylist))
                 .Register();
-        }
-
-        public override void ModifyActiveShop(string shopName, Item[] items)
-        {
-            foreach (Item i in items)
-            {
-                if (i == null || i.type == ItemID.None)
-                    continue;
-
-                // Double the price of Lifeforce Potion PML
-                if (i.type == ItemID.LifeforcePotion && NPC.downedMoonlord)
-                {
-                    int oldValue = i.shopCustomPrice ?? i.value;
-                    i.shopCustomPrice = oldValue * 2;
-                }
-            }
         }
 
         // Make this Town NPC teleport to the Queen statue when triggered.
