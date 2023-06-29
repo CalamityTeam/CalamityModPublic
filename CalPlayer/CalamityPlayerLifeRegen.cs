@@ -948,6 +948,7 @@ namespace CalamityMod.CalPlayer
             {
                 // The soft cap doesn't apply if the player is not moving and not using a weapon while having any of the following:
                 // Shiny Stone, Cosmic Freeze buff from the Cosmic Discharge, Demonshade Armor, Photosynthesis Potion buff or The Camper.
+                int baseLifeRegenBoost = 4;
                 bool noLifeRegenCap = (Player.shinyStone || cFreeze || shadeRegen || photosynthesis || camper) &&
                     Player.StandingStill() && Player.itemAnimation == 0;
 
@@ -967,7 +968,7 @@ namespace CalamityMod.CalPlayer
                     int lifeRegenSoftCap = (int)MathHelper.Clamp((int)Math.Round((1f - maxLifeRatio) * lifeRegenSoftCapMax), lifeRegenSoftCapMin, lifeRegenSoftCapMax);
 
                     // If life regen is greater than the calculated soft cap, reduce it.
-                    if (Player.lifeRegen > lifeRegenSoftCap)
+                    if (Player.lifeRegen - baseLifeRegenBoost > lifeRegenSoftCap)
                     {
                         // The scalar used to calculate how much the life regen stat should be reduced by.
                         // Ranges from 1 (at 0% HP) to 2 (at 100% HP).
@@ -975,10 +976,10 @@ namespace CalamityMod.CalPlayer
 
                         // Calculate the amount of life regen the player should get according to the soft cap and their current % HP remaining.
                         // The higher the player's % HP remaining the less life regen they get and vice versa.
-                        int defLifeRegen = (int)(Player.lifeRegen / lifeRegenScalar);
+                        int defLifeRegen = (int)((Player.lifeRegen - baseLifeRegenBoost) / lifeRegenScalar);
 
                         // Set the player's life regen to the scaled amount.
-                        Player.lifeRegen = defLifeRegen;
+                        Player.lifeRegen = baseLifeRegenBoost + defLifeRegen;
                     }
                 }
             }
