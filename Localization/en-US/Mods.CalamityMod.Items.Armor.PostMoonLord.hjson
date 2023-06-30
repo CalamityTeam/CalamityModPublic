@@ -232,7 +232,7 @@ EmpyreanMask: {
 		'''
 	SetBonus:
 		'''
-		9% increased rogue damage and velocityF
+		9% increased rogue damage and velocity
 		+115 maximum stealth
 		Rogue projectiles have special effects on enemy hits
 		Imbued with cosmic wrath and rage when you are damaged
@@ -531,7 +531,7 @@ TarragonHeadMagic: {
 		'''
 	SetBonus:
 		'''
-		      15% increased melee speed
+		15% increased melee speed
 		On every 5th critical strike you will fire a leaf storm
 		Magic projectiles heal you on enemy hits
 		Amount healed is based on projectile damage

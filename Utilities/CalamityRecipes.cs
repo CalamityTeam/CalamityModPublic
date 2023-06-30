@@ -856,9 +856,7 @@ namespace CalamityMod
                 { VanillaEach(ItemID.WingsSolar, ItemID.WingsVortex, ItemID.WingsNebula, ItemID.WingsStardust), AddIngredient(ItemID.SoulofFlight, 20) },
 
                 // Berserker's Glove recipe change now that it doesn't provide melee speed
-                { Vanilla(ItemID.BerserkerGlove), RemoveIngredient(ItemID.PowerGlove) },
-                { Vanilla(ItemID.BerserkerGlove), AddIngredient(ItemID.TitanGlove) },
-
+                { Vanilla(ItemID.BerserkerGlove), ReplaceIngredient(ItemID.PowerGlove, ItemID.TitanGlove) },
 
                 // Standardize the costs of all PHM ore armors to 10/16/14 head/chest/legs
                 { Vanilla(ItemID.CopperHelmet), ChangeIngredientStack(ItemID.CopperBar, 10) },
