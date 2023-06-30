@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,9 +32,12 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 85, Projectile.oldVelocity.X, Projectile.oldVelocity.Y);
             }
-            int cloudAmt = Main.rand.Next(20, 31);
+            double cloudAmt = Main.rand.Next(15, 20);
             if (stealth)
-                cloudAmt *= 2;
+            {
+                cloudAmt *= 1.5;
+                cloudAmt = Math.Round(cloudAmt);
+            }
             int projType = stealth ? ModContent.ProjectileType<DuststormCloudStealth>() : ModContent.ProjectileType<DuststormCloud>();
             if (Projectile.owner == Main.myPlayer)
             {

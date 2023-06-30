@@ -813,6 +813,7 @@ namespace CalamityMod.CalPlayer
                     Main.projectile[projectileIndex].netUpdate = true;
                     Main.projectile[projectileIndex].usesIDStaticNPCImmunity = true;
                     Main.projectile[projectileIndex].idStaticNPCHitCooldown = 30;
+                    Main.projectile[projectileIndex].scale = Main.projectile[projectileIndex].scale / 3;
                 }
             }
 
