@@ -3226,14 +3226,7 @@ namespace CalamityMod.CalPlayer
 
             #region Melee Speed for Projectile Melee Weapons
             float meleeSpeedMult = 0f;
-            if (community)
-            {
-                float BoostAtZeroBosses = 0.05f;
-                float BoostPostYharon = 0.2f;
-                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
-                meleeSpeedMult += floatTypeBoost * 0.25f;
-            }
-
+    
             // Nerfs the effectiveness of Beetle Scale Mail.
             if (Player.beetleOffense && Player.beetleOrbs > 0)
                 meleeSpeedMult -= 0.1f * Player.beetleOrbs;
