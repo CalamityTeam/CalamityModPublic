@@ -459,6 +459,7 @@ KingofConstellationsTenryu: {
 	Tooltip:
 		'''
 		Uses 4 minion slots to summon a pair of celestial dragons to fight for you
+		There can only be one pair of dragons at a time
 		'The ones who will devour the Unmoving Star'
 		'''
 }
