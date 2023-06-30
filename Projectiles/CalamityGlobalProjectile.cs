@@ -2281,7 +2281,7 @@ namespace CalamityMod.Projectiles
                     {
                         if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.CrystalShard] < 30)
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.CrystalShard] < 15)
                             {
                                 // Daedalus Rogue Crystals: 2 x 25%, soft cap starts at 120 base damage
                                 int crystalDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30);
