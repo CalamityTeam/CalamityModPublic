@@ -5350,7 +5350,7 @@ namespace CalamityMod.NPCs
                 npc.velocity = (npc.velocity * (num1309 - 1f) + value53) / num1309;
 
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= ((CalamityWorld.LegendaryMode && revenge) ? 60f : 120f) || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
+                if (npc.ai[1] >= ((CalamityWorld.LegendaryMode && revenge) ? 90f : 180f))
                 {
                     npc.TargetClosest();
                     npc.ai[0] = 0f;
