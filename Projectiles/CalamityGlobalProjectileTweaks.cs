@@ -125,6 +125,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.IchorBullet, standardBulletTweaks },
                 { ProjectileID.InfernoHostileBlast, defenseDamage }, // Diabolist inferno fork explosions
                 { ProjectileID.IronShortswordStab, trueMelee },
+                { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.JavelinHostile, defenseDamage },
                 { ProjectileID.JestersArrow, pointBlank },
                 { ProjectileID.JoustingLance, trueMelee },

@@ -1,8 +1,9 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Dusts;
 namespace CalamityMod.Projectiles.Magic
 {
     public class TearsofHeavenProjectile : ModProjectile, ILocalizedModType
@@ -41,12 +42,10 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
             {
-                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 175, 0f, 0f, 100, default, 1f);
-                Main.dust[num469].noGravity = true;
-                int num96 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 174, 0f, 0f, 100, default, 1f);
-                Main.dust[num96].noGravity = true;
-                int num102 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, 0f, 0f, 100, default, 1f);
-                Main.dust[num102].noGravity = true;
+                int Smalldust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 1f);
+                Main.dust[Smalldust].noGravity = true;
+                int Bigdust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
+                Main.dust[Bigdust].noGravity = true;
             }
 
             CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 8f, 20f);

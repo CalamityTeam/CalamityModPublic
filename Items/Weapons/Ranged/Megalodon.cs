@@ -53,6 +53,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             else
                 Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ArcherfishShot>(), damage, knockback, player.whoAmI, 0f, 0f);
 
+            if (shotType < 3)
+                Projectile.NewProjectile(source,
+                position,
+                velocity.RotatedByRandom(MathHelper.ToRadians(4.5f)) * Main.rand.NextFloat(0.5f, 0.6f),
+                ModContent.ProjectileType<ArcherfishRing>(),
+                (int)(damage * 0.5f),
+                knockback * 4f,
+                player.whoAmI);
+            
             shotType++;
 
             return false;

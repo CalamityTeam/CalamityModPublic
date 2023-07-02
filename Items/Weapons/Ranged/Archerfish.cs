@@ -43,6 +43,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             else
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
 
+                Projectile.NewProjectile(source,
+                position,
+                velocity * 0.5f,
+                ModContent.ProjectileType<ArcherfishRing>(),
+                (int)(damage * 0.5f),
+                knockback * 3f,
+                player.whoAmI);
+
             return false;
         }
     }

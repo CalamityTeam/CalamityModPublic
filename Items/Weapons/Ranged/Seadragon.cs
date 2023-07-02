@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         private int shotType = 1;
         private bool rocket = false;
+        private bool blast = false; //Melee Explosion every 9th shot out of 18
 
         public override void SetDefaults()
         {
@@ -47,18 +48,43 @@ namespace CalamityMod.Items.Weapons.Ranged
             float SpeedX = velocity.X + (float)Main.rand.Next(-10, 11) * 0.05f;
             float SpeedY = velocity.Y + (float)Main.rand.Next(-10, 11) * 0.05f;
 
-            if (shotType > 17)
+            if (shotType > 18)
             {
                 shotType = 1;
                 rocket = true;
             }
 
+            if (shotType > 8) //didn''t let me do "= 9"
+            {
+                if (shotType < 10)
+                {
+                blast = true;
+                }
+            }
+            if (blast)
+                Projectile.NewProjectile(source,
+                position,
+                velocity.RotatedByRandom(MathHelper.ToRadians(4.5f)) * 0,
+                ModContent.ProjectileType<SeaDragonFlameburst>(),
+                (int)(damage * 1.2f),
+                knockback * 7f,
+                player.whoAmI);
+                blast = false;
             if (!rocket)
             {
                 if (shotType % 2 == 1)
                     Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0.0f, 0.0f);
                 else
                     Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ArcherfishShot>(), damage, knockback, player.whoAmI, 0f, 0f);
+                
+                if (shotType < 19)
+                Projectile.NewProjectile(source,
+                position,
+                velocity.RotatedByRandom(MathHelper.ToRadians(5.5f)) * Main.rand.NextFloat(0.45f, 0.65f),
+                ModContent.ProjectileType<ArcherfishRing>(),
+                (int)(damage * 0.5f),
+                knockback * 4f,
+                player.whoAmI);
 
                 shotType++;
             }
