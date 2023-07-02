@@ -9,6 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class InfernadoFriendly : ModProjectile, ILocalizedModType
     {
+
         public new string LocalizationCategory => "Projectiles.Magic";
         bool intersectingSomething = false;
         public override void SetStaticDefaults()
@@ -36,10 +37,11 @@ namespace CalamityMod.Projectiles.Magic
             if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 intersectingSomething = true;
 
-            float scaleBase = 44f;
-            float scaleMult = 2.5f;
-            float baseWidth = 320f;
-            float baseHeight = 88f;
+            //Check if the projectile is Wand's or Dragon Scales'
+            float scaleBase = Main.projectile[Projectile.whoAmI].Calamity().DragonScalesInfernado ? 20f : 44f;
+            float scaleMult = Main.projectile[Projectile.whoAmI].Calamity().DragonScalesInfernado ? 1.1f : 2.5f;
+            float baseWidth = Main.projectile[Projectile.whoAmI].Calamity().DragonScalesInfernado ? 80f : 320f;
+            float baseHeight = Main.projectile[Projectile.whoAmI].Calamity().DragonScalesInfernado ? 44f : 88f;
 
             if (Main.rand.NextBool(25))
             {
@@ -100,6 +102,8 @@ namespace CalamityMod.Projectiles.Magic
                 float num618 = (scaleBase - Projectile.ai[1] + 1f) * scaleMult / scaleBase;
                 center.Y -= baseHeight * num618 / 2f;
                 center.Y += 2f;
+                if (Main.projectile[Projectile.whoAmI].Calamity().DragonScalesInfernado == true) //More space between segments, due to how the calculations work it had to be painstaikingly adjusted
+                    center.Y -= 16f;
                 Projectile segment = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 10f, Projectile.ai[1] - 1f);
 
                 // The projectile defaults to magic, but each sub-segment copies the damage class of the previous.
@@ -109,6 +113,16 @@ namespace CalamityMod.Projectiles.Magic
                     segment.DamageType = Projectile.DamageType;
                     segment.friendly = Projectile.friendly;
                     segment.hostile = Projectile.hostile;
+
+                    //Fuck Dragon Scales mkay
+                    if (Main.projectile[Projectile.whoAmI].Calamity().DragonScalesInfernado == true)
+                    {
+                        Main.projectile[segment.whoAmI].Calamity().DragonScalesInfernado = true;
+                        Main.projectile[segment.whoAmI].usesLocalNPCImmunity = false;
+                        Main.projectile[segment.whoAmI].usesIDStaticNPCImmunity = true;
+                        Main.projectile[segment.whoAmI].idStaticNPCHitCooldown = 20;
+                        Main.projectile[segment.whoAmI].timeLeft = 200;
+                    }
                 }
             }
             if (Projectile.ai[0] <= 0f)
