@@ -58,6 +58,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.ai[0] = 0f;
 
             bool shoot = CurrentFrame == ShootFrame && Projectile.ai[0] == 0f;
+            bool ableToShoot = true;
             bool weaponInUse = Owner.channel && !Owner.noItems && !Owner.CCed;
             int manaCost = (int)(30f * Owner.manaCost);
             Vector2 halvedSize = Projectile.Size / 2f;
@@ -74,30 +75,37 @@ namespace CalamityMod.Projectiles.Magic
                         if (Owner.manaFlower)
                         {
                             Owner.QuickMana();
-                            if (Owner.statMana >= (int)(float)manaCost)
+                            if (Owner.statMana >= manaCost)
                             {
                                 Owner.manaRegenDelay = (int)Owner.maxRegenDelay;
                                 Owner.statMana -= manaCost;
                             }
                             else
+                            {
                                 Projectile.Kill();
+                                ableToShoot = false;
+                            }
                         }
                         else
+                        {
                             Projectile.Kill();
+                            ableToShoot = false;
+                        }
                     }
                     else
                     {
-                        if (Owner.statMana >= (int)(float)manaCost)
+                        if (Owner.statMana >= manaCost)
                         {
                             Owner.statMana -= manaCost;
                             Owner.manaRegenDelay = (int)Owner.maxRegenDelay;
                         }
                     }
 
-                    SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
+                    if (ableToShoot)
+                        SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
                 }
 
-                if (Main.myPlayer == Projectile.owner)
+                if (Main.myPlayer == Projectile.owner && ableToShoot)
                 {
                     int projectileType = ModContent.ProjectileType<NebulaCloudCore>();
                     float coreVelocity = 8f;

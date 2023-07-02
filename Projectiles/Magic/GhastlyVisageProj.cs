@@ -87,11 +87,13 @@ namespace CalamityMod.Projectiles.Magic
                         else
                         {
                             Projectile.Kill();
+                            flag15 = false;
                         }
                     }
                     else
                     {
                         Projectile.Kill();
+                        flag15 = false;
                     }
                 }
                 else
@@ -104,7 +106,9 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 Projectile.localAI[1] += 1f;
                 Projectile.soundDelay = num40 - num41 * num39;
-                SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
+
+                if (flag15)
+                    SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
             }
             else if (Projectile.soundDelay <= 0 && flag16)
             {
@@ -121,11 +125,13 @@ namespace CalamityMod.Projectiles.Magic
                         else
                         {
                             Projectile.Kill();
+                            flag15 = false;
                         }
                     }
                     else
                     {
                         Projectile.Kill();
+                        flag15 = false;
                     }
                 }
                 else
@@ -137,7 +143,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                 }
                 Projectile.soundDelay = num40 - num41 * num39;
-                if (Projectile.ai[0] != 1f)
+                if (Projectile.ai[0] != 1f && flag15)
                 {
                     SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
                 }
