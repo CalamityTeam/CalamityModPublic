@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
@@ -776,7 +777,9 @@ namespace CalamityMod.CalPlayer
         private void RogueOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
             var spawnSource = proj.GetSource_FromThis();
-            if (modProj.stealthStrike && dragonScales && CalamityUtils.CountProjectiles(ProjectileType<InfernadoFriendly>()) < 1)
+            int Type = ProjectileType<InfernadoFriendly>();
+            if (modProj.stealthStrike && dragonScales && Main.projectile.Count(proj => proj.type == Type && proj.active && proj.Calamity().DragonScalesInfernado) < 1) 
+               //Had to use a modified version of what the CountProjectiles Util does to check for the Dragon Scales bool
             {
 
                 int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(200);
