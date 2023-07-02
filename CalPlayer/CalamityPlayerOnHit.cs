@@ -781,7 +781,7 @@ namespace CalamityMod.CalPlayer
                //Had to use a modified version of what the CountProjectiles Util does to check for the Dragon Scales bool
             {
 
-                int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(200);
+                int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(DragonScales.TornadoBaseDamage);
                 int projectileIndex = Projectile.NewProjectile(spawnSource, proj.Center.X, proj.Center.Y, 0f, 0f, ProjectileType<InfernadoFriendly>(), damage, 15f, Main.myPlayer, 12f, 8f); //First overload seems to deal with timing, second is segment amount
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
                 {

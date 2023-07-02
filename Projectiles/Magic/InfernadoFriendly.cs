@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Magic
 
             float scaleBase = 44f;
             //Check if the projectile is Wand's or Dragon Scales'to determine its size scaling
-            float scaleMult = Main.projectile[Projectile.whoAmI].Calamity().DragonScalesInfernado ? 1.1f : 2.5f;
+            float scaleMult = Main.projectile[Projectile.whoAmI].Calamity().DragonScalesInfernado ? 1.4f : 2.5f;
             float baseWidth = 320f;
             float baseHeight = 88f;
 
