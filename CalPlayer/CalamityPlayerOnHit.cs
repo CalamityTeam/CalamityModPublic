@@ -791,7 +791,9 @@ namespace CalamityMod.CalPlayer
                     Main.projectile[projectileIndex].usesLocalNPCImmunity = false;
                     Main.projectile[projectileIndex].usesIDStaticNPCImmunity = true;
                     Main.projectile[projectileIndex].idStaticNPCHitCooldown = 20;
-                    Main.projectile[projectileIndex].timeLeft = 300;
+                    Main.projectile[projectileIndex].width = 75;
+                    Main.projectile[projectileIndex].height = 14;
+                    Main.projectile[projectileIndex].timeLeft = 200;
                     Main.projectile[projectileIndex].Calamity().DragonScalesInfernado=true;
                 }
             }
