@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs
             "Eddie Spaghetti", // <@!466397267407011841> (Eddie Spaghetti#0002)
             "G'tok", // <@!335192200956608535> (gtoktas#7589)
             "Katto", // <@!175972165504466944> (Katto#2858)
-            "Him", // <@!931019614958256139> (Him#3088)
+            "Him", // <@!931019614958256139> (@himtheguy1)
             "Tooshiboots", // <@!333532730593771522> (ulmod)
         };
         private static readonly string[] GolferNames = null;

@@ -2362,7 +2362,8 @@ namespace CalamityMod.NPCs.Providence
                     ModContent.ProjectileType<EnergyOrb>(),
                     ModContent.ProjectileType<IrradiatedAura>(),
                     ModContent.ProjectileType<SummonAstralExplosion>(),
-                    ModContent.ProjectileType<ApparatusExplosion>()
+                    ModContent.ProjectileType<ApparatusExplosion>(),
+                    ModContent.ProjectileType<TarragonAura>()
                 };
 
                 bool allowedClass = projectile.CountsAsClass<SummonDamageClass>() || (!projectile.CountsAsClass<MeleeDamageClass>() && !projectile.CountsAsClass<RangedDamageClass>() && 
