@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
         internal static int ShitBaseDamage = 55;
+        internal static int TornadoBaseDamage = 200;
         
         public override void SetDefaults()
         {
