@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Magic
                     if (player.manaFlower)
                     {
                         player.QuickMana();
-                        if (player.statMana >= (int)(float)manaCost)
+                        if (player.statMana >= manaCost)
                         {
                             player.manaRegenDelay = (int)player.maxRegenDelay;
                             player.statMana -= manaCost;
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 else
                 {
-                    if (player.statMana >= (int)(float)manaCost)
+                    if (player.statMana >= manaCost)
                     {
                         player.statMana -= manaCost;
                         player.manaRegenDelay = (int)player.maxRegenDelay;
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Magic
                     if (player.manaFlower)
                     {
                         player.QuickMana();
-                        if (player.statMana >= (int)(float)manaCost)
+                        if (player.statMana >= manaCost)
                         {
                             player.manaRegenDelay = (int)player.maxRegenDelay;
                             player.statMana -= manaCost;
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 else
                 {
-                    if (player.statMana >= (int)(float)manaCost)
+                    if (player.statMana >= manaCost)
                     {
                         player.statMana -= manaCost;
                         player.manaRegenDelay = (int)player.maxRegenDelay;
