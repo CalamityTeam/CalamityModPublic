@@ -779,7 +779,7 @@ namespace CalamityMod.CalPlayer
             {
 
                 int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(200);
-                int projectileIndex = Projectile.NewProjectile(spawnSource, proj.Center.X, proj.Center.Y, 0f, 0f, ProjectileType<InfernadoFriendly>(), damage, 15f, Main.myPlayer, 16f, 8f); //First overload seems to deal with timing, second is segment amount
+                int projectileIndex = Projectile.NewProjectile(spawnSource, proj.Center.X, proj.Center.Y, 0f, 0f, ProjectileType<InfernadoFriendly>(), damage, 15f, Main.myPlayer, 12f, 8f); //First overload seems to deal with timing, second is segment amount
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[projectileIndex].DamageType = DamageClass.Generic;
@@ -787,9 +787,7 @@ namespace CalamityMod.CalPlayer
                     Main.projectile[projectileIndex].usesLocalNPCImmunity = false;
                     Main.projectile[projectileIndex].usesIDStaticNPCImmunity = true;
                     Main.projectile[projectileIndex].idStaticNPCHitCooldown = 20;
-                    Main.projectile[projectileIndex].width = 75;
-                    Main.projectile[projectileIndex].height = 14;
-                    Main.projectile[projectileIndex].timeLeft = 200;
+                    Main.projectile[projectileIndex].timeLeft = 300;
                     Main.projectile[projectileIndex].Calamity().DragonScalesInfernado=true;
                 }
             }
