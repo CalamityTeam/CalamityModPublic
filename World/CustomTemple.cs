@@ -28,8 +28,15 @@ namespace CalamityMod.World
 
                 if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType == 60)
                 {
-                    success = true;
-                    GenNewTemple(x, y);
+                    Rectangle ugDesert = GenVars.UndergroundDesertLocation;
+                    Rectangle InflatedSunkenSeaLocation = new Rectangle(ugDesert.Left - 160, ugDesert.Center.Y - 160, ugDesert.Width + 320, ugDesert.Height / 2 + 320);
+                    Rectangle TempleLocation = new Rectangle(x - 80, y - 80, 160, 160);
+
+                    if (!TempleLocation.Intersects(InflatedSunkenSeaLocation))
+                    {
+                        success = true;
+                        GenNewTemple(x, y);
+                    }
                 }
             }
         }
