@@ -661,6 +661,8 @@ namespace CalamityMod.CalPlayer
         public bool daedalusShard = false;
         public bool brimflameSet = false;
         public bool brimflameFrenzy = false;
+        public bool lunicCorpsSet = false;
+        public bool lunicCorpsLegs = false;
         public bool shadeRegen = false;
         public bool shadowSpeed = false;
         public bool dsSetBonus = false;
@@ -1663,6 +1665,9 @@ namespace CalamityMod.CalPlayer
             brimflameSet = false;
             brimflameFrenzy = false;
 
+            lunicCorpsSet = false;
+            lunicCorpsLegs = false;
+
             rangedAmmoCost = 1f;
             healingPotBonus = 1f;
 
@@ -2363,6 +2368,8 @@ namespace CalamityMod.CalPlayer
             daedalusShard = false;
             brimflameSet = false;
             brimflameFrenzy = false;
+            lunicCorpsSet = false;
+            lunicCorpsLegs = false;
             reaverSpeed = false;
             reaverRegen = false;
             reaverRegenCooldown = 0;
@@ -3455,6 +3462,7 @@ namespace CalamityMod.CalPlayer
             if (!Player.mount.Active)
             {
                 float runAccMult = 1f +
+                    (lunicCorpsLegs ? 0.1f : 0f) +
                     (shadowSpeed ? 0.5f : 0f) +
                     (stressPills ? 0.05f : 0f) +
                     ((abyssalDivingSuit && Player.IsUnderwater()) ? 0.05f : 0f) +
@@ -3469,6 +3477,7 @@ namespace CalamityMod.CalPlayer
                     ((deepDiver && Player.IsUnderwater()) ? 0.15f : 0f);
 
                 float runSpeedMult = 1f +
+                    (lunicCorpsLegs ? 0.1f : 0f) +
                     (shadowSpeed ? 0.5f : 0f) +
                     (stressPills ? 0.05f : 0f) +
                     ((abyssalDivingSuit && Player.IsUnderwater()) ? 0.05f : 0f) +
