@@ -45,9 +45,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.DemoniteBar, 7).
-                AddIngredient<RottenMatter>(10).
-                AddIngredient(ItemID.RottenChunk, 3).
+                AddIngredient(ItemID.DemoniteBar, 4).
+                AddIngredient<RottenMatter>(12).
+                AddIngredient(ItemID.RottenChunk, 4).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

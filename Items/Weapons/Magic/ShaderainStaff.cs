@@ -82,8 +82,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.DemoniteBar, 3).
-                AddIngredient<RottenMatter>(12).
-                AddIngredient(ItemID.RottenChunk, 2).
+                AddIngredient<RottenMatter>(9).
+                AddIngredient(ItemID.RottenChunk, 3).
                 AddTile(TileID.DemonAltar).
                 Register();
         }
