@@ -487,6 +487,15 @@ namespace CalamityMod.NPCs
                     break;
                 #endregion
 
+                #region Graveyard
+                // Alternate Blood Orb obtainment methods (10%)
+                case NPCID.MaggotZombie:
+                case NPCID.TheBride:
+                case NPCID.TheGroom:
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 10);
+                    break;
+                #endregion
+
                 #region Blood Moon
                 // All Blood Moon enemies
                 // Drop Blood Orbs @ 100% (25% for common enemies)

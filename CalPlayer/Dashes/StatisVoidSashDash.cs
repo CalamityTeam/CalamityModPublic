@@ -25,7 +25,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 iceDashDust.position += Main.rand.NextVector2Square(-5f, 5f);
                 iceDashDust.velocity *= 0.2f;
                 iceDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
-                iceDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                iceDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
                 iceDashDust.noGravity = true;
                 iceDashDust.fadeIn = 0.5f;
             }
@@ -46,7 +46,7 @@ namespace CalamityMod.CalPlayer.Dashes
             Dust purpleDashDust = Dust.NewDustDirect(dustSpawnPosition, player.width, dustSpawnHeight, 70, 0f, 0f, 100, default, 1.4f);
             purpleDashDust.velocity *= 0.1f;
             purpleDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
-            purpleDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+            purpleDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
 
             // Periodically release scythes.
             player.Calamity().statisTimer++;

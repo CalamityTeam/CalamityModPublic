@@ -47,6 +47,14 @@ namespace CalamityMod.Tiles.DraedonStructures
             ModTileEntity te = ModContent.GetInstance<TELabHologramProjector>();
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
 
+            TileObjectData.newTile.StyleWrapLimit = 2;
+            TileObjectData.newTile.StyleMultiplier = 2;
+            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.Direction = TileObjectDirection.PlaceRight;
+
+            TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
+            TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceLeft;
+            TileObjectData.addAlternate(1);
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(99, 131, 199), CalamityUtils.GetItemName<LabHologramProjectorItem>());
             AnimationFrameHeight = 112;
@@ -116,12 +124,9 @@ namespace CalamityMod.Tiles.DraedonStructures
                     frame -= IdleFrames - 2;
             }
 
-            int xPos = Main.tile[i, j].TileFrameX;
-            int yPos = Main.tile[i, j].TileFrameY;
-
-            // Accomodation for X frames textures.
-            xPos += frame / 8 * 96;
-            yPos += frame % 8 * 112;
+            int xPos = trackTile.TileFrameX;
+            int yPos = trackTile.TileFrameY;
+            yPos += frame % 16 * 112;
 
             Texture2D tileTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonStructures/LabHologramProjector").Value;
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);

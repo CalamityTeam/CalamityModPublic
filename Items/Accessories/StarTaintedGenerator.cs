@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<JellyChargedBattery>().
-                AddIngredient<NuclearRod>().
+                AddIngredient<NuclearFuelRod>().
                 AddIngredient<StarbusterCore>().
                 AddIngredient<LifeAlloy>(3).
                 AddTile(TileID.MythrilAnvil).

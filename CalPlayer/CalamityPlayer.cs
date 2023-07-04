@@ -435,7 +435,7 @@ namespace CalamityMod.CalPlayer
         public bool eTalisman = false;
         public int statisTimer = 0;
         public bool nucleogenesis = false;
-        public bool nuclearRod = false;
+        public bool nuclearFuelRod = false;
         public bool elysianAegis = false;
         public bool elysianGuard = false;
         public bool nCore = false;
@@ -1581,7 +1581,7 @@ namespace CalamityMod.CalPlayer
             eGauntlet = false;
             eTalisman = false;
             nucleogenesis = false;
-            nuclearRod = false;
+            nuclearFuelRod = false;
             heartOfDarkness = false;
             shadowMinions = false;
             holyMinions = false;
@@ -3603,7 +3603,7 @@ namespace CalamityMod.CalPlayer
                 dust.position.Y += Main.rand.Next(-20, 21);
                 dust.velocity *= 0.4f;
                 dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
-                dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cWaist, Player);
+                dust.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
                 if (Main.rand.NextBool(2))
                 {
                     dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
@@ -3637,7 +3637,7 @@ namespace CalamityMod.CalPlayer
                 dust.position.Y += Main.rand.Next(-20, 21);
                 dust.velocity *= 0.4f;
                 dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
-                dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cWaist, Player);
+                dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cNeck, Player);
                 if (Main.rand.NextBool(2))
                 {
                     dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
@@ -3813,7 +3813,8 @@ namespace CalamityMod.CalPlayer
                     dust.position.Y += Main.rand.Next(-20, 21);
                     dust.velocity *= 0.9f;
                     dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
-                    dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cWaist, Player);
+                    // Change this accordingly if we have a proper equipped sprite.
+                    dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
                     if (Main.rand.NextBool(2))
                         dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 }

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -34,7 +35,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 player.itemTime = player.itemAnimation;
 
                 // Stick to the player
-                Projectile.position = player.Center - Projectile.Size / 2f;
+                Projectile.Center = player.RotatedRelativePoint(player.MountedCenter);
 
                 // And move outward/inward based on the speed variable.
                 Projectile.position += Projectile.velocity * Projectile.ai[0];
@@ -154,6 +155,19 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             {
                 ExtraBehavior();
             }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (SpearAiType == SpearType.TypicalSpear)
+            {
+                Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+                Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+                Vector2 origin = Vector2.Zero;
+                Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, 0, 0);
+                return false;
+            }
+            return base.PreDraw(ref lightColor);
         }
 
         #region Virtual Values

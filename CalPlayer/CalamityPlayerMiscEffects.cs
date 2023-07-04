@@ -1087,7 +1087,7 @@ namespace CalamityMod.CalPlayer
 
                     if (voltaicJelly)
                         Player.maxMinions++;
-                    if (nuclearRod)
+                    if (nuclearFuelRod)
                         Player.maxMinions++;
                 }
             }
@@ -1379,7 +1379,7 @@ namespace CalamityMod.CalPlayer
                     Main.dust[green].velocity *= 0.9f;
                     Main.dust[green].noGravity = true;
                     Main.dust[green].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    Main.dust[green].shader = GameShaders.Armor.GetSecondaryShader(Player.cWaist, Player);
+                    Main.dust[green].shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
                     if (Main.rand.NextBool(2))
                         Main.dust[green].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                 }
@@ -1410,7 +1410,7 @@ namespace CalamityMod.CalPlayer
                     dust.velocity *= 0.9f;
                     dust.noGravity = true;
                     dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cWaist, Player);
+                    dust.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
                     if (Main.rand.NextBool(2))
                         dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                 }
@@ -1481,7 +1481,7 @@ namespace CalamityMod.CalPlayer
                         dust.velocity *= 0.9f;
                         dust.noGravity = true;
                         dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                        dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cWaist, Player);
+                        dust.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
                         if (Main.rand.NextBool(2))
                             dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     }

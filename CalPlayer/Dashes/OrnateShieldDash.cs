@@ -28,7 +28,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 iceDashDust.position += Main.rand.NextVector2Square(-5f, 5f);
                 iceDashDust.velocity *= 0.2f;
                 iceDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
-                iceDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                iceDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cShield, player);
                 iceDashDust.noGravity = true;
                 iceDashDust.fadeIn = 0.5f;
             }
@@ -42,7 +42,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 iceDashDust.position += Main.rand.NextVector2Square(-5f, 5f);
                 iceDashDust.velocity *= 0.2f;
                 iceDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
-                iceDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                iceDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cShield, player);
                 iceDashDust.noGravity = true;
                 if (Main.rand.NextBool(2))
                     iceDashDust.fadeIn = 0.5f;

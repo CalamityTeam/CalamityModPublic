@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.ignoreWater = true;
             Projectile.alpha = 80;
 
-            Projectile.penetrate = 8;
+            Projectile.penetrate = 4;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 4;
             Projectile.extraUpdates = 1;
