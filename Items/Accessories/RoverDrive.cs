@@ -1,17 +1,17 @@
 ﻿using CalamityMod.CalPlayer;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.Cooldowns;
 using CalamityMod.Items.Materials;
-using Terraria.Audio;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.Graphics.Shaders;
-using Terraria.Graphics.Effects;
-using System;
-using CalamityMod.Particles;
 using ReLogic.Content;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -28,22 +28,16 @@ namespace CalamityMod.Items.Accessories
 
         public static Asset<Texture2D> NoiseTex;
 
+        // What in the actual fuck is this
+        public override void Load() => Terraria.On_Main.DrawInfernoRings += DrawRoverDriveShields;
 
-        public override void Load()
-        {
-            Terraria.On_Main.DrawInfernoRings += DrawRoverDriveShields;
-        }
-        public override void Unload()
-        {
-            Terraria.On_Main.DrawInfernoRings -= DrawRoverDriveShields;
-        }
-
+        public override void Unload() => Terraria.On_Main.DrawInfernoRings -= DrawRoverDriveShields;
 
         private void DrawRoverDriveShields(Terraria.On_Main.orig_DrawInfernoRings orig, Main self)
         {
             bool playerFound = false;
 
-            for (int i = 0; i < 255; i++)
+            for (int i = 0; i < Main.maxPlayers; i++)
             {
                 if (!Main.player[i].active || Main.player[i].outOfRange || Main.player[i].dead)
                     continue;
@@ -51,7 +45,7 @@ namespace CalamityMod.Items.Accessories
                 RoverDrivePlayer modPlayer = Main.player[i].GetModPlayer<RoverDrivePlayer>();
                 bool forcedVisibility = !modPlayer.ShieldVisibility.HasValue ? false : modPlayer.ShieldVisibility.Value;
 
-                //Skip if not forced, if it has a value (aka false since if it was true forced visibility would be true
+                // Skip if not forced, if it has a value (aka false since if it was true forced visibility would be true
                 if (!forcedVisibility && (modPlayer.ShieldVisibility.HasValue || (modPlayer.ProtectionMatrixDurability <= 0)))
                     continue;
 
@@ -67,7 +61,6 @@ namespace CalamityMod.Items.Accessories
                     shieldEffect.Parameters["blowUpPower"].SetValue(2.5f);
                     shieldEffect.Parameters["blowUpSize"].SetValue(0.5f);
                     shieldEffect.Parameters["noiseScale"].SetValue(noiseScale);
-                    //shieldEffect.Parameters["resolution"].SetValue(resolution);
 
                     float baseShieldOpacity = 0.9f + 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f);
                     shieldEffect.Parameters["shieldOpacity"].SetValue(baseShieldOpacity * (0.5f + 0.5f * shieldStrentgh));
@@ -80,23 +73,26 @@ namespace CalamityMod.Items.Accessories
                     {
                         switch (Main.player[i].team)
                         {
-                            case 1: //Red team
+                            case 1:
                                 shieldColor = new Color(178, 24, 31);
                                 edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.Tomato, Color.Crimson, shieldColor);
                                 break;
-                            case 2: //Green team
+
+                            case 2:
                                 shieldColor = new Color(194, 255, 67) * 0.7f;
                                 edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.Chartreuse, Color.YellowGreen, new Color(194, 255, 67));
                                 break;
-                            case 3: //Blue team
+
+                            case 3:
                                 shieldColor = new Color(64, 207, 200);
                                 edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.MediumSpringGreen, Color.DeepSkyBlue, new Color(64, 207, 200));
                                 break;
-                            case 4: //Yellow team
+
+                            case 4:
                                 shieldColor = new Color(176, 156, 45);
                                 edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.Gold, Color.Coral, Color.LightGoldenrodYellow);
                                 break;
-                            case 5: //Purple team
+
                             default:
                                 shieldColor = new Color(173, 111, 221);
                                 edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.DeepPink, Color.MediumOrchid, Color.MediumPurple);
@@ -104,7 +100,6 @@ namespace CalamityMod.Items.Accessories
                         }
                         
                     }
-
                     else
                     {
                         Color blueTint = new Color(51, 102, 255);
@@ -114,29 +109,22 @@ namespace CalamityMod.Items.Accessories
                         shieldColor = blueTint;
                     }
 
-
-
                     shieldEffect.Parameters["shieldColor"].SetValue(shieldColor.ToVector3());
                     shieldEffect.Parameters["shieldEdgeColor"].SetValue(edgeColor.ToVector3());
-
-
-
 
                     Main.spriteBatch.End();
                     Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, shieldEffect, Main.GameViewMatrix.TransformationMatrix);
 
                 }
 
-
-
                 playerFound = true;
-                Player myPlayer = Main.player[i];
                 if (NoiseTex == null)
                     NoiseTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/TechyNoise");
 
-                Texture2D tex = NoiseTex.Value;
+                Player myPlayer = Main.player[i];
                 Vector2 pos = myPlayer.MountedCenter + myPlayer.gfxOffY * Vector2.UnitY - Main.screenPosition;
 
+                Texture2D tex = NoiseTex.Value;
                 Main.spriteBatch.Draw(tex, pos, null, Color.White, 0, tex.Size() / 2f, scale, 0, 0);
             }
 
@@ -150,11 +138,7 @@ namespace CalamityMod.Items.Accessories
         }
 
 
-        public override void SetStaticDefaults()
-        {
-           
-            ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
-        }
+        public override void SetStaticDefaults() => ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
 
         public override void SetDefaults()
         {
@@ -164,7 +148,7 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Blue;
             Item.accessory = true;
 
-            //Needed for extractination
+            // Needed for extractination
             Item.useStyle = ItemUseStyleID.HiddenAnimation;
             Item.useAnimation = 10;
             Item.useTime = 2;
@@ -182,12 +166,9 @@ namespace CalamityMod.Items.Accessories
                 player.statDefense += ProtectionMatrixDefenseBoost;
         }
 
-        public override void UpdateVanity(Player player)
-        {
-            player.GetModPlayer<RoverDrivePlayer>().ShieldVisibility = true;
-        }
+        public override void UpdateVanity(Player player) => player.GetModPlayer<RoverDrivePlayer>().ShieldVisibility = true;
 
-        //Scrappable for 3-6 wulfrum scrap or a 20% chance to get an energy core
+        // Scrappable for 3-6 wulfrum scrap or a 20% chance to get an energy core
         public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)
         {
             resultType = ModContent.ItemType<WulfrumMetalScrap>();
@@ -204,16 +185,15 @@ namespace CalamityMod.Items.Accessories
     public class RoverDrivePlayer : ModPlayer
     {
         public bool RoverDriveOn;
-        public bool? ShieldVisibility; //Null for default, false for never, true for always
+        public bool? ShieldVisibility; // Null for default, false for never, true for always
         public int ProtectionMatrixDurability = 0;
         public int ProtectionMatrixCharge = 0;
 
         public override void ResetEffects()
         {
-            //Turn this into armor health when we can
+            // Turn this into armor health when we can
             if (RoverDriveOn)
                 Player.statLifeMax2 += ProtectionMatrixDurability;
-
             else
                 ProtectionMatrixDurability = 0;
 
@@ -245,24 +225,15 @@ namespace CalamityMod.Items.Accessories
                 }
 
                 if (Player.Calamity().cooldowns.TryGetValue(WulfrumRoverDriveDurability.ID, out var cdDurability))
-                {
                     cdDurability.timeLeft = ProtectionMatrixDurability;
-                }
 
-
-                //Reset recharge time.
+                // Reset recharge time
                 if (Player.Calamity().cooldowns.TryGetValue(WulfrumRoverDriveRecharge.ID, out var cd))
-                {
                     cd.timeLeft = RoverDrive.ProtectionMatrixRechargeTime;
-                }
             }
         }
 
-        public override void UpdateDead()
-        {
-            ProtectionMatrixDurability = 0;
-        }
-
+        public override void UpdateDead() => ProtectionMatrixDurability = 0;
 
         public override void PostUpdateMiscEffects()
         {
@@ -278,9 +249,7 @@ namespace CalamityMod.Items.Accessories
             else
             {
                 if (ProtectionMatrixDurability == 0 && !Player.Calamity().cooldowns.TryGetValue(WulfrumRoverDriveRecharge.ID, out var cd))
-                {
                     Player.AddCooldown(WulfrumRoverDriveRecharge.ID, RoverDrive.ProtectionMatrixRechargeTime);
-                }
 
                 if (ProtectionMatrixDurability > 0 && !Player.Calamity().cooldowns.TryGetValue(WulfrumRoverDriveDurability.ID, out cd))
                 {
@@ -291,9 +260,7 @@ namespace CalamityMod.Items.Accessories
                 }
 
                 if (ProtectionMatrixDurability > 0)
-                {
                     Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.2f);
-                }
             }
         }
     }
