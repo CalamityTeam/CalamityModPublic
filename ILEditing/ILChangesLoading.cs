@@ -34,16 +34,10 @@ namespace CalamityMod.ILEditing
             Terraria.On_Main.SetDisplayMode += ResetRenderTargetSizes;
             Terraria.On_Main.SortDrawCacheWorms += DrawFusableParticles;
             Terraria.On_Main.DrawInfernoRings += DrawForegroundParticles;
-            
-            // ERROR
-            //Terraria.GameContent.Drawing.On_TileDrawing.DrawPartialLiquid += DrawCustomLava;
-            // ERROR
-            //Terraria.IL_WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
-            // ERROR
-            //Terraria.GameContent.Liquid.IL_LiquidRenderer.InternalDraw += ChangeWaterQuadColors;
-            // ERROR
-            //Terraria.IL_Main.oldDrawWater += DrawCustomLava3;
-            
+            Terraria.GameContent.Drawing.On_TileDrawing.DrawPartialLiquid += DrawCustomLava;
+            Terraria.On_WaterfallManager.DrawWaterfall_int_int_int_float_Vector2_Rectangle_Color_SpriteEffects += DrawCustomLavafalls;
+            Terraria.GameContent.Liquid.IL_LiquidRenderer.DrawNormalLiquids += ChangeWaterQuadColors;
+            Terraria.IL_Main.oldDrawWater += DrawCustomLava3;
             Terraria.Graphics.Light.On_TileLightScanner.GetTileLight += MakeSulphSeaWaterBetter;
             Terraria.GameContent.Drawing.On_TileDrawing.PreDrawTiles += ClearForegroundStuff;
             Terraria.GameContent.Drawing.On_TileDrawing.Draw += ClearTilePings;
