@@ -275,6 +275,7 @@ namespace CalamityMod.NPCs
             "The Meowurer of Gods", // <@!385949114271268864> (GP#7876)
             "Katsafaros", // <@!190595401328492544> (NavyGuy#2650)
 			"Lucerne", // <@!271954788676141066> (lord_lucerne)
+			"Milo", // <@!401849201597874179> (maskedmilo)
         };
         private static readonly string[] TownCatSiameseNames = null;
         private static readonly string[] TownCatBlackNames =
