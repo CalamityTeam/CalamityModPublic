@@ -125,8 +125,7 @@ namespace CalamityMod.Items.Armor.LunicCorps
             player.setBonus = this.GetLocalizedValue("SetBonus");
 
             player.bulletDamage += 0.1f;
-            if (player.HeldItem.useAmmo == AmmoID.Rocket)
-                player.GetDamage<RangedDamageClass>() += 0.1f;
+            player.specialistDamage += 0.1f;
 
             player.jumpSpeedBoost += 1f;
         }

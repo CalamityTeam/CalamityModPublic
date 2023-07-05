@@ -329,9 +329,11 @@ LunicCorpsHelmet: {
 		'''
 		Provides an energy shield that absorbs up to 70 damage
 		The shield recharges over 10 seconds after being broken
-		      Getting hit during the shield recharge period will restart the recharging process
-		      10% increased rocket and bullet damage
-		      20% increased jump speed
+		Getting hit during the shield recharge period will restart the recharging process
+        10% increased bullet damage
+        10% increased specialist ranged damage
+        These are launchers, dartguns, or anything else that doesn't shoot arrows/bullets
+		20% increased jump speed
 		'''
 }
 
