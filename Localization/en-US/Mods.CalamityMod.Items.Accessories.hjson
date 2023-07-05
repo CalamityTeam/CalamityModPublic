@@ -1107,8 +1107,8 @@ NecklaceofVexation: {
 		'''
 }
 
-NuclearRod: {
-	DisplayName: Nuclear Rod
+NuclearFuelRod: {
+	DisplayName: Nuclear Fuel Rod
 	Tooltip:
 		'''
 		Minions release an irradiated aura on enemy hits

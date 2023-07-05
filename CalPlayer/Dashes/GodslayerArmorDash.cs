@@ -79,7 +79,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 cosmiliteDust.position += Main.rand.NextVector2Square(-20f, 20f);
                 cosmiliteDust.velocity *= 0.9f;
                 cosmiliteDust.scale *= Main.rand.NextFloat(1f, 1.4f);
-                cosmiliteDust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+                cosmiliteDust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                 if (Main.rand.NextBool(2))
                     cosmiliteDust.scale *= Main.rand.NextFloat(1f, 1.4f);
             }

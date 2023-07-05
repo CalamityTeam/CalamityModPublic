@@ -515,9 +515,9 @@ namespace CalamityMod.NPCs.AcidRain
             // If post-Polter, the drop rates are 10%. Otherwise they're 100%.
 			// This is accomplished by adding rules if the CONDITION "Post-Polter" fails.
             LeadingConditionRule postPolter = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedPolterghast);
-            postPolter.Add(ModContent.ItemType<NuclearRod>(), 10, hideLootReport: !DownedBossSystem.downedPolterghast);
+            postPolter.Add(ModContent.ItemType<NuclearFuelRod>(), 10, hideLootReport: !DownedBossSystem.downedPolterghast);
             postPolter.Add(ModContent.ItemType<SpentFuelContainer>(), 10, hideLootReport: !DownedBossSystem.downedPolterghast);
-            postPolter.AddFail(ModContent.ItemType<NuclearRod>(), hideLootReport: DownedBossSystem.downedPolterghast);
+            postPolter.AddFail(ModContent.ItemType<NuclearFuelRod>(), hideLootReport: DownedBossSystem.downedPolterghast);
             postPolter.AddFail(ModContent.ItemType<SpentFuelContainer>(), hideLootReport: DownedBossSystem.downedPolterghast);
 
             npcLoot.Add(ModContent.ItemType<CragmawMireTrophy>(), 10);

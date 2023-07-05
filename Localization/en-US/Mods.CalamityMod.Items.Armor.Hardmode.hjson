@@ -308,6 +308,44 @@ HydrothermicSubligar: {
 		'''
 }
 
+LunicCorpsBoots: {
+	DisplayName: Lunic Corps Boots
+	Tooltip:
+		'''
+		15% increased movement speed
+		4% increased ranged critical strike chance
+		10% increased max movement speed and acceleration
+		'''
+}
+
+LunicCorpsHelmet: {
+	DisplayName: Lunic Corps Helmet
+	Tooltip:
+		'''
+		12% increased ranged damage
+		Night vision and creature detect
+		'''
+	SetBonus:
+		'''
+		Provides an energy shield that absorbs up to 70 damage
+		The shield recharges over 10 seconds after being broken
+		Getting hit during the shield recharge period will restart the recharging process
+        10% increased bullet damage
+        10% increased specialist ranged damage
+        These are launchers, dartguns, or anything else that doesn't shoot arrows/bullets
+		20% increased jump speed
+		'''
+}
+
+LunicCorpsVest: {
+	DisplayName: Lunic Corps Vest
+	Tooltip:
+		'''
+		3% increased ranged damage
+		11% increased ranged critical strike chance
+		'''
+}
+
 MolluskShelleggings: {
 	DisplayName: Mollusk Shelleggings
 	Tooltip:

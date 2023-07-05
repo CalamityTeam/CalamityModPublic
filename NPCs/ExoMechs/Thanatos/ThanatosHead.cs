@@ -950,9 +950,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.Calamity().DR = vulnerable ? 0f : 0.9999f;
             NPC.Calamity().unbreakableDR = !vulnerable;
 
-            // Increase overall damage taken while vulnerable
-            NPC.takenDamageMultiplier = vulnerable ? 1.1f : 1f;
-
             // Vent noise and steam
             SmokeDrawer.ParticleSpawnRate = 9999999;
             if (vulnerable)

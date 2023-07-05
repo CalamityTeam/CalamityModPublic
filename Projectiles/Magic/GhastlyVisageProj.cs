@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Magic
                     if (player.manaFlower)
                     {
                         player.QuickMana();
-                        if (player.statMana >= (int)(float)manaCost)
+                        if (player.statMana >= manaCost)
                         {
                             player.manaRegenDelay = (int)player.maxRegenDelay;
                             player.statMana -= manaCost;
@@ -87,16 +87,18 @@ namespace CalamityMod.Projectiles.Magic
                         else
                         {
                             Projectile.Kill();
+                            flag15 = false;
                         }
                     }
                     else
                     {
                         Projectile.Kill();
+                        flag15 = false;
                     }
                 }
                 else
                 {
-                    if (player.statMana >= (int)(float)manaCost)
+                    if (player.statMana >= manaCost)
                     {
                         player.statMana -= manaCost;
                         player.manaRegenDelay = (int)player.maxRegenDelay;
@@ -104,7 +106,9 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 Projectile.localAI[1] += 1f;
                 Projectile.soundDelay = num40 - num41 * num39;
-                SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
+
+                if (flag15)
+                    SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
             }
             else if (Projectile.soundDelay <= 0 && flag16)
             {
@@ -113,7 +117,7 @@ namespace CalamityMod.Projectiles.Magic
                     if (player.manaFlower)
                     {
                         player.QuickMana();
-                        if (player.statMana >= (int)(float)manaCost)
+                        if (player.statMana >= manaCost)
                         {
                             player.manaRegenDelay = (int)player.maxRegenDelay;
                             player.statMana -= manaCost;
@@ -121,23 +125,25 @@ namespace CalamityMod.Projectiles.Magic
                         else
                         {
                             Projectile.Kill();
+                            flag15 = false;
                         }
                     }
                     else
                     {
                         Projectile.Kill();
+                        flag15 = false;
                     }
                 }
                 else
                 {
-                    if (player.statMana >= (int)(float)manaCost)
+                    if (player.statMana >= manaCost)
                     {
                         player.statMana -= manaCost;
                         player.manaRegenDelay = (int)player.maxRegenDelay;
                     }
                 }
                 Projectile.soundDelay = num40 - num41 * num39;
-                if (Projectile.ai[0] != 1f)
+                if (Projectile.ai[0] != 1f && flag15)
                 {
                     SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
                 }

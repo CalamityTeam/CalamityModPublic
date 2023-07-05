@@ -409,6 +409,8 @@ namespace CalamityMod.NPCs.Providence
                     SoundWarningLevel = 0f;
                 }
             }
+            else if (SoundWarningLevel > 0f)
+                SoundWarningLevel -= 1 / 50f;
 
             // Updating the looping sound
             if (SoundEngine.TryGetActiveSound(BurningSoundSlot, out var burningSound) && burningSound.IsPlaying)
@@ -419,7 +421,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 if (SoundWarningLevel <= 1f)
                     burningSound?.Stop();
-                else if(SoundWarningLevel < 2f)
+                else if(SoundWarningLevel <= 2f)
                     burningSound.Volume = SoundWarningLevel - 1f;
             }
 
@@ -2362,7 +2364,8 @@ namespace CalamityMod.NPCs.Providence
                     ModContent.ProjectileType<EnergyOrb>(),
                     ModContent.ProjectileType<IrradiatedAura>(),
                     ModContent.ProjectileType<SummonAstralExplosion>(),
-                    ModContent.ProjectileType<ApparatusExplosion>()
+                    ModContent.ProjectileType<ApparatusExplosion>(),
+                    ModContent.ProjectileType<TarragonAura>()
                 };
 
                 bool allowedClass = projectile.CountsAsClass<SummonDamageClass>() || (!projectile.CountsAsClass<MeleeDamageClass>() && !projectile.CountsAsClass<RangedDamageClass>() && 

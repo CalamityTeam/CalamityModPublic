@@ -31,11 +31,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static int ShotsPerScrap = 30;
         public int storedScrap = 0;
 
-        public override void SetStaticDefaults()
-        {
-                       //Funny lore quip about how it can perform ecgologically be recyling the scrap parts of the faulty robots youre forced to shoot at as new ammo.
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 11;
@@ -178,7 +173,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             spriteBatch.Draw(barBG, drawPos, null, colorBG, 0f, origin, scale * barScale, 0f, 0f);
             spriteBatch.Draw(barFG, drawPos, frameCrop, colorFG * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
 
-            DrawBorderStringEightWay(spriteBatch, FontAssets.MouseText.Value, storedScrap.ToString(), drawPos + new Vector2(-3, -3) * scale, Color.GreenYellow, Color.Black, scale);
+            DrawBorderStringEightWay(spriteBatch, FontAssets.MouseText.Value, storedScrap.ToString(), drawPos + new Vector2(-30, -3) * scale, Color.GreenYellow, Color.Black, scale);
         }
 
         public override void AddRecipes()

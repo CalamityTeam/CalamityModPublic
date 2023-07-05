@@ -267,6 +267,7 @@ DragonbloodDisgorger: {
 	Tooltip:
 		'''
 		Summons a skeletal dragon and her two children
+		Baby spits passively heal the player
 		Requires 6 minion slots to be summoned
 		There can only be one family at a time
 		'''
@@ -459,6 +460,7 @@ KingofConstellationsTenryu: {
 	Tooltip:
 		'''
 		Uses 4 minion slots to summon a pair of celestial dragons to fight for you
+		There can only be one pair of dragons at a time
 		'The ones who will devour the Unmoving Star'
 		'''
 }

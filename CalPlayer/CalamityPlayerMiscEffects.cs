@@ -65,6 +65,7 @@ using Terraria.ModLoader;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Tiles.Abyss.AbyssAmbient;
+using CalamityMod.Items.Armor.LunicCorps;
 
 namespace CalamityMod.CalPlayer
 {
@@ -153,6 +154,32 @@ namespace CalamityMod.CalPlayer
 
             // Update the gem tech armor set.
             GemTechState.Update();
+
+            // Lunic Corps Shield Shit
+            if (!lunicCorpsSet)
+            {
+                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var cdDurability))
+                    cdDurability.timeLeft = 0;
+
+                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cdRecharge))
+                    cdRecharge.timeLeft = 0;
+            }
+            else
+            {
+                if (masterChefShieldDurability == 0 && !Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cd))
+                    Player.AddCooldown(MasterChefShieldRecharge.ID, LunicCorpsHelmet.MasterChefShieldRechargeTime);
+
+                if (masterChefShieldDurability > 0 && !Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out cd))
+                {
+                    CooldownInstance durabilityCooldown = Player.AddCooldown(MasterChefShieldDurability.ID, LunicCorpsHelmet.MasterChefShieldDurabilityMax);
+                    durabilityCooldown.timeLeft = masterChefShieldDurability;
+
+                    SoundEngine.PlaySound(LunicCorpsHelmet.ActivationSound, Player.Center);
+                }
+
+                if (masterChefShieldDurability > 0)
+                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.2f);
+            }
 
             // Regularly sync player stats & mouse control info during multiplayer
             if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
@@ -1087,7 +1114,7 @@ namespace CalamityMod.CalPlayer
 
                     if (voltaicJelly)
                         Player.maxMinions++;
-                    if (nuclearRod)
+                    if (nuclearFuelRod)
                         Player.maxMinions++;
                 }
             }
@@ -1379,7 +1406,7 @@ namespace CalamityMod.CalPlayer
                     Main.dust[green].velocity *= 0.9f;
                     Main.dust[green].noGravity = true;
                     Main.dust[green].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    Main.dust[green].shader = GameShaders.Armor.GetSecondaryShader(Player.cWaist, Player);
+                    Main.dust[green].shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
                     if (Main.rand.NextBool(2))
                         Main.dust[green].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                 }
@@ -1410,7 +1437,7 @@ namespace CalamityMod.CalPlayer
                     dust.velocity *= 0.9f;
                     dust.noGravity = true;
                     dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cWaist, Player);
+                    dust.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
                     if (Main.rand.NextBool(2))
                         dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                 }
@@ -1481,7 +1508,7 @@ namespace CalamityMod.CalPlayer
                         dust.velocity *= 0.9f;
                         dust.noGravity = true;
                         dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                        dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cWaist, Player);
+                        dust.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
                         if (Main.rand.NextBool(2))
                             dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     }
@@ -2934,7 +2961,7 @@ namespace CalamityMod.CalPlayer
                             continue;
 
                         if (Vector2.Distance(Player.Center, npc.Center) <= range)
-                            Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Player.whoAmI, i);
+                            Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<TarragonAura>(), damage, 0f, Player.whoAmI, i);
                     }
                 }
             }

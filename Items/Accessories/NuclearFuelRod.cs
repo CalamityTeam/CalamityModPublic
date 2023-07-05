@@ -5,7 +5,8 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class NuclearRod : ModItem, ILocalizedModType
+    [LegacyName("NuclearRod")]
+    public class NuclearFuelRod : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.Calamity().nuclearRod = true;
+            player.Calamity().nuclearFuelRod = true;
             player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
     }

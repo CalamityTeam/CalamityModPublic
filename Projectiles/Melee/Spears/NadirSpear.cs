@@ -11,9 +11,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
     {
         public override void SetDefaults()
         {
-            Projectile.width = 55;
-            Projectile.height = 55;
-            Projectile.aiStyle = ProjAIStyleID.Spear;
+            Projectile.width = Projectile.height = 56;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.timeLeft = 90;
             Projectile.friendly = true;
@@ -29,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 1.1f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            int damage = Projectile.damage / 4;
+            int damage = (int)(Projectile.damage * 0.5f);
             float kb = Projectile.knockBack * 0.5f;
             Vector2 projPos = Projectile.Center + Projectile.velocity;
             Vector2 projVel = Projectile.velocity * 0.75f;
