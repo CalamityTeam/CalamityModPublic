@@ -137,7 +137,6 @@ namespace CalamityMod.Items.Accessories
             orig(self);
         }
 
-
         public override void SetStaticDefaults() => ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
 
         public override void SetDefaults()
@@ -187,7 +186,6 @@ namespace CalamityMod.Items.Accessories
         public bool RoverDriveOn;
         public bool? ShieldVisibility; // Null for default, false for never, true for always
         public int ProtectionMatrixDurability = 0;
-        public int ProtectionMatrixCharge = 0;
 
         public override void ResetEffects()
         {

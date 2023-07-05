@@ -65,6 +65,7 @@ using Terraria.ModLoader;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Tiles.Abyss.AbyssAmbient;
+using CalamityMod.Items.Armor.LunicCorps;
 
 namespace CalamityMod.CalPlayer
 {
@@ -153,6 +154,32 @@ namespace CalamityMod.CalPlayer
 
             // Update the gem tech armor set.
             GemTechState.Update();
+
+            // Lunic Corps Shield Shit
+            if (!lunicCorpsSet)
+            {
+                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var cdDurability))
+                    cdDurability.timeLeft = 0;
+
+                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cdRecharge))
+                    cdRecharge.timeLeft = 0;
+            }
+            else
+            {
+                if (masterChefShieldDurability == 0 && !Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cd))
+                    Player.AddCooldown(MasterChefShieldRecharge.ID, LunicCorpsHelmet.MasterChefShieldRechargeTime);
+
+                if (masterChefShieldDurability > 0 && !Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out cd))
+                {
+                    CooldownInstance durabilityCooldown = Player.AddCooldown(MasterChefShieldDurability.ID, LunicCorpsHelmet.MasterChefShieldDurabilityMax);
+                    durabilityCooldown.timeLeft = masterChefShieldDurability;
+
+                    SoundEngine.PlaySound(LunicCorpsHelmet.ActivationSound, Player.Center);
+                }
+
+                if (masterChefShieldDurability > 0)
+                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.2f);
+            }
 
             // Regularly sync player stats & mouse control info during multiplayer
             if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)

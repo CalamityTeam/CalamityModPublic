@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Armor.LunicCorps
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.defense = 20;
             Item.rare = ItemRarityID.Cyan;
+            Item.Calamity().donorItem = true;
         }
 
         public override void UpdateEquip(Player player)

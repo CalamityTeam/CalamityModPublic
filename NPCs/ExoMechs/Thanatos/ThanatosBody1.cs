@@ -444,13 +444,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.Calamity().DR = vulnerable ? 0f : 0.9999f;
             NPC.Calamity().unbreakableDR = !vulnerable;
 
-            // Increase overall damage taken while vulnerable
-            float damageMult = bossRush ? 1.1f : death ? 1.2f : revenge ? 1.25f : expertMode ? 1.3f : 1.4f;
-            if (shouldGetBuffedByBerserkPhase)
-                damageMult -= bossRush ? 0.1f : death ? 0.175f : revenge ? 0.2f : expertMode ? 0.225f : 0.3f;
-
-            NPC.takenDamageMultiplier = vulnerable ? damageMult : 1f;
-
             // Vent noise and steam
             SmokeDrawer.ParticleSpawnRate = 9999999;
             if (vulnerable)

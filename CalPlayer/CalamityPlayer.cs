@@ -25,6 +25,7 @@ using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Items.Armor.Brimflame;
 using CalamityMod.Items.Armor.Demonshade;
 using CalamityMod.Items.Armor.GemTech;
+using CalamityMod.Items.Armor.LunicCorps;
 using CalamityMod.Items.Armor.OmegaBlue;
 using CalamityMod.Items.Armor.PlagueReaper;
 using CalamityMod.Items.Armor.Silva;
@@ -662,6 +663,7 @@ namespace CalamityMod.CalPlayer
         public bool brimflameSet = false;
         public bool brimflameFrenzy = false;
         public bool lunicCorpsSet = false;
+        public int masterChefShieldDurability = 0;
         public bool lunicCorpsLegs = false;
         public bool shadeRegen = false;
         public bool shadowSpeed = false;
@@ -1665,6 +1667,9 @@ namespace CalamityMod.CalPlayer
             brimflameSet = false;
             brimflameFrenzy = false;
 
+            if (!lunicCorpsSet)
+                masterChefShieldDurability = 0;
+
             lunicCorpsSet = false;
             lunicCorpsLegs = false;
 
@@ -2369,6 +2374,7 @@ namespace CalamityMod.CalPlayer
             brimflameSet = false;
             brimflameFrenzy = false;
             lunicCorpsSet = false;
+            masterChefShieldDurability = 0;
             lunicCorpsLegs = false;
             reaverSpeed = false;
             reaverRegen = false;
@@ -5541,6 +5547,74 @@ namespace CalamityMod.CalPlayer
             // If Armageddon is active, instantly kill the player.
             if (CalamityWorld.armageddon && areThereAnyDamnBosses)
                 KillPlayer();
+
+            // Lunic Corps Armor Shield damage doesn't count as actual damage.
+            if (lunicCorpsSet)
+            {
+                bool noDamage = false;
+                if (masterChefShieldDurability > 0)
+                {
+                    // Cancel actual damage if the shield has enough durability to cancel out all damage from the hit.
+                    if (masterChefShieldDurability >= hurtInfo.Damage)
+                    {
+                        masterChefShieldDurability -= hurtInfo.Damage;
+                        if (masterChefShieldDurability <= 0)
+                        {
+                            masterChefShieldDurability = 0;
+                            SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
+                            Player.Calamity().GeneralScreenShakePower += 2f;
+
+                            // Display text indicating that shield damage was taken.
+                            string text = (-hurtInfo.Damage).ToString();
+                            Color messageColor = Color.LightBlue;
+                            Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
+                            CombatText.NewText(location, messageColor, Language.GetTextValue(text));
+                        }
+
+                        justHitByDefenseDamage = false;
+                        defenseDamageToTake = 0;
+                        noDamage = true;
+                    }
+
+                    // Take actual damage if the shield doesn't cancel out all damage from the hit.
+                    else
+                    {
+                        int totalDamageBeforeModification = hurtInfo.Damage;
+                        hurtInfo.Damage -= masterChefShieldDurability;
+                        masterChefShieldDurability -= totalDamageBeforeModification;
+                        if (masterChefShieldDurability <= 0)
+                        {
+                            masterChefShieldDurability = 0;
+                            SoundEngine.PlaySound(LunicCorpsHelmet.BreakSound, Player.Center);
+                            Player.Calamity().GeneralScreenShakePower += 2f;
+
+                            // Display text indicating that shield damage was taken.
+                            string text = (-masterChefShieldDurability).ToString();
+                            Color messageColor = Color.LightBlue;
+                            Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
+                            CombatText.NewText(location, messageColor, Language.GetTextValue(text));
+                        }
+                    }
+
+                    int numParticles = Main.rand.Next(2, 6);
+                    for (int i = 0; i < numParticles; i++)
+                    {
+                        Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3, 14);
+                        velocity.X += 5f * hurtInfo.HitDirection;
+                        GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(Player.Center, velocity, Main.rand.NextFloat(2.5f, 3f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25));
+                    }
+                }
+
+                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var cdDurability))
+                    cdDurability.timeLeft = masterChefShieldDurability;
+
+                // Reset recharge time
+                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cd))
+                    cd.timeLeft = LunicCorpsHelmet.MasterChefShieldRechargeTime;
+
+                if (noDamage)
+                    return;
+            }
             #endregion
 
             //Todo - At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
