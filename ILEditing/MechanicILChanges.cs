@@ -687,9 +687,12 @@ namespace CalamityMod.ILEditing
         #endregion General Particle Rendering
 
         #region Custom Lava Visuals
-        /*private static void DrawCustomLava(Terraria.GameContent.Drawing.On_TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
+        private static void DrawCustomLava(Terraria.GameContent.Drawing.On_TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, bool behindBlocks, Tile tileCache, ref Vector2 position, ref Rectangle liquidSize, int liquidType, ref VertexColors colors)
         {
-            if (liquidType != 1)
+            //liquidType = CustomLavaManagement.SelectLavafallStyle(liquidType);
+            //orig(self, behindBlocks, tileCache, ref position, ref liquidSize, liquidType, ref colors);
+
+            /*if (liquidType != 1)
             {
                 orig(self, tileCache, position, liquidSize, liquidType, aColor);
                 return;
@@ -725,8 +728,41 @@ namespace CalamityMod.ILEditing
             if (tileCache.Slope == SlopeType.SlopeUpRight)
             {
                 Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
+            }*/
+
+            if (liquidType != 1)
+            {
+                orig(self, behindBlocks, tileCache, ref position, ref liquidSize, liquidType, ref colors);
+                return;
             }
-        }*/
+
+            int slope = (int)tileCache.Slope;
+            colors = SelectLavaQuadColor(TextureAssets.LiquidSlope[liquidType].Value, colors, liquidType == 1);
+            if (!TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.TileType] || behindBlocks || slope == 0)
+            {
+                Texture2D liquidTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaBlockTexture : TextureAssets.Liquid[liquidType].Value, LiquidTileType.Block);
+                Main.tileBatch.Draw(liquidTexture, position, liquidSize, colors, default(Vector2), 1f, SpriteEffects.None);
+                return;
+            }
+            
+            Texture2D slopeTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaSlopeTexture : TextureAssets.LiquidSlope[liquidType].Value, LiquidTileType.Slope);
+            liquidSize.X += 18 * (slope - 1);
+            switch (slope)
+            {
+            case 1:
+                Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
+                break;
+            case 2:
+                Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
+                break;
+            case 3:
+                Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
+                break;
+            case 4:
+                Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
+                break;
+            }
+        }
 
         private static void ChangeWaterQuadColors(ILContext il)
         {
@@ -764,10 +800,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldloc, 4);
             cursor.EmitDelegate<Func<VertexColors, Texture2D, int, int, int, VertexColors>>((initialColor, initialTexture, liquidType, x, y) =>
             {
-                initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor, liquidType == 1);
-                initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor, liquidType == 1);
-                initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor, liquidType == 1);
-                initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor, liquidType == 1);
+                initialColor = SelectLavaQuadColor(initialTexture, initialColor, liquidType == 1);
 
                 if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot || 
                 liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot ||
@@ -873,27 +906,12 @@ namespace CalamityMod.ILEditing
             }
         }
 
-        private static void DrawCustomLavafalls(ILContext il)
+        private static void DrawCustomLavafalls(Terraria.On_WaterfallManager.orig_DrawWaterfall_int_int_int_float_Vector2_Rectangle_Color_SpriteEffects orig, WaterfallManager self, int waterfallType, int x, int y, float opacity, Vector2 position, Rectangle sourceRect, Color color, SpriteEffects effects)
         {
-            ILCursor cursor = new ILCursor(il);
+            waterfallType = CustomLavaManagement.SelectLavafallStyle(waterfallType);
+            color = CustomLavaManagement.SelectLavafallColor(waterfallType, color);
 
-            // Search for the color and alter it based on the same conditions as the lava.
-            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt(typeof(Color).GetConstructor(new Type[] { typeof(int), typeof(int), typeof(int), typeof(int) }))))
-            {
-                LogFailure("Custom Lavafall Drawing", "Could not locate the waterfall color.");
-                return;
-            }
-
-            // Determine the waterfall type. This happens after all the "If Lava do blahblahblah" color checks, meaning it will have the same
-            // color properties as lava.
-            cursor.Emit(OpCodes.Ldloc, 12);
-            cursor.EmitDelegate<Func<int, int>>(initialWaterfallStyle => CustomLavaManagement.SelectLavafallStyle(initialWaterfallStyle));
-            cursor.Emit(OpCodes.Stloc, 12);
-
-            cursor.Emit(OpCodes.Ldloc, 12);
-            cursor.Emit(OpCodes.Ldloc, 54);
-            cursor.EmitDelegate<Func<int, Color, Color>>((initialWaterfallStyle, initialLavafallColor) => CustomLavaManagement.SelectLavafallColor(initialWaterfallStyle, initialLavafallColor));
-            cursor.Emit(OpCodes.Stloc, 54);
+            orig(self, waterfallType, x, y, opacity, position, sourceRect, color, effects);
         }
         #endregion Custom Lava Visuals
 

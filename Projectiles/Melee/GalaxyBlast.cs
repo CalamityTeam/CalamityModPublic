@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,6 +24,11 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
         }
 
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = 4;
+        }
+
         public override void AI()
         {
             if (Projectile.ai[1] != -1f && Projectile.position.Y > Projectile.ai[1])
@@ -35,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
                 return;
             }
             bool flag5 = WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.position.X / 16, (int)Projectile.position.Y / 16));
-            Dust dust6 = Main.dust[Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 73, 0f, 0f, 0, default, 1f)];
+            Dust dust6 = Main.dust[Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 0, default, 1f)];
             dust6.position = Projectile.Center;
             dust6.velocity = Vector2.Zero;
             dust6.noGravity = true;
@@ -101,18 +107,18 @@ namespace CalamityMod.Projectiles.Melee
             bool flag = WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.position.X / 16, (int)Projectile.position.Y / 16));
             for (int m = 0; m < 4; m++)
             {
-                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 73, 0f, 0f, 100, default, 1.5f);
+                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1.5f);
             }
             for (int n = 0; n < 4; n++)
             {
-                int num10 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 73, 0f, 0f, 0, default, 2.5f);
+                int num10 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 0, default, 2.5f);
                 Main.dust[num10].noGravity = true;
                 Main.dust[num10].velocity *= 3f;
                 if (flag)
                 {
                     Main.dust[num10].noLight = true;
                 }
-                num10 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 73, 0f, 0f, 100, default, 1.5f);
+                num10 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1.5f);
                 Main.dust[num10].velocity *= 2f;
                 Main.dust[num10].noGravity = true;
                 if (flag)

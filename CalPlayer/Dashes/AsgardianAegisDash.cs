@@ -31,7 +31,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 holyFireDashDust.velocity += Main.rand.NextVector2Circular(5f, 5f);
                 holyFireDashDust.velocity *= 0.75f;
                 holyFireDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
-                holyFireDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                holyFireDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cShield, player);
                 holyFireDashDust.noGravity = true;
                 holyFireDashDust.fadeIn = 0.5f;
             }
@@ -51,7 +51,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 Dust fireDashDust = Dust.NewDustDirect(player.position + Vector2.UnitY * 4f, player.width, player.height - 8, dashDustID, 0f, 0f, 100, default, 2f);
                 fireDashDust.velocity *= 0.1f;
                 fireDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
-                fireDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                fireDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cShield, player);
                 fireDashDust.noGravity = true;
                 if (Main.rand.NextBool(2))
                     fireDashDust.fadeIn = 0.5f;

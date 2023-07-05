@@ -230,13 +230,27 @@ namespace CalamityMod.ILEditing
         {
             // Blood Moons only happen when the player has over 200 max life.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(120))) // The 120 max life check.
+            // Find the moon phase check which will forward the cursor around the Blood Moon portion
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdsfld<Main>("moonPhase")))
             {
-                LogFailure("Make Blood Moons Require 200 Max Life", "Could not locate the max life variable.");
+                LogFailure("Make Blood Moons Require 200 Max Life", "Could not locate the moon phase check.");
+                return;
+            }
+            // Find the player check itself
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallOrCallvirt<Player>("get_ConsumedLifeCrystals")))
+            {
+                LogFailure("Make Blood Moons Require 200 Max Life", "Could not locate the Life Crystal check.");
+                return;
+            }
+            // Find the >1 Life Crystal requirement
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(1)))
+            {
+                LogFailure("Make Blood Moons Require 200 Max Life", "Could not locate the Life Crystal requirement.");
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 200); // Change to 200.
+            // Change it to >4 Life Crystals, which effectively allows a Blood Moon at 200 natural health.
+            cursor.Emit(OpCodes.Ldc_I4, 4);
         }
         #endregion Change Blood Moon Max HP Requirements
 

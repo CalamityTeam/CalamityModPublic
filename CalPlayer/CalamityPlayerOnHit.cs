@@ -742,7 +742,7 @@ namespace CalamityMod.CalPlayer
                         Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SummonAstralExplosion>(), starburstDamage, 3.5f, proj.owner);
                         summonProjCooldown = 60f;
                     }
-                    else if (nuclearRod)
+                    else if (nuclearFuelRod)
                     {
                         int nuclearDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(20);
                         Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<IrradiatedAura>(), nuclearDamage, 0f, proj.owner);

@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
                 ModContent.ItemType<SlitheringEels>(),
                 ModContent.ItemType<SkyfinBombers>(),
                 ModContent.ItemType<SpentFuelContainer>(),
-                ModContent.ItemType<NuclearRod>()
+                ModContent.ItemType<NuclearFuelRod>()
             ));
 
             // Pre-HM Abyss Equipment (and Torrential Tear)

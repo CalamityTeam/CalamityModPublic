@@ -23,7 +23,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 redDashDust.position += Main.rand.NextVector2Square(-5f, 5f);
                 redDashDust.velocity *= 0.2f;
                 redDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
-                redDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                redDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cNeck, player);
             }
         }
 
@@ -44,7 +44,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 Dust redDashDust = Dust.NewDustDirect(dustSpawnPosition, player.width, dustSpawnHeight, 235, 0f, 0f, 100, default, 1.4f);
                 redDashDust.velocity *= 0.1f;
                 redDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
-                redDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                redDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cNeck, player);
             }
         }
     }

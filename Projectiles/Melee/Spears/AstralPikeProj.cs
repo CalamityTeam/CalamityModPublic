@@ -12,11 +12,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
     {
         public override void SetDefaults()
         {
-            Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
-            Projectile.aiStyle = ProjAIStyleID.Spear;
+            Projectile.width = Projectile.height = 40;
             Projectile.DamageType = TrueMeleeDamageClass.Instance;
             Projectile.timeLeft = 90;
-            Projectile.height = 40;  //The height of the .png file in pixels divided by 2.
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.tileCollide = false;

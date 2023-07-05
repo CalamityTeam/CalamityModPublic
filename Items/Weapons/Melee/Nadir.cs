@@ -11,12 +11,12 @@ namespace CalamityMod.Items.Weapons.Melee
     public class Nadir : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public static int BaseDamage = 280;
+        public static int BaseDamage = 350;
         public static float ShootSpeed = 12f;
 
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.Spears[Item.type] = true;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<ElementalLance>().
+                AddIngredient<AuricBar>(5).
                 AddIngredient<TwistingNether>(5).
-                AddIngredient<CosmiliteBar>(8).
                 AddIngredient<DarksunFragment>(8).
                 AddTile<CosmicAnvil>().
                 Register();
