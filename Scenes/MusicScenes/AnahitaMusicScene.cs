@@ -15,6 +15,6 @@ namespace CalamityMod.Systems
         public override int VanillaMusic => MusicID.Boss3;
         public override int OtherworldMusic => MusicID.OtherworldlyBoss2;
 
-        public override bool AdditionalCheck() => CalamityGlobalNPC.leviathan == -1;
+        public override bool AdditionalCheck() => CalamityGlobalNPC.LeviAndAna == -1;
     }
 }

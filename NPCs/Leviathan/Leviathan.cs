@@ -122,6 +122,10 @@ namespace CalamityMod.NPCs.Leviathan
 
             CalamityGlobalNPC.leviathan = NPC.whoAmI;
 
+            // This dictates the Leviathan music scene
+            if (CalamityGlobalNPC.LeviAndAna == -1)
+                CalamityGlobalNPC.LeviAndAna = NPC.whoAmI;
+
             bool bossRush = BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || bossRush;
             bool revenge = CalamityWorld.revenge || bossRush;
