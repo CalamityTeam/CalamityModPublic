@@ -1171,11 +1171,48 @@ namespace CalamityMod
             RegisterSummon(ItemType<CosmicImmaterializer>(), BuffType<CosmicEnergy>(), ProjectileType<CosmicEnergySpiral>());
             RegisterSummon(ItemType<TemporalUmbrella>(), BuffType<MagicHatBuff>(), ProjectileType<MagicHat>());
             RegisterSummon(ItemType<Endogenesis>(), BuffType<EndoCooperBuff>(), ProjectileType<EndoCooperBody>());
-
-            sAssociation.Call("AddMinionInfo", ItemType<EntropysVigil>(), BuffType<EntropysVigilBuff>(), new List<int>() { ProjectileType<Calamitamini>(), ProjectileType<Cataclymini>(), ProjectileType<Catastromini>()}, new List<float>() {1-(1f/3f), 2f/3f, 2f/3f});
+            
+            sAssociation.Call("AddMinionInfo", ItemType<EntropysVigil>(), BuffType<EntropysVigilBuff>(), new List<Dictionary<string, object>>
+            {
+                new Dictionary<string, object>()
+                {
+                    ["ProjID"] = ProjectileType<Calamitamini>(),
+                    ["Slot"] = 1-(1f/3f)
+                },
+                new Dictionary<string, object>()
+                {
+                    ["ProjID"] = ProjectileType<Cataclymini>(),
+                    ["Slot"] = 2f/3f
+                },
+                new Dictionary<string, object>()
+                {
+                    ["ProjID"] = ProjectileType<Catastromini>(),
+                    ["Slot"] = 2f/3f
+                }
+            });
             //Entropy's Vigil is a bruh moment
-            sAssociation.Call("AddMinionInfo", ItemType<ResurrectionButterfly>(), BuffType<ResurrectionButterflyBuff>(), new List<int>() { ProjectileType<PinkButterfly>(), ProjectileType<PurpleButterfly>()});
-            sAssociation.Call("AddMinionInfo", ItemType<KingofConstellationsTenryu>(), BuffType<KingofConstellationsBuff>(), new List<int>() { ProjectileType<BlackDragonHead>(), ProjectileType<WhiteDragonHead>() });
+            sAssociation.Call("AddMinionInfo", ItemType<ResurrectionButterfly>(), BuffType<ResurrectionButterflyBuff>(), new List<Dictionary<string, object>>
+            {
+                new Dictionary<string, object>()
+                {
+                    ["ProjID"] = ProjectileType<PurpleButterfly>()
+                },
+                new Dictionary<string, object>()
+                {
+                    ["ProjID"] = ProjectileType<PinkButterfly>()
+                }
+            });
+            sAssociation.Call("AddMinionInfo", ItemType<KingofConstellationsTenryu>(), BuffType<KingofConstellationsBuff>(), new List<Dictionary<string, object>>
+            {
+                new Dictionary<string, object>()
+                {
+                    ["ProjID"] = ProjectileType<BlackDragonHead>()
+                },
+                new Dictionary<string, object>()
+                {
+                    ["ProjID"] = ProjectileType<WhiteDragonHead>()
+                }
+            });
         }
     }
 }
