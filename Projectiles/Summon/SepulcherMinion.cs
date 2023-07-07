@@ -109,6 +109,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 12000;
         }
 
         public override void SetDefaults()
