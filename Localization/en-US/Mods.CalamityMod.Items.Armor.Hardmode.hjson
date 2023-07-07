@@ -327,7 +327,8 @@ LunicCorpsHelmet: {
 		'''
 	SetBonus:
 		'''
-		Provides an energy shield that absorbs up to 70 damage
+		'Finish the fight'
+        Provides an energy shield that absorbs up to 70 damage
 		The shield recharges over 10 seconds after being broken
 		Getting hit during the shield recharge period will restart the recharging process
         10% increased bullet damage
