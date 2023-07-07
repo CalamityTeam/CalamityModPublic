@@ -124,6 +124,10 @@ namespace CalamityMod.NPCs.Leviathan
             // whoAmI variable
             CalamityGlobalNPC.siren = NPC.whoAmI;
 
+            // This dictates the Leviathan music scene
+            if (HasBegunSummoningLeviathan && CalamityGlobalNPC.LeviAndAna == -1)
+                CalamityGlobalNPC.LeviAndAna = NPC.whoAmI;
+
             // Set to false so she doesn't do it constantly
             NPC.Calamity().canBreakPlayerDefense = false;
 
