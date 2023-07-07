@@ -1157,6 +1157,8 @@ namespace CalamityMod.CalPlayer
             if (expiredCooldowns.Count > 0)
                 SyncCooldownRemoval(Main.netMode == NetmodeID.Server, expiredCooldowns);
 
+            if (plagueTaintedSMGDroneCooldown > 0)
+                plagueTaintedSMGDroneCooldown--;
             if (momentumCapacitorTime > 0)
                 --momentumCapacitorTime;
             if (spiritOriginBullseyeShootCountdown > 0)

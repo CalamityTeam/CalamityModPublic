@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
                     return;
                 }
                 Projectile.ai[1] += 1f;
-                if ((Projectile.ai[1] % 15f) == 0f)
+                if ((Projectile.ai[1] % 30f) == 0f)
                 {
                     float velocityX = Main.rand.NextFloat(-0.4f, 0.4f);
                     float velocityY = Main.rand.NextFloat(-0.3f, -0.5f);

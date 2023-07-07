@@ -150,6 +150,8 @@ PhangasmBow.DisplayName: Phangasm
 PiercingBullet.DisplayName: Piercing Blow
 PlagueArrow.DisplayName: Arrow
 PlagueExplosionFriendly.DisplayName: Explosion
+PlagueTaintedProjectile.DisplayName: Plague Tainted Projectile
+PlagueTaintedDrone.DisplayName: Plague Tainted Drone
 PlanarRipperBolt.DisplayName: Bolt
 PlanarRipperExplosion.DisplayName: Explosion
 PlanetaryAnnihilationProj.DisplayName: Ball

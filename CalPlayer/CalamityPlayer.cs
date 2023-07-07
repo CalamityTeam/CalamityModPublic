@@ -131,6 +131,7 @@ namespace CalamityMod.CalPlayer
         public float moveSpeedBonus = 0f;
         public int momentumCapacitorTime = 0;
         public float momentumCapacitorBoost = 0f;
+        public int plagueTaintedSMGDroneCooldown = 0;
         #endregion
 
         #region Speedrun Timer
@@ -5564,13 +5565,13 @@ namespace CalamityMod.CalPlayer
                             masterChefShieldDurability = 0;
                             SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
                             Player.Calamity().GeneralScreenShakePower += 2f;
-
-                            // Display text indicating that shield damage was taken.
-                            string text = (-hurtInfo.Damage).ToString();
-                            Color messageColor = Color.LightBlue;
-                            Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
-                            CombatText.NewText(location, messageColor, Language.GetTextValue(text));
                         }
+
+                        // Display text indicating that shield damage was taken.
+                        string text = (-hurtInfo.Damage).ToString();
+                        Color messageColor = Color.LightBlue;
+                        Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
+                        CombatText.NewText(location, messageColor, Language.GetTextValue(text));
 
                         justHitByDefenseDamage = false;
                         defenseDamageToTake = 0;
@@ -5588,13 +5589,13 @@ namespace CalamityMod.CalPlayer
                             masterChefShieldDurability = 0;
                             SoundEngine.PlaySound(LunicCorpsHelmet.BreakSound, Player.Center);
                             Player.Calamity().GeneralScreenShakePower += 2f;
-
-                            // Display text indicating that shield damage was taken.
-                            string text = (-masterChefShieldDurability).ToString();
-                            Color messageColor = Color.LightBlue;
-                            Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
-                            CombatText.NewText(location, messageColor, Language.GetTextValue(text));
                         }
+
+                        // Display text indicating that shield damage was taken.
+                        string text = (-masterChefShieldDurability).ToString();
+                        Color messageColor = Color.LightBlue;
+                        Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
+                        CombatText.NewText(location, messageColor, Language.GetTextValue(text));
                     }
 
                     int numParticles = Main.rand.Next(2, 6);
@@ -5614,7 +5615,10 @@ namespace CalamityMod.CalPlayer
                     cd.timeLeft = LunicCorpsHelmet.MasterChefShieldRechargeTime;
 
                 if (noDamage)
+                {
+                    Player.GiveIFrames(modifiers.PvP ? 8 : ((hurtInfo.Damage != 1) ? (Player.longInvince ? 80 : 40) : (Player.longInvince ? 40 : 20)), true);
                     return;
+                }
             }
             #endregion
 

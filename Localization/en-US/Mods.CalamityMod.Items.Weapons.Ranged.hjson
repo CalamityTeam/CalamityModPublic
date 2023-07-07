@@ -844,6 +844,17 @@ Photoviscerator: {
 		'''
 }
 
+PlagueTaintedSMG: {
+	DisplayName: Plague Tainted SMG
+	Tooltip:
+		'''
+		Shoots plague bullets that spawn drones on critical hits
+		Bullets deal more damage and knockback the closer the enemy is
+		Drones always crit upon hitting a plagued enemy
+		Right click to fire a drone swarm
+		'''
+}
+
 PlanetaryAnnihilation: {
 	DisplayName: Planetary Annihilation
 	Tooltip:

@@ -36,13 +36,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-
-
             // Fire extra bullets to the left and right
             for (int i = 0; i < 2; i++)
             {
                 Projectile.NewProjectile(source, position, velocity.RotatedBy(-Spread * (i + 1)), type, damage, knockback, player.whoAmI);
-                Projectile.NewProjectile(source, position, velocity.RotatedBy(+Spread * (i + 1)), type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity.RotatedBy(Spread * (i + 1)), type, damage, knockback, player.whoAmI);
             }
 
             return true;
