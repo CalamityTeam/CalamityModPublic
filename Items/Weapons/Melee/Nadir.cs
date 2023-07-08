@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
     public class Nadir : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public static int BaseDamage = 350;
-        public static float ShootSpeed = 12f;
+        public static int BaseDamage = 390;
+        public static float ShootSpeed = 20f;
 
         public override void SetStaticDefaults()
         {
