@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Armor.LunicCorps
                 if (modPlayer.masterChefShieldDurability <= 0)
                     continue;
 
-                float scale = 0.15f + 0.03f * (0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f + i * 0.2f));
+                float scale = 0.1f + 0.02f * (0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f + i * 0.2f));
 
                 if (playerFound == false)
                 {
