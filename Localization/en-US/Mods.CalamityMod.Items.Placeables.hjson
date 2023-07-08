@@ -1,10 +1,6 @@
 AstralPylon: {
 	DisplayName: Astral Pylon
-	Tooltip:
-		'''
-		{$CommonItemTooltip.TeleportationPylon}
-		You can only place one per type and in the matching biome
-		'''
+	Tooltip: "{$CommonItemTooltip.TeleportationPylon}"
 }
 
 CragsPylon: {
@@ -19,20 +15,12 @@ CragsPylon: {
 
 SulphurPylon: {
 	DisplayName: Sulphur Pylon
-	Tooltip:
-		'''
-		{$CommonItemTooltip.TeleportationPylon}
-		You can only place one per type and in the matching biome
-		'''
+	Tooltip: "{$CommonItemTooltip.TeleportationPylon}"
 }
 
 SunkenPylon: {
 	DisplayName: Sunken Pylon
-	Tooltip:
-		'''
-		{$CommonItemTooltip.TeleportationPylon}
-		You can only place one per type and in the matching biome
-		'''
+	Tooltip: "{$CommonItemTooltip.TeleportationPylon}"
 }
 
 AbyssGravel: {

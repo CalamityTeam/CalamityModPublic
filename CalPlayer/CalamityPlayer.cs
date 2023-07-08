@@ -3409,6 +3409,18 @@ namespace CalamityMod.CalPlayer
                 if (Player.potionDelay > 0 && !Player.HasCooldown(PotionSickness.ID))
                     Player.AddCooldown(PotionSickness.ID, Player.potionDelay, false);
 
+                if (cooldowns.TryGetValue(PotionSickness.ID, out CooldownInstance cd))
+                {
+                    if (Player.potionDelay != cd.timeLeft && cd.timeLeft > 0)
+                    {
+                        cd.timeLeft = Player.potionDelay;
+                    }
+
+                    if (cd.timeLeft > cd.duration)
+                        cd.duration = cd.timeLeft; // If the new cooldown is larger than the full duration, update, else keep it the same.
+                }
+                    
+                    
                 // Add a cooldown display for chaos state if the player has the vanilla counter ticking
                 // This will make the cooldown look like vanilla Rod of Discord, as it wasn't applied by either Normality Relocator or Spectral Veil
                 if (Player.chaosState && !Player.HasCooldown(ChaosState.ID))
