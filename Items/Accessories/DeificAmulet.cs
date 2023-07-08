@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dAmulet = true;
             player.longInvince = true;
+            player.pStone = true;
             player.lifeRegen += 1;
         }
 

@@ -2835,9 +2835,6 @@ namespace CalamityMod.CalPlayer
                 bonusStealthDamage += nanotech ? 0.05f : 0.08f;
             }
 
-            if (dAmulet)
-                Player.pStone = true;
-
             if (frostFlare)
             {
                 Player.resistCold = true;
