@@ -837,6 +837,15 @@ ValkyrieRay: {
 	Tooltip: Casts a devastating ray of holy power
 }
 
+VeeringWind: {
+	DisplayName: Veering Wind
+	Tooltip:
+		'''
+		Casts a circular spread of wind waves with high knockback
+		Press <right> to cast a circular spread of frost waves
+		'''
+}
+
 Vehemence: {
 	DisplayName: Vehemence
 	Tooltip: Casts intense bolts of hellish power that explode into skulls

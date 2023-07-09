@@ -4441,6 +4441,7 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By NPC
         public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
         {
+            // 1.4.4 PORT TODO - DO NOT DO THIS!
             Player.HurtInfo hurtInfo = new Player.HurtInfo();
 
             int bossRushDamage = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
@@ -4704,6 +4705,7 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
         {
+            // 1.4.4 PORT TODO - DO NOT DO THIS!
             Player.HurtInfo hurtInfo = new Player.HurtInfo();
 
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && hurtInfo.Damage > 0)
@@ -4994,6 +4996,7 @@ namespace CalamityMod.CalPlayer
 
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
+            // 1.4.4 PORT TODO - DO NOT DO THIS!
             Player.HurtModifiers modifiers = new Player.HurtModifiers();
 
             if (sulfurSet && !proj.friendly && hurtInfo.Damage > 0)
@@ -5535,6 +5538,7 @@ namespace CalamityMod.CalPlayer
         #region Pre Hurt
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)/* tModPorter Override ImmuneTo, FreeDodge or ConsumableDodge instead to prevent taking damage */
         {
+            // 1.4.4 PORT TODO - DO NOT DO THIS!
             Player.HurtInfo hurtInfo = new Player.HurtInfo();
 
             #region Ignore Incoming Hits
