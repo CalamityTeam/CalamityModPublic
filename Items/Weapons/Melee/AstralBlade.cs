@@ -57,7 +57,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
-            float lifeRatio = target.life / (float)target.lifeMax;
+            // Avoid dividing by 0 at all costs.
+            if (target.lifeMax <= 0)
+                return;
+
+            float lifeRatio = MathHelper.Clamp(target.life / (float)target.lifeMax, 0f, 1f);
             float multiplier = MathHelper.Lerp(1f, 2f, lifeRatio);
 
             modifiers.SourceDamage *= multiplier;
