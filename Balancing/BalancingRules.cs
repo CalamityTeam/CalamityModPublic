@@ -25,7 +25,16 @@ namespace CalamityMod.Balancing
             return hitContext.Class == ApplicableClass;
         }
 
-        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
+        {
+            // Changed from FinalDamage to SourceDamage to ensure that resists will also apply to on-hit effects.
+            // See this message in the Calamity Dev Discord for full rationale.
+            // https://discord.com/channels/458428222061936650/459003706575421440/1128002932000960592
+            //
+            // There is one limitation to this approach. Flat bonus damage, aka whip tags, won't be reduced.
+            // In the case that summons or whips need to be resisted, the best move is to consider them entirely separately.
+            modifiers.SourceDamage *= DamageMultiplier;
+        }
     }
 
     public class NPCSpecificRequirementBalancingRule : IBalancingRule
@@ -51,7 +60,16 @@ namespace CalamityMod.Balancing
 
         public bool AppliesTo(NPC npc, NPCHitContext hitContext) => hitContext.Pierce > 1 || hitContext.Pierce == -1;
 
-        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
+        {
+            // Changed from FinalDamage to SourceDamage to ensure that resists will also apply to on-hit effects.
+            // See this message in the Calamity Dev Discord for full rationale.
+            // https://discord.com/channels/458428222061936650/459003706575421440/1128002932000960592
+            //
+            // There is one limitation to this approach. Flat bonus damage, aka whip tags, won't be reduced.
+            // In the case that summons or whips need to be resisted, the best move is to consider them entirely separately.
+            modifiers.SourceDamage *= DamageMultiplier;
+        }
     }
 
     public class ProjectileResistBalancingRule : IBalancingRule
@@ -74,7 +92,16 @@ namespace CalamityMod.Balancing
             return true;
         }
 
-        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
+        {
+            // Changed from FinalDamage to SourceDamage to ensure that resists will also apply to on-hit effects.
+            // See this message in the Calamity Dev Discord for full rationale.
+            // https://discord.com/channels/458428222061936650/459003706575421440/1128002932000960592
+            //
+            // There is one limitation to this approach. Flat bonus damage, aka whip tags, won't be reduced.
+            // In the case that summons or whips need to be resisted, the best move is to consider them entirely separately.
+            modifiers.SourceDamage *= DamageMultiplier;
+        }
     }
 
     public class ProjectileSpecificRequirementBalancingRule : IBalancingRule
@@ -96,7 +123,16 @@ namespace CalamityMod.Balancing
             return Requirement(Main.projectile[hitContext.ProjectileIndex.Value]);
         }
 
-        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
+        {
+            // Changed from FinalDamage to SourceDamage to ensure that resists will also apply to on-hit effects.
+            // See this message in the Calamity Dev Discord for full rationale.
+            // https://discord.com/channels/458428222061936650/459003706575421440/1128002932000960592
+            //
+            // There is one limitation to this approach. Flat bonus damage, aka whip tags, won't be reduced.
+            // In the case that summons or whips need to be resisted, the best move is to consider them entirely separately.
+            modifiers.SourceDamage *= DamageMultiplier;
+        }
     }
 
     public class StealthStrikeBalancingRule : IBalancingRule
@@ -119,7 +155,16 @@ namespace CalamityMod.Balancing
             return hitContext.IsStealthStrike;
         }
 
-        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
+        {
+            // Changed from FinalDamage to SourceDamage to ensure that resists will also apply to on-hit effects.
+            // See this message in the Calamity Dev Discord for full rationale.
+            // https://discord.com/channels/458428222061936650/459003706575421440/1128002932000960592
+            //
+            // There is one limitation to this approach. Flat bonus damage, aka whip tags, won't be reduced.
+            // In the case that summons or whips need to be resisted, the best move is to consider them entirely separately.
+            modifiers.SourceDamage *= DamageMultiplier;
+        }
     }
 
     public class TrueMeleeResistBalancingRule : IBalancingRule
@@ -138,6 +183,15 @@ namespace CalamityMod.Balancing
             return hitContext.DamageSource == DamageSourceType.TrueMeleeSwing;
         }
 
-        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
+        {
+            // Changed from FinalDamage to SourceDamage to ensure that resists will also apply to on-hit effects.
+            // See this message in the Calamity Dev Discord for full rationale.
+            // https://discord.com/channels/458428222061936650/459003706575421440/1128002932000960592
+            //
+            // There is one limitation to this approach. Flat bonus damage, aka whip tags, won't be reduced.
+            // In the case that summons or whips need to be resisted, the best move is to consider them entirely separately.
+            modifiers.SourceDamage *= DamageMultiplier;
+        }
     }
 }
