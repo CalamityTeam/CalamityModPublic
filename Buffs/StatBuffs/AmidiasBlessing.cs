@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
@@ -14,7 +14,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().amidiasBlessing = true;
-            player.breath = player.breathMax + 91;
+            player.breath = player.breathMax + 91; // why 91 specifically
         }
     }
 }

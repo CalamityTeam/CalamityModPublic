@@ -775,10 +775,10 @@ namespace CalamityMod.CalPlayer
         public bool hInferno = false;
         public bool gState = false;
         public bool bBlood = false;
-        public bool eGravity = false;
+        public bool icarusFolly = false;
         public bool weakPetrification = false;
         public bool vHex = false;
-        public bool eGrav = false;
+        public bool DoGExtremeGravity = false;
         public bool warped = false;
         public bool cDepth = false;
         public bool fishAlert = false;
@@ -1803,9 +1803,9 @@ namespace CalamityMod.CalPlayer
             hInferno = false;
             gState = false;
             bBlood = false;
-            eGravity = false;
+            icarusFolly = false;
             vHex = false;
-            eGrav = false;
+            DoGExtremeGravity = false;
             warped = false;
             cDepth = false;
             fishAlert = false;
@@ -2200,9 +2200,9 @@ namespace CalamityMod.CalPlayer
             hInferno = false;
             gState = false;
             bBlood = false;
-            eGravity = false;
+            icarusFolly = false;
             vHex = false;
-            eGrav = false;
+            DoGExtremeGravity = false;
             warped = false;
             cDepth = false;
             fishAlert = false;

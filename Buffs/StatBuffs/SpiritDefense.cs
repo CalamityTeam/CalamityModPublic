@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.statDefense += 6;
-            player.endurance += 0.03f;
+            player.endurance += 0.03f; // TODO -- is this applied too late to be affected by the DR softcap?
         }
     }
 }

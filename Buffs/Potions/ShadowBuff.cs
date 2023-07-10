@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Potions
@@ -15,8 +15,8 @@ namespace CalamityMod.Buffs.Potions
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().shadow = true;
-			if (player.yoraiz0rEye < 2 && CalamityConfig.Instance.StealthInvisibility)
-				player.yoraiz0rEye = 2;
+            if (player.yoraiz0rEye < 2 && CalamityConfig.Instance.StealthInvisibility)
+                player.yoraiz0rEye = 2;
         }
     }
 }

@@ -2697,7 +2697,7 @@ namespace CalamityMod.CalPlayer
                 Player.wingTimeMax = (int)(Player.wingTimeMax * 0.75);
             }
 
-            if (eGravity)
+            if (icarusFolly)
             {
                 if (Player.wingTimeMax < 0)
                     Player.wingTimeMax = 0;
@@ -2708,7 +2708,7 @@ namespace CalamityMod.CalPlayer
                 Player.wingTimeMax = (int)(Player.wingTimeMax * 0.66);
             }
 
-            if (eGrav)
+            if (DoGExtremeGravity)
             {
                 if (Player.wingTimeMax < 0)
                     Player.wingTimeMax = 0;
