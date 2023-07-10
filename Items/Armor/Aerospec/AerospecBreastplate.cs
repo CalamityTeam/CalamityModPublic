@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Armor.Aerospec
     public class AerospecBreastplate : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor.PreHardmode";
+        internal static string FeatherEntitySourceContext => "SetBonus_Calamity_Aerospec";
+
         public override void SetDefaults()
         {
             Item.width = 18;

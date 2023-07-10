@@ -12,6 +12,8 @@ namespace CalamityMod.Items.Armor.Tarragon
     public class TarragonHeadSummon : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor.PostMoonLord";
+        internal static string LifeAuraEntitySourceContext => "SetBonus_Calamity_Tarragon";
+
         public override void SetDefaults()
         {
             Item.width = 18;

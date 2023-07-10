@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor.Prismatic
     public class PrismaticHelmet : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor.PostMoonLord";
+        internal static string LaserEntitySourceContext => "SetBonus_Calamity_Prismatic";
         public override void SetDefaults()
         {
             Item.width = 18;

@@ -11,6 +11,8 @@ namespace CalamityMod.Items.Armor.Reaver
     public class ReaverHeadTank : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor.Hardmode";
+        internal static string HealOrbEntitySourceContext => "SetBonus_Calamity_ReaverTank";
+
         //Defense and DR Helm
         public override void SetDefaults()
         {

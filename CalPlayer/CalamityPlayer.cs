@@ -21,6 +21,7 @@ using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Aerospec;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Items.Armor.Brimflame;
 using CalamityMod.Items.Armor.Demonshade;
@@ -2477,7 +2478,9 @@ namespace CalamityMod.CalPlayer
 
             if (BossRushEvent.BossRushActive)
             {
-                var source = new ProjectileSource_Death(Player);
+                // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                // The boss rush visual failure effect has no meaningful source and passes no meaningful information.
+                var source = Player.GetSource_None();
                 if (Player.whoAmI == 0 && !CalamityGlobalNPC.AnyLivingPlayers() && CalamityUtils.CountProjectiles(ModContent.ProjectileType<BossRushFailureEffectThing>()) == 0)
                     Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BossRushFailureEffectThing>(), 0, 0f);
             }
@@ -2891,7 +2894,8 @@ namespace CalamityMod.CalPlayer
                         Dust.NewDust(Player.Center + angle.ToRotationVector2() * 160f, 0, 0, 218, 0f, 0f, 100, default, 1f);
                     }
 
-                    var source = new ProjectileSource_GaelsGreatswordRage(Player);
+                    // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                    var source = Player.GetSource_ItemUse(Player.ActiveItem(), GaelsGreatsword.SkullsplosionEntitySourceContext);
                     float rageRatio = rage / rageMax;
                     float baseDamage = rageRatio * GaelsGreatsword.SkullsplosionDamageMultiplier * GaelsGreatsword.BaseDamage;
                     int damage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(baseDamage);
@@ -6134,7 +6138,8 @@ namespace CalamityMod.CalPlayer
 
                 if (aeroSet && hurtInfo.Damage > 25)
                 {
-                    var source = new ProjectileSource_AerospecSetFeathers(Player);
+                    // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                    var source = Player.GetSource_OnHurt(hurtInfo.DamageSource, AerospecBreastplate.FeatherEntitySourceContext);
                     for (int n = 0; n < 4; n++)
                     {
                         int featherDamage = (int)Player.GetBestClassDamage().ApplyTo(20);
@@ -6341,7 +6346,8 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Player.whoAmI == Main.myPlayer)
                     {
-                        var source = new ProjectileSource_DemonshadeSet(Player);
+                        // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                        var source = Player.GetSource_OnHurt(hurtInfo.DamageSource, DemonshadeHelm.ShadowScytheEntitySourceContext);
                         for (int l = 0; l < 2; l++)
                         {
                             int shadowbeamDamage = (int)Player.GetBestClassDamage().ApplyTo(3000);
@@ -6519,7 +6525,9 @@ namespace CalamityMod.CalPlayer
         {
             if (CalamityWorld.getFixedBoi)
             {
-                var source = new ProjectileSource_GFBNurseHealLeviathanMeteor(Player);
+                // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                // The meteor is considered to be spawned from the Nurse herself
+                var source = nurse.GetSource_FromThis("Calamity_GetFixedBoiNurseExtinctionMeteor");
                 if (Player.whoAmI == Main.myPlayer)
                 {
                     int proj = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanBomb>(), 9999, 10f, Player.whoAmI);
