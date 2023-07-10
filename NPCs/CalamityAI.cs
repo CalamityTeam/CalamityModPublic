@@ -5103,9 +5103,7 @@ namespace CalamityMod.NPCs
                         if (phase2)
                             npc.localAI[0] += 1f;
 
-                        bool canHit = Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1);
-
-                        if (npc.localAI[0] >= (phase3 ? 7 : 9) && canHit)
+                        if (npc.localAI[0] >= (phase3 ? 7 : 9))
                         {
                             npc.TargetClosest();
                             npc.ai[0] = 5f;
@@ -5133,7 +5131,7 @@ namespace CalamityMod.NPCs
                             int type = ModContent.ProjectileType<RedLightningFeather>();
                             int damage = npc.GetProjectileDamage(type);
 
-                            if (num1307 == 0 && canHit && npc.localAI[3] == 0f)
+                            if (num1307 == 0 && npc.localAI[3] == 0f)
                             {
                                 npc.TargetClosest();
                                 npc.ai[0] = 2f;
@@ -5294,7 +5292,7 @@ namespace CalamityMod.NPCs
                 npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt) / 10f;
 
                 Vector2 value52 = player.Center - npc.Center;
-                if (value52.Length() < 800f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+                if (value52.Length() < 800f)
                 {
                     npc.TargetClosest();
                     npc.ai[0] = 0f;
