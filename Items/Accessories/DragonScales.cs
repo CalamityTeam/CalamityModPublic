@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Accessories
     public class DragonScales : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        internal static int ShitBaseDamage = 55;
-        internal static int TornadoBaseDamage = 200;
+        public static int ShitBaseDamage = 55;
+        public static int TornadoBaseDamage = 210;
         
         public override void SetDefaults()
         {

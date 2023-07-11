@@ -314,6 +314,9 @@ namespace CalamityMod.Balancing
             // 30% resist to Sirius.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<SiriusExplosion>()))));
 
+            // 30% resist to Dragon Scales and The Wand's tornadoes
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<InfernadoFriendly>()))));
+
             // 25% resist to Dragon Rage projectiles.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.75f, DragonRageFilter))));
 

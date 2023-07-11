@@ -25,9 +25,9 @@ namespace CalamityMod.Projectiles.Rogue
             get => Projectile.ai[1];
             set => Projectile.ai[1] = value;
         }
-        public const float MaxTargetSearchDistance = 480f;
-        public float ReturnAcceleration = 0.5f;
-        public float ReturnMaxSpeed = 24f;
+        public const float MaxTargetSearchDistance = 1080f;
+        public float ReturnAcceleration = 0.6f;
+        public float ReturnMaxSpeed = 28f;
         public float ElectricVelocityCharge = 0f;
         public float LaserVelocityCharge = 0f;
         public bool Ricochet = false;
