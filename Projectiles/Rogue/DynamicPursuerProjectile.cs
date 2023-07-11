@@ -26,13 +26,14 @@ namespace CalamityMod.Projectiles.Rogue
             set => Projectile.ai[1] = value;
         }
         public const float MaxTargetSearchDistance = 1080f;
-        public float ReturnAcceleration = 0.6f;
-        public float ReturnMaxSpeed = 28f;
+        public float ReturnAcceleration = 0.75f;
+        public float ReturnMaxSpeed = 24f;
         public float ElectricVelocityCharge = 0f;
         public float LaserVelocityCharge = 0f;
         public bool Ricochet = false;
         public NPC nextTarget = null;
         public int glowmaskFrame = 0;
+        public float VelocityCap = 24f;
 
         public override void SetStaticDefaults()
         {
@@ -79,7 +80,20 @@ namespace CalamityMod.Projectiles.Rogue
                 else if (Ricochet)
                 {
                     if (nextTarget != null)
-                        Projectile.velocity = (float)Math.Pow(Math.E, Time / 250)*(nextTarget.Center - Projectile.Center).SafeNormalize(Vector2.One);
+                    {
+                        Projectile.velocity = (float)Math.Pow(Math.E, Time / 180) * (nextTarget.Center - Projectile.Center).SafeNormalize(Vector2.One);
+
+                        // Cap velocity to prevent projectile vomit and to see easier where its going
+                        if (Projectile.velocity.X > VelocityCap)
+                            Projectile.velocity.X = VelocityCap;
+                        if (Projectile.velocity.X < -VelocityCap)
+                            Projectile.velocity.X = -VelocityCap;
+                        if (Projectile.velocity.Y > VelocityCap)
+                            Projectile.velocity.Y = VelocityCap;
+                        if (Projectile.velocity.Y < -VelocityCap)
+                            Projectile.velocity.Y = -VelocityCap;
+                    }
+                        
 
                     ElectricVelocityCharge += Projectile.velocity.Length();
 
@@ -195,7 +209,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Ricochet = true;
                 NPC newTarget = null;
                 float closestNPCDistance = 3000f;
-                float targettingDistance = 1000f;
+                float targettingDistance = 1080f;
 
 
                 for (int i = 0; i < Main.maxNPCs; i++)
