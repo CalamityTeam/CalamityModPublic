@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using System.CodeDom;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -71,6 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
                 glowmaskFrame = 0;
 
             Time++;
+            Checks:
             if (!ReturningToPlayer)
             {
                 if (Time >= 40f && !Ricochet)
@@ -83,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     if (nextTarget != null)
                     {
-                        Projectile.velocity = (float)Math.Pow(Math.E, Time / 180) * (nextTarget.Center - Projectile.Center).SafeNormalize(Vector2.One);
+                        Projectile.velocity = (float)Math.Pow(Math.E, Time / 200) * (nextTarget.Center - Projectile.Center).SafeNormalize(Vector2.One);
 
                         // Cap velocity to prevent projectile vomit and to see easier where its going
                         if (Projectile.velocity.X > VelocityCap)
@@ -95,7 +97,11 @@ namespace CalamityMod.Projectiles.Rogue
                         if (Projectile.velocity.Y < -VelocityCap)
                             Projectile.velocity.Y = -VelocityCap;
                     }
-                        
+                    else
+                    {
+                        Ricochet = false;
+                        goto Checks;
+                    }
 
                     ElectricVelocityCharge += Projectile.velocity.Length();
 
