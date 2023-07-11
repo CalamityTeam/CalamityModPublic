@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -25,15 +26,16 @@ namespace CalamityMod.Projectiles.Rogue
             get => Projectile.ai[1];
             set => Projectile.ai[1] = value;
         }
-        public const float MaxTargetSearchDistance = 1080f;
-        public float ReturnAcceleration = 0.75f;
-        public float ReturnMaxSpeed = 24f;
+        public const float MaxTargetSearchDistance = 1080;
+        public float ReturnAcceleration = DynamicPursuer.ReturnAcceleration;
+        public float ReturnMaxSpeed = DynamicPursuer.ReturnMaxSpeed;
+        public float VelocityCap = DynamicPursuer.VelocityCap;
+
         public float ElectricVelocityCharge = 0f;
         public float LaserVelocityCharge = 0f;
         public bool Ricochet = false;
         public NPC nextTarget = null;
         public int glowmaskFrame = 0;
-        public float VelocityCap = 24f;
 
         public override void SetStaticDefaults()
         {

@@ -17,9 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class DynamicPursuer : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-                   }
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();
@@ -50,9 +47,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             modItem.MaxCharge = 300f; // Tesla Cannon = 250f
             modItem.ChargePerUse = 0.5f; // Tesla Cannon = 0.9f
         }
-
-		public override float StealthDamageMultiplier => 0.3f;
+        public static float StealthDmgMult = 0.3f; //So I can edit it directly via DragonLens instead of having to do math with CalTestHelpers
+		public override float StealthDamageMultiplier => StealthDmgMult;
         public override float StealthVelocityMultiplier => 0.75f;
+
+        public static float ReturnAcceleration = 0.75f;
+        public static float ReturnMaxSpeed = 24f;
+        public static float VelocityCap = 18f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
