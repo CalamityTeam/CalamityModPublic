@@ -51,9 +51,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 		public override float StealthDamageMultiplier => StealthDmgMult;
         public override float StealthVelocityMultiplier => 0.75f;
 
+        //Stuff to be used on the projectile, but here for ease of access ingame via DragonLens
         public static float ReturnAcceleration = 0.75f;
         public static float ReturnMaxSpeed = 24f;
         public static float VelocityCap = 18f;
+        public static float ElectricityDmgMult = 0.3f;
+        public static float LaserDmgMult = 0.3f;
+        public static float LaserCooldown = 300f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

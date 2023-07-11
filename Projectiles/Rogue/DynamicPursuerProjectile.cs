@@ -27,16 +27,21 @@ namespace CalamityMod.Projectiles.Rogue
             get => Projectile.ai[1];
             set => Projectile.ai[1] = value;
         }
-        public const float MaxTargetSearchDistance = 1500;
-        public float ReturnAcceleration = DynamicPursuer.ReturnAcceleration;
-        public float ReturnMaxSpeed = DynamicPursuer.ReturnMaxSpeed;
-        public float VelocityCap = DynamicPursuer.VelocityCap;
 
+        public const float MaxTargetSearchDistance = 1500;
         public float ElectricVelocityCharge = 0f;
         public float LaserVelocityCharge = 0f;
         public bool Ricochet = false;
         public NPC nextTarget = null;
         public int glowmaskFrame = 0;
+
+        //Variables inherited from the weapon, they can be changed with DragonLens
+        public float ReturnAcceleration = DynamicPursuer.ReturnAcceleration;
+        public float ReturnMaxSpeed = DynamicPursuer.ReturnMaxSpeed;
+        public float VelocityCap = DynamicPursuer.VelocityCap;
+        public float ElectricityDmgMult = DynamicPursuer.ElectricityDmgMult;
+        public float LaserDmgMult = DynamicPursuer.LaserDmgMult;
+        public float LaserCooldown = DynamicPursuer.LaserCooldown;
 
         public override void SetStaticDefaults()
         {
@@ -110,7 +115,7 @@ namespace CalamityMod.Projectiles.Rogue
                     if (ElectricVelocityCharge >= 450f)
                     {
                         ElectricVelocityCharge = 0f;
-                        AttemptToFireElectricity((int)(Projectile.damage * 0.25));
+                        AttemptToFireElectricity((int)(Projectile.damage * ElectricityDmgMult));
                     }
                 }
             }
@@ -141,18 +146,18 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.velocity.Y = -VelocityCap;
 
                 ElectricVelocityCharge += Projectile.velocity.Length();
-                LaserVelocityCharge = ElectricVelocityCharge;
+                LaserVelocityCharge += Projectile.velocity.Length();
                 if (ElectricVelocityCharge >= 450f)
                 {
                     ElectricVelocityCharge = 0f;
-                    AttemptToFireElectricity((int)(Projectile.damage * 0.25));
+                    AttemptToFireElectricity((int)(Projectile.damage * ElectricityDmgMult));
                 }
 
-                if (Projectile.Calamity().stealthStrike && LaserVelocityCharge >= 450f)
+                if (Projectile.Calamity().stealthStrike && LaserVelocityCharge >= LaserCooldown)
                 {
                     LaserVelocityCharge = 0f;
                     Projectile.velocity = Vector2.Zero;
-                    AttemptToFireLasers((int)(Projectile.damage * 0.3));
+                    AttemptToFireLasers((int)(Projectile.damage * LaserDmgMult));
                 }
 
                 if (Main.myPlayer == Projectile.owner)
@@ -243,7 +248,7 @@ namespace CalamityMod.Projectiles.Rogue
                             closestNPCDistance = potentialNewDistance;
                             newTarget = Main.npc[i];
                             nextTarget = newTarget;
-                            Projectile.timeLeft =+ 360; //Increase projectile duration for more ricochets
+                            Projectile.timeLeft += 360; //Increase projectile duration for more ricochets
                         }
                     }
                 }
