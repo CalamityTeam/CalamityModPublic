@@ -100,12 +100,15 @@ namespace CalamityMod.Projectiles.Rogue
                     else
                     {
                         Ricochet = false;
+                        ReturningToPlayer = true;
+                        Projectile.tileCollide = false;
+                        Projectile.netUpdate = true;
                         goto Checks;
                     }
 
                     ElectricVelocityCharge += Projectile.velocity.Length();
 
-                    if (ElectricVelocityCharge >= 300f)
+                    if (ElectricVelocityCharge >= 450f)
                     {
                         ElectricVelocityCharge = 0f;
                         AttemptToFireElectricity((int)(Projectile.damage * 0.25));
@@ -118,29 +121,37 @@ namespace CalamityMod.Projectiles.Rogue
                 if (distanceFromPlayer > 3000f)
                     Projectile.Kill();
 
-                // This is done instead of a Normalize or DirectionTo call because the variables needed are already present and calculating the square root again would be unnecessary.
-                ReturnMaxSpeed = (float)Math.Pow(Math.E, Time / 150);
-
                 if (Projectile.Calamity().stealthStrike)
-                {
                     ReturnMaxSpeed = (float)Math.Pow(Math.E, Time / 125);
-                }
+                else ReturnMaxSpeed = (float)Math.Pow(Math.E, Time / 150);
+
                 Vector2 idealVelocity = (player.Center - Projectile.Center) / distanceFromPlayer * ReturnMaxSpeed;
 
                 ReturnAcceleration = (float)Math.Pow(Math.E, Time / 300);
                 Projectile.velocity.X += Math.Sign(idealVelocity.X - Projectile.velocity.X) * ReturnAcceleration;
                 Projectile.velocity.Y += Math.Sign(idealVelocity.Y - Projectile.velocity.Y) * ReturnAcceleration;
+
+                // Cap velocity to prevent projectile vomit and to see easier where its going
+                if (Projectile.velocity.X > VelocityCap)
+                    Projectile.velocity.X = VelocityCap;
+                if (Projectile.velocity.X < -VelocityCap)
+                    Projectile.velocity.X = -VelocityCap;
+                if (Projectile.velocity.Y > VelocityCap)
+                    Projectile.velocity.Y = VelocityCap;
+                if (Projectile.velocity.Y < -VelocityCap)
+                    Projectile.velocity.Y = -VelocityCap;
+
                 ElectricVelocityCharge += Projectile.velocity.Length();
                 LaserVelocityCharge = ElectricVelocityCharge;
-                if (ElectricVelocityCharge >= 300f)
+                if (ElectricVelocityCharge >= 450f)
                 {
-                    ElectricVelocityCharge -= 300f;
+                    ElectricVelocityCharge = 0f;
                     AttemptToFireElectricity((int)(Projectile.damage * 0.25));
                 }
 
-                if (Projectile.Calamity().stealthStrike && LaserVelocityCharge >= 300f)
+                if (Projectile.Calamity().stealthStrike && LaserVelocityCharge >= 450f)
                 {
-                    LaserVelocityCharge -= 300f;
+                    LaserVelocityCharge = 0f;
                     Projectile.velocity = Vector2.Zero;
                     AttemptToFireLasers((int)(Projectile.damage * 0.3));
                 }
@@ -240,6 +251,19 @@ namespace CalamityMod.Projectiles.Rogue
                 if (newTarget == null)
                 {
                     ReturningToPlayer = true;
+                    Ricochet = false;
+                    Projectile.tileCollide = false;
+                    Projectile.netUpdate = true;
+
+                    // Cap velocity to prevent projectile vomit and to see easier where its going
+                    if (Projectile.velocity.X > VelocityCap)
+                        Projectile.velocity.X = VelocityCap;
+                    if (Projectile.velocity.X < -VelocityCap)
+                        Projectile.velocity.X = -VelocityCap;
+                    if (Projectile.velocity.Y > VelocityCap)
+                        Projectile.velocity.Y = VelocityCap;
+                    if (Projectile.velocity.Y < -VelocityCap)
+                        Projectile.velocity.Y = -VelocityCap;
                     return;
                 }
                 
