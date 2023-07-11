@@ -682,9 +682,8 @@ Megalodon: {
 	DisplayName: Megalodon
 	Tooltip:
 		'''
-		Rapidly fires a storm of bullets
-		Fires streams of water every other shot
-		50% chance to save ammo
+		Rapidly fires alternating bullets and pressurized water jets
+		Water jets consume no ammo
 		'''
 }
 

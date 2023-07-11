@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class Megalodon : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-        private int shotType = 0;
+        private bool fireWater = false;
 
         public override void SetDefaults()
         {
@@ -42,37 +42,28 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            // Both bullets and water jets have very slight inaccuracy
             float SpeedX = velocity.X + Main.rand.Next(-10, 11) * 0.05f;
             float SpeedY = velocity.Y + Main.rand.Next(-10, 11) * 0.05f;
 
-            if (shotType > 2)
-                shotType = 1;
+            // Fire either the bullet or the water jet, depending on cadence.
+            int projectileToFire = fireWater ? ModContent.ProjectileType<ArcherfishShot>() : type;
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, projectileToFire, damage, knockback, player.whoAmI, 0.0f, 0.0f);
 
-            if (shotType == 1)
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0.0f, 0.0f);
-            else
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ArcherfishShot>(), damage, knockback, player.whoAmI, 0f, 0f);
+            // Always fires a close range water blast.
+            // It goes in the same direction as the main shot but has a minor velocity variation to be less monotonous.
+            Vector2 waterRingVec = new Vector2(SpeedX, SpeedY) * Main.rand.NextFloat(0.5f, 0.6f);
+            int waterRingDamage = (int)(damage * 0.5f);
+            float boostedKB = knockback + 7f; // Stronger guaranteed KB than Archerfish for mid-late Hardmode
+            Projectile.NewProjectile(source, position, waterRingVec, ModContent.ProjectileType<ArcherfishRing>(), waterRingDamage, boostedKB, player.whoAmI);
 
-            if (shotType < 3)
-                Projectile.NewProjectile(source,
-                position,
-                velocity.RotatedByRandom(MathHelper.ToRadians(4.5f)) * Main.rand.NextFloat(0.5f, 0.6f),
-                ModContent.ProjectileType<ArcherfishRing>(),
-                (int)(damage * 0.5f),
-                knockback * 4f,
-                player.whoAmI);
-            
-            shotType++;
-
+            // Swap between firing bullets and water jets each shot.
+            fireWater = !fireWater;
             return false;
         }
 
-        public override bool CanConsumeAmmo(Item ammo, Player player)
-        {
-            if (shotType == 2)
-                return false;
-            return true;
-        }
+        // Does not consume ammo when firing water jets.
+        public override bool CanConsumeAmmo(Item ammo, Player player) => !fireWater;
 
         public override void AddRecipes()
         {
