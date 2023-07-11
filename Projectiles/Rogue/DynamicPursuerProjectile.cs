@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             get => Projectile.ai[1];
             set => Projectile.ai[1] = value;
         }
-        public const float MaxTargetSearchDistance = 1080;
+        public const float MaxTargetSearchDistance = 1500;
         public float ReturnAcceleration = DynamicPursuer.ReturnAcceleration;
         public float ReturnMaxSpeed = DynamicPursuer.ReturnMaxSpeed;
         public float VelocityCap = DynamicPursuer.VelocityCap;
@@ -72,7 +72,6 @@ namespace CalamityMod.Projectiles.Rogue
                 glowmaskFrame = 0;
 
             Time++;
-            Checks:
             if (!ReturningToPlayer)
             {
                 if (Time >= 40f && !Ricochet)
@@ -103,7 +102,6 @@ namespace CalamityMod.Projectiles.Rogue
                         ReturningToPlayer = true;
                         Projectile.tileCollide = false;
                         Projectile.netUpdate = true;
-                        goto Checks;
                     }
 
                     ElectricVelocityCharge += Projectile.velocity.Length();
@@ -228,7 +226,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Ricochet = true;
                 NPC newTarget = null;
                 float closestNPCDistance = 3000f;
-                float targettingDistance = 1080f;
+                float targettingDistance = MaxTargetSearchDistance;
 
 
                 for (int i = 0; i < Main.maxNPCs; i++)
