@@ -54,6 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 360;
+            Projectile.timeLeft = 400; //200 cuz extra updates
         }
 
         public override void AI()
@@ -242,6 +243,7 @@ namespace CalamityMod.Projectiles.Rogue
                             closestNPCDistance = potentialNewDistance;
                             newTarget = Main.npc[i];
                             nextTarget = newTarget;
+                            Projectile.timeLeft = +120; //Increase projectile duration for more ricochets
                         }
                     }
                 }
