@@ -2528,7 +2528,7 @@ namespace CalamityMod.Projectiles
 
             // If applicable, use ricoshot bonus damage.
             if (totalRicoshotDamageBonus > 0f)
-                modifiers.SourceDamage *= totalRicoshotDamageBonus;
+                modifiers.ScalingBonusDamage += totalRicoshotDamageBonus;
 
             // If this projectile is forced to crit, simply set the crit bool.
             if (forcedCrit)
