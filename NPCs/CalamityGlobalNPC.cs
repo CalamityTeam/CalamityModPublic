@@ -5128,33 +5128,47 @@ namespace CalamityMod.NPCs
             if (spawnInfo.PlayerSafe)
                 return;
 
-            // Voodoo Demon changes (including Voodoo Demon Voodoo Doll implementation)
+            // Voodoo Demon changes (including partial Voodoo Demon Voodoo Doll implementation)
             bool voodooDemonDollActive = spawnInfo.Player.Calamity().disableVoodooSpawns;
-            if (!voodooDemonDollActive)
+
+            // If the doll is active, Voodoo Demons cannot spawn (via modded means).
+            if (voodooDemonDollActive)
+                pool.Remove(NPCID.VoodooDemon);
+            // Otherwise, if it's pre-Hardmode, provide a modded spawn entry that makes them much more common.
+            else if (!Main.hardMode && spawnInfo.Player.ZoneUnderworldHeight && !calamityBiomeZone)
             {
-                // Nearby players with the doll apply it to anyone within 500 pixels
+                pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.15f;
+            }
+        }
+        #endregion
+
+        #region On Spawn
+        public override void OnSpawn(NPC npc, IEntitySource source)
+        {
+            if (npc.type != NPCID.VoodooDemon)
+                return;
+
+            // This entity source does not provide a player. So we have to find out if anyone close enough has a doll.
+            if (source is EntitySource_SpawnNPC)
+            {
+                bool voodooDemonDollActive = false;
+                Vector2 v = npc.Center;
                 for (int i = 0; i < Main.maxPlayers; ++i)
                 {
                     Player p = Main.player[i];
                     if (p is null || !p.active)
                         continue;
-                    float distsq = p.Center.DistanceSQ(spawnInfo.Player.Center);
-                    if (distsq < 25000f)
+                    if (p.DistanceSQ(v) < 4000000f && p.Calamity().disableVoodooSpawns) // 2000 pixel radius
                     {
                         voodooDemonDollActive = true;
                         break;
                     }
                 }
-            }
+                if (!voodooDemonDollActive)
+                    return;
 
-            // If the doll is active, Voodoo Demons cannot spawn.
-            // NOTE: This doesn't fully work! There is an IL edit to truly force them to stop spawning.
-            if (voodooDemonDollActive)
-                pool.Remove(NPCID.VoodooDemon);
-            // Otherwise, if it's pre-Hardmode, boost their spawn rate by 1.25x.
-            else if (!Main.hardMode && spawnInfo.Player.ZoneUnderworldHeight && !calamityBiomeZone)
-            {
-                pool[NPCID.VoodooDemon] *= 1.25f;
+                npc.Transform(NPCID.Demon);
+                npc.netUpdate = true;
             }
         }
         #endregion

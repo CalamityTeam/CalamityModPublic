@@ -119,9 +119,6 @@ namespace CalamityMod.ILEditing
             IL_Item.TryGetPrefixStatMultipliersForItem += RelaxPrefixRequirements;
             On_NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
 
-            // ERROR
-            //Terraria.IL_NPC.SpawnNPC += MakeVoodooDemonDollWork;
-
             // TODO -- Beat Lava Slimes once and for all
             // IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
             IL_Projectile.CanExplodeTile += MakeMeteoriteExplodable;
