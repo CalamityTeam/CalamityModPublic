@@ -80,9 +80,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (muzzleBlast)
             {
                 Vector2 muzzleBlastVec = velocity.SafeNormalize(Vector2.Zero) * 18f;
-                int muzzleBlastDamage = damage * 40; // This is probably too much but it's every 18th shot...
+                int muzzleBlastDamage = damage * 25; // This might be too much but it's every 18th shot...
                 float muzzleBlastKB = knockback + 12f;
-                Projectile.NewProjectile(source, position, muzzleBlastVec, ModContent.ProjectileType<SeaDragonMuzzleBlast>(), muzzleBlastDamage, muzzleBlastKB, player.whoAmI);
+                Projectile.NewProjectile(source, position+player.DirectionTo(Main.MouseWorld)*48f, muzzleBlastVec, ModContent.ProjectileType<SeaDragonMuzzleBlast>(), muzzleBlastDamage, muzzleBlastKB, player.whoAmI);
 
                 // Play additional sound for muzzle blasts
                 SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, position);
