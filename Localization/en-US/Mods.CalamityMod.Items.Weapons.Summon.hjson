@@ -771,3 +771,18 @@ YharonsKindleStaff: {
 		Requires 5 minion slots to use
 		'''
 }
+
+MirrorofKalandra: {
+	DisplayName: Mirror of Kalandra
+	Tooltip:
+		'''
+		Summons five ancient weapons to annihilate your enemies
+		There can only be one of each individual weapon
+		[c/BD7F59:Atziris' Disfavor brutally cleaves through enemies]
+		[c/E7A7FF:Starforge rips through foes and occasionally induces cosmic explosions]
+		[c/868B8F:Paradoxica teleports to enemies and blitzes through them at high speed]
+		[c/EBC3A5:Wind Ripper unleashes a single high-speed, powerful arrow at enemies]
+		[c/9B6856:Hope Shredder shoots arrows that split into three and pierce enemies twice]
+		'Ultimate, Immeasurable, Indescribable'
+		'''
+}

@@ -1436,3 +1436,8 @@ WulfrumDroidBuff: {
 	DisplayName: Wulfrum Droid
 	Description: The wulfrum droid will protect you
 }
+
+KalandraMirrorBuff: {
+	DisplayName: Mirror of Kalandra
+	Description: Five ancient weapons will annihilate your enemies
+}
