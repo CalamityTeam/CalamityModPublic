@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.height = 50;
             Item.autoReuse = true;
             Item.noMelee = true;
+            Item.Calamity().donorItem = true;
             Item.DamageType = DamageClass.Summon;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item4;
