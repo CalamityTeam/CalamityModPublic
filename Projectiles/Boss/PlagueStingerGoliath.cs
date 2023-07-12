@@ -55,11 +55,11 @@ namespace CalamityMod.Projectiles.Boss
         public override void PostDraw(Color lightColor)
         {
             Vector2 center = new Vector2(Projectile.Center.X, Projectile.Center.Y);
-            Vector2 vector11 = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width / 2, ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type] / 2);
+            Vector2 vector11 = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width / 2, ModContent.Request<Texture2D>(Texture).Value.Height / 2);
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow").Value.Width, ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow").Value.Height / Main.projFrames[Projectile.type]) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + Projectile.gfxOffY);
-            Color color = new Color(127 - Projectile.alpha, 127 - Projectile.alpha, 127 - Projectile.alpha, 0).MultiplyRGBA(Color.Red);
+            vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow").Value.Width, ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow").Value.Height) * 1f / 2f;
+            vector += vector11 * 1f + new Vector2(0f, 4f + Projectile.gfxOffY);
+            Color color = Color.White;
             Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow").Value, vector,
                 null, color, Projectile.rotation, vector11, Projectile.scale, SpriteEffects.None, 0);
         }

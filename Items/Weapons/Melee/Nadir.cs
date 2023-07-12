@@ -11,8 +11,9 @@ namespace CalamityMod.Items.Weapons.Melee
     public class Nadir : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public static int BaseDamage = 350;
-        public static float ShootSpeed = 12f;
+        public static int BaseDamage = 390;
+        public static float ProjShootSpeed = 20f;
+        public static int FadeoutSpeed = 20;
 
         public override void SetStaticDefaults()
         {
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().donorItem = true;
 
             Item.shoot = ModContent.ProjectileType<NadirSpear>();
-            Item.shootSpeed = ShootSpeed;
+            Item.shootSpeed = 12f; // This isn't the projectile's speed, it's the spear's.
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

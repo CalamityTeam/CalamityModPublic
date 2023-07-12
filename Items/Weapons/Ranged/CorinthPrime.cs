@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.VortexBeater).
                 AddIngredient(ItemID.IllegalGunParts).
                 AddIngredient<ArmoredShell>(2).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.LunarCraftingStation).
                 Register();
         }
     }

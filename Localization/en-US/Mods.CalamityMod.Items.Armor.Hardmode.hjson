@@ -99,12 +99,12 @@ DaedalusHeadMelee: {
 	DisplayName: Daedalus Helm
 	Tooltip:
 		'''
-		10% increased melee damage and critical strike chance
-		15% increased melee speed
+		15% increased melee damage
+		10% increased melee critical strike chance
 		'''
 	SetBonus:
 		'''
-		5% increased melee damage
+		10% increased melee speed
 		Enemies are more likely to target you
 		You reflect projectiles back at enemies
 		Reflected projectiles deal 50% less damage to you
@@ -130,8 +130,8 @@ DaedalusHeadRogue: {
 	DisplayName: Daedalus Facemask
 	Tooltip:
 		'''
-		13% increased rogue damage and 7% increased rogue critical strike chance, increases rogue velocity by 15%
-		5% increased movement speed
+		13% increased rogue damage and 7% increased rogue critical strike chance
+		15% increased rogue velocity and 5% increased movement speed
 		'''
 	SetBonus:
 		'''
@@ -242,14 +242,13 @@ HydrothermicHeadMelee: {
 	DisplayName: Hydrothermic Helm
 	Tooltip:
 		'''
-		12% increased melee damage and 10% increased melee critical strike chance
-		18% increased melee speed
+		17% increased melee damage and 10% increased melee critical strike chance
 		Melee attacks and melee projectiles inflict on fire
 		Temporary immunity to lava and immunity to fire damage
 		'''
 	SetBonus:
 		'''
-		5% increased melee damage
+		15% increased melee speed
 		Enemies are more likely to target you
 		Melee attacks and projectiles cause chaos flames to erupt on enemy hits
 		'''
@@ -328,12 +327,12 @@ LunicCorpsHelmet: {
 	SetBonus:
 		'''
 		'Finish the fight'
-		      Provides an energy shield that absorbs up to 70 damage
+		Provides an energy shield that absorbs up to 70 damage
 		The shield recharges over 10 seconds after being broken
 		Getting hit during the shield recharge period will restart the recharging process
-		      10% increased bullet damage
-		      10% increased specialist ranged damage
-		      These are launchers, dartguns, or anything else that doesn't shoot arrows/bullets
+		10% increased bullet damage
+		10% increased specialist ranged damage
+		These are launchers, dartguns, or anything else that doesn't shoot arrows/bullets
 		20% increased jump speed
 		'''
 }

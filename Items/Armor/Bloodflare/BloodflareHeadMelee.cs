@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
         public override void UpdateArmorSet(Player player)
         {
             var modPlayer = player.Calamity();
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.18f;
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareMelee = true;
             player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<BloodflareBodyArmor>("CommonSetBonus");
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
         public override void UpdateEquip(Player player)
         {
             player.GetDamage<MeleeDamageClass>() += 0.1f;
-            player.GetCritChance<MeleeDamageClass>() += 10;
+            player.GetCritChance<MeleeDamageClass>() += 5;
         }
 
         public override void AddRecipes()

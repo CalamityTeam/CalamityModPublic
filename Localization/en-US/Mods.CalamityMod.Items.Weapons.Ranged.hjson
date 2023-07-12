@@ -682,9 +682,8 @@ Megalodon: {
 	DisplayName: Megalodon
 	Tooltip:
 		'''
-		Rapidly fires a storm of bullets
-		Fires streams of water every other shot
-		50% chance to save ammo
+		Rapidly fires alternating bullets and pressurized water jets
+		Water jets consume no ammo
 		'''
 }
 
@@ -844,6 +843,17 @@ Photoviscerator: {
 		'''
 }
 
+PlagueTaintedSMG: {
+	DisplayName: Plague Tainted SMG
+	Tooltip:
+		'''
+		Shoots plague bullets that spawn drones on critical hits
+		Bullets deal more damage and knockback the closer the enemy is
+		Drones always crit upon hitting a plagued enemy
+		Press <right> to fire a drone swarm
+		'''
+}
+
 PlanetaryAnnihilation: {
 	DisplayName: Planetary Annihilation
 	Tooltip:
@@ -962,10 +972,9 @@ Seadragon: {
 	DisplayName: Seadragon
 	Tooltip:
 		'''
-		Unleashes a rapid deluge of bullets
-		Fires streams of water every other shot
-		Fires a homing rocket every 18 shots, which explodes into fire shards on death
-		50% chance to save ammo
+		Unleashes a deluge of alternating bullets and pressurized water jets
+		Additionally fires rockets and emits devastating muzzle blasts
+		Water jets consume no ammo
 		'''
 }
 

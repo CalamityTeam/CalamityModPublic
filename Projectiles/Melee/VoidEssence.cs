@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Melee
         private const int AnimationFrameTime = 12;
         private const float TentacleRange = 140f;
         private const float TentacleCooldown = 25f;
+        public bool StartFading = false;
 
         public override void SetStaticDefaults()
         {
@@ -26,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 24;
             Projectile.width = 24;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.timeLeft = 100;
+            Projectile.timeLeft = 180;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
@@ -76,13 +77,9 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.ai[1] == 0f)
                 HomingAI();
 
-            // Fade out if about to despawn
-            if (Projectile.timeLeft <= 40 && Projectile.timeLeft % 5 == 0)
-            {
-                Projectile.alpha += 20;
-                if (Projectile.alpha > 255)
-                    Projectile.alpha = 255;
-            }
+            // Fade-out.
+            if (StartFading)
+                Projectile.alpha += Nadir.FadeoutSpeed;
         }
 
         private void HomingAI()
@@ -114,7 +111,7 @@ namespace CalamityMod.Projectiles.Melee
             if (hasHomingTarget)
             {
                 NPC target = Main.npc[targetIdx];
-                Vector2 homingVector = (target.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * Nadir.ShootSpeed;
+                Vector2 homingVector = (target.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * Nadir.ProjShootSpeed;
                 float homingRatio = 35f;
                 Projectile.velocity = (Projectile.velocity * homingRatio + homingVector) / (homingRatio + 1f);
 
@@ -132,9 +129,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (Projectile.timeLeft > 95)
-                return false;
-
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
@@ -145,10 +139,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.velocity *= 0.4f;
             Projectile.ai[1] = 1f;
 
-            // Fade out a bit with every hit
-            Projectile.alpha += 20;
-            if (Projectile.alpha > 255)
-                Projectile.alpha = 255;
+            // Start fading after hitting the target.
+            StartFading = true;
 
             // Explode into dust (as if being shredded apart on contact)
             int onHitDust = Main.rand.Next(6, 11);

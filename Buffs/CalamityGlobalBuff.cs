@@ -44,16 +44,19 @@ namespace CalamityMod.Buffs
             else if (type == BuffID.WellFed)
             {
                 player.moveSpeed -= 0.15f;
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.05f;
             }
             else if (type == BuffID.WellFed2)
             {
                 player.moveSpeed -= 0.225f;
                 player.pickSpeed += 0.025f;
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.075f;
             }
             else if (type == BuffID.WellFed3)
             {
                 player.moveSpeed -= 0.3f;
                 player.pickSpeed += 0.05f;
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
             }
             else if (type == BuffID.Shine)
             {

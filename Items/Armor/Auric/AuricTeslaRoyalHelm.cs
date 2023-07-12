@@ -40,6 +40,7 @@ namespace CalamityMod.Items.Armor.Auric
         {
             player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.28f;
             modPlayer.tarraSet = true;
             modPlayer.tarraMelee = true;
             modPlayer.bloodflareSet = true;
@@ -61,7 +62,7 @@ namespace CalamityMod.Items.Armor.Auric
             var modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
             player.GetDamage<MeleeDamageClass>() += 0.2f;
-            player.GetCritChance<MeleeDamageClass>() += 20;
+            player.GetCritChance<MeleeDamageClass>() += 10;
         }
 
         public override void AddRecipes()

@@ -99,6 +99,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Flare, pointBlank },
                 { ProjectileID.FlowerPetal, Do(MaxUpdatesExact(4), LocalIFrames(10)) },
                 { ProjectileID.FlowerPow, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.FlyingKnife, Do(ExtraUpdatesExact(1)) }, 
                 { ProjectileID.FormatC, Do(LocalIFrames(10)) },
                 { ProjectileID.FrostBoltStaff, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.FrostburnArrow, pointBlank },
@@ -124,6 +125,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.IchorBullet, standardBulletTweaks },
                 { ProjectileID.InfernoHostileBlast, defenseDamage }, // Diabolist inferno fork explosions
                 { ProjectileID.IronShortswordStab, trueMelee },
+                { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.JavelinHostile, defenseDamage },
                 { ProjectileID.JestersArrow, pointBlank },
                 { ProjectileID.JoustingLance, trueMelee },
@@ -131,7 +133,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Kraken, Do(LocalIFrames(10)) },
                 { ProjectileID.LeadShortswordStab, trueMelee },
                 { ProjectileID.LightBeam, Do(PiercingExact(2)) },
-                { ProjectileID.LightDisc, Do(MaxUpdatesExact(6)) },
+                { ProjectileID.LightDisc, Do(MaxUpdatesExact(3)) },
                 { ProjectileID.LostSoulFriendly, pointBlank }, // TODO -- why does LostSoulFriendly have point blank enabled
                 { ProjectileID.LostSoulHostile, Do(TileCollide) },
                 { ProjectileID.MeteorShot, standardBulletTweaks },
@@ -187,6 +189,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.ShadowFlameArrow, pointBlank },
                 { ProjectileID.ShadowJoustingLance, trueMelee },
                 { ProjectileID.Sharknado, defenseDamage },
+                { ProjectileID.Shroomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.SilverShortswordStab, trueMelee },
                 { ProjectileID.Skull, defenseDamage }, // Skeletron Expert+ skulls
                 { ProjectileID.SniperBullet, defenseDamage }, // Skeleton Sniper bullets
@@ -212,6 +215,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.TitaniumDrill, trueMeleeNoSpeed },
                 { ProjectileID.TitaniumTrident, trueMelee },
                 { ProjectileID.Trident, trueMelee },
+                { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.TungstenShortswordStab, trueMelee },
                 { ProjectileID.UnholyArrow, pointBlank },
                 { ProjectileID.UnholyTridentHostile, defenseDamage },

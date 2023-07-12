@@ -2585,7 +2585,7 @@ namespace CalamityMod.NPCs
             modifiers.ArmorPenetration += defenseReduction;
 
             // DR applies after vanilla defense.
-            ApplyDR(npc, modifiers);
+            ApplyDR(npc, ref modifiers);
 
             // Damage reduction on spawn for certain worm bosses.
             bool destroyerResist = CalamityLists.DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || BossRushEvent.BossRushActive);
@@ -2606,7 +2606,7 @@ namespace CalamityMod.NPCs
 
         // Directly modifies final damage incoming to an NPC based on their DR (damage reduction) stat added by Calamity.
         // This is entirely separate from vanilla's takenDamageMultiplier.
-        private void ApplyDR(NPC npc, NPC.HitModifiers modifiers)
+        private void ApplyDR(NPC npc, ref NPC.HitModifiers modifiers)
         {
             if (DR <= 0f && KillTime == 0)
                 return;

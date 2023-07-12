@@ -57,10 +57,11 @@ namespace CalamityMod.Buffs.DamageOverTime
                 // Only deal damage once every several frames.
                 if (applicator.miscCounter % FramesPerDamageTick == 0)
                 {
+                    // This cannot be done with SimpleStrikeNPC because that would not allow for supercrits.
                     int bleedTickDamage = (int)applicator.GetTotalDamage<RangedDamageClass>().ApplyTo(BaseDamage * cgn.somaShredStacks);
                     Projectile tick = Projectile.NewProjectileDirect(target.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), bleedTickDamage, 0f, applicator.whoAmI, target.whoAmI);
                     tick.DamageType = DamageClass.Ranged; // Uncommon for DirectStrikes, but it needs to be able to crit.
-                    tick.Calamity().supercritHits  = -1;
+                    tick.Calamity().supercritHits = -1;
                 }
             }
         }

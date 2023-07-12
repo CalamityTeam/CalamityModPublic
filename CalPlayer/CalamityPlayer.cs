@@ -21,6 +21,7 @@ using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Aerospec;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Items.Armor.Brimflame;
 using CalamityMod.Items.Armor.Demonshade;
@@ -131,6 +132,7 @@ namespace CalamityMod.CalPlayer
         public float moveSpeedBonus = 0f;
         public int momentumCapacitorTime = 0;
         public float momentumCapacitorBoost = 0f;
+        public int plagueTaintedSMGDroneCooldown = 0;
         #endregion
 
         #region Speedrun Timer
@@ -774,10 +776,10 @@ namespace CalamityMod.CalPlayer
         public bool hInferno = false;
         public bool gState = false;
         public bool bBlood = false;
-        public bool eGravity = false;
+        public bool icarusFolly = false;
         public bool weakPetrification = false;
         public bool vHex = false;
-        public bool eGrav = false;
+        public bool DoGExtremeGravity = false;
         public bool warped = false;
         public bool cDepth = false;
         public bool fishAlert = false;
@@ -1803,9 +1805,9 @@ namespace CalamityMod.CalPlayer
             hInferno = false;
             gState = false;
             bBlood = false;
-            eGravity = false;
+            icarusFolly = false;
             vHex = false;
-            eGrav = false;
+            DoGExtremeGravity = false;
             warped = false;
             cDepth = false;
             fishAlert = false;
@@ -2201,9 +2203,9 @@ namespace CalamityMod.CalPlayer
             hInferno = false;
             gState = false;
             bBlood = false;
-            eGravity = false;
+            icarusFolly = false;
             vHex = false;
-            eGrav = false;
+            DoGExtremeGravity = false;
             warped = false;
             cDepth = false;
             fishAlert = false;
@@ -2478,7 +2480,9 @@ namespace CalamityMod.CalPlayer
 
             if (BossRushEvent.BossRushActive)
             {
-                var source = new ProjectileSource_Death(Player);
+                // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                // The boss rush visual failure effect has no meaningful source and passes no meaningful information.
+                var source = Player.GetSource_None();
                 if (Player.whoAmI == 0 && !CalamityGlobalNPC.AnyLivingPlayers() && CalamityUtils.CountProjectiles(ModContent.ProjectileType<BossRushFailureEffectThing>()) == 0)
                     Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BossRushFailureEffectThing>(), 0, 0f);
             }
@@ -2892,7 +2896,8 @@ namespace CalamityMod.CalPlayer
                         Dust.NewDust(Player.Center + angle.ToRotationVector2() * 160f, 0, 0, 218, 0f, 0f, 100, default, 1f);
                     }
 
-                    var source = new ProjectileSource_GaelsGreatswordRage(Player);
+                    // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                    var source = Player.GetSource_ItemUse(Player.ActiveItem(), GaelsGreatsword.SkullsplosionEntitySourceContext);
                     float rageRatio = rage / rageMax;
                     float baseDamage = rageRatio * GaelsGreatsword.SkullsplosionDamageMultiplier * GaelsGreatsword.BaseDamage;
                     int damage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(baseDamage);
@@ -3223,14 +3228,7 @@ namespace CalamityMod.CalPlayer
 
             #region Melee Speed for Projectile Melee Weapons
             float meleeSpeedMult = 0f;
-            if (community)
-            {
-                float BoostAtZeroBosses = 0.05f;
-                float BoostPostYharon = 0.2f;
-                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
-                meleeSpeedMult += floatTypeBoost * 0.25f;
-            }
-
+    
             // Nerfs the effectiveness of Beetle Scale Mail.
             if (Player.beetleOffense && Player.beetleOrbs > 0)
                 meleeSpeedMult -= 0.1f * Player.beetleOrbs;
@@ -3410,6 +3408,18 @@ namespace CalamityMod.CalPlayer
                 if (Player.potionDelay > 0 && !Player.HasCooldown(PotionSickness.ID))
                     Player.AddCooldown(PotionSickness.ID, Player.potionDelay, false);
 
+                if (cooldowns.TryGetValue(PotionSickness.ID, out CooldownInstance cd))
+                {
+                    if (Player.potionDelay != cd.timeLeft && cd.timeLeft > 0)
+                    {
+                        cd.timeLeft = Player.potionDelay;
+                    }
+
+                    if (cd.timeLeft > cd.duration)
+                        cd.duration = cd.timeLeft; // If the new cooldown is larger than the full duration, update, else keep it the same.
+                }
+                    
+                    
                 // Add a cooldown display for chaos state if the player has the vanilla counter ticking
                 // This will make the cooldown look like vanilla Rod of Discord, as it wasn't applied by either Normality Relocator or Spectral Veil
                 if (Player.chaosState && !Player.HasCooldown(ChaosState.ID))
@@ -4442,6 +4452,7 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By NPC
         public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
         {
+            // 1.4.4 PORT TODO - DO NOT DO THIS!
             Player.HurtInfo hurtInfo = new Player.HurtInfo();
 
             int bossRushDamage = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
@@ -4705,6 +4716,7 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
         {
+            // 1.4.4 PORT TODO - DO NOT DO THIS!
             Player.HurtInfo hurtInfo = new Player.HurtInfo();
 
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && hurtInfo.Damage > 0)
@@ -4995,6 +5007,7 @@ namespace CalamityMod.CalPlayer
 
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
+            // 1.4.4 PORT TODO - DO NOT DO THIS!
             Player.HurtModifiers modifiers = new Player.HurtModifiers();
 
             if (sulfurSet && !proj.friendly && hurtInfo.Damage > 0)
@@ -5536,6 +5549,7 @@ namespace CalamityMod.CalPlayer
         #region Pre Hurt
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)/* tModPorter Override ImmuneTo, FreeDodge or ConsumableDodge instead to prevent taking damage */
         {
+            // 1.4.4 PORT TODO - DO NOT DO THIS!
             Player.HurtInfo hurtInfo = new Player.HurtInfo();
 
             #region Ignore Incoming Hits
@@ -5566,13 +5580,13 @@ namespace CalamityMod.CalPlayer
                             masterChefShieldDurability = 0;
                             SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
                             Player.Calamity().GeneralScreenShakePower += 2f;
-
-                            // Display text indicating that shield damage was taken.
-                            string text = (-hurtInfo.Damage).ToString();
-                            Color messageColor = Color.LightBlue;
-                            Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
-                            CombatText.NewText(location, messageColor, Language.GetTextValue(text));
                         }
+
+                        // Display text indicating that shield damage was taken.
+                        string text = (-hurtInfo.Damage).ToString();
+                        Color messageColor = Color.LightBlue;
+                        Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
+                        CombatText.NewText(location, messageColor, Language.GetTextValue(text));
 
                         justHitByDefenseDamage = false;
                         defenseDamageToTake = 0;
@@ -5590,13 +5604,13 @@ namespace CalamityMod.CalPlayer
                             masterChefShieldDurability = 0;
                             SoundEngine.PlaySound(LunicCorpsHelmet.BreakSound, Player.Center);
                             Player.Calamity().GeneralScreenShakePower += 2f;
-
-                            // Display text indicating that shield damage was taken.
-                            string text = (-masterChefShieldDurability).ToString();
-                            Color messageColor = Color.LightBlue;
-                            Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
-                            CombatText.NewText(location, messageColor, Language.GetTextValue(text));
                         }
+
+                        // Display text indicating that shield damage was taken.
+                        string text = (-masterChefShieldDurability).ToString();
+                        Color messageColor = Color.LightBlue;
+                        Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
+                        CombatText.NewText(location, messageColor, Language.GetTextValue(text));
                     }
 
                     int numParticles = Main.rand.Next(2, 6);
@@ -5616,7 +5630,10 @@ namespace CalamityMod.CalPlayer
                     cd.timeLeft = LunicCorpsHelmet.MasterChefShieldRechargeTime;
 
                 if (noDamage)
+                {
+                    Player.GiveIFrames(modifiers.PvP ? 8 : ((hurtInfo.Damage != 1) ? (Player.longInvince ? 80 : 40) : (Player.longInvince ? 40 : 20)), true);
                     return;
+                }
             }
             #endregion
 
@@ -6116,7 +6133,8 @@ namespace CalamityMod.CalPlayer
 
                 if (aeroSet && hurtInfo.Damage > 25)
                 {
-                    var source = new ProjectileSource_AerospecSetFeathers(Player);
+                    // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                    var source = Player.GetSource_OnHurt(hurtInfo.DamageSource, AerospecBreastplate.FeatherEntitySourceContext);
                     for (int n = 0; n < 4; n++)
                     {
                         int featherDamage = (int)Player.GetBestClassDamage().ApplyTo(20);
@@ -6323,7 +6341,8 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Player.whoAmI == Main.myPlayer)
                     {
-                        var source = new ProjectileSource_DemonshadeSet(Player);
+                        // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                        var source = Player.GetSource_OnHurt(hurtInfo.DamageSource, DemonshadeHelm.ShadowScytheEntitySourceContext);
                         for (int l = 0; l < 2; l++)
                         {
                             int shadowbeamDamage = (int)Player.GetBestClassDamage().ApplyTo(3000);
@@ -6501,7 +6520,9 @@ namespace CalamityMod.CalPlayer
         {
             if (CalamityWorld.getFixedBoi)
             {
-                var source = new ProjectileSource_GFBNurseHealLeviathanMeteor(Player);
+                // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                // The meteor is considered to be spawned from the Nurse herself
+                var source = nurse.GetSource_FromThis("Calamity_GetFixedBoiNurseExtinctionMeteor");
                 if (Player.whoAmI == Main.myPlayer)
                 {
                     int proj = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanBomb>(), 9999, 10f, Player.whoAmI);

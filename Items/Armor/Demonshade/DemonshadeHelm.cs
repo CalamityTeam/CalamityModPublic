@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Armor.Demonshade
     {
         public new string LocalizationCategory => "Items.Armor.PostMoonLord";
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DemonshadeEnrage");
+        internal static string ShadowScytheEntitySourceContext => "SetBonus_Calamity_Demonshade";
 
         public override void SetDefaults()
         {

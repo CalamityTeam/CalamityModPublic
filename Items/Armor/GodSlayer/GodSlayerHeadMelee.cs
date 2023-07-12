@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Armor.GodSlayer
         public override void UpdateArmorSet(Player player)
         {
             var modPlayer = player.Calamity();
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.2f;
             modPlayer.godSlayer = true;
             modPlayer.godSlayerDamage = true;
             var hotkey = CalamityKeybinds.GodSlayerDashHotKey.TooltipHotkeyString();
@@ -52,7 +53,7 @@ namespace CalamityMod.Items.Armor.GodSlayer
         public override void UpdateEquip(Player player)
         {
             player.GetDamage<MeleeDamageClass>() += 0.14f;
-            player.GetCritChance<MeleeDamageClass>() += 14;
+            player.GetCritChance<MeleeDamageClass>() += 7;
         }
 
         public override void AddRecipes()
