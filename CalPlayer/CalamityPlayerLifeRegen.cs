@@ -170,7 +170,7 @@ namespace CalamityMod.CalPlayer
             }
             
             float ASPoisonLevel = 0f;
-            if (CalamityGlobalNPC.aquaticScourge >= 0 && CalamityWorld.getFixedBoi)
+            if (CalamityGlobalNPC.aquaticScourge >= 0 && Main.zenithWorld)
             {
                 NPC AS = Main.npc[CalamityGlobalNPC.aquaticScourge];
                 //if the player is 50 blocks or more away from the head

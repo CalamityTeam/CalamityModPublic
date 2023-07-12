@@ -92,8 +92,8 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Projectile.Opacity == 1f)
             {
-                int debufftype = CalamityWorld.getFixedBoi ? BuffID.Obstructed : BuffID.VortexDebuff;
-                int duration = CalamityWorld.getFixedBoi ? 30 : 60;
+                int debufftype = Main.zenithWorld ? BuffID.Obstructed : BuffID.VortexDebuff;
+                int duration = Main.zenithWorld ? 30 : 60;
                 if (info.Damage > 0)
                     target.AddBuff(debufftype, duration, true);
             }

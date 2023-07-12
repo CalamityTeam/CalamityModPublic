@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.TownNPCs
         public override string GetChat()
         {
             Player player = Main.player[Main.myPlayer];
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CirrusSlap").Format(player.name)), player.statLife / 2, -player.direction, false, false, -1, false);
                 SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, player.Center);

@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void AI()
         {
             bool adultWyrmAlive = false;
-            SoundStyle roar = CalamityWorld.getFixedBoi ? Sunskater.DeathSound with { Pitch = Sunskater.DeathSound.Pitch - 0.5f } : CommonCalamitySounds.WyrmScreamSound;
+            SoundStyle roar = Main.zenithWorld ? Sunskater.DeathSound with { Pitch = Sunskater.DeathSound.Pitch - 0.5f } : CommonCalamitySounds.WyrmScreamSound;
             if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)

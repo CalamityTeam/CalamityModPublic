@@ -14,8 +14,8 @@ namespace CalamityMod.BiomeManagers
 {
     public class SulphurousSeaBiome : ModBiome
     {
-        public override ModWaterStyle WaterStyle => CalamityWorld.getFixedBoi ? ModContent.Find<ModWaterStyle>("CalamityMod/PissWater") : ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater");
-        public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => CalamityWorld.getFixedBoi ?ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/PissSeaSurfaceBGStyle") : ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/SulphurSeaSurfaceBGStyle");
+        public override ModWaterStyle WaterStyle => Main.zenithWorld ? ModContent.Find<ModWaterStyle>("CalamityMod/PissWater") : ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater");
+        public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => Main.zenithWorld ?ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/PissSeaSurfaceBGStyle") : ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/SulphurSeaSurfaceBGStyle");
         public override int BiomeTorchItemType => ModContent.ItemType<SulphurousTorch>();
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
         public override string BestiaryIcon => "CalamityMod/BiomeManagers/SulphurousSeaIcon";

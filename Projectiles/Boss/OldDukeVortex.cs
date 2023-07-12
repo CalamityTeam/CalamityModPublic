@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 if (Projectile.scale < 2f)
                 {
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
 
                 float distanceRequired = 800f * Projectile.scale;
-                float succPower = CalamityWorld.getFixedBoi ? 1f : 0.5f;
+                float succPower = Main.zenithWorld ? 1f : 0.5f;
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     Player player = Main.player[i];

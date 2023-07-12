@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (Main.getGoodWorld)
                 NPC.scale *= 0.8f;
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
                 NPC.scale *= 4f;
         }
 
@@ -336,7 +336,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             // Play sound
-            float extrapitch = CalamityWorld.getFixedBoi ? -0.5f : 0;
+            float extrapitch = Main.zenithWorld ? -0.5f : 0;
             if (Main.rand.NextBool(300))
                 SoundEngine.PlaySound(SoundID.Zombie35 with { Pitch = SoundID.Zombie35.Pitch + extrapitch}, NPC.Center);
 
@@ -585,7 +585,7 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 NPC.rotation = NPC.velocity.X * 0.02f;
 
-                float basey = CalamityWorld.getFixedBoi ? -100 : -350;
+                float basey = Main.zenithWorld ? -100 : -350;
                 Vector2 targetVector = player.Center + new Vector2(0f, basey) * NPC.scale;
                 float velocity = death ? 13.5f : 12f;
                 velocity += 6f * enrageScale;

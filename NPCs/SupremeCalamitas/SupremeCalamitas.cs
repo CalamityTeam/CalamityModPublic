@@ -411,12 +411,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				hellblastDamage /= 2;
             }
 
-            int bulletHellblast = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast2>();
+            int bulletHellblast = Main.zenithWorld ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast2>();
             int barrage = ModContent.ProjectileType<BrimstoneBarrage>();
-            int gigablast = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<SCalBrimstoneGigablast>();
-            int fireblast = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<SCalBrimstoneGigablast>() : ModContent.ProjectileType<SCalBrimstoneFireblast>();
-            int wave = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneWave>();
-            int hellblast = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast>();
+            int gigablast = Main.zenithWorld ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<SCalBrimstoneGigablast>();
+            int fireblast = Main.zenithWorld ? ModContent.ProjectileType<SCalBrimstoneGigablast>() : ModContent.ProjectileType<SCalBrimstoneFireblast>();
+            int wave = Main.zenithWorld ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneWave>();
+            int hellblast = Main.zenithWorld ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast>();
 
             int bodyWidth = 44;
             int bodyHeight = 42;
@@ -559,7 +559,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             int xoffset = 0;
                             int yoffset = 0;
                             int maxoffset = 3;
-                            if (CalamityWorld.getFixedBoi)
+                            if (Main.zenithWorld)
                             {
                                 xoffset += Main.rand.Next(-maxoffset, maxoffset + 1);
                                 yoffset += Main.rand.Next(-maxoffset, maxoffset + 1);
@@ -733,7 +733,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        if (bulletHellCounter2 < 300 && !CalamityWorld.getFixedBoi) // Blasts from above
+                        if (bulletHellCounter2 < 300 && !Main.zenithWorld) // Blasts from above
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -744,7 +744,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                         else // Blasts from above, left, and right
                         {
-                            if (!CalamityWorld.getFixedBoi)
+                            if (!Main.zenithWorld)
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
@@ -820,7 +820,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        if (bulletHellCounter2 < 1200 && !CalamityWorld.getFixedBoi) // Blasts from below
+                        if (bulletHellCounter2 < 1200 && !Main.zenithWorld) // Blasts from below
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -881,7 +881,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        if (bulletHellCounter2 < 2100 && !CalamityWorld.getFixedBoi) // Blasts from above
+                        if (bulletHellCounter2 < 2100 && !Main.zenithWorld) // Blasts from above
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -951,7 +951,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        if (bulletHellCounter2 < 3000 && !CalamityWorld.getFixedBoi) // Blasts from below
+                        if (bulletHellCounter2 < 3000 && !Main.zenithWorld) // Blasts from below
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -1019,7 +1019,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        if (bulletHellCounter2 < 3900 && !CalamityWorld.getFixedBoi) // Blasts from above
+                        if (bulletHellCounter2 < 3900 && !Main.zenithWorld) // Blasts from above
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -1030,7 +1030,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                         else // Blasts from above, left, and right
                         {
-                            if (!CalamityWorld.getFixedBoi)
+                            if (!Main.zenithWorld)
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);

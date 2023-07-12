@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public Color SunColorFunction(float completionRatio)
         {
-            Color sunColor = CalamityWorld.getFixedBoi ? (new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) * 0.8f) : (Main.dayTime ? Color.Yellow : Color.Cyan);
+            Color sunColor = Main.zenithWorld ? (new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) * 0.8f) : (Main.dayTime ? Color.Yellow : Color.Cyan);
             return Color.Lerp(sunColor, Color.White, (float)Math.Sin(MathHelper.Pi * completionRatio) * 0.5f + 0.3f) * Projectile.Opacity;
         }
 

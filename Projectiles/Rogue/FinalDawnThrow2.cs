@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -63,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (Projectile.localAI[0] == 0)
             {
-                SoundEngine.PlaySound(SoundID.Item71, Projectile.position);
+                SoundEngine.PlaySound(FinalDawn.UseSound, Projectile.position);
                 Projectile.localAI[0] = 1;
             }
 

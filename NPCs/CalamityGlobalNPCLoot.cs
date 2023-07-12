@@ -2101,7 +2101,7 @@ namespace CalamityMod.NPCs
             }
 
             bool normalShark = npc.type == NPCID.SandShark || npc.type == NPCID.SandsharkHallow || npc.type == NPCID.SandsharkCorrupt || npc.type == NPCID.SandsharkCrimson;
-            if (NPC.downedPlantBoss && (normalShark || (npc.type == ModContent.NPCType<FusionFeeder>() && CalamityWorld.getFixedBoi)) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark.GreatSandShark>()))
+            if (NPC.downedPlantBoss && (normalShark || (npc.type == ModContent.NPCType<FusionFeeder>() && Main.zenithWorld)) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark.GreatSandShark>()))
             {
                 CalamityMod.sharkKillCount++;
                 if (CalamityMod.sharkKillCount == 4)

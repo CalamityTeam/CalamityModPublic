@@ -13,5 +13,7 @@ namespace CalamityMod.Systems
         public override int? MusicModMusic => CalamityMod.Instance.GetMusicFromMusicMod("Polterghast");
         public override int VanillaMusic => MusicID.Plantera;
         public override int OtherworldMusic => MusicID.OtherworldlyPlantera;
+
+        public override bool AdditionalCheck() => !Main.zenithWorld;
     }
 }

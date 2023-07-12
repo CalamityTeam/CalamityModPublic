@@ -87,7 +87,7 @@ namespace CalamityMod.Systems
             // Very, very, very rarely display a Lorde joke text if the system clock is set to April Fools Day.
             if (Main.rand.NextBool(100000000) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
             {
-                string key = CalamityWorld.getFixedBoi ? "Mods.CalamityMod.Status.Boss.AprilFoolsGFB" : "Mods.CalamityMod.Status.Boss.AprilFools";
+                string key = Main.zenithWorld ? "Mods.CalamityMod.Status.Boss.AprilFoolsGFB" : "Mods.CalamityMod.Status.Boss.AprilFools";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
@@ -342,7 +342,7 @@ namespace CalamityMod.Systems
         #region Handle Armored Digger Random Spawns
         public static void TrySpawnArmoredDigger(Player player, CalamityPlayer modPlayer)
         {
-            bool gfbCondition = CalamityWorld.getFixedBoi && (player.ZoneHallow || player.ZoneUnderworldHeight) && NPC.downedMoonlord;
+            bool gfbCondition = Main.zenithWorld && (player.ZoneHallow || player.ZoneUnderworldHeight) && NPC.downedMoonlord;
             if ((gfbCondition || (player.ZoneRockLayerHeight && !player.ZoneUnderworldHeight && !player.ZoneJungle)) && !player.ZoneDungeon && !modPlayer.ZoneSunkenSea && !modPlayer.ZoneAbyss && !CalamityPlayer.areThereAnyDamnBosses)
             {
                 if (NPC.downedPlantBoss && player.townNPCs < 3f)
@@ -421,7 +421,7 @@ namespace CalamityMod.Systems
         #region Handle Adult Eidolon Wyrm Spawns
         public static void TrySpawnAEoW(Player player, CalamityPlayer modPlayer)
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient || !(modPlayer.ZoneAbyss || CalamityWorld.getFixedBoi) || !player.chaosState || player.dead)
+            if (Main.netMode == NetmodeID.MultiplayerClient || !(modPlayer.ZoneAbyss || Main.zenithWorld) || !player.chaosState || player.dead)
                 return;
 
             bool adultWyrmAlive = CalamityGlobalNPC.adultEidolonWyrmHead != -1 && Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active;

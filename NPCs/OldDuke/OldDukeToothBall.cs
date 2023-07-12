@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.OldDuke
                 }
             }
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {

@@ -5028,7 +5028,7 @@ namespace CalamityMod.CalPlayer
                 if (proj.type == ProjectileID.TorchGod)
                 {
                     int fireDebuffTypes = CalamityWorld.death ? 9 : CalamityWorld.revenge ? 7 : Main.expertMode ? 5 : 3;
-                    int choice = CalamityWorld.getFixedBoi ? 9 : Main.rand.Next(fireDebuffTypes);
+                    int choice = Main.zenithWorld ? 9 : Main.rand.Next(fireDebuffTypes);
                     switch (choice)
                     {
                         case 0:
@@ -5145,7 +5145,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Player.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
                 }
-                else if (proj.type == ProjectileID.RuneBlast && CalamityWorld.getFixedBoi)
+                else if (proj.type == ProjectileID.RuneBlast && Main.zenithWorld)
                 {
                     Player.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
                 }
@@ -6516,7 +6516,7 @@ namespace CalamityMod.CalPlayer
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
                 // The meteor is considered to be spawned from the Nurse herself

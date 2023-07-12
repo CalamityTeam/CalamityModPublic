@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.NPCs.AstrumDeus;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -46,7 +47,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item33, Projectile.Center);
+                SoundEngine.PlaySound(AstrumDeusHead.MineSound, Projectile.Center);
             }
 
             // Deal no damage if fading out and not set to explode

@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.Perforator
             if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             
-            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.zenithWorld)
             {
                 int type = ModContent.ProjectileType<IchorBlob>();
                 int damage = NPC.GetProjectileDamage(type);

@@ -158,7 +158,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 typeName = CalamityUtils.GetTextValue("NPCs.Jared");
             }

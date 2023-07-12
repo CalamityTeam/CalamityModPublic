@@ -1391,7 +1391,7 @@ namespace CalamityMod.CalPlayer
                 if (necroReviveCounter >= NecroArmorSetChange.PostMortemDuration * 60)
                     Player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.NecroRevive").Format(Player.name)), 1000, -1);
                 else if (necroReviveCounter % 60 == 59)
-                    SoundEngine.PlaySound(SoundID.Item17, Player.Center);
+                    SoundEngine.PlaySound(NecroArmorSetChange.TimerSound, Player.Center);
             }
 
             // Silva invincibility effects

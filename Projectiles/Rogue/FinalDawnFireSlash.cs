@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Rogue;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using CalamityMod.CalPlayer;
-using CalamityMod.Buffs.DamageOverTime;
 using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Projectile.ai[1] == 5)
                 {
                     Projectile.friendly = true;
-                    SoundEngine.PlaySound(SoundID.Item71, Projectile.Center);
+                    SoundEngine.PlaySound(FinalDawn.UseSound, Projectile.Center);
                 }
             }
             if (Projectile.ai[1] >= 11)

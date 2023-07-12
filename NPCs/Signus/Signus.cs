@@ -202,7 +202,7 @@ namespace CalamityMod.NPCs.Signus
             int stealthSoundGate = 300;
             int maxStealth = 360;
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 if (stealthTimer < maxStealth)
                 {
@@ -552,7 +552,7 @@ namespace CalamityMod.NPCs.Signus
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int totalLamps = (Main.getGoodWorld && !CalamityWorld.getFixedBoi) ? 10 : 5;
+                    int totalLamps = (Main.getGoodWorld && !Main.zenithWorld) ? 10 : 5;
                     if (NPC.CountNPCS(ModContent.NPCType<CosmicLantern>()) < totalLamps)
                     {
                         bool buffed = false;
@@ -564,7 +564,7 @@ namespace CalamityMod.NPCs.Signus
                         for (int x = 0; x < totalLamps; x++)
                         {
                             int type = ModContent.NPCType<CosmicLantern>();
-                            if (Main.rand.NextBool(10) && CalamityWorld.getFixedBoi)
+                            if (Main.rand.NextBool(10) && Main.zenithWorld)
                             {
                                 type = ModContent.NPCType<CosmicMine>();
                             }
@@ -684,8 +684,8 @@ namespace CalamityMod.NPCs.Signus
                             SoundEngine.PlaySound(SoundID.Item73, NPC.Center);
                             int type = (CalamityWorld.LegendaryMode && revenge) ? ModContent.ProjectileType<PeanutRocket>() : ModContent.ProjectileType<EssenceDust>();
                             int damage = (CalamityWorld.LegendaryMode && revenge) ? 60 : NPC.GetProjectileDamage(type);
-                            Vector2 velocity = CalamityWorld.getFixedBoi ? new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11)) : Vector2.Zero;
-                            if (Main.getGoodWorld && !CalamityWorld.getFixedBoi)
+                            Vector2 velocity = Main.zenithWorld ? new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11)) : Vector2.Zero;
+                            if (Main.getGoodWorld && !Main.zenithWorld)
                             {
                                 velocity = new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6));
                             }
@@ -842,7 +842,7 @@ namespace CalamityMod.NPCs.Signus
             spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), NPC.GetAlpha(drawColor) * transparency, rotation, vector11, scale, spriteEffects, 0f);
 
             Color color40 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 color40 = Color.MediumBlue;
             }
@@ -862,7 +862,7 @@ namespace CalamityMod.NPCs.Signus
                 }
             }
 
-            if (CalamityWorld.getFixedBoi) // make Sig's eyes more visible in the zenith seed due to the color change
+            if (Main.zenithWorld) // make Sig's eyes more visible in the zenith seed due to the color change
             {
                 CalamityUtils.EnterShaderRegion(spriteBatch);
                 Color outlineColor = Color.Lerp(Color.Blue, Color.White, 0.4f);

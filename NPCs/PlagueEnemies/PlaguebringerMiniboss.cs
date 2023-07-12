@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             BannerItem = ModContent.ItemType<PlaguebringerBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 NPC.scale = 2f;
             }

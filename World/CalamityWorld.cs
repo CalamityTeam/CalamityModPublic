@@ -26,7 +26,6 @@ namespace CalamityMod.World
         public static bool death = false; // Death Mode
         public static bool armageddon = false; // Armageddon Mode
         public static bool LegendaryMode => Main.getGoodWorld && Main.masterMode; // Evaluates to whether vanilla's "Legendary Mode" is enabled (Master Mode on For the Worthy)
-        public static bool getFixedBoi => Main.zenithWorld; // True when the "get fixed boi" (aka "Zenith") seed is active, which combines all other seeds.
 
         // Sunken Sea
         public static Rectangle SunkenSeaLocation = Rectangle.Empty;

@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.AcidRain
             // Prevent yeeting into the sky at the speed of light.
             NPC.velocity = Vector2.Clamp(NPC.velocity, new Vector2(-maxSpeed), new Vector2(maxSpeed));
 
-            if (CalamityWorld.getFixedBoi && !(!NPC.wet && NPC.collideY))
+            if (Main.zenithWorld && !(!NPC.wet && NPC.collideY))
             {
                 // Spread the wrath of the damned
                 NPC.Calamity().newAI[0]++;

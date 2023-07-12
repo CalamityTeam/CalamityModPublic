@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 num823 = 4f;
             }
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 num823 = 8f;
             }

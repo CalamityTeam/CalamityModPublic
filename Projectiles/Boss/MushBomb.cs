@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.velocity.X *= 0.995f;
         }
 
-        public override Color? GetAlpha(Color drawColor) => CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
+        public override Color? GetAlpha(Color drawColor) => Main.zenithWorld ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
 
         public override bool PreDraw(ref Color lightColor)
         {

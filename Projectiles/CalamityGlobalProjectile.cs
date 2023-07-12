@@ -2139,7 +2139,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.BouncyBoulder:
                 case ProjectileID.LifeCrystalBoulder:
                 case ProjectileID.MoonBoulder:
-                    projectile.extraUpdates = CalamityWorld.getFixedBoi ? 1 : 0;
+                    projectile.extraUpdates = Main.zenithWorld ? 1 : 0;
                     break;
 
                 case ProjectileID.RockGolemRock:
@@ -2158,7 +2158,7 @@ namespace CalamityMod.Projectiles
             }
 
             // Random velocities for Bouncy Boulders in GFB
-            if (projectile.type == ProjectileID.BouncyBoulder && CalamityWorld.getFixedBoi)
+            if (projectile.type == ProjectileID.BouncyBoulder && Main.zenithWorld)
             {
                 // 5% chance every frame to get a random velocity multiplier (this is actually rolled twice per frame, due to the extra update in GFB)
                 if (Main.rand.Next(100) >= 95)
@@ -2736,7 +2736,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (CalamityWorld.getFixedBoi && NPC.AnyNPCs(NPCType<NPCs.CeaselessVoid.CeaselessVoid>()))
+            if (Main.zenithWorld && NPC.AnyNPCs(NPCType<NPCs.CeaselessVoid.CeaselessVoid>()))
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

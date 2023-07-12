@@ -169,7 +169,7 @@ namespace CalamityMod.NPCs.AcidRain
                     projDamage = (int)Math.Round(projDamage * 0.8);
 
                 Vector2 spikeVelocity = -NPC.velocity.RotatedByRandom(0.18f);
-                if (CalamityWorld.getFixedBoi) // more true to the original concept art.
+                if (Main.zenithWorld) // more true to the original concept art.
                 {
                     spikeVelocity = -projectile.velocity;
                     spikeVelocity.Normalize();

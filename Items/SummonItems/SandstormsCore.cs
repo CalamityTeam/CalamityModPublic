@@ -36,7 +36,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneDesert && !(CalamityWorld.getFixedBoi && !player.Calamity().ZoneAstral) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>());
+            return player.ZoneDesert && !(Main.zenithWorld && !player.Calamity().ZoneAstral) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>());
         }
 
         public override bool? UseItem(Player player)
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.SummonItems
             Player player = Main.LocalPlayer;
             TooltipLine line0 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 line0.Text = "Summons the Great Sand Shark when used in the astral desert";
             }

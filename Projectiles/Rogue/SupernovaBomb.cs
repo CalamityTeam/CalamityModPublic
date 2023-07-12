@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -75,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = Projectile.height = 128;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            SoundEngine.PlaySound(Supernova.ExplosionSound, Projectile.Center);
 
             //spawn projectiles
             int projAmt = Main.rand.Next(3, 5);

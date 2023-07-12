@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SplitEbonianPaladin>());
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SplitEbonianPaladin>());
-                if (CalamityWorld.getFixedBoi && NPC.CountNPCS(ModContent.NPCType<SplitCrimulanPaladin>()) < 3) // split into 3 slimes if the other large slime hasn't split yet
+                if (Main.zenithWorld && NPC.CountNPCS(ModContent.NPCType<SplitCrimulanPaladin>()) < 3) // split into 3 slimes if the other large slime hasn't split yet
                 {
                     NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X, (int)spawnAt.Y - 30, ModContent.NPCType<SplitEbonianPaladin>());
                 }

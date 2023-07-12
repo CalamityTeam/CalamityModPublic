@@ -231,13 +231,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     DartBurstCounter = 0f;
                     SoundEngine.PlaySound(SupremeCalamitas.BrimstoneShotSound, NPC.Center);
 
-                    int type = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneBarrage>();
+                    int type = Main.zenithWorld ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneBarrage>();
                     int damage = NPC.GetProjectileDamage(type);
 					if (bossRush)
 						damage /= 2;
                     int totalProjectiles = bossRush ? 20 : death ? 16 : revenge ? 14 : expertMode ? 12 : 8;
                     float radians = MathHelper.TwoPi / totalProjectiles;
-                    float velocity = CalamityWorld.getFixedBoi ? 5f : 7f;
+                    float velocity = Main.zenithWorld ? 5f : 7f;
                     Vector2 spinningPoint = new Vector2(0f, -velocity);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {

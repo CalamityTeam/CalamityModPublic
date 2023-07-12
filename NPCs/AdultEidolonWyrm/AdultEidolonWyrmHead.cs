@@ -77,7 +77,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         //Sounds
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/Scare");
 
-        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/EidolonWyrmRoarClose");
+        public static readonly SoundStyle ChargeSound = new("CalamityMod/Sounds/Custom/AdultEidolonCharge");
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/AdultEidolonDeath");
 
         public override void SetStaticDefaults()
         {
@@ -113,7 +114,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit1;
-            NPC.DeathSound = SoundID.NPCDeath6;
+            NPC.DeathSound = DeathSound;
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.Calamity().VulnerableToHeat = false;
@@ -121,7 +122,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 NPC.defense = 999;
                 NPC.DR_NERD(0.9f);
@@ -530,7 +531,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
                                 {
                                     if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                        SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
+                                        SoundEngine.PlaySound(ChargeSound, Main.player[Main.myPlayer].Center);
                                 }
 
                                 // Lock into the charge phase and use this for a charge time check
@@ -718,7 +719,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
                                 {
                                     if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                        SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
+                                        SoundEngine.PlaySound(ChargeSound, Main.player[Main.myPlayer].Center);
                                 }
 
                                 // Lock into the charge phase and use this for a charge time check
@@ -830,7 +831,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
                                 {
                                     if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                        SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
+                                        SoundEngine.PlaySound(ChargeSound, Main.player[Main.myPlayer].Center);
                                 }
 
                                 // Lock into the charge phase and use this for a charge time check
@@ -1110,7 +1111,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 if (calamityGlobalNPC.newAI[2] == lightningChargePhaseGateValue + 1f)
                                 {
                                     if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                        SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
+                                        SoundEngine.PlaySound(ChargeSound, Main.player[Main.myPlayer].Center);
                                 }
 
                                 // Lock into the charge phase and use this for a charge time check
@@ -1484,7 +1485,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 typeName = CalamityUtils.GetTextValue("NPCs.Jared");
             }

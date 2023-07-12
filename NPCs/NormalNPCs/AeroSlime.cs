@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 typeName = "YuH";
             }

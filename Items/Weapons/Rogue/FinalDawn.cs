@@ -2,6 +2,7 @@
 using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
@@ -9,6 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class FinalDawn : RogueWeapon
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/FinalDawnSlash");
         public override void SetDefaults()
         {
             Item.damage = 1500;

@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.TerrarianBeam, Do(LocalIFrames(-1)) }, // Terrarian yoyo orbs
                 { ProjectileID.TheEyeOfCthulhu, Do(LocalIFrames(10)) }, // this is the yoyo
                 { ProjectileID.TheRottedFork, trueMelee },
-                { ProjectileID.ThornBall, Do(CalamityWorld.getFixedBoi ? IgnoreWater : DontIgnoreWater, DefenseDamage) }, // Plantera bouncing thorn balls
+                { ProjectileID.ThornBall, Do(Main.zenithWorld ? IgnoreWater : DontIgnoreWater, DefenseDamage) }, // Plantera bouncing thorn balls
                 { ProjectileID.TinShortswordStab, trueMelee },
                 { ProjectileID.TitaniumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.TitaniumDrill, trueMeleeNoSpeed },
