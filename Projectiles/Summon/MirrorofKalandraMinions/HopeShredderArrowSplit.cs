@@ -12,10 +12,12 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
 
         public override void SetDefaults()
         {
+            Projectile.localNPCHitCooldown = 30;
             Projectile.penetrate = 3;
             
             Projectile.DamageType = DamageClass.Summon;
             Projectile.width = Projectile.height = 18;
+            Projectile.usesLocalNPCImmunity = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
