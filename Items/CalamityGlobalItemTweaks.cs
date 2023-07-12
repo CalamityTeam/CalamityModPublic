@@ -473,8 +473,8 @@ namespace CalamityMod.Items
                 { ItemID.SoulDrain, Do(DamageRatio(1.1f)) }, // Life Drain
                 { ItemID.SpaceGun, Do(DamageExact(25)) },
                 { ItemID.Spear, Do(AutoReuse, TrueMelee, DamageRatio(2f)) },
-                { ItemID.SpectreHamaxe, Do(HammerPower(90), AxePower(170), UseTimeExact(8), TileBoostExact(+4)) },
-                { ItemID.SpectrePickaxe, Do(PickPower(200), UseTimeExact(8), TileBoostExact(+4)) },
+                { ItemID.SpectreHamaxe, Do(HammerPower(90), AxePower(170), TileBoostExact(+4)) },
+                { ItemID.SpectrePickaxe, Do(PickPower(200), TileBoostExact(+4)) },
                 { ItemID.SpectreStaff, Do(DamageRatio(1.2f)) },
                 { ItemID.SpicyPepper, Do(Value(Item.buyPrice(silver: 2))) },
                 { ItemID.SpiderStaff, Do(AutoReuse, UseExact(25)) },

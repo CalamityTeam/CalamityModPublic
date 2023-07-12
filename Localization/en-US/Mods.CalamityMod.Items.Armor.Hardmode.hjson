@@ -39,11 +39,7 @@ BrimflameBoots: {
 
 BrimflameRobes: {
 	DisplayName: Brimflame Robes
-	Tooltip:
-		'''
-		5% increased magic damage and critical strike chance
-		Reduces damage from touching lava
-		'''
+	Tooltip: 5% increased magic damage and critical strike chance
 }
 
 BrimflameScowl: {
@@ -229,7 +225,7 @@ HydrothermicHeadMagic: {
 	Tooltip:
 		'''
 		12% increased magic damage, +100 max mana, and 10% increased magic critical strike chance
-		Temporary immunity to lava, and immunity to fire damage
+		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
@@ -244,7 +240,7 @@ HydrothermicHeadMelee: {
 		'''
 		17% increased melee damage and 10% increased melee critical strike chance
 		Melee attacks and melee projectiles inflict on fire
-		Temporary immunity to lava and immunity to fire damage
+		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
@@ -259,7 +255,8 @@ HydrothermicHeadRanged: {
 	Tooltip:
 		'''
 		12% increased ranged damage and 10% increased ranged critical strike chance
-		Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage
+		Reduces ammo usage by 25%
+		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
@@ -274,7 +271,7 @@ HydrothermicHeadRogue: {
 		'''
 		12% increased rogue damage and 10% increased rogue critical strike chance
 		50% chance to not consume rogue items and 5% increased movement speed
-		Temporary immunity to lava and immunity to fire damage
+		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
@@ -289,7 +286,7 @@ HydrothermicHeadSummon: {
 	Tooltip:
 		'''
 		5% increased minion damage and increased minion knockback
-		Temporary immunity to lava and immunity to fire damage
+		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
@@ -459,7 +456,7 @@ ReaverHeadExplore: {
 	Tooltip:
 		'''
 		20% increased mining speed and block/wall placement speed
-		Temporary immunity to lava and can move freely through liquids
+		Grants immunity to lava and can move freely through liquids
 		'''
 	SetBonus:
 		'''

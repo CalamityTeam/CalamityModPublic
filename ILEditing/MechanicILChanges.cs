@@ -689,47 +689,6 @@ namespace CalamityMod.ILEditing
         #region Custom Lava Visuals
         private static void DrawCustomLava(Terraria.GameContent.Drawing.On_TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, bool behindBlocks, Tile tileCache, ref Vector2 position, ref Rectangle liquidSize, int liquidType, ref VertexColors colors)
         {
-            //liquidType = CustomLavaManagement.SelectLavafallStyle(liquidType);
-            //orig(self, behindBlocks, tileCache, ref position, ref liquidSize, liquidType, ref colors);
-
-            /*if (liquidType != 1)
-            {
-                orig(self, tileCache, position, liquidSize, liquidType, aColor);
-                return;
-            }
-            
-            Texture2D initialTexture = TextureAssets.LiquidSlope[liquidType].Value;
-            Texture2D slopeTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaSlopeTexture : initialTexture, LiquidTileType.Slope);
-            aColor = SelectLavaColor(initialTexture, aColor, liquidType == 1);
-
-            int slope = (int)tileCache.Slope;
-            if (!TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.TileType] || slope == 0)
-            {
-                Texture2D liquidTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaBlockTexture : TextureAssets.Liquid[liquidType].Value, LiquidTileType.Block);
-                Main.spriteBatch.Draw(liquidTexture, position, liquidSize, aColor, 0f, default, 1f, 0, 0f);
-                return;
-            }
-            liquidSize.X += 18 * (slope - 1);
-            if (tileCache.Slope == SlopeType.SlopeDownLeft)
-            {
-                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
-                return;
-            }
-            if (tileCache.Slope == SlopeType.SlopeDownRight)
-            {
-                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
-                return;
-            }
-            if (tileCache.Slope == SlopeType.SlopeUpLeft)
-            {
-                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
-                return;
-            }
-            if (tileCache.Slope == SlopeType.SlopeUpRight)
-            {
-                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
-            }*/
-
             if (liquidType != 1)
             {
                 orig(self, behindBlocks, tileCache, ref position, ref liquidSize, liquidType, ref colors);
@@ -737,7 +696,7 @@ namespace CalamityMod.ILEditing
             }
 
             int slope = (int)tileCache.Slope;
-            colors = SelectLavaQuadColor(TextureAssets.LiquidSlope[liquidType].Value, colors, liquidType == 1);
+            colors = SelectLavaQuadColor(TextureAssets.LiquidSlope[liquidType].Value, ref colors, liquidType == 1);
             if (!TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.TileType] || behindBlocks || slope == 0)
             {
                 Texture2D liquidTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaBlockTexture : TextureAssets.Liquid[liquidType].Value, LiquidTileType.Block);
@@ -800,7 +759,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldloc, 4);
             cursor.EmitDelegate<Func<VertexColors, Texture2D, int, int, int, VertexColors>>((initialColor, initialTexture, liquidType, x, y) =>
             {
-                initialColor = SelectLavaQuadColor(initialTexture, initialColor, liquidType == 1);
+                initialColor = SelectLavaQuadColor(initialTexture, ref initialColor, liquidType == 1);
 
                 if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot || 
                 liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot ||
