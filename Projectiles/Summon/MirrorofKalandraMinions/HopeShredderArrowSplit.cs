@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Weapons.Summon;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
 
         public override void SetDefaults()
         {
-            Projectile.localNPCHitCooldown = 30;
+            Projectile.localNPCHitCooldown = MirrorofKalandra.Vile_SplitIFrames;
             Projectile.penetrate = 3;
             
             Projectile.DamageType = DamageClass.Summon;

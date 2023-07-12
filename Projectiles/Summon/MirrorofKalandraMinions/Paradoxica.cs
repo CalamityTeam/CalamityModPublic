@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
                     {
                         float angle = MathHelper.TwoPi / dustAmount * dustIndex;
                         Vector2 velocity = angle.ToRotationVector2() * Main.rand.NextFloat(5f, 15f);
-                        Dust teleportDust = Dust.NewDustPerfect(Projectile.Center, 212, velocity);
+                        Dust teleportDust = Dust.NewDustPerfect(Projectile.Center, 212, velocity, 0, default, 2f);
                         teleportDust.noGravity = true;
                     }
 

@@ -40,13 +40,13 @@ namespace CalamityMod.Items.Weapons.Summon
         public static int Vile_BowChargeTime = 8;
         public static float Vile_ArrowSpeed = 50f;
         public static float Vile_SplitDMGMultiplier = .33f;
+        public static int Vile_SplitIFrames = 30;
         public static int Vile_SplitSpreadAngle = 8; // In degrees.
 
         public override void SetDefaults()
         {
             Item.damage = 380;
             Item.useTime = Item.useAnimation = 30;
-            Item.shootSpeed = 20f;
             Item.knockBack = 4f;
             Item.mana = 10;
             Item.shoot = ModContent.ProjectileType<AtzirisDisfavor>();
@@ -94,13 +94,6 @@ namespace CalamityMod.Items.Weapons.Summon
                 AddIngredient<DivineGeode>(10).
                 AddIngredient(ItemID.MagicMirror).
                 AddCondition(Condition.NearShimmer).
-                Register();
-
-            CreateRecipe().
-                AddIngredient<CosmiliteBar>(10).
-                AddIngredient<DivineGeode>(10).
-                AddIngredient(ItemID.MagicMirror).
-                AddIngredient(ItemID.BottomlessShimmerBucket).
                 Register();
         }
     }
