@@ -5040,13 +5040,14 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            // 12JUL2023: Ozzatron: what does this do
             if (calamityBiomeZone)
             {
                 pool[0] = 0f;
             }
 
             // Add Enchanted Nightcrawlers as a critter to the Astral Infection
-            if (!CalamityGlobalNPC.AnyEvents(spawnInfo.Player) && spawnInfo.Player.InAstral())
+            if (!AnyEvents(spawnInfo.Player) && spawnInfo.Player.InAstral())
             {
                 pool[NPCID.EnchantedNightcrawler] = SpawnCondition.TownCritter.Chance;
             }
@@ -5127,14 +5128,34 @@ namespace CalamityMod.NPCs
             if (spawnInfo.PlayerSafe)
                 return;
 
-            if (!Main.hardMode && spawnInfo.Player.ZoneUnderworldHeight && !calamityBiomeZone)
+            // Voodoo Demon changes (including Voodoo Demon Voodoo Doll implementation)
+            bool voodooDemonDollActive = spawnInfo.Player.Calamity().disableVoodooSpawns;
+            if (!voodooDemonDollActive)
             {
-                if (!NPC.AnyNPCs(NPCID.VoodooDemon))
-                    pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.75f;
+                // Nearby players with the doll apply it to anyone within 500 pixels
+                for (int i = 0; i < Main.maxPlayers; ++i)
+                {
+                    Player p = Main.player[i];
+                    if (p is null || !p.active)
+                        continue;
+                    float distsq = p.Center.DistanceSQ(spawnInfo.Player.Center);
+                    if (distsq < 25000f)
+                    {
+                        voodooDemonDollActive = true;
+                        break;
+                    }
+                }
             }
 
-            if (spawnInfo.Player.Calamity().disableVoodooSpawns && pool.ContainsKey(NPCID.VoodooDemon))
+            // If the doll is active, Voodoo Demons cannot spawn.
+            // NOTE: This doesn't fully work! There is an IL edit to truly force them to stop spawning.
+            if (voodooDemonDollActive)
                 pool.Remove(NPCID.VoodooDemon);
+            // Otherwise, if it's pre-Hardmode, boost their spawn rate by 1.25x.
+            else if (!Main.hardMode && spawnInfo.Player.ZoneUnderworldHeight && !calamityBiomeZone)
+            {
+                pool[NPCID.VoodooDemon] *= 1.25f;
+            }
         }
         #endregion
 
