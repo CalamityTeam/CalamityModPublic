@@ -15,7 +15,6 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().rRage = true;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.05f;
         }
     }
 }
