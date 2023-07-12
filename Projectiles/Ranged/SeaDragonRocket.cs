@@ -8,7 +8,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SeaDragonRocket : ModProjectile, ILocalizedModType
     {
-        public Player owner => Main.player[Projectile.owner];
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override void SetDefaults()
         {
@@ -35,7 +34,6 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                 }
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item109, owner.Center);
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             if (Projectile.owner == Main.myPlayer && Projectile.timeLeft <= 3)

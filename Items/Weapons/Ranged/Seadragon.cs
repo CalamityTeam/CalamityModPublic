@@ -73,6 +73,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Vector2 rocketVec = velocity.SafeNormalize(Vector2.Zero).RotatedBy(Main.rand.NextFloat(-0.25f, 0.25f)) * 25f;
                 int rocketDamage = damage * 5;
                 Projectile.NewProjectile(source, position, rocketVec, ModContent.ProjectileType<SeaDragonRocket>(), rocketDamage, knockback, player.whoAmI);
+                SoundEngine.PlaySound(SoundID.Item109, player.Center);
             }
             
             // Muzzle blasts are always directly in line with the gun's muzzle.
