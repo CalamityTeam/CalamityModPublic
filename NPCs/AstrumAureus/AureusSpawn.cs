@@ -377,7 +377,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            int debuffType = CalamityWorld.getFixedBoi ? ModContent.BuffType<GodSlayerInferno>() : ModContent.BuffType<AstralInfectionDebuff>();
+            int debuffType = Main.zenithWorld ? ModContent.BuffType<GodSlayerInferno>() : ModContent.BuffType<AstralInfectionDebuff>();
             target.AddBuff(debuffType, (int)(180 * NPC.scale), true);
         }
     }

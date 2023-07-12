@@ -276,7 +276,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 // If the slot is normally clicked, behavior depends on whether the player is holding power cells.
                 else
                 {
-                    bool holdingPowercell = playerHandItem.type == powercellID || (playerHandItem.type == sampleID && CalamityWorld.getFixedBoi);
+                    bool holdingPowercell = playerHandItem.type == powercellID || (playerHandItem.type == sampleID && Main.zenithWorld);
                     bool powercellsinserted = !codebreakerTileEntity.ContainsBloodSample && temporaryItem.stack > 0;
                     bool cansummon = codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon;
 
@@ -284,7 +284,7 @@ namespace CalamityMod.UI.DraedonSummoning
                     if (holdingPowercell && temporaryItem.stack < TECodebreaker.MaxCellCapacity)
                     {
                         // If theres no power cells inside, it's GFB, and the player has a blood sample, it can be inserted
-                        if (playerHandItem.type == sampleID && CalamityWorld.getFixedBoi && !powercellsinserted && cansummon)
+                        if (playerHandItem.type == sampleID && Main.zenithWorld && !powercellsinserted && cansummon)
                         {
                             // Play a gross sound if no samples are in yet
                             if (temporaryItem.stack == 0)
@@ -589,7 +589,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 {
                     CalamityWorld.DraedonSummonCountdown = CalamityWorld.DraedonSummonCountdownMax;
                     CalamityWorld.DraedonSummonPosition = codebreakerTileEntity.Center + new Vector2(-8f, -100f);
-                    if (CalamityWorld.getFixedBoi && codebreakerTileEntity.ContainsBloodSample)
+                    if (Main.zenithWorld && codebreakerTileEntity.ContainsBloodSample)
                     {
                         CalamityWorld.DraedonMechdusa = true;
                     }

@@ -254,8 +254,7 @@ BadgeofBravery: {
 	DisplayName: Badge of Bravery
 	Tooltip:
 		'''
-		15% increased melee speed
-		Increases melee damage and melee crit by 5%
+		Increases melee damage and melee crit by 10%
 		+5 melee armor penetration
 		'''
 }
@@ -303,13 +302,13 @@ BloodyWormScarf: {
 	Tooltip:
 		'''
 		7% increased damage reduction
-		7% increased melee damage and speed
+		10% increased melee damage
 		'''
 }
 
 BloodyWormTooth: {
 	DisplayName: Bloody Worm Tooth
-	Tooltip: 7% increased melee damage and speed
+	Tooltip: 10% increased melee damage
 }
 
 BloomStone: {
@@ -482,7 +481,7 @@ DarkSunRing: {
 	DisplayName: Dark Sun Ring
 	Tooltip:
 		'''
-		12% increase to damage and melee speed
+		12% increase to damage
 		+1 life regen and +2 max minions
 		Increased minion knockback
 		During the day the player has +4 life regen

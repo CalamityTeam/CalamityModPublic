@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             var modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;
-            player.GetDamage<MeleeDamageClass>() += 0.05f;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
             player.aggro += 700;
         }
 
@@ -46,8 +46,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
         {
             var modPlayer = player.Calamity();
             modPlayer.ataxiaFire = true;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.18f;
-            player.GetDamage<MeleeDamageClass>() += 0.12f;
+            player.GetDamage<MeleeDamageClass>() += 0.17f;
             player.GetCritChance<MeleeDamageClass>() += 10;
             player.lavaImmune = true;
             player.buffImmune[BuffID.OnFire] = true;

@@ -17,12 +17,12 @@ namespace CalamityMod.Projectiles.Ranged
         private static Asset<Texture2D> sheenAsset;
         private static Asset<Texture2D> bloomAsset;
 
-        public static readonly float UsedCoinGrabRangeMultiplier = 5f;
-        public static readonly float CoinTossForce = 7.33f;
+        public static float UsedCoinGrabRangeMultiplier = 5f;
+        public static float CoinTossForce = 7.33f;
 
         // This variable controls how far shots are allowed to ricochet from one coin to another.
         // This creates a circle around the first coin hit to check for other coins for multi-ricoshots.
-        public static readonly float MaxIntraCoinRicoshotDistance = 1000f;
+        public static float MaxIntraCoinRicoshotDistance = 1000f;
 
         // This variable controls how far shots are allowed to ricochet into NPCs.
         // This is intentionally higher than the intra-coin distance to make it easier to land successful ricoshots.
@@ -31,15 +31,15 @@ namespace CalamityMod.Projectiles.Ranged
         // Superprediction ratio for ricoshot targeting of DSO bullseyes and NPCs.
         // Valid range is 0.0 to 1.0.
         // Because ricoshots have slight frame delays for dramatic effect, setting this too high will make them miss hilariously.
-        public static readonly float SuperpredictionRatio = 0.1f;
+        public static float SuperpredictionRatio = 0.1f;
 
         // The first copper coin struck adds +70% damage. Copper coins beyond the first add +20% damage.
         // Maximum: 4 copper coins = +130%
         //
         // The copper numbers are intentionally significantly lower because Crackshot Colt is pre-boss.
         // That, and the mechanic will always be available because they're dirt cheap. Killing a single enemy lets you perform dozens more ricoshots.
-        internal static float CopperBonus = 0.7f;
-        internal static float CopperMulticoinBonus = 0.2f;
+        public static float CopperBonus = 0.7f;
+        public static float CopperMulticoinBonus = 0.2f;
 
         // The first silver coin struck adds +150% damage. Silver coins beyond the first add +50% damage.
         // Maximum: 4 silver coins = +300%
@@ -47,8 +47,8 @@ namespace CalamityMod.Projectiles.Ranged
         // Midas Prime uses coins from the piggy bank, so you will almost always be using gold.
         // Silver is not much worse than gold, because if you're broke and can't use gold you shouldn't be significantly penalized.
         // However, spending multiple silver on a multi-ricoshot is not too expensive, so the multicoin bonus is much lower.
-        internal static float SilverBonus = 1.5f;
-        internal static float SilverMulticoinBonus = 0.5f;
+        public static float SilverBonus = 1.5f;
+        public static float SilverMulticoinBonus = 0.5f;
 
         // The first gold coin struck adds +200% damage. Gold coins beyond the first add +85% damage.
         // Maximum: 4 gold coins = +455%
@@ -56,8 +56,8 @@ namespace CalamityMod.Projectiles.Ranged
         // The intended usage of Midas Prime is with a single gold coin that you (ideally) pick up afterwards, especially when fighting normal enemies.
         // Gold multicoins are intentionally stronger than copper or silver ones because multi-ricoshots delete the extra gold coins, and that gets pricey FAST.
         // However, they can't be too strong, or the late-game burst damage abusability gets too ridiculous.
-        internal static float GoldBonus = 2f;
-        internal static float GoldMulticoinBonus = 0.85f;
+        public static float GoldBonus = 2f;
+        public static float GoldMulticoinBonus = 0.85f;
 
         // Lifetime of a coin. Defined in terms of updates because Terraria's engine is trash.
         internal static readonly int UpdateCount = 4;
@@ -68,9 +68,9 @@ namespace CalamityMod.Projectiles.Ranged
         private static readonly int FadeoutTime = UpdateCount * 30;
         private static readonly float ForceFadeDistance = 2000f;
 
-        // Number of frames over which coin damage increases to its full value.
-        private static readonly int DamageWindupFrames = 40;
-        internal static int DamageScaleUpTime => UpdateCount * DamageWindupFrames;
+        // Number of frames of delay before firing at the coin guarantees a crit.
+        public static int CritDelayFrames = 22;
+        internal static int CritDelayTime => UpdateCount * CritDelayFrames;
 
         // 0f = copper
         // 1f = silver
@@ -265,12 +265,12 @@ namespace CalamityMod.Projectiles.Ranged
             Color alphaColor = Projectile.GetAlpha(lightColor) * fadingOpacity;
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, frame, alphaColor, Projectile.rotation, frame.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 
-            // As this value goes from 0 to 1, the below sine goes from 0, to 1, to 0.
-            // This means the coin begins shining, then loses its shine afterwards.
-            // Shooting the coin too quickly deals reduced damage.
+            // Shine very sharply peaks around the moment the guaranteed crit starts being available. This is to draw the player's eye.
+            // https://www.desmos.com/calculator/ngfg5fc9ds
             int numUpdatesPassed = CoinLifetime - Projectile.timeLeft;
-            float coinSheenLerp = Math.Clamp(numUpdatesPassed / (DamageScaleUpTime * 2f), 0f, 1f);
-            float sheenOpacity = MathF.Sin(MathHelper.Pi * coinSheenLerp);
+            float x = Math.Clamp((float)numUpdatesPassed / CritDelayTime, 0f, 2f); // interpolant for the crit delay sheen
+            float sheenFunction = Math.Min(MathF.Pow(x + 0.1f, 6f), MathF.Pow(x - 2.1f, 6f));
+            float sheenOpacity = Math.Clamp(sheenFunction, 0f, 1f);
 
             // oh BOY another end begin boy
             if (sheenOpacity > 0f)

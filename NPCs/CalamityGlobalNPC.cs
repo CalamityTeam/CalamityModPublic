@@ -1313,7 +1313,7 @@ namespace CalamityMod.NPCs
             else if (CalamityLists.DestroyerIDs.Contains(npc.type))
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                npc.scale *= CalamityWorld.getFixedBoi ? 2.5f : CalamityWorld.death ? 1.7f : 1.5f;
+                npc.scale *= Main.zenithWorld ? 2.5f : CalamityWorld.death ? 1.7f : 1.5f;
                 npc.npcSlots = 10f;
             }
             else if (npc.type == NPCID.Probe)
@@ -1321,7 +1321,7 @@ namespace CalamityMod.NPCs
                 if (CalamityWorld.death)
                     npc.lifeMax = (int)(npc.lifeMax * 2.0);
 
-                npc.scale *= CalamityWorld.getFixedBoi ? 2f : CalamityWorld.death ? 1.3f : 1.2f;
+                npc.scale *= Main.zenithWorld ? 2f : CalamityWorld.death ? 1.3f : 1.2f;
             }
             else if (npc.type == NPCID.SkeletronPrime)
             {
@@ -2812,7 +2812,7 @@ namespace CalamityMod.NPCs
             }
 
             // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
-            if (CalamityLists.ZeroContactDamageNPCList.Contains(npc.type) && (npc.type != NPCID.RuneWizard || !CalamityWorld.getFixedBoi))
+            if (CalamityLists.ZeroContactDamageNPCList.Contains(npc.type) && (npc.type != NPCID.RuneWizard || !Main.zenithWorld))
                 npc.damage = npc.defDamage = 0;
 
             // Don't do damage for 42 frames after spawning in
@@ -2874,7 +2874,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 if (npc.type == NPCID.QueenBee)
                     return QueenBeeAI.BuffedQueenBeeAI(npc, Mod);
@@ -4396,7 +4396,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.RuneWizard:
-                    if (CalamityWorld.getFixedBoi)
+                    if (Main.zenithWorld)
                         target.AddBuff(BuffType<MiracleBlight>(), 600);
                     break;
 
@@ -5496,7 +5496,7 @@ namespace CalamityMod.NPCs
             if (Main.LocalPlayer.Calamity().trippy || (npc.type == NPCID.KingSlime && CalamityWorld.LegendaryMode && CalamityWorld.revenge))
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
 
-            if (npc.type == NPCID.QueenBee && CalamityWorld.getFixedBoi)
+            if (npc.type == NPCID.QueenBee && Main.zenithWorld)
             {
                 if (npc.life / (float)npc.lifeMax < 0.5f)
                     return new Color(0, 255, 0, npc.alpha);
@@ -5838,7 +5838,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityWorld.getFixedBoi && NPC.AnyNPCs(NPCType<CeaselessVoid.CeaselessVoid>()))
+            if (Main.zenithWorld && NPC.AnyNPCs(NPCType<CeaselessVoid.CeaselessVoid>()))
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

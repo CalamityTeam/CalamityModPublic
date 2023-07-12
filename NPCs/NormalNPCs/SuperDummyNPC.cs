@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override bool PreAI()
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 deathCounter++;
                 // If you don't attack the Dummy for a minute in gfb, it becomes sentient
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.lifeRegen += 2000000;
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot) => CalamityWorld.getFixedBoi;
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot) => Main.zenithWorld;
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 

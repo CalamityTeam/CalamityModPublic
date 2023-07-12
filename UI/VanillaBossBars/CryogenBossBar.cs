@@ -19,7 +19,7 @@ namespace CalamityMod.UI.VanillaBossBars
         public override Asset<Texture2D> GetIconTexture(ref Rectangle? iconFrame)
         {
             // Pyrogen moment
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
                 return ModContent.Request<Texture2D>("CalamityMod/NPCs/Cryogen/Pyrogen_Head_Boss");
             return ModContent.Request<Texture2D>("CalamityMod/NPCs/Cryogen/Cryogen_Phase1_Head_Boss");
         }

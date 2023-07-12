@@ -37,10 +37,10 @@ namespace CalamityMod.Skies
 
         public override void Update(GameTime gameTime)
         {
-            if (CrabIndex == -1 || !CalamityWorld.getFixedBoi)
+            if (CrabIndex == -1 || !Main.zenithWorld)
             {
                 UpdateBossIndex();
-                if (CrabIndex == -1 || !CalamityWorld.getFixedBoi)
+                if (CrabIndex == -1 || !Main.zenithWorld)
                     Filters.Scene["CalamityMod:DrunkCrabulon"].Deactivate();
             }
         }

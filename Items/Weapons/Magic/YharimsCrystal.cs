@@ -42,17 +42,17 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             TooltipLine name = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "ItemName");
-            if (name != null && CalamityWorld.getFixedBoi)
+            if (name != null && Main.zenithWorld)
                 name.Text = "yermes christal";
 
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
-            if (line != null && CalamityWorld.getFixedBoi)
+            if (line != null && Main.zenithWorld)
                 line.Text = "...throughs a pice of dnimite";
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 Projectile.NewProjectile(source, player.Center, Vector2.Zero, ProjectileID.Dynamite, 250, 0, player.whoAmI);
                 return false;

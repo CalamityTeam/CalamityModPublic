@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.Ravager
                     num285++;
                 }
             }
-            else if (Main.netMode != NetmodeID.MultiplayerClient && !CalamityWorld.getFixedBoi) //GFB does something else
+            else if (Main.netMode != NetmodeID.MultiplayerClient && !Main.zenithWorld) //GFB does something else
             {
                 NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<RavagerHead2>(), NPC.whoAmI);
             }

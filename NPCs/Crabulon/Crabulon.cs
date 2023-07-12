@@ -540,7 +540,7 @@ namespace CalamityMod.NPCs.Crabulon
                             int num624 = Dust.NewDust(new Vector2(NPC.position.X - 20f, NPC.position.Y + NPC.height), NPC.width + 20, 4, 56, 0f, 0f, 100, default, 1.5f);
                             Main.dust[num624].velocity *= 0.2f;
                         }
-                        if (CalamityWorld.getFixedBoi)
+                        if (Main.zenithWorld)
                         {
                             int x = num622 / 16;
                             int y = (int)(NPC.position.Y + NPC.height) / 16;
@@ -769,7 +769,7 @@ namespace CalamityMod.NPCs.Crabulon
             }
         }
 
-        public override Color? GetAlpha(Color drawColor) => CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, drawColor.A) * NPC.Opacity : null;
+        public override Color? GetAlpha(Color drawColor) => Main.zenithWorld ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, drawColor.A) * NPC.Opacity : null;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -783,10 +783,10 @@ namespace CalamityMod.NPCs.Crabulon
             Texture2D glowWalk = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAltGlow").Value;
             Texture2D textureAttack = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAttack").Value;
             Texture2D glowAttack = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAttackGlow").Value;
-            Color colorToShift = CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) : Color.Cyan;
+            Color colorToShift = Main.zenithWorld ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) : Color.Cyan;
             Color glowColor = Color.Lerp(Color.White, colorToShift, 0.5f);
 
-            int ClonesOnEachSide = CalamityWorld.getFixedBoi ? 2 : 0;
+            int ClonesOnEachSide = Main.zenithWorld ? 2 : 0;
             for (int c = 0 - ClonesOnEachSide; c < 1 + ClonesOnEachSide; c++)
             {
                 Vector2 drawOrigin = new Vector2(textureIdle.Width / 2, textureIdle.Height / Main.npcFrameCount[NPC.type] / 2);
@@ -871,7 +871,7 @@ namespace CalamityMod.NPCs.Crabulon
             DownedBossSystem.downedCrabulon = true;
             CalamityNetcode.SyncWorld();
 
-            if (CalamityWorld.getFixedBoi && Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.zenithWorld && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 for (int i = 0; i < Main.rand.Next(10, 23); i++)
                 {

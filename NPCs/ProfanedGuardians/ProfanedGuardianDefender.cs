@@ -213,7 +213,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     }
                 }
 
-                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && CalamityWorld.getFixedBoi && Main.netMode != NetmodeID.MultiplayerClient)
+                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && Main.zenithWorld && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     // gain more health once the healer's channel heal is done
                     NPC.lifeMax += 7500;
@@ -388,7 +388,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
 
             // This causes bugs due to the return
-            /*if (CalamityWorld.getFixedBoi)
+            /*if (Main.zenithWorld)
             {
                 if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
                 {
@@ -749,7 +749,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                 texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlow").Value;
                 Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
-                if (CalamityWorld.getFixedBoi)
+                if (Main.zenithWorld)
                 {
                     texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlowNight").Value;
                     color37 = Color.Cyan;
@@ -904,7 +904,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             // eat projectiles but take more damage based on piercing in the zenith seed
-            if (CalamityWorld.getFixedBoi && !projectile.minion)
+            if (Main.zenithWorld && !projectile.minion)
             {
                 if (projectile.penetrate <= -1 || projectile.penetrate > 5)
                 {

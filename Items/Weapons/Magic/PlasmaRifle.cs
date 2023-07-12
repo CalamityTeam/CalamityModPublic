@@ -4,6 +4,7 @@ using CalamityMod.Rarities;
 using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,9 +14,12 @@ namespace CalamityMod.Items.Weapons.Magic
     public class PlasmaRifle : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
+
+        public static readonly SoundStyle HeavyShotSound = new("CalamityMod/Sounds/Item/PlasmaRifleMain");
+        public static readonly SoundStyle FastShotSound = new("CalamityMod/Sounds/Item/PlasmaRifleAlt");
+
         public override void SetStaticDefaults()
         {
-           
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
@@ -46,11 +50,11 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                Item.UseSound = CommonCalamitySounds.PlasmaBoltSound;
+                Item.UseSound = FastShotSound;
             }
             else
             {
-                Item.UseSound = CommonCalamitySounds.PlasmaBlastSound;
+                Item.UseSound = HeavyShotSound;
             }
             return base.CanUseItem(player);
         }

@@ -1391,7 +1391,7 @@ namespace CalamityMod.CalPlayer
                 if (necroReviveCounter >= NecroArmorSetChange.PostMortemDuration * 60)
                     Player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.NecroRevive").Format(Player.name)), 1000, -1);
                 else if (necroReviveCounter % 60 == 59)
-                    SoundEngine.PlaySound(SoundID.Item17, Player.Center);
+                    SoundEngine.PlaySound(NecroArmorSetChange.TimerSound, Player.Center);
             }
 
             // Silva invincibility effects
@@ -2591,6 +2591,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.statDefense += 4;
                 Player.GetCritChance<MeleeDamageClass>() -= 2;
+                Player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
             }
 
             if (giantPearl)
@@ -2833,8 +2834,7 @@ namespace CalamityMod.CalPlayer
 
             if (bloodyWormTooth)
             {
-                Player.GetDamage<MeleeDamageClass>() += 0.07f;
-                Player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
+                Player.GetDamage<MeleeDamageClass>() += 0.1f;
             }
 
             if (filthyGlove)
@@ -3451,8 +3451,8 @@ namespace CalamityMod.CalPlayer
 
             if (badgeOfBravery)
             {
-                Player.GetDamage<MeleeDamageClass>() += 0.05f;
-                Player.GetCritChance<MeleeDamageClass>() += 5;
+                Player.GetDamage<MeleeDamageClass>() += 0.1f;
+                Player.GetCritChance<MeleeDamageClass>() += 10;
             }
 
             // Amalgam boosts

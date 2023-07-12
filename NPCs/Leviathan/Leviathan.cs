@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (Main.getGoodWorld)
                 NPC.scale *= 1.3f;
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
                 NPC.scale *= 0.3f; 
         }
 
@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (soundDelay > 0)
                 soundDelay--;
 
-            extrapitch = CalamityWorld.getFixedBoi ? 0.3f : 0f;
+            extrapitch = Main.zenithWorld ? 0.3f : 0f;
 
             if (Main.rand.NextBool(600) && !spawnAnimation)
                 SoundEngine.PlaySound(((sirenAlive && !death) ? soundChoice : soundChoiceRage) with { Pitch = soundChoice.Pitch + extrapitch }, vector);
@@ -395,7 +395,7 @@ namespace CalamityMod.NPCs.Leviathan
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
 
-                                if (CalamityWorld.getFixedBoi)
+                                if (Main.zenithWorld)
                                 {
                                     type = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? ProjectileID.BouncyBoulder : ProjectileID.Boulder;
                                     vector40.Y -= 5; //Shoot a bit more up since boulders are affected by gravity
@@ -403,7 +403,7 @@ namespace CalamityMod.NPCs.Leviathan
                                 }
 
                                 int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer);
-                                if (CalamityWorld.getFixedBoi)
+                                if (Main.zenithWorld)
                                     Main.projectile[proj].scale *= 5f;
 
                                 if (soundDelay <= 0)
@@ -516,7 +516,7 @@ namespace CalamityMod.NPCs.Leviathan
                         return;
                     }
 
-                    float gfbchargeboost = CalamityWorld.getFixedBoi ? 1100 : 0;
+                    float gfbchargeboost = Main.zenithWorld ? 1100 : 0;
                     float chargeDistance = ((sirenAlive && !phase4) ? 1100f : 900f) * NPC.scale + gfbchargeboost;
                     chargeDistance -= 50f * enrageScale;
                     if (!sirenAlive || phase4)

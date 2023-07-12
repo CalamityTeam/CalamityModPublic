@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 typeName = CalamityUtils.GetTextValue("NPCs.BoomerDuke");
             }
@@ -476,7 +476,7 @@ namespace CalamityMod.NPCs.OldDuke
             if (hurtInfo.Damage > 0)
             {
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 480);
-                if (CalamityWorld.getFixedBoi)
+                if (Main.zenithWorld)
                 {
                     target.AddBuff(BuffID.Rabies, Main.rand.Next(180, 601));
                 }

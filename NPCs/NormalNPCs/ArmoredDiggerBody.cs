@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (flag)
             {
-                if (!CalamityWorld.getFixedBoi)
+                if (!Main.zenithWorld)
                 {
                     NPC.life = 0;
                     NPC.HitEffect(0, 10.0);
@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num6 *= num8;
                         num7 *= num8;
                         int num9 = 30;
-                        int num10 = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<ProvidenceCrystalShard>() : ProjectileID.SaucerScrap; 
+                        int num10 = Main.zenithWorld ? ModContent.ProjectileType<ProvidenceCrystalShard>() : ProjectileID.SaucerScrap; 
                         vector.X += num6 * 5f;
                         vector.Y += num7 * 5f;
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num6, num7, num10, num9, 0f, Main.myPlayer, 0f, 0f);
@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 typeName = CalamityUtils.GetTextValue("NPCs.MechanizedSerpent");
             }
@@ -190,7 +190,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override Color? GetAlpha(Color drawColor)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 Color lightColor = Color.Orange * drawColor.A;
                 return lightColor * NPC.Opacity;

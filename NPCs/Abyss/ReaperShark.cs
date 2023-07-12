@@ -605,7 +605,7 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.netUpdate = true;
                         return;
                     }
-                    if (CalamityWorld.getFixedBoi && Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] % 5 == 0)
+                    if (Main.zenithWorld && Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] % 5 == 0)
                     {
                         Vector2 direction = vector - player.Center;
                         direction.Normalize();

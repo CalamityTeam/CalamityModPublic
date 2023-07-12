@@ -189,7 +189,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 NPC.localAI[1] = 0f;
             }
             float num17 = death ? 13.5f : 10f;
-            if (Main.player[NPC.target].dead || (!CalamityWorld.getFixedBoi && (double)Main.player[NPC.target].position.Y < Main.rockLayer * 16.0))
+            if (Main.player[NPC.target].dead || (!Main.zenithWorld && (double)Main.player[NPC.target].position.Y < Main.rockLayer * 16.0))
             {
                 flag2 = false;
                 NPC.velocity.Y = NPC.velocity.Y + 1f;
@@ -459,13 +459,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             npcLoot.Add(ModContent.ItemType<DemonicBoneAsh>(), 1, 2, 4);
             npcLoot.Add(ModContent.ItemType<MysteriousCircuitry>(), 1, 4, 8);
             npcLoot.Add(ModContent.ItemType<DubiousPlating>(), 1, 4, 8);
-            npcLoot.AddIf(() => CalamityWorld.getFixedBoi, ModContent.ItemType<UnholyEssence>(), 1, 3, 6);
-            npcLoot.AddIf(() => CalamityWorld.getFixedBoi, ModContent.ItemType<SanctifiedSpark>(), 10);
+            npcLoot.AddIf(() => Main.zenithWorld, ModContent.ItemType<UnholyEssence>(), 1, 3, 6);
+            npcLoot.AddIf(() => Main.zenithWorld, ModContent.ItemType<SanctifiedSpark>(), 10);
         }
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 typeName = CalamityUtils.GetTextValue("NPCs.MechanizedSerpent");
             }
@@ -473,7 +473,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override Color? GetAlpha(Color drawColor)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 Color lightColor = Color.Orange * drawColor.A;
                 return lightColor * NPC.Opacity;

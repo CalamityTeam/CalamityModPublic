@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.Cryogen
             if (Main.getGoodWorld)
                 NPC.scale *= 0.8f;
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 NPC.Calamity().VulnerableToHeat = false;
                 NPC.Calamity().VulnerableToCold = true;
@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void BossHeadSlot(ref int index)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
                 index = pyroIconIndex;
             else
                 index = cryoIconIndex;
@@ -213,14 +213,14 @@ namespace CalamityMod.NPCs.Cryogen
             bool phase7 = lifeRatio < (death ? 0.25f : 0.15f) && revenge;
 
             // Projectile and sound variables
-            int iceBlast = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneBarrage>() :  ModContent.ProjectileType<IceBlast>();
-            int iceBomb = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<IceBomb>();
-            int iceRain = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneBarrage>() : ModContent.ProjectileType<IceRain>();
-            int dustType = CalamityWorld.getFixedBoi ? 235 : 67;
+            int iceBlast = Main.zenithWorld ? ModContent.ProjectileType<BrimstoneBarrage>() :  ModContent.ProjectileType<IceBlast>();
+            int iceBomb = Main.zenithWorld ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<IceBomb>();
+            int iceRain = Main.zenithWorld ? ModContent.ProjectileType<BrimstoneBarrage>() : ModContent.ProjectileType<IceRain>();
+            int dustType = Main.zenithWorld ? 235 : 67;
 
-            SoundStyle frostSound = CalamityWorld.getFixedBoi ? SoundID.Item20 : SoundID.Item28;
-            NPC.HitSound = CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound;
-            NPC.DeathSound = CalamityWorld.getFixedBoi ? SoundID.NPCDeath14 : DeathSound;
+            SoundStyle frostSound = Main.zenithWorld ? SoundID.Item20 : SoundID.Item28;
+            NPC.HitSound = Main.zenithWorld ? SoundID.NPCHit41 : HitSound;
+            NPC.DeathSound = Main.zenithWorld ? SoundID.NPCDeath14 : DeathSound;
 
             // Reset damage
             NPC.damage = NPC.defDamage;
@@ -290,7 +290,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
             {
-                int spawnType = CalamityWorld.getFixedBoi ? NPCID.RedDevil : NPCID.IceGolem;
+                int spawnType = Main.zenithWorld ? NPCID.RedDevil : NPCID.IceGolem;
                 if (!NPC.AnyNPCs(spawnType))
                 {
                     int num167 = 1000;
@@ -338,7 +338,7 @@ namespace CalamityMod.NPCs.Cryogen
                 if (calamityGlobalNPC.newAI[3] >= (bossRush ? 660f : 900f))
                 {
                     calamityGlobalNPC.newAI[3] = 0f;
-                    SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                    SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                     int totalProjectiles = 3;
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     int type = iceBomb;
@@ -369,7 +369,7 @@ namespace CalamityMod.NPCs.Cryogen
                         NPC.TargetClosest();
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
-                            SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                            SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                             int totalProjectiles = bossRush ? 24 : 16;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = iceBlast;
@@ -429,7 +429,7 @@ namespace CalamityMod.NPCs.Cryogen
                             NPC.TargetClosest();
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int totalProjectiles = bossRush ? 18 : 12;
                                 float radians = MathHelper.TwoPi / totalProjectiles;
                                 int type = iceBlast;
@@ -503,7 +503,7 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceRain;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float maxVelocity = 9f + enrageScale;
@@ -603,7 +603,7 @@ namespace CalamityMod.NPCs.Cryogen
                             NPC.TargetClosest();
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int totalProjectiles = bossRush ? 18 : 12;
                                 float radians = MathHelper.TwoPi / totalProjectiles;
                                 int type = iceBlast;
@@ -649,7 +649,7 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceRain;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float maxVelocity = 9f + enrageScale;
@@ -751,7 +751,7 @@ namespace CalamityMod.NPCs.Cryogen
                         NPC.localAI[0] = 0f;
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
-                            SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                            SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                             int totalProjectiles = bossRush ? 18 : 12;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = iceBlast;
@@ -861,7 +861,7 @@ namespace CalamityMod.NPCs.Cryogen
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
                                 NPC.localAI[0] = 0f;
-                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceRain;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float velocity = 9f + enrageScale;
@@ -921,13 +921,13 @@ namespace CalamityMod.NPCs.Cryogen
                     int chance = 100;
                     if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
                         chance = 20;
-                    if (CalamityWorld.getFixedBoi)
+                    if (Main.zenithWorld)
                         chance = 1;
 
                     if (Main.rand.NextBool(chance))
                     {
-                        string key = CalamityWorld.getFixedBoi ? "Mods.CalamityMod.Status.Boss.PyrogenBossText" : "Mods.CalamityMod.Status.Boss.CryogenBossText";
-                        Color messageColor = CalamityWorld.getFixedBoi ? Color.Orange : Color.Cyan;
+                        string key = Main.zenithWorld ? "Mods.CalamityMod.Status.Boss.PyrogenBossText" : "Mods.CalamityMod.Status.Boss.CryogenBossText";
+                        Color messageColor = Main.zenithWorld ? Color.Orange : Color.Cyan;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                 }
@@ -944,7 +944,7 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceBlast;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float velocity = 1.5f + enrageScale * 0.5f;
@@ -955,7 +955,7 @@ namespace CalamityMod.NPCs.Cryogen
                                     float radians = MathHelper.TwoPi / totalProjectiles;
                                     float newVelocity = velocity - (velocity * (phase7 ? 0.25f : 0.5f) * i);
                                     float velocityX = 0f;
-                                    float ai = CalamityWorld.getFixedBoi ? 2f : NPC.target;
+                                    float ai = Main.zenithWorld ? 2f : NPC.target;
                                     if (i > 0)
                                     {
                                         double angleA = radians * (phase7 ? 0.25 : 0.5) * (totalSpreads - i);
@@ -1058,7 +1058,7 @@ namespace CalamityMod.NPCs.Cryogen
                 if (calamityGlobalNPC.newAI[3] >= (bossRush ? 50f : 75f))
                 {
                     calamityGlobalNPC.newAI[3] = 0f;
-                    SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                    SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                     int totalProjectiles = 2;
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     int type = iceBomb;
@@ -1137,9 +1137,9 @@ namespace CalamityMod.NPCs.Cryogen
 
         private void HandlePhaseTransition(int newPhase)
         {
-            SoundStyle sound = CalamityWorld.getFixedBoi ? SoundID.NPCDeath14 : TransitionSound;
+            SoundStyle sound = Main.zenithWorld ? SoundID.NPCDeath14 : TransitionSound;
             SoundEngine.PlaySound(sound, NPC.Center);
-            if (Main.netMode != NetmodeID.Server && !CalamityWorld.getFixedBoi)
+            if (Main.netMode != NetmodeID.Server && !Main.zenithWorld)
             {
                 int chipGoreAmount = newPhase >= 5 ? 3 : newPhase >= 3 ? 2 : 1;
                 for (int i = 1; i < chipGoreAmount; i++)
@@ -1175,7 +1175,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 float compactness = NPC.width * 0.6f;
                 if (compactness < 10f)
@@ -1204,13 +1204,13 @@ namespace CalamityMod.NPCs.Cryogen
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            NPC.DrawBackglow(CalamityWorld.getFixedBoi ? Color.Red : BackglowColor, 4f, spriteEffects, NPC.frame, screenPos);
+            NPC.DrawBackglow(Main.zenithWorld ? Color.Red : BackglowColor, 4f, spriteEffects, NPC.frame, screenPos);
 
             Vector2 origin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
             Vector2 drawPos = NPC.Center - screenPos;
             drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            Color overlay = CalamityWorld.getFixedBoi ? Color.Red : drawColor;
+            Color overlay = Main.zenithWorld ? Color.Red : drawColor;
             spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(overlay), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
             return false;
@@ -1224,7 +1224,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 typeName = CalamityUtils.GetTextValue("NPCs.Pyrogen");
             }
@@ -1232,7 +1232,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void HitEffect(NPC.HitInfo hit)
         {
-            int dusttype = CalamityWorld.getFixedBoi ? 235 : 67;
+            int dusttype = Main.zenithWorld ? 235 : 67;
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, dusttype, hit.HitDirection, -1f, 0, default, 1f);
@@ -1257,7 +1257,7 @@ namespace CalamityMod.NPCs.Cryogen
                     num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                if (Main.netMode != NetmodeID.Server && !CalamityWorld.getFixedBoi)
+                if (Main.netMode != NetmodeID.Server && !Main.zenithWorld)
                 {
                     float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     for (int i = 1; i < 4; i++)
@@ -1370,7 +1370,7 @@ namespace CalamityMod.NPCs.Cryogen
         {
             if (hurtInfo.Damage > 0)
             {
-                if (CalamityWorld.getFixedBoi)
+                if (Main.zenithWorld)
                 {
                     target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
                     target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);

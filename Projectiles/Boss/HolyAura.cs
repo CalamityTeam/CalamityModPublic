@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Boss
                 Color color = Main.hslToRgb(hue[i] % 1f, 1f, 0.5f) * colorChangeAmt * colorChangeAmt2;
 
                 bool underworld = Projectile.ai[0] == 2f;
-                if (!CalamityWorld.getFixedBoi)
+                if (!Main.zenithWorld)
                 {
                     if (Main.dayTime)
                     {

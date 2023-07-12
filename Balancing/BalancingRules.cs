@@ -1,11 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Balancing
 {
     public interface IBalancingRule
     {
-        bool AppliesTo(NPC npc, NPCHitContext hitContext);
+        bool AppliesTo(NPC npc, NPC.HitModifiers modifiers, Projectile? projectile);
 
         void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers);
     }
@@ -13,16 +15,17 @@ namespace CalamityMod.Balancing
     public class ClassResistBalancingRule : IBalancingRule
     {
         public float DamageMultiplier;
-        public ClassType ApplicableClass;
-        public ClassResistBalancingRule(float damageMultiplier, ClassType classType)
+        public DamageClass ApplicableClass;
+        public ClassResistBalancingRule(float damageMultiplier, DamageClass dc)
         {
             DamageMultiplier = damageMultiplier;
-            ApplicableClass = classType;
+            ApplicableClass = dc;
         }
 
-        public bool AppliesTo(NPC npc, NPCHitContext hitContext)
+        public bool AppliesTo(NPC npc, NPC.HitModifiers modifiers, Projectile? projectile)
         {
-            return hitContext.Class == ApplicableClass;
+            // E.g. so that a melee resist also applies to MeleeNoSpeed, TrueMelee, and TrueMeleeNoSpeed.
+            return ApplicableClass.CountsAsClass(modifiers.DamageType);
         }
 
         public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
@@ -46,7 +49,7 @@ namespace CalamityMod.Balancing
             Requirement = npcApplicationRequirement;
         }
 
-        public bool AppliesTo(NPC npc, NPCHitContext hitContext) => Requirement(npc);
+        public bool AppliesTo(NPC npc, NPC.HitModifiers modifiers, Projectile? projectile) => Requirement(npc);
 
         // This "balancing" rule doesn't actually perform any changes. It simply serves as a means of enforcing NPC-specific requirements, and should be used only as a filter.
         // As such, this method is empty.
@@ -58,7 +61,10 @@ namespace CalamityMod.Balancing
         public float DamageMultiplier;
         public PierceResistBalancingRule(float damageMultiplier) => DamageMultiplier = damageMultiplier;
 
-        public bool AppliesTo(NPC npc, NPCHitContext hitContext) => hitContext.Pierce > 1 || hitContext.Pierce == -1;
+        public bool AppliesTo(NPC npc, NPC.HitModifiers modifiers, Projectile? projectile)
+        {
+            return projectile is not null && (projectile.maxPenetrate > 1 || projectile.maxPenetrate == -1);
+        }
 
         public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
         {
@@ -82,14 +88,9 @@ namespace CalamityMod.Balancing
             ApplicableProjectileTypes = projTypes;
         }
 
-        public bool AppliesTo(NPC npc, NPCHitContext hitContext)
+        public bool AppliesTo(NPC npc, NPC.HitModifiers modifiers, Projectile? projectile)
         {
-            if (hitContext.DamageSource != DamageSourceType.FriendlyProjectile)
-                return false;
-            if (!ApplicableProjectileTypes.Contains(hitContext.ProjectileType ?? -1))
-                return false;
-
-            return true;
+            return projectile is not null && ApplicableProjectileTypes.Contains(projectile.type);
         }
 
         public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
@@ -115,12 +116,9 @@ namespace CalamityMod.Balancing
             Requirement = projApplicationRequirement;
         }
 
-        public bool AppliesTo(NPC npc, NPCHitContext hitContext)
+        public bool AppliesTo(NPC npc, NPC.HitModifiers modifiers, Projectile? projectile)
         {
-            if (hitContext.DamageSource != DamageSourceType.FriendlyProjectile)
-                return false;
-
-            return Requirement(Main.projectile[hitContext.ProjectileIndex.Value]);
+            return projectile is not null && Requirement(projectile);
         }
 
         public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
@@ -135,6 +133,7 @@ namespace CalamityMod.Balancing
         }
     }
 
+    // TODO -- this rule type should be deleted once stealth is finished as its own class
     public class StealthStrikeBalancingRule : IBalancingRule
     {
         public float DamageMultiplier;
@@ -145,42 +144,9 @@ namespace CalamityMod.Balancing
             ApplicableProjectileTypes = projTypes;
         }
 
-        public bool AppliesTo(NPC npc, NPCHitContext hitContext)
+        public bool AppliesTo(NPC npc, NPC.HitModifiers modifiers, Projectile? projectile)
         {
-            if (hitContext.DamageSource != DamageSourceType.FriendlyProjectile)
-                return false;
-            if (!ApplicableProjectileTypes.Contains(hitContext.ProjectileType ?? -1))
-                return false;
-
-            return hitContext.IsStealthStrike;
-        }
-
-        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
-        {
-            // Changed from FinalDamage to SourceDamage to ensure that resists will also apply to on-hit effects.
-            // See this message in the Calamity Dev Discord for full rationale.
-            // https://discord.com/channels/458428222061936650/459003706575421440/1128002932000960592
-            //
-            // There is one limitation to this approach. Flat bonus damage, aka whip tags, won't be reduced.
-            // In the case that summons or whips need to be resisted, the best move is to consider them entirely separately.
-            modifiers.SourceDamage *= DamageMultiplier;
-        }
-    }
-
-    public class TrueMeleeResistBalancingRule : IBalancingRule
-    {
-        public float DamageMultiplier;
-        public TrueMeleeResistBalancingRule(float damageMultiplier)
-        {
-            DamageMultiplier = damageMultiplier;
-        }
-
-        public bool AppliesTo(NPC npc, NPCHitContext hitContext)
-        {
-            if (hitContext.DamageSource == DamageSourceType.FriendlyProjectile)
-                return Main.projectile[hitContext.ProjectileIndex.Value].IsTrueMelee();
-
-            return hitContext.DamageSource == DamageSourceType.TrueMeleeSwing;
+            return projectile is not null && (modifiers.DamageType == StealthDamageClass.Instance || projectile.Calamity().stealthStrike);
         }
 
         public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)

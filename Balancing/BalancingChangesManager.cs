@@ -35,6 +35,9 @@ namespace CalamityMod.Balancing
         // into one single resist that may have to be split later.
         internal static void Load()
         {
+            // Dirty shorthand for true melee resists, because they're super common and other class resists aren't.
+            IBalancingRule ResistTrueMelee(float f) => new ClassResistBalancingRule(f, TrueMeleeDamageClass.Instance);
+
             // Declare specific filters.
             bool DragonRageFilter(Projectile p) =>
                 p.type == ProjectileType<DragonRageStaff>() || p.type == ProjectileType<DragonRageFireball>() || (p.type == ProjectileType<FuckYou>() && p.CountsAsClass<MeleeDamageClass>());
@@ -85,17 +88,17 @@ namespace CalamityMod.Balancing
 
             #region Desert Scourge
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DesertScourgeIDs, Do(new TrueMeleeResistBalancingRule(0.5f))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DesertScourgeIDs, Do(ResistTrueMelee(0.5f))));
             #endregion
 
             #region Crabulon
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Crabulon>(), new TrueMeleeResistBalancingRule(0.5f)));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Crabulon>(), ResistTrueMelee(0.5f)));
             #endregion
 
             #region Brain of Cthulhu: Creepers
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.Creeper, Do(new TrueMeleeResistBalancingRule(0.5f))));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.Creeper, Do(ResistTrueMelee(0.5f))));
 
             // 50% resist to Demon Scythes.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.Creeper, Do(new ProjectileResistBalancingRule(0.5f, ProjectileID.DemonScythe))));
@@ -103,7 +106,7 @@ namespace CalamityMod.Balancing
 
             #region Eater of Worlds
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.EaterofWorldsIDs, Do(new TrueMeleeResistBalancingRule(0.5f))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.EaterofWorldsIDs, Do(ResistTrueMelee(0.5f))));
 
             // 50% resist to Demon Scythes.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.EaterofWorldsIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileID.DemonScythe))));
@@ -117,12 +120,12 @@ namespace CalamityMod.Balancing
 
             #region The Perforators
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.PerforatorIDs, Do(new TrueMeleeResistBalancingRule(0.5f))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.PerforatorIDs, Do(ResistTrueMelee(0.5f))));
             #endregion
 
             #region Aquatic Scourge
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new TrueMeleeResistBalancingRule(0.5f))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(ResistTrueMelee(0.5f))));
 
             // 50% resist to Dormant Brimseekers.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<DormantBrimseekerBab>()))));
@@ -133,7 +136,7 @@ namespace CalamityMod.Balancing
 
             #region The Destroyer
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new TrueMeleeResistBalancingRule(0.5f))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(ResistTrueMelee(0.5f))));
 
             // 50% resist to Dormant Brimseekers.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<DormantBrimseekerBab>()))));
@@ -147,7 +150,7 @@ namespace CalamityMod.Balancing
 
             #region Ravager
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<RavagerBody>(), new TrueMeleeResistBalancingRule(0.5f)));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<RavagerBody>(), ResistTrueMelee(0.5f)));
             #endregion
 
             #region Duke Fishron
@@ -171,7 +174,7 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AstrumDeusIDs, Do(new ProjectileResistBalancingRule(0.25f, ProjectileType<PlaguenadeBee>(), ProjectileType<PlaguenadeProj>()))));
 
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AstrumDeusIDs, Do(new TrueMeleeResistBalancingRule(0.5f))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AstrumDeusIDs, Do(ResistTrueMelee(0.5f))));
 
             // 25% resist to Resurrection Butterfly.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AstrumDeusIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<SakuraBullet>(), ProjectileType<PurpleButterfly>()))));
@@ -184,7 +187,7 @@ namespace CalamityMod.Balancing
 
             #region Profaned Guardians
             // 50% resist to true melee for the Defense Guardian's rocks.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<ProfanedRocks>(), new TrueMeleeResistBalancingRule(0.5f)));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<ProfanedRocks>(), ResistTrueMelee(0.5f)));
             #endregion
 
             #region Providence
@@ -194,12 +197,12 @@ namespace CalamityMod.Balancing
 
             #region Ceaseless Void: Dark Energies
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<DarkEnergy>(), new TrueMeleeResistBalancingRule(0.5f)));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<DarkEnergy>(), ResistTrueMelee(0.5f)));
             #endregion
 
             #region Storm Weaver
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.StormWeaverIDs, Do(new TrueMeleeResistBalancingRule(0.5f))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.StormWeaverIDs, Do(ResistTrueMelee(0.5f))));
 
             // 50% resist to Dazzling Stabbers.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.StormWeaverIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<DazzlingStabber>()))));
@@ -244,7 +247,7 @@ namespace CalamityMod.Balancing
 
             #region Exo Mechs: Ares
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new TrueMeleeResistBalancingRule(0.5f))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(ResistTrueMelee(0.5f))));
 
             // 30% resist to the Spin Throw part of the Ark of the Cosmos' combo.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.7f, AotCThrowCombo))));
@@ -276,7 +279,7 @@ namespace CalamityMod.Balancing
 
             #region Exo Mechs: Thanatos
             // 65% resist to true melee.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new TrueMeleeResistBalancingRule(0.35f))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(ResistTrueMelee(0.35f))));
 
             // 65% resist to Enforcer projectiles.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.35f, ProjectileType<EssenceFlame2>()))));
@@ -388,14 +391,12 @@ namespace CalamityMod.Balancing
 
         public static void ApplyFromProjectile(NPC npc, ref NPC.HitModifiers modifiers, Projectile proj)
         {
-            NPCHitContext hitContext = NPCHitContext.ConstructFromProjectile(proj);
-
             // Apply universal balancing rules.
             foreach (IBalancingRule[] balancingRules in UniversalBalancingChanges)
             {
                 foreach (IBalancingRule balancingRule in balancingRules)
                 {
-                    if (balancingRule.AppliesTo(npc, hitContext))
+                    if (balancingRule.AppliesTo(npc, modifiers, proj))
                         balancingRule.ApplyBalancingChange(npc, ref modifiers);
                 }
             }
@@ -408,7 +409,7 @@ namespace CalamityMod.Balancing
 
                 foreach (IBalancingRule balancingRule in balanceChange.BalancingRules)
                 {
-                    if (balancingRule.AppliesTo(npc, hitContext))
+                    if (balancingRule.AppliesTo(npc, modifiers, proj))
                         balancingRule.ApplyBalancingChange(npc, ref modifiers);
                 }
             }

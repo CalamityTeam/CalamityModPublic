@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             if (hurtInfo.Damage > 0)
             {
-                if (CalamityWorld.getFixedBoi) // it is the plague, you get very sick.
+                if (Main.zenithWorld) // it is the plague, you get very sick.
                 {
                     target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 300, true);
                     target.AddBuff(BuffID.Poisoned, 300, true);
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
             NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
             NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
-            NPC.width = NPC.height = CalamityWorld.getFixedBoi ? 300 : 216;
+            NPC.width = NPC.height = Main.zenithWorld ? 300 : 216;
             NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
             NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
             for (int num621 = 0; num621 < 15; num621++)

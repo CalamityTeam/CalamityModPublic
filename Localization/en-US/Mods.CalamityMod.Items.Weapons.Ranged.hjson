@@ -682,9 +682,8 @@ Megalodon: {
 	DisplayName: Megalodon
 	Tooltip:
 		'''
-		Rapidly fires a storm of bullets
-		Fires streams of water every other shot
-		50% chance to save ammo
+		Rapidly fires alternating bullets and pressurized water jets
+		Water jets consume no ammo
 		'''
 }
 
@@ -973,10 +972,9 @@ Seadragon: {
 	DisplayName: Seadragon
 	Tooltip:
 		'''
-		Unleashes a rapid deluge of bullets
-		Fires streams of water every other shot
-		Fires a homing rocket every 18 shots, which explodes into fire shards on death
-		50% chance to save ammo
+		Unleashes a deluge of alternating bullets and pressurized water jets
+		Additionally fires rockets and emits devastating muzzle blasts
+		Water jets consume no ammo
 		'''
 }
 

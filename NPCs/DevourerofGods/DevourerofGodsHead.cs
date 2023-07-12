@@ -391,7 +391,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             // Sound pitch
-            extrapitch = CalamityWorld.getFixedBoi ? 0.3f : 0f;
+            extrapitch = Main.zenithWorld ? 0.3f : 0f;
 
             // Velocity variables
             float fallSpeed = bossRush ? 19f : death ? 17.5f : 16f;
@@ -1571,7 +1571,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (!tail && NPC.ai[0] == 0f)
                     {
                         int Previous = NPC.whoAmI;
-                        if (CalamityWorld.getFixedBoi)
+                        if (Main.zenithWorld)
                         {
                             maxLength = 2;
                             minLength = 1;
@@ -2650,7 +2650,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             // viable???, done here since it's conditional
-            if (CalamityWorld.getFixedBoi && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
+            if (Main.zenithWorld && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
             {
                 modifiers.SourceDamage *= 40f;
             }

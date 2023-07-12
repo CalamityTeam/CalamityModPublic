@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
             if (Main.getGoodWorld)
                 NPC.scale *= 0.8f;
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
                 NPC.scale *= 1.5f;
         }
 
@@ -230,7 +230,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            if (NPC.ai[0] == 0f || (slimePhaseHP && CalamityWorld.getFixedBoi))
+            if (NPC.ai[0] == 0f || (slimePhaseHP && Main.zenithWorld))
             {
                 NPCTexture = TextureAssets.Npc[NPC.type].Value;
                 GlowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumAureus/AstrumAureusGlow").Value;
@@ -283,7 +283,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             float rotation = NPC.rotation;
             float offsetY = NPC.gfxOffY;
             Color color36 = Color.White;
-            if (CalamityWorld.getFixedBoi && slimePhaseHP)
+            if (Main.zenithWorld && slimePhaseHP)
             {
                 color36 = slimePhase == 0 ? Color.Yellow : Color.Violet;
             }
@@ -310,14 +310,14 @@ namespace CalamityMod.NPCs.AstrumAureus
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
             vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-            Color toUse = CalamityWorld.getFixedBoi && slimePhaseHP ? color36 : drawColor;
+            Color toUse = Main.zenithWorld && slimePhaseHP ? color36 : drawColor;
             spriteBatch.Draw(NPCTexture, vector43, frame, NPC.GetAlpha(toUse), rotation, vector11, scale, spriteEffects, 0f);
 
-            if (NPC.ai[0] != 1 || (slimePhaseHP && CalamityWorld.getFixedBoi)) //draw only if not recharging
+            if (NPC.ai[0] != 1 || (slimePhaseHP && Main.zenithWorld)) //draw only if not recharging
             {
                 Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.Gold);
                 Color color40 = Color.Lerp(Color.White, color, 0.5f);
-                if (CalamityWorld.getFixedBoi && slimePhaseHP)
+                if (Main.zenithWorld && slimePhaseHP)
                 {
                     color40 = slimePhase == 0 ? Color.Violet : Color.Yellow;
                 }

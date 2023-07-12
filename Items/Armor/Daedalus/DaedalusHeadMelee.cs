@@ -36,14 +36,13 @@ namespace CalamityMod.Items.Armor.Daedalus
             player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.daedalusReflect = true;
-            player.GetDamage<MeleeDamageClass>() += 0.05f;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
             player.aggro += 500;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
-            player.GetDamage<MeleeDamageClass>() += 0.1f;
+            player.GetDamage<MeleeDamageClass>() += 0.15f;
             player.GetCritChance<MeleeDamageClass>() += 10;
         }
 

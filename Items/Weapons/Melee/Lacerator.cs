@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Player player = Main.LocalPlayer;
             TooltipLine line3 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 line3.Text = "May be viable weapon against DoG...";
             }
