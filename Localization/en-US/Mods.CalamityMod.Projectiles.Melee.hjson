@@ -98,7 +98,6 @@ Earth2.DisplayName: Earth
 Earth3.DisplayName: Earth
 Earth4.DisplayName: Earth
 EarthProj.DisplayName: Earth
-ElementalExcaliburBeam.DisplayName: Beam
 ElementalGlassStar.DisplayName: Glass Star
 ElementBall.DisplayName: Ball
 ElementBallShiv.DisplayName: Shiv
@@ -140,6 +139,7 @@ GalaxySmasherHammer.DisplayName: Galaxy Smasher
 GalaxyStar.DisplayName: Star
 GalileosMoon.DisplayName: Crescent Moon
 GalileosPlanet.DisplayName: Planet
+GayBeam.DisplayName: Beam
 GelWave.DisplayName: Wave
 GemTechYellowShard.DisplayName: Trireme's Yellow Gem
 GestureForTheDrowned.DisplayName: Biome Blade

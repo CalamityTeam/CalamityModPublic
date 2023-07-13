@@ -324,7 +324,7 @@ FAP: {
 		Normal2: Drink something that turns you into a magical flying unicorn so you can be just like me.
 		Normal3: Deals so good I'll [$$!$] myself! ...Sorry, just had a minor stroke!
 		Normal4: Did anyone ever tell you that large assets cause back pain? Well, they were right.
-		Archmage: I never realized how well-endowed {0} was. It had to be the largest icicle I'd ever seen.
+		Archmage: {0} can share a drink with me any time! ...Or maybe not, I'm not sure his old heart could take it.
 		BrimstoneWitch: The abuse {0} went through is something I can hardly comprehend. I'd offer her a drink, but I don't think she'd enjoy it.
 		Tavernkeep1: My booze will always be better than {0}'s, and nobody can convince me otherwise.
 		Tavernkeep2: Tell {0} to stop calling me. He's not wanted.
@@ -350,7 +350,7 @@ FAP: {
 		AcidRain: I'm melting! Put a stop to this inclement weather this instant before it ruins my hair!
 		Martians: You should probably deal with those ayy lmaos before anything else, but whatever.
 		CryogenDefeated: God I can't wait to smash some ice again! ...For drinks, of course.
-		LeviathanDefeated: How could you murder such a beautiful creature!? ...The blue sexy one, not the obese cucumber.
+		LeviathanDefeated: How could you murder such a beautiful creature!? ...The blue one, not the obese cucumber.
 		MoonLordDefeated: Ever wondered why the Moon Lord needed so many tentacles? Uh... on second thought, I won't answer that.
 		PolterghastDefeated: I saw a ghost down by the old train tracks back at my homeland once, flailing wildly at the lily pads... frightening times those were.
 		DoGDefeated: I hear it's amazing when the famous Devourer of Gods out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!
@@ -389,7 +389,7 @@ FAP: {
 		LoveNPC_BestiaryGirl: "{NPCName} is so fluffy and squishy! She also says my alicorn form is 'mega rad'."
 		LikeNPC_Truffle: "{NPCName} makes me so hungry... I wonder how great of a trip he'd give..."
 		LikeNPC_PartyGirl: "{NPCName} would make for a great bartender some day. She really knows how to liven the mood!"
-		DislikeNPC_DD2Bartender: "{NPCName} is so bald. Maybe if he'd stop trying to date me he'd finally grow some hair."
+		DislikeNPC_DD2Bartender: "{NPCName} is so bald."
 		DislikeNPC_TaxCollector: "{NPCName} had best keep his distance... he wouldn't want to wake up one morning with a pipe bomb in his mailbox."
 		HateNPC_GoblinTinkerer: "{NPCName} was so terrible that I had to FORCE him to have a better reforge system. Why would you house me next to him? Do you enjoy watching me relive the stress he gave me!?"
 		HateNPC_Angler: "{NPCName} never stops blabbering about his inane fishing quests. Get me away from him before I stomp him into the ground!"

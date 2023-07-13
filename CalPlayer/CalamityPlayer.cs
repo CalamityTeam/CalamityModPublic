@@ -4006,6 +4006,10 @@ namespace CalamityMod.CalPlayer
                 damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProfanedSoulCrystal").Format(Player.name));
             }
 
+            // Leon Death Noise RE4
+            if (Main.zenithWorld)
+                SoundEngine.PlaySound(LeonDeathNoiseRE4_ForGFB, Player.Center);
+
             if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
             {
                 if (sCalDeathCount < 51)
@@ -6470,10 +6474,6 @@ namespace CalamityMod.CalPlayer
             {
                 damageSource = PlayerDeathReason.ByCustomReason(Player.name + " failed the challenge at hand.");
             }
-
-            // Leon Death Noise RE4
-            if (Main.zenithWorld)
-                SoundEngine.PlaySound(LeonDeathNoiseRE4_ForGFB, Player.Center);
 
             NetworkText deathText = damageSource.GetDeathText(Player.name);
             if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
