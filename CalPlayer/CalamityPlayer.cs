@@ -264,6 +264,7 @@ namespace CalamityMod.CalPlayer
 
         public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
         public static readonly SoundStyle DrownSound = new("CalamityMod/Sounds/Custom/AbyssDrown");
+        public static readonly SoundStyle LeonDeathNoiseRE4_ForGFB = new("CalamityMod/Sounds/Custom/GFB/LeonDeathNoiseRE4");
         #endregion
 
         #region Rogue
@@ -6469,6 +6470,11 @@ namespace CalamityMod.CalPlayer
             {
                 damageSource = PlayerDeathReason.ByCustomReason(Player.name + " failed the challenge at hand.");
             }
+
+            // Leon Death Noise RE4
+            if (Main.zenithWorld)
+                SoundEngine.PlaySound(LeonDeathNoiseRE4_ForGFB, Player.Center);
+
             NetworkText deathText = damageSource.GetDeathText(Player.name);
             if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
             {
