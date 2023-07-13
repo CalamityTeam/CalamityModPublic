@@ -28,11 +28,11 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             NPC.noGravity = true;
             NPC.lavaImmune = true;
-            NPC.damage = 0;
+            NPC.damage = 50;
             NPC.width = 60;
             NPC.height = 60;
             NPC.defense = 30;
-            NPC.lifeMax = 5775;
+            NPC.lifeMax = 3000;
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 50, 0);
@@ -72,6 +72,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
             NPC.noGravity = true;
             if (NPC.direction == 0)

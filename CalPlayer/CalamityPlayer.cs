@@ -5617,7 +5617,7 @@ namespace CalamityMod.CalPlayer
                     int numParticles = Main.rand.Next(2, 6);
                     for (int i = 0; i < numParticles; i++)
                     {
-                        Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3, 14);
+                        Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3, 7);
                         velocity.X += 5f * hurtInfo.HitDirection;
                         GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(Player.Center, velocity, Main.rand.NextFloat(2.5f, 3f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25));
                     }

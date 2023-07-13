@@ -779,6 +779,7 @@ namespace CalamityMod
                 ProjectileType<UltimaBowProjectile>(),
                 ProjectileType<CondemnationHoldout>(),
                 ProjectileType<SurgeDriverHoldout>(),
+                ProjectileType<StarmageddonHeld>(),
 
                 ProjectileType<NanoPurgeHoldout>(),
                 ProjectileType<AetherfluxCannonHoldout>(),

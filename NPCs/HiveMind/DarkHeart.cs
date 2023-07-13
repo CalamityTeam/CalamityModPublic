@@ -20,12 +20,12 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void SetDefaults()
         {
-            NPC.damage = 0;
+            NPC.damage = 20;
             NPC.width = 32;
             NPC.height = 32;
             NPC.defense = 2;
 
-            NPC.lifeMax = 150;
+            NPC.lifeMax = 75;
             if (BossRushEvent.BossRushActive)
                 NPC.lifeMax = 1800;
             if (Main.getGoodWorld)
@@ -68,6 +68,9 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             NPC.TargetClosest();
             float num1164 = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 8f : revenge ? 4.5f : 4f;
