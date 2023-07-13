@@ -512,7 +512,6 @@ TarragonHeadMagic: {
 		'''
 	SetBonus:
 		'''
-		15% increased melee speed
 		On every 5th critical strike you will fire a leaf storm
 		Magic projectiles heal you on enemy hits
 		Amount healed is based on projectile damage
