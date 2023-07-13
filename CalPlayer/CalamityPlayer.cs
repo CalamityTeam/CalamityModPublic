@@ -5546,6 +5546,14 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+        public override bool ConsumableDodge(Player.HurtInfo info)
+        {
+            if (HandleDodges())
+                return true;
+
+            return base.ConsumableDodge(info);
+        }
+
         #region Pre Hurt
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)/* tModPorter Override ImmuneTo, FreeDodge or ConsumableDodge instead to prevent taking damage */
         {
@@ -5553,14 +5561,6 @@ namespace CalamityMod.CalPlayer
             Player.HurtInfo hurtInfo = new Player.HurtInfo();
 
             #region Ignore Incoming Hits
-            // If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
-            if (HandleDodges())
-            {
-                justHitByDefenseDamage = false;
-                defenseDamageToTake = 0;
-                return;
-            }
-
             // If Armageddon is active, instantly kill the player.
             if (CalamityWorld.armageddon && areThereAnyDamnBosses)
                 KillPlayer();
@@ -5744,7 +5744,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Hurt
-
         public override void OnHurt(Player.HurtInfo hurtInfo)
         {
             #region Defense Damage
@@ -6053,7 +6052,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Post Hurt
-
         public override void PostHurt(Player.HurtInfo hurtInfo)
         {
             if (pArtifact && !profanedCrystal)
