@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 4;
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 12000;
+            ProjectileID.Sets.MinionTargettingFeature[Type] = true;
         }
 
         public override void SetDefaults()

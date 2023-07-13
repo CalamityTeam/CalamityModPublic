@@ -20,7 +20,11 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
         public NPC Target => Projectile.Center.MinionHoming(MirrorofKalandra.TargetDistanceDetection, Owner);
         public ref float Oscillation => ref Projectile.ai[0];
 
-        public override void SetStaticDefaults() => Main.projFrames[Type] = 7;
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.MinionTargettingFeature[Type] = true;
+            Main.projFrames[Type] = 7;
+        }
 
         public override void SetDefaults()
         {
