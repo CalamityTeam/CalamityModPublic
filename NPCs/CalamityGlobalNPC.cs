@@ -1416,7 +1416,7 @@ namespace CalamityMod.NPCs
                 if (Main.getGoodWorld)
                     npc.lifeMax = (int)(npc.lifeMax * 1.5);
             }
-            else if (npc.type == NPCID.Wraith || npc.type == NPCID.Mimic || npc.type == NPCID.Reaper || npc.type == NPCID.PresentMimic || npc.type == NPCID.SandElemental)
+            else if ((npc.type == NPCID.Wraith || npc.type == NPCID.Mimic || npc.type == NPCID.Reaper || npc.type == NPCID.PresentMimic || npc.type == NPCID.SandElemental || npc.type == NPCID.Ghost) && CalamityWorld.LegendaryMode)
             {
                 npc.knockBackResist = 0f;
             }
