@@ -140,10 +140,10 @@ namespace CalamityMod.Items.Armor.LunicCorps
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.ChlorophyteBar, 6).
-                AddIngredient<AstralBar>(6).
-                AddIngredient(ItemID.Glass, 20).
                 AddIngredient(ItemID.NightVisionHelmet).
+                AddIngredient<AstralBar>(6).
+                AddIngredient(ItemID.ChlorophyteBar, 6).
+                AddIngredient(ItemID.Glass, 20).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

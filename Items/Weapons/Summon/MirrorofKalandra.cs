@@ -90,9 +90,9 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.MagicMirror).
                 AddIngredient<CosmiliteBar>(10).
                 AddIngredient<DivineGeode>(10).
-                AddIngredient(ItemID.MagicMirror).
                 AddCondition(Condition.NearShimmer).
                 Register();
         }
