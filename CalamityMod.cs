@@ -175,9 +175,6 @@ namespace CalamityMod
 
             carpetOriginal = TextureAssets.FlyingCarpet;
 
-            // Apply IL edits as soon as possible.
-            ILChanges.Load();
-
             // If any of these mods aren't loaded, it will simply keep them as null.
             musicMod = null;
             ModLoader.TryGetMod("CalamityModMusic", out musicMod);
@@ -510,7 +507,6 @@ namespace CalamityMod
             loadCache = null;
             */
 
-            ILChanges.Unload();
             Instance = null;
             base.Unload();
         }

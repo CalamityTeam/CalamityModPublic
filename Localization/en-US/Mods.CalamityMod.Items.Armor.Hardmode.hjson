@@ -39,11 +39,7 @@ BrimflameBoots: {
 
 BrimflameRobes: {
 	DisplayName: Brimflame Robes
-	Tooltip:
-		'''
-		5% increased magic damage and critical strike chance
-		Reduces damage from touching lava
-		'''
+	Tooltip: 5% increased magic damage and critical strike chance
 }
 
 BrimflameScowl: {
@@ -99,12 +95,12 @@ DaedalusHeadMelee: {
 	DisplayName: Daedalus Helm
 	Tooltip:
 		'''
-		10% increased melee damage and critical strike chance
-		15% increased melee speed
+		15% increased melee damage
+		10% increased melee critical strike chance
 		'''
 	SetBonus:
 		'''
-		5% increased melee damage
+		10% increased melee speed
 		Enemies are more likely to target you
 		You reflect projectiles back at enemies
 		Reflected projectiles deal 50% less damage to you
@@ -130,8 +126,8 @@ DaedalusHeadRogue: {
 	DisplayName: Daedalus Facemask
 	Tooltip:
 		'''
-		13% increased rogue damage and 7% increased rogue critical strike chance, increases rogue velocity by 15%
-		5% increased movement speed
+		13% increased rogue damage and 7% increased rogue critical strike chance
+		15% increased rogue velocity and 5% increased movement speed
 		'''
 	SetBonus:
 		'''
@@ -229,7 +225,7 @@ HydrothermicHeadMagic: {
 	Tooltip:
 		'''
 		12% increased magic damage, +100 max mana, and 10% increased magic critical strike chance
-		Temporary immunity to lava, and immunity to fire damage
+		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
@@ -242,14 +238,13 @@ HydrothermicHeadMelee: {
 	DisplayName: Hydrothermic Helm
 	Tooltip:
 		'''
-		12% increased melee damage and 10% increased melee critical strike chance
-		18% increased melee speed
+		17% increased melee damage and 10% increased melee critical strike chance
 		Melee attacks and melee projectiles inflict on fire
-		Temporary immunity to lava and immunity to fire damage
+		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
-		5% increased melee damage
+		15% increased melee speed
 		Enemies are more likely to target you
 		Melee attacks and projectiles cause chaos flames to erupt on enemy hits
 		'''
@@ -260,7 +255,8 @@ HydrothermicHeadRanged: {
 	Tooltip:
 		'''
 		12% increased ranged damage and 10% increased ranged critical strike chance
-		Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage
+		Reduces ammo usage by 25%
+		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
@@ -275,7 +271,7 @@ HydrothermicHeadRogue: {
 		'''
 		12% increased rogue damage and 10% increased rogue critical strike chance
 		50% chance to not consume rogue items and 5% increased movement speed
-		Temporary immunity to lava and immunity to fire damage
+		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
@@ -290,7 +286,7 @@ HydrothermicHeadSummon: {
 	Tooltip:
 		'''
 		5% increased minion damage and increased minion knockback
-		Temporary immunity to lava and immunity to fire damage
+		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
@@ -460,7 +456,7 @@ ReaverHeadExplore: {
 	Tooltip:
 		'''
 		20% increased mining speed and block/wall placement speed
-		Temporary immunity to lava and can move freely through liquids
+		Grants immunity to lava and can move freely through liquids
 		'''
 	SetBonus:
 		'''

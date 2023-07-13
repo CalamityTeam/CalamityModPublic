@@ -359,7 +359,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            else if (calamityPlayer.eGravity || calamityPlayer.dragonFire)
+            else if (calamityPlayer.icarusFolly || calamityPlayer.dragonFire)
             {
                 if (Main.rand.NextBool(calamityPlayer.dragonFire ? 6 : 12) && drawInfo.shadow == 0f)
                 {

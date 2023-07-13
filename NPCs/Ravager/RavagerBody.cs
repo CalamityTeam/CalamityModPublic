@@ -237,7 +237,7 @@ namespace CalamityMod.NPCs.Ravager
                 }
             }
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 bool finalStand = lifeRatio < 0.2f; //At 20% body health, does the funny final attack
                 NPC.localAI[1]++;

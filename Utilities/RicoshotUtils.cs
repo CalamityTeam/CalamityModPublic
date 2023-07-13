@@ -43,6 +43,17 @@ namespace CalamityMod
             return count;
         }
 
+        // Intentionally not an extension so it doesn't clog the Visual Studio recommendation lists. This is not generally useful.
+        public static bool CanRicoshotCoinForceCrit(Projectile p)
+        {
+            int id = ModContent.ProjectileType<RicoshotCoin>();
+            if (!p.active || p.type != id)
+                return false;
+
+            int coinUpdateCount = RicoshotCoin.CoinLifetime - p.timeLeft;
+            return coinUpdateCount >= RicoshotCoin.CritDelayTime;
+        }
+
         /// <summary>
         /// Gets the velocity that the player will toss a Ricoshot Coin at based on their current mouse position and velocity.
         /// </summary>

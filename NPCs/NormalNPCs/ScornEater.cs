@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         else
                             NPC.velocity.Y = 12f;
                     }
-                    if (!CalamityWorld.getFixedBoi)
+                    if (!Main.zenithWorld)
                     SoundEngine.PlaySound(JumpSound, NPC.Center);
                 }
                 NPC.netUpdate = true;

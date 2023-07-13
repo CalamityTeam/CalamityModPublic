@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 2;
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 30;
             Projectile.tileCollide = false;
         }
 

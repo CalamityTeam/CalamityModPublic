@@ -7,6 +7,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.Dusts;
 using CalamityMod.EntitySources;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Prismatic;
 using CalamityMod.Items.Armor.Reaver;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Ranged;
@@ -1466,7 +1467,8 @@ namespace CalamityMod.CalPlayer
                             }
                         }
 
-                        var source = new ProjectileSource_ReaverHeal(Player);
+                        // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                        var source = Player.GetSource_FromThis(ReaverHeadTank.HealOrbEntitySourceContext);
                         Projectile.NewProjectile(source, target.Center, Vector2.Zero, ProjectileType<ReaverHealOrb>(), 0, 0f, Player.whoAmI, healTarget, heal);
                     }
                 }

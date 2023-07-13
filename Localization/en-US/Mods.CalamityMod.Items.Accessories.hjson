@@ -254,8 +254,7 @@ BadgeofBravery: {
 	DisplayName: Badge of Bravery
 	Tooltip:
 		'''
-		15% increased melee speed
-		Increases melee damage and melee crit by 5%
+		Increases melee damage and melee crit by 10%
 		+5 melee armor penetration
 		'''
 }
@@ -303,13 +302,13 @@ BloodyWormScarf: {
 	Tooltip:
 		'''
 		7% increased damage reduction
-		7% increased melee damage and speed
+		10% increased melee damage
 		'''
 }
 
 BloodyWormTooth: {
 	DisplayName: Bloody Worm Tooth
-	Tooltip: 7% increased melee damage and speed
+	Tooltip: 10% increased melee damage
 }
 
 BloomStone: {
@@ -482,7 +481,7 @@ DarkSunRing: {
 	DisplayName: Dark Sun Ring
 	Tooltip:
 		'''
-		12% increase to damage and melee speed
+		12% increase to damage
 		+1 life regen and +2 max minions
 		Increased minion knockback
 		During the day the player has +4 life regen
@@ -617,7 +616,6 @@ ElementalGauntlet: {
 		Melee attacks and projectiles inflict Hellfire
 		15% increased melee speed, damage, and 5% increased melee critical strike chance
 		20% increased true melee damage
-		Temporary immunity to lava
 		Increased melee knockback
 		Enables auto swing for melee weapons
 		Increases the size of melee weapons
@@ -713,8 +711,7 @@ FlameLickedShell: {
 		35% decreased movement speed
 		Enemies take damage when they hit you
 		You move faster and lose 18 defense for 3 seconds if you take damage
-		Temporary immunity to lava
-		Grants immunity to Armor Crunch
+		Grants immunity to lava and Armor Crunch
 		'''
 }
 
@@ -1774,8 +1771,7 @@ VoidofExtinction: {
 		12% increase to all damage
 		All attacks inflict Brimstone Flames
 		Brimstone fire rains down after getting hit
-		Reduces damage from touching lava
-		Grants immunity to Burning, On Fire!, Brimstone Flames and Searing Lava
+		Grants immunity to lava, Burning, On Fire!, Brimstone Flames and Searing Lava
 		'''
 }
 
@@ -1852,8 +1848,7 @@ YharimsInsignia: {
 		10% increased damage when under 50% life
 		10% increased melee speed
 		10% increased melee and true melee damage
-		Melee attacks and melee projectiles inflict holy fire
-		Temporary immunity to lava
+		All melee attacks inflict Holy Flames
 		Increased melee knockback
 		'''
 }

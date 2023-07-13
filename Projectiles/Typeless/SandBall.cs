@@ -82,6 +82,14 @@ namespace CalamityMod.Projectiles.Typeless
             }
             if (proj.velocity.Y > 10f)
                 proj.velocity.Y = 10f;
+
+            Point p = proj.Center.ToTileCoordinates();
+            // Don't check out of bounds
+            if (p.X < 0 || p.X >= Main.maxTilesX || p.Y < 0 || p.Y >= Main.maxTilesY)
+                return;
+            Tile placer = Main.tile[p.X, p.Y + 1];
+            if (placer.HasTile && TileID.Sets.Platforms[placer.TileType] && proj.ai[1] >= 60f)
+                proj.Kill();
         }
 
         public static void SpawnSand(this Projectile proj, int SandBlockID, int SandItemID)

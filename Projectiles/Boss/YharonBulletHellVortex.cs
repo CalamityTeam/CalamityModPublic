@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if ((Main.npc[(int)Projectile.ai[1]].active && Main.npc[(int)Projectile.ai[1]].type == ModContent.NPCType<Yharon>()) || CalamityWorld.getFixedBoi)
+            if ((Main.npc[(int)Projectile.ai[1]].active && Main.npc[(int)Projectile.ai[1]].type == ModContent.NPCType<Yharon>()) || Main.zenithWorld)
             {
                 if (TimeCountdown > 0f)
                 {
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Boss
                     TimeCountdown--;
 
                     // chase players in the zenith seed
-                    if (CalamityWorld.getFixedBoi)
+                    if (Main.zenithWorld)
                     {
                         Projectile.hostile = true;
                         Projectile.width = Projectile.height = (int)(408f * Projectile.scale);

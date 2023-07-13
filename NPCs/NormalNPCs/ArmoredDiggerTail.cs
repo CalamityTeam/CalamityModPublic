@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 flag = true;
             }
-            if (flag && !CalamityWorld.getFixedBoi)
+            if (flag && !Main.zenithWorld)
             {
                 NPC.life = 0;
                 NPC.HitEffect(0, 10.0);
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 typeName = CalamityUtils.GetTextValue("NPCs.MechanizedSerpent");
             }
@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override Color? GetAlpha(Color drawColor)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 Color lightColor = Color.Orange * drawColor.A;
                 return lightColor * NPC.Opacity;

@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.height = 56;
             NPC.defense = 70;
             CalamityGlobalNPC global = NPC.Calamity();
-            if (!CalamityWorld.getFixedBoi)
+            if (!Main.zenithWorld)
             {
                 global.DR = 0.925f;
                 global.unbreakableDR = true;
@@ -429,7 +429,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             // viable???, done here since it's conditional
-            if (CalamityWorld.getFixedBoi && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
+            if (Main.zenithWorld && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
             {
                 modifiers.SourceDamage *= 40f;
             }

@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.HiveMind
         {
             float timeToSpawn = 120f;
 
-            if (CalamityWorld.getFixedBoi && NPC.AnyNPCs(ModContent.NPCType<HiveMind>()))
+            if (Main.zenithWorld && NPC.AnyNPCs(ModContent.NPCType<HiveMind>()))
             {
                 //Passively spawns random enemies
                 NPC.ai[0]++;

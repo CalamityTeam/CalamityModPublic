@@ -26,7 +26,11 @@ AuricTeslaHoodedFacemask: {
 
 AuricTeslaPlumedHelm: {
 	DisplayName: Auric Tesla Plumed Helm
-	Tooltip: 20% increased rogue damage, critical strike chance and 5% increased movement speed
+	Tooltip:
+		'''
+		20% increased rogue damage and critical strike chance
+		5% increased movement speed
+		'''
 	SetBonus:
 		'''
 		Rogue Tarragon, Bloodflare and God Slayer armor effects
@@ -36,11 +40,16 @@ AuricTeslaPlumedHelm: {
 
 AuricTeslaRoyalHelm: {
 	DisplayName: Auric Tesla Royal Helm
-	Tooltip: 20% increased melee damage and critical strike chance
+	Tooltip:
+		'''
+		20% increased melee damage
+		10% increased melee critical strike chance
+		'''
 	SetBonus:
 		'''
 		Melee Tarragon, Bloodflare and God Slayer effects
 		Enemies are more likely to target you
+		28% increased melee speed
 		'''
 }
 
@@ -51,7 +60,7 @@ AuricTeslaSpaceHelmet: {
 		'''
 		Summoner Tarragon, Bloodflare and Silva armor effects
 		Max run speed and acceleration boosted by 5%
-		+6 max minions and 75% increased minion damage"
+		+6 max minions and 75% increased minion damage
 		'''
 }
 
@@ -87,11 +96,7 @@ BloodflareCuisses: {
 
 BloodflareHeadMagic: {
 	DisplayName: Bloodflare Hydra Hood
-	Tooltip:
-		'''
-		You can move freely through liquids and have temporary immunity to lava
-		20% increased magic damage, 10% increased magic critical strike chance, +100 max mana and 17% reduced mana usage
-		'''
+	Tooltip: 20% increased magic damage, 10% increased magic critical strike chance, +100 max mana and 17% reduced mana usage
 	SetBonus:
 		'''
 		Magic weapons fire ghostly bolts every 1.67 seconds
@@ -101,13 +106,10 @@ BloodflareHeadMagic: {
 
 BloodflareHeadMelee: {
 	DisplayName: Bloodflare Ram Mask
-	Tooltip:
-		'''
-		You can move freely through liquids and have temporary immunity to lava
-		10% increased melee damage and critical strike chance
-		'''
+	Tooltip: 10% increased melee damage
 	SetBonus:
 		'''
+		18% increased melee speed
 		Enemies are more likely to target you
 		True melee strikes will heal you
 		After striking an enemy 15 times with true melee you will enter a blood frenzy for 5 seconds
@@ -118,11 +120,7 @@ BloodflareHeadMelee: {
 
 BloodflareHeadRanged: {
 	DisplayName: Bloodflare Horned Helm
-	Tooltip:
-		'''
-		You can move freely through liquids and have temporary immunity to lava
-		10% increased ranged damage and critical strike chance
-		'''
+	Tooltip: 10% increased ranged damage and critical strike chance
 	SetBonus:
 		'''
 		Press {0} to unleash the lost souls of polterghast to destroy your enemies
@@ -135,8 +133,8 @@ BloodflareHeadRogue: {
 	DisplayName: Bloodflare Imp Mask
 	Tooltip:
 		'''
-		You can move freely through liquids and have temporary immunity to lava
-		10% increased rogue damage and critical strike chance, 5% increased movement speed
+		10% increased rogue damage and critical strike chance
+		5% increased movement speed
 		'''
 	SetBonus:
 		'''
@@ -149,11 +147,7 @@ BloodflareHeadRogue: {
 
 BloodflareHeadSummon: {
 	DisplayName: Bloodflare Wyvern Helm
-	Tooltip:
-		'''
-		You can move freely through liquids and have temporary immunity to lava
-		5% increased minion damage
-		'''
+	Tooltip: 5% increased minion damage
 	SetBonus:
 		'''
 		50% increased minion damage and +3 max minions
@@ -167,7 +161,7 @@ DemonshadeBreastplate: {
 	DisplayName: Demonshade Breastplate
 	Tooltip:
 		'''
-		20% increased melee speed, 15% increased damage and critical strike chance
+		25% increased melee speed, 15% increased damage and critical strike chance
 		Enemies take ungodly damage when they touch you
 		Increased max life and mana by 200
 		Standing still lets you absorb the shadows and boost your life regen
@@ -215,8 +209,8 @@ EmpyreanMask: {
 	DisplayName: Empyrean Mask
 	Tooltip:
 		'''
-		11% increased rogue damage and critical strike chance, 5% increased movement speed
-		Temporary immunity to lava
+		11% increased rogue damage and critical strike chance
+		5% increased movement speed
 		'''
 	SetBonus:
 		'''
@@ -328,9 +322,14 @@ GodSlayerChestplate: {
 
 GodSlayerHeadMelee: {
 	DisplayName: God Slayer Horned Greathelm
-	Tooltip: 14% increased melee damage and critical strike chance
+	Tooltip:
+		'''
+		14% increased melee damage
+		7% increased melee critical strike chance
+		'''
 	SetBonus:
 		'''
+		20% increased melee speed
 		Enemies are more likely to target you
 		Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts
 		Enemies take a lot of damage when they hit you
@@ -346,7 +345,11 @@ GodSlayerHeadRanged: {
 
 GodSlayerHeadRogue: {
 	DisplayName: God Slayer Mask
-	Tooltip: 14% increased rogue damage and critical strike chance, 5% increased movement speed
+	Tooltip:
+		'''
+		14% increased rogue damage and critical strike chance
+		5% increased movement speed
+		'''
 	SetBonus:
 		'''
 		+120 maximum stealth
@@ -504,7 +507,6 @@ TarragonHeadMagic: {
 	DisplayName: Tarragon Mask
 	Tooltip:
 		'''
-		Can move freely through liquids
 		20% increased magic damage and 10% increased magic critical strike chance
 		5% increased damage reduction, +100 max mana, and 15% reduced mana usage
 		'''
@@ -520,12 +522,13 @@ TarragonHeadMelee: {
 	DisplayName: Tarragon Helm
 	Tooltip:
 		'''
-		Can move freely through liquids
-		10% increased melee damage and critical strike chance
+		10% increased melee damage
+		5% increased melee critical strike chance
 		5% increased damage reduction
 		'''
 	SetBonus:
 		'''
+		15% increased melee speed
 		Enemies are more likely to target you
 		You have a 25% chance to gain a life regen buff when you take damage
 		Press {0} to cloak yourself in life energy that heavily reduces enemy contact damage for 10 seconds
@@ -537,7 +540,6 @@ TarragonHeadRanged: {
 	DisplayName: Tarragon Visage
 	Tooltip:
 		'''
-		Can move freely through liquids
 		10% increased ranged damage and critical strike chance
 		5% increased damage reduction
 		'''

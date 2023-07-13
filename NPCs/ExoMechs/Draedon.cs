@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.spriteDirection = (PlayerToFollow.Center.X < NPC.Center.X).ToDirectionInt();
 
             // Exo Mechdusa bool setting
-            if (!exoMechdusa && CalamityWorld.DraedonMechdusa && CalamityWorld.getFixedBoi)
+            if (!exoMechdusa && CalamityWorld.DraedonMechdusa && Main.zenithWorld)
             {
                 exoMechdusa = true;
                 CalamityWorld.DraedonMechdusa = false;
@@ -512,7 +512,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
             TalkTimer++;
 
-            if (ExoMechIsPresent && CalamityWorld.getFixedBoi && GeneralTimer % 60 == 0 && !exoMechdusa)
+            if (ExoMechIsPresent && Main.zenithWorld && GeneralTimer % 60 == 0 && !exoMechdusa)
             {
                 SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -535,7 +535,7 @@ namespace CalamityMod.NPCs.ExoMechs
             // Define a hover destination offset if one hasn't been decided yet.
             if (Main.netMode != NetmodeID.MultiplayerClient && HoverDestinationOffset == Vector2.Zero)
             {
-                float factor = CalamityWorld.getFixedBoi && !exoMechdusa ? 300f : 700f;
+                float factor = Main.zenithWorld && !exoMechdusa ? 300f : 700f;
                 HoverDestinationOffset = -Vector2.UnitY * factor;
                 NPC.netUpdate = true;
             }
@@ -553,8 +553,8 @@ namespace CalamityMod.NPCs.ExoMechs
                     offsetDirection = Main.rand.NextVector2Unit();
                 while (Vector2.Dot(directionToTarget, offsetDirection) > 0.2f);
 
-                float factormin = CalamityWorld.getFixedBoi && !exoMechdusa ? 300f : 750f;
-                float factormax = CalamityWorld.getFixedBoi && !exoMechdusa ? 700f : 1100f;
+                float factormin = Main.zenithWorld && !exoMechdusa ? 300f : 750f;
+                float factormax = Main.zenithWorld && !exoMechdusa ? 700f : 1100f;
                 HoverDestinationOffset = offsetDirection * Main.rand.NextFloat(factormin, factormax);
                 NPC.netUpdate = true;
             }
@@ -883,7 +883,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 spriteBatch.Draw(glowmask, drawPosition, frame, Color.White * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
             }
 
-            if (CalamityWorld.getFixedBoi && !HasBeenKilled && HologramEffectTimer >= HologramFadeinTime && !exoMechdusa)
+            if (Main.zenithWorld && !HasBeenKilled && HologramEffectTimer >= HologramFadeinTime && !exoMechdusa)
             {
                 CalamityUtils.EnterShaderRegion(spriteBatch);
                 Color outlineColor = Color.Lerp(Color.Magenta, Color.White, 0.4f);

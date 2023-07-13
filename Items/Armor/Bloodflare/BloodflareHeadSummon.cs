@@ -12,6 +12,8 @@ namespace CalamityMod.Items.Armor.Bloodflare
     public class BloodflareHeadSummon : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor.PostMoonLord";
+        internal static string GhostMineEntitySourceContext => "SetBonus_Calamity_BloodflareSummon";
+
         public override void SetDefaults()
         {
             Item.width = 18;

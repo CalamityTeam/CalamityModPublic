@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.darkSunRing = true;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.12f;
         }
 
         public override void AddRecipes()

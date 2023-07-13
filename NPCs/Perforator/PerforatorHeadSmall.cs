@@ -274,7 +274,7 @@ namespace CalamityMod.NPCs.Perforator
                 }
             }
 
-            if (CalamityWorld.getFixedBoi && CalamityGlobalNPC.perfHive >= 0)
+            if (Main.zenithWorld && CalamityGlobalNPC.perfHive >= 0)
                 NPC.ai[0]++;
             
             //GFB movement

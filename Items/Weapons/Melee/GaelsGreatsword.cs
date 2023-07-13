@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         // Skull ring attribute constants
         public static readonly float SkullsplosionDamageMultiplier = 1.5f;
+        internal static string SkullsplosionEntitySourceContext => "GaelsGreatswordRageSkullsplosion";
 
         // Rage gain attribute constant
         public static readonly float RagePerSecond = 0.03f; // 3% rage per second, consistent with what it was prior to rage rework

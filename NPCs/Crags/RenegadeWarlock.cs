@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.Crags
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    int count = CalamityWorld.getFixedBoi ? 20 : 1; // remember that old oversight in the draedon update?
+                    int count = Main.zenithWorld ? 20 : 1; // remember that old oversight in the draedon update?
                     for (int g = 0; g < count; g++)
                     {
                         Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("RenegadeWarlock").Type, NPC.scale);

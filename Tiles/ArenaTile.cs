@@ -35,7 +35,7 @@ namespace CalamityMod.Tiles
         {
             if (closer)
             {
-                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && !SCalSky.RitualDramaProjectileIsPresent && !(NPC.AnyNPCs(ModContent.NPCType<CalamitasClone>()) && CalamityWorld.getFixedBoi))
+                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && !SCalSky.RitualDramaProjectileIsPresent && !(NPC.AnyNPCs(ModContent.NPCType<CalamitasClone>()) && Main.zenithWorld))
                 {
                     WorldGen.KillTile(i, j, false, false, false);
                     if (!Main.tile[i, j].HasTile && Main.netMode != NetmodeID.SinglePlayer)

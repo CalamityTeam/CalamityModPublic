@@ -206,12 +206,29 @@ namespace CalamityMod.Projectiles
             // All secondary yoyos are spawned with ai[0] of 1 which tells then tell its AI to do secondary yoyo AI
             if (Main.player[projectile.owner].yoyoGlove && projectile.aiStyle == 99)
             {
-                if (projectile.ai[0] == 1f && projectile.localAI[0] == 0f)
-                    projectile.damage = (int)(projectile.originalDamage * 0.5f);
-                // Reset damage if the yoyo count returns to 1
-                // This is possible due to the horrendous yoyo spawning system for limited lifespan yoyos
-                else if (Main.player[projectile.owner].ownedProjectileCounts[projectile.type] == 1 && projectile.localAI[0] > 0f)
-                    projectile.damage = projectile.originalDamage;
+                // Store damage on first frame
+                if (projectile.ai[2] == 0f)
+                    projectile.ai[2] = projectile.damage;
+
+                // Find the first yoyo projectile owned by the corresponding player
+                // Limited lifespan yoyos are horrendous so it had to be this way
+                // EDIT: ownedProjectileCounts does not work what the fuck
+                int MainYoyo = -1;
+                for (int x = 0; x < Main.maxProjectiles; x++)
+                {
+                    Projectile proj = Main.projectile[x];
+                    if (proj.active && proj.type == projectile.type && proj.owner == projectile.owner)
+                    {
+                        MainYoyo = x;
+                        break;
+                    }
+                }
+
+                // Halve damage if not the main yoyo
+                if (projectile.whoAmI != MainYoyo)
+                    projectile.damage = (int)(projectile.ai[2] * 0.5f);
+                else
+                    projectile.damage = (int)projectile.ai[2];
             }
 
             // Chlorophyte Crystal AI rework.
@@ -2139,7 +2156,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.BouncyBoulder:
                 case ProjectileID.LifeCrystalBoulder:
                 case ProjectileID.MoonBoulder:
-                    projectile.extraUpdates = CalamityWorld.getFixedBoi ? 1 : 0;
+                    projectile.extraUpdates = Main.zenithWorld ? 1 : 0;
                     break;
 
                 case ProjectileID.RockGolemRock:
@@ -2158,7 +2175,7 @@ namespace CalamityMod.Projectiles
             }
 
             // Random velocities for Bouncy Boulders in GFB
-            if (projectile.type == ProjectileID.BouncyBoulder && CalamityWorld.getFixedBoi)
+            if (projectile.type == ProjectileID.BouncyBoulder && Main.zenithWorld)
             {
                 // 5% chance every frame to get a random velocity multiplier (this is actually rolled twice per frame, due to the extra update in GFB)
                 if (Main.rand.Next(100) >= 95)
@@ -2528,7 +2545,7 @@ namespace CalamityMod.Projectiles
 
             // If applicable, use ricoshot bonus damage.
             if (totalRicoshotDamageBonus > 0f)
-                modifiers.SourceDamage *= totalRicoshotDamageBonus;
+                modifiers.ScalingBonusDamage += totalRicoshotDamageBonus;
 
             // If this projectile is forced to crit, simply set the crit bool.
             if (forcedCrit)
@@ -2736,7 +2753,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (CalamityWorld.getFixedBoi && NPC.AnyNPCs(NPCType<NPCs.CeaselessVoid.CeaselessVoid>()))
+            if (Main.zenithWorld && NPC.AnyNPCs(NPCType<NPCs.CeaselessVoid.CeaselessVoid>()))
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

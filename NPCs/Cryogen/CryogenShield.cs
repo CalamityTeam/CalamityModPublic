@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.Opacity = 0f;
             NPC.HitSound = Cryogen.HitSound;
             NPC.DeathSound = BreakSound;
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 NPC.Calamity().VulnerableToHeat = false;
                 NPC.Calamity().VulnerableToCold = true;
@@ -58,8 +58,8 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void AI()
         {
-            NPC.HitSound = CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : Cryogen.HitSound;
-            NPC.DeathSound = CalamityWorld.getFixedBoi ? SoundID.NPCDeath14 : BreakSound;
+            NPC.HitSound = Main.zenithWorld ? SoundID.NPCHit41 : Cryogen.HitSound;
+            NPC.DeathSound = Main.zenithWorld ? SoundID.NPCDeath14 : BreakSound;
 
             NPC.Opacity += 0.012f;
             if (NPC.Opacity > 1f)
@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.Cryogen
         {
             if (hurtInfo.Damage > 0)
             {
-                if (CalamityWorld.getFixedBoi)
+                if (Main.zenithWorld)
                 {
                     target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
                     target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
@@ -130,13 +130,13 @@ namespace CalamityMod.NPCs.Cryogen
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Cryogen/CryogenShield").Value;
 
-            NPC.DrawBackglow(CalamityWorld.getFixedBoi ? Color.Red : Cryogen.BackglowColor, 4f, SpriteEffects.None, NPC.frame, screenPos);
+            NPC.DrawBackglow(Main.zenithWorld ? Color.Red : Cryogen.BackglowColor, 4f, SpriteEffects.None, NPC.frame, screenPos);
 
             Vector2 origin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
             Vector2 drawPos = NPC.Center - screenPos;
             drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            Color overlay = CalamityWorld.getFixedBoi ? Color.Red : drawColor;
+            Color overlay = Main.zenithWorld ? Color.Red : drawColor;
             spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(overlay), NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
             return false;
         }
@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 typeName = CalamityUtils.GetTextValue("NPCs.PyrogenShield");
             }
@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void HitEffect(NPC.HitInfo hit)
         {
-            int dusttype = CalamityWorld.getFixedBoi ? 235 : 67;
+            int dusttype = Main.zenithWorld ? 235 : 67;
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, dusttype, hit.HitDirection, -1f, 0, default, 1f);
@@ -183,7 +183,7 @@ namespace CalamityMod.NPCs.Cryogen
                     Main.dust[num624].velocity *= 2f;
                 }
 
-                if (Main.netMode != NetmodeID.Server && !CalamityWorld.getFixedBoi)
+                if (Main.netMode != NetmodeID.Server && !Main.zenithWorld)
                 {
                     int totalGores = 16;
                     double radians = MathHelper.TwoPi / totalGores;

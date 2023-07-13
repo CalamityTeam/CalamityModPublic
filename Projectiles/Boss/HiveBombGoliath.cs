@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.zenithWorld)
             {
                 Vector2 valueBoom = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
                 float spreadBoom = 15f * 0.0174f;
@@ -191,7 +191,7 @@ namespace CalamityMod.Projectiles.Boss
             if (info.Damage <= 0)
                 return;
             
-            if (CalamityWorld.getFixedBoi) // it is the plague, you get very sick.
+            if (Main.zenithWorld) // it is the plague, you get very sick.
             {
                 target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240, true);
                 target.AddBuff(BuffID.Poisoned, 240, true);

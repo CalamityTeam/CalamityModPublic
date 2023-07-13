@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.HiveMind
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-            bool getFuckedAI = CalamityWorld.getFixedBoi;
+            bool getFuckedAI = Main.zenithWorld;
 
             int num750 = CalamityGlobalNPC.hiveMind;
             if (num750 < 0 || !Main.npc[num750].active)
@@ -198,7 +198,7 @@ namespace CalamityMod.NPCs.HiveMind
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 14, hit.HitDirection, -1f, 0, default, 1f);
                 }
-                if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
+                if (Main.netMode != NetmodeID.MultiplayerClient && Main.zenithWorld)
                 {
                     //Spawn even more blobs on death
                     for (int i = 1; i < 3; i++)

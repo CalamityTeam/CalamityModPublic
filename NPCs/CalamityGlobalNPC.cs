@@ -1313,7 +1313,7 @@ namespace CalamityMod.NPCs
             else if (CalamityLists.DestroyerIDs.Contains(npc.type))
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                npc.scale *= CalamityWorld.getFixedBoi ? 2.5f : CalamityWorld.death ? 1.7f : 1.5f;
+                npc.scale *= Main.zenithWorld ? 2.5f : CalamityWorld.death ? 1.7f : 1.5f;
                 npc.npcSlots = 10f;
             }
             else if (npc.type == NPCID.Probe)
@@ -1321,7 +1321,7 @@ namespace CalamityMod.NPCs
                 if (CalamityWorld.death)
                     npc.lifeMax = (int)(npc.lifeMax * 2.0);
 
-                npc.scale *= CalamityWorld.getFixedBoi ? 2f : CalamityWorld.death ? 1.3f : 1.2f;
+                npc.scale *= Main.zenithWorld ? 2f : CalamityWorld.death ? 1.3f : 1.2f;
             }
             else if (npc.type == NPCID.SkeletronPrime)
             {
@@ -2812,7 +2812,7 @@ namespace CalamityMod.NPCs
             }
 
             // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
-            if (CalamityLists.ZeroContactDamageNPCList.Contains(npc.type) && (npc.type != NPCID.RuneWizard || !CalamityWorld.getFixedBoi))
+            if (CalamityLists.ZeroContactDamageNPCList.Contains(npc.type) && (npc.type != NPCID.RuneWizard || !Main.zenithWorld))
                 npc.damage = npc.defDamage = 0;
 
             // Don't do damage for 42 frames after spawning in
@@ -2874,7 +2874,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 if (npc.type == NPCID.QueenBee)
                     return QueenBeeAI.BuffedQueenBeeAI(npc, Mod);
@@ -4396,7 +4396,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.RuneWizard:
-                    if (CalamityWorld.getFixedBoi)
+                    if (Main.zenithWorld)
                         target.AddBuff(BuffType<MiracleBlight>(), 600);
                     break;
 
@@ -5040,13 +5040,14 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            // 12JUL2023: Ozzatron: what does this do
             if (calamityBiomeZone)
             {
                 pool[0] = 0f;
             }
 
             // Add Enchanted Nightcrawlers as a critter to the Astral Infection
-            if (!CalamityGlobalNPC.AnyEvents(spawnInfo.Player) && spawnInfo.Player.InAstral())
+            if (!AnyEvents(spawnInfo.Player) && spawnInfo.Player.InAstral())
             {
                 pool[NPCID.EnchantedNightcrawler] = SpawnCondition.TownCritter.Chance;
             }
@@ -5127,14 +5128,48 @@ namespace CalamityMod.NPCs
             if (spawnInfo.PlayerSafe)
                 return;
 
-            if (!Main.hardMode && spawnInfo.Player.ZoneUnderworldHeight && !calamityBiomeZone)
-            {
-                if (!NPC.AnyNPCs(NPCID.VoodooDemon))
-                    pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.75f;
-            }
+            // Voodoo Demon changes (including partial Voodoo Demon Voodoo Doll implementation)
+            bool voodooDemonDollActive = spawnInfo.Player.Calamity().disableVoodooSpawns;
 
-            if (spawnInfo.Player.Calamity().disableVoodooSpawns && pool.ContainsKey(NPCID.VoodooDemon))
+            // If the doll is active, Voodoo Demons cannot spawn (via modded means).
+            if (voodooDemonDollActive)
                 pool.Remove(NPCID.VoodooDemon);
+            // Otherwise, if it's pre-Hardmode, provide a modded spawn entry that makes them much more common.
+            else if (!Main.hardMode && spawnInfo.Player.ZoneUnderworldHeight && !calamityBiomeZone)
+            {
+                pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.15f;
+            }
+        }
+        #endregion
+
+        #region On Spawn
+        public override void OnSpawn(NPC npc, IEntitySource source)
+        {
+            if (npc.type != NPCID.VoodooDemon)
+                return;
+
+            // This entity source does not provide a player. So we have to find out if anyone close enough has a doll.
+            if (source is EntitySource_SpawnNPC)
+            {
+                bool voodooDemonDollActive = false;
+                Vector2 v = npc.Center;
+                for (int i = 0; i < Main.maxPlayers; ++i)
+                {
+                    Player p = Main.player[i];
+                    if (p is null || !p.active)
+                        continue;
+                    if (p.DistanceSQ(v) < 4000000f && p.Calamity().disableVoodooSpawns) // 2000 pixel radius
+                    {
+                        voodooDemonDollActive = true;
+                        break;
+                    }
+                }
+                if (!voodooDemonDollActive)
+                    return;
+
+                npc.Transform(NPCID.Demon);
+                npc.netUpdate = true;
+            }
         }
         #endregion
 
@@ -5496,7 +5531,7 @@ namespace CalamityMod.NPCs
             if (Main.LocalPlayer.Calamity().trippy || (npc.type == NPCID.KingSlime && CalamityWorld.LegendaryMode && CalamityWorld.revenge))
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
 
-            if (npc.type == NPCID.QueenBee && CalamityWorld.getFixedBoi)
+            if (npc.type == NPCID.QueenBee && Main.zenithWorld)
             {
                 if (npc.life / (float)npc.lifeMax < 0.5f)
                     return new Color(0, 255, 0, npc.alpha);
@@ -5838,7 +5873,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityWorld.getFixedBoi && NPC.AnyNPCs(NPCType<CeaselessVoid.CeaselessVoid>()))
+            if (Main.zenithWorld && NPC.AnyNPCs(NPCType<CeaselessVoid.CeaselessVoid>()))
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

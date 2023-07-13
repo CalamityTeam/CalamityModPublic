@@ -27,7 +27,7 @@ namespace CalamityMod.Items.SummonItems
         public int spawnYAdd = 0;
         public override void SetStaticDefaults()
         {
-           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 10; // Pirate Map
+           	ItemID.Sets.SortingPriorityBossSpawns[Type] = 10; // Pirate Map
         }
 
         public override void SetDefaults()
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.SummonItems
             else
                 NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasClone>());
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.zenithWorld)
             {
                 safeBox.X = spawnX = spawnXReset = (int)(player.Center.X - 1250f);
                 spawnX2 = spawnXReset2 = (int)(player.Center.X + 1250f);
@@ -105,7 +105,7 @@ namespace CalamityMod.Items.SummonItems
             Player player = Main.LocalPlayer;
             TooltipLine line3 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
 
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
                 line3.Text = "Creates a square arena of blocks, with you at its center\nEnrages during the day";
             }

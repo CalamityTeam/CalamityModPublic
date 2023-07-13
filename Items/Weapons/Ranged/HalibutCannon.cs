@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
 
-            if (line != null && CalamityWorld.getFixedBoi)
+            if (line != null && Main.zenithWorld)
                 line.Text = "No, it sucks";
         }
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             SoundEngine.PlaySound(SoundID.Item38, player.Center);
             
             // Really jammed in GFB
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
                 return Main.rand.NextBool(5);
 
             int bulletAmt = Main.rand.Next(25, 36);

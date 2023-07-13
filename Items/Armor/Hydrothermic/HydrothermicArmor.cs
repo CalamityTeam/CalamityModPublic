@@ -10,6 +10,9 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     public class HydrothermicArmor : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor.Hardmode";
+        internal static string VanitySmokeEntitySourceContext => "SetBonus_Calamity_Hydrothermic_Vanity";
+        internal static string InfernoPotionEntitySourceContext => "SetBonus_Calamity_Hydrothermic_InfernoPotionBoost";
+
         public override void SetDefaults()
         {
             Item.width = 18;

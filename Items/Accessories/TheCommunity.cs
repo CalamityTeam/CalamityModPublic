@@ -93,7 +93,6 @@ namespace CalamityMod.Items.Accessories
         {
             float communityPower = CalculatePower();
             float maxHealthIncrease = MathHelper.Lerp(0.025f, 0.1f, communityPower);
-            float meleeSpeedIncrease = MathHelper.Lerp(0.0125f, 0.05f, communityPower);
             int lifeRegenIncrease = (int)(MathHelper.Lerp(0.005f, 0.02f, communityPower)*100);
             float critChanceIncrease = MathHelper.Lerp(0.0125f, 0.05f, communityPower);
             float damageIncrease = MathHelper.Lerp(0.025f, 0.1f, communityPower);
@@ -108,7 +107,6 @@ namespace CalamityMod.Items.Accessories
             if (line != null)
                 line.Text += 
                 "\nMax health increased by " + (maxHealthIncrease*100).ToString("n1") + "%\n" +
-                "Melee speed increased by " + (meleeSpeedIncrease*100).ToString("n1") + "%\n" +
                 "Life regeneration increased by " + (1+lifeRegenIncrease) + "\n" +
                 "Critical strike chance increased by " + (critChanceIncrease*100).ToString("n1") + "%\n" +
                 "Damage increased by " + (damageIncrease*100).ToString("n1") + "%\n" +

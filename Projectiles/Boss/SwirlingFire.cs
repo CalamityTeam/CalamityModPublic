@@ -27,11 +27,11 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             Vector2 fireVelocity = (Time / 6f).ToRotationVector2() * Main.rand.NextFloat(1.7f, 2.2f);
-            Dust fire = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(3f, 3f), CalamityWorld.getFixedBoi || !Main.dayTime ? 267 : 6);
+            Dust fire = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(3f, 3f), Main.zenithWorld || !Main.dayTime ? 267 : 6);
             fire.velocity = fireVelocity.RotatedBy(MathHelper.PiOver2);
             fire.scale = Main.rand.NextFloat(1.3f, 1.45f);
             fire.noGravity = true;
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
                 fire.color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
             else if (!Main.dayTime)
                 fire.color = Color.Lerp(Color.Cyan, Color.BlueViolet, Main.rand.NextFloat());

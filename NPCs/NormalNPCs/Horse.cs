@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 if (NPC.ai[0] == 0f)
                 {
-                    if (CalamityWorld.getFixedBoi)
+                    if (Main.zenithWorld)
                     {
                         SoundEngine.PlaySound(SoundID.ScaryScream, Main.player[NPC.target].Center);
                     }

@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Armor.OmegaBlue
     public class OmegaBlueHelmet : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor.PostMoonLord";
+        internal static string TentacleEntitySourceContext => "SetBonus_Calamity_OmegaBlue";
 
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/OmegaBlueAbility");
 

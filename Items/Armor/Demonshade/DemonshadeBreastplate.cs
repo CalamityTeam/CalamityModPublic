@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Armor.Demonshade
             player.statManaMax2 += 200;
             player.GetDamage<GenericDamageClass>() += 0.15f;
             player.GetCritChance<GenericDamageClass>() += 15;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.2f;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.25f;
         }
 
         public override void AddRecipes()

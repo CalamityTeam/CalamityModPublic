@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             Walking = false;
 
-            if (CalamityWorld.getFixedBoi && !hasDoneDeathray && NPC.life <= NPC.lifeMax * 0.1f)
+            if (Main.zenithWorld && !hasDoneDeathray && NPC.life <= NPC.lifeMax * 0.1f)
             {
                 DeathrayTime++;
                 MasterSpark();

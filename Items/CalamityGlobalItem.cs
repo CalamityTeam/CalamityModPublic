@@ -1140,6 +1140,61 @@ namespace CalamityMod.Items
                 player.GetDamage<MeleeDamageClass>() += 0.02f;
                 player.GetAttackSpeed<MeleeDamageClass>() += 0.02f;
             }
+            
+            //Feral Claws line melee speed adjustments
+            if (item.type == ItemID.FeralClaws)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.02f;
+            }
+
+             if (item.type == ItemID.PowerGlove)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.02f;
+            }
+
+             if (item.type == ItemID.BerserkerGlove)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f;
+            }
+
+            //Celestial Stone line melee speed removal
+            if (item.type == ItemID.SunStone)
+            {
+                if (Main.dayTime)
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
+            }
+            
+            if (item.type == ItemID.MoonStone)
+            {
+                if (!Main.dayTime)
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
+            }
+            
+            if (item.type == ItemID.CelestialStone)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
+            }
+            
+            if (item.type == ItemID.CelestialShell)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
+                if (!Main.dayTime)
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.051f;
+            }
+
+            //Moon Charm and Moon Shell melee speed removal
+            
+            if (item.type == ItemID.MoonCharm)
+            {    
+                if (!Main.dayTime)
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.051f;
+            }
+
+            if (item.type == ItemID.MoonShell)
+            {    
+                if (!Main.dayTime)
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.051f;
+            }
 
             if (item.type == ItemID.TerrasparkBoots)
                 player.buffImmune[BuffID.OnFire] = true;

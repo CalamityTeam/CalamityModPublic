@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Particles;
 using CalamityMod.Particles.Metaballs;
 using CalamityMod.World;

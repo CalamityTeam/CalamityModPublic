@@ -21,6 +21,7 @@ using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Aerospec;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Items.Armor.Brimflame;
 using CalamityMod.Items.Armor.Demonshade;
@@ -775,10 +776,10 @@ namespace CalamityMod.CalPlayer
         public bool hInferno = false;
         public bool gState = false;
         public bool bBlood = false;
-        public bool eGravity = false;
+        public bool icarusFolly = false;
         public bool weakPetrification = false;
         public bool vHex = false;
-        public bool eGrav = false;
+        public bool DoGExtremeGravity = false;
         public bool warped = false;
         public bool cDepth = false;
         public bool fishAlert = false;
@@ -977,6 +978,7 @@ namespace CalamityMod.CalPlayer
         public bool MoonFist = false;
         public bool AresCannons = false;
         public bool celestialDragons = false;
+        public bool KalandraMirror = false;
 
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
 
@@ -1803,9 +1805,9 @@ namespace CalamityMod.CalPlayer
             hInferno = false;
             gState = false;
             bBlood = false;
-            eGravity = false;
+            icarusFolly = false;
             vHex = false;
-            eGrav = false;
+            DoGExtremeGravity = false;
             warped = false;
             cDepth = false;
             fishAlert = false;
@@ -2014,6 +2016,7 @@ namespace CalamityMod.CalPlayer
             MoonFist = false;
             AresCannons = false;
             celestialDragons = false;
+            KalandraMirror = false;
 
             disableVoodooSpawns = false;
             disablePerfCystSpawns = false;
@@ -2200,9 +2203,9 @@ namespace CalamityMod.CalPlayer
             hInferno = false;
             gState = false;
             bBlood = false;
-            eGravity = false;
+            icarusFolly = false;
             vHex = false;
-            eGrav = false;
+            DoGExtremeGravity = false;
             warped = false;
             cDepth = false;
             fishAlert = false;
@@ -2477,7 +2480,9 @@ namespace CalamityMod.CalPlayer
 
             if (BossRushEvent.BossRushActive)
             {
-                var source = new ProjectileSource_Death(Player);
+                // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                // The boss rush visual failure effect has no meaningful source and passes no meaningful information.
+                var source = Player.GetSource_None();
                 if (Player.whoAmI == 0 && !CalamityGlobalNPC.AnyLivingPlayers() && CalamityUtils.CountProjectiles(ModContent.ProjectileType<BossRushFailureEffectThing>()) == 0)
                     Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BossRushFailureEffectThing>(), 0, 0f);
             }
@@ -2891,7 +2896,8 @@ namespace CalamityMod.CalPlayer
                         Dust.NewDust(Player.Center + angle.ToRotationVector2() * 160f, 0, 0, 218, 0f, 0f, 100, default, 1f);
                     }
 
-                    var source = new ProjectileSource_GaelsGreatswordRage(Player);
+                    // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                    var source = Player.GetSource_ItemUse(Player.ActiveItem(), GaelsGreatsword.SkullsplosionEntitySourceContext);
                     float rageRatio = rage / rageMax;
                     float baseDamage = rageRatio * GaelsGreatsword.SkullsplosionDamageMultiplier * GaelsGreatsword.BaseDamage;
                     int damage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(baseDamage);
@@ -3222,14 +3228,7 @@ namespace CalamityMod.CalPlayer
 
             #region Melee Speed for Projectile Melee Weapons
             float meleeSpeedMult = 0f;
-            if (community)
-            {
-                float BoostAtZeroBosses = 0.05f;
-                float BoostPostYharon = 0.2f;
-                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
-                meleeSpeedMult += floatTypeBoost * 0.25f;
-            }
-
+    
             // Nerfs the effectiveness of Beetle Scale Mail.
             if (Player.beetleOffense && Player.beetleOrbs > 0)
                 meleeSpeedMult -= 0.1f * Player.beetleOrbs;
@@ -5031,7 +5030,7 @@ namespace CalamityMod.CalPlayer
                 if (proj.type == ProjectileID.TorchGod)
                 {
                     int fireDebuffTypes = CalamityWorld.death ? 9 : CalamityWorld.revenge ? 7 : Main.expertMode ? 5 : 3;
-                    int choice = CalamityWorld.getFixedBoi ? 9 : Main.rand.Next(fireDebuffTypes);
+                    int choice = Main.zenithWorld ? 9 : Main.rand.Next(fireDebuffTypes);
                     switch (choice)
                     {
                         case 0:
@@ -5148,7 +5147,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Player.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
                 }
-                else if (proj.type == ProjectileID.RuneBlast && CalamityWorld.getFixedBoi)
+                else if (proj.type == ProjectileID.RuneBlast && Main.zenithWorld)
                 {
                     Player.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
                 }
@@ -5547,6 +5546,14 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+        public override bool ConsumableDodge(Player.HurtInfo info)
+        {
+            if (HandleDodges())
+                return true;
+
+            return base.ConsumableDodge(info);
+        }
+
         #region Pre Hurt
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)/* tModPorter Override ImmuneTo, FreeDodge or ConsumableDodge instead to prevent taking damage */
         {
@@ -5554,14 +5561,6 @@ namespace CalamityMod.CalPlayer
             Player.HurtInfo hurtInfo = new Player.HurtInfo();
 
             #region Ignore Incoming Hits
-            // If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
-            if (HandleDodges())
-            {
-                justHitByDefenseDamage = false;
-                defenseDamageToTake = 0;
-                return;
-            }
-
             // If Armageddon is active, instantly kill the player.
             if (CalamityWorld.armageddon && areThereAnyDamnBosses)
                 KillPlayer();
@@ -5745,7 +5744,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Hurt
-
         public override void OnHurt(Player.HurtInfo hurtInfo)
         {
             #region Defense Damage
@@ -6054,7 +6052,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Post Hurt
-
         public override void PostHurt(Player.HurtInfo hurtInfo)
         {
             if (pArtifact && !profanedCrystal)
@@ -6134,7 +6131,8 @@ namespace CalamityMod.CalPlayer
 
                 if (aeroSet && hurtInfo.Damage > 25)
                 {
-                    var source = new ProjectileSource_AerospecSetFeathers(Player);
+                    // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                    var source = Player.GetSource_OnHurt(hurtInfo.DamageSource, AerospecBreastplate.FeatherEntitySourceContext);
                     for (int n = 0; n < 4; n++)
                     {
                         int featherDamage = (int)Player.GetBestClassDamage().ApplyTo(20);
@@ -6341,7 +6339,8 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Player.whoAmI == Main.myPlayer)
                     {
-                        var source = new ProjectileSource_DemonshadeSet(Player);
+                        // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                        var source = Player.GetSource_OnHurt(hurtInfo.DamageSource, DemonshadeHelm.ShadowScytheEntitySourceContext);
                         for (int l = 0; l < 2; l++)
                         {
                             int shadowbeamDamage = (int)Player.GetBestClassDamage().ApplyTo(3000);
@@ -6517,9 +6516,11 @@ namespace CalamityMod.CalPlayer
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
-            if (CalamityWorld.getFixedBoi)
+            if (Main.zenithWorld)
             {
-                var source = new ProjectileSource_GFBNurseHealLeviathanMeteor(Player);
+                // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                // The meteor is considered to be spawned from the Nurse herself
+                var source = nurse.GetSource_FromThis("Calamity_GetFixedBoiNurseExtinctionMeteor");
                 if (Player.whoAmI == Main.myPlayer)
                 {
                     int proj = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanBomb>(), 9999, 10f, Player.whoAmI);

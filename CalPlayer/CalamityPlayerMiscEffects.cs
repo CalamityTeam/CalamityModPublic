@@ -66,6 +66,11 @@ using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Items.Armor.LunicCorps;
+using CalamityMod.Items.Armor.Bloodflare;
+using CalamityMod.Items.Armor.Hydrothermic;
+using CalamityMod.Items.Armor.OmegaBlue;
+using CalamityMod.Items.Armor.Prismatic;
+using CalamityMod.Items.Armor.Tarragon;
 
 namespace CalamityMod.CalPlayer
 {
@@ -904,7 +909,9 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Math.Abs(Player.velocity.X) > 0.1f || Math.Abs(Player.velocity.Y) > 0.1f)
                     {
-                        Projectile.NewProjectile(new ProjectileSource_HydrothermalSmoke(Player), Player.Center, Vector2.Zero, ModContent.ProjectileType<HydrothermalSmoke>(), 0, 0f, Player.whoAmI);
+                        // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                        var source = Player.GetSource_FromThis(HydrothermicArmor.VanitySmokeEntitySourceContext);
+                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<HydrothermalSmoke>(), 0, 0f, Player.whoAmI);
                     }
                 }
                 // Trying to find a workaround because apparently putting the bool in ResetEffects prevents it from working
@@ -1011,7 +1018,7 @@ namespace CalamityMod.CalPlayer
                         if (!tentaclesPresent[i])
                         {
                             int damage = (int)Player.GetBestClassDamage().ApplyTo(390);
-                            var source = new ProjectileSource_OmegaBlueTentacles(Player);
+                            var source = Player.GetSource_FromThis(OmegaBlueHelmet.TentacleEntitySourceContext);
                             Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
                             Projectile.NewProjectile(source, Player.Center, vel, ModContent.ProjectileType<OmegaBlueTentacle>(), damage, 8f, Main.myPlayer, Main.rand.Next(120), i);
                         }
@@ -1384,7 +1391,7 @@ namespace CalamityMod.CalPlayer
                 if (necroReviveCounter >= NecroArmorSetChange.PostMortemDuration * 60)
                     Player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.NecroRevive").Format(Player.name)), 1000, -1);
                 else if (necroReviveCounter % 60 == 59)
-                    SoundEngine.PlaySound(SoundID.Item17, Player.Center);
+                    SoundEngine.PlaySound(NecroArmorSetChange.TimerSound, Player.Center);
             }
 
             // Silva invincibility effects
@@ -2584,6 +2591,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.statDefense += 4;
                 Player.GetCritChance<MeleeDamageClass>() -= 2;
+                Player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
             }
 
             if (giantPearl)
@@ -2697,7 +2705,7 @@ namespace CalamityMod.CalPlayer
                 Player.wingTimeMax = (int)(Player.wingTimeMax * 0.75);
             }
 
-            if (eGravity)
+            if (icarusFolly)
             {
                 if (Player.wingTimeMax < 0)
                     Player.wingTimeMax = 0;
@@ -2708,7 +2716,7 @@ namespace CalamityMod.CalPlayer
                 Player.wingTimeMax = (int)(Player.wingTimeMax * 0.66);
             }
 
-            if (eGrav)
+            if (DoGExtremeGravity)
             {
                 if (Player.wingTimeMax < 0)
                     Player.wingTimeMax = 0;
@@ -2826,8 +2834,7 @@ namespace CalamityMod.CalPlayer
 
             if (bloodyWormTooth)
             {
-                Player.GetDamage<MeleeDamageClass>() += 0.07f;
-                Player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
+                Player.GetDamage<MeleeDamageClass>() += 0.1f;
             }
 
             if (filthyGlove)
@@ -2884,7 +2891,8 @@ namespace CalamityMod.CalPlayer
                 if (Player.whoAmI == Main.myPlayer && bloodflareSummonTimer <= 0)
                 {
                     bloodflareSummonTimer = 900;
-                    var source = new ProjectileSource_BloodflareSummonSet(Player);
+                    // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                    var source = Player.GetSource_FromThis(BloodflareHeadSummon.GhostMineEntitySourceContext);
                     for (int I = 0; I < 3; I++)
                     {
                         float ai1 = I * 120;
@@ -2950,7 +2958,8 @@ namespace CalamityMod.CalPlayer
                 {
                     const int BaseDamage = 120;
                     int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(BaseDamage);
-                    var source = new ProjectileSource_TarragonSummonAura(Player);
+                    // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                    var source = Player.GetSource_FromThis(TarragonHeadSummon.LifeAuraEntitySourceContext);
                     float range = 300f;
 
                     for (int i = 0; i < Main.maxNPCs; ++i)
@@ -3020,7 +3029,8 @@ namespace CalamityMod.CalPlayer
                 {
                     const int BaseDamage = 50;
                     int damage = (int)Player.GetBestClassDamage().ApplyTo(BaseDamage);
-                    var source = new ProjectileSource_InfernoPotionBoost(Player);
+                    // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                    var source = Player.GetSource_FromThis(HydrothermicArmor.InfernoPotionEntitySourceContext);
                     float range = 300f;
 
                     for (int i = 0; i < Main.maxNPCs; ++i)
@@ -3189,7 +3199,10 @@ namespace CalamityMod.CalPlayer
                         if (Player.strongBees && Main.rand.NextBool(3))
                             ++beeCount;
                         int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(30);
-                        var source = new ProjectileSource_PlaguebringerSetBoost(Player);
+                        // TODO -- should be from accessory, can't do that because this code is in the wrong place.
+                        // This needs to be part of the update accessory function of the accessory itself to have the right entity source
+                        // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                        var source = Player.GetSource_FromThis("PlaguebringerPistonBees");
                         for (int index = 0; index < beeCount; ++index)
                         {
                             int bee = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-35f, 35f) * 0.02f, Main.rand.NextFloat(-35f, 35f) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlagueBeeSmall>() : Player.beeType()), damage, Player.beeKB(0f), Player.whoAmI, 0f, 0f);
@@ -3277,7 +3290,8 @@ namespace CalamityMod.CalPlayer
                     }
 
                     //Summon the aura
-                    var source = new ProjectileSource_TeslaPotion(Player);
+                    // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                    var source = Player.GetSource_Buff(Player.FindBuffIndex(ModContent.BuffType<TeslaBuff>()));
                     int damage = (int)Player.GetBestClassDamage().ApplyTo(10);
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
                         Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), damage, 0f, Player.whoAmI, 0f, 0f);
@@ -3341,7 +3355,8 @@ namespace CalamityMod.CalPlayer
                     travelDist = shootSpeed / travelDist;
                 }
 
-                var source = new ProjectileSource_PrismaticArmorLasers(Player);
+                // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
+                var source = Player.GetSource_FromThis(PrismaticHelmet.LaserEntitySourceContext);
                 int laserAmt = Main.rand.Next(2);
                 for (int index = 0; index < laserAmt; index++)
                 {
@@ -3436,8 +3451,8 @@ namespace CalamityMod.CalPlayer
 
             if (badgeOfBravery)
             {
-                Player.GetDamage<MeleeDamageClass>() += 0.05f;
-                Player.GetCritChance<MeleeDamageClass>() += 5;
+                Player.GetDamage<MeleeDamageClass>() += 0.1f;
+                Player.GetCritChance<MeleeDamageClass>() += 10;
             }
 
             // Amalgam boosts

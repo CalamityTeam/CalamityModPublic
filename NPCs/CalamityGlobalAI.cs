@@ -5221,9 +5221,9 @@ namespace CalamityMod.NPCs
             }
 
             if (npc.justHit)
-                npc.ai[0] = (npc.type == NPCID.RuneWizard && CalamityWorld.getFixedBoi) ? 5f : 2f;
+                npc.ai[0] = (npc.type == NPCID.RuneWizard && Main.zenithWorld) ? 5f : 2f;
 
-            npc.ai[0] += (npc.type == NPCID.RuneWizard && CalamityWorld.getFixedBoi) ? 5f : 2f;
+            npc.ai[0] += (npc.type == NPCID.RuneWizard && Main.zenithWorld) ? 5f : 2f;
 
             if (npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored)
             {
@@ -6603,7 +6603,7 @@ namespace CalamityMod.NPCs
                 if (Main.getGoodWorld)
                 {
                     projAmt = Main.rand.Next(8, 14);
-                    if (Main.rand.NextBool(1000) || CalamityWorld.getFixedBoi)
+                    if (Main.rand.NextBool(1000) || Main.zenithWorld)
                         projAmt = Main.rand.Next(80, 131);
                 }
 

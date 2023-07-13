@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.Providence
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = GetIntensity();
-                Color color = CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) : Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
+                Color color = Main.zenithWorld ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) : Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
                 spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), color * intensity);
             }
         }

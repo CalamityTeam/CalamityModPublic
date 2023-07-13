@@ -131,9 +131,14 @@ namespace CalamityMod.Projectiles.Ranged
             float speed = Projectile.velocity.Length();
             Projectile.velocity = Projectile.DirectionTo(target.pos) * speed;
 
-            // Force the projectile as a crit. This is done without editing underlying crit chance.
+            // If the coin is old enough, and this is the first coin struck, force the projectile as a crit.
+            // This is done without editing underlying crit chance.
+            //
+            // The limitations here are intended to stop the dominant strategy of tossing coins 6 inches straight up and immediately shooting them.
+            // Because only the first coin hit can enable the forced crit, you can't get it "for free" by chaining coins. You have to aim at a ripe coin initially.
             CalamityGlobalProjectile cgp = Projectile.Calamity();
-            cgp.forcedCrit = true;
+            if (NumRicochets == 0 && CalamityUtils.CanRicoshotCoinForceCrit(struckCoin))
+                cgp.forcedCrit = true;
 
             // Apply bonus damage to the projectile. This is an additive multiplier between multiple coins.
             float bonusDamageRatio = struckCoin.ai[0] switch

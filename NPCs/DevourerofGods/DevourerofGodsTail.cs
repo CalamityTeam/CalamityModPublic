@@ -384,7 +384,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 8;
-                float extrapitch = CalamityWorld.getFixedBoi ? 0.3f : 0f;
+                float extrapitch = Main.zenithWorld ? 0.3f : 0f;
                 SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound with { Pitch = CommonCalamitySounds.OtherwordlyHitSound.Pitch + extrapitch }, NPC.Center);
             }
             if (NPC.life <= 0)
@@ -427,7 +427,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             // viable???, done here since it's conditional
-            if (CalamityWorld.getFixedBoi && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
+            if (Main.zenithWorld && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
             {
                 modifiers.SourceDamage *= 40f;
             }

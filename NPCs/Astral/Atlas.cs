@@ -278,7 +278,7 @@ namespace CalamityMod.NPCs.Astral
 
                         swingYeet = false;
 
-                        if (Main.rand.NextBool(1000) || CalamityWorld.getFixedBoi) //Launch the player very fast very rarely
+                        if (Main.rand.NextBool(1000) || Main.zenithWorld) //Launch the player very fast very rarely
                         {
                             horMult = 12f;
                             verMult = 2.3f;
