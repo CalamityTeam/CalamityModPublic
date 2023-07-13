@@ -324,7 +324,7 @@ FAP: {
 		Normal2: Drink something that turns you into a magical flying unicorn so you can be just like me.
 		Normal3: Deals so good I'll [$$!$] myself! ...Sorry, just had a minor stroke!
 		Normal4: Did anyone ever tell you that large assets cause back pain? Well, they were right.
-		Archmage: {0} can share a drink with me any time! ...Or maybe not, I'm not sure his old heart could take it.
+		Archmage: "{0} can share a drink with me any time! ...Or maybe not, I'm not sure his old heart could take it."
 		BrimstoneWitch: The abuse {0} went through is something I can hardly comprehend. I'd offer her a drink, but I don't think she'd enjoy it.
 		Tavernkeep1: My booze will always be better than {0}'s, and nobody can convince me otherwise.
 		Tavernkeep2: Tell {0} to stop calling me. He's not wanted.

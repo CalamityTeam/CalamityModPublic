@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
             if (permadong != -1 && ChildSafety.Disabled)
-                dialogue.Add(this.GetLocalization("Chat.Archmage").Format(Main.npc[wife].GivenName));
+                dialogue.Add(this.GetLocalization("Chat.Archmage").Format(Main.npc[permadong].GivenName));
 
             int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
             if (witch != -1)
