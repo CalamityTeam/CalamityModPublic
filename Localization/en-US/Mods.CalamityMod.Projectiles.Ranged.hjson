@@ -212,12 +212,7 @@ SputterComet.DisplayName: Comet
 SputterCometBig.DisplayName: Comet
 SpykerProj.DisplayName: Spyker
 StarfleetMK2Gun.DisplayName: Starmada
-
-StarmageddonBinaryStarCenter: {
-	$parentVal: Binary Star Center
-	DisplayName: Starmageddon Binary Star Center
-}
-
+StarmageddonBinaryStarCenter.DisplayName: Starmageddon Binary Star Center
 StarmageddonHeld.DisplayName: Starmageddon
 StarmageddonStar.DisplayName: Starmageddon Star
 StarmageddonStar2.DisplayName: Starmageddon Star
