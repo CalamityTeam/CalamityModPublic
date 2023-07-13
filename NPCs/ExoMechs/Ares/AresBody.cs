@@ -508,17 +508,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             // Rotation
             NPC.rotation = NPC.velocity.X * 0.003f;
 
-            // Light and enrage check
+            // Enrage check
             if (EnragedState == (float)Enraged.Yes)
-            {
-                Lighting.AddLight(NPC.Center, 0.5f * NPC.Opacity, 0f, 0f);
                 NPC.Calamity().CurrentlyEnraged = true;
-            }
-            else
-            {
-                float lightScale = 510f;
-                Lighting.AddLight(NPC.Center, Main.DiscoR / lightScale * NPC.Opacity, Main.DiscoG / lightScale * NPC.Opacity, Main.DiscoB / lightScale * NPC.Opacity);
-            }
 
             // Despawn if target is dead
             if (player.dead)

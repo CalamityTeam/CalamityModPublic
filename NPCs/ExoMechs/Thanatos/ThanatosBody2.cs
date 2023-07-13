@@ -448,9 +448,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             SmokeDrawer.ParticleSpawnRate = 9999999;
             if (vulnerable)
             {
-                // Light
-                Lighting.AddLight(NPC.Center, 0.35f * NPC.Opacity, 0.05f * NPC.Opacity, 0.05f * NPC.Opacity);
-
                 // Noise
                 float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.1f : 1f;
                 if (NPC.localAI[0] == 0f)
@@ -468,12 +465,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 }
             }
             else
-            {
-                // Light
-                Lighting.AddLight(NPC.Center, 0.05f * NPC.Opacity, 0.2f * NPC.Opacity, 0.2f * NPC.Opacity);
-
                 NPC.localAI[0] = 0f;
-            }
 
             SmokeDrawer.Update();
 

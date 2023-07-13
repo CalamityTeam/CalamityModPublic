@@ -440,9 +440,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Continuously reset certain things.
             AttemptingToEnterPortal = false;
 
-            // Light
-            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-
             // Worm variable
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];

@@ -330,14 +330,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Start flying if target is not within a certain distance
             if (!flag2)
             {
-                if (npc.type != NPCID.TheDestroyerBody || npc.ai[2] != 1f)
-                {
-                    if (flyAtTarget)
-                        Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.1f, 0.3f, 0.05f);
-                    else
-                        Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.1f, 0.05f);
-                }
-
                 npc.localAI[1] = 1f;
 
                 if (npc.type == NPCID.TheDestroyer)
@@ -851,12 +843,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.netUpdate = true;
                 }
             }
-
-            int num11 = (int)npc.Center.Y;
-            int i2 = (int)npc.Center.X / 16;
-            num11 /= 16;
-            if (!WorldGen.SolidTile(i2, num11))
-                Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0.3f, 0.1f, 0.05f);
 
             if (num4 > 0f)
             {

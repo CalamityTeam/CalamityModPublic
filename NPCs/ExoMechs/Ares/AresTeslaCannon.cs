@@ -266,12 +266,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 NPC.spriteDirection = -NPC.direction;
             }
 
-            // Light
-            if (enraged)
-                Lighting.AddLight(NPC.Center, 0.5f * NPC.Opacity, 0f, 0f);
-            else
-                Lighting.AddLight(NPC.Center, 0.1f * NPC.Opacity, 0.25f * NPC.Opacity, 0.25f * NPC.Opacity);
-
             // Gate values
             float teslaOrbPhaseGateValue = fireMoreOrbs ? 120f : 270f;
             if (enraged)
