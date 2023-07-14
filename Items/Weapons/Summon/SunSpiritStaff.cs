@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient(ItemID.SandstoneBrick, 20).
-                AddIngredient<DesertFeather>(2).
+                AddIngredient<StormlionMandible>(2).
                 AddTile(TileID.Anvils).
                 Register();
         }
