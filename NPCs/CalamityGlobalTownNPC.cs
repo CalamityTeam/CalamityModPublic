@@ -60,10 +60,11 @@ namespace CalamityMod.NPCs
         public static int TaxesToCollectLimit => (int)(Item.buyPrice(0, 50, 0, 0) * TaxYieldFactor);
 
         // TODO -- Update all Discord tags here to new Discord usernames.
-		#region Town NPC Patreon Name Sets
+        #region Town NPC Patreon Name Sets
         private static readonly string[] AnglerNames =
         {
             "Dazren",
+            "Johnny Test", // <@!589966747977777197> (konorango)
         };
         private static readonly string[] ArmsDealerNames =
         {
@@ -75,7 +76,7 @@ namespace CalamityMod.NPCs
             "XiaoEn0426", // <@!440448864772816896> (XiaoEn0426#9157)
             "Jeffred", // <@!295362230038560768> (Knight Solaire#0873)
             "The Cooler Arthur", // <@!568263512523014154> (better artilery#0001)
-			"Markie", // <@!291141964039061504> (Markie#6969)
+            "Markie", // <@!291141964039061504> (Markie#6969)
         };
         private static readonly string[] ClothierNames =
         {
@@ -95,7 +96,7 @@ namespace CalamityMod.NPCs
             "Izuna",
             "Jasmine", // <@!430532867479699456> (phantasmagoria#6777)
             "Cybil", // <@!486507232666845185> (Captain Doofus#????)
-			"Ruth", // <@!1001307586068492388> (Briny_Coffee#4393)
+            "Ruth", // <@!1001307586068492388> (Briny_Coffee#4393)
         };
         private static readonly string[] DyeTraderNames = null;
         private static readonly string[] GoblinTinkererNames =
@@ -125,8 +126,8 @@ namespace CalamityMod.NPCs
             "Danmaku", // <@!756259562268524555> (Danmaku#2659)
             "Grylken", // <@!299970404435361802> (Grylken#1569)
             "Outlaw", // <@!918311619480657922> (TheChosenOutlaw#8746)
-			"Alfred Rend", // <@!606301806481375255> (Deadsqurp300#0907)
-			"Leeman", // <@!281999243168841728> (Tweee#5831)
+            "Alfred Rend", // <@!606301806481375255> (Deadsqurp300#0907)
+            "Leeman", // <@!281999243168841728> (Tweee#5831)
         };
         private static readonly string[] MechanicNames =
         {
@@ -143,7 +144,7 @@ namespace CalamityMod.NPCs
         {
             "Farsni",
             "Fanny", // <@!799749125720637460> (zombiewolf511#4581)
-			"Mausi", // <@!194156349347594241> (Sadouken | Daniel#3996)
+            "Mausi", // <@!194156349347594241> (Sadouken | Daniel#3996)
         };
         private static readonly string[] PainterNames =
         {
@@ -166,7 +167,7 @@ namespace CalamityMod.NPCs
             "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
             "Jade", // <@!187395834625785869> (VeryMasterNinja#7728)
             "Nyavi Aceso", // <@!270260920888852480> (Navigator#8739)
-			"Octo", // <@!796112889353994281> (OctolingGrimm#8888)
+            "Octo", // <@!796112889353994281> (OctolingGrimm#8888)
         };
         private static readonly string[] SkeletonMerchantNames =
         {
@@ -227,7 +228,7 @@ namespace CalamityMod.NPCs
         private static readonly string[] ZoologistNames =
         {
             "Kiriku", // <@!395312478160027668> (rulosss#6814)
-			"Lacuna", // <@!790746689211203604> (Lacuna#8629)
+            "Lacuna", // <@!790746689211203604> (Lacuna#8629)
         };
 
         // The following sets are for the 1.4 Town Pets: Town Dogs, Cats and Bunnies.
@@ -245,13 +246,13 @@ namespace CalamityMod.NPCs
             "Ozymandias", // <@!146333264871686145> (Ozzatron#0001)
         };
         private static readonly string[] TownDogLabradorNames =
-		{
-			"Riley", // <@!260875558592708619> (potion pal#9979)
-		};
+        {
+            "Riley", // <@!260875558592708619> (potion pal#9979)
+        };
         private static readonly string[] TownDogPitBullNames =
-		{
-			"Splinter", // <@!320320801213775873> (Kaimonick#1738)
-		};
+        {
+            "Splinter", // <@!320320801213775873> (Kaimonick#1738)
+        };
         private static readonly string[] TownDogBeagleNames =
         {
             "Kendra", // <@!237247188005158912> (LordMetarex#6407)
@@ -274,8 +275,8 @@ namespace CalamityMod.NPCs
             "Smoogle", // <@!709968379334623274> (smoogle#5672)
             "The Meowurer of Gods", // <@!385949114271268864> (GP#7876)
             "Katsafaros", // <@!190595401328492544> (NavyGuy#2650)
-			"Lucerne", // <@!271954788676141066> (lord_lucerne)
-			"Milo", // <@!401849201597874179> (maskedmilo)
+            "Lucerne", // <@!271954788676141066> (lord_lucerne)
+            "Milo", // <@!401849201597874179> (maskedmilo)
         };
         private static readonly string[] TownCatSiameseNames = null;
         private static readonly string[] TownCatBlackNames =
