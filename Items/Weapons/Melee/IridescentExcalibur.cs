@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
+    [LegacyName("ElementalExcalibur")]
     public class IridescentExcalibur : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
