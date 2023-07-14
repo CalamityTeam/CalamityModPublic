@@ -786,3 +786,8 @@ MirrorofKalandra: {
 		'Ultimate, Immeasurable, Indescribable'
 		'''
 }
+
+AstralVengeance: {
+	Tooltip: ""
+	DisplayName: Astral Vengeance
+}

@@ -1441,3 +1441,8 @@ KalandraMirrorBuff: {
 	DisplayName: Mirror of Kalandra
 	Description: Five ancient weapons will annihilate your enemies
 }
+
+AstralVengeanceBuff: {
+	Description: Mods.CalamityMod.Buffs.AstralVengeanceBuff.Description
+	DisplayName: Astral Vengeance Buff
+}
