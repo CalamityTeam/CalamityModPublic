@@ -10,17 +10,17 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AstralVengeanceBeam : BaseLaserbeamProjectile, ILocalizedModType
+    public class StellarTorusBeam : BaseLaserbeamProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AstralVengeanceBeamStart", AssetRequestMode.ImmediateLoad).Value;
-        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AstralVengeanceBeamMiddle", AssetRequestMode.ImmediateLoad).Value;
-        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AstralVengeanceBeamEnd", AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/StellarTorusBeamStart", AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/StellarTorusBeamMiddle", AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/StellarTorusBeamEnd", AssetRequestMode.ImmediateLoad).Value;
 
-        public override float Lifetime => AstralVengeance.TimeShooting;
-        public override float MaxLaserLength => AstralVengeance.EnemyDetectionDistance * 2f;
+        public override float Lifetime => StellarTorusStaff.TimeShooting;
+        public override float MaxLaserLength => StellarTorusStaff.EnemyDetectionDistance * 2f;
         public override float MaxScale => 1f;
 
         public float Opacity = .33f;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.localNPCHitCooldown = AstralVengeance.IFrames;
+            Projectile.localNPCHitCooldown = StellarTorusStaff.IFrames;
             Projectile.timeLeft = (int)Lifetime;
             Projectile.penetrate = -1;
 

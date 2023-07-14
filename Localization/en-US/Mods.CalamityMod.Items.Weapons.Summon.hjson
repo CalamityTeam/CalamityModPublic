@@ -787,7 +787,7 @@ MirrorofKalandra: {
 		'''
 }
 
-AstralVengeance: {
+StellarTorusStaff: {
 	Tooltip: ""
-	DisplayName: Astral Vengeance
+	DisplayName: Stellar Torus Staff
 }

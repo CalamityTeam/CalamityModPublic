@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class AstralVengeance : ModItem, ILocalizedModType
+    public class StellarTorusStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.useTime = Item.useAnimation = 30;
             Item.knockBack = 4f;
             Item.mana = 10;
-            Item.shoot = ModContent.ProjectileType<AstralVengeanceSummon>();
+            Item.shoot = ModContent.ProjectileType<StellarTorusSummon>();
 
             Item.width = 42;
             Item.height = 42;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int minion = Projectile.NewProjectile(source, Main.MouseWorld, Main.rand.NextVector2Circular(2f, 2f), ModContent.ProjectileType<AstralVengeanceSummon>(), damage, knockback, player.whoAmI);
+            int minion = Projectile.NewProjectile(source, Main.MouseWorld, Main.rand.NextVector2Circular(2f, 2f), ModContent.ProjectileType<StellarTorusSummon>(), damage, knockback, player.whoAmI);
 
             if (Main.projectile.IndexInRange(minion))
                 Main.projectile[minion].originalDamage = Item.OriginalDamage;

@@ -14,13 +14,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AstralVengeanceSummon : ModProjectile, ILocalizedModType
+    public class StellarTorusSummon : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
 
         public Player Owner => Main.player[Projectile.owner];
         public CalamityPlayer ModdedOwner => Owner.Calamity();
-        public NPC Target => Projectile.Center.MinionHoming(AstralVengeance.EnemyDetectionDistance, Owner);
+        public NPC Target => Projectile.Center.MinionHoming(StellarTorusStaff.EnemyDetectionDistance, Owner);
         public ref float TimerToShoot => ref Projectile.ai[0];
         public ref float RotationInterpolant => ref Projectile.ai[1];
         public ref float AnimationSpeed => ref Projectile.ai[2];
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Summon
                 TimerToShoot++;
 
                 // When the minion detects a target, before it starts charging it'll line up to the target.
-                if (TimerToShoot <= AstralVengeance.TimeBeforeCharging)
+                if (TimerToShoot <= StellarTorusStaff.TimeBeforeCharging)
                 {
                     FollowPlayer();
                     Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.DirectionTo(Target.Center).ToRotation(), .05f);
@@ -88,18 +88,18 @@ namespace CalamityMod.Projectiles.Summon
 
                 // When it lines up, the minion will stop following the owner and will stop in place.
                 // Now it'll start charging.
-                else if ((TimerToShoot > AstralVengeance.TimeBeforeCharging) && (TimerToShoot <= (AstralVengeance.TimeBeforeCharging + AstralVengeance.TimeCharging)))
+                else if ((TimerToShoot > StellarTorusStaff.TimeBeforeCharging) && (TimerToShoot <= (StellarTorusStaff.TimeBeforeCharging + StellarTorusStaff.TimeCharging)))
                 {
                     Projectile.velocity *= .95f;
-                    AnimationSpeed = Utils.Remap(TimerToShoot, AstralVengeance.TimeBeforeCharging, AstralVengeance.TimeBeforeCharging + AstralVengeance.TimeCharging, 5f, 2f);
+                    AnimationSpeed = Utils.Remap(TimerToShoot, StellarTorusStaff.TimeBeforeCharging, StellarTorusStaff.TimeBeforeCharging + StellarTorusStaff.TimeCharging, 5f, 2f);
 
                     float scale = Projectile.width * Projectile.scale;
                     float relativeScale = scale / 72f; // The width of the projectile relative to the width of the particle.
                     GenericBloom bloomCharge = new GenericBloom(Projectile.Center,
                         Projectile.velocity,
                         Color.Cyan with { A = 10 },
-                        Utils.Remap(TimerToShoot, AstralVengeance.TimeBeforeCharging, AstralVengeance.TimeBeforeCharging + AstralVengeance.TimeCharging, relativeScale * 2f, relativeScale / 2f),
-                        (int)AstralVengeance.TimeCharging);
+                        Utils.Remap(TimerToShoot, StellarTorusStaff.TimeBeforeCharging, StellarTorusStaff.TimeBeforeCharging + StellarTorusStaff.TimeCharging, relativeScale * 2f, relativeScale / 2f),
+                        (int)StellarTorusStaff  .TimeCharging);
                     GeneralParticleHandler.SpawnParticle(bloomCharge);
 
                     Vector2 chargeDustSpawn = Projectile.Center + Main.rand.NextVector2Circular(scale * 1.2f, scale * 1.2f);
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Summon
 
                     ShootLaser();
                     Projectile.rotation = MathHelper.Lerp(swingRotStart, swingRotStart + (MathHelper.PiOver4 * -LaserSwingDirection), RotationInterpolant);
-                    RotationInterpolant += 1f / AstralVengeance.TimeShooting;
+                    RotationInterpolant += 1f / StellarTorusStaff.TimeShooting;
 
                     Dust shootDust = Dust.NewDustPerfect(Projectile.Center, 307, Main.rand.NextVector2Circular(Main.rand.NextFloat(10f, 15f), Main.rand.NextFloat(10f, 15f)));
                     shootDust.noGravity = true;
@@ -185,13 +185,13 @@ namespace CalamityMod.Projectiles.Summon
 
         public void CheckMinionExistence()
         {
-            Owner.AddBuff(ModContent.BuffType<AstralVengeanceBuff>(), 2);
-            if (Type != ModContent.ProjectileType<AstralVengeanceSummon>())
+            Owner.AddBuff(ModContent.BuffType<StellarTorusBuff>(), 2);
+            if (Type != ModContent.ProjectileType<StellarTorusSummon>())
                 return;
 
             if (Owner.dead)
-                ModdedOwner.astralVengeance = false;
-            if (ModdedOwner.astralVengeance)
+                ModdedOwner.StellarTorus = false;
+            if (ModdedOwner.StellarTorus)
                 Projectile.timeLeft = 2;
         }
 
@@ -205,21 +205,21 @@ namespace CalamityMod.Projectiles.Summon
         public void FollowPlayer()
         {
             // If the minion starts to get far, force the minion to go to you.
-            if (Projectile.WithinRange(Owner.Center, AstralVengeance.EnemyDetectionDistance) && !Projectile.WithinRange(Owner.Center, AstralVengeance.EnemyDetectionDistance / 4))
+            if (Projectile.WithinRange(Owner.Center, StellarTorusStaff.EnemyDetectionDistance) && !Projectile.WithinRange(Owner.Center, StellarTorusStaff.EnemyDetectionDistance / 4))
             {
                 Projectile.velocity = (Owner.Center - Projectile.Center) / 30f;
                 Projectile.netUpdate = true;
             }
 
             // The minion will change directions to you if it's going away from you, meaning it'll just hover around you.
-            else if (!Projectile.WithinRange(Owner.Center, AstralVengeance.EnemyDetectionDistance / 8))
+            else if (!Projectile.WithinRange(Owner.Center, StellarTorusStaff.EnemyDetectionDistance / 8))
             {
                 Projectile.velocity = (Projectile.velocity * 37f + Projectile.SafeDirectionTo(Owner.Center) * 17f) / 40f;
                 Projectile.netUpdate = true;
             }
 
             // Teleport to the owner if sufficiently far away.
-            if (!Projectile.WithinRange(Owner.Center, AstralVengeance.EnemyDetectionDistance))
+            if (!Projectile.WithinRange(Owner.Center, StellarTorusStaff.EnemyDetectionDistance))
             {
                 Projectile.Center = Owner.Center;
                 Projectile.velocity *= 0.3f;
@@ -234,7 +234,7 @@ namespace CalamityMod.Projectiles.Summon
                 int laser = Projectile.NewProjectile(Projectile.GetSource_FromThis(),
                     Projectile.Center,
                     Projectile.rotation.ToRotationVector2(),
-                    ModContent.ProjectileType<AstralVengeanceBeam>(),
+                    ModContent.ProjectileType<StellarTorusBeam>(),
                     Projectile.damage,
                     Projectile.knockBack,
                     Owner.whoAmI,
