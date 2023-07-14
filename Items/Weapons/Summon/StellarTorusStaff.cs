@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.Summon;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -52,7 +53,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            base.AddRecipes();
+            CreateRecipe().
+                AddIngredient(ItemID.XenoStaff).
+                AddIngredient<ArmoredShell>(3).
+                AddIngredient(ItemID.FragmentStardust, 6).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }
