@@ -45,11 +45,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Should it land a blow with its rounded front claws, it will tear your flesh and shatter your bones. Needless to say, avoid this at all costs.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.MantisShrimp")
             });
         }
 

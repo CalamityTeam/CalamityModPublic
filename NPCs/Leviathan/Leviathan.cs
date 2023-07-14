@@ -93,11 +93,10 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A gargantuan marine reptile that lurks the ocean depths along with the Water Elemental, Anahita. It is unknown if she is the last of her kind, or was simply manifested into existence like her master.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Leviathan")
             });
         }
 

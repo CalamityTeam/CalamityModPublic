@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.AcidRain
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Curiously, these seem to be intelligent enough to imprint a sort of parent figure if captured at a young enough age. They will stick with you forever!")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.BabyFlakCrab")
             });
         }
 

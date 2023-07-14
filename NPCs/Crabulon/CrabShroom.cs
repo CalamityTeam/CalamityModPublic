@@ -50,11 +50,10 @@ namespace CalamityMod.NPCs.Crabulon
             int associatedNPCType = ModContent.NPCType<Crabulon>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundMushroom,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Mushrooms that grow only on Crabulon's shell, feasting off the nutrients in the husk. By jolting its body, it flings these off in defense.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.CrabShroom")
             });
         }
 

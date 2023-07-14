@@ -173,12 +173,11 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCorruption,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("In the deep trenches of the corruption, infected creatures gather to manifest their own deity. Unlike other cases where smaller beings gather for protection, this is an entirely offensive maneuver.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.HiveMind")
             });
         }
 

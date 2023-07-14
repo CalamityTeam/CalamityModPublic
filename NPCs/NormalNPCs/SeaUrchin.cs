@@ -39,11 +39,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A spiny animal that flings itself about in defense of its territory. If they fling themselves onto land—though relatively helpless—they can make their way back to the ocean.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.SeaUrchin")
             });
         }
 

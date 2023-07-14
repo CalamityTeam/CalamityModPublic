@@ -83,11 +83,10 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundMushroom,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("In the bulbous growths of the fungal caverns it is not uncommon to find molted shells.They are far too large for any of the usual decapods of the mushrooms.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Crabulon")
             });
         }
 
