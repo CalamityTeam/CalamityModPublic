@@ -40,9 +40,10 @@ namespace CalamityMod.Items.Armor.Wulfrum
             Item.shootSpeed = 18f;
             Item.holdStyle = 16; //Custom hold style
 
-            Item.useAnimation = 10;
             Item.useTime = 4;
+            Item.useAnimation = 10;
             Item.reuseDelay = 17;
+            Item.useLimitPerAnimation = 3;
 
             Item.noUseGraphic = false;
         }

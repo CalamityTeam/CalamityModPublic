@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.width = 142;
             Item.height = 64;
-            Item.useTime = Item.useAnimation = 16;
+            Item.useTime = Item.useAnimation = 14;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 7f;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;

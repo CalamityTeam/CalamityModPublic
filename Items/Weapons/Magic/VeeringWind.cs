@@ -21,10 +21,10 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             Item.damage = 15;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 10;
+            Item.mana = 20;
             Item.width = 28;
             Item.height = 32;
-            Item.useTime = Item.useAnimation = 25;
+            Item.useTime = Item.useAnimation = 36;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 10f;
@@ -34,26 +34,18 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item66;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<VeeringWindAirWave>();
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 6f;
         }
 
         public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse == 2)
-                Item.UseSound = SoundID.Item43;
-            else
-                Item.UseSound = SoundID.Item66;
+            Item.UseSound = player.altFunctionUse == 2 ? SoundID.Item43 : SoundID.Item66;
             return base.CanUseItem(player);
         }
 
-        public override float UseSpeedMultiplier(Player player)
-        {
-            if (player.altFunctionUse == 2)
-                return 0.5f;
-            return 1f;
-        }
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? 0.5f : 1f;
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
@@ -70,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Magic
             int totalProjectiles = 24;
             for (int i = 0; i < totalProjectiles; i++)
             {
-                Vector2 waveVelocity = ((MathHelper.TwoPi * i / (float)totalProjectiles) + velocity.ToRotation()).ToRotationVector2() * velocity.Length() * 0.5f;
+                Vector2 waveVelocity = ((MathHelper.TwoPi * i / (float)totalProjectiles) + velocity.ToRotation()).ToRotationVector2() * velocity.Length();
                 Projectile.NewProjectile(source, position, waveVelocity, type, damage, knockback, Main.myPlayer);
             }
             return false;

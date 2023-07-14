@@ -18,12 +18,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 230;
+            Item.damage = 130;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 84;
             Item.height = 30;
@@ -75,7 +75,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Projectile.NewProjectile(source, position, velocity.SafeNormalize(Vector2.Zero) * AltFireShootSpeed, projID, damage, knockback, player.whoAmI);
                 return false;
             }
-
 
             // Left click: Exo Fire, with a chance of Exo Light Bombs.
             for (int i = 0; i < 2; i++)

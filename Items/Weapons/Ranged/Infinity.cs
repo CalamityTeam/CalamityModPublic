@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         internal bool limit = true;
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -27,8 +27,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.width = 56;
             Item.height = 24;
             Item.useTime = 2;
-            Item.reuseDelay = 6;
             Item.useAnimation = 18;
+            Item.reuseDelay = 6;
+            Item.useLimitPerAnimation = 9;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1f;

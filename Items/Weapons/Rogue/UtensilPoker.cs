@@ -22,8 +22,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noUseGraphic = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 15;
-            Item.reuseDelay = 15;
             Item.useAnimation = 45;
+            Item.reuseDelay = 15;            
+            Item.useLimitPerAnimation = 3;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.value = CalamityGlobalItem.Rarity10BuyPrice;

@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             Item heldItem = Owner.ActiveItem();
             Owner.PickAmmo(heldItem, out int projectileType, out float shootSpeed, out int damage, out float knockback, out _);
-            damage *= 6;
+            damage *= 4;
             shootSpeed = heldItem.shootSpeed * Projectile.scale * 0.64f;
             projectileType = ModContent.ProjectileType<PrismaticEnergyBlast>();
 

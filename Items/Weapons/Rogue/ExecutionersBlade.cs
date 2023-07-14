@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useTime = 3;
             Item.useAnimation = 9;
             Item.reuseDelay = 1;
+            Item.useLimitPerAnimation = 3;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 6.75f;
             Item.UseSound = SoundID.Item73;
