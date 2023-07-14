@@ -28,8 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 98;
             Item.height = 50;
-            Item.useTime = 10;
-            Item.useAnimation = 10;
+            Item.useTime = Item.useAnimation = 10;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2f;
@@ -51,20 +50,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse == 2)
-            {
-                Item.useTime = 60;
-                Item.useAnimation = 60;
-                Item.UseSound = SoundID.Item61;
-            }
-            else
-            {
-                Item.useTime = 10;
-                Item.useAnimation = 10;
-                Item.UseSound = SoundID.Item11;
-            }
+            Item.UseSound = player.altFunctionUse == 2 ? SoundID.Item61 : SoundID.Item11;
             return base.CanUseItem(player);
         }
+
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? (1f / 6f) : 1f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
