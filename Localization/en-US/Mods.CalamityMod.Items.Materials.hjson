@@ -242,8 +242,8 @@ PerennialBar: {
 	Tooltip: ""
 }
 
-Phantoplasm: {
-	DisplayName: Phantoplasm
+Polterplasm: {
+	DisplayName: Polterplasm
 	Tooltip: It churns and seethes with ghastly malice
 }
 

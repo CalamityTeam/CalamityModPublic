@@ -309,7 +309,7 @@ namespace CalamityMod.Items
                 case ItemID.DungeonFishingCrate:
                 case ItemID.DungeonFishingCrateHard:
                     loot.AddIf(() => NPC.downedPlantBoss, ItemID.Ectoplasm, 10, 1, 5); // 10% 1-5 Ectoplasm
-                    loot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<Phantoplasm>(), 10, 1, 5); // 10% 1-5 Phantoplasm
+                    loot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<Polterplasm>(), 10, 1, 5); // 10% 1-5 Polterplasm
                     break;
 
                 case ItemID.JungleFishingCrate:

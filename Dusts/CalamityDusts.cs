@@ -9,7 +9,7 @@
         SulfurousSeaAcid = 75,
         Brimstone = 235,
         Ectoplasm = 180,
-        Phantoplasm = 60,
+        Polterplasm = 60,
         Plague = 46,
         ProfanedFire = 244,
         Nightwither = 185,

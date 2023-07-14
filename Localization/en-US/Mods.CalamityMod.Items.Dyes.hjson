@@ -118,8 +118,8 @@ NightmareDye: {
 	Tooltip: ""
 }
 
-PhantoplasmDye: {
-	DisplayName: Phantoplasm Dye
+PolterplasmDye: {
+	DisplayName: Polterplasm Dye
 	Tooltip: ""
 }
 
