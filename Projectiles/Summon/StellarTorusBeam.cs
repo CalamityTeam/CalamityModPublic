@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Target is null)
                 Projectile.Kill();
 
-            if (Main.rand.NextBool(4))
+            if (Main.rand.NextBool(3))
             {
                 SparkParticle energyEffect = new SparkParticle(Projectile.Center + Vector2.Lerp(Projectile.velocity, Projectile.velocity * MaxLaserLength, Main.rand.NextFloat(1f)) + Main.rand.NextVector2Circular(30f, 30f),
                     Projectile.velocity * Main.rand.NextFloat(8f, 12f),

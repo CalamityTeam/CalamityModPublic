@@ -1443,6 +1443,6 @@ KalandraMirrorBuff: {
 }
 
 StellarTorusBuff: {
-	Description: Mods.CalamityMod.Buffs.AstralVengeanceBuff.Description
 	DisplayName: Astral Vengeance Buff
+	Description: Summons a Torus Orbital that fries your foes
 }
