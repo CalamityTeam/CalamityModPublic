@@ -71,7 +71,7 @@ namespace CalamityMod.Items.TreasureBags
             {
                 ModContent.ItemType<TheMicrowave>(),
                 ModContent.ItemType<StarSputter>(),
-                ModContent.ItemType<Starfall>(),
+                ModContent.ItemType<StarShower>(),
                 ModContent.ItemType<GodspawnHelixStaff>(),
                 ModContent.ItemType<RegulusRiot>()
             }));

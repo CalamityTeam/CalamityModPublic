@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 {
                     ModContent.ItemType<TheMicrowave>(),
                     ModContent.ItemType<StarSputter>(),
-                    ModContent.ItemType<Starfall>(),
+                    ModContent.ItemType<StarShower>(),
                     ModContent.ItemType<GodspawnHelixStaff>(),
                     ModContent.ItemType<RegulusRiot>(),
                 };
