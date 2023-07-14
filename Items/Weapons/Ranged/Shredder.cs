@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -23,8 +23,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.width = 56;
             Item.height = 24;
             Item.useTime = 4;
-            Item.reuseDelay = 12;
             Item.useAnimation = 32;
+            Item.reuseDelay = 12;
+            Item.useLimitPerAnimation = 8;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;

@@ -18,7 +18,6 @@ namespace CalamityMod.Items
             Item.width = 32;
             Item.height = 46;
             Item.useTime = Item.useAnimation = 25;
-            Item.reuseDelay = 15;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.DD2_DarkMageCastHeal;
             Item.noMelee = true;

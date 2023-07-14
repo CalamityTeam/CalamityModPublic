@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-                       Item.ResearchUnlockCount = 99;
+            Item.ResearchUnlockCount = 99;
         }
 
         public int shootCount = 0;
@@ -34,9 +34,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noUseGraphic = true;
             Item.useStyle = ItemUseStyleID.Swing;
             //Clockwork burst
-            Item.useAnimation = 10;
             Item.useTime = 4;
+            Item.useAnimation = 10;
             Item.reuseDelay = 24;
+            Item.useLimitPerAnimation = 3;
 
             Item.knockBack = 1f;
             Item.UseSound = Throw3Sound;

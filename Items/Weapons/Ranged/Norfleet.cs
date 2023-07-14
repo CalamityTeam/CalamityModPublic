@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAnimation = 75;
             Item.useTime = 75;
-            Item.reuseDelay = 0;
             Item.width = 140;
             Item.height = 42;
             Item.UseSound = SoundID.Item92;

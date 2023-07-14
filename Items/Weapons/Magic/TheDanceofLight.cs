@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useTime = 2;
             Item.useAnimation = 8;
             Item.reuseDelay = 5;
+            Item.useLimitPerAnimation = 4;
             Item.UseSound = SoundID.Item105;
             Item.autoReuse = true;
             Item.noMelee = true;

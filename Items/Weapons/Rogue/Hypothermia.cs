@@ -27,9 +27,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
 
             Item.damage = 200;
-            Item.useAnimation = 21;
             Item.useTime = 3;
+            Item.useAnimation = 21;
             Item.reuseDelay = 1;
+            Item.useLimitPerAnimation = 7;
             Item.knockBack = 3f;
             Item.shoot = ModContent.ProjectileType<HypothermiaShard>();
             Item.shootSpeed = 8f;
