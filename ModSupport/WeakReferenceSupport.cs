@@ -198,7 +198,6 @@ namespace CalamityMod
         {
             BossChecklistSupport();
             FargosSupport();
-            CensusSupport();
             DialogueTweakSupport();
             SummonersAssociationSupport();
         }
@@ -971,19 +970,6 @@ namespace CalamityMod
             fargos.Call("AbominationnClearEvents", "CalamityMod", AcidRainEvent.AcidRainEventIsOngoing, true);
 
             AddToMutantShop("OldDuke", "BloodwormItem", DownedBoomerDuke, Item.buyPrice(platinum: 2));
-        }
-
-        private static void CensusSupport()
-        {
-            Mod censusMod = GetInstance<CalamityMod>().census;
-            if (censusMod != null)
-            {
-                censusMod.Call("TownNPCCondition", NPCType<SEAHOE>(), "Defeat a Giant Clam after defeating the Desert Scourge");
-                censusMod.Call("TownNPCCondition", NPCType<THIEF>(), "Have a [i:" + ItemID.PlatinumCoin + "] in your inventory after defeating Skeletron");
-                censusMod.Call("TownNPCCondition", NPCType<FAP>(), "Have [i:" + ItemType<FabsolsVodka>() + "] in your inventory in Hardmode");
-                censusMod.Call("TownNPCCondition", NPCType<DILF>(), "Defeat Cryogen");
-                censusMod.Call("TownNPCCondition", NPCType<WITCH>(), "Defeat Supreme Witch, Calamitas");
-            }
         }
 
         private static void DialogueTweakSupport()
