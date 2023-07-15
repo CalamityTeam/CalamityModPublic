@@ -827,7 +827,6 @@ namespace CalamityMod
                 int type = NPCType<SupremeCalamitas>();
                 List<int> summons = new List<int>() { ItemType<AshesofCalamity>(), ItemType<CeremonialUrn>() };
                 List<int> collection = new List<int>() { ItemType<CalamitasRelic>(), ItemType<SupremeCalamitasTrophy>(), ItemType<SupremeCataclysmTrophy>(), ItemType<SupremeCatastropheTrophy>(), ItemType<AshenHorns>(), ItemType<SCalMask>(), ItemType<SCalRobes>(), ItemType<SCalBoots>(), ItemType<LoreCalamitas>(), ItemType<LoreCynosure>(), ItemType<BrimstoneJewel>(), ItemType<Levi>(), ItemType<ThankYouPainting>() };
-                string bossHeadTex = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIcon";
                 AddBoss(bossChecklist, calamity, entryName, order, type, DownedSCal, new Dictionary<string, object>()
                 {
                     ["spawnItems"] = summons,

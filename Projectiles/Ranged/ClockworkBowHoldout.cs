@@ -94,9 +94,9 @@ namespace CalamityMod.Projectiles.Ranged
                         ++LoadedBolts;
 
                         if (LoadedBolts % 2 == 0)
-                            CombatText.NewText(Owner.Hitbox, new Color(155, 255, 255), "Tock", true);
+                            CombatText.NewText(Owner.Hitbox, new Color(155, 255, 255), CalamityUtils.GetTextValue("Misc.ClockworkTock"), true);
                         else
-                            CombatText.NewText(Owner.Hitbox, new Color(255, 200, 100), "Tick", true);
+                            CombatText.NewText(Owner.Hitbox, new Color(255, 200, 100), CalamityUtils.GetTextValue("Misc.ClockworkTick"), true);
 
                         FramesToLoadBolt *= 0.950f;
 

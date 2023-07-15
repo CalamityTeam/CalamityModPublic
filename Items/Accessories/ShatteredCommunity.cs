@@ -228,7 +228,7 @@ namespace CalamityMod.Items.Accessories
             // Display a level up text notification.
             Rectangle textArea = new Rectangle((int)Player.Center.X, (int)Player.Center.Y, 1, 1);
             Color textColor = new Color(236, 209, 236);
-            CombatText.NewText(textArea, textColor, "The Community cracks...", false, false);
+            CombatText.NewText(textArea, textColor, CalamityUtils.GetTextValueFromModItem<ShatteredCommunity>("LevelUpText"), false, false);
         }
     }
 }

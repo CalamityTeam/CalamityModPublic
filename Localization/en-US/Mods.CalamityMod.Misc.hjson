@@ -35,9 +35,20 @@ PlanetoidSchematicRecipeCondition: Place a schematic from the lab in the large p
 JungleSchematicRecipeCondition: Place a schematic from the lab deep within the jungle in your inventory at least once
 UnderworldSchematicRecipeCondition: Place a schematic from the lab near the edges of the underworld in your inventory at least once
 IceSchematicRecipeCondition: Place a schematic from the lab within the frozen caverns in your inventory at least once
-// Item Messages
+// Other CombatText uses and Item Messages
 ShiftToExpand: Hold SHIFT to see an expanded description
 LearnedSchematic: You learned how to create new things!
+CragmawVibeCheck: Vibe check.
+AutocannonHot: OUCH! HOT!
+NoComputer: No decryption computer installed
+ArkParry: Parry!
+ClockworkTick: Tick
+ClockworkTock: Tock
+SevensJackpot: Jackpot!!!
+SevensBust: Bust!
+SevensDoubles: Doubles!
+SevensTriples: Triples!
+StylishHammerHit: Stylish!
 ThirdSageBlessingText: You have been blessed by the Third Sage!
 ThirdSageBlessingText2: The Third Sage has rescinded its blessing...
 GenericConsumedText: "[c/8a8a8a:You have already consumed this item]"

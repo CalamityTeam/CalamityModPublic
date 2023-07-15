@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Ranged
                             if (shottimer == 1)
                             {
                                 SoundEngine.PlaySound(TheSevensStriker.JackpotSound, Projectile.Center);
-                                CombatText.NewText(player.getRect(), Color.Gold, "Jackpot!!!", true);
+                                CombatText.NewText(player.getRect(), Color.Gold, CalamityUtils.GetTextValue("Misc.SevensJackpot"), true);
                             }
                             // Every 5 frames, shoot 7 coins. The first 5 frames are excluded for timing purposes
                             if (shottimer % 5 == 0 && shottimer > 5)
@@ -164,14 +164,14 @@ namespace CalamityMod.Projectiles.Ranged
                                     // A single brick with 100% damage
                                     case 1:
                                         Shoot(1, ModContent.ProjectileType<SevensStrikerBrick>(), weaponDamage, 0, 2f, 0);
-                                        CombatText.NewText(player.getRect(), Color.Gray, "Bust!", true);
+                                        CombatText.NewText(player.getRect(), Color.Gray, CalamityUtils.GetTextValue("Misc.SevensBust"), true);
                                         SoundEngine.PlaySound(TheSevensStriker.BustSound, Projectile.Center);
                                         break;
                                     // 7 exploding oranges with 200% damage
                                     case 2:
                                         int doublesDamage = (int)(weaponDamage * TheSevensStriker.DoublesMultiplier);
                                         Shoot(7, ModContent.ProjectileType<SevensStrikerOrange>(), doublesDamage, weaponKnockback, 2f, 0.1f);
-                                        CombatText.NewText(player.getRect(), Color.Orange, "Doubles!", true);
+                                        CombatText.NewText(player.getRect(), Color.Orange, CalamityUtils.GetTextValue("Misc.SevensDoubles"), true);
                                         SoundEngine.PlaySound(TheSevensStriker.DoublesSound, Projectile.Center);
                                         break;
                                     // 7 piercing grapes with X% damage
@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles.Ranged
                                         int grapeDamage = (int)(weaponDamage * TheSevensStriker.TriplesGrapeMultiplier);
                                         Shoot(7, ModContent.ProjectileType<SevensStrikerCherry>(), cherryDamage, weaponKnockback, 1.5f, 0.1f);
                                         Shoot(7, ModContent.ProjectileType<SevensStrikerGrape>(), grapeDamage, weaponKnockback, 2f, 0.2f);
-                                        CombatText.NewText(player.getRect(), Color.Red, "Triples!", true);
+                                        CombatText.NewText(player.getRect(), Color.Red, CalamityUtils.GetTextValue("Misc.SevensTriples"), true);
                                         SoundEngine.PlaySound(TheSevensStriker.TriplesSound, Projectile.Center);
                                         break;
                                 }

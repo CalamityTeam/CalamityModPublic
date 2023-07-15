@@ -133,7 +133,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
             {
                 // Create a warning if someone attempts to click on a codebreaker without a computer with which to open the UI.
                 if (!codebreakerTileEntity.ContainsDecryptionComputer)
-                    CombatText.NewText(player.Hitbox, Color.Cyan, "No decryption computer installed");
+                    CombatText.NewText(player.Hitbox, Color.Cyan, CalamityUtils.GetTextValue("Misc.NoComputer"));
 
                 CodebreakerUI.ViewedTileEntityID = -1;
                 SoundEngine.PlaySound(SoundID.MenuClose);
