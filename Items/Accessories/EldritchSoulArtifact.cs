@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<ExodiumCluster>(25).
                 AddIngredient<Navyplate>(25).
-                AddIngredient<Phantoplasm>(5).
+                AddIngredient<Polterplasm>(5).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

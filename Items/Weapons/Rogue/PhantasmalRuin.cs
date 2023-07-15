@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 AddIngredient<LuminousStriker>().
                 AddIngredient<PhantomLance>(500).
                 AddIngredient<RuinousSoul>(4).
-                AddIngredient<Phantoplasm>(20).
+                AddIngredient<Polterplasm>(20).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

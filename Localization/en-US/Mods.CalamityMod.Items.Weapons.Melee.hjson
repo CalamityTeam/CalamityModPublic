@@ -369,16 +369,6 @@ EarthenPike: {
 		'''
 }
 
-ElementalExcalibur: {
-	DisplayName: Elemental Excalibur
-	Tooltip:
-		'''
-		Freezes enemies and heals the player on hit
-		Fires rainbow beams that change their behavior based on their color
-		Press <right> for true melee
-		'''
-}
-
 ElementalLance: {
 	DisplayName: Elemental Lance
 	Tooltip:
@@ -584,8 +574,8 @@ GrandGuardian: {
 		'''
 }
 
-GreatswordofBlah: {
-	DisplayName: Greatsword of Blah
+Orderbringer: {
+	DisplayName: Orderbringer
 	Tooltip:
 		'''
 		Fires a rainbow blade that emits rainbow rain on death for a time
@@ -649,6 +639,16 @@ IllustriousKnives: {
 InsidiousImpaler: {
 	DisplayName: Insidious Impaler
 	Tooltip: Fires a harpoon that sticks to enemies and explodes
+}
+
+IridescentExcalibur: {
+	DisplayName: Iridescent Excalibur
+	Tooltip:
+		'''
+		Freezes enemies and heals the player on hit
+		Fires rainbow beams that change their behavior based on their color
+		Press <right> for true melee
+		'''
 }
 
 Lacerator: {

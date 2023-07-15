@@ -42,11 +42,11 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             AIType = -1;
             NPC.aiStyle = -1;
-            NPC.damage = 0;
+            NPC.damage = 10;
             NPC.width = 44;
             NPC.height = 44;
             NPC.defense = 4;
-            NPC.lifeMax = 92;
+            NPC.lifeMax = 46;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 1, 50);
             NPC.noGravity = false;
@@ -72,6 +72,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             List<int> SuperchargableEnemies = new List<int>()
             {
                 ModContent.NPCType<WulfrumDrone>(),

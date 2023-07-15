@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
     public class GalacticaComet : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        private int noTileHitCounter = 120;
+        private int noTileHitCounter = 90;
 
         public override void SetStaticDefaults()
         {
@@ -34,20 +34,17 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            int randomToSubtract = Main.rand.Next(1, 4);
-            noTileHitCounter -= randomToSubtract;
+            noTileHitCounter -= 1;
             if (noTileHitCounter == 0)
-            {
                 Projectile.tileCollide = true;
-            }
+
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
-                {
                     SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
-                }
             }
+
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] == 18f)
             {
@@ -55,51 +52,47 @@ namespace CalamityMod.Projectiles.Melee
                 for (int l = 0; l < 12; l++)
                 {
                     Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
+                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * MathHelper.Pi / 6f), default) * new Vector2(8f, 16f);
+                    vector3 = vector3.RotatedBy((double)(Projectile.rotation - MathHelper.PiOver2), default);
                     int num9 = Dust.NewDust(Projectile.Center, 0, 0, Main.rand.NextBool(2) ? 164 : 229, 0f, 0f, 160, default, 1f);
-                    Main.dust[num9].scale = 1.1f;
                     Main.dust[num9].noGravity = true;
                     Main.dust[num9].position = Projectile.Center + vector3;
                     Main.dust[num9].velocity = Projectile.velocity * 0.1f;
                     Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
                 }
             }
+
             Projectile.alpha -= 15;
             int num58 = 150;
             if (Projectile.Center.Y >= Projectile.ai[1])
-            {
                 num58 = 0;
-            }
             if (Projectile.alpha < num58)
-            {
                 Projectile.alpha = num58;
-            }
-            Projectile.rotation = Projectile.velocity.ToRotation() - 1.57079637f;
+
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+
             if (Main.rand.NextBool(16))
             {
-                Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)Projectile.velocity.ToRotation(), default);
-                int num59 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 164, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1.2f);
+                Vector2 value3 = Vector2.UnitX.RotatedByRandom(MathHelper.PiOver2).RotatedBy((double)Projectile.velocity.ToRotation(), default);
+                int num59 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 164, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1f);
                 Main.dust[num59].velocity = value3 * 0.66f;
                 Main.dust[num59].position = Projectile.Center + value3 * 12f;
             }
+
             if (Main.rand.NextBool(48) && Main.netMode != NetmodeID.Server)
             {
                 int num60 = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
                 Main.gore[num60].velocity *= 0.66f;
                 Main.gore[num60].velocity += Projectile.velocity * 0.3f;
             }
+
             if (Projectile.ai[1] == 1f)
             {
                 Projectile.light = 0.5f;
                 if (Main.rand.NextBool(10))
-                {
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 229, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1.2f);
-                }
+                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 229, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1f);
                 if (Main.rand.NextBool(20) && Main.netMode != NetmodeID.Server)
-                {
                     Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.position, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
-                }
             }
         }
 
@@ -119,9 +112,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
+            if (Projectile.ai[0] == 1f)
+                return;
+
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             Projectile.position = Projectile.Center;
-            Projectile.width = Projectile.height = 144;
+            Projectile.width = Projectile.height = 68;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num193 = 0; num193 < 4; num193++)

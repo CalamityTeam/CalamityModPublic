@@ -13,13 +13,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetStaticDefaults()
         {
-           
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 156;
+            Item.damage = 140;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 164;
             Item.height = 58;
@@ -45,17 +44,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (Main.myPlayer == player.whoAmI)
                 player.Calamity().rightClickListener = true;
 
-
-            if (player.Calamity().mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] <= 0)
-            {
-                Item.noUseGraphic = false;
-                Item.reuseDelay = 0;
-            }
-            else
-            {
-                Item.noUseGraphic = true;
-                Item.reuseDelay = 28;
-            }
+            Item.noUseGraphic = !player.Calamity().mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] > 0;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] <= 0;
@@ -79,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     Vector2 newShootVelocity = shootVelocity * Main.rand.NextFloat(1f, 1.45f);
                     newShootVelocity = newShootVelocity.RotatedByRandom(0.15f);
-                    Projectile.NewProjectile(source, gunTip, newShootVelocity, Item.shoot, (int)(damage * 1.08), knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, gunTip, newShootVelocity, Item.shoot, damage, knockback, player.whoAmI);
                 }
             }
 

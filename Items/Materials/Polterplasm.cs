@@ -6,9 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class Phantoplasm : ModItem, ILocalizedModType
+    [LegacyName("Phantoplasm")]
+    public class Polterplasm : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Materials";
+
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;

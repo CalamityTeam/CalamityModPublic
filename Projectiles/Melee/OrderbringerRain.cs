@@ -1,11 +1,12 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Melee
 {
-    public class WhiterainBlah : ModProjectile, ILocalizedModType
+    public class OrderbringerRain : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

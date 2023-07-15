@@ -17,8 +17,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.width = 74;
             Item.height = 34;
             Item.useTime = 2;
-            Item.reuseDelay = 10;
             Item.useAnimation = 20;
+            Item.reuseDelay = 10;
+            Item.useLimitPerAnimation = 10;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.25f;

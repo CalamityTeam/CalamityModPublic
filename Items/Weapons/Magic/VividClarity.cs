@@ -4,6 +4,7 @@ using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,9 +14,12 @@ namespace CalamityMod.Items.Weapons.Magic
     public class VividClarity : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
+
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/VividClarityShoot");
+        public static readonly SoundStyle BeamSound = new("CalamityMod/Sounds/Item/VividClarityBeamAppear");
         public override void SetStaticDefaults()
         {
-                       Item.staff[Item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -25,14 +29,15 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.mana = 42;
             Item.width = 90;
             Item.height = 112;
-            Item.useAnimation = 20;
             Item.useTime = 4;
+            Item.useAnimation = 20;
             Item.reuseDelay = Item.useAnimation;
+            Item.useLimitPerAnimation = 5;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 7.5f;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.UseSound = SoundID.Item60;
+            Item.UseSound = UseSound;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<VividBeam>();
             Item.shootSpeed = 6f;

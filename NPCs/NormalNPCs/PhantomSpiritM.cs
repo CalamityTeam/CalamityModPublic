@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             float speed = CalamityWorld.death ? 18f : CalamityWorld.revenge ? 15.75f : 13.5f;
             CalamityAI.DungeonSpiritAI(NPC, Mod, speed, -MathHelper.PiOver2);
-            int num822 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
+            int num822 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num822];
             dust.velocity *= 0.1f;
             dust.scale = 1.3f;
@@ -73,13 +73,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, hit.HitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, hit.HitDirection, -1f, 0, default, 1f);
             }
             if (NPC.life <= 0)
             {
                 for (int num288 = 0; num288 < 50; num288++)
                 {
-                    int num289 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, NPC.velocity.X, NPC.velocity.Y, 0, default, 1f);
+                    int num289 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, NPC.velocity.X, NPC.velocity.Y, 0, default, 1f);
                     Dust dust = Main.dust[num289];
                     dust.velocity *= 2f;
                     dust.noGravity = true;
@@ -90,6 +90,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override Color? GetAlpha(Color drawColor) => new Color(200, 200, 200, 0);
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<Phantoplasm>(), 1, 1, 3);
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<Polterplasm>(), 1, 1, 3);
     }
 }

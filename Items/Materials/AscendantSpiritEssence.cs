@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Phantoplasm>(2).
+                AddIngredient<Polterplasm>(2).
                 AddIngredient<NightmareFuel>(5).
                 AddIngredient<EndothermicEnergy>(5).
                 AddIngredient<DarksunFragment>(2).

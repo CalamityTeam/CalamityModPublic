@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Phantoplasm bulges through the corroded armor in the place of rotting flesh, as this creature reanimated by vengeful spirits treks the caverns of the world.")
+				new FlavorTextBestiaryInfoElement("Polterplasm bulges through the corroded armor in the place of rotting flesh, as this creature reanimated by vengeful spirits treks the caverns of the world.")
             });
         }
 
@@ -391,13 +391,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, hit.HitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, hit.HitDirection, -1f, 0, default, 1f);
             }
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, hit.HitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, hit.HitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -406,7 +406,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npcLoot.Add(ModContent.ItemType<AncientBoneDust>());
             LeadingConditionRule postML = npcLoot.DefineConditionalDropSet(DropHelper.PostML());
-            postML.Add(ModContent.ItemType<Phantoplasm>());
+            postML.Add(ModContent.ItemType<Polterplasm>());
         }
     }
 }

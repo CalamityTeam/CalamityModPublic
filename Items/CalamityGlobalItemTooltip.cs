@@ -578,7 +578,7 @@ namespace CalamityMod.Items
 
             // Ale and Sake rebalance.
             if (item.type == ItemID.Ale || item.type == ItemID.Sake)
-                EditTooltipByNum(0, (line) => line.Text = "Increases melee damage by 10% and reduces defense by 10%");
+                EditTooltipByNum(0, (line) => line.Text = "Increases melee damage by 10% and reduces defense by 5%");
 
             // Hellfire Treads buff.
             if (item.type == ItemID.HellfireTreads)

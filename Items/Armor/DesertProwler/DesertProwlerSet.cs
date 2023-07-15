@@ -192,7 +192,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DesertFeather>(2).
+                AddIngredient<StormlionMandible>(2).
                 AddIngredient(ItemID.Silk, 8).
                 AddTile(TileID.Loom).
                 Register();
@@ -235,7 +235,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DesertFeather>(3).
+                AddIngredient<StormlionMandible>(3).
                 AddIngredient(ItemID.Silk, 10).
                 AddTile(TileID.Loom).
                 Register();
@@ -264,7 +264,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DesertFeather>().
+                AddIngredient<StormlionMandible>().
                 AddIngredient(ItemID.Silk, 5).
                 AddTile(TileID.Loom).
                 Register();

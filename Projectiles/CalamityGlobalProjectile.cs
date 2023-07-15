@@ -209,12 +209,29 @@ namespace CalamityMod.Projectiles
             // All secondary yoyos are spawned with ai[0] of 1 which tells then tell its AI to do secondary yoyo AI
             if (Main.player[projectile.owner].yoyoGlove && projectile.aiStyle == 99)
             {
-                if (projectile.ai[0] == 1f && projectile.localAI[0] == 0f)
-                    projectile.damage = (int)(projectile.originalDamage * 0.5f);
-                // Reset damage if the yoyo count returns to 1
-                // This is possible due to the horrendous yoyo spawning system for limited lifespan yoyos
-                else if (Main.player[projectile.owner].ownedProjectileCounts[projectile.type] == 1 && projectile.localAI[0] > 0f)
-                    projectile.damage = projectile.originalDamage;
+                // Store damage on first frame
+                if (projectile.ai[2] == 0f)
+                    projectile.ai[2] = projectile.damage;
+
+                // Find the first yoyo projectile owned by the corresponding player
+                // Limited lifespan yoyos are horrendous so it had to be this way
+                // EDIT: ownedProjectileCounts does not work what the fuck
+                int MainYoyo = -1;
+                for (int x = 0; x < Main.maxProjectiles; x++)
+                {
+                    Projectile proj = Main.projectile[x];
+                    if (proj.active && proj.type == projectile.type && proj.owner == projectile.owner)
+                    {
+                        MainYoyo = x;
+                        break;
+                    }
+                }
+
+                // Halve damage if not the main yoyo
+                if (projectile.whoAmI != MainYoyo)
+                    projectile.damage = (int)(projectile.ai[2] * 0.5f);
+                else
+                    projectile.damage = (int)projectile.ai[2];
             }
 
             // Chlorophyte Crystal AI rework.

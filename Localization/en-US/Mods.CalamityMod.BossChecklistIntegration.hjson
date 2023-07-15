@@ -1,0 +1,19 @@
+AcidRainT1: {
+	EntryName: Acid Rain
+	SpawnInfo: Use a [i:CalamityMod/CausticTear] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.
+}
+
+AcidRainT2: {
+	EntryName: Acid Rain (Tier 2)
+	SpawnInfo: Use a [i:CalamityMod/CausticTear] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated
+}
+
+AcidRainT3: {
+	EntryName: Acid Rain (Tier 3)
+	SpawnInfo: Use a [i:CalamityMod/CausticTear] or wait for the invasion to occur naturally after the Polterghast is defeated
+}
+
+BossRush: {
+	EntryName: Boss Rush
+	SpawnInfo: Use a [i:CalamityMod/Terminus] found at the bottom of the Abyss
+}

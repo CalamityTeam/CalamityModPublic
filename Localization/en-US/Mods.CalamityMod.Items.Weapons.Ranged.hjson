@@ -1081,6 +1081,11 @@ Starmada: {
 		'''
 }
 
+Starmageddon: {
+	DisplayName: Starmageddon
+	Tooltip: Projects the finality of cosmic annihilation with Darksun power
+}
+
 StarSputter: {
 	DisplayName: Star Sputter
 	Tooltip:

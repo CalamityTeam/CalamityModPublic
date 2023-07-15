@@ -30,12 +30,12 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             NPC.aiStyle = -1;
             AIType = -1;
-            NPC.damage = 0;
+            NPC.damage = 50;
             NPC.width = 60;
             NPC.height = 60;
             NPC.defense = 0;
             NPC.DR_NERD(normalDR);
-            NPC.lifeMax = 2000;
+            NPC.lifeMax = 1000;
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
@@ -81,6 +81,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 1f, 0f, 0f);
 
             // Despawn if Brim doesn't exist

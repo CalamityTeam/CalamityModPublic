@@ -179,12 +179,6 @@ namespace CalamityMod.NPCs
                 #endregion
 
                 #region Desert
-                // Vulture
-                // 1-2 Desert Feather @ 100%
-                case NPCID.Vulture:
-                    npcLoot.Add(ModContent.ItemType<DesertFeather>(), 1, 1, 2);
-                    break;
-
                 // Tomb Crawler
                 // Burnt Sienna @ 4% Normal, 6.67% Expert+
                 case NPCID.TombCrawlerHead:
@@ -1964,7 +1958,7 @@ namespace CalamityMod.NPCs
                             CalamityNetcode.SyncWorld();
                     }
 
-                    // Spawn Exodium planetoids and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
+                    // Spawn Exodium planetoids and send messages about Providence, Bloodstone, Polterplasm, etc. if ML has not been killed yet
                     if (!NPC.downedMoonlord)
                     {
                         CalamityUtils.DisplayLocalizedText(key5, messageColor5);

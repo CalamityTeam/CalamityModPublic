@@ -96,11 +96,7 @@ BloodflareCuisses: {
 
 BloodflareHeadMagic: {
 	DisplayName: Bloodflare Hydra Hood
-	Tooltip:
-		'''
-		You can move freely through liquids and have temporary immunity to lava
-		20% increased magic damage, 10% increased magic critical strike chance, +100 max mana and 17% reduced mana usage
-		'''
+	Tooltip: 20% increased magic damage, 10% increased magic critical strike chance, +100 max mana and 17% reduced mana usage
 	SetBonus:
 		'''
 		Magic weapons fire ghostly bolts every 1.67 seconds
@@ -110,11 +106,7 @@ BloodflareHeadMagic: {
 
 BloodflareHeadMelee: {
 	DisplayName: Bloodflare Ram Mask
-	Tooltip:
-		'''
-		You can move freely through liquids and have temporary immunity to lava
-		10% increased melee damage
-		'''
+	Tooltip: 10% increased melee damage
 	SetBonus:
 		'''
 		18% increased melee speed
@@ -128,11 +120,7 @@ BloodflareHeadMelee: {
 
 BloodflareHeadRanged: {
 	DisplayName: Bloodflare Horned Helm
-	Tooltip:
-		'''
-		You can move freely through liquids and have temporary immunity to lava
-		10% increased ranged damage and critical strike chance
-		'''
+	Tooltip: 10% increased ranged damage and critical strike chance
 	SetBonus:
 		'''
 		Press {0} to unleash the lost souls of polterghast to destroy your enemies
@@ -145,7 +133,6 @@ BloodflareHeadRogue: {
 	DisplayName: Bloodflare Imp Mask
 	Tooltip:
 		'''
-		You can move freely through liquids and have temporary immunity to lava
 		10% increased rogue damage and critical strike chance
 		5% increased movement speed
 		'''
@@ -160,11 +147,7 @@ BloodflareHeadRogue: {
 
 BloodflareHeadSummon: {
 	DisplayName: Bloodflare Wyvern Helm
-	Tooltip:
-		'''
-		You can move freely through liquids and have temporary immunity to lava
-		5% increased minion damage
-		'''
+	Tooltip: 5% increased minion damage
 	SetBonus:
 		'''
 		50% increased minion damage and +3 max minions
@@ -227,8 +210,7 @@ EmpyreanMask: {
 	Tooltip:
 		'''
 		11% increased rogue damage and critical strike chance
-		      5% increased movement speed
-		      Temporary immunity to lava
+		5% increased movement speed
 		'''
 	SetBonus:
 		'''
@@ -525,13 +507,11 @@ TarragonHeadMagic: {
 	DisplayName: Tarragon Mask
 	Tooltip:
 		'''
-		Can move freely through liquids
 		20% increased magic damage and 10% increased magic critical strike chance
 		5% increased damage reduction, +100 max mana, and 15% reduced mana usage
 		'''
 	SetBonus:
 		'''
-		15% increased melee speed
 		On every 5th critical strike you will fire a leaf storm
 		Magic projectiles heal you on enemy hits
 		Amount healed is based on projectile damage
@@ -542,7 +522,6 @@ TarragonHeadMelee: {
 	DisplayName: Tarragon Helm
 	Tooltip:
 		'''
-		Can move freely through liquids
 		10% increased melee damage
 		5% increased melee critical strike chance
 		5% increased damage reduction
@@ -561,7 +540,6 @@ TarragonHeadRanged: {
 	DisplayName: Tarragon Visage
 	Tooltip:
 		'''
-		Can move freely through liquids
 		10% increased ranged damage and critical strike chance
 		5% increased damage reduction
 		'''

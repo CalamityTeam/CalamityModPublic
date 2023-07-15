@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 198;
+            Item.damage = 130;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 124;
             Item.height = 78;
@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useTime = 9;
             Item.useAnimation = 18;
             Item.reuseDelay = BetweenShotsPause;
+            Item.useLimitPerAnimation = 2;
             Item.autoReuse = true;
             Item.useStyle = ItemUseStyleID.Shoot;
 
@@ -61,8 +62,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? FullAutoFireRateMult : 1f;
-
-        public override bool AllowPrefix(int pre) => pre != PrefixID.Murderous;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

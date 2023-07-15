@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         public const float ventDuration = 180f;
 
         // Spawn rate for vent clouds
-        public const int ventCloudSpawnRate = 5;
+        public const int ventCloudSpawnRate = 10;
 
         // Default life ratio for the other mechs
         private const float defaultLifeRatio = 5f;
@@ -954,9 +954,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             SmokeDrawer.ParticleSpawnRate = 9999999;
             if (vulnerable)
             {
-                // Light
-                Lighting.AddLight(NPC.Center, 0.35f * NPC.Opacity, 0.05f * NPC.Opacity, 0.05f * NPC.Opacity);
-
                 // Noise
                 if (NPC.localAI[1] == 0f)
                     SoundEngine.PlaySound(VentSound, NPC.Center);
@@ -970,12 +967,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 }
             }
             else
-            {
-                // Light
-                Lighting.AddLight(NPC.Center, 0.05f * NPC.Opacity, 0.2f * NPC.Opacity, 0.2f * NPC.Opacity);
-
                 NPC.localAI[1] = 0f;
-            }
 
             SmokeDrawer.Update();
 

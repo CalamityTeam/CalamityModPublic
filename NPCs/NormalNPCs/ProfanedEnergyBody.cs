@@ -25,13 +25,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.damage = 0;
+            NPC.damage = 50;
             NPC.npcSlots = 3f;
             NPC.width = 72;
             NPC.height = 36;
             NPC.defense = 50;
             NPC.DR_NERD(0.1f);
-            NPC.lifeMax = 4500;
+            NPC.lifeMax = 2500;
             NPC.knockBackResist = 0f;
             AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 50, 0);
@@ -60,6 +60,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             CalamityGlobalNPC.energyFlame = NPC.whoAmI;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {

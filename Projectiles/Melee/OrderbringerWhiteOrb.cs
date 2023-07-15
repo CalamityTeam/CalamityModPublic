@@ -1,9 +1,10 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
-    public class WhiteOrbBlah : ModProjectile, ILocalizedModType
+    public class OrderbringerWhiteOrb : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

@@ -712,8 +712,8 @@ StaffofBlushie: {
 	Tooltip: Hold your mouse, wait, wait, wait, and put your trust in the power of blue magic
 }
 
-Starfall: {
-	DisplayName: Starfall
+StarShower: {
+	DisplayName: Star Shower
 	Tooltip: Casts a spread of astral stars at the mouse cursor
 }
 

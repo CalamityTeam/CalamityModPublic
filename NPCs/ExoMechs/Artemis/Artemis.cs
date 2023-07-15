@@ -628,9 +628,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     NPC.rotation = NPC.rotation.AngleTowards((float)Math.Atan2(rotateTowards.Y, rotateTowards.X) + MathHelper.PiOver2, rateOfRotation);
             }
 
-            // Light
-            Lighting.AddLight(NPC.Center, 0.25f * NPC.Opacity, 0.15f * NPC.Opacity, 0.05f * NPC.Opacity);
-
             // Despawn if target is dead
             if (player.dead)
             {

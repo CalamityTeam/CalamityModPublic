@@ -174,8 +174,6 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
 
-            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-
             if (invinceTime > 0)
             {
                 invinceTime--;

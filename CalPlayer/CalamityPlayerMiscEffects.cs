@@ -3766,7 +3766,7 @@ namespace CalamityMod.CalPlayer
             if (Player.tipsy)
             {
                 if (Player.statDefense > 0)
-                    Player.statDefense -= (int)(Player.statDefense * 0.1);
+                    Player.statDefense -= (int)(Player.statDefense * 0.05);
             }
 
             if (DesertProwlerHat.ShroudedInSmoke(Player, out _))

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient(ItemID.MasterNinjaGear).
                 AddIngredient(ItemID.FrogGear).
                 AddIngredient<PurifiedGel>(50).
-                AddIngredient<Phantoplasm>(5).
+                AddIngredient<Polterplasm>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

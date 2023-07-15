@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Starfall : ModItem, ILocalizedModType
+    [LegacyName("Starfall")]
+    public class StarShower : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()

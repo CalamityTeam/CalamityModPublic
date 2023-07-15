@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 AddIngredient<CosmicKunai>().
                 AddIngredient(ItemID.FastClock).
                 AddIngredient<RuinousSoul>(5).
-                AddIngredient<Phantoplasm>(20).
+                AddIngredient<Polterplasm>(20).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -117,33 +117,6 @@ namespace CalamityMod.ILEditing
         }
         #endregion Prevention of Slime Rain Spawns When Near Bosses
 
-        #region Voodoo Demon Doll Spawn Manipulations
-        // This may seem absolutely obscene, but vanilla spawn behavior does not occur within the spawn pool that TML provides, only modded
-        // spawns do. Pretty much everything else is simply a fuckton of manual conditional NPC.NewNPC calls. As such, the only way to bypass
-        // vanilla spawn behaviors is the IL edit them out of existence. Here, simply replacing the voodoo demon ID with an empty one is performed.
-        // Something cleaner could probably be done, such as getting rid of the entire NPC.NewNPC call, but this is the easiest solution I can come up with.
-        private static void MakeVoodooDemonDollWork(ILContext il)
-        {
-            var cursor = new ILCursor(il);
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(NPCID.VoodooDemon)))
-            {
-                LogFailure("Voodoo Demon Doll Mechanic", "Could not locate the Voodoo Demon ID.");
-                return;
-            }
-
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldloc, 10);
-            cursor.EmitDelegate<Func<int, int>>(spawnPlayerIndex =>
-            {
-                if (Main.player[spawnPlayerIndex].active && Main.player[spawnPlayerIndex].Calamity().disableVoodooSpawns)
-                    return NPCID.None;
-
-                return NPCID.VoodooDemon;
-            });
-        }
-        #endregion Voodoo Demon Doll Spawn Manipulations
-
         #region Remove Feral Bite Random Debuffs
         private static void RemoveFeralBiteRandomDebuffs(ILContext il)
         {

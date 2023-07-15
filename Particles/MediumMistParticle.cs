@@ -31,7 +31,6 @@ namespace CalamityMod.Particles
 
         public override void Update()
         {
-
             Rotation += Spin * ((Velocity.X > 0) ? 1f : -1f);
             Velocity *= 0.85f;
 
@@ -46,10 +45,11 @@ namespace CalamityMod.Particles
                 Scale *= 0.975f;
                 Opacity -= 2;
             }
+
             if (Opacity < 0)
                 Kill();
 
-            Color = Color.Lerp(ColorFire, ColorFade, MathHelper.Clamp((float)((255 -Opacity) - 100) / 80, 0f, 1f)) * (Opacity / 255f);
+            Color = Color.Lerp(ColorFire, ColorFade, MathHelper.Clamp((float)((255 - Opacity) - 100) / 80, 0f, 1f)) * (Opacity / 255f);
 
         }
     }

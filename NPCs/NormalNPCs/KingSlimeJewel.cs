@@ -21,12 +21,12 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             NPC.aiStyle = -1;
             AIType = -1;
-            NPC.damage = 0;
+            NPC.damage = 10;
             NPC.width = 22;
             NPC.height = 22;
             NPC.defense = 10;
             NPC.DR_NERD(0.1f);
-            NPC.lifeMax = 280;
+            NPC.lifeMax = 140;
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
@@ -38,6 +38,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             // Red light
             Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 1f, 0f, 0f);
 

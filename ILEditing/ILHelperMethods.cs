@@ -91,7 +91,7 @@ namespace CalamityMod.ILEditing
             return initialTexture;
         }
 
-        private static VertexColors SelectLavaQuadColor(Texture2D initialTexture, VertexColors initialColor, bool forceTrue = false)
+        private static VertexColors SelectLavaQuadColor(Texture2D initialTexture, ref VertexColors initialColor, bool forceTrue = false)
         {
             initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor, forceTrue);
             initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor, forceTrue);

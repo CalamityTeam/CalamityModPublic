@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float SpeedX = velocity.X + Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = velocity.Y + Main.rand.Next(-40, 41) * 0.05f;
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
             }
             return false;
         }

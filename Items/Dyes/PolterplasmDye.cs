@@ -9,10 +9,12 @@ using ReLogic.Content;
 
 namespace CalamityMod.Items.Dyes
 {
-    public class PhantoplasmDye : BaseDye
+    [LegacyName("PhantoplasmDye")]
+    public class PolterplasmDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/PhantoplasmDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/PolterplasmDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").
             UseColor(new Color(245, 143, 182)).UseSecondaryColor(new Color(119, 238, 255)).UseImage("Images/Misc/Perlin");
+
         public override void SafeSetStaticDefaults()
         {
             Item.ResearchUnlockCount = 3;
@@ -28,7 +30,7 @@ namespace CalamityMod.Items.Dyes
         {
             CreateRecipe(2).
                 AddIngredient(ItemID.BottledWater, 2).
-                AddIngredient<Phantoplasm>(3).
+                AddIngredient<Polterplasm>(3).
                 AddTile(TileID.DyeVat).
                 Register();
         }
