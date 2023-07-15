@@ -574,8 +574,8 @@ GrandGuardian: {
 		'''
 }
 
-GreatswordofBlah: {
-	DisplayName: Greatsword of Blah
+Orderbringer: {
+	DisplayName: Orderbringer
 	Tooltip:
 		'''
 		Fires a rainbow blade that emits rainbow rain on death for a time

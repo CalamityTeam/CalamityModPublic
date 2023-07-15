@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +7,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class JudgementBlah : ModProjectile, ILocalizedModType
+    public class OrderbringerBeam : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         private int whiteLightTimer = 5;
@@ -76,8 +76,8 @@ namespace CalamityMod.Projectiles.Melee
                     for (i = 0; i < 1; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 0.6f), (float)(Math.Cos(offsetAngle) * 0.6f), ModContent.ProjectileType<WhiteOrbBlah>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 0.6f), (float)(-Math.Cos(offsetAngle) * 0.6f), ModContent.ProjectileType<WhiteOrbBlah>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 0.6f), (float)(Math.Cos(offsetAngle) * 0.6f), ModContent.ProjectileType<OrderbringerWhiteOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 0.6f), (float)(-Math.Cos(offsetAngle) * 0.6f), ModContent.ProjectileType<OrderbringerWhiteOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
                 whiteLightTimer = 5;
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y - 100, 0f, 0f, ModContent.ProjectileType<WhiteBoltAuraBlah>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y - 100, 0f, 0f, ModContent.ProjectileType<OrderbringerAura>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
         }
     }

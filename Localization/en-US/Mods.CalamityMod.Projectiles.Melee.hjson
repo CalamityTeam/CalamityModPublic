@@ -158,7 +158,6 @@ HyperBlade.DisplayName: Blade
 IceBombFriendly.DisplayName: Ice Bomb
 IllustriousKnife.DisplayName: Illustrious Knife
 InsidiousHarpoon.DisplayName: Harpoon
-JudgementBlah.DisplayName: Blah Beam
 JudgementProj.DisplayName: Judgement
 LamentationsOfTheChained.DisplayName: Lamentations of the Chained
 LaserFountain.DisplayName: Fountain
@@ -187,6 +186,10 @@ OathswordFlame.DisplayName: Flame
 OldLordClaymoreProj.DisplayName: Old Lord Claymore
 OmnibladeSwing.DisplayName: Omniblade
 Orbacle.DisplayName: Auric Orb
+OrderbringerAura.DisplayName: Aura
+OrderbringerBeam.DisplayName: Orderbringer Beam
+OrderbringerRain.DisplayName: Rain
+OrderbringerWhiteOrb.DisplayName: Orb
 PhoenixsPride.DisplayName: Phoenix's Pride
 PhosphorescentGauntletPunches.DisplayName: Punch
 PhotonRipperProjectile.DisplayName: Extraordinarily Cost-Inefficient Chainsaw
@@ -323,11 +326,8 @@ VolcanicFireball.DisplayName: Volcanic Fireball
 VolcanicFireballLarge.DisplayName: Volcanic Fireball
 Waterfall.DisplayName: Beam
 WhiteBoltAura.DisplayName: Aura
-WhiteBoltAuraBlah.DisplayName: Aura
 WhiteOrb.DisplayName: Orb
-WhiteOrbBlah.DisplayName: Orb
 Whiterain.DisplayName: Rain
-WhiterainBlah.DisplayName: Rain
 WulfrumScrew.DisplayName: Screw
 WulfrumScrewdriverProj.DisplayName: Screwdriver
 YateveoBloomProj.DisplayName: Yateveo Bloom

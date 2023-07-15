@@ -165,7 +165,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<GreatswordofBlah>().
+                AddIngredient<Orderbringer>().
                 AddIngredient(ItemID.TrueExcalibur).
                 AddIngredient<ShadowspecBar>(5).
                 AddIngredient<AscendantSpiritEssence>(5).
