@@ -6769,26 +6769,27 @@ namespace CalamityMod.CalPlayer
             // Update Dark God's Sheath and Eclipse Mirror's stealth acceleration
             /*
              * T = frame counter
-             * DGS  = (100% + 0.7% * T)
-             * EM   = (100% + 0.7% * T) * 1.006^T
-             * BOTH = (100% + 1% * T) * 1.006^T
+             * DGS  = (100% + 0.5% * T)
+             * EM   = (100% + 0.5% * T) * 1.005^T
+             * BOTH = (100% + 0.75% * T) * 1.005^T
              *
+             * NO LONGER THE CASE, NEEDS UPDATING
              * DGS alone caps in 143 frames
              * EM alone caps in 59 frames
              * Both together caps in 50 frames
              */
             if (darkGodSheath && eclipseMirror)
             {
-                stealthAcceleration += 0.01f;
-                stealthAcceleration *= 1.006f;
+                stealthAcceleration += 0.075f;
+                stealthAcceleration *= 1.005f;
             }
             else if (eclipseMirror)
             {
-                stealthAcceleration += 0.007f;
-                stealthAcceleration *= 1.006f;
+                stealthAcceleration += 0.005f;
+                stealthAcceleration *= 1.005f;
             }
             else if (darkGodSheath)
-                stealthAcceleration += 0.007f;
+                stealthAcceleration += 0.005f;
 
             stealthAcceleration = MathHelper.Clamp(stealthAcceleration, 1f, StealthAccelerationCap);
 
