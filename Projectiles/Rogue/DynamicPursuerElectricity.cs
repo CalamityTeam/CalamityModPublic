@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Rogue
         internal Color ColorFunction(float completionRatio)
         {
             Color baseColor = Color.Lerp(Color.Blue, Color.LightSteelBlue, (float)Math.Sin(MathHelper.TwoPi * completionRatio + Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
-            return Color.Lerp(baseColor, Color.Violet, ((float)Math.Sin(MathHelper.Pi * completionRatio + Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f) * 0.8f);
+            return Color.Lerp(baseColor, Color.LightBlue, ((float)Math.Sin(MathHelper.Pi * completionRatio + Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f) * 0.8f);
         }
         public override bool PreDraw(ref Color lightColor)
         {
