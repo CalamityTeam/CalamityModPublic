@@ -56,6 +56,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float ReturnMaxSpeed = 24f;
         public static float VelocityCap = 18f;
         public static float ElectricityDmgMult = 0.3f;
+        public static float ElectricityCooldown = 500f;
         public static float LaserDmgMult = 0.3f;
         public static float LaserCooldown = 300f;
 

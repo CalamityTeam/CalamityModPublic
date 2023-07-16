@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             set => Projectile.ai[1] = value;
         }
 
-        public const float MaxTargetSearchDistance = 1500;
+        public const float MaxTargetSearchDistance = 750;
         public float ElectricVelocityCharge = 0f;
         public float LaserVelocityCharge = 0f;
         public bool Ricochet = false;
@@ -40,6 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
         public float ReturnMaxSpeed = DynamicPursuer.ReturnMaxSpeed;
         public float VelocityCap = DynamicPursuer.VelocityCap;
         public float ElectricityDmgMult = DynamicPursuer.ElectricityDmgMult;
+        public float ElectricityCooldown = DynamicPursuer.ElectricityCooldown;
         public float LaserDmgMult = DynamicPursuer.LaserDmgMult;
         public float LaserCooldown = DynamicPursuer.LaserCooldown;
 
@@ -58,8 +59,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.extraUpdates = 1;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 360;
-            Projectile.timeLeft = 720; //360 cuz extra updates
+            Projectile.localNPCHitCooldown = 500;
+            Projectile.timeLeft = 600; //300 cuz extra updates
         }
 
         public override void AI()
@@ -112,7 +113,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                     ElectricVelocityCharge += Projectile.velocity.Length();
 
-                    if (ElectricVelocityCharge >= 450f)
+                    if (ElectricVelocityCharge >= ElectricityCooldown)
                     {
                         ElectricVelocityCharge = 0f;
                         AttemptToFireElectricity((int)(Projectile.damage * ElectricityDmgMult));
@@ -147,7 +148,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 ElectricVelocityCharge += Projectile.velocity.Length();
                 LaserVelocityCharge += Projectile.velocity.Length();
-                if (ElectricVelocityCharge >= 450f)
+                if (ElectricVelocityCharge >= ElectricityCooldown)
                 {
                     ElectricVelocityCharge = 0f;
                     AttemptToFireElectricity((int)(Projectile.damage * ElectricityDmgMult));
@@ -232,7 +233,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Ricochet = true;
                 NPC newTarget = null;
                 float closestNPCDistance = 3000f;
-                float targettingDistance = MaxTargetSearchDistance;
+                float targettingDistance = MaxTargetSearchDistance * 2f;
 
 
                 for (int i = 0; i < Main.maxNPCs; i++)
