@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.extraUpdates = 1;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 500;
+            Projectile.localNPCHitCooldown = 400;
             Projectile.timeLeft = 600; //300 cuz extra updates
         }
 
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
             Time++;
             if (!ReturningToPlayer)
             {
-                if (Time >= 40f && !Ricochet)
+                if (Time >= 60f && !Ricochet)
                 {
                     ReturningToPlayer = true;
                     Projectile.tileCollide = false;
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Rogue
             else
             {
                 float distanceFromPlayer = Projectile.Distance(player.Center);
-                if (distanceFromPlayer > 3000f)
+                if (distanceFromPlayer > 2500f)
                     Projectile.Kill();
 
                 if (Projectile.Calamity().stealthStrike)
@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if ((Projectile.Calamity().stealthStrike && Projectile.numHits == 4))
                 {
                     if (Main.myPlayer == Projectile.owner)
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MassivePlasmaExplosion>(), Projectile.damage, Projectile.knockBack * 2f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaGrenadeSmallExplosion>(), Projectile.damage * 3/4, Projectile.knockBack * 2f, Projectile.owner);
 
                     {
                         for (int i = 0; i < 220; i++)
@@ -232,7 +232,7 @@ namespace CalamityMod.Projectiles.Rogue
                 //Retarget
                 Ricochet = true;
                 NPC newTarget = null;
-                float closestNPCDistance = 3000f;
+                float closestNPCDistance = 2500f;
                 float targettingDistance = MaxTargetSearchDistance * 2f;
 
 
@@ -249,7 +249,8 @@ namespace CalamityMod.Projectiles.Rogue
                             closestNPCDistance = potentialNewDistance;
                             newTarget = Main.npc[i];
                             nextTarget = newTarget;
-                            Projectile.timeLeft += 360; //Increase projectile duration for more ricochets
+                            if (Projectile.timeLeft < 300)
+                                Projectile.timeLeft = 300;
                         }
                     }
                 }

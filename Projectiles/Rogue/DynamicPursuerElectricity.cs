@@ -39,14 +39,12 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.alpha = 255;
-            Projectile.penetrate = 2;
+            Projectile.penetrate = 1;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 10;
+            Projectile.extraUpdates = 8;
             Projectile.timeLeft = 60 * Projectile.extraUpdates;
             Projectile.DamageType = RogueDamageClass.Instance;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 3600; //Adjusted to take note of the extra updates
 
             // Readjust the velocity magnitude the moment this projectile is created
             // to make velocity setting outside the scope of this projectile less irritating
