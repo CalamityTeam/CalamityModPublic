@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Sounds;
 using System.CodeDom;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -28,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             set => Projectile.ai[1] = value;
         }
 
-        public const float MaxTargetSearchDistance = 750;
+        public const float MaxTargetSearchDistance = 800;
         public float ElectricVelocityCharge = 0f;
         public float LaserVelocityCharge = 0f;
         public bool Ricochet = false;
@@ -41,6 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
         public float VelocityCap = DynamicPursuer.VelocityCap;
         public float ElectricityDmgMult = DynamicPursuer.ElectricityDmgMult;
         public float ElectricityCooldown = DynamicPursuer.ElectricityCooldown;
+        public float ElectricityCooldownStealth = DynamicPursuer.ElectricityCooldownStealth;
         public float LaserDmgMult = DynamicPursuer.LaserDmgMult;
         public float LaserCooldown = DynamicPursuer.LaserCooldown;
 
@@ -59,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.extraUpdates = 1;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 400;
+            Projectile.localNPCHitCooldown = 320; // 160
             Projectile.timeLeft = 600; //300 cuz extra updates
         }
 
@@ -113,7 +115,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                     ElectricVelocityCharge += Projectile.velocity.Length();
 
-                    if (ElectricVelocityCharge >= ElectricityCooldown)
+                    if (ElectricVelocityCharge >= ElectricityCooldownStealth)
                     {
                         ElectricVelocityCharge = 0f;
                         AttemptToFireElectricity((int)(Projectile.damage * ElectricityDmgMult));
@@ -123,7 +125,7 @@ namespace CalamityMod.Projectiles.Rogue
             else
             {
                 float distanceFromPlayer = Projectile.Distance(player.Center);
-                if (distanceFromPlayer > 2500f)
+                if (distanceFromPlayer > 2800f)
                     Projectile.Kill();
 
                 if (Projectile.Calamity().stealthStrike)
@@ -201,6 +203,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            SoundEngine.PlaySound(CommonCalamitySounds.SwiftSliceSound, Projectile.position);
             if (((Projectile.Calamity().stealthStrike && Projectile.numHits == 4) || !Projectile.Calamity().stealthStrike) && !ReturningToPlayer)
             {
                 if ((Projectile.Calamity().stealthStrike && Projectile.numHits == 4))
@@ -232,7 +235,7 @@ namespace CalamityMod.Projectiles.Rogue
                 //Retarget
                 Ricochet = true;
                 NPC newTarget = null;
-                float closestNPCDistance = 2500f;
+                float closestNPCDistance = 2800f;
                 float targettingDistance = MaxTargetSearchDistance * 2f;
 
 
