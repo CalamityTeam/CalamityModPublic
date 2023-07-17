@@ -327,7 +327,7 @@ DynamicPursuer: {
 		'''
 		A weapon that, as it flies, processes calculations and fires electricity at nearby enemies
 		Stealth strikes allow the disk to ricochet multiple times, fire lasers and unleash an electric explosion,
-        if it cannot find a target to ricochet to, it will pursue the hit target instead.
+		if it cannot find a target to ricochet to, it will pursue the hit target instead until another appears.
 		'''
 }
 

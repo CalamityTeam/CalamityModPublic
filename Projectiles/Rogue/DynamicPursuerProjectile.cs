@@ -205,9 +205,9 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundEngine.PlaySound(CommonCalamitySounds.SwiftSliceSound, Projectile.position);
-            if (((Projectile.Calamity().stealthStrike && Projectile.numHits == 4) || !Projectile.Calamity().stealthStrike) && !ReturningToPlayer)
+            if (((Projectile.Calamity().stealthStrike && Projectile.numHits == 4) || (!Projectile.Calamity().stealthStrike) && !ReturningToPlayer))
             {
-                if ((Projectile.Calamity().stealthStrike && Projectile.numHits == 4))
+                if ((Projectile.Calamity().stealthStrike && Projectile.numHits == 4) && !ReturningToPlayer)
                 {
                     if (Main.myPlayer == Projectile.owner)
                         //TODO: Change explosion color somehow
@@ -268,8 +268,7 @@ namespace CalamityMod.Projectiles.Rogue
                         closestNPCDistance = potentialNewDistance;
                         newTarget = Main.npc[target.whoAmI];
                         nextTarget = newTarget;
-                        if (Projectile.timeLeft < 300)
-                            Projectile.timeLeft = 300;
+                        Projectile.timeLeft += 300; //Just in case a target it can ricochet to pops up
                     }
                     return;
                 }
