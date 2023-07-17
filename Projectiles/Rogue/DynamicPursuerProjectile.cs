@@ -205,7 +205,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundEngine.PlaySound(CommonCalamitySounds.SwiftSliceSound, Projectile.position);
-            if (((Projectile.Calamity().stealthStrike && Projectile.numHits == 4) || !Projectile.Calamity().stealthStrike) && !ReturningToPlayer)
+            if (((Projectile.Calamity().stealthStrike && Projectile.numHits == 4) || (!Projectile.Calamity().stealthStrike) && !ReturningToPlayer))
             {
                 if ((Projectile.Calamity().stealthStrike && Projectile.numHits == 4))
                 {
@@ -258,10 +258,19 @@ namespace CalamityMod.Projectiles.Rogue
                         }
                     }
                 }
-
-                /*
+                                
                 if (newTarget == null)
                 {
+                    float potentialNewDistance = (Projectile.Center - Main.npc[target.whoAmI].Center).Length();
+                    if (potentialNewDistance < targettingDistance && potentialNewDistance < closestNPCDistance)
+                    {
+                        closestNPCDistance = potentialNewDistance;
+                        newTarget = Main.npc[target.whoAmI];
+                        nextTarget = newTarget;
+                        if (Projectile.timeLeft < 300)
+                            Projectile.timeLeft = 300;
+                    }
+                    /*
                     ReturningToPlayer = true;
                     Ricochet = false;
                     Projectile.tileCollide = false;
@@ -276,9 +285,9 @@ namespace CalamityMod.Projectiles.Rogue
                         Projectile.velocity.Y = RicochetVelocityCap;
                     if (Projectile.velocity.Y < -RicochetVelocityCap)
                         Projectile.velocity.Y = -RicochetVelocityCap;
+                    */
                     return;
                 }
-                */
             }
         }
 
