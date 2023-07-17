@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
         //Variables inherited from the weapon, they can be changed with DragonLens
         public float ReturnAcceleration = DynamicPursuer.ReturnAcceleration;
         public float ReturnMaxSpeed = DynamicPursuer.ReturnMaxSpeed;
-        public float VelocityCap = DynamicPursuer.VelocityCap;
+        public float RicochetVelocityCap = DynamicPursuer.RicochetVelocityCap;
         public float ElectricityDmgMult = DynamicPursuer.ElectricityDmgMult;
         public float ElectricityCooldown = DynamicPursuer.ElectricityCooldown;
         public float ElectricityCooldownStealth = DynamicPursuer.ElectricityCooldownStealth;
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Rogue
             Time++;
             if (!ReturningToPlayer)
             {
-                if (Time >= 60f && !Ricochet)
+                if (Time >= 45f && !Ricochet)
                 {
                     ReturningToPlayer = true;
                     Projectile.tileCollide = false;
@@ -96,14 +96,14 @@ namespace CalamityMod.Projectiles.Rogue
                         Projectile.velocity = (float)Math.Pow(Math.E, Time / 200) * (nextTarget.Center - Projectile.Center).SafeNormalize(Vector2.One);
 
                         // Cap velocity to prevent projectile vomit and to see easier where its going
-                        if (Projectile.velocity.X > VelocityCap)
-                            Projectile.velocity.X = VelocityCap;
-                        if (Projectile.velocity.X < -VelocityCap)
-                            Projectile.velocity.X = -VelocityCap;
-                        if (Projectile.velocity.Y > VelocityCap)
-                            Projectile.velocity.Y = VelocityCap;
-                        if (Projectile.velocity.Y < -VelocityCap)
-                            Projectile.velocity.Y = -VelocityCap;
+                        if (Projectile.velocity.X > RicochetVelocityCap)
+                            Projectile.velocity.X = RicochetVelocityCap;
+                        if (Projectile.velocity.X < -RicochetVelocityCap)
+                            Projectile.velocity.X = -RicochetVelocityCap;
+                        if (Projectile.velocity.Y > RicochetVelocityCap)
+                            Projectile.velocity.Y = RicochetVelocityCap;
+                        if (Projectile.velocity.Y < -RicochetVelocityCap)
+                            Projectile.velocity.Y = -RicochetVelocityCap;
                     }
                     else
                     {
@@ -139,14 +139,14 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.velocity.Y += Math.Sign(idealVelocity.Y - Projectile.velocity.Y) * ReturnAcceleration;
 
                 // Cap velocity to prevent projectile vomit and to see easier where its going
-                if (Projectile.velocity.X > VelocityCap)
-                    Projectile.velocity.X = VelocityCap;
-                if (Projectile.velocity.X < -VelocityCap)
-                    Projectile.velocity.X = -VelocityCap;
-                if (Projectile.velocity.Y > VelocityCap)
-                    Projectile.velocity.Y = VelocityCap;
-                if (Projectile.velocity.Y < -VelocityCap)
-                    Projectile.velocity.Y = -VelocityCap;
+                if (Projectile.velocity.X > RicochetVelocityCap)
+                    Projectile.velocity.X = RicochetVelocityCap;
+                if (Projectile.velocity.X < -RicochetVelocityCap)
+                    Projectile.velocity.X = -RicochetVelocityCap;
+                if (Projectile.velocity.Y > RicochetVelocityCap)
+                    Projectile.velocity.Y = RicochetVelocityCap;
+                if (Projectile.velocity.Y < -RicochetVelocityCap)
+                    Projectile.velocity.Y = -RicochetVelocityCap;
 
                 ElectricVelocityCharge += Projectile.velocity.Length();
                 LaserVelocityCharge += Projectile.velocity.Length();
@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if ((Projectile.Calamity().stealthStrike && Projectile.numHits == 4))
                 {
                     if (Main.myPlayer == Projectile.owner)
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaGrenadeSmallExplosion>(), Projectile.damage * 3/4, Projectile.knockBack * 2f, Projectile.owner);
+                       Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaGrenadeSmallExplosion>(), Projectile.damage * 3/4, Projectile.knockBack * 2f, Projectile.owner);
 
                     {
                         for (int i = 0; i < 220; i++)
@@ -266,14 +266,14 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.netUpdate = true;
 
                     // Cap velocity to prevent projectile vomit and to see easier where its going
-                    if (Projectile.velocity.X > VelocityCap)
-                        Projectile.velocity.X = VelocityCap;
-                    if (Projectile.velocity.X < -VelocityCap)
-                        Projectile.velocity.X = -VelocityCap;
-                    if (Projectile.velocity.Y > VelocityCap)
-                        Projectile.velocity.Y = VelocityCap;
-                    if (Projectile.velocity.Y < -VelocityCap)
-                        Projectile.velocity.Y = -VelocityCap;
+                    if (Projectile.velocity.X > RicochetVelocityCap)
+                        Projectile.velocity.X = RicochetVelocityCap;
+                    if (Projectile.velocity.X < -RicochetVelocityCap)
+                        Projectile.velocity.X = -RicochetVelocityCap;
+                    if (Projectile.velocity.Y > RicochetVelocityCap)
+                        Projectile.velocity.Y = RicochetVelocityCap;
+                    if (Projectile.velocity.Y < -RicochetVelocityCap)
+                        Projectile.velocity.Y = -RicochetVelocityCap;
                     return;
                 }
                 

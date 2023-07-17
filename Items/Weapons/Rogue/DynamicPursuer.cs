@@ -49,12 +49,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public static float StealthDmgMult = 0.3f; //So I can edit it directly via DragonLens instead of having to do math with CalTestHelpers
 		public override float StealthDamageMultiplier => StealthDmgMult;
-        public override float StealthVelocityMultiplier => 0.8f;
+        public override float StealthVelocityMultiplier => 0.9f;
 
         //Stuff to be used on the projectile, but here for ease of access ingame via DragonLens
         public static float ReturnAcceleration = 0.75f;
         public static float ReturnMaxSpeed = 24f;
-        public static float VelocityCap = 24f;
+        public static float RicochetVelocityCap = 28f;
         public static float ElectricityDmgMult = 0.3f;
         public static float ElectricityCooldown = 500f;
         public static float ElectricityCooldownStealth = 850f;
