@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     if (nextTarget != null)
                     {
-                        Projectile.velocity = (float)Math.Pow(Math.E, Time / 200) * (nextTarget.Center - Projectile.Center).SafeNormalize(Vector2.One);
+                        Projectile.velocity = (float)Math.Pow(Math.E, Time / 180) * (nextTarget.Center - Projectile.Center).SafeNormalize(Vector2.One);
 
                         // Cap velocity to prevent projectile vomit and to see easier where its going
                         if (Projectile.velocity.X > RicochetVelocityCap)
