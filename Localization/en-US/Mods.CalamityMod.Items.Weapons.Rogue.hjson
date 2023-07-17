@@ -325,9 +325,9 @@ DynamicPursuer: {
 	DisplayName: Dynamic Pursuer
 	Tooltip:
 		'''
-		A weapon that, as it flies, processes calculations and fires electricity
-		Releases a flying disk that fires electricity at nearby enemies
-		Stealth strikes allow the disk to ricochet multiple times and unleash an electric explosion, then fire inaccurate lasers while returning
+		A weapon that, as it flies, processes calculations and fires electricity at nearby enemies
+		Stealth strikes allow the disk to ricochet multiple times, fire lasers and unleash an electric explosion,
+        if it cannot find a target to ricochet to, it will pursue the hit target instead.
 		'''
 }
 

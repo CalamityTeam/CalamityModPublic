@@ -205,11 +205,12 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundEngine.PlaySound(CommonCalamitySounds.SwiftSliceSound, Projectile.position);
-            if (((Projectile.Calamity().stealthStrike && Projectile.numHits == 4) || (!Projectile.Calamity().stealthStrike) && !ReturningToPlayer))
+            if (((Projectile.Calamity().stealthStrike && Projectile.numHits == 4) || !Projectile.Calamity().stealthStrike) && !ReturningToPlayer)
             {
                 if ((Projectile.Calamity().stealthStrike && Projectile.numHits == 4))
                 {
                     if (Main.myPlayer == Projectile.owner)
+                        //TODO: Change explosion color somehow
                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaGrenadeSmallExplosion>(), Projectile.damage * 3/4, Projectile.knockBack * 2f, Projectile.owner);
 
                     {
@@ -270,22 +271,6 @@ namespace CalamityMod.Projectiles.Rogue
                         if (Projectile.timeLeft < 300)
                             Projectile.timeLeft = 300;
                     }
-                    /*
-                    ReturningToPlayer = true;
-                    Ricochet = false;
-                    Projectile.tileCollide = false;
-                    Projectile.netUpdate = true;
-
-                    // Cap velocity to prevent projectile vomit and to see easier where its going
-                    if (Projectile.velocity.X > RicochetVelocityCap)
-                        Projectile.velocity.X = RicochetVelocityCap;
-                    if (Projectile.velocity.X < -RicochetVelocityCap)
-                        Projectile.velocity.X = -RicochetVelocityCap;
-                    if (Projectile.velocity.Y > RicochetVelocityCap)
-                        Projectile.velocity.Y = RicochetVelocityCap;
-                    if (Projectile.velocity.Y < -RicochetVelocityCap)
-                        Projectile.velocity.Y = -RicochetVelocityCap;
-                    */
                     return;
                 }
             }
