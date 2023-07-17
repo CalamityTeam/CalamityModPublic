@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     public class MushBomb : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
+
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
@@ -22,6 +23,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 14;
             Projectile.hostile = true;
             Projectile.tileCollide = false;
+            Projectile.Opacity = 0f;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
@@ -30,6 +32,32 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            if (Projectile.velocity.Y > 0f)
+            {
+                if (Projectile.Opacity == 0f)
+                {
+                    Projectile.Opacity = 1f;
+                    SoundEngine.PlaySound(SoundID.Item44, Projectile.Center);
+                    int dustAmount = 36;
+                    for (int i = 0; i < dustAmount; i++)
+                    {
+                        Vector2 dustSpawnPosition = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.5f;
+                        dustSpawnPosition = dustSpawnPosition.RotatedBy((double)((float)(i - (dustAmount / 2 - 1)) * MathHelper.TwoPi / (float)dustAmount), default) + Projectile.Center;
+                        Vector2 dustVelocity = dustSpawnPosition - Projectile.Center;
+                        int dust = Dust.NewDust(dustSpawnPosition + dustVelocity, 0, 0, 56, dustVelocity.X, dustVelocity.Y);
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].noLight = true;
+                        Main.dust[dust].velocity = dustVelocity;
+                    }
+                }
+            }
+            else
+            {
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 56, 0f, 0f, 100, default, 0.8f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0f;
+            }
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 4)
             {
@@ -46,6 +74,8 @@ namespace CalamityMod.Projectiles.Boss
 
             Projectile.velocity.X *= 0.995f;
         }
+
+        public override bool CanHitPlayer(Player target) => Projectile.Opacity == 1f;
 
         public override Color? GetAlpha(Color drawColor) => Main.zenithWorld ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
 

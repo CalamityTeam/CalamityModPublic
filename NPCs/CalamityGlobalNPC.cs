@@ -5531,6 +5531,17 @@ namespace CalamityMod.NPCs
             if (Main.LocalPlayer.Calamity().trippy || (npc.type == NPCID.KingSlime && CalamityWorld.LegendaryMode && CalamityWorld.revenge))
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
 
+            // Spore Gas vomit color telegraph
+            if (npc.type == NPCID.Plantera && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+            {
+                bool startChangingColor = npc.ai[1] > PlanteraAI.SeedGatlingColorChangeGateValue;
+                if (startChangingColor)
+                {
+                    float colorChangeAmount = npc.ai[1] - PlanteraAI.SeedGatlingColorChangeGateValue;
+                    return Color.Lerp(drawColor, Color.Green, colorChangeAmount / PlanteraAI.SeedGatlingColorChangeDuration);
+                }
+            }
+
             if (npc.type == NPCID.QueenBee && Main.zenithWorld)
             {
                 if (npc.life / (float)npc.lifeMax < 0.5f)
