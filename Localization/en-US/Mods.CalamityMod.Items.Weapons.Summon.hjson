@@ -145,18 +145,6 @@ Cnidarian: {
 		'''
 }
 
-GlacialEmbrace: {
-	DisplayName: Glacial Embrace
-	Tooltip:
-		'''
-		Summons the power of the ancient ice castle
-		For each minion slot used, you will gain an additional orbiting shield spike
-		These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage
-		They take some time to regenerate after launching themselves at the target, however
-		On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding
-		'''
-}
-
 CorroslimeStaff: {
 	DisplayName: Corroslime Staff
 	Tooltip: Summons a corro slime to fight for you
@@ -334,6 +322,8 @@ EyeOfNight: {
 
 FlamsteedRing: {
 	DisplayName: Flamsteed Ring
+	NoSpaceTextTop: Cannot Deploy
+	NoSpaceTextBottom: Insufficient space!
 	Tooltip:
 		'''
 		Summons a colossal controllable mech
@@ -397,6 +387,18 @@ GastricBelcherStaff: {
 		'''
 		Summons aquatic aberrations to protect you
 		Aberrations fire vomit at nearby enemies with every third attack firing bubbles
+		'''
+}
+
+GlacialEmbrace: {
+	DisplayName: Glacial Embrace
+	Tooltip:
+		'''
+		Summons the power of the ancient ice castle
+		For each minion slot used, you will gain an additional orbiting shield spike
+		These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage
+		They take some time to regenerate after launching themselves at the target, however
+		On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding
 		'''
 }
 

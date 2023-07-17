@@ -1451,7 +1451,7 @@ SpectralVeil: {
 	DisplayName: Spectral Veil
 	Tooltip:
 		'''
-		TOOLTIP LINE HERE
+		Press {0} to consume 25% of your maximum stealth to perform a mid-range teleport and render you momentarily invulnerable
 		If you dodge something while invulnerable, you instantly gain full stealth
 		Teleportation is disabled while Chaos State is active
 		Stealth generates 15% faster

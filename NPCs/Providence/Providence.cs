@@ -535,10 +535,10 @@ namespace CalamityMod.NPCs.Providence
                 DoDeathAnimation();
                 return;
             }
-
             // Trigger the death animation
-            else if (NPC.life == 1)
+            else if (NPC.life <= 1)
             {
+                NPC.life = 1;
                 DespawnSpecificProjectiles(true);
                 Dying = true;
                 NPC.dontTakeDamage = true;
@@ -1844,7 +1844,10 @@ namespace CalamityMod.NPCs.Providence
         {
             return false;
         }
-
+        public override bool CheckDead()
+        {
+            return false;
+        }
         public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);

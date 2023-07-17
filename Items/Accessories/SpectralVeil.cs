@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Rarities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -23,10 +24,9 @@ namespace CalamityMod.Items.Accessories
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             string hotkey = CalamityKeybinds.SpectralVeilHotKey.TooltipHotkeyString();
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Text.Contains("{0}"));
             if (line != null)
-                line.Text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a mid-range teleport and render you momentarily invulnerable";
+                line.Text = String.Format(line.Text, hotkey);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

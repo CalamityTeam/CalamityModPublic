@@ -20,9 +20,9 @@ Server: Server
 Terminal: Terminal
 // Individual entries
 // Sulphurous Sea & Abyss
-SteamGeyser1.MapEntry: Geyser
-AbyssVent1.MapEntry: Steam Vent
-ThermalVent1.MapEntry: Thermal Vent
+SteamGeyser.MapEntry: Geyser
+AbyssVent.MapEntry: Steam Vent
+ThermalVent.MapEntry: Thermal Vent
 // Brimstone Crag
 SpineSapling.MapEntry: Spine Sapling
 SpineTree.MapEntry: Giant Spine
@@ -46,19 +46,13 @@ UelibloomOre.MapEntry: Uelibloom
 ArenaTile.MapEntry: Arena
 
 AshenChest: {
-	MapEntry0: "{$ItemName.AshenChest}"
-	MapEntry1: Locked Ashen Chest
+	MapEntry0: "{$Mods.CalamityMod.Items.Placeables.AshenChest.DisplayName}"
+	MapEntry1: Locked {$Mods.CalamityMod.Items.Placeables.AshenChest.DisplayName}
 }
 
 AstralChestLocked: {
-	MapEntry0: "{$ItemName.AstralChest}"
-	MapEntry1: Locked Astral Chest
+	MapEntry0: "{$Mods.CalamityMod.Items.Placeables.AstralChest.DisplayName}"
+	MapEntry1: Locked {$Mods.CalamityMod.Items.Placeables.AstralChest.DisplayName}
 }
 
 PlaguedPlateBed.MapEntry: "'Bed'"
-SteamGeyser3.MapEntry: Steam Geyser3
-SteamGeyser2.MapEntry: Steam Geyser2
-ThermalVent3.MapEntry: Thermal Vent3
-ThermalVent2.MapEntry: Thermal Vent2
-AbyssVent3.MapEntry: Abyss Vent3
-AbyssVent2.MapEntry: Abyss Vent2

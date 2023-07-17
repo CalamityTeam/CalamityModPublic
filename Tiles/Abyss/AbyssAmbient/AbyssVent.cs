@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(106, 80, 102), CreateMapEntryName());
+            AddMapEntry(new Color(106, 80, 102), CalamityUtils.GetText($"{LocalizationCategory}.AbyssVent.MapEntry"));
             DustType = 33;
 
             base.SetStaticDefaults();

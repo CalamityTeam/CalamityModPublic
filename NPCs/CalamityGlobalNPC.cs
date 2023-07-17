@@ -255,7 +255,6 @@ namespace CalamityMod.NPCs
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
-        public static int DD2CrystalIndex = -1;
         public static int hiveMind = -1;
         public static int perfHive = -1;
         public static int slimeGodPurple = -1;
@@ -498,7 +497,6 @@ namespace CalamityMod.NPCs
             for (int i = 0; i < bobbitWormBottom.Length; i++)
                 ResetSavedIndex(ref bobbitWormBottom[i], NPCType<BobbitWormSegment>());
 
-            ResetSavedIndex(ref DD2CrystalIndex, NPCID.DD2EterniaCrystal);
             ResetSavedIndex(ref hiveMind, NPCType<HiveMind.HiveMind>());
             ResetSavedIndex(ref perfHive, NPCType<PerforatorHive>());
             ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.EbonianPaladin>(), NPCType<SplitEbonianPaladin>());
@@ -3784,12 +3782,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (npc.type == NPCID.DD2LanePortal)
-            {
-                CalamityGlobalAI.DD2PortalAI(npc);
-                return false;
-            }
-
             return true;
         }
         #endregion
@@ -4310,9 +4302,6 @@ namespace CalamityMod.NPCs
                 if (pearlAura > 0)
                     npc.velocity *= 0.9f;
             }
-
-            if (npc.type == NPCID.DD2EterniaCrystal)
-                CalamityGlobalAI.DD2CrystalExtraAI(npc);
         }
         #endregion
 
