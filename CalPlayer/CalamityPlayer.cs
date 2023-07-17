@@ -7015,7 +7015,7 @@ namespace CalamityMod.CalPlayer
 
             double ratioToUse = DefenseDamageRatio;
             if (draedonsHeart)
-                ratioToUse *= 0.5;
+                ratioToUse *= DraedonsHeart.DefenseDamageMultiplier;
 
             // Calculate the defense damage taken from this hit.
             int defenseDamageTaken = (int)(damage * ratioToUse);

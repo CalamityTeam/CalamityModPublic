@@ -23,8 +23,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.yInsignia = true;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
-            player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
+            player.GetDamage<TrueMeleeDamageClass>() += 0.15f;
         }
 
         public override void AddRecipes()
