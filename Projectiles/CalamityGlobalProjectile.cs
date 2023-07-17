@@ -1304,7 +1304,7 @@ namespace CalamityMod.Projectiles
                     return false;
                 }
 
-                else if (projectile.type == ProjectileID.ThornBall)
+                else if (projectile.type == ProjectileID.ThornBall && !projectile.tileCollide)
                 {
                     if (projectile.alpha > 0)
                     {
