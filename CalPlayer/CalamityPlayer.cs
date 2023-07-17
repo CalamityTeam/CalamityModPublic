@@ -273,7 +273,7 @@ namespace CalamityMod.CalPlayer
         public float stealthGenStandstill = 1f;
         public float stealthGenMoving = 1f;
         public int flatStealthLossReduction = 0;
-        public const float StealthAccelerationCap = 2f;
+        public const float StealthAccelerationCap = 1.5f;
         public float stealthAcceleration = 1f;
         public bool stealthStrikeThisFrame = false;
         public bool stealthStrikeHalfCost = false;
