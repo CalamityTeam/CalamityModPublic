@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
         public float RicochetVelocityCap = DynamicPursuer.RicochetVelocityCap;
         public float ElectricityDmgMult = DynamicPursuer.ElectricityDmgMult;
         public float ElectricityCooldown = DynamicPursuer.ElectricityCooldown;
-        public float ElectricityCooldownStealth = DynamicPursuer.ElectricityCooldownStealth;
+        public float RicochetShootingCooldown = DynamicPursuer.RicochetShootingCooldown;
         public float LaserDmgMult = DynamicPursuer.LaserDmgMult;
         public float LaserCooldown = DynamicPursuer.LaserCooldown;
 
@@ -115,10 +115,11 @@ namespace CalamityMod.Projectiles.Rogue
 
                     ElectricVelocityCharge += Projectile.velocity.Length();
 
-                    if (ElectricVelocityCharge >= ElectricityCooldownStealth)
+                    if (ElectricVelocityCharge >= RicochetShootingCooldown)
                     {
                         ElectricVelocityCharge = 0f;
                         AttemptToFireElectricity((int)(Projectile.damage * ElectricityDmgMult));
+                        AttemptToFireLasers((int)(Projectile.damage * LaserDmgMult));
                     }
                 }
             }
@@ -258,6 +259,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
 
+                /*
                 if (newTarget == null)
                 {
                     ReturningToPlayer = true;
@@ -276,7 +278,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Projectile.velocity.Y = -RicochetVelocityCap;
                     return;
                 }
-                
+                */
             }
         }
 
