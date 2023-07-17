@@ -456,7 +456,11 @@ Exoblade: {
 
 FallenPaladinsHammer: {
 	DisplayName: Fallen Paladin's Hammer
-	Tooltip: Explodes on enemy hits
+	Tooltip:
+		'''
+		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
+		Every third time the hammer returns, a spectral hammer will be summoned which violently explodes upon hitting an enemy
+		'''
 }
 
 FaultLine: {
