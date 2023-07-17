@@ -1,7 +1,5 @@
 ﻿using CalamityMod.Rarities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,13 +19,7 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            string hotkey = CalamityKeybinds.SpectralVeilHotKey.TooltipHotkeyString();
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Text.Contains("{0}"));
-            if (line != null)
-                line.Text = String.Format(line.Text, hotkey);
-        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.SpectralVeilHotKey);
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

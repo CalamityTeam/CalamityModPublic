@@ -2910,7 +2910,7 @@ namespace CalamityMod.CalPlayer
 
             if (yInsignia)
             {
-                Player.GetDamage<MeleeDamageClass>() += 0.1f;
+                Player.GetDamage<MeleeDamageClass>() += 0.15f;
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
                     Player.GetDamage<GenericDamageClass>() += 0.1f;
             }

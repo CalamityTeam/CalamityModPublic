@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -27,15 +26,7 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().devItem = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            string hotkey = CalamityKeybinds.AngelicAllianceHotKey.TooltipHotkeyString();
-
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
-
-            if (line != null)
-                line.Text = "Press " + hotkey + " to grace yourself in divinity for 15 seconds";
-        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.AngelicAllianceHotKey);
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

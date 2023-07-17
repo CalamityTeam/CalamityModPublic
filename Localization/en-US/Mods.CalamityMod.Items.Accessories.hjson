@@ -153,7 +153,7 @@ AngelicAlliance: {
 		Courage, Enlightenment, Bliss. United in Judgement
 		+2 max minions, 15% increased summon damage, and 8% increased damage to all other classes
 		Life regeneration is boosted while jumping
-		This line is modified in the code below. If you can read this, someone probably did something wrong (It was Ben)
+		Press [KEY] to grace yourself in divinity for 15 seconds
 		While under the effects of Divine Bless, for every minion you have, an archangel shall be summoned to aid you in combat
 		Each spawned angel will instantly heal you for two health
 		All minion attacks inflict Banishing Fire and you are granted a flat health boost of four health per second
@@ -221,7 +221,7 @@ AsgardianAegis: {
 		+40 max life and increased life regeneration
 		Grants a supreme god slayer flame dash
 		Can be used to ram enemies
-		TOOLTIP LINE HERE
+		Press [KEY] to activate buffs to all damage, crit chance, and defense
 		Activating this buff will reduce your movement speed and increase enemy aggro
 		+20 defense while submerged in liquid
 		'''
@@ -246,7 +246,7 @@ AstralArcanum: {
 		Provides immunity to the astral infection debuff
 		Boosts life regen even while under the effects of a damaging debuff
 		While under the effects of a damaging debuff you will gain 15 defense
-		TOOLTIP LINE HERE
+		Press [KEY] to toggle teleportation UI while no bosses are alive
 		'''
 }
 
@@ -330,7 +330,7 @@ BlunderBooster: {
 		12% increased rogue damage and 15% increased rogue projectile velocity
 		Stealth generates 10% faster
 		Summons a red lightning aura to surround the player and electrify nearby enemies
-		TOOLTIP LINE HERE
+		Press [KEY] to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of lightning bolts
 		This effect has a 1 second cooldown before it can be used again
 		'''
 }
@@ -352,7 +352,7 @@ CelestialJewel: {
 		'''
 		Boosts life regen even while under the effects of a damaging debuff
 		While under the effects of a damaging debuff you will gain 11 defense
-		TOOLTIP LINE HERE
+		Press [KEY] to teleport to a random location while no bosses are alive
 		'''
 }
 
@@ -541,13 +541,23 @@ DraedonsHeart: {
 	DisplayName: Draedon's Heart
 	Tooltip:
 		'''
-		15% reduced contact damage from enemies
-		Reduces defense damage taken by 50%
-		Replaces Adrenaline with the Nanomachines meter
-		Unlike Adrenaline, you lose no Nanomachines when you take damage, but they stop accumulating for 1 second
-		With full Nanomachines, press & to heal 360 health over 2 seconds
-		While healing, you gain 50% damage reduction
+		{0}% reduced contact damage from enemies
+		Reduces defense damage taken by {1}%
+		[NANODESC]
+		With full Nanomachines, press [KEY] to heal {2} health over {3} {^3:second;seconds}
+		While healing, you take [DR]% less damage
 		'Nanomachines, son'
+		'''
+	NanomachinesAdd:
+		'''
+		Adds the Nanomachines meter
+		Nanomachines accumulate over time while fighting bosses
+		Taking damage stops the accumulation for {0} {^0:second;seconds}
+		'''
+	NanomachinesReplace:
+		'''
+		Replaces Adrenaline with the Nanomachines meter
+		Unlike Adrenaline, you lose no Nanomachines when you take damage, but they stop accumulating for {0} {^0:second;seconds}
 		'''
 }
 
@@ -640,7 +650,7 @@ ElysianAegis: {
 		+30 max life
 		Grants a supreme holy flame dash
 		Can be used to ram enemies
-		TOOLTIP LINE HERE
+		Press [KEY] to activate buffs to all damage, crit chance and defense
 		Activating this buff will reduce your movement speed and increase enemy aggro
 		Blessed by the Profaned Flame
 		'''
@@ -1215,7 +1225,7 @@ PlaguedFuelPack: {
 		'''
 		8% increased rogue damage and 15% increased rogue projectile velocity
 		Stealth generates 10% faster
-		TOOLTIP LINE HERE
+		Press [KEY] to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds
 		This effect has a 1 second cooldown before it can be used again
 		'''
 }
@@ -1371,7 +1381,7 @@ SandCloak: {
 	Tooltip:
 		'''
 		5% increased movement speed
-		TOOLTIP LINE HERE
+		Press [KEY] to consume 10% of your maximum stealth to create a protective dust veil which provides +6 defense and +2 life regen
 		This effect has a 30 second cooldown before it can be used again
 		'''
 }
@@ -1451,7 +1461,7 @@ SpectralVeil: {
 	DisplayName: Spectral Veil
 	Tooltip:
 		'''
-		Press {0} to consume 25% of your maximum stealth to perform a mid-range teleport and render you momentarily invulnerable
+		Press [KEY] to consume 25% of your maximum stealth to perform a mid-range teleport and render you momentarily invulnerable
 		If you dodge something while invulnerable, you instantly gain full stealth
 		Teleportation is disabled while Chaos State is active
 		Stealth generates 15% faster
@@ -1846,8 +1856,7 @@ YharimsInsignia: {
 	Tooltip:
 		'''
 		10% increased damage when under 50% life
-		10% increased melee speed
-		10% increased melee and true melee damage
+		15% increased melee and true melee damage
 		All melee attacks inflict Holy Flames
 		Increased melee knockback
 		'''
