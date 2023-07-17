@@ -4,7 +4,6 @@ AuricTeslaBodyArmor: {
 		'''
 		+100 max life
 		8% increased damage and 5% increased critical strike chance
-		You will freeze enemies near you when you are struck
 		'''
 }
 
