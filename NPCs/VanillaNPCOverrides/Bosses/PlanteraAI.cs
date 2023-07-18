@@ -237,6 +237,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     float shootBulbGateValue = death ? 60f : 120f;
+                    if (lifeRatio < 0.75f)
+                        shootBulbGateValue *= 0.5f;
+
                     if (absValueOfTimer % shootBulbGateValue == 0f)
                     {
                         float projectileSpeed = 12f;
@@ -319,6 +322,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Phase 1
             if (!phase2)
             {
+                // Emit light
+                Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.8f, 0.2f, 0.4f);
+
                 // Adjust stats
                 calamityGlobalNPC.DR = 0.15f;
                 calamityGlobalNPC.unbreakableDR = false;
@@ -367,6 +373,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Phase 2
             else
             {
+                // Spore dust
+                if (Main.rand.NextBool(10))
+                {
+                    Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 44, 0f, 0f, 250, default, 0.4f);
+                    dust.fadeIn = 0.7f;
+                }
+
                 // Adjust stats
                 calamityGlobalNPC.DR = 0.15f;
                 calamityGlobalNPC.unbreakableDR = false;
@@ -390,12 +403,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             for (int i = 0; i < Main.maxNPCs; i++)
                             {
-                                if (Main.npc[i].active && Main.npc[i].aiStyle == 52)
+                                if (Main.npc[i].active && Main.npc[i].aiStyle == NPCAIStyleID.PlanteraHook)
                                 {
                                     for (int j = 0; j < totalTentacles / 2 - 1; j++)
                                     {
-                                        int num800 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI);
-                                        Main.npc[num800].ai[3] = i + 1;
+                                        int hookIndex = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI);
+                                        Main.npc[hookIndex].ai[3] = i + 1;
                                     }
                                 }
                             }
@@ -739,6 +752,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static bool BuffedPlanterasTentacleAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+            // Spore dust
+            if (Main.rand.NextBool(10))
+            {
+                Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 44, 0f, 0f, 250, default, 0.2f);
+                dust.fadeIn = 0.7f;
+            }
 
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 

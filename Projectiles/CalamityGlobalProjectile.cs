@@ -1339,7 +1339,7 @@ namespace CalamityMod.Projectiles
 
                             SoundEngine.PlaySound(SoundID.Item17, projectile.position);
 
-                            for (int num621 = 0; num621 < 8; num621++)
+                            for (int i = 0; i < 8; i++)
                             {
                                 int randomDustType = Main.rand.NextBool(2) ? 125 : 148;
                                 int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, randomDustType, 0f, 0f, 0, default, 2f);
@@ -1350,7 +1350,7 @@ namespace CalamityMod.Projectiles
                                     Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                                 }
                             }
-                            for (int num623 = 0; num623 < 10; num623++)
+                            for (int i = 0; i < 10; i++)
                             {
                                 int randomDustType = Main.rand.NextBool(2) ? 125 : 148;
                                 int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, randomDustType, 0f, 0f, 0, default, 3f);
