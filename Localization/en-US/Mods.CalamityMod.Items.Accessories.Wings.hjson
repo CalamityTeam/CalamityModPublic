@@ -98,11 +98,11 @@ HadarianWings: {
 	DisplayName: Hadarian Wings
 	Tooltip:
 		'''
-		This line gets modified below
 		Horizontal speed: 9.00
 		Acceleration multiplier: 1.75
 		Good vertical speed
 		Flight time: 90
+		{$CommonItemTooltip.PressDownToHover}
 		Powered by the Astral Infection
 		'''
 }

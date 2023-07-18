@@ -39,9 +39,10 @@ namespace CalamityMod.Items.Accessories
         // Community and Shattered Community are mutually exclusive
         public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().shatteredCommunity;
 
-        // Returns the total power of the Community, from 0.0 to 1.0 (0% to 100%), based on bosses defeated in the world.
+        // Returns the total power of the Community, from 0.05 to 0.2, scaling based on bosses defeated in the world.
+        // Returns the percentage of bosses killed (from 0.0 to 1.0) instead if killsOnly is true
         private static readonly int TotalCountedBosses = 42;
-        internal static float CalculatePower()
+        internal static float CalculatePower(bool killsOnly = false)
         {
             int numBosses = 0;
             numBosses += NPC.downedSlimeKing.ToInt();
@@ -86,35 +87,40 @@ namespace CalamityMod.Items.Accessories
             numBosses += DownedBossSystem.downedYharon.ToInt(); // 40
             numBosses += DownedBossSystem.downedExoMechs.ToInt();
             numBosses += DownedBossSystem.downedCalamitas.ToInt();
-            return numBosses / (float)TotalCountedBosses;
+            float bossDownedRatio = numBosses / (float)TotalCountedBosses;
+            return killsOnly ? bossDownedRatio : MathHelper.Lerp(0.05f, 0.2f, bossDownedRatio);
         }
 
+        // Damage stat boosts
+        public const float DamageMultiplier = 0.5f; // 2.5% to 10% (x100)
+        public const float CritMultiplier = 25f; // 1.25% to 5%
+
+        // Defensive stat boosts
+        public const float HealthMultiplier = 50f; // 2% to 10% (rounded down)
+        public const float DRMultiplier = 0.25f; // 1.25% to 5% (x100)
+        public const float DefenseMultiplier = 50f; // 2 to 10 (rounded down)
+
+        // Only while affected by DoT
+        public const float RegenMultiplier = 10f; // 0 to 2 (rounded down), +1 added independently of the multiplier
+
+        // Mobility stat boosts
+        public const float SpeedMultiplier = 0.5f; // 2.5% to 10% (x100)
+        public const float FlightMultiplier = 1f; // 5% to 20% (x100)
+        
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            float communityPower = CalculatePower();
-            float maxHealthIncrease = MathHelper.Lerp(0.025f, 0.1f, communityPower);
-            int lifeRegenIncrease = (int)(MathHelper.Lerp(0.005f, 0.02f, communityPower)*100);
-            float critChanceIncrease = MathHelper.Lerp(0.0125f, 0.05f, communityPower);
-            float damageIncrease = MathHelper.Lerp(0.025f, 0.1f, communityPower);
-            float damageReductionIncrease = MathHelper.Lerp(0.0125f, 0.05f, communityPower);
-            int defenseIncrease = (int)(MathHelper.Lerp(0.025f, 0.1f, communityPower)*100);
-            float summonKnockbackIncrease = MathHelper.Lerp(0.05f, 0.2f, communityPower);
-            float moveSpeedIncrease = MathHelper.Lerp(0.025f, 0.1f, communityPower);
-            float flightTimeIncrease = MathHelper.Lerp(0.05f, 0.2f, communityPower);
-
-            TooltipLine line = list.LastOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
-
-            if (line != null)
-                line.Text += 
-                "\nMax health increased by " + (maxHealthIncrease*100).ToString("n1") + "%\n" +
-                "Life regeneration increased by " + (1+lifeRegenIncrease) + "\n" +
-                "Critical strike chance increased by " + (critChanceIncrease*100).ToString("n1") + "%\n" +
-                "Damage increased by " + (damageIncrease*100).ToString("n1") + "%\n" +
-                "Damage reduction increased by " + (damageReductionIncrease*100).ToString("n1") + "%\n" +
-                "Defense increased by " + defenseIncrease + "\n" +
-                "Minion knockback increased by " + (summonKnockbackIncrease*100).ToString("n1") + "%\n" +
-                "Movement speed increased by " + (moveSpeedIncrease*100).ToString("n1") + "%\n" +
-                "Flight time increased by " + (flightTimeIncrease*100).ToString("n1") + "%";
+            float power = CalculatePower();
+            string statList = this.GetLocalization("StatsList").Format(
+                (DamageMultiplier * power * 100).ToString("N1"),
+                (CritMultiplier * power).ToString("N0"),
+                (int)(HealthMultiplier * power),
+                (DRMultiplier * power * 100).ToString("N2"),
+                (int)(DefenseMultiplier * power),
+                1 + (int)(RegenMultiplier * power),
+                (SpeedMultiplier * power * 100).ToString("N1"),
+                (FlightMultiplier * power * 100).ToString("N1"),
+                (CalculatePower(true) * 100).ToString("N0"));
+            list.FindAndReplace("[STATS]", statList);
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)

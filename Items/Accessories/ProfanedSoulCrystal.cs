@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<ProfanedSoulArtifact>();
 
@@ -79,66 +79,18 @@ namespace CalamityMod.Items.Accessories
             bool draedon = DownedBossSystem.downedExoMechs;
             if (!scal || !draedon)
             {
-                string rejectionReason = (!draedon) ? "The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations" : "The soul within this crystal has been defiled by the powerful magic of a supreme witch"; //there might be a better way to word the draedon line, not sure
-
-                TooltipLine lineLock = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-                if (lineLock != null)
-                {
-                    lineLock.Text = rejectionReason;
-                    lineLock.OverrideColor = new Color(240, 90, 90);
-                }
-                int insertIndex = tooltips.FindIndex(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
-                if (insertIndex != -1)
-                {
-                    TooltipLine rejectLine = new TooltipLine(this.Mod, "CalamityMod:RejectLine", "Merchants will reject a defiled soul such as this.");
-                    tooltips.Insert(insertIndex + 1, rejectLine);
-                }
+                string reject = this.GetLocalizedValue(!draedon ? "ExoMechsLock" : "CalamitasLock") + "\n" + this.GetLocalizedValue("Reject");
+                tooltips.FindAndReplace("[STATUS]", reject);
 
                 TooltipLine linePrice = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Sell price");
                 if (linePrice != null)
                     linePrice.Text = "";
-
             }
-
             else
             {
-                TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-                int manaCost = (int)(100 * Main.player[Main.myPlayer].manaCost);
-
-                if (line != null)
-                    line.Text = "Requires 10 minion slots to use in order to grant the following effects\n" +
-                "All non-summon weapons are converted into powerful summon variations\n" +
-                "Falling below 50% life will empower these attacks";
-
-                int insertIndex = tooltips.FindIndex(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
-                if (insertIndex != -1)
-                {
-                    TooltipLine meleeAttack = new TooltipLine(this.Mod, "CalamityMod:MeleeAttack", "Transforms Melee attacks into a barrage of spears");
-                    meleeAttack.OverrideColor = new Color(240, 90, 90);
-                    tooltips.Insert(insertIndex + 1, meleeAttack);
-
-                    TooltipLine mageAttack = new TooltipLine(this.Mod, "CalamityMod:MageAttack", $"Transforms Magic attacks into a powerful splitting fireball for {manaCost} mana per cast");
-                    mageAttack.OverrideColor = new Color(58, 131, 228);
-                    tooltips.Insert(insertIndex + 2, mageAttack);
-
-                    TooltipLine rangedAttack = new TooltipLine(this.Mod, "CalamityMod:RangedAttack", "Transforms Ranged attacks into a flurry of fireballs and meteors");
-                    rangedAttack.OverrideColor = new Color(133, 224, 146);
-                    tooltips.Insert(insertIndex + 3, rangedAttack);
-
-                    TooltipLine rogueAttack = new TooltipLine(this.Mod, "CalamityMod:RogueAttack", "Transforms Rogue attacks into a deadly crystalline spiral");
-                    rogueAttack.OverrideColor = new Color(233, 116, 81);
-                    tooltips.Insert(insertIndex + 4, rogueAttack);
-
-                    TooltipLine remainingTip = new TooltipLine(this.Mod, "CalamityMod:RemainingTip", "Summons and empowers the profaned babs to fight alongside you\n" +
-                    "You are no longer affected by burn out when hit\n" +
-                    "Provides buffs depending on the time of day\n" +
-                    "Thinking back, it was a boring life");
-                    tooltips.Insert(insertIndex + 5, remainingTip);
-
-                    TooltipLine purityTip = new TooltipLine(this.Mod, "CalamityMod:PurityTip", "And so we burn it all in the name of purity");
-                    purityTip.OverrideColor = new Color(255, 191, 73);
-                    tooltips.Insert(insertIndex + 6, purityTip);
-                }
+                string manaCost = (100 * Main.player[Main.myPlayer].manaCost).ToString("N0");
+                string full = this.GetLocalization("FullTooltip").Format(manaCost);
+                tooltips.FindAndReplace("[STATUS]", full);
             }
         }
 

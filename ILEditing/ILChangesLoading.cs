@@ -118,6 +118,7 @@ namespace CalamityMod.ILEditing
             IL_Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
             IL_Item.TryGetPrefixStatMultipliersForItem += RelaxPrefixRequirements;
             On_NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
+            On_Item.CanShimmer += ChangeRodOfHarmonyShimmerRequirement;
 
             // TODO -- Beat Lava Slimes once and for all
             // IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
@@ -144,6 +145,7 @@ namespace CalamityMod.ILEditing
         {
             VanillaSpawnTownNPCs = null;
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = exoDoorClosed = exoDoorOpen = -1;
+            On_Item.CanShimmer -= ChangeRodOfHarmonyShimmerRequirement;
         }
     }
 }
