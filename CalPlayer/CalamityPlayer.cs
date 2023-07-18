@@ -192,6 +192,8 @@ namespace CalamityMod.CalPlayer
 
         #region Timer and Counter
         public int gaelSwipes = 0;
+        public int PHAThammer = 0;
+        public int StellarHammer = 0;
         public int gaelRageAttackCooldown = 0;
         public int hideOfDeusMeleeBoostTimer = 0;
         public int nebulaManaNerfCounter = 0;

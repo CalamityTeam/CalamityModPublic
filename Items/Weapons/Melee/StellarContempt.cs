@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Weapons.Melee
     public class StellarContempt : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public static int BaseDamage = 300;
-        public static float Speed = 18f;
+        public static int BaseDamage = 800;
+        public static float Speed = 25f;
 
         public override void SetDefaults()
         {
@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 74;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.damage = BaseDamage;
-            Item.knockBack = 9f;
-            Item.useTime = 13;
-            Item.useAnimation = 13;
+            Item.knockBack = 28f;
+            Item.useTime = 45;
+            Item.useAnimation = 45;
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;

@@ -1016,7 +1016,11 @@ StarnightLance: {
 
 StellarContempt: {
 	DisplayName: Stellar Contempt
-	Tooltip: Lunar flares rain down on enemy hits
+	Tooltip:
+		'''
+		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
+		Every fifth hit, the hammer will charge with lunar energy and eviscerate whatever it hits
+		'''
 }
 
 StellarStriker: {
