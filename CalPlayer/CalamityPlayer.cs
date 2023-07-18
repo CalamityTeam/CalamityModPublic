@@ -6770,10 +6770,10 @@ namespace CalamityMod.CalPlayer
             /*
              * T = frame counter
              * DGS  = (100% + 0.5% * T)
-             * EM   = (100% + 0.5% * T) * 1.005^T
-             * BOTH = (100% + 0.75% * T) * 1.005^T
+             * EM   = (100% + 0.5% * T)
+             * BOTH = (100% + 0.75% * T)
              *
-             * NO LONGER THE CASE, NEEDS UPDATING
+             * NO LONGER THE CASE:
              * DGS alone caps in 143 frames
              * EM alone caps in 59 frames
              * Both together caps in 50 frames
@@ -6781,12 +6781,12 @@ namespace CalamityMod.CalPlayer
             if (darkGodSheath && eclipseMirror)
             {
                 stealthAcceleration += 0.075f;
-                stealthAcceleration *= 1.005f;
+                //stealthAcceleration *= 1.005f;
             }
             else if (eclipseMirror)
             {
                 stealthAcceleration += 0.005f;
-                stealthAcceleration *= 1.005f;
+                //stealthAcceleration *= 1.005f;
             }
             else if (darkGodSheath)
                 stealthAcceleration += 0.005f;
