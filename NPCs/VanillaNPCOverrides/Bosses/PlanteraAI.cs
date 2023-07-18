@@ -608,7 +608,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (phase2)
                         {
                             int spore = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, npc.whoAmI);
-                            Vector2 sporeVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 6f;
+                            float sporeSpeed = death ? 9f : 6f;
+                            Vector2 sporeVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * sporeSpeed;
                             Main.npc[spore].velocity.X = sporeVelocity.X;
                             Main.npc[spore].velocity.Y = sporeVelocity.Y;
                             Main.npc[spore].netUpdate = true;
