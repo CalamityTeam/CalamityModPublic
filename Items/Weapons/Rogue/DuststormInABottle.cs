@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public static int CloudLifetime = 200;
         public static float DustRadius = 16f;
-        public static int StealthIframes = 25;
+        public static int StealthIframes = 10;
 
         //Cloud hitbox size manipulation
         public static float MaxSize = 3f;
