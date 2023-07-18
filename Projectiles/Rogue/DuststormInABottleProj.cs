@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int dustexplode = 0; dustexplode < 180; dustexplode++)
             {
                 Vector2 dustd = new Vector2(DuststormInABottle.DustRadius, DuststormInABottle.DustRadius).RotatedBy(MathHelper.ToRadians(dustexplode * 2));
-                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(5) ? 32 : 85, dustd.X, dustd.Y, 50, default, 1f);
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(5) ? 32 : 85, dustd.X, dustd.Y, 50, default, 2f);
                 Main.dust[d].noGravity = true;
                 Main.dust[d].position = Projectile.Center;
             }
