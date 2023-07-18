@@ -32,20 +32,24 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 85, Projectile.oldVelocity.X, Projectile.oldVelocity.Y);
             }
-            double cloudAmt = Main.rand.Next(15, 20);
+            double cloudAmt = Main.rand.Next(20, 35);
             if (stealth)
             {
                 cloudAmt *= 1.5;
                 cloudAmt = Math.Round(cloudAmt);
             }
-            int projType = stealth ? ModContent.ProjectileType<DuststormCloudStealth>() : ModContent.ProjectileType<DuststormCloud>();
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int index = 0; index < cloudAmt; index++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner, stealth ? 1f : 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DuststormCloud>(), 0, 0, Projectile.owner, stealth ? 1f : 0f, (float)Main.rand.Next(-45, 1));
+                    int hitbox = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DuststormCloudHitbox>(), 0, Projectile.knockBack * 0.5f, Projectile.owner);
+                    if (hitbox.WithinBounds(Main.maxProjectiles) && Projectile.Calamity().stealthStrike) //Inherit stealth flag and less iframes
+                        Main.projectile[hitbox].Calamity().stealthStrike = true;
+                        Main.projectile[hitbox].idStaticNPCHitCooldown = 10;
                 }
+
             }
         }
     }
