@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SporeGasPlantera : ModProjectile, ILocalizedModType
+    public class HomingGasBulbSporeGas : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
         public override void SetStaticDefaults()
@@ -19,9 +19,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().DealsDefenseDamage = true;
-            Projectile.width = 32;
-            Projectile.height = 32;
+            Projectile.width = 20;
+            Projectile.height = 20;
             Projectile.hostile = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
@@ -53,13 +52,13 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.localAI[0] = 255f;
             }
 
-            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.16f / 255f, (255 - Projectile.alpha) * 0.2f / 255f, (255 - Projectile.alpha) * 0.04f / 255f);
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.12f / 255f, (255 - Projectile.alpha) * 0.06f / 255f, (255 - Projectile.alpha) * 0.12f / 255f);
 
             Projectile.alpha = (int)(100.0 + Projectile.localAI[0] * 0.7);
             Projectile.rotation += Projectile.velocity.X * 0.02f;
             Projectile.rotation += Projectile.direction * 0.002f;
 
-            if (Projectile.velocity.Length() > (CalamityWorld.LegendaryMode ? 4f : 2f))
+            if (Projectile.velocity.Length() > (CalamityWorld.LegendaryMode ? 2f : 0.5f))
                 Projectile.velocity *= 0.99f;
         }
 
@@ -85,10 +84,10 @@ namespace CalamityMod.Projectiles.Boss
                 case 0:
                     break;
                 case 1:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/SporeGasPlantera2").Value;
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HomingGasBulbSporeGas2").Value;
                     break;
                 case 2:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/SporeGasPlantera3").Value;
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HomingGasBulbSporeGas3").Value;
                     break;
                 default:
                     break;
@@ -103,7 +102,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             if (Projectile.ai[1] <= (CalamityWorld.LegendaryMode ? 600f : 1800f) && Projectile.ai[1] > 120f)
-                target.AddBuff(BuffID.Poisoned, 480);
+                target.AddBuff(BuffID.Poisoned, 240);
         }
     }
 }

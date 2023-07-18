@@ -151,7 +151,6 @@ namespace CalamityMod
 
         internal Mod ancientsAwakened = null;
         internal Mod bossChecklist = null;
-        internal Mod census = null;
         internal Mod crouchMod = null;
         internal Mod dialogueTweak = null;
         internal Mod fargos = null;
@@ -182,8 +181,6 @@ namespace CalamityMod
             ModLoader.TryGetMod("AAMod", out ancientsAwakened);
             bossChecklist = null;
             ModLoader.TryGetMod("BossChecklist", out bossChecklist);
-            census = null;
-            ModLoader.TryGetMod("Census", out census);
             crouchMod = null;
             ModLoader.TryGetMod("CrouchMod", out crouchMod);
             dialogueTweak = null;
@@ -422,7 +419,6 @@ namespace CalamityMod
 
             ancientsAwakened = null;
             bossChecklist = null;
-            census = null;
             crouchMod = null;
             dialogueTweak = null;
             fargos = null;

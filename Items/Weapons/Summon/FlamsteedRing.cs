@@ -95,11 +95,11 @@ namespace CalamityMod.Items.Weapons.Summon
             if (!sufficientSpace)
             {
                 Rectangle displayZone = player.Hitbox;
-                CombatText.NewText(displayZone, new Color(203, 157, 255), "Insufficient space!", true);
+                CombatText.NewText(displayZone, new Color(203, 157, 255), CalamityUtils.GetTextValueFromModItem<FlamsteedRing>("NoSpaceTextBottom"), true);
 
                 displayZone.Y -= 30;
 
-                CombatText.NewText(displayZone, new Color(59, 194, 255), "Cannot Deploy", true);
+                CombatText.NewText(displayZone, new Color(59, 194, 255), CalamityUtils.GetTextValueFromModItem<FlamsteedRing>("NoSpaceTextTop"), true);
                 return false;
             }
 

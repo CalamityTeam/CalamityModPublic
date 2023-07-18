@@ -742,14 +742,14 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (NPC.Opacity >= 1f && (distanceFromTarget > 480f || (CalamityWorld.LegendaryMode && CalamityWorld.revenge)) && NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f))
                     {
                         calamityGlobalNPC.newAI[0] += 1f;
-                        if (calamityGlobalNPC.newAI[0] >= ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 50f : 150f) && calamityGlobalNPC.newAI[0] % (phase7 ? 30f : 60f) == 0f)
+                        if (calamityGlobalNPC.newAI[0] >= ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 30f : 150f) && calamityGlobalNPC.newAI[0] % ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 30f : phase7 ? 30f : 60f) == 0f)
                         {
                             float fireballSpeed = 8f;
                             Vector2 fireballVelocity = Vector2.Normalize(player.Center - NPC.Center) * fireballSpeed + NPC.velocity * 0.5f;
 
                             Vector2 dustVelocity = fireballVelocity * 2f;
                             for (int k = 0; k < 50; k++)
-                                Dust.NewDust(NPC.Center, 52, 52, (int)CalamityDusts.PurpleCosmilite, dustVelocity.X, dustVelocity.Y, 0, default, 1f);
+                                Dust.NewDust(NPC.Center, 52, 52, (int)CalamityDusts.PurpleCosmilite, dustVelocity.X, dustVelocity.Y);
 
                             int type = ModContent.ProjectileType<DoGFire>();
                             int damage = NPC.GetProjectileDamage(type);

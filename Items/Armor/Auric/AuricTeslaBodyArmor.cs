@@ -1,5 +1,4 @@
 ﻿using CalamityMod.CalPlayer;
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -39,7 +38,6 @@ namespace CalamityMod.Items.Armor.Auric
         public override void UpdateEquip(Player player)
         {
             var modPlayer = player.Calamity();
-            modPlayer.fBarrier = true;
             player.statLifeMax2 += 100;
             player.GetDamage<GenericDamageClass>() += 0.08f;
             player.GetCritChance<GenericDamageClass>() += 5;
@@ -51,7 +49,6 @@ namespace CalamityMod.Items.Armor.Auric
                 AddIngredient<GodSlayerChestplate>().
                 AddIngredient<BloodflareBodyArmor>().
                 AddIngredient<TarragonBreastplate>().
-                AddIngredient<FrostBarrier>().
                 AddIngredient<AuricBar>(18).
                 AddTile<CosmicAnvil>().
                 Register();
@@ -60,7 +57,6 @@ namespace CalamityMod.Items.Armor.Auric
                 AddIngredient<SilvaArmor>().
                 AddIngredient<BloodflareBodyArmor>().
                 AddIngredient<TarragonBreastplate>().
-                AddIngredient<FrostBarrier>().
                 AddIngredient<AuricBar>(18).
                 AddTile<CosmicAnvil>().
                 Register();

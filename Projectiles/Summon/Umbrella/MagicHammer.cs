@@ -263,7 +263,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             if ((Behavior == 3f || Behavior == 4f) && Main.rand.NextBool(20) && Projectile.soundDelay <= 0)
 			{
                 Rectangle location = new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height);
-                CombatText.NewText(location, new Color(239, 113, 152), "Stylish!", true);
+                CombatText.NewText(location, new Color(239, 113, 152), CalamityUtils.GetTextValue("Misc.StylishHammerHit"), true);
 				SoundEngine.PlaySound(StylishSound with { Volume = 0.35f }, target.Center);
                 Projectile.soundDelay = 60;
 				for (int i = 0; i < 5; i++)

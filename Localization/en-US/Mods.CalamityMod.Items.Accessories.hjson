@@ -153,7 +153,7 @@ AngelicAlliance: {
 		Courage, Enlightenment, Bliss. United in Judgement
 		+2 max minions, 15% increased summon damage, and 8% increased damage to all other classes
 		Life regeneration is boosted while jumping
-		This line is modified in the code below. If you can read this, someone probably did something wrong (It was Ben)
+		Press [KEY] to grace yourself in divinity for 15 seconds
 		While under the effects of Divine Bless, for every minion you have, an archangel shall be summoned to aid you in combat
 		Each spawned angel will instantly heal you for two health
 		All minion attacks inflict Banishing Fire and you are granted a flat health boost of four health per second
@@ -221,7 +221,7 @@ AsgardianAegis: {
 		+40 max life and increased life regeneration
 		Grants a supreme god slayer flame dash
 		Can be used to ram enemies
-		TOOLTIP LINE HERE
+		Press [KEY] to activate buffs to all damage, crit chance, and defense
 		Activating this buff will reduce your movement speed and increase enemy aggro
 		+20 defense while submerged in liquid
 		'''
@@ -246,7 +246,7 @@ AstralArcanum: {
 		Provides immunity to the astral infection debuff
 		Boosts life regen even while under the effects of a damaging debuff
 		While under the effects of a damaging debuff you will gain 15 defense
-		TOOLTIP LINE HERE
+		Press [KEY] to toggle teleportation UI while no bosses are alive
 		'''
 }
 
@@ -330,7 +330,7 @@ BlunderBooster: {
 		12% increased rogue damage and 15% increased rogue projectile velocity
 		Stealth generates 10% faster
 		Summons a red lightning aura to surround the player and electrify nearby enemies
-		TOOLTIP LINE HERE
+		Press [KEY] to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of lightning bolts
 		This effect has a 1 second cooldown before it can be used again
 		'''
 }
@@ -352,7 +352,7 @@ CelestialJewel: {
 		'''
 		Boosts life regen even while under the effects of a damaging debuff
 		While under the effects of a damaging debuff you will gain 11 defense
-		TOOLTIP LINE HERE
+		Press [KEY] to teleport to a random location while no bosses are alive
 		'''
 }
 
@@ -541,13 +541,23 @@ DraedonsHeart: {
 	DisplayName: Draedon's Heart
 	Tooltip:
 		'''
-		15% reduced contact damage from enemies
-		Reduces defense damage taken by 50%
-		Replaces Adrenaline with the Nanomachines meter
-		Unlike Adrenaline, you lose no Nanomachines when you take damage, but they stop accumulating for 1 second
-		With full Nanomachines, press & to heal 360 health over 2 seconds
-		While healing, you gain 50% damage reduction
+		{0}% reduced contact damage from enemies
+		Reduces defense damage taken by {1}%
+		[NANODESC]
+		With full Nanomachines, press [KEY] to heal {2} health over {3} {^3:second;seconds}
+		While healing, you take [DR]% less damage
 		'Nanomachines, son'
+		'''
+	NanomachinesAdd:
+		'''
+		Adds the Nanomachines meter
+		Nanomachines accumulate over time while fighting bosses
+		Taking damage stops the accumulation for {0} {^0:second;seconds}
+		'''
+	NanomachinesReplace:
+		'''
+		Replaces Adrenaline with the Nanomachines meter
+		Unlike Adrenaline, you lose no Nanomachines when you take damage, but they stop accumulating for {0} {^0:second;seconds}
 		'''
 }
 
@@ -640,7 +650,7 @@ ElysianAegis: {
 		+30 max life
 		Grants a supreme holy flame dash
 		Can be used to ram enemies
-		TOOLTIP LINE HERE
+		Press [KEY] to activate buffs to all damage, crit chance and defense
 		Activating this buff will reduce your movement speed and increase enemy aggro
 		Blessed by the Profaned Flame
 		'''
@@ -1215,7 +1225,7 @@ PlaguedFuelPack: {
 		'''
 		8% increased rogue damage and 15% increased rogue projectile velocity
 		Stealth generates 10% faster
-		TOOLTIP LINE HERE
+		Press [KEY] to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds
 		This effect has a 1 second cooldown before it can be used again
 		'''
 }
@@ -1247,7 +1257,24 @@ ProfanedSoulCrystal: {
 	Tooltip:
 		'''
 		Transforms you into an emissary of the profaned goddess
-		This tooltip gets modified
+		[STATUS]
+		'''
+	ExoMechsLock: "[c/F05A5A:The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations]"
+	CalamitasLock: "[c/F05A5A:The soul within this crystal has been defiled by the powerful magic of a supreme witch]"
+	Reject: Merchants will reject a defiled soul such as this.
+	FullTooltip:
+		'''
+		Requires 10 minion slots to use in order to grant the following effects
+		All non-summon weapons are converted into powerful summon variations
+		Falling below 50% life will empower these attacks
+		[c/F05A5A:Transforms Melee attacks into a barrage of spears]
+		[c/3A83E4:Transforms Magic attacks into a powerful splitting fireball for {0} mana per cast]
+		[c/85E092:Transforms Ranged attacks into a flurry of fireballs and meteors]
+		[c/E94571:Transforms Rogue attacks into a deadly crystalline spiral]
+		Summons and empowers the profaned babs to fight alongside you
+		Provides buffs depending on the time of day
+		Thinking back, it was a boring life
+		[c/FFBF49:And so we burn it all in the name of purity]
 		'''
 }
 
@@ -1371,7 +1398,7 @@ SandCloak: {
 	Tooltip:
 		'''
 		5% increased movement speed
-		TOOLTIP LINE HERE
+		Press [KEY] to consume 10% of your maximum stealth to create a protective dust veil which provides +6 defense and +2 life regen
 		This effect has a 30 second cooldown before it can be used again
 		'''
 }
@@ -1402,11 +1429,21 @@ ShatteredCommunity: {
 		Increases damage by 10% and critical strike chance by 5%
 		Increases max health by 10%, damage reduction by 5%, defense by 10 and life regen by 2
 		Increases movement speed by 10% and flight time by 20%
-		You generate rage over time and rage does not fade away out of combat
+		[RAGEDESC]
 		Taking damage gives rage, this effect is not hindered by your defensive stats
 		While Rage Mode is active, taking damage gives only half as much rage
 		Deal damage with Rage Mode to further empower your wrath
+		Current level: [LEVEL] (+[LEVEL]% Rage Mode damage)
+		Progress to next level: [PROGRESS]%
+		Total Rage Mode damage: [DAMAGE]
 		'''
+	RageAdd:
+		'''
+		Adds the Rage meter, which generates over time
+		Rage generates faster when in proximity of enemies
+		When Rage is maxed, press {0} for a temporary damage boost
+		'''
+	RageModified: You generate rage over time and rage does not fade out of combat
 }
 
 ShieldoftheHighRuler: {
@@ -1451,7 +1488,7 @@ SpectralVeil: {
 	DisplayName: Spectral Veil
 	Tooltip:
 		'''
-		TOOLTIP LINE HERE
+		Press [KEY] to consume 25% of your maximum stealth to perform a mid-range teleport and render you momentarily invulnerable
 		If you dodge something while invulnerable, you instantly gain full stealth
 		Teleportation is disabled while Chaos State is active
 		Stealth generates 15% faster
@@ -1625,11 +1662,17 @@ TheCommunity: {
 	DisplayName: The Community
 	Tooltip:
 		'''
-		Starts off with weak buffs to all of your stats
-		The stat buffs become more powerful as you defeat bosses
-		Reduces the DoT effects of harmful debuffs inflicted on you
+		[STATS]
 		'The heart of (most of) the Terraria community'
 		[c/b00ba5:Thank you to all of my supporters who made this mod a reality!]
+		'''
+	StatsList:
+		'''
+		Increases damage by {0}% and critical strike chance by {1}%
+		Increases max health by {2}%, damage reduction by {3}%, and defense by {4}
+		Increases life regen by {5} while under damage over time effects
+		Increases movement speed by {6}% and flight time by {7}%
+		Become more powerful as you defeat bosses ({8}% Power)
 		'''
 }
 
@@ -1846,8 +1889,7 @@ YharimsInsignia: {
 	Tooltip:
 		'''
 		10% increased damage when under 50% life
-		10% increased melee speed
-		10% increased melee and true melee damage
+		15% increased melee and true melee damage
 		All melee attacks inflict Holy Flames
 		Increased melee knockback
 		'''

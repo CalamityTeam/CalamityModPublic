@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Enemy
                 {
                     if (Main.zenithWorld)
                     {
-                        CombatText.NewText(Main.player[toTarget].getRect(), Color.Red, "Vibe check.", true);
+                        CombatText.NewText(Main.player[toTarget].getRect(), Color.Red, CalamityUtils.GetTextValue("Misc.CragmawVibeCheck"), true);
                     }
                     Projectile.localAI[0] = 1f;
                     ReelingPlayer = true;

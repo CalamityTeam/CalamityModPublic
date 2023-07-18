@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
@@ -102,42 +102,32 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            // Stat tooltips are added dynamically.
-            StringBuilder sb = new StringBuilder(256);
+            // Add the proper description which changes depending on world difficulty
+            string desc = CalamityWorld.revenge ? this.GetLocalizedValue("RageModified") : this.GetLocalization("RageAdd").Format(CalamityKeybinds.RageHotKey.TooltipHotkeyString());
+            tooltips.FindAndReplace("[RAGEDESC]", desc);
 
-            // Line 5: If not on Rev+, note that the accessory enables Rage.
-            TooltipLine rageOverTimeLine = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
-            if (rageOverTimeLine != null && !CalamityWorld.revenge)
-                rageOverTimeLine.Text = "Adds the Rage meter\n" + rageOverTimeLine.Text;
+            // Add the current level
+            tooltips.FindAndReplace("[LEVEL]", level.ToString());
 
-            // Line 9: Current level
-            sb.Append("Current level: ");
-            sb.Append(level);
-            sb.Append(" (+");
-            sb.Append(level);
-            sb.Append("% Rage Mode damage)");
-            tooltips.Add(new TooltipLine(Mod, "Tooltip8", sb.ToString()));
-            sb.Clear();
-
-            if (level < MaxLevel)
+            // Add the progress
+            string progressKey = "[PROGRESS]";
+            TooltipLine progressLine = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Text.Contains(progressKey));
+            if (progressLine != null)
             {
-                long progressToNextLevel = totalRageDamage - CumulativeLevelCost(level);
-                long totalToNextLevel = LevelCost(level + 1);
-                double ratio = (double)progressToNextLevel / totalToNextLevel;
-                string percent = (100D * ratio).ToString("0.00");
-
-                // Line 10: Progress to next level
-                sb.Append("Progress to next level: ");
-                sb.Append(percent);
-                sb.Append('%');
-                tooltips.Add(new TooltipLine(Mod, "Tooltip9", sb.ToString()));
-                sb.Clear();
+                if (level < MaxLevel)
+                {
+                    long progressToNextLevel = totalRageDamage - CumulativeLevelCost(level);
+                    long totalToNextLevel = LevelCost(level + 1);
+                    double ratio = (double)progressToNextLevel / totalToNextLevel;
+                    string percent = (100D * ratio).ToString("0.00");
+                    progressLine.Text = progressLine.Text.Replace(progressKey, percent);
+                }
+                else
+                    progressLine.Text = string.Empty;
             }
 
-            // Line 11: Total damage dealt
-            sb.Append("Total Rage Mode damage: ");
-            sb.Append(totalRageDamage);
-            tooltips.Add(new TooltipLine(Mod, "Tooltip10", sb.ToString()));
+            // Add the current cumulative damage
+            tooltips.FindAndReplace("[DAMAGE]", totalRageDamage.ToString());
         }
 
         public override void SaveData(TagCompound tag)
@@ -228,7 +218,7 @@ namespace CalamityMod.Items.Accessories
             // Display a level up text notification.
             Rectangle textArea = new Rectangle((int)Player.Center.X, (int)Player.Center.Y, 1, 1);
             Color textColor = new Color(236, 209, 236);
-            CombatText.NewText(textArea, textColor, "The Community cracks...", false, false);
+            CombatText.NewText(textArea, textColor, CalamityUtils.GetTextValueFromModItem<ShatteredCommunity>("LevelUpText"), false, false);
         }
     }
 }

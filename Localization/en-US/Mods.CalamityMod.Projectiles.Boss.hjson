@@ -72,6 +72,8 @@ HolyFire2.DisplayName: Holy Fire
 HolyFlare.DisplayName: Holy Flare
 HolyLight.DisplayName: Holy Light
 HolySpear.DisplayName: Holy Spear
+HomingGasBulb.DisplayName: Homing Gas Bulb
+HomingGasBulbSporeGas.DisplayName: Homing Gas Bulb Spore Gas
 IceBlast.DisplayName: Ice Blast
 IceBomb.DisplayName: Ice Bomb
 IceRain.DisplayName: Ice Rain
@@ -138,6 +140,7 @@ SwirlingFire.DisplayName: Fire
 ThanatosBeamStart.DisplayName: T Hanos Beam
 ThanatosBeamTelegraph.DisplayName: Gamma Disintegration Beam Telegraph
 ThanatosLaser.DisplayName: Exo Pulse Laser
+ThornBallSpike.DisplayName: Thorn Ball Spike
 ToxicCloud.DisplayName: Toxic Cloud
 UnstableCrimulanGlob.DisplayName: Unstable Crimulan Glob
 UnstableEbonianGlob.DisplayName: Unstable Ebonian Glob
@@ -146,3 +149,5 @@ WaterSpear.DisplayName: Water Spear
 YharonBulletHellVortex.DisplayName: Bullet Hell Vortex
 YharonFireball.DisplayName: Dragon Fireball
 YharonFireball2.DisplayName: Dragon Fireball
+ThornBallSpike.DisplayName: Thorn Ball Spike
+HomingGasBulb.DisplayName: Homing Gas Bulb

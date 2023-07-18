@@ -8,7 +8,7 @@ ExoThrone: {
 	Tooltip:
 		'''
 		Materializes a quite cozy and extremely nimble flying Exo throne
-		Replaced
+		Hold [KEY] while sitting in the throne to move slower for more precision
 		'A comfortable gamer is a dangerous gamer'
 		'''
 }

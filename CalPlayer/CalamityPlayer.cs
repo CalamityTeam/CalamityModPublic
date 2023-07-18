@@ -1413,13 +1413,7 @@ namespace CalamityMod.CalPlayer
                 percentMaxLifeIncrease += 10;
 
             if (community)
-            {
-                float BoostAtZeroBosses = 0.05f;
-                float BoostPostYharon = 0.2f;
-                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
-                int integerTypeBoost = (int)(floatTypeBoost * 50f);
-                percentMaxLifeIncrease += integerTypeBoost;
-            }
+                percentMaxLifeIncrease += (int)(TheCommunity.CalculatePower() * TheCommunity.HealthMultiplier);
 
             // Shattered Community gives the same max health boost as normal full-power Community (10%)
             if (shatteredCommunity)
@@ -7016,7 +7010,7 @@ namespace CalamityMod.CalPlayer
 
             double ratioToUse = DefenseDamageRatio;
             if (draedonsHeart)
-                ratioToUse *= 0.5;
+                ratioToUse *= DraedonsHeart.DefenseDamageMultiplier;
 
             // Calculate the defense damage taken from this hit.
             int defenseDamageTaken = (int)(damage * ratioToUse);

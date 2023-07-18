@@ -576,6 +576,7 @@ AndroombaFriendly.DisplayName: Androomba Pal
 
 DILF: {
 	DisplayName: Archmage
+	Census.SpawnCondition: Defeat Cryogen
 	Name.Permafrost: Permafrost
 
 	Chat: {
@@ -614,6 +615,7 @@ DILF: {
 
 FAP: {
 	DisplayName: Drunk Princess
+	Census.SpawnCondition: Have {$Mods.CalamityMod.Items.Potions.FabsolsVodka.DisplayName} [i:CalamityMod/FabsolsVodka] in your inventory in Hardmode
 	Name.Cirrus: Cirrus
 
 	Chat: {
@@ -708,6 +710,7 @@ FAP: {
 
 SEAHOE: {
 	DisplayName: Sea King
+	Census.SpawnCondition: Defeat a Giant Clam after defeating the Desert Scourge
 	Name.Amidias: Amidias
 
 	Chat: {
@@ -792,6 +795,7 @@ SEAHOE: {
 
 THIEF: {
 	DisplayName: Bandit
+	Census.SpawnCondition: Have a {$ItemName.PlatinumCoin} [i:PlatinumCoin] in your inventory after defeating Skeletron
 
 	Name: {
 		Laura: Laura
@@ -872,6 +876,7 @@ THIEF: {
 
 WITCH: {
 	DisplayName: Brimstone Witch
+	Census.SpawnCondition: Defeat Supreme Witch, Calamitas
 	Name.Calamitas: Calamitas
 
 	Chat: {

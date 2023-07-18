@@ -1145,6 +1145,7 @@ namespace CalamityMod
         /// <param name="solidTop">Whether this tile is supposed to have a solid top. Defaults to true.</param>
         internal static void SetUpPiano(this ModTile mt, bool lavaImmune = false, bool solidTop = true)
         {
+            Main.tileTable[mt.Type] = solidTop;
             Main.tileSolidTop[mt.Type] = solidTop;
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;

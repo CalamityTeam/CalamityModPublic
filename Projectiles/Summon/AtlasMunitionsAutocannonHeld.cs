@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.velocity = new Vector2(Projectile.spriteDirection * 3f, -4f);
                     Projectile.netUpdate = true;
                     if (HeatInterpolant >= 1f)
-                        CombatText.NewText(Owner.Hitbox, Color.OrangeRed, "OUCH! HOT!", true);
+                        CombatText.NewText(Owner.Hitbox, Color.OrangeRed, CalamityUtils.GetTextValue("Misc.AutocannonHot"), true);
 
                     return;
                 }

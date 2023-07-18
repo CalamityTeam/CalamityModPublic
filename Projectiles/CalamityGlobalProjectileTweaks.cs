@@ -355,6 +355,19 @@ namespace CalamityMod.Projectiles
         internal static IProjectileTweak IDStaticIFrames(int f) => new IDStaticIFrameRule(f);
         #endregion
 
+        #region Ignore Water
+        internal class IgnoreWaterRule : IProjectileTweak
+        {
+            internal readonly bool flag = true;
+
+            public IgnoreWaterRule(bool iw) => flag = iw;
+            public bool AppliesTo(Projectile proj) => true;
+            public void ApplyTweak(Projectile proj) => proj.ignoreWater = flag;
+        }
+        internal static IProjectileTweak IgnoreWater => new IgnoreWaterRule(true);
+        internal static IProjectileTweak DontIgnoreWater => new IgnoreWaterRule(false);
+        #endregion
+
         #region Local Immunity Frames
         internal class LocalIFrameRule : IProjectileTweak
         {
@@ -478,19 +491,6 @@ namespace CalamityMod.Projectiles
         }
         internal static IProjectileTweak TileCollide => new TileCollideRule(true);
         internal static IProjectileTweak NoTileCollide => new TileCollideRule(false);
-        #endregion
-
-        #region Ignore Water
-        internal class IgnoreWaterRule : IProjectileTweak
-        {
-            internal readonly bool flag = true;
-
-            public IgnoreWaterRule(bool iw) => flag = iw;
-            public bool AppliesTo(Projectile proj) => true;
-            public void ApplyTweak(Projectile proj) => proj.ignoreWater = flag;
-        }
-        internal static IProjectileTweak IgnoreWater => new IgnoreWaterRule(true);
-        internal static IProjectileTweak DontIgnoreWater => new IgnoreWaterRule(false);
         #endregion
 
         #region Time Left

@@ -281,6 +281,9 @@ namespace CalamityMod.NPCs.DesertScourge
                                 if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                                     perturbedSpeed *= Main.rand.NextFloat() + 0.5f;
 
+                                for (int k = 0; k < 10; k++)
+                                    Dust.NewDust(NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, 10, 10, 85, perturbedSpeed.X, perturbedSpeed.Y);
+
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                                 if (Main.zenithWorld)
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 3f, perturbedSpeed, type2, damage, 0f, Main.myPlayer);
@@ -444,6 +447,10 @@ namespace CalamityMod.NPCs.DesertScourge
                     for (int i = 0; i < numProj; i++)
                     {
                         Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+
+                        for (int k = 0; k < 10; k++)
+                            Dust.NewDust(NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, 10, 10, 85, perturbedSpeed.X, perturbedSpeed.Y);
+
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                     }
                 }

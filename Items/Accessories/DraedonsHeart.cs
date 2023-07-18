@@ -3,10 +3,10 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Rarities;
 using CalamityMod.World;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
         private const double ContactDamageReduction = 0.15D;
+        public const double DefenseDamageMultiplier = 0.5D;
 
         // Duration of Nanomachines in frames.
         internal static readonly int NanomachinesDuration = 120;
@@ -23,17 +24,17 @@ namespace CalamityMod.Items.Accessories
         // Duration of time where Nanomachines won't accumulate after taking damage, in frames.
         internal static readonly int NanomachinePauseAfterDamage = 60;
 
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(
+            (ContactDamageReduction * 100).ToString("N0"),
+            (100 - (DefenseDamageMultiplier * 100)).ToString("N0"),
+            NanomachinesHealPerFrame * NanomachinesDuration,
+            NanomachinesDuration / 60);
+
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 11));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-
-            string seconds = NanomachinePauseAfterDamage == 60 ? "second" : "seconds";
-            string pauseDurationTooltip = $"{NanomachinePauseAfterDamage / 60} {seconds}";
-            string totalHealTooltip = $"{NanomachinesHealPerFrame * NanomachinesDuration}";
-            string healDurationTooltip = $"{NanomachinesDuration / 60}";
-
-                   }
+        }
 
         public override void SetDefaults()
         {
@@ -62,35 +63,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            // The 3rd tooltip line "Replaces Adrenaline..." is replaced on Normal or Expert
-            TooltipLine nanomachineMeterLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
-            if (nanomachineMeterLine != null && !CalamityWorld.revenge)
-                nanomachineMeterLine.Text = "Adds the Nanomachines meter";
+            // Add the hotkey
+            list.IntegrateHotkey(CalamityKeybinds.AdrenalineHotKey);
 
-            // The 4th tooltip line "Unlike Adrenaline..." is replaced on Normal or Expert
-            TooltipLine doesntStopOnDamageLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
-            if (doesntStopOnDamageLine != null && !CalamityWorld.revenge)
-                doesntStopOnDamageLine.Text = "Nanomachines accumulate over time while fighting bosses\n" +
-                    $"Taking damage stops the accumulation for {NanomachinePauseAfterDamage / 60} seconds";
+            // Add the proper description which changes depending on world difficulty
+            string desc = this.GetLocalization(CalamityWorld.revenge ? "NanomachinesReplace" : "NanomachinesAdd").Format(NanomachinePauseAfterDamage / 60);
+            list.FindAndReplace("[NANODESC]", desc);
 
-            // The 5th tooltip line "With full Nanomachines" has the & replaced with the hotkey.
-            string adrenKey = CalamityKeybinds.AdrenalineHotKey.TooltipHotkeyString();
-            TooltipLine hotkeyLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
-            if (hotkeyLine != null)
-            {
-                string tooltipWithHotkey = hotkeyLine.Text.Replace("&", adrenKey);
-                hotkeyLine.Text = tooltipWithHotkey;
-            }
-
-            // The 6th tooltip line "While healing..." has the @ replaced with full adrenaline DR.
-            // For whatever reason this method overrides the entire line instead of replacing the character as intended, so we duplicate the line.
+            // Add the proper DR value
             string fullAdrenDRString = (100f * BalancingConstants.FullAdrenalineDR).ToString("N0");
-            TooltipLine healingDRLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip5");
-            if (healingDRLine != null)
-            {
-                string tooltipWithDR = fullAdrenDRString.Replace("@", fullAdrenDRString);
-                healingDRLine.Text = "While healing, you take " + tooltipWithDR + "% less damage";
-            }
+            list.FindAndReplace("[DR]", fullAdrenDRString);
         }
     }
 }
