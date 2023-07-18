@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.Rogue;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class DuststormInABottleProj : ModProjectile, ILocalizedModType
@@ -35,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
             double cloudAmt = Main.rand.Next(20, 35);
             if (stealth)
             {
-                cloudAmt *= 1.5;
+                cloudAmt *= DuststormInABottle.StealthCloudAmountMult;
                 cloudAmt = Math.Round(cloudAmt);
             }
             if (Projectile.owner == Main.myPlayer)
