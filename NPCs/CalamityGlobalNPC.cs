@@ -1308,6 +1308,10 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 32f;
             }
+            else if (npc.type == NPCID.PlanterasTentacle)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.5);
+            }
             else if (CalamityLists.DestroyerIDs.Contains(npc.type))
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
@@ -1417,6 +1421,10 @@ namespace CalamityMod.NPCs
             else if ((npc.type == NPCID.Wraith || npc.type == NPCID.Mimic || npc.type == NPCID.Reaper || npc.type == NPCID.PresentMimic || npc.type == NPCID.SandElemental || npc.type == NPCID.Ghost) && CalamityWorld.LegendaryMode)
             {
                 npc.knockBackResist = 0f;
+            }
+            else if (npc.type == NPCID.Spore)
+            {
+                npc.dontTakeDamage = true;
             }
 
             if (CalamityLists.revengeanceLifeStealExceptionList.Contains(npc.type))
@@ -4684,6 +4692,14 @@ namespace CalamityMod.NPCs
             {
                 switch (npc.type)
                 {
+                    case NPCID.PlanterasTentacle:
+                        if (npc.life <= 0)
+                        {
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                                NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), ModContent.NPCType<PlanterasFreeTentacle>());
+                        }
+                        break;
+
                     case NPCID.MotherSlime:
                         if (npc.life <= 0)
                         {

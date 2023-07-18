@@ -226,6 +226,7 @@ namespace CalamityMod
 
                 { NPCID.Plantera, 1.15 },
                 { NPCID.PlanterasTentacle, 1.15 },
+                { ModContent.NPCType<PlanterasFreeTentacle>(), 1.15 },
 
                 { NPCID.HallowBoss, 0.6875 },
 
@@ -425,6 +426,7 @@ namespace CalamityMod
                     161, // 225 in phase 2
                     207 } }, // Vanilla: Is retarded, so plantera does 150 in phase 1 and 210 in phase 2; Rev and Death: 289 in phase 2
                 { NPCID.PlanterasTentacle, new int[] { 60, 138, 161, 207, 276 } },
+                { ModContent.NPCType<PlanterasFreeTentacle>(), new int[] { 60, 138, 161, 207, 276 } },
                 { NPCID.Spore, new int[] { 70, 140, 160, 170, 210 } },
 
                 { NPCID.HallowBoss, new int[] { 80, // 120 during charge

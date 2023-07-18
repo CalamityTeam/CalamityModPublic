@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -163,6 +164,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // These projectiles are slower than normal
             // Glow gradually more green the closer the gatling attack is to ending
             bool usingSeedGatling = npc.ai[1] > SeedGatlingGateValue;
+            bool slowedDuringTentaclePhase = npc.ai[2] > 0f;
             if (!phase2)
             {
                 npc.ai[1] += 1f;
@@ -224,10 +226,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
             else
+            {
                 npc.ai[1] = 0f;
 
+                // Slow down for a while after tentacles are spawned
+                if (slowedDuringTentaclePhase)
+                    velocity *= 0.25f;
+            }
+
             // Move slowly for a bit after finishing gatling attack
-            bool slowedAfterGatlingAttack = npc.ai[1] < 0f;
+            bool slowedAfterGatlingAttack = npc.ai[1] < 0f && !phase2;
             if (slowedAfterGatlingAttack)
             {
                 float absValueOfTimer = Math.Abs(npc.ai[1]);
@@ -416,6 +424,22 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                 }
 
+                // Slow down for 20 seconds after transitioning to phase 2
+                // This gives players time to handle the tentacles before Plantera starts attack again
+                // Decrement the timer far faster if there aren't any tentacles alive
+                if (npc.ai[2] == 0f)
+                    npc.ai[2] = 1200f;
+
+                if (slowedDuringTentaclePhase)
+                {
+                    bool noAttachedTentacles = !NPC.AnyNPCs(NPCID.PlanterasTentacle);
+                    bool noFreeTentacles = !NPC.AnyNPCs(ModContent.NPCType<PlanterasFreeTentacle>());
+                    float tentacleIdleTimerDecrement = (noAttachedTentacles && noFreeTentacles) ? 4f : noAttachedTentacles ? 2f : 1f;
+                    npc.ai[2] -= tentacleIdleTimerDecrement;
+                    if (npc.ai[2] <= 0f)
+                        npc.ai[2] = -1f;
+                }
+
                 // Spawn gore
                 if (npc.localAI[2] == 0f)
                 {
@@ -428,7 +452,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.localAI[2] = 1f;
                 }
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                if (Main.netMode != NetmodeID.MultiplayerClient && !slowedDuringTentaclePhase)
                 {
                     // If hit, fire projectiles even if target is behind tiles
                     if (npc.justHit)
@@ -576,13 +600,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int healthInterval = death ? (int)(npc.lifeMax * 0.08) : (int)(npc.lifeMax * 0.1);
+                    int healthInterval = death ? (int)(npc.lifeMax * 0.03) : (int)(npc.lifeMax * 0.05);
                     if ((npc.life + healthInterval) < npc.ai[0])
                     {
                         npc.ai[0] = npc.life;
 
-                        if (NPC.CountNPCS(NPCID.PlanterasTentacle) < maxTentacles)
-                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI);
+                        if (phase2)
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, npc.whoAmI);
                     }
                 }
             }
@@ -753,6 +777,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+            // Percent life remaining
+            float lifeRatio = npc.life / (float)npc.lifeMax;
+
             // Spore dust
             if (Main.rand.NextBool(10))
             {
@@ -770,8 +797,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.reflectsProjectiles = false;
             }
 
-            // Despawn if Plantera is gone
+            // Die if Plantera is gone
             if (NPC.plantBoss < 0)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    npc.StrikeInstantKill();
+
+                return false;
+            }
+
+            // Set Plantera to a variable
+            int plantBoss = NPC.plantBoss;
+
+            // Become free if Plantera gets sick of your shit
+            if (Main.npc[plantBoss].ai[2] == -1f)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     npc.StrikeInstantKill();
@@ -788,9 +827,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             else
                 npc.damage = npc.defDamage;
 
-            // Set Plantera to a variable
-            int num778 = NPC.plantBoss;
-
             // Movement variables
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -804,22 +840,22 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Velocity and acceleration
             float num779 = death ? 2.4f : 1.6f;
-            float num781 = npc.ai[2];
-            float num780 = 100f + (num781 * 75f);
-            float deceleration = (death ? 0.5f : 0.8f) / (1f + num781);
+            float extendedDistanceFromPlantera = 1f - lifeRatio * 2f;
+            float num780 = 100f + (extendedDistanceFromPlantera * 300f);
+            float deceleration = (death ? 0.5f : 0.8f) / (1f + extendedDistanceFromPlantera);
 
             if (Main.getGoodWorld)
                 num779 += 4f;
 
             // Despawn if Plantera is gone
-            if (!Main.npc[num778].active || num778 < 0)
+            if (!Main.npc[plantBoss].active)
             {
                 npc.active = false;
                 return false;
             }
 
             // Movement
-            Vector2 planteraCenter = Main.npc[num778].Center;
+            Vector2 planteraCenter = Main.npc[plantBoss].Center;
             float num784 = planteraCenter.X + npc.ai[0];
             float num785 = planteraCenter.Y + npc.ai[1];
             float num786 = num784 - planteraCenter.X;
@@ -828,6 +864,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             num788 = num780 / num788;
             num786 *= num788;
             num787 *= num788;
+
             if (npc.position.X < planteraCenter.X + num786)
             {
                 npc.velocity.X += num779;
@@ -853,7 +890,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.velocity.Y *= deceleration;
             }
 
-            float velocityLimit = 12f + 6f * num781;
+            float velocityLimit = 12f + 6f * extendedDistanceFromPlantera;
             if (npc.velocity.X > velocityLimit)
                 npc.velocity.X = velocityLimit;
             if (npc.velocity.X < -velocityLimit)

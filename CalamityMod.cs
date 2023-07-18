@@ -74,6 +74,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.DataStructures;
+using CalamityMod.NPCs.NormalNPCs;
 
 [assembly: InternalsVisibleTo("CalTestHelpers")]
 [assembly: InternalsVisibleTo("InfernumMode")]
@@ -781,6 +782,7 @@ namespace CalamityMod
                 { NPCID.PrimeVice, velocityScaleMin },
                 { NPCID.Plantera, velocityScaleMin }, // Increases in phase 2
                 { NPCID.PlanterasTentacle, bitingEnemeyVelocityScale },
+                { ModContent.NPCType<PlanterasFreeTentacle>(), bitingEnemeyVelocityScale },
                 { NPCID.HallowBoss, velocityScaleMin },
                 { NPCID.Golem, velocityScaleMin },
                 { NPCID.GolemFistLeft, velocityScaleMin },
