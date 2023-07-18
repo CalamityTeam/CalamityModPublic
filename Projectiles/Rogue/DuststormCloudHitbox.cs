@@ -15,13 +15,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetDefaults()
         {
-            Projectile.width = 40;
-            Projectile.height = 40;
+            Projectile.width = 100;
+            Projectile.height = 100;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 400;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 15;
@@ -33,8 +33,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (growth < (Projectile.Calamity().stealthStrike ? DuststormInABottle.MaxSizeStealth : DuststormInABottle.MaxSize))
             {
-                Projectile.width += 1;
-                Projectile.height += 1;
+                Projectile.width += 10;
+                Projectile.height += 10;
                 growth += DuststormInABottle.GrowthRate;
             }
         }
