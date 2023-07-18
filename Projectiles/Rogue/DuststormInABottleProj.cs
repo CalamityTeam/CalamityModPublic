@@ -29,9 +29,13 @@ namespace CalamityMod.Projectiles.Rogue
         {
             bool stealth = Projectile.Calamity().stealthStrike;
             SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
-            for (int k = 0; k < 15; k++)
+            //DUST STORM
+            for (int dustexplode = 0; dustexplode < 180; dustexplode++)
             {
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 85, Projectile.oldVelocity.X, Projectile.oldVelocity.Y);
+                Vector2 dustd = new Vector2(DuststormInABottle.DustRadius, DuststormInABottle.DustRadius).RotatedBy(MathHelper.ToRadians(dustexplode * 2));
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(5) ? 32 : 85, dustd.X, dustd.Y, 50, default, 1f);
+                Main.dust[d].noGravity = true;
+                Main.dust[d].position = Projectile.Center;
             }
             double cloudAmt = Main.rand.Next(30, 50);
             if (stealth)
