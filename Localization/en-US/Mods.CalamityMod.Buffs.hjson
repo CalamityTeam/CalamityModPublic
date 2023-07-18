@@ -1441,3 +1441,8 @@ KalandraMirrorBuff: {
 	DisplayName: Mirror of Kalandra
 	Description: Five ancient weapons will annihilate your enemies
 }
+
+StellarTorusBuff: {
+	DisplayName: Astral Vengeance Buff
+	Description: Summons a Torus Orbital that fries your foes
+}
