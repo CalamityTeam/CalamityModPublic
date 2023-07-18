@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 20;
-            Item.damage = 47;
+            Item.damage = 64;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 25;
+            Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 25;
+            Item.useTime = 30;
             Item.knockBack = 5f;
             Item.UseSound = SoundID.Item106;
             Item.autoReuse = true;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<DuststormInABottleProj>();
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 13.5f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 

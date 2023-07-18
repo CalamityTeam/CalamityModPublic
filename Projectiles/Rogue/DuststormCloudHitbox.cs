@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ignoreWater = true;
             Projectile.timeLeft = DuststormInABottle.CloudLifetime;
             Projectile.DamageType = DamageClass.Default; //If I do Rogue it looks ugly as shit with flasks
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 30;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 15;
         }
 
         public override void AI()
