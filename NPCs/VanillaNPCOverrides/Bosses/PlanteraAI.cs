@@ -606,7 +606,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[0] = npc.life;
 
                         if (phase2)
-                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, npc.whoAmI);
+                        {
+                            int spore = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, npc.whoAmI);
+                            Vector2 sporeVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 6f;
+                            Main.npc[spore].velocity.X = sporeVelocity.X;
+                            Main.npc[spore].velocity.Y = sporeVelocity.Y;
+                            Main.npc[spore].netUpdate = true;
+                        }
                     }
                 }
             }
