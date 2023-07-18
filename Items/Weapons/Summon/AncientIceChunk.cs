@@ -24,6 +24,12 @@ namespace CalamityMod.Items.Weapons.Summon
         
         public new string LocalizationCategory => "Items.Weapons.Summon";
 
+        public override void SetStaticDefaults()
+        {
+            Main.RegisterItemAnimation(Type, new DrawAnimationVertical(6, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+        }
+        
         public override void SetDefaults()
         {
             Item.damage = 25;
