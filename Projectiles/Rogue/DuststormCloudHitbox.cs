@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
     public class DuststormCloudHitbox : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
+
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetDefaults()
         {
             Projectile.width = 40;
