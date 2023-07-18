@@ -1018,7 +1018,8 @@ StellarContempt: {
 	DisplayName: Stellar Contempt
 	Tooltip:
 		'''
-		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
+		Throws a heavy, gravity-affected hammer that summons lunar flares upon hitting an enemy
+		After striking an enemy the hammer will return to you
 		Every fifth hit, the hammer will charge with lunar energy and eviscerate whatever it hits
 		'''
 }

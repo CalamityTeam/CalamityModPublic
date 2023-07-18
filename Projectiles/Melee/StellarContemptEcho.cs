@@ -108,6 +108,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Player player = Main.player[Projectile.owner];
             //This is what we call fucking IMPACT.
+            Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 7;
             SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
 
             float numberOfDusts = 156f;
@@ -129,14 +130,14 @@ namespace CalamityMod.Projectiles.Melee
                                     switch (Main.rand.Next(6))
                                     {
                                         case 0:
-                                            dustID = 156;
+                                            dustID = 229;
                                             break;
                                         case 1:
                                         case 2:
-                                            dustID = 229;
+                                            dustID = 156;
                                             break;
                                         default:
-                                            dustID = 229;
+                                            dustID = 156;
                                             break;
                                     }
 
@@ -156,7 +157,7 @@ namespace CalamityMod.Projectiles.Melee
                                     Main.dust[idx].position = Projectile.Center;
                                 }
 
-            float distance = 272f;
+            float distance = 336f;
 
             for (int k = 0; k < Main.maxNPCs; k++)
             {

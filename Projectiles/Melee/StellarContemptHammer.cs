@@ -14,8 +14,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/StellarContempt";
-        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f, PitchVariance = 0.3f };
-        public static readonly SoundStyle HomingSound = new("CalamityMod/Sounds/Item/PwnagehammerHoming") { Volume = 0.3f, PitchVariance = 0.3f };
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f};
         public static readonly SoundStyle RedHamSound = new("CalamityMod/Sounds/Item/StellarContemptClone") { Volume = 1f};
         private static float StartDustQuantity = 26f;
         public ref int EmpoweredHammer => ref Main.player[Projectile.owner].Calamity().StellarHammer; 
@@ -44,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            //returnhammer determines if the hammer is slowing down after hitting an enemy, or homing in o0n the player.
+            //returnhammer determines if the hammer is slowing down after hitting an enemy, or homing in on the player.
             Player player = Main.player[Projectile.owner];
             Projectile.direction = Projectile.spriteDirection = Projectile.velocity.X > 0f ? 1 : -1;
             Projectile.rotation += MathHelper.ToRadians(rotatehammer) * Projectile.direction;
@@ -70,14 +69,14 @@ namespace CalamityMod.Projectiles.Melee
                                     switch (Main.rand.Next(6))
                                     {
                                         case 0:
-                                            dustID = 156;
+                                            dustID = 229;
                                             break;
                                         case 1:
                                         case 2:
-                                            dustID = 229;
+                                            dustID = 156;
                                             break;
                                         default:
-                                            dustID = 229;
+                                            dustID = 156;
                                             break;
                                     }
 
@@ -192,7 +191,7 @@ namespace CalamityMod.Projectiles.Melee
                         Projectile.velocity *= 0f;
                         SoundEngine.PlaySound(RedHamSound, Projectile.Center);
            
-                        int hammer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<StellarContemptEcho>(), Projectile.damage * 5, Projectile.knockBack * 1.5f, Projectile.owner, 0f, Projectile.ai[1]);
+                        int hammer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<StellarContemptEcho>(), Projectile.damage * 6, Projectile.knockBack * 1.5f, Projectile.owner, 0f, Projectile.ai[1]);
                         Main.projectile[hammer].localAI[0] = Math.Sign(Projectile.velocity.X);
                         Main.projectile[hammer].netUpdate = true;
                         EmpoweredHammer = 0;
@@ -223,11 +222,15 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
                 if (returnhammer == 0)
                     {
-                    SoundEngine.PlaySound(UseSound, Projectile.Center);
+                    SoundEngine.PlaySound(UseSound with { Pitch = EmpoweredHammer * 0.1f - 0.1f  }, Projectile.Center); 
                         if (EmpoweredHammer == 4)
                         {
                         Projectile.velocity.Y *= 0f;
                         Projectile.velocity.X *= 0f;
+                        }
+                        else
+                        {
+                        SpawnFlares(target.Center, target.width, target.height);
                         }
                     returnhammer = 1;
                     }
@@ -252,6 +255,51 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.damage = (int)(Projectile.damage * 0.9f);
             if (Projectile.damage < 1)
             Projectile.damage = 1;
+        }
+        
+        private void SpawnFlares(Vector2 targetPos, int width, int height)
+        {
+            // Play the Lunar Flare sound centered on the user, not the target (consistent with Lunar Flare and Stellar Striker)
+            Player user = Main.player[Projectile.owner];
+            SoundEngine.PlaySound(SoundID.Item88, Projectile.position);
+            Projectile.netUpdate = true;
+
+            int numFlares = EmpoweredHammer + 1;
+            int flareDamage = (int)(0.1f * Projectile.damage);
+            float flareKB = 4f;
+            for (int i = 0; i < numFlares; ++i)
+            {
+                float flareSpeed = Main.rand.NextFloat(9f, 13f);
+
+                // Flares never come from straight up, there is always at least an 80 pixel horizontal offset
+                float xDist = Main.rand.NextFloat(80f, 320f) * (Main.rand.NextBool() ? -1f : 1f);
+                float yDist = Main.rand.NextFloat(1200f, 1440f);
+                Vector2 startPoint = targetPos + new Vector2(xDist, -yDist);
+
+                // The flare is somewhat inaccurate based on the size of the target.
+                float xVariance = width / 4f;
+                if (xVariance < 8f)
+                    xVariance = 8f;
+                float yVariance = height / 4f;
+                if (yVariance < 8f)
+                    yVariance = 8f;
+                float xOffset = Main.rand.NextFloat(-xVariance, xVariance);
+                float yOffset = Main.rand.NextFloat(-yVariance, yVariance);
+                Vector2 offsetTarget = targetPos + new Vector2(xOffset, yOffset);
+
+                // Finalize the velocity vector and make sure it's going at the right speed.
+                Vector2 velocity = offsetTarget - startPoint;
+                velocity.Normalize();
+                velocity *= flareSpeed;
+
+                float AI1 = Main.rand.Next(3);
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].DamageType = DamageClass.MeleeNoSpeed;
+                }
+            }
         }
       
         public override bool PreDraw(ref Color lightColor)

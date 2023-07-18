@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -8,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
     public class StellarContempt : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public static int BaseDamage = 800;
+        public static int BaseDamage = 678;
         public static float Speed = 25f;
 
         public override void SetDefaults()
@@ -39,8 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<FallenPaladinsHammer>().
                 AddIngredient(ItemID.LunarBar, 5).
-                AddIngredient(ItemID.FragmentSolar, 10).
-                AddIngredient(ItemID.FragmentNebula, 10).
+                AddIngredient<GalacticaSingularity>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }
