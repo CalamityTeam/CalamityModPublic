@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 20;
-            Item.damage = 64;
+            Item.damage = 47;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 30;
+            Item.useAnimation = 25;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 30;
+            Item.useTime = 25;
             Item.knockBack = 5f;
             Item.UseSound = SoundID.Item106;
             Item.autoReuse = true;
@@ -37,6 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public static int CloudLifetime = 200;
         public static float DustRadius = 16f;
+        public static int StealthIframes = 25;
 
         //Cloud hitbox size manipulation
         public static float MaxSize = 3f;
