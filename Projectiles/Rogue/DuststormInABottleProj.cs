@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 85, Projectile.oldVelocity.X, Projectile.oldVelocity.Y);
             }
-            double cloudAmt = Main.rand.Next(20, 35);
+            double cloudAmt = Main.rand.Next(30, 50);
             if (stealth)
             {
                 cloudAmt *= DuststormInABottle.StealthCloudAmountMult;
