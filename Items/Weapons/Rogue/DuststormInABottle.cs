@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static double StealthCloudAmountMult = 2.5; //Seems like DragonLens does not detect doubles
 
         public static int CloudLifetime = 200;
-        public static float DustRadius = 25f;
+        public static float DustRadius = 16f;
 
         //Cloud hitbox size manipulation
         public static float MaxSize = 3f;
