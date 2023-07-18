@@ -581,7 +581,7 @@ EclipseMirror: {
 		6% increased rogue damage, and 6% increased rogue crit chance
 		Vastly reduces enemy aggression, even in the abyss
 		Stealth generates 25% faster when standing still
-		Mobile stealth generation exponentially accelerates while not attacking
+		Mobile stealth generation accelerates while not attacking
 		Stealth strikes only expend 50% of your max stealth
 		Grants the ability to evade attacks in a blast of darksun light, which inflicts extreme damage in a wide area
 		Evading an attack grants full stealth but has a 90 second cooldown
