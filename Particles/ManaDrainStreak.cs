@@ -18,7 +18,6 @@ namespace CalamityMod.Particles
         public float FinalDistanceFromPlayer;
         public Color StartColor;
         public Color EndColor;
-        public Vector2 Position;
 
         public ManaDrainStreak(Player owner, float thickness, Vector2 startVector, float finalDistance, Color colorStart, Color colorEnd, int lifetime, Vector2 position = default)
         {
