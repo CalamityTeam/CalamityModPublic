@@ -285,7 +285,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int projectileType = (CalamityWorld.LegendaryMode || Main.rand.NextBool(4)) ? ProjectileID.PoisonSeedPlantera : ProjectileID.SeedPlantera;
+                            int projectileType = ModContent.ProjectileType<SporeGasPlantera>();
                             int damage = npc.GetProjectileDamage(projectileType);
                             Vector2 projectileVelocity = npc.velocity * Main.rand.NextVector2CircularEdge(0.25f, 0.25f);
                             float ai0 = Main.rand.Next(3);
