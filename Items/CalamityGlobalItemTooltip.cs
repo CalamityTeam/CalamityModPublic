@@ -55,6 +55,12 @@ namespace CalamityMod.Items
             // tooltip list.
             EnchantmentTooltips(item, tooltips);
 
+            // Replace rogue with rouge in gfb
+            if (Main.zenithWorld)
+            {
+                tooltips.FindAndReplace("Rogue", "Rouge");
+                tooltips.FindAndReplace("rogue", "rouge");
+            }
             // Everything below this line can only apply to modded items. If the item is vanilla, stop here for efficiency.
             if (item.type < ItemID.Count)
                 return;
