@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Weapons/Melee/StellarContempt";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f};
         public static readonly SoundStyle RedHamSound = new("CalamityMod/Sounds/Item/StellarContemptClone") { Volume = 1f};
+        public static readonly SoundStyle UseSoundFunny = new("CalamityMod/Sounds/Item/CalamityBell") { Volume = 1.5f};
         private static float StartDustQuantity = 26f;
         public ref int EmpoweredHammer => ref Main.player[Projectile.owner].Calamity().StellarHammer; 
         public int returnhammer = 0;
@@ -222,17 +223,22 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
                 if (returnhammer == 0)
                     {
-                    SoundEngine.PlaySound(UseSound with { Pitch = EmpoweredHammer * 0.1f - 0.1f  }, Projectile.Center); 
-                        if (EmpoweredHammer == 4)
-                        {
-                        Projectile.velocity.Y *= 0f;
-                        Projectile.velocity.X *= 0f;
-                        }
+                        if (Main.zenithWorld)
+                        SoundEngine.PlaySound(UseSoundFunny with { Pitch = EmpoweredHammer * 0.1f - 0.1f  }, Projectile.Center);
+                        
                         else
-                        {
-                        SpawnFlares(target.Center, target.width, target.height);
-                        }
-                    returnhammer = 1;
+                        SoundEngine.PlaySound(UseSound with { Pitch = EmpoweredHammer * 0.1f - 0.1f  }, Projectile.Center);
+                        
+                            if (EmpoweredHammer == 4)
+                            {
+                            Projectile.velocity.Y *= 0f;
+                            Projectile.velocity.X *= 0f;
+                            }
+                            else
+                            {
+                            SpawnFlares(target.Center, target.width, target.height);
+                            }
+                        returnhammer = 1;
                     }
                 float numberOfDusts = 40f;
                 float rotFactor = 360f / numberOfDusts;
