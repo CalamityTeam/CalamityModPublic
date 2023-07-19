@@ -3901,7 +3901,7 @@ namespace CalamityMod.CalPlayer
                 if (npc is null || !npc.active)
                     return;
 
-                bool holdingsol = ((Player.HeldItem.type >= ItemID.GreenSolution && Player.HeldItem.type <= ItemID.RedSolution) || Player.HeldItem.type == ModContent.ItemType<AstralSolution>());
+                bool holdingsol = ((Player.HeldItem.type >= ItemID.GreenSolution && Player.HeldItem.type <= ItemID.RedSolution) || (Player.HeldItem.type >= ItemID.SandSolution && Player.HeldItem.type <= ItemID.DirtSolution) || Player.HeldItem.type == ModContent.ItemType<AstralSolution>());
                 if (npc.Hitbox.Contains(Main.MouseWorld.ToPoint()) && holdingsol && Player.Distance(npc.Center) < 450)
                 {
                     Player.cursorItemIconEnabled = true;
@@ -3916,7 +3916,7 @@ namespace CalamityMod.CalPlayer
                         int soltype = 0;
                         if (Player.HeldItem.type == ModContent.ItemType<AstralSolution>())
                         {
-                            soltype = 5;
+                            soltype = 8;
                         }
                         else
                         {
@@ -3936,6 +3936,15 @@ namespace CalamityMod.CalPlayer
                                     break;
                                 case ItemID.RedSolution:
                                     soltype = 4;
+                                    break;
+                                case ItemID.SandSolution:
+                                    soltype = 5;
+                                    break;
+                                case ItemID.SnowSolution:
+                                    soltype = 6;
+                                    break;
+                                case ItemID.DirtSolution:
+                                    soltype = 7;
                                     break;
                             }
                         }
