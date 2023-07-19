@@ -5539,11 +5539,14 @@ namespace CalamityMod.NPCs
             // Spore Gas vomit color telegraph
             if (npc.type == NPCID.Plantera && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
             {
-                bool startChangingColor = npc.ai[1] > PlanteraAI.SeedGatlingColorChangeGateValue;
-                if (startChangingColor)
+                if (npc.life / (float)npc.lifeMax <= 0.5f)
                 {
-                    float colorChangeAmount = npc.ai[1] - PlanteraAI.SeedGatlingColorChangeGateValue;
-                    return Color.Lerp(drawColor, Color.Green, colorChangeAmount / PlanteraAI.SeedGatlingColorChangeDuration);
+                    bool startChangingColor = npc.ai[1] > PlanteraAI.SeedGatlingColorChangeGateValue;
+                    if (startChangingColor)
+                    {
+                        float colorChangeAmount = npc.ai[1] - PlanteraAI.SeedGatlingColorChangeGateValue;
+                        return Color.Lerp(drawColor, Color.Green, colorChangeAmount / PlanteraAI.SeedGatlingColorChangeDuration);
+                    }
                 }
             }
 
