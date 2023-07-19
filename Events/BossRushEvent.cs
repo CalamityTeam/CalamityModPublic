@@ -216,7 +216,7 @@ namespace CalamityMod.Events
                 new Boss(ModContent.NPCType<CalamitasClone>(), TimeChangeContext.Night, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<Cataclysm>(), ModContent.NPCType<Catastrophe>(),
                     ModContent.NPCType<SoulSeeker>() }),
 
-                new Boss(NPCID.Plantera, TimeChangeContext.Day, permittedNPCs: new int[] { NPCID.PlanterasTentacle, NPCID.PlanterasHook, NPCID.Spore }),
+                new Boss(NPCID.Plantera, TimeChangeContext.Day, permittedNPCs: new int[] { NPCID.PlanterasTentacle, ModContent.NPCType<PlanterasFreeTentacle>(), NPCID.PlanterasHook, NPCID.Spore }),
 
                 new Boss(ModContent.NPCType<Anahita>(), specialSpawnCountdown: 120, permittedNPCs: new int[] { ModContent.NPCType<Leviathan>(), ModContent.NPCType<AquaticAberration>(),
                     ModContent.NPCType<AnahitasIceShield>(), NPCID.DetonatingBubble}),

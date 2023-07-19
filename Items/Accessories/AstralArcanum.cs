@@ -3,7 +3,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,14 +22,7 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ModContent.RarityType<Turquoise>();
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            string hotkey = CalamityKeybinds.AstralArcanumUIHotkey.TooltipHotkeyString();
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
-
-            if (line != null)
-                line.Text = "Press " + hotkey + " to toggle teleportation UI while no bosses are alive";
-        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.AstralArcanumUIHotkey);
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

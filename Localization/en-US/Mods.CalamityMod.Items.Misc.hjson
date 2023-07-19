@@ -255,7 +255,7 @@ NormalityRelocator: {
 	DisplayName: Normality Relocator
 	Tooltip:
 		'''
-		This line is modified below
+		Press [KEY] to teleport to the position of the mouse
 		Fall speed is doubled for 30 frames after teleporting
 		Teleportation is disabled while Chaos State is active
 		Works while in the inventory

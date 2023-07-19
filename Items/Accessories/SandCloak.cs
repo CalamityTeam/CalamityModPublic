@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -19,14 +18,7 @@ namespace CalamityMod.Items.Accessories
             Item.defense = 2;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            string hotkey = CalamityKeybinds.SandCloakHotkey.TooltipHotkeyString();
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-
-            if (line != null)
-                line.Text = "Press " + hotkey + " to consume 10% of your maximum stealth to create a protective dust veil which provides +6 defense and +2 life regen";
-        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.SandCloakHotkey);
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

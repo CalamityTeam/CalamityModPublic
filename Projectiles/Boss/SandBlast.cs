@@ -30,30 +30,15 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (Projectile.ai[1] == 0f)
-            {
-                for (int num621 = 0; num621 < 2; num621++)
-                {
-                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 1f);
-                    Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
-                    }
-                }
-                Projectile.ai[1] = 1f;
-            }
-
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
             Projectile.Opacity += 0.1f;
             if (Projectile.Opacity > 1f)
                 Projectile.Opacity = 1f;
 
-            int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 0.8f);
-            Main.dust[num469].noGravity = true;
-            Main.dust[num469].velocity *= 0f;
+            int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 0.8f);
+            Main.dust[dust].noGravity = true;
+            Main.dust[dust].velocity *= 0f;
         }
 
         public override void Kill(int timeLeft)

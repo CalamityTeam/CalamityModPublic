@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Rarities;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,14 +22,6 @@ namespace CalamityMod.Items.Mounts
             Item.rare = ModContent.RarityType<Violet>();
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            string hotkey = CalamityKeybinds.ExoChairSlowdownHotkey.TooltipHotkeyString();
-
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-
-            if (line != null)
-                line.Text = $"Hold {hotkey} while sitting in the throne to move slower for more precision";
-        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.ExoChairSlowdownHotkey);
     }
 }

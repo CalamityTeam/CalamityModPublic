@@ -59,8 +59,8 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.rotation += Projectile.velocity.X * 0.02f;
             Projectile.rotation += Projectile.direction * 0.002f;
 
-            if (Projectile.velocity.Length() > (CalamityWorld.LegendaryMode ? 2f : 0.5f))
-                Projectile.velocity *= 0.98f;
+            if (Projectile.velocity.Length() > (CalamityWorld.LegendaryMode ? 4f : 2f))
+                Projectile.velocity *= 0.99f;
         }
 
         public override bool CanHitPlayer(Player target) => Projectile.ai[1] <= (CalamityWorld.LegendaryMode ? 600f : 1800f) && Projectile.ai[1] > 120f;

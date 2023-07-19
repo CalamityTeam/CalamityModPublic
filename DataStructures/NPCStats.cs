@@ -226,6 +226,7 @@ namespace CalamityMod
 
                 { NPCID.Plantera, 1.15 },
                 { NPCID.PlanterasTentacle, 1.15 },
+                { ModContent.NPCType<PlanterasFreeTentacle>(), 1.15 },
 
                 { NPCID.HallowBoss, 0.6875 },
 
@@ -425,6 +426,7 @@ namespace CalamityMod
                     161, // 225 in phase 2
                     207 } }, // Vanilla: Is retarded, so plantera does 150 in phase 1 and 210 in phase 2; Rev and Death: 289 in phase 2
                 { NPCID.PlanterasTentacle, new int[] { 60, 138, 161, 207, 276 } },
+                { ModContent.NPCType<PlanterasFreeTentacle>(), new int[] { 60, 138, 161, 207, 276 } },
                 { NPCID.Spore, new int[] { 70, 140, 160, 170, 210 } },
 
                 { NPCID.HallowBoss, new int[] { 80, // 120 during charge
@@ -654,6 +656,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.Plantera, ProjectileID.PoisonSeedPlantera), new int[] { 54, 96, 136, 152, 210 } }, // 144 in non-rev master mode
                 { new Tuple<int, int>(NPCID.Plantera, ProjectileID.ThornBall), new int[] { 62, 108, 160, 176, 234 } }, // 162 in non-rev master mode
                 { new Tuple<int, int>(NPCID.Plantera, ModContent.ProjectileType<SporeGasPlantera>()), new int[] { 80, 140, 160, 176, 234 } },
+                { new Tuple<int, int>(NPCID.Plantera, ModContent.ProjectileType<HomingGasBulb>()), new int[] { 80, 140, 160, 176, 234 } },
 
                 { new Tuple<int, int>(NPCID.HallowBoss, ProjectileID.HallowBossRainbowStreak), new int[] { 90, 120, 160, 176, 234 } },
                 { new Tuple<int, int>(NPCID.HallowBoss, ProjectileID.FairyQueenSunDance), new int[] { 100, 140, 184, 200, 270 } },

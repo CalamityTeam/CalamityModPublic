@@ -28,17 +28,6 @@ namespace CalamityMod.Items.Accessories.Wings
             Item.rare = ItemRarityID.Lime;
             Item.accessory = true;
         }
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-			string down = PlayerInput.GenerateInputTag_ForCurrentGamemode(true, "Down");
-			string jump = PlayerInput.GenerateInputTag_ForCurrentGamemode(true, "Jump");
-			string up = PlayerInput.GenerateInputTag_ForCurrentGamemode(true, "Up");
-			string hoverText = Player.Settings.HoverControl == Player.Settings.HoverControlMode.Hold ? "Hold " + down + " and " + jump + " to hover" : "Press " + down + " to toggle hover\nPress " + up + " to deactivate hover";
-
-			TooltipLine hover = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-			if (hover != null)
-				hover.Text = hoverText;
-		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

@@ -2658,22 +2658,15 @@ namespace CalamityMod.CalPlayer
             if (blueCandle)
                 Player.moveSpeed += 0.1f;
 
-            // TODO -- crit is a float now, and knockback can be boosted for all classes
             if (community)
             {
-                float BoostAtZeroBosses = 0.05f;
-                float BoostPostYharon = 0.2f;
-                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
-                int integerTypeBoost = (int)(floatTypeBoost * 50f);
-                int critBoost = integerTypeBoost / 2;
-                float damageBoost = floatTypeBoost * 0.5f;
-                Player.endurance += floatTypeBoost * 0.25f;
-                Player.statDefense += integerTypeBoost;
-                Player.GetDamage<GenericDamageClass>() += damageBoost;
-                Player.GetCritChance<GenericDamageClass>() += critBoost;
-                Player.GetKnockback<SummonDamageClass>() += floatTypeBoost;
-                Player.moveSpeed += floatTypeBoost * 0.5f;
-                flightTimeMult += floatTypeBoost;
+                float baseBoost = TheCommunity.CalculatePower();
+                Player.endurance += baseBoost * TheCommunity.DRMultiplier;
+                Player.statDefense += (int)(baseBoost * TheCommunity.DefenseMultiplier);
+                Player.GetDamage<GenericDamageClass>() += baseBoost * TheCommunity.DamageMultiplier;
+                Player.GetCritChance<GenericDamageClass>() += baseBoost * TheCommunity.CritMultiplier;
+                Player.moveSpeed += baseBoost * TheCommunity.SpeedMultiplier;
+                flightTimeMult += baseBoost * TheCommunity.FlightMultiplier;
             }
             // Shattered Community gives the same wing time boost as normal Community
             if (shatteredCommunity)
@@ -2910,7 +2903,7 @@ namespace CalamityMod.CalPlayer
 
             if (yInsignia)
             {
-                Player.GetDamage<MeleeDamageClass>() += 0.1f;
+                Player.GetDamage<MeleeDamageClass>() += 0.15f;
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
                     Player.GetDamage<GenericDamageClass>() += 0.1f;
             }

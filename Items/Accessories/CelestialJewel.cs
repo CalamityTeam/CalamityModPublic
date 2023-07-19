@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -22,14 +21,7 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            string hotkey = CalamityKeybinds.AstralTeleportHotKey.TooltipHotkeyString();
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
-
-            if (line != null)
-                line.Text = "Press " + hotkey + " to teleport to a random location while no bosses are alive";
-        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.AstralTeleportHotKey);
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
