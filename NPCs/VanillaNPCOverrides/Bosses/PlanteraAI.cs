@@ -201,20 +201,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.ai[1] >= SeedGatlingStopValue)
                 {
                     // Vomit dense spread of spore gas at the end of the gatling attack
-                    if (Main.netMode != NetmodeID.MultiplayerClient && addSporeGasBlastToGatlingAttack)
+                    if (addSporeGasBlastToGatlingAttack)
                     {
                         SoundEngine.PlaySound(SoundID.Item107, npc.Center);
-                        int totalProjectiles = 36;
-                        float radians = MathHelper.TwoPi / totalProjectiles;
-                        int type = ModContent.ProjectileType<SporeGasPlantera>();
-                        int damage = npc.GetProjectileDamage(type);
-                        float velocity2 = CalamityWorld.LegendaryMode ? Main.rand.NextFloat(8f, 12f) : Main.rand.NextFloat(4f, 6f);
-                        Vector2 spinningPoint = new Vector2(0f, -velocity2);
-                        for (int k = 0; k < totalProjectiles; k++)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Vector2 projectileVelocity = spinningPoint.RotatedBy(radians * k);
-                            float ai0 = Main.rand.Next(3);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 50f, projectileVelocity, type, damage, 0f, Main.myPlayer, ai0);
+                            int totalProjectiles = 36;
+                            float radians = MathHelper.TwoPi / totalProjectiles;
+                            int type = ModContent.ProjectileType<SporeGasPlantera>();
+                            int damage = npc.GetProjectileDamage(type);
+                            float velocity2 = CalamityWorld.LegendaryMode ? Main.rand.NextFloat(8f, 12f) : Main.rand.NextFloat(4f, 6f);
+                            Vector2 spinningPoint = new Vector2(0f, -velocity2);
+                            for (int k = 0; k < totalProjectiles; k++)
+                            {
+                                Vector2 projectileVelocity = spinningPoint.RotatedBy(radians * k);
+                                float ai0 = Main.rand.Next(3);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 50f, projectileVelocity, type, damage, 0f, Main.myPlayer, ai0);
+                            }
                         }
                     }
 
@@ -281,7 +284,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Emit spore gas in phase 3
                 else if (npc.ai[3] <= BeginChargeGateValue)
                 {
-                    if (phase3)
+                    if (phase3 && npc.ai[3] % 10f == 0f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -321,6 +324,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         // Charge
                         npc.ai[3] = BeginChargeGateValue;
                         npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * chargeVelocity;
+                        SoundEngine.PlaySound(SoundID.Item74, npc.Center);
+
+                        // Spore dust cloud
+                        Vector2 dustVelocity = npc.velocity * -1.5f;
+                        for (int k = 0; k < 50; k++)
+                            Dust.NewDust(npc.Center, npc.width, npc.height, 44, dustVelocity.X, dustVelocity.Y, 250, default, 0.5f);
                     }
 
                     // Rotation
@@ -555,8 +564,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int numProj = spread / 2;
                             int type = ProjectileID.PoisonSeedPlantera;
                             int damage = npc.GetProjectileDamage(type);
-
                             float rotation = MathHelper.ToRadians(spread);
+
                             for (int i = 0; i < numProj; i++)
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
@@ -620,7 +629,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         npc.ai[0] = npc.life;
 
-                        if (phase2)
+                        if (phase2 && !charging)
                         {
                             int spore = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, npc.whoAmI);
                             float sporeSpeed = death ? 9f : 6f;
