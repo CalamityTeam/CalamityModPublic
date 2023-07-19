@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Spawn Leviathan and change music
             if (phase3 || death)
             {
-                if (!HasBegunSummoningLeviathan)
+                if (!HasBegunSummoningLeviathan && !Main.zenithWorld)
                 {
                     // Use charging frames.
                     NPC.ai[0] = 3f;
@@ -292,7 +292,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             // Hover near the target, invisible if the Leviathan is present and not sufficiently injured.
-            if ((phase3 || death) && WaitingForLeviathan)
+            if ((phase3 || death) && WaitingForLeviathan && !Main.zenithWorld)
             {
                 ChargeRotation(player, vector);
                 ChargeLocation(player, vector, false, true);

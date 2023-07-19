@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         private bool UpdateLIndex()
         {
-            int LevType = ModContent.NPCType<Leviathan>();
+            int LevType = Main.zenithWorld ? ModContent.NPCType<Anahita>() : ModContent.NPCType<Leviathan>();
             if (LevIndex >= 0 && Main.npc[LevIndex].active && Main.npc[LevIndex].type == LevType)
             {
                 return true;
