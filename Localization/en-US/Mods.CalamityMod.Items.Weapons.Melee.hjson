@@ -449,7 +449,7 @@ FallenPaladinsHammer: {
 	Tooltip:
 		'''
 		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
-		Every third time the hammer returns, a spectral hammer will be summoned which violently explodes upon hitting an enemy
+		After returning three times, a homing spectral hammer is summoned with devastating impact
 		'''
 }
 
@@ -1022,9 +1022,9 @@ StellarContempt: {
 	DisplayName: Stellar Contempt
 	Tooltip:
 		'''
-		Throws a heavy, gravity-affected hammer that summons lunar flares upon hitting an enemy
-		After striking an enemy the hammer will return to you
-		Every fifth hit, the hammer will charge with lunar energy and eviscerate whatever it hits
+		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
+		Consecutive hits call down more and more lunar flares from the sky
+		After returning five times, the hammer supercharges with lunar energy to pulverize your target
 		'''
 }
 
