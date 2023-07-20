@@ -5545,7 +5545,9 @@ namespace CalamityMod.NPCs
                     if (startChangingColor)
                     {
                         float colorChangeAmount = npc.ai[1] - PlanteraAI.SeedGatlingColorChangeGateValue;
-                        return Color.Lerp(drawColor, Color.Green, colorChangeAmount / PlanteraAI.SeedGatlingColorChangeDuration);
+                        Color initialColor = npc.GetAlpha(drawColor);
+                        Color finalColor = Color.Green;
+                        return Color.Lerp(initialColor, finalColor, colorChangeAmount / PlanteraAI.SeedGatlingColorChangeDuration);
                     }
                 }
             }

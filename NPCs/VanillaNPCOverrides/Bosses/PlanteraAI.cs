@@ -21,8 +21,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public const float TentaclePhaseSlowDuration = 1200f;
         public const float ChargePhaseGateValue = 900f;
         public const float ReduceSpeedForChargeDistance = 600f;
-        public const float BeginChargeGateValue = -180f;
-        public const float BeginChargeSlowDownGateValue = BeginChargeGateValue - 120f;
+        public const float BeginChargeGateValue = -120f;
+        public const float BeginChargeSlowDownGateValue = BeginChargeGateValue - 60f;
         public const float StopChargeGateValue = BeginChargeSlowDownGateValue - 30f;
 
         public static bool BuffedPlanteraAI(NPC npc, Mod mod)
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float acceleration = bossRush ? 0.12f : phase3 ? 0.06f : 0.04f;
             float chargeLineUpVelocity = bossRush ? 20f : phase4 ? 12f : phase3 ? 10f : 8f;
             float chargeLineUpAcceleration = bossRush ? 0.8f : phase4 ? 0.6f : phase3 ? 0.5f : 0.4f;
-            float chargeVelocity = bossRush ? 24f : phase4 ? 16f : phase3 ? 14f : 12f;
+            float chargeVelocity = bossRush ? 26f : phase4 ? 18f : phase3 ? 16f : 14f;
             float chargeDeceleration = bossRush ? 0.85f : phase4 ? 0.92f : phase3 ? 0.95f : 0.96f;
 
             // Enrage if target is on the surface
@@ -187,11 +187,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             bool shootThornBall = npc.ai[1] % 90f == 0f && addThornBallsToGatlingAttack;
                             bool shootPoisonSeed = npc.ai[1] % 9f == 0f;
-                            float projectileSpeed = 6f;
+                            float projectileSpeed = 14f;
                             int projectileType = shootThornBall ? ProjectileID.ThornBall : shootPoisonSeed ? ProjectileID.PoisonSeedPlantera : ProjectileID.SeedPlantera;
                             int damage = npc.GetProjectileDamage(projectileType);
                             Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 3f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 50f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
                             if (projectileType == ProjectileID.ThornBall && (Main.rand.NextBool(2) || !Main.zenithWorld))
                                 Main.projectile[proj].tileCollide = false;
                         }
@@ -263,7 +263,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int projectileType = ModContent.ProjectileType<HomingGasBulb>();
                         int damage = npc.GetProjectileDamage(projectileType);
                         Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 3f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 50f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
                     }
                 }
             }
@@ -292,7 +292,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int damage = npc.GetProjectileDamage(projectileType);
                             Vector2 projectileVelocity = npc.velocity * Main.rand.NextVector2CircularEdge(0.25f, 0.25f);
                             float ai0 = Main.rand.Next(3);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 3f, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, ai0);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 30f, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, ai0);
                         }
                     }
 
@@ -329,7 +329,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         // Spore dust cloud
                         Vector2 dustVelocity = npc.velocity * -1.5f;
                         for (int k = 0; k < 50; k++)
-                            Dust.NewDust(npc.Center, npc.width, npc.height, 44, dustVelocity.X, dustVelocity.Y, 250, default, 0.5f);
+                        {
+                            Dust dust = Dust.NewDustDirect(npc.Center, npc.width, npc.height, 44, dustVelocity.X, dustVelocity.Y, 250, default, 0.8f);
+                            dust.fadeIn = 0.7f;
+                        }
                     }
 
                     // Rotation
@@ -451,10 +454,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             npc.TargetClosest();
                             int projectileType = (CalamityWorld.LegendaryMode || Main.rand.NextBool(4)) ? ProjectileID.PoisonSeedPlantera : ProjectileID.SeedPlantera;
-                            float projectileSpeed = 9f;
+                            float projectileSpeed = 14f;
                             int damage = npc.GetProjectileDamage(projectileType);
                             Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 3f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 50f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
                         }
                     }
                 }
@@ -466,7 +469,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Spore dust
                 if (Main.rand.NextBool(10))
                 {
-                    Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 44, 0f, 0f, 250, default, 0.4f);
+                    Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 44, 0f, 0f, 250, default, 0.6f);
                     dust.fadeIn = 0.7f;
                 }
 
@@ -543,7 +546,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.justHit)
                         calamityGlobalNPC.newAI[3] = 1f;
 
-                    float shootProjectileGateValue = slowedDuringTentaclePhase ? 270f : 180f;
+                    float shootProjectileGateValue = slowedDuringTentaclePhase ? 120f : 90f;
                     if (npc.localAI[3] >= shootProjectileGateValue)
                     {
                         bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
@@ -554,7 +557,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         }
                         if (canHit)
                         {
-                            float projectileSpeed = 8f + ((0.5f - lifeRatio) * 8f); // 8f to 12f
+                            float projectileSpeed = 10f + ((0.5f - lifeRatio) * 8f); // 10f to 14f
                             if (bossRush)
                                 projectileSpeed += 4f;
 
@@ -569,7 +572,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             for (int i = 0; i < numProj; i++)
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), perturbedSpeed * 3f, perturbedSpeed * projectileSpeed, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), perturbedSpeed * 50f, perturbedSpeed * projectileSpeed, type, damage, 0f, Main.myPlayer);
                             }
 
                             npc.localAI[3] = 0f;
@@ -629,7 +632,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         npc.ai[0] = npc.life;
 
-                        if (phase2 && !charging)
+                        if (phase2)
                         {
                             int spore = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, npc.whoAmI);
                             float sporeSpeed = death ? 9f : 6f;
@@ -814,7 +817,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Spore dust
             if (Main.rand.NextBool(10))
             {
-                Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 44, 0f, 0f, 250, default, 0.2f);
+                Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 44, 0f, 0f, 250, default, 0.4f);
                 dust.fadeIn = 0.7f;
             }
 
@@ -871,7 +874,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Velocity and acceleration
             float num779 = death ? 2.4f : 1.6f;
-            float extendedDistanceFromPlantera = 1f - lifeRatio * 2f;
+            float extendedDistanceFromPlantera = (1f - lifeRatio) * 2f;
             float num780 = 100f + (extendedDistanceFromPlantera * 300f);
             float deceleration = (death ? 0.5f : 0.8f) / (1f + extendedDistanceFromPlantera);
 

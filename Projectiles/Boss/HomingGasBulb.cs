@@ -37,6 +37,8 @@ namespace CalamityMod.Projectiles.Boss
                 SoundEngine.PlaySound(SoundID.Item17, Projectile.Center);
             }
 
+            Lighting.AddLight(Projectile.Center, 0.2f, 0.1f, 0.2f);
+
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
             int closestPlayer = (int)Player.FindClosest(Projectile.Center, 1, 1);
@@ -70,14 +72,6 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Normalize(Projectile.velocity) * 0.25f, type, (int)Math.Round(Projectile.damage * 0.8), 0f, Main.myPlayer, ai0);
                 }
             }
-        }
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            lightColor = Color.White;
-            lightColor.A = (byte)Projectile.alpha;
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
-            return false;
         }
 
         public override void Kill(int timeLeft)

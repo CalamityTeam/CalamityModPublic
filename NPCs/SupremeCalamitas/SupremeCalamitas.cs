@@ -17,6 +17,8 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -34,6 +36,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using CalamityMod.NPCs.Bumblebirb;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -155,6 +158,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static float enragedDR = 0.9999f;
 
         public static readonly Color textColor = Color.Orange;
+        public static readonly Color cirrusTextColor = Color.LightPink;
         public const int sepulcherSpawnCastTime = 75;
         public const int brothersSpawnCastTime = 150;
         
@@ -468,7 +472,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (NPC.Size != hitboxSize)
                 NPC.Size = hitboxSize;
             bool shouldNotUseShield = bulletHellCounter2 % 900 != 0 || attackCastDelay > 0 ||
-                NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()) ||
+                (cirrus ? NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) : (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))) ||
                 NPC.ai[0] == 1f || NPC.ai[0] == 2f;
 
             // Make the shield and forcefield fade away in SCal's acceptance phase.
@@ -504,7 +508,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         dust.position += (shieldRotation - MathHelper.PiOver2).ToRotationVector2() * (float)Math.Cos(NPC.velocity.ToRotation()) * -4f;
                         dust.noGravity = true;
                         dust.velocity = NPC.velocity;
-                        dust.color = Color.Red;
+                        dust.color = cirrus ? Color.Pink : Color.Red;
                         dust.scale = MathHelper.Lerp(0.6f, 0.85f, 1f - num6 / 16f);
                     }
                 }
@@ -647,12 +651,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         if (DownedBossSystem.downedCalamitas && !bossRush)
                         {
                             // Create a teleport line effect
-                            Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Red);
+                            Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, cirrus ? Color.Pink : Color.Red);
                             NPC.Center = initialRitualPosition;
 
                             // Make the town NPC spawn.
                             if (Main.netMode != NetmodeID.MultiplayerClient)
-                                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 12, ModContent.NPCType<WITCH>());
+                                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 12, cirrus ? ModContent.NPCType<FAP>() : ModContent.NPCType<WITCH>());
                         }
 
                         NPC.active = false;
@@ -662,7 +666,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     for (int i = 0; i < MathHelper.Lerp(2f, 6f, 1f - NPC.Opacity); i++)
                     {
                         Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
-                        brimstoneFire.color = Color.Red;
+                        brimstoneFire.color = cirrus ? Color.Pink : Color.Red;
                         brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
                         brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
                         brimstoneFire.noGravity = true;
@@ -690,7 +694,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     dustSpawnPosition.X += horizontalSpawnOffset;
 
                     Dust magic = Dust.NewDustPerfect(dustSpawnPosition, 267);
-                    magic.color = Color.Lerp(Color.Red, Color.Orange, Main.rand.NextFloat(0.8f));
+                    magic.color = Color.Lerp(cirrus ? Color.Pink : Color.Red, cirrus ? Color.Violet : Color.Orange, Main.rand.NextFloat(0.8f));
                     magic.noGravity = true;
                     magic.velocity = Vector2.UnitY * -Main.rand.NextFloat(5f, 9f);
                     magic.scale = 1f + NPC.velocity.Y * 0.35f;
@@ -762,7 +766,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 attackCastDelay = sepulcherSpawnCastTime;
                 for (int i = 0; i < 40; i++)
                 {
-                    Dust castFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-70f, 70f), (int)CalamityDusts.Brimstone);
+                    Dust castFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-70f, 70f), cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone);
                     castFire.velocity = Vector2.UnitY.RotatedByRandom(0.08f) * -Main.rand.NextFloat(3f, 4.45f);
                     castFire.scale = Main.rand.NextFloat(1.35f, 1.6f);
                     castFire.fadeIn = 1.25f;
@@ -773,7 +777,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 for (int i = 0; i < 40; i++)
                 {
-                    Dust castFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-70f, 70f), (int)CalamityDusts.Brimstone);
+                    Dust castFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-70f, 70f), cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone);
                     castFire.velocity = Vector2.UnitY.RotatedByRandom(0.08f) * -Main.rand.NextFloat(3f, 4.45f);
                     castFire.scale = Main.rand.NextFloat(1.35f, 1.6f);
                     castFire.fadeIn = 1.25f;
@@ -1071,7 +1075,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     // Teleport back to the arena on defeat
                     if (giveUpCounter == 1200)
                     {
-                        Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Red);
+                        Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, cirrus ? Color.Pink : Color.Red);
                         NPC.Center = initialRitualPosition;
                     }
 
@@ -1085,7 +1089,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             for (int i = 0; i < 24; i++)
                             {
                                 Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
-                                brimstoneFire.color = Color.Red;
+                                brimstoneFire.color = cirrus ? Color.Pink : Color.Red;
                                 brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
                                 brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
                                 brimstoneFire.fadeIn = 1.25f;
@@ -1115,7 +1119,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         for (int i = 0; i < 24; i++)
                         {
                             Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
-                            brimstoneFire.color = Color.Red;
+                            brimstoneFire.color = cirrus ? Color.Pink : Color.Red;
                             brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
                             brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
                             brimstoneFire.fadeIn = 1.25f;
@@ -1195,7 +1199,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     attackCastDelay = sepulcherSpawnCastTime;
                     for (int i = 0; i < 40; i++)
                     {
-                        Dust castFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-70f, 70f), (int)CalamityDusts.Brimstone);
+                        Dust castFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-70f, 70f), cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone);
                         castFire.velocity = Vector2.UnitY.RotatedByRandom(0.08f) * -Main.rand.NextFloat(3f, 4.45f);
                         castFire.scale = Main.rand.NextFloat(1.35f, 1.6f);
                         castFire.fadeIn = 1.25f;
@@ -1206,7 +1210,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     for (int i = 0; i < 40; i++)
                     {
-                        Dust castFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-70f, 70f), (int)CalamityDusts.Brimstone);
+                        Dust castFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-70f, 70f), cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone);
                         castFire.velocity = Vector2.UnitY.RotatedByRandom(0.08f) * -Main.rand.NextFloat(3f, 4.45f);
                         castFire.scale = Main.rand.NextFloat(1.35f, 1.6f);
                         castFire.fadeIn = 1.25f;
@@ -1270,17 +1274,64 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
                     }
+
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        SoundEngine.PlaySound(SoundID.Item74, NPC.Center);
-                        for (int I = 0; I < 20; I++)
+                        if (cirrus)
                         {
-                            int FireEye = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(vectorCenter.X + (Math.Sin(I * 18) * 300)), (int)(vectorCenter.Y + (Math.Cos(I * 18) * 300)), ModContent.NPCType<SoulSeekerSupreme>(), NPC.whoAmI, 0, 0, 0, -1);
-                            NPC Eye = Main.npc[FireEye];
-                            Eye.ai[0] = I * 18;
-                            Eye.ai[3] = I * 18;
+                            // Spawn 1 Providence, 2 Queen Slimes and 2 Empress of Lights
+                            int maximumBullshit = 5;
+                            int angleFromCirrus = 360 / maximumBullshit;
+                            int distanceFromCirrus = 300;
+                            for (int i = 0; i < maximumBullshit; i++)
+                            {
+                                switch (i)
+                                {
+                                    case 0:
+                                        int npc = NPC.NewNPC(NPC.GetSource_FromAI(),
+                                            (int)(vectorCenter.X + (Math.Sin(i * angleFromCirrus) * distanceFromCirrus)),
+                                            (int)(vectorCenter.Y + (Math.Cos(i * angleFromCirrus) * distanceFromCirrus)),
+                                            ModContent.NPCType<Providence.Providence>(), NPC.whoAmI);
+                                        Main.npc[npc].timeLeft *= 20;
+                                        CalamityUtils.BossAwakenMessage(npc);
+                                        break;
+
+                                    case 1:
+                                    case 2:
+                                        int npc2 = NPC.NewNPC(NPC.GetSource_FromAI(),
+                                            (int)(vectorCenter.X + (Math.Sin(i * angleFromCirrus) * distanceFromCirrus)),
+                                            (int)(vectorCenter.Y + (Math.Cos(i * angleFromCirrus) * distanceFromCirrus)),
+                                            NPCID.HallowBoss, NPC.whoAmI);
+                                        Main.npc[npc2].timeLeft *= 20;
+                                        break;
+
+                                    case 3:
+                                    case 4:
+                                        int npc3 = NPC.NewNPC(NPC.GetSource_FromAI(),
+                                            (int)(vectorCenter.X + (Math.Sin(i * angleFromCirrus) * distanceFromCirrus)),
+                                            (int)(vectorCenter.Y + (Math.Cos(i * angleFromCirrus) * distanceFromCirrus)),
+                                            NPCID.QueenSlimeBoss, NPC.whoAmI);
+                                        Main.npc[npc3].timeLeft *= 20;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            SoundEngine.PlaySound(SoundID.Item74, NPC.Center);
+                            for (int i = 0; i < 20; i++)
+                            {
+                                int FireEye = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(vectorCenter.X + (Math.Sin(i * 18) * 300)), (int)(vectorCenter.Y + (Math.Cos(i * 18) * 300)), ModContent.NPCType<SoulSeekerSupreme>(), NPC.whoAmI, 0, 0, 0, -1);
+                                NPC Eye = Main.npc[FireEye];
+                                Eye.ai[0] = i * 18;
+                                Eye.ai[3] = i * 18;
+                            }
                         }
                     }
+
                     SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, player.Center);
                     secondStage = true;
                 }
@@ -1485,7 +1536,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 {
                                     Dust magic = Dust.NewDustPerfect(projectileSpawn, 264);
                                     magic.velocity = projectileVelocity.RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f);
-                                    magic.color = Color.OrangeRed;
+                                    magic.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
                                     magic.scale = 1.2f;
                                     magic.fadeIn = 0.6f;
                                     magic.noLight = true;
@@ -1506,9 +1557,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                 for (int i = 0; i < 20; i++)
                                 {
-                                    Dust magic = Dust.NewDustPerfect(projectileSpawn, (int)CalamityDusts.Brimstone);
+                                    Dust magic = Dust.NewDustPerfect(projectileSpawn, cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone);
                                     magic.velocity = projectileVelocity.RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.3f;
-                                    magic.color = Color.Red;
+                                    magic.color = cirrus ? Color.Pink : Color.Red;
                                     magic.scale = 1.425f;
                                     magic.fadeIn = 0.75f;
                                     magic.noLight = true;
@@ -1537,7 +1588,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                         Dust magic = Dust.NewDustPerfect(projectileSpawn, 264);
                                         magic.velocity = magicDustVelocity;
-                                        magic.color = Color.Red;
+                                        magic.color = cirrus ? Color.Pink : Color.Red;
                                         magic.scale = MathHelper.Lerp(0.85f, 1.5f, i / 7f);
                                         magic.fadeIn = 0.67f;
                                         magic.noLight = true;
@@ -1678,7 +1729,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                     brimstoneMagic.velocity = NPC.DirectionTo(player.Center).RotatedByRandom(0.31f) * Main.rand.NextFloat(3f, 5f) + NPC.velocity;
                                     brimstoneMagic.scale = Main.rand.NextFloat(1.25f, 1.35f);
                                     brimstoneMagic.noGravity = true;
-                                    brimstoneMagic.color = Color.OrangeRed;
+                                    brimstoneMagic.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
                                     brimstoneMagic.fadeIn = 1.5f;
                                     brimstoneMagic.noLight = true;
                                 }
@@ -1755,7 +1806,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 brimstoneMagic.velocity = NPC.DirectionTo(player.Center).RotatedByRandom(0.24f) * Main.rand.NextFloat(5f, 7f) + NPC.velocity;
                                 brimstoneMagic.scale = Main.rand.NextFloat(1.25f, 1.35f);
                                 brimstoneMagic.noGravity = true;
-                                brimstoneMagic.color = Color.OrangeRed;
+                                brimstoneMagic.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
                                 brimstoneMagic.fadeIn = 1.5f;
                                 brimstoneMagic.noLight = true;
                             }
@@ -1825,7 +1876,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     else
                     {
                         for (int num388 = 0; num388 < 50; num388++)
-                            Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
+                            Dust.NewDust(NPC.position, NPC.width, NPC.height, cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
                         SoundEngine.PlaySound(SpawnSound, NPC.Center);
                     }
@@ -1833,7 +1884,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 for (int i = 0; i < 4; i++)
                 {
-                    Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), (int)CalamityDusts.Brimstone);
+                    Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone);
                     brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2.75f, 4.25f);
                     brimstoneFire.noGravity = true;
                 }
@@ -1860,7 +1911,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 else
                 {
-                    if (NPC.AnyNPCs(ModContent.NPCType<SoulSeekerSupreme>()))
+                    if (cirrus ? NPC.AnyNPCs(ModContent.NPCType<Providence.Providence>()) : NPC.AnyNPCs(ModContent.NPCType<SoulSeekerSupreme>()))
                     {
                         NPC.dontTakeDamage = true;
                         NPC.chaseable = false;
@@ -2027,7 +2078,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 {
                                     Dust magic = Dust.NewDustPerfect(projectileSpawn, 264);
                                     magic.velocity = projectileVelocity.RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.2f;
-                                    magic.color = Color.OrangeRed;
+                                    magic.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
                                     magic.scale = 1.3f;
                                     magic.fadeIn = 0.6f;
                                     magic.noLight = true;
@@ -2048,9 +2099,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                 for (int i = 0; i < 24; i++)
                                 {
-                                    Dust magic = Dust.NewDustPerfect(projectileSpawn, (int)CalamityDusts.Brimstone);
+                                    Dust magic = Dust.NewDustPerfect(projectileSpawn, cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone);
                                     magic.velocity = projectileVelocity.RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.6f;
-                                    magic.color = Color.Red;
+                                    magic.color = cirrus ? Color.Pink : Color.Red;
                                     magic.scale = 1.5f;
                                     magic.fadeIn = 0.8f;
                                     magic.noLight = true;
@@ -2079,7 +2130,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                         Dust magic = Dust.NewDustPerfect(projectileSpawn, 264);
                                         magic.velocity = magicDustVelocity;
-                                        magic.color = Color.Red;
+                                        magic.color = cirrus ? Color.Pink : Color.Red;
                                         magic.scale = MathHelper.Lerp(0.85f, 1.5f, i / 7f);
                                         magic.fadeIn = 0.67f;
                                         magic.noLight = true;
@@ -2215,7 +2266,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                     brimstoneMagic.velocity = NPC.DirectionTo(player.Center).RotatedByRandom(0.31f) * Main.rand.NextFloat(3f, 5f) + NPC.velocity;
                                     brimstoneMagic.scale = Main.rand.NextFloat(1.25f, 1.35f);
                                     brimstoneMagic.noGravity = true;
-                                    brimstoneMagic.color = Color.OrangeRed;
+                                    brimstoneMagic.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
                                     brimstoneMagic.fadeIn = 1.5f;
                                     brimstoneMagic.noLight = true;
                                 }
@@ -2296,7 +2347,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 brimstoneMagic.velocity = NPC.DirectionTo(player.Center).RotatedByRandom(0.24f) * Main.rand.NextFloat(5f, 7f) + NPC.velocity;
                                 brimstoneMagic.scale = Main.rand.NextFloat(1.25f, 1.35f);
                                 brimstoneMagic.noGravity = true;
-                                brimstoneMagic.color = Color.OrangeRed;
+                                brimstoneMagic.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
                                 brimstoneMagic.fadeIn = 1.5f;
                                 brimstoneMagic.noLight = true;
                             }
@@ -2347,7 +2398,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Emit dust at the arm position as a sort of magic effect.
             Dust magic = Dust.NewDustPerfect(armPosition, 264);
             magic.velocity = Vector2.UnitY.RotatedByRandom(0.17f) * -Main.rand.NextFloat(2.7f, 4.1f);
-            magic.color = Color.OrangeRed;
+            magic.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
             magic.noLight = true;
             magic.fadeIn = 0.6f;
             magic.noGravity = true;
@@ -2360,7 +2411,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 castMagicDust.scale = 1.67f;
                 castMagicDust.velocity = Main.rand.NextVector2CircularEdge(0.2f, 0.2f);
                 castMagicDust.fadeIn = 0.67f;
-                castMagicDust.color = Color.Red;
+                castMagicDust.color = cirrus ? Color.Pink : Color.Red;
                 castMagicDust.noGravity = true;
             }
 
@@ -2379,9 +2430,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 foreach (Vector2 heartSpawnPosition in heartSpawnPositions)
                 {
                     // Make the hearts appear in a burst of flame.
+                    // Spawn Dragonfollies if Cirrus exists.
                     for (int i = 0; i < 20; i++)
                     {
-                        Dust castFire = Dust.NewDustPerfect(heartSpawnPosition + Main.rand.NextVector2Square(-30f, 30f), (int)CalamityDusts.Brimstone);
+                        Dust castFire = Dust.NewDustPerfect(heartSpawnPosition + Main.rand.NextVector2Square(-30f, 30f), cirrus ? (int)CalamityDusts.Polterplasm : (int)CalamityDusts.Brimstone);
                         castFire.velocity = Vector2.UnitY.RotatedByRandom(0.08f) * -Main.rand.NextFloat(3f, 4.45f);
                         castFire.scale = Main.rand.NextFloat(1.35f, 1.6f);
                         castFire.fadeIn = 1.25f;
@@ -2395,25 +2447,44 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    List<int> hearts = new List<int>();
-                    for (int x = 0; x < 5; x++)
+                    if (cirrus)
                     {
-                        hearts.Add(NPC.NewNPC(NPC.GetSource_FromAI(), spawnX + 50, tempSpawnY, ModContent.NPCType<BrimstoneHeart>(), 0, 0f, 0f, 0f, 0f, 255));
-                        spawnX += spawnXAdd;
+                        for (int x = 0; x < 5; x++)
+                        {
+                            NPC.NewNPC(NPC.GetSource_FromAI(), spawnX + 50, tempSpawnY, ModContent.NPCType<Bumblefuck>());
+                            spawnX += spawnXAdd;
 
-                        hearts.Add(NPC.NewNPC(NPC.GetSource_FromAI(), spawnX2 - 50, tempSpawnY, ModContent.NPCType<BrimstoneHeart>(), 0, 0f, 0f, 0f, 0f, 255));
-                        spawnX2 -= spawnXAdd;
-                        tempSpawnY += spawnYAdd;
+                            NPC.NewNPC(NPC.GetSource_FromAI(), spawnX2 - 50, tempSpawnY, ModContent.NPCType<Bumblefuck>());
+                            spawnX2 -= spawnXAdd;
+                            tempSpawnY += spawnYAdd;
+                        }
+
+                        spawnX = spawnXReset;
+                        spawnX2 = spawnXReset2;
+                        spawnY = spawnYReset;
                     }
-
-                    ConnectAllBrimstoneHearts(hearts);
-
-                    spawnX = spawnXReset;
-                    spawnX2 = spawnXReset2;
-                    spawnY = spawnYReset;
-                    if (NPC.CountNPCS(ModContent.NPCType<SepulcherHead>()) <= 0) // Check is here for the zenith seed
+                    else
                     {
-                        NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<SepulcherHead>());
+                        List<int> hearts = new List<int>();
+                        for (int x = 0; x < 5; x++)
+                        {
+                            hearts.Add(NPC.NewNPC(NPC.GetSource_FromAI(), spawnX + 50, tempSpawnY, ModContent.NPCType<BrimstoneHeart>()));
+                            spawnX += spawnXAdd;
+
+                            hearts.Add(NPC.NewNPC(NPC.GetSource_FromAI(), spawnX2 - 50, tempSpawnY, ModContent.NPCType<BrimstoneHeart>()));
+                            spawnX2 -= spawnXAdd;
+                            tempSpawnY += spawnYAdd;
+                        }
+
+                        ConnectAllBrimstoneHearts(hearts);
+
+                        spawnX = spawnXReset;
+                        spawnX2 = spawnXReset2;
+                        spawnY = spawnYReset;
+                        if (NPC.CountNPCS(ModContent.NPCType<SepulcherHead>()) <= 0) // Check is here for the zenith seed
+                        {
+                            NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<SepulcherHead>());
+                        }
                     }
                     NPC.netUpdate = true;
                 }
@@ -2445,7 +2516,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 Dust castMagicDust = Dust.NewDustPerfect(leftDustPosition, 267);
                 castMagicDust.scale = 1.67f;
                 castMagicDust.velocity = Main.rand.NextVector2CircularEdge(0.2f, 0.2f);
-                castMagicDust.color = Color.Red;
+                castMagicDust.color = cirrus ? Color.Pink : Color.Red;
                 castMagicDust.noGravity = true;
 
                 castMagicDust = Dust.CloneDust(castMagicDust);
@@ -2470,7 +2541,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     fire.noGravity = true;
                     fire.noLight = true;
-                    fire.color = Color.OrangeRed;
+                    fire.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
                     fire.scale = 1.4f + fire.velocity.Y * 0.16f;
 
                     fire = Dust.NewDustPerfect(cataclysmSpawnPosition + Main.rand.NextVector2Circular(60f, 60f), 264);
@@ -2482,7 +2553,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     fire.noGravity = true;
                     fire.noLight = true;
-                    fire.color = Color.OrangeRed;
+                    fire.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
                     fire.scale = 1.4f + fire.velocity.Y * 0.16f;
                 }
             }
@@ -2499,8 +2570,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    CalamityUtils.SpawnBossBetter(catastropheSpawnPosition, ModContent.NPCType<SupremeCatastrophe>());
-                    CalamityUtils.SpawnBossBetter(cataclysmSpawnPosition, ModContent.NPCType<SupremeCataclysm>());
+                    CalamityUtils.SpawnBossBetter(catastropheSpawnPosition, cirrus ? ModContent.NPCType<DevourerofGodsHead>() : ModContent.NPCType<SupremeCatastrophe>());
+                    CalamityUtils.SpawnBossBetter(cataclysmSpawnPosition, cirrus ? ModContent.NPCType<DevourerofGodsHead>() : ModContent.NPCType<SupremeCataclysm>());
                 }
                 SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, NPC.Center);
                 hasSummonedBrothers = true;
@@ -2591,7 +2662,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Spawn the SCal NPC directly where the boss was
             if (!BossRushEvent.BossRushActive)
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 12, ModContent.NPCType<WITCH>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 12, cirrus ? ModContent.NPCType<FAP>() : ModContent.NPCType<WITCH>());
 
             // Mark Calamitas as defeated
             DownedBossSystem.downedCalamitas = true;
@@ -2779,7 +2850,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     vector43 += Main.rand.NextVector2Circular(0.25f, 0.7f);
 
                 // And gain a flaming aura.
-                Color auraColor = NPC.GetAlpha(Color.Red) * 0.4f;
+                Color auraColor = NPC.GetAlpha(cirrus ? Color.Pink : Color.Red) * 0.4f;
                 for (int i = 0; i < 7; i++)
                 {
                     Vector2 rotationalDrawOffset = (MathHelper.TwoPi * i / 7f + Main.GlobalTimeWrappedHourly * 4f).ToRotationVector2();
@@ -2906,7 +2977,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hit.HitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone, hit.HitDirection, -1f, 0, default, 1f);
             }
             if (NPC.life <= 0)
             {
@@ -2918,7 +2989,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(NPC.position, NPC.width, NPC.height, cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -2928,10 +2999,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(NPC.position, NPC.width, NPC.height, cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(NPC.position, NPC.width, NPC.height, cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
