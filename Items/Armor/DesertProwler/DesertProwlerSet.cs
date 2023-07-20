@@ -83,6 +83,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
         public override void UpdateArmorSet(Player player)
         {           
             player.setBonus = this.GetLocalization("SetBonus").Format(FlatDamageBonus); //More gets edited in elsewhere
+            player.GetDamage<RangedDamageClass>().Flat += FlatDamageBonus;
 
             DesertProwlerPlayer armorPlayer = player.GetModPlayer<DesertProwlerPlayer>();
             armorPlayer.desertProwlerSet = true;
@@ -289,12 +290,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
         public override void UpdateDead()
         {
             desertProwlerSet = false;
-        }
-
-        public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
-        {
-            if (desertProwlerSet && item.CountsAsClass<RangedDamageClass>() && item.ammo == AmmoID.None)
-                damage.Flat += DesertProwlerHat.FlatDamageBonus;
         }
 
         public override void PostUpdate()
