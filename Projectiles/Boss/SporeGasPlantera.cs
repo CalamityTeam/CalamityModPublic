@@ -53,7 +53,8 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.localAI[0] = 255f;
             }
 
-            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.16f / 255f, (255 - Projectile.alpha) * 0.2f / 255f, (255 - Projectile.alpha) * 0.04f / 255f);
+            float lightValues = (255 - Projectile.alpha) * 0.6f / 255f;
+            Lighting.AddLight(Projectile.Center, 0f, lightValues, 0f);
 
             Projectile.alpha = (int)(100.0 + Projectile.localAI[0] * 0.7);
             Projectile.rotation += Projectile.velocity.X * 0.02f;

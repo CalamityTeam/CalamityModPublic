@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Boss
                 SoundEngine.PlaySound(SoundID.Item17, Projectile.Center);
             }
 
-            Lighting.AddLight(Projectile.Center, 0.2f, 0.1f, 0.2f);
+            Lighting.AddLight(Projectile.Center, 0.4f, 0f, 0.4f);
 
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
