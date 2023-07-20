@@ -74,10 +74,17 @@ namespace CalamityMod.Projectiles.Boss
             // Summon SCal serverside.
             // All the other acoustic and visual effects can happen client-side.
             if (Main.netMode != NetmodeID.MultiplayerClient)
-                CalamityUtils.SpawnBossBetter(Projectile.Center - new Vector2(60f), ModContent.NPCType<SupremeCalamitas>());
+            {
+                NPC scal = CalamityUtils.SpawnBossBetter(Projectile.Center - new Vector2(60f), ModContent.NPCType<SupremeCalamitas>());
+                if (Projectile.ai[1] == 1)
+                {
+                    scal.ModNPC<SupremeCalamitas>().cirrus = true;
+                }
+            }
 
             // Make a laugh sound and create a burst of brimstone dust.
-            SoundEngine.PlaySound(SupremeCalamitas.SpawnSound, Projectile.Center);
+            SoundStyle SpawnSound = Projectile.ai[1] == 1 ? SoundID.Item107 : SupremeCalamitas.SpawnSound;
+            SoundEngine.PlaySound(SpawnSound, Projectile.Center);
 
             // Make a sudden screen shake.
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.GetLerpValue(3400f, 1560f, Main.LocalPlayer.Distance(Projectile.Center), true) * 16f;
@@ -90,7 +97,8 @@ namespace CalamityMod.Projectiles.Boss
                 burstDirectionVariance += j * 2;
                 for (int k = 0; k < 40; k++)
                 {
-                    Dust burstDust = Dust.NewDustPerfect(Projectile.Center, (int)CalamityDusts.Brimstone);
+                    int type = Projectile.ai[1] == 1 ? 69 : (int)CalamityDusts.Brimstone;
+                    Dust burstDust = Dust.NewDustPerfect(Projectile.Center, type);
                     burstDust.scale = Main.rand.NextFloat(3.1f, 3.5f);
                     burstDust.position += Main.rand.NextVector2Circular(10f, 10f);
                     burstDust.velocity = Main.rand.NextVector2Square(-burstDirectionVariance, burstDirectionVariance).SafeNormalize(Vector2.UnitY) * burstSpeed;
