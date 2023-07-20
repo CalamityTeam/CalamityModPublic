@@ -65,7 +65,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
         public static void HoverItemIcon()
         {
-            bool vodka = Main.LocalPlayer.HeldItem.type == ModContent.ItemType<FabsolsVodka>() && CalamityWorld.getFixedBoi;
+            bool vodka = Main.LocalPlayer.HeldItem.type == ModContent.ItemType<FabsolsVodka>() && Main.zenithWorld;
             if (vodka)
             {
                 Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<FabsolsVodka>();
@@ -91,12 +91,12 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             int top = j - tile.TileFrameY / 18;
 
             if (!Main.LocalPlayer.HasItem(ModContent.ItemType<AshesofCalamity>()) &&
-                !Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()) && !(Main.LocalPlayer.HeldItem.type == ModContent.ItemType<FabsolsVodka>() && CalamityWorld.getFixedBoi))
+                !Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()) && !(Main.LocalPlayer.HeldItem.type == ModContent.ItemType<FabsolsVodka>() && Main.zenithWorld))
             {
                 return true;
             }
 
-            bool vodka = Main.LocalPlayer.HeldItem.type == ModContent.ItemType<FabsolsVodka>() && CalamityWorld.getFixedBoi;
+            bool vodka = Main.LocalPlayer.HeldItem.type == ModContent.ItemType<FabsolsVodka>() && Main.zenithWorld;
 
             if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) || BossRushEvent.BossRushActive)
                 return true;
