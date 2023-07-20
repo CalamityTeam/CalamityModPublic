@@ -18,7 +18,6 @@ Oarfish: A peculiar bony fish many have only ever seen as corpses washed up on a
 ReaperShark: Evolution is a strange mistress, especially in the depths of the abyss. To some, she grants a straightforward path to life, and to others, she grants arms.
 ToxicMinnow: It spends much of its time finding the most repulsive and disagreeable vegetation for animals to feast upon. Their bellies glow green as they process the chemicals to use in self-defense.
 Viperfish: A typically docile animal, it spends much of its time meandering about the rocky outcrops of the abyss. When approached it can become quite aggressive.
-
 //Acid Rain Enemies
 AcidEel: Along its spine runs an undulating dorsal fin which they can put to great use for their streamlined form, as they rush at prey underwater.
 BabyFlakCrab: Curiously, these seem to be intelligent enough to imprint a sort of parent figure if captured at a young enough age. They will stick with you forever!
@@ -35,7 +34,6 @@ Radiator: Like many other sea slugs, it ingests toxins from its environments and
 Skyfin: Their fins are highly adapted to both water and air, and should one of their reckless charges leave them briefly stranded on land, within a few moments, they will take to the air.
 SulphurousSkater: From below, the tips of their legs barely penetrate the surface of the water, and it is hard to distinguish their movements from the rain on the water's surface.
 Trilobite: Their shell is of notable hardness, and it carries the same weight as stone. It speaks of their strength, for them to be able to fling themselves about the way they do.
-
 //Astral Enemies
 Aries: Biologically, the creature suffers terribly. Its legs do not allow it to rest, constantly hopping across the infected landscape. It does not care as its mind is far gone. It continues this until death.
 Astralachnea: An arachnid taken over by the infection, it has lost its ability to spin webs and hosts a myriad of astral growths on its abdomen.
@@ -52,7 +50,6 @@ SightseerCollider: Within their shells, the virus brews a potent chemical. When 
 SightseerSpitter: Within their shells, the virus brews a potent chemical. When the seer approaches a foe, it spits this chemical out of its mandibles, hoping to melt the intruder's flesh.
 StellarCulex: Many pincers line the face of this mutation. It will attempt to attach itself to other organic creatures, and lower its mouth to their flesh to feed.
 Twinkler: A rare case of the astral infection creating a harmless creature. They flicker rather prettily, and you're not going to be the only one who thinks so. They make useful bait.
-
 //Brimstone Crags Enemies
 CalamityEye: Though these enemies are only a little more threatening than a demon eye, some say that they originally burst from the sockets of those who used to inhabit the capital, when their souls were cursed by the red flames.
 CharredSlime: Lava slimes are the only ones that manage to survive in the heat of hell, having replaced their moisture with liquid rock. That said, their mannerisms are the same, and they seek out and devour anything they can.
@@ -61,12 +58,10 @@ HeatSpirit: A human spirit, its mind lost to the blazing orange fires of its dwe
 RenegadeWarlock: A devotee, their mind lost to the raging, hating fires of the brimstone flames. None have ever seen under their hood, and none ever should.
 Scryllar: Twisted detritus of those who once came to harvest the remains of the crags. The whispers got to them.
 SoulSlurper: The remnants of a soul which has feasted, been feasted upon, and torn into the souls of others. No one knows how the cycle begins, but you don't want to find out yourself.
-
 //Draedon Lab Critters
 Androomba: Slowly moving back and forth, these contraptions operate endlessly with the fruitless goal of cleaning the now long abandoned labs.
 Nanodroid: Not every creation has to be large and flashy to be a success, sometimes it's good to take a step back and appreciate how much that smaller things such as these devices contribute.
 RepairUnitCritter: Thanks to these little machines, the dusty labs still stand. It appears they're unable to deal with rust, though.
-
 //Normal Uncategorized Enemies
 AeroSlime: Slimes take on the qualities of their environments and after feasting on aerialite ore, this slime has grown wings.
 ArmoredDigger: These automated mechanical worms used to dig out the caverns so labs could be built. Thankfully, they are long past their once efficient state, and have not received maintenance in decades.
@@ -104,7 +99,6 @@ WulfrumDrone: Rotating their small frames, they swoop at potential intruders int
 WulfrumGyrator: An orb of wulfrum metal. How it travels is a mystery, though it likely has something to do with its gyroscopic spinning. They fling their bodies at enemies to attack.
 WulfrumHovercraft: Traveling with propulsion that carries them over the ground with ease, they seek out trespassers, though their analysis likely has grown imperceptive with age.
 WulfrumRover: An aged automaton of unknown origins. With an incessant sense of duty and worn frame, they scour the land. Their lamps shine with curious energy.
-
 //Plague Enemies
 Melter: Its face is warped and softened by the corrosive effects of the plague nanobots, and it seeks to share that uncomfortable fate with others under both its own will, and the plague's.
 PestilentSlime: A slime infested by the nanobots of the plague. With no directive the plague can naturally apply to it, it simply continues its life, corroding anything which approaches.
@@ -112,7 +106,6 @@ PlaguebringerMiniboss: Queen Bees are reared upon royal honey, raising them into
 PlagueCharger: While hornets on their own are known for aggressive defense of their territory, once they have been warped by the plague, their sense of their dominion reaches ever further.
 Plagueshell: In truth, once a jungle tortoise has been touched by the plague, its original shell disintegrates, and the thorny shield it now wields is constructed entirely of reinforced nanobots.
 Viruling: Overtaken by the plague, derplings immediately lose their legs, as they are seen as only a hindrance. No longer will they gaily spring about.
-
 //Sulphur Sea Enemies
 AnthozoanCrab: A crab that has placed upon its back, a sturdy structure of stone. It is quite strong and displays this extraordinary strength by hurling boulders at those who encroach on its territory.
 AquaticUrchin: A relative of its brethren in the far ocean, this one's spines have been hardened by the sulphuric waters. They drip with the venom they inhabit, so it's better to not be struck by them.
@@ -121,7 +114,6 @@ Gnasher: A turtle that has had its shell encrusted by the filth of the sulphurou
 Sulflounder: These creatures do not seek out their food, but rather wait for their meals to come to them. Watch your step if you venture down into the sulphurous sea.
 Toxicatfish: An animal which adapted to the toxic waters quite naturally. It uses its whiskers to find its way, and its prey in the murky depths.
 Trasher: A huge alligator adapted to a life of scavenging in the sulphurous sea. They scrape morsels of food from the bottom with their massive jaws. But do not be mistaken. They will also prey on weak and feeble creatures.
-
 //Sunken Sea Enemies
 BabyGhostBell: Like their adult counterparts, they shimmer gently, and would make great sources of light if the prisms around them didn't already do so. Maybe if there was a way to bring one with you.
 BlindedAngler: A species of angler which has lost any distinguishing feature on its head. Using primitive electroreception similar to sharks, it slowly and methodically hunts its prey.
@@ -133,7 +125,6 @@ PrismBack: Rather slow swimmers, they are one of the few creatures that need to 
 SeaFloaty: Strange but mesmerizing creatures, they hide immediately at the sight of any predator. They do not seem to be fully developed.
 SeaMinnow: While they are at the bottom of the food chain, they also make up eighty percent of the biomass in this sea. They nibble away at corpses that fall from the underground desert above.
 SeaSerpent: These eels are largely passive and drift languidly through the still waters of the sunken sea. Should you provoke them, they can be stubborn attackers.
-
 //Town NPCs
 AndroombaFriendly: Easily reversed engineered, these robots can be made to spread whatever you put into them, giving them a new purpose.
 DILF: His face shows great age, but also great wisdom. The Archmage once served the Godslayer, but abandoned him later into the war. He sells various frosty wares, but keeps his most powerful spells to himself.
@@ -141,7 +132,6 @@ FAP: No one knows where she came from, but no one minds her either. She's a good
 SEAHOE: The Sea King of an ancient civilization long lost to the sands of time— and the desert. He is able to give useful advice on the world around you, having lived for so long.
 THIEF: A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She's rather good at getting herself both into and out of dicey situations.
 WITCH: A most surprising sight to see this powerful foe live along friendly faces. Will history repeat itself or has she finally managed to free herself from the Tyrant's grasp?
-
 //Boss Minions
 Brimling: Fragments of the brimstone elemental which made their way into shells of slag, their eyes stare mindlessly into the distance, for targets to burn.
 SoulSeeker: Guardians were brought together by the clone to shield its body from blows. It is possible that they are soul slurpers empowered and enslaved by a different brand of magic than brimstone.
@@ -163,7 +153,6 @@ CrimsonSlimeSpawn: Irritant globs of gel, which can rob you of your vision if th
 CrimsonSlimeSpawn2: Embedded in these slime's bodies are shards of crimulan stone, which drip with a toxin meant to impair your vision.
 Sepulcher: This might just be the vilest undead abomination in this realm. The Sepulcher itself is completely immune to physical damage, and can only be killed by destroying its many suspended organs.
 SoulSeekerSupreme: Incomplete, ghoulish skulls, their forms are limited but their devotion boundless. It's likely each yearns for a soul of their own to be complete, whether it's given by Calamitas or ripped from the foe they kill.
-
 //Bosses
 AdultEidolonWyrm: Traces of them appear even in records as far back as the early Draconic Era... They may very well be a glimpse into the full potential of nature.
 AquaticScourge: A species of scourge which has had its exoskeleton hardened and tempered by years of diving through sulphuric waters for prey. Its own jaws are now imbued with the venom of those seas.

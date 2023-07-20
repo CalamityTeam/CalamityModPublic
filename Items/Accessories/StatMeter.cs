@@ -1,9 +1,8 @@
 ﻿using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
 using CalamityMod.World;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,15 +15,17 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            // Pasta Strainer
-            if (Main.zenithWorld)
-                Item.SetNameOverride(this.GetLocalizedValue("FoolsName"));
-
             Item.width = 26;
             Item.height = 26;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            if (Main.zenithWorld || (DateTime.Now.Month == 4 && DateTime.Now.Day == 1))
+                Item.SetNameOverride(this.GetLocalizedValue("FoolsName"));
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -82,6 +83,7 @@ namespace CalamityMod.Items.Accessories
                 else if (heldItem.damage >= 0)
                 {
                     DamageClass dc = heldItem.DamageType;
+                    string damageClassLine = dc.DisplayName.ToString();
                     bool displayCrit = true;
                     bool displayAttackSpeed = true;
                     if (dc == DamageClass.Summon)
@@ -91,6 +93,19 @@ namespace CalamityMod.Items.Accessories
                     }
                     else if (dc == DamageClass.SummonMeleeSpeed)
                     {
+                        damageClassLine += this.GetLocalizedValue("ClassNameOverride.SummonMeleeSpeed");
+                        displayCrit = false;
+                    }
+                    else if (dc == DamageClass.MeleeNoSpeed || dc == TrueMeleeNoSpeedDamageClass.Instance)
+                    {
+                        damageClassLine += this.GetLocalizedValue("ClassNameOverride.NoSpeed");
+                        displayAttackSpeed = false;
+                    }
+                    else if (dc == DamageClass.Generic)
+                        damageClassLine = this.GetLocalizedValue("ClassNameOverride.Generic");
+                    else if (dc == DamageClass.Default)
+                    {
+                        damageClassLine = this.GetLocalizedValue("ClassNameOverride.Default");
                         displayCrit = false;
                     }
 
@@ -115,13 +130,13 @@ namespace CalamityMod.Items.Accessories
                         damageStatLine += this.GetLocalization("DamageFlat").Format(Sign(flatDamage) + OnePlace(flatDamage));
 
                     stats2 += "\n" + this.GetLocalization("DamageStats").Format(
-                        dc.DisplayName.ToString(),
+                        damageClassLine,
                         damageStatLine,
                         OnePlace(player.GetTotalArmorPenetration(dc)));
 
                     // Newline between damage and crit
                     if (displayCrit)
-                        stats2 += "\n" + this.GetLocalization("Crit").Format(TwoPlaces(player.GetTotalCritChance(dc)));
+                        stats2 += this.GetLocalization("Crit").Format(TwoPlaces(player.GetTotalCritChance(dc)));
 
                     if (displayAttackSpeed)
                     {
