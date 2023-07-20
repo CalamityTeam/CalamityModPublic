@@ -52,9 +52,9 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Easily reversed engineered, these robots can be made to spread whatever you put into them, giving them a new purpose.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.AndroombaFriendly")
             });
         }
 

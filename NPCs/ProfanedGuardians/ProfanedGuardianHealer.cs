@@ -88,12 +88,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             int associatedNPCType = ModContent.NPCType<ProfanedGuardianCommander>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Its crystal which is displayed prominently on its body is able to restore damage done to its kin, and it draws that damage into flares which steal your life.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.ProfanedGuardianHealer")
             });
         }
 

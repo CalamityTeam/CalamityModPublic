@@ -56,11 +56,10 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("It seems to call out in an alluring voice, and tugs on comforting memories of the sea you never actually had.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.LeviathanStart")
             });
         }
 

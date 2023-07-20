@@ -58,10 +58,9 @@ namespace CalamityMod.NPCs.Crags
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A condensed, volatile stone of brimstone slag. It is said that the souls of many, fighting to get out from within, are what cause it to tear across the ground.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.DespairStone")
             });
         }
 

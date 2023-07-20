@@ -60,10 +60,9 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Like many other sea slugs, it ingests toxins from its environments and displays them along its back in a flashy display. The toxins in the sulphurous sea however, are a bit more potent than others.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            { 
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Radiator")
             });
         }
 

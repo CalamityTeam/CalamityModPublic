@@ -63,9 +63,9 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("The membrane of their wings is particularly tough, for material so thin. It has been known to guard them against burns and projectiles as they mercilessly tear at their foes.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Hadarian")
             });
         }
 

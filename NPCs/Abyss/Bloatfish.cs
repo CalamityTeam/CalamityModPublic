@@ -46,10 +46,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Heavy, large fish which can easily resist the crushing pressure of the depths and any weapon which might attempt to pierce its tough skin.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Bloatfish")
             });
         }
 

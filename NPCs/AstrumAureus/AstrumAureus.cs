@@ -90,11 +90,10 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A multi-legged mechanical beast, its very existence speaks of the extent of control the astral virus has over the non-sapient. Not even machinery can stand against it.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.AstrumAureus")
             });
         }
 

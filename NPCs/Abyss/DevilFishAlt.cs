@@ -58,10 +58,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A sturdy fish, which has spent a long time seething in the Abyss. Females are easily identified by their curled horns.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.DevilFishAlt")
             });
         }
 

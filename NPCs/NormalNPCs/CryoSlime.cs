@@ -42,11 +42,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundSnow,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("When the release of Cryogen's magic slightly thawed the frozen metal which rested underground, the resulting meltwater formed these. Remnants of the ore still reside within them.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.CryoSlime")
             });
         }
 

@@ -63,12 +63,10 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,  
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("His face shows great age, but also great wisdom. The Archmage once served the Godslayer, but abandoned him later into the war. He sells various frosty wares, but keeps his most powerful spells to himself.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.DILF")
             });
         }
 

@@ -74,11 +74,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A mysterious entity that acts as a portal to elsewhere. Little is known about its origins, other than that it was sealed away by the cultists.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.CeaselessVoid")
             });
         }
 

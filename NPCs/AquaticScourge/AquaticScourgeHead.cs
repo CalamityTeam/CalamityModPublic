@@ -96,10 +96,9 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A species of scourge which has had its exoskeleton hardened and tempered by years of diving through sulphuric waters for prey. Its own jaws are now imbued with the venom of those seas.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.AquaticScourge")
             });
         }
 

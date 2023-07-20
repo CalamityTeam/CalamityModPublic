@@ -46,10 +46,9 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("An animal which adapted to the toxic waters quite naturally. It uses its whiskers to find its way, and its prey in the murky depths.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Toxicatfish")
             });
         }
 

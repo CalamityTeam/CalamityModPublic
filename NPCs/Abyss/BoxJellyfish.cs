@@ -48,11 +48,10 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
 				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("These seemingly inept masses of gelatin are anything but harmless. Let even one of their trailing tentacles brush you, and you will be heavily envenomed.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.BoxJellyfish")
             });
         }
 

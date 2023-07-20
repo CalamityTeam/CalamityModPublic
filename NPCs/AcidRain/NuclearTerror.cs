@@ -125,10 +125,9 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Perhaps it was once just a simple crab or perhaps there are plenty of others like it, lurking in the depths. Any answer is sure to make you want to never set foot in the sulphurous sea again.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.NuclearTerror")
             });
         }
 

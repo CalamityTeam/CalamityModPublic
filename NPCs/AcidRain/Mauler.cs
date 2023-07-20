@@ -86,10 +86,9 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Sharks are perhaps one of the most resilient and well-adapted species in our planet's history. It is no surprise that one of these apex predators has come to thrive in these seas.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Mauler")
             });
         }
 

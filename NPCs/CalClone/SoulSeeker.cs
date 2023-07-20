@@ -54,12 +54,11 @@ namespace CalamityMod.NPCs.CalClone
             int associatedNPCType = ModContent.NPCType<CalamitasClone>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Guardians were brought together by the clone to shield its body from blows. It is possible that they are soul slurpers empowered and enslaved by a different brand of magic than brimstone.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.SoulSeeker")
             });
         }
 

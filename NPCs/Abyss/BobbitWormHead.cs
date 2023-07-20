@@ -55,10 +55,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("An immense threat for those who dare venture into the depths. Nearly imperceptible when they choose to be, and lightning-fast when they attack, their jaws can cut through iron plates over half a foot thick.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.BobbitWorm")
             });
         }
 

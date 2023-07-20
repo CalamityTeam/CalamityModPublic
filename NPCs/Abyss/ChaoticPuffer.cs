@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.Abyss
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Anarchistic little devils, they swallow large amounts of water to inflate their bristling bodies. The water within them boils and bursts out in a scalding rush when they are killed.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.ChaoticPuffer")
             });
         }
 

@@ -60,10 +60,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Highly skilled in the art of spellcasting, these mysterious creatures seem to stand guard like sentinels in watch over something. Approach one close enough and you may be able to make out garbled whispers.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Eidolist")
             });
         }
 

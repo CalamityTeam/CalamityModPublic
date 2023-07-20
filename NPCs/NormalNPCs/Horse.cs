@@ -59,11 +59,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("It is civilization's goal to wrest nature under its control. This is the result of one such conquest, an artificial elemental, run by clockwork gears.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Horse")
             });
         }
 

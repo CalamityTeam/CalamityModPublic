@@ -40,11 +40,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Slimes, from their time spent wobbling about the undergrowth, are full of nutrients, which would well support plant life. Many accept these growths and have been seen to carry blossoms.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.PerennialSlime")
             });
         }
 

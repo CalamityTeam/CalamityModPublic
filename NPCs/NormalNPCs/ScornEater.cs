@@ -57,12 +57,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("The brute force of the Profaned Goddess' creations and devotees. Their jaws are filled to the brim with razor-sharp crystals and scorching holy flames.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.ScornEater")
             });
         }
 

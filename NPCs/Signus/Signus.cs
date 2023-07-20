@@ -80,11 +80,10 @@ namespace CalamityMod.NPCs.Signus
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A figure draped in dark robes and even darker history. No one knows the true form of this creature, though many rumors have been spread.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Signus")
             });
         }
 

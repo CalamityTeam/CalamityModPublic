@@ -81,12 +81,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             int associatedNPCType = ModContent.NPCType<SupremeCalamitas>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //We'll probably want a custom background SCal her like ML has.
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SCal,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Despite retaining a humanoid form, it is not capable of any higher thoughts. It only knows violence.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.SupremeCataclysm")
             });
         }
 

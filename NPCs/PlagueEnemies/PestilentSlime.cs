@@ -50,12 +50,11 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A slime infested by the nanobots of the plague. With no directive the plague can naturally apply to it, it simply continues its life, corroding anything which approaches.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.PestilentSlime")
             });
         }
 

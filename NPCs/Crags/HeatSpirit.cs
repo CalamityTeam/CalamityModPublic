@@ -48,10 +48,9 @@ namespace CalamityMod.NPCs.Crags
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A human spirit, its mind lost to the blazing orange fires of its dwelling. It seeks out and attempts to eliminate any source of moisture it can detect entering the hellscape.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.HeatSpirit")
             });
         }
 

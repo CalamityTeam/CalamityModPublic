@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Abyss
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A peculiar bony fish many have only ever seen as corpses washed up on a beach, but in their natural habitat, their red fins stream behind them, as they drift in the water column.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Oarfish")
             });
         }
 

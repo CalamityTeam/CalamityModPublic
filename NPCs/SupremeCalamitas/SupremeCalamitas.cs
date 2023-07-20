@@ -235,12 +235,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //We'll probably want a custom background SCal her like ML has.
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SCal,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("The Brimstone Witch's harsh life can be seen in the magic she casts. Volatile and powerful, yet just barely refined. Her temper is said to be fiery enough to burn down a kingdom.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.SupremeCalamitas")
             });
         }
 

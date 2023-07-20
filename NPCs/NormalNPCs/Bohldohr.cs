@@ -32,11 +32,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheTemple,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A distant relative to the gem-covered lizards found within the caverns. This species instead covers itself with the smooth bricks of the Temple and curls into a ball for locomotion.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Bohldohr")
             });
         }
 

@@ -51,10 +51,9 @@ namespace CalamityMod.NPCs.DraedonLabThings
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Slowly moving back and forth, these contraptions operate endlessly with the fruitless goal of cleaning the now long abandoned labs.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Androomba")
             });
         }
 
