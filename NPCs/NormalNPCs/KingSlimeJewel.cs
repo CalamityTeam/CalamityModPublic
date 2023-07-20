@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         private const int BoltShootGateValue = 75;
         private const int BoltShootGateValue_Death = 60;
         private const int BoltShootGateValue_BossRush = 45;
-        private const float LightTelegraphDuration = 30f;
+        private const float LightTelegraphDuration = 45f;
 
         public override void SetStaticDefaults()
         {
@@ -110,7 +110,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.ai[0] += 1f;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                // Fire bolt every 1.5 seconds
                 if (NPC.ai[0] >= (BossRushEvent.BossRushActive ? BoltShootGateValue_BossRush : CalamityWorld.death ? BoltShootGateValue_Death : BoltShootGateValue))
                 {
                     NPC.ai[0] = 0f;
@@ -164,11 +163,15 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override Color? GetAlpha(Color drawColor)
         {
+            Color initialColor = Color.DarkRed;
+            Color newColor = initialColor;
+            Color finalColor = Color.White;
             float colorTelegraphGateValue = (BossRushEvent.BossRushActive ? BoltShootGateValue_BossRush : CalamityWorld.death ? BoltShootGateValue_Death : BoltShootGateValue) - LightTelegraphDuration;
             if (NPC.ai[0] > colorTelegraphGateValue)
-                drawColor = Color.Lerp(drawColor, Color.White, (NPC.ai[0] - colorTelegraphGateValue) / LightTelegraphDuration);
+                newColor = Color.Lerp(initialColor, finalColor, (NPC.ai[0] - colorTelegraphGateValue) / LightTelegraphDuration);
+            newColor.A = (byte)(255 * NPC.Opacity);
 
-            return base.GetAlpha(drawColor);
+            return newColor;
         }
 
         public override bool CheckActive() => false;
