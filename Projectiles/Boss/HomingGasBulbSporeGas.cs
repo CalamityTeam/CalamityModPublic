@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             Projectile.ai[1] += 1f;
-            if (Projectile.ai[1] > (CalamityWorld.LegendaryMode ? 600f : 1800f))
+            if (Projectile.ai[1] > (CalamityWorld.LegendaryMode ? 600f : 900f))
             {
                 Projectile.localAI[0] += 10f;
                 Projectile.damage = 0;
@@ -63,13 +63,13 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.velocity *= 0.985f;
         }
 
-        public override bool CanHitPlayer(Player target) => Projectile.ai[1] <= (CalamityWorld.LegendaryMode ? 600f : 1800f) && Projectile.ai[1] > 120f;
+        public override bool CanHitPlayer(Player target) => Projectile.ai[1] <= (CalamityWorld.LegendaryMode ? 600f : 900f) && Projectile.ai[1] > 120f;
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (Projectile.ai[1] > (CalamityWorld.LegendaryMode ? 600f : 1800f))
+            if (Projectile.ai[1] > (CalamityWorld.LegendaryMode ? 600f : 900f))
             {
-                byte b2 = (byte)((26f - (Projectile.ai[1] - (CalamityWorld.LegendaryMode ? 600f : 1800f))) * 10f);
+                byte b2 = (byte)((26f - (Projectile.ai[1] - (CalamityWorld.LegendaryMode ? 600f : 900f))) * 10f);
                 byte a2 = (byte)(Projectile.alpha * (b2 / 255f));
                 return new Color(b2, b2, b2, a2);
             }
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Boss
             if (info.Damage <= 0)
                 return;
 
-            if (Projectile.ai[1] <= (CalamityWorld.LegendaryMode ? 600f : 1800f) && Projectile.ai[1] > 120f)
+            if (Projectile.ai[1] <= (CalamityWorld.LegendaryMode ? 600f : 900f) && Projectile.ai[1] > 120f)
                 target.AddBuff(BuffID.Poisoned, 240);
         }
     }

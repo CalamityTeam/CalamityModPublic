@@ -5533,7 +5533,7 @@ namespace CalamityMod.NPCs
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
 
             // Spore Gas vomit color telegraph
-            if (npc.type == NPCID.Plantera && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+            /*if (npc.type == NPCID.Plantera && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
             {
                 float lifeRatio = npc.life / (float)npc.lifeMax;
                 if (lifeRatio > 0.5f && lifeRatio < 0.75f)
@@ -5547,7 +5547,7 @@ namespace CalamityMod.NPCs
                         return Color.Lerp(initialColor, finalColor, colorChangeAmount / PlanteraAI.SeedGatlingColorChangeDuration);
                     }
                 }
-            }
+            }*/
 
             if (npc.type == NPCID.QueenBee && Main.zenithWorld)
             {

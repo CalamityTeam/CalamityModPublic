@@ -3506,9 +3506,7 @@ namespace CalamityMod.NPCs
         #region Flying AI
         public static bool BuffedFlyingAI(NPC npc, Mod mod)
         {
-            if (npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall)
-                NPCUtils.TargetClosestNonBees(npc);
-            else if (npc.target < 0 || npc.target <= Main.maxPlayers || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target <= Main.maxPlayers || Main.player[npc.target].dead)
                 npc.TargetClosest();
 
             if (npc.type == NPCID.BloodSquid)

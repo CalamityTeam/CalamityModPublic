@@ -207,17 +207,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         SoundEngine.PlaySound(SoundID.Item74, npc.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int totalProjectiles = 36;
+                            int totalProjectiles = 30;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = ModContent.ProjectileType<SporeGasPlantera>();
                             int damage = npc.GetProjectileDamage(type);
+                            float velocity2 = CalamityWorld.LegendaryMode ? 10f : 5f;
+                            Vector2 spinningPoint = new Vector2(0f, -velocity2);
                             for (int k = 0; k < totalProjectiles; k++)
                             {
-                                float velocity2 = CalamityWorld.LegendaryMode ? Main.rand.NextFloat(8f, 12f) : Main.rand.NextFloat(4f, 6f);
-                                Vector2 spinningPoint = new Vector2(0f, -velocity2);
                                 Vector2 projectileVelocity = spinningPoint.RotatedBy(radians * k);
                                 float ai0 = Main.rand.Next(3);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 50f, projectileVelocity, type, damage, 0f, Main.myPlayer, ai0);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 50f, projectileVelocity * Main.rand.NextFloat(0.8f, 1.2f), type, damage, 0f, Main.myPlayer, ai0);
                             }
                         }
                     }

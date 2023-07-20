@@ -1294,8 +1294,8 @@ namespace CalamityMod.Projectiles
                             projectile.velocity *= 1.01f;
                     }
 
-                    projectile.tileCollide = false;
-
+                    projectile.tileCollide = projectile.ai[0] >= 300f;
+                    
                     if (projectile.timeLeft > 600)
                         projectile.timeLeft = 600;
 

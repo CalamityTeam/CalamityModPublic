@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-            if (Projectile.ai[0] % 30f == 0f)
+            if (Projectile.ai[0] % 20f == 0f)
             {
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
                 if (Projectile.owner == Main.myPlayer)
