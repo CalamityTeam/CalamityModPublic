@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 48, 48, 255);
+            return new Color(255, 48, 48, 56);
         }
 
         public override void AI()
@@ -101,21 +101,10 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             //This is what we call fucking IMPACT.
             SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
+            Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 5;
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FallenBlast>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
-            float numberOfDusts = 65f;
-            float rotFactor = 360f / numberOfDusts;
-            for (int i = 0; i < numberOfDusts; i++)
-            {
-                float rot = MathHelper.ToRadians(i * rotFactor);
-                Vector2 offset = new Vector2(25f, 0).RotatedBy(rot);
-                Vector2 velOffset = new Vector2(18.5f, 0).RotatedBy(rot);
-                int dust = Dust.NewDust(Projectile.position + offset, Projectile.width, Projectile.height, 182, velOffset.X, velOffset.Y);
-                Main.dust[dust].noGravity = true;
-                Main.dust[dust].velocity = velOffset;
-                Main.dust[dust].scale = 3.5f;
-            }
-
-            float distance = 168f;
+            float distance = 248f;
 
             for (int k = 0; k < Main.maxNPCs; k++)
             {

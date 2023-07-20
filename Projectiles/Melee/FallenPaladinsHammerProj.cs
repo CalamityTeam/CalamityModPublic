@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/FallenPaladinsHammer";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f, PitchVariance = 0.3f };
-        public static readonly SoundStyle HomingSound = new("CalamityMod/Sounds/Item/PwnagehammerHoming") { Volume = 0.3f, PitchVariance = 0.3f };
+        public static readonly SoundStyle UseSoundFunny = new("CalamityMod/Sounds/Item/CalamityBell") { Volume = 1.5f};
         public static readonly SoundStyle RedHamSound = new("CalamityMod/Sounds/Item/FallenPaladinsHammerClone") { Volume = 1f};
         public ref int EmpoweredHammer => ref Main.player[Projectile.owner].Calamity().PHAThammer; 
         public int returnhammer = 0;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            //returnhammer determines if the hammer is slowing down after hitting an enemy, or homing in o0n the player.
+            //returnhammer determines if the hammer is slowing down after hitting an enemy, or homing in on the player.
             Player player = Main.player[Projectile.owner];
             Projectile.direction = Projectile.spriteDirection = Projectile.velocity.X > 0f ? 1 : -1;
             Projectile.rotation += MathHelper.ToRadians(22.5f) * Projectile.direction;
@@ -174,7 +174,11 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
                 if (returnhammer == 0)
                     {
-                    SoundEngine.PlaySound(UseSound, Projectile.Center);
+                        if (Main.zenithWorld)
+                        SoundEngine.PlaySound(UseSoundFunny, Projectile.Center);
+                        else
+                        SoundEngine.PlaySound(UseSound, Projectile.Center);
+
                     returnhammer = 1;
                     }
                 float numberOfDusts = 35f;
