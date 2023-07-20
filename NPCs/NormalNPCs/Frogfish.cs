@@ -41,11 +41,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Ambush predators that lay in wait for their prey. They are not particularly strong, and if you come across one, are dispatched with ease.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Frogfish")
             });
         }
 

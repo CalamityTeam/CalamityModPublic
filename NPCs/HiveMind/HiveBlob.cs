@@ -52,12 +52,11 @@ namespace CalamityMod.NPCs.HiveMind
             int associatedNPCType = ModContent.NPCType<HiveMind>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCorruption,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A ball of flesh and rotting matter, it is flung out by the hive mind towards its enemies as fodder, to wear down any who stand in their way.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.HiveBlob")
             });
         }
 

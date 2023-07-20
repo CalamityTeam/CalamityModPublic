@@ -160,12 +160,11 @@ namespace CalamityMod.NPCs.Providence
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A deity of stone and fire. Her flame burns for one reason alone— to cleanse the world of life, so that all may suffer no longer.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Providence")
             });
         }
 

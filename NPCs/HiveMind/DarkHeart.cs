@@ -49,12 +49,11 @@ namespace CalamityMod.NPCs.HiveMind
             int associatedNPCType = ModContent.NPCType<HiveMind>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCorruption,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("It pulses with stagnant, stinking waters of corruption, and leaks as it flies overhead. Wherever those drops land, any organic matter nearby slowly corrodes.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.DarkHeart")
             });
         }
 

@@ -1578,9 +1578,70 @@ StatisVoidSash: {
 		'''
 }
 
+// Be warned translators, this thing fucking sucks
 StatMeter: {
 	DisplayName: Stat Meter
-	Tooltip: Displays almost all player stats
+	FoolsName: Pasta Strainer
+	Tooltip:
+		'''
+		Displays almost all player stats
+		Offensive/utility stats displayed vary with held item
+		[REV]
+		[ITEMS]
+		[GENERIC]
+		[ABYSS]
+		'''
+	RevStats:
+		'''
+		Rage Damage Boost: {0}% | Rage Mode Duration: {1} seconds
+		Adrenaline Damage Boost: {2}% | Adrenaline DR Boost: {3}%
+		'''
+	DamageStats:
+		'''
+		Class: {0}
+		Damage: {1}
+		Armor Penetration: {2}
+		'''
+	DamageBase: "[{0} base] +"
+	DamageNormal: "{0}%"
+	DamageMult: " x{0}"
+	DamageFlat: " {0} flat"
+	Crit: Crit Chance: {0}%
+	AttackSpeed: Attack Speed: {0}%
+	WhipMeleeInheritance: " [{0}% from melee]"
+	// Class stats
+	RangedStats: Ammo Consumption Chance: {0}
+	MagicStats: Mana Usage: {0}% | Mana Regen: {1}
+	SummonStats: Minion Slots: {0} | Sentry Slots: {1}
+	WhipStats: Whip Range: {0}
+	RogueStats:
+		'''
+		Max Stealth: {0} | Standing Regen: {1} / sec | Moving Regen: {2} / sec
+		Rogue Velocity Boost: {3}%
+		'''
+	RogueConsumption: " | Rogue Weapon Consumption Chance: {0}%"
+	// Utility stats
+	ToolRange: Tool Range: ({0}, {1})
+	MiningSpeed: " | Mining Speed: {0}%"
+	PlacementRange: Placement Range: ({0}, {1})
+	TileSpeed: " | Block Placement Speed: {0}%"
+	WallSpeed: " | Wall Placement Speed: {0}%"
+	// Other stats
+	GenericStats:
+		'''
+		Defense: {0} | DR: {1}% | Life Regen: {2}
+		Move Speed: {3}% | Jump Boost: {4}%
+		'''
+	FlightTime: " | Wing Flight Time: {0} seconds"
+	MiscStats: Aggro: {0} | Luck: {1}%
+	AbyssStats:
+		'''
+		Abyss Light Strength: {0}
+		Breath Lost Per Tick: {1} | Breath Loss Rate: {2}
+		Life Lost Per Tick at Zero Breath: {3}
+		Defense Lost From Pressure: {4}
+		'''
+	AbyssStatsHidden: Abyss stats are only displayed while in the Abyss
 }
 
 StressPills: {

@@ -1308,10 +1308,6 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 32f;
             }
-            else if (npc.type == NPCID.PlanterasTentacle)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 1.5);
-            }
             else if (CalamityLists.DestroyerIDs.Contains(npc.type))
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
@@ -5539,11 +5535,17 @@ namespace CalamityMod.NPCs
             // Spore Gas vomit color telegraph
             if (npc.type == NPCID.Plantera && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
             {
-                bool startChangingColor = npc.ai[1] > PlanteraAI.SeedGatlingColorChangeGateValue;
-                if (startChangingColor)
+                float lifeRatio = npc.life / (float)npc.lifeMax;
+                if (lifeRatio > 0.5f && lifeRatio < 0.75f)
                 {
-                    float colorChangeAmount = npc.ai[1] - PlanteraAI.SeedGatlingColorChangeGateValue;
-                    return Color.Lerp(drawColor, Color.Green, colorChangeAmount / PlanteraAI.SeedGatlingColorChangeDuration);
+                    bool startChangingColor = npc.ai[1] > PlanteraAI.SeedGatlingColorChangeGateValue;
+                    if (startChangingColor)
+                    {
+                        float colorChangeAmount = npc.ai[1] - PlanteraAI.SeedGatlingColorChangeGateValue;
+                        Color initialColor = npc.GetAlpha(drawColor);
+                        Color finalColor = Color.Green;
+                        return Color.Lerp(initialColor, finalColor, colorChangeAmount / PlanteraAI.SeedGatlingColorChangeDuration);
+                    }
                 }
             }
 

@@ -79,12 +79,11 @@ namespace CalamityMod.NPCs.CalClone
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A mysterious burning form which only appears at night, wreathed in brimstone fire. It has a twisted mind and misplaced pride in its abilities.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Calamitas")
             });
         }
 

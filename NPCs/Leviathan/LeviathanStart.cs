@@ -56,11 +56,10 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("It seems to call out in an alluring voice, and tugs on comforting memories of the sea you never actually had.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.LeviathanStart")
             });
         }
 
@@ -117,17 +116,30 @@ namespace CalamityMod.NPCs.Leviathan
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D drawTex = TextureAssets.Npc[NPC.type].Value;
+            Texture2D drawTex = Main.zenithWorld ? ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/Leviathan").Value : TextureAssets.Npc[NPC.type].Value;
+            Rectangle frame = Main.zenithWorld ? drawTex.Frame(2, 3, 0, 0) : NPC.frame;
             Vector2 origin = new Vector2(drawTex.Width / 2, drawTex.Height / 2);
 
             Vector2 drawPos = NPC.Center - screenPos;
-            drawPos -= new Vector2(drawTex.Width, drawTex.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-            drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(drawTex, drawPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+            if (Main.zenithWorld)
+            {
+                drawPos += new Vector2(200, 200);
+            }
+            else
+            {
+                drawPos -= new Vector2(drawTex.Width, drawTex.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            }
+            Color color = Main.zenithWorld ? Color.Purple : drawColor;
+            float size = Main.zenithWorld ? 0.39f : NPC.scale;
+            spriteBatch.Draw(drawTex, drawPos, frame, NPC.GetAlpha(color), NPC.rotation, origin, size, spriteEffects, 0f);
 
-            drawTex = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanStartGlow").Value;
+            if (!Main.zenithWorld)
+            {
+                drawTex = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanStartGlow").Value;
 
-            spriteBatch.Draw(drawTex, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+                spriteBatch.Draw(drawTex, drawPos, frame, Color.White, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+            }
 
             return false;
         }
@@ -173,7 +185,8 @@ namespace CalamityMod.NPCs.Leviathan
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int siren = NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<Anahita>(), NPC.whoAmI);
+                int NPCType = Main.zenithWorld ? ModContent.NPCType<Leviathan>() : ModContent.NPCType<Anahita>();
+                int siren = NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, NPCType, NPC.whoAmI);
                 CalamityUtils.BossAwakenMessage(siren);
             }
         }

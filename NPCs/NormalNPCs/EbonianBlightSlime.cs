@@ -40,11 +40,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Seemingly, these are slimes which have been given the blessing of a higher being, They seek out and devour but not for themselves, which is a rarity among slimes.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.BlightSlime")
             });
         }
 

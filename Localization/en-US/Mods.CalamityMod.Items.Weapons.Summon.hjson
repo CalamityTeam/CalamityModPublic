@@ -788,3 +788,8 @@ MirrorofKalandra: {
 		'Ultimate, Immeasurable, Indescribable'
 		'''
 }
+
+StellarTorusStaff: {
+	DisplayName: Stellar Torus Staff
+	Tooltip: Summons a Torus Orbital that fries foes with a telescoping light beam
+}

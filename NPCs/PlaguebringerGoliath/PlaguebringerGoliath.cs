@@ -97,12 +97,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Machinery and nanobots have nearly entirely eaten away at the form of this Queen Bee. One wonders if it would simply be more efficient to create one from the ground up.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.PlaguebringerGoliath")
             });
         }
 

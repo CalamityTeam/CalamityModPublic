@@ -43,12 +43,11 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle, 
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
-                // wow reading these entries remind me of how cool it would be if the plague dynamically infected stuff
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("In truth, once a jungle tortoise has been touched by the plague, its original shell disintegrates, and the thorny shield it now wields is constructed entirely of reinforced nanobots.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Plagueshell")
             });
         }
 

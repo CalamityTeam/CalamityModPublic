@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             // Velocity and acceleration
             Vector2 idealVelocity = new Vector2(death ? 12f : 9f, death ? 5f : 3.5f);
             float accelerationX = death ? 0.2f : 0.15f;
-            float accelerationY = death ? 0.1f : 0.075f;
+            float accelerationY = death ? 0.15f : 0.12f;
 
             if (Main.getGoodWorld)
             {
@@ -155,6 +155,29 @@ namespace CalamityMod.NPCs.NormalNPCs
                     NPC.velocity.Y = -4f;
 
                 NPC.TargetClosest();
+            }
+
+            float pushVelocity = 0.5f;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].active)
+                {
+                    if (i != NPC.whoAmI && Main.npc[i].type == NPC.type)
+                    {
+                        if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 40f * NPC.scale)
+                        {
+                            if (NPC.position.X < Main.npc[i].position.X)
+                                NPC.velocity.X -= pushVelocity;
+                            else
+                                NPC.velocity.X += pushVelocity;
+
+                            if (NPC.position.Y < Main.npc[i].position.Y)
+                                NPC.velocity.Y -= pushVelocity;
+                            else
+                                NPC.velocity.Y += pushVelocity;
+                        }
+                    }
+                }
             }
 
             if (NPC.velocity.X > 0f)

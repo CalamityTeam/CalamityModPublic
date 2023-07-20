@@ -52,9 +52,9 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Easily reversed engineered, these robots can be made to spread whatever you put into them, giving them a new purpose.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.AndroombaFriendly")
             });
         }
 
@@ -113,14 +113,11 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             int x = (int)(NPC.Center.X / 16f);
             int y = (int)(NPC.Center.Y / 16f);
-            if (conversionType <= 4)
+            if (conversionType <= 7)
             {
                 ConvertType type = ConvertType.Pure;
                 switch (conversionType)
                 {
-                    case 0:
-                        type = ConvertType.Pure;
-                        break;
                     case 1:
                         type = ConvertType.Corrupt;
                         break;
@@ -260,6 +257,15 @@ namespace CalamityMod.NPCs.TownNPCs
                     pathextenstion = "Crimson";
                     break;
                 case 5:
+                    pathextenstion = "Desert";
+                    break;
+                case 6:
+                    pathextenstion = "Snow";
+                    break;
+                case 7:
+                    pathextenstion = "Forest";
+                    break;
+                case 8:
                     pathextenstion = "Astral";
                     break;
             }

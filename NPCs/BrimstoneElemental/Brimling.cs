@@ -60,10 +60,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             int associatedNPCType = ModContent.NPCType<BrimstoneElemental>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-            // Will move to localization whenever that is cleaned up.
-            new FlavorTextBestiaryInfoElement("Fragments of the brimstone elemental which made their way into shells of slag, their eyes stare mindlessly into the distance, for targets to burn.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Brimling")
             });
         }
 

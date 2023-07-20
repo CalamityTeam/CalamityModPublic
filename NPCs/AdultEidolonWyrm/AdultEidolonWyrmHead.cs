@@ -136,12 +136,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                // AAAAAAAAAAAAH Scary abyss superboss guy so he gets pitch black bg and no biome source.
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                //AAAAAAAAAAAAH Scary abyss superboss guy so he gets pitch black bg and no biome source.
+                //eidolon wyrm comment jumpscare!!!!!!
                 new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Traces of them appear even in records as far back as the early Draconic Era... They may very well be a glimpse into the full potential of nature.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.AdultEidolonWyrm")
             });
         }
 

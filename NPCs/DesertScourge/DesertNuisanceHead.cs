@@ -72,11 +72,10 @@ namespace CalamityMod.NPCs.DesertScourge
             int associatedNPCType = ModContent.NPCType<DesertScourgeHead>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The starved spawn of the Desert Scourge. Like piranhas of the desert, they can swarm and tear apart smaller animals within seconds.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.DesertNuisance")
             });
         }
 

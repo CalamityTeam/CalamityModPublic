@@ -55,12 +55,11 @@ namespace CalamityMod.NPCs.HiveMind
             int associatedNPCType = ModContent.NPCType<HiveMind>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCorruption,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Though their core is the same as a hive blob, their armored shell of shadow scale prevents them from dying quite as easily. They also carry a noxious gas within them.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.DankCreeper")
             });
         }
 

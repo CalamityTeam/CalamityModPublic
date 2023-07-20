@@ -52,14 +52,15 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.localAI[0] = 255f;
             }
 
-            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.12f / 255f, (255 - Projectile.alpha) * 0.06f / 255f, (255 - Projectile.alpha) * 0.12f / 255f);
+            float lightValues = (255 - Projectile.alpha) * 0.3f / 255f;
+            Lighting.AddLight(Projectile.Center, lightValues, 0f, lightValues);
 
             Projectile.alpha = (int)(100.0 + Projectile.localAI[0] * 0.7);
             Projectile.rotation += Projectile.velocity.X * 0.02f;
             Projectile.rotation += Projectile.direction * 0.002f;
 
             if (Projectile.velocity.Length() > (CalamityWorld.LegendaryMode ? 2f : 0.5f))
-                Projectile.velocity *= 0.99f;
+                Projectile.velocity *= 0.985f;
         }
 
         public override bool CanHitPlayer(Player target) => Projectile.ai[1] <= (CalamityWorld.LegendaryMode ? 600f : 1800f) && Projectile.ai[1] > 120f;

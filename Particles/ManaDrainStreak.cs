@@ -40,9 +40,8 @@ namespace CalamityMod.Particles
             if (Owner == null || !Owner.active || Owner.dead)
                 return;
 
-                        Vector2 setPosition = OverridePosition != default ? OverridePosition : Owner.MountedCenter;
+            Vector2 setPosition = OverridePosition != default ? OverridePosition : Owner.MountedCenter;
             Position = setPosition + Rotation.ToRotationVector2() * MathHelper.Lerp(StartDistanceFromPlayer, FinalDistanceFromPlayer, (float)Math.Pow(LifetimeCompletion, 2));
-
             Color = Color.Lerp(StartColor, EndColor, LifetimeCompletion);
             Lighting.AddLight(Position, Color.ToVector3() * 0.2f);
         }

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<ProfanedGuardianCommander>()) && (Main.dayTime || Main.zenithWorld) && (player.ZoneHallow || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
+            return !NPC.AnyNPCs(ModContent.NPCType<ProfanedGuardianCommander>()) && (Main.dayTime || Main.remixWorld) && (player.ZoneHallow || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)
@@ -53,15 +53,15 @@ namespace CalamityMod.Items.SummonItems
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.LocalPlayer;
-            TooltipLine line1 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+            TooltipLine line0 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
 
-            if (Main.zenithWorld)
+            if (Main.remixWorld)
             {
-                line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld";
+                line0.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld";
             }
             else
             {
-                line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime";
+                line0.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime";
             }
         }
 

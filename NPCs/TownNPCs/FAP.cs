@@ -70,12 +70,10 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,                
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("No one knows where she came from, but no one minds her either. She's a good person to share a drink with, given you don't make her mad.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.FAP")
             });
         }
 

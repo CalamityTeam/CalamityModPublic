@@ -8,7 +8,7 @@ namespace CalamityMod.Systems
     {
         public override SceneEffectPriority Priority => SceneEffectPriority.BossMedium;
 
-        public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<Leviathan>());
+        public override bool IsSceneEffectActive(Player player) => Main.zenithWorld ? NPC.AnyNPCs(ModContent.NPCType<Anahita>()) : NPC.AnyNPCs(ModContent.NPCType<Leviathan>());
 
         public override void SpecialVisuals(Player player, bool isActive)
         {

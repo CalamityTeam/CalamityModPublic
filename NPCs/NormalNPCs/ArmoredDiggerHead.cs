@@ -58,11 +58,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("These automated mechanical worms used to dig out the caverns so labs could be built. Thankfully, they are long past their once efficient state, and have not received maintenance in decades.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.ArmoredDigger")
             });
         }
 

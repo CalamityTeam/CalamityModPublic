@@ -1332,7 +1332,7 @@ namespace CalamityMod.Projectiles
                                 Vector2 spinningPoint = new Vector2(0f, -velocity);
                                 for (int k = 0; k < totalProjectiles; k++)
                                 {
-                                    Vector2 velocity2 = spinningPoint.RotatedBy((radians + projectile.rotation) * k);
+                                    Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
                                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center + Vector2.Normalize(velocity2) * 16f, velocity2, type, (int)Math.Round(projectile.damage * 0.8), 0f, Main.myPlayer);
                                 }
                             }

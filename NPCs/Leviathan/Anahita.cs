@@ -83,11 +83,10 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Boasting flawless manipulation of water, this elemental was known for almost limitless strength in her home turf. However, those days are long gone.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Anahita")
             });
         }
 
@@ -196,7 +195,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Spawn Leviathan and change music
             if (phase3 || death)
             {
-                if (!HasBegunSummoningLeviathan)
+                if (!HasBegunSummoningLeviathan && !Main.zenithWorld)
                 {
                     // Use charging frames.
                     NPC.ai[0] = 3f;
@@ -292,7 +291,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             // Hover near the target, invisible if the Leviathan is present and not sufficiently injured.
-            if ((phase3 || death) && WaitingForLeviathan)
+            if ((phase3 || death) && WaitingForLeviathan && !Main.zenithWorld)
             {
                 ChargeRotation(player, vector);
                 ChargeLocation(player, vector, false, true);

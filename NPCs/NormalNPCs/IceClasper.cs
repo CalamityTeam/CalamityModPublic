@@ -102,12 +102,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundSnow,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("An enemy which knows no bounds in hunting its prey. In blizzards where visibility is low, they have been known to glaciate and capture travelers. What happens to the victims is unknown.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.IceClasper")
             });
         }
 
