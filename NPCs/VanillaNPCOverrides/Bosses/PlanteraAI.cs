@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class PlanteraAI
     {
-        public const float SeedGatlingGateValue = 900f;
+        public const float SeedGatlingGateValue = 600f;
         public const float SeedGatlingDuration = 300f;
         public const float SeedGatlingColorChangeDuration = 180f;
         public const float SeedGatlingStopValue = SeedGatlingGateValue + SeedGatlingDuration;
@@ -24,6 +24,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public const float BeginChargeGateValue = -120f;
         public const float BeginChargeSlowDownGateValue = BeginChargeGateValue - 60f;
         public const float StopChargeGateValue = BeginChargeSlowDownGateValue - 30f;
+        public const float MovementVelocityMultiplierForSlowAttacks = 0.5f;
 
         public static bool BuffedPlanteraAI(NPC npc, Mod mod)
         {
@@ -44,7 +45,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases based on HP
-            bool addThornBallsToGatlingAttack = lifeRatio < 0.9f;
+            bool addThornBallsToGatlingAttack = lifeRatio < 0.85f;
             bool addSporeGasBlastToGatlingAttack = lifeRatio < 0.75f;
             bool phase2 = lifeRatio <= 0.5f;
             bool phase3 = lifeRatio < 0.35f;
@@ -168,7 +169,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float currentSeedGatlingTime = npc.ai[1] - SeedGatlingGateValue;
 
                     // Slow down more and more as gatling attack continues
-                    velocity *= MathHelper.Lerp(0.25f, 1f, (float)Math.Pow(currentSeedGatlingTime / SeedGatlingDuration, 2D));
+                    velocity *= MathHelper.Lerp(MovementVelocityMultiplierForSlowAttacks, 1f, (float)Math.Pow(currentSeedGatlingTime / SeedGatlingDuration, 2D));
 
                     // Shoot projectiles
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -203,17 +204,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Vomit dense spread of spore gas at the end of the gatling attack
                     if (addSporeGasBlastToGatlingAttack)
                     {
-                        SoundEngine.PlaySound(SoundID.Item107, npc.Center);
+                        SoundEngine.PlaySound(SoundID.Item74, npc.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int totalProjectiles = 36;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = ModContent.ProjectileType<SporeGasPlantera>();
                             int damage = npc.GetProjectileDamage(type);
-                            float velocity2 = CalamityWorld.LegendaryMode ? Main.rand.NextFloat(8f, 12f) : Main.rand.NextFloat(4f, 6f);
-                            Vector2 spinningPoint = new Vector2(0f, -velocity2);
                             for (int k = 0; k < totalProjectiles; k++)
                             {
+                                float velocity2 = CalamityWorld.LegendaryMode ? Main.rand.NextFloat(8f, 12f) : Main.rand.NextFloat(4f, 6f);
+                                Vector2 spinningPoint = new Vector2(0f, -velocity2);
                                 Vector2 projectileVelocity = spinningPoint.RotatedBy(radians * k);
                                 float ai0 = Main.rand.Next(3);
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 50f, projectileVelocity, type, damage, 0f, Main.myPlayer, ai0);
@@ -230,7 +231,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Slow down for a while after tentacles are spawned
                 if (slowedDuringTentaclePhase)
-                    velocity *= MathHelper.Lerp(0.25f, 1f, (float)Math.Pow(1f - npc.ai[2] / TentaclePhaseSlowDuration, 2D));
+                    velocity *= MathHelper.Lerp(MovementVelocityMultiplierForSlowAttacks, 1f, (float)Math.Pow(1f - npc.ai[2] / TentaclePhaseSlowDuration, 2D));
 
                 // Prepare to charge
                 // More charges are used in a row at lower HP
@@ -248,7 +249,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (slowedAfterGatlingAttack)
             {
                 float absValueOfTimer = Math.Abs(npc.ai[1]);
-                velocity *= MathHelper.Lerp(0.25f, 1f, (float)Math.Pow(absValueOfTimer / SeedGatlingDuration, 2D));
+                velocity *= MathHelper.Lerp(MovementVelocityMultiplierForSlowAttacks, 1f, (float)Math.Pow(absValueOfTimer / SeedGatlingDuration, 2D));
 
                 // Shoot homing pink bulb projectiles that leave behind lingering pink clouds
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -259,7 +260,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (absValueOfTimer % shootBulbGateValue == 0f)
                     {
-                        float projectileSpeed = 12f;
+                        float projectileSpeed = 9f;
                         int projectileType = ModContent.ProjectileType<HomingGasBulb>();
                         int damage = npc.GetProjectileDamage(projectileType);
                         Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
@@ -290,7 +291,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             int projectileType = ModContent.ProjectileType<SporeGasPlantera>();
                             int damage = npc.GetProjectileDamage(projectileType);
-                            Vector2 projectileVelocity = npc.velocity * Main.rand.NextVector2CircularEdge(0.25f, 0.25f);
+                            Vector2 projectileVelocity = npc.velocity * Main.rand.NextVector2CircularEdge(0.1f, 0.1f);
                             float ai0 = Main.rand.Next(3);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 30f, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, ai0);
                         }
@@ -327,7 +328,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         SoundEngine.PlaySound(SoundID.Item74, npc.Center);
 
                         // Spore dust cloud
-                        Vector2 dustVelocity = npc.velocity * -1.5f;
+                        Vector2 dustVelocity = npc.velocity * -0.25f;
                         for (int k = 0; k < 50; k++)
                         {
                             Dust dust = Dust.NewDustDirect(npc.Center, npc.width, npc.height, 44, dustVelocity.X, dustVelocity.Y, 250, default, 0.8f);
@@ -436,29 +437,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Main.getGoodWorld)
                         npc.localAI[1] += 1f;
 
-                    // If hit, fire projectiles even if target is behind tiles
-                    if (npc.justHit)
-                        npc.localAI[3] = 1f;
-
                     float shootProjectileGateValue = death ? 40f : 60f;
-                    if (npc.localAI[1] >= 60f)
+                    if (npc.localAI[1] >= shootProjectileGateValue)
                     {
                         npc.localAI[1] = 0f;
-                        bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
-                        if (npc.localAI[3] > 0f)
-                        {
-                            canHit = true;
-                            npc.localAI[3] = 0f;
-                        }
-                        if (canHit)
-                        {
-                            npc.TargetClosest();
-                            int projectileType = (CalamityWorld.LegendaryMode || Main.rand.NextBool(4)) ? ProjectileID.PoisonSeedPlantera : ProjectileID.SeedPlantera;
-                            float projectileSpeed = 14f;
-                            int damage = npc.GetProjectileDamage(projectileType);
-                            Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 50f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
-                        }
+                        npc.TargetClosest();
+                        int projectileType = (CalamityWorld.LegendaryMode || Main.rand.NextBool(4)) ? ProjectileID.PoisonSeedPlantera : ProjectileID.SeedPlantera;
+                        float projectileSpeed = 14f;
+                        int damage = npc.GetProjectileDamage(projectileType);
+                        Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 50f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
                     }
                 }
             }
@@ -542,41 +530,28 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Fire spread of poison seeds
                     npc.localAI[3] += 1f + (0.5f - lifeRatio) * 2f;
 
-                    // If hit, fire projectiles even if the target is behind tiles
-                    if (npc.justHit)
-                        calamityGlobalNPC.newAI[3] = 1f;
-
                     float shootProjectileGateValue = slowedDuringTentaclePhase ? 120f : 90f;
                     if (npc.localAI[3] >= shootProjectileGateValue)
                     {
-                        bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
-                        if (calamityGlobalNPC.newAI[3] > 0f)
+                        float projectileSpeed = 10f + ((0.5f - lifeRatio) * 8f); // 10f to 14f
+                        if (bossRush)
+                            projectileSpeed += 4f;
+
+                        Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
+
+                        int spread = 3 + (int)Math.Round((0.5f - lifeRatio) * 10f); // 3 to 8, wider spread is harder to avoid
+                        int numProj = spread / 2;
+                        int type = ProjectileID.PoisonSeedPlantera;
+                        int damage = npc.GetProjectileDamage(type);
+                        float rotation = MathHelper.ToRadians(spread);
+
+                        for (int i = 0; i < numProj; i++)
                         {
-                            canHit = true;
-                            calamityGlobalNPC.newAI[3] = 0f;
+                            Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + perturbedSpeed * 50f, perturbedSpeed * projectileSpeed, type, damage, 0f, Main.myPlayer);
                         }
-                        if (canHit)
-                        {
-                            float projectileSpeed = 10f + ((0.5f - lifeRatio) * 8f); // 10f to 14f
-                            if (bossRush)
-                                projectileSpeed += 4f;
 
-                            Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-
-                            int spread = 3 + (int)Math.Round((0.5f - lifeRatio) * 10f); // 3 to 8, wider spread is harder to avoid
-                            int numProj = spread / 2;
-                            int type = ProjectileID.PoisonSeedPlantera;
-                            int damage = npc.GetProjectileDamage(type);
-                            float rotation = MathHelper.ToRadians(spread);
-
-                            for (int i = 0; i < numProj; i++)
-                            {
-                                Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), perturbedSpeed * 50f, perturbedSpeed * projectileSpeed, type, damage, 0f, Main.myPlayer);
-                            }
-
-                            npc.localAI[3] = 0f;
-                        }
+                        npc.localAI[3] = 0f;
                     }
                 }
             }

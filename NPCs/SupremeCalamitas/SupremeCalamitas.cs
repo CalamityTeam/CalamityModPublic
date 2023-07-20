@@ -37,6 +37,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -3017,7 +3018,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (hurtInfo.Damage > 0)
+            {
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 600, true);
+                target.AddBuff(ModContent.BuffType<AlcoholPoisoning>(), 600, true);
+            }
         }
     }
 }

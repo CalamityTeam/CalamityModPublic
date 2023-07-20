@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] >= 30f)
             {
-                if (Projectile.ai[0] < 180f)
+                if (Projectile.ai[0] < 150f)
                 {
                     float scaleFactor2 = Projectile.velocity.Length();
                     velocity.Normalize();
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     int type = ModContent.ProjectileType<HomingGasBulbSporeGas>();
                     float ai0 = Main.rand.Next(3);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Normalize(Projectile.velocity) * 0.25f, type, (int)Math.Round(Projectile.damage * 0.8), 0f, Main.myPlayer, ai0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Normalize(Projectile.velocity) * 0.2f, type, (int)Math.Round(Projectile.damage * 0.8), 0f, Main.myPlayer, ai0);
                 }
             }
         }
