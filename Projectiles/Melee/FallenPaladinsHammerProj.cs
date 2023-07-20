@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/FallenPaladinsHammer";
-        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f, PitchVariance = 0.3f };
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f};
         public static readonly SoundStyle UseSoundFunny = new("CalamityMod/Sounds/Item/CalamityBell") { Volume = 1.5f};
         public static readonly SoundStyle RedHamSound = new("CalamityMod/Sounds/Item/FallenPaladinsHammerClone") { Volume = 1f};
         public ref int EmpoweredHammer => ref Main.player[Projectile.owner].Calamity().PHAThammer; 
@@ -174,12 +174,13 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
                 if (returnhammer == 0)
                     {
-                        if (Main.zenithWorld)
-                        SoundEngine.PlaySound(UseSoundFunny, Projectile.Center);
-                        else
-                        SoundEngine.PlaySound(UseSound, Projectile.Center);
+                    if (Main.zenithWorld)
+                        SoundEngine.PlaySound(UseSoundFunny with { Pitch = EmpoweredHammer * 0.2f - 0.4f }, Projectile.Center);
 
-                    returnhammer = 1;
+                    else
+                        SoundEngine.PlaySound(UseSound with { Pitch = EmpoweredHammer * 0.2f - 0.4f }, Projectile.Center);
+
+                returnhammer = 1;
                     }
                 float numberOfDusts = 35f;
                 float rotFactor = 360f / numberOfDusts;
