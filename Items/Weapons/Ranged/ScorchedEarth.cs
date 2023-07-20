@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useTime = 8;
             Item.useAnimation = 32; // 4 shots in just over half a second
             Item.reuseDelay = 60; // 1 second recharge
+            Item.useLimitPerAnimation = 4;
             Item.width = 104;
             Item.height = 44;
             Item.useStyle = ItemUseStyleID.Shoot;

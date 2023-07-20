@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         hoverAcceleration += 0.05f;
                     }
 
-                    Vector2 hoverDestination = Main.player[npc.target].Center - Vector2.UnitY * 200f;
+                    Vector2 hoverDestination = Main.player[npc.target].Center - Vector2.UnitY * 320f;
                     Vector2 idealVelocity = npc.SafeDirectionTo(hoverDestination) * hoverSpeed;
                     npc.SimpleFlyMovement(idealVelocity, hoverAcceleration);
 
@@ -161,11 +161,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 servantSpawnCenter = npc.Center + servantSpawnVelocity * 10f;
                             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(NPCID.ServantofCthulhu) < 12)
                             {
-                                int num23 = NPC.NewNPC(npc.GetSource_FromAI(), (int)servantSpawnCenter.X, (int)servantSpawnCenter.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
-                                Main.npc[num23].velocity = servantSpawnVelocity;
+                                int eye = NPC.NewNPC(npc.GetSource_FromAI(), (int)servantSpawnCenter.X, (int)servantSpawnCenter.Y, NPCID.ServantofCthulhu);
+                                Main.npc[eye].velocity = servantSpawnVelocity;
 
-                                if (Main.netMode == NetmodeID.Server && num23 < Main.maxNPCs)
-                                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num23, 0f, 0f, 0f, 0, 0, 0);
+                                if (Main.netMode == NetmodeID.Server && eye < Main.maxNPCs)
+                                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, eye);
                             }
 
                             SoundEngine.PlaySound(SoundID.NPCHit1, servantSpawnCenter);
@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 else if (npc.ai[1] == 1f)
                 {
                     npc.rotation = num8;
-                    float chargeSpeed = 7.25f;
+                    float chargeSpeed = 8f;
                     chargeSpeed += 5f * enrageScale;
                     if (death)
                         chargeSpeed += 8.5f * (1f - lifeRatio);
@@ -370,7 +370,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         hoverAcceleration += 0.04f * (0.75f - lifeRatio);
                     }
 
-                    Vector2 hoverDestination = Main.player[npc.target].Center - Vector2.UnitY * 120f;
+                    Vector2 hoverDestination = Main.player[npc.target].Center - Vector2.UnitY * 160f;
                     float distanceFromHoverDestination = npc.Distance(hoverDestination);
 
                     if (distanceFromHoverDestination > 400f)
@@ -649,12 +649,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 servantSpawnCenter = npc.Center + servantSpawnVelocity * 10f;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int num34 = NPC.NewNPC(npc.GetSource_FromAI(), (int)servantSpawnCenter.X, (int)servantSpawnCenter.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
-                            Main.npc[num34].velocity.X = servantSpawnVelocity.X;
-                            Main.npc[num34].velocity.Y = servantSpawnVelocity.Y;
+                            int eye = NPC.NewNPC(npc.GetSource_FromAI(), (int)servantSpawnCenter.X, (int)servantSpawnCenter.Y, NPCID.ServantofCthulhu);
+                            Main.npc[eye].velocity.X = servantSpawnVelocity.X;
+                            Main.npc[eye].velocity.Y = servantSpawnVelocity.Y;
 
-                            if (Main.netMode == NetmodeID.Server && num34 < Main.maxNPCs)
-                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num34, 0f, 0f, 0f, 0, 0, 0);
+                            if (Main.netMode == NetmodeID.Server && eye < Main.maxNPCs)
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, eye);
 
                             if (CalamityWorld.LegendaryMode)
                             {

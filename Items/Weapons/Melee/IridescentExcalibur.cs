@@ -11,7 +11,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ElementalExcalibur : ModItem, ILocalizedModType
+    [LegacyName("ElementalExcalibur")]
+    public class IridescentExcalibur : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         private static int BaseDamage = 2000;
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 112;
             Item.height = 112;
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            Item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
+            Item.shoot = ModContent.ProjectileType<GayBeam>();
             Item.shootSpeed = 6f;
             Item.rare = ModContent.RarityType<Rainbow>();
         }
@@ -67,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             else
             {
-                Item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
+                Item.shoot = ModContent.ProjectileType<GayBeam>();
                 Item.shootSpeed = 12f;
             }
 
@@ -164,7 +165,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<GreatswordofBlah>().
+                AddIngredient<Orderbringer>().
                 AddIngredient(ItemID.TrueExcalibur).
                 AddIngredient<ShadowspecBar>(5).
                 AddIngredient<AscendantSpiritEssence>(5).

@@ -88,6 +88,8 @@ Cooldowns: {
 	InkBomb: Ink Bomb Cooldown
 	LifeSteal: Life Steal Cooldown
 	LionHeartShield: Energy Shell Cooldown
+	MasterChefShieldDurability: Energy Shield Durability
+	MasterChefShieldRecharge: Energy Shield Recharge
 	NebulousCore: Nebulous Core Cooldown
 	OmegaBlueActive: Abyssal Madness
 	OmegaBlueCooldown: Abyssal Madness Cooldown

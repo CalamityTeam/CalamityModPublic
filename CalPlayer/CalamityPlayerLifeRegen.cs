@@ -740,18 +740,12 @@ namespace CalamityMod.CalPlayer
 
             if (community)
             {
-                float BoostAtZeroBosses = 0.05f;
-                float BoostPostYharon = 0.2f;
-                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
-                int integerTypeBoost = (int)(floatTypeBoost * 50f);
-                int regenBoost = 1 + (integerTypeBoost / 5);
+                int regenBoost = 1 + (int)(TheCommunity.CalculatePower() * TheCommunity.RegenMultiplier);
                 bool lesserEffect = false;
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
                     int hasBuff = Player.buffType[l];
-                    bool shouldAffect = CalamityLists.alcoholList.Contains(hasBuff);
-                    if (shouldAffect)
-                        lesserEffect = true;
+                    lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
                 }
                 if (Player.lifeRegen < 0)
                     Player.lifeRegen += lesserEffect ? 1 : regenBoost;

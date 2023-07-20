@@ -82,11 +82,10 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Known across the land for the swarms that have gathered in the jungle, they are nearly feared above all else in it. Although they may not be quite as dangerous as other forces, they have no master.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Bumblefuck")
             });
         }
 

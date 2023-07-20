@@ -52,11 +52,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Some creatures which skirt the edges of our atmosphere tend to absorb and channel the sun's rays better than others. At any rate, this is a passive creature that means you no harm. You should return the favor.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Sunskater")
             });
         }
 

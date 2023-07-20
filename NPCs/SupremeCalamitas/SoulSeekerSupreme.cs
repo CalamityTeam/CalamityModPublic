@@ -54,10 +54,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.canGhostHeal = false;
-            NPC.damage = 0;
+            NPC.damage = 50;
             NPC.defense = 60;
             NPC.DR_NERD(NormalDR);
-            NPC.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 28000);
+            NPC.lifeMax = 14000;
             NPC.DeathSound = SoundID.DD2_SkeletonDeath;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
@@ -68,12 +68,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             int associatedNPCType = ModContent.NPCType<SupremeCalamitas>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //We'll probably want a custom background SCal her like ML has.
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SCal,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Incomplete, ghoulish skulls, their forms are limited but their devotion boundless. It's likely each yearns for a soul of their own to be complete, whether it's given by Calamitas or ripped from the foe they kill.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.SoulSeekerSupreme")
             });
         }
 
@@ -96,8 +93,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.frame.Y = 0;
         }
 
-        public override bool PreAI()
+        public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             // Die if SCal is no longer present.
             if (CalamityGlobalNPC.SCal < 0 || !SCal.active)
             {
@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
-                return false;
+                return;
             }
 
             if (start)
@@ -160,7 +160,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             NPC.position = SCal.Center - MathHelper.ToRadians(RotationalDegreeOffset).ToRotationVector2() * 300f - NPC.Size * 0.5f;
             RotationalDegreeOffset += 0.5f;
-            return false;
         }
 
         public override void OnKill()

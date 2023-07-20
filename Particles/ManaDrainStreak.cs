@@ -18,8 +18,9 @@ namespace CalamityMod.Particles
         public float FinalDistanceFromPlayer;
         public Color StartColor;
         public Color EndColor;
+        public Vector2 OverridePosition;
 
-        public ManaDrainStreak(Player owner, float thickness, Vector2 startVector, float finalDistance, Color colorStart, Color colorEnd, int lifetime)
+        public ManaDrainStreak(Player owner, float thickness, Vector2 startVector, float finalDistance, Color colorStart, Color colorEnd, int lifetime, Vector2 overridePosition = default)
         {
             Owner = owner;
             Scale = thickness;
@@ -31,6 +32,7 @@ namespace CalamityMod.Particles
             EndColor = colorEnd;
             Color = colorStart;
             Lifetime = lifetime;
+            OverridePosition = overridePosition;
         }
 
         public override void Update()
@@ -38,7 +40,8 @@ namespace CalamityMod.Particles
             if (Owner == null || !Owner.active || Owner.dead)
                 return;
 
-            Position = Owner.MountedCenter + Rotation.ToRotationVector2() * MathHelper.Lerp(StartDistanceFromPlayer, FinalDistanceFromPlayer, (float)Math.Pow(LifetimeCompletion, 2));
+            Vector2 setPosition = OverridePosition != default ? OverridePosition : Owner.MountedCenter;
+            Position = setPosition + Rotation.ToRotationVector2() * MathHelper.Lerp(StartDistanceFromPlayer, FinalDistanceFromPlayer, (float)Math.Pow(LifetimeCompletion, 2));
             Color = Color.Lerp(StartColor, EndColor, LifetimeCompletion);
             Lighting.AddLight(Position, Color.ToVector3() * 0.2f);
         }

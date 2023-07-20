@@ -1979,10 +1979,10 @@ namespace CalamityMod.NPCs
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
+            CalamityGlobalNPC.cataclysm = npc.whoAmI;
+
             // Emit light
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
-
-            CalamityGlobalNPC.cataclysm = npc.whoAmI;
 
             bool bossRush = BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || bossRush;
@@ -2286,10 +2286,10 @@ namespace CalamityMod.NPCs
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
+            CalamityGlobalNPC.catastrophe = npc.whoAmI;
+
             // Emit light
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
-
-            CalamityGlobalNPC.catastrophe = npc.whoAmI;
 
             bool bossRush = BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || bossRush;
@@ -3756,10 +3756,6 @@ namespace CalamityMod.NPCs
             // Set worm variable
             if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
-
-            // Emit light
-            if (!Main.zenithWorld)
-                Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             // Dust and alpha effects
             if ((head || Main.npc[(int)npc.ai[1]].alpha < 128) && !npc.dontTakeDamage)

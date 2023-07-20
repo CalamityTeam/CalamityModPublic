@@ -52,10 +52,10 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Their eyes gleam with hunger, and they inhabit the rocks of underwater structures when at rest, only occasionally roaming the open waters.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.MorayEel")
             });
         }
 

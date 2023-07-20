@@ -78,12 +78,11 @@ namespace CalamityMod.NPCs.GreatSandShark
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Sandstorm,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("One wonders if there is a limit to the persistence of sharks in their quest to survive. In the very opposite of their usual climate, they have conquered too. It is a miracle that none yet have grown wings.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.GreatSandShark")
             });
         }
 

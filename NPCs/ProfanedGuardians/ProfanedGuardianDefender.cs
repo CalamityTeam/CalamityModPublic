@@ -75,12 +75,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             int associatedNPCType = ModContent.NPCType<ProfanedGuardianCommander>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The body it has formed boasts of a stone shell hallowed and tempered by the flames of the sun. Very little can fully shatter its defense.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.ProfanedGuardianDefender")
             });
         }
 
@@ -387,23 +386,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
             }
 
-            // This causes bugs due to the return
-            /*if (Main.zenithWorld)
-            {
-                if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
-                {
-                    float playerLocation = NPC.Center.X - player.Center.X;
-                    NPC.direction = playerLocation < 0f ? 1 : -1;
-                    NPC.spriteDirection = NPC.direction;
-                }
-                // Block the main guardian
-                Vector2 guardPos = Main.npc[CalamityGlobalNPC.doughnutBoss].Center;
-                Vector2 playerPos = player.Center;
-                Vector2 midPoint = ((guardPos - playerPos) / 1.25f) + playerPos;
-                NPC.position = midPoint;
-                return;
-            }*/
-
             float moveVelocity = (bossRush || biomeEnraged) ? 24f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
             if (Main.getGoodWorld)
                 moveVelocity *= 1.25f;
@@ -703,6 +685,22 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                 NPC.velocity *= 0.97f;
             }
+
+            if (Main.zenithWorld)
+            {
+                if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
+                {
+                    float playerLocation = NPC.Center.X - player.Center.X;
+                    NPC.direction = playerLocation < 0f ? 1 : -1;
+                    NPC.spriteDirection = NPC.direction;
+                }
+                // Block the main guardian
+                Vector2 guardPos = Main.npc[CalamityGlobalNPC.doughnutBoss].Center;
+                Vector2 playerPos = player.Center;
+                Vector2 midPoint = ((guardPos - playerPos) / 1.25f) + playerPos;
+                NPC.position = midPoint;
+                return;
+            }
         }
 
         public override bool CheckActive() => false;
@@ -749,7 +747,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                 texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlow").Value;
                 Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
-                if (Main.zenithWorld)
+                if (Main.remixWorld)
                 {
                     texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlowNight").Value;
                     color37 = Color.Cyan;

@@ -60,7 +60,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddRecipeGroup("Wood", 25).
-                AddIngredient<Phantoplasm>(50).
+                AddIngredient<Polterplasm>(50).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

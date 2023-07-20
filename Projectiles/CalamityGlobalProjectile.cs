@@ -206,12 +206,29 @@ namespace CalamityMod.Projectiles
             // All secondary yoyos are spawned with ai[0] of 1 which tells then tell its AI to do secondary yoyo AI
             if (Main.player[projectile.owner].yoyoGlove && projectile.aiStyle == 99)
             {
-                if (projectile.ai[0] == 1f && projectile.localAI[0] == 0f)
-                    projectile.damage = (int)(projectile.originalDamage * 0.5f);
-                // Reset damage if the yoyo count returns to 1
-                // This is possible due to the horrendous yoyo spawning system for limited lifespan yoyos
-                else if (Main.player[projectile.owner].ownedProjectileCounts[projectile.type] == 1 && projectile.localAI[0] > 0f)
-                    projectile.damage = projectile.originalDamage;
+                // Store damage on first frame
+                if (projectile.ai[2] == 0f)
+                    projectile.ai[2] = projectile.damage;
+
+                // Find the first yoyo projectile owned by the corresponding player
+                // Limited lifespan yoyos are horrendous so it had to be this way
+                // EDIT: ownedProjectileCounts does not work what the fuck
+                int MainYoyo = -1;
+                for (int x = 0; x < Main.maxProjectiles; x++)
+                {
+                    Projectile proj = Main.projectile[x];
+                    if (proj.active && proj.type == projectile.type && proj.owner == projectile.owner)
+                    {
+                        MainYoyo = x;
+                        break;
+                    }
+                }
+
+                // Halve damage if not the main yoyo
+                if (projectile.whoAmI != MainYoyo)
+                    projectile.damage = (int)(projectile.ai[2] * 0.5f);
+                else
+                    projectile.damage = (int)projectile.ai[2];
             }
 
             // Chlorophyte Crystal AI rework.
@@ -1247,7 +1264,7 @@ namespace CalamityMod.Projectiles
                     return false;
                 }
 
-                else if (projectile.type == ProjectileID.PoisonSeedPlantera)
+                else if (projectile.type == ProjectileID.SeedPlantera || projectile.type == ProjectileID.PoisonSeedPlantera)
                 {
                     projectile.frameCounter++;
                     if (projectile.frameCounter > 1)
@@ -1273,8 +1290,6 @@ namespace CalamityMod.Projectiles
                     projectile.ai[0] += 1f;
                     if (projectile.ai[0] >= 120f)
                     {
-                        projectile.ai[0] = 120f;
-
                         if (projectile.velocity.Length() < 18f)
                             projectile.velocity *= 1.01f;
                     }
@@ -1284,12 +1299,12 @@ namespace CalamityMod.Projectiles
                     if (projectile.timeLeft > 600)
                         projectile.timeLeft = 600;
 
-                    projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+                    projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
                     return false;
                 }
 
-                else if (projectile.type == ProjectileID.ThornBall)
+                else if (projectile.type == ProjectileID.ThornBall && !projectile.tileCollide)
                 {
                     if (projectile.alpha > 0)
                     {
@@ -1298,36 +1313,79 @@ namespace CalamityMod.Projectiles
                             projectile.alpha = 0;
                     }
 
-                    int num147 = Player.FindClosest(projectile.Center, 1, 1);
-                    float num146 = 7.5f * projectile.ai[1] + Vector2.Distance(Main.player[num147].Center, projectile.Center) * 0.01f;
-                    Vector2 vector12 = Main.player[num147].Center - projectile.Center;
-                    vector12.Normalize();
-                    vector12 *= num146;
-                    int num148 = 200;
-                    projectile.velocity.X = (projectile.velocity.X * (num148 - 1) + vector12.X) / num148;
-
-                    if (projectile.velocity.Length() > 16f)
+                    Point point = projectile.Center.ToTileCoordinates();
+                    Tile tileSafely = Framing.GetTileSafely(point);
+                    bool stickOnCollision = tileSafely.HasUnactuatedTile && Main.tileSolid[tileSafely.TileType];
+                    if (stickOnCollision)
                     {
-                        projectile.velocity.Normalize();
-                        projectile.velocity *= 16f;
-                    }
-
-                    projectile.ai[0] += 1f;
-                    if (projectile.ai[0] > 15f)
-                    {
-                        if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
+                        projectile.velocity = Vector2.Zero;
+                        projectile.ai[1] += 1f;
+                        float explodeGateValue = 600f;
+                        if (projectile.ai[1] >= explodeGateValue)
                         {
-                            projectile.velocity.X *= 0.97f;
-                            if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
-                                projectile.Kill();
+                            if (projectile.owner == Main.myPlayer)
+                            {
+                                int totalProjectiles = 8;
+                                float radians = MathHelper.TwoPi / totalProjectiles;
+                                int type = ModContent.ProjectileType<ThornBallSpike>();
+                                float velocity = 1f;
+                                Vector2 spinningPoint = new Vector2(0f, -velocity);
+                                for (int k = 0; k < totalProjectiles; k++)
+                                {
+                                    Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                                    Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center + Vector2.Normalize(velocity2) * 16f, velocity2, type, (int)Math.Round(projectile.damage * 0.8), 0f, Main.myPlayer);
+                                }
+                            }
+
+                            SoundEngine.PlaySound(SoundID.Item17, projectile.position);
+
+                            for (int i = 0; i < 8; i++)
+                            {
+                                int randomDustType = Main.rand.NextBool(2) ? 125 : 148;
+                                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, randomDustType, 0f, 0f, 0, default, 2f);
+                                Main.dust[dust].velocity *= 3f;
+                                if (Main.rand.NextBool(2))
+                                {
+                                    Main.dust[dust].scale = 0.5f;
+                                    Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                                }
+                            }
+                            for (int i = 0; i < 10; i++)
+                            {
+                                int randomDustType = Main.rand.NextBool(2) ? 125 : 148;
+                                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, randomDustType, 0f, 0f, 0, default, 3f);
+                                Main.dust[dust].noGravity = true;
+                                Main.dust[dust].velocity *= 5f;
+                                dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, randomDustType, 0f, 0f, 0, default, 2f);
+                                Main.dust[dust].velocity *= 2f;
+                            }
+
+                            projectile.Kill();
                         }
-                        projectile.velocity.Y += 0.1f;
                     }
+                    else
+                    {
+                        int closestPlayer = Player.FindClosest(projectile.Center, 1, 1);
+                        float homingSpeed = 7.5f + Vector2.Distance(Main.player[closestPlayer].Center, projectile.Center) * 0.01f;
+                        Vector2 homingVelocity = Vector2.Normalize(Main.player[closestPlayer].Center - projectile.Center) * homingSpeed;
+                        int inertia = 200;
+                        projectile.velocity.X = (projectile.velocity.X * (inertia - 1) + homingVelocity.X) / inertia;
 
-                    projectile.rotation += projectile.velocity.X * 0.05f;
+                        if (projectile.velocity.Length() > 16f)
+                        {
+                            projectile.velocity.Normalize();
+                            projectile.velocity *= 16f;
+                        }
 
-                    if (projectile.velocity.Y > 16f)
-                        projectile.velocity.Y = 16f;
+                        projectile.ai[0] += 1f;
+                        if (projectile.ai[0] > 15f)
+                            projectile.velocity.Y += 0.1f;
+
+                        projectile.rotation += projectile.velocity.X * 0.05f;
+
+                        if (projectile.velocity.Y > 16f)
+                            projectile.velocity.Y = 16f;
+                    }
 
                     return false;
                 }
@@ -2442,7 +2500,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-        #region PostAI
+        #region Post AI
         public override void PostAI(Projectile projectile)
         {
             if (projectile.FinalExtraUpdate() && flatDRTimer > 0)
@@ -2511,7 +2569,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-        #region ModifyHitNPC
+        #region Modify Hit NPC
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[projectile.owner];
@@ -2581,14 +2639,14 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-        #region ModifyHitPlayer
+        #region Modify Hit Player
         public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {
             modifiers.FinalDamage.Flat -= flatDR;
         }
         #endregion
 
-        #region CanDamage + CanHit
+        #region Can Damage + Can Hit
         public override bool? CanDamage(Projectile projectile)
         {
             if (projectile.hostile && (projectile.damage - flatDR <= 0))
@@ -2639,9 +2697,7 @@ namespace CalamityMod.Projectiles
             if (Main.LocalPlayer.Calamity().omniscience && projectile.hostile && projectile.damage > 0 && projectile.alpha < 255)
             {
                 if (projectile.ModProjectile is null || (projectile.ModProjectile != null && projectile.ModProjectile.CanHitPlayer(Main.LocalPlayer) && (projectile.ModProjectile.CanDamage() ?? true)))
-                {
                     return Color.Coral;
-                }
             }
 
             if (projectile.type == ProjectileID.Stinger)
@@ -2674,9 +2730,27 @@ namespace CalamityMod.Projectiles
                 return new Color(200, 200, 200, projectile.alpha);
             }
 
+            if (projectile.type == ProjectileID.ThornBall)
+            {
+                float startTurningBrownGateValue = 420f;
+                float timeToReachFullBrown = 180f;
+                float timeToReachThornExplosion = startTurningBrownGateValue + timeToReachFullBrown;
+                Color initialColor = Color.White;
+                initialColor.A = (byte)projectile.alpha;
+                Color finalColor = Color.RosyBrown;
+                finalColor.A = (byte)projectile.alpha;
+                if (projectile.ai[1] > startTurningBrownGateValue)
+                {
+                    float colorTransitionRatio = (projectile.ai[1] - startTurningBrownGateValue) / timeToReachFullBrown;
+                    Color dehydratedColor = Color.Lerp(initialColor, finalColor, colorTransitionRatio);
+                    return dehydratedColor;
+                }
+                else
+                    return initialColor;
+            }
+
             if (projectile.type == ProjectileID.SeedPlantera || projectile.type == ProjectileID.PoisonSeedPlantera ||
-                projectile.type == ProjectileID.ThornBall || projectile.type == ProjectileID.CultistBossFireBallClone ||
-                projectile.type == ProjectileID.AncientDoomProjectile)
+                projectile.type == ProjectileID.CultistBossFireBallClone || projectile.type == ProjectileID.AncientDoomProjectile)
             {
                 if (projectile.timeLeft < 85)
                 {

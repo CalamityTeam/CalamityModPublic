@@ -78,12 +78,11 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCrimson,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Though birthed by the crimson, it is unknown whether they fully serve that creator. The worms of the hive frequently carve huge tunnels in the crimson's flesh.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.PerforatorHive")
             });
         }
 

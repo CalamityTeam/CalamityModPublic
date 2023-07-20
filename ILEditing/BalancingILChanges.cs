@@ -9,6 +9,20 @@ namespace CalamityMod.ILEditing
 {
     public partial class ILChanges
     {
+        #region Rod of Harmony Changes
+
+        private static bool ChangeRodOfHarmonyShimmerRequirement(On_Item.orig_CanShimmer orig, Item item)
+        {
+            //Rod of Harmony requires Draedong and SCal dead instead of Moon Lord.
+            if (item.type == ItemID.RodofDiscord)
+            {
+                return DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs;
+            }
+            return orig(item);
+        }
+        
+        #endregion
+        
         #region Soaring Insignia Changes
         private static void RemoveSoaringInsigniaInfiniteWingTime(ILContext il)
         {

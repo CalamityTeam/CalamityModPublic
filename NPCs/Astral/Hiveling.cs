@@ -55,10 +55,9 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A small creature, one entirely original to the astral infection, save for a tiny core of organic material it takes from the host Hive. They are easily squashed but swarm if endangered.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Hiveling")
             });
         }
 

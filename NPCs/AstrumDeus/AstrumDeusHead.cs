@@ -104,11 +104,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Revered as a God of the stars, it has been infected by the starborne illness. However, it has now been broken free from the infection's control and roams the stars once more, consuming dying stars and birthing them anew.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.AstrumDeus")
             });
         }
 
@@ -316,7 +315,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 {
                     ModContent.ItemType<TheMicrowave>(),
                     ModContent.ItemType<StarSputter>(),
-                    ModContent.ItemType<Starfall>(),
+                    ModContent.ItemType<StarShower>(),
                     ModContent.ItemType<GodspawnHelixStaff>(),
                     ModContent.ItemType<RegulusRiot>(),
                 };

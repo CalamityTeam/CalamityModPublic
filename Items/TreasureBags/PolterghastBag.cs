@@ -66,7 +66,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             itemLoot.Add(ModContent.ItemType<RuinousSoul>(), 1, 10, 20);
-            itemLoot.Add(ModContent.ItemType<Phantoplasm>(), 1, 40, 50);
+            itemLoot.Add(ModContent.ItemType<Polterplasm>(), 1, 40, 50);
 
             // Weapons
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]

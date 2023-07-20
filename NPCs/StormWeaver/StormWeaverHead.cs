@@ -122,11 +122,10 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("It resides high up in the stratosphere, feasting on wyverns and storm swimmers alike, which give it powerful electrokinesis.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.StormWeaver")
             });
         }
 

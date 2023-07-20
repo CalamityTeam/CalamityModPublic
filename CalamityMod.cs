@@ -74,6 +74,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.DataStructures;
+using CalamityMod.NPCs.NormalNPCs;
 
 [assembly: InternalsVisibleTo("CalTestHelpers")]
 [assembly: InternalsVisibleTo("InfernumMode")]
@@ -151,7 +152,6 @@ namespace CalamityMod
 
         internal Mod ancientsAwakened = null;
         internal Mod bossChecklist = null;
-        internal Mod census = null;
         internal Mod crouchMod = null;
         internal Mod dialogueTweak = null;
         internal Mod fargos = null;
@@ -175,9 +175,6 @@ namespace CalamityMod
 
             carpetOriginal = TextureAssets.FlyingCarpet;
 
-            // Apply IL edits as soon as possible.
-            ILChanges.Load();
-
             // If any of these mods aren't loaded, it will simply keep them as null.
             musicMod = null;
             ModLoader.TryGetMod("CalamityModMusic", out musicMod);
@@ -185,8 +182,6 @@ namespace CalamityMod
             ModLoader.TryGetMod("AAMod", out ancientsAwakened);
             bossChecklist = null;
             ModLoader.TryGetMod("BossChecklist", out bossChecklist);
-            census = null;
-            ModLoader.TryGetMod("Census", out census);
             crouchMod = null;
             ModLoader.TryGetMod("CrouchMod", out crouchMod);
             dialogueTweak = null;
@@ -425,7 +420,6 @@ namespace CalamityMod
 
             ancientsAwakened = null;
             bossChecklist = null;
-            census = null;
             crouchMod = null;
             dialogueTweak = null;
             fargos = null;
@@ -510,7 +504,6 @@ namespace CalamityMod
             loadCache = null;
             */
 
-            ILChanges.Unload();
             Instance = null;
             base.Unload();
         }
@@ -789,6 +782,7 @@ namespace CalamityMod
                 { NPCID.PrimeVice, velocityScaleMin },
                 { NPCID.Plantera, velocityScaleMin }, // Increases in phase 2
                 { NPCID.PlanterasTentacle, bitingEnemeyVelocityScale },
+                { ModContent.NPCType<PlanterasFreeTentacle>(), bitingEnemeyVelocityScale },
                 { NPCID.HallowBoss, velocityScaleMin },
                 { NPCID.Golem, velocityScaleMin },
                 { NPCID.GolemFistLeft, velocityScaleMin },

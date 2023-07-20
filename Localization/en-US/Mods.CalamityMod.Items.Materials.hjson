@@ -118,11 +118,6 @@ DepthCells: {
 	Tooltip: The cells of abyssal creatures
 }
 
-DesertFeather: {
-	DisplayName: Desert Feather
-	Tooltip: ""
-}
-
 DivineGeode: {
 	DisplayName: Divine Geode
 	Tooltip: A chunk of crystallized holy energy
@@ -247,8 +242,8 @@ PerennialBar: {
 	Tooltip: ""
 }
 
-Phantoplasm: {
-	DisplayName: Phantoplasm
+Polterplasm: {
+	DisplayName: Polterplasm
 	Tooltip: It churns and seethes with ghastly malice
 }
 

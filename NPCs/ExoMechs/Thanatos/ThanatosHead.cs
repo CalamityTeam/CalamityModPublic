@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         public const float ventDuration = 180f;
 
         // Spawn rate for vent clouds
-        public const int ventCloudSpawnRate = 5;
+        public const int ventCloudSpawnRate = 10;
 
         // Default life ratio for the other mechs
         private const float defaultLifeRatio = 5f;
@@ -173,12 +173,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //We'll probably want a custom background for Exos like ML has.
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Under every armored plate on this machine lies an advanced weapon. This sacrifices the machine's durability, but it makes it a very effective mass murderer.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Thanatos")
             });
         }
 
@@ -954,9 +951,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             SmokeDrawer.ParticleSpawnRate = 9999999;
             if (vulnerable)
             {
-                // Light
-                Lighting.AddLight(NPC.Center, 0.35f * NPC.Opacity, 0.05f * NPC.Opacity, 0.05f * NPC.Opacity);
-
                 // Noise
                 if (NPC.localAI[1] == 0f)
                     SoundEngine.PlaySound(VentSound, NPC.Center);
@@ -970,12 +964,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 }
             }
             else
-            {
-                // Light
-                Lighting.AddLight(NPC.Center, 0.05f * NPC.Opacity, 0.2f * NPC.Opacity, 0.2f * NPC.Opacity);
-
                 NPC.localAI[1] = 0f;
-            }
 
             SmokeDrawer.Update();
 

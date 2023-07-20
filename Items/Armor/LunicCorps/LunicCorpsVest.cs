@@ -31,9 +31,9 @@ namespace CalamityMod.Items.Armor.LunicCorps
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.ChlorophyteBar, 11).
-                AddIngredient<AstralBar>(11).
                 AddIngredient<RoverDrive>().
+                AddIngredient<AstralBar>(11).
+                AddIngredient(ItemID.ChlorophyteBar, 11).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

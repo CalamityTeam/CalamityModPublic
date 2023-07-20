@@ -255,7 +255,6 @@ namespace CalamityMod.NPCs
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
-        public static int DD2CrystalIndex = -1;
         public static int hiveMind = -1;
         public static int perfHive = -1;
         public static int slimeGodPurple = -1;
@@ -498,7 +497,6 @@ namespace CalamityMod.NPCs
             for (int i = 0; i < bobbitWormBottom.Length; i++)
                 ResetSavedIndex(ref bobbitWormBottom[i], NPCType<BobbitWormSegment>());
 
-            ResetSavedIndex(ref DD2CrystalIndex, NPCID.DD2EterniaCrystal);
             ResetSavedIndex(ref hiveMind, NPCType<HiveMind.HiveMind>());
             ResetSavedIndex(ref perfHive, NPCType<PerforatorHive>());
             ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.EbonianPaladin>(), NPCType<SplitEbonianPaladin>());
@@ -1416,9 +1414,13 @@ namespace CalamityMod.NPCs
                 if (Main.getGoodWorld)
                     npc.lifeMax = (int)(npc.lifeMax * 1.5);
             }
-            else if (npc.type == NPCID.Wraith || npc.type == NPCID.Mimic || npc.type == NPCID.Reaper || npc.type == NPCID.PresentMimic || npc.type == NPCID.SandElemental)
+            else if ((npc.type == NPCID.Wraith || npc.type == NPCID.Mimic || npc.type == NPCID.Reaper || npc.type == NPCID.PresentMimic || npc.type == NPCID.SandElemental || npc.type == NPCID.Ghost) && CalamityWorld.LegendaryMode)
             {
                 npc.knockBackResist = 0f;
+            }
+            else if (npc.type == NPCID.Spore)
+            {
+                npc.dontTakeDamage = true;
             }
 
             if (CalamityLists.revengeanceLifeStealExceptionList.Contains(npc.type))
@@ -3784,12 +3786,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (npc.type == NPCID.DD2LanePortal)
-            {
-                CalamityGlobalAI.DD2PortalAI(npc);
-                return false;
-            }
-
             return true;
         }
         #endregion
@@ -4310,9 +4306,6 @@ namespace CalamityMod.NPCs
                 if (pearlAura > 0)
                     npc.velocity *= 0.9f;
             }
-
-            if (npc.type == NPCID.DD2EterniaCrystal)
-                CalamityGlobalAI.DD2CrystalExtraAI(npc);
         }
         #endregion
 
@@ -4695,6 +4688,14 @@ namespace CalamityMod.NPCs
             {
                 switch (npc.type)
                 {
+                    case NPCID.PlanterasTentacle:
+                        if (npc.life <= 0)
+                        {
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                                NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), ModContent.NPCType<PlanterasFreeTentacle>());
+                        }
+                        break;
+
                     case NPCID.MotherSlime:
                         if (npc.life <= 0)
                         {
@@ -5040,13 +5041,14 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            // 12JUL2023: Ozzatron: what does this do
             if (calamityBiomeZone)
             {
                 pool[0] = 0f;
             }
 
             // Add Enchanted Nightcrawlers as a critter to the Astral Infection
-            if (!CalamityGlobalNPC.AnyEvents(spawnInfo.Player) && spawnInfo.Player.InAstral())
+            if (!AnyEvents(spawnInfo.Player) && spawnInfo.Player.InAstral())
             {
                 pool[NPCID.EnchantedNightcrawler] = SpawnCondition.TownCritter.Chance;
             }
@@ -5127,14 +5129,48 @@ namespace CalamityMod.NPCs
             if (spawnInfo.PlayerSafe)
                 return;
 
-            if (!Main.hardMode && spawnInfo.Player.ZoneUnderworldHeight && !calamityBiomeZone)
-            {
-                if (!NPC.AnyNPCs(NPCID.VoodooDemon))
-                    pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.75f;
-            }
+            // Voodoo Demon changes (including partial Voodoo Demon Voodoo Doll implementation)
+            bool voodooDemonDollActive = spawnInfo.Player.Calamity().disableVoodooSpawns;
 
-            if (spawnInfo.Player.Calamity().disableVoodooSpawns && pool.ContainsKey(NPCID.VoodooDemon))
+            // If the doll is active, Voodoo Demons cannot spawn (via modded means).
+            if (voodooDemonDollActive)
                 pool.Remove(NPCID.VoodooDemon);
+            // Otherwise, if it's pre-Hardmode, provide a modded spawn entry that makes them much more common.
+            else if (!Main.hardMode && spawnInfo.Player.ZoneUnderworldHeight && !calamityBiomeZone)
+            {
+                pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.15f;
+            }
+        }
+        #endregion
+
+        #region On Spawn
+        public override void OnSpawn(NPC npc, IEntitySource source)
+        {
+            if (npc.type != NPCID.VoodooDemon)
+                return;
+
+            // This entity source does not provide a player. So we have to find out if anyone close enough has a doll.
+            if (source is EntitySource_SpawnNPC)
+            {
+                bool voodooDemonDollActive = false;
+                Vector2 v = npc.Center;
+                for (int i = 0; i < Main.maxPlayers; ++i)
+                {
+                    Player p = Main.player[i];
+                    if (p is null || !p.active)
+                        continue;
+                    if (p.DistanceSQ(v) < 4000000f && p.Calamity().disableVoodooSpawns) // 2000 pixel radius
+                    {
+                        voodooDemonDollActive = true;
+                        break;
+                    }
+                }
+                if (!voodooDemonDollActive)
+                    return;
+
+                npc.Transform(NPCID.Demon);
+                npc.netUpdate = true;
+            }
         }
         #endregion
 
@@ -5495,6 +5531,23 @@ namespace CalamityMod.NPCs
 
             if (Main.LocalPlayer.Calamity().trippy || (npc.type == NPCID.KingSlime && CalamityWorld.LegendaryMode && CalamityWorld.revenge))
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
+
+            // Spore Gas vomit color telegraph
+            if (npc.type == NPCID.Plantera && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+            {
+                float lifeRatio = npc.life / (float)npc.lifeMax;
+                if (lifeRatio > 0.5f && lifeRatio < 0.75f)
+                {
+                    bool startChangingColor = npc.ai[1] > PlanteraAI.SeedGatlingColorChangeGateValue;
+                    if (startChangingColor)
+                    {
+                        float colorChangeAmount = npc.ai[1] - PlanteraAI.SeedGatlingColorChangeGateValue;
+                        Color initialColor = npc.GetAlpha(drawColor);
+                        Color finalColor = Color.Green;
+                        return Color.Lerp(initialColor, finalColor, colorChangeAmount / PlanteraAI.SeedGatlingColorChangeDuration);
+                    }
+                }
+            }
 
             if (npc.type == NPCID.QueenBee && Main.zenithWorld)
             {

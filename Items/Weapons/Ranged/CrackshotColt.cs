@@ -143,7 +143,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddRecipeGroup("AnyGoldBar", 8).
-                AddIngredient(ModContent.ItemType<DesertFeather>()).
+                AddIngredient(ModContent.ItemType<StormlionMandible>()).
                 AddIngredient(ModContent.ItemType<BloodOrb>()).
                 AddIngredient(ItemID.CopperCoin, 4).
                 AddTile(TileID.Anvils).

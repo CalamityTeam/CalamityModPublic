@@ -37,14 +37,14 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Malicious animals, which attack with tough claws and strong jaws. Any wound from these will bleed heavily. Address the cut quickly.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Rotdog")
             });
         }
+        
         public override void FindFrame(int frameHeight)
         {
             if (NPC.IsABestiaryIconDummy)

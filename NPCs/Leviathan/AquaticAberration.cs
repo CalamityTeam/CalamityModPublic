@@ -56,11 +56,10 @@ namespace CalamityMod.NPCs.Leviathan
             int associatedNPCType = ModContent.NPCType<Leviathan>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-            BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("All head and stomach, they will gorge and guzzle upon vast schools of fish on their own.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.AquaticAberration")
             });
         }
 

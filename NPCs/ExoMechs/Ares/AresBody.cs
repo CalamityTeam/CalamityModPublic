@@ -199,12 +199,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //We'll probably want a custom background for Exos like ML has.
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("While it is the most flamboyant of Draedon's machines, it appears to be lacking some finish, though this trait does not compromise its killing potential whatsoever.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Ares")
             });
         }
 
@@ -508,17 +505,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             // Rotation
             NPC.rotation = NPC.velocity.X * 0.003f;
 
-            // Light and enrage check
+            // Enrage check
             if (EnragedState == (float)Enraged.Yes)
-            {
-                Lighting.AddLight(NPC.Center, 0.5f * NPC.Opacity, 0f, 0f);
                 NPC.Calamity().CurrentlyEnraged = true;
-            }
-            else
-            {
-                float lightScale = 510f;
-                Lighting.AddLight(NPC.Center, Main.DiscoR / lightScale * NPC.Opacity, Main.DiscoG / lightScale * NPC.Opacity, Main.DiscoB / lightScale * NPC.Opacity);
-            }
 
             // Despawn if target is dead
             if (player.dead)

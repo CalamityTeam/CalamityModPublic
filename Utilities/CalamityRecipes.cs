@@ -1472,7 +1472,7 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.SandstorminaBottle);
             r.AddIngredient(ItemID.Bottle);
             r.AddIngredient(ItemID.SandBlock, 70);
-            r.AddIngredient(ModContent.ItemType<DesertFeather>(), 10);
+            r.AddIngredient(ItemID.AntlionMandible, 5);
             r.AddIngredient(ItemID.Feather, 3);
             r.AddTile(TileID.Anvils);
             r.Register();
@@ -1486,7 +1486,7 @@ namespace CalamityMod
             // Flying Carpet
             r = Recipe.Create(ItemID.FlyingCarpet);
             r.AddIngredient(ItemID.Silk, 10);
-            r.AddIngredient(ModContent.ItemType<DesertFeather>(), 3);
+            r.AddIngredient(ItemID.AntlionMandible, 2);
             r.AddIngredient(ModContent.ItemType<PearlShard>(), 5);
             r.AddTile(TileID.Anvils);
             r.Register().DisableDecraft();

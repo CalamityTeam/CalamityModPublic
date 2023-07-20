@@ -24,11 +24,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetDefaults()
         {
-            NPC.damage = 0;
+            NPC.damage = 50;
             NPC.width = 24;
             NPC.height = 24;
             NPC.defense = 0;
-            NPC.LifeMaxNERB(24550, 29440, 20000);
+            NPC.lifeMax = 15000;
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
@@ -60,6 +60,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)

@@ -37,10 +37,10 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             NPC.aiStyle = -1;
             AIType = -1;
-            NPC.damage = 0;
+            NPC.damage = 50;
             NPC.width = 60;
             NPC.height = 80;
-            NPC.lifeMax = 10000;
+            NPC.lifeMax = 5000;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 1, 0, 0);
             NPC.Opacity = 0f;
@@ -60,10 +60,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Highly skilled in the art of spellcasting, these mysterious creatures seem to stand guard like sentinels in watch over something. Approach one close enough and you may be able to make out garbled whispers.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Eidolist")
             });
         }
 
@@ -81,6 +80,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             bool adultWyrmAlive = false;
             if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
             {

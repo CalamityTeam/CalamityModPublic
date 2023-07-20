@@ -37,6 +37,7 @@ namespace CalamityMod.NPCs.Leviathan
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
         private int counter = 0;
         private bool initialised = false;
+        private bool gfbAnaSummoned = false;
         private int soundDelay = 0;
         private float extrapitch = 0;
         public static Texture2D AttackTexture = null;
@@ -92,11 +93,10 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A gargantuan marine reptile that lurks the ocean depths along with the Water Elemental, Anahita. It is unknown if she is the last of her kind, or was simply manifested into existence like her master.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Leviathan")
             });
         }
 
@@ -106,6 +106,7 @@ namespace CalamityMod.NPCs.Leviathan
             writer.Write(NPC.dontTakeDamage);
             writer.Write(soundDelay);
             writer.Write(NPC.Calamity().newAI[3]);
+            writer.Write(gfbAnaSummoned);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -114,6 +115,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.dontTakeDamage = reader.ReadBoolean();
             soundDelay = reader.ReadInt32();
             NPC.Calamity().newAI[3] = reader.ReadSingle();
+            gfbAnaSummoned = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -159,6 +161,16 @@ namespace CalamityMod.NPCs.Leviathan
                 {
                     if (Main.npc[CalamityGlobalNPC.siren].damage == 0)
                         sirenAlive = false;
+                }
+            }
+
+            if (phase2 && !sirenAlive && Main.zenithWorld && !gfbAnaSummoned)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int siren = NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height - 1000, ModContent.NPCType<Anahita>(), NPC.whoAmI);
+                    CalamityUtils.BossAwakenMessage(siren);
+                    gfbAnaSummoned = true;
                 }
             }
 

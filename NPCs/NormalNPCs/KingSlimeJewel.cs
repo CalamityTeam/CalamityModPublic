@@ -11,6 +11,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 {
     public class KingSlimeJewel : ModNPC
     {
+        private const int BoltShootGateValue = 75;
+        private const int BoltShootGateValue_Death = 60;
+        private const int BoltShootGateValue_BossRush = 45;
+        private const float LightTelegraphDuration = 45f;
+
         public override void SetStaticDefaults()
         {
             NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true }; 
@@ -21,12 +26,12 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             NPC.aiStyle = -1;
             AIType = -1;
-            NPC.damage = 0;
+            NPC.damage = 10;
             NPC.width = 22;
             NPC.height = 22;
             NPC.defense = 10;
             NPC.DR_NERD(0.1f);
-            NPC.lifeMax = 280;
+            NPC.lifeMax = 140;
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
@@ -38,8 +43,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            // Red light
-            Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 1f, 0f, 0f);
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
 
             // Despawn
             if (!NPC.AnyNPCs(NPCID.KingSlime))
@@ -102,13 +107,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
 
             // Fire projectiles
+            NPC.ai[0] += 1f;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                // Fire bolt every 1.5 seconds
-                NPC.localAI[0] += 1f;
-                if (NPC.localAI[0] >= (BossRushEvent.BossRushActive ? 45f : CalamityWorld.death ? 60f : 75f))
+                if (NPC.ai[0] >= (BossRushEvent.BossRushActive ? BoltShootGateValue_BossRush : CalamityWorld.death ? BoltShootGateValue_Death : BoltShootGateValue))
                 {
-                    NPC.localAI[0] = 0f;
+                    NPC.ai[0] = 0f;
 
                     Vector2 npcPos = new Vector2(NPC.Center.X, NPC.Center.Y);
                     float xDist = Main.player[NPC.target].Center.X - npcPos.X;
@@ -148,19 +152,29 @@ namespace CalamityMod.NPCs.NormalNPCs
                         for (int i = 0; i < numProj; i++)
                         {
                             Vector2 perturbedSpeed = projVector.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPos, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPos, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                         }
                     }
                     else
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPos, projVector, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPos, projVector, type, damage, 0f, Main.myPlayer);
                 }
             }
         }
 
-        public override bool CheckActive()
+        public override Color? GetAlpha(Color drawColor)
         {
-            return false;
+            Color initialColor = Color.DarkRed;
+            Color newColor = initialColor;
+            Color finalColor = Color.White;
+            float colorTelegraphGateValue = (BossRushEvent.BossRushActive ? BoltShootGateValue_BossRush : CalamityWorld.death ? BoltShootGateValue_Death : BoltShootGateValue) - LightTelegraphDuration;
+            if (NPC.ai[0] > colorTelegraphGateValue)
+                newColor = Color.Lerp(initialColor, finalColor, (NPC.ai[0] - colorTelegraphGateValue) / LightTelegraphDuration);
+            newColor.A = (byte)(255 * NPC.Opacity);
+
+            return newColor;
         }
+
+        public override bool CheckActive() => false;
 
         public override void HitEffect(NPC.HitInfo hit)
         {

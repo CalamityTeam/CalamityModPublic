@@ -70,12 +70,10 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,                
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("No one knows where she came from, but no one minds her either. She's a good person to share a drink with, given you don't make her mad.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.FAP")
             });
         }
 
@@ -151,8 +149,8 @@ namespace CalamityMod.NPCs.TownNPCs
             }
 
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
-            if (permadong != -1 && ChildSafety.Disabled)
-                dialogue.Add(this.GetLocalization("Chat.Archmage").Format(Main.npc[wife].GivenName));
+            if (permadong != -1)
+                dialogue.Add(this.GetLocalization("Chat.Archmage").Format(Main.npc[permadong].GivenName));
 
             int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
             if (witch != -1)

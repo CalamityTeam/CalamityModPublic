@@ -122,11 +122,10 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Screaming and crying, a cacophony of spirits in anguish tear through the narrow hallways of the dungeon, searching for more—alive or dead—to add to their numbers.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Polterghast")
             });
         }
 
@@ -826,7 +825,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                     for (int num621 = 0; num621 < 10; num621++)
                     {
-                        int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);
+                        int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, 0f, 0f, 100, default, 2f);
                         Main.dust[num622].velocity *= 3f;
                         Main.dust[num622].noGravity = true;
                         if (Main.rand.NextBool(2))
@@ -980,7 +979,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                     for (int num621 = 0; num621 < 10; num621++)
                     {
-                        int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);
+                        int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, 0f, 0f, 100, default, 2f);
                         Main.dust[num622].velocity *= 3f;
                         Main.dust[num622].noGravity = true;
                         if (Main.rand.NextBool(2))
@@ -1137,7 +1136,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                 // Materials
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<RuinousSoul>(), 1, 7, 15));
-                normalOnly.Add(ModContent.ItemType<Phantoplasm>(), 1, 30, 40);
+                normalOnly.Add(ModContent.ItemType<Polterplasm>(), 1, 30, 40);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<PolterghastMask>(), 7);
@@ -1367,7 +1366,7 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 10; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {

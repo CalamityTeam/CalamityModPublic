@@ -172,11 +172,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //Custom background probably?,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Its otherworldly ego is known as well as its overwhelming power across the land, as in battle it boasts constantly. Admittedly it is one of the few able to back up its claims.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.DevourerofGods")
             });
         }
 
@@ -439,9 +437,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // Continuously reset certain things.
             AttemptingToEnterPortal = false;
-
-            // Light
-            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             // Worm variable
             if (NPC.ai[2] > 0f)
@@ -745,14 +740,14 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (NPC.Opacity >= 1f && (distanceFromTarget > 480f || (CalamityWorld.LegendaryMode && CalamityWorld.revenge)) && NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f))
                     {
                         calamityGlobalNPC.newAI[0] += 1f;
-                        if (calamityGlobalNPC.newAI[0] >= ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 50f : 150f) && calamityGlobalNPC.newAI[0] % (phase7 ? 30f : 60f) == 0f)
+                        if (calamityGlobalNPC.newAI[0] >= ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 30f : 150f) && calamityGlobalNPC.newAI[0] % ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 30f : phase7 ? 30f : 60f) == 0f)
                         {
                             float fireballSpeed = 8f;
                             Vector2 fireballVelocity = Vector2.Normalize(player.Center - NPC.Center) * fireballSpeed + NPC.velocity * 0.5f;
 
                             Vector2 dustVelocity = fireballVelocity * 2f;
                             for (int k = 0; k < 50; k++)
-                                Dust.NewDust(NPC.Center, 52, 52, (int)CalamityDusts.PurpleCosmilite, dustVelocity.X, dustVelocity.Y, 0, default, 1f);
+                                Dust.NewDust(NPC.Center, 52, 52, (int)CalamityDusts.PurpleCosmilite, dustVelocity.X, dustVelocity.Y);
 
                             int type = ModContent.ProjectileType<DoGFire>();
                             int damage = NPC.GetProjectileDamage(type);
@@ -2613,9 +2608,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
-
-            // GFB Auric Bar drop
-            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<AuricBar>(), 1, 1, 5);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<LoreDevourerofGods>(), desc: DropHelper.FirstKillText);

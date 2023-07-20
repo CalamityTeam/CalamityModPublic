@@ -49,11 +49,10 @@ namespace CalamityMod.NPCs.Crags
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A devotee, their mind lost to the raging, hating fires of the brimstone flames. None have ever seen under their hood, and none ever should.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.RenegadeWarlock")
             });
         }
 

@@ -63,10 +63,9 @@ namespace CalamityMod.NPCs.OldDuke
             int associatedNPCType = ModContent.NPCType<OldDuke>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Rotting, corpselike offspring of the Old Duke. In the Sulphurous Seas, even from birth, their appearances are wizened and decrepit.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.SulphurousSharkron")
             });
         }
 

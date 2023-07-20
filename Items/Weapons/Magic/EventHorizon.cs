@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Starfall>().
+                AddIngredient<StarShower>().
                 AddIngredient<NuclearFury>().
                 AddIngredient<RelicofRuin>().
                 AddIngredient<CosmiliteBar>(8).

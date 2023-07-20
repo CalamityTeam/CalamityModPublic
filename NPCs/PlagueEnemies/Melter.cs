@@ -45,12 +45,11 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Its face is warped and softened by the corrosive effects of the plague nanobots, and it seeks to share that uncomfortable fate with others under both its own will, and the plague's.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Melter")
             });
         }
 

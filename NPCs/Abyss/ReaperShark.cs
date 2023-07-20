@@ -9,8 +9,11 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -58,14 +61,17 @@ namespace CalamityMod.NPCs.Abyss
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<AbyssLayer4Biome>().Type };
+            if (Main.zenithWorld) // legg
+            {
+                NPC.height = (int)(NPC.height * 1.5f);
+            }
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Evolution is a strange mistress, especially in the depths of the abyss. To some, she grants a straightforward path to life, and to others, she grants arms.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.ReaperShark")
             });
         }
 
@@ -630,6 +636,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
+            int newFrameHeight = (int)(frameHeight * (Main.zenithWorld ? 1.5f : 1f));
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.3f,
@@ -643,7 +650,27 @@ namespace CalamityMod.NPCs.Abyss
             NPC.frameCounter += hasBeenHit || NPC.IsABestiaryIconDummy ? 0.15f : 0.075f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
-            NPC.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * newFrameHeight;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            if (NPC.IsABestiaryIconDummy)
+                return true;
+
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            Asset<Texture2D> npcTexture = Main.zenithWorld ? ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/ReaperSharkMan") : TextureAssets.Npc[NPC.type];
+            Rectangle nframe = npcTexture.Frame(1, 4, 0, (int)NPC.frameCounter);
+            Vector2 origin = new Vector2((float)(npcTexture.Value.Width / 2), (float)(npcTexture.Value.Height / Main.npcFrameCount[NPC.type] / 2));
+            Vector2 npcOffset = NPC.Center - screenPos;
+            npcOffset -= new Vector2((float)npcTexture.Value.Width, (float)(npcTexture.Value.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            npcOffset += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+
+            spriteBatch.Draw(npcTexture.Value, npcOffset, nframe, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+
+            return false;
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

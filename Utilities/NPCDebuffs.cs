@@ -122,6 +122,7 @@ namespace CalamityMod
 
                 { NPCID.Plantera, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
                 { NPCID.PlanterasTentacle, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
+                { ModContent.NPCType<PlanterasFreeTentacle>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
 
                 { NPCID.HallowBoss, new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
 

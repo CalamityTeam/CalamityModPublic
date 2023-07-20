@@ -54,10 +54,9 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Rather slow swimmers, they are one of the few creatures that need to breach. They periodically swim to the upper layer of their habitat to lay their eggs.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.PrismBack")
             });
         }
 

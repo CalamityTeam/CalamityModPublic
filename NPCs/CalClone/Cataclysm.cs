@@ -66,12 +66,11 @@ namespace CalamityMod.NPCs.CalClone
             int associatedNPCType = ModContent.NPCType<CalamitasClone>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A shade of itself, the only actions it seems to know are to burn and kill.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Cataclysm")
             });
         }
 

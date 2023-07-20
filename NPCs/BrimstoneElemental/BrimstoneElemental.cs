@@ -86,10 +86,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Roused from her deep slumber in relatively recent years, her awakening acted as the catalyst for Azafure’s downfall. Little is known of her nature, other than what may be assumed of any other elemental.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.BrimstoneElemental")
             });
         }
 

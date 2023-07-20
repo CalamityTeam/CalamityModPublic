@@ -21,10 +21,10 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             Item.damage = 15;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 10;
+            Item.mana = 20;
             Item.width = 28;
             Item.height = 32;
-            Item.useTime = Item.useAnimation = 25;
+            Item.useTime = Item.useAnimation = 36;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 10f;
@@ -34,50 +34,37 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item66;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<VeeringWindAirWave>();
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 6f;
         }
 
         public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
+            Item.UseSound = player.altFunctionUse == 2 ? SoundID.Item43 : SoundID.Item66;
+            return base.CanUseItem(player);
+        }
+
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? 0.5f : 1f;
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
             if (player.altFunctionUse == 2)
             {
-                Item.useTime = Item.useAnimation = 50;
-                Item.knockBack = 2f;
-                Item.UseSound = SoundID.Item43;
-                Item.shootSpeed = 6f;
+                type = ModContent.ProjectileType<VeeringWindFrostWave>();
+                knockback *= 0.2f;
+                velocity *= 0.5f;
             }
-            else
-            {
-                Item.useTime = Item.useAnimation = 25;
-                Item.knockBack = 10f;
-                Item.UseSound = SoundID.Item66;
-                Item.shootSpeed = 12f;
-            }
-            return base.CanUseItem(player);
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int totalProjectiles = 24;
-            if (player.altFunctionUse == 2)
+            for (int i = 0; i < totalProjectiles; i++)
             {
-                for (int i = 0; i < totalProjectiles; i++)
-                {
-                    Vector2 waveVelocity = ((MathHelper.TwoPi * i / (float)totalProjectiles) + velocity.ToRotation()).ToRotationVector2() * velocity.Length() * 0.5f;
-                    Projectile.NewProjectile(source, position, waveVelocity, ModContent.ProjectileType<VeeringWindFrostWave>(), damage, knockback, Main.myPlayer);
-                }
+                Vector2 waveVelocity = ((MathHelper.TwoPi * i / (float)totalProjectiles) + velocity.ToRotation()).ToRotationVector2() * velocity.Length();
+                Projectile.NewProjectile(source, position, waveVelocity, type, damage, knockback, Main.myPlayer);
             }
-            else
-            {
-                for (int i = 0; i < totalProjectiles; i++)
-                {
-                    Vector2 waveVelocity = ((MathHelper.TwoPi * i / (float)totalProjectiles) + velocity.ToRotation()).ToRotationVector2() * velocity.Length() * 0.5f;
-                    Projectile.NewProjectile(source, position, waveVelocity, type, damage, knockback, Main.myPlayer);
-                }
-            }
-
             return false;
         }
 

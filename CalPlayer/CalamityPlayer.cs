@@ -265,6 +265,7 @@ namespace CalamityMod.CalPlayer
 
         public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
         public static readonly SoundStyle DrownSound = new("CalamityMod/Sounds/Custom/AbyssDrown");
+        public static readonly SoundStyle LeonDeathNoiseRE4_ForGFB = new("CalamityMod/Sounds/Custom/GFB/LeonDeathNoiseRE4");
         #endregion
 
         #region Rogue
@@ -979,6 +980,8 @@ namespace CalamityMod.CalPlayer
         public bool MoonFist = false;
         public bool AresCannons = false;
         public bool celestialDragons = false;
+        public bool KalandraMirror = false;
+        public bool StellarTorus = false;
 
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
 
@@ -1412,13 +1415,7 @@ namespace CalamityMod.CalPlayer
                 percentMaxLifeIncrease += 10;
 
             if (community)
-            {
-                float BoostAtZeroBosses = 0.05f;
-                float BoostPostYharon = 0.2f;
-                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
-                int integerTypeBoost = (int)(floatTypeBoost * 50f);
-                percentMaxLifeIncrease += integerTypeBoost;
-            }
+                percentMaxLifeIncrease += (int)(TheCommunity.CalculatePower() * TheCommunity.HealthMultiplier);
 
             // Shattered Community gives the same max health boost as normal full-power Community (10%)
             if (shatteredCommunity)
@@ -2016,6 +2013,8 @@ namespace CalamityMod.CalPlayer
             MoonFist = false;
             AresCannons = false;
             celestialDragons = false;
+            KalandraMirror = false;
+            StellarTorus = false;
 
             disableVoodooSpawns = false;
             disablePerfCystSpawns = false;
@@ -2707,7 +2706,7 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(BloodflareHeadRanged.ActivationSound, Player.Center);
                     for (int d = 0; d < 64; d++)
                     {
-                        int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
+                        int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Polterplasm, 0f, 0f, 0, default, 1f);
                         Main.dust[dust].velocity *= 3f;
                         Main.dust[dust].scale *= 1.15f;
                     }
@@ -2717,7 +2716,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 source = Vector2.Normalize(Player.velocity) * new Vector2((float)Player.width / 2f, (float)Player.height) * 0.75f;
                         source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Player.Center;
                         Vector2 dustVel = source - Player.Center;
-                        int phanto = Dust.NewDust(source + dustVel, 0, 0, (int)CalamityDusts.Phantoplasm, dustVel.X * 1.5f, dustVel.Y * 1.5f, 100, default, 1.4f);
+                        int phanto = Dust.NewDust(source + dustVel, 0, 0, (int)CalamityDusts.Polterplasm, dustVel.X * 1.5f, dustVel.Y * 1.5f, 100, default, 1.4f);
                         Main.dust[phanto].noGravity = true;
                         Main.dust[phanto].noLight = true;
                         Main.dust[phanto].velocity = dustVel;
@@ -4003,6 +4002,10 @@ namespace CalamityMod.CalPlayer
             {
                 damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProfanedSoulCrystal").Format(Player.name));
             }
+
+            // Leon Death Noise RE4
+            if (Main.zenithWorld)
+                SoundEngine.PlaySound(LeonDeathNoiseRE4_ForGFB, Player.Center);
 
             if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
             {
@@ -5545,6 +5548,14 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+        public override bool ConsumableDodge(Player.HurtInfo info)
+        {
+            if (HandleDodges())
+                return true;
+
+            return base.ConsumableDodge(info);
+        }
+
         #region Pre Hurt
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)/* tModPorter Override ImmuneTo, FreeDodge or ConsumableDodge instead to prevent taking damage */
         {
@@ -5552,14 +5563,6 @@ namespace CalamityMod.CalPlayer
             Player.HurtInfo hurtInfo = new Player.HurtInfo();
 
             #region Ignore Incoming Hits
-            // If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
-            if (HandleDodges())
-            {
-                justHitByDefenseDamage = false;
-                defenseDamageToTake = 0;
-                return;
-            }
-
             // If Armageddon is active, instantly kill the player.
             if (CalamityWorld.armageddon && areThereAnyDamnBosses)
                 KillPlayer();
@@ -5615,7 +5618,7 @@ namespace CalamityMod.CalPlayer
                     int numParticles = Main.rand.Next(2, 6);
                     for (int i = 0; i < numParticles; i++)
                     {
-                        Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3, 14);
+                        Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3, 7);
                         velocity.X += 5f * hurtInfo.HitDirection;
                         GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(Player.Center, velocity, Main.rand.NextFloat(2.5f, 3f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25));
                     }
@@ -5743,7 +5746,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Hurt
-
         public override void OnHurt(Player.HurtInfo hurtInfo)
         {
             #region Defense Damage
@@ -6052,7 +6054,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Post Hurt
-
         public override void PostHurt(Player.HurtInfo hurtInfo)
         {
             if (pArtifact && !profanedCrystal)
@@ -6470,6 +6471,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageSource = PlayerDeathReason.ByCustomReason(Player.name + " failed the challenge at hand.");
             }
+
             NetworkText deathText = damageSource.GetDeathText(Player.name);
             if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
             {
@@ -7010,7 +7012,7 @@ namespace CalamityMod.CalPlayer
 
             double ratioToUse = DefenseDamageRatio;
             if (draedonsHeart)
-                ratioToUse *= 0.5;
+                ratioToUse *= DraedonsHeart.DefenseDamageMultiplier;
 
             // Calculate the defense damage taken from this hit.
             int defenseDamageTaken = (int)(damage * ratioToUse);

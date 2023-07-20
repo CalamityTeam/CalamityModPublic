@@ -1,7 +1,9 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -27,6 +29,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (!initialized)
             {
+                SoundEngine.PlaySound(VividClarity.BeamSound, Projectile.Center);
                 initialized = true;
                 float dustAmt = 16f;
                 int d = 0;

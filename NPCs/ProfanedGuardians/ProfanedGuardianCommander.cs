@@ -82,12 +82,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("When it turns its burning spear towards anything, its simple mind has a clear goal. To entirely eradicate the enemy.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.ProfanedGuardianCommander")
             });
         }
 
@@ -287,11 +286,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             Player player = Main.player[NPC.target];
 
-            if ((!Main.dayTime && !Main.zenithWorld) || !player.active || player.dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+            if ((!Main.dayTime && !Main.remixWorld) || !player.active || player.dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
-                if ((!Main.dayTime && !Main.zenithWorld) || !player.active || player.dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+                if ((!Main.dayTime && !Main.remixWorld) || !player.active || player.dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 {
                     if (NPC.velocity.Y > 3f)
                         NPC.velocity.Y = 3f;
@@ -1024,7 +1023,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                 texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianCommanderGlow").Value;
                 Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
-                if (Main.zenithWorld)
+                if (Main.remixWorld)
                 {
                     texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianCommanderGlowNight").Value;
                     color37 = Color.Cyan;

@@ -107,11 +107,10 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
 				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("If ever before you have peered out into the desert and seen entire dunes rise and fall like the waves of the sea, it is not unlikely that this is the culprit, as it bore through the sands below.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.DesertScourge")
             });
         }
 
@@ -281,6 +280,9 @@ namespace CalamityMod.NPCs.DesertScourge
                                 if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                                     perturbedSpeed *= Main.rand.NextFloat() + 0.5f;
 
+                                for (int k = 0; k < 10; k++)
+                                    Dust.NewDust(NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, 10, 10, 85, perturbedSpeed.X, perturbedSpeed.Y);
+
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                                 if (Main.zenithWorld)
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 3f, perturbedSpeed, type2, damage, 0f, Main.myPlayer);
@@ -444,6 +446,10 @@ namespace CalamityMod.NPCs.DesertScourge
                     for (int i = 0; i < numProj; i++)
                     {
                         Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+
+                        for (int k = 0; k < 10; k++)
+                            Dust.NewDust(NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, 10, 10, 85, perturbedSpeed.X, perturbedSpeed.Y);
+
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                     }
                 }

@@ -118,11 +118,9 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("The loyal companion of the God-Hunter, they possess immense power compared to the Dragons of the past. This is likely partly due to fighting and training by their master's side.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Yharon")
             });
         }
 

@@ -9,7 +9,7 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ElementalExcaliburBeam : ModProjectile, ILocalizedModType
+    public class GayBeam : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         private int alpha = 50;
@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Melee
                             for (int i = 0; i < numProj + 1; i++)
                             {
                                 Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed * 0.5f, ModContent.ProjectileType<ElementalExcaliburBeam>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed * 0.5f, ModContent.ProjectileType<GayBeam>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
                             }
                         }
                         Projectile.Kill();
@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         Projectile.localAI[1] = 1f;
                         if (Main.myPlayer == Projectile.owner)
-                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity, ModContent.ProjectileType<ElementalExcaliburBeam>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, 10f, 0f);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity, ModContent.ProjectileType<GayBeam>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, 10f, 0f);
                     }
 
                     break;
@@ -381,7 +381,7 @@ namespace CalamityMod.Projectiles.Melee
                         if (Projectile.owner == Main.myPlayer)
                         {
                             var source = Projectile.GetSource_FromThis();
-                            CalamityUtils.ProjectileBarrage(source, Projectile.Center, Projectile.Center, fromRight, 500f, 500f, 0f, 500f, 5f, ModContent.ProjectileType<ElementalExcaliburBeam>(), (int)(Projectile.damage * 0.2), Projectile.knockBack * 0.2f, Projectile.owner, false, 0f).ai[0] = 5f;
+                            CalamityUtils.ProjectileBarrage(source, Projectile.Center, Projectile.Center, fromRight, 500f, 500f, 0f, 500f, 5f, ModContent.ProjectileType<GayBeam>(), (int)(Projectile.damage * 0.2), Projectile.knockBack * 0.2f, Projectile.owner, false, 0f).ai[0] = 5f;
                         }
                     }
 

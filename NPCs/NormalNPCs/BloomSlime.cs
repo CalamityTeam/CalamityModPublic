@@ -41,11 +41,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("With the solar energy released from the profaned goddess' destruction, uelibloom has sprouted in the jungle's mud, and in the slimes which inhabit the biome.")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.BloomSlime")
             });
         }
 

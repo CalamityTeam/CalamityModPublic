@@ -63,11 +63,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             int associatedNPCType = ModContent.NPCType<DevourerofGodsHead>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //Custom background probably?,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("An interdimensional creation of the Devourer brought from its home dimension to aid it in battle. Nowhere near the strength of its sentinels.")
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.CosmicGuardian")
             });
         }
 
@@ -98,8 +96,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             Vector2 vector = NPC.Center;
-
-            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];

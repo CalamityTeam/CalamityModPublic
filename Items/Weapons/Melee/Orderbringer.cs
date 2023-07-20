@@ -7,9 +7,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class GreatswordofBlah : ModItem, ILocalizedModType
+    [LegacyName("GreatswordofBlah")]
+    public class Orderbringer : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+
         public override void SetDefaults()
         {
             Item.width = Item.height = 108;
@@ -24,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
-            Item.shoot = ModContent.ProjectileType<JudgementBlah>();
+            Item.shoot = ModContent.ProjectileType<OrderbringerBeam>();
             Item.shootSpeed = 6f;
         }
 

@@ -42,11 +42,11 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             AIType = -1;
             NPC.aiStyle = -1;
-            NPC.damage = 0;
+            NPC.damage = 10;
             NPC.width = 44;
             NPC.height = 44;
             NPC.defense = 4;
-            NPC.lifeMax = 92;
+            NPC.lifeMax = 46;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 1, 50);
             NPC.noGravity = false;
@@ -61,17 +61,19 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
-
-                // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A stationary foe, though its function is far from harmless. Within its influence, other wulfrum creations become notably empowered, the curious energy within them, overflowing.")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.WulfrumAmplifier")
             });
         }
 
         public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             List<int> SuperchargableEnemies = new List<int>()
             {
                 ModContent.NPCType<WulfrumDrone>(),

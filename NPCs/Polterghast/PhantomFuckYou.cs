@@ -33,8 +33,8 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.canGhostHeal = false;
-            NPC.damage = 0;
-            NPC.LifeMaxNERB(Main.expertMode ? 22500 : 17500, 37500, 30000);
+            NPC.damage = 50;
+            NPC.lifeMax = 20000;
             NPC.HitSound = SoundID.NPCHit36;
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.Calamity().VulnerableToSickness = false;
@@ -54,8 +54,11 @@ namespace CalamityMod.NPCs.Polterghast
             start = reader.ReadBoolean();
         }
 
-        public override bool PreAI()
+        public override void AI()
         {
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
             if (start)
             {
                 start = false;
@@ -75,7 +78,7 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
-                return false;
+                return;
             }
 
             float chargePhaseGateValue = 480f;
@@ -130,8 +133,6 @@ namespace CalamityMod.NPCs.Polterghast
                 SPEEN = 0f;
 
             NPC.ai[1] += (Main.getGoodWorld ? 1.5f : 0.5f) + SPEEN;
-
-            return false;
         }
 
         public override Color? GetAlpha(Color drawColor) => new Color(200, 200, 200, 0);
@@ -189,7 +190,7 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 2; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
