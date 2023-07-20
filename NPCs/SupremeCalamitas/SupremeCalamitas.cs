@@ -162,6 +162,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static readonly Color cirrusTextColor = Color.LightPink;
         public const int sepulcherSpawnCastTime = 75;
         public const int brothersSpawnCastTime = 150;
+        public const int MaxCirrusAlcohols = 20;
+        public const int MaxCirrusAlcoholDebuffDuration = 1500;
         
         // Sounds.
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/SupremeCalamitasSpawn") { Volume = 1.2f }; 
@@ -3019,8 +3021,78 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (hurtInfo.Damage > 0)
             {
-                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 600, true);
-                target.AddBuff(ModContent.BuffType<AlcoholPoisoning>(), 600, true);
+                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 600);
+                InflictCirrusDebuffs(target);
+            }
+        }
+
+        public void InflictCirrusDebuffs(Player target)
+        {
+            if (cirrus)
+            {
+                switch (Main.rand.Next(MaxCirrusAlcohols))
+                {
+                    case 0:
+                        target.AddBuff(ModContent.BuffType<BloodyMaryBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 1:
+                        target.AddBuff(ModContent.BuffType<CaribbeanRumBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 2:
+                        target.AddBuff(ModContent.BuffType<CinnamonRollBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 3:
+                        target.AddBuff(ModContent.BuffType<EverclearBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 4:
+                        target.AddBuff(ModContent.BuffType<EvergreenGinBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 5:
+                        target.AddBuff(ModContent.BuffType<FabsolVodkaBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 6:
+                        target.AddBuff(ModContent.BuffType<FireballBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 7:
+                        target.AddBuff(ModContent.BuffType<GrapeBeerBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 8:
+                        target.AddBuff(ModContent.BuffType<MargaritaBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 9:
+                        target.AddBuff(ModContent.BuffType<MoonshineBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 10:
+                        target.AddBuff(ModContent.BuffType<MoscowMuleBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 11:
+                        target.AddBuff(ModContent.BuffType<RedWineBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 12:
+                        target.AddBuff(ModContent.BuffType<RumBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 13:
+                        target.AddBuff(ModContent.BuffType<ScrewdriverBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 14:
+                        target.AddBuff(ModContent.BuffType<StarBeamRyeBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 15:
+                        target.AddBuff(ModContent.BuffType<TequilaBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 16:
+                        target.AddBuff(ModContent.BuffType<TequilaSunriseBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 17:
+                        target.AddBuff(ModContent.BuffType<VodkaBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 18:
+                        target.AddBuff(ModContent.BuffType<WhiskeyBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                    case 19:
+                        target.AddBuff(ModContent.BuffType<WhiteWineBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
+                }
             }
         }
     }
