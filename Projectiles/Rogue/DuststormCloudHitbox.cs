@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = DuststormInABottle.CloudLifetime;
-            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.DamageType = DamageClass.Default;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
         }

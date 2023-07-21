@@ -2295,8 +2295,6 @@ namespace CalamityMod.Projectiles
 
                 if (projectile.CountsAsClass<RogueDamageClass>())
                 {
-                    if (projectile.type != ProjectileType<DuststormCloud>()) // FUCK YOU AND YOUR PROJECTILE VOMIT
-                    {
                         if (modPlayer.nanotech)
                         {
                             if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
@@ -2355,10 +2353,8 @@ namespace CalamityMod.Projectiles
                                 }
                             }
                         }
-                    }
-
-                    if (player.meleeEnchant > 0 && !projectile.noEnchantments && projectile.type != ProjectileType<DuststormCloudHitbox>()) 
-                        //Duststorm's hitbox projectile is supposed to do stuff yet be completely invisible
+                    
+                    if (player.meleeEnchant > 0 && !projectile.noEnchantments)
                         {
                         switch (player.meleeEnchant)
                         {
@@ -2479,7 +2475,7 @@ namespace CalamityMod.Projectiles
                         Vector2 velocity = projectile.velocity;
                         if (velocity.Length() > 4.0)
                             velocity *= 4f / velocity.Length();
-                        if (Main.rand.NextBool(20) && projectile.type != ProjectileType<DuststormCloudHitbox>())
+                        if (Main.rand.NextBool(20) && projectile.type != ProjectileType<DuststormCloudHitbox>()) //This is so this thing doesn't form a dust square
                         {
                             int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.Next(139, 143), velocity.X, velocity.Y, 0, new Color(), 1.2f);
                             Main.dust[index].velocity.X *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
@@ -2833,7 +2829,7 @@ namespace CalamityMod.Projectiles
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
             {
-                if (projectile.CountsAsClass<RogueDamageClass>() && projectile.type != ProjectileType<DuststormCloud>()) //This specific projectile is banned
+                if (projectile.CountsAsClass<RogueDamageClass>())
                 {
                     if (modPlayer.etherealExtorter && extorterBoost && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
                     {
