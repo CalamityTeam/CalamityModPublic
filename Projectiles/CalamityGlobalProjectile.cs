@@ -2354,7 +2354,7 @@ namespace CalamityMod.Projectiles
                             }
                         }
                     
-                    if (player.meleeEnchant > 0 && !projectile.noEnchantments)
+                    if (player.meleeEnchant > 0 && !projectile.noEnchantments && projectile.type != ProjectileType<DuststormCloudHitbox>()) //This projectile is meant to be invisible and the code below would form a dust square
                         {
                         switch (player.meleeEnchant)
                         {

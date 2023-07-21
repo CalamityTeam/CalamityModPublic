@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 600;
-            Projectile.DamageType = DamageClass.Default;
+            Projectile.DamageType = DamageClass.Generic;
             Projectile.usesIDStaticNPCImmunity = true; //Would only be used by Sandslasher stealth
             Projectile.idStaticNPCHitCooldown = 6; //Also only used by Sandslasher stealth
         }
