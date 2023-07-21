@@ -72,6 +72,24 @@ namespace CalamityMod
                         cgn.newAI[2] = ai2;
                         cgn.newAI[3] = ai3;
                         break;
+                    case CalamityModMessageType.SyncVanillaNPCLocalAIArray:
+                        // Read the entire packet regardless of anything
+                        byte npcIdx2 = reader.ReadByte();
+                        float localAI0 = reader.ReadSingle();
+                        float localAI1 = reader.ReadSingle();
+                        float localAI2 = reader.ReadSingle();
+                        float localAI3 = reader.ReadSingle();
+
+                        // If the NPC in question isn't valid, don't do anything.
+                        NPC npc2 = Main.npc[npcIdx2];
+                        if (!npc2.active)
+                            break;
+
+                        npc2.localAI[0] = localAI0;
+                        npc2.localAI[1] = localAI1;
+                        npc2.localAI[2] = localAI2;
+                        npc2.localAI[3] = localAI3;
+                        break;
                     case CalamityModMessageType.SpawnSuperDummy:
                         int x = reader.ReadInt32();
                         int y = reader.ReadInt32();
@@ -318,6 +336,7 @@ namespace CalamityMod
 
         // Syncs for specific bosses or entities
         SyncCalamityNPCAIArray,
+        SyncVanillaNPCLocalAIArray,
         SpawnSuperDummy,
         DeleteAllSuperDummies,
         SyncAndroombaSolution,

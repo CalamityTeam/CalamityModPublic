@@ -385,21 +385,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             bool wormAlive = false;
             if (CalamityGlobalNPC.SCalWorm != -1)
-            {
                 wormAlive = Main.npc[CalamityGlobalNPC.SCalWorm].active;
-            }
 
             bool cataclysmAlive = false;
             if (CalamityGlobalNPC.SCalCataclysm != -1)
-            {
                 cataclysmAlive = Main.npc[CalamityGlobalNPC.SCalCataclysm].active;
-            }
 
             bool catastropheAlive = false;
             if (CalamityGlobalNPC.SCalCatastrophe != -1)
-            {
                 catastropheAlive = Main.npc[CalamityGlobalNPC.SCalCatastrophe].active;
-            }
 
             if (Main.slimeRain)
             {

@@ -212,6 +212,26 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Syncs <see cref="NPC.localAI"/>. This exists specifically for AIs manipulated in a global context, as <see cref="GlobalNPC"/> has no netUpdate related hooks.
+        /// </summary>
+        /// <param name="npc"></param>
+        public static void SyncVanillaLocalAI(this NPC npc)
+        {
+            // Don't bother attempting to send packets in singleplayer.
+            if (Main.netMode == NetmodeID.SinglePlayer)
+                return;
+
+            ModPacket packet = CalamityMod.Instance.GetPacket();
+            packet.Write((byte)CalamityModMessageType.SyncVanillaNPCLocalAIArray);
+            packet.Write((byte)npc.whoAmI);
+
+            for (int i = 0; i < NPC.maxAI; i++)
+                packet.Write(npc.localAI[i]);
+
+            packet.Send();
+        }
+
+        /// <summary>
         /// Detects nearby hostile NPCs from a given point
         /// </summary>
         /// <param name="origin">The position where we wish to check for nearby NPCs</param>

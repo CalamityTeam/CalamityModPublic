@@ -187,7 +187,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (shouldSpinAroundTarget || npc.ai[1] != 4f)
                         {
                             if (shouldSpinAroundTarget)
+                            {
                                 npc.localAI[3] = 300f;
+                                npc.SyncVanillaLocalAI();
+                            }
 
                             npc.ai[2] = 0f;
                             npc.ai[1] = shouldSpinAroundTarget ? 5f : 1f;
@@ -572,6 +575,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 npc.localAI[3] = 0f;
                                 calamityGlobalNPC.newAI[1] = 0f;
                                 calamityGlobalNPC.newAI[0] = 0f;
+                                npc.SyncVanillaLocalAI();
                                 npc.TargetClosest();
                                 npc.netUpdate = true;
                             }
@@ -622,6 +626,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 npc.localAI[3] = 0f;
                                 calamityGlobalNPC.newAI[0] = 0f;
                                 calamityGlobalNPC.newAI[1] = 0f;
+                                npc.SyncVanillaLocalAI();
                                 npc.TargetClosest();
                                 npc.netUpdate = true;
                             }

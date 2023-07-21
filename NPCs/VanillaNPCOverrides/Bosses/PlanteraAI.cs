@@ -324,7 +324,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     // Line up before charging
                     if (npc.Calamity().newAI[0] == 0f)
+                    {
                         npc.Calamity().newAI[0] = Math.Sign((npc.Center - Main.player[npc.target].Center).X);
+                        npc.SyncExtraAI();
+                    }
 
                     Vector2 destination = Main.player[npc.target].Center + new Vector2(npc.Calamity().newAI[0], 0);
                     Vector2 distanceFromDestination = destination - npc.Center;
@@ -598,6 +601,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (calamityGlobalNPC.newAI[1] >= (Main.dayTime ? 30f : 60f))
                 {
                     calamityGlobalNPC.newAI[1] = 0f;
+                    npc.SyncExtraAI();
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int healAmt = npc.lifeMax / 100;
@@ -847,10 +851,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // 3 seconds of resistance and no damage to prevent spawn killing and unfair hits
-            if (calamityGlobalNPC.newAI[1] < 90f)
+            if (npc.ai[2] < 90f)
             {
                 npc.damage = 0;
-                calamityGlobalNPC.newAI[1] += 1f;
+                npc.ai[2] += 1f;
             }
             else
                 npc.damage = npc.defDamage;
