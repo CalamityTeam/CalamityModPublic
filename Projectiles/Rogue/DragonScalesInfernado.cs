@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
     {
 
         public new string LocalizationCategory => "Projectiles.Rogue";
+        public override string Texture => "CalamityMod/Projectiles/Magic/InfernadoFriendly";
+
         bool intersectingSomething = false;
         public override void SetStaticDefaults()
         {
