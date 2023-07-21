@@ -26,17 +26,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<DuststormInABottleProj>();
-            Item.shootSpeed = 13.5f;
+            Item.shootSpeed = 14f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public static float StealthDmgMult = 1f; //So I can edit it directly via DragonLens instead of having to do math with CalTestHelpers
+        public static float StealthDmgMult = 0.6f; //So I can edit it directly via DragonLens instead of having to do math with CalTestHelpers
         public override float StealthDamageMultiplier => StealthDmgMult;
 
         public static double StealthCloudAmountMult = 2.5; //Seems like DragonLens does not detect doubles
 
         public static int CloudLifetime = 200;
-        public static float DustRadius = 16.5f;
+        public static float DustRadius = 14f;
         public static int StealthIframes = 9;
 
         //Cloud hitbox size manipulation
