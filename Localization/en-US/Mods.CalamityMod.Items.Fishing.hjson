@@ -3,7 +3,7 @@ CaughtInAstral: "'Caught in the Astral Infection'"
 CaughtInBrimstoneCrag: "'Caught in the Brimstone Crag'"
 CaughtInSunkenSea: "'Caught in the Sunken Sea'"
 
-/* Astral Infection Catches */
+// Astral Infection Catches
 AldebaranAlewife: {
 	DisplayName: Aldebaran Alewife
 	Tooltip: A star-struck entity in the form of a fish
@@ -44,7 +44,7 @@ UrsaSergeant: {
 		'''
 }
 
-/* Brimstone Crag Catches */
+// Brimstone Crag Catches
 Bloodfin: {
 	DisplayName: Bloodfin
 	Tooltip:
@@ -106,7 +106,7 @@ Slurpfish: {
 	QuestDescription: Y'know, it'd be an absolute calamity if I sent you to the ancient ruins in the depths of hell to catch a fish. And I plan to do just that. Now scram! The fish isn't going to catch itself.
 }
 
-/* Sunken Sea Catches */
+// Sunken Sea Catches
 EutrophicSandfish: {
 	DisplayName: Eutrophic Sandfish
 	QuestDescription: You ever get to see what would happen if a lizard that lived in the desert scurried too deep underground? I did, and they sure are cool! But it's way too slippery for me to get my hands on it now. You go and get it so I can keep it as a pet!
@@ -171,7 +171,7 @@ SurfClam: {
 	QuestDescription: Did you know that clams are a delicacy? Rumor has it that a big colony lives beneath the Desert. Just talking about them makes me hungry. I need you to fetch one for me, so I can practice my culinary skills and curb my hunger.
 }
 
-/* Other Catches */
+// Other Catches
 EnchantedStarfish: {
 	DisplayName: Enchanted Starfish
 	Tooltip: Permanently increases maximum mana by 20
@@ -231,7 +231,7 @@ SunbeamFish: {
 	Tooltip: Press <right> to extract essence
 }
 
-/* Fishing Rods */
+// Fishing Rods
 EarlyBloomRod: {
 	DisplayName: Early Bloom Rod
 	Tooltip:

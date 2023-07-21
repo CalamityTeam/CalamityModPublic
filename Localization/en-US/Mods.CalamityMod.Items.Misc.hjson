@@ -190,7 +190,7 @@ StarlightFuelCell: {
 		'''
 }
 
-/* Spawn Blockers */
+// Spawn Blockers
 AntiCystOintment: {
 	DisplayName: Anti-Cyst Ointment
 	Tooltip: Favorite this item to prevent perforator cysts from spawning near you
@@ -221,7 +221,7 @@ VoodooDemonVoodooDoll: {
 	Tooltip: Favorite this item to prevent voodoo demons from spawning near you
 }
 
-/* Uncategorized */
+// Uncategorized
 BallAndChain: {
 	DisplayName: Ball and Chain
 	Tooltip:
