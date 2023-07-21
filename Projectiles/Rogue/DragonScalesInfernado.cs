@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DragonScalesInfernadoFriendly : ModProjectile, ILocalizedModType
+    public class DragonScalesInfernado : ModProjectile, ILocalizedModType
     {
 
         public new string LocalizationCategory => "Projectiles.Rogue";
