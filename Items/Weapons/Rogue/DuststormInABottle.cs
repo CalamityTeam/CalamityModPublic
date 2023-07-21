@@ -33,8 +33,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float StealthDmgMult = 0.6f; //So I can edit it directly via DragonLens instead of having to do math with CalTestHelpers
         public override float StealthDamageMultiplier => StealthDmgMult;
 
-        public static double StealthCloudAmountMult = 2.5; //Seems like DragonLens does not detect doubles
-
         public static int CloudLifetime = 200;
         public static float DustRadius = 14f;
         public static int StealthIframes = 9;
@@ -43,6 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float MaxSize = 3.2f;
         public static float MaxSizeStealth = 3.6f;
         public static float GrowthRate = 0.025f;
+        public static float StealthGrowhRate = 0.03f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

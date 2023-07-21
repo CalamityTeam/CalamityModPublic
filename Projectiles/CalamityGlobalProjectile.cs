@@ -2354,7 +2354,7 @@ namespace CalamityMod.Projectiles
                             }
                         }
                     
-                    if (player.meleeEnchant > 0 && !projectile.noEnchantments && projectile.type != ProjectileType<DuststormCloudHitbox>()) //This projectile is meant to be invisible and the code below would form a dust square
+                    if (player.meleeEnchant > 0 && !projectile.noEnchantments)
                         {
                         switch (player.meleeEnchant)
                         {
@@ -2475,7 +2475,7 @@ namespace CalamityMod.Projectiles
                         Vector2 velocity = projectile.velocity;
                         if (velocity.Length() > 4.0)
                             velocity *= 4f / velocity.Length();
-                        if (Main.rand.NextBool(20) && projectile.type != ProjectileType<DuststormCloudHitbox>()) //This is so this thing doesn't form a dust square
+                        if (Main.rand.NextBool(20))
                         {
                             int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.Next(139, 143), velocity.X, velocity.Y, 0, new Color(), 1.2f);
                             Main.dust[index].velocity.X *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);

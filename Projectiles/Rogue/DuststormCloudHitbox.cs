@@ -32,8 +32,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.scale < (Projectile.ai[1]==1 ? DuststormInABottle.MaxSizeStealth : DuststormInABottle.MaxSize))
             {
-                Projectile.scale += DuststormInABottle.GrowthRate;
-                Projectile.ExpandHitboxBy(1f+DuststormInABottle.GrowthRate + (Projectile.ai[1]==1 ? 0.01f : 0f));
+                Projectile.scale += (Projectile.ai[1] == 1 ? DuststormInABottle.StealthGrowhRate : DuststormInABottle.GrowthRate);
+                Projectile.ExpandHitboxBy(1+ (Projectile.ai[1] == 1 ? DuststormInABottle.StealthGrowhRate : DuststormInABottle.GrowthRate));
             }
         }
 

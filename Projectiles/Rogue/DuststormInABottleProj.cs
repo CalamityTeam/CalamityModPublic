@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             bool stealth = Projectile.Calamity().stealthStrike;
             SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
-            double cloudAmt = Main.rand.Next(30, 50);
+            double cloudAmt = Main.rand.Next(40, 50);
             if (stealth)
             {
                 //DUST STORM
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Main.dust[d].position = Projectile.Center;
                     Main.dust[d].velocity *= Main.rand.NextFloat(0.25f, 1f);
                 }
-                cloudAmt *= DuststormInABottle.StealthCloudAmountMult;
+                cloudAmt *= 2.75;
                 cloudAmt = Math.Round(cloudAmt);
             }
             if (Projectile.owner == Main.myPlayer)
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int index = 0; index < cloudAmt; index++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, stealth ? velocity*1.1f : velocity, ModContent.ProjectileType<DuststormCloud>(), 0, 0, Projectile.owner, stealth ? 1f : 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, stealth ? velocity*1.2f : velocity, ModContent.ProjectileType<DuststormCloud>(), 0, 0, Projectile.owner, stealth ? 1f : 0f, (float)Main.rand.Next(-45, 1));
                 }
                 int hitbox = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DuststormCloudHitbox>(), Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner);
                 if (hitbox.WithinBounds(Main.maxProjectiles) && Projectile.Calamity().stealthStrike) //Inherit stealth flag and less iframes
