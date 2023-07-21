@@ -139,10 +139,10 @@ DaedalusHeadRogue: {
 
 DaedalusHeadSummon: {
 	DisplayName: Daedalus Mask
-	Tooltip: 5% increased minion damage
+	Tooltip: 5% increased summon damage
 	SetBonus:
 		'''
-		20% increased minion damage and +2 max minions
+		20% increased summon damage and +2 max minions
 		A daedalus crystal floats above you to protect you
 		'''
 }
@@ -160,7 +160,7 @@ FathomSwarmerBoots: {
 	DisplayName: Fathom Swarmer Greaves
 	Tooltip:
 		'''
-		4% increased minion damage
+		4% increased summon damage
 		Grants the ability to swim
 		Movement speed increased by 40% while submerged in liquid
 		'''
@@ -171,7 +171,7 @@ FathomSwarmerBreastplate: {
 	Tooltip:
 		'''
 		6% increased damage reduction
-		6% increased minion damage
+		6% increased summon damage
 		Boosted defense and regen increased while submerged in liquid
 		Reduces defense loss within the Abyss
 		'''
@@ -181,21 +181,21 @@ FathomSwarmerVisage: {
 	DisplayName: Fathom Swarmer Visage
 	Tooltip:
 		'''
-		5% increased minion damage
+		5% increased summon damage
 		Provides breathing and light underwater
 		'''
 	SetBonus:
 		'''
-		10% increased minion damage and +2 max minions
+		10% increased summon damage and +2 max minions
 		Grants the ability to climb walls
-		30% increased minion damage while submerged in liquid
+		30% increased summon damage while submerged in liquid
 		Provides a moderate amount of light and moderately reduces breath loss in the abyss
 		'''
 }
 
 ForbiddenCirclet: {
 	DisplayName: Forbidden Circlet
-	Tooltip: 10% increased minion damage and 15% increased rogue velocity
+	Tooltip: 10% increased summon damage and 15% increased rogue velocity
 	SetBonus:
 		'''
 		+40 maximum stealth
@@ -285,12 +285,12 @@ HydrothermicHeadSummon: {
 	DisplayName: Hydrothermic Helmet
 	Tooltip:
 		'''
-		5% increased minion damage and increased minion knockback
+		5% increased summon damage and increased minion knockback
 		Grants immunity to fire and lava
 		'''
 	SetBonus:
 		'''
-		40% increased minion damage and +2 max minions
+		40% increased summon damage and +2 max minions
 		Summons a hydrothermic vent to protect you
 		'''
 }
@@ -381,7 +381,7 @@ PlaguebringerCarapace: {
 	Tooltip:
 		'''
 		Grants immunity to the Plague
-		12% increased minion damage
+		12% increased summon damage
 		Friendly bees inflict the plague
 		'''
 }
@@ -390,7 +390,7 @@ PlaguebringerPistons: {
 	DisplayName: Plaguebringer Pistons
 	Tooltip:
 		'''
-		13% increased minion damage and 15% increased movement speed
+		13% increased summon damage and 15% increased movement speed
 		You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt
 		You spawn bees while sprinting or dashing
 		'''
@@ -400,7 +400,7 @@ PlaguebringerVisor: {
 	DisplayName: Plaguebringer Visor
 	Tooltip:
 		'''
-		15% increased minion damage
+		15% increased summon damage
 		+20 max life
 		'''
 	SetBonus:

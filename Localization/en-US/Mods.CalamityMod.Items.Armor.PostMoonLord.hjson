@@ -54,12 +54,12 @@ AuricTeslaRoyalHelm: {
 
 AuricTeslaSpaceHelmet: {
 	DisplayName: Auric Tesla Space Helmet
-	Tooltip: 15% increased minion damage
+	Tooltip: 15% increased summon damage
 	SetBonus:
 		'''
 		Summoner Tarragon, Bloodflare and Silva armor effects
 		Max run speed and acceleration boosted by 5%
-		+6 max minions and 75% increased minion damage
+		+6 max minions and 75% increased summon damage
 		'''
 }
 
@@ -146,12 +146,12 @@ BloodflareHeadRogue: {
 
 BloodflareHeadSummon: {
 	DisplayName: Bloodflare Wyvern Helm
-	Tooltip: 5% increased minion damage
+	Tooltip: 5% increased summon damage
 	SetBonus:
 		'''
-		50% increased minion damage and +3 max minions
+		50% increased summon damage and +3 max minions
 		Summons polterghast mines to circle you
-		At 90% life and above you gain 10% increased minion damage
+		At 90% life and above you gain 10% increased summon damage
 		At 50% life and below you gain 20 defense and 2 life regen
 		'''
 }
@@ -177,7 +177,7 @@ DemonshadeHelm: {
 	Tooltip: 30% increased damage and 15% increased critical strike chance
 	SetBonus:
 		'''
-		100% increased minion damage and +10 max minions
+		100% increased summon damage and +10 max minions
 		Shadowbeams and demon scythes will fire down when you are hit
 		A friendly red devil follows you around
 		Press {0} to enrage nearby enemies with a dark magic spell for 10 seconds
@@ -226,11 +226,11 @@ FearmongerGreathelm: {
 		'''
 		Pure terror radiates from your eyes
 		+60 max mana and 10% reduced mana usage
-		10% increased minion damage
+		10% increased summon damage
 		'''
 	SetBonus:
 		'''
-		20% increased minion damage and +2 max minions
+		20% increased summon damage and +2 max minions
 		Minions no longer deal less damage while wielding non-summoner weapons
 		Immunity to all forms of frost and flame
 		All minion attacks grant colossal life regeneration
@@ -286,7 +286,7 @@ GemTechHeadgear: {
 	RedGemInfo: "[i:Ruby] The red gem grants {0} maximum stealth, increased rogue stats, and makes stealth only consumable by rogue weapons"
 	YellowGemInfo: "[i:Topaz] The yellow gem provides increased melee stats and makes melee attacks release shards on hit with a cooldown. This cooldown is shorter for true melee attacks"
 	GreenGemInfo: "[i:Emerald] The green gem provides increased ranged stats and causes flechettes to fly swiftly towards targets when they are damaged by a ranged projectile"
-	BlueGemInfo: "[i:Sapphire] The blue gem grants {0} extra maximum minions, increased minion damage, and negates the minion damage penalty while wielding non-summoner weapons"
+	BlueGemInfo: "[i:Sapphire] The blue gem grants {0} extra maximum minions, increased summon damage, and negates the summon damage penalty while wielding non-summoner weapons"
 	PurpleGemInfo: "[i:Amethyst] The violet gem grants {0} extra maximum mana, increased magic stats, and makes mana rapidly regenerate when holding a non-magic weapon"
 	PinkGemInfo: "[i:Diamond] The pink base gem grants {0} extra defense, extra damage reduction, increased movement speed, jump speed, and +{1} life regen"
 	GemBonusInfo:
@@ -470,10 +470,10 @@ SilvaHeadMagic: {
 
 SilvaHeadSummon: {
 	DisplayName: Silva Horned Hood
-	Tooltip: 10% increased minion damage
+	Tooltip: 10% increased summon damage
 	SetBonus:
 		'''
-		65% increased minion damage and +5 max minions
+		65% increased summon damage and +5 max minions
 		Summons an ancient leaf prism to blast your enemies with life energy
 		'''
 }
@@ -563,10 +563,10 @@ TarragonHeadRogue: {
 
 TarragonHeadSummon: {
 	DisplayName: Tarragon Horned Helm
-	Tooltip: 5% increased damage reduction and minion damage
+	Tooltip: 5% increased damage reduction and summon damage
 	SetBonus:
 		'''
-		50% increased minion damage and +3 max minions
+		50% increased summon damage and +3 max minions
 		Summons a life aura around you that damages nearby enemies
 		'''
 }
