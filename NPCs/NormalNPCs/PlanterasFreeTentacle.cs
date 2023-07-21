@@ -17,6 +17,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 {
     public class PlanterasFreeTentacle : ModNPC
     {
+        public override string Texture => $"Terraria/Images/NPC_{NPCID.PlanterasTentacle}";
+
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
