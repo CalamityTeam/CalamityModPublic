@@ -920,7 +920,7 @@ namespace CalamityMod.CalPlayer
                 titanCooldown = 15;
             }
 
-            if (corrosiveSpine && modProj.stealthStrikeHitCount < 5)
+            if (corrosiveSpine && modProj.stealthStrikeHitCount < 5 && proj.type != ProjectileType<DuststormCloud>()) //Duststorm Clouds are not allowed to vomit projectiles
             {
                 for (int i = 0; i < 3; i++)
                 {

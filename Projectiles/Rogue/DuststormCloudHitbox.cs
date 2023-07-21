@@ -23,14 +23,14 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = DuststormInABottle.CloudLifetime;
-            Projectile.DamageType = DamageClass.Default; //If I do Rogue it looks ugly as shit with flasks
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 15;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            if (Projectile.scale < (Projectile.Calamity().stealthStrike ? DuststormInABottle.MaxSizeStealth : DuststormInABottle.MaxSize)) // 3.5 or 3, it scales exponentially
+            if (Projectile.scale < (Projectile.ai[1]==1 ? DuststormInABottle.MaxSizeStealth : DuststormInABottle.MaxSize))
             {
                 Projectile.scale += DuststormInABottle.GrowthRate;
                 Projectile.ExpandHitboxBy(1+DuststormInABottle.GrowthRate);

@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 20;
-            Item.damage = 64;
+            Item.damage = 74;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 30;
+            Item.useAnimation = 28;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 30;
-            Item.knockBack = 5f;
+            Item.useTime = 28;
+            Item.knockBack = 4f;
             Item.UseSound = SoundID.Item106;
             Item.autoReuse = true;
             Item.height = 24;
@@ -36,13 +36,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static double StealthCloudAmountMult = 2.5; //Seems like DragonLens does not detect doubles
 
         public static int CloudLifetime = 200;
-        public static float DustRadius = 16f;
-        public static int StealthIframes = 10;
+        public static float DustRadius = 16.5f;
+        public static int StealthIframes = 9;
 
         //Cloud hitbox size manipulation
-        public static float MaxSize = 3f;
-        public static float MaxSizeStealth = 3.5f;
-        public static float GrowthRate = 0.02f;
+        public static float MaxSize = 3.2f;
+        public static float MaxSizeStealth = 3.6f;
+        public static float GrowthRate = 0.025f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
