@@ -6767,10 +6767,6 @@ namespace CalamityMod.CalPlayer
              * EM   = (100% + 0.5% * T)
              * BOTH = (100% + 0.75% * T)
              *
-             * NO LONGER THE CASE:
-             * DGS alone caps in 143 frames
-             * EM alone caps in 59 frames
-             * Both together caps in 50 frames
              */
             if (darkGodSheath && eclipseMirror)
             {
