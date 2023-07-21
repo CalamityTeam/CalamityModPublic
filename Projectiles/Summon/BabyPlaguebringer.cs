@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            Main.projFrames[Projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
@@ -66,9 +66,9 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.frame++;
                     Projectile.frameCounter = 0;
                 }
-                if (Projectile.frame > 2)
+                if (Projectile.frame > 5 || Projectile.frame < 4)
                 {
-                    Projectile.frame = 0;
+                    Projectile.frame = 4;
                 }
                 if (Projectile.ai[1] > 30f)
                 {
@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Projectile.frame >= 4)
             {
-                Projectile.frame = 2;
+                Projectile.frame = 0;
             }
             if (Projectile.ai[1] > 0f)
             {
@@ -238,7 +238,7 @@ namespace CalamityMod.Projectiles.Summon
             int num214 = texture.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
             Vector2 origin = new Vector2(texture.Width / 2f, num214 / 2f);
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle(0, y6, texture.Width, num214), Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle(0, y6, texture.Width, num214), Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
             return false;
         }
 
