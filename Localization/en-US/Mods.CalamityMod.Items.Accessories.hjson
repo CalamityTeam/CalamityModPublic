@@ -1361,7 +1361,7 @@ RottenBrain: {
 
 RottenDogtooth: {
 	DisplayName: Rotten Dogtooth
-	Tooltip: Makes Stealth strikes inflict Armor Crunch and deal 10% more damage
+	Tooltip: Makes Stealth strikes inflict Armor Crunch and deal 8% more damage
 }
 
 RoverDrive: {
