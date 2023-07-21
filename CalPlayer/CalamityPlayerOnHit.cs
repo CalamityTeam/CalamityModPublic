@@ -777,22 +777,15 @@ namespace CalamityMod.CalPlayer
         private void RogueOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
             var spawnSource = proj.GetSource_FromThis();
-            int Type = ProjectileType<InfernadoFriendly>();
-            if (modProj.stealthStrike && dragonScales && Main.projectile.Count(proj => proj.type == Type && proj.active && proj.Calamity().DragonScalesInfernado) < 1) 
-               //Had to use a modified version of what the CountProjectiles Util does to check for the Dragon Scales bool
+            int Type = ProjectileType<DragonScalesInfernado>();
+            if (modProj.stealthStrike && dragonScales && Main.projectile.Count(proj => proj.type == Type && proj.active) < 1) 
             {
 
                 int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(DragonScales.TornadoBaseDamage);
-                int projectileIndex = Projectile.NewProjectile(spawnSource, proj.Center.X, proj.Center.Y, 0f, 0f, ProjectileType<InfernadoFriendly>(), damage, 15f, Main.myPlayer, 10f, 9f); //First overload seems to deal with timing, second is segment amount
+                int projectileIndex = Projectile.NewProjectile(spawnSource, proj.Center.X, proj.Center.Y, 0f, 0f, ProjectileType<DragonScalesInfernado>(), damage, 15f, Main.myPlayer, 10f, 9f); //First overload seems to deal with timing, second is segment amount
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[projectileIndex].DamageType = DamageClass.Generic;
                     Main.projectile[projectileIndex].netUpdate = true;
-                    Main.projectile[projectileIndex].usesLocalNPCImmunity = false;
-                    Main.projectile[projectileIndex].usesIDStaticNPCImmunity = true;
-                    Main.projectile[projectileIndex].idStaticNPCHitCooldown = 20;
-                    Main.projectile[projectileIndex].timeLeft = 200;
-                    Main.projectile[projectileIndex].Calamity().DragonScalesInfernado=true;
                 }
             }
 

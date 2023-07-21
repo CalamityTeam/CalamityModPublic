@@ -74,9 +74,6 @@ namespace CalamityMod.Projectiles
         // If true, this projectile creates impact sparks upon hitting enemies
         public bool deepcoreBullet = false;
 
-        // Used to make DragonScales' tornado smaller
-        public bool DragonScalesInfernado = false;
-
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
 
