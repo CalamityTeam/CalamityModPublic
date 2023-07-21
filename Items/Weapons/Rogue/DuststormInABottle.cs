@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 20;
-            Item.damage = 64; //Do 74 if local iframes
+            Item.damage = 74;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 28;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float MaxSize = 3.2f;
         public static float MaxSizeStealth = 3.6f;
         public static float GrowthRate = 0.025f;
-        public static float StealthGrowhRate = 0.03f;
+        public static float StealthGrowhRate = 0.035f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

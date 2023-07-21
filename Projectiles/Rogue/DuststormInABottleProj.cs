@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
                     int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(5) ? 32 : 85, dustd.X, dustd.Y, 50, default, 2f);
                     Main.dust[d].noGravity = true;
                     Main.dust[d].position = Projectile.Center;
-                    Main.dust[d].velocity *= Main.rand.NextFloat(0.25f, 1f);
+                    Main.dust[d].velocity *= Main.rand.NextFloat(0.25f, 1.1f);
                 }
                 cloudAmt *= 2.75;
                 cloudAmt = Math.Round(cloudAmt);
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (hitbox.WithinBounds(Main.maxProjectiles) && Projectile.Calamity().stealthStrike) //Inherit stealth flag and less iframes
                 {
                     Main.projectile[hitbox].ai[1] = 1;
-                    Main.projectile[hitbox].localNPCHitCooldown = DuststormInABottle.StealthIframes;
+                    Main.projectile[hitbox].idStaticNPCHitCooldown = DuststormInABottle.StealthIframes;
                 }
             }
         }
