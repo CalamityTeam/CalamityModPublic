@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.velocity.Length() < MaxVelocity)
             {
-                Projectile.velocity *= 1.05f;
+                Projectile.velocity *= 1.035f;
                 if (Projectile.velocity.Length() > MaxVelocity)
                 {
                     Projectile.velocity.Normalize();

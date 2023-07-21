@@ -57,7 +57,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Check for Jungle
             bool surface = !bossRush && Main.player[npc.target].position.Y < Main.worldSurface * 16.0;
-            int maxTentacles = death ? 25 : 20;
+            int maxTentaclesAfterFirstTentaclePhase = death ? 4 : 2;
+            int maxFreeTentaclesAfterFirstTentaclePhase = maxTentaclesAfterFirstTentaclePhase * 2;
             float speedUpDistance = 480f;
             bool speedUp = Vector2.Distance(Main.player[npc.target].Center, npc.Center) > speedUpDistance; // 30 or 40 tile distance
 
@@ -92,25 +93,25 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Find positions of hooks
             int maxHooks = 3;
-            int[] tentacleArray = new int[maxHooks];
-            float tentaclePositionX = 0f;
-            float tentaclePositionY = 0f;
+            int[] hookArray = new int[maxHooks];
+            float hookPositionX = 0f;
+            float hookPositionY = 0f;
             int numHooksSpawned = 0;
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 if (Main.npc[i].active && Main.npc[i].aiStyle == NPCAIStyleID.PlanteraHook)
                 {
-                    tentaclePositionX += Main.npc[i].Center.X;
-                    tentaclePositionY += Main.npc[i].Center.Y;
-                    tentacleArray[numHooksSpawned] = i;
+                    hookPositionX += Main.npc[i].Center.X;
+                    hookPositionY += Main.npc[i].Center.Y;
+                    hookArray[numHooksSpawned] = i;
 
                     numHooksSpawned++;
                     if (numHooksSpawned >= maxHooks)
                         break;
                 }
             }
-            tentaclePositionX /= numHooksSpawned;
-            tentaclePositionY /= numHooksSpawned;
+            hookPositionX /= numHooksSpawned;
+            hookPositionY /= numHooksSpawned;
 
             // Velocity and acceleration
             float velocity = bossRush ? 12f : phase4 ? 7f : phase3 ? 6.5f : phase2 ? 6f : 4f;
@@ -131,9 +132,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             npc.Calamity().CurrentlyEnraged = !bossRush && enrage;
 
             // Movement relative to the target and hook positions
-            Vector2 npcCenterAccountingForTentacles = new Vector2(tentaclePositionX, tentaclePositionY);
-            float maxVelocityX = Main.player[npc.target].Center.X - npcCenterAccountingForTentacles.X;
-            float maxVelocityY = Main.player[npc.target].Center.Y - npcCenterAccountingForTentacles.Y;
+            Vector2 npcCenterAccountingForHooks = new Vector2(hookPositionX, hookPositionY);
+            float maxVelocityX = Main.player[npc.target].Center.X - npcCenterAccountingForHooks.X;
+            float maxVelocityY = Main.player[npc.target].Center.Y - npcCenterAccountingForHooks.Y;
             if (despawn)
             {
                 maxVelocityY *= -1f;
@@ -278,7 +279,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float timeToDecelerateDecrement = bossRush ? 2f : phase4 ? 1.5f : 1f;
                     npc.ai[3] -= timeToDecelerateDecrement;
                     if (npc.ai[3] <= StopChargeGateValue)
+                    {
                         npc.ai[3] = 0f;
+
+                        // Spawn a few tentacles
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            // If the most likely loop condition to be false isn't met, don't run the second one, this is more efficient
+                            if (NPC.CountNPCS(NPCID.PlanterasTentacle) < maxTentaclesAfterFirstTentaclePhase)
+                            {
+                                if (NPC.CountNPCS(ModContent.NPCType<PlanterasFreeTentacle>()) < maxFreeTentaclesAfterFirstTentaclePhase)
+                                {
+                                    for (int i = 0; i < maxTentaclesAfterFirstTentaclePhase; i++)
+                                        NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 // Maintain charge velocity
@@ -363,11 +380,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     maxVelocityY *= distanceFromTarget;
                 }
 
-                tentaclePositionX += maxVelocityX;
-                tentaclePositionY += maxVelocityY;
-                npcCenterAccountingForTentacles = npc.Center;
-                maxVelocityX = tentaclePositionX - npcCenterAccountingForTentacles.X;
-                maxVelocityY = tentaclePositionY - npcCenterAccountingForTentacles.Y;
+                hookPositionX += maxVelocityX;
+                hookPositionY += maxVelocityY;
+                npcCenterAccountingForHooks = npc.Center;
+                maxVelocityX = hookPositionX - npcCenterAccountingForHooks.X;
+                maxVelocityY = hookPositionY - npcCenterAccountingForHooks.Y;
                 distanceFromTarget = (float)Math.Sqrt(maxVelocityX * maxVelocityX + maxVelocityY * maxVelocityY);
 
                 if (distanceFromTarget < velocity)
@@ -476,6 +493,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int totalTentacles = death ? 10 : 8;
                         if (Main.getGoodWorld)
                             totalTentacles += 6;
+                        if (CalamityWorld.LegendaryMode)
+                            totalTentacles *= 2;
 
                         for (int i = 0; i < totalTentacles; i++)
                             NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI);
@@ -533,13 +552,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float shootProjectileGateValue = slowedDuringTentaclePhase ? 120f : 90f;
                     if (npc.localAI[3] >= shootProjectileGateValue)
                     {
-                        float projectileSpeed = 10f + ((0.5f - lifeRatio) * 8f); // 10f to 14f
+                        float projectileSpeed = 14f;
                         if (bossRush)
                             projectileSpeed += 4f;
 
                         Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
 
-                        int spread = 3 + (int)Math.Round((0.5f - lifeRatio) * 10f); // 3 to 8, wider spread is harder to avoid
+                        int spread = 8 + (int)Math.Round((0.5f - lifeRatio) * 16f); // 8 to 16, wider spread is harder to avoid
                         int numProj = spread / 2;
                         int type = ProjectileID.PoisonSeedPlantera;
                         int damage = npc.GetProjectileDamage(type);
