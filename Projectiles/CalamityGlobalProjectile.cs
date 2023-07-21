@@ -80,9 +80,11 @@ namespace CalamityMod.Projectiles
         // How many times this projectile has pierced.
         public int timesPierced = 0;
 
-        // Point-blank shot timer.
+        // Point-blank shot timer and distance check.
         public int pointBlankShotDuration = 0;
+        public float pointBlankShotDistanceTravelled = 0f;
         public const int DefaultPointBlankDuration = 18; // 18 frames
+        public const float PointBlankShotDistanceLimit = 240f; // 15 tiles
 
         // Temporary flat damage reduction effects. This is typically used for parry effects such as Ark of the Ancients
         public int flatDRTimer = 0;
@@ -200,6 +202,8 @@ namespace CalamityMod.Projectiles
 
             if (pointBlankShotDuration > 0)
                 pointBlankShotDuration--;
+            if (pointBlankShotDistanceTravelled < PointBlankShotDistanceLimit)
+                pointBlankShotDistanceTravelled += projectile.velocity.Length() * projectile.MaxUpdates;
 
             // Reduce secondary yoyo damage if the player has Yoyo Glove
             // Brief behavior documentation of yoyo AI: ai[0, 1] are the x, y co-ords and localAI[0] is the airtime in frames
