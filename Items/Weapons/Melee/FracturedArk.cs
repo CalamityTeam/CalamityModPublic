@@ -23,12 +23,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float chargeDamageMultiplier = 1.5f; //Extra damage from charge
         public static float beamDamageMultiplier = 0.8f; //Damage multiplier for the charged shots (remember it applies ontop of the charge damage multiplied
 
-
-        const string ParryTooltip = "Pressing right click will extend the Ark out in front of you\n" +
-        "Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
-        "You can also parry projectiles and temporarily make them deal 50 less damage\n" +
-        "Parrying empowers the next 10 swings of the sword, boosting damage and letting them throw projectiles";
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             if (tooltips == null)
@@ -38,10 +32,10 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            var tooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            var tooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[PARRY]") && x.Mod == "Terraria");
             if (tooltip != null)
             {
-                tooltip.Text = ParryTooltip;
+                tooltip.Text = this.GetLocalizedValue("ParryInfo");
                 tooltip.OverrideColor = Color.CornflowerBlue;
             }
         }
