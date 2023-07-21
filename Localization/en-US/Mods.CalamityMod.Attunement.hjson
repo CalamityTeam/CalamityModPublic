@@ -8,7 +8,7 @@ HotAttunement: {
 	Name: Arid Grandeur
 	Function:
 		'''
-		Conjures searing blades in front of you that get larger and stronger the more you hit enemies.
+		Hold <left> to conjure searing blades in front of you that get larger and stronger the more you hit enemies.
 		The blades can also be used to bounce off tiles when in the air
 		'''
 }
@@ -47,9 +47,9 @@ TrueHotAttunement: {
 	Name: Arid Grandeur
 	Function:
 		'''
-		Conjures searing blades in front of you that get larger and stronger the more you hit enemies.
+		Hold <left> to conjure searing blades in front of you that get larger and stronger the more you hit enemies.
 		The blades can also be used to bounce off tiles when in the air
-		Releasing the attack button after the blades are fully charged sends them hurtling forwards to shred your foes
+		Releasing after the blades are fully charged sends them hurtling forwards to shred your foes
 		'''
 }
 
@@ -86,8 +86,8 @@ HolyAttunement: {
 	Name: Heaven's Might
 	Function:
 		'''
-		Hold the attack button to swing the sword around you, accelerating over time
-		Releasing the attack button hurls the sword towards your cursor. The sword then quickly returns to your hand
+		Hold <left> to swing the sword around you, accelerating over time
+		Releasing hurls the sword towards your cursor. The sword then quickly returns to your hand
 		'''
 }
 
@@ -95,7 +95,7 @@ AstralAttunement: {
 	Name: Extant Abhorrence
 	Function:
 		'''
-		Hold the attack button to charge a star-piercing lunge, release to unleash the devastating blow
+		Hold <left> to charge a star-piercing lunge, release to unleash the devastating blow
 		Striking the earth with the lunge will cause a massive impact which raises otherworldly monoliths
 		'''
 }
@@ -114,8 +114,8 @@ WhirlwindAttunement: {
 	Name: Swordsmith's Pride
 	Function:
 		'''
-		Hold the attack button to swing the sword around you, accelerating over time. Sword beams are fired wildly while swinging
-		Releasing the attack button hurls the sword towards your cursor. Sword beams home onto enemies struck by the thrown sword
+		Hold <left> to swing the sword around you, accelerating over time. Sword beams are fired wildly while swinging
+		Releasing hurls the sword towards your cursor. Sword beams home onto enemies struck by the thrown sword
 		'''
 	PassiveDesc: All attacks have a chance to fire sword beams
 }
@@ -134,9 +134,9 @@ SuperPogoAttunement: {
 	Name: Sanguine Fury
 	Function:
 		'''
-		Conjures molten blades in front of you that get larger and stronger the more you hit enemies
+		Hold <left> to conjure molten blades in front of you that get larger and stronger the more you hit enemies
 		The blades can also be used to bounce off tiles when in the air
-		Releasing the attack button sends the charged blades hurtling forwards like a wheel
+		Releasing sends the charged blades hurtling forwards like a wheel
 		Attacking again immediately thereafter dashes to the wheel, shredding anything in the way
 		'''
 	PassiveDesc: Striking enemies rarely steals a small amount of life
@@ -146,7 +146,7 @@ ShockwaveAttunement: {
 	Name: Mercurial Tides
 	Function:
 		'''
-		Hold the attack button to charge a heaven-shattering lunge, release to unleash the devastating blow
+		Hold <left> to charge a heaven-shattering lunge, release to unleash the devastating blow
 		Shock waves are emitted as the sword charges up
 		Striking the earth with the lunge will cause a massive shock wave on impact which raises a flood of monoliths
 		'''
@@ -158,9 +158,9 @@ PhoenixAttunement: {
 	Name: Phoenix's Pride
 	Function:
 		'''
-		Hold left click to swing Galaxia around you, accelerating over time
+		<left> to swing Galaxia around you, accelerating over time
 		The swirling nebula constantly emits homing cosmic bolts
-		Release left click to hurl Galaxia toward the cursor alongside 6 gigantic cosmic bolts
+		Release to hurl Galaxia toward the cursor alongside 6 gigantic cosmic bolts
 		'''
 	PassiveName: Capricorn's Blessing
 	PassiveDesc:
@@ -190,10 +190,10 @@ PolarisAttunement: {
 	Name: Polaris' Gaze
 	Function:
 		'''
-		Hold left click to channel Galaxia's power into a tight vortex of galactic energies
+		Hold <left> to channel Galaxia's power into a tight vortex of galactic energies
 		The vortex powers up over time and when hitting enemies
-		Release left click to fire off the charged star in straight line
-		Press left click again immediately to dash towards the star and release cosmic bolts
+		Release to fire off the charged star in straight line
+		Press <left> again immediately to dash towards the star and release cosmic bolts
 		'''
 	PassiveName: Cancer's Blessing
 	PassiveDesc:
@@ -207,7 +207,7 @@ AndromedaAttunement: {
 	Name: Andromeda's Stride
 	Function:
 		'''
-		Hold left click to charge a god-erasing lunge, release to unleash the devastating blow
+		Hold <left> to charge a god-erasing lunge, release to unleash the devastating blow
 		Galaxia emits cosmic bolts while charging
 		Lunging into the ground will cause a shockwave which summons a storm of cosmic energies
 		'''

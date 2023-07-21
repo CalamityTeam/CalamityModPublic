@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 if (effectDescTooltip != null)
                 {
-                    effectDescTooltip.Text = mainAttunement.FunctionText.ToString();
+                    effectDescTooltip.Text = Lang.SupportGlyphs(mainAttunement.FunctionText.ToString());
                     effectDescTooltip.OverrideColor = mainAttunement.tooltipColor;
                 }
                 if (mainAttunementTooltip != null)

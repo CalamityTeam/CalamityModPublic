@@ -81,20 +81,20 @@ ArkoftheCosmos: {
 		'''
 	ComboInfo:
 		'''
-		Left Click to perform a 5-swing combo that ends by throwing the blade
+		<left> to perform a 5-swing combo that ends by throwing the blade
 		The thrown blade will follow your cursor
 		Releasing while the blade is out will cause an exploding snap
 		'''
 	ParryInfo:
 		'''
-		Right Click to snip out the scissor blades in front of you
+		<right> to snip out the scissor blades in front of you
 		Hitting an enemy with it will parry them, granting you brief invulnerability
 		You can parry projectiles to make them deal 160 less damage for a short period
 		Parrying anything will empower the next 10 swings of the sword
 		'''
 	BlastInfo:
 		'''
-		Pressing Right Click while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges
+		Pressing <right> while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges
 		If more than 5 charges were used, you can dash across the rip by holding UP
 		'''
 }
@@ -110,19 +110,19 @@ ArkoftheElements: {
 		'''
 	ComboInfo:
 		'''
-		Left Click to perform a 5-swing combo that ends by throwing the blade
+		<left> to perform a 5-swing combo that ends by throwing the blade
 		Releasing while the blade is out will deal extra damage and give 2 charges
 		'''
 	ParryInfo:
 		'''
-		Right Click to snip out the scissor blades in front of you
+		<right> to snip out the scissor blades in front of you
 		Hitting an enemy with it will parry them, granting you brief invulnerability
 		You can parry projectiles to make them deal 100 less damage for a short period
 		Parrying will empower the next 10 swings of the sword, letting you use both blades at once
 		'''
 	BlastInfo:
 		'''
-		Pressing Right Click while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges
+		Pressing <right> while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges
 		If more than 5 charges were used, you can dash across the rip by holding UP
 		'''
 }
@@ -547,7 +547,7 @@ FracturedArk: {
 		'''
 	ParryInfo:
 		'''
-		Right Click to extend the Ark out in front of you
+		<right> to extend the Ark out in front of you
 		Hitting an enemy with it will parry them, granting you a small window of invulnerability
 		You can also parry projectiles and temporarily make them deal 50 less damage
 		Parrying empowers the next 10 swings of the sword, boosting damage and letting them throw projectiles
@@ -1258,11 +1258,11 @@ TrueArkoftheAncients: {
 		'''
 	ParryInfo:
 		'''
-		Right Click to extend the Ark out in front of you
+		<right> to extend the Ark out in front of you
 		Hitting an enemy with it will parry them, granting you brief invulnerability
 		You can also parry projectiles to make them deal 80 less damage for a short period
 		Parrying empowers the next 10 swings of the sword, letting them throw stronger projectiles
-		Pressing Right Click while holding UP will release all empowered charges in a powerful burst of energy
+		Pressing <right> while holding UP will release all empowered charges in a powerful burst of energy
 		'''
 }
 

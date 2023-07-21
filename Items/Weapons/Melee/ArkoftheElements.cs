@@ -43,19 +43,19 @@ namespace CalamityMod.Items.Weapons.Melee
             var comboTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[COMBO]") && x.Mod == "Terraria");
             if (comboTooltip != null)
             {
-                comboTooltip.Text = this.GetLocalizedValue("ComboInfo");
+                comboTooltip.Text = Lang.SupportGlyphs(this.GetLocalizedValue("ComboInfo"));
                 comboTooltip.OverrideColor = Color.Crimson;
             }
             var parryTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[PARRY]") && x.Mod == "Terraria");
             if (parryTooltip != null)
             {
-                parryTooltip.Text = this.GetLocalizedValue("ParryInfo");
+                parryTooltip.Text = Lang.SupportGlyphs(this.GetLocalizedValue("ParryInfo"));
                 parryTooltip.OverrideColor = Color.Orange;
             }
             var blastTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[BLAST]") && x.Mod == "Terraria");
             if (blastTooltip != null)
             {
-                blastTooltip.Text = this.GetLocalizedValue("BlastInfo");
+                blastTooltip.Text = Lang.SupportGlyphs(this.GetLocalizedValue("BlastInfo"));
                 blastTooltip.OverrideColor = Color.Gold;
             }
         }
