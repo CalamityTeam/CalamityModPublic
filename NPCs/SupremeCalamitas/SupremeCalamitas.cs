@@ -155,6 +155,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static int hoodedHeadIconP2Index;
         public static int hoodlessHeadIconIndex;
         public static int hoodlessHeadIconP2Index;
+        public static int cirrusHeadIconIndex;
         public static float normalDR = 0.25f;
         public static float enragedDR = 0.9999f;
 
@@ -181,6 +182,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             string hoodedIconP2Path = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIconP2";
             string hoodlessIconPath = "CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon";
             string hoodlessIconP2Path = "CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIconP2";
+            string cirrusIconPath = "CalamityMod/NPCs/SupremeCalamitas/CirrusHeadIcon";
+
             CalamityMod.Instance.AddBossHeadTexture(hoodedIconPath, -1);
             hoodedHeadIconIndex = ModContent.GetModBossHeadSlot(hoodedIconPath);
 
@@ -192,6 +195,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             CalamityMod.Instance.AddBossHeadTexture(hoodlessIconP2Path, -1);
             hoodlessHeadIconP2Index = ModContent.GetModBossHeadSlot(hoodlessIconP2Path);
+
+            CalamityMod.Instance.AddBossHeadTexture(cirrusIconPath, -1);
+            cirrusHeadIconIndex = ModContent.GetModBossHeadSlot(cirrusIconPath);
         }
 
         public override void SetStaticDefaults()
@@ -244,10 +250,23 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void BossHeadSlot(ref int index)
         {
             bool inPhase2 = NPC.ai[0] == 3f;
-            if (!DownedBossSystem.downedCalamitas || BossRushEvent.BossRushActive)
-                index = inPhase2 ? hoodedHeadIconP2Index : hoodedHeadIconIndex;
+            if (cirrus)
+            {
+                index = cirrusHeadIconIndex;
+            }
             else
-                index = inPhase2 ? hoodlessHeadIconP2Index : hoodlessHeadIconIndex;
+            {
+                if (!DownedBossSystem.downedCalamitas || BossRushEvent.BossRushActive)
+                    index = inPhase2 ? hoodedHeadIconP2Index : hoodedHeadIconIndex;
+                else
+                    index = inPhase2 ? hoodlessHeadIconP2Index : hoodlessHeadIconIndex;
+            }
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (cirrus)
+                typeName = CalamityUtils.GetTextValue("NPCs.SupremeCirrus");
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -847,6 +866,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startSecondAttack && lifeRatio <= 0.75f)
             {
+                // Bouncy Boulders
+                if (cirrus)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            if (!WorldGen.SolidTile((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f)))
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)Main.rand.Next(-1599, 1600) * 0.01f, (float)Main.rand.Next(-1599, 1) * 0.01f, ProjectileID.BouncyBoulder, 300, 10f);
+                        }
+                    }
+                }
+
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.Status.Boss.SCalBH2Text";
@@ -908,6 +940,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startThirdAttack && lifeRatio <= 0.5f)
             {
+                // Bouncy Boulders
+                if (cirrus)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        for (int i = 0; i < 10; i++)
+                        {
+                            if (!WorldGen.SolidTile((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f)))
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)Main.rand.Next(-1599, 1600) * 0.01f, (float)Main.rand.Next(-1599, 1) * 0.01f, ProjectileID.BouncyBoulder, 300, 10f);
+                        }
+                    }
+                }
+
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.Status.Boss.SCalBH3Text";
@@ -978,6 +1023,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && lifeRatio <= 0.3f)
             {
+                // Bouncy Boulders
+                if (cirrus)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        for (int i = 0; i < 15; i++)
+                        {
+                            if (!WorldGen.SolidTile((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f)))
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)Main.rand.Next(-1599, 1600) * 0.01f, (float)Main.rand.Next(-1599, 1) * 0.01f, ProjectileID.BouncyBoulder, 300, 10f);
+                        }
+                    }
+                }
+
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.Status.Boss.SCalBH4Text";
@@ -1049,6 +1107,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFifthAttack && lifeRatio <= 0.1f)
             {
+                // Bouncy Boulders
+                if (cirrus)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        for (int i = 0; i < 20; i++)
+                        {
+                            if (!WorldGen.SolidTile((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f)))
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)Main.rand.Next(-1599, 1600) * 0.01f, (float)Main.rand.Next(-1599, 1) * 0.01f, ProjectileID.BouncyBoulder, 300, 10f);
+                        }
+                    }
+                }
+
                 string key = "Mods.CalamityMod.Status.Boss.SCalBH5Text";
 
                 if (!bossRush)
