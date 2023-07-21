@@ -134,7 +134,6 @@ namespace CalamityMod.Items.Accessories
                         damageStatLine,
                         OnePlace(player.GetTotalArmorPenetration(dc)));
 
-                    // Newline between damage and crit
                     if (displayCrit)
                         stats2 += this.GetLocalization("Crit").Format(TwoPlaces(player.GetTotalCritChance(dc)));
 
@@ -181,7 +180,7 @@ namespace CalamityMod.Items.Accessories
                             TwoPlaces(60f * player.GetMovingStealthRegen()),
                             Sign(rogueVelocity) + TwoPlaces(100f * rogueVelocity));
 
-                        // Rogue consumable chance
+                        // Rogue consumable chance only if item is consumable
                         if (heldItem.consumable)
                             stats2 += this.GetLocalization("RogueConsumption").Format(100f * modPlayer.rogueAmmoCost);
                     }
@@ -193,7 +192,7 @@ namespace CalamityMod.Items.Accessories
                         int extraToolRangeY = Player.tileRangeY - 4;
                         stats2 += "\n" + this.GetLocalization("ToolRange").Format(Sign(extraToolRangeX) + extraToolRangeX, Sign(extraToolRangeY) + extraToolRangeY);
 
-                        // Pickaxe speed specifically
+                        // Pickaxe speed specifically for pickaxes
                         if (heldItem.pick > 0)
                         {
                             float pickSpeed = 1f - player.pickSpeed;

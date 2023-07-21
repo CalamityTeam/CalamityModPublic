@@ -661,8 +661,10 @@ Lacerator: {
 		'''
 		Enemies that are hit by the yoyo will have their life drained
 		A very agile yoyo
-		Someone thought this was a viable weapon against DoG at one point lol
+		[GFB]
 		'''
+	TooltipNormal: Someone thought this was a viable weapon against DoG at one point lol
+	TooltipGFB: May be a viable weapon against DoG...
 }
 
 LifefruitScythe: {
@@ -919,14 +921,15 @@ Riptide: {
 
 Roxcalibur: {
 	DisplayName: Roxcalibur
+	// The WOF tag generates a new line above when placed at the start of a line
 	Tooltip:
 		'''
-		The hellish Wall of Flesh holds the key to this weapon's power
-		Press <left> to shoot several rock shards
+		[WOF]Press <left> to shoot several rock shards
 		Press <right> to dive downwards and bounce off enemies
 		Diving into blocks creates a shockwave
 		You couldn't get it out of the rock, so you just brought the rock instead
 		'''
+	LockedInfo: The hellish Wall of Flesh holds the key to this weapon's power
 }
 
 SausageMaker: {

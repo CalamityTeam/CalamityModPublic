@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -28,6 +27,12 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = false;
         }
 
+        public override void UpdateInventory(Player player)
+        {
+            if (Main.zenithWorld)
+                Item.SetNameOverride(this.GetLocalizedValue("GFBName"));
+        }
+
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             if (Main.zenithWorld)
@@ -51,21 +56,6 @@ namespace CalamityMod.Items.SummonItems
             }
             else
                 return true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            Player player = Main.LocalPlayer;
-            TooltipLine name = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "ItemName");
-
-            if (Main.zenithWorld)
-            {
-                name.Text = "Ogscule";
-            }
-            else
-            {
-                name.Text = "Terminus";
-            }
         }
 
 		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)

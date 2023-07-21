@@ -235,9 +235,9 @@ BrimstoneLocus: {
 	DisplayName: Brimstone Locus
 	Tooltip:
 		'''
-		[c/c61b40:'Not only can I enhance your equipment with potent magic,]
-		[c/c61b40:I can also transcend some of your weaponry to entirely new forms.]
-		[c/c61b40:Such items are revealed while this item is in your inventory.']
+		[c/C61B40:'Not only can I enhance your equipment with potent magic,]
+		[c/C61B40:I can also transcend some of your weaponry to entirely new forms.]
+		[c/C61B40:Such items are revealed while this item is in your inventory.']
 		'''
 }
 

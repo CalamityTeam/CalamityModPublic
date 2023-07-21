@@ -3994,6 +3994,7 @@ namespace CalamityMod.CalPlayer
         #region Potion Handling
         private void HandlePotions()
         {
+            // Hadal Stew
             if (potionTimer > 0)
                 potionTimer--;
             if (potionTimer > 0 && Player.potionDelay == 0)
@@ -4001,7 +4002,7 @@ namespace CalamityMod.CalPlayer
             if (potionTimer == 1)
             {
                 //Reduced duration than normal
-                int duration = 3000;
+                int duration = HadalStew.SicknessDuration;
                 if (Player.pStone)
                     duration = (int)(duration * 0.75);
                 Player.ClearBuff(BuffID.PotionSickness);

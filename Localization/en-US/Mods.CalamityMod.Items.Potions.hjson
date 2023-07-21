@@ -89,9 +89,9 @@ HadalStew: {
 	DisplayName: Hadal Stew
 	Tooltip:
 		'''
-		Only gives 50 seconds of Potion Sickness
+		Only gives [S] seconds of Potion Sickness
 		{$CommonItemTooltip.MediumStats}
-		60 minute duration
+		{$CommonItemTooltip.MinuteDuration}
 		'''
 }
 
@@ -174,7 +174,7 @@ ZergPotion: {
 	Tooltip: Vastly increases enemy spawn rate
 }
 
-/* Drunk Princess Shop Items */
+// Drunk Princess Shop Items
 BloodyMary: {
 	DisplayName: Bloody Mary
 	Tooltip:

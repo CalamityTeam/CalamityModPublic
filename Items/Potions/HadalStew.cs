@@ -3,6 +3,7 @@ using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using System.Linq;
 
@@ -13,11 +14,13 @@ namespace CalamityMod.Items.Potions
     {
         public new string LocalizationCategory => "Items.Potions";
         public static int BuffType = BuffID.WellFed2;
-        public static int BuffDuration = 216000;
+        public static int BuffDuration = 60 * 3600;
+        public static int SicknessDuration = 50 * 60;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(BuffDuration / 3600);
 
         public override void SetStaticDefaults()
         {
-                          Item.ResearchUnlockCount = 30;
+            Item.ResearchUnlockCount = 30;
         }
 
         public override void SetDefaults()
@@ -40,13 +43,8 @@ namespace CalamityMod.Items.Potions
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            if (Main.LocalPlayer.pStone)
-            {
-                TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
-
-                if (line != null)
-                    line.Text = "Only gives 37 seconds of Potion Sickness";
-            }
+            string duration = Main.LocalPlayer.pStone ? (SicknessDuration / 60 * 0.75f).ToString("N1") : (SicknessDuration / 60).ToString();
+            list.FindAndReplace("[S]", duration);
         }
 
         public override bool CanUseItem(Player player)

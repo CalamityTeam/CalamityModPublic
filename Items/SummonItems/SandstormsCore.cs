@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.World;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
@@ -15,7 +15,7 @@ namespace CalamityMod.Items.SummonItems
         public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
-           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 12; // Frost Legion
+           	ItemID.Sets.SortingPriorityBossSpawns[Type] = 12; // Frost Legion
         }
 
         public override void SetDefaults()
@@ -50,20 +50,7 @@ namespace CalamityMod.Items.SummonItems
             return true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            Player player = Main.LocalPlayer;
-            TooltipLine line0 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
-
-            if (Main.zenithWorld)
-            {
-                line0.Text = "Summons the Great Sand Shark when used in the astral desert";
-            }
-            else
-            {
-                line0.Text = "Summons the Great Sand Shark when used in the desert";
-            }
-        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[BIOME]", Main.zenithWorld ? CalamityUtils.GetTextValue("Biomes.AstralDesert") : Language.GetTextValue("Bestiary_Biomes.Desert"));
 
         public override void AddRecipes()
         {

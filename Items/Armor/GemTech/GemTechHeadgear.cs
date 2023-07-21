@@ -111,32 +111,32 @@ namespace CalamityMod.Items.Armor.GemTech
                         tooltips.Insert(setBonusIndex, largerDescription);
 
                         setBonusIndex++;
-                        TooltipLine redGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("RedGemInfo").Format(ItemID.Ruby, RogueStealthBoost));
+                        TooltipLine redGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("RedGemInfo").Format(RogueStealthBoost));
                         redGemTooltip.OverrideColor = new Color(224, 24, 0);
                         tooltips.Insert(setBonusIndex, redGemTooltip);
 
                         setBonusIndex++;
-                        TooltipLine yellowGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("YellowGemInfo").Format(ItemID.Topaz));
+                        TooltipLine yellowGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", CalamityUtils.GetTextValueFromModItem<GemTechHeadgear>("YellowGemInfo"));
                         yellowGemTooltip.OverrideColor = new Color(237, 170, 43);
                         tooltips.Insert(setBonusIndex, yellowGemTooltip);
 
                         setBonusIndex++;
-                        TooltipLine greenGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus4", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("GreenGemInfo").Format(ItemID.Emerald));
+                        TooltipLine greenGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus4", CalamityUtils.GetTextValueFromModItem<GemTechHeadgear>("GreenGemInfo"));
                         greenGemTooltip.OverrideColor = new Color(37, 188, 108);
                         tooltips.Insert(setBonusIndex, greenGemTooltip);
 
                         setBonusIndex++;
-                        TooltipLine blueGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus5", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("BlueGemInfo").Format(ItemID.Sapphire, SummonMinionCountBoost));
+                        TooltipLine blueGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus5", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("BlueGemInfo").Format(SummonMinionCountBoost));
                         blueGemTooltip.OverrideColor = new Color(37, 119, 206);
                         tooltips.Insert(setBonusIndex, blueGemTooltip);
 
                         setBonusIndex++;
-                        TooltipLine purpleGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus6", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("PurpleGemInfo").Format(ItemID.Amethyst, MagicManaBoost));
+                        TooltipLine purpleGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus6", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("PurpleGemInfo").Format(MagicManaBoost));
                         purpleGemTooltip.OverrideColor = new Color(200, 58, 209);
                         tooltips.Insert(setBonusIndex, purpleGemTooltip);
 
                         setBonusIndex++;
-                        TooltipLine pinkGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus7", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("PinkGemInfo").Format(ItemID.Diamond, BaseGemDefenseBoost, BaseGemLifeRegenBoost));
+                        TooltipLine pinkGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus7", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("PinkGemInfo").Format(BaseGemDefenseBoost, BaseGemLifeRegenBoost));
                         pinkGemTooltip.OverrideColor = new Color(255, 115, 206);
                         tooltips.Insert(setBonusIndex, pinkGemTooltip);
 

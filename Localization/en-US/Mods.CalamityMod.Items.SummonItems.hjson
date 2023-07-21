@@ -68,12 +68,15 @@ CosmicWorm: {
 
 CryoKey: {
 	DisplayName: Cryo Key
+	GFBName: Pryo Key
 	Tooltip:
 		'''
-		Summons Cryogen when used in the tundra
+		[SPAWN]
 		Enrages outside the tundra
 		Not consumable
 		'''
+	SpawnNormal: Summons Cryogen when used in the tundra
+	SpawnGFB: Summons Pryogen...? when used in the tundra
 }
 
 DeathWhistle: {
@@ -128,13 +131,15 @@ ExoticPheromones: {
 
 EyeofDesolation: {
 	DisplayName: Eye of Desolation
+	// The GFB tag generates a new line below when placed at the end of a line
 	Tooltip:
 		'''
-		Summons the Calamitas Clone when used during nighttime
+		Summons the Calamitas Clone when used during nighttime[GFB]
 		Enrages during the day
 		Not consumable
 		'Tonight is going to be a horrific night...'
 		'''
+	GFBInfo: Creates a square arena of blocks, with you at its center
 }
 
 CausticTear: {
@@ -212,11 +217,13 @@ ProfanedShard: {
 	DisplayName: Profaned Shard
 	Tooltip:
 		'''
-		Summons the Profaned Guardians when used in the Hallow or Underworld during daytime
+		[SPAWN]
 		Enrage when not in the Hallow or Underworld
 		Not consumable
 		A shard of the profaned flame
 		'''
+	SpawnNormal: Summons the Profaned Guardians when used in the Hallow or Underworld during daytime
+	SpawnRemix: Summons the Profaned Guardians when used in the Hallow or Underworld
 }
 
 RuneofKos: {
@@ -224,17 +231,25 @@ RuneofKos: {
 	Tooltip:
 		'''
 		Contains the power hunted relentlessly by the sentinels of the cosmic devourer
-		When used in certain areas of the world, it will unleash them
+		[SPAWN]
 		Not consumable
 		A relic of the profaned flame
 		'''
+	SpawnInfo: When used in certain areas of the world, it will unleash them
+	SpawnVoid:
+		'''
+		Summons the Ceaseless Void
+		Enrages on the surface
+		'''
+	SpawnSignus: Summons Signus, Envoy of the Devourer
+	SpawnWeaver: Summons the Storm Weaver
 }
 
 SandstormsCore: {
 	DisplayName: Sandstorm's Core
 	Tooltip:
 		'''
-		Summons the Great Sand Shark when used in the desert
+		Summons the Great Sand Shark when used in the [BIOME]
 		Not consumable
 		'''
 }
@@ -271,6 +286,7 @@ Teratoma: {
 
 Terminus: {
 	DisplayName: Terminus
+	GFBName: Ogscule
 	Tooltip:
 		'''
 		Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode

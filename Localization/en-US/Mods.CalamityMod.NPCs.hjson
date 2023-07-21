@@ -31,7 +31,7 @@ CragmawMire: {
 			Spawns during Acid Rain after the Aquatic Scourge has been defeated.
 			Start Acid Rain with a [i:CalamityMod/CausticTear]
 			'''
-		DespawnMessage: "[c/f0e68c:The Cragmaw Mire buries itself within the sand.]"
+		DespawnMessage: "[c/F0E68C:The Cragmaw Mire buries itself within the sand.]"
 	}
 }
 
@@ -48,7 +48,7 @@ Mauler: {
 			Spawns during Acid Rain after Polterghast has been defeated.
 			Start Acid Rain with a [i:CalamityMod/CausticTear]
 			'''
-		DespawnMessage: "[c/f0e68c:The brutish shark looks elsewhere to turn its aggression.]"
+		DespawnMessage: "[c/F0E68C:The brutish shark looks elsewhere to turn its aggression.]"
 	}
 }
 
@@ -61,7 +61,7 @@ NuclearTerror: {
 			Spawns during Acid Rain after Polterghast has been defeated.
 			Start Acid Rain with a [i:CalamityMod/CausticTear]
 			'''
-		DespawnMessage: "[c/f0e68c:The radioactive aberration fades away in a sickly light.]"
+		DespawnMessage: "[c/F0E68C:The radioactive aberration fades away in a sickly light.]"
 	}
 }
 
@@ -79,7 +79,7 @@ AquaticScourgeHead: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use a [i:CalamityMod/Seafood] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea
-		DespawnMessage: "[c/f0e68c:The poisoned scourge swims back to the tranquil, open ocean.]"
+		DespawnMessage: "[c/F0E68C:The poisoned scourge swims back to the tranquil, open ocean.]"
 		EntryName: Aquatic Scourge
 	}
 }
@@ -106,7 +106,7 @@ AstrumAureus: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use an [i:CalamityMod/AstralChunk] at Night in the Astral Biome
-		DespawnMessage: "[c/ffd700:Aureus has neutralized all threats. Resume prior reconnaissance.]"
+		DespawnMessage: "[c/FFD700:Aureus has neutralized all threats. Resume prior reconnaissance.]"
 	}
 }
 
@@ -117,7 +117,7 @@ AstrumDeusHead: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use a [i:CalamityMod/TitanHeart] or [i:CalamityMod/Starcore] as offering at an [i:CalamityMod/AstralBeaconItem]
-		DespawnMessage: "[c/ffd700:The infected deity retreats to the heavens.]"
+		DespawnMessage: "[c/FFD700:The infected deity retreats to the heavens.]"
 		EntryName: Astrum Deus
 	}
 }
@@ -129,7 +129,7 @@ BrimstoneElemental: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use a [i:CalamityMod/CharredIdol] in the Brimstone Crag
-		DespawnMessage: "[c/dc143c:The elemental ever maintains her somber vigil over Azafure…]"
+		DespawnMessage: "[c/DC143C:The elemental ever maintains her somber vigil over Azafure…]"
 	}
 }
 
@@ -141,7 +141,7 @@ Bumblefuck: {
 	BossChecklistIntegration: {
 		EntryName: Dragonfolly
 		SpawnInfo: Use [i:CalamityMod/ExoticPheromones] in the Jungle Biome
-		DespawnMessage: "[c/ffd700:The folly returns to its secluded roost.]"
+		DespawnMessage: "[c/FFD700:The folly returns to its secluded roost.]"
 	}
 }
 
@@ -153,7 +153,7 @@ CalamitasClone: {
 	BossChecklistIntegration: {
 		EntryName: The Calamitas Clone
 		SpawnInfo: Use an [i:CalamityMod/EyeofDesolation] at Night
-		DespawnMessage: "[c/ffa500:The clone spits a bit of blood in disappointment and vanishes.]"
+		DespawnMessage: "[c/FFA500:The clone spits a bit of blood in disappointment and vanishes.]"
 	}
 }
 
@@ -166,7 +166,7 @@ CeaselessVoid: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use a [i:CalamityMod/RuneofKos] in the Dungeon
-		DespawnMessage: "[c/4b0082:The ancient spatial rift slips away to places unknown.]"
+		DespawnMessage: "[c/4B0082:The ancient spatial rift slips away to places unknown.]"
 		EntryName: Ceaseless Void
 	}
 }
@@ -179,7 +179,7 @@ Crabulon: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use a [i:CalamityMod/DecapoditaSprout] in the Mushroom Biome
-		DespawnMessage: "[c/6495ed:The monstrous mycelial crab shuffles away…]"
+		DespawnMessage: "[c/6495ED:The monstrous mycelial crab shuffles away…]"
 	}
 }
 
@@ -197,7 +197,7 @@ Cryogen: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use a [i:CalamityMod/CryoKey] in the Snow Biome
-		DespawnMessage: "[c/00ffff:Cryogen disappears amidst the biting winds of the blizzard.]"
+		DespawnMessage: "[c/00FFFF:Cryogen disappears amidst the biting winds of the blizzard.]"
 	}
 }
 
@@ -211,7 +211,7 @@ DesertScourgeHead: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use a [i:CalamityMod/DesertMedallion] in the Desert Biome
-		DespawnMessage: "[c/eee8aa:The scourge of the desert delves back into the sand.]"
+		DespawnMessage: "[c/EEE8AA:The scourge of the desert delves back into the sand.]"
 		EntryName: Desert Scourge
 	}
 }
@@ -224,7 +224,7 @@ DevourerofGodsHead: {
 	BossChecklistIntegration: {
 		EntryName: Devourer of Gods
 		SpawnInfo: Use a [i:CalamityMod/CosmicWorm]
-		DespawnMessage: "[c/00ffff:The Devourer of Gods haughtily returns to the depths of the Distortion.]"
+		DespawnMessage: "[c/00FFFF:The Devourer of Gods haughtily returns to the depths of the Distortion.]"
 	}
 }
 
@@ -239,7 +239,7 @@ Apollo: {
 	BossChecklistIntegration: {
 		EntryName: Exo Mechs
 		SpawnInfo: By using a high-tech computer
-		DespawnMessage: "[c/7fffd4:An imperfection after all… what a shame.]"
+		DespawnMessage: "[c/7FFFD4:An imperfection after all… what a shame.]"
 	}
 }
 
@@ -285,7 +285,7 @@ GreatSandShark: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Kill 10 sand sharks after defeating Plantera or use a [i:CalamityMod/SandstormsCore] in the Desert Biome
-		DespawnMessage: "[c/daa520:The apex predator of the sands disappears between the dunes.]"
+		DespawnMessage: "[c/DAA520:The apex predator of the sands disappears between the dunes.]"
 	}
 }
 
@@ -298,7 +298,7 @@ HiveMind: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Kill a Tumor in the Corruption or use a [i:CalamityMod/Teratoma] in the Corruption
-		DespawnMessage: "[c/9400d3:The Hive Mind flits away to brood elsewhere.]"
+		DespawnMessage: "[c/9400D3:The Hive Mind flits away to brood elsewhere.]"
 	}
 }
 
@@ -313,7 +313,7 @@ Leviathan: {
 	BossChecklistIntegration: {
 		EntryName: Leviathan
 		SpawnInfo: By killing an unknown entity in the Ocean Biome
-		DespawnMessage: "[c/7fffd4:The aquatic outcasts return to their lonesome company.]"
+		DespawnMessage: "[c/7FFFD4:The aquatic outcasts return to their lonesome company.]"
 	}
 }
 
@@ -373,7 +373,7 @@ OldDuke: {
 	BossChecklistIntegration: {
 		EntryName: Old Duke
 		SpawnInfo: Defeat the Acid Rain event post-Polterghast or fish using a [i:CalamityMod/BloodwormItem] in the Sulphurous Sea
-		DespawnMessage: "[c/f0e68c:The old duke retreats further into the acidic downpour.]"
+		DespawnMessage: "[c/F0E68C:The old duke retreats further into the acidic downpour.]"
 	}
 }
 
@@ -395,7 +395,7 @@ PerforatorHive: {
 	BossChecklistIntegration: {
 		EntryName: The Perforators
 		SpawnInfo: Kill a Cyst in the Crimson or use a [i:CalamityMod/BloodyWormFood] in the Crimson
-		DespawnMessage: "[c/dc143c:The Perforators search for more hosts to gorge themselves on.]"
+		DespawnMessage: "[c/DC143C:The Perforators search for more hosts to gorge themselves on.]"
 	}
 }
 
@@ -405,7 +405,7 @@ PlaguebringerGoliath: {
 	BossChecklistIntegration: {
 		EntryName: Plaguebringer Goliath
 		SpawnInfo: Use an [i:CalamityMod/Abombination] in the Jungle Biome
-		DespawnMessage: "[c/00ff00:SPECIMENS EUTHANIZED. EXITING COMBAT PROTOCOL.]"
+		DespawnMessage: "[c/00FF00:SPECIMENS EUTHANIZED. EXITING COMBAT PROTOCOL.]"
 	}
 }
 
@@ -424,7 +424,7 @@ Polterghast: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Kill 30 phantom spirits or use a [i:CalamityMod/NecroplasmicBeacon] in the Dungeon
-		DespawnMessage: "[c/b0e0e6:The volatile phantasm disperses in an echoing wail.]"
+		DespawnMessage: "[c/B0E0E6:The volatile phantasm disperses in an echoing wail.]"
 		EntryName: Polterghast
 	}
 }
@@ -441,7 +441,7 @@ ProfanedGuardianCommander: {
 	BossChecklistIntegration: {
 		EntryName: Profaned Guardians
 		SpawnInfo: Use a [i:CalamityMod/ProfanedShard] in the Hallow or Underworld Biomes
-		DespawnMessage: "[c/ffa500:The Guardians are recalled to their Goddess' side.]"
+		DespawnMessage: "[c/FFA500:The Guardians are recalled to their Goddess' side.]"
 	}
 }
 
@@ -455,7 +455,7 @@ Providence: {
 	BossChecklistIntegration: {
 		EntryName: Providence
 		SpawnInfo: Use [i:CalamityMod/ProfanedCore] in the Hallow or Underworld Biomes
-		DespawnMessage: "[c/ffa500:The Profaned Goddess veils herself in purifying flame, leaving only ashes behind…]"
+		DespawnMessage: "[c/FFA500:The Profaned Goddess veils herself in purifying flame, leaving only ashes behind…]"
 	}
 }
 
@@ -469,7 +469,7 @@ RavagerBody: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use a [i:CalamityMod/DeathWhistle]
-		DespawnMessage: "[c/b22222:The Ravager resumes its aimless, horrific rampage.]"
+		DespawnMessage: "[c/B22222:The Ravager resumes its aimless, horrific rampage.]"
 		EntryName: Ravager
 	}
 }
@@ -484,7 +484,7 @@ Signus: {
 	BossChecklistIntegration: {
 		EntryName: Signus
 		SpawnInfo: Use a [i:CalamityMod/RuneofKos] in the Underworld
-		DespawnMessage: "[c/ba55d3:Signus inexplicably ceases to be where he once was.]"
+		DespawnMessage: "[c/BA55D3:Signus inexplicably ceases to be where he once was.]"
 	}
 }
 
@@ -499,7 +499,7 @@ SlimeGodCore: {
 	BossChecklistIntegration: {
 		EntryName: Slime God
 		SpawnInfo: Use an [i:CalamityMod/OverloadedSludge]
-		DespawnMessage: "[c/ba5533:The grimy, gelatinous God hops away, its vengeance achieved.]"
+		DespawnMessage: "[c/BA5533:The grimy, gelatinous God hops away, its vengeance achieved.]"
 	}
 }
 
@@ -511,7 +511,7 @@ StormWeaverHead: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use a [i:CalamityMod/RuneofKos] in Space
-		DespawnMessage: "[c/ee82ee:Storm Weaver hides itself within the fierce anvilhead clouds.]"
+		DespawnMessage: "[c/EE82EE:Storm Weaver hides itself within the fierce anvilhead clouds.]"
 		EntryName: Storm Weaver
 	}
 }
@@ -535,7 +535,7 @@ GiantClam: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Can spawn naturally in the Sunken Sea
-		DespawnMessage: "[c/7fffd4:The Giant Clam returns into hiding in its grotto.]"
+		DespawnMessage: "[c/7FFFD4:The Giant Clam returns into hiding in its grotto.]"
 	}
 }
 
@@ -554,7 +554,7 @@ SupremeCalamitas: {
 
 	BossChecklistIntegration: {
 		SpawnInfo: Use [i:CalamityMod/AshesofCalamity] or a [i:CalamityMod/CeremonialUrn] as offering at an [i:CalamityMod/AltarOfTheAccursedItem]
-		DespawnMessage: "[c/ffa500:Please don't waste my time.]"
+		DespawnMessage: "[c/FFA500:Please don't waste my time.]"
 	}
 }
 
@@ -567,7 +567,7 @@ Yharon: {
 	BossChecklistIntegration: {
 		EntryName: Yharon
 		SpawnInfo: Use a [i:CalamityMod/YharonEgg]
-		DespawnMessage: "[c/ffa500:Yharon soars out of sight, his task fulfilled.]"
+		DespawnMessage: "[c/FFA500:Yharon soars out of sight, his task fulfilled.]"
 	}
 }
 

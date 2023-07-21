@@ -540,7 +540,9 @@ GunkShot: {
 
 HalibutCannon: {
 	DisplayName: Halibut Cannon
-	Tooltip: "'Yes, it's still overpowered'"
+	Tooltip: "[GFB]"
+	TooltipNormal: "'Yes, it's still overpowered'"
+	TooltipGFB: "'No, it sucks now'"
 }
 
 HalleysInferno: {
@@ -704,6 +706,12 @@ MidasPrime: {
 		Striking a coin with a bullet causes it to ricochet into the nearest enemy
 		Up to 4 coins can be tossed simultaneously, and shots will ricochet off multiple coins if possible
 		Ricocheted bullets always critically strike and do bonus damage based on the coins used
+		'''
+	UltrakillEasterEgg:
+		'''
+		MANKIND IS DEAD.
+		BLOOD IS FUEL.
+		HELL IS FULL.
 		'''
 }
 

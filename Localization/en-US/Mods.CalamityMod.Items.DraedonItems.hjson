@@ -25,7 +25,7 @@ AuricQuantumCoolingCell: {
 		Can be placed in the Codebreaker, completing it
 		Greatly decreases decryption time
 		The completion of the Codebreaker allows you to make contact with its original creator
-		Attempting to do so may have dire consequences
+		[c/8B00000:Attempting to do so may have dire consequences]
 		'''
 }
 

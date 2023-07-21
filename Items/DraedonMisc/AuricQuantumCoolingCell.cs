@@ -30,11 +30,7 @@ namespace CalamityMod.Items.DraedonMisc
             Item.rare = ModContent.RarityType<Violet>();
         }
 
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria").OverrideColor = Color.DarkRed;
-            CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 5, true);
-        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 5, true);
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {

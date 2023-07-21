@@ -283,12 +283,12 @@ GemTechHeadgear: {
 		When a gem is lost, it breaks off and homes towards the nearest enemy or boss, if one is present, dealing a base of {1} damage
 		Gems have a {2} second delay before they appear again"
 		'''
-	RedGemInfo: "[i:{0}] The red gem grants {1} maximum stealth, increased rogue stats, and makes stealth only consumable by rogue weapons"
-	YellowGemInfo: "[i:{0}] The yellow gem provides increased melee stats and makes melee attacks release shards on hit with a cooldown. This cooldown is shorter for true melee attacks"
-	GreenGemInfo: "[i:{0}] The green gem provides increased ranged stats and causes flechettes to fly swiftly towards targets when they are damaged by a ranged projectile"
-	BlueGemInfo: "[i:{0}] The blue gem grants {1} extra maximum minions, increased minion damage, and negates the minion damage penalty while wielding non-summoner weapons"
-	PurpleGemInfo: "[i:{0}] The violet gem grants {1} extra maximum mana, increased magic stats, and makes mana rapidly regenerate when holding a non-magic weapon"
-	PinkGemInfo: "[i:{0}] The pink base gem grants {1} extra defense, extra damage reduction, increased movement speed, jump speed, and +{2} life regen"
+	RedGemInfo: "[i:Ruby] The red gem grants {0} maximum stealth, increased rogue stats, and makes stealth only consumable by rogue weapons"
+	YellowGemInfo: "[i:Topaz] The yellow gem provides increased melee stats and makes melee attacks release shards on hit with a cooldown. This cooldown is shorter for true melee attacks"
+	GreenGemInfo: "[i:Emerald] The green gem provides increased ranged stats and causes flechettes to fly swiftly towards targets when they are damaged by a ranged projectile"
+	BlueGemInfo: "[i:Sapphire] The blue gem grants {0} extra maximum minions, increased minion damage, and negates the minion damage penalty while wielding non-summoner weapons"
+	PurpleGemInfo: "[i:Amethyst] The violet gem grants {0} extra maximum mana, increased magic stats, and makes mana rapidly regenerate when holding a non-magic weapon"
+	PinkGemInfo: "[i:Diamond] The pink base gem grants {0} extra defense, extra damage reduction, increased movement speed, jump speed, and +{1} life regen"
 	GemBonusInfo:
 		'''
 		When all gems exist simultaneously, hitting a target with any weapon grants you +{0} life regen for {1} seconds

@@ -1,5 +1,19 @@
+// For general uses
+Abyss: Abyss
+AstralInfection: Astral Infection
+AstralDesert: Astral Desert
+AstralSnow: Astral Snow
+BrimstoneCrags: Brimstone Crags
+SulphurousSea: Sulphurous Sea
+SunkenSea: Sunken Sea
+
 AbovegroundAstralBiome: {
 	DisplayName: Astral Infection
+	TownNPCDialogueName: Astral Infection
+}
+
+AbovegroundAstralBiomeSurface: {
+	DisplayName: Astral Surface
 	TownNPCDialogueName: Astral Infection
 }
 
@@ -61,9 +75,4 @@ SunkenSeaBiome: {
 UndergroundAstralBiome: {
 	DisplayName: Astral Underground
 	TownNPCDialogueName: Underground Astral Infection
-}
-
-AbovegroundAstralBiomeSurface: {
-	DisplayName: Astral Surface
-	TownNPCDialogueName: Astral Infection
 }

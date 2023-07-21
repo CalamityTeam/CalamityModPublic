@@ -22,8 +22,8 @@ DropCondition: {
 }
 
 // Status
-WikiStatus1: "[i:149][c/EE4939:Note: The Fandom wiki is no longer supported by Calamity.] [i:149]"
-WikiStatus2: "[i:149][c/EE4939:Check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] [i:149]"
+WikiStatus1: "[i:Book][c/EE4939:Note: The Fandom wiki is no longer supported by Calamity.] [i:Book]"
+WikiStatus2: "[i:Book][c/EE4939:Check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] [i:Book]"
 // Recipe Conditions
 Tier1ArsenalRecipeCondition: View an unencrypted schematic from the lab near the Sunken Sea
 Tier2ArsenalRecipeCondition: Decrypt a schematic from the lab in the large planetoid in the sky
@@ -51,7 +51,7 @@ SevensTriples: Triples!
 StylishHammerHit: Stylish!
 ThirdSageBlessingText: You have been blessed by the Third Sage!
 ThirdSageBlessingText2: The Third Sage has rescinded its blessing...
-GenericConsumedText: "[c/8a8a8a:You have already consumed this item]"
+GenericConsumedText: "[c/8A8A8A:You have already consumed this item]"
 BloodOrangeText: You have already consumed a Blood Orange. Eating any more would not be good for you.
 MiracleFruitText: You have already consumed a Miracle Fruit. Having another would make you sick.
 ElderberryText: You have already consumed an Elderberry. It is probably not wise to eat more than one.

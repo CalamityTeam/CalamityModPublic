@@ -1598,10 +1598,10 @@ StatMeter: {
 		'''
 
 	ClassNameOverride: {
-		SummonMeleeSpeed: " (whip)"
 		Default: true damage
 		Generic: classless damage
 		NoSpeed: " (no speed)"
+		SummonMeleeSpeed: " (whip)"
 	}
 
 	DamageStats:
@@ -1733,7 +1733,7 @@ TheCommunity: {
 		'''
 		[STATS]
 		'The heart of (most of) the Terraria community'
-		[c/b00ba5:Thank you to all of my supporters who made this mod a reality!]
+		[c/B00BA5:Thank you to all of my supporters who made this mod a reality!]
 		'''
 	StatsList:
 		'''
