@@ -207,6 +207,6 @@ WulfrumTreasurePinger: {
 	Tooltip:
 		'''
 		Locates nearby metal that's hopefully more valuable than wulfrum
-		This contraption seems incredibly shoddy. [c/fc4903:It'll break sooner than later for sure]
+		This contraption seems incredibly shoddy. [c/FC4903:It'll break sooner than later for sure]
 		'''
 }

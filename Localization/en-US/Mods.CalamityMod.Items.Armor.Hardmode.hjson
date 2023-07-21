@@ -66,7 +66,7 @@ CirrusDress: {
 		'''
 		5% increased magic damage and critical strike chance
 		20% decreased movement speed and increases maximum fall speed to 61 mph
-		[c/b00ba5:'Here, this should help you drink a lot more than usual!']
+		[c/B00BA5:'Here, this should help you drink a lot more than usual!']
 		'You feel thick...'
 		'''
 }

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.SummonItems
         public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
-           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 7; // Mechanical Eye
+           	ItemID.Sets.SortingPriorityBossSpawns[Type] = 7; // Mechanical Eye
         }
 
         public override void SetDefaults()
@@ -68,23 +68,13 @@ namespace CalamityMod.Items.SummonItems
             return false;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
+        public override void UpdateInventory(Player player)
         {
-            Player player = Main.LocalPlayer;
-            TooltipLine name = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "ItemName");
-            TooltipLine line0 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
-
             if (Main.zenithWorld)
-            {
-                name.Text = "Pyro Key";
-                line0.Text = "Summons Cryogen when used in the tundra...?";
-            }
-            else
-            {
-                name.Text = "Cryo Key";
-                line0.Text = "Summons Cryogen when used in the tundra";
-            }
+                Item.SetNameOverride(this.GetLocalizedValue("GFBName"));
         }
+
+        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[SPAWN]", this.GetLocalizedValue(Main.zenithWorld ? "SpawnGFB" : "SpawnNormal"));
 
         public override void AddRecipes()
         {

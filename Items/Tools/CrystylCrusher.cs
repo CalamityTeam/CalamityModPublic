@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-                       Item.staff[Item.type] = true;
+            Item.staff[Item.type] = true;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Tools
         {
             Item.damage = 400;
             Item.knockBack = 9f;
-            Item.useTime = 3;
-            Item.useAnimation = 3;
+            Item.useTime = 1;
+            Item.useAnimation = 10;
             Item.pick = PickPower;
             Item.tileBoost = 50;
 
@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Tools
                 float kb = player.GetTotalKnockback<MeleeDamageClass>().ApplyTo(Item.knockBack);
                 Projectile.NewProjectile(Item.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<CrystylCrusherRay>(), damage, kb, player.whoAmI);
                 Item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
-                Item.tileBoost = -6;
+                Item.tileBoost = int.MinValue;
                 Item.autoReuse = false;
             }
             else if (player.ownedProjectileCounts[ModContent.ProjectileType<CrystylCrusherRay>()] <= 0)
@@ -89,15 +89,7 @@ namespace CalamityMod.Items.Tools
 
         public override bool? UseItem(Player player)
         {
-            if (player.altFunctionUse == 2)
-            {
-                Item.noMelee = true;
-            }
-            else
-            {
-                Item.noMelee = false;
-            }
-
+            Item.noMelee = player.altFunctionUse == 2;
             return base.UseItem(player);
         }
 
@@ -109,7 +101,6 @@ namespace CalamityMod.Items.Tools
                 Item.UseSound = null;
                 Item.useTurn = false;
             }
-
             else
             {
                 Item.useStyle = ItemUseStyleID.Swing;
@@ -125,7 +116,7 @@ namespace CalamityMod.Items.Tools
                 TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "TileBoost");
 
                 if (line != null)
-                    line.Text = "";
+                    line.Text = string.Empty;
             }
         }
 

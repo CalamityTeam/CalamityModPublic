@@ -4,7 +4,6 @@ using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.Rarities;
-using System.Linq;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.SummonItems
         public static readonly SoundStyle StormSound = new("CalamityMod/Sounds/Item/StormWeaverSpawn");
         public override void SetStaticDefaults()
         {
-           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
+           	ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()
@@ -81,19 +80,14 @@ namespace CalamityMod.Items.SummonItems
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.LocalPlayer;
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
-
-            if (line != null) {
-                if (player.ZoneDungeon)
-                {
-                    line.Text = "Summons the Ceaseless Void" +
-                        "\nEnrages on the surface";
-                }
-                else if (player.ZoneSkyHeight)
-                    line.Text = "Summons the Storm Weaver";
-                else if (player.ZoneUnderworldHeight)
-                    line.Text = "Summons Signus, Envoy of the Devourer";
-            }
+            string line = this.GetLocalizedValue("SpawnInfo");
+            if (player.ZoneDungeon)
+                line = this.GetLocalizedValue("SpawnVoid");
+            else if (player.ZoneUnderworldHeight)
+                line = this.GetLocalizedValue("SpawnSignus");
+            else if (player.ZoneSkyHeight)
+                line = this.GetLocalizedValue("SpawnWeaver");
+            list.FindAndReplace("[SPAWN]", line);
         }
 
         public override void AddRecipes()

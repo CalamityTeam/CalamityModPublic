@@ -275,10 +275,11 @@ ElementalRay: {
 
 Eternity: {
 	DisplayName: Eternity
+	// Color changes at the second line of tooltip via ModifyTooltips.
 	Tooltip:
 		'''
 		Hexes a possible nearby enemy, trapping them in a brilliant display of destruction
-		This line is modified in ModifyTooltips
+		'There's pictures of ponies in the book'
 		'''
 }
 
@@ -376,8 +377,8 @@ GruesomeEminence: {
 		Summons a gaseous conglomeration of spirits near the cursor
 		At first, the spirits will fly wildly. This can hurt enemies and players
 		However, over time they will begin to accumulate to create a single, controllable monstrosity
-		[c/c61b40:'The spirits of the amalgam could never pass on to their desired afterlife,]
-		[c/c61b40:Tainted and melded by rage as they were.']
+		[c/C61B40:'The spirits of the amalgam could never pass on to their desired afterlife,]
+		[c/C61B40:Tainted and melded by rage as they were.']
 		'''
 }
 
@@ -610,6 +611,7 @@ PurgeGuzzler: {
 
 RainbowPartyCannon: {
 	DisplayName: Rainbow Party Cannon
+	// Color changes at the first line of tooltip via ModifyTooltips.
 	Tooltip: "'Let the rainbow remind you that together we will always shine...'"
 }
 
@@ -619,8 +621,8 @@ Rancor: {
 		'''
 		Casts a magic circle that charges energy and eventually releases a powerful laser burst of controlled maleficent magic
 		The laser causes arms and searing lava to appear on surfaces it touches which harm both you and enemies
-		[c/c61b40:'Forgiveness can only heal so much,]
-		[c/c61b40:If the recipient has not yet forgiven themselves.']
+		[c/C61B40:'Forgiveness can only heal so much,]
+		[c/C61B40:If the recipient has not yet forgiven themselves.']
 		'''
 }
 
@@ -947,5 +949,8 @@ WyvernsCall: {
 
 YharimsCrystal: {
 	DisplayName: Yharim's Crystal
-	Tooltip: Fires draconic beams of total annihilation
+	GFBName: yermes christal
+	Tooltip: "[GFB]"
+	TooltipNormal: Fires draconic beams of total annihilation
+	TooltipGFB: ...throughs a pice of dnimite
 }

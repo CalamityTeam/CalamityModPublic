@@ -129,8 +129,8 @@ CindersOfLament: {
 		Summons either Cataclysm or Catastrophe at the mouse position
 		They will look at you for a moment before charging at you
 		They can do damage to both you and enemies
-		[c/c61b40:'The Witch, a sinner of her own making,]
-		[c/c61b40:Within her mind her demon lies, ever patient, until the end of time.']
+		[c/C61B40:'The Witch, a sinner of her own making,]
+		[c/C61B40:Within her mind her demon lies, ever patient, until the end of time.']
 		'''
 }
 
@@ -335,7 +335,7 @@ FlamsteedRing: {
 		The top icon is the mech's weaponry. It must be powered in order to attack
 		Click the top icon to switch between Regicide, an enormous energy blade, and a powerful Gauss rifle
 		Exiting the mount while a boss is alive will temporarily hinder your movement
-		[c/87ceeb:'Now, make them pay']
+		[c/87CEEB:'Now, make them pay']
 		'''
 }
 
@@ -475,8 +475,8 @@ Metastasis: {
 		While the Sepulcher is active brimstone hearts will begin to appear and orbit you
 		It will attempt to attack you more and more frequently depending on how many hearts are present
 		It takes up 4 minion slots and it can only be summoned once
-		[c/c61b40:A contemplated possible future of the cosmic serpent,]
-		[c/c61b40:A gruesome warning for those blinded by the hunger for power.]
+		[c/C61B40:A contemplated possible future of the cosmic serpent,]
+		[c/C61B40:A gruesome warning for those blinded by the hunger for power.]
 
 		'''
 }

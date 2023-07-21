@@ -1596,6 +1596,14 @@ StatMeter: {
 		Rage Damage Boost: {0}% | Rage Mode Duration: {1} seconds
 		Adrenaline Damage Boost: {2}% | Adrenaline DR Boost: {3}%
 		'''
+
+	ClassNameOverride: {
+		Default: true damage
+		Generic: classless damage
+		NoSpeed: " (no speed)"
+		SummonMeleeSpeed: " (whip)"
+	}
+
 	DamageStats:
 		'''
 		Class: {0}
@@ -1606,14 +1614,14 @@ StatMeter: {
 	DamageNormal: "{0}%"
 	DamageMult: " x{0}"
 	DamageFlat: " {0} flat"
-	Crit: Crit Chance: {0}%
+	Crit: " | Crit Chance: {0}%"
 	AttackSpeed: Attack Speed: {0}%
 	WhipMeleeInheritance: " [{0}% from melee]"
 	// Class stats
 	RangedStats: Ammo Consumption Chance: {0}
 	MagicStats: Mana Usage: {0}% | Mana Regen: {1}
 	SummonStats: Minion Slots: {0} | Sentry Slots: {1}
-	WhipStats: Whip Range: {0}
+	WhipStats: Whip Range: {0}%
 	RogueStats:
 		'''
 		Max Stealth: {0} | Standing Regen: {1} / sec | Moving Regen: {2} / sec
@@ -1621,9 +1629,9 @@ StatMeter: {
 		'''
 	RogueConsumption: " | Rogue Weapon Consumption Chance: {0}%"
 	// Utility stats
-	ToolRange: Tool Range: ({0}, {1})
+	ToolRange: Tool Range Bonus: ({0}, {1})
 	MiningSpeed: " | Mining Speed: {0}%"
-	PlacementRange: Placement Range: ({0}, {1})
+	PlacementRange: Placement Range Bonus: ({0}, {1})
 	TileSpeed: " | Block Placement Speed: {0}%"
 	WallSpeed: " | Wall Placement Speed: {0}%"
 	// Other stats
@@ -1725,7 +1733,7 @@ TheCommunity: {
 		'''
 		[STATS]
 		'The heart of (most of) the Terraria community'
-		[c/b00ba5:Thank you to all of my supporters who made this mod a reality!]
+		[c/B00BA5:Thank you to all of my supporters who made this mod a reality!]
 		'''
 	StatsList:
 		'''

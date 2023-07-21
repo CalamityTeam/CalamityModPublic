@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Pets
         public new string LocalizationCategory => "Projectiles.Pets";
         public override void SetStaticDefaults()
         {
-            Main.projFrames[Projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 6;
             Main.projPet[Projectile.type] = true;
         }
 
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (Projectile.frame >= 4)
             {
-                Projectile.frame = 2;
+                Projectile.frame = 0;
             }
         }
     }

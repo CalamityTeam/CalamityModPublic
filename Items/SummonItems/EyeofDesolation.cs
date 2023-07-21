@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.CalClone;
@@ -100,16 +99,7 @@ namespace CalamityMod.Items.SummonItems
             return true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            Player player = Main.LocalPlayer;
-            TooltipLine line3 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
-
-            if (Main.zenithWorld)
-            {
-                line3.Text = "Creates a square arena of blocks, with you at its center\nEnrages during the day";
-            }
-        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[GFB]", Main.zenithWorld ? "\n" + this.GetLocalizedValue("GFBInfo") : string.Empty);
 
         public override void AddRecipes()
         {

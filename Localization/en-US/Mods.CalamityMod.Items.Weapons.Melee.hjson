@@ -74,10 +74,28 @@ ArkoftheCosmos: {
 	DisplayName: Ark of the Cosmos
 	Tooltip:
 		'''
-		This line gets set in ModifyTooltips
-		This line also gets set in ModifyTooltips
-		This line also gets set in ModifyTooltips
+		[COMBO]
+		[PARRY]
+		[BLAST]
 		The physical culmination of your journey, capable of rending gods asunder
+		'''
+	ComboInfo:
+		'''
+		<left> to perform a 5-swing combo that ends by throwing the blade
+		The thrown blade will follow your cursor
+		Releasing while the blade is out will cause an exploding snap
+		'''
+	ParryInfo:
+		'''
+		<right> to snip out the scissor blades in front of you
+		Hitting an enemy with it will parry them, granting you brief invulnerability
+		You can parry projectiles to make them deal 160 less damage for a short period
+		Parrying anything will empower the next 10 swings of the sword
+		'''
+	BlastInfo:
+		'''
+		Pressing <right> while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges
+		If more than 5 charges were used, you can dash across the rip by holding UP
 		'''
 }
 
@@ -85,10 +103,27 @@ ArkoftheElements: {
 	DisplayName: Ark of the Elements
 	Tooltip:
 		'''
-		This line gets set in ModifyTooltips
-		This line also gets set in ModifyTooltips
-		This line also gets set in ModifyTooltips
+		[COMBO]
+		[PARRY]
+		[BLAST]
 		A heavenly pair of blades infused with the essence of Terraria, powerful enough to cut through the fabric of reality
+		'''
+	ComboInfo:
+		'''
+		<left> to perform a 5-swing combo that ends by throwing the blade
+		Releasing while the blade is out will deal extra damage and give 2 charges
+		'''
+	ParryInfo:
+		'''
+		<right> to snip out the scissor blades in front of you
+		Hitting an enemy with it will parry them, granting you brief invulnerability
+		You can parry projectiles to make them deal 100 less damage for a short period
+		Parrying will empower the next 10 swings of the sword, letting you use both blades at once
+		'''
+	BlastInfo:
+		'''
+		Pressing <right> while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges
+		If more than 5 charges were used, you can dash across the rip by holding UP
 		'''
 }
 
@@ -188,15 +223,16 @@ BrinyBaron: {
 
 BrokenBiomeBlade: {
 	DisplayName: Broken Biome Blade
+	// See the attunement file for each attunement
 	Tooltip:
 		'''
-		FUNCTION_DESC
+		[FUNC]
 		Hold down <right> while standing still on flat ground to attune the weapon to the powers of the surrounding biome
 		Pressing <right> otherwise switches between the current attunement and an extra stored one
-		Main Attunement : [None]
-		Secondary Attunement: [None]
-
+		Main Attunement : [ATT1]
+		Secondary Attunement: [ATT2]
 		'''
+	DefaultFunction: Does nothing... yet
 }
 
 BurntSienna: {
@@ -449,7 +485,7 @@ FallenPaladinsHammer: {
 	Tooltip:
 		'''
 		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
-		Every third time the hammer returns, a spectral hammer will be summoned which violently explodes upon hitting an enemy
+		After returning three times, a homing spectral hammer is summoned with devastating impact
 		'''
 }
 
@@ -489,16 +525,16 @@ ForsakenSaber: {
 
 FourSeasonsGalaxia: {
 	DisplayName: Galaxia
+	// See the attunement file for each attunement
 	Tooltip:
 		'''
-		FUNCTION_DESC
-		FUNCTION_PASSIVE
+		[FUNC]
+		[PASS]
 		Freed from earthly shackles and coursing with cosmic power
 		Has access to all of the attunements at all times
 		Press <right> to cycle the sword's attunement depending on the cursor's position
-		Active Attunement : None
-		Passive Blessing : None
-
+		Active Attunement : [ATT]
+		Passive Blessing : [BLE]
 		'''
 }
 
@@ -506,8 +542,15 @@ FracturedArk: {
 	DisplayName: Fractured Ark
 	Tooltip:
 		'''
-		This line gets set in ModifyTooltips
+		[PARRY]
 		A worn down and rusty blade once wielded against the evil of this world, ready to be of use once more
+		'''
+	ParryInfo:
+		'''
+		<right> to extend the Ark out in front of you
+		Hitting an enemy with it will parry them, granting you a small window of invulnerability
+		You can also parry projectiles and temporarily make them deal 50 less damage
+		Parrying empowers the next 10 swings of the sword, boosting damage and letting them throw projectiles
 		'''
 }
 
@@ -575,18 +618,6 @@ GrandGuardian: {
 		Striking enemies causes a large explosion
 		Striking enemies that are under half life will cause them to release rainbow bolts
 		Enemies spawn healing orbs on death
-		'''
-}
-
-Orderbringer: {
-	DisplayName: Orderbringer
-	Tooltip:
-		'''
-		Fires a rainbow blade that emits rainbow rain on death for a time
-		A pale white sword from a forgotten land
-		You can hear faint yet comforting whispers emanating from the blade
-		'No matter where you may be you are never alone
-		I shall always be at your side, my lord'
 		'''
 }
 
@@ -661,8 +692,10 @@ Lacerator: {
 		'''
 		Enemies that are hit by the yoyo will have their life drained
 		A very agile yoyo
-		Someone thought this was a viable weapon against DoG at one point lol
+		[GFB]
 		'''
+	TooltipNormal: Someone thought this was a viable weapon against DoG at one point lol
+	TooltipGFB: May be a viable weapon against DoG...
 }
 
 LifefruitScythe: {
@@ -785,16 +818,22 @@ OldLordClaymore: {
 
 OmegaBiomeBlade: {
 	DisplayName: True Biome Blade
+	// See the attunement file for each attunement
 	Tooltip:
 		'''
-		FUNCTION_DESC
-		FUNCTION_PASSIVE
+		[FUNC]
+		[PASS]
 		Holding down <right> for 2 seconds attunes the weapon to the powers of the surrounding biome
 		Pressing <right> for a shorter period of time switches your active and passive attunements around
-		Active Attunement : None
-		Passive Attunement: None
-
+		Active Attunement : [ATT1]
+		Passive Attunement: [ATT2]
 		'''
+	DefaultFunction:
+		'''
+		Does nothing... yet
+		It seems that upgrading the blade expanded the scope of the previous attunements
+		'''
+	DefaultPassive: Your secondary attunement can now provide passive bonuses
 }
 
 Omniblade: {
@@ -811,6 +850,18 @@ Oracle: {
 		An exceptionally agile yoyo
 		'Gaze into the past, the present, the future... and the circumstances of your inevitable demise'
 
+		'''
+}
+
+Orderbringer: {
+	DisplayName: Orderbringer
+	Tooltip:
+		'''
+		Fires a rainbow blade that emits rainbow rain on death for a time
+		A pale white sword from a forgotten land
+		You can hear faint yet comforting whispers emanating from the blade
+		'No matter where you may be you are never alone
+		I shall always be at your side, my lord'
 		'''
 }
 
@@ -919,14 +970,15 @@ Riptide: {
 
 Roxcalibur: {
 	DisplayName: Roxcalibur
+	// The WOF tag generates a new line above when placed at the start of a line
 	Tooltip:
 		'''
-		The hellish Wall of Flesh holds the key to this weapon's power
-		Press <left> to shoot several rock shards
+		[WOF]Press <left> to shoot several rock shards
 		Press <right> to dive downwards and bounce off enemies
 		Diving into blocks creates a shockwave
 		You couldn't get it out of the rock, so you just brought the rock instead
 		'''
+	LockedInfo: The hellish Wall of Flesh holds the key to this weapon's power
 }
 
 SausageMaker: {
@@ -1020,7 +1072,12 @@ StarnightLance: {
 
 StellarContempt: {
 	DisplayName: Stellar Contempt
-	Tooltip: Lunar flares rain down on enemy hits
+	Tooltip:
+		'''
+		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
+		Consecutive hits call down more and more lunar flares from the sky
+		After returning five times, the hammer supercharges with lunar energy to pulverize your target
+		'''
 }
 
 StellarStriker: {
@@ -1196,21 +1253,34 @@ TrueArkoftheAncients: {
 	DisplayName: Ark of the Ancients
 	Tooltip:
 		'''
-		This line gets set in ModifyTooltips
+		[PARRY]
 		A heavenly blade forged to vanquish all evil
+		'''
+	ParryInfo:
+		'''
+		<right> to extend the Ark out in front of you
+		Hitting an enemy with it will parry them, granting you brief invulnerability
+		You can also parry projectiles to make them deal 80 less damage for a short period
+		Parrying empowers the next 10 swings of the sword, letting them throw stronger projectiles
+		Pressing <right> while holding UP will release all empowered charges in a powerful burst of energy
 		'''
 }
 
 TrueBiomeBlade: {
 	DisplayName: Biome Blade
+	// See the attunement file for each attunement
 	Tooltip:
 		'''
-		FUNCTION_DESC
+		[FUNC]
 		Hold down <right> while standing still on flat ground to attune the weapon to the powers of the surrounding biome
 		Pressing <right> otherwise switches between the current attunement and an extra stored one
-		Main Attunement : [None]
-		Secondary Attunement: [None]
-
+		Main Attunement : [ATT1]
+		Secondary Attunement: [ATT2]
+		'''
+	DefaultFunction:
+		'''
+		Does nothing... yet
+		Repairing the blade seems to have improved its attuning capacities
 		'''
 }
 

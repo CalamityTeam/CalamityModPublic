@@ -44,16 +44,12 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 0f;
         }
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        public override void ModifyTooltips(List<TooltipLine> list)
         {
-            TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
             if (line != null)
-                line.Text = $"[" + DisoHex + "'There's pictures of ponies in the book']";
+                line.OverrideColor = new Color((int)MathHelper.Lerp(156f, 255f, Main.DiscoR / 256f), 108, 251);
         }
-        public static string DisoHex => "c/" +
-            ((int)(156 + Main.DiscoR * 99f / 255f)).ToString("X2")
-            + 108.ToString("X2") + 251.ToString("X2") + ":";
         public override void AddRecipes()
         {
             CreateRecipe().

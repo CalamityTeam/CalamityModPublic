@@ -2,12 +2,11 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -22,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-           
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
@@ -287,13 +285,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-
-            if (line != null && Main.hardMode)
-                line.Text = "";
-        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[WOF]", Main.hardMode ? string.Empty : this.GetLocalizedValue("LockedInfo") + "\n");
 
         public override void AddRecipes()
         {

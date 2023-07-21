@@ -40,19 +40,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float SwirlBoltAmount = 6f; //The amount of cosmic bolts produced during hte swirl attack
         public static float SwirlBoltDamageMultiplier = 0.7f; //This is the damage multiplier for ALL THE BOLTS: Aka, said damage multiplier is divided by the amount of bolts in a swirl and the full damage multiplier is gotten if you hit all the bolts
 
-        const string ComboTooltip = "Pressing left click performs a 5-swing combo that ends by throwing the blade\n" +
-        "The thrown blade will follow your cursor\n" +
-        "Releasing left click while the blade is out will cause an exploding snap";
-
-        const string ParryTooltip = "Pressing right click will snip out the scissor blades in front of you\n" +
-        "Hitting an enemy with it will parry them, granting you brief invulnerability\n" +
-        "You can parry projectiles to make them deal 160 less damage for a short period\n" +
-        "Parrying anything will empower the next 10 swings of the sword";
-
-        const string BlastTooltip = "Pressing right click while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges\n" +
-        "If more than 5 charges were used, you can dash across the rip by holding UP";
-
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             if (tooltips == null)
@@ -62,24 +49,24 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            var comboTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[COMBO]") && x.Mod == "Terraria");
             if (comboTooltip != null)
             {
-                comboTooltip.Text = ComboTooltip;
+                comboTooltip.Text = Lang.SupportGlyphs(this.GetLocalizedValue("ComboInfo"));
                 comboTooltip.OverrideColor = Color.Lerp(Color.Gold, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
             }
 
-            var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
+            var parryTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[PARRY]") && x.Mod == "Terraria");
             if (parryTooltip != null)
             {
-                parryTooltip.Text = ParryTooltip;
+                parryTooltip.Text = Lang.SupportGlyphs(this.GetLocalizedValue("ParryInfo"));
                 parryTooltip.OverrideColor = Color.Lerp(Color.Cyan, Color.DeepSkyBlue, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.75f);
             }
 
-            var blastTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria");
+            var blastTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[BLAST]") && x.Mod == "Terraria");
             if (blastTooltip != null)
             {
-                blastTooltip.Text = BlastTooltip;
+                blastTooltip.Text = Lang.SupportGlyphs(this.GetLocalizedValue("BlastInfo"));
                 blastTooltip.OverrideColor = Color.Lerp(Color.HotPink, Color.Crimson, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.625f);
             }
         }

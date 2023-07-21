@@ -31,18 +31,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets
         public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
 
-
-        const string ComboTooltip = "Pressing left click performs a 5-swing combo that ends by throwing the blade\n" +
-        "Releasing left click while the blade is out will deal extra damage and give 2 charges";
-
-        const string ParryTooltip = "Pressing right click will snip out the scissor blades in front of you\n" +
-        "Hitting an enemy with it will parry them, granting you brief invulnerability\n" +
-        "You can also parry projectiles to make them deal 100 less damage for a short period\n" +
-        "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
-
-        const string BlastTooltip = "Pressing right click while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges\n" +
-        "If more than 5 charges were used, you can dash across the rip by holding UP";
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             if (tooltips == null)
@@ -52,22 +40,22 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            var comboTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[COMBO]") && x.Mod == "Terraria");
             if (comboTooltip != null)
             {
-                comboTooltip.Text = ComboTooltip;
+                comboTooltip.Text = Lang.SupportGlyphs(this.GetLocalizedValue("ComboInfo"));
                 comboTooltip.OverrideColor = Color.Crimson;
             }
-            var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
+            var parryTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[PARRY]") && x.Mod == "Terraria");
             if (parryTooltip != null)
             {
-                parryTooltip.Text = ParryTooltip;
+                parryTooltip.Text = Lang.SupportGlyphs(this.GetLocalizedValue("ParryInfo"));
                 parryTooltip.OverrideColor = Color.Orange;
             }
-            var blastTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria");
+            var blastTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[BLAST]") && x.Mod == "Terraria");
             if (blastTooltip != null)
             {
-                blastTooltip.Text = BlastTooltip;
+                blastTooltip.Text = Lang.SupportGlyphs(this.GetLocalizedValue("BlastInfo"));
                 blastTooltip.OverrideColor = Color.Gold;
             }
         }

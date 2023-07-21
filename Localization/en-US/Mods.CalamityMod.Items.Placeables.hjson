@@ -1505,7 +1505,7 @@ WulfrumLureItem: {
 	DisplayName: Wulfrum Lure
 	Tooltip:
 		'''
-		Consumes [i:5801] Energy Cores to emit a wulfrum signal that lures Wulfrum automatons out
+		Consumes [i:CalamityMod/EnergyCore] Energy Cores to emit a wulfrum signal that lures Wulfrum automatons out
 		The signal lasts for 30 seconds
 		'''
 }

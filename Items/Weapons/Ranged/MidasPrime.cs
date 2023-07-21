@@ -141,10 +141,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         #region Hidden ULTRAKILL Reference Tooltip
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            TooltipLine ultrakillIntro = new TooltipLine(Mod,
-                "CalamityMod:UltrakillIntroReference",
-                "MANKIND IS DEAD.\nBLOOD IS FUEL.\nHELL IS FULL.")
-            { OverrideColor = Color.Red };
+            TooltipLine ultrakillIntro = new TooltipLine(Mod, "CalamityMod:UltrakillIntroReference", this.GetLocalizedValue("UltrakillEasterEgg")) { OverrideColor = Color.Red };
             CalamityUtils.HoldShiftTooltip(tooltips, new TooltipLine[] { ultrakillIntro });
         }
         #endregion

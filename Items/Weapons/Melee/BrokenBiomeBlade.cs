@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader.IO;
@@ -70,28 +71,16 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
-            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip3" && x.Mod == "Terraria");
-            var secondaryAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.Mod == "Terraria");
+            var effectDescTooltip = list.FirstOrDefault(x => x.Text.Contains("[FUNC]") && x.Mod == "Terraria");
+            var mainAttunementTooltip = list.FirstOrDefault(x => x.Text.Contains("[ATT1]") && x.Mod == "Terraria");
+            var secondaryAttunementTooltip = list.FirstOrDefault(x => x.Text.Contains("[ATT2]") && x.Mod == "Terraria");
 
 
             //Default stuff
             if (effectDescTooltip != null)
             {
-                effectDescTooltip.Text = "Does nothing... yet";
+                effectDescTooltip.Text = this.GetLocalizedValue("DefaultFunction");
                 effectDescTooltip.OverrideColor = new Color(163, 163, 163);
-            }
-
-            if (mainAttunementTooltip != null)
-            {
-                mainAttunementTooltip.Text = "Main Attunement : [None]";
-                mainAttunementTooltip.OverrideColor = new Color(163, 163, 163);
-            }
-
-            if (secondaryAttunementTooltip != null)
-            {
-                secondaryAttunementTooltip.Text = "Secondary Attunement : [None]";
-                secondaryAttunementTooltip.OverrideColor = new Color(163, 163, 163);
             }
 
             //If theres a main attunement
@@ -99,21 +88,31 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 if (effectDescTooltip != null)
                 {
-                    effectDescTooltip.Text = mainAttunement.function_description;
+                    effectDescTooltip.Text = Lang.SupportGlyphs(mainAttunement.FunctionText.ToString());
                     effectDescTooltip.OverrideColor = mainAttunement.tooltipColor;
                 }
                 if (mainAttunementTooltip != null)
                 {
-                    mainAttunementTooltip.Text = "Main Attunement : [" + mainAttunement.name + "]";
+                    mainAttunementTooltip.Text = mainAttunementTooltip.Text.Replace("ATT1", mainAttunement.AttunementName.ToString());
                     mainAttunementTooltip.OverrideColor = mainAttunement.tooltipColor;
                 }
+            }
+            else if (mainAttunementTooltip != null)
+            {
+                mainAttunementTooltip.Text = mainAttunementTooltip.Text.Replace("ATT1", Language.GetTextValue("LegacyInterface.23"));
+                mainAttunementTooltip.OverrideColor = new Color(163, 163, 163);
             }
 
             //If theres a secondary attunement
             if (secondaryAttunement != null && secondaryAttunementTooltip != null)
             {
-                secondaryAttunementTooltip.Text = "Secondary Attunement : [" + secondaryAttunement.name + "]";
+                secondaryAttunementTooltip.Text = secondaryAttunementTooltip.Text.Replace("ATT2", secondaryAttunement.AttunementName.ToString());
                 secondaryAttunementTooltip.OverrideColor = Color.Lerp(secondaryAttunement.tooltipColor, Color.Gray, 0.5f);
+            }
+            else if (secondaryAttunementTooltip != null)
+            {
+                secondaryAttunementTooltip.Text = secondaryAttunementTooltip.Text.Replace("ATT2", Language.GetTextValue("LegacyInterface.23"));
+                secondaryAttunementTooltip.OverrideColor = new Color(163, 163, 163);
             }
         }
 
@@ -294,7 +293,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             // Draw all particles.
 
-            Vector2 particleDrawCenter = position + new Vector2(12f, 16f) * Main.inventoryScale;
+            Vector2 particleDrawCenter = position + new Vector2(12f, 16f) * Main.inventoryScale - frame.Size() * 0.3f;
 
             BiomeEnergyParticles.EdgeColor = mainAttunement.energyParticleEdgeColor;
             BiomeEnergyParticles.CenterColor = mainAttunement.energyParticleCenterColor;

@@ -44,20 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ModContent.RarityType<Turquoise>();
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            Player player = Main.LocalPlayer;
-            TooltipLine line3 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
-
-            if (Main.zenithWorld)
-            {
-                line3.Text = "May be viable weapon against DoG...";
-            }
-            else
-            {
-                line3.Text = "Someone thought this was a viable weapon against DoG at one point lol";
-            }
-        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[GFB]", this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipNormal"));
 
         public override void AddRecipes()
         {

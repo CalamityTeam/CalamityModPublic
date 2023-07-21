@@ -85,10 +85,10 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
-            var passiveDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
-            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.Mod == "Terraria");
-            var blessingTooltip = list.FirstOrDefault(x => x.Name == "Tooltip5" && x.Mod == "Terraria");
+            var effectDescTooltip = list.FirstOrDefault(x => x.Text.Contains("[FUNC]") && x.Mod == "Terraria");
+            var passiveDescTooltip = list.FirstOrDefault(x => x.Text.Contains("[PASS]") && x.Mod == "Terraria");
+            var mainAttunementTooltip = list.FirstOrDefault(x => x.Text.Contains("[ATT]") && x.Mod == "Terraria");
+            var blessingTooltip = list.FirstOrDefault(x => x.Text.Contains("[BLE]") && x.Mod == "Terraria");
 
             //Default stuff gets skipped here. MainAttunement is set to true in SafeCheckAttunements() above
 
@@ -101,25 +101,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (effectDescTooltip != null)
             {
-                effectDescTooltip.Text = mainAttunement.function_description + "\n" + mainAttunement.function_description_extra;
+                effectDescTooltip.Text = Lang.SupportGlyphs(mainAttunement.FunctionText.ToString());
                 effectDescTooltip.OverrideColor = mainAttunement.tooltipColor;
             }
 
             if (passiveDescTooltip != null)
             {
-                passiveDescTooltip.Text = mainAttunement.passive_description;
+                passiveDescTooltip.Text = mainAttunement.PassiveDesc.ToString();
                 passiveDescTooltip.OverrideColor = mainAttunement.tooltipPassiveColor;
             }
 
             if (mainAttunementTooltip != null)
             {
-                mainAttunementTooltip.Text = "Active Attunement : [" + mainAttunement.name + "]";
+                mainAttunementTooltip.Text = mainAttunementTooltip.Text.Replace("ATT", mainAttunement.AttunementName.ToString());
                 mainAttunementTooltip.OverrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
             }
 
             if (blessingTooltip != null)
             {
-                blessingTooltip.Text = "Passive Blessing : [" + mainAttunement.passive_name + "]";
+                blessingTooltip.Text = blessingTooltip.Text.Replace("BLE", mainAttunement.PassiveName.ToString());
                 blessingTooltip.OverrideColor = mainAttunement.tooltipPassiveColor;
             }
         }

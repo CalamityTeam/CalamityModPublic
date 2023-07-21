@@ -11,7 +11,7 @@ CalamityConfig: {
 	}
 
 	AdrenalineMeterPosX: {
-		Label: "[i:2799] Adrenaline Meter X Position"
+		Label: "[i:LaserRuler] Adrenaline Meter X Position"
 		Tooltip:
 			'''
 			The X position of the Adrenaline Meter, measured as a % of your screen width.
@@ -20,7 +20,7 @@ CalamityConfig: {
 	}
 
 	AdrenalineMeterPosY: {
-		Label: "[i:2799] Adrenaline Meter Y Position"
+		Label: "[i:LaserRuler] Adrenaline Meter Y Position"
 		Tooltip:
 			'''
 			The Y position of the Adrenaline Meter, measured as a % of your screen height.
@@ -29,7 +29,7 @@ CalamityConfig: {
 	}
 
 	Afterimages: {
-		Label: "[i:1742] Afterimages"
+		Label: "[i:SteampunkGoggles] Afterimages"
 		Tooltip:
 			'''
 			Enables rendering afterimages for Calamity NPCs, projectiles, etc.
@@ -56,7 +56,7 @@ CalamityConfig: {
 	}
 
 	BossHealthBoost: {
-		Label: "[i:29] Boss Health Boost Percentage"
+		Label: "[i:LifeCrystal] Boss Health Boost Percentage"
 		Tooltip:
 			'''
 			Globally boosts the health of all bosses by the specified percentage.
@@ -84,7 +84,7 @@ CalamityConfig: {
 	}
 
 	ChargeMeterPosX: {
-		Label: "[i:2799] Charge Meter X Position"
+		Label: "[i:LaserRuler] Charge Meter X Position"
 		Tooltip:
 			'''
 			The X position of the Charge Meter, measured as a % of your screen width.
@@ -93,7 +93,7 @@ CalamityConfig: {
 	}
 
 	ChargeMeterPosY: {
-		Label: "[i:2799] Charge Meter Y Position"
+		Label: "[i:LaserRuler] Charge Meter Y Position"
 		Tooltip:
 			'''
 			The Y position of the Charge Meter, measured as a % of your screen height.
@@ -102,7 +102,7 @@ CalamityConfig: {
 	}
 
 	ChilledWaterRework: {
-		Label: "[i:1861] Chilled Water Rework"
+		Label: "[i:ArcticDivingGear] Chilled Water Rework"
 		Tooltip: When enabled, water in the Snow and Ice biomes will rapidly drain the player's breath instead of inflicting Chilled.
 	}
 
@@ -116,12 +116,12 @@ CalamityConfig: {
 	}
 
 	DebuffDisplay: {
-		Label: "[i:1356] Display Enemy Debuffs"
+		Label: "[i:FlaskofIchor] Display Enemy Debuffs"
 		Tooltip: Adds an array of debuff icons above all bosses and minibosses.
 	}
 
 	EarlyHardmodeProgressionRework: {
-		Label: "[i:367] Early Hardmode Progression Rework"
+		Label: "[i:Pwnhammer] Early Hardmode Progression Rework"
 		Tooltip:
 			'''
 			Demon Altars no longer spawn ores and crimson/corruption blocks when broken.
@@ -133,7 +133,7 @@ CalamityConfig: {
 	}
 
 	FasterBaseSpeed: {
-		Label: "[i:54] Increase Base Movement Speed"
+		Label: "[i:HermesBoots] Increase Base Movement Speed"
 		Tooltip:
 			'''
 			Increases the player's base movement speed substantially by always giving them +50% movement speed.
@@ -153,7 +153,7 @@ CalamityConfig: {
 	}
 
 	FasterJumpSpeed: {
-		Label: "[i:2423] Increase Base Jump Speed"
+		Label: "[i:FrogLeg] Increase Base Jump Speed"
 		Tooltip:
 			'''
 			Slightly increases the player's base jump speed.
@@ -162,7 +162,7 @@ CalamityConfig: {
 	}
 
 	FasterTilePlacement: {
-		Label: "[i:3061] Increase Base Building Speed"
+		Label: "[i:ArchitectGizmoPack] Increase Base Building Speed"
 		Tooltip:
 			'''
 			Substantially increases how rapidly the player can place tiles and walls.
@@ -171,7 +171,7 @@ CalamityConfig: {
 	}
 
 	ForceTownSafety: {
-		Label: "[i:63] Force Town Safety"
+		Label: "[i:Sunflower] Force Town Safety"
 		Tooltip:
 			'''
 			Counteracts Expert and Master Mode allowing enemies to spawn near towns by vastly decreasing spawn rates.
@@ -180,7 +180,7 @@ CalamityConfig: {
 	}
 
 	HigherJumpHeight: {
-		Label: "[i:159] Increase Base Jump Height"
+		Label: "[i:ShinyRedBalloon] Increase Base Jump Height"
 		Tooltip:
 			'''
 			Increases the player's base jump height by 10% so that they can jump 7 tiles.
@@ -189,7 +189,7 @@ CalamityConfig: {
 	}
 
 	MeterPosLock: {
-		Label: "[i:3647] Lock Meter Positions"
+		Label: "[i:GemLockTopaz] Lock Meter Positions"
 		Tooltip:
 			'''
 			Prevents clicking on the Stealth, Charge, Rage, and Adrenaline Meters.
@@ -198,7 +198,7 @@ CalamityConfig: {
 	}
 
 	NerfExpertDebuffs: {
-		Label: "[i:1612] Remove Increased Debuff Duration"
+		Label: "[i:AnkhCharm] Remove Increased Debuff Duration"
 		Tooltip:
 			'''
 			Disables Expert Mode doubling (and Master Mode tripling) the duration of debuffs on the player.
@@ -207,7 +207,7 @@ CalamityConfig: {
 	}
 
 	ParticleLimit: {
-		Label: "[i:3459] Max Particle Limit"
+		Label: "[i:FragmentStardust] Max Particle Limit"
 		Tooltip:
 			'''
 			Sets the maximum of particle effects that can exist at once.
@@ -217,7 +217,7 @@ CalamityConfig: {
 	}
 
 	RageMeterPosX: {
-		Label: "[i:2799] Rage Meter X Position"
+		Label: "[i:LaserRuler] Rage Meter X Position"
 		Tooltip:
 			'''
 			The X position of the Rage Meter, measured as a % of your screen width.
@@ -226,7 +226,7 @@ CalamityConfig: {
 	}
 
 	RageMeterPosY: {
-		Label: "[i:2799] Rage Meter Y Position"
+		Label: "[i:LaserRuler] Rage Meter Y Position"
 		Tooltip:
 			'''
 			The Y position of the Rage Meter, measured as a % of your screen height.
@@ -235,7 +235,7 @@ CalamityConfig: {
 	}
 
 	RemoveReforgeRNG: {
-		Label: "[i:3499] Remove Reforge RNG"
+		Label: "[i:TinHammer] Remove Reforge RNG"
 		Tooltip:
 			'''
 			Removes randomness from the Goblin Tinkerer's reforges for both weapons and accessories.
@@ -258,12 +258,12 @@ CalamityConfig: {
 	}
 
 	ShopNewAlert: {
-		Label: "[i:306] New Shop Inventory Alerts"
+		Label: "[i:GoldChest] New Shop Inventory Alerts"
 		Tooltip: Adds an icon that appears over Town NPCs when they have new items in their shops.
 	}
 
 	SpeedrunTimer: {
-		Label: "[i:3099] Display Speedrun Timer"
+		Label: "[i:Stopwatch] Display Speedrun Timer"
 		Tooltip:
 			'''
 			Enables an in-game speedrun timer which shows in-game time down to the millisecond.
@@ -273,7 +273,7 @@ CalamityConfig: {
 	}
 
 	SpeedrunTimerPosX: {
-		Label: "[i:2799] Speedrun Timer X Position"
+		Label: "[i:LaserRuler] Speedrun Timer X Position"
 		Tooltip:
 			'''
 			The X position of the Speedrun Timer, measured as a % of your screen width.
@@ -282,7 +282,7 @@ CalamityConfig: {
 	}
 
 	SpeedrunTimerPosY: {
-		Label: "[i:2799] Speedrun Timer Y Position"
+		Label: "[i:LaserRuler] Speedrun Timer Y Position"
 		Tooltip:
 			'''
 			The Y position of the Speedrun Timer, measured as a % of your screen height.
@@ -309,7 +309,7 @@ CalamityConfig: {
 	}
 
 	StealthMeterPosX: {
-		Label: "[i:2799] Stealth Meter X Position"
+		Label: "[i:LaserRuler] Stealth Meter X Position"
 		Tooltip:
 			'''
 			The X position of the Stealth Meter, measured as a % of your screen width.
@@ -318,7 +318,7 @@ CalamityConfig: {
 	}
 
 	StealthMeterPosY: {
-		Label: "[i:2799] Stealth Meter Y Position"
+		Label: "[i:LaserRuler] Stealth Meter Y Position"
 		Tooltip:
 			'''
 			The Y position of the Stealth Meter, measured as a % of your screen height.
@@ -327,7 +327,7 @@ CalamityConfig: {
 	}
 
 	SulphuricWaterMeterPosX: {
-		Label: "[i:2799] Sulphuric Water Poison Meter X Position"
+		Label: "[i:LaserRuler] Sulphuric Water Poison Meter X Position"
 		Tooltip:
 			'''
 			The X position of the Sulphuric Water Poison Meter, measured as a % of your screen width.
@@ -336,7 +336,7 @@ CalamityConfig: {
 	}
 
 	SulphuricWaterMeterPosY: {
-		Label: "[i:2799] Sulphuric Water Poison Meter Y Position"
+		Label: "[i:LaserRuler] Sulphuric Water Poison Meter Y Position"
 		Tooltip:
 			'''
 			The Y position of the Sulphuric Water Poison Meter, measured as a % of your screen height.
@@ -345,7 +345,7 @@ CalamityConfig: {
 	}
 
 	PotionSelling: {
-		Label: "[i:296] Town NPC Potion Selling"
+		Label: "[i:SpelunkerPotion] Town NPC Potion Selling"
 		Tooltip:
 			'''
 			Allows town NPCs to sell various potions.
@@ -354,7 +354,7 @@ CalamityConfig: {
 	}
 
 	TownNPCSpawnRateMultiplier: {
-		Label: "[i:267] Town NPC Spawn Rate Multiplier"
+		Label: "[i:GuideVoodooDoll] Town NPC Spawn Rate Multiplier"
 		Tooltip:
 			'''
 			Directly multiply the rate at which town NPCs spawn and respawn.
@@ -363,7 +363,7 @@ CalamityConfig: {
 	}
 
 	TownNPCsSpawnAtNight: {
-		Label: "[i:1307] Town NPCs Spawn at Night"
+		Label: "[i:ClothierVoodooDoll] Town NPCs Spawn at Night"
 		Tooltip:
 			'''
 			When enabled, town NPCs can spawn and respawn at night.
@@ -372,7 +372,7 @@ CalamityConfig: {
 	}
 
 	VanillaCooldownDisplay: {
-		Label: "[i:188] Display Vanilla Cooldowns"
+		Label: "[i:HealingPotion] Display Vanilla Cooldowns"
 		Tooltip:
 			'''
 			Adds the vanilla debuffs Potion Sickness and Chaos State to the Cooldown Rack.
@@ -381,7 +381,7 @@ CalamityConfig: {
 	}
 
 	WikiStatusMessage: {
-		Label: "[i:149] Wiki Status Message"
+		Label: "[i:Book] Wiki Status Message"
 		Tooltip: Enable or disable the status message promoting the Official Calamity Wiki that plays on world entry.
 	}
 }
