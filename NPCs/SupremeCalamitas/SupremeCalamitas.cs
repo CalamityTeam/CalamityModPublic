@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -17,6 +18,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.TownNPCs;
@@ -36,8 +38,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
-using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -1693,6 +1693,30 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             NPC.netUpdate = true;
 
                             SoundEngine.PlaySound(DashSound, NPC.Center);
+                            if (cirrus)
+                            {
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    SoundEngine.PlaySound(SoundID.Item60, NPC.Center);
+                                    float velocity = 8;
+                                    int type = ModContent.ProjectileType<Projectiles.Magic.FabRay>();
+                                    int damage = (int)(NPC.damage / 2);
+                                    Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
+                                    float rotation = MathHelper.ToRadians(22);
+                                    for (int i = 0; i < 3; i++)
+                                    {
+                                        Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(2)));
+
+                                        int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                        if (p.WithinBounds(Main.maxProjectiles))
+                                        {
+                                             Main.projectile[p].DamageType = DamageClass.Default;
+                                             Main.projectile[p].friendly = false;
+                                             Main.projectile[p].hostile = true;
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         NPC.ai[1] = 2f;
