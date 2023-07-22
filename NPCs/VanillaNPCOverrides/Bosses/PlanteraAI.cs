@@ -291,7 +291,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 if (NPC.CountNPCS(ModContent.NPCType<PlanterasFreeTentacle>()) < maxFreeTentaclesAfterFirstTentaclePhase)
                                 {
                                     for (int i = 0; i < maxTentaclesAfterFirstTentaclePhase; i++)
-                                        NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, 0f, 1f);
+                                        NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, 1f, 0f);
                                 }
                             }
                         }
@@ -576,6 +576,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             if (i % 2 == 0)
                                 type = ProjectileID.SeedPlantera;
+                            else
+                                type = ProjectileID.PoisonSeedPlantera;
 
                             Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                             Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + perturbedSpeed * 50f, perturbedSpeed * projectileSpeed, type, damage, 0f, Main.myPlayer);
@@ -850,7 +852,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             int plantBoss = NPC.plantBoss;
 
             // Become free if Plantera gets sick of your shit
-            if (Main.npc[plantBoss].ai[2] == -1f && npc.ai[3] != 1f)
+            if (Main.npc[plantBoss].ai[2] == -1f && npc.ai[2] != 1f)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     npc.StrikeInstantKill();
@@ -859,10 +861,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // 3 seconds of resistance and no damage to prevent spawn killing and unfair hits
-            if (npc.ai[2] < 90f)
+            if (npc.localAI[0] < 90f)
             {
                 npc.damage = 0;
-                npc.ai[2] += 1f;
+                npc.localAI[0] += 1f;
             }
             else
                 npc.damage = npc.defDamage;
