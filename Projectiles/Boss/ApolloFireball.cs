@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Boss
 
             SoundEngine.PlaySound(CommonCalamitySounds.ExoPlasmaExplosionSound, Projectile.Center);
 
-            if (Main.myPlayer == Projectile.owner)
+            if (Main.myPlayer == Projectile.owner && Projectile.ai[2] == 0f)
             {
                 bool splitNormal = true;
                 if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)

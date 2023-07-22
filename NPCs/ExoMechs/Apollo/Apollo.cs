@@ -1789,7 +1789,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         projectile.type == ModContent.ProjectileType<ApolloFireball>() ||
                         projectile.type == ModContent.ProjectileType<ApolloRocket>())
                     {
-                        projectile.owner = -1;
+                        projectile.ai[2] = -1f;
                         projectile.Kill();
                     }
                 }
