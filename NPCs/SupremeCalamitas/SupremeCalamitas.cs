@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -17,6 +18,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.TownNPCs;
@@ -36,8 +38,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
-using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -100,6 +100,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public int bulletHellCounter2 = 0;
         public int attackCastDelay = 0;
         public int hitTimer = 0;
+        public int alicornFrame = 0;
+        public int alicornFrameCounter = 0;
 
         public float shieldOpacity = 1f;
         public float shieldRotation = 0f;
@@ -409,6 +411,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             bool revenge = CalamityWorld.revenge || bossRush;
             bool death = CalamityWorld.death || bossRush;
 
+            // cirrus and zenith scal are mutually exclusive unless it's legendary
+            bool zenithAI = Main.zenithWorld && (!cirrus || (CalamityWorld.LegendaryMode && revenge && cirrus));
+
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
@@ -431,12 +436,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				hellblastDamage /= 2;
             }
 
-            int bulletHellblast = Main.zenithWorld ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast2>();
+            int bulletHellblast = zenithAI ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast2>();
             int barrage = ModContent.ProjectileType<BrimstoneBarrage>();
-            int gigablast = Main.zenithWorld ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<SCalBrimstoneGigablast>();
-            int fireblast = Main.zenithWorld ? ModContent.ProjectileType<SCalBrimstoneGigablast>() : ModContent.ProjectileType<SCalBrimstoneFireblast>();
-            int wave = Main.zenithWorld ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneWave>();
-            int hellblast = Main.zenithWorld ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast>();
+            int gigablast = zenithAI ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<SCalBrimstoneGigablast>();
+            int fireblast = zenithAI ? ModContent.ProjectileType<SCalBrimstoneGigablast>() : ModContent.ProjectileType<SCalBrimstoneFireblast>();
+            int wave = zenithAI ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneWave>();
+            int hellblast = zenithAI ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast>();
 
             int bodyWidth = 44;
             int bodyHeight = 42;
@@ -510,7 +515,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         shieldRotation = shieldRotation.AngleTowards(idealRotation, 0.18f);
                     }
                 }
-                else
+                else if (!cirrus)
                 {
                     // Emit dust off the skull at the position of its eye socket.
                     for (float num6 = 1f; num6 < 16f; num6 += 1f)
@@ -521,7 +526,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         dust.position += (shieldRotation - MathHelper.PiOver2).ToRotationVector2() * (float)Math.Cos(NPC.velocity.ToRotation()) * -4f;
                         dust.noGravity = true;
                         dust.velocity = NPC.velocity;
-                        dust.color = cirrus ? Color.Pink : Color.Red;
+                        dust.color = Color.Red;
                         dust.scale = MathHelper.Lerp(0.6f, 0.85f, 1f - num6 / 16f);
                     }
                 }
@@ -579,7 +584,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             int xoffset = 0;
                             int yoffset = 0;
                             int maxoffset = 3;
-                            if (Main.zenithWorld)
+                            if (zenithAI)
                             {
                                 xoffset += Main.rand.Next(-maxoffset, maxoffset + 1);
                                 yoffset += Main.rand.Next(-maxoffset, maxoffset + 1);
@@ -1688,6 +1693,30 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             NPC.netUpdate = true;
 
                             SoundEngine.PlaySound(DashSound, NPC.Center);
+                            if (cirrus)
+                            {
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    SoundEngine.PlaySound(SoundID.Item60, NPC.Center);
+                                    float velocity = 8;
+                                    int type = ModContent.ProjectileType<Projectiles.Magic.FabRay>();
+                                    int damage = (int)(NPC.damage / 2);
+                                    Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
+                                    float rotation = MathHelper.ToRadians(22);
+                                    for (int i = 0; i < 3; i++)
+                                    {
+                                        Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(2)));
+
+                                        int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                        if (p.WithinBounds(Main.maxProjectiles))
+                                        {
+                                             Main.projectile[p].DamageType = DamageClass.Default;
+                                             Main.projectile[p].friendly = false;
+                                             Main.projectile[p].hostile = true;
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         NPC.ai[1] = 2f;
@@ -2864,6 +2893,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.frameCounter %= 6;
                 NPC.frame.Y = (int)NPC.frameCounter + (int)FrameType * 6;
             }
+            if (cirrus)
+            {
+                alicornFrameCounter++;
+                if (alicornFrameCounter > 6)
+                {
+                    alicornFrame ++;
+                    alicornFrameCounter = 0;
+                }
+                if (alicornFrame > 14 || alicornFrame < 9)
+                {
+                    alicornFrame = 9;
+                }
+            }
         }
 
         public override Color? GetAlpha(Color drawColor) => willCharge ? drawColor * NPC.Opacity * 0.45f : null;
@@ -2875,6 +2917,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = DownedBossSystem.downedCalamitas && !BossRushEvent.BossRushActive ? TextureAssets.Npc[NPC.type].Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded").Value;
+            Texture2D pony = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/AlicornMount_Front").Value;
 
             if (cirrus)
             {
@@ -2882,13 +2925,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
 
             Vector2 vector11 = new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[NPC.type] / 2f);
+            Vector2 ponyOrigin = new Vector2(pony.Width / 2f, pony.Height / 30f);
             Color color36 = Color.White;
             float amount9 = 0.5f;
             int num153 = 7;
 
             Rectangle frame = texture2D15.Frame(2, Main.npcFrameCount[NPC.type], NPC.frame.Y / Main.npcFrameCount[NPC.type], NPC.frame.Y % Main.npcFrameCount[NPC.type]);
+            Rectangle ponyFrame = pony.Frame(1, 15, 0, alicornFrame);
+            Vector2 ponyPos = NPC.Center - screenPos;
+            ponyPos -= new Vector2(pony.Width / 2f, pony.Height / 15) * NPC.scale / 2f;
+            ponyPos += ponyOrigin * NPC.scale + new Vector2(-20, NPC.gfxOffY);
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityConfig.Instance.Afterimages && !(cirrus && NPC.ai[1] == 2f))
             {
                 for (int num155 = 1; num155 < num153; num155 += 2)
                 {
@@ -2908,27 +2956,40 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             vector43 -= new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
-            if (inPhase2)
+            if (!(cirrus && NPC.ai[1] == 2f))
             {
-                // Make the sprite jitter with rage in phase 2. This does not happen in rematches since it would make little sense logically.
-                if (!DownedBossSystem.downedCalamitas)
-                    vector43 += Main.rand.NextVector2Circular(0.25f, 0.7f);
-
-                // And gain a flaming aura.
-                Color auraColor = NPC.GetAlpha(cirrus ? Color.Pink : Color.Red) * 0.4f;
-                for (int i = 0; i < 7; i++)
+                if (inPhase2)
                 {
-                    Vector2 rotationalDrawOffset = (MathHelper.TwoPi * i / 7f + Main.GlobalTimeWrappedHourly * 4f).ToRotationVector2();
-                    rotationalDrawOffset *= MathHelper.Lerp(3f, 4.25f, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
-                    spriteBatch.Draw(texture2D15, vector43 + rotationalDrawOffset, frame, auraColor, NPC.rotation, vector11, NPC.scale * 1.1f, spriteEffects, 0f);
+                    // Make the sprite jitter with rage in phase 2. This does not happen in rematches since it would make little sense logically.
+                    if (!DownedBossSystem.downedCalamitas)
+                        vector43 += Main.rand.NextVector2Circular(0.25f, 0.7f);
+
+                    // And gain a flaming aura.
+                    Color auraColor = NPC.GetAlpha(cirrus ? Color.Pink : Color.Red) * 0.4f;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        Vector2 rotationalDrawOffset = (MathHelper.TwoPi * i / 7f + Main.GlobalTimeWrappedHourly * 4f).ToRotationVector2();
+                        rotationalDrawOffset *= MathHelper.Lerp(3f, 4.25f, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
+                        spriteBatch.Draw(texture2D15, vector43 + rotationalDrawOffset, frame, auraColor, NPC.rotation, vector11, NPC.scale * 1.1f, spriteEffects, 0f);
+                    }
                 }
+                spriteBatch.Draw(texture2D15, vector43, frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
             }
-            spriteBatch.Draw(texture2D15, vector43, frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             if (!NPC.IsABestiaryIconDummy)
             {
                 DrawForcefield(spriteBatch);
-                DrawShield(spriteBatch);
+                if (cirrus)
+                {
+                    if (NPC.ai[1] == 2f)
+                    {
+                        spriteBatch.Draw(pony, ponyPos, ponyFrame, NPC.GetAlpha(drawColor), NPC.rotation, ponyOrigin, NPC.scale, spriteEffects, 0f);
+                    }
+                }
+                else
+                {
+                    DrawShield(spriteBatch);
+                }
             }
             return false;
         }

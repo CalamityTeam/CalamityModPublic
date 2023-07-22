@@ -733,7 +733,7 @@ HallowedRuneDefense: {
 
 HallowedRunePower: {
 	DisplayName: Hallowed Power
-	Description: 10% increased minion damage
+	Description: 10% increased summon damage
 }
 
 HallowedRuneRegeneration: {
@@ -758,7 +758,7 @@ Mushy: {
 
 PhantomicEmpowerment: {
 	DisplayName: Phantomic Empowerment
-	Description: 10% increased minion damage
+	Description: 10% increased summon damage
 }
 
 PhantomicRegen: {
@@ -812,7 +812,7 @@ SpiritDefense: {
 
 SpiritPower: {
 	DisplayName: Spirit Power
-	Description: 10% increased minion damage
+	Description: 10% increased summon damage
 }
 
 SpiritRegen: {

@@ -174,6 +174,11 @@ namespace CalamityMod.Projectiles.Boss
             else
                 lightColor.B = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus ? (byte)(255 * Projectile.Opacity) : lightColor.B;
 
+            if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+            {
+                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/BrimstoneMonsterII").Value;
+            }
+
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }

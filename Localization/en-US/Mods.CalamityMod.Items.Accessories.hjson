@@ -956,7 +956,7 @@ JellyChargedBattery: {
 	DisplayName: Jelly-Charged Battery
 	Tooltip:
 		'''
-		+1 max minions and 7% minion damage
+		+1 max minions and 7% summon damage
 		Minion attacks spawn orbs of energy and inflict Electrified
 		'''
 }
@@ -1130,7 +1130,7 @@ Nucleogenesis: {
 		'''
 		Increases max minions by 4, does not stack with downgrades
 		Grants immunity to Shadowflame and Irradiated
-		15% increased minion damage
+		15% increased summon damage
 		Increased minion knockback
 		Minions inflict a variety of debuffs
 		Minions spawn damaging sparks on enemy hits
@@ -1524,7 +1524,7 @@ StarTaintedGenerator: {
 	Tooltip:
 		'''
 		+2 max minions, does not stack with downgrades
-		7% increased minion damage
+		7% increased summon damage
 		Minion attacks spawn astral explosions and inflict several debuffs
 		Grants immunity to Irradiated
 		'''
@@ -1534,7 +1534,7 @@ StatisBlessing: {
 	DisplayName: Statis' Blessing
 	Tooltip:
 		'''
-		Increased max minions by 2 and 10% increased minion damage
+		Increased max minions by 2 and 10% increased summon damage
 		Increased minion knockback
 		Minions inflict holy flames on hit
 		'''
@@ -1545,7 +1545,7 @@ StatisCurse: {
 	Tooltip:
 		'''
 		Increases max minions by 3, does not stack with downgrades
-		10% increased minion damage
+		10% increased summon damage
 		Increased minion knockback
 		Minions inflict holy flames and shadowflames on hit
 		Grants immunity to Shadowflame

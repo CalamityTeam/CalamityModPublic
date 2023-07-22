@@ -2,6 +2,7 @@
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Potions.Alcohol;
+using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
@@ -85,6 +86,9 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override bool CanTownNPCSpawn(int numTownNPCs)
         {
+            if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas.SupremeCalamitas>()) && Main.zenithWorld)
+                return false;
+
             if (CalamityWorld.spawnedCirrus)
                 return true;
 

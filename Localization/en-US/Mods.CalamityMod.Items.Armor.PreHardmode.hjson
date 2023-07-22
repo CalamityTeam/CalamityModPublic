@@ -36,10 +36,10 @@ AerospecHelm: {
 
 AerospecHelmet: {
 	DisplayName: Aerospec Helmet
-	Tooltip: 5% increased movement speed and minion damage
+	Tooltip: 5% increased movement speed and summon damage
 	SetBonus:
 		'''
-		11% increased minion damage and +1 max minion
+		11% increased summon damage and +1 max minion
 		Summons a valkyrie to protect you
 		'''
 }
@@ -175,7 +175,7 @@ StatigelHeadSummon: {
 	Tooltip: Increased minion knockback
 	SetBonus:
 		'''
-		18% increased minion damage and +1 max minion
+		18% increased summon damage and +1 max minion
 		Summons a mini slime god to fight for you, the type depends on what world evil you have
 		'''
 }
@@ -260,7 +260,7 @@ VictideHeadRogue: {
 
 VictideHeadSummon: {
 	DisplayName: Victide Mask
-	Tooltip: 10% increased minion damage
+	Tooltip: 10% increased summon damage
 	SetBonus:
 		'''
 		+1 max minion
@@ -282,7 +282,7 @@ WulfrumHat: {
 	DisplayName: Wulfrum Hat & Goggles
 	Tooltip:
 		'''
-		10% increased minion damage
+		10% increased summon damage
 		Comes equipped with hair extensions
 		'''
 	SetBonus: +1 max minion
