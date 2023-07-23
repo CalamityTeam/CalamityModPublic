@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
                 center.Y += 2f;
                 Projectile segment = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 10f, Projectile.ai[1] - 1f);
 
-                // The projectile defaults to rogue, but each sub-segment copies the damage class of the previous.
+                // The projectile defaults to generic, but each sub-segment copies the damage class of the previous.
                 // Truly a worm boss of weapons.
                 if (segment.whoAmI.WithinBounds(Main.maxProjectiles))
                 {
