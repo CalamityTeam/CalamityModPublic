@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 32;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 16;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
@@ -159,15 +159,11 @@ namespace CalamityMod.Projectiles.Melee
 
         internal Color ColorFunction(float completionRatio)
         {
-            float fadeOpacity = Utils.GetLerpValue(1f, 0.64f, completionRatio, true) * Projectile.Opacity;
-            return Color.Lerp(Color.DarkOrange, Color.OrangeRed, completionRatio) * fadeOpacity;
+            float fadeOpacity = Utils.GetLerpValue(1f, 0.2f, completionRatio, true) * Projectile.Opacity;
+            return Color.Lerp(Color.DarkOrange, Color.Red, completionRatio) * fadeOpacity;
         }
 
-        internal float WidthFunction(float completionRatio)
-        {
-            float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.GetLerpValue(0f, 0.3f, completionRatio, true), 2D);
-            return MathHelper.Lerp(0f, 12f * Projectile.Opacity, expansionCompletion);
-        }
+        internal float WidthFunction(float completionRatio) => 12f;
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -176,7 +172,8 @@ namespace CalamityMod.Projectiles.Melee
             // Bull Rush dash effects
             if (DashTime > 0 && DashTime < DashDuration && DashDestination != Vector2.Zero && Projectile.velocity.Length() > 0f)
             {
-                Vector2 extraOffset = (Projectile.SafeDirectionTo(DashDestination) * 800f / Projectile.velocity.Length())  - Main.screenPosition;
+                Vector2 direction = Projectile.SafeDirectionTo(DashDestination);
+                Vector2 extraOffset = (direction * 800f / Projectile.velocity.Length())  - Main.screenPosition;
                 float arrowFace = Projectile.velocity.ToRotation() - MathHelper.Pi;
                 Color headColor = Color.DarkOrange;
                 Color bloomColor = Color.LightSalmon;
@@ -186,31 +183,35 @@ namespace CalamityMod.Projectiles.Melee
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
                 GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
-                TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f + extraOffset, (int)(Charge / MaxChargeTime * 16));
+                TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f + extraOffset - (direction * 80f), (int)(Charge / MaxChargeTime * 16));
 
                 // "Arrow heads" making up the shield tip
                 Effect ArrowEffect = Filters.Scene["CalamityMod:SpreadTelegraph"].GetShader().Shader;
-                ArrowEffect.Parameters["centerOpacity"].SetValue(0.8f);
+                ArrowEffect.Parameters["centerOpacity"].SetValue(0.9f);
                 ArrowEffect.Parameters["mainOpacity"].SetValue(1f);
                 ArrowEffect.Parameters["halfSpreadAngle"].SetValue(MathHelper.ToRadians(7.5f));
                 ArrowEffect.Parameters["edgeColor"].SetValue(headColor.ToVector3());
                 ArrowEffect.Parameters["centerColor"].SetValue(headColor.ToVector3());
-                ArrowEffect.Parameters["edgeBlendLength"].SetValue(0.02f);
-                ArrowEffect.Parameters["edgeBlendStrength"].SetValue(4f);
+                ArrowEffect.Parameters["edgeBlendLength"].SetValue(0.07f);
+                ArrowEffect.Parameters["edgeBlendStrength"].SetValue(8f);
 
                 Main.spriteBatch.EnterShaderRegion(BlendState.Additive, ArrowEffect);
                 Texture2D headTex = ModContent.Request<Texture2D>(Texture).Value;
                 // One pokes forward and two to the sides
                 float side = MathHelper.ToRadians(135f);
-                Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (Projectile.SafeDirectionTo(DashDestination) * 80f), null, Color.White, arrowFace, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (Projectile.SafeDirectionTo(DashDestination) * 80f).RotatedBy(side), null, Color.White, arrowFace + side, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (Projectile.SafeDirectionTo(DashDestination) * 80f).RotatedBy(-side), null, Color.White, arrowFace - side, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
+                for (float i = -side; i <= side; i += side)
+                    Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (direction * 80f).RotatedBy(i), null, Color.White, arrowFace + i, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
+
+                //Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (direction * 80f), null, Color.White, arrowFace, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
+                //Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (direction * 80f).RotatedBy(-side), null, Color.White, arrowFace - side, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
                 Main.spriteBatch.ExitShaderRegion();
 
-                // Bloom circle
+                // Blooming shield
                 Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
                 Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
-                Main.EntitySpriteDraw(bloomTex, Projectile.Center + extraOffset, null, bloomColor * 0.7f, arrowFace, bloomTex.Size() / 2f, 0.4f, SpriteEffects.None, 0);
+                Texture2D shieldTex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StygianShieldBloom").Value;
+                Main.EntitySpriteDraw(shieldTex, Projectile.Center + extraOffset, null, bloomColor, arrowFace - MathHelper.Pi, shieldTex.Size() / 2f, 1.4f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(bloomTex, Projectile.Center + extraOffset, null, bloomColor * 0.75f, arrowFace, bloomTex.Size() / 2f, 0.5f, SpriteEffects.None, 0);
                 Main.spriteBatch.ExitShaderRegion();
             }
             return false;

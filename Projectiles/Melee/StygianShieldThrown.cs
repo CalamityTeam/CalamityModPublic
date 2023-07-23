@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 
         // Stats
         public const int ReboundTime = 90;
-        public const int MaxBounces = 2;
+        public const int MaxBounces = 1;
         public const float MaxHomingRange = 800f; // 50 blocks
         public const float ReturnPiercingDamageMult = 0.6f;
 
@@ -23,9 +23,11 @@ namespace CalamityMod.Projectiles.Melee
         public Player Owner => Main.player[Projectile.owner];
         public ref float AirTime => ref Projectile.ai[0];
 
+        public const float TotalTrailLength = 35f;
+
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 16;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = (int)TotalTrailLength;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
@@ -47,17 +49,30 @@ namespace CalamityMod.Projectiles.Melee
             // Boomerang rotation
             Projectile.rotation += Projectile.direction * 0.4f;
 
+            // Trailing circular particles
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                if (Projectile.oldPos[i] != Vector2.Zero && i % 7 == 3)
+                {
+                    float lengthRatio = i / TotalTrailLength;
+                    Vector2 truePos = Projectile.oldPos[i] + (Projectile.Size * 0.5f);
+                    Color redGradient = Color.Lerp(Color.LightPink, Color.Red, lengthRatio);
+                    Color blackGradient = Color.Lerp(new Color(40, 40, 40), Color.Black, lengthRatio);
+                    float rotMotion = Projectile.timeLeft * MathHelper.TwoPi / 60f;
+                    float trueRot = Projectile.oldRot[i] + rotMotion;
+                    Vector2 squishFactor = new Vector2 (0.8f, 1f);
+
+                    Particle redSmear = new SemiCircularSmearVFX(truePos, redGradient, trueRot, 0.3f, squishFactor);
+                    GeneralParticleHandler.SpawnParticle(redSmear);
+                    Particle blackSmear = new SemiCircularSmearVFX(truePos, blackGradient, trueRot + MathHelper.Pi, 0.3f, squishFactor);
+                    GeneralParticleHandler.SpawnParticle(blackSmear);
+                }
+            }
+
             // Returns after some number of frames in the air
             AirTime++;
             if (AirTime >= ReboundTime)
                 ReturnToOwner();
-        }
-
-        // Trail effects
-        public override bool PreDraw(ref Color lightColor)
-        {
-            
-            return true;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

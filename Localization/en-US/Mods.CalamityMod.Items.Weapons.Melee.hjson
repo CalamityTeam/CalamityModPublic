@@ -1118,7 +1118,7 @@ StygianShield: {
 	DisplayName: Stygian Shield
 	Tooltip:
 		'''
-		Hold <left> to charge an omni-directional dash which slam through enemies
+		Hold <left> to charge an omni-directional dash which slams through enemies
 		<right> to throw a buckler which bounces towards a nearby foe upon collision
 		Grants knockback immunity and {0} defense while held
 		However, dashes are disabled until you stop holding this weapon for {1} seconds
