@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Particles;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -12,13 +13,21 @@ namespace CalamityMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
 
-        private List<int> PreviousNPCs = new List<int>() { -1 };
-        public Player Owner => Main.player[Projectile.owner];
-        public ref float AirTime => ref Projectile.ai[0];
-        public const int ReboundTime = 100;
+        // Stats
+        public const int ReboundTime = 90;
         public const int MaxBounces = 2;
         public const float MaxHomingRange = 800f; // 50 blocks
         public const float ReturnPiercingDamageMult = 0.6f;
+
+        private List<int> PreviousNPCs = new List<int>() { -1 };
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float AirTime => ref Projectile.ai[0];
+
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 16;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+        }
 
         public override void SetDefaults()
         {
@@ -34,6 +43,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
+            // TODO -- Throw sound
             // Boomerang rotation
             Projectile.rotation += Projectile.direction * 0.4f;
 
@@ -46,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee
         // Trail effects
         public override bool PreDraw(ref Color lightColor)
         {
-
+            
             return true;
         }
 

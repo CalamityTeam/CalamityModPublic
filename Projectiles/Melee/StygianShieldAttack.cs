@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,7 +30,14 @@ namespace CalamityMod.Projectiles.Melee
         public ref float Charge => ref Projectile.ai[0];
         public ref float DashTime => ref Projectile.ai[1];
         public Vector2 DashDestination = Vector2.Zero;
-        public Vector2 DashOrigin = Vector2.Zero;
+
+        internal PrimitiveTrail TrailDrawer;
+
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 32;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+        }
 
         public override void SetDefaults()
         {
@@ -45,8 +55,11 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.Kill();
             
             Owner.heldProj = Projectile.whoAmI;
+
+            // TODO -- Windup sound and rushing sound (definitely requires a custom looping sound)
             
             // Dashing behavior
+            Projectile.Opacity = Utils.GetLerpValue(0f, DashDuration * 0.7f, DashTime, true);
             if (DashDestination != Vector2.Zero)
             {
                 // Detach the owner from any mounts/hooks
@@ -110,8 +123,15 @@ namespace CalamityMod.Projectiles.Melee
                     for (int k = 0; k < Owner.hurtCooldowns.Length; k++)
                         Owner.hurtCooldowns[k] = Owner.immuneTime;
 
+                    // Reset the trail
+                    for (int i = 0; i < Projectile.oldPos.Length; i++)
+                    {
+                        Projectile.oldPos[i] = Vector2.Zero;
+                        Projectile.oldRot[i] = 0f;
+                        Projectile.oldSpriteDirection[i] = 0;
+                    }
+
                     DashDestination = intendedDestination;
-                    DashOrigin = Projectile.Center;
                     Projectile.damage = (int)(Projectile.damage * MaxChargeDamageMult * Charge / MaxChargeTime);
                     Projectile.ExpandHitboxBy(100);
                     return;
@@ -137,12 +157,63 @@ namespace CalamityMod.Projectiles.Melee
         // Hits have diminishing damage
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Projectile.damage = (int)(Projectile.damage * PiercingDamageMult);
 
-        /*public override bool PreDraw(ref Color lightColor)
+        internal Color ColorFunction(float completionRatio)
+        {
+            float fadeOpacity = Utils.GetLerpValue(1f, 0.64f, completionRatio, true) * Projectile.Opacity;
+            return Color.Lerp(Color.DarkOrange, Color.OrangeRed, completionRatio) * fadeOpacity;
+        }
+
+        internal float WidthFunction(float completionRatio)
+        {
+            float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.GetLerpValue(0f, 0.3f, completionRatio, true), 2D);
+            return MathHelper.Lerp(0f, 12f * Projectile.Opacity, expansionCompletion);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
         {
             // Bull Rush telegraph here
 
-            // Bull Rush dash effect too
+            // Bull Rush dash effects
+            if (DashTime > 0 && DashTime < DashDuration && DashDestination != Vector2.Zero && Projectile.velocity.Length() > 0f)
+            {
+                Vector2 extraOffset = (Projectile.SafeDirectionTo(DashDestination) * 800f / Projectile.velocity.Length())  - Main.screenPosition;
+                float arrowFace = Projectile.velocity.ToRotation() - MathHelper.Pi;
+                Color headColor = Color.DarkOrange;
+                Color bloomColor = Color.LightSalmon;
+
+                // Main trail
+                if (TrailDrawer is null)
+                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
+
+                GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
+                TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f + extraOffset, (int)(Charge / MaxChargeTime * 16));
+
+                // "Arrow heads" making up the shield tip
+                Effect ArrowEffect = Filters.Scene["CalamityMod:SpreadTelegraph"].GetShader().Shader;
+                ArrowEffect.Parameters["centerOpacity"].SetValue(0.8f);
+                ArrowEffect.Parameters["mainOpacity"].SetValue(1f);
+                ArrowEffect.Parameters["halfSpreadAngle"].SetValue(MathHelper.ToRadians(7.5f));
+                ArrowEffect.Parameters["edgeColor"].SetValue(headColor.ToVector3());
+                ArrowEffect.Parameters["centerColor"].SetValue(headColor.ToVector3());
+                ArrowEffect.Parameters["edgeBlendLength"].SetValue(0.02f);
+                ArrowEffect.Parameters["edgeBlendStrength"].SetValue(4f);
+
+                Main.spriteBatch.EnterShaderRegion(BlendState.Additive, ArrowEffect);
+                Texture2D headTex = ModContent.Request<Texture2D>(Texture).Value;
+                // One pokes forward and two to the sides
+                float side = MathHelper.ToRadians(135f);
+                Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (Projectile.SafeDirectionTo(DashDestination) * 80f), null, Color.White, arrowFace, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (Projectile.SafeDirectionTo(DashDestination) * 80f).RotatedBy(side), null, Color.White, arrowFace + side, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (Projectile.SafeDirectionTo(DashDestination) * 80f).RotatedBy(-side), null, Color.White, arrowFace - side, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
+                Main.spriteBatch.ExitShaderRegion();
+
+                // Bloom circle
+                Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
+                Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
+                Main.EntitySpriteDraw(bloomTex, Projectile.Center + extraOffset, null, bloomColor * 0.7f, arrowFace, bloomTex.Size() / 2f, 0.4f, SpriteEffects.None, 0);
+                Main.spriteBatch.ExitShaderRegion();
+            }
             return false;
-        }*/
+        }
     }
 }
