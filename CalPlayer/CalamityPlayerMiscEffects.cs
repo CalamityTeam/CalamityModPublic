@@ -534,7 +534,7 @@ namespace CalamityMod.CalPlayer
             Collision.GetEntityEdgeTiles(EdgeTiles, Player);
             foreach (Point touchedTile in EdgeTiles)
             {
-                Tile tile = Main.tile[touchedTile];
+                Tile tile = Framing.GetTileSafely(touchedTile);
                 if (!tile.HasTile || !tile.HasUnactuatedTile)
                     continue;
 
