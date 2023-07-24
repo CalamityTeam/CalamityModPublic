@@ -200,6 +200,31 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                 }
 
+                // Spore Gas vomit color telegraph
+                if (addSporeGasBlastToGatlingAttack)
+                {
+                    bool startEmittingDust = npc.ai[1] > PlanteraAI.SeedGatlingColorChangeGateValue;
+                    if (startEmittingDust)
+                    {
+                        float dustEmitAmount = npc.ai[1] - PlanteraAI.SeedGatlingColorChangeGateValue;
+                        int dustInXChanceMin = 2;
+                        int dustInXChanceMax = 8;
+                        int dustChance = (int)Math.Round(MathHelper.Lerp(dustInXChanceMin, dustInXChanceMax, 1f - dustEmitAmount / PlanteraAI.SeedGatlingColorChangeDuration));
+                        if (Main.rand.NextBool(dustChance))
+                        {
+                            int dust = Dust.NewDust(npc.position, npc.width, npc.height, 74, 0f, 0f, 0, default, 1f);
+                            Main.dust[dust].noGravity = true;
+                            Vector2 vector = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+                            vector.Normalize();
+                            vector *= Main.rand.Next(50, 100) * 0.04f;
+                            Main.dust[dust].velocity = vector;
+                            vector.Normalize();
+                            vector *= 86f;
+                            Main.dust[dust].position = npc.Center - vector;
+                        }
+                    }
+                }
+
                 if (npc.ai[1] >= SeedGatlingStopValue)
                 {
                     // Vomit dense spread of spore gas at the end of the gatling attack
