@@ -467,9 +467,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.Status.Boss.SCalSummonText";
-                    if (DownedBossSystem.downedCalamitas)
+                    if (cirrus)
+                        key = "Mods.CalamityMod.Status.Boss.CirrusSummonText";
+                    else if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                    CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                 }
                 startText = true;
             }
@@ -835,6 +837,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         if (bulletHellCounter2 % 180 == 0) // Blasts from top
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, fireblast, gigablastDamage, 0f, Main.myPlayer);
                     }
+
                     bulletHellCounter += 1;
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 1)
                     {
@@ -845,6 +848,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
+
                         if (bulletHellCounter2 < 1200 && !Main.zenithWorld) // Blasts from below
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
@@ -860,9 +864,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
                 }
+
                 FrameType = FrameAnimationType.Casting;
                 return;
             }
+
             if (!startSecondAttack && lifeRatio <= 0.75f)
             {
                 // Bouncy Boulders
@@ -881,10 +887,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.Status.Boss.SCalBH2Text";
-                    if (DownedBossSystem.downedCalamitas)
+                    if (cirrus)
+                        key = "Mods.CalamityMod.Status.Boss.CirrusBH2Text";
+                    else if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                    CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                 }
+
                 startSecondAttack = true;
                 return;
             }
@@ -919,6 +929,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
+
                         if (bulletHellCounter2 < 2100 && !Main.zenithWorld) // Blasts from above
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
@@ -934,9 +945,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
                 }
+
                 FrameType = FrameAnimationType.Casting;
                 return;
             }
+
             if (!startThirdAttack && lifeRatio <= 0.5f)
             {
                 // Bouncy Boulders
@@ -955,10 +968,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.Status.Boss.SCalBH3Text";
-                    if (DownedBossSystem.downedCalamitas)
+                    if (cirrus)
+                        key = "Mods.CalamityMod.Status.Boss.CirrusBH3Text";
+                    else if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                    CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                 }
+
                 startThirdAttack = true;
                 return;
             }
@@ -1002,6 +1019,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
+
                         if (bulletHellCounter2 < 3000 && !Main.zenithWorld) // Blasts from below
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
@@ -1017,9 +1035,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
                 }
+
                 FrameType = FrameAnimationType.Casting;
                 return;
             }
+
             if (!startFourthAttack && lifeRatio <= 0.3f)
             {
                 // Bouncy Boulders
@@ -1038,10 +1058,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.Status.Boss.SCalBH4Text";
-                    if (DownedBossSystem.downedCalamitas)
+                    if (cirrus)
+                        key = "Mods.CalamityMod.Status.Boss.CirrusBH4Text";
+                    else if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                    CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                 }
+
                 startFourthAttack = true;
                 return;
             }
@@ -1083,6 +1107,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
+
                         if (bulletHellCounter2 < 3900 && !Main.zenithWorld) // Blasts from above
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
@@ -1095,12 +1120,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         else // Blasts from above, left, and right
                         {
                             if (!Main.zenithWorld)
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
+                            
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
                     }
                 }
+
                 FrameType = FrameAnimationType.Casting;
                 return;
             }
@@ -1120,13 +1147,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
 
                 string key = "Mods.CalamityMod.Status.Boss.SCalBH5Text";
+                if (cirrus)
+                    key = "Mods.CalamityMod.Status.Boss.CirrusBH5Text";
 
                 if (!bossRush)
                 {
                     if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                    CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                 }
+
                 startFifthAttack = true;
                 return;
             }
@@ -1136,26 +1167,70 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (gettingTired5)
                 {
-                    if (NPC.velocity.Y < 9f)
-                        NPC.velocity.Y += 0.185f;
-                    NPC.noTileCollide = false;
-                    NPC.noGravity = false;
-                    NPC.damage = 0;
-
-                    // Teleport back to the arena on defeat
-                    if (giveUpCounter == 1200)
+                    if (cirrus)
                     {
-                        Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, cirrus ? Color.Pink : Color.Red);
-                        NPC.Center = initialRitualPosition;
+                        // Spin around the target and fire a bunch of beams (Sans) while also firing a ton of other projectiles
                     }
-
-                    if (!canDespawn)
-                        NPC.velocity.X *= 0.96f;
-
-                    if (DownedBossSystem.downedCalamitas && !bossRush)
+                    else
                     {
-                        if (giveUpCounter == 720)
+                        if (NPC.velocity.Y < 9f)
+                            NPC.velocity.Y += 0.185f;
+
+                        NPC.noTileCollide = false;
+                        NPC.noGravity = false;
+                        NPC.damage = 0;
+
+                        // Teleport back to the arena on defeat
+                        if (giveUpCounter == 1200)
                         {
+                            Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, cirrus ? Color.Pink : Color.Red);
+                            NPC.Center = initialRitualPosition;
+                        }
+
+                        if (!canDespawn)
+                            NPC.velocity.X *= 0.96f;
+
+                        if (DownedBossSystem.downedCalamitas && !bossRush)
+                        {
+                            if (giveUpCounter == 720)
+                            {
+                                for (int i = 0; i < 24; i++)
+                                {
+                                    Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
+                                    brimstoneFire.color = cirrus ? Color.Pink : Color.Red;
+                                    brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
+                                    brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
+                                    brimstoneFire.fadeIn = 1.25f;
+                                    brimstoneFire.noGravity = true;
+                                }
+
+                                NPC.active = false;
+                                NPC.netUpdate = true;
+                                NPC.NPCLoot();
+                            }
+                        }
+                        else if (giveUpCounter == 900 && !bossRush)
+                        {
+                            CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.SCalAcceptanceText1", textColor);
+                        }
+                        else if (giveUpCounter == 600 && !bossRush)
+                        {
+                            CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.SCalAcceptanceText2", textColor);
+                        }
+                        else if (giveUpCounter == 300 && !bossRush)
+                        {
+                            CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.SCalAcceptanceText3", textColor);
+                        }
+
+                        if (giveUpCounter <= 0)
+                        {
+                            if (bossRush)
+                            {
+                                NPC.chaseable = true;
+                                NPC.dontTakeDamage = false;
+                                return;
+                            }
+
                             for (int i = 0; i < 24; i++)
                             {
                                 Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
@@ -1169,43 +1244,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             NPC.active = false;
                             NPC.netUpdate = true;
                             NPC.NPCLoot();
-                        }
-                    }
-                    else if (giveUpCounter == 900 && !bossRush)
-                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.SCalAcceptanceText1", textColor);
-                    else if(giveUpCounter == 600 && !bossRush)
-                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.SCalAcceptanceText2", textColor);
-                    else if(giveUpCounter == 300 && !bossRush)
-                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.SCalAcceptanceText3", textColor);
-                    if (giveUpCounter <= 0)
-                    {
-                        if (bossRush)
-                        {
-                            NPC.chaseable = true;
-                            NPC.dontTakeDamage = false;
                             return;
                         }
-
-                        for (int i = 0; i < 24; i++)
-                        {
-                            Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
-                            brimstoneFire.color = cirrus ? Color.Pink : Color.Red;
-                            brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
-                            brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
-                            brimstoneFire.fadeIn = 1.25f;
-                            brimstoneFire.noGravity = true;
-                        }
-
-                        NPC.active = false;
-                        NPC.netUpdate = true;
-                        NPC.NPCLoot();
-                        return;
                     }
+
                     giveUpCounter--;
                     NPC.chaseable = false;
                     NPC.dontTakeDamage = true;
                     return;
                 }
+
                 if (!gettingTired5 && lifeRatio <= 0.01f)
                 {
                     for (int x = 0; x < Main.maxProjectiles; x++)
@@ -1221,34 +1269,42 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.Status.Boss.SCalDesparationText4";
-                        if (DownedBossSystem.downedCalamitas)
+                        if (cirrus)
+                            key = "Mods.CalamityMod.Status.Boss.CirrusBruhText";
+                        else if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
-                        CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                        CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                     }
+
                     gettingTired5 = true;
                     return;
                 }
                 else if (!gettingTired4 && lifeRatio <= 0.02f)
                 {
-                    if (!bossRush)
+                    if (!bossRush && !cirrus)
                     {
                         string key = "Mods.CalamityMod.Status.Boss.SCalDesparationText3";
                         if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
+
                         CalamityUtils.DisplayLocalizedText(key, textColor);
                     }
+
                     gettingTired4 = true;
                     return;
                 }
                 else if (!gettingTired3 && lifeRatio <= 0.04f)
                 {
-                    if (!bossRush)
+                    if (!bossRush && !cirrus)
                     {
                         string key = "Mods.CalamityMod.Status.Boss.SCalDesparationText2";
                         if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
+
                         CalamityUtils.DisplayLocalizedText(key, textColor);
                     }
+
                     gettingTired3 = true;
                     return;
                 }
@@ -1257,10 +1313,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.Status.Boss.SCalDesparationText1";
-                        if (DownedBossSystem.downedCalamitas)
+                        if (cirrus)
+                            key = "Mods.CalamityMod.Status.Boss.CirrusNonchalantText";
+                        else if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
-                        CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                        CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                     }
+
                     gettingTired2 = true;
                     return;
                 }
@@ -1326,10 +1386,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.Status.Boss.SCalPhase2Text";
-                    if (DownedBossSystem.downedCalamitas)
+                    if (cirrus)
+                        key = "Mods.CalamityMod.Status.Boss.CirrusPhase2Text";
+                    else if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                    CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                 }
+
                 halfLife = true;
             }
 
@@ -1340,9 +1404,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.Status.Boss.SCalSeekerRingText";
-                        if (DownedBossSystem.downedCalamitas)
+                        if (cirrus)
+                            key = "Mods.CalamityMod.Status.Boss.CirrusHallowBossSpamText";
+                        else if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
-                        CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                        CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                     }
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2511,16 +2578,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             if (attackCastDelay == 0)
             {
-                string key = "Mods.CalamityMod.Status.Boss.SCalStartText";
+                string key = cirrus ? "Mods.CalamityMod.Status.Boss.CirrusBirbSwarmText" : "Mods.CalamityMod.Status.Boss.SCalStartText";
                 if (NPC.life <= NPC.lifeMax * 0.08)
-                    key = "Mods.CalamityMod.Status.Boss.SCalSepulcher2Text";
+                    key = cirrus ? "Mods.CalamityMod.Status.Boss.CirrusSecondBirbSwarmText" : "Mods.CalamityMod.Status.Boss.SCalSepulcher2Text";
 
                 if (!BossRushEvent.BossRushActive)
                 {
                     if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                    CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                 }
+
                 foreach (Vector2 heartSpawnPosition in heartSpawnPositions)
                 {
                     // Make the hearts appear in a burst of flame.
@@ -2575,11 +2644,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         spawnX = spawnXReset;
                         spawnX2 = spawnXReset2;
                         spawnY = spawnYReset;
+
                         if (NPC.CountNPCS(ModContent.NPCType<SepulcherHead>()) <= 0) // Check is here for the zenith seed
-                        {
                             NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<SepulcherHead>());
-                        }
                     }
+
                     NPC.netUpdate = true;
                 }
 
@@ -2628,11 +2697,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     Dust fire = Dust.NewDustPerfect(catastropheSpawnPosition + Main.rand.NextVector2Circular(60f, 60f), 264);
                     fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 4f);
+
                     if (attackCastDelay == 0)
                     {
                         fire.velocity += Main.rand.NextVector2Circular(4f, 4f);
                         fire.fadeIn = 1.6f;
                     }
+
                     fire.noGravity = true;
                     fire.noLight = true;
                     fire.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
@@ -2640,11 +2711,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     fire = Dust.NewDustPerfect(cataclysmSpawnPosition + Main.rand.NextVector2Circular(60f, 60f), 264);
                     fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 4f);
+
                     if (attackCastDelay == 0)
                     {
                         fire.velocity += Main.rand.NextVector2Circular(4f, 4f);
                         fire.fadeIn = 1.6f;
                     }
+
                     fire.noGravity = true;
                     fire.noLight = true;
                     fire.color = cirrus ? Color.BlueViolet : Color.OrangeRed;
@@ -2658,15 +2731,20 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!BossRushEvent.BossRushActive)
                 {
                     string key = "Mods.CalamityMod.Status.Boss.SCalBrothersText";
-                    if (DownedBossSystem.downedCalamitas)
+                    if (cirrus)
+                        key = "Mods.CalamityMod.Status.Boss.CirrusDoGText";
+                    else if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                    CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
                 }
+
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     CalamityUtils.SpawnBossBetter(catastropheSpawnPosition, cirrus ? ModContent.NPCType<DevourerofGodsHead>() : ModContent.NPCType<SupremeCatastrophe>());
                     CalamityUtils.SpawnBossBetter(cataclysmSpawnPosition, cirrus ? ModContent.NPCType<DevourerofGodsHead>() : ModContent.NPCType<SupremeCataclysm>());
                 }
+
                 SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, NPC.Center);
                 hasSummonedBrothers = true;
             }
