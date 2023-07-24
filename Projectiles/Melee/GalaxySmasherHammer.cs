@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Particles;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -20,13 +21,16 @@ namespace CalamityMod.Projectiles.Melee
         private static float StartDustQuantity = 26f;
         public ref int EmpoweredHammer => ref Main.player[Projectile.owner].Calamity().GalaxyHammer;
         public int returnhammer = 0;
-        public int DustOnce = 1;
         public float rotatehammer = 10f;
+        public int PulseCooldown = 0;
+        public float VibroIntensity = 0f;
+        public float WaitTimer = 0f;
+        public int InPulse = 0;
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 14;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
@@ -42,81 +46,48 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = 120;
         }
 
+
         public override void AI()
         {
             //returnhammer determines if the hammer is slowing down after hitting an enemy, or homing in on the player.
             Player player = Main.player[Projectile.owner];
             Projectile.direction = Projectile.spriteDirection = Projectile.velocity.X > 0f ? 1 : -1;
             Projectile.rotation += MathHelper.ToRadians(rotatehammer) * Projectile.direction;
-            if (EmpoweredHammer >= 5)
+            
+            if (EmpoweredHammer >= 8)
                 EmpoweredHammer = 0;
 
             if (returnhammer == 0)
             {
-                Projectile.velocity.X *= 0.981f;
-                Projectile.velocity.Y += 0.226f;
+                Projectile.velocity.X *= 0.988f;
+                Projectile.velocity.Y += 0.326f;
             }
 
-            if (returnhammer == 1)
+            if (returnhammer == 1) //Hammer slows after the inital hit
             {
-                if (EmpoweredHammer == 4)
+                if (EmpoweredHammer == 7)
                 {
-                    if (DustOnce == 1)
+                    ++WaitTimer;
+                    ++rotatehammer;
+                    if (WaitTimer == 20f)
                     {
-                        for (int i = 0; i < 20; ++i)
-                        {
-                            // Pick a random type of dust
-                            int dustID;
-                            switch (Main.rand.Next(6))
-                            {
-                                case 0:
-                                    dustID = 229;
-                                    break;
-                                case 1:
-                                case 2:
-                                    dustID = 156;
-                                    break;
-                                default:
-                                    dustID = 156;
-                                    break;
-                            }
-
-                            // Choose a random speed and angle for the dust
-                            float dustSpeed = Main.rand.NextFloat(3.0f, 19.0f);
-                            float angleRandom = 0.09f;
-                            Vector2 dustVel = new Vector2(0.0f, dustSpeed * -1f);
-                            dustVel = dustVel.RotatedBy(-angleRandom);
-                            dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
-
-                            // Pick a size for the dust particle
-                            float scale = Main.rand.NextFloat(1.7f, 3.8f);
-
-                            // Actually spawn the dust
-                            int idx = Dust.NewDust(Projectile.Center, 1, 1, dustID, dustVel.X, dustVel.Y, 0, default, scale);
-                            Main.dust[idx].noGravity = true;
-                            Main.dust[idx].position = Projectile.Center;
-                        }
-                        DustOnce = 0;
-                    }
-                    Projectile.velocity.X *= 0.281f;
-                    Projectile.velocity.Y -= 0.8f;
-                    rotatehammer++;
-                    if (Projectile.velocity.Y < -18f)
-                    {
+                        EmpoweredHammer = 0;
                         returnhammer = 3;
                     }
                 }
                 else
                 {
-                    Projectile.velocity.Y *= 0.896f;
+                    Projectile.velocity.Y *= 0.926f;
                     Projectile.velocity.X *= 0.811f;
                     if (Projectile.velocity.X > -1.05f && Projectile.velocity.X < 1.05f & Projectile.velocity.Y > -1.05f && Projectile.velocity.Y < 1.05f)
                         returnhammer = 2;
                 }
             }
 
-            if (returnhammer == 2)
+            if (returnhammer == 2) // Projectile returns to player
             {
+                ++PulseCooldown;
+                --rotatehammer;
                 Projectile.extraUpdates = 2;
                 float returnSpeed = StellarContempt.Speed;
                 float acceleration = 1.1f;
@@ -162,7 +133,7 @@ namespace CalamityMod.Projectiles.Melee
                         SoundEngine.PlaySound(SoundID.DD2_BetsysWrathShot with { Volume = 0.4f }, Projectile.Center);
                         for (int i = 0; i < 30; i++)
                         {
-                            Dust fire = Dust.NewDustPerfect(Projectile.Center, 156);
+                            Dust fire = Dust.NewDustPerfect(Projectile.Center, 181);
                             fire.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(0.8f) * new Vector2(4f, 1.25f) * Main.rand.NextFloat(0.9f, 1f);
                             fire.velocity = fire.velocity.RotatedBy(Projectile.rotation - MathHelper.PiOver2);
                             fire.velocity += Projectile.velocity * (EmpoweredHammer * 0.04f);
@@ -178,24 +149,40 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
             }
-            if (returnhammer == 3)
+            if (returnhammer == 3) //Hammer prepares to spawn echo hammer
             {
-                if (Projectile.velocity.Y < 0f)
+                if (InPulse == 0)
                 {
-                    Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.9f, 1.5f), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(85f, 335f), Main.rand.NextFloat(30f, 44f), Color.PaleTurquoise, Color.Turquoise, Main.rand.Next(15, 30), Projectile.Center);
+                    Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Aqua, new Vector2(1f, 1f), Main.rand.NextFloat(12f, 25f), 0.1f, 1.7f, 120);
+                    GeneralParticleHandler.SpawnParticle(pulse);
+                    InPulse = 1;
+                }
+
+                Projectile.rotation *= 0.987f;
+                Projectile.velocity *= 0f;
+                if (VibroIntensity >= 17f)
+                {
+                    if (InPulse == 1)
+                    {
+                        Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Orchid, new Vector2(1f, 1f), Main.rand.NextFloat(12f, 25f), 50f, 0.1f, 30);
+                        GeneralParticleHandler.SpawnParticle(pulse2);
+                        InPulse = 2;
+                    }
+                }
+
+                if (VibroIntensity <= 24f)
+                {
+                    VibroIntensity += 0.2f;
+                    Projectile.scale += 0.02f;
+                    Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(135f, 335f), Main.rand.NextFloat(20f, 20f), Color.Aqua, Color.Fuchsia, Main.rand.Next(10, 20), Projectile.Center);
                     GeneralParticleHandler.SpawnParticle(streak);
-                    Projectile.velocity.Y += 0.6f;
-                    Projectile.scale += 0.03f;
                 }
                 else
                 {
-                    Projectile.velocity *= 0f;
                     SoundEngine.PlaySound(RedHamSound, Projectile.Center);
-
-                    int hammer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<StellarContemptEcho>(), Projectile.damage * 6, Projectile.knockBack * 1.5f, Projectile.owner, 0f, Projectile.ai[1]);
+                    int hammer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<GalaxySmasherEcho>(), Projectile.damage * 9, Projectile.knockBack * 2.5f, Projectile.owner, 0f, Projectile.ai[1]);
                     Main.projectile[hammer].localAI[0] = Math.Sign(Projectile.velocity.X);
                     Main.projectile[hammer].netUpdate = true;
-                    EmpoweredHammer = 0;
                     Projectile.Kill();
                 }
             }
@@ -205,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 offset = new Vector2(12, 0).RotatedByRandom(MathHelper.ToRadians(360f));
                 Vector2 velOffset = new Vector2(4, 0).RotatedBy(offset.ToRotation());
-                Dust dust = Dust.NewDustPerfect(new Vector2(Projectile.Center.X, Projectile.Center.Y) + offset, 272, new Vector2(Projectile.velocity.X * 0.4f + velOffset.X, Projectile.velocity.Y * 0.4f + velOffset.Y), 100, default, 1.5f);
+                Dust dust = Dust.NewDustPerfect(new Vector2(Projectile.Center.X, Projectile.Center.Y) + offset, 272, new Vector2(Projectile.velocity.X * 0.4f + velOffset.X, Projectile.velocity.Y * 0.4f + velOffset.Y), 100, default, 0.7f);
                 dust.noGravity = true;
             }
 
@@ -213,7 +200,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 offset = new Vector2(12, 0).RotatedByRandom(MathHelper.ToRadians(360f));
                 Vector2 velOffset = new Vector2(4, 0).RotatedBy(offset.ToRotation());
-                Dust dust = Dust.NewDustPerfect(new Vector2(Projectile.Center.X, Projectile.Center.Y) + offset, 226, new Vector2(Projectile.velocity.X * 0.5f + velOffset.X, Projectile.velocity.Y * 0.5f + velOffset.Y), 100, default, 1.5f);
+                Dust dust = Dust.NewDustPerfect(new Vector2(Projectile.Center.X, Projectile.Center.Y) + offset, 226, new Vector2(Projectile.velocity.X * 0.5f + velOffset.X, Projectile.velocity.Y * 0.5f + velOffset.Y), 100, default, 0.7f);
                 dust.noGravity = true;
             }
         }
@@ -224,35 +211,49 @@ namespace CalamityMod.Projectiles.Melee
             if (returnhammer == 0)
             {
                 if (Main.zenithWorld)
-                    SoundEngine.PlaySound(UseSoundFunny with { Pitch = EmpoweredHammer * 0.1f - 0.1f }, Projectile.Center);
+                    SoundEngine.PlaySound(UseSoundFunny with { Pitch = EmpoweredHammer * 0.05f - 0.05f }, Projectile.Center);
 
                 else
-                    SoundEngine.PlaySound(UseSound with { Pitch = EmpoweredHammer * 0.1f - 0.1f }, Projectile.Center);
+                    SoundEngine.PlaySound(UseSound with { Pitch = EmpoweredHammer * 0.05f - 0.05f }, Projectile.Center);
 
-                if (EmpoweredHammer == 4)
+                int FunSizeHamID = ModContent.ProjectileType<GalaxySmasherMini>();
+                int FunSizeHamDamage = (int)(0.1f * Projectile.damage);
+                float FunSizeHamKB = 0.2f;
+                int NumOfFunSizeHams = EmpoweredHammer + 1;
+                for (int i = 0; i < NumOfFunSizeHams; ++i)
                 {
-                    Projectile.velocity.Y *= 0f;
-                    Projectile.velocity.X *= 0f;
+                    float startDist = Main.rand.NextFloat(160f, 190f);
+                    Vector2 startDir = Main.rand.NextVector2Unit();
+                    Vector2 startPoint = Projectile.Center + startDir * startDist;
+
+                    float FunSizeHamSpeed = Main.rand.NextFloat(10f, 14f);
+                    Vector2 velocity = startDir * -FunSizeHamSpeed;
+
+                    if (Projectile.owner == Main.myPlayer)
+                    {
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, FunSizeHamID, FunSizeHamDamage, FunSizeHamKB, Projectile.owner);
+                        if (proj.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[proj].DamageType = DamageClass.MeleeNoSpeed;
+                            Main.projectile[proj].tileCollide = false;
+                            Main.projectile[proj].timeLeft = 30;
+                            Main.projectile[proj].extraUpdates = 2;
+                        }
+                    }
                 }
-                
+
                 returnhammer = 1;
             }
-            float numberOfDusts = 55f;
-            float rotFactor = 360f / numberOfDusts;
-            for (int i = 0; i < numberOfDusts; i++)
-            {
-                float rot = MathHelper.ToRadians(i * rotFactor);
-                Vector2 offset = new Vector2(7.8f, 5.5f).RotatedBy(rot * Main.rand.NextFloat(1.1f, 4.1f));
-                Vector2 velOffset = new Vector2(5.5f, 7.8f).RotatedBy(rot * Main.rand.NextFloat(1.1f, 4.1f));
-                Dust dust = Dust.NewDustPerfect(Projectile.position + offset, 181, new Vector2(velOffset.X, velOffset.Y));
-                dust.noGravity = true;
-                dust.velocity = velOffset;
-                dust.scale = Main.rand.NextFloat(1.8f, 3.5f);
-            }
-
+            if (PulseCooldown >= 15);
+            { 
+                Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Violet, new Vector2(0.5f, 0.5f), Main.rand.NextFloat(12f, 25f), 0.2f, 1.4f + (EmpoweredHammer * 0.1f), 14);
+                GeneralParticleHandler.SpawnParticle(pulse);
+                PulseCooldown = 0;
+            }   
             SoundEngine.PlaySound(SoundID.Item14 with { Volume = 0.22f }, Projectile.Center);
             Projectile.ai[1] = target.whoAmI;
         }
+
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Projectile.damage = (int)(Projectile.damage * 0.9f);
@@ -262,7 +263,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
+            Vector2 origin = frame.Size() * 0.5f;
+
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 3);
             return false;
         }
     }

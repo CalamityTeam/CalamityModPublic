@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/Pwnagehammer";
-        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.8f, PitchVariance = 0.16f };
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f, PitchVariance = 0.16f };
         public static readonly SoundStyle HomingSound = new("CalamityMod/Sounds/Item/PwnagehammerHoming");
 
         public override void SetStaticDefaults()
@@ -115,20 +115,20 @@ namespace CalamityMod.Projectiles.Melee
                     float rot = MathHelper.ToRadians(i * rotFactor);
                     Vector2 offset = new Vector2(15f, 0).RotatedBy(rot);
                     Vector2 velOffset = new Vector2(10f, 0).RotatedBy(rot);
-                    Dust dust = Dust.NewDustPerfect(Projectile.position + offset, 269, new Vector2(velOffset.X, velOffset.Y));
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 269, new Vector2(velOffset.X, velOffset.Y));
                     dust.noGravity = true;
                     dust.velocity = velOffset;
                     dust.scale = 2.5f;
                     if (i % 2 == 0)
                     {
-                        dust = Dust.NewDustPerfect(Projectile.position + offset, 269, new Vector2(velOffset.X, velOffset.Y));
+                        dust = Dust.NewDustPerfect(Projectile.Center + offset, 269, new Vector2(velOffset.X, velOffset.Y));
                         dust.noGravity = true;
                         dust.velocity = velOffset * 2f;
                         dust.scale = 2.5f;
                     }
                     if (i % 4 == 0)
                     {
-                        dust = Dust.NewDustPerfect(Projectile.position + offset, 269, new Vector2(velOffset.X, velOffset.Y));
+                        dust = Dust.NewDustPerfect(Projectile.Center + offset, 269, new Vector2(velOffset.X, velOffset.Y));
                         dust.noGravity = true;
                         dust.velocity = velOffset / 2f;
                         dust.scale = 2.5f;
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Melee
                     float rot = MathHelper.ToRadians(i * rotFactor);
                     Vector2 offset = new Vector2(15f, 0).RotatedBy(rot);
                     Vector2 velOffset = new Vector2(12.5f, 0).RotatedBy(rot);
-                    Dust dust = Dust.NewDustPerfect(Projectile.position + offset, 269, new Vector2(velOffset.X, velOffset.Y));
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 269, new Vector2(velOffset.X, velOffset.Y));
                     dust.noGravity = true;
                     dust.velocity = velOffset;
                     dust.scale = 2.5f;

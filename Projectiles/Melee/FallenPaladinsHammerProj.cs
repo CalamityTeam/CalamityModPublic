@@ -55,10 +55,11 @@ namespace CalamityMod.Projectiles.Melee
             
             if (returnhammer == 1)
                 {
-                    Projectile.velocity.Y *= 0.896f;
+                    Projectile.velocity.Y *= 0.926f;
                     Projectile.velocity.X *= 0.811f;
                     if (Projectile.velocity.X > -1.05f && Projectile.velocity.X < 1.05f & Projectile.velocity.Y > -1.05f && Projectile.velocity.Y < 1.05f)
-                        returnhammer = 2;
+                
+                    returnhammer = 2;
                 }
                     
             if (returnhammer == 2)
@@ -189,7 +190,7 @@ namespace CalamityMod.Projectiles.Melee
                     float rot = MathHelper.ToRadians(i * rotFactor);
                     Vector2 offset = new Vector2(3.6f, 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 4.1f));
                     Vector2 velOffset = new Vector2(3f, 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 4.1f));
-                    Dust dust = Dust.NewDustPerfect(Projectile.position + offset, 90, new Vector2(velOffset.X, velOffset.Y));
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 90, new Vector2(velOffset.X, velOffset.Y));
                     dust.noGravity = true;
                     dust.velocity = velOffset;
                     dust.scale = Main.rand.NextFloat(1.5f, 3.2f);
