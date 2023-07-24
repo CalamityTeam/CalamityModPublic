@@ -519,16 +519,22 @@ namespace CalamityMod
         }
         #endregion Render Target Management
 
-        #region ConfigCrap
+        #region Force ModConfig save (Reflection)
         internal static void SaveConfig(CalamityConfig cfg)
         {
-            // in-game ModConfig saving from mod code is not supported yet in tmodloader, and subject to change, so we need to be extra careful.
-            // This code only supports client configs, and doesn't call onchanged. It also doesn't support ReloadRequired or anything else.
-            MethodInfo saveMethodInfo = typeof(ConfigManager).GetMethod("Save", BindingFlags.Static | BindingFlags.NonPublic);
-            if (saveMethodInfo != null)
-                saveMethodInfo.Invoke(null, new object[] { cfg });
-            else
-                Instance.Logger.Warn("In-game SaveConfig failed, code update required");
+            // There is no current way to manually save a mod configuration file in tModLoader.
+            // The method which saves mod config files is private in ConfigManager, so reflection is used to invoke it.
+            try
+            {
+                MethodInfo saveMethodInfo = typeof(ConfigManager).GetMethod("Save", BindingFlags.Static | BindingFlags.NonPublic);
+                if (saveMethodInfo is not null)
+                    saveMethodInfo.Invoke(null, new object[] { cfg });
+                else
+                    Instance.Logger.Error("TML ConfigManager.Save reflection failed. Method signature has changed. Notify Calamity Devs if you see this in your log.");
+            } catch (_)
+            {
+                Instance.Logger.Error("An error occurred while manually saving Calamity mod configuration. This may be due to a complex mod conflict. It is safe to ignore this error.");
+            }
         }
         #endregion
 
