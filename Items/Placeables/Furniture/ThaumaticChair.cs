@@ -1,16 +1,21 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.FurnitureAbyss;
+using CalamityMod.Items.Placeables.FurnitureAcidwood;
+using CalamityMod.Items.Placeables.FurnitureAncient;
 using CalamityMod.Items.Placeables.FurnitureAshen;
 using CalamityMod.Items.Placeables.FurnitureMonolith;
 using CalamityMod.Items.Placeables.FurnitureBotanic;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Placeables.FurnitureEutrophic;
+using CalamityMod.Items.Placeables.FurnitureExo;
+using CalamityMod.Items.Placeables.FurnitureSacrilegious;
 using CalamityMod.Items.Placeables.FurnitureOtherworldly;
 using CalamityMod.Items.Placeables.FurnitureProfaned;
 using CalamityMod.Items.Placeables.FurnitureSilva;
 using CalamityMod.Items.Placeables.FurnitureStatigel;
 using CalamityMod.Items.Placeables.FurnitureStratus;
 using CalamityMod.Items.Placeables.FurnitureVoid;
+using CalamityMod.Items.Placeables.FurnitureWulfrum;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -41,7 +46,28 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AbyssChair>()).AddIngredient(ModContent.ItemType<AshenChair>()).AddIngredient(ModContent.ItemType<BotanicChair>()).AddIngredient(ModContent.ItemType<CosmiliteChair>()).AddIngredient(ModContent.ItemType<EutrophicChair>()).AddIngredient(ModContent.ItemType<MonolithChair>()).AddIngredient(ModContent.ItemType<OtherworldlyChair>()).AddIngredient(ModContent.ItemType<PlaguedPlateChair>()).AddIngredient(ModContent.ItemType<ProfanedChair>()).AddIngredient(ModContent.ItemType<SilvaChair>()).AddIngredient(ModContent.ItemType<StatigelChair>()).AddIngredient(ModContent.ItemType<StratusChair>()).AddIngredient(ModContent.ItemType<VoidChair>()).AddIngredient(ModContent.ItemType<AuricBar>()).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).
+            AddIngredient(ModContent.ItemType<AbyssChair>()).
+            AddIngredient(ModContent.ItemType<AcidwoodChair>()).
+            AddIngredient(ModContent.ItemType<AncientChair>()).
+            AddIngredient(ModContent.ItemType<AshenChair>()).
+            AddIngredient(ModContent.ItemType<BotanicChair>()).
+            AddIngredient(ModContent.ItemType<CosmiliteChair>()).
+            AddIngredient(ModContent.ItemType<EutrophicChair>()).
+            AddIngredient(ModContent.ItemType<ExoChair>()).
+            AddIngredient(ModContent.ItemType<MonolithChair>()).
+            AddIngredient(ModContent.ItemType<SacrilegiousChair>()).
+            AddIngredient(ModContent.ItemType<OtherworldlyChair>()).
+            AddIngredient(ModContent.ItemType<PlaguedPlateChair>()).
+            AddIngredient(ModContent.ItemType<ProfanedChair>()).
+            AddIngredient(ModContent.ItemType<SilvaChair>()).
+            AddIngredient(ModContent.ItemType<StatigelChair>()).
+            AddIngredient(ModContent.ItemType<StratusChair>()).
+            AddIngredient(ModContent.ItemType<VoidChair>()).
+            AddIngredient(ModContent.ItemType<WulfrumChair>()).
+            AddIngredient(ModContent.ItemType<AuricBar>()).
+            AddTile(ModContent.TileType<CosmicAnvil>()).
+            Register();
         }
     }
 }

@@ -5,12 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles.Rogue
 {
-    public class InfernadoFriendly : ModProjectile, ILocalizedModType
+    public class DragonScalesInfernado : ModProjectile, ILocalizedModType
     {
 
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public new string LocalizationCategory => "Projectiles.Rogue";
+        public override string Texture => "CalamityMod/Projectiles/Magic/InfernadoFriendly";
+
         bool intersectingSomething = false;
         public override void SetStaticDefaults()
         {
@@ -26,10 +28,10 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
-            Projectile.timeLeft = 500;
+            Projectile.timeLeft = 200;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.idStaticNPCHitCooldown = 20;
+            Projectile.DamageType = DamageClass.Generic;
         }
 
         public override void AI()
@@ -38,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
                 intersectingSomething = true;
 
             float scaleBase = 44f;
-            float scaleMult = 2.5f;
+            float scaleMult = 1.4f;
             float baseWidth = 320f;
             float baseHeight = 88f;
 
@@ -103,7 +105,7 @@ namespace CalamityMod.Projectiles.Magic
                 center.Y += 2f;
                 Projectile segment = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 10f, Projectile.ai[1] - 1f);
 
-                // The projectile defaults to magic, but each sub-segment copies the damage class of the previous.
+                // The projectile defaults to generic, but each sub-segment copies the damage class of the previous.
                 // Truly a worm boss of weapons.
                 if (segment.whoAmI.WithinBounds(Main.maxProjectiles))
                 {
