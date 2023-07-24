@@ -32,6 +32,8 @@ namespace CalamityMod.Projectiles.Melee
         public Vector2 DashDestination = Vector2.Zero;
 
         internal PrimitiveTrail TrailDrawer;
+        // Rawest placeholder sound
+        public static readonly SoundStyle DashSound = new("CalamityMod/Sounds/Custom/ExoMechs/ApolloMissileLaunch") { Volume = 0.6f };
 
         public override void SetStaticDefaults()
         {
@@ -116,6 +118,8 @@ namespace CalamityMod.Projectiles.Melee
                 // Has to be within world bounds
                 if (intendedDestination.X >= 800f && intendedDestination.Y >= 800f && intendedDestination.X <= Main.maxTilesX * 16f - 800f && intendedDestination.Y <= Main.maxTilesY * 16f - 800f)
                 {
+                    SoundEngine.PlaySound(DashSound, Owner.Center);
+
                     // Give immunity frames
                     Owner.immune = true;
                     Owner.immuneNoBlink = true;
@@ -164,7 +168,15 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? CanDamage() => DashTime > 0 ? base.CanDamage() : false;
 
         // Hits have diminishing damage
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Projectile.damage = (int)(Projectile.damage * PiercingDamageMult);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Projectile.damage = (int)(Projectile.damage * PiercingDamageMult);
+
+            // Spawn a violent slash through the target that is hit
+            float rotation = Projectile.velocity.ToRotation() - MathHelper.Pi;
+            Particle redSlash = new SlashThrough(Color.Red * 0.9f, Owner.Center, rotation, 15, target);
+            GeneralParticleHandler.SpawnParticle(redSlash);
+        }
 
         internal Color ColorFunction(float completionRatio)
         {
@@ -177,11 +189,19 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             // Textures and general use stuff
+            Texture2D mainTex = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
             Texture2D flatTex = ModContent.Request<Texture2D>("CalamityMod/Particles/FlatShape").Value;
             Texture2D shieldTex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StygianShieldBloom").Value;
             Texture2D ringTex = ModContent.Request<Texture2D>("CalamityMod/Particles/HollowCircleHardEdge").Value;
             float chargeLevel = Charge / MaxChargeTime;
+
+            // "Arrow head" effect which draws around the shield (and also the telegraph which have different draw parameters below)
+            Effect ArrowEffect = Filters.Scene["CalamityMod:SpreadTelegraph"].GetShader().Shader;
+            ArrowEffect.Parameters["centerOpacity"].SetValue(1f);
+            ArrowEffect.Parameters["mainOpacity"].SetValue(1f);
+            ArrowEffect.Parameters["edgeBlendLength"].SetValue(0.07f);
+            ArrowEffect.Parameters["edgeBlendStrength"].SetValue(8f);
 
             // Bull Rush dash effects
             if (DashTime > 0 && DashTime < DashDuration - 1f && DashDestination != Vector2.Zero && Projectile.velocity.Length() > 0f)
@@ -204,21 +224,13 @@ namespace CalamityMod.Projectiles.Melee
                 GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
                 TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f + extraOffset - (direction * 80f), 10);
 
-                // "Arrow heads" making up the shield tip
-                Effect ArrowEffect = Filters.Scene["CalamityMod:SpreadTelegraph"].GetShader().Shader;
-                ArrowEffect.Parameters["centerOpacity"].SetValue(1f);
-                ArrowEffect.Parameters["mainOpacity"].SetValue(1f);
                 ArrowEffect.Parameters["halfSpreadAngle"].SetValue(MathHelper.ToRadians(7.5f));
                 ArrowEffect.Parameters["edgeColor"].SetValue(headColor.ToVector3());
                 ArrowEffect.Parameters["centerColor"].SetValue(headColor.ToVector3());
-                ArrowEffect.Parameters["edgeBlendLength"].SetValue(0.07f);
-                ArrowEffect.Parameters["edgeBlendStrength"].SetValue(8f);
-
                 Main.spriteBatch.EnterShaderRegion(BlendState.Additive, ArrowEffect);
-                Texture2D headTex = ModContent.Request<Texture2D>(Texture).Value;
                 // One pokes forward and two to the sides
                 for (float i = -side; i <= side; i += side)
-                    Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (direction * 72f * scaleMult).RotatedBy(i), null, Color.White, arrowFace + i, headTex.Size() / 2f, 300f * scaleMult, SpriteEffects.None);
+                    Main.EntitySpriteDraw(mainTex, Projectile.Center + extraOffset + (direction * 72f * scaleMult).RotatedBy(i), null, Color.White, arrowFace + i, mainTex.Size() / 2f, 300f * scaleMult, SpriteEffects.None);
                 Main.spriteBatch.ExitShaderRegion();
 
                 // Blooming shield and rings
@@ -249,12 +261,45 @@ namespace CalamityMod.Projectiles.Melee
                 if (Charge >= MaxChargeTime)
                 {
                     float glowScale = 0.5f * CalamityUtils.Convert01To010((Owner.miscCounter % 40) / 40f);
-                    Main.EntitySpriteDraw(flatTex, shieldPos, null, Color.DarkOrange * 0.2f, 0f, flatTex.Size() / 2f, 0.3f + glowScale, SpriteEffects.None);
+                    Main.EntitySpriteDraw(flatTex, shieldPos, null, Color.DarkRed * 0.3f, 0f, flatTex.Size() / 2f, 0.3f + glowScale, SpriteEffects.None);
                 }
                 // Normal bloom which scales with charge
-                Main.EntitySpriteDraw(bloomTex, shieldPos, null, Color.DarkGoldenrod * 0.3f, 0f, bloomTex.Size() / 2f, 0.5f * chargeLevel, SpriteEffects.None);
+                Main.EntitySpriteDraw(bloomTex, shieldPos, null, Color.DarkGoldenrod * 0.4f * chargeLevel, 0f, bloomTex.Size() / 2f, 0.4f * chargeLevel, SpriteEffects.None);
 
                 Main.spriteBatch.ExitShaderRegion();
+
+                // Charge sight line
+                if (Charge >= MinChargeTime)
+                {
+                    Color telegraphColor = Color.White;
+                    Effect TelegraphEffect = ArrowEffect;
+                    TelegraphEffect.Parameters["centerOpacity"].SetValue(0.6f);
+                    TelegraphEffect.Parameters["halfSpreadAngle"].SetValue(MathHelper.ToRadians(64f));
+                    TelegraphEffect.Parameters["edgeColor"].SetValue(telegraphColor.ToVector3());
+                    TelegraphEffect.Parameters["centerColor"].SetValue(telegraphColor.ToVector3());
+
+                    // Where the dash is supposed to take you, taken from above
+                    Vector2 dashLength = Projectile.SafeDirectionTo(Owner.Calamity().mouseWorld) * MaxChargeDistance * Charge / MaxChargeTime;
+                    Vector2 intendedDestination = Projectile.Center + dashLength;
+                    float direction = Projectile.SafeDirectionTo(intendedDestination).ToRotation();
+
+                    Main.spriteBatch.EnterShaderRegion(BlendState.Additive, TelegraphEffect);
+                    Main.EntitySpriteDraw(mainTex, intendedDestination - Main.screenPosition, null, Color.White, direction - MathHelper.Pi, mainTex.Size() / 2f, 135f, SpriteEffects.None);
+                    Main.spriteBatch.ExitShaderRegion();
+
+                    for (int i = -1; i <= 1; i += 2)
+                    {
+                        Vector2 pointStart = Projectile.Center + Projectile.SafeDirectionTo(Owner.Calamity().mouseWorld).RotatedBy(90f * i) * 60f;
+                        Vector2 pointEnd = Projectile.Center + dashLength * 0.1f;
+                        Vector2 lineStart = pointStart + dashLength * 0.1f;
+                        Vector2 lineEnd = pointStart + dashLength;
+                        Color lineColor = telegraphColor * 0.2f;
+                        float lineScale = 2f;
+                        Main.spriteBatch.DrawLineBetter(lineStart, pointEnd, lineColor, lineScale);
+                        Main.spriteBatch.DrawLineBetter(lineStart, lineEnd, lineColor, lineScale);
+                        Main.spriteBatch.DrawLineBetter(lineEnd, intendedDestination, lineColor, lineScale);
+                    }
+                }
             }
             return false;
         }

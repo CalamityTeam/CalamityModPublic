@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Particles;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ namespace CalamityMod.Projectiles.Melee
         public ref float AirTime => ref Projectile.ai[0];
 
         public const float TotalTrailLength = 35f;
+        public static readonly SoundStyle ThrowSound = CommonCalamitySounds.LouderSwingWoosh;
+        public static readonly SoundStyle CollisionSound = CommonCalamitySounds.ExoHitSound;
 
         public override void SetStaticDefaults()
         {
@@ -45,7 +48,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            // TODO -- Throw sound
+            if (AirTime == 0f)
+                SoundEngine.PlaySound(ThrowSound, Projectile.Center);
+
             // Boomerang rotation
             Projectile.rotation += Projectile.direction * 0.4f;
 
@@ -77,6 +82,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            SoundEngine.PlaySound(CollisionSound, Projectile.Center);
+
             // Disallow the NPC to be targeted again
             PreviousNPCs.Add(target.whoAmI);
             if(SeekNPC() == -1)
@@ -89,8 +96,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            SoundEngine.PlaySound(CollisionSound, Projectile.Center);
+
             if(SeekNPC() == -1)
                 ReturnToOwner();
+
+            // Counts as "hitting" something
             Projectile.numHits++;
             return false;
         }
