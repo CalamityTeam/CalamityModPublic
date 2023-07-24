@@ -4,6 +4,7 @@ using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -115,6 +116,13 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             if (vodka)
             {
                 Main.LocalPlayer.ConsumeItem(ModContent.ItemType<FabsolsVodka>(), true);
+                for (int f = 0; f < Main.maxNPCs; f++)
+                {
+                    if (Main.npc[f].type == ModContent.NPCType<FAP>() && Main.npc[f].active)
+                    {
+                        Main.npc[f].active = false;
+                    }
+                }
             }
             else if (!usingSpecialItem)
             {

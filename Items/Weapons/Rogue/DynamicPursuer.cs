@@ -17,9 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class DynamicPursuer : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-                   }
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();
@@ -29,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             Item.width = 30;
             Item.height = 34;
-            Item.useTime = 40;
-            Item.useAnimation = 40;
+            Item.useTime = 42;
+            Item.useAnimation = 42;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = false;
             Item.knockBack = 3f;
@@ -44,15 +41,25 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
 
             Item.shoot = ModContent.ProjectileType<DynamicPursuerProjectile>();
-            Item.shootSpeed = 28f;
+            Item.shootSpeed = 18f;
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 300f; // Tesla Cannon = 250f
             modItem.ChargePerUse = 0.5f; // Tesla Cannon = 0.9f
         }
+        public static float StealthDmgMult = 0.3f; //So I can edit it directly via DragonLens instead of having to do math with CalTestHelpers
+		public override float StealthDamageMultiplier => StealthDmgMult;
+        public override float StealthVelocityMultiplier => 0.8f;
 
-		public override float StealthDamageMultiplier => 0.3f;
-        public override float StealthVelocityMultiplier => 1.2f;
+        //Stuff to be used on the projectile, but here for ease of access ingame via DragonLens
+        public static float ReturnAcceleration = 0.75f;
+        public static float ReturnMaxSpeed = 24f;
+        public static float RicochetShootingCooldown = 1000f;
+        public static float RicochetVelocityCap = 28f;
+        public static float ElectricityDmgMult = 0.3f;
+        public static float ElectricityCooldown = 500f;
+        public static float LaserDmgMult = 0.25f;
+        public static float LaserCooldown = 300f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

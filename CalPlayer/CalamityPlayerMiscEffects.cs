@@ -534,7 +534,7 @@ namespace CalamityMod.CalPlayer
             Collision.GetEntityEdgeTiles(EdgeTiles, Player);
             foreach (Point touchedTile in EdgeTiles)
             {
-                Tile tile = Main.tile[touchedTile];
+                Tile tile = Framing.GetTileSafely(touchedTile);
                 if (!tile.HasTile || !tile.HasUnactuatedTile)
                     continue;
 
@@ -1459,11 +1459,11 @@ namespace CalamityMod.CalPlayer
                 if (tarragonImmunity && !disableAllDodges)
                     Player.GiveIFrames(2, true);
 
-                if (tarraThrowingCrits >= 25)
+                if (tarraThrowingCrits >= 50)
                 {
                     tarraThrowingCrits = 0;
                     if (Player.whoAmI == Main.myPlayer && !disableAllDodges)
-                        Player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.TarragonImmunity>(), 180, false);
+                        Player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.TarragonImmunity>(), 150, false);
                 }
 
                 for (int l = 0; l < Player.MaxBuffs; l++)
@@ -1471,11 +1471,11 @@ namespace CalamityMod.CalPlayer
                     int hasBuff = Player.buffType[l];
                     if (Player.buffTime[l] <= 2 && hasBuff == ModContent.BuffType<Buffs.StatBuffs.TarragonImmunity>())
                         if (Player.whoAmI == Main.myPlayer)
-                            Player.AddCooldown(Cooldowns.TarragonImmunity.ID, CalamityUtils.SecondsToFrames(27));
+                            Player.AddCooldown(Cooldowns.TarragonImmunity.ID, CalamityUtils.SecondsToFrames(30));
 
                     bool shouldAffect = CalamityLists.debuffList.Contains(hasBuff);
                     if (shouldAffect)
-                        Player.GetDamage<ThrowingDamageClass>() += 0.1f;
+                        Player.GetDamage<RogueDamageClass>() += 0.1f;
                 }
             }
 

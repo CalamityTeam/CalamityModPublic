@@ -212,22 +212,30 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             num36 = 2;
 
                         if (num35 % num37 == num39)
-                            num36 = 8;
-
-                        if (num35 % num37 == num40)
                             num36 = 6;
 
-                        if (num35 % num37 == num41)
+                        if (num35 % num37 == num40)
                             num36 = 8;
+
+                        if (num35 % num37 == num41)
+                        {
+                            num36 = 4;
+
+                            // Adjust the upcoming Ethereal Lance attack depending on what random variable is chosen here.
+                            calamityGlobalNPC.newAI[0] = Main.rand.Next(2);
+
+                            // Sync the Calamity AI variables.
+                            npc.SyncExtraAI();
+                        }
 
                         if (num35 % num37 == num42)
                             num36 = 5;
 
                         if (num35 % num37 == num43)
-                            num36 = 2;
+                            num36 = 8;
 
                         if (num35 % num37 == num44)
-                            num36 = 8;
+                            num36 = 2;
 
                         if (num35 % num37 == num45)
                         {

@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Accessories
     public class RottenDogtooth : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        internal const int ArmorCrunchDebuffTime = 180;
-        internal const float StealthStrikeDamageMultiplier = 0.1f;
+        internal const int ArmorCrunchDebuffTime = 150;
+        internal const float StealthStrikeDamageMultiplier = 0.08f;
         public override void SetDefaults()
         {
             Item.width = 14;

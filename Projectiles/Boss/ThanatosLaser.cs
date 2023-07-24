@@ -84,8 +84,6 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.frame > 3)
                 Projectile.frame = 0;
 
-            Lighting.AddLight(Projectile.Center, 0.6f, 0f, 0f);
-
             // If there is no NPC to attach to, run this instead.
             if (Projectile.ai[1] == -1f)
             {

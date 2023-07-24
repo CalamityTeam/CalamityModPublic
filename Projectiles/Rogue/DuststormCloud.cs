@@ -16,13 +16,13 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 14;
             Projectile.friendly = true;
             Projectile.alpha = 255;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = -1; //Would only be used by Sandslasher stealth
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 600;
-            Projectile.DamageType = RogueDamageClass.Instance;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 6;
+            Projectile.DamageType = DamageClass.Generic;
+            Projectile.usesIDStaticNPCImmunity = true; //Would only be used by Sandslasher stealth
+            Projectile.idStaticNPCHitCooldown = 6; //Also only used by Sandslasher stealth
         }
 
         public override void AI()

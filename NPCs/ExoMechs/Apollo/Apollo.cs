@@ -625,30 +625,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         if (spawnOtherExoMechs)
                         {
                             // Despawn projectile bullshit
-                            for (int x = 0; x < Main.maxProjectiles; x++)
-                            {
-                                Projectile projectile = Main.projectile[x];
-                                if (projectile.active)
-                                {
-                                    if (projectile.type == ModContent.ProjectileType<ArtemisLaser>() ||
-                                        projectile.type == ModContent.ProjectileType<ArtemisChargeTelegraph>() ||
-                                        projectile.type == ModContent.ProjectileType<ApolloFireball>() ||
-                                        projectile.type == ModContent.ProjectileType<ApolloRocket>())
-                                    {
-                                        // Prevent splitting and spawn death dust
-                                        if (projectile.type == ModContent.ProjectileType<ApolloFireball>())
-                                        {
-                                            SpawnApolloFireballKillDust(projectile);
-                                            projectile.active = false;
-                                        }
-                                        else
-                                        {
-                                            projectile.Kill();
-                                            projectile.owner = Main.maxPlayers;
-                                        }
-                                    }
-                                }
-                            }
+                            KillProjectiles();
 
                             // Set Artemis variables
                             if (exoMechTwinRedAlive)
@@ -739,30 +716,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         if (otherMechIsBerserk && !berserk && !exoMechdusa)
                         {
                             // Despawn projectile bullshit
-                            for (int x = 0; x < Main.maxProjectiles; x++)
-                            {
-                                Projectile projectile = Main.projectile[x];
-                                if (projectile.active)
-                                {
-                                    if (projectile.type == ModContent.ProjectileType<ArtemisLaser>() ||
-                                        projectile.type == ModContent.ProjectileType<ArtemisChargeTelegraph>() ||
-                                        projectile.type == ModContent.ProjectileType<ApolloFireball>() ||
-                                        projectile.type == ModContent.ProjectileType<ApolloRocket>())
-                                    {
-                                        // Prevent splitting
-                                        if (projectile.type == ModContent.ProjectileType<ApolloFireball>())
-                                        {
-                                            SpawnApolloFireballKillDust(projectile);
-                                            projectile.active = false;
-                                        }
-                                        else
-                                        {
-                                            projectile.Kill();
-                                            projectile.owner = Main.maxPlayers;
-                                        }
-                                    }
-                                }
-                            }
+                            KillProjectiles();
 
                             // Set Artemis variables
                             if (exoMechTwinRedAlive)
@@ -818,30 +772,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     if (otherMechIsBerserk && !exoMechdusa)
                     {
                         // Despawn projectile bullshit
-                        for (int x = 0; x < Main.maxProjectiles; x++)
-                        {
-                            Projectile projectile = Main.projectile[x];
-                            if (projectile.active)
-                            {
-                                if (projectile.type == ModContent.ProjectileType<ArtemisLaser>() ||
-                                    projectile.type == ModContent.ProjectileType<ArtemisChargeTelegraph>() ||
-                                    projectile.type == ModContent.ProjectileType<ApolloFireball>() ||
-                                    projectile.type == ModContent.ProjectileType<ApolloRocket>())
-                                {
-                                    // Prevent splitting
-                                    if (projectile.type == ModContent.ProjectileType<ApolloFireball>())
-                                    {
-                                        SpawnApolloFireballKillDust(projectile);
-                                        projectile.active = false;
-                                    }
-                                    else
-                                    {
-                                        projectile.Kill();
-                                        projectile.owner = Main.maxPlayers;
-                                    }
-                                }
-                            }
-                        }
+                        KillProjectiles();
 
                         // Set Artemis variables
                         if (exoMechTwinRedAlive)
@@ -1404,65 +1335,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             }
         }
 
-        private void SpawnApolloFireballKillDust(Projectile projectile)
-        {
-            int height = 90;
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = height;
-            projectile.Center = projectile.position;
-
-            SoundEngine.PlaySound(CommonCalamitySounds.ExoPlasmaExplosionSound, projectile.Center);
-
-            for (int i = 0; i < 200; i++)
-            {
-                float dustSpeed = 16f;
-                if (i < 150)
-                    dustSpeed = 12f;
-                if (i < 100)
-                    dustSpeed = 8f;
-                if (i < 50)
-                    dustSpeed = 4f;
-
-                int dust = Dust.NewDust(projectile.Center, 6, 6, Main.rand.NextBool(2) ? 107 : 110, 0f, 0f, 100, default, 1f);
-                float dustVelocityX = Main.dust[dust].velocity.X;
-                float dustVelocityY = Main.dust[dust].velocity.Y;
-
-                if (dustVelocityX == 0f && dustVelocityY == 0f)
-                    dustVelocityX = 1f;
-
-                float dustVelocity = (float)Math.Sqrt(dustVelocityX * dustVelocityX + dustVelocityY * dustVelocityY);
-                dustVelocity = dustSpeed / dustVelocity;
-                dustVelocityX *= dustVelocity;
-                dustVelocityY *= dustVelocity;
-
-                float scale = 1f;
-                switch ((int)dustSpeed)
-                {
-                    case 4:
-                        scale = 1.2f;
-                        break;
-                    case 8:
-                        scale = 1.1f;
-                        break;
-                    case 12:
-                        scale = 1f;
-                        break;
-                    case 16:
-                        scale = 0.9f;
-                        break;
-                    default:
-                        break;
-                }
-
-                Dust dust2 = Main.dust[dust];
-                dust2.velocity *= 0.5f;
-                dust2.velocity.X = dust2.velocity.X + dustVelocityX;
-                dust2.velocity.Y = dust2.velocity.Y + dustVelocityY;
-                dust2.scale = scale;
-                dust2.noGravity = true;
-            }
-        }
-
         // Plays the targeting sound from both Exo Twins, indicating that they're syncing up.
         public static void PlayTargetingSound()
         {
@@ -1898,7 +1770,30 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     nPC.netUpdate = true;
                 }
             }
+
+            // Despawn projectile bullshit
+            KillProjectiles();
+
             return true;
+        }
+
+        private void KillProjectiles()
+        {
+            for (int x = 0; x < Main.maxProjectiles; x++)
+            {
+                Projectile projectile = Main.projectile[x];
+                if (projectile.active)
+                {
+                    if (projectile.type == ModContent.ProjectileType<ArtemisLaser>() ||
+                        projectile.type == ModContent.ProjectileType<ArtemisChargeTelegraph>() ||
+                        projectile.type == ModContent.ProjectileType<ApolloFireball>() ||
+                        projectile.type == ModContent.ProjectileType<ApolloRocket>())
+                    {
+                        projectile.ai[2] = -1f;
+                        projectile.Kill();
+                    }
+                }
+            }
         }
 
         public override bool CheckActive() => false;
