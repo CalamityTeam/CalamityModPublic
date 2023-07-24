@@ -24,17 +24,19 @@ namespace CalamityMod.CalPlayer.DrawLayers
         {
             Player drawPlayer = drawInfo.drawPlayer;
             List<DrawData> existingDrawData = drawInfo.DrawDataCache;
-            for (int i = 0; i < drawPlayer.Calamity().OldPositions.Length; i++)
+            for (float i = 0f; i < drawPlayer.Calamity().OldPositions.Length; i+=0.8f)
             {
                 float completionRatio = i / (float)drawPlayer.Calamity().OldPositions.Length;
-                float scale = MathHelper.Lerp(1f, 0.5f, completionRatio);
-                float opacity = MathHelper.Lerp(0.23f, 0.07f, completionRatio) * CobaltArmorSetChange.CalculateMovementSpeedInterpolant(drawPlayer);
+                float scale = MathHelper.Lerp(1f, 0.7f, completionRatio);
+                float opacity = MathHelper.Lerp(0.32f, 0.1f, completionRatio) * CobaltArmorSetChange.CalculateMovementSpeedInterpolant(drawPlayer);
                 List<DrawData> afterimages = new List<DrawData>();
                 for (int j = 0; j < existingDrawData.Count; j++)
                 {
                     var drawData = existingDrawData[j];
                     drawData.position = existingDrawData[j].position - drawPlayer.position + drawPlayer.oldPosition;
-                    drawData.color = new Color(100, 164, 219) * opacity;
+                    drawData.color = Color.Cyan * opacity;
+                    drawData.color.G = (byte)(drawData.color.G * 0.87);
+                    drawData.color.B = (byte)(drawData.color.B * 1.24);
                     drawData.scale = new Vector2(scale);
                     afterimages.Add(drawData);
                 }
