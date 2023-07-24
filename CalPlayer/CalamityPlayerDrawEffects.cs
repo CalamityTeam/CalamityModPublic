@@ -192,26 +192,6 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (calamityPlayer.auricSet)
-            {
-                if (!Player.StandingStill() && !Player.mount.Active)
-                {
-                    if (drawInfo.shadow == 0f)
-                    {
-                        int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(2) ? 57 : 244, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].velocity *= 0.5f;
-                        drawInfo.DustCache.Add(dust);
-                    }
-                    if (noRogueStealth)
-                    {
-                        r *= 0.15f;
-                        g *= 0.025f;
-                        b *= 0.1f;
-                        fullBright = true;
-                    }
-                }
-            }
             if (calamityPlayer.bFlames)
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
