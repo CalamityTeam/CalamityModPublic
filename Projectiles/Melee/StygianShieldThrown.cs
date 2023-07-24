@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
         // Stats
         public const int ReboundTime = 90;
         public const int MaxBounces = 1;
-        public const float MaxHomingRange = 800f; // 50 blocks
+        public const float MaxHomingRange = 640f; // 40 blocks
         public const float ReturnPiercingDamageMult = 0.6f;
 
         private List<int> PreviousNPCs = new List<int>() { -1 };

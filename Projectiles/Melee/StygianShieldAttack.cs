@@ -20,11 +20,11 @@ namespace CalamityMod.Projectiles.Melee
         // Bull Rush stats
         public const float MinChargeTime = 15f;
         public const float MaxChargeTime = 60f;
-        public const float MaxChargeDistance = 960f; // 60 blocks
-        public const float MaxChargeDamageMult = 4f;
+        public const float MaxChargeDistance = 800f; // 50 blocks
+        public const float MaxChargeDamageMult = 6f;
         public const float PiercingDamageMult = 0.6f;
         public const float DashDuration = 21f;
-        public const float IFrameRatio = 0.3f; // Amount given = Ratio * Charge, rounded down
+        public const float IFrameRatio = 0.2f; // Amount given = Ratio * Charge, rounded down
 
         public Player Owner => Main.player[Projectile.owner];
         public ref float Charge => ref Projectile.ai[0];
