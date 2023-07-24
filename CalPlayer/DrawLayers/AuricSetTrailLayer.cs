@@ -34,9 +34,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
                 {
                     var drawData = existingDrawData[j];
                     drawData.position = existingDrawData[j].position - drawPlayer.position + drawPlayer.oldPosition;
-                    drawData.color = Color.Goldenrod * opacity;
-                    drawData.color.G = (byte)(drawData.color.G * 1);
-                    drawData.color.B = (byte)(drawData.color.B * 1);
+                    drawData.color = new Color(133, 209, 238) * opacity;
                     drawData.scale = new Vector2(scale);
                     afterimages.Add(drawData);
                 }
