@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
         public const float MaxChargeDistance = 960f; // 60 blocks
         public const float MaxChargeDamageMult = 4f;
         public const float PiercingDamageMult = 0.6f;
-        public const float DashDuration = 18f;
+        public const float DashDuration = 21f;
         public const float IFrameRatio = 0.3f; // Amount given = Ratio * Charge, rounded down
 
         public Player Owner => Main.player[Projectile.owner];
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 16;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
@@ -131,6 +131,15 @@ namespace CalamityMod.Projectiles.Melee
                         Projectile.oldSpriteDirection[i] = 0;
                     }
 
+                    // Spawn flat gradients signalling the start of the dash
+                    for (int i = 0; i < 3; i++)
+                    {
+                        float scale = 1 / (float)Math.Pow(1.6D, i);
+                        float rot = Owner.miscCounter / MathHelper.TwoPi + MathHelper.ToRadians(120f * i);
+                        Particle glow = new FlatGlow(Projectile.Center, Vector2.Zero, Color.DarkOrange * 0.3f, rot, Vector2.One * scale, Vector2.One * 8f * scale, 12);
+                        GeneralParticleHandler.SpawnParticle(glow);
+                    }
+
                     DashDestination = intendedDestination;
                     Projectile.damage = (int)(Projectile.damage * MaxChargeDamageMult * Charge / MaxChargeTime);
                     Projectile.ExpandHitboxBy(100);
@@ -167,27 +176,37 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            // Bull Rush telegraph here
+            // Textures and general use stuff
+            Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
+            Texture2D flatTex = ModContent.Request<Texture2D>("CalamityMod/Particles/FlatShape").Value;
+            Texture2D shieldTex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StygianShieldBloom").Value;
+            Texture2D ringTex = ModContent.Request<Texture2D>("CalamityMod/Particles/HollowCircleHardEdge").Value;
+            float chargeLevel = Charge / MaxChargeTime;
 
             // Bull Rush dash effects
-            if (DashTime > 0 && DashTime < DashDuration && DashDestination != Vector2.Zero && Projectile.velocity.Length() > 0f)
+            if (DashTime > 0 && DashTime < DashDuration - 1f && DashDestination != Vector2.Zero && Projectile.velocity.Length() > 0f)
             {
+                // General uses
+                float durationRatio = DashTime / DashDuration;
+                float scaleMult = MathHelper.Lerp(1.8f, 1f, durationRatio);
                 Vector2 direction = Projectile.SafeDirectionTo(DashDestination);
-                Vector2 extraOffset = (direction * 800f / Projectile.velocity.Length())  - Main.screenPosition;
+                Vector2 extraOffset = (direction * 800f / Projectile.velocity.Length()) - Main.screenPosition;
+                // Arrows and stuff
                 float arrowFace = Projectile.velocity.ToRotation() - MathHelper.Pi;
-                Color headColor = Color.DarkOrange;
-                Color bloomColor = Color.LightSalmon;
+                float side = MathHelper.ToRadians(135f);
+                Color headColor = Color.Lerp(Color.Orange, Color.OrangeRed, durationRatio);
+                Color shieldColor = Color.LightSalmon;
 
                 // Main trail
                 if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
                 GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
-                TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f + extraOffset - (direction * 80f), (int)(Charge / MaxChargeTime * 16));
+                TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f + extraOffset - (direction * 80f), 10);
 
                 // "Arrow heads" making up the shield tip
                 Effect ArrowEffect = Filters.Scene["CalamityMod:SpreadTelegraph"].GetShader().Shader;
-                ArrowEffect.Parameters["centerOpacity"].SetValue(0.9f);
+                ArrowEffect.Parameters["centerOpacity"].SetValue(1f);
                 ArrowEffect.Parameters["mainOpacity"].SetValue(1f);
                 ArrowEffect.Parameters["halfSpreadAngle"].SetValue(MathHelper.ToRadians(7.5f));
                 ArrowEffect.Parameters["edgeColor"].SetValue(headColor.ToVector3());
@@ -198,23 +217,61 @@ namespace CalamityMod.Projectiles.Melee
                 Main.spriteBatch.EnterShaderRegion(BlendState.Additive, ArrowEffect);
                 Texture2D headTex = ModContent.Request<Texture2D>(Texture).Value;
                 // One pokes forward and two to the sides
-                float side = MathHelper.ToRadians(135f);
                 for (float i = -side; i <= side; i += side)
-                    Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (direction * 80f).RotatedBy(i), null, Color.White, arrowFace + i, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
-
-                //Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (direction * 80f), null, Color.White, arrowFace, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
-                //Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (direction * 80f).RotatedBy(-side), null, Color.White, arrowFace - side, headTex.Size() / 2f, 300f, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(headTex, Projectile.Center + extraOffset + (direction * 72f * scaleMult).RotatedBy(i), null, Color.White, arrowFace + i, headTex.Size() / 2f, 300f * scaleMult, SpriteEffects.None);
                 Main.spriteBatch.ExitShaderRegion();
 
-                // Blooming shield
+                // Blooming shield and rings
                 Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
-                Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
-                Texture2D shieldTex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StygianShieldBloom").Value;
-                Main.EntitySpriteDraw(shieldTex, Projectile.Center + extraOffset, null, bloomColor, arrowFace - MathHelper.Pi, shieldTex.Size() / 2f, 1.4f, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(bloomTex, Projectile.Center + extraOffset, null, bloomColor * 0.75f, arrowFace, bloomTex.Size() / 2f, 0.5f, SpriteEffects.None, 0);
+                
+                float shieldRot = arrowFace - MathHelper.Pi;
+                Main.EntitySpriteDraw(shieldTex, Projectile.Center + extraOffset, null, shieldColor, shieldRot, shieldTex.Size() / 2f, 1.25f * scaleMult, SpriteEffects.None);
+                Main.EntitySpriteDraw(bloomTex, Projectile.Center + extraOffset, null, shieldColor * 0.75f, 0f, bloomTex.Size() / 2f, 0.5f * scaleMult, SpriteEffects.None);
+
+                Vector2 ringScale = new Vector2(0.033f, 2.25f * scaleMult * shieldTex.Height / (float)ringTex.Height);
+                // Inner to outer in order: largest -> smallest -> middlest
+                Main.EntitySpriteDraw(ringTex, Projectile.Center + extraOffset - (direction * 36f * scaleMult), null, shieldColor, shieldRot, ringTex.Size() / 2f, ringScale * 1.2f, SpriteEffects.None);
+                Main.EntitySpriteDraw(ringTex, Projectile.Center + extraOffset - (direction * 30f * scaleMult), null, shieldColor, shieldRot, ringTex.Size() / 2f, ringScale * 0.8f, SpriteEffects.None);
+                Main.EntitySpriteDraw(ringTex, Projectile.Center + extraOffset - (direction * 24f * scaleMult), null, shieldColor, shieldRot, ringTex.Size() / 2f, ringScale, SpriteEffects.None);
+                Main.spriteBatch.ExitShaderRegion();
+            }
+            // Bull Rush telegraph
+            else if (DashTime <= 0f)
+            {
+                // Move according to the player direction & frame
+                Vector2 shieldPos = (Vector2.UnitX * Owner.direction * Owner.width * 0.4f) + Owner.Center - Main.screenPosition;
+                if (Owner.bodyFrame.Y == 280)
+                    shieldPos -= Vector2.UnitY * Owner.height * 0.35f;
+
+                Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
+
+                // Glow at the shield when charge is full
+                if (Charge >= MaxChargeTime)
+                {
+                    float glowScale = 0.5f * CalamityUtils.Convert01To010((Owner.miscCounter % 40) / 40f);
+                    Main.EntitySpriteDraw(flatTex, shieldPos, null, Color.DarkOrange * 0.2f, 0f, flatTex.Size() / 2f, 0.3f + glowScale, SpriteEffects.None);
+                }
+                // Normal bloom which scales with charge
+                Main.EntitySpriteDraw(bloomTex, shieldPos, null, Color.DarkGoldenrod * 0.3f, 0f, bloomTex.Size() / 2f, 0.5f * chargeLevel, SpriteEffects.None);
+
                 Main.spriteBatch.ExitShaderRegion();
             }
             return false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            if (DashTime <= 0f)
+                return;
+
+            // More flat gradients signalling the end of the dash
+            for (int i = 0; i < 3; i++)
+            {
+                float scale = 1f / (float)Math.Pow(1.6D, i);
+                float rot = Owner.miscCounter / MathHelper.TwoPi + MathHelper.ToRadians(120f * i);
+                Particle glow = new FlatGlow(Projectile.Center, Vector2.Zero, Color.DarkGoldenrod * 0.3f, rot, Vector2.One * scale, Vector2.One * 6f * scale, 9);
+                GeneralParticleHandler.SpawnParticle(glow);
+            }
         }
     }
 }
