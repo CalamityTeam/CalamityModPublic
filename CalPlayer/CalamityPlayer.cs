@@ -983,39 +983,6 @@ namespace CalamityMod.CalPlayer
         public bool celestialDragons = false;
         public bool KalandraMirror = false;
         public bool StellarTorus = false;
-
-        public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
-
-        // Due to the way vanilla summons work, the buff must be applied manually for it to properly register, since
-        // the buff is typically created via the minion's item usage, not its idle existence.
-        public static Dictionary<int, int> VanillaMinionBuffRelationship = new Dictionary<int, int>()
-        {
-            [ProjectileID.BabyBird] = BuffID.BabyBird,
-            [ProjectileID.BabySlime] = BuffID.BabySlime,
-            [ProjectileID.BabyHornet] = BuffID.BabyHornet,
-            [ProjectileID.FlinxMinion] = BuffID.FlinxMinion,
-            [ProjectileID.Hornet] = BuffID.HornetMinion,
-            [ProjectileID.FlyingImp] = BuffID.ImpMinion,
-            [ProjectileID.VampireFrog] = BuffID.VampireFrog,
-            [ProjectileID.VenomSpider] = BuffID.SpiderMinion,
-            [ProjectileID.JumperSpider] = BuffID.SpiderMinion,
-            [ProjectileID.DangerousSpider] = BuffID.SpiderMinion,
-            [ProjectileID.BatOfLight] = BuffID.BatOfLight,
-            [ProjectileID.Smolstar] = BuffID.Smolstar,
-            [ProjectileID.Spazmamini] = BuffID.TwinEyesMinion,
-            [ProjectileID.Retanimini] = BuffID.TwinEyesMinion,
-            [ProjectileID.StormTigerTier1] = BuffID.StormTiger,
-            [ProjectileID.StormTigerTier2] = BuffID.StormTiger,
-            [ProjectileID.StormTigerTier3] = BuffID.StormTiger,
-            [ProjectileID.Raven] = BuffID.Ravens,
-            [ProjectileID.DeadlySphere] = BuffID.DeadlySphere,
-            [ProjectileID.Tempest] = BuffID.SharknadoMinion,
-            [ProjectileID.EmpressBlade] = BuffID.EmpressBlade,
-            [ProjectileID.UFOMinion] = BuffID.UFOMinion,
-            [ProjectileID.StardustCellMinion] = BuffID.StardustMinion,
-            [ProjectileID.StardustDragon1] = BuffID.StardustDragonMinion,
-        };
-
         #endregion
 
         #region Biome
@@ -3730,68 +3697,6 @@ namespace CalamityMod.CalPlayer
         {
             PopupGUIManager.SuspendAll();
 
-            // Determine which minions need to be respawned.
-            if (Main.myPlayer == Player.whoAmI)
-            {
-                int endoHydraHeadCount = 0;
-                int endoCooperType = ModContent.ProjectileType<EndoCooperBody>();
-                int endoHydraHeadType = ModContent.ProjectileType<EndoHydraHead>();
-                int endoHydraBodyType = ModContent.ProjectileType<EndoHydraBody>();
-                int mechwormHeadType = ModContent.ProjectileType<MechwormHead>();
-
-                // Claim data to cache before respawning as necessary.
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-                    Projectile projectile = Main.projectile[i];
-                    if (projectile.type != endoHydraHeadType || projectile.owner != Player.whoAmI || !projectile.active)
-                        continue;
-                    endoHydraHeadCount++;
-                }
-
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-                    Projectile projectile = Main.projectile[i];
-                    if ((projectile.minionSlots <= 0f && !CalamityLists.ZeroMinionSlotExceptionList.Contains(projectile.type)) || !projectile.minion ||
-                        projectile.owner != Player.whoAmI || !projectile.active || CalamityLists.MinionsToNotResurrectList.Contains(projectile.type))
-                        continue;
-
-                    DeadMinionProperties deadMinionProperties;
-
-                    // Handle unique edge-cases in terms of summoning logic.
-                    if (projectile.type == endoHydraBodyType)
-                        deadMinionProperties = new DeadEndoHydraProperties(endoHydraHeadCount, projectile.originalDamage, projectile.damage, projectile.knockBack);
-                    else if (projectile.type == endoCooperType)
-                        deadMinionProperties = new DeadEndoCooperProperties((int)projectile.ai[0], projectile.minionSlots, projectile.originalDamage, projectile.damage, projectile.knockBack);
-                    else
-                    {
-                        float[] aiToCopy = projectile.ai;
-
-                        // If blacklisted from copying AI state values, zero out the AI values to feed to the copy.
-                        if (CalamityLists.DontCopyOriginalMinionAIList.Contains(projectile.type))
-                            aiToCopy = new float[aiToCopy.Length];
-                        deadMinionProperties = new DeadMinionProperties(projectile.type, projectile.minionSlots, projectile.originalDamage, projectile.damage, projectile.knockBack, aiToCopy);
-
-                        // Ozzatron 19APR2023: If Summoner's Shine is loaded, use a Call from its API to persist a bunch of extra junk
-                        Mod summonersShine = CalamityMod.Instance.summonersShine;
-                        if (summonersShine is not null)
-                        {
-                            deadMinionProperties.SummonersShine_SourceItem = (int)summonersShine.Call(10, 22, projectile);
-                            deadMinionProperties.SummonersShine_Crit = (int)summonersShine.Call(6, projectile, 0);
-                            deadMinionProperties.SummonersShine_MinionAS = (float)summonersShine.Call(6, projectile, 1);
-                            deadMinionProperties.SummonersShine_PrefixMinionPower = (float)summonersShine.Call(6, projectile, 10);
-                        }
-                    }
-
-                    // Refuse to add duplicate entries of a certain type if an entry already exists and
-                    // the minion properties signify that it should be unique.
-                    if (deadMinionProperties.DisallowMultipleEntries && PendingProjectilesToRespawn.ContainsType(deadMinionProperties.GetType()))
-                        continue;
-
-                    // Otherwise, cache the minion's data for when the player respawns.
-                    PendingProjectilesToRespawn.Add(deadMinionProperties);
-                }
-            }
-
             if (andromedaState == AndromedaPlayerState.LargeRobot)
             {
                 if (!Main.dedServ)
@@ -4025,33 +3930,6 @@ namespace CalamityMod.CalPlayer
         {
             if (healToFull)
                 thirdSageH = true;
-
-            // Order the list such that less expensive minions are at the top.
-            // This way cheaper minions will be spawned first, and at the end, the most expensive
-            // ones can be ignored if the player ultimately has insufficient slots.
-            PendingProjectilesToRespawn = PendingProjectilesToRespawn.OrderBy(proj => proj.RequiredMinionSlots).ToList();
-
-            // Resurrect all pending minions as necessary.
-            if (Main.myPlayer == Player.whoAmI)
-            {
-                float remainingSlots = Player.maxMinions;
-                for (int i = 0; i < PendingProjectilesToRespawn.Count; i++)
-                {
-                    // Stop checking if the player has exhausted all of their base minion slots.
-                    if (remainingSlots - PendingProjectilesToRespawn[i].RequiredMinionSlots < 0f)
-                        break;
-
-                    PendingProjectilesToRespawn[i].SummonCopy(Player.whoAmI);
-
-
-                    // Apply vanilla buffs as usual to the player.
-                    if (VanillaMinionBuffRelationship.ContainsKey(PendingProjectilesToRespawn[i].Type))
-                        Player.AddBuff(VanillaMinionBuffRelationship[PendingProjectilesToRespawn[i].Type], 3600);
-
-                    remainingSlots -= PendingProjectilesToRespawn[i].RequiredMinionSlots;
-                }
-                PendingProjectilesToRespawn.Clear();
-            }
 
             // The player rotation can be off if the player dies at the right time when using Final Dawn.
             Player.fullRotation = 0f;
