@@ -191,6 +191,23 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300, true);
+
+            // Remove all positive buffs from the player if they're hit by HAGE while Cirrus is alive
+            if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+            {
+                if (Main.myPlayer == target.whoAmI)
+                {
+                    for (int l = 0; l < Player.MaxBuffs; l++)
+                    {
+                        int buffType = target.buffType[l];
+                        if (!CalamityLists.debuffList.Contains(buffType))
+                        {
+                            target.DelBuff(l);
+                            l--;
+                        }
+                    }
+                }
+            }
         }
 
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
