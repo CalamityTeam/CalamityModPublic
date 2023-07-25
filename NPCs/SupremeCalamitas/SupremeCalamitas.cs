@@ -158,6 +158,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static int hoodlessHeadIconIndex;
         public static int hoodlessHeadIconP2Index;
         public static int cirrusHeadIconIndex;
+        public static int cirrusHeadIconP2Index;
         public static float normalDR = 0.25f;
         public static float enragedDR = 0.9999f;
 
@@ -185,6 +186,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             string hoodlessIconPath = "CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon";
             string hoodlessIconP2Path = "CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIconP2";
             string cirrusIconPath = "CalamityMod/NPCs/SupremeCalamitas/CirrusHeadIcon";
+            string cirrusIconP2Path = "CalamityMod/NPCs/SupremeCalamitas/CirrusHeadIcon2";
 
             CalamityMod.Instance.AddBossHeadTexture(hoodedIconPath, -1);
             hoodedHeadIconIndex = ModContent.GetModBossHeadSlot(hoodedIconPath);
@@ -200,6 +202,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             CalamityMod.Instance.AddBossHeadTexture(cirrusIconPath, -1);
             cirrusHeadIconIndex = ModContent.GetModBossHeadSlot(cirrusIconPath);
+
+            CalamityMod.Instance.AddBossHeadTexture(cirrusIconP2Path, -1);
+            cirrusHeadIconP2Index = ModContent.GetModBossHeadSlot(cirrusIconP2Path);
         }
 
         public override void SetStaticDefaults()
@@ -254,7 +259,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             bool inPhase2 = NPC.ai[0] == 3f;
             if (cirrus)
             {
-                index = cirrusHeadIconIndex;
+                index = inPhase2 ? cirrusHeadIconP2Index : cirrusHeadIconIndex;
             }
             else
             {
