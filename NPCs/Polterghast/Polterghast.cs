@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Polterghast
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/Polterghast/PolterghastSpawn");
         public static readonly SoundStyle PhantomSound = new("CalamityMod/Sounds/Custom/Polterghast/PolterghastPhantomSpawn");
 
-        public List<SoundStyle> creepySounds = new List<SoundStyle>
+        public static List<SoundStyle> creepySounds = new List<SoundStyle>
         {
             NPCs.DevourerofGods.DevourerofGodsHead.AttackSound,
             NPCs.Providence.Providence.HolyRaySound,
