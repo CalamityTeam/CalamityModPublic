@@ -314,14 +314,9 @@ namespace CalamityMod
                     {
                         int projectile2 = Projectile.NewProjectile(projectile.GetSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
-                        if (projectile.type == ProjectileType<GodsGambitYoyo>() ||
-                            projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
+                        if (projectile.type == ProjectileType<GodsGambitYoyo>() || projectile.type == ProjectileType<ShimmersparkYoyo>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[projectile2].DamageType = DamageClass.MeleeNoSpeed;
-
-                        if (projectile.type == ProjectileType<FishboneBoomerangProjectile>())
-                            if (projectile2.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile2].DamageType = RogueDamageClass.Instance;
                     }
                 }
             }

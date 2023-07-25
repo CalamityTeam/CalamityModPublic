@@ -1354,15 +1354,6 @@ VeinBurster: {
 	Tooltip: Fires a blood ball that sticks to tiles and explodes
 }
 
-Verdant: {
-	DisplayName: Verdant
-	Tooltip:
-		'''
-		Fires crystal leaves when enemies are near
-		A very agile yoyo
-		'''
-}
-
 Violence: {
 	DisplayName: Violence
 	Tooltip: Releases a blazing fork which stays near the mouse and shreds enemies
