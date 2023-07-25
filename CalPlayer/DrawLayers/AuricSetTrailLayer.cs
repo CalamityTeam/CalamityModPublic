@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CalamityMod.Items.VanillaArmorChanges;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -9,7 +9,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 {
     public class AuricSetTrailLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.BackAcc);
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
@@ -28,15 +28,13 @@ namespace CalamityMod.CalPlayer.DrawLayers
             {
                 float completionRatio = i / (float)drawPlayer.Calamity().OldPositions.Length;
                 float scale = MathHelper.Lerp(1f, 0.7f, completionRatio);
-                float opacity = MathHelper.Lerp(0.32f, 0.1f, completionRatio) * CobaltArmorSetChange.CalculateMovementSpeedInterpolant(drawPlayer);
+                float opacity = MathHelper.Lerp(0.18f, 0.06f, completionRatio) * CobaltArmorSetChange.CalculateMovementSpeedInterpolant(drawPlayer);
                 List<DrawData> afterimages = new List<DrawData>();
                 for (int j = 0; j < existingDrawData.Count; j++)
                 {
                     var drawData = existingDrawData[j];
                     drawData.position = existingDrawData[j].position - drawPlayer.position + drawPlayer.oldPosition;
-                    drawData.color = Color.Cyan * opacity;
-                    drawData.color.G = (byte)(drawData.color.G * 0.87);
-                    drawData.color.B = (byte)(drawData.color.B * 1.24);
+                    drawData.color = new Color(141, 223, 254) * opacity;
                     drawData.scale = new Vector2(scale);
                     afterimages.Add(drawData);
                 }

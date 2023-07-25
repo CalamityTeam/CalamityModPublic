@@ -196,14 +196,14 @@ namespace CalamityMod.CalPlayer
 			{
 				if (Player != null && !Player.dead)
 				{
-					Lighting.AddLight((int)Player.Center.X / 16, (int)Player.Center.Y / 16, 123 / 245f, 205 / 245f, 237 / 245f);
+					Lighting.AddLight((int)Player.Center.X / 16, (int)Player.Center.Y / 16, 31 / 235f, 170 / 235f, 222 / 235f);
 					if (!Player.mount.Active)
 					{
 						if (Main.rand.NextBool(14) && drawInfo.shadow == 0f)
 						{
 							int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 8, Player.height + 8, 206, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
 							Main.dust[dust].noGravity = true;
-							Main.dust[dust].velocity *= 0.5f;
+							Main.dust[dust].velocity *= 1f;
 							drawInfo.DustCache.Add(dust);
 						}
 						if (noRogueStealth)
@@ -216,7 +216,7 @@ namespace CalamityMod.CalPlayer
 					}
 					if (!Player.StandingStill() && !Player.mount.Active)
 					{
-						if (Main.rand.NextBool(14) && drawInfo.shadow == 0f)
+						if (Main.rand.NextBool(8) && drawInfo.shadow == 0f)
 						{
 							int de_dust2 = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(2) ? 204 : 213, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
 							Main.dust[de_dust2].noGravity = true;
