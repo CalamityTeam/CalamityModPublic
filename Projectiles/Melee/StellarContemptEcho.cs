@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public static readonly SoundStyle SlamHamSound = new("CalamityMod/Sounds/Item/StellarContemptImpact") { Volume = 1f};
+        public static readonly SoundStyle Kunk = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
         public float rotatehammer = 35f;
         public int ColorAlpha = 225;
         public override void SetStaticDefaults()
@@ -109,7 +110,11 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             //This is what we call fucking IMPACT (2).
             Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 7;
-            SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
+            if (Main.zenithWorld)
+                SoundEngine.PlaySound(Kunk, Projectile.Center);
+
+            else
+                SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
 
             float numberOfDusts = 156f;
             float rotFactor = 360f / numberOfDusts;

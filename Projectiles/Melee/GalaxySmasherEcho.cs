@@ -15,7 +15,8 @@ namespace CalamityMod.Projectiles.Melee
     public class GalaxySmasherEcho : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        public static readonly SoundStyle SlamHamSound = new("CalamityMod/Sounds/Item/StellarContemptImpact") { Volume = 1f};
+        public static readonly SoundStyle SlamHamSound = new("CalamityMod/Sounds/Item/StellarContemptImpact") { Volume = 1f };
+        public static readonly SoundStyle Kunk = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
         public float rotatehammer = 35f;
         public override void SetStaticDefaults()
         {
@@ -39,8 +40,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Projectile.scale = 2.7f;
-            rotatehammer += 0.7f;
+            Projectile.scale = 2.78f;
+            rotatehammer *= 1.2f;
             Projectile.rotation += MathHelper.ToRadians(rotatehammer) * Projectile.direction;
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] < 42f)
@@ -121,10 +122,16 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             //This is what we call fucking IMPACT (3).
             Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 12;
-            SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
+            if (Main.zenithWorld)
+                SoundEngine.PlaySound(Kunk, Projectile.Center);
+
+            else
+                SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
 
             Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Violet, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.2f, 4f, 12);
             GeneralParticleHandler.SpawnParticle(pulse);
+            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Aqua, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 1.5f, 11);
+            GeneralParticleHandler.SpawnParticle(pulse2);
 
             float distance = 568f;
 

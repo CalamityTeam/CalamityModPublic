@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public static readonly SoundStyle SlamHamSound = new("CalamityMod/Sounds/Item/FallenPaladinsHammerBigImpact") { Volume = 1f};
+        public static readonly SoundStyle Kunk = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
@@ -100,7 +101,11 @@ namespace CalamityMod.Projectiles.Melee
         {
             Player player = Main.player[Projectile.owner];
             //This is what we call fucking IMPACT.
-            SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
+            if (Main.zenithWorld)
+                SoundEngine.PlaySound(Kunk, Projectile.Center);
+
+            else
+                SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
             Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 5;
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FallenBlast>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 

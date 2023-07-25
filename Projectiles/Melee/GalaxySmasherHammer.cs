@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
         public int returnhammer = 0;
         public float rotatehammer = 10f;
         public int PulseCooldown = 0;
-        public float VibroIntensity = 0f;
+        public float EchoHammerPrep = 0f;
         public float WaitTimer = 0f;
         public int InPulse = 0;
 
@@ -68,9 +68,9 @@ namespace CalamityMod.Projectiles.Melee
                 if (EmpoweredHammer == 7)
                 {
                     ++WaitTimer;
-                    ++rotatehammer;
                     if (WaitTimer == 20f)
                     {
+                        Projectile.velocity *= 0f;
                         EmpoweredHammer = 0;
                         returnhammer = 3;
                     }
@@ -87,7 +87,6 @@ namespace CalamityMod.Projectiles.Melee
             if (returnhammer == 2) // Projectile returns to player
             {
                 ++PulseCooldown;
-                --rotatehammer;
                 Projectile.extraUpdates = 2;
                 float returnSpeed = StellarContempt.Speed;
                 float acceleration = 1.1f;
@@ -149,18 +148,17 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
             }
-            if (returnhammer == 3) //Hammer prepares to spawn echo hammer
+            if (returnhammer == 3) //Hammer prepares to spawn echo hammer, VibroIntensity
             {
                 if (InPulse == 0)
                 {
-                    Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Aqua, new Vector2(1f, 1f), Main.rand.NextFloat(12f, 25f), 0.1f, 1.7f, 120);
+                    Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Aqua, new Vector2(1f, 1f), Main.rand.NextFloat(12f, 25f), 0.1f, 1.95f, 120);
                     GeneralParticleHandler.SpawnParticle(pulse);
                     InPulse = 1;
                 }
 
-                Projectile.rotation *= 0.987f;
-                Projectile.velocity *= 0f;
-                if (VibroIntensity >= 17f)
+                rotatehammer -= 0.25f;
+                if (EchoHammerPrep >= 17f)
                 {
                     if (InPulse == 1)
                     {
@@ -170,11 +168,11 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
 
-                if (VibroIntensity <= 24f)
+                if (EchoHammerPrep <= 24f)
                 {
-                    VibroIntensity += 0.2f;
-                    Projectile.scale += 0.02f;
-                    Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(135f, 335f), Main.rand.NextFloat(20f, 20f), Color.Aqua, Color.Fuchsia, Main.rand.Next(10, 20), Projectile.Center);
+                    EchoHammerPrep += 0.2f;
+                    Projectile.scale += 0.017f;
+                    Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.7f, 0.9f), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(135f, 335f), Main.rand.NextFloat(20f, 20f), Color.Aqua, Color.Fuchsia, Main.rand.Next(10, 20), Projectile.Center);
                     GeneralParticleHandler.SpawnParticle(streak);
                 }
                 else
@@ -263,13 +261,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
-            Vector2 origin = frame.Size() * 0.5f;
-
-            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
-
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 3);
             return false;
         }
