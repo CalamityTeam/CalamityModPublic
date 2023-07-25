@@ -1,10 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.Alcohol;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class FabRay : ModProjectile, ILocalizedModType
@@ -80,7 +82,8 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Emit light.
-            Lighting.AddLight(Projectile.Center, Vector3.One * Projectile.Opacity * 0.7f);
+            if (!Projectile.hostile)
+                Lighting.AddLight(Projectile.Center, Vector3.One * Projectile.Opacity * 0.7f);
         }
 
         internal Color ColorFunction(float completionRatio)
@@ -126,6 +129,12 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
             return false;
+        }
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            if (Projectile.hostile)
+                target.AddBuff(ModContent.BuffType<FabsolVodkaBuff>(), 54000);
         }
     }
 }
