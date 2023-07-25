@@ -160,7 +160,6 @@ namespace CalamityMod
         internal Mod soa = null;
         internal Mod subworldLibrary = null;
         internal Mod summonersAssociation = null;
-        internal Mod summonersShine = null;
         internal Mod thorium = null;
         internal Mod varia = null;
         internal Mod wikithis = null;
@@ -198,8 +197,6 @@ namespace CalamityMod
             ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
             summonersAssociation = null;
             ModLoader.TryGetMod("SummonersAssociation", out summonersAssociation);
-            summonersShine = null;
-            ModLoader.TryGetMod("SummonersShine", out summonersShine);
             thorium = null;
             ModLoader.TryGetMod("ThoriumMod", out thorium);
             varia = null;
@@ -428,7 +425,6 @@ namespace CalamityMod
             soa = null;
             subworldLibrary = null;
             summonersAssociation = null;
-            summonersShine = null;
             thorium = null;
             varia = null;
             wikithis = null;
