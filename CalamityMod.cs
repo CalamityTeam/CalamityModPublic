@@ -531,7 +531,7 @@ namespace CalamityMod
                     saveMethodInfo.Invoke(null, new object[] { cfg });
                 else
                     Instance.Logger.Error("TML ConfigManager.Save reflection failed. Method signature has changed. Notify Calamity Devs if you see this in your log.");
-            } catch (_)
+            } catch
             {
                 Instance.Logger.Error("An error occurred while manually saving Calamity mod configuration. This may be due to a complex mod conflict. It is safe to ignore this error.");
             }
