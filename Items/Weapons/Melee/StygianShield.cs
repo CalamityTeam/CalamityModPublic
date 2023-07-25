@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
-            Item.damage = 180;
+            Item.damage = 200;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.useAnimation = Item.useTime = 40; // This is only for the "Very slow" tooltip. The real use time should be faster
             Item.shoot = ModContent.ProjectileType<StygianShieldAttack>();
