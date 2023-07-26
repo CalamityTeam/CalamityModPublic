@@ -585,7 +585,7 @@ GalaxySmasher: {
 		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
 		Consecutive hits summon more and more cosmic hammers
 		After returning eight times, the hammer will supercharge with immense cosmic energy and 
-		fly towards your target, dealing gargantuan damage
+		fly towards your target, inflicting astronomical damage
 		'''
 }
 
