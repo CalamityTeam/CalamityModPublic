@@ -71,8 +71,6 @@ Radiator.DisplayName: Radiator
 Skyfin.DisplayName: Skyfin
 SulphurousSkater.DisplayName: Sulphurous Skater
 Trilobite.DisplayName: Trilobite
-AdultEidolonWyrmHead.DisplayName: Adult Eidolon Wyrm
-Jared: Jared
 
 AquaticScourgeHead: {
 	DisplayName: Aquatic Scourge
@@ -157,8 +155,8 @@ CalamitasClone: {
 	}
 }
 
-Cataclysm.DisplayName: Cataclysm
-Catastrophe.DisplayName: Catastrophe
+Cataclysm.DisplayName: Cataclysmic Construct
+Catastrophe.DisplayName: Catastrophic Construct
 SoulSeeker.DisplayName: Soul Seeker
 
 CeaselessVoid: {
@@ -184,10 +182,10 @@ Crabulon: {
 }
 
 CalamityEye.DisplayName: Calamity Eye
-CharredSlime.DisplayName: Charred Slime
 RenegadeWarlock.DisplayName: Renegade Warlock
 DespairStone.DisplayName: Despair Stone
 HeatSpirit.DisplayName: Heat Spirit
+InfernalCongealment.DisplayName: Infernal Congealment
 Scryllar.DisplayName: Scryllar
 ScryllarRage.DisplayName: Scryllar
 SoulSlurper.DisplayName: Soul Slurper
@@ -434,6 +432,8 @@ Necroplasm: Necroplasm
 Polterplasm: Polterplasm
 PolterghastHook.DisplayName: Polterghast Hook
 PolterPhantom.DisplayName: Polterghast
+PrimordialWyrmHead.DisplayName: Primordial Wyrm
+Jared: Jared
 
 ProfanedGuardianCommander: {
 	DisplayName: Guardian Commander

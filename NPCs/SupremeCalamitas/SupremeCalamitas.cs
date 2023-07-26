@@ -158,6 +158,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static int hoodlessHeadIconIndex;
         public static int hoodlessHeadIconP2Index;
         public static int cirrusHeadIconIndex;
+        public static int cirrusHeadIconP2Index;
         public static float normalDR = 0.25f;
         public static float enragedDR = 0.9999f;
 
@@ -185,6 +186,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             string hoodlessIconPath = "CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon";
             string hoodlessIconP2Path = "CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIconP2";
             string cirrusIconPath = "CalamityMod/NPCs/SupremeCalamitas/CirrusHeadIcon";
+            string cirrusIconP2Path = "CalamityMod/NPCs/SupremeCalamitas/CirrusHeadIcon2";
 
             CalamityMod.Instance.AddBossHeadTexture(hoodedIconPath, -1);
             hoodedHeadIconIndex = ModContent.GetModBossHeadSlot(hoodedIconPath);
@@ -200,6 +202,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             CalamityMod.Instance.AddBossHeadTexture(cirrusIconPath, -1);
             cirrusHeadIconIndex = ModContent.GetModBossHeadSlot(cirrusIconPath);
+
+            CalamityMod.Instance.AddBossHeadTexture(cirrusIconP2Path, -1);
+            cirrusHeadIconP2Index = ModContent.GetModBossHeadSlot(cirrusIconP2Path);
         }
 
         public override void SetStaticDefaults()
@@ -254,7 +259,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             bool inPhase2 = NPC.ai[0] == 3f;
             if (cirrus)
             {
-                index = cirrusHeadIconIndex;
+                index = inPhase2 ? cirrusHeadIconP2Index : cirrusHeadIconIndex;
             }
             else
             {
@@ -740,7 +745,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (bulletHellCounter2 < 900)
             {
                 despawnProj = true;
-                bulletHellCounter2 += 1;
+                bulletHellCounter2++;
                 NPC.damage = 0;
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
@@ -750,7 +755,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    bulletHellCounter += 1;
+                    bulletHellCounter++;
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue)
                     {
                         bulletHellCounter = 0;
@@ -772,7 +777,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         else // Blasts from above, left, and right
                         {
                             if (!Main.zenithWorld)
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
+
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -812,7 +818,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (bulletHellCounter2 < 1800 && startSecondAttack)
             {
                 despawnProj = true;
-                bulletHellCounter2 += 1;
+                bulletHellCounter2++;
                 NPC.damage = 0;
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
@@ -822,6 +828,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
+                    // Cirrus throws alcohol bottles that explode into Fabstaff Rays
+                    if (cirrus)
+                    {
+                        if (bulletHellCounter2 % 90 == 0)
+                        {
+                            float bottleSpeed = 12f;
+                            Vector2 bottleVelocity = Vector2.Normalize(player.Center + player.velocity * 20f - NPC.Center) * bottleSpeed;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, bottleVelocity * uDieLul, ModContent.ProjectileType<CirrusVolatileVodkaBottle>(), 350, 0f, Main.myPlayer);
+                        }
+                    }
+
                     if (bulletHellCounter2 < 1200)
                     {
                         if (bulletHellCounter2 % 180 == 0) // Blasts from top
@@ -838,7 +855,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, fireblast, gigablastDamage, 0f, Main.myPlayer);
                     }
 
-                    bulletHellCounter += 1;
+                    bulletHellCounter++;
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 1)
                     {
                         bulletHellCounter = 0;
@@ -903,7 +920,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (bulletHellCounter2 < 2700 && startThirdAttack)
             {
                 despawnProj = true;
-                bulletHellCounter2 += 1;
+                bulletHellCounter2++;
                 NPC.damage = 0;
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
@@ -919,7 +936,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter2 % 240 == 0) // Fireblasts from above
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, gigablast, fireblastDamage, 0f, Main.myPlayer);
 
-                    bulletHellCounter += 1;
+                    bulletHellCounter++;
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 4)
                     {
                         bulletHellCounter = 0;
@@ -984,7 +1001,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (bulletHellCounter2 < 3600 && startFourthAttack)
             {
                 despawnProj = true;
-                bulletHellCounter2 += 1;
+                bulletHellCounter2++;
                 NPC.damage = 0;
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
@@ -1009,7 +1026,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         passedVar += 1f;
                     }
 
-                    bulletHellCounter += 1;
+                    bulletHellCounter++;
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 6)
                     {
                         bulletHellCounter = 0;
@@ -1074,7 +1091,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (bulletHellCounter2 < 4500 && startFifthAttack)
             {
                 despawnProj = true;
-                bulletHellCounter2 += 1;
+                bulletHellCounter2++;
                 NPC.damage = 0;
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
@@ -1084,6 +1101,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
+                    // Cirrus throws alcohol bottles that explode into Fabstaff Rays
+                    if (cirrus)
+                    {
+                        if (bulletHellCounter2 % 90 == 0)
+                        {
+                            float bottleSpeed = 12f;
+                            Vector2 bottleVelocity = Vector2.Normalize(player.Center + player.velocity * 20f - NPC.Center) * bottleSpeed;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, bottleVelocity * uDieLul, ModContent.ProjectileType<CirrusVolatileVodkaBottle>(), 350, 0f, Main.myPlayer);
+                        }
+                    }
+
                     if (bulletHellCounter2 % 240 == 0) // Blasts from top
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, fireblast, gigablastDamage, 0f, Main.myPlayer);
 
@@ -1097,7 +1125,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y - random, 5f * uDieLul, 0f, wave, waveDamage, 0f, Main.myPlayer);
                     }
 
-                    bulletHellCounter += 1;
+                    bulletHellCounter++;
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 8)
                     {
                         bulletHellCounter = 0;
@@ -1131,6 +1159,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 FrameType = FrameAnimationType.Casting;
                 return;
             }
+
             if (!startFifthAttack && lifeRatio <= 0.1f)
             {
                 // Bouncy Boulders

@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Events;
-using CalamityMod.NPCs.AdultEidolonWyrm;
+using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -1043,7 +1043,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             if (npc.ai[0] >= 0f)
             {
-                // Triple damage if the Adult Eidolon Wyrm is alive
+                // Triple damage if the Primordial Wyrm is alive
                 if (npc.ai[0] == 0f)
                 {
                     if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
@@ -1090,12 +1090,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = Main.npc[(int)npc.ai[0]].life / (float)Main.npc[(int)npc.ai[0]].lifeMax;
 
             bool phase2 = lifeRatio < 0.7f;
-            bool phase3 = lifeRatio < (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<AdultEidolonWyrmHead>() ? 0.6f : 0.55f);
+            bool phase3 = lifeRatio < (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<PrimordialWyrmHead>() ? 0.6f : 0.55f);
             bool phase4 = lifeRatio < 0.4f;
 
             bool kill = npc.ai[1] < 0f || !Main.npc[(int)npc.ai[0]].active;
             int target = Main.maxPlayers;
-            if (Main.npc[(int)npc.ai[0]].type == NPCID.CultistBoss || Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<AdultEidolonWyrmHead>())
+            if (Main.npc[(int)npc.ai[0]].type == NPCID.CultistBoss || Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<PrimordialWyrmHead>())
             {
                 if (target == Main.maxPlayers)
                     target = Main.npc[(int)npc.ai[0]].target;
@@ -1106,7 +1106,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (phase4 || death)
                     rateOfChange = 3;
 
-                if (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<AdultEidolonWyrmHead>())
+                if (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<PrimordialWyrmHead>())
                     npc.dontTakeDamage = true;
             }
             else
@@ -1128,7 +1128,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 double deg = npc.ai[3];
                 double rad = deg * (Math.PI / 180);
                 double dist = 550;
-                if (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<AdultEidolonWyrmHead>())
+                if (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<PrimordialWyrmHead>())
                 {
                     float aiGateValue = Main.npc[(int)npc.ai[0]].Calamity().newAI[2] - 30f;
                     int ancientDoomScale = (int)(aiGateValue / 120f);
@@ -1180,8 +1180,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int type = ProjectileID.AncientDoomProjectile;
                 int damage = npc.GetProjectileDamage(type);
 
-                // Triple damage if the Adult Eidolon Wyrm is alive
-                if (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<AdultEidolonWyrmHead>())
+                // Triple damage if the Primordial Wyrm is alive
+                if (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<PrimordialWyrmHead>())
                     damage *= 3;
 
                 kill = true;

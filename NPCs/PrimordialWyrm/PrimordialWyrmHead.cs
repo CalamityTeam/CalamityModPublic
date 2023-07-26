@@ -23,10 +23,10 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.AdultEidolonWyrm
+namespace CalamityMod.NPCs.PrimordialWyrm
 {
     [AutoloadBossHead]
-    public class AdultEidolonWyrmHead : ModNPC
+    public class PrimordialWyrmHead : ModNPC
     {
         public enum Phase
         {
@@ -77,8 +77,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         //Sounds
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/Scare");
 
-        public static readonly SoundStyle ChargeSound = new("CalamityMod/Sounds/Custom/AdultEidolonCharge");
-        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/AdultEidolonDeath");
+        public static readonly SoundStyle ChargeSound = new("CalamityMod/Sounds/Custom/PrimordialWyrmCharge");
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/PrimordialWyrmDeath");
 
         public override void SetStaticDefaults()
         {
@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 Scale = 0.50f,
                 PortraitScale = 0.6f,
                 PortraitPositionXOverride = 40,
-                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/AdultEidolonWyrm_Bestiary"
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/PrimordialWyrm_Bestiary"
             };
             value.Position.X += 55;
             value.Position.Y += 5;
@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 //AAAAAAAAAAAAH Scary abyss superboss guy so he gets pitch black bg and no biome source.
                 //eidolon wyrm comment jumpscare!!!!!!
                 new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
-                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.AdultEidolonWyrm")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.PrimordialWyrm")
             });
         }
 
@@ -229,12 +229,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (i >= 0 && i < minLength)
                         {
                             if (i % 2 == 0)
-                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<AdultEidolonWyrmBody>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<PrimordialWyrmBody>(), NPC.whoAmI);
                             else
-                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<AdultEidolonWyrmBodyAlt>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<PrimordialWyrmBodyAlt>(), NPC.whoAmI);
                         }
                         else
-                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<AdultEidolonWyrmTail>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<PrimordialWyrmTail>(), NPC.whoAmI);
 
                         Main.npc[lol].realLife = NPC.whoAmI;
                         Main.npc[lol].ai[2] = NPC.whoAmI;
@@ -276,7 +276,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     {
                         for (int a = 0; a < Main.maxNPCs; a++)
                         {
-                            if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<AdultEidolonWyrmBodyAlt>() || Main.npc[a].type == ModContent.NPCType<AdultEidolonWyrmBody>() || Main.npc[a].type == ModContent.NPCType<AdultEidolonWyrmTail>())
+                            if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<PrimordialWyrmBodyAlt>() || Main.npc[a].type == ModContent.NPCType<PrimordialWyrmBody>() || Main.npc[a].type == ModContent.NPCType<PrimordialWyrmTail>())
                                 Main.npc[a].active = false;
                         }
                     }
@@ -1433,7 +1433,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             center += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture, center, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
 
-            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmHeadGlow").Value;
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/PrimordialWyrm/PrimordialWyrmHeadGlow").Value;
             spriteBatch.Draw(texture, center, NPC.frame, Color.White * NPC.Opacity, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
 
             return false;
@@ -1471,7 +1471,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 for (int k = 0; k < 15; k++)
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hit.HitDirection, -1f, 0, default, 1f);
 
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WyrmAdult").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PrimordialWyrm").Type, 1f);
             }
         }
 

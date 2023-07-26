@@ -629,7 +629,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<PerennialSlime>();
                     break;
                 case 93:
-                    npc = ModContent.NPCType<CharredSlime>();
+                    npc = ModContent.NPCType<InfernalCongealment>();
                     break;
                 case 94:
                     npc = ModContent.NPCType<BloomSlime>();

@@ -2,7 +2,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
-using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noMelee = true;
             Item.knockBack = 2.25f;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            Item.rare = ModContent.RarityType<DarkOrange>();
+            Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item15;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<StarSwallowerSummon>();

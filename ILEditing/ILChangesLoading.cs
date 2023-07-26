@@ -143,9 +143,11 @@ namespace CalamityMod.ILEditing
         /// </summary>
         public override void OnModUnload()
         {
+            // (2023/07) Manually unloading IL hooks is no longer necessary as TML should automatically do it for you.
+            // https://discord.com/channels/103110554649894912/445276626352209920/1099856743820959855 (links to TML server)
+
             VanillaSpawnTownNPCs = null;
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = exoDoorClosed = exoDoorOpen = -1;
-            On_Item.CanShimmer -= ChangeRodOfHarmonyShimmerRequirement;
         }
     }
 }

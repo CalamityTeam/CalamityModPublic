@@ -52,9 +52,9 @@ StellarCulex: Many pincers line the face of this mutation. It will attempt to at
 Twinkler: A rare case of the astral infection creating a harmless creature. They flicker rather prettily, and you're not going to be the only one who thinks so. They make useful bait.
 //Brimstone Crags Enemies
 CalamityEye: Though these enemies are only a little more threatening than a demon eye, some say that they originally burst from the sockets of those who used to inhabit the capital, when their souls were cursed by the red flames.
-CharredSlime: Lava slimes are the only ones that manage to survive in the heat of hell, having replaced their moisture with liquid rock. That said, their mannerisms are the same, and they seek out and devour anything they can.
 DespairStone: A condensed, volatile stone of brimstone slag. It is said that the souls of many, fighting to get out from within, are what cause it to tear across the ground.
 HeatSpirit: A human spirit, its mind lost to the blazing orange fires of its dwelling. It seeks out and attempts to eliminate any source of moisture it can detect entering the hellscape.
+InfernalCongealment: Lava slimes are the only ones that manage to survive in the heat of hell, having replaced their moisture with liquid rock. That said, their mannerisms are the same, and they seek out and devour anything they can.
 RenegadeWarlock: A devotee, their mind lost to the raging, hating fires of the brimstone flames. None have ever seen under their hood, and none ever should.
 Scryllar: Twisted detritus of those who once came to harvest the remains of the crags. The whispers got to them.
 SoulSlurper: The remnants of a soul which has feasted, been feasted upon, and torn into the souls of others. No one knows how the cycle begins, but you don't want to find out yourself.
@@ -154,7 +154,6 @@ CrimsonSlimeSpawn2: Embedded in these slime's bodies are shards of crimulan ston
 Sepulcher: This might just be the vilest undead abomination in this realm. The Sepulcher itself is completely immune to physical damage, and can only be killed by destroying its many suspended organs.
 SoulSeekerSupreme: Incomplete, ghoulish skulls, their forms are limited but their devotion boundless. It's likely each yearns for a soul of their own to be complete, whether it's given by Calamitas or ripped from the foe they kill.
 //Bosses
-AdultEidolonWyrm: Traces of them appear even in records as far back as the early Draconic Era... They may very well be a glimpse into the full potential of nature.
 AquaticScourge: A species of scourge which has had its exoskeleton hardened and tempered by years of diving through sulphuric waters for prey. Its own jaws are now imbued with the venom of those seas.
 AstrumAureus: A multi-legged mechanical beast, its very existence speaks of the extent of control the astral virus has over the non-sapient. Not even machinery can stand against it.
 AstrumDeus: Revered as a God of the stars, it has been infected by the starborne illness. However, it has now been broken free from the infection's control and roams the stars once more, consuming dying stars and birthing them anew.
@@ -182,6 +181,7 @@ Perforator: Each equipped with a deadly mouthpiece, the different ones are suite
 PerforatorHive: Though birthed by the crimson, it is unknown whether they fully serve that creator. The worms of the hive frequently carve huge tunnels in the crimson's flesh.
 PlaguebringerGoliath: Machinery and nanobots have nearly entirely eaten away at the form of this Queen Bee. One wonders if it would simply be more efficient to create one from the ground up.
 Polterghast: Screaming and crying, a cacophony of spirits in anguish tear through the narrow hallways of the dungeon, searching for more—alive or dead—to add to their numbers.
+PrimordialWyrm: Traces of them appear even in records as far back as the early Draconic Era... They may very well be a glimpse into the full potential of nature.
 ProfanedGuardianCommander: When it turns its burning spear towards anything, its simple mind has a clear goal. To entirely eradicate the enemy.
 ProfanedGuardianDefender: The body it has formed boasts of a stone shell hallowed and tempered by the flames of the sun. Very little can fully shatter its defense.
 ProfanedGuardianHealer: Its crystal which is displayed prominently on its body is able to restore damage done to its kin, and it draws that damage into flares which steal your life.

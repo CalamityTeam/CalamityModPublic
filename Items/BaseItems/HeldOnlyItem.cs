@@ -22,12 +22,6 @@ namespace CalamityMod.Items.BaseItems
             Terraria.UI.On_ItemSlot.LeftClick_ItemArray_int_int += LockMouseToSpecialItem;
             Terraria.UI.On_ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
         }
-        public override void Unload()
-        {
-            Terraria.On_Player.dropItemCheck -= DontDropCoolStuff;
-            Terraria.UI.On_ItemSlot.LeftClick_ItemArray_int_int -= LockMouseToSpecialItem;
-            Terraria.UI.On_ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color -= DrawSpecial;
-        }
 
         private void DrawSpecial(Terraria.UI.On_ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
         {
@@ -60,8 +54,6 @@ namespace CalamityMod.Items.BaseItems
                 orig(self);
         }
 
-
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI) => false;
-
     }
 }

@@ -30,7 +30,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.NPCs.AcidRain;
-using CalamityMod.NPCs.AdultEidolonWyrm;
+using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
@@ -118,7 +118,7 @@ namespace CalamityMod
         public static readonly Func<bool> DownedYharon = () => DownedBossSystem.downedYharon;
         public static readonly Func<bool> DownedExoMechs = () => DownedBossSystem.downedExoMechs;
         public static readonly Func<bool> DownedSCal = () => DownedBossSystem.downedCalamitas;
-        public static readonly Func<bool> DownedAdultEidolonWyrm = () => DownedBossSystem.downedAdultEidolonWyrm;
+        public static readonly Func<bool> DownedPrimordialWyrm = () => DownedBossSystem.downedPrimordialWyrm;
 
         public static readonly Func<bool> DownedAcidRainInitial = () => DownedBossSystem.downedEoCAcidRain;
         public static readonly Func<bool> DownedAcidRainHardmode = () => DownedBossSystem.downedAquaticScourgeAcidRain;
@@ -187,7 +187,7 @@ namespace CalamityMod
             { "Yharon", 22f },
             { "ExoMechs", 22.99f },
             { "Calamitas", 23f },
-            // { "AdultEidolonWyrm", 23.5f },
+            // { "PrimordialWyrm", 23.5f },
             { "BossRush", 25.99f },
             // { "Yharim", 24f },
             // { "Noxus", 25f },

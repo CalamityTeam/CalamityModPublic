@@ -46,7 +46,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.width = Projectile.height = 2;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
@@ -147,6 +148,7 @@ namespace CalamityMod.Projectiles.Melee
                     DashDestination = intendedDestination;
                     Projectile.damage = (int)(Projectile.damage * MaxChargeDamageMult * Charge / MaxChargeTime);
                     Projectile.ExpandHitboxBy(100);
+                    Projectile.tileCollide = true;
                     return;
                 }            
             }
@@ -293,10 +295,10 @@ namespace CalamityMod.Projectiles.Melee
                         Vector2 pointEnd = Projectile.Center + dashLength * 0.1f;
                         Vector2 lineStart = pointStart + dashLength * 0.1f;
                         Vector2 lineEnd = pointStart + dashLength;
-                        Color lineColor = telegraphColor * 0.2f;
+                        Color lineColor = telegraphColor * 0.3f;
                         float lineScale = 2f;
                         Main.spriteBatch.DrawLineBetter(lineStart, pointEnd, lineColor, lineScale);
-                        Main.spriteBatch.DrawLineBetter(lineStart, lineEnd, lineColor, lineScale);
+                        Main.spriteBatch.DrawLineBetter(lineStart, lineEnd, lineColor, lineScale * 2f);
                         Main.spriteBatch.DrawLineBetter(lineEnd, intendedDestination, lineColor, lineScale);
                     }
                 }

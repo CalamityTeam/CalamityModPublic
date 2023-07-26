@@ -309,7 +309,7 @@ namespace CalamityMod
                 case "adult wyrm":
                 case "adulteidolon":
                 case "adult eidolon":
-                    return DownedBossSystem.downedAdultEidolonWyrm;
+                    return DownedBossSystem.downedPrimordialWyrm;
 
                 case "bossrush":
                 case "boss rush":
