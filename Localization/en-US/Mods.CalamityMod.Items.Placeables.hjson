@@ -1328,12 +1328,12 @@ CalamitasCloneTrophy: {
 }
 
 CataclysmTrophy: {
-	DisplayName: Cataclysm Trophy
+	DisplayName: Cataclysmic Construct Trophy
 	Tooltip: ""
 }
 
 CatastropheTrophy: {
-	DisplayName: Catastrophe Trophy
+	DisplayName: Catastrophic Construct Trophy
 	Tooltip: ""
 }
 
