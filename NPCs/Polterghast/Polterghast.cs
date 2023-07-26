@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.Polterghast
             NPCs.Abyss.ReaperShark.EnragedRoarSound,
             NPCs.Abyss.LuminousCorvina.ScreamSound,
             NPCs.Abyss.DevilFish.MaskBreakSound,
-            NPCs.AdultEidolonWyrm.AdultEidolonWyrmHead.ChargeSound,
+            NPCs.PrimordialWyrm.PrimordialWyrmHead.ChargeSound,
             NPCs.GreatSandShark.GreatSandShark.RoarSound,
             NPCs.AcidRain.Mauler.RoarSound,
             NPCs.AstrumDeus.AstrumDeusHead.DeathSound,

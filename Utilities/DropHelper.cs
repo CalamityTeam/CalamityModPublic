@@ -616,7 +616,7 @@ namespace CalamityMod
         public static IItemDropRuleCondition PostYharon(bool ui = true) => If(() => DownedBossSystem.downedYharon, ui, "Drops after defeating Yharon");
         public static IItemDropRuleCondition PostExos(bool ui = true) => If(() => DownedBossSystem.downedExoMechs, ui, "Drops after defeating the Exo Mechs");
         public static IItemDropRuleCondition PostSCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitas, ui, "Drops after defeating Calamitas");
-        public static IItemDropRuleCondition PostAEW(bool ui = true) => If(() => DownedBossSystem.downedAdultEidolonWyrm, ui, "Drops after defeating the Adult Eidolon Wyrm");
+        public static IItemDropRuleCondition PostAEW(bool ui = true) => If(() => DownedBossSystem.downedPrimordialWyrm, ui, "Drops after defeating the Primordial Wyrm");
         public static IItemDropRuleCondition PostClam(bool ui = true) => If(() => DownedBossSystem.downedCLAM, ui, "Drops after defeating the Giant Clam");
         public static IItemDropRuleCondition PostClamHM(bool ui = true) => If(() => DownedBossSystem.downedCLAMHardMode, ui, "Drops after defeating the Giant Clam in Hardmode");
         public static IItemDropRuleCondition PostGSS(bool ui = true) => If(() => DownedBossSystem.downedGSS, ui, "Drops after defeating the Great Sand Shark");

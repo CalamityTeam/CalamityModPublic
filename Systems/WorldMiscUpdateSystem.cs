@@ -2,7 +2,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
-using CalamityMod.NPCs.AdultEidolonWyrm;
+using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
@@ -418,7 +418,7 @@ namespace CalamityMod.Systems
         }
         #endregion
 
-        #region Handle Adult Eidolon Wyrm Spawns
+        #region Handle Primordial Wyrm Spawns
         public static void TrySpawnAEoW(Player player, CalamityPlayer modPlayer)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient || !(modPlayer.ZoneAbyss || Main.zenithWorld) || !player.chaosState || player.dead)
@@ -426,7 +426,7 @@ namespace CalamityMod.Systems
 
             bool adultWyrmAlive = CalamityGlobalNPC.adultEidolonWyrmHead != -1 && Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active;
             if (!adultWyrmAlive)
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AdultEidolonWyrmHead>());
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PrimordialWyrmHead>());
         }
         #endregion
     }

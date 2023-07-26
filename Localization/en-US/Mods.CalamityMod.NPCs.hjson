@@ -71,7 +71,6 @@ Radiator.DisplayName: Radiator
 Skyfin.DisplayName: Skyfin
 SulphurousSkater.DisplayName: Sulphurous Skater
 Trilobite.DisplayName: Trilobite
-AdultEidolonWyrmHead.DisplayName: Adult Eidolon Wyrm
 Jared: Jared
 
 AquaticScourgeHead: {
@@ -434,6 +433,7 @@ Necroplasm: Necroplasm
 Polterplasm: Polterplasm
 PolterghastHook.DisplayName: Polterghast Hook
 PolterPhantom.DisplayName: Polterghast
+PrimordialWyrmHead.DisplayName: Primordial Wyrm
 
 ProfanedGuardianCommander: {
 	DisplayName: Guardian Commander
