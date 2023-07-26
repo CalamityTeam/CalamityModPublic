@@ -26,9 +26,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         // This is the amount of charge consumed every time a sword beam is fired.
         public const float SwordBeamChargeUse = 0.1f;
 
-        public override void SetStaticDefaults()
-        {
-                   }
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();
@@ -46,7 +43,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noUseGraphic = true;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.rare = ModContent.RarityType<DarkOrange>();
+            Item.rare = ModContent.RarityType<DarkBlue>();
 
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;

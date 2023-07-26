@@ -2,7 +2,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
-using CalamityMod.Rarities;
 using CalamityMod.Sounds;
 using System;
 using System.Collections.Generic;
@@ -32,7 +31,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            Item.rare = ModContent.RarityType<DarkOrange>();
+            Item.rare = ItemRarityID.Orange;
 
             Item.shoot = ModContent.ProjectileType<TaserHook>();
             Item.shootSpeed = 15f;

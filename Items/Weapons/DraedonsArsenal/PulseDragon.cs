@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noUseGraphic = true;
             Item.knockBack = 8f;
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            Item.rare = ModContent.RarityType<DarkOrange>();
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.channel = true;
