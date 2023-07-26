@@ -12,12 +12,13 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.Pets;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
+using CalamityMod.Balancing;
 
 namespace CalamityMod.NPCs.Other
 {
     // I would like to say first and foremost, that 95% of this is directly ported from his code when he got removed in early 2018
-	public class THELORDE : ModNPC
-	{
+    public class THELORDE : ModNPC
+    {
         public int aiSwitchCounter = 420;
         public int deathrayCounter = 0;
         public int invincibleCounter = 0;
@@ -40,17 +41,17 @@ namespace CalamityMod.NPCs.Other
         }
 
         public override void SetDefaults()
-		{
-			NPC.aiStyle = -1;
-			NPC.damage = 69;
-			NPC.width = 200;
-			NPC.height = 200;
-			NPC.defense = 100;
-			NPC.lifeMax = 2500000;
-			NPC.knockBackResist = 0f;
-			NPC.value = Item.buyPrice(100, 0, 0, 0);
-			NPC.HitSound = SoundID.NPCHit13;
-			NPC.DeathSound = DeathSound with { Volume = DeathSound.Volume + 0.2f };
+        {
+            NPC.aiStyle = -1;
+            NPC.damage = 69;
+            NPC.width = 200;
+            NPC.height = 200;
+            NPC.defense = 100;
+            NPC.lifeMax = 2500000;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(100, 0, 0, 0);
+            NPC.HitSound = SoundID.NPCHit13;
+            NPC.DeathSound = DeathSound with { Volume = DeathSound.Volume + 0.2f };
             NPC.boss = true;
             Music = MusicID.LunarBoss;
             NPC.Calamity().canBreakPlayerDefense = true;
@@ -91,7 +92,7 @@ namespace CalamityMod.NPCs.Other
         }
 
         public override void AI()
-		{
+        {
             aiSwitchCounter++;
             if (ajitPaiDidNothingWrong && invincibleCounter < 6000)
             {
@@ -332,23 +333,59 @@ namespace CalamityMod.NPCs.Other
 
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
-            if ((double)NPC.life <= (double)NPC.lifeMax * 0.01f)
+            // When struck below 1% HP, activates desperation and becomes essentially immune to damage.
+            // The hit which causes this has its damage capped at 1, then THE LORDE heals for 1 so that it doesn't take any net damage.
+            if ((double)NPC.life <= (double)NPC.lifeMax * 0.01f && invincibleCounter == 0 && !ajitPaiDidNothingWrong)
             {
                 ajitPaiDidNothingWrong = true;
-                if (invincibleCounter < 6000)
-                {
-                    modifiers.SourceDamage *= 0;
-                }
+                modifiers.SetMaxDamage(1);
+                NPC.life += 1;
             }
-            // i dont know how to detect health
-            /*if (modifiers.FinalDamage.Flat > NPC.lifeMax / 250)
+        }
+
+        // ugly antibutcher implementation because the base damage has to be known
+        // assume a crit; if a crit would trigger antibutcher, the regular hit is also blocked
+        // similarly, assume highest possible random damage variation
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
+        {
+            int antiButcherLimit = NPC.lifeMax / 250;
+            float maxDamageVariation = 1f + 0.01f * BalancingConstants.NewDefaultDamageVariationPercent;
+            int highestPossibleDamage = (int)(maxDamageVariation * modifiers.GetDamage(item.damage, true));
+
+            if (highestPossibleDamage > antiButcherLimit)
             {
                 string key = "Mods.CalamityMod.EdgyBossText2";
                 Color messageColor = Color.Cyan;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
-                modifiers.SourceDamage *= 0;
-            }*/
+
+                // The hit which triggers antibutcher has its damage capped at 1, then THE LORDE heals for 1 so that it doesn't take any net damage.
+                modifiers.SetMaxDamage(1);
+                NPC.life += 1;
+            }
         }
+
+        // see comment on the use style 1 antibutcher
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
+        {
+            int antiButcherLimit = NPC.lifeMax / 250;
+            float maxDamageVariation = 1f + 0.01f * BalancingConstants.NewDefaultDamageVariationPercent;
+            int highestPossibleDamage = (int)(maxDamageVariation * modifiers.GetDamage(projectile.damage, true));
+
+            if (highestPossibleDamage > antiButcherLimit)
+            {
+                string key = "Mods.CalamityMod.EdgyBossText2";
+                Color messageColor = Color.Cyan;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+                // The hit which triggers antibutcher has its damage capped at 1, then THE LORDE heals for 1 so that it doesn't take any net damage.
+                modifiers.SetMaxDamage(1);
+                NPC.life += 1;
+            }
+        }
+
+        // Cannot be struck by any weapons or projectiles while invincible
+        public override bool? CanBeHitByItem(Player player, Item item) => (ajitPaiDidNothingWrong && invincibleCounter < 6000) ? false : null;
+        public override bool? CanBeHitByProjectile(Projectile projectile) => (ajitPaiDidNothingWrong && invincibleCounter < 6000) ? false : null;
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
@@ -367,9 +404,9 @@ namespace CalamityMod.NPCs.Other
         }
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float bossLifeScale, float anotherthing)
-		{
-			NPC.lifeMax = (int)(NPC.lifeMax * 0.5f * bossLifeScale);
-			NPC.damage = (int)(NPC.damage * 0.5f);
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.5f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * 0.5f);
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
