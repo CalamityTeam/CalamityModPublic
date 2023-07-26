@@ -3023,7 +3023,7 @@ namespace CalamityMod.NPCs
                 switch (npc.aiStyle)
                 {
                     case NPCAIStyleID.Slime:
-                        if (npc.type == NPCType<BloomSlime>() || npc.type == NPCType<CharredSlime>() ||
+                        if (npc.type == NPCType<BloomSlime>() || npc.type == NPCType<InfernalCongealment>() ||
                             npc.type == NPCType<CrimulanBlightSlime>() || npc.type == NPCType<CryoSlime>() ||
                             npc.type == NPCType<EbonianBlightSlime>() || npc.type == NPCType<PerennialSlime>() ||
                             npc.type == NPCType<IrradiatedSlime>() || npc.type == NPCType<AstralSlime>())

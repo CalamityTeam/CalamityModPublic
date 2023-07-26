@@ -281,7 +281,7 @@ namespace CalamityMod
                 { ModContent.NPCType<Scryllar>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<ScryllarRage>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<DespairStone>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<CharredSlime>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
+                { ModContent.NPCType<InfernalCongealment>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<RenegadeWarlock>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<CalamityEye>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<SoulSlurper>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
