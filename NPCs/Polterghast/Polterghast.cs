@@ -84,7 +84,8 @@ namespace CalamityMod.NPCs.Polterghast
             NPCs.GreatSandShark.GreatSandShark.RoarSound,
             NPCs.AcidRain.Mauler.RoarSound,
             NPCs.AstrumDeus.AstrumDeusHead.DeathSound,
-            NPCs.AstrumAureus.AstrumAureus.HitSound
+            NPCs.AstrumAureus.AstrumAureus.HitSound,
+            SoundID.ScaryScream
         };
 
         public override void SetStaticDefaults()
