@@ -35,8 +35,6 @@ namespace CalamityMod.Items.Armor.LunicCorps
         // Still not sure why the fuck this is necessary
         public override void Load() => Terraria.On_Main.DrawInfernoRings += DrawMasterChefShields;
 
-        public override void Unload() => Terraria.On_Main.DrawInfernoRings -= DrawMasterChefShields;
-
         private void DrawMasterChefShields(Terraria.On_Main.orig_DrawInfernoRings orig, Main self)
         {
             bool playerFound = false;
