@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Weapons.Melee
     public class GalaxySmasher : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public static int BaseDamage = 300;
-        public static float Speed = 18f;
+        public static int BaseDamage = 1195;
+        public static float Speed = 30f;
 
         public override void SetDefaults()
         {
@@ -23,9 +23,9 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 72;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.damage = BaseDamage;
-            Item.knockBack = 9f;
-            Item.useAnimation = 13;
-            Item.useTime = 13;
+            Item.knockBack = 14f;
+            Item.useAnimation = 40;
+            Item.useTime = 40;
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;

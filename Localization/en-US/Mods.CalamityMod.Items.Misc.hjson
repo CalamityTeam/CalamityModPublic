@@ -222,6 +222,11 @@ VoodooDemonVoodooDoll: {
 }
 
 // Uncategorized
+AlicornonaStick: {
+	DisplayName: Alicorn on a Stick
+	Tooltip: "'Congratulations'"
+}
+
 BallAndChain: {
 	DisplayName: Ball and Chain
 	Tooltip:
