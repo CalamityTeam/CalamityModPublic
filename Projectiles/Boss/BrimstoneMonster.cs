@@ -134,12 +134,12 @@ namespace CalamityMod.Projectiles.Boss
             if (death)
                 return;
 
-            // Fly away from other brimstone monsters
+            // Fly away from other brimstone monsters.
             float pushForce = 0.05f;
             for (int k = 0; k < Main.maxProjectiles; k++)
             {
                 Projectile otherProj = Main.projectile[k];
-                // Short circuits to make the loop as fast as possible
+                // Short circuits to make the loop as fast as possible.
                 if (!otherProj.active || k == Projectile.whoAmI)
                     continue;
 
@@ -175,9 +175,7 @@ namespace CalamityMod.Projectiles.Boss
                 lightColor.B = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus ? (byte)(255 * Projectile.Opacity) : lightColor.B;
 
             if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
-            {
                 tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/BrimstoneMonsterII").Value;
-            }
 
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
@@ -192,19 +190,16 @@ namespace CalamityMod.Projectiles.Boss
 
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300, true);
 
-            // Remove all positive buffs from the player if they're hit by HAGE while Cirrus is alive
+            // Remove all positive buffs from the player if they're hit by HAGE while Cirrus is alive.
             if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
             {
-                if (Main.myPlayer == target.whoAmI)
+                for (int l = 0; l < Player.MaxBuffs; l++)
                 {
-                    for (int l = 0; l < Player.MaxBuffs; l++)
+                    int buffType = target.buffType[l];
+                    if (!CalamityLists.debuffList.Contains(buffType))
                     {
-                        int buffType = target.buffType[l];
-                        if (!CalamityLists.debuffList.Contains(buffType))
-                        {
-                            target.DelBuff(l);
-                            l--;
-                        }
+                        target.DelBuff(l);
+                        l--;
                     }
                 }
             }
