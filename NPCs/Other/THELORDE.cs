@@ -91,6 +91,18 @@ namespace CalamityMod.NPCs.Other
             deathrayCounter = reader.ReadInt32();
         }
 
+        public override void OnSpawn(IEntitySource source)
+        {
+            // kill all existing non-hostile projectiles on spawn
+            foreach (Projectile proj in Main.projectile)
+            {
+                if (proj.active && proj != null && !proj.hostile)
+                {
+                    proj.active = false;
+                }
+            }
+        }
+
         public override void AI()
         {
             aiSwitchCounter++;
