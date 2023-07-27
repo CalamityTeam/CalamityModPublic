@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
-            Item.useAnimation = Item.useTime = 48;
+            Item.useAnimation = Item.useTime = 50;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 10f;
             Item.UseSound = SoundID.Item1;
@@ -27,11 +27,9 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.value = CalamityGlobalItem.RarityLightPurpleBuyPrice;
             Item.rare = ItemRarityID.LightPurple;
             Item.shoot = ModContent.ProjectileType<PwnagehammerProj>();
-            Item.shootSpeed = 24.4f;
+            Item.shootSpeed = 38.4f;
         }
 
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 10;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -40,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 position += yeetOffset;
             }
-            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, Main.rand.NextBool(5) ? 1f : -1f);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             return false;
         }
 
