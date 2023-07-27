@@ -2,7 +2,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
-using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.knockBack = 5f;
 
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            Item.rare = ModContent.RarityType<DarkOrange>();
+            Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item1;
 
             Item.shootSpeed = 16f;

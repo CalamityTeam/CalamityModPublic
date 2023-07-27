@@ -5,7 +5,8 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class CharredSlimeBanner : ModItem, ILocalizedModType
+    [LegacyName("CharredSlimeBanner")]
+    public class InfernalCongealmentBanner : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()

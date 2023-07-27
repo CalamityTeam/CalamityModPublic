@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Polterghast
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/Polterghast/PolterghastSpawn");
         public static readonly SoundStyle PhantomSound = new("CalamityMod/Sounds/Custom/Polterghast/PolterghastPhantomSpawn");
 
-        public List<SoundStyle> creepySounds = new List<SoundStyle>
+        public static List<SoundStyle> creepySounds = new List<SoundStyle>
         {
             NPCs.DevourerofGods.DevourerofGodsHead.AttackSound,
             NPCs.Providence.Providence.HolyRaySound,
@@ -80,11 +80,13 @@ namespace CalamityMod.NPCs.Polterghast
             NPCs.Abyss.ReaperShark.EnragedRoarSound,
             NPCs.Abyss.LuminousCorvina.ScreamSound,
             NPCs.Abyss.DevilFish.MaskBreakSound,
-            NPCs.AdultEidolonWyrm.AdultEidolonWyrmHead.ChargeSound,
+            NPCs.PrimordialWyrm.PrimordialWyrmHead.ChargeSound,
             NPCs.GreatSandShark.GreatSandShark.RoarSound,
             NPCs.AcidRain.Mauler.RoarSound,
             NPCs.AstrumDeus.AstrumDeusHead.DeathSound,
-            NPCs.AstrumAureus.AstrumAureus.HitSound
+            NPCs.AstrumAureus.AstrumAureus.HitSound,
+            SoundID.ScaryScream,
+            SoundID.DD2_KoboldFlyerHurt
         };
 
         public override void SetStaticDefaults()

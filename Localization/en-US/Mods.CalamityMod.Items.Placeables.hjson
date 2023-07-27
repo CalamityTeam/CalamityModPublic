@@ -218,11 +218,6 @@ ChaoticPufferBanner: {
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Chaotic Puffer"
 }
 
-CharredSlimeBanner: {
-	DisplayName: Charred Slime Banner
-	Tooltip: "{$CommonItemTooltip.BannerBonus}Charred Slime"
-}
-
 ClamBanner: {
 	DisplayName: Clam Banner
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Clam"
@@ -386,6 +381,11 @@ IceClasperBanner: {
 ImpiousImmolatorBanner: {
 	DisplayName: Impious Immolator Banner
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Impious Immolator"
+}
+
+InfernalCongealmentBanner: {
+	DisplayName: Infernal Congealment Banner
+	Tooltip: "{$CommonItemTooltip.BannerBonus}Infernal Congealment"
 }
 
 IrradiatedSlimeBanner: {
@@ -1328,12 +1328,12 @@ CalamitasCloneTrophy: {
 }
 
 CataclysmTrophy: {
-	DisplayName: Cataclysm Trophy
+	DisplayName: Cataclysmic Construct Trophy
 	Tooltip: ""
 }
 
 CatastropheTrophy: {
-	DisplayName: Catastrophe Trophy
+	DisplayName: Catastrophic Construct Trophy
 	Tooltip: ""
 }
 

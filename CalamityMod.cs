@@ -20,7 +20,7 @@ using CalamityMod.ILEditing;
 using CalamityMod.Items;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.VanillaArmorChanges;
-using CalamityMod.NPCs.AdultEidolonWyrm;
+using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -747,7 +747,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody2>(), 21600 },
                 { ModContent.NPCType<ThanatosTail>(), 21600 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 }, // 5:00 (300 seconds)
-                { ModContent.NPCType<AdultEidolonWyrmHead>(), 18000 } // 5:00 (300 seconds)
+                { ModContent.NPCType<PrimordialWyrmHead>(), 18000 } // 5:00 (300 seconds)
             };
         }
         #endregion
@@ -867,7 +867,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosTail>(), velocityScaleMin },
-                { ModContent.NPCType<AdultEidolonWyrmHead>(), bitingEnemeyVelocityScale }
+                { ModContent.NPCType<PrimordialWyrmHead>(), bitingEnemeyVelocityScale }
             };
         }
         #endregion

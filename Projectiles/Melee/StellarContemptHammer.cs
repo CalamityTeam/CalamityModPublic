@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 11;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (EmpoweredHammer == 4)
                     {
                         if (DustOnce == 1)
-                            {
+                        {
                                 for (int i = 0; i < 20; ++i)
                                 {
                                     // Pick a random type of dust
@@ -97,18 +97,19 @@ namespace CalamityMod.Projectiles.Melee
                                     Main.dust[idx].position = Projectile.Center;
                                 }
                                 DustOnce = 0;
-                            }
+                        }
                     Projectile.velocity.X *= 0.281f;
                     Projectile.velocity.Y -= 0.8f;
                     rotatehammer++;
                         if (Projectile.velocity.Y < -18f)
                             {
+                            EmpoweredHammer = 0;
                             returnhammer = 3;
                             }       
                     }
                     else
                     {
-                    Projectile.velocity.Y *= 0.896f;
+                    Projectile.velocity.Y *= 0.926f;
                     Projectile.velocity.X *= 0.811f;
                     if (Projectile.velocity.X > -1.05f && Projectile.velocity.X < 1.05f & Projectile.velocity.Y > -1.05f && Projectile.velocity.Y < 1.05f)
                         returnhammer = 2;
@@ -195,7 +196,6 @@ namespace CalamityMod.Projectiles.Melee
                         int hammer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<StellarContemptEcho>(), Projectile.damage * 6, Projectile.knockBack * 1.5f, Projectile.owner, 0f, Projectile.ai[1]);
                         Main.projectile[hammer].localAI[0] = Math.Sign(Projectile.velocity.X);
                         Main.projectile[hammer].netUpdate = true;
-                        EmpoweredHammer = 0;
                         Projectile.Kill();
                    }
             }
@@ -247,7 +247,7 @@ namespace CalamityMod.Projectiles.Melee
                     float rot = MathHelper.ToRadians(i * rotFactor);
                     Vector2 offset = new Vector2(4.8f, 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 4.1f));
                     Vector2 velOffset = new Vector2(4f, 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 4.1f));
-                    Dust dust = Dust.NewDustPerfect(Projectile.position + offset, 229, new Vector2(velOffset.X, velOffset.Y));
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 229, new Vector2(velOffset.X, velOffset.Y));
                     dust.noGravity = true;
                     dust.velocity = velOffset;
                     dust.scale = Main.rand.NextFloat(1.5f, 3.2f);
@@ -267,7 +267,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             // Play the Lunar Flare sound centered on the user, not the target (consistent with Lunar Flare and Stellar Striker)
             Player user = Main.player[Projectile.owner];
-            SoundEngine.PlaySound(SoundID.Item88, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item88 with { Volume = 0.4f }, Projectile.Center) ;
             Projectile.netUpdate = true;
 
             int numFlares = EmpoweredHammer + 1;
@@ -310,7 +310,7 @@ namespace CalamityMod.Projectiles.Melee
       
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 3);
             return false;
         }
     }

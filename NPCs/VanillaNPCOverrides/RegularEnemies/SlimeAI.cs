@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
 
         public static bool BuffedSlimeAI(NPC npc, Mod mod)
         {
-            bool isLavaSlime = npc.type == NPCID.LavaSlime || npc.type == ModContent.NPCType<CharredSlime>();
+            bool isLavaSlime = npc.type == NPCID.LavaSlime || npc.type == ModContent.NPCType<InfernalCongealment>();
             bool canShootProjectile = npc.type == NPCID.SpikedIceSlime || npc.type == NPCID.SlimeSpiked || npc.type == NPCID.SpikedJungleSlime;
             int projectileShootType = -1;
             float projectileShootSpeedFactor = 1f;

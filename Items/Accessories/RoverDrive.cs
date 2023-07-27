@@ -31,8 +31,6 @@ namespace CalamityMod.Items.Accessories
         // What in the actual fuck is this
         public override void Load() => Terraria.On_Main.DrawInfernoRings += DrawRoverDriveShields;
 
-        public override void Unload() => Terraria.On_Main.DrawInfernoRings -= DrawRoverDriveShields;
-
         private void DrawRoverDriveShields(Terraria.On_Main.orig_DrawInfernoRings orig, Main self)
         {
             bool playerFound = false;

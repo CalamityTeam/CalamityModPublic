@@ -171,6 +171,11 @@ NecroplasmicBeacon: {
 		'''
 }
 
+NO: {
+	DisplayName: NO
+	Tooltip: U
+}
+
 OldPowerCell: {
 	DisplayName: Old Power Cell
 	Tooltip:

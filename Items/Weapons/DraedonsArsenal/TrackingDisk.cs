@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
-using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -17,9 +16,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     public class TrackingDisk : RogueWeapon, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
-        public override void SetStaticDefaults()
-        {
-                   }
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();
@@ -36,7 +32,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.knockBack = 3f;
 
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            Item.rare = ModContent.RarityType<DarkOrange>();
+            Item.rare = ItemRarityID.Orange;
 
             Item.noUseGraphic = true;
 

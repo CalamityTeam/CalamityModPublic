@@ -194,6 +194,7 @@ namespace CalamityMod.CalPlayer
         public int gaelSwipes = 0;
         public int PHAThammer = 0;
         public int StellarHammer = 0;
+        public int GalaxyHammer = 0;
         public int gaelRageAttackCooldown = 0;
         public int hideOfDeusMeleeBoostTimer = 0;
         public int nebulaManaNerfCounter = 0;
@@ -334,6 +335,7 @@ namespace CalamityMod.CalPlayer
         public bool littleLightPet = false;
         public bool pineapplePet = false;
         public bool eidolonSnailPet = false;
+        public bool lordePet = false;
         #endregion
 
         #region Rage
@@ -787,6 +789,7 @@ namespace CalamityMod.CalPlayer
         public bool cDepth = false;
         public bool fishAlert = false;
         public bool clamity = false;
+        public bool NOU = false;
         public bool sulphurPoison = false;
         public bool nightwither = false;
         public bool eutrophication = false;
@@ -1439,6 +1442,7 @@ namespace CalamityMod.CalPlayer
             littleLightPet = false;
             pineapplePet = false;
             eidolonSnailPet = false;
+            lordePet = false;
 
             onyxExcavator = false;
             rimehound = false;
@@ -1777,6 +1781,7 @@ namespace CalamityMod.CalPlayer
             cDepth = false;
             fishAlert = false;
             clamity = false;
+            NOU = false;
             enraged = false;
             snowmanNoseless = false;
             sulphurPoison = false;
@@ -2176,6 +2181,7 @@ namespace CalamityMod.CalPlayer
             cDepth = false;
             fishAlert = false;
             clamity = false;
+            NOU = false;
             snowmanNoseless = false;
             abyssalDivingSuitPlateHits = 0;
             sulphurPoison = false;
@@ -4883,7 +4889,11 @@ namespace CalamityMod.CalPlayer
             // ModifyHit (Flesh Totem effect happens here) -> Hurt (includes dodges) -> OnHit
             // As such, to avoid cooldowns proccing from dodge hits, do it here
             if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && hurtInfo.Damage > 0)
-                Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");            
+                Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");     
+            if (NPC.AnyNPCs(ModContent.NPCType<THELORDE>()))
+            {
+                Player.AddBuff(ModContent.BuffType<NOU>(), 15, true);
+            }                 
         }
 
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
@@ -5068,6 +5078,10 @@ namespace CalamityMod.CalPlayer
                         // No return because the projectile hit isn't canceled -- it only does half damage.
                     }
                 }
+            }
+            if (NPC.AnyNPCs(ModContent.NPCType<THELORDE>()))
+            {
+                Player.AddBuff(ModContent.BuffType<NOU>(), 15, true);
             }
         }
         #endregion
@@ -5307,6 +5321,10 @@ namespace CalamityMod.CalPlayer
                     Player.handon = -1;
                 }
             }
+            if (NOU)
+            {
+                NOULOL();
+            }
         }
         #endregion
 
@@ -5387,6 +5405,10 @@ namespace CalamityMod.CalPlayer
                     }
                 };
             }
+            if (NOU)
+            {
+                NOULOL();
+            }
         }
 
         private void DisableDashes()
@@ -5424,6 +5446,27 @@ namespace CalamityMod.CalPlayer
             Player.jumpSpeedBoost = 0f;
             Player.wingTimeMax = (int)(Player.wingTimeMax * 0.5);
             Player.balloon = -1;
+        }
+        #endregion
+
+        #region NOULOL
+        private void NOULOL()
+        {
+            Player.ResetEffects();
+            Player.head = -1;
+            Player.body = -1;
+            Player.legs = -1;
+            Player.handon = -1;
+            Player.handoff = -1;
+            Player.back = -1;
+            Player.front = -1;
+            Player.shoe = -1;
+            Player.waist = -1;
+            Player.shield = -1;
+            Player.neck = -1;
+            Player.face = -1;
+            Player.balloon = -1;
+            NOU = true;
         }
         #endregion
 

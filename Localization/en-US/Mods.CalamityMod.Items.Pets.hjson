@@ -163,6 +163,15 @@ StrangeOrb: {
 		'''
 }
 
+SuspiciousLookingNOU: {
+	DisplayName: Suspicious Looking NO U
+	Tooltip:
+		'''
+		Summons a Lil Lorde that provides light
+		'It lives!'
+		'''
+}
+
 TheEtomer: {
 	DisplayName: The Etomer
 	Tooltip:

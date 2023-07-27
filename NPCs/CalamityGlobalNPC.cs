@@ -9,7 +9,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs.Abyss;
-using CalamityMod.NPCs.AdultEidolonWyrm;
+using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
@@ -551,7 +551,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref draedonExoMechPrime, NPCType<AresBody>());
             ResetSavedIndex(ref draedonExoMechPrimePlasmaCannon, NPCType<AresPlasmaFlamethrower>());
 
-            ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<AdultEidolonWyrmHead>());
+            ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<PrimordialWyrmHead>());
 
             // Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
             CurrentlyEnraged = false;
@@ -2830,7 +2830,7 @@ namespace CalamityMod.NPCs
             // Adult Wyrm Ancient Doom
             if (npc.type == NPCID.AncientDoom)
             {
-                if (Main.npc[(int)npc.ai[0]].type == NPCType<AdultEidolonWyrmHead>())
+                if (Main.npc[(int)npc.ai[0]].type == NPCType<PrimordialWyrmHead>())
                     return CultistAI.BuffedAncientDoomAI(npc, Mod);
             }
 
@@ -3023,7 +3023,7 @@ namespace CalamityMod.NPCs
                 switch (npc.aiStyle)
                 {
                     case NPCAIStyleID.Slime:
-                        if (npc.type == NPCType<BloomSlime>() || npc.type == NPCType<CharredSlime>() ||
+                        if (npc.type == NPCType<BloomSlime>() || npc.type == NPCType<InfernalCongealment>() ||
                             npc.type == NPCType<CrimulanBlightSlime>() || npc.type == NPCType<CryoSlime>() ||
                             npc.type == NPCType<EbonianBlightSlime>() || npc.type == NPCType<PerennialSlime>() ||
                             npc.type == NPCType<IrradiatedSlime>() || npc.type == NPCType<AstralSlime>())
@@ -6305,9 +6305,9 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedCalamitas;
             }
-            else if (type == NPCType<AdultEidolonWyrmHead>())
+            else if (type == NPCType<PrimordialWyrmHead>())
             {
-                return DownedBossSystem.downedAdultEidolonWyrm;
+                return DownedBossSystem.downedPrimordialWyrm;
             }
 
             return true;
@@ -6376,7 +6376,7 @@ namespace CalamityMod.NPCs
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Creeper && target.type != NPCType<RavagerClawLeft>() &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCType<RavagerClawRight>() &&
                 target.type != NPCType<ReaperShark>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() && target.type != NPCID.GolemFistLeft && target.type != NPCID.GolemFistRight &&
-                target.type != NPCType<AdultEidolonWyrmHead>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
+                target.type != NPCType<PrimordialWyrmHead>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
             {
                 return true;
             }

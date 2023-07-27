@@ -2,7 +2,7 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
-using CalamityMod.NPCs.AdultEidolonWyrm;
+using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
@@ -207,10 +207,10 @@ namespace CalamityMod
                 { ModContent.NPCType<SepulcherBodyEnergyBall>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
                 { ModContent.NPCType<SepulcherTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
 
-                { ModContent.NPCType<AdultEidolonWyrmHead>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<AdultEidolonWyrmBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<AdultEidolonWyrmBodyAlt>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<AdultEidolonWyrmTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<PrimordialWyrmHead>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
+                { ModContent.NPCType<PrimordialWyrmBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<PrimordialWyrmBodyAlt>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<PrimordialWyrmTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
 
                 { ModContent.NPCType<AcidEel>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<BloodwormFleeing>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
@@ -281,7 +281,7 @@ namespace CalamityMod
                 { ModContent.NPCType<Scryllar>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<ScryllarRage>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<DespairStone>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<CharredSlime>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
+                { ModContent.NPCType<InfernalCongealment>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<RenegadeWarlock>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<CalamityEye>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<SoulSlurper>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },

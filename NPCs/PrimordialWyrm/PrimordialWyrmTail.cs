@@ -2,18 +2,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.AdultEidolonWyrm
+namespace CalamityMod.NPCs.PrimordialWyrm
 {
-    public class AdultEidolonWyrmBodyAlt : ModNPC
+    public class PrimordialWyrmTail : ModNPC
     {
-        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.AdultEidolonWyrmHead.DisplayName");
+        public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.PrimordialWyrmHead.DisplayName");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -22,8 +21,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         public override void SetDefaults()
         {
             NPC.damage = 100;
-            NPC.width = 60;
-            NPC.height = 88;
+            NPC.width = 86;
+            NPC.height = 120;
             NPC.defense = 0;
             NPC.LifeMaxNERB(2500000, 3000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -43,16 +42,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.chaseable = false;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(NPC.localAI[0]);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            NPC.localAI[0] = reader.ReadSingle();
-        }
-
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
         public override void AI()
@@ -69,7 +58,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
             // Check if other segments are still alive. If not, die.
             bool shouldDespawn = true;
-            int wyrmHeadID = ModContent.NPCType<AdultEidolonWyrmHead>();
+            int wyrmHeadID = ModContent.NPCType<PrimordialWyrmHead>();
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 if (Main.npc[i].active && Main.npc[i].type == wyrmHeadID)
@@ -98,8 +87,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             float chargePhaseGateValue = death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
             float lightningChargePhaseGateValue = death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
 
-            bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.FastCharge);
-            bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.LightningCharge;
+            bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)PrimordialWyrmHead.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)PrimordialWyrmHead.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)PrimordialWyrmHead.Phase.FastCharge);
+            bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)PrimordialWyrmHead.Phase.LightningCharge;
             bool invisiblePhase = calamityGlobalNPC_Head.newAI[0] == 1f || calamityGlobalNPC_Head.newAI[0] == 5f || calamityGlobalNPC_Head.newAI[0] == 7f;
             if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
             {
@@ -117,35 +106,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     NPC.Opacity = 0f;
             }
 
-            bool shootShadowFireballs = (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ShadowFireballSpin && calamityGlobalNPC_Head.newAI[2] > 0f) ||
-                (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.FinalPhase && calamityGlobalNPC_Head.newAI[1] > 0f);
-            if (shootShadowFireballs)
-            {
-                if (Vector2.Distance(NPC.Center, Main.player[Main.npc[(int)NPC.ai[2]].target].Center) > 160f)
-                {
-                    NPC.localAI[0] += 1f;
-                    float shootShadowFireballGateValue = death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
-                    float divisor = 2f;
-                    if (NPC.ai[3] % divisor == 0f && NPC.localAI[0] >= shootShadowFireballGateValue)
-                    {
-                        NPC.localAI[0] = 0f;
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-                            float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)NPC.ai[2]].Center, Main.player[Main.npc[(int)NPC.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
-                            float fireballVelocity = (Main.player[Main.npc[(int)NPC.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
-                            Vector2 destination = Main.player[Main.npc[(int)NPC.ai[2]].target].Center - NPC.Center;
-                            Vector2 velocity = Vector2.Normalize(destination) * fireballVelocity;
-                            int type = ProjectileID.CultistBossFireBallClone;
-                            int damage = NPC.GetProjectileDamage(type);
-                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
-                            Main.projectile[proj].tileCollide = false;
-                        }
-                    }
-                }
-            }
-
-                // Decide segment offset stuff.
-                NPC aheadSegment = Main.npc[(int)NPC.ai[1]];
+            // Decide segment offset stuff.
+            NPC aheadSegment = Main.npc[(int)NPC.ai[1]];
             Vector2 directionToNextSegment = aheadSegment.Center - NPC.Center;
             if (aheadSegment.rotation != NPC.rotation)
             {
@@ -172,7 +134,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             center += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture, center, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
 
-            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmBodyAltGlow").Value;
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/PrimordialWyrm/PrimordialWyrmTailGlow").Value;
             spriteBatch.Draw(texture, center, NPC.frame, Color.White * NPC.Opacity, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
 
             return false;
@@ -189,7 +151,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("WyrmAdult3").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("PrimordialWyrm4").Type, 1f);
                 }
             }
         }
