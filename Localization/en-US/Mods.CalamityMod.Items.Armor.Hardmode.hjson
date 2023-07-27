@@ -405,7 +405,7 @@ PlaguebringerVisor: {
 		'''
 	SetBonus:
 		'''
-		Grants a plague dash to ram enemies and afflict them with the plague
+		Grants a plague dash which can slam through enemies without taking damage
 		Summons a lil' plaguebringer to protect you and empower nearby minions
 		+3 max minions
 		'''

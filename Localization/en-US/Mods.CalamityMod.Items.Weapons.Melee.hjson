@@ -563,6 +563,7 @@ GaelsGreatsword: {
 		Third swing has no projectiles
 		Constantly generates rage when in use
 		Swings leave behind exploding blood trails when below 50% health
+		Occasionally summons a barrage of lightning bolts when below 50% health
 		Replaces Rage Mode with an enormous barrage of skulls
 		'Hand it over, that thing. Your dark soul'
 		'''
@@ -925,8 +926,7 @@ Pwnagehammer: {
 	Tooltip:
 		'''
 		Throws a heavy, gravity-affected hammer that creates a loud blast of hallowed energy when it hits something
-		There is a 20 percent chance for the hammer to home in on a target
-		Homing hammers summon an additional spectral hammer on hit and are guaranteed to land a critical hit
+		After hitting four times, a spectral hammer will be summoned to strike the enemy
 		'''
 }
 
