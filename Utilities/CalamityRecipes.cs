@@ -455,7 +455,7 @@ namespace CalamityMod
             });
             QuiversGroup = RecipeGroup.RegisterGroup("TombstonesGroup", group);
 
-            // Wings for Seraph Tracers
+            // Wings for Celestial Tracers
             group = new RecipeGroup(() => "Any Wings", new int[]
             {
                 ItemID.DemonWings,
