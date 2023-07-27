@@ -2668,7 +2668,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (!BossRushEvent.BossRushActive)
                 {
-                    if (DownedBossSystem.downedCalamitas)
+                    if (DownedBossSystem.downedCalamitas && !cirrus)
                         key += "Rematch";
 
                     CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);

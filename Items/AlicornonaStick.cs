@@ -1,4 +1,5 @@
 ﻿using CalamityMod.NPCs.Crags;
+using CalamityMod.NPCs.Other;
 using CalamityMod.Particles;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
@@ -27,7 +28,7 @@ namespace CalamityMod.Items
             Rectangle itemRect = new Rectangle((int)player.Center.X + offset, (int)player.position.Y - 10, Item.width, Item.height);
             foreach (NPC npc in Main.npc)
             {
-                if (npc.active && npc != null && !npc.dontTakeDamage)
+                if (npc.active && npc != null && !npc.dontTakeDamage && npc.type != ModContent.NPCType<THELORDE>())
                 {
                     if (itemRect.Intersects(npc.getRect()))
                     {

@@ -132,7 +132,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (calamityPlayer.IBoots)
+            if (calamityPlayer.tracersDust)
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
                 {
@@ -152,7 +152,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (calamityPlayer.elysianFire)
+            if (calamityPlayer.elysianWingsDust)
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
                 {
