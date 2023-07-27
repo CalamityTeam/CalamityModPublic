@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Potions
             Item.width = 56;
             Item.height = 50;
             Item.value = 0;
-            Item.rare = ModContent.RarityType<Violet>();
+            Item.rare = ModContent.RarityType<CalamityRed>();
             Item.maxStack = 1;
             Item.consumable = false;
             Item.useAnimation = 901;
