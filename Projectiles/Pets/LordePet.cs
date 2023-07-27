@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Pets
             Lighting.AddLight(Projectile.Center, Main.DiscoColor.ToVector3() * 2);
             if (Main.rand.NextBool(1200))
             {
-                SoundEngine.PlaySound(THELORDE.DeathSound with { PitchVariance = 2 }, Projectile.Center);
+                SoundEngine.PlaySound(THELORDE.DeathSound with { PitchVariance = 2, MaxInstances = 5 }, Projectile.Center);
             }
             //Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
         }

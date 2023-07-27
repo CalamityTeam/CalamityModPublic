@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.Other
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(100, 0, 0, 0);
             NPC.HitSound = SoundID.NPCHit13;
-            NPC.DeathSound = DeathSound with { Volume = DeathSound.Volume + 0.2f };
+            NPC.DeathSound = null;
             NPC.boss = true;
             Music = MusicID.LunarBoss;
             NPC.Calamity().canBreakPlayerDefense = true;
@@ -215,7 +215,7 @@ namespace CalamityMod.NPCs.Other
                     case 9: aiChoice = NPCAIStyleID.EnchantedSword; NPC.noTileCollide = true; NPC.noGravity = true; aiSwitchCounter = 480; break; //enchanted sword
                     case 10: aiChoice = NPCAIStyleID.Mimic; NPC.noTileCollide = false; NPC.noGravity = false; aiSwitchCounter = 480; break; //small mimic
                     case 11: aiChoice = NPCAIStyleID.Unicorn; NPC.noTileCollide = false; NPC.noGravity = false; aiSwitchCounter = 480; break; //unicorn
-                    case 12: aiChoice = NPCAIStyleID.GiantTortoise; NPC.noTileCollide = false; NPC.noGravity = false; aiSwitchCounter = 300; break; //giant tortoise
+                    //case 12: aiChoice = NPCAIStyleID.GiantTortoise; NPC.noTileCollide = false; NPC.noGravity = false; aiSwitchCounter = 300; break; //giant tortoise
                     case 13: aiChoice = NPCAIStyleID.Herpling; NPC.noTileCollide = false; NPC.noGravity = false; aiSwitchCounter = 480; break; //herpling
                     case 14: aiChoice = NPCAIStyleID.QueenBee; NPC.noTileCollide = true; NPC.noGravity = true; aiSwitchCounter = 420; break; //queen bee
                     case 15: aiChoice = NPCAIStyleID.FlyingFish; NPC.noTileCollide = false; NPC.noGravity = true; aiSwitchCounter = 480; break; //flying fish
@@ -423,9 +423,14 @@ namespace CalamityMod.NPCs.Other
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             double pisquaredover6 = Math.Pow(MathHelper.Pi, 2) / 6;
-            npcLoot.AddIf(()=> CalamityWorld.LegendaryMode && Main.masterMode, ModContent.ItemType<SuspiciousLookingNOU>()); // guaranteed in legendarev mode
-            npcLoot.AddIf(() => !(CalamityWorld.LegendaryMode && Main.masterMode), ModContent.ItemType<SuspiciousLookingNOU>(), 27); // otherwise 1 in 27
+            npcLoot.AddIf(()=> CalamityWorld.LegendaryMode && CalamityWorld.revenge, ModContent.ItemType<SuspiciousLookingNOU>()); // guaranteed in legendarev mode
+            npcLoot.AddIf(() => !(CalamityWorld.LegendaryMode && CalamityWorld.revenge), ModContent.ItemType<SuspiciousLookingNOU>(), 27); // otherwise 1 in 27
             npcLoot.Add(ModContent.ItemType<DeliciousMeat>(), 1, 22, (int)(pisquaredover6 * 100));
+        }
+
+        public override void OnKill()
+        {
+            SoundEngine.PlaySound(DeathSound with { Volume = 2 }, Main.LocalPlayer.Center);
         }
     }
 }
