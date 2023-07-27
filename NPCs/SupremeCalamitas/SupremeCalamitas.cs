@@ -64,9 +64,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public const int FourthBulletHellEndValue = BulletHellDuration * 4;
         public const int FifthBulletHellEndValue = BulletHellDuration * 5;
         public const int CirrusPhotonRipperDamage = 3725;
-        private const float CirrusPhotonRipperDashVelocity = 12f;
+        private const float CirrusPhotonRipperDashVelocity = 8f;
         private const float CirrusPhotonRipperMinDistanceFromTarget = 64f;
-        private const float CirrusPhotonRipperDashAcceleration = 0.6f;
+        private const float CirrusPhotonRipperDashAcceleration = 0.4f;
 
         public float bossLife;
         public float uDieLul = 1f;
@@ -946,7 +946,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination - NPC.velocity) * CirrusPhotonRipperDashVelocity;
 
                     if (Vector2.Distance(NPC.Center, destination) > CirrusPhotonRipperMinDistanceFromTarget)
-                        NPC.SimpleFlyMovement(desiredVelocity, CirrusPhotonRipperDashAcceleration);
+                        NPC.SimpleFlyMovement(desiredVelocity * uDieLul, CirrusPhotonRipperDashAcceleration * uDieLul);
                     else
                         NPC.velocity *= 0.9f;
                 }
@@ -1040,6 +1040,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (Main.netMode != NetmodeID.MultiplayerClient) // More clustered attack
                 {
+                    // Cirrus throws alcohol bottles that explode into Fabstaff Rays
+                    if (cirrus)
+                    {
+                        if (bulletHellCounter2 % 90 == 0)
+                        {
+                            float bottleSpeed = 12f;
+                            Vector2 bottleVelocity = Vector2.Normalize(player.Center + player.velocity * 20f - NPC.Center) * bottleSpeed;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, bottleVelocity * uDieLul, ModContent.ProjectileType<CirrusVolatileVodkaBottle>(), 350, 0f, Main.myPlayer);
+                        }
+                    }
+
                     if (bulletHellCounter2 % 180 == 0) // Blasts from top
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, fireblast, gigablastDamage, 0f, Main.myPlayer);
 
@@ -1132,7 +1143,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination - NPC.velocity) * CirrusPhotonRipperDashVelocity;
 
                     if (Vector2.Distance(NPC.Center, destination) > CirrusPhotonRipperMinDistanceFromTarget)
-                        NPC.SimpleFlyMovement(desiredVelocity, CirrusPhotonRipperDashAcceleration);
+                        NPC.SimpleFlyMovement(desiredVelocity * uDieLul, CirrusPhotonRipperDashAcceleration * uDieLul);
                     else
                         NPC.velocity *= 0.9f;
                 }
@@ -2657,7 +2668,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (!BossRushEvent.BossRushActive)
                 {
-                    if (DownedBossSystem.downedCalamitas)
+                    if (DownedBossSystem.downedCalamitas && !cirrus)
                         key += "Rematch";
 
                     CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);

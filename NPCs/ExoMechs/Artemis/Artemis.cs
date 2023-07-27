@@ -861,7 +861,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                     calamityGlobalNPC.newAI[3] = 0f;
                                     if (phase2)
                                     {
-                                        AIState = (NPC.localAI[2] == 1f && !apolloUsingChargeCombo) ? (float)Phase.Deathray : (float)Phase.LaserShotgun;
+                                        AIState = (NPC.localAI[2] == 1f && (!apolloUsingChargeCombo || Main.zenithWorld)) ? (float)Phase.Deathray : (float)Phase.LaserShotgun;
                                     }
                                     else
                                     {
