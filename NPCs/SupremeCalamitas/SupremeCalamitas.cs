@@ -2655,7 +2655,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (NPC.life <= NPC.lifeMax * 0.08)
                     key = cirrus ? "Mods.CalamityMod.Status.Boss.CirrusSecondBirbSwarmText" : "Mods.CalamityMod.Status.Boss.SCalSepulcher2Text";
 
-                if (!BossRushEvent.BossRushActive)
+                if (!BossRushEvent.BossRushActive && !cirrus)
                 {
                     if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";

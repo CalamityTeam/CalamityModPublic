@@ -366,7 +366,7 @@ namespace CalamityMod.NPCs.Other
 
             if (highestPossibleDamage > antiButcherLimit)
             {
-                string key = "Mods.CalamityMod.EdgyBossText2";
+                string key = "Mods.CalamityMod.Status.Boss.EdgyBossText8";
                 Color messageColor = Color.Cyan;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -385,7 +385,7 @@ namespace CalamityMod.NPCs.Other
 
             if (highestPossibleDamage > antiButcherLimit)
             {
-                string key = "Mods.CalamityMod.EdgyBossText2";
+                string key = "Mods.CalamityMod.Status.Boss.EdgyBossText8";
                 Color messageColor = Color.Cyan;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 
