@@ -219,7 +219,7 @@ AsgardianAegis: {
 		Grants immunity to knockback
 		Immune to most debuffs
 		+40 max life and increased life regeneration
-		Grants a supreme god slayer flame dash
+		Grants a cosmic inferno dash which can slam through enemies without taking damage
 		Can be used to ram enemies
 		Press [KEY] to activate buffs to all damage, crit chance, and defense
 		Activating this buff will reduce your movement speed and increase enemy aggro
@@ -235,7 +235,7 @@ AsgardsValor: {
 		Immune to most debuffs
 		+16 defense while submerged in liquid
 		+20 max life
-		Grants a holy dash which can be used to ram enemies
+		Grants a holy flame dash which can slam through enemies without taking damage
 		'''
 }
 
@@ -648,7 +648,7 @@ ElysianAegis: {
 		'''
 		Grants immunity to knockback and the Burning, On Fire!, and Holy Flames debuffs
 		+30 max life
-		Grants a supreme holy flame dash
+		Grants an enhanced holy flame dash which can slam through enemies without taking damage
 		Can be used to ram enemies
 		Press [KEY] to activate buffs to all damage, crit chance and defense
 		Activating this buff will reduce your movement speed and increase enemy aggro
@@ -1182,7 +1182,7 @@ OrnateShield: {
 	Tooltip:
 		'''
 		8% increased damage reduction and +20 health while wearing the Daedalus armor
-		Grants a frost dash
+		Grants a frost dash which can slam through enemies without taking damage
 		'''
 }
 

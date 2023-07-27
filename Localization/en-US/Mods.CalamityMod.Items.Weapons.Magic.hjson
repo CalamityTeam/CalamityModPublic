@@ -885,10 +885,9 @@ VividClarity: {
 	DisplayName: Vivid Clarity
 	Tooltip:
 		'''
-		Fires five randomized beams of elemental energy at the cursor
+		Fires five randomized rays of exo-energy towards the cursor
 		On enemy and tile hits, beams either explode into a big flash,
-		summon an additonal laser from the sky,
-		or split into energy orbs
+		summon an additonal laser from the sky, or split into energy orbs
 		'Its majesty inspires a stroke of unparalleled genius'
 		'''
 }

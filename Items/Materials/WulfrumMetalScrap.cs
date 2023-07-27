@@ -14,23 +14,6 @@ namespace CalamityMod.Items.Materials
     public class WulfrumMetalScrap : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Materials";
-        public override void Load()
-        {
-            Terraria.On_Item.CanFillEmptyAmmoSlot += AvoidDefaultingToAmmoSlot;
-        }
-
-        public override void Unload()
-        {
-            Terraria.On_Item.CanFillEmptyAmmoSlot -= AvoidDefaultingToAmmoSlot;
-        }
-
-        private bool AvoidDefaultingToAmmoSlot(Terraria.On_Item.orig_CanFillEmptyAmmoSlot orig, Item self)
-        {
-            if (self.type == Type)
-                return false;
-
-            return orig(self);
-        }
 
         public override void SetStaticDefaults()
         {
@@ -45,6 +28,7 @@ namespace CalamityMod.Items.Materials
             Item.value = Item.sellPrice(copper: 80);
             Item.rare = ItemRarityID.Blue;
             Item.ammo = Item.type;
+            Item.notAmmo = true;
         }
 
 		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)

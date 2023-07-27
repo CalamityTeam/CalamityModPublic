@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
-using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -14,9 +13,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public new string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
         public const int HitsRequiredForFlux = 2;
-        public override void SetStaticDefaults()
-        {
-                   }
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();
@@ -33,7 +29,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.knockBack = 7f;
 
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            Item.rare = ModContent.RarityType<DarkOrange>();
+            Item.rare = ItemRarityID.Orange;
 
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;

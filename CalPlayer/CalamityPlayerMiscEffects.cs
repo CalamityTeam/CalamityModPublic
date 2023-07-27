@@ -551,8 +551,8 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Ores below here
-                // Celestial Tracers give immunity to block contact effects
-                if (cTracers)
+                // Seraph Tracers give immunity to block contact effects
+                if (tracersSeraph)
                     return;
 
                 // Astral Ore inflicts Astral Infection briefly on contact
@@ -3047,7 +3047,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.npcTypeNoAggro[ModContent.NPCType<AeroSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<BloomSlime>()] = true;
-                Player.npcTypeNoAggro[ModContent.NPCType<CharredSlime>()] = true;
+                Player.npcTypeNoAggro[ModContent.NPCType<InfernalCongealment>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<CrimulanBlightSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<CryoSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<EbonianBlightSlime>()] = true;

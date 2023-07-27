@@ -141,18 +141,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];
-            
-            // Trigger the death animation
-            if (NPC.realLife > 0 && NPC.life == 1)
-            {
-                Main.npc[NPC.realLife].ModNPC<DevourerofGodsHead>().Dying = true;
-                Main.npc[NPC.realLife].dontTakeDamage = true;
-                Main.npc[NPC.realLife].life = 1;
-                Main.npc[NPC.realLife].netUpdate = true;
-                NPC.dontTakeDamage = true;
-                NPC.netUpdate = true;
-                return;
-            }
 
             if (NPC.life > Main.npc[(int)NPC.ai[1]].life)
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
@@ -433,6 +421,26 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override bool CheckActive()
         {
+            return false;
+        }
+
+        public override bool CheckDead()
+        {
+            NPC.life = 1;
+            NPC.dontTakeDamage = true;
+            NPC.active = true;
+            NPC.netUpdate = true;
+
+            if (NPC.realLife >= 0)
+            {
+                NPC Head = Main.npc[NPC.realLife];
+                if (Head.type != ModContent.NPCType<DevourerofGodsHead>())
+                    return false;
+
+                Head.ModNPC<DevourerofGodsHead>().Dying = true;
+                Head.dontTakeDamage = true;
+                Head.netUpdate = true;
+            }
             return false;
         }
 

@@ -563,6 +563,7 @@ GaelsGreatsword: {
 		Third swing has no projectiles
 		Constantly generates rage when in use
 		Swings leave behind exploding blood trails when below 50% health
+		Occasionally summons a barrage of lightning bolts when below 50% health
 		Replaces Rage Mode with an enormous barrage of skulls
 		'Hand it over, that thing. Your dark soul'
 		'''
@@ -580,7 +581,13 @@ GalactusBlade: {
 
 GalaxySmasher: {
 	DisplayName: Galaxy Smasher
-	Tooltip: Explodes and summons death lasers on enemy hits
+	Tooltip:
+		'''
+		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
+		Consecutive hits summon more and more cosmic hammers
+		After returning eight times, the hammer will supercharge with immense cosmic energy and 
+		fly towards your target, inflicting astronomical damage
+		'''
 }
 
 GalileoGladius: {

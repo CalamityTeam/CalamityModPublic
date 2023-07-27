@@ -63,10 +63,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         public override void Unload()
         {
-            Terraria.On_Player.KeyDoubleTap -= ActivateSetBonus;
-            Terraria.On_Main.DrawPendingMouseText -= SpoofMouseItem;
-
-
             DummyCannon.TurnToAir();
             DummyCannon = null;
         }

@@ -11,7 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
 {
-    public class CharredSlime : ModNPC
+    public class InfernalCongealment : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.Crags
                 NPC.lifeMax = 3500;
             }
             Banner = NPC.type;
-            BannerItem = ModContent.ItemType<CharredSlimeBanner>();
+            BannerItem = ModContent.ItemType<InfernalCongealmentBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.Crags
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
             {
-				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.CharredSlime")
+				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.InfernalCongealment")
             });
         }
 

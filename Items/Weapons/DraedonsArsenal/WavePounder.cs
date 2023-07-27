@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
 
-            Item.rare = ModContent.RarityType<DarkOrange>();
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.UseSound = SoundID.Item1;
 
             Item.shootSpeed = 16f;

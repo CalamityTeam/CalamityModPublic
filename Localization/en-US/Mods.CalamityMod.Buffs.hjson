@@ -1217,6 +1217,11 @@ IgneousExaltationBuff: {
 	Description: A blade is orbiting you
 }
 
+KalandraMirrorBuff: {
+	DisplayName: Mirror of Kalandra
+	Description: Five ancient weapons will annihilate your enemies
+}
+
 KingofConstellationsBuff: {
 	DisplayName: Celestial Dragons
 	Description: The celestial dragons will protect you
@@ -1225,6 +1230,11 @@ KingofConstellationsBuff: {
 LilPlaguebringerBuff: {
 	DisplayName: Lil' Plaguebringer
 	Description: The Plaguebringer will protect you
+}
+
+LordeBuff: {
+	DisplayName: Lil'orde
+	Description: Spin spin spin
 }
 
 MagicHatBuff: {
@@ -1265,6 +1275,11 @@ MoonFistBuff: {
 MountedScannerBuff: {
 	DisplayName: Mounted Scanner
 	Description: Powerful machinery surrounds you
+}
+
+NOU: {
+	DisplayName: NO U
+	Description: Equips disabled
 }
 
 PerditionBuff: {
@@ -1387,6 +1402,11 @@ StarSwallowerBuff: {
 	Description: Mmmm myes
 }
 
+StellarTorusBuff: {
+	DisplayName: Astral Vengeance Buff
+	Description: Summons a Torus Orbital that fries your foes
+}
+
 TacticalPlagueEngineBuff: {
 	DisplayName: Tactical Plague Engine
 	Description: A giant plague jet is following you
@@ -1435,14 +1455,4 @@ WitherBlossomsBuff: {
 WulfrumDroidBuff: {
 	DisplayName: Wulfrum Droid
 	Description: The wulfrum droid will protect you
-}
-
-KalandraMirrorBuff: {
-	DisplayName: Mirror of Kalandra
-	Description: Five ancient weapons will annihilate your enemies
-}
-
-StellarTorusBuff: {
-	DisplayName: Astral Vengeance Buff
-	Description: Summons a Torus Orbital that fries your foes
 }

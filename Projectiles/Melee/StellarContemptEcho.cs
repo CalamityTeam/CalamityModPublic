@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public static readonly SoundStyle SlamHamSound = new("CalamityMod/Sounds/Item/StellarContemptImpact") { Volume = 1f};
+        public static readonly SoundStyle Kunk = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
         public float rotatehammer = 35f;
         public int ColorAlpha = 225;
         public override void SetStaticDefaults()
@@ -24,7 +25,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetDefaults()
         {
             Projectile.width = 78;
-            Projectile.scale = 1.8f;
             Projectile.height = 78;
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
@@ -42,6 +42,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
+            Projectile.scale = 1.8f;
             ColorAlpha -= 4;
             rotatehammer--;
             Projectile.rotation += MathHelper.ToRadians(rotatehammer) * Projectile.direction;
@@ -75,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 offset = new Vector2(7, 0).RotatedByRandom(MathHelper.ToRadians(360f));
                 Vector2 velOffset = new Vector2(3, 0).RotatedBy(offset.ToRotation());
-                Dust dust = Dust.NewDustPerfect(new Vector2(Projectile.position.X, Projectile.position.Y) + offset, DustID.Terragrim, new Vector2(Projectile.velocity.X * 0.2f + velOffset.X, Projectile.velocity.Y * 0.2f + velOffset.Y), 100);
+                Dust dust = Dust.NewDustPerfect(new Vector2(Projectile.Center.X, Projectile.Center.Y) + offset, DustID.Terragrim, new Vector2(Projectile.velocity.X * 0.2f + velOffset.X, Projectile.velocity.Y * 0.2f + velOffset.Y), 100);
                 dust.noGravity = true;
                 dust.scale = Main.rand.NextFloat(2.2f, 3.6f);
             }
@@ -84,7 +85,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 offset = new Vector2(7, 0).RotatedByRandom(MathHelper.ToRadians(360f));
                 Vector2 velOffset = new Vector2(3, 0).RotatedBy(offset.ToRotation());
-                Dust dust = Dust.NewDustPerfect(new Vector2(Projectile.position.X, Projectile.position.Y) + offset, DustID.Vortex, new Vector2(Projectile.velocity.X * 0.5f + velOffset.X, Projectile.velocity.Y * 0.5f + velOffset.Y), 100);
+                Dust dust = Dust.NewDustPerfect(new Vector2(Projectile.Center.X, Projectile.Center.Y) + offset, DustID.Vortex, new Vector2(Projectile.velocity.X * 0.5f + velOffset.X, Projectile.velocity.Y * 0.5f + velOffset.Y), 100);
                 dust.noGravity = true;
                 dust.scale = Main.rand.NextFloat(2.2f, 3.6f);
             }
@@ -107,9 +108,13 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
-            //This is what we call fucking IMPACT.
+            //This is what we call fucking IMPACT (2).
             Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 7;
-            SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
+            if (Main.zenithWorld)
+                SoundEngine.PlaySound(Kunk, Projectile.Center);
+
+            else
+                SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
 
             float numberOfDusts = 156f;
             float rotFactor = 360f / numberOfDusts;

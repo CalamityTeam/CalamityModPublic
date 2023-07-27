@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.Other;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -69,7 +70,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AttachToSomething()
         {
-            if (Main.npc[OwnerIndex].active && Main.npc[OwnerIndex].type == ModContent.NPCType<AresBody>())
+            if (Main.npc[OwnerIndex].active && (Main.npc[OwnerIndex].type == ModContent.NPCType<AresBody>() || Main.npc[OwnerIndex].type == ModContent.NPCType<THELORDE>()))
             {
                 Vector2 fireFrom = new Vector2(Main.npc[OwnerIndex].Center.X - 1f, Main.npc[OwnerIndex].Center.Y + 23f);
                 fireFrom += Projectile.velocity.SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(35f, 127f, Projectile.scale * Projectile.scale);
@@ -84,7 +85,7 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             // Die if the owner is not performing Ares' deathray attack.
-            if (Main.npc[OwnerIndex].Calamity().newAI[0] != (float)AresBody.Phase.Deathrays)
+            if (Main.npc[OwnerIndex].Calamity().newAI[0] != (float)AresBody.Phase.Deathrays && Main.npc[OwnerIndex].type != ModContent.NPCType<THELORDE>())
             {
                 Projectile.Kill();
                 return;

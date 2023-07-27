@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Fishing.FishingRods;
@@ -57,6 +58,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Count = 7
         }
 
+        public const int BulletHellDuration = 900;
+        public const int SecondBulletHellEndValue = BulletHellDuration * 2;
+        public const int ThirdBulletHellEndValue = BulletHellDuration * 3;
+        public const int FourthBulletHellEndValue = BulletHellDuration * 4;
+        public const int FifthBulletHellEndValue = BulletHellDuration * 5;
+        public const int CirrusPhotonRipperDamage = 3725;
+        private const float CirrusPhotonRipperDashVelocity = 8f;
+        private const float CirrusPhotonRipperMinDistanceFromTarget = 64f;
+        private const float CirrusPhotonRipperDashAcceleration = 0.4f;
+
         public float bossLife;
         public float uDieLul = 1f;
         public float passedVar = 0f;
@@ -107,11 +118,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public float shieldRotation = 0f;
         public float forcefieldOpacity = 1f;
         public float forcefieldScale = 1;
+
         public FrameAnimationType FrameType
         {
             get => (FrameAnimationType)(int)NPC.localAI[2];
             set => NPC.localAI[2] = (int)value;
         }
+
         public bool AttackCloseToBeingOver
         {
             get
@@ -144,6 +157,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return NPC.ai[2] >= attackLength - 30f;
             }
         }
+
         public ref float FrameChangeSpeed => ref NPC.localAI[3];
 
         public Vector2 cataclysmSpawnPosition;
@@ -163,7 +177,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static float enragedDR = 0.9999f;
 
         public static readonly Color textColor = Color.Orange;
-        public static readonly Color cirrusTextColor = Color.LightPink;
+        public static readonly Color cirrusTextColor = Color.Pink;
         public const int sepulcherSpawnCastTime = 75;
         public const int brothersSpawnCastTime = 150;
         public const int MaxCirrusAlcohols = 20;
@@ -496,7 +510,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             hitboxSize = Vector2.Max(hitboxSize, new Vector2(42, 44));
             if (NPC.Size != hitboxSize)
                 NPC.Size = hitboxSize;
-            bool shouldNotUseShield = bulletHellCounter2 % 900 != 0 || attackCastDelay > 0 ||
+            bool shouldNotUseShield = bulletHellCounter2 % BulletHellDuration != 0 || attackCastDelay > 0 ||
                 (cirrus ? NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) : (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))) ||
                 NPC.ai[0] == 1f || NPC.ai[0] == 2f;
 
@@ -742,7 +756,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region FirstAttack
-            if (bulletHellCounter2 < 900)
+            if (bulletHellCounter2 < BulletHellDuration)
             {
                 despawnProj = true;
                 bulletHellCounter2++;
@@ -815,7 +829,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region SecondAttack
-            if (bulletHellCounter2 < 1800 && startSecondAttack)
+            if (bulletHellCounter2 < SecondBulletHellEndValue && startSecondAttack)
             {
                 despawnProj = true;
                 bulletHellCounter2++;
@@ -917,7 +931,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region ThirdAttack
-            if (bulletHellCounter2 < 2700 && startThirdAttack)
+            if (bulletHellCounter2 < ThirdBulletHellEndValue && startThirdAttack)
             {
                 despawnProj = true;
                 bulletHellCounter2++;
@@ -925,11 +939,26 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
 
-                if (!canDespawn)
+                if (cirrus)
+                {
+                    Vector2 destination = player.Center;
+                    Vector2 distanceFromDestination = destination - NPC.Center;
+                    Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination - NPC.velocity) * CirrusPhotonRipperDashVelocity;
+
+                    if (Vector2.Distance(NPC.Center, destination) > CirrusPhotonRipperMinDistanceFromTarget)
+                        NPC.SimpleFlyMovement(desiredVelocity * uDieLul, CirrusPhotonRipperDashAcceleration * uDieLul);
+                    else
+                        NPC.velocity *= 0.9f;
+                }
+                else if (!canDespawn)
                     NPC.velocity *= 0.95f;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
+                    // Cirrus uses Photon Ripper
+                    if (bulletHellCounter2 == SecondBulletHellEndValue + 1 && cirrus)
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One, ModContent.ProjectileType<CirrusPhotonRipperProjectile>(), CirrusPhotonRipperDamage, 0f, Main.myPlayer, 0f, 0f, NPC.whoAmI);
+
                     if (bulletHellCounter2 % 180 == 0) // Blasts from top
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, fireblast, gigablastDamage, 0f, Main.myPlayer);
 
@@ -998,7 +1027,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region FourthAttack
-            if (bulletHellCounter2 < 3600 && startFourthAttack)
+            if (bulletHellCounter2 < FourthBulletHellEndValue && startFourthAttack)
             {
                 despawnProj = true;
                 bulletHellCounter2++;
@@ -1011,6 +1040,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (Main.netMode != NetmodeID.MultiplayerClient) // More clustered attack
                 {
+                    // Cirrus throws alcohol bottles that explode into Fabstaff Rays
+                    if (cirrus)
+                    {
+                        if (bulletHellCounter2 % 90 == 0)
+                        {
+                            float bottleSpeed = 12f;
+                            Vector2 bottleVelocity = Vector2.Normalize(player.Center + player.velocity * 20f - NPC.Center) * bottleSpeed;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, bottleVelocity * uDieLul, ModContent.ProjectileType<CirrusVolatileVodkaBottle>(), 350, 0f, Main.myPlayer);
+                        }
+                    }
+
                     if (bulletHellCounter2 % 180 == 0) // Blasts from top
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, fireblast, gigablastDamage, 0f, Main.myPlayer);
 
@@ -1019,7 +1059,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     int divisor = revenge ? 225 : expertMode ? 450 : 675;
 
-                    // TODO -- Resprite Brimstone Monsters to be something else. WIPs posted by Iban.
+                    // TODO -- Resprite Brimstone Monsters to be something else.
                     if (bulletHellCounter2 % divisor == 0 && expertMode) // Giant homing fireballs
                     {
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 1f * uDieLul, ModContent.ProjectileType<BrimstoneMonster>(), monsterDamage, 0f, Main.myPlayer, 0f, passedVar);
@@ -1088,7 +1128,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region FifthAttack
-            if (bulletHellCounter2 < 4500 && startFifthAttack)
+            if (bulletHellCounter2 < FifthBulletHellEndValue && startFifthAttack)
             {
                 despawnProj = true;
                 bulletHellCounter2++;
@@ -1096,7 +1136,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
 
-                if (!canDespawn)
+                if (cirrus)
+                {
+                    Vector2 destination = player.Center;
+                    Vector2 distanceFromDestination = destination - NPC.Center;
+                    Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination - NPC.velocity) * CirrusPhotonRipperDashVelocity;
+
+                    if (Vector2.Distance(NPC.Center, destination) > CirrusPhotonRipperMinDistanceFromTarget)
+                        NPC.SimpleFlyMovement(desiredVelocity * uDieLul, CirrusPhotonRipperDashAcceleration * uDieLul);
+                    else
+                        NPC.velocity *= 0.9f;
+                }
+                else if (!canDespawn)
                     NPC.velocity *= 0.95f;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -1104,6 +1155,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     // Cirrus throws alcohol bottles that explode into Fabstaff Rays
                     if (cirrus)
                     {
+                        // Cirrus uses Photon Ripper
+                        if (bulletHellCounter2 == FourthBulletHellEndValue + 1)
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One, ModContent.ProjectileType<CirrusPhotonRipperProjectile>(), CirrusPhotonRipperDamage, 0f, Main.myPlayer, 0f, 0f, NPC.whoAmI);
+
                         if (bulletHellCounter2 % 90 == 0)
                         {
                             float bottleSpeed = 12f;
@@ -1383,7 +1438,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region DespawnProjectiles
-            if (bulletHellCounter2 % 900 == 0 && despawnProj)
+            if (bulletHellCounter2 % BulletHellDuration == 0 && despawnProj)
             {
                 for (int x = 0; x < Main.maxProjectiles; x++)
                 {
@@ -2613,7 +2668,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (!BossRushEvent.BossRushActive)
                 {
-                    if (DownedBossSystem.downedCalamitas)
+                    if (DownedBossSystem.downedCalamitas && !cirrus)
                         key += "Rematch";
 
                     CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
@@ -2916,11 +2971,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CalamitasRelic>());
 
-            // GFB Slurper Pole Talisman drops
+            // GFB Slurper Pole drops
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
                 GFBOnly.Add(ModContent.ItemType<SlurperPole>());
             }
+
+            // Legendary seed pony on a stick upgrade          
+            npcLoot.Add(ItemDropRule.ByCondition(DropHelper.If(info => info.npc.type == ModContent.NPCType<SupremeCalamitas>() && info.npc.ModNPC<SupremeCalamitas>().cirrus, false), ModContent.ItemType<AlicornonaStick>()));
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<LoreCalamitas>(), desc: DropHelper.FirstKillText);
