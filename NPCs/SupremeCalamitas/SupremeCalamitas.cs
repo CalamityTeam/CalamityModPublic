@@ -2655,9 +2655,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (NPC.life <= NPC.lifeMax * 0.08)
                     key = cirrus ? "Mods.CalamityMod.Status.Boss.CirrusSecondBirbSwarmText" : "Mods.CalamityMod.Status.Boss.SCalSepulcher2Text";
 
-                if (!BossRushEvent.BossRushActive && !cirrus)
+                if (!BossRushEvent.BossRushActive)
                 {
-                    if (DownedBossSystem.downedCalamitas)
+                    if (DownedBossSystem.downedCalamitas && !cirrus)
                         key += "Rematch";
 
                     CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
