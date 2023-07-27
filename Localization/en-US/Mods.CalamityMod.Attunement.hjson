@@ -8,7 +8,7 @@ HotAttunement: {
 	Name: Arid Grandeur
 	Function:
 		'''
-		Hold <left> to conjure searing blades in front of you that get larger and stronger the more you hit enemies.
+		Hold <left> to conjure searing blades in front of you that get larger and stronger the more you hit enemies
 		The blades can also be used to bounce off tiles when in the air
 		'''
 }
@@ -22,15 +22,19 @@ TropicalAttunement: {
 	Name: Grovetender's Touch
 	Function:
 		'''
-		Throw out the blade using a vine whip.
-		Striking enemies with the tip of the whip as it cracks guarantees a critical hit.
+		Throw out the blade using a vine whip
+		Striking enemies with the tip of the whip as it cracks guarantees a critical hit
 		The whip will also propel you towards struck tiles
 		'''
 }
 
 EvilAttunement: {
 	Name: Decay's Retort
-	Function: Lunge forward using a ghostly rapier projection that leeches life off any struck foes. You also get bounced away from hit targets
+	Function: 
+		'''
+		Lunge forward using a ghostly rapier projection that leeches life on enemy hits
+		You will bounce away from struck targets
+		'''
 }
 
 // Mended Biome Blade
@@ -47,7 +51,7 @@ TrueHotAttunement: {
 	Name: Arid Grandeur
 	Function:
 		'''
-		Hold <left> to conjure searing blades in front of you that get larger and stronger the more you hit enemies.
+		Hold <left> to conjure searing blades in front of you that get larger and stronger the more you hit enemies
 		The blades can also be used to bounce off tiles when in the air
 		Releasing after the blades are fully charged sends them hurtling forwards to shred your foes
 		'''
@@ -67,7 +71,7 @@ TrueTropicalAttunement: {
 	Function:
 		'''
 		Throw out the blade using a vine whip.
-		Striking enemies with the tip of the whip as it cracks guarantees a critical hit.
+		Striking enemies with the tip of the whip as it cracks guarantees a critical hit
 		The whip will also propel you towards struck tiles
 		Spreading vines sprout from critical strikes. These vines can hit up to three targets
 		'''
