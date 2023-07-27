@@ -9,7 +9,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 {
     public class AuricSetTrailLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.LastVanillaLayer);
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {

@@ -9,7 +9,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 {
     public class CobaltSetTrailLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.LastVanillaLayer);
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
