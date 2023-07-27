@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Boss
 
             // Die if Cirrus shouldn't be using it.
             int cirrusBulletHellCounter = Cirrus.ModNPC<SupremeCalamitas>().bulletHellCounter2;
-            if (!(cirrusBulletHellCounter > SupremeCalamitas.SecondBulletHellEndValue && cirrusBulletHellCounter < SupremeCalamitas.SecondBulletHellEndValue) &&
+            if (!(cirrusBulletHellCounter > SupremeCalamitas.SecondBulletHellEndValue && cirrusBulletHellCounter < SupremeCalamitas.ThirdBulletHellEndValue) &&
                 !(cirrusBulletHellCounter > SupremeCalamitas.FourthBulletHellEndValue && cirrusBulletHellCounter < SupremeCalamitas.FifthBulletHellEndValue))
             {
                 Projectile.Kill();
