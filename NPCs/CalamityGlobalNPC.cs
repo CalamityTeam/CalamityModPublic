@@ -2632,9 +2632,11 @@ namespace CalamityMod.NPCs
                 finalMultiplier += 0.05f;
 
             // Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
+            // Cirrus being active makes the extra DR cease to function
+            bool cirrusBossActive = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas.SupremeCalamitas>().cirrus;
             bool nightProvi = npc.type == NPCType<Providence.Providence>() && !Main.dayTime;
             bool dayEmpress = npc.type == NPCID.HallowBoss && NPC.ShouldEmpressBeEnraged();
-            if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && (nightProvi || dayEmpress))
+            if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && !cirrusBossActive && (nightProvi || dayEmpress))
             {
                 // Set the DR scaling factor
                 float DRScalar = 10f;
