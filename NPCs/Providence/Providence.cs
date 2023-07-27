@@ -76,7 +76,6 @@ namespace CalamityMod.NPCs.Providence
             Blue = 5,
             Violet = 6
         }
-        public int currentMode = (int)BossMode.Day;
         public int colorShiftTimer = -1;
 
         private bool text = false;
@@ -173,7 +172,6 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(text);
             writer.Write(useDefenseFrames);
             writer.Write(biomeType);
-            writer.Write(currentMode);
             writer.Write(colorShiftTimer);
             writer.Write(phaseChange);
             writer.Write(frameUsed);
@@ -199,7 +197,6 @@ namespace CalamityMod.NPCs.Providence
             text = reader.ReadBoolean();
             useDefenseFrames = reader.ReadBoolean();
             biomeType = reader.ReadInt32();
-            currentMode = reader.ReadInt32();
             colorShiftTimer = reader.ReadInt32();
             phaseChange = reader.ReadInt32();
             frameUsed = reader.ReadInt32();
@@ -258,27 +255,24 @@ namespace CalamityMod.NPCs.Providence
 
                 if (colorShiftTimer == -1) //Initiate
                 {
-                    currentMode = (int)BossMode.Red;
+                    NPC.localAI[1] = (float)BossMode.Red;
                     colorShiftTimer = 0;
                 }
                 else if (colorShiftTimer >= timeToShift)
                 {
-                    currentMode++;
-                    if (currentMode > (int)BossMode.Violet)
-                        currentMode = (int)BossMode.Red;
+                    NPC.localAI[1]++;
+                    if (NPC.localAI[1] > (float)BossMode.Violet)
+                        NPC.localAI[1] = (float)BossMode.Red;
                     colorShiftTimer = 0;
                 }
             }
             else if (!Main.dayTime || bossRush) //Normal Night time activity
-                currentMode = (int)BossMode.Night;
+                NPC.localAI[1] = (float)BossMode.Night;
             else
-                currentMode = (int)BossMode.Day;
-
-            //To allow syncing with her projectiles
-            NPC.localAI[1] = (float)currentMode;
+                NPC.localAI[1] = (float)BossMode.Day;
 
             //Has Night AI if it's any color except day
-            bool nightAI = currentMode != (int)BossMode.Day;
+            bool nightAI = NPC.localAI[1] != (float)BossMode.Day;
 
             // Difficulty bools
             bool death = CalamityWorld.death || nightAI;
@@ -330,7 +324,7 @@ namespace CalamityMod.NPCs.Providence
             int holyStarDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<HolyBurnOrb>()) * projectileDamageMult;
 
             // Change dust type at night
-            int dustType = ProvUtils.GetDustID(currentMode);
+            int dustType = ProvUtils.GetDustID(NPC.localAI[1]);
 
             // Phase times
             float phaseTime = nightAI ? (240f - 60f * (1f - lifeRatio)) : 300f;
@@ -661,7 +655,7 @@ namespace CalamityMod.NPCs.Providence
                 NPC.timeLeft = 1800;
 
             // Guardian spawn unless it's night time specifically (can still spawn on Zenith)
-            if (currentMode != (int)BossMode.Night)
+            if (NPC.localAI[1] != (float)BossMode.Night)
             {
                 if (bossLife == 0f && NPC.life > 0)
                     bossLife = NPC.lifeMax;
@@ -1778,7 +1772,7 @@ namespace CalamityMod.NPCs.Providence
             float aiTimer = NPC.ai[3];
 
             // This bool is only relevant for non-Zenith night AI
-            bool nightTime = currentMode == (int)BossMode.Night;
+            bool nightTime = NPC.localAI[1] == (float)BossMode.Night;
 
             float baseDistance = 2800f;
             float shorterFlameCocoonDistance = (CalamityWorld.death || nightTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
@@ -1802,7 +1796,7 @@ namespace CalamityMod.NPCs.Providence
             // This shave-off does not happen when guardians are present.
             float shorterDistanceFade = Utils.GetLerpValue(0f, 120f, aiTimer, true);
             //Distance does not get shorter if in GFB / Guardians are alive
-            if (!guardianAlive && currentMode < (int)BossMode.Red)
+            if (!guardianAlive && NPC.localAI[1] < (float)BossMode.Red)
             {
                 maxDistance = baseDistance;
                 if (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon)
@@ -1839,14 +1833,19 @@ namespace CalamityMod.NPCs.Providence
             }
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            return false;
-        }
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
+
         public override bool CheckDead()
         {
+            NPC.life = 1;
+            DespawnSpecificProjectiles(true);
+            Dying = true;
+            NPC.active = true;
+            NPC.dontTakeDamage = true;
+            NPC.netUpdate = true;
             return false;
         }
+
         public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
@@ -1990,7 +1989,7 @@ namespace CalamityMod.NPCs.Providence
             void drawProvidenceInstance(Vector2 drawOffset, Color? colorOverride)
             {
                 // This night bool is used for any off-color activity
-                bool offColor = currentMode != (int)BossMode.Day;
+                bool offColor = NPC.localAI[1] != (float)BossMode.Day;
 
                 string baseTextureString = "CalamityMod/NPCs/Providence/";
                 string baseGlowTextureString = baseTextureString + "Glowmasks/";
@@ -2094,28 +2093,28 @@ namespace CalamityMod.NPCs.Providence
                 // These are the colors at their strongest point. It'll shift towards white by the brightness value used earlier.
                 Color WingColor = Color.Yellow; //Default to day
                 Color CrystalColor = Color.Violet;
-                switch (currentMode)
+                switch (NPC.localAI[1])
                 {
-                    case (int)BossMode.Red:
+                    case (float)BossMode.Red:
                         WingColor = Color.Red;
                         CrystalColor = Color.BlueViolet;
                         break;
-                    case (int)BossMode.Orange:
+                    case (float)BossMode.Orange:
                         WingColor = Color.Orange;
                         CrystalColor = Color.HotPink;
                         break;
-                    case (int)BossMode.Yellow: // Same as day
+                    case (float)BossMode.Yellow: // Same as day
                         break;
-                    case (int)BossMode.Green:
+                    case (float)BossMode.Green:
                         WingColor = Color.Green;
                         CrystalColor = Color.Gold;
                         break;
-                    case (int)BossMode.Blue: // Same as night
-                    case (int)BossMode.Night:
+                    case (float)BossMode.Blue: // Same as night
+                    case (float)BossMode.Night:
                         WingColor = Color.Cyan;
                         CrystalColor = Color.BlueViolet;
                         break;
-                    case (int)BossMode.Violet:
+                    case (float)BossMode.Violet:
                         WingColor = Color.Magenta;
                         CrystalColor = Color.GreenYellow;
                         break;
@@ -2339,7 +2338,7 @@ namespace CalamityMod.NPCs.Providence
         {
             if (!hasTakenDaytimeDamage)
             {
-                if (currentMode == (int)BossMode.Day)
+                if (NPC.localAI[1] == (float)BossMode.Day)
                 {
                     hasTakenDaytimeDamage = true;
 
@@ -2396,7 +2395,7 @@ namespace CalamityMod.NPCs.Providence
         {
             if (!hasTakenDaytimeDamage)
             {
-                if (currentMode == (int)BossMode.Day)
+                if (NPC.localAI[1] == (float)BossMode.Day)
                 {
                     hasTakenDaytimeDamage = true;
 
@@ -2437,7 +2436,7 @@ namespace CalamityMod.NPCs.Providence
                 SoundEngine.PlaySound(HurtSound, NPC.Center);
             }
 
-            int dustType = ProvUtils.GetDustID(currentMode);
+            int dustType = ProvUtils.GetDustID(NPC.localAI[1]);
             for (int k = 0; k < 15; k++)
             {
                 int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, hit.HitDirection, -1f, 0, default, 1f);
@@ -2518,27 +2517,27 @@ namespace CalamityMod.NPCs.Providence
             return FinalColor;
         }
 
-        public static int GetDustID(int Mode)
+        public static int GetDustID(float Mode)
         {
             int DustType = (int)CalamityDusts.ProfanedFire; //Default to day
             switch (Mode)
             {
-                case (int)Providence.BossMode.Red:
+                case (float)Providence.BossMode.Red:
                     DustType = DustID.RedTorch;
                     break;
-                case (int)Providence.BossMode.Orange:
+                case (float)Providence.BossMode.Orange:
                     DustType = DustID.OrangeTorch;
                     break;
-                case (int)Providence.BossMode.Yellow: //Same as day
+                case (float)Providence.BossMode.Yellow: //Same as day
                     break;
-                case (int)Providence.BossMode.Green:
+                case (float)Providence.BossMode.Green:
                     DustType = DustID.GreenTorch;
                     break;
-                case (int)Providence.BossMode.Blue: //Same as night
-                case (int)Providence.BossMode.Night:
+                case (float)Providence.BossMode.Blue: //Same as night
+                case (float)Providence.BossMode.Night:
                     DustType = (int)CalamityDusts.Nightwither;
                     break;
-                case (int)Providence.BossMode.Violet:
+                case (float)Providence.BossMode.Violet:
                     DustType = DustID.PurpleTorch;
                     break;
                 default:

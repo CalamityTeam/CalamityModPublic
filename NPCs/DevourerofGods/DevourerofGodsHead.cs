@@ -2659,16 +2659,14 @@ namespace CalamityMod.NPCs.DevourerofGods
             return false;
         }
 
+        // This can be ran multiple times per death, goofy mode
         public override bool CheckDead()
         {
-            if (!Dying)
-            {
-                Dying = true;
-                NPC.life = 1;
-                NPC.dontTakeDamage = true;
-                NPC.active = true;
-                NPC.netUpdate = true;
-            }
+            NPC.life = 1;
+            Dying = true;
+            NPC.dontTakeDamage = true;
+            NPC.active = true;
+            NPC.netUpdate = true;
             return false;
         }
 
