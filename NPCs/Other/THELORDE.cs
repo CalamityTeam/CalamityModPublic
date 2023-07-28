@@ -515,7 +515,7 @@ namespace CalamityMod.NPCs.Other
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 
                 // The hit which triggers antibutcher has its damage capped at 1, then THE LORDE heals for 1 so that it doesn't take any net damage.
-               // modifiers.SetMaxDamage(1);
+                modifiers.SetMaxDamage(1);
                 NPC.life += 1;
                 squintTimer = 120;
             }
