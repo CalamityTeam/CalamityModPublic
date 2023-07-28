@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Collections.Generic;
 using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Magic
@@ -91,6 +92,31 @@ namespace CalamityMod.Items.Weapons.Magic
                 return false;
             }
         }
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            // scaling legendary!!!!
+            if (Main.zenithWorld)
+            {
+                bool plantera = NPC.downedPlantBoss;
+                bool golem = NPC.downedGolemBoss;
+                bool cultist = NPC.downedAncientCultist;
+                bool moonLord = NPC.downedMoonlord;
+                bool providence = DownedBossSystem.downedProvidence;
+                bool devourerOfGods = DownedBossSystem.downedDoG;
+                bool yharon = DownedBossSystem.downedYharon;
+                float damageMult = 1f +
+                    (plantera ? 0.1f : 0f) + //1.1
+                    (golem ? 0.15f : 0f) + //1.25
+                    (cultist ? 3.5f : 0f) + //4.75
+                    (moonLord ? 4.5f : 0f) + //9.25
+                    (providence ? 7.5f : 0f) + //16.75
+                    (devourerOfGods ? 2.5f : 0f) + //19.25
+                    (yharon ? 30f : 0f); //49.25
+                damage *= damageMult;
+            }
+        }
+        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[GFB]", this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipNormal"));
 
         public override void AddRecipes()
         {

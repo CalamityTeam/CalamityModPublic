@@ -133,20 +133,8 @@ namespace CalamityMod.Projectiles.Melee
             Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Aqua, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 1.5f, 11);
             GeneralParticleHandler.SpawnParticle(pulse2);
 
-            float distance = 568f;
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<GalaxySmasherBlast>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, 0f);
 
-            for (int k = 0; k < Main.maxNPCs; k++)
-            {
-                NPC npc = Main.npc[k];
-                Vector2 vec = npc.Center - Projectile.Center;
-                float distanceTo = (float)Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
-                if (distanceTo < distance && npc.CanBeChasedBy(Projectile, false) && k != Projectile.localAI[0])
-                {
-                    float alldamage = Projectile.damage * 0.5f;
-                    double damage = npc.StrikeNPC(npc.CalculateHitInfo((int)alldamage, Projectile.velocity.X > 0f ? 1 : -1, true, Projectile.knockBack));
-                    player.addDPS((int)damage);
-                }
-            }
             return false;
         }
 
