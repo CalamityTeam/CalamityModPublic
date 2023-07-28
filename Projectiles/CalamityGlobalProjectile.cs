@@ -2358,7 +2358,7 @@ namespace CalamityMod.Projectiles
                             }
                         }
                     
-                    if (player.meleeEnchant > 0 && !projectile.noEnchantments)
+                    if (player.meleeEnchant > 0 && !projectile.noEnchantments && !projectile.noEnchantmentVisuals)
                         {
                         switch (player.meleeEnchant)
                         {
