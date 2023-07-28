@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public static readonly SoundStyle BigSound = new("CalamityMod/Sounds/Item/PwnagehammerBigImpact");
-        public static readonly SoundStyle SlamHamSound = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
+        public static readonly SoundStyle Kunk = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
         public int Explodamage = 0;
         public override void SetStaticDefaults()
         {
@@ -115,7 +115,11 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[dust].scale = 3f;
             }
 
-            SoundEngine.PlaySound(BigSound, Projectile.Center);
+            if (Main.zenithWorld)
+                SoundEngine.PlaySound(Kunk, Projectile.Center);
+
+            else
+                SoundEngine.PlaySound(BigSound, Projectile.Center);
 
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<PwnagehammerExplosionBig>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, 0f);
 

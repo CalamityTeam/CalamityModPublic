@@ -128,54 +128,42 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[dust].velocity = velOffset;
                 Main.dust[dust].scale = 3.8f;
             }
-                            for (int i = 0; i < 88; ++i)
-                                {
-                                    // Pick a random type of dust
-                                    int dustID;
-                                    switch (Main.rand.Next(6))
-                                    {
-                                        case 0:
-                                            dustID = 229;
-                                            break;
-                                        case 1:
-                                        case 2:
-                                            dustID = 156;
-                                            break;
-                                        default:
-                                            dustID = 156;
-                                            break;
-                                    }
-
-                                    // Choose a random speed and angle for the dust
-                                    float dustSpeed = Main.rand.NextFloat(6.0f, 29.0f);
-                                    float angleRandom = 0.09f;
-                                    Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
-                                    dustVel = dustVel.RotatedBy(-angleRandom);
-                                    dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
-
-                                    // Pick a size for the dust particle
-                                    float scale = Main.rand.NextFloat(2.2f, 4.8f);
-
-                                    // Actually spawn the dust
-                                    int idx = Dust.NewDust(Projectile.Center, 1, 1, dustID, dustVel.X, dustVel.Y, 0, default, scale);
-                                    Main.dust[idx].noGravity = true;
-                                    Main.dust[idx].position = Projectile.Center;
-                                }
-
-            float distance = 336f;
-
-            for (int k = 0; k < Main.maxNPCs; k++)
-            {
-                NPC npc = Main.npc[k];
-                Vector2 vec = npc.Center - Projectile.Center;
-                float distanceTo = (float)Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
-                if (distanceTo < distance && npc.CanBeChasedBy(Projectile, false) && k != Projectile.localAI[0])
+            for (int i = 0; i < 88; ++i)
                 {
-                    float alldamage = Projectile.damage * 0.5f;
-                    double damage = npc.StrikeNPC(npc.CalculateHitInfo((int)alldamage, Projectile.velocity.X > 0f ? 1 : -1, true, Projectile.knockBack));
-                    player.addDPS((int)damage);
-                }
+                    // Pick a random type of dust
+                    int dustID;
+                    switch (Main.rand.Next(6))
+                    {
+                        case 0:
+                            dustID = 229;
+                            break;
+                        case 1:
+                        case 2:
+                            dustID = 156;
+                            break;
+                        default:
+                            dustID = 156;
+                            break;
+                    }
+
+                    // Choose a random speed and angle for the dust
+                    float dustSpeed = Main.rand.NextFloat(6.0f, 29.0f);
+                    float angleRandom = 0.09f;
+                    Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
+                    dustVel = dustVel.RotatedBy(-angleRandom);
+                    dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
+
+                    // Pick a size for the dust particle
+                    float scale = Main.rand.NextFloat(2.2f, 4.8f);
+
+                    // Actually spawn the dust
+                    int idx = Dust.NewDust(Projectile.Center, 1, 1, dustID, dustVel.X, dustVel.Y, 0, default, scale);
+                    Main.dust[idx].noGravity = true;
+                    Main.dust[idx].position = Projectile.Center;
             }
+            
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<StellarContemptBlast>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, 0f);
+            
             return false;
         }
 
