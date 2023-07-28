@@ -603,7 +603,13 @@ SlimePuppetStaff: {
 
 SpikecragStaff: {
 	DisplayName: Spikecrag Staff
-	Tooltip: Summons a spikecrag to protect you
+	Tooltip: "[GFB]"
+	TooltipNormal: Summons a spikecrag to protect you
+	TooltipGFB:
+		'''
+		Summons a spikecrag to protect you"
+		Defeating the Profaned Goddess unlocks its true power
+		'''
 }
 
 SquirrelSquireStaff: {
