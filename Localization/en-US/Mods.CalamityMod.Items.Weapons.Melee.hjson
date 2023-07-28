@@ -661,11 +661,13 @@ HellionFlowerSpear: {
 
 Hellkite: {
 	DisplayName: Hellkite
-	Tooltip:
+	Tooltip: "[GFB]"
+	TooltipNormal:
 		'''
 		Summons flame geyser explosions on enemy hits
 		Contains the power of an ancient drake
 		'''
+	TooltipGFB: "'My Beloved <3'"
 }
 
 HolyCollider: {

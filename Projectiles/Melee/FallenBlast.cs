@@ -14,7 +14,8 @@ namespace CalamityMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public override void SetStaticDefaults() => Main.projFrames[Type] = 8;
-        
+        private static float ExplosionRadius = 236f;
+
         public override void SetDefaults()
         {
             Projectile.width = 472;
@@ -38,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.Kill();
         }
 
-        public override bool? CanDamage() => false;
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, ExplosionRadius, targetHitbox);
 
     }
 }

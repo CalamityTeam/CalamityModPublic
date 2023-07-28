@@ -78,6 +78,10 @@ namespace CalamityMod.Projectiles.Summon
                 if ((Projectile.ai[1] % 10f) == 0f)
                 {
                     int amount = Main.rand.Next(2, 4);
+                    if (DownedBossSystem.downedProvidence && Main.zenithWorld) // spikecrag gfb buff
+                    {
+                        amount += 6;
+                    }
                     for (int i = 0; i < amount; i++)
                     {
                         float velocityX = Main.rand.NextFloat(-10f, 10f);

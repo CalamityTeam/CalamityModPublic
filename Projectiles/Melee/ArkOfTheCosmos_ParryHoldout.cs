@@ -38,6 +38,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.tileCollide = false;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
+            Projectile.noEnchantmentVisuals = true;
         }
 
         public override bool? CanDamage() => Timer <= ParryTime && AlreadyParried == 0f;

@@ -682,11 +682,13 @@ ShiftingSands: {
 
 SHPC: {
 	DisplayName: SHPC
-	Tooltip:
+	Tooltip: "[GFB]"
+	TooltipNormal:
 		'''
 		Fires plasma orbs that linger and emit massive explosions
 		Press <right> to fire powerful energy beams
 		'''
+	TooltipGFB: It scales again :)
 }
 
 SkyGlaze: {
