@@ -12,6 +12,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class MoonLordAI
     {
+        public static readonly SoundStyle DeathrayChargeSound = new("CalamityMod/Sounds/Custom/MoonLordLaserCharge");
+
         public static bool BuffedMoonLordAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
@@ -718,6 +720,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (num1207 >= 60f)
                         {
                             Vector2 center20 = npc.Center;
+
+                            // Hopefully it plays
+                            if (num1207 == 60f)
+                                SoundEngine.PlaySound(DeathrayChargeSound, center20);
 
                             int num1220 = 0;
                             if (num1207 >= 120f)

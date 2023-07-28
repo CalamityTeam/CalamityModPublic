@@ -97,7 +97,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public bool hasSummonedBrothers = false;
         public bool cirrus = false;
 
-        public int giveUpCounter = 1200;
+        private const int GiveUpCounterMax = 1200;
+        public int giveUpCounter = GiveUpCounterMax;
         public int phaseChange = 0;
         public int spawnX = 0;
         public int spawnX2 = 0;
@@ -1253,7 +1254,69 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     if (cirrus)
                     {
-                        // Spin around the target and fire a bunch of beams (Sans) while also firing a ton of other projectiles
+                        if (giveUpCounter > 1)
+                        {
+                            // Spin around the target and fire a bunch of beams (Sans) while also firing other projectiles
+                            int blasterTimer = GiveUpCounterMax - giveUpCounter;
+                            Vector2 circleOffset = player.Center + (Vector2.UnitY * 640f).RotatedBy(MathHelper.ToRadians(blasterTimer * 3f));
+                            NPC.Center = circleOffset;
+
+                            int blasterDivisor = (int)Math.Floor(5 / uDieLul);
+                            if (blasterTimer % blasterDivisor == 0)
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, player.Center, ModContent.ProjectileType<CirrusBlaster>(), 500, 0f, Main.myPlayer);
+
+                            int beamDivisor = 60;
+                            if (blasterTimer % beamDivisor == 0)
+                            {
+                                int totalProjectiles = 5;
+                                float radians = MathHelper.TwoPi / totalProjectiles;
+                                float velocity = 12f * uDieLul;
+                                Vector2 spinningPoint = new Vector2(0f, -velocity);
+                                for (int k = 0; k < totalProjectiles; k++)
+                                {
+                                    Vector2 rayVelocity = spinningPoint.RotatedBy(radians * k);
+                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(rayVelocity) * 16f, rayVelocity, ModContent.ProjectileType<Projectiles.Magic.FabRay>(), 350, 0f, Main.myPlayer);
+                                    if (proj.WithinBounds(Main.maxProjectiles))
+                                    {
+                                        Main.projectile[proj].DamageType = DamageClass.Default;
+                                        Main.projectile[proj].friendly = false;
+                                        Main.projectile[proj].hostile = true;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            NPC.noTileCollide = false;
+                            NPC.noGravity = false;
+                            NPC.damage = 0;
+
+                            if (giveUpCounter == 1)
+                            {
+                                NPC.velocity = Vector2.Zero;
+                                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.CirrusGiveUpText", cirrusTextColor);
+                                Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Pink);
+                                NPC.Center = initialRitualPosition;
+                            }
+                            else
+                            {
+                                for (int i = 0; i < 24; i++)
+                                {
+                                    Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
+                                    brimstoneFire.color = Color.Pink;
+                                    brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
+                                    brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
+                                    brimstoneFire.fadeIn = 1.25f;
+                                    brimstoneFire.noGravity = true;
+                                }
+
+                                NPC.active = false;
+                                NPC.netUpdate = true;
+                                NPC.NPCLoot();
+                            }
+
+                            return;
+                        }
                     }
                     else
                     {
@@ -1265,9 +1328,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         NPC.damage = 0;
 
                         // Teleport back to the arena on defeat
-                        if (giveUpCounter == 1200)
+                        if (giveUpCounter == GiveUpCounterMax)
                         {
-                            Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, cirrus ? Color.Pink : Color.Red);
+                            Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Red);
                             NPC.Center = initialRitualPosition;
                         }
 
@@ -1281,7 +1344,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 for (int i = 0; i < 24; i++)
                                 {
                                     Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
-                                    brimstoneFire.color = cirrus ? Color.Pink : Color.Red;
+                                    brimstoneFire.color = Color.Red;
                                     brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
                                     brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
                                     brimstoneFire.fadeIn = 1.25f;
@@ -1318,7 +1381,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             for (int i = 0; i < 24; i++)
                             {
                                 Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
-                                brimstoneFire.color = cirrus ? Color.Pink : Color.Red;
+                                brimstoneFire.color = Color.Red;
                                 brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
                                 brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
                                 brimstoneFire.fadeIn = 1.25f;

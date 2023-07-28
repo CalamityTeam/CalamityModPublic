@@ -30,7 +30,7 @@ TropicalAttunement: {
 
 EvilAttunement: {
 	Name: Decay's Retort
-	Function: 
+	Function:
 		'''
 		Lunge forward using a ghostly rapier projection that leeches life on enemy hits
 		You will bounce away from struck targets
