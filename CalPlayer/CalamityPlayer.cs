@@ -4642,7 +4642,7 @@ namespace CalamityMod.CalPlayer
 
             if (auralisAuroraCounter >= 300)
             {
-                modifiers.SourceDamage -= 100;
+                modifiers.SourceDamage.Flat -= 100;
 
                 auralisAuroraCounter = 0;
                 auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
@@ -5664,7 +5664,7 @@ namespace CalamityMod.CalPlayer
 
             // Resilient Candle makes defense 5% more effective, aka 5% of defense is subtracted from all incoming damage.
             if (purpleCandle)
-                modifiers.SourceDamage -= (int)(Player.statDefense * 0.05);
+                modifiers.SourceDamage.Flat -= (int)(Player.statDefense * 0.05);
         }
         #endregion
 
