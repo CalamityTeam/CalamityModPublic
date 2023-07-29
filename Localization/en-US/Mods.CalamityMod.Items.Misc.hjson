@@ -224,7 +224,7 @@ VoodooDemonVoodooDoll: {
 // Uncategorized
 AlicornonaStick: {
 	DisplayName: Alicorn on a Stick
-	Tooltip: "'Congratulations'"
+	Tooltip: "'Congratulations, you're winner! Here's my head on a stick.'"
 }
 
 BallAndChain: {
