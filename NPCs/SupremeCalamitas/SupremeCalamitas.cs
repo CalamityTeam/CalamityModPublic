@@ -1265,7 +1265,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (blasterTimer % blasterDivisor == 0)
                             {
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, player.Center, ModContent.ProjectileType<CirrusBlaster>(), 500, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, player.Center, ModContent.ProjectileType<CirrusBlaster>(), 500, 0f, Main.myPlayer, 0f, 1f);
                             }
 
                             int beamDivisor = 60;
