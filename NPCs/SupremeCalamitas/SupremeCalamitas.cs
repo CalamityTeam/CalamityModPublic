@@ -64,9 +64,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public const int FourthBulletHellEndValue = BulletHellDuration * 4;
         public const int FifthBulletHellEndValue = BulletHellDuration * 5;
         public const int CirrusPhotonRipperDamage = 3725;
-        private const float CirrusPhotonRipperDashVelocity = 8f;
+        private const float CirrusPhotonRipperDashVelocity = 6f;
         private const float CirrusPhotonRipperMinDistanceFromTarget = 64f;
-        private const float CirrusPhotonRipperDashAcceleration = 0.4f;
+        private const float CirrusPhotonRipperDashAcceleration = 0.3f;
 
         public float bossLife;
         public float uDieLul = 1f;
