@@ -1,4 +1,6 @@
-﻿using CalamityMod.NPCs.Crabulon;
+﻿using CalamityMod.NPCs;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,6 +13,7 @@ namespace CalamityMod.Skies
     public class DrunkCrabScreenShaderData : ScreenShaderData
     {
         public int CrabIndex;
+        public int CirrusIndex;
 
         public DrunkCrabScreenShaderData(string passName)
             : base(passName)
@@ -20,38 +23,108 @@ namespace CalamityMod.Skies
         public void UpdateBossIndex()
         {
             int CrabType = ModContent.NPCType<Crabulon>();
-            if (CrabIndex >= 0 && Main.npc[CrabIndex].active && Main.npc[CrabIndex].type == CrabType)
+            int CirrusType = ModContent.NPCType<SupremeCalamitas>();
+            bool shouldCheckForCirrus = false;
+            if (CalamityGlobalNPC.SCal != -1)
             {
-                return;
-            }
-            CrabIndex = -1;
-            for (int i = 0; i < Main.npc.Length; i++)
-            {
-                if (Main.npc[i].active && Main.npc[i].type == CrabType)
+                if (Main.npc[CalamityGlobalNPC.SCal].active)
                 {
-                    CrabIndex = i;
-                    break;
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                        shouldCheckForCirrus = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().gettingTired5;
+                }
+            }
+
+            if (shouldCheckForCirrus)
+            {
+                if (CirrusIndex >= 0 && Main.npc[CirrusIndex].active && Main.npc[CirrusIndex].type == CirrusType)
+                {
+                    return;
+                }
+                CirrusIndex = -1;
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    if (Main.npc[i].active && Main.npc[i].type == CirrusType)
+                    {
+                        CirrusIndex = i;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                if (CrabIndex >= 0 && Main.npc[CrabIndex].active && Main.npc[CrabIndex].type == CrabType)
+                {
+                    return;
+                }
+                CrabIndex = -1;
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    if (Main.npc[i].active && Main.npc[i].type == CrabType)
+                    {
+                        CrabIndex = i;
+                        break;
+                    }
                 }
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (CrabIndex == -1 || !Main.zenithWorld)
+            bool shouldCheckForCirrus = false;
+            if (CalamityGlobalNPC.SCal != -1)
             {
-                UpdateBossIndex();
+                if (Main.npc[CalamityGlobalNPC.SCal].active)
+                {
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                        shouldCheckForCirrus = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().gettingTired5;
+                }
+            }
+
+            if (shouldCheckForCirrus)
+            {
+                if (CirrusIndex == -1)
+                {
+                    UpdateBossIndex();
+                    if (CirrusIndex == -1)
+                        Filters.Scene["CalamityMod:DrunkCrabulon"].Deactivate();
+                }
+            }
+            else
+            {
                 if (CrabIndex == -1 || !Main.zenithWorld)
-                    Filters.Scene["CalamityMod:DrunkCrabulon"].Deactivate();
+                {
+                    UpdateBossIndex();
+                    if (CrabIndex == -1 || !Main.zenithWorld)
+                        Filters.Scene["CalamityMod:DrunkCrabulon"].Deactivate();
+                }
             }
         }
 
         public override void Apply()
         {
             UpdateBossIndex();
-            if (CrabIndex != -1)
+
+            bool shouldCheckForCirrus = false;
+            if (CalamityGlobalNPC.SCal != -1)
             {
-                UseTargetPosition(Main.npc[CrabIndex].Center);
+                if (Main.npc[CalamityGlobalNPC.SCal].active)
+                {
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                        shouldCheckForCirrus = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().gettingTired5;
+                }
             }
+
+            if (shouldCheckForCirrus)
+            {
+                if (CirrusIndex != -1)
+                    UseTargetPosition(Main.npc[CirrusIndex].Center);
+            }
+            else
+            {
+                if (CrabIndex != -1)
+                    UseTargetPosition(Main.npc[CrabIndex].Center);
+            }
+
             base.Apply();
         }
     }

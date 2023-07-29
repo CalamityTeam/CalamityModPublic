@@ -28,6 +28,7 @@ EdgyBossText4: Did that hurt?
 EdgyBossText5: It's not over yet!
 EdgyBossText6: A GOD DOES NOT FEAR DEATH!
 EdgyBossText7: You are no god... but I shall feast upon your essence regardless!
+EdgyBossText8: You think...you can butcher...ME!?
 // Yharon
 FlameText: The air is getting warmer around you.
 // Yharon (now unused)
@@ -117,6 +118,7 @@ CirrusBH5Text: Hah! You're good, but I'm better!
 CirrusSecondBirbSwarmText: Time for another swarm!
 CirrusNonchalantText: I'm getting tired...
 CirrusBruhText: Just kidding! Time for my special attack!
+CirrusGiveUpText: Meh, whatever, I'm a bit tired of this.
 // April Fools
 AprilFools: The LORDE is approaching...
 AprilFoolsGFB: La Ruga is approaching...

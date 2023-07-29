@@ -607,13 +607,13 @@ namespace CalamityMod.Items
             // Nightwither immunity pre-Moon Lord and Holy Flames immunity pre-Profaned Guardians and melee speed removal.
             if (item.type == ItemID.MoonStone)
             {
-                EditTooltipByNum(1, (line) => line.Text += "\nGrants immunity to Nightwither");
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("melee speed, ", ""));
+                EditTooltipByNum(2, (line) => line.Text += "\nGrants immunity to Nightwither");
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("melee speed, ", ""));
             }
             if (item.type == ItemID.SunStone)
             {
-                EditTooltipByNum(1, (line) => line.Text += "\nGrants immunity to Holy Flames");
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("melee speed, ", ""));
+                EditTooltipByNum(2, (line) => line.Text += "\nGrants immunity to Holy Flames");
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("melee speed, ", ""));
             }
             if (item.type == ItemID.CelestialStone)
             {

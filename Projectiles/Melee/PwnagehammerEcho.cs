@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,6 +12,9 @@ namespace CalamityMod.Projectiles.Melee
     public class PwnagehammerEcho : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
+        public static readonly SoundStyle BigSound = new("CalamityMod/Sounds/Item/PwnagehammerBigImpact");
+        public static readonly SoundStyle Kunk = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
+        public int Explodamage = 0;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
@@ -30,16 +34,6 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(Projectile.localAI[0]);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            Projectile.localAI[0] = reader.ReadSingle();
-        }
-
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(255, 248, 124, 255);
@@ -55,6 +49,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (Projectile.ai[0] < 44f)
             {
+                Projectile.extraUpdates = 2;
                 if (Projectile.ai[1] < 0f)
                 {
                     Projectile.Kill();
@@ -66,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile.Kill();
                 else
                 {
-                    float velConst = 3f;
+                    float velConst = 24f;
                     Projectile.velocity = new Vector2((target.Center.X - Projectile.Center.X) / velConst, (target.Center.Y - Projectile.Center.Y) / velConst);
                     Projectile.rotation += MathHelper.ToRadians(48f) * Projectile.localAI[0];
                 }
@@ -117,23 +112,17 @@ namespace CalamityMod.Projectiles.Melee
                 int dust = Dust.NewDust(Projectile.position + offset, Projectile.width, Projectile.height, 269, velOffset.X, velOffset.Y);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity = velOffset;
-                Main.dust[dust].scale = 2.5f;
+                Main.dust[dust].scale = 3f;
             }
 
-            float distance = 168f;
+            if (Main.zenithWorld)
+                SoundEngine.PlaySound(Kunk, Projectile.Center);
 
-            for (int k = 0; k < Main.maxNPCs; k++)
-            {
-                NPC npc = Main.npc[k];
-                Vector2 vec = npc.Center - Projectile.Center;
-                float distanceTo = (float)Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
-                if (distanceTo < distance && npc.CanBeChasedBy(Projectile, false) && k != Projectile.localAI[0])
-                {
-                    float alldamage = Projectile.damage * 0.5f;
-                    double damage = npc.StrikeNPC(npc.CalculateHitInfo((int)alldamage, Projectile.velocity.X > 0f ? 1 : -1, true, Projectile.knockBack));
-                    player.addDPS((int)damage);
-                }
-            }
+            else
+                SoundEngine.PlaySound(BigSound, Projectile.Center);
+
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<PwnagehammerExplosionBig>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, 0f);
+
             return false;
         }
 

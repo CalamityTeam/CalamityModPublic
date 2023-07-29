@@ -843,7 +843,7 @@ namespace CalamityMod.NPCs.ExoMechs
             Rectangle frame = NPC.frame;
 
             Vector2 drawPosition = NPC.Center - screenPos - Vector2.UnitY * 38f;
-            Vector2 gunDrawPosition = NPC.Center - screenPos - Vector2.UnitY * 48f - Vector2.UnitX * 30 * NPC.spriteDirection;
+            Vector2 gunDrawPosition = NPC.Center - screenPos - Vector2.UnitY * 56f - Vector2.UnitX * 30 * NPC.spriteDirection;
             Vector2 origin = frame.Size() * 0.5f;
             Vector2 projorigin = new Vector2(projector.Size().X, projector.Size().Y / 4) * 0.5f;
             Vector2 gunorigin = new Vector2(gun.Size().X, gun.Size().Y / 4) * 0.5f;

@@ -132,7 +132,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (calamityPlayer.IBoots)
+            if (calamityPlayer.tracersDust)
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
                 {
@@ -152,7 +152,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (calamityPlayer.elysianFire)
+            if (calamityPlayer.elysianWingsDust)
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
                 {
@@ -192,26 +192,40 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (calamityPlayer.auricSet)
-            {
-                if (!Player.StandingStill() && !Player.mount.Active)
-                {
-                    if (drawInfo.shadow == 0f)
-                    {
-                        int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(2) ? 57 : 244, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].velocity *= 0.5f;
-                        drawInfo.DustCache.Add(dust);
-                    }
-                    if (noRogueStealth)
-                    {
-                        r *= 0.15f;
-                        g *= 0.025f;
-                        b *= 0.1f;
-                        fullBright = true;
-                    }
-                }
-            }
+			if (calamityPlayer.auricSet)
+			{
+				if (Player != null && !Player.dead)
+				{
+					Lighting.AddLight((int)Player.Center.X / 16, (int)Player.Center.Y / 16, 31 / 235f, 170 / 235f, 222 / 235f);
+					if (!Player.mount.Active)
+					{
+						if (Main.rand.NextBool(14) && drawInfo.shadow == 0f)
+						{
+							int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 8, Player.height + 8, 206, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
+							Main.dust[dust].noGravity = true;
+							Main.dust[dust].velocity *= 1f;
+							drawInfo.DustCache.Add(dust);
+						}
+						if (noRogueStealth)
+						{
+							r *= 0f;
+							g *= 0.55f;
+							b *= 0.6f;
+							fullBright = true;
+						}
+					}
+					if (!Player.StandingStill() && !Player.mount.Active)
+					{
+						if (Main.rand.NextBool(8) && drawInfo.shadow == 0f)
+						{
+							int de_dust2 = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(2) ? 204 : 213, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
+							Main.dust[de_dust2].noGravity = true;
+							Main.dust[de_dust2].velocity *= 0.5f;
+							drawInfo.DustCache.Add(de_dust2);
+						}
+					}
+				}
+			}
             if (calamityPlayer.bFlames)
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)

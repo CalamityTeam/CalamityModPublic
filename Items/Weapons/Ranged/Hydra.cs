@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -55,16 +55,17 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void UpdateInventory(Player player)
         {
             //Spawn heads while holding
-            if (player.ActiveItem().type == Item.type && player.ownedProjectileCounts[HeadID] < MaximumHeadCount)
+            if (player.ActiveItem() == Item && player.ownedProjectileCounts[HeadID] < MaximumHeadCount)
             {
                 HeadSpawnTimer++;
                 if (HeadSpawnTimer >= TimeToSpawnHead * 60)
                 {
                     HeadSpawnTimer = 0;
                     SoundEngine.PlaySound(SpawnSound, player.Center);
-                    Projectile.NewProjectile(Item.GetSource_FromThis(), player.Top + Vector2.UnitY * 8f, Vector2.Zero, HeadID, 0, 0, player.whoAmI);
+                    Projectile head = Projectile.NewProjectileDirect(Item.GetSource_FromThis(), player.Top + Vector2.UnitY * 8f, Vector2.Zero, HeadID, 0, 0, player.whoAmI);
+                    head.OriginalCritChance = Item.crit;
                 }
-            }    
+            }
             else if (player.ActiveItem().type != Item.type || player.dead || !player.active)
             {
                 for (int i = 0; i < Main.maxProjectiles; i++)

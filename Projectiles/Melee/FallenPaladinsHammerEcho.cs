@@ -107,22 +107,9 @@ namespace CalamityMod.Projectiles.Melee
             else
                 SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
             Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 5;
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FallenBlast>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
-            float distance = 248f;
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<FallenBlast>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, 0f);
 
-            for (int k = 0; k < Main.maxNPCs; k++)
-            {
-                NPC npc = Main.npc[k];
-                Vector2 vec = npc.Center - Projectile.Center;
-                float distanceTo = (float)Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
-                if (distanceTo < distance && npc.CanBeChasedBy(Projectile, false) && k != Projectile.localAI[0])
-                {
-                    float alldamage = Projectile.damage * 0.5f;
-                    double damage = npc.StrikeNPC(npc.CalculateHitInfo((int)alldamage, Projectile.velocity.X > 0f ? 1 : -1, true, Projectile.knockBack));
-                    player.addDPS((int)damage);
-                }
-            }
             return false;
         }
 

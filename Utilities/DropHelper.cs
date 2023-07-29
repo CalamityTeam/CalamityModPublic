@@ -112,14 +112,14 @@ namespace CalamityMod
         #endregion
 
         #region Bestiary Text
-        public static string FirstKillText = CalamityUtils.GetTextValue("Misc.DropCondition.FirstKill");
-        public static string MechBossText = CalamityUtils.GetTextValue("Misc.DropCondition.MechBoss");
-        public static string CynosureText = CalamityUtils.GetTextValue("Misc.DropCondition.Cynosure");
+        public static string FirstKillText = CalamityUtils.GetTextValue("Condition.Drops.FirstKill");
+        public static string MechBossText = CalamityUtils.GetTextValue("Condition.Drops.MechBoss");
+        public static string CynosureText = CalamityUtils.GetTextValue("Condition.Drops.Cynosure");
 
-        public static string ProvidenceHallowText = CalamityUtils.GetTextValue("Misc.DropCondition.ProvidenceHallow");
-        public static string ProvidenceUnderworldText = CalamityUtils.GetTextValue("Misc.DropCondition.ProvidenceUnderworld");
-        public static string ProvidenceNightText = CalamityUtils.GetTextValue("Misc.DropCondition.ProvidenceNight");
-        public static string ProvidenceChallengeText = CalamityUtils.GetText("Misc.DropCondition.ProvidenceChallenge").Format($"[i:{ModContent.ItemType<ProfanedSoulArtifact>()}]" + CalamityUtils.GetItemName<ProfanedSoulArtifact>().ToString());
+        public static string ProvidenceHallowText = CalamityUtils.GetTextValue("Condition.Drops.ProvidenceHallow");
+        public static string ProvidenceUnderworldText = CalamityUtils.GetTextValue("Condition.Drops.ProvidenceUnderworld");
+        public static string ProvidenceNightText = CalamityUtils.GetTextValue("Condition.Drops.ProvidenceNight");
+        public static string ProvidenceChallengeText = CalamityUtils.GetTextValue("Condition.Drops.ProvidenceChallenge");
 
         #endregion
 
@@ -557,72 +557,72 @@ namespace CalamityMod
             return trasherNearby;
         });
         // The text is a separate rule so it doesn't show up on the non-Trasher Fishing Rod drop which only occurs if the Angler is not fed to a Trasher
-        public static IItemDropRuleCondition TrasherText = If((info) => true, true, "Drops if fed to a Trasher");
+        public static IItemDropRuleCondition TrasherText = If((info) => true, true, CalamityUtils.GetTextValue("Condition.Drops.TrasherKill"));
 
         // Get Fixed Boi seed drop rule
-        public static IItemDropRuleCondition GFB = If((info) => Main.zenithWorld, () => Main.zenithWorld, "This is a Get Fixed Boi seed drop rate");
+        public static IItemDropRuleCondition GFB = If((info) => Main.zenithWorld, () => Main.zenithWorld, CalamityUtils.GetTextValue("Condition.Drops.IsGFB"));
 
-        public static IItemDropRuleCondition RevNoMaster = If((info) => !Main.masterMode && CalamityWorld.revenge, () => !Main.masterMode && CalamityWorld.revenge, "This is a Revengeance Mode drop rate");
+        public static IItemDropRuleCondition RevNoMaster = If((info) => !Main.masterMode && CalamityWorld.revenge, () => !Main.masterMode && CalamityWorld.revenge, CalamityUtils.GetTextValue("Condition.Drops.IsRev"));
         public static IItemDropRuleCondition RevAndMaster = If((info) => Main.masterMode || CalamityWorld.revenge, () => Main.masterMode || CalamityWorld.revenge, () =>
 		{
-			return Main.masterMode ? Language.GetTextValue("Bestiary_ItemDropConditions.IsMasterMode") : "This is a Revengeance Mode drop rate";
+			return Main.masterMode ? Language.GetTextValue("Bestiary_ItemDropConditions.IsMasterMode") : CalamityUtils.GetTextValue("Condition.Drops.IsRev");
 		});
 
         #region Boss Defeat Conditionals
-        public static IItemDropRuleCondition PostKS(bool ui = true) => If(() => NPC.downedSlimeKing, ui, "Drops after defeating King Slime");
-        public static IItemDropRuleCondition PostDS(bool ui = true) => If(() => DownedBossSystem.downedDesertScourge, ui, "Drops after defeating the Desert Scourge");
-        public static IItemDropRuleCondition PostEoC(bool ui = true) => If(() => NPC.downedBoss1, ui, "Drops after defeating the Eye of Cthulhu");
-        public static IItemDropRuleCondition PostCrab(bool ui = true) => If(() => DownedBossSystem.downedCrabulon, ui, "Drops after defeating Crabulon");
-        public static IItemDropRuleCondition PostEvil1(bool ui = true) => If(() => NPC.downedBoss2, ui, "Drops after defeating the " + (WorldGen.crimson ? "Brain of Cthulhu" : "Eater of Worlds"));
-        public static IItemDropRuleCondition PostHM(bool ui = true) => If(() => DownedBossSystem.downedHiveMind, ui, "Drops after defeating the Hive Mind");
-        public static IItemDropRuleCondition PostPerfs(bool ui = true) => If(() => DownedBossSystem.downedPerforator, ui, "Drops after defeating the Perforators");
-        public static IItemDropRuleCondition PostEvil2(bool ui = true) => If(() => DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, ui, "Drops after defeating the " + (WorldGen.crimson ? "Perforators" : "Hive Mind"));
-        public static IItemDropRuleCondition PostQB(bool ui = true) => If(() => NPC.downedQueenBee, ui, "Drops after defeating the Queen Bee");
-        public static IItemDropRuleCondition PostDeer(bool ui = true) => If(() => NPC.downedDeerclops, ui, "Drops after defeating Deerclops");
-        public static IItemDropRuleCondition PostSkele(bool ui = true) => If(() => NPC.downedBoss3, ui, "Drops after defeating Skeletron");
-        public static IItemDropRuleCondition PostSG(bool ui = true) => If(() => DownedBossSystem.downedSlimeGod, ui, "Drops after defeating the Slime God");
-        public static IItemDropRuleCondition Hardmode(bool ui = true) => If(() => Main.hardMode, ui, "Drops in Hardmode");
-        public static IItemDropRuleCondition PostQS(bool ui = true) => If(() => NPC.downedQueenSlime, ui, "Drops after defeating Queen Slime");
-        public static IItemDropRuleCondition PostCryo(bool ui = true) => If(() => DownedBossSystem.downedCryogen, ui, "Drops after defeating Cryogen");
-        public static IItemDropRuleCondition PostAS(bool ui = true) => If(() => DownedBossSystem.downedAquaticScourge, ui, "Drops after defeating the Aquatic Scourge");
-        public static IItemDropRuleCondition PostBrim(bool ui = true) => If(() => DownedBossSystem.downedBrimstoneElemental, ui, "Drops after defeating the Brimstone Elemental");
-        public static IItemDropRuleCondition PostDest(bool ui = true) => If(() => NPC.downedMechBoss1, ui, "Drops after defeating the Destroyer");
-        public static IItemDropRuleCondition PostTwins(bool ui = true) => If(() => NPC.downedMechBoss2, ui, "Drops after defeating the Twins");
-        public static IItemDropRuleCondition PostSP(bool ui = true) => If(() => NPC.downedMechBoss3, ui, "Drops after defeating Skeletron Prime");
-        public static IItemDropRuleCondition Post1Mech(bool ui = true) => If(() => NPC.downedMechBossAny, ui, "Drops after defeating a Mechanical Boss");
-        public static IItemDropRuleCondition Post3Mechs(bool ui = true) => If(() => NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3, ui, "Drops after defeating all three Mechanical Bosses");
-        public static IItemDropRuleCondition PostCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitasClone, ui, "Drops after defeating Calamitas Clone");
-        public static IItemDropRuleCondition PostPlant(bool ui = true) => If(() => NPC.downedPlantBoss, ui, "Drops after defeating Plantera");
-        public static IItemDropRuleCondition PostCalPlant(bool ui = true) => If(() => DownedBossSystem.downedCalamitasClone || NPC.downedPlantBoss, ui, "Drops after defeating Calamitas or Plantera");
-        public static IItemDropRuleCondition PostLevi(bool ui = true) => If(() => DownedBossSystem.downedLeviathan, ui, "Drops after defeating the Leviathan and Anahita");
-        public static IItemDropRuleCondition PostAureus(bool ui = true) => If(() => DownedBossSystem.downedAstrumAureus, ui, "Drops after defeating Astrum Aureus");
-        public static IItemDropRuleCondition PostGolem(bool ui = true) => If(() => NPC.downedGolemBoss, ui, "Drops after defeating Golem");
-        public static IItemDropRuleCondition PostPBG(bool ui = true) => If(() => DownedBossSystem.downedPlaguebringer, ui, "Drops after defeating the Plaguebringer Goliath");
-        public static IItemDropRuleCondition PostEoL(bool ui = true) => If(() => NPC.downedEmpressOfLight, ui, "Drops after defeating the Empress of Light");
-        public static IItemDropRuleCondition PostFish(bool ui = true) => If(() => NPC.downedFishron, ui, "Drops after defeating Duke Fishron");
-        public static IItemDropRuleCondition PostRav(bool ui = true) => If(() => DownedBossSystem.downedRavager, ui, "Drops after defeating the Ravager");
-        public static IItemDropRuleCondition PostLC(bool ui = true) => If(() => NPC.downedAncientCultist, ui, "Drops after defeating the Lunatic Cultist");
-        public static IItemDropRuleCondition PostAD(bool ui = true) => If(() => DownedBossSystem.downedAstrumDeus, ui, "Drops after defeating Astrum Deus");
-        public static IItemDropRuleCondition PostML(bool ui = true) => If(() => NPC.downedMoonlord, ui, "Drops after defeating the Moon Lord");
-        public static IItemDropRuleCondition PostGuard(bool ui = true) => If(() => DownedBossSystem.downedGuardians, ui, "Drops after defeating the Profaned Guardian");
-        public static IItemDropRuleCondition PostBirb(bool ui = true) => If(() => DownedBossSystem.downedDragonfolly, ui, "Drops after defeating the Dragonfolly");
-        public static IItemDropRuleCondition PostProv(bool ui = true) => If(() => DownedBossSystem.downedProvidence, ui, "Drops after defeating Providence");
-        public static IItemDropRuleCondition PostSig(bool ui = true) => If(() => DownedBossSystem.downedSignus, ui, "Drops after defeating Signus");
-        public static IItemDropRuleCondition PostSW(bool ui = true) => If(() => DownedBossSystem.downedStormWeaver, ui, "Drops after defeating the Storm Weaver");
-        public static IItemDropRuleCondition PostCV(bool ui = true) => If(() => DownedBossSystem.downedCeaselessVoid, ui, "Drops after defeating the Ceaseless Void");
-        public static IItemDropRuleCondition PostPolter(bool ui = true) => If(() => DownedBossSystem.downedPolterghast, ui, "Drops after defeating the Polterghast");
-        public static IItemDropRuleCondition PostOD(bool ui = true) => If(() => DownedBossSystem.downedBoomerDuke, ui, "Drops after defeating the Old Duke");
-        public static IItemDropRuleCondition PostDoG(bool ui = true) => If(() => DownedBossSystem.downedDoG, ui, "Drops after defeating the Devourer of Gods");
-        public static IItemDropRuleCondition PostYharon(bool ui = true) => If(() => DownedBossSystem.downedYharon, ui, "Drops after defeating Yharon");
-        public static IItemDropRuleCondition PostExos(bool ui = true) => If(() => DownedBossSystem.downedExoMechs, ui, "Drops after defeating the Exo Mechs");
-        public static IItemDropRuleCondition PostSCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitas, ui, "Drops after defeating Calamitas");
-        public static IItemDropRuleCondition PostAEW(bool ui = true) => If(() => DownedBossSystem.downedPrimordialWyrm, ui, "Drops after defeating the Primordial Wyrm");
-        public static IItemDropRuleCondition PostClam(bool ui = true) => If(() => DownedBossSystem.downedCLAM, ui, "Drops after defeating the Giant Clam");
-        public static IItemDropRuleCondition PostClamHM(bool ui = true) => If(() => DownedBossSystem.downedCLAMHardMode, ui, "Drops after defeating the Giant Clam in Hardmode");
-        public static IItemDropRuleCondition PostGSS(bool ui = true) => If(() => DownedBossSystem.downedGSS, ui, "Drops after defeating the Great Sand Shark");
-        public static IItemDropRuleCondition PostBetsy(bool ui = true) => If(() => DownedBossSystem.downedBetsy, ui, "Drops after defeating Betsy");
-        public static IItemDropRuleCondition PostT1AR(bool ui = true) => If(() => DownedBossSystem.downedEoCAcidRain, ui, "Drops after defeating the first tier of Acid Rain");
-        public static IItemDropRuleCondition PostT2AR(bool ui = true) => If(() => DownedBossSystem.downedAquaticScourgeAcidRain, ui, "Drops after defeating the second tier of Acid Rain");
+        public static IItemDropRuleCondition PostKS(bool ui = true) => If(() => NPC.downedSlimeKing, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedKS"));
+        public static IItemDropRuleCondition PostDS(bool ui = true) => If(() => DownedBossSystem.downedDesertScourge, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedDS"));
+        public static IItemDropRuleCondition PostEoC(bool ui = true) => If(() => NPC.downedBoss1, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedEoC"));
+        public static IItemDropRuleCondition PostCrab(bool ui = true) => If(() => DownedBossSystem.downedCrabulon, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedCrab"));
+        public static IItemDropRuleCondition PostEvil1(bool ui = true) => If(() => NPC.downedBoss2, ui, CalamityUtils.GetTextValue("Condition.Drops.Downed" + (WorldGen.crimson ? "BoC" : "EoW")));
+        public static IItemDropRuleCondition PostHM(bool ui = true) => If(() => DownedBossSystem.downedHiveMind, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedHM"));
+        public static IItemDropRuleCondition PostPerfs(bool ui = true) => If(() => DownedBossSystem.downedPerforator, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedPerfs"));
+        public static IItemDropRuleCondition PostEvil2(bool ui = true) => If(() => DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, ui, CalamityUtils.GetTextValue("Condition.Drops.Downed" + (WorldGen.crimson ? "Perfs" : "HM")));
+        public static IItemDropRuleCondition PostQB(bool ui = true) => If(() => NPC.downedQueenBee, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedQB"));
+        public static IItemDropRuleCondition PostDeer(bool ui = true) => If(() => NPC.downedDeerclops, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedDeer"));
+        public static IItemDropRuleCondition PostSkele(bool ui = true) => If(() => NPC.downedBoss3, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedSkele"));
+        public static IItemDropRuleCondition PostSG(bool ui = true) => If(() => DownedBossSystem.downedSlimeGod, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedSG"));
+        public static IItemDropRuleCondition Hardmode(bool ui = true) => If(() => Main.hardMode, ui, CalamityUtils.GetTextValue("Condition.Drops.Hardmode"));
+        public static IItemDropRuleCondition PostQS(bool ui = true) => If(() => NPC.downedQueenSlime, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedQS"));
+        public static IItemDropRuleCondition PostCryo(bool ui = true) => If(() => DownedBossSystem.downedCryogen, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedCryo"));
+        public static IItemDropRuleCondition PostAS(bool ui = true) => If(() => DownedBossSystem.downedAquaticScourge, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedAS"));
+        public static IItemDropRuleCondition PostBrim(bool ui = true) => If(() => DownedBossSystem.downedBrimstoneElemental, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedBrim"));
+        public static IItemDropRuleCondition PostDest(bool ui = true) => If(() => NPC.downedMechBoss1, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedDest"));
+        public static IItemDropRuleCondition PostTwins(bool ui = true) => If(() => NPC.downedMechBoss2, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedTwins"));
+        public static IItemDropRuleCondition PostSP(bool ui = true) => If(() => NPC.downedMechBoss3, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedSP"));
+        public static IItemDropRuleCondition Post1Mech(bool ui = true) => If(() => NPC.downedMechBossAny, ui, CalamityUtils.GetTextValue("Condition.Drops.Downed1Mech"));
+        public static IItemDropRuleCondition Post3Mechs(bool ui = true) => If(() => NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3, ui, CalamityUtils.GetTextValue("Condition.Drops.Downed3Mechs"));
+        public static IItemDropRuleCondition PostCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitasClone, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedCal"));
+        public static IItemDropRuleCondition PostPlant(bool ui = true) => If(() => NPC.downedPlantBoss, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedPlant"));
+        public static IItemDropRuleCondition PostCalPlant(bool ui = true) => If(() => DownedBossSystem.downedCalamitasClone || NPC.downedPlantBoss, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedCalPlant"));
+        public static IItemDropRuleCondition PostLevi(bool ui = true) => If(() => DownedBossSystem.downedLeviathan, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedLebi"));
+        public static IItemDropRuleCondition PostAureus(bool ui = true) => If(() => DownedBossSystem.downedAstrumAureus, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedAureus"));
+        public static IItemDropRuleCondition PostGolem(bool ui = true) => If(() => NPC.downedGolemBoss, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedGolem"));
+        public static IItemDropRuleCondition PostPBG(bool ui = true) => If(() => DownedBossSystem.downedPlaguebringer, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedPBG"));
+        public static IItemDropRuleCondition PostEoL(bool ui = true) => If(() => NPC.downedEmpressOfLight, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedEoL"));
+        public static IItemDropRuleCondition PostFish(bool ui = true) => If(() => NPC.downedFishron, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedFish"));
+        public static IItemDropRuleCondition PostRav(bool ui = true) => If(() => DownedBossSystem.downedRavager, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedRav"));
+        public static IItemDropRuleCondition PostLC(bool ui = true) => If(() => NPC.downedAncientCultist, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedLC"));
+        public static IItemDropRuleCondition PostAD(bool ui = true) => If(() => DownedBossSystem.downedAstrumDeus, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedAD"));
+        public static IItemDropRuleCondition PostML(bool ui = true) => If(() => NPC.downedMoonlord, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedML"));
+        public static IItemDropRuleCondition PostGuard(bool ui = true) => If(() => DownedBossSystem.downedGuardians, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedGuard"));
+        public static IItemDropRuleCondition PostBirb(bool ui = true) => If(() => DownedBossSystem.downedDragonfolly, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedBirb"));
+        public static IItemDropRuleCondition PostProv(bool ui = true) => If(() => DownedBossSystem.downedProvidence, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedProv"));
+        public static IItemDropRuleCondition PostSig(bool ui = true) => If(() => DownedBossSystem.downedSignus, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedSig"));
+        public static IItemDropRuleCondition PostSW(bool ui = true) => If(() => DownedBossSystem.downedStormWeaver, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedSW"));
+        public static IItemDropRuleCondition PostCV(bool ui = true) => If(() => DownedBossSystem.downedCeaselessVoid, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedCV"));
+        public static IItemDropRuleCondition PostPolter(bool ui = true) => If(() => DownedBossSystem.downedPolterghast, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedPolter"));
+        public static IItemDropRuleCondition PostOD(bool ui = true) => If(() => DownedBossSystem.downedBoomerDuke, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedOD"));
+        public static IItemDropRuleCondition PostDoG(bool ui = true) => If(() => DownedBossSystem.downedDoG, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedDoG"));
+        public static IItemDropRuleCondition PostYharon(bool ui = true) => If(() => DownedBossSystem.downedYharon, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedYharon"));
+        public static IItemDropRuleCondition PostExos(bool ui = true) => If(() => DownedBossSystem.downedExoMechs, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedExos"));
+        public static IItemDropRuleCondition PostSCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitas, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedSCal"));
+        public static IItemDropRuleCondition PostAEW(bool ui = true) => If(() => DownedBossSystem.downedPrimordialWyrm, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedAEW"));
+        public static IItemDropRuleCondition PostClam(bool ui = true) => If(() => DownedBossSystem.downedCLAM, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedClam"));
+        public static IItemDropRuleCondition PostClamHM(bool ui = true) => If(() => DownedBossSystem.downedCLAMHardMode, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedClamHM"));
+        public static IItemDropRuleCondition PostGSS(bool ui = true) => If(() => DownedBossSystem.downedGSS, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedGSS"));
+        public static IItemDropRuleCondition PostBetsy(bool ui = true) => If(() => DownedBossSystem.downedBetsy, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedBetsy"));
+        public static IItemDropRuleCondition PostT1AR(bool ui = true) => If(() => DownedBossSystem.downedEoCAcidRain, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedT1AR"));
+        public static IItemDropRuleCondition PostT2AR(bool ui = true) => If(() => DownedBossSystem.downedAquaticScourgeAcidRain, ui, CalamityUtils.GetTextValue("Condition.Drops.DownedT2AR"));
         #endregion
         #endregion
 

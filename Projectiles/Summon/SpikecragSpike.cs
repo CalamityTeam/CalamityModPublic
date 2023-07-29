@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -30,6 +31,14 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Projectile.velocity.Y += 0.1f;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Main.zenithWorld)
+            {
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+            }
         }
     }
 }

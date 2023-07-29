@@ -134,12 +134,12 @@ namespace CalamityMod.Projectiles.Boss
             if (death)
                 return;
 
-            // Fly away from other brimstone monsters
+            // Fly away from other brimstone monsters.
             float pushForce = 0.05f;
             for (int k = 0; k < Main.maxProjectiles; k++)
             {
                 Projectile otherProj = Main.projectile[k];
-                // Short circuits to make the loop as fast as possible
+                // Short circuits to make the loop as fast as possible.
                 if (!otherProj.active || k == Projectile.whoAmI)
                     continue;
 
@@ -169,14 +169,16 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             lightColor.R = (byte)(255 * Projectile.Opacity);
 
-            if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
-                lightColor.B = lightColor.B;
-            else
-                lightColor.B = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus ? (byte)(255 * Projectile.Opacity) : lightColor.B;
-
-            if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+            if (CalamityGlobalNPC.SCal != -1)
             {
-                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/BrimstoneMonsterII").Value;
+                if (Main.npc[CalamityGlobalNPC.SCal].active)
+                {
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                    {
+                        tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/BrimstoneMonsterII").Value;
+                        lightColor.B = (byte)(255 * Projectile.Opacity);
+                    }
+                }
             }
 
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
@@ -192,18 +194,21 @@ namespace CalamityMod.Projectiles.Boss
 
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300, true);
 
-            // Remove all positive buffs from the player if they're hit by HAGE while Cirrus is alive
-            if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+            // Remove all positive buffs from the player if they're hit by HAGE while Cirrus is alive.
+            if (CalamityGlobalNPC.SCal != -1)
             {
-                if (Main.myPlayer == target.whoAmI)
+                if (Main.npc[CalamityGlobalNPC.SCal].active)
                 {
-                    for (int l = 0; l < Player.MaxBuffs; l++)
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
                     {
-                        int buffType = target.buffType[l];
-                        if (!CalamityLists.debuffList.Contains(buffType))
+                        for (int l = 0; l < Player.MaxBuffs; l++)
                         {
-                            target.DelBuff(l);
-                            l--;
+                            int buffType = target.buffType[l];
+                            if (!CalamityLists.debuffList.Contains(buffType))
+                            {
+                                target.DelBuff(l);
+                                l--;
+                            }
                         }
                     }
                 }

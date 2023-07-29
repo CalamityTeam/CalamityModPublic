@@ -22,12 +22,17 @@ namespace CalamityMod.NPCs.Other
         public int aiSwitchCounter = 420;
         public int deathrayCounter = 0;
         public int invincibleCounter = 0;
+        public int squintTimer = 0;
+        public int cutsceneAnimation = -1;
+        public int frameToUse = 0;
 
         public bool ajitPaiDidNothingWrong = false; // christ this is old
         public bool canDespawn = false;
         public bool urAMemeNow = false;
         public bool hasBeenPlantera = false;
         public bool hasBeenGolem = false;
+
+        public bool Dying = false;
 
         public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/Lordeath");
 
@@ -38,6 +43,7 @@ namespace CalamityMod.NPCs.Other
             NPCID.Sets.DebuffImmunitySets.Add(Type, debuffData);
             NPCID.Sets.ShouldBeCountedAsBoss[Type] = true;
             this.HideFromBestiary();
+            Main.npcFrameCount[NPC.type] = 7;
         }
 
         public override void SetDefaults()
@@ -51,7 +57,7 @@ namespace CalamityMod.NPCs.Other
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(100, 0, 0, 0);
             NPC.HitSound = SoundID.NPCHit13;
-            NPC.DeathSound = DeathSound with { Volume = DeathSound.Volume + 0.2f };
+            NPC.DeathSound = null;
             NPC.boss = true;
             Music = MusicID.LunarBoss;
             NPC.Calamity().canBreakPlayerDefense = true;
@@ -69,9 +75,13 @@ namespace CalamityMod.NPCs.Other
             writer.Write(urAMemeNow);
             writer.Write(hasBeenPlantera);
             writer.Write(hasBeenGolem);
+            writer.Write(Dying);
             writer.Write(invincibleCounter);
             writer.Write(aiSwitchCounter);
             writer.Write(deathrayCounter);
+            writer.Write(squintTimer);
+            writer.Write(cutsceneAnimation);
+            writer.Write(frameToUse);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -86,9 +96,25 @@ namespace CalamityMod.NPCs.Other
             urAMemeNow = reader.ReadBoolean();
             hasBeenPlantera = reader.ReadBoolean();
             hasBeenGolem = reader.ReadBoolean();
+            Dying = reader.ReadBoolean();
             invincibleCounter = reader.ReadInt32();
             aiSwitchCounter = reader.ReadInt32();
             deathrayCounter = reader.ReadInt32();
+            squintTimer = reader.ReadInt32();
+            cutsceneAnimation = reader.ReadInt32();
+            frameToUse = reader.ReadInt32();
+        }
+
+        public override void OnSpawn(IEntitySource source)
+        {
+            // kill all existing non-hostile projectiles on spawn
+            foreach (Projectile proj in Main.projectile)
+            {
+                if (proj.active && proj != null && !proj.hostile)
+                {
+                    proj.active = false;
+                }
+            }
         }
 
         public override void AI()
@@ -102,6 +128,34 @@ namespace CalamityMod.NPCs.Other
             if (NPC.alpha < 0)
             {
                 NPC.alpha = 0;
+            }
+            // Do the death animation once killed.
+            if (Dying)
+            {
+                NPC.velocity *= 0.9f;
+                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 1f);
+                if (frameToUse >= 18)
+                {
+                    NPC.active = false;
+                    NPC.HitEffect();
+                    NPC.NPCLoot();
+                    SoundEngine.PlaySound(DeathSound with { Volume = 2 }, Main.LocalPlayer.Center);
+                    NPC.netUpdate = true;
+                }
+                return;
+            }
+            // Trigger the death animation
+            else if (NPC.life <= 1 && invincibleCounter >= 6000)
+            {
+                NPC.life = 1;
+                if (!Dying)
+                {
+                    frameToUse = 0;
+                    Dying = true;
+                }
+                NPC.dontTakeDamage = true;
+                NPC.netUpdate = true;
+                return;
             }
             if (Main.rand.NextBool(50))
             {
@@ -203,7 +257,7 @@ namespace CalamityMod.NPCs.Other
                     case 9: aiChoice = NPCAIStyleID.EnchantedSword; NPC.noTileCollide = true; NPC.noGravity = true; aiSwitchCounter = 480; break; //enchanted sword
                     case 10: aiChoice = NPCAIStyleID.Mimic; NPC.noTileCollide = false; NPC.noGravity = false; aiSwitchCounter = 480; break; //small mimic
                     case 11: aiChoice = NPCAIStyleID.Unicorn; NPC.noTileCollide = false; NPC.noGravity = false; aiSwitchCounter = 480; break; //unicorn
-                    case 12: aiChoice = NPCAIStyleID.GiantTortoise; NPC.noTileCollide = false; NPC.noGravity = false; aiSwitchCounter = 300; break; //giant tortoise
+                    //case 12: aiChoice = NPCAIStyleID.GiantTortoise; NPC.noTileCollide = false; NPC.noGravity = false; aiSwitchCounter = 300; break; //giant tortoise
                     case 13: aiChoice = NPCAIStyleID.Herpling; NPC.noTileCollide = false; NPC.noGravity = false; aiSwitchCounter = 480; break; //herpling
                     case 14: aiChoice = NPCAIStyleID.QueenBee; NPC.noTileCollide = true; NPC.noGravity = true; aiSwitchCounter = 420; break; //queen bee
                     case 15: aiChoice = NPCAIStyleID.FlyingFish; NPC.noTileCollide = false; NPC.noGravity = true; aiSwitchCounter = 480; break; //flying fish
@@ -317,26 +371,108 @@ namespace CalamityMod.NPCs.Other
             }
         }
 
+        public override void FindFrame(int frameHeight)
+        {
+            if (Dying)
+            {
+                NPC.frameCounter++;
+                if (NPC.frameCounter > 4 && frameToUse < 18)
+                {
+                    frameToUse++;
+                    NPC.frameCounter = 0;
+                }
+            }
+            else
+            {
+                if (squintTimer > 0)
+                {
+                    squintTimer--;
+                }
+                if (cutsceneAnimation > 0)
+                {
+                    NPC.frameCounter++;
+                    if (NPC.frameCounter > 6)
+                    {
+                        frameToUse++;
+                    }
+                    if (frameToUse > 13 || frameToUse < 6)
+                    {
+                        frameToUse = 6;
+                    }
+                    cutsceneAnimation--;
+                }
+                else
+                {
+                    frameToUse = 0;
+                }
+            }
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            Vector2 origin = new Vector2((float)(texture.Width / 2), (float)(texture.Height / 2));
+            Rectangle frameUsed = texture.Frame(2, 7, 0, 1); // the idle frame by default
+            Rectangle squintFrame = texture.Frame(2, 7, 0, 0);
+
+            int columnAmount = Dying ? 3 : 2;
+            Vector2 origin = new Vector2((float)(texture.Width / (2 * columnAmount)), (float)(texture.Height / 14));
             Vector2 npcOffset = NPC.Center - screenPos;
-            npcOffset -= new Vector2((float)texture.Width, (float)texture.Height) * NPC.scale / 2f;
+            npcOffset -= new Vector2((float)texture.Width / columnAmount, (float)texture.Height / 7) * NPC.scale / 2f;
             npcOffset += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture, npcOffset, NPC.frame, drawColor, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+
+            if (Dying)
+            {
+                // death animation
+                texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Other/THELORDEDEATH").Value;
+                int xFrame = 0;
+                int yFrame = frameToUse;
+                if (frameToUse > 13)
+                {
+                    xFrame = 2;
+                    yFrame = frameToUse - 12;
+                }
+                else if (frameToUse > 6)
+                {
+                    xFrame = 1;
+                    yFrame = frameToUse - 6;
+                }
+                frameUsed = texture.Frame(3, 7, xFrame, yFrame);
+            }
+            else
+            {
+                // use his glitching animation for 4 seconds upon reaching desperation
+                if (cutsceneAnimation > 0)
+                {
+                    int xFrame = 0;
+                    int yFrame = 6;
+                    if (frameToUse > 6)
+                    {
+                        xFrame = 1;
+                        yFrame = frameToUse - 6;
+                    }
+                    frameUsed = texture.Frame(2, 7, xFrame, yFrame);
+                }
+                // squiny if he should be squinting
+                else if (squintTimer > 0)
+                {
+                    frameUsed = squintFrame;
+                }
+            }
+            spriteBatch.Draw(texture, npcOffset, frameUsed, drawColor, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
             return false;
         }
 
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
+            modifiers.SetMaxDamage(NPC.life - 1);
             // When struck below 1% HP, activates desperation and becomes essentially immune to damage.
             // The hit which causes this has its damage capped at 1, then THE LORDE heals for 1 so that it doesn't take any net damage.
             if ((double)NPC.life <= (double)NPC.lifeMax * 0.01f && invincibleCounter == 0 && !ajitPaiDidNothingWrong)
             {
+                cutsceneAnimation = 240;
                 ajitPaiDidNothingWrong = true;
                 modifiers.SetMaxDamage(1);
                 NPC.life += 1;
@@ -354,13 +490,14 @@ namespace CalamityMod.NPCs.Other
 
             if (highestPossibleDamage > antiButcherLimit)
             {
-                string key = "Mods.CalamityMod.EdgyBossText2";
+                string key = "Mods.CalamityMod.Status.Boss.EdgyBossText8";
                 Color messageColor = Color.Cyan;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 
                 // The hit which triggers antibutcher has its damage capped at 1, then THE LORDE heals for 1 so that it doesn't take any net damage.
                 modifiers.SetMaxDamage(1);
                 NPC.life += 1;
+                squintTimer = 120;
             }
         }
 
@@ -373,13 +510,14 @@ namespace CalamityMod.NPCs.Other
 
             if (highestPossibleDamage > antiButcherLimit)
             {
-                string key = "Mods.CalamityMod.EdgyBossText2";
+                string key = "Mods.CalamityMod.Status.Boss.EdgyBossText8";
                 Color messageColor = Color.Cyan;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 
                 // The hit which triggers antibutcher has its damage capped at 1, then THE LORDE heals for 1 so that it doesn't take any net damage.
                 modifiers.SetMaxDamage(1);
                 NPC.life += 1;
+                squintTimer = 120;
             }
         }
 
@@ -403,6 +541,20 @@ namespace CalamityMod.NPCs.Other
             return canDespawn;
         }
 
+        public override bool CheckDead()
+        {
+            NPC.life = 1;
+            if (!Dying && invincibleCounter >= 6000)
+            {
+                frameToUse = 0;
+                Dying = true;
+            }
+            NPC.active = true;
+            NPC.dontTakeDamage = true;
+            NPC.netUpdate = true;
+            return false;
+        }
+
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float bossLifeScale, float anotherthing)
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.5f * bossLifeScale);
@@ -411,8 +563,8 @@ namespace CalamityMod.NPCs.Other
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             double pisquaredover6 = Math.Pow(MathHelper.Pi, 2) / 6;
-            npcLoot.AddIf(()=> CalamityWorld.LegendaryMode && Main.masterMode, ModContent.ItemType<SuspiciousLookingNOU>()); // guaranteed in legendarev mode
-            npcLoot.AddIf(() => !(CalamityWorld.LegendaryMode && Main.masterMode), ModContent.ItemType<SuspiciousLookingNOU>(), 27); // otherwise 1 in 27
+            npcLoot.AddIf(()=> CalamityWorld.LegendaryMode && CalamityWorld.revenge, ModContent.ItemType<SuspiciousLookingNOU>()); // guaranteed in legendarev mode
+            npcLoot.AddIf(() => !(CalamityWorld.LegendaryMode && CalamityWorld.revenge), ModContent.ItemType<SuspiciousLookingNOU>(), 27); // otherwise 1 in 27
             npcLoot.Add(ModContent.ItemType<DeliciousMeat>(), 1, 22, (int)(pisquaredover6 * 100));
         }
     }

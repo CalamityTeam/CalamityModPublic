@@ -31,11 +31,7 @@ namespace CalamityMod.Items.Accessories.Wings
             player.moveSpeed += 0.1f;
             player.lavaImmune = true;
             player.noFallDmg = true;
-            modPlayer.elysianFire = true;
-            if (hideVisual)
-            {
-                modPlayer.elysianFire = false;
-            }
+            modPlayer.elysianWingsDust = !hideVisual;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)

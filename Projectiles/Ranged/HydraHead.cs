@@ -43,6 +43,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.timeLeft = 600;
             Projectile.penetrate = 1;
             Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ContinuouslyUpdateDamageStats = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -145,7 +146,7 @@ namespace CalamityMod.Projectiles.Ranged
                 //Calculation for damage and co
                 Owner.PickAmmo(heldItem, out _, out float itemVelocity, out int itemDamage, out float itemKB, out _);
                 int type = ModContent.ProjectileType<HydrasBlood>();
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     Vector2 spreadDirection = shootDirection.RotatedByRandom(MathHelper.ToRadians(Hydra.ShotSpread / 2f));
                     float spreadVelocity = itemVelocity * Main.rand.NextFloat(1f, 1.4f);
@@ -168,7 +169,7 @@ namespace CalamityMod.Projectiles.Ranged
                 //Calculation for damage and co
                 Owner.PickAmmo(heldItem, out _, out float itemVelocity, out int itemDamage, out float itemKB, out _);
                 int gunType = ModContent.ProjectileType<HydraHeadLaunch>();
-                int gunDamage = itemDamage * 3;
+                int gunDamage = itemDamage * 5;
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, itemVelocity * shootDirection, gunType, gunDamage, itemKB, Projectile.owner);
 
                 Projectile.Kill();
@@ -227,6 +228,7 @@ namespace CalamityMod.Projectiles.Ranged
                                  0);
             }
 
+            bool shouldFlip = Math.Abs(Projectile.rotation) > MathHelper.PiOver2;
             Texture2D headTexture = ModContent.Request<Texture2D>(Texture).Value;
             Main.EntitySpriteDraw(headTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
@@ -235,7 +237,7 @@ namespace CalamityMod.Projectiles.Ranged
                              Projectile.rotation,
                              Projectile.Size * 0.5f,
                              Projectile.scale,
-                             Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                             shouldFlip ? SpriteEffects.FlipVertically : SpriteEffects.None,
                              0);
 
             return false;

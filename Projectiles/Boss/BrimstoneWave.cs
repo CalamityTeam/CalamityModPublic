@@ -78,10 +78,14 @@ namespace CalamityMod.Projectiles.Boss
             int y6 = num214 * Projectile.frame;
             lightColor.R = (byte)(255 * Projectile.Opacity);
 
-            if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
-                lightColor.B = lightColor.B;
-            else
-                lightColor.B = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus ? (byte)(255 * Projectile.Opacity) : lightColor.B;
+            if (CalamityGlobalNPC.SCal != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.SCal].active)
+                {
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                        lightColor.B = (byte)(255 * Projectile.Opacity);
+                }
+            }
 
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, spriteEffects, 0);
             return false;

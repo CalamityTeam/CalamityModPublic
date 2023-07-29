@@ -6007,18 +6007,18 @@ namespace CalamityMod.NPCs
                 npc.damage /= 4;
 
                 // Play exhausted sound
-                if (calamityGlobalNPC.newAI[0] % 60f == 0f)
-                    SoundEngine.PlaySound(OldDuke.OldDuke.HuffSound, player.Center);
+                if (calamityGlobalNPC.newAI[0] % 60f == 0f && Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < 2800f)
+                    SoundEngine.PlaySound(OldDuke.OldDuke.HuffSound, Main.LocalPlayer.Center);
 
                 if (Main.zenithWorld)
                 {
                     float screenShakePower = 10 * Utils.GetLerpValue(800f, 0f, npc.Distance(Main.LocalPlayer.Center), true);
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = screenShakePower;
+
                     if (calamityGlobalNPC.newAI[0] == exhaustionGateValue)
-                    {
                         SoundEngine.PlaySound(SoundID.NPCDeath64 with { Pitch = SoundID.NPCDeath64.Pitch - 0.9f, Volume = SoundID.NPCDeath64.Volume + 0.4f}, player.Center); // fart
-                    }
+
                     if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[0] % 5f == 0f)
                     {
                         Vector2 dist = player.Center - npc.Center;

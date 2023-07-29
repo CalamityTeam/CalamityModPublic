@@ -107,10 +107,14 @@ namespace CalamityMod.Projectiles.Boss
         {
             lightColor.R = (byte)(255 * Projectile.Opacity);
 
-            if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
-                lightColor.B = lightColor.B;
-            else
-                lightColor.B = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus ? (byte)(255 * Projectile.Opacity) : lightColor.B;
+            if (CalamityGlobalNPC.SCal != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.SCal].active)
+                {
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                        lightColor.B = (byte)(255 * Projectile.Opacity);
+                }
+            }
 
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;

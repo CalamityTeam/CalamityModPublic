@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("QuiversGroup").
+                AddRecipeGroup("AnyQuiver").
                 AddIngredient<DarkPlasma>(3).
                 AddIngredient<GalacticaSingularity>(5).
                 AddTile(TileID.LunarCraftingStation).

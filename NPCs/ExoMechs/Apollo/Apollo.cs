@@ -1016,7 +1016,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                 calamityGlobalNPC.newAI[3] = 0f;
 
                                 if (phase2)
-                                    AIState = (NPC.localAI[2] == 1f && !artemisUsingDeathray) ? (float)Phase.LineUpChargeCombo : (float)Phase.RocketBarrage;
+                                    AIState = (NPC.localAI[2] == 1f && (!artemisUsingDeathray || Main.zenithWorld)) ? (float)Phase.LineUpChargeCombo : (float)Phase.RocketBarrage;
                                 else
                                     AIState = (float)Phase.RocketBarrage;
                             }

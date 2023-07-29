@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void AddShops()
         {
-            Condition potionSells = new("While the Town NPC Potion Selling configuration option is enabled", () => CalamityConfig.Instance.PotionSelling);
+            Condition potionSells = new(CalamityUtils.GetText("Condition.PotionConfig"), () => CalamityConfig.Instance.PotionSelling);
             NPCShop shop = new(Type);
                 shop.Add(ModContent.ItemType<FrostbiteBlaster>())
                 .Add(ModContent.ItemType<IcicleTrident>())
