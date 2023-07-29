@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 14;
             Projectile.hostile = true;
             Projectile.tileCollide = false;
-            Projectile.Opacity = 0f;
+            Projectile.Opacity = 0.25f;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
         }
@@ -34,10 +34,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.velocity.Y > 0f)
             {
-                if (Projectile.Opacity == 0f)
+                if (Projectile.Opacity < 1f)
                 {
                     Projectile.Opacity = 1f;
-                    SoundEngine.PlaySound(SoundID.Item44, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item21, Projectile.Center);
                     int dustAmount = 36;
                     for (int i = 0; i < dustAmount; i++)
                     {
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White * Projectile.Opacity, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
             return false;
         }
 
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Boss
             int height = texture.Height / Main.projFrames[Projectile.type];
             int drawStart = height * Projectile.frame;
             Vector2 origin = Projectile.Size / 2;
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/MushBombGlow").Value, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/MushBombGlow").Value, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White * Projectile.Opacity, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
         }
 
         public override void Kill(int timeLeft)
