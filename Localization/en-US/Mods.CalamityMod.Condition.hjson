@@ -1,0 +1,98 @@
+// Drop conditions
+Drops: {
+	Cynosure: Drops once you have defeated both Draedon and Calamitas
+	DownedKS: Drops after defeating King Slime
+	DownedDS: Drops after defeating the Desert Scourge
+	DownedEoC: Drops after defeating the Eye of Cthulhu
+	DownedCrab: Drops after defeating Crabulon
+	DownedEoW: Drops after defeating the Eater of Worlds
+	DownedBoC: Drops after defeating the Brain of Cthulhu
+	DownedHM: Drops after defeating the Hive Mind
+	DownedPerfs: Drops after defeating the Perforators
+	DownedQB: Drops after defeating the Queen Bee
+	DownedDeer: Drops after defeating Deerclops
+	DownedSkele: Drops after defeating Skeletron
+	DownedSG: Drops after defeating the Slime God
+	Hardmode: Drops in Hardmode
+	DownedQS: Drops after defeating Queen Slime
+	DownedCryo: Drops after defeating Cryogen
+	DownedAS: Drops after defeating the Aquatic Scourge
+	DownedBrim: Drops after defeating the Brimstone Elemental
+	DownedDest: Drops after defeating the Destroyer
+	DownedTwins: Drops after defeating the Twins
+	DownedSP: Drops after defeating Skeletron Prime
+	Downed1Mech: Drops after defeating a Mechanical Boss
+	Downed3Mechs: Drops after defeating all three Mechanical Bosses
+	DownedCal: Drops after defeating Calamitas Clone
+	DownedPlant: Drops after defeating Plantera
+	DownedCalPlant: Drops after defeating Calamitas or Plantera
+	DownedLevi: Drops after defeating the Leviathan and Anahita
+	DownedAureus: Drops after defeating Astrum Aureus
+	DownedGolem: Drops after defeating Golem
+	DownedPBG: Drops after defeating the Plaguebringer Goliath
+	DownedEoL: Drops after defeating the Empress of Light
+	DownedFish: Drops after defeating Duke Fishron
+	DownedRav: Drops after defeating the Ravager
+	DownedLC: Drops after defeating the Lunatic Cultist
+	DownedAD: Drops after defeating Astrum Deus
+	DownedML: Drops after defeating the Moon Lord
+	DownedGuard: Drops after defeating the Profaned Guardians
+	DownedBirb: Drops after defeating the Dragonfolly
+	DownedProv: Drops after defeating Providence
+	DownedSig: Drops after defeating Signus
+	DownedSW: Drops after defeating the Storm Weaver
+	DownedCV: Drops after defeating the Ceaseless Void
+	DownedPolter: Drops after defeating the Polterghast
+	DownedOD: Drops after defeating the Old Duke
+	DownedDoG: Drops after defeating the Devourer of Gods
+	DownedYharon: Drops after defeating Yharon
+	DownedExos: Drops after defeating the Exo Mechs
+	DownedSCal: Drops after defeating Calamitas
+	DownedAEW: Drops after defeating the Primordial Wyrm
+	DownedClam: Drops after defeating the Giant Clam
+	DownedClamHM: Drops after defeating the Giant Clam in Hardmode
+	DownedGSS: Drops after defeating the Great Sand Shark
+	DownedBetsy: Drops after defeating Betsy
+	DownedT1AR: Drops after defeating the first tier of Acid Rain
+	DownedT2AR: Drops after defeating the second tier of Acid Rain
+	FirstKill: Drops only on the first kill
+	IsGFB: This is an Everything Seed drop rate
+	IsRev: This is a Revengeance Mode drop rate
+	IsDeath: This is a Death Mode drop rate
+	MechBoss: Drops on the first kill of the final Mechanical Boss
+	ProvidenceHallow:
+		'''
+		Drops if Providence was summoned in the Hallow
+		or if Providence is only attacked during nighttime
+		'''
+	ProvidenceUnderworld:
+		'''
+		Drops if Providence was summoned in the Underworld
+		or if Providence is only attacked during nighttime
+		'''
+	ProvidenceNight: Drops if Providence is only attacked during nighttime
+	ProvidenceChallenge:
+		'''
+		Drops if Providence was defeated only with the [i:CalamityMod/ProfanedSoulArtifact] Profaned Soul Artifact
+		{$Bestiary_ItemDropConditions.IsExpert}
+		'''
+	TrasherKill: Drops if fed to a Trasher
+}
+
+// Other conditions
+PotionConfig: While the Town NPC Potion Selling configuration option is enabled
+HasFlareGun: While holding a Flare Gun upgrade
+HasRogueArmor: While wearing rogue armor
+HasWings: While wearing wings
+InAstral: While in the Astral Infection
+InCrag: While in the Brimstone Crags
+InSulph: While in the Sulphurous Sea
+InSunken: While in the Sunken Sea
+InRev: In Revengeance Mode
+AlcoholPoison: While inflicted with Alcohol Poisoning
+PostCal: After Calamitas Clone has been defeated
+PostAureus: After Astrum Aureus has been defeated
+PostPolter: After Polterghast has been defeated
+PostOD: After the Old Duke has been defeated
+PostDoG: After the Devourer of Gods has been defeated
+PostYharon: After Yharon has been defeated

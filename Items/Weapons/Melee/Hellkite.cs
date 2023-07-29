@@ -1,12 +1,11 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Tiles.Furniture.CraftingStations;
-using System.Collections.Generic;
-using CalamityMod.Rarities;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.scale = 1f;
             Item.damage = 180;
             Item.DamageType = DamageClass.Melee;
-            Item.useTime = 30;
+            Item.useTime = Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.knockBack = 8f;
@@ -39,42 +38,11 @@ namespace CalamityMod.Items.Weapons.Melee
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 174);
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (Main.zenithWorld)
-            {
-                Item.width = 210;
-                Item.height = 210;
-                Item.scale = 2.5f;
-                Item.damage = 1369;
-                Item.DamageType = DamageClass.Melee;
-                Item.useTime = Item.useAnimation = 12;
-                Item.useStyle = ItemUseStyleID.Swing;
-                Item.useTurn = true;
-                Item.knockBack = 19f;
-                Item.UseSound = SoundID.Item1;
-                Item.autoReuse = true;
-                Item.rare = ModContent.RarityType<DarkBlue>();
-                Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
-            }
-            else
-            {
-                Item.width = 84;
-                Item.height = 84;
-                Item.scale = 1f;
-                Item.damage = 180;
-                Item.DamageType = DamageClass.Melee;
-                Item.useTime = Item.useAnimation = 30;
-                Item.useStyle = ItemUseStyleID.Swing;
-                Item.useTurn = true;
-                Item.knockBack = 8f;
-                Item.UseSound = SoundID.Item1;
-                Item.autoReuse = true;
-                Item.value = CalamityGlobalItem.Rarity7BuyPrice;
-                Item.rare = ItemRarityID.Lime;
-            }
-            return base.CanUseItem(player);
-        }
+        // NOTE: Modded item variants don't seem to be supported as of now, so this is probably temporary (also there is no way around modifiers screwing rarity/value in some way)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage += (Main.zenithWorld ? (1369f / 180f - 1f) : 0f);
+        public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback) => knockback += (Main.zenithWorld ? 1.5f : 0f);
+        public override float UseSpeedMultiplier(Player player) => Main.zenithWorld ? 2.5f : 1f;
+        public override void ModifyItemScale(Player player, ref float scale) => scale *= (Main.zenithWorld ? 2.5f : 1f);
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -137,19 +105,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-                CreateRecipe().
-                AddCondition(new Condition("Get Fixed Boi", () => Main.zenithWorld)).
-                AddIngredient(ItemID.TitaniumSword).
-                AddIngredient<NightmareFuel>(12).
-                AddTile<CosmicAnvil>().
-                Register();
+            CreateRecipe().
+            AddCondition(Condition.ZenithWorld).
+            AddIngredient(ItemID.TitaniumSword).
+            AddIngredient<NightmareFuel>(12).
+            AddTile<CosmicAnvil>().
+            Register();
 
-                CreateRecipe().
-                AddCondition(new Condition(" ", () => !Main.zenithWorld)).
-                AddIngredient(ItemID.FieryGreatsword).
-                AddIngredient<PerennialBar>(8).
-                AddTile(TileID.MythrilAnvil).
-                Register();
+            CreateRecipe().
+            AddCondition(Condition.NotZenithWorld).
+            AddIngredient(ItemID.FieryGreatsword).
+            AddIngredient<PerennialBar>(8).
+            AddTile(TileID.MythrilAnvil).
+            Register();
         }
     }
 }

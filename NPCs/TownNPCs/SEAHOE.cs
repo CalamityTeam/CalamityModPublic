@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.TownNPCs
         }
         public override void AddShops()
         {
-            Condition downedOldDuke = new("If The Old Duke has been defeated", () => DownedBossSystem.downedBoomerDuke);
+            Condition downedOldDuke = new(CalamityUtils.GetText("Condition.PostOD"), () => DownedBossSystem.downedBoomerDuke);
 
             NPCShop shop = new(Type);
             shop.Add(ModContent.ItemType<Shellshooter>())
