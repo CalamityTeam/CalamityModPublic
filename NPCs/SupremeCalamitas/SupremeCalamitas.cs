@@ -1237,7 +1237,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (!bossRush)
                 {
-                    if (DownedBossSystem.downedCalamitas)
+                    if (DownedBossSystem.downedCalamitas && !cirrus)
                         key += "Rematch";
 
                     CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
@@ -1261,9 +1261,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Vector2 circleOffset = player.Center + (Vector2.UnitY * 640f).RotatedBy(MathHelper.ToRadians(blasterTimer * 3f));
                             NPC.Center = circleOffset;
 
-                            int blasterDivisor = (int)Math.Floor(5 / uDieLul);
+                            int blasterDivisor = 5;
                             if (blasterTimer % blasterDivisor == 0)
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, player.Center, ModContent.ProjectileType<CirrusBlaster>(), 500, 0f, Main.myPlayer);
+                            {
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, player.Center, ModContent.ProjectileType<CirrusBlaster>(), 500, 0f, Main.myPlayer);
+                            }
 
                             int beamDivisor = 60;
                             if (blasterTimer % beamDivisor == 0)
@@ -1272,15 +1275,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 float radians = MathHelper.TwoPi / totalProjectiles;
                                 float velocity = 12f * uDieLul;
                                 Vector2 spinningPoint = new Vector2(0f, -velocity);
-                                for (int k = 0; k < totalProjectiles; k++)
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    Vector2 rayVelocity = spinningPoint.RotatedBy(radians * k);
-                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(rayVelocity) * 16f, rayVelocity, ModContent.ProjectileType<Projectiles.Magic.FabRay>(), 350, 0f, Main.myPlayer);
-                                    if (proj.WithinBounds(Main.maxProjectiles))
+                                    for (int k = 0; k < totalProjectiles; k++)
                                     {
-                                        Main.projectile[proj].DamageType = DamageClass.Default;
-                                        Main.projectile[proj].friendly = false;
-                                        Main.projectile[proj].hostile = true;
+                                        Vector2 rayVelocity = spinningPoint.RotatedBy(radians * k);
+                                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(rayVelocity) * 16f, rayVelocity, ModContent.ProjectileType<Projectiles.Magic.FabRay>(), 350, 0f, Main.myPlayer);
+                                        if (proj.WithinBounds(Main.maxProjectiles))
+                                        {
+                                            Main.projectile[proj].DamageType = DamageClass.Default;
+                                            Main.projectile[proj].friendly = false;
+                                            Main.projectile[proj].hostile = true;
+                                        }
                                     }
                                 }
                             }
