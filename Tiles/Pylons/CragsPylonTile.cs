@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Pylons
 
         public override NPCShop.Entry GetNPCShopEntry()
         {
-            Condition biomeCondition = new Condition("While in the Brimstone Crags", () => Main.LocalPlayer.Calamity().ZoneCalamity);
+            Condition biomeCondition = new Condition(CalamityUtils.GetText("Condition.InCrag"), () => Main.LocalPlayer.Calamity().ZoneCalamity);
             return new NPCShop.Entry(AssociatedItem, biomeCondition);
         }
 

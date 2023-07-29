@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.Pylons
 
         public override NPCShop.Entry GetNPCShopEntry()
         {
-            Condition biomeCondition = new Condition("While in the Sulphurous Sea", () => Main.LocalPlayer.Calamity().ZoneSulphur);
+            Condition biomeCondition = new Condition(CalamityUtils.GetText("Condition.InSulph"), () => Main.LocalPlayer.Calamity().ZoneSulphur);
             return new NPCShop.Entry(AssociatedItem, Condition.AnotherTownNPCNearby, biomeCondition);
         }
 

@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("QuiversGroup").
+                AddRecipeGroup("AnyQuiver").
                 AddIngredient<DeadshotBrooch>().
                 AddIngredient(ItemID.LunarBar, 8).
                 AddIngredient<GalacticaSingularity>(4).

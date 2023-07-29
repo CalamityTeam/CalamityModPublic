@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.45f;
 
             // Activate shot behavior if the owner stops channeling or otherwise cannot use the weapon.
-            bool activatingShoot = ShootDelay <= 0 && Main.mouseLeft && !Main.mapFullscreen && !Main.blockMouse;
+            bool activatingShoot = ShootDelay <= 0 && Main.mouseLeft && !Main.mapFullscreen && !Owner.mouseInterface;
             if (Main.myPlayer == Projectile.owner && OwnerCanShoot && activatingShoot)
             {
                 SoundEngine.PlaySound(HeavenlyGale.FireSound, Projectile.Center);

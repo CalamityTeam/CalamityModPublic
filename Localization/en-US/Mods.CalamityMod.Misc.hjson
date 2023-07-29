@@ -1,24 +1,21 @@
-// Drop Conditions
-DropCondition: {
-	FirstKill: Drops only on the first kill
-	MechBoss: Drops on the first kill of the final Mechanical Boss
-	Cynosure: Drops once you have defeated both Draedon and Calamitas
-	ProvidenceHallow:
-		'''
-		Drops if Providence was summoned in the Hallow
-		or if Providence is only attacked during nighttime
-		'''
-	ProvidenceUnderworld:
-		'''
-		Drops if Providence was summoned in the Underworld
-		or if Providence is only attacked during nighttime
-		'''
-	ProvidenceNight: Drops if Providence is only attacked during nighttime
-	ProvidenceChallenge:
-		'''
-		Drops if Providence was defeated only with the {0}
-		{$Bestiary_ItemDropConditions.IsExpert}
-		'''
+// Recipe Groups
+RecipeGroup: {
+	HardmodeAnvil: Any Hardmode Anvil
+	HarmodeForge: Any Hardmode Forge
+	AnyLargeGem: Any Large Gem
+	AnyFood: Any Food Item
+	AnyEvilBar: Any Evil Bar
+	AnyEvilPowder: Any Evil Powder
+	Boss2Material: Shadow Scale or Tissue Sample
+	CursedFlameIchor: Cursed Flame or Ichor
+	AnyEvilWater: Any Evil Water
+	AnyEvilFlask: Any Evil Flask
+	AnyEvilBlock: Any Evil Block
+	AnyGoodBlock: Any Good Block
+	LunarPickaxe: Any Lunar Pickaxe
+	LunarHamaxe: Any Lunar Hamaxe
+	AnyQuiver: Any Quiver
+	AnyWings: Any Wings
 }
 
 // Status

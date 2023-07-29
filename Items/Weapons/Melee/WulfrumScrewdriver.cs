@@ -94,7 +94,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void Update(ref float gravity, ref float maxFallSpeed) => ScrewStored = false;
         public override void UpdateInventory(Player player)
         {
-            if (player.HeldItem != Item)
+            if (player.ActiveItem() != Item)
                 ScrewStored = false;
         }
 
@@ -166,7 +166,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Player myPlayer = Main.LocalPlayer;
 
-            if (myPlayer.HeldItem != Item || !myPlayer.active || myPlayer.dead)
+            if (myPlayer.ActiveItem() != Item || !myPlayer.active || myPlayer.dead)
                 return;
 
             spriteBatch.End();

@@ -1313,15 +1313,14 @@ namespace CalamityMod.CalPlayer
 
             if (tag.ContainsKey("adrenaline"))
             {
-                bool failedToLoadFloatAdrenaline = false;
-                try
-                {
-                    adrenaline = tag.GetFloat("adrenaline");
-                }
-                catch (Exception) { failedToLoadFloatAdrenaline = true; }
+                object adrenObj = tag["adrenaline"];
 
-                if (failedToLoadFloatAdrenaline)
-                    adrenaline = tag.GetInt("adrenaline") / (10000 / 100f);
+                if (adrenObj is float adrenFloat)
+                    adrenaline = adrenFloat;
+                else if (adrenObj is int adrenInt)
+                    adrenaline = adrenInt;
+                else
+                    adrenaline = 0f;
             }
 
             if (tag.ContainsKey("aquaticBoostPower"))

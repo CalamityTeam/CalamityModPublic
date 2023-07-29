@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe().
                 AddIngredient(ItemID.Sickle, 1).
-                AddRecipeGroup("TombstonesGroup").
+                AddRecipeGroup("AnyTombstone").
                 AddIngredient(ItemID.Bone, 50).
                 AddIngredient(ItemID.CursedFlame, 5).
                 AddIngredient(ItemID.SoulofFright, 10).

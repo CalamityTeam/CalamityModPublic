@@ -321,7 +321,7 @@ namespace CalamityMod.NPCs
                     );
                     npcLoot.DefineConditionalDropSet(DropHelper.If(() => !CalamityWorld.death, () => !CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 2, 5);
                     npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 6, 15);
-                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death, "This is a Death Mode drop rate")).Add(ItemID.SoulofNight, 1, 4, 8);
+                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death, CalamityUtils.GetTextValue("Condition.Drops.IsDeath"))).Add(ItemID.SoulofNight, 1, 4, 8);
                     break;
                 case NPCID.SeekerBody:
                 case NPCID.SeekerTail:
@@ -332,7 +332,7 @@ namespace CalamityMod.NPCs
                     );
                     npcLoot.DefineConditionalDropSet(DropHelper.If(() => !CalamityWorld.death, () => !CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 2, 5);
                     npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 6, 15);
-                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death, "This is a Death Mode drop rate")).Add(ItemID.SoulofNight, 1, 4, 8);
+                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death, CalamityUtils.GetTextValue("Condition.Drops.IsDeath"))).Add(ItemID.SoulofNight, 1, 4, 8);
 
                     npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, false)).Add(ItemID.MeatGrinder, 200);
                     npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death && Main.WindyEnoughForKiteDrops, false)).Add(ItemID.KiteWorldFeeder, 25);

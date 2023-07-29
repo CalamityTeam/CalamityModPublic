@@ -258,10 +258,10 @@ namespace CalamityMod.NPCs.TownNPCs
         }
         public override void AddShops()
         {
-            Condition potionSells = new("While the Town NPC Potion Selling configuration option is enabled", () => CalamityConfig.Instance.PotionSelling);
-            Condition downedCalclone = new("If the Calamitas Clone has been defeated", () => DownedBossSystem.downedCalamitasClone);
-            Condition downedDoG = new("If The Devourer of Gods has been defeated", () => DownedBossSystem.downedDoG);
-            Condition downedYharon = new("If Yharon has been defeated", () => DownedBossSystem.downedYharon);
+            Condition potionSells = new(CalamityUtils.GetText("Condition.PotionConfig"), () => CalamityConfig.Instance.PotionSelling);
+            Condition downedCalclone = new(CalamityUtils.GetText("Condition.PostCal"), () => DownedBossSystem.downedCalamitasClone);
+            Condition downedDoG = new(CalamityUtils.GetText("Condition.PostDoG"), () => DownedBossSystem.downedDoG);
+            Condition downedYharon = new(CalamityUtils.GetText("Condition.PostYharon"), () => DownedBossSystem.downedYharon);
 
             NPCShop shop = new(Type);
             shop.AddWithCustomValue(ModContent.ItemType<Cinquedea>(), Item.buyPrice(gold: 9))
