@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Melee
         public static readonly SoundStyle Kunk = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
         public float rotatehammer = 35f;
         public int ColorAlpha = 225;
+        public float speed = 0f;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
@@ -47,6 +48,11 @@ namespace CalamityMod.Projectiles.Melee
             rotatehammer--;
             Projectile.rotation += MathHelper.ToRadians(rotatehammer) * Projectile.direction;
             Projectile.ai[0] += 1f;
+            speed = Projectile.velocity.Length();
+            if (Projectile.ai[0] > 55f)
+            {
+                CalamityUtils.HomeInOnNPC(Projectile, Projectile.tileCollide, 2000f, speed, 12f);
+            }
             if (Projectile.ai[0] < 42f)
             {
                 Projectile.velocity *= 0.9575f;
