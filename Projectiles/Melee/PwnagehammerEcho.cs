@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Melee
         public static readonly SoundStyle BigSound = new("CalamityMod/Sounds/Item/PwnagehammerBigImpact");
         public static readonly SoundStyle Kunk = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
         public int Explodamage = 0;
+        public float speed = 0f;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
@@ -41,7 +42,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
+            speed = Projectile.velocity.Length();
             Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] > 55f)
+            {
+                CalamityUtils.HomeInOnNPC(Projectile, Projectile.tileCollide, 2000f, speed, 12f);
+            }
             if (Projectile.ai[0] < 42f)
             {
                 Projectile.velocity.Y *= 0.9575f;
