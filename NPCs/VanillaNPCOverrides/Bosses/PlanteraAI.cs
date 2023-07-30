@@ -327,14 +327,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Emit spore gas in phase 3
                 else if (npc.ai[3] <= BeginChargeGateValue)
                 {
-                    float sporeGasDashGateValue = death ? 6f : 8f;
+                    float sporeGasDashGateValue = death ? 4f : 6f;
                     if (phase3 && npc.ai[3] % sporeGasDashGateValue == 0f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int projectileType = ModContent.ProjectileType<SporeGasPlantera>();
                             int damage = npc.GetProjectileDamage(projectileType);
-                            Vector2 projectileVelocity = npc.velocity * Main.rand.NextVector2CircularEdge(0.05f, 0.05f);
+                            Vector2 projectileVelocity = npc.velocity * Main.rand.NextVector2CircularEdge(0.2f, 0.2f);
                             float ai0 = Main.rand.Next(3);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 30f, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, ai0);
                         }
@@ -379,6 +379,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             Dust dust = Dust.NewDustDirect(npc.Center, npc.width, npc.height, 44, dustVelocity.X, dustVelocity.Y, 250, default, 0.8f);
                             dust.fadeIn = 0.7f;
+                        }
+
+                        // Vomit spread of spore gas
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            int totalProjectiles = 12;
+                            float radians = MathHelper.TwoPi / totalProjectiles;
+                            int type = ModContent.ProjectileType<SporeGasPlantera>();
+                            int damage = npc.GetProjectileDamage(type);
+                            float velocity2 = CalamityWorld.LegendaryMode ? 10f : 5f;
+                            Vector2 spinningPoint = new Vector2(0f, -velocity2);
+                            for (int k = 0; k < totalProjectiles; k++)
+                            {
+                                Vector2 projectileVelocity = spinningPoint.RotatedBy(radians * k);
+                                float ai0 = Main.rand.Next(3);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 50f, projectileVelocity * Main.rand.NextFloat(0.8f, 1.2f), type, damage, 0f, Main.myPlayer, ai0);
+                            }
                         }
                     }
 
@@ -500,6 +517,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Phase 2
             else
             {
+                // Emit light
+                Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.4f, 0.8f, 0.2f);
+
                 // Spore dust
                 if (Main.rand.NextBool(10))
                 {
@@ -846,6 +866,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
+
+            // Emit light
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.4f, 0.1f);
 
             // Spore dust
             if (Main.rand.NextBool(10))
