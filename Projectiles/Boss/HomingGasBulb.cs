@@ -74,6 +74,8 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, Projectile.alpha);
+
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.Center);

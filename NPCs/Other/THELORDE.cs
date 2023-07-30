@@ -16,6 +16,7 @@ using CalamityMod.Balancing;
 
 namespace CalamityMod.NPCs.Other
 {
+    [AutoloadBossHead]
     // I would like to say first and foremost, that 95% of this is directly ported from his code when he got removed in early 2018
     public class THELORDE : ModNPC
     {
@@ -553,6 +554,18 @@ namespace CalamityMod.NPCs.Other
             NPC.dontTakeDamage = true;
             NPC.netUpdate = true;
             return false;
+        }
+
+        public override void OnKill()
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Vector2 speed = new Vector2(Main.rand.NextFloat(-10, 10), Main.rand.NextFloat(-10, 10));
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, speed, ModContent.ProjectileType<GooglyEye>(), 0, 0f, Main.myPlayer);
+                }
+            }
         }
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float bossLifeScale, float anotherthing)
