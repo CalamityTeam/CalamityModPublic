@@ -3203,7 +3203,7 @@ namespace CalamityMod.CalPlayer
     
             // Nerfs the effectiveness of Beetle Scale Mail.
             if (Player.beetleOffense && Player.beetleOrbs > 0)
-                meleeSpeedMult -= 0.1f * Player.beetleOrbs;
+                Player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f * Player.beetleOrbs;
 
             if (GemTechSet && GemTechState.IsYellowGemActive)
                 meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;

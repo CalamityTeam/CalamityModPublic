@@ -344,7 +344,7 @@ namespace CalamityMod.Items
             // Aerial Bane is no longer the real bane of aerial enemies (50% dmg bonus removed)
             if (item.type == ItemID.DD2BetsyBow)
                 EditTooltipByNum(0, (line) => line.Text = "Shoots splitting arrows");
-            
+
             // Modify item speed tooltips to use a new scale designed to more accurately reflect practical distributions of item speeds.
             // Due to the higher complexity of the action, the actual logic is delegated to its own method.
             // I think this fits the miscellaneous category? Not seeing anything like this elsewhere. - Tomat
@@ -393,7 +393,7 @@ namespace CalamityMod.Items
             {
                 EditTooltipByNum(0, (line) => line.Text += " to summon the Golem\n");
                 EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Jungle Temple");
-            
+
             }
 
             if (item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalSkull || item.type == ItemID.MechanicalWorm || item.type == ItemID.SuspiciousLookingEye)
@@ -672,24 +672,24 @@ namespace CalamityMod.Items
             // Feral Claws line melee speed and true melee damage changes
             if (item.type == ItemID.FeralClaws)
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("12%", "10%"));
-            
+
             if (item.type == ItemID.TitanGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
-           
+
             if (item.type == ItemID.PowerGlove)
             {
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("12%", "10%"));
                 EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
             }
-            
+
             if (item.type == ItemID.BerserkerGlove)
             {
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("12% increased melee speed", "10% increased true melee damage"));
             }
 
             if (item.type == ItemID.MechanicalGlove)
-            EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
-            
+                EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
+
             if (item.type == ItemID.FireGauntlet)
             {
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
@@ -718,6 +718,10 @@ namespace CalamityMod.Items
             // Falcon Blade +20% move speed while holding
             if (item.type == ItemID.FalconBlade)
                 EditTooltipByName("Knockback", (line) => line.Text += "\nHolding this item grants +20% increased movement speed");
+
+            //Gi 10% melee speed into 10% jump speed replacement
+            if (item.type == ItemID.Gi)
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("melee", "jump"));
             #endregion
 
             // Pre-Hardmode ore armor tooltip edits
@@ -816,6 +820,10 @@ namespace CalamityMod.Items
             // Adamantite
             if (item.type == ItemID.AdamantiteHeadgear)
                 EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {AdamantiteArmorSetChange.MaxManaBoost + 80}");
+
+            // Titanium
+            if (item.type == ItemID.TitaniumMask)
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("9", "14"));
             #endregion
 
             // DD2 armor tooltip edits
@@ -878,7 +886,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.SlimeCrown || item.type == ItemID.SuspiciousLookingEye || item.type == ItemID.BloodMoonStarter || item.type == ItemID.GoblinBattleStandard ||
                 item.type == ItemID.WormFood || item.type == ItemID.BloodySpine || item.type == ItemID.Abeemination || item.type == ItemID.DeerThing || item.type == ItemID.QueenSlimeCrystal ||
                 item.type == ItemID.PirateMap || item.type == ItemID.SnowGlobe || item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalWorm || item.type == ItemID.MechanicalSkull ||
-                item.type == ItemID.NaughtyPresent ||item.type == ItemID.PumpkinMoonMedallion || item.type == ItemID.SolarTablet ||item.type == ItemID.SolarTablet || item.type == ItemID.CelestialSigil)
+                item.type == ItemID.NaughtyPresent || item.type == ItemID.PumpkinMoonMedallion || item.type == ItemID.SolarTablet || item.type == ItemID.SolarTablet || item.type == ItemID.CelestialSigil)
 
                 EditTooltipByNum(0, (line) => line.Text += "\nNot consumable");
             #endregion
@@ -913,6 +921,10 @@ namespace CalamityMod.Items
             if ((item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
                 && !Main.LocalPlayer.Calamity().forbiddenCirclet)
                 EditTooltipByName("SetBonus", (line) => line.Text += "\nMinions no longer deal less damage while wielding magic weapons");
+
+            //Beetle Armor melee speed removal
+            if (item.type == ItemID.BeetleHelmet || item.type == ItemID.BeetleScaleMail || item.type == ItemID.BeetleLeggings)
+                EditTooltipByName("SetBonus", (line) => line.Text = line.Text.Replace("and speed", "by 10% per beetle"));
             #endregion
 
             // Provide the full stats of every vanilla set of wings
