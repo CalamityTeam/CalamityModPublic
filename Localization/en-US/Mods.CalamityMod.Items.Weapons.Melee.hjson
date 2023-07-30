@@ -208,7 +208,6 @@ BrimstoneSword: {
 		'''
 		Summons brimstone geysers on hit
 		Press <right> to throw the sword like a javelin that explodes on hit
-		Receives 33% benefit from melee speed bonuses
 		'''
 }
 
@@ -289,7 +288,6 @@ CosmicShiv: {
 		'''
 		Fires a cosmic beam that homes in on enemies
 		Upon hitting an enemy, a barrage of offscreen objects home in on the enemy as well as raining stars
-		Receives 33% benefit from melee speed bonuses
 		'''
 }
 
@@ -328,11 +326,7 @@ DepthCrusher: {
 
 Devastation: {
 	DisplayName: Devastation
-	Tooltip:
-		'''
-		Fires galaxy blasts that explode
-		Receives 33% benefit from melee speed bonuses
-		'''
+	Tooltip: Fires galaxy blasts that explode
 }
 
 DevilsDevastation: {
@@ -342,7 +336,6 @@ DevilsDevastation: {
 		Fires a spread of demonic scythes
 		Pitchforks rise from the underworld to skewer your foes
 		Critical hits cause shadowflame explosions
-		Receives 33% benefit from melee speed bonuses
 		'''
 }
 
@@ -416,11 +409,7 @@ ElementalLance: {
 
 ElementalShiv: {
 	DisplayName: Elemental Shiv
-	Tooltip:
-		'''
-		Shoots a rainbow shiv that spawns additional shivs on hit
-		Receives 33% benefit from melee speed bonuses
-		'''
+	Tooltip: Shoots a rainbow shiv that spawns additional shivs on hit
 }
 
 EmpyreanKnives: {
@@ -574,7 +563,6 @@ GalactusBlade: {
 	Tooltip:
 		'''
 		Launches a barrage of comets from the sky
-		Receives 33% benefit from melee speed bonuses
 		Forged with the fury of nuclear chaos
 		'''
 }
@@ -596,7 +584,6 @@ GalileoGladius: {
 		'''
 		Shoots a homing crescent moon
 		Spawns planetoids on enemy hits
-		Receives 33% benefit from melee speed bonuses
 		'Don't underestimate the power of small space swords'
 		'''
 }
@@ -728,7 +715,6 @@ Lucrecia: {
 		'''
 		Striking an enemy makes you immune for a short time
 		Fires a DNA chain
-		Receives 33% benefit from melee speed bonuses
 		Finesse
 		'''
 }
@@ -1153,7 +1139,6 @@ Swordsplosion: {
 	Tooltip:
 		'''
 		Fires multiple rainbow beam swords that rain from the sky
-		Receives 33% benefit from melee speed bonuses
 		Sword swarm
 		'''
 }
@@ -1169,7 +1154,6 @@ TenebreusTides: {
 		'''
 		Shoots a water spear that pierces enemies and terrain
 		Striking enemies summon liquid blades and spears to assault the struck foe
-		Receives 33% benefit from melee speed bonuses
 		'Inundatio ex Laminis'
 		'''
 }

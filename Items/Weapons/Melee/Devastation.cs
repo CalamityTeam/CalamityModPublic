@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
                        Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 11));
                        ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
