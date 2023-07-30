@@ -1303,6 +1303,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.CirrusGiveUpText", cirrusTextColor);
                                 Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Pink);
                                 NPC.Center = initialRitualPosition;
+                                giveUpCounter--;
                             }
                             else
                             {
