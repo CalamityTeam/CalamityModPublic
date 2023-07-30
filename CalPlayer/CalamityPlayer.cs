@@ -3383,25 +3383,24 @@ namespace CalamityMod.CalPlayer
                 if (cooldowns.TryGetValue(PotionSickness.ID, out CooldownInstance cd))
                 {
                     if (Player.potionDelay != cd.timeLeft && cd.timeLeft > 0)
-                    {
                         cd.timeLeft = Player.potionDelay;
-                    }
 
                     if (cd.timeLeft > cd.duration)
                         cd.duration = cd.timeLeft; // If the new cooldown is larger than the full duration, update, else keep it the same.
                 }
-                    
-                    
+
                 // Add a cooldown display for chaos state if the player has the vanilla counter ticking
                 // This will make the cooldown look like vanilla Rod of Discord, as it wasn't applied by either Normality Relocator or Spectral Veil
                 if (Player.chaosState && !Player.HasCooldown(ChaosState.ID))
                 {
                     for (int l = 0; l < Player.MaxBuffs; l++)
+                    {
                         if (Player.buffType[l] == BuffID.ChaosState)
                         {
                             Player.AddCooldown(ChaosState.ID, Player.buffTime[l], false);
                             break;
                         }
+                    }
                 }
             }
 
@@ -3413,6 +3412,7 @@ namespace CalamityMod.CalPlayer
                 float lifeStealNerf = BossRushEvent.BossRushActive ? 0.3f : CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
                 duration /= baseCooldown - lifeStealNerf;
                 duration *= -1f;
+
                 if (!Player.HasCooldown(LifeSteal.ID) || (cooldowns[LifeSteal.ID].duration < (int)duration))
                     Player.AddCooldown(LifeSteal.ID, (int)duration);
             }
@@ -4641,7 +4641,7 @@ namespace CalamityMod.CalPlayer
 
             if (auralisAuroraCounter >= 300)
             {
-                modifiers.SourceDamage -= 100;
+                modifiers.SourceDamage.Flat -= 100;
 
                 auralisAuroraCounter = 0;
                 auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
@@ -5663,7 +5663,7 @@ namespace CalamityMod.CalPlayer
 
             // Resilient Candle makes defense 5% more effective, aka 5% of defense is subtracted from all incoming damage.
             if (purpleCandle)
-                modifiers.SourceDamage -= (int)(Player.statDefense * 0.05);
+                modifiers.SourceDamage.Flat -= (int)(Player.statDefense * 0.05);
         }
         #endregion
 

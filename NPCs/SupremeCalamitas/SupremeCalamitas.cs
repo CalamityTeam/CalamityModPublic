@@ -64,9 +64,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public const int FourthBulletHellEndValue = BulletHellDuration * 4;
         public const int FifthBulletHellEndValue = BulletHellDuration * 5;
         public const int CirrusPhotonRipperDamage = 3725;
-        private const float CirrusPhotonRipperDashVelocity = 8f;
+        private const float CirrusPhotonRipperDashVelocity = 6f;
         private const float CirrusPhotonRipperMinDistanceFromTarget = 64f;
-        private const float CirrusPhotonRipperDashAcceleration = 0.4f;
+        private const float CirrusPhotonRipperDashAcceleration = 0.3f;
 
         public float bossLife;
         public float uDieLul = 1f;
@@ -1237,7 +1237,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (!bossRush)
                 {
-                    if (DownedBossSystem.downedCalamitas)
+                    if (DownedBossSystem.downedCalamitas && !cirrus)
                         key += "Rematch";
 
                     CalamityUtils.DisplayLocalizedText(key, cirrus ? cirrusTextColor : textColor);
@@ -1261,9 +1261,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Vector2 circleOffset = player.Center + (Vector2.UnitY * 640f).RotatedBy(MathHelper.ToRadians(blasterTimer * 3f));
                             NPC.Center = circleOffset;
 
-                            int blasterDivisor = (int)Math.Floor(5 / uDieLul);
+                            int blasterDivisor = 5;
                             if (blasterTimer % blasterDivisor == 0)
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, player.Center, ModContent.ProjectileType<CirrusBlaster>(), 500, 0f, Main.myPlayer);
+                            {
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, player.Center, ModContent.ProjectileType<CirrusBlaster>(), 500, 0f, Main.myPlayer, 0f, 1f);
+                            }
 
                             int beamDivisor = 60;
                             if (blasterTimer % beamDivisor == 0)
@@ -1272,15 +1275,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 float radians = MathHelper.TwoPi / totalProjectiles;
                                 float velocity = 12f * uDieLul;
                                 Vector2 spinningPoint = new Vector2(0f, -velocity);
-                                for (int k = 0; k < totalProjectiles; k++)
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    Vector2 rayVelocity = spinningPoint.RotatedBy(radians * k);
-                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(rayVelocity) * 16f, rayVelocity, ModContent.ProjectileType<Projectiles.Magic.FabRay>(), 350, 0f, Main.myPlayer);
-                                    if (proj.WithinBounds(Main.maxProjectiles))
+                                    for (int k = 0; k < totalProjectiles; k++)
                                     {
-                                        Main.projectile[proj].DamageType = DamageClass.Default;
-                                        Main.projectile[proj].friendly = false;
-                                        Main.projectile[proj].hostile = true;
+                                        Vector2 rayVelocity = spinningPoint.RotatedBy(radians * k);
+                                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(rayVelocity) * 16f, rayVelocity, ModContent.ProjectileType<Projectiles.Magic.FabRay>(), 350, 0f, Main.myPlayer);
+                                        if (proj.WithinBounds(Main.maxProjectiles))
+                                        {
+                                            Main.projectile[proj].DamageType = DamageClass.Default;
+                                            Main.projectile[proj].friendly = false;
+                                            Main.projectile[proj].hostile = true;
+                                        }
                                     }
                                 }
                             }
@@ -3146,11 +3152,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             Texture2D texture2D15 = DownedBossSystem.downedCalamitas && !BossRushEvent.BossRushActive ? TextureAssets.Npc[NPC.type].Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded").Value;
             Texture2D pony = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/AlicornMount_Front").Value;
+            bool inPhase2 = NPC.ai[0] >= 3f && (NPC.life > NPC.lifeMax * 0.01 || cirrus);
 
             if (cirrus)
-            {
-                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCirrus").Value;
-            }
+                texture2D15 = inPhase2 ? ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCirrus_Shimmered").Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCirrus").Value;
 
             Vector2 vector11 = new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[NPC.type] / 2f);
             Vector2 ponyOrigin = new Vector2(pony.Width / 2f, pony.Height / 30f);
@@ -3179,7 +3184,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
             }
 
-            bool inPhase2 = NPC.ai[0] >= 3f && NPC.life > NPC.lifeMax * 0.01;
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
