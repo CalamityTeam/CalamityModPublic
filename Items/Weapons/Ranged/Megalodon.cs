@@ -1,9 +1,10 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,33 +30,29 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
-            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shoot = ModContent.ProjectileType<ArcherfishShot>();
             Item.shootSpeed = 16f;
             Item.useAmmo = AmmoID.Bullet;
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            // Both bullets and water jets have very slight inaccuracy
-            float SpeedX = velocity.X + Main.rand.Next(-10, 11) * 0.05f;
-            float SpeedY = velocity.Y + Main.rand.Next(-10, 11) * 0.05f;
+            // Reposition to the gun's tip + add some inaccuracy
+            Vector2 newPos = position + new Vector2(64f, player.direction * (Math.Abs(velocity.SafeNormalize(Vector2.Zero).X) < 0.02f ? -2f : -8f)).RotatedBy(velocity.ToRotation());
+            Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(5f));
 
             // Fire either the bullet or the water jet, depending on cadence.
-            int projectileToFire = fireWater ? ModContent.ProjectileType<ArcherfishShot>() : type;
-            Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, projectileToFire, damage, knockback, player.whoAmI, 0.0f, 0.0f);
+            int projectileToFire = fireWater ? Item.shoot : type;
+            Projectile.NewProjectile(source, newPos, newVel, projectileToFire, damage, knockback, player.whoAmI);
 
             // Always fires a close range water blast.
             // It goes in the same direction as the main shot but has a minor velocity variation to be less monotonous.
-            Vector2 waterRingVec = new Vector2(SpeedX, SpeedY) * Main.rand.NextFloat(0.5f, 0.6f);
             int waterRingDamage = (int)(damage * 0.5f);
             float boostedKB = knockback + 7f; // Stronger guaranteed KB than Archerfish for mid-late Hardmode
-            Projectile.NewProjectile(source, position, waterRingVec, ModContent.ProjectileType<ArcherfishRing>(), waterRingDamage, boostedKB, player.whoAmI);
+            Projectile.NewProjectile(source, newPos, newVel * Main.rand.NextFloat(0.5f, 0.6f), ModContent.ProjectileType<ArcherfishRing>(), waterRingDamage, boostedKB, player.whoAmI);
 
             // Swap between firing bullets and water jets each shot.
             fireWater = !fireWater;
