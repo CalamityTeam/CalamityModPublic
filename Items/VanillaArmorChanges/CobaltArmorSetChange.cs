@@ -30,6 +30,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
+            setBonusText = setBonusText.Replace("15", "10");
             setBonusText += $"\n{SpeedBoostSetBonusPercentage}% increased max speed and acceleration\n" +
                 $"You gain a damage and critical strike chance boost relative to your current movement speed, up to {SpeedBoostSetBonusPercentage}%";
         }
@@ -51,6 +52,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void ApplyArmorSetBonus(Player player)
         {
+            player.GetAttackSpeed<MeleeDamageClass>() -= 0.05f;
             player.Calamity().CobaltSet = true;
         }
     }

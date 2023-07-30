@@ -81,6 +81,18 @@ namespace CalamityMod.Buffs
             {
                 player.GetDamage<GenericDamageClass>() -= 0.2f;
             }
+            else if (type == BuffID.BeetleMight1)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
+            }
+            else if (type == BuffID.BeetleMight2)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.2f;
+            }
+            else if (type == BuffID.BeetleMight3)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.3f;
+            }
         }
 
         public override void Update(int type, NPC npc, ref int buffIndex)
@@ -157,7 +169,7 @@ namespace CalamityMod.Buffs
                     tip = "22.5% increased damage";
                     break;
 
-                /*case BuffID.BeetleMight1:
+                case BuffID.BeetleMight1:
                     tip = "Melee damage increased by 10%";
                     break;
 
@@ -167,7 +179,7 @@ namespace CalamityMod.Buffs
 
                 case BuffID.BeetleMight3:
                     tip = "Melee damage increased by 30%";
-                    break;*/
+                    break;
 
                 case BuffID.BeetleEndurance1:
                     tip = "Damage taken reduced by 10%";
