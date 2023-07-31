@@ -179,7 +179,7 @@ namespace CalamityMod.CalPlayer
 
             ItemLifesteal(target, item, damageDone);
             ItemOnHit(item, damageDone, target.Center, hit.Crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
-            NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>(), false);
+            NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>());
 
             // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
             if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
@@ -375,7 +375,7 @@ namespace CalamityMod.CalPlayer
 
                 ProjLifesteal(target, proj, damageDone, hit.Crit);
                 ProjOnHit(proj, target.Center, hit.Crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
-                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), true);
+                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), true, proj.noEnchantments);
 
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
                 if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
@@ -995,9 +995,9 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Debuffs
-        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj)
+        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj = false, bool noFlask = false)
         {
-            if (melee) // Prevents Deep Sea Dumbell from snagging true melee debuff memes
+            if (melee && !noFlask) // Prevents Deep Sea Dumbell from snagging true melee debuff memes
             {
                 if (eGauntlet)
                 {
@@ -1016,7 +1016,7 @@ namespace CalamityMod.CalPlayer
                     CalamityUtils.Inflict246DebuffsNPC(target, BuffID.OnFire, 4f);
                 }
             }
-			if (melee || rogue || whip)
+			if ((melee || rogue || whip) && !noFlask)
 			{
 				if (flaskCrumbling)
 				{
@@ -1031,7 +1031,7 @@ namespace CalamityMod.CalPlayer
 					target.AddBuff(BuffType<HolyFlames>(), 180, false);
 				}
 			}
-            if (rogue)
+            if (rogue && !noFlask)
             {
                 switch (Player.meleeEnchant)
                 {

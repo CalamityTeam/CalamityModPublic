@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.MaxUpdates = 2;
             Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 7;
-            Projectile.noEnchantments = true;
+            Projectile.noEnchantmentVisuals = true;
         }
 
         #region AI and Behaviors
