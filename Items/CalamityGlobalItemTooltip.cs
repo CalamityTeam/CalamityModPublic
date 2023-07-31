@@ -483,15 +483,6 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.DeathSickle)
                 EditTooltipByNum(0, (line) => line.Text += "\nInflicts Whispering Death on hit");
-
-            if (item.type == ItemID.StarWrath || item.type == ItemID.NorthPole || item.type == ItemID.PsychoKnife)
-                EditTooltipByNum(0, (line) => line.Text += "\nReceives 33% benefit from melee speed bonuses");
-
-            if (item.type == ItemID.FetidBaghnakhs)
-                EditTooltipByName("Knockback", (line) => line.Text += "\nReceives 25% benefit from melee speed bonuses");
-
-            if (item.type == ItemID.BladedGlove)
-                EditTooltipByName("Knockback", (line) => line.Text += "\nReceives 50% benefit from melee speed bonuses");
             #endregion
 
             // Light pets, accessories, and other items which boost the player's Abyss light stat
@@ -722,6 +713,10 @@ namespace CalamityMod.Items
             //Gi 10% melee speed into 10% jump speed replacement
             if (item.type == ItemID.Gi)
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("melee", "jump"));
+
+            //Beetle Scale Mail melee speed buff
+            if (item.type == ItemID.BeetleScaleMail)
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("6% increased movement and melee speed", "6% increased movement speed and 9% increased melee speed"));
             #endregion
 
             // Pre-Hardmode ore armor tooltip edits

@@ -425,14 +425,12 @@ namespace CalamityMod.CalPlayer
                         rage = 2f * rageMax;
 
                     // Play a sound when the Rage Meter is full
-                    if (Player.whoAmI == Main.myPlayer && playFullRageSound)
-                    {
-                        playFullRageSound = false;
+                    if (Player.whoAmI == Main.myPlayer && fullRageSoundCountdownTimer <= 0)
                         SoundEngine.PlaySound(RageFilledSound);
-                    }
+
+                    // Regardless of whether a sound was played this time Rage reached 100%, set the delay before the sound can be played again.
+                    fullRageSoundCountdownTimer = FullRageSoundDelay;
                 }
-                else
-                    playFullRageSound = true;
             }
             #endregion
 
@@ -1164,6 +1162,8 @@ namespace CalamityMod.CalPlayer
             if (expiredCooldowns.Count > 0)
                 SyncCooldownRemoval(Main.netMode == NetmodeID.Server, expiredCooldowns);
 
+            if (fullRageSoundCountdownTimer > 0)
+                --fullRageSoundCountdownTimer;
             if (plagueTaintedSMGDroneCooldown > 0)
                 plagueTaintedSMGDroneCooldown--;
             if (momentumCapacitorTime > 0)

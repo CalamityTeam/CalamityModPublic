@@ -11,10 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
     public class Swordsplosion : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public override void SetStaticDefaults()
-        {
-                       ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
-        }
 
         public override void SetDefaults()
         {

@@ -328,7 +328,7 @@ namespace CalamityMod.Items
                 { ItemID.NettleBurst, Do(ManaExact(10), DamageExact(43)) },
                 { ItemID.NightmarePickaxe, Do(PickPower(66), UseTimeExact(9)) },
                 { ItemID.NightsEdge, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(76)) },
-                { ItemID.NorthPole, Do(AutoReuse, UseMeleeSpeed, AttackSpeedExact(0.33f)) },
+                { ItemID.NorthPole, Do(AutoReuse, UseMeleeSpeed) },
                 { ItemID.ObsidianShield, Do(DefenseDelta(+5)) },
                 { ItemID.ObsidianSkull, Do(DefenseDelta(+1)) },
                 { ItemID.ObsidianSkullRose, Do(DefenseExact(4)) },
@@ -391,7 +391,7 @@ namespace CalamityMod.Items
                 { ItemID.Plum, Do(Value(Item.buyPrice(silver: 2))) },
                 { ItemID.PoisonStaff, Do(DamageExact(57)) },
                 { ItemID.Pomegranate, Do(Value(Item.buyPrice(silver: 2))) },
-                { ItemID.PsychoKnife, Do(UseTurn, UseExact(11), AttackSpeedExact(0.5f), DamageRatio(3f)) },
+                { ItemID.PsychoKnife, Do(UseTurn, UseExact(11), DamageRatio(3f)) },
                 { ItemID.PulseBow, Do(PointBlank, DamageRatio(1.2f)) },
                 { ItemID.PumpkinMoonMedallion, nonConsumableBossSummon },
                 { ItemID.PurpleClubberfish, Do(UseTurn, ScaleRatio(1.5f), DamageExact(45), KnockbackExact(10f)) },
@@ -491,7 +491,7 @@ namespace CalamityMod.Items
                 { ItemID.Starfruit, Do(Value(Item.buyPrice(silver: 2))) },
                 { ItemID.Starfury, autoReuse },
                 { ItemID.PortableStool, Do(Value(Item.sellPrice(copper: 20))) }, // Step Stool
-                { ItemID.StarWrath, Do(DamageRatio(0.9f), AttackSpeedExact(0.33f)) },
+                { ItemID.StarWrath, Do(DamageRatio(0.9f)) },
                 { ItemID.StormTigerStaff, Do(AutoReuse, DamageExact(49), UseExact(20)) }, // Desert Tiger Staff
                 { ItemID.StylistKilLaKillScissorsIWish, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(33)) },
                 { ItemID.SuspiciousLookingEye, nonConsumableBossSummon },

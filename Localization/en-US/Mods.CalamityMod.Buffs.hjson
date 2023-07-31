@@ -188,11 +188,6 @@ SearingLava: {
 	Description: The brimstone lava sears your flesh
 }
 
-Shadowflame: {
-	DisplayName: Shadowflame
-	Description: Losing life
-}
-
 ShellfishClaps: {
 	DisplayName: Shellfish Claps
 	Description: Clamfest
@@ -668,7 +663,13 @@ BloodyBoost: {
 
 BossEffects: {
 	DisplayName: Boss Effects
-	Description: This tooltip is edited in the function below
+	Description:
+		'''
+		The nearby boss is:
+		Increasing Nurse healing cost by 400%
+		Disabling Target and Super Dummy hitboxes
+		'''
+	ZenDescription: Greatly reducing enemy spawn rates
 }
 
 BrimflameFrenzyBuff: {
@@ -783,6 +784,19 @@ PolarisBuff: {
 ProfanedCrystalBuff: {
 	DisplayName: Devotion
 	Description: You are an emissary of the profaned goddess now!
+	Offense: The {0} empowers your offensive capabilities
+	Lava: heat of the lava
+	Day: light of the sun
+	Defense: The {0} your flames, empowering your defensive capabilities
+	Water: water douses
+	Honey: honey cools
+	Night: darkness of night cools
+	Enrage: Your weakened life force fuels your desperate attacks
+	NerfedEndo: An ascended ice construct is suppressing your true potential...
+	NerfedHat: A magical hat overwhelms your senses, squandering your true potential...
+	LockedSlots: Your profaned soul is constrained by your insufficient summoning powers
+	LockedExos: The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations
+	LockedSCal: The profaned soul within has been defiled by the powerful magic of a supreme witch
 }
 
 RageMode: {
@@ -1305,6 +1319,7 @@ PoleWarperBuff: {
 ProfanedBabs: {
 	DisplayName: The Profaned Soul
 	Description: The Profaned Babs will fight for and defend you!
+	VanityDescription: The Profaned Babs will accompany you!
 }
 
 PuffWarriorBuff: {

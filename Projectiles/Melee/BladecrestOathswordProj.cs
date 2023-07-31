@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.timeLeft = 90000;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 12;
-            Projectile.noEnchantments = true;
+            Projectile.noEnchantmentVisuals = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

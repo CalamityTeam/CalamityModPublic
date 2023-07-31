@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Particles;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class DuststormInABottleProj : ModProjectile, ILocalizedModType
@@ -33,16 +34,30 @@ namespace CalamityMod.Projectiles.Rogue
             if (stealth)
             {
                 //DUST STORM
-                for (int dustexplode = 0; dustexplode < 360; dustexplode++)
+                for (int dustexplode = 0; dustexplode < 180; dustexplode++)
                 {
-                    Vector2 dustd = new Vector2(DuststormInABottle.DustRadius, DuststormInABottle.DustRadius).RotatedBy(MathHelper.ToRadians(dustexplode));
+                    Vector2 dustd = new Vector2(DuststormInABottle.DustRadius, DuststormInABottle.DustRadius).RotatedBy(MathHelper.ToRadians(dustexplode*2));
+
+                    Particle dust = new SandyDustParticle(Projectile.Center, dustd*Main.rand.NextFloat(0.25f, 1f), Color.Beige, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(30, 50));
+                    GeneralParticleHandler.SpawnParticle(dust);
+
                     int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(5) ? 32 : 85, dustd.X, dustd.Y, 50, default, 2f);
                     Main.dust[d].noGravity = true;
-                    Main.dust[d].position = Projectile.Center;
-                    Main.dust[d].velocity *= Main.rand.NextFloat(0.25f, 1.1f);
+                    Main.dust[d].velocity *= Main.rand.NextFloat(0.25f, 1f);
+                    Main.dust[d].scale *= Main.rand.NextFloat(0.5f, 0.8f);
                 }
                 cloudAmt *= 2.75;
                 cloudAmt = Math.Round(cloudAmt);
+            } else
+            {
+                //DUST STORM but smaller
+                for (int dustexplode = 0; dustexplode < 120; dustexplode++)
+                {
+                    Vector2 dustd = new Vector2(DuststormInABottle.DustRadius, DuststormInABottle.DustRadius - 2).RotatedBy(MathHelper.ToRadians(dustexplode * 3));
+
+                    Particle dust = new SandyDustParticle(Projectile.Center, dustd * Main.rand.NextFloat(0.25f, 1f), Color.Beige, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(30, 50));
+                    GeneralParticleHandler.SpawnParticle(dust);
+                }
             }
             if (Projectile.owner == Main.myPlayer)
             {

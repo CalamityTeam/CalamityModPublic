@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.MaxUpdates = 3;
             Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 8;
-            Projectile.noEnchantments = true;
+            Projectile.noEnchantmentVisuals = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

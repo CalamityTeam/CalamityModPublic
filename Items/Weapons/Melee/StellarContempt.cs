@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
     public class StellarContempt : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public static int BaseDamage = 678;
+        public static int BaseDamage = 650;
         public static float Speed = 25f;
 
         public override void SetDefaults()
