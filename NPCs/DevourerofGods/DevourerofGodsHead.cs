@@ -2246,10 +2246,21 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int randomRange = 48;
+                int randomRange = Main.zenithWorld ? 960 : 48;
                 float distance = 500f;
                 Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
                 Projectile.NewProjectile(NPC.GetSource_FromAI(), targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, NPC.whoAmI);
+
+                if (Main.zenithWorld)
+                {
+                    // Fake portals galore
+                    randomRange = 2000;
+                    for (int k = 0; k < 35; k++)
+                    {
+                        targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, NPC.whoAmI, ai2: 1f);
+                    }
+                }
             }
         }
 
@@ -2419,18 +2430,24 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         private Vector2 GetRiftLocation(bool spawnDust)
         {
+            Vector2 realSpot = default;
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
-                if (Main.projectile[i].type == ModContent.ProjectileType<DoGTeleportRift>())
+                Projectile proj = Main.projectile[i];
+                if (proj.type == ModContent.ProjectileType<DoGTeleportRift>())
                 {
                     if (!spawnDust)
-                        Main.projectile[i].ai[0] = -1f;
+                        proj.ai[0] = -1f;
 
-                    Main.projectile[i].Kill();
-                    return Main.projectile[i].Center;
+                    proj.Kill();
+
+                    if (proj.ai[2] == 1f)
+                        continue;
+
+                    realSpot = proj.Center;
                 }
             }
-            return default;
+            return realSpot;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
