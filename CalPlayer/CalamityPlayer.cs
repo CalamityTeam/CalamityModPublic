@@ -250,7 +250,8 @@ namespace CalamityMod.CalPlayer
 
         #region Sound
         public bool playRogueStealthSound = false;
-        public bool playFullRageSound = true;
+        public int fullRageSoundCountdownTimer = 0;
+        private const int FullRageSoundDelay = 300; // The "Rage full" sound cannot play for 5 seconds after Rage has filled. This stops it from jittering.
         public bool playFullAdrenalineSound = true;
 
         public static readonly SoundStyle RageFilledSound = new("CalamityMod/Sounds/Custom/AbilitySounds/FullRage");
