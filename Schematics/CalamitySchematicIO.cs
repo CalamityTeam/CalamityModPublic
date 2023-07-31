@@ -377,6 +377,9 @@ namespace CalamityMod.Schematics
                     IsWallFullbright = (biBitpack & 0x08) != 0,
                 };
             }
+            else
+                smt.brightnessInvisibility = null;
+
             return smt;
         }
 
