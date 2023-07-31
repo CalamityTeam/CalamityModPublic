@@ -41,6 +41,14 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Player player = Main.player[Projectile.owner];
+            //Give iframes to the player
+            if (player.immuneTime <= 4)
+            { 
+            player.immuneNoBlink = true;
+            player.immuneTime = 4;
+            }
+
             // Spawn homing flames that chase the HIT enemy only. This is also limited to one burst
             if (Main.myPlayer == Projectile.owner && !HasHitEnemy)
             {
@@ -52,8 +60,6 @@ namespace CalamityMod.Projectiles.Rogue
                                              (int)(Projectile.damage * 0.3), Projectile.knockBack, Projectile.owner, 0f,
                                              target.whoAmI);
                 }
-                Main.player[Projectile.owner].immuneNoBlink = true;
-                Main.player[Projectile.owner].immuneTime += 20;
                 HasHitEnemy = true;
             }
         }
