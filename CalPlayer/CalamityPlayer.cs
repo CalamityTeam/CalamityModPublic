@@ -3199,19 +3199,6 @@ namespace CalamityMod.CalPlayer
             if (Player.accRunSpeed < accRunSpeedMin)
                 Player.accRunSpeed = accRunSpeedMin;
 
-            #region Melee Speed for Projectile Melee Weapons
-            float meleeSpeedMult = 0f;
-    
-            // Nerfs the effectiveness of Beetle Scale Mail.
-            if (Player.beetleOffense && Player.beetleOrbs > 0)
-                Player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f * Player.beetleOrbs;
-
-            if (GemTechSet && GemTechState.IsYellowGemActive)
-                meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;
-
-            Player.GetAttackSpeed<MeleeDamageClass>() += meleeSpeedMult;
-            #endregion
-
             if (snowman)
             {
                 if (Player.whoAmI == Main.myPlayer && !snowmanNoseless)

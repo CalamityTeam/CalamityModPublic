@@ -77,6 +77,8 @@ namespace CalamityMod.Items.Armor.GemTech
             player.Calamity().wearingRogueArmor = true;
             if (player.Calamity().GemTechState.IsRedGemActive)
                 player.Calamity().rogueStealthMax += RogueStealthBoost * 0.01f;
+            if (player.Calamity().GemTechState.IsYellowGemActive)
+                player.GetAttackSpeed<MeleeDamageClass>() += MeleeSpeedBoost;
 
             player.setBonus = "Mucho Texto"; //Replaced below
         }
