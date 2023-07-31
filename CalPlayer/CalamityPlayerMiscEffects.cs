@@ -2454,7 +2454,7 @@ namespace CalamityMod.CalPlayer
 
             if (tFury)
             {
-                Player.GetDamage<MeleeDamageClass>() += 0.3f;
+                Player.GetDamage<MeleeDamageClass>() += 0.25f;
                 Player.GetCritChance<MeleeDamageClass>() += 10;
             }
 

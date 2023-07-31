@@ -624,10 +624,6 @@ namespace CalamityMod.Items
                 }
             }
 
-            // Give 2 minutes of Honey buff when drinking Bottled Honey.
-            if (item.type == ItemID.BottledHoney)
-                player.AddBuff(BuffID.Honey, 7200);
-
             // Give 1 minute of Mushy buff when consuming Mushrooms with Fungal Symbiote equipped.
             if (item.type == ItemID.Mushroom && player.Calamity().fungalSymbiote)
                 player.AddBuff(ModContent.BuffType<Mushy>(), 3600);

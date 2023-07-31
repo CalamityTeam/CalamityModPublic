@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -44,10 +44,12 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.altFunctionUse == 2)
             {
                 Item.DamageType = DamageClass.MeleeNoSpeed;
+                Item.noMelee = true;
             }
             else
             {
                 Item.DamageType = DamageClass.Melee;
+                Item.noMelee = false;
             }
 
             return base.UseItem(player);
@@ -55,14 +57,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            if (player.altFunctionUse == 2)
-            {
-                type = ModContent.ProjectileType<BrimstoneSwordProj>();
-            }
-            else
-            {
+            if (player.altFunctionUse != 2)
                 type = ProjectileID.None;
-            }
         }
 
         public override void UseAnimation(Player player)
@@ -70,9 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noUseGraphic = false;
 
             if (player.altFunctionUse == 2)
-            {
                 Item.noUseGraphic = true;
-            }
         }
 
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)

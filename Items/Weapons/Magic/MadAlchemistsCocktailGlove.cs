@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-           
             flaskIDs = new int[]
             {
                 ModContent.ProjectileType<MadAlchemistsCocktailRed>(),
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.width = 26;
             Item.height = 36;
 
-            Item.damage = 182;
+            Item.damage = 240;
             Item.DamageType = DamageClass.Magic;
             Item.noUseGraphic = true;
             Item.mana = 12;

@@ -13,14 +13,14 @@ namespace CalamityMod.Items.Weapons.Magic
         public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetStaticDefaults()
         {
-                       Item.staff[Item.type] = true;
+            Item.staff[Item.type] = true;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
             Item.width = 62;
-            Item.damage = 60;
+            Item.damage = 50;
             Item.mana = 6;
             Item.DamageType = DamageClass.Magic;
             Item.useAnimation = Item.useTime = 15;
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                int meteorAmt = Main.rand.Next(4, 6);
+                int meteorAmt = Main.rand.Next(3, 4);
                 for (int i = 0; i < meteorAmt; ++i)
                 {
                     float SpeedX = velocity.X + (float)Main.rand.Next(-30, 31) * 0.05f;
