@@ -2793,14 +2793,11 @@ namespace CalamityMod.NPCs
 
             if (KillTime > 0 || npc.type == NPCType<Draedon>())
             {
-                // If any boss NPC is active, apply Zen to nearby players to reduce spawn rate.
-                if (CalamityConfig.Instance.BossZen)
+                // Apply Boss Effects while any boss NPC is active
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    if (Main.netMode != NetmodeID.Server)
-                    {
-                        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < BossZenDistance)
-                            Main.player[Main.myPlayer].AddBuff(BuffType<BossEffects>(), 2);
-                    }
+                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < BossZenDistance)
+                        Main.player[Main.myPlayer].AddBuff(BuffType<BossEffects>(), 2);
                 }
 
                 if (npc.type != NPCType<Draedon>())

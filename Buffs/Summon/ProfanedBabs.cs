@@ -10,7 +10,6 @@ namespace CalamityMod.Buffs.Summon
         {
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
@@ -29,7 +28,7 @@ namespace CalamityMod.Buffs.Summon
         {
             Player player = Main.player[Main.myPlayer];
             if (player.Calamity().profanedCrystal && !player.Calamity().profanedCrystalBuffs)
-                tip = "The Profaned Babs will accompany you!";
+                tip = this.GetLocalizedValue("VanityDescription");
         }
     }
 }
