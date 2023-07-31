@@ -294,7 +294,7 @@ namespace CalamityMod.Schematics
         };
 
         // This is a 3-byte magic number header for Calamity Schematic Files created with TML 1.4.
-        // This format is still supported.
+        // This format is still supported, but exports cannot use this format.
         // CA145C = "CalaSC" but also "Ca14SC"
         private static readonly byte[] SchematicMagicNumberHeader_TML14 = new byte[]
         {
@@ -305,7 +305,7 @@ namespace CalamityMod.Schematics
 
         // This is a 3-byte magic number header for Calamity Schematic Files in TML 1.4 that need to be extra large.
         // The Infernum Mod (Calamity addon) needed support for massive schematics with extraordinarily large quantities of unique tiles (past the unsigned 16-bit limit).
-        // This format is still supported.
+        // This format is still supported, but exports cannot use this format.
         // 1F145C = "1NFERNUM 1.4 5CHEMATIC"
         private static readonly byte[] SchematicMagicNumberHeader_Infernum14 = new byte[]
         {
@@ -316,7 +316,7 @@ namespace CalamityMod.Schematics
 
         // This is a 3-byte magic number header for Calamity Schematic Files created with TML 1.4.4, which uses Tile structs.
         // The Infernum "size expansion" for extra-large schematics also applies to this format.
-        // This format is not yet fully supported.
+        // This is the up-to-date format and is the only one supported for export.
         // CA445C = "CAlamity 1-44 5CHEMATIC"
         private static readonly byte[] SchematicMagicNumberHeader_TML144 = new byte[]
         {
