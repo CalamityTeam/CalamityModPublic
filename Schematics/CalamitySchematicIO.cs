@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -17,13 +18,19 @@ namespace CalamityMod.Schematics
     [DebuggerDisplay("Tile ID = {TileType}, Wall ID = {WallType}")]
     public struct SchematicMetaTile
     {
+        // For debugging. When instantiated from an older schematic, this will be overwritten.
+        internal string SourceVersion = Main.assemblyVersionNumber;
+
         // If TileType >= TileID.Count, is a modded tile type; consult mod tile name array
         // If WallType >= WallID.Count, is a modded wall type; consule mod wall name array
         internal ushort TileType;
         internal ushort WallType;
         internal byte LiquidAmount;
         internal byte LiquidType;
-        internal TileWallWireStateData miscState;
+        // This struct is new to 1.4.4. It potentially will not exist.
+        // It is explicitly initialized to null from 1.4 era schematics. If it is null, it will be ignored on application.
+        internal TileWallBrightnessInvisibilityData? twbiData;
+        internal TileWallWireStateData wallWireState;
 
         public bool keepTile;
         public bool keepWall;
@@ -35,25 +42,35 @@ namespace CalamityMod.Schematics
             LiquidAmount = t.LiquidAmount;
             LiquidType = (byte)t.LiquidType;
 
-            // Explicitly construct a new TileWallWireStateData which copies each field one by one.
-            TileWallWireStateData tileMiscState = t.Get<TileWallWireStateData>();
-            miscState = new TileWallWireStateData()
+            // Explicitly construct a new TileWallBrightnessInvisibilityData which copies each field one by one.
+            TileWallBrightnessInvisibilityData twbid = t.Get<TileWallBrightnessInvisibilityData>();
+            twbiData = new TileWallBrightnessInvisibilityData()
             {
-                HasTile = tileMiscState.HasTile,
-                IsActuated = tileMiscState.IsActuated,
-                HasActuator = tileMiscState.HasActuator,
-                TileColor = tileMiscState.TileColor,
-                WallColor = tileMiscState.WallColor,
-                TileFrameNumber = tileMiscState.TileFrameNumber,
-                WallFrameNumber = tileMiscState.WallFrameNumber,
-                WallFrameX = tileMiscState.WallFrameX,
-                WallFrameY = tileMiscState.WallFrameY,
-                IsHalfBlock = tileMiscState.IsHalfBlock,
-                Slope = tileMiscState.Slope,
-                WireData = tileMiscState.WireData,
+                IsTileInvisible = twbid.IsTileInvisible,
+                IsWallInvisible = twbid.IsWallInvisible,
+                IsTileFullbright = twbid.IsTileFullbright,
+                IsWallFullbright = twbid.IsWallFullbright,
             };
-            miscState.TileFrameX = t.TileFrameX;
-            miscState.TileFrameY = t.TileFrameY;
+
+            // Explicitly construct a new TileWallWireStateData which copies each field one by one.
+            TileWallWireStateData twwsd = t.Get<TileWallWireStateData>();
+            wallWireState = new TileWallWireStateData
+            {
+                HasTile = twwsd.HasTile,
+                IsActuated = twwsd.IsActuated,
+                HasActuator = twwsd.HasActuator,
+                TileColor = twwsd.TileColor,
+                WallColor = twwsd.WallColor,
+                TileFrameNumber = twwsd.TileFrameNumber,
+                WallFrameNumber = twwsd.WallFrameNumber,
+                WallFrameX = twwsd.WallFrameX,
+                WallFrameY = twwsd.WallFrameY,
+                IsHalfBlock = twwsd.IsHalfBlock,
+                Slope = twwsd.Slope,
+                WireData = twwsd.WireData,
+                TileFrameX = t.TileFrameX,
+                TileFrameY = t.TileFrameY
+            };
 
             keepTile = false;
             keepWall = false;
@@ -72,10 +89,14 @@ namespace CalamityMod.Schematics
                 ref var targetLiquidState = ref (Main.tile[x, y].Get<LiquidData>());
                 targetLiquidState.LiquidType = LiquidType;
 
+                //
+                // 1.4.4 TODO: assign TileWallBrightnessInvisibilityData, both TILE and WALL, from this SMT
+                //
+
                 ref var targetMiscState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
-                CalamitySchematicIO.AssignMiscState(ref targetMiscState, miscState.NonFrameBits);
-                targetMiscState.TileFrameX = miscState.TileFrameX;
-                targetMiscState.TileFrameY = miscState.TileFrameY;
+                CalamitySchematicIO.AssignWallWireState(ref targetMiscState, wallWireState.NonFrameBits);
+                targetMiscState.TileFrameX = wallWireState.TileFrameX;
+                targetMiscState.TileFrameY = wallWireState.TileFrameY;
             }
             else if (keepTile && keepWall) // full preservation
             {
@@ -86,10 +107,14 @@ namespace CalamityMod.Schematics
                 ref var targetLiquidState = ref (Main.tile[x, y].Get<LiquidData>());
                 targetLiquidState.LiquidType = original.LiquidType; // this line caused the lava->water transmutation bug
 
+                //
+                // 1.4.4 TODO: assign TileWallBrightnessInvisibilityData, both TILE and WALL, from ORIGINAL
+                //
+
                 ref var targetMiscState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
-                CalamitySchematicIO.AssignMiscState(ref targetMiscState, original.miscState.NonFrameBits);
-                targetMiscState.TileFrameX = original.miscState.TileFrameX;
-                targetMiscState.TileFrameY = original.miscState.TileFrameY;
+                CalamitySchematicIO.AssignWallWireState(ref targetMiscState, original.wallWireState.NonFrameBits);
+                targetMiscState.TileFrameX = original.wallWireState.TileFrameX;
+                targetMiscState.TileFrameY = original.wallWireState.TileFrameY;
             }
             else if (keepWall) // Start with replacement, then splice in wall data from original
             {
@@ -100,17 +125,22 @@ namespace CalamityMod.Schematics
                 ref var targetLiquidState = ref (Main.tile[x, y].Get<LiquidData>());
                 targetLiquidState.LiquidType = LiquidType;
 
+                //
+                // 1.4.4 TODO: assign TileWallBrightnessInvisibilityData, both TILE and WALL, from this SMT
+                //
+
                 ref var targetMiscState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
-                CalamitySchematicIO.AssignMiscState(ref targetMiscState, miscState.NonFrameBits);
-                targetMiscState.TileFrameX = miscState.TileFrameX;
-                targetMiscState.TileFrameY = miscState.TileFrameY;
+                CalamitySchematicIO.AssignWallWireState(ref targetMiscState, wallWireState.NonFrameBits);
+                targetMiscState.TileFrameX = wallWireState.TileFrameX;
+                targetMiscState.TileFrameY = wallWireState.TileFrameY;
 
                 // Wall splice
                 // All relevant fields are contained in the above bitpack, so assign them a second time
-                targetMiscState.WallColor = original.miscState.WallColor;
-                targetMiscState.WallFrameNumber = original.miscState.WallFrameNumber;
-                targetMiscState.WallFrameX = original.miscState.WallFrameX;
-                targetMiscState.WallFrameY = original.miscState.WallFrameY;
+                targetMiscState.WallColor = original.wallWireState.WallColor;
+                targetMiscState.WallFrameNumber = original.wallWireState.WallFrameNumber;
+                targetMiscState.WallFrameX = original.wallWireState.WallFrameX;
+                targetMiscState.WallFrameY = original.wallWireState.WallFrameY;
+                // 1.4.4 TODO: handle wall splice of TileWallBrightnessInvisibilityData -- overwrite the two wall bits using ORIGINAL
             }
             else if (keepTile) // Start with original, then splice in wall data from replacement
             {
@@ -123,17 +153,22 @@ namespace CalamityMod.Schematics
                 // this is fine, of course, because all you are changing is the background wall and the liquid can be on top of that
                 targetLiquidState.LiquidType = original.LiquidType;
 
+                //
+                // 1.4.4 TODO: assign TileWallBrightnessInvisibilityData, both TILE and WALL, from ORIGINAL
+                //
+
                 ref var targetMiscState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
-                CalamitySchematicIO.AssignMiscState(ref targetMiscState, original.miscState.NonFrameBits);
-                targetMiscState.TileFrameX = original.miscState.TileFrameX;
-                targetMiscState.TileFrameY = original.miscState.TileFrameY;
+                CalamitySchematicIO.AssignWallWireState(ref targetMiscState, original.wallWireState.NonFrameBits);
+                targetMiscState.TileFrameX = original.wallWireState.TileFrameX;
+                targetMiscState.TileFrameY = original.wallWireState.TileFrameY;
 
                 // Wall splice
                 // All relevant fields are contained in the above bitpack, so assign them a second time
-                targetMiscState.WallColor = miscState.WallColor;
-                targetMiscState.WallFrameNumber = miscState.WallFrameNumber;
-                targetMiscState.WallFrameX = miscState.WallFrameX;
-                targetMiscState.WallFrameY = miscState.WallFrameY;
+                targetMiscState.WallColor = wallWireState.WallColor;
+                targetMiscState.WallFrameNumber = wallWireState.WallFrameNumber;
+                targetMiscState.WallFrameX = wallWireState.WallFrameX;
+                targetMiscState.WallFrameY = wallWireState.WallFrameY;
+                // 1.4.4 TODO: handle wall splice of TileWallBrightnessInvisibilityData -- overwrite the two wall bits using this SMT
             }
         }
     }
@@ -237,7 +272,7 @@ namespace CalamityMod.Schematics
 
         #region Direct Serialization Read/Write
         // TileWallWireStateData is a value type, so it must be passed as ref to make changes.
-        internal static void AssignMiscState(ref TileWallWireStateData target, int source)
+        internal static void AssignWallWireState(ref TileWallWireStateData target, int source)
         {
             target.HasTile = TileDataPacking.GetBit(source, 0);               // 0
             target.IsActuated = TileDataPacking.GetBit(source, 1);            // 1
@@ -260,11 +295,11 @@ namespace CalamityMod.Schematics
             smt.WallType = reader.ReadUInt16();
             smt.LiquidAmount = reader.ReadByte();
             smt.LiquidType = reader.ReadByte();
-            smt.miscState.TileFrameX = reader.ReadInt16();
-            smt.miscState.TileFrameY = reader.ReadInt16();
+            smt.wallWireState.TileFrameX = reader.ReadInt16();
+            smt.wallWireState.TileFrameY = reader.ReadInt16();
             // Advised by Chicken Bones to clear runtime bits, not preserve them from existing tile
             // This clears runtime bits because the read-in integer has them all zeroed out
-            AssignMiscState(ref smt.miscState, reader.ReadInt32());
+            AssignWallWireState(ref smt.wallWireState, reader.ReadInt32());
             return smt;
         }
 
@@ -274,10 +309,10 @@ namespace CalamityMod.Schematics
             writer.Write(smt.WallType);
             writer.Write(smt.LiquidAmount);
             writer.Write(smt.LiquidType);
-            writer.Write(smt.miscState.TileFrameX);
-            writer.Write(smt.miscState.TileFrameY);
+            writer.Write(smt.wallWireState.TileFrameX);
+            writer.Write(smt.wallWireState.TileFrameY);
             // Save only the NonFrameBits. The remainder of the bits are runtime only data that should not be serialized.
-            writer.Write(smt.miscState.NonFrameBits);
+            writer.Write(smt.wallWireState.NonFrameBits);
         }
         #endregion
 
@@ -298,7 +333,7 @@ namespace CalamityMod.Schematics
         // This equality is slightly more strict than Tile.isTheSameAs because it checks type, wall and frame on non-active tiles.
         public static bool EqualToMetaTile(this Tile t, SchematicMetaTile smt)
         {
-            if (t.Get<TileWallWireStateData>().NonFrameBits != smt.miscState.NonFrameBits)
+            if (t.Get<TileWallWireStateData>().NonFrameBits != smt.wallWireState.NonFrameBits)
                 return false;
 
             if (t.WallType != smt.WallType || t.LiquidAmount != smt.LiquidAmount)
@@ -310,7 +345,7 @@ namespace CalamityMod.Schematics
             if (t.TileType != smt.TileType)
                 return false;
 
-            if (Main.tileFrameImportant[t.TileType] && (t.TileFrameX != smt.miscState.TileFrameX || t.TileFrameY != smt.miscState.TileFrameY))
+            if (Main.tileFrameImportant[t.TileType] && (t.TileFrameX != smt.wallWireState.TileFrameX || t.TileFrameY != smt.wallWireState.TileFrameY))
                 return false;
 
             return true;
