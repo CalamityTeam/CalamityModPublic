@@ -43,10 +43,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Player player = Main.player[Projectile.owner];
             //Give iframes to the player
-            if (player.immuneTime <= 4)
+            if (player.immuneTime <= 10)
             { 
             player.immuneNoBlink = true;
-            player.immuneTime = 4;
+            player.immuneTime = 10;
             }
 
             // Spawn homing flames that chase the HIT enemy only. This is also limited to one burst
