@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
     public class FallenPaladinsHammerEcho : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        public static readonly SoundStyle SlamHamSound = new("CalamityMod/Sounds/Item/FallenPaladinsHammerBigImpact") { Volume = 1f};
+        public static readonly SoundStyle SlamHamSound = new("CalamityMod/Sounds/Item/FallenPaladinsHammerBigImpact") { Volume = 0.6f };
         public static readonly SoundStyle Kunk = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
         public float speed = 0f;
         public override void SetStaticDefaults()
