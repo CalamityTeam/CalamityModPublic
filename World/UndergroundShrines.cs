@@ -82,6 +82,7 @@ namespace CalamityMod.World
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0)/2, TileMaps[mapKey].GetLength(1)); //Fooling the system into thinking the shrine is smaller than it actually is so it fits into chasms
                 int corruptStuffInArea = 0;
                 bool canGenerateInLocation = true;
+                bool inYourWalls = false;
 
                 float totalTiles = schematicSize.X * schematicSize.Y;
                 for (int x = placementPoint.X; x < placementPoint.X + schematicSize.X; x++)
@@ -95,13 +96,16 @@ namespace CalamityMod.World
                         //Should generate within the bounds of the walls.
                         if (tile.TileType == TileID.Ebonstone || tile.WallType == WallID.EbonstoneUnsafe)
                             corruptStuffInArea++;
+
+                        if (tile.WallType == WallID.EbonstoneUnsafe)
+                            inYourWalls = true;
                         
                         //Do not cut into the altars
                         if (tile.TileType == TileID.DemonAltar)
                             canGenerateInLocation = false;
                     }
                 }
-                if (!canGenerateInLocation || corruptStuffInArea < totalTiles * 0.5f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || corruptStuffInArea < totalTiles * 0.5|| !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)) || !inYourWalls)
                 {
                     tries++;
                 }
@@ -513,7 +517,7 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
 
                         //Only generated within the area of mushroom plants
-                        if (tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees)
+                        if (tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees || tile.TileType == TileID.MushroomGrass)
                             realMushroomsInArea++;
                     }
                 }
