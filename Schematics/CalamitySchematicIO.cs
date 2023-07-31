@@ -17,9 +17,6 @@ namespace CalamityMod.Schematics
     [DebuggerDisplay("Tile ID = {TileType}, Wall ID = {WallType}")]
     public struct SchematicMetaTile
     {
-        // For debugging. When instantiated from an older schematic, this will be overwritten.
-        internal string SourceVersion = Main.assemblyVersionNumber;
-
         // If TileType >= TileID.Count, is a modded tile type; consult mod tile name array
         // If WallType >= WallID.Count, is a modded wall type; consule mod wall name array
         internal ushort TileType;
