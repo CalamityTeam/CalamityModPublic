@@ -21,7 +21,6 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Projectile.width = 14;
             Projectile.height = 45;
-            Projectile.scale = 0.5f;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;

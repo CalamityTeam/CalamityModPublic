@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +19,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
         private float storedVelocity = 1f;
-        public const float velocityMultiplier = 1.5f;
+        public const float velocityMultiplier = 1.2f;
+        public bool homing = false;
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Condemnation";
 
@@ -48,9 +50,11 @@ namespace CalamityMod.Projectiles.Ranged
                     return;
                 }
 
-                // Fire one charged arrow every frame until you're out of arrows.
-                ShootProjectiles(tipPosition);
+                // Fire one charged arrow every frame until you're out of arrows. 
+                ShootProjectiles(tipPosition, homing);
                 --ArrowsLoaded;
+                if (ArrowsLoaded == 0 && homing == true)
+                    homing = false;
             }
             else
             {
@@ -93,7 +97,10 @@ namespace CalamityMod.Projectiles.Ranged
                         var loadSound = SoundEngine.PlaySound(SoundID.Item108 with { Volume = SoundID.Item108.Volume * 0.3f });
 
                         if (ArrowsLoaded >= Condemnation.MaxLoadedArrows)
-                            SoundEngine.PlaySound(SoundID.MaxMana);
+                        {
+                            SoundEngine.PlaySound(new("CalamityMod/Sounds/Custom/AbilitySounds/BrimflameRecharge"));
+                            homing = true;
+                        }
                     }
                 }
             }
@@ -154,13 +161,14 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public void ShootProjectiles(Vector2 tipPosition)
+        public void ShootProjectiles(Vector2 tipPosition, bool homing)
         {
             if (Main.myPlayer != Projectile.owner)
                 return;
 
             Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * storedVelocity;
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<CondemnationArrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            int ArrowType = homing ? ModContent.ProjectileType<CondemnationArrowHoming>() : ModContent.ProjectileType<CondemnationArrow>();
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ArrowType, Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
 
         private void UpdateProjectileHeldVariables(Vector2 armPosition)
