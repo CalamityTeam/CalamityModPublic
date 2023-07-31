@@ -179,14 +179,14 @@ namespace CalamityMod.Systems
                 {
                     progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.HiddenShrines").Value;
 
-                    // Cuts down on worldgen time to process the right one.
-                    // TODO -- Possible Both Evils compat whenever
-                    if (WorldGen.crimson)
+                    // Checks for what evil the world are put to cut down on worldgen time.
+                    // On the drunk seed or getfixedboi, both shrines generate
+                    if (WorldGen.crimson || Main.drunkWorld)
                     {
                         progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.CrimsonShrine").Value;
                         UndergroundShrines.PlaceCrimsonShrine(GenVars.structures);
                     }
-                    else
+                    if (!WorldGen.crimson || Main.drunkWorld)
                     {
                         progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.CorruptShrine").Value;
                         UndergroundShrines.PlaceCorruptionShrine(GenVars.structures);
