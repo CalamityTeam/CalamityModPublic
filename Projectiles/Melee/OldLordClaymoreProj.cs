@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordClaymore";
         public override int AssociatedItemID => ModContent.ItemType<OldLordClaymore>();
         public override int IntendedProjectileType => ModContent.ProjectileType<OldLordClaymoreProj>();
-        public override bool? CanDamage() => CurrentState != 0; //Could also disable the damage during the channel state,
+        public override bool? CanDamage() => (CurrentState == SwingState.Default || CurrentState == SwingState.Channeling) ? false : base.CanDamage();
 
         public override void SetStaticDefaults()
         {

@@ -31,6 +31,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.timeLeft = 45;
             Projectile.MaxUpdates = 2;
+            Projectile.noEnchantmentVisuals = true;
         }
 
         public override void AI()
