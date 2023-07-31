@@ -186,7 +186,7 @@ ThiefsDime: {
 	DisplayName: Thief's Dime
 	Tooltip:
 		'''
-		Summons Goldie the coin to light your way and collects nearby coins
+		Summons Goldie the rogue coin to collect nearby coins and light your way
 		Provides a small amount of light in the abyss
 		'Once worthless treasure, now a relic of a thief's companionship'
 		'''

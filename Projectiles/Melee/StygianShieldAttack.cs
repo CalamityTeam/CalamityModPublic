@@ -51,6 +51,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+            Projectile.noEnchantmentVisuals = true;
         }
         public override void AI()
         {
@@ -59,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
             
             Owner.heldProj = Projectile.whoAmI;
 
-            // TODO -- Windup sound and rushing sound (definitely requires a custom looping sound)
+            // TODO -- Windup sound (definitely requires a custom looping sound)
             
             // Dashing behavior
             Projectile.Opacity = Utils.GetLerpValue(0f, DashDuration * 0.7f, DashTime, true);
@@ -117,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 intendedDestination = Projectile.Center + Projectile.SafeDirectionTo(Owner.Calamity().mouseWorld) * MaxChargeDistance * Charge / MaxChargeTime;
 
                 // Has to be within world bounds
-                if (intendedDestination.X >= 800f && intendedDestination.Y >= 800f && intendedDestination.X <= Main.maxTilesX * 16f - 800f && intendedDestination.Y <= Main.maxTilesY * 16f - 800f)
+                if (intendedDestination.X >= 660f && intendedDestination.Y >= 660f && intendedDestination.X <= Main.maxTilesX * 16f - 680f && intendedDestination.Y <= Main.maxTilesY * 16f - 680f)
                 {
                     SoundEngine.PlaySound(DashSound, Owner.Center);
 
@@ -273,17 +274,19 @@ namespace CalamityMod.Projectiles.Melee
                 // Charge sight line
                 if (Charge >= MinChargeTime)
                 {
-                    Color telegraphColor = Color.White;
+                    // Where the dash is supposed to take you, taken from above
+                    Vector2 dashLength = Projectile.SafeDirectionTo(Owner.Calamity().mouseWorld) * MaxChargeDistance * Charge / MaxChargeTime;
+                    Vector2 intendedDestination = Projectile.Center + dashLength;
+                    float direction = Projectile.SafeDirectionTo(intendedDestination).ToRotation();
+
+                    // Arrow is red if out of bounds (indicating you can't use it)
+                    bool OOB = intendedDestination.X < 660f || intendedDestination.Y < 660f || intendedDestination.X > Main.maxTilesX * 16f - 680f || intendedDestination.Y > Main.maxTilesY * 16f - 680f;
+                    Color telegraphColor = OOB ? Color.Red : Color.White;
                     Effect TelegraphEffect = ArrowEffect;
                     TelegraphEffect.Parameters["centerOpacity"].SetValue(0.6f);
                     TelegraphEffect.Parameters["halfSpreadAngle"].SetValue(MathHelper.ToRadians(64f));
                     TelegraphEffect.Parameters["edgeColor"].SetValue(telegraphColor.ToVector3());
                     TelegraphEffect.Parameters["centerColor"].SetValue(telegraphColor.ToVector3());
-
-                    // Where the dash is supposed to take you, taken from above
-                    Vector2 dashLength = Projectile.SafeDirectionTo(Owner.Calamity().mouseWorld) * MaxChargeDistance * Charge / MaxChargeTime;
-                    Vector2 intendedDestination = Projectile.Center + dashLength;
-                    float direction = Projectile.SafeDirectionTo(intendedDestination).ToRotation();
 
                     Main.spriteBatch.EnterShaderRegion(BlendState.Additive, TelegraphEffect);
                     Main.EntitySpriteDraw(mainTex, intendedDestination - Main.screenPosition, null, Color.White, direction - MathHelper.Pi, mainTex.Size() / 2f, 135f, SpriteEffects.None);
