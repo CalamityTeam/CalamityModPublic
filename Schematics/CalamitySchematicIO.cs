@@ -232,11 +232,13 @@ namespace CalamityMod.Schematics
     public struct SchematicData
     {
         // Schematics assume 1024 or less unique tile definitions for their internal buffer.
-        // In real schematics, this number usually doesn't go above about 800.
+        // In most schematics, this number usually doesn't go above about 800.
         // The buffer can be expanded up to 65536, as the indices used for it are 2 bytes.
         // Note this would by definition require a schematic of size at least 725x725, so you should never really get to this point.
         private const int DefaultUniqueTileCount = 1024;
-        public const int MaxUniqueTileCount = 524288;
+        // This is for sanity's sake. Infernum/1.4.4 indexing can go further, but the files get VERY large.
+        // For a sense of scale, the Infernum Providence arena uses 141,105 unique tiles.
+        public const int MaxUniqueTileCount = 1048576;
         private const int DefaultModTileCount = 256;
         private const int DefaultModWallCount = 32;
 
@@ -251,9 +253,9 @@ namespace CalamityMod.Schematics
             // This tile is always provided in schematics, even if it isn't used (e.g. your schematic is a solid block of stone).
             // This allows for index zero to always refer to a fully blank tile.
             uniqueTiles = new List<SchematicMetaTile>(DefaultUniqueTileCount)
-                {
-                    new SchematicMetaTile()
-                };
+            {
+                new SchematicMetaTile()
+            };
             modTileNames = new List<string>(DefaultModTileCount);
             modWallNames = new List<string>(DefaultModWallCount);
             areaIndices = new uint[width, height];
@@ -297,8 +299,9 @@ namespace CalamityMod.Schematics
             0x5C
         };
 
-        // This is a 3-byte magic number header for Calamity Schematic Files that need to be extra large.
+        // This is a 3-byte magic number header for Calamity Schematic Files in TML 1.4 that need to be extra large.
         // The Infernum Mod (Calamity addon) needed support for massive schematics with extraordinarily large quantities of unique tiles (past the unsigned 16-bit limit).
+        // This format is still supported.
         // 1F145C = "1NFERNUM 1.4 5CHEMATIC"
         private static readonly byte[] SchematicMagicNumberHeader_Infernum14 = new byte[]
         {
@@ -308,7 +311,8 @@ namespace CalamityMod.Schematics
         };
 
         // This is a 3-byte magic number header for Calamity Schematic Files created with TML 1.4.4, which uses Tile structs.
-        // This format is not yet supported.
+        // The Infernum "size expansion" for extra-large schematics also applies to this format.
+        // This format is not yet fully supported.
         // CA445C = "CAlamity 1-44 5CHEMATIC"
         private static readonly byte[] SchematicMagicNumberHeader_TML144 = new byte[]
         {
@@ -372,7 +376,7 @@ namespace CalamityMod.Schematics
         #endregion
 
         #region Export Helper Methods
-        // TODO -- technically this could use vanilla Tilemap
+        // TODO -- technically this could use vanilla/TML Tilemap
         private static Tile[,] GetTilesInRectangle(Rectangle area)
         {
             Tile[,] tiles = new Tile[area.Width, area.Height];
@@ -702,9 +706,11 @@ namespace CalamityMod.Schematics
             // 1: Header. First three bytes are a magic number. Fourth byte determines compression.
             byte[] header = fileInputStream.ReadBytes(4);
 
+            // Only one of these bools will end up being true eventually.
             bool isTML13Schematic = true;
             bool isTML14Schematic = true;
             bool isInfernumSchematic = true;
+            bool isTML144Schematic = true;
             for (int i = 0; i < SchematicMagicNumberHeader_TML14.Length; ++i)
             {
                 if (header[i] != SchematicMagicNumberHeader_TML13[i])
@@ -715,11 +721,17 @@ namespace CalamityMod.Schematics
 
                 if (header[i] != SchematicMagicNumberHeader_Infernum14[i])
                     isInfernumSchematic = false;
+
+                if (header[i] != SchematicMagicNumberHeader_TML144[i])
+                    isTML144Schematic = false;
             }
 
-            // If the schematic is neither TML 1.3, TML 1.4, or Infernum format, then it's crap.
-            if (!isTML13Schematic && !isTML14Schematic && !isInfernumSchematic)
+            // If the schematic's signature does not match any magic number, then it's crap. Throw.
+            if (!isTML13Schematic && !isTML14Schematic && !isInfernumSchematic && !isTML144Schematic)
                 throw new InvalidDataException($"{InvalidFormatString} The magic number signature is invalid.");
+
+            // Schematics from TML 1.3 are recognized, but cannot be used. An error and an empty schematic are all you get.
+            // This is an intentional "fail gracefully" case.
             else if (isTML13Schematic)
             {
                 CalamityMod.Instance.Logger.Error(TML13ValidString);
@@ -727,6 +739,11 @@ namespace CalamityMod.Schematics
                 return empty;
             }
 
+            // Declare schematic size.
+            // "Large" schematics (Infernum 1.4 and all 1.4.4 schematics) use 4 bytes instead of 2 for all lookup indices.
+            bool useFourByteLookupIndices = isInfernumSchematic || isTML144Schematic;
+
+            // Check whether compression is enabled.
             bool compression = false;
             if (header[3] == CompressedMagicNumber)
                 compression = true;
@@ -735,6 +752,8 @@ namespace CalamityMod.Schematics
 
             SchematicMetaTile[,] ret;
             byte[] buffer;
+
+            // If the schematic is compressed, use GZip to decompress it into RAM.
             using (MemoryStream stream = new MemoryStream(SchematicBufferStartingSize))
             {
                 if (compression)
@@ -750,7 +769,7 @@ namespace CalamityMod.Schematics
             {
                 // 2: Length of list 3.
                 uint numModTileNames;
-                if (isInfernumSchematic)
+                if (useFourByteLookupIndices)
                     numModTileNames = reader.ReadUInt32();
                 else
                     numModTileNames = reader.ReadUInt16();
@@ -762,7 +781,7 @@ namespace CalamityMod.Schematics
 
                 // 4: Length of list 5.
                 uint numModWallNames;
-                if (isInfernumSchematic)
+                if (useFourByteLookupIndices)
                     numModWallNames = reader.ReadUInt32();
                 else
                     numModWallNames = reader.ReadUInt16();
@@ -774,7 +793,7 @@ namespace CalamityMod.Schematics
 
                 // 6: Length of list 7.
                 uint numUniqueTiles;
-                if (isInfernumSchematic)
+                if (useFourByteLookupIndices)
                     numUniqueTiles = reader.ReadUInt32();
                 else
                     numUniqueTiles = reader.ReadUInt16();
@@ -799,7 +818,7 @@ namespace CalamityMod.Schematics
                     for (ushort x = 0; x < tileWidth; ++x)
                     {
                         uint tileIndex;
-                        if (isInfernumSchematic)
+                        if (useFourByteLookupIndices)
                             tileIndex = reader.ReadUInt32();
                         else
                             tileIndex = reader.ReadUInt16();
