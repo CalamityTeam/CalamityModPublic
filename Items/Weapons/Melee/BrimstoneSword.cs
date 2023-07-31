@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
                        ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
-            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()
@@ -35,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<BrimstoneSwordProj>();
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shootSpeed = 20f;
+            Item.shootSpeed = 10f;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -44,11 +43,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                Item.noMelee = true;
+                Item.DamageType = DamageClass.MeleeNoSpeed;
             }
             else
             {
-                Item.noMelee = false;
+                Item.DamageType = DamageClass.Melee;
             }
 
             return base.UseItem(player);

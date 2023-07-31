@@ -63,10 +63,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             NPC.TargetClosest();
 
+            // Emit light
+            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.2f, 0.4f, 0.1f);
+
             // Spore dust
             if (Main.rand.NextBool(10))
             {
-                Dust dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 44, 0f, 0f, 250, default, 0.2f);
+                Dust dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 44, 0f, 0f, 250, default, 0.4f);
                 dust.fadeIn = 0.7f;
             }
 

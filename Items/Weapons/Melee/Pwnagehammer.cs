@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.value = CalamityGlobalItem.RarityLightPurpleBuyPrice;
             Item.rare = ItemRarityID.LightPurple;
             Item.shoot = ModContent.ProjectileType<PwnagehammerProj>();
-            Item.shootSpeed = 38.4f;
+            Item.shootSpeed = 29.4f;
         }
 
 

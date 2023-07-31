@@ -1021,6 +1021,19 @@ namespace CalamityMod.Items
                     player.GetCritChance<MagicDamageClass>() -= 1;
                     break;
 
+                case ItemID.Gi:
+                    player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
+                    player.jumpSpeedBoost += 0.5f;
+                    break;
+
+                case ItemID.TitaniumMask:
+                    player.GetAttackSpeed<MeleeDamageClass>() += 0.05f;
+                    break;
+
+                case ItemID.BeetleScaleMail:
+                    player.GetAttackSpeed<MeleeDamageClass>() += 0.03f;
+                    break;
+
                 case ItemID.SquireGreatHelm:
                     player.lifeRegen -= 3;
                     break;

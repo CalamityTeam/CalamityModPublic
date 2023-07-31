@@ -235,7 +235,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Determine whether the cannon is being fired based on the left mouse state.
             bool wasFiring = IsFiring;
-            IsFiring = Main.mouseLeft && !Main.blockMouse;
+            IsFiring = Main.mouseLeft && !Owner.mouseInterface;
 
             // Notify other clients and the server if the cannon's firing state has changed. This sync cannot be blocked by the net spam threshold.
             if (wasFiring != IsFiring)
