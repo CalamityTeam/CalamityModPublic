@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -419,6 +418,7 @@ namespace CalamityMod.Schematics
         }
 
         // This equality is slightly more strict than Tile.isTheSameAs because it checks type, wall and frame on non-active tiles.
+        // TODO -- should invisibility and fullbright even be checked? invisibility almost certainly, but fullbright is less clear
         public static bool EqualToMetaTile(this Tile t, SchematicMetaTile smt)
         {
             if (t.Get<TileWallWireStateData>().NonFrameBits != smt.wallWireState.NonFrameBits)
@@ -434,6 +434,10 @@ namespace CalamityMod.Schematics
                 return false;
 
             if (Main.tileFrameImportant[t.TileType] && (t.TileFrameX != smt.wallWireState.TileFrameX || t.TileFrameY != smt.wallWireState.TileFrameY))
+                return false;
+
+            byte tileBIData = t.Get<TileWallBrightnessInvisibilityData>().Data;
+            if (smt.brightnessInvisibility.HasValue && smt.brightnessInvisibility.Value.Data != tileBIData)
                 return false;
 
             return true;
@@ -576,7 +580,7 @@ namespace CalamityMod.Schematics
 
             byte[] renderedStream;
 
-            // There is no longer an "extra wide" parameter. All TML 1.4.4 schematics use four-byte indices like the 1.4 Infernum format.
+            // There is no longer an "extra large" parameter. All TML 1.4.4 schematics use four-byte indices like the 1.4 Infernum format.
             // byte[] magicHeader = fourByteIndices ? SchematicMagicNumberHeader_Infernum14 : SchematicMagicNumberHeader_TML14;
             bool fourByteIndices = true;
             byte[] magicHeader = SchematicMagicNumberHeader_TML144;
