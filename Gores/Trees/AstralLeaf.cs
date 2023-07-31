@@ -1,5 +1,8 @@
-using Terraria.ID;
+using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Gores.Trees
 {
