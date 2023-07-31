@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Pets
         
             Projectile.frameCounter++;
             Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
-            Lighting.AddLight(Projectile.Center, GoldColor.ToVector3() * 0.9f);
+            Lighting.AddLight(Projectile.Center, GoldColor.ToVector3() * (0.9f + 0.45f * SparkleTimer / MaxSparkleTime));
 
             if (SparkleTimer < MaxBloomTime)
                 SparkleTimer++;
@@ -56,6 +56,7 @@ namespace CalamityMod.Projectiles.Pets
             Vector2 targetLocation = Projectile.position;
             bool foundCoin = false;
             float range = 800f; //50 block range
+            float magnetRange = 128f; //8 block range
 
             for (int itemIndex = 0; itemIndex < Main.maxItems; itemIndex++)
             {
@@ -65,6 +66,14 @@ namespace CalamityMod.Projectiles.Pets
                 {
                     float itemDist = Vector2.Distance(item.Center, Projectile.Center);
                     float distanceToPotential = Vector2.Distance(Projectile.Center, targetLocation);
+
+                    if (itemDist > range)
+                        continue;
+                    
+                    //Magnetize the items if close enough
+                    if (itemDist <= magnetRange)
+                        item.velocity = item.SafeDirectionTo(Projectile.Center) * 6f;
+
                     //Pick it up
                     if (Projectile.owner == Main.myPlayer && Projectile.getRect().Intersects(new Rectangle((int)item.position.X, (int)item.position.Y, item.width, item.height)))
                     {
@@ -78,7 +87,7 @@ namespace CalamityMod.Projectiles.Pets
                         SparkleTimer = MaxSparkleTime;
                     }
                     //Otherwise, start chasing
-                    if (distanceToPotential < itemDist && itemDist < range)
+                    if (distanceToPotential < itemDist)
                     {
                         range = itemDist;
                         targetLocation = item.Center;
@@ -144,7 +153,7 @@ namespace CalamityMod.Projectiles.Pets
             float shinePercent = Utils.SmoothStep(MaxBloomTime, MaxSparkleTime, SparkleTimer);
             float shineScale = (float)Math.Log10(shinePercent + 0.01) + 2f;
             
-            Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
+            Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/Light").Value;
             float bloomPercent = Math.Clamp(SparkleTimer / MaxBloomTime, 0f, 5f); //Max of 500% when collecting coins
             float bloomScale = Math.Clamp(bloomPercent, 0f, 2.5f);
 
@@ -152,8 +161,8 @@ namespace CalamityMod.Projectiles.Pets
             {
                 Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
                 
-                Main.EntitySpriteDraw(bloomTex, Projectile.Center - Main.screenPosition, null, GoldColor * bloomPercent * 0.2f, Projectile.rotation, bloomTex.Size() / 2f, bloomPercent * Projectile.scale * 0.3f, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(shineTex, Projectile.Center - Main.screenPosition, null, GoldColor * shinePercent, Projectile.rotation, shineTex.Size() / 2f, shineScale * Projectile.scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(bloomTex, Projectile.Center - Main.screenPosition, null, GoldColor * bloomPercent * 0.2f, Projectile.rotation, bloomTex.Size() / 2f, bloomPercent * Projectile.scale * 0.3f, SpriteEffects.None);
+                Main.EntitySpriteDraw(shineTex, Projectile.Center - Main.screenPosition, null, GoldColor * shinePercent, Projectile.rotation, shineTex.Size() / 2f, shineScale * Projectile.scale, SpriteEffects.None);
 
                 Main.spriteBatch.ExitShaderRegion();
             }
