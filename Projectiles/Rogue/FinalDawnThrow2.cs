@@ -52,6 +52,8 @@ namespace CalamityMod.Projectiles.Rogue
                                              (int)(Projectile.damage * 0.3), Projectile.knockBack, Projectile.owner, 0f,
                                              target.whoAmI);
                 }
+                Main.player[Projectile.owner].immuneNoBlink = true;
+                Main.player[Projectile.owner].immuneTime += 30;
                 HasHitEnemy = true;
             }
         }

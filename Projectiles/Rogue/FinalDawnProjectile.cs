@@ -107,8 +107,6 @@ namespace CalamityMod.Projectiles.Rogue
                                                  Projectile.owner);
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                         player.Calamity().ConsumeStealthByAttacking();
-                        player.immuneNoBlink = true;
-                        player.immuneTime += 15; //adds iframes in case you get hit so it doesnt reduce your iframes
                     }
                     else
                     {
