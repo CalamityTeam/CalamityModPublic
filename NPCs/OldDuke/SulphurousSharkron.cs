@@ -21,13 +21,8 @@ namespace CalamityMod.NPCs.OldDuke
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             NPCID.Sets.TrailingMode[NPC.type] = 1;
-            NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
-            {
-                Scale = 0.65f,
-            };
-            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -56,17 +51,6 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
-        }
-
-        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        {
-            int associatedNPCType = ModContent.NPCType<OldDuke>();
-            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
-
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
-            {
-				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.SulphurousSharkron")
-            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)
