@@ -100,13 +100,15 @@ namespace CalamityMod.Projectiles.Rogue
                     if (player.Calamity().StealthStrikeAvailable() && Projectile.ai[1] != 1f)
                     {
                         int stealth = Projectile.NewProjectile(Projectile.GetSource_FromThis(), player.Center,
-                                                 player.SafeDirectionTo(Main.MouseWorld) * 38f,
+                                                 player.SafeDirectionTo(Main.MouseWorld) * 28f,
                                                  ModContent.ProjectileType<FinalDawnThrow2>(),
-                                                 (int)(Projectile.damage * 1.05f),
+                                                 (int)(Projectile.damage * 1f),
                                                  Projectile.knockBack,
                                                  Projectile.owner);
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                         player.Calamity().ConsumeStealthByAttacking();
+                        player.immuneNoBlink = true;
+                        player.immuneTime += 15; //adds iframes in case you get hit so it doesnt reduce your iframes
                     }
                     else
                     {
