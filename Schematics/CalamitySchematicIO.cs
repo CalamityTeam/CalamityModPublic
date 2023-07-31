@@ -273,6 +273,14 @@ namespace CalamityMod.Schematics
 
     public static class CalamitySchematicIO
     {
+        // TileID.Count from TML 1.4
+        // In 1.4.4, it's 693, but this can be acquired the normal way.
+        public const ushort TML_14_TileID_Count = 625;
+
+        // WallID.Count from TML 1.4
+        // In 1.4.4, it's 347, but this can be acquired the normal way.
+        public const ushort TML_14_WallID_Count = 316;
+        
         // A generous buffer of 16 megabytes is the default for schematics. If this somehow isn't big enough, they can get bigger.
         private const int SchematicBufferStartingSize = 16777216;
 
@@ -347,7 +355,7 @@ namespace CalamityMod.Schematics
             target.WireData = TileDataPacking.Unpack(source, 28, 4);          // 28-31
         }
 
-        private static SchematicMetaTile ReadSchematicMetaTile(this BinaryReader reader)
+        private static SchematicMetaTile ReadSchematicMetaTile(this BinaryReader reader, bool TML144 = true)
         {
             SchematicMetaTile smt = new SchematicMetaTile();
             smt.TileType = reader.ReadUInt16();
@@ -356,9 +364,23 @@ namespace CalamityMod.Schematics
             smt.LiquidType = reader.ReadByte();
             smt.wallWireState.TileFrameX = reader.ReadInt16();
             smt.wallWireState.TileFrameY = reader.ReadInt16();
+
             // Advised by Chicken Bones to clear runtime bits, not preserve them from existing tile
             // This clears runtime bits because the read-in integer has them all zeroed out
             AssignWallWireState(ref smt.wallWireState, reader.ReadInt32());
+
+            // If this schematic is from TML 1.4.4, read brightness and invisibility data.
+            if (TML144)
+            {
+                byte biBitpack = reader.ReadByte();
+                smt.brightnessInvisibility = new TileWallBrightnessInvisibilityData
+                {
+                    IsTileInvisible = (biBitpack & 0x01) != 0,
+                    IsWallInvisible = (biBitpack & 0x02) != 0,
+                    IsTileFullbright = (biBitpack & 0x04) != 0,
+                    IsWallFullbright = (biBitpack & 0x08) != 0,
+                };
+            }
             return smt;
         }
 
@@ -370,8 +392,15 @@ namespace CalamityMod.Schematics
             writer.Write(smt.LiquidType);
             writer.Write(smt.wallWireState.TileFrameX);
             writer.Write(smt.wallWireState.TileFrameY);
+
             // Save only the NonFrameBits. The remainder of the bits are runtime only data that should not be serialized.
             writer.Write(smt.wallWireState.NonFrameBits);
+
+            // If the brightness and invisibility 1.4.4 data is provided, write it. Otherwise write an explicit zero.
+            if (smt.brightnessInvisibility.HasValue)
+                writer.Write(smt.brightnessInvisibility.Value.Data);
+            else
+                writer.Write((byte)0);
         }
         #endregion
 
@@ -481,7 +510,7 @@ namespace CalamityMod.Schematics
             }
         }
 
-        private static SchematicData ConstructSchematicData(Tile[,] tiles, bool infernum)
+        private static SchematicData ConstructSchematicData(Tile[,] tiles, bool fourByteIndices)
         {
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);
@@ -517,7 +546,7 @@ namespace CalamityMod.Schematics
                         goto PostAreaIteration;
 
                     // Update the area indices so that the tile at this position is the correct reference.
-                    if (infernum)
+                    if (fourByteIndices)
                         schematic.areaIndices[x, y] = (uint)metaTileIndex;
                     else
                         schematic.areaIndices[x, y] = (ushort)metaTileIndex;
@@ -535,7 +564,7 @@ namespace CalamityMod.Schematics
         #endregion
 
         #region Export
-        public static ExportResult ExportSchematic(Rectangle area, bool infernum)
+        public static ExportResult ExportSchematic(Rectangle area)
         {
             if (area.Top < 0 || area.Left < 0 || area.Right >= Main.maxTilesX || area.Bottom >= Main.maxTilesY)
                 return ExportResult.CornerOutOfWorld;
@@ -546,7 +575,12 @@ namespace CalamityMod.Schematics
             Tile[,] tiles = GetTilesInRectangle(area);
 
             byte[] renderedStream;
-            byte[] magicHeader = infernum ? SchematicMagicNumberHeader_Infernum14 : SchematicMagicNumberHeader_TML14;
+
+            // There is no longer an "extra wide" parameter. All TML 1.4.4 schematics use four-byte indices like the 1.4 Infernum format.
+            // byte[] magicHeader = fourByteIndices ? SchematicMagicNumberHeader_Infernum14 : SchematicMagicNumberHeader_TML14;
+            bool fourByteIndices = true;
+            byte[] magicHeader = SchematicMagicNumberHeader_TML144;
+
             using (MemoryStream stream = new MemoryStream(SchematicBufferStartingSize))
             using (BinaryWriter writer = new BinaryWriter(stream, Encoding.UTF8))
             {
@@ -559,7 +593,7 @@ namespace CalamityMod.Schematics
                 }
 
                 // Calculate the schematic's data. Fail immediately if the schematic has too many unique tiles.
-                SchematicData schematic = ConstructSchematicData(tiles, infernum);
+                SchematicData schematic = ConstructSchematicData(tiles, fourByteIndices);
                 if (schematic.uniqueTiles.Count <= 0)
                 {
                     writer.Close();
@@ -568,7 +602,7 @@ namespace CalamityMod.Schematics
 
                 // 2: Length of list 3.
                 uint numModTileNames;
-                if (infernum)
+                if (fourByteIndices)
                     numModTileNames = (uint)schematic.modTileNames.Count;
                 else
                     numModTileNames = (ushort)schematic.modTileNames.Count;
@@ -580,7 +614,7 @@ namespace CalamityMod.Schematics
 
                 // 4: Length of list 5.
                 uint numModWallNames;
-                if (infernum)
+                if (fourByteIndices)
                     numModWallNames = (uint)schematic.modWallNames.Count;
                 else
                     numModWallNames = (ushort)schematic.modWallNames.Count;
@@ -592,7 +626,7 @@ namespace CalamityMod.Schematics
 
                 // 6: Length of list 7.
                 uint numUniqueTiles;
-                if (infernum)
+                if (fourByteIndices)
                     numUniqueTiles = (uint)schematic.uniqueTiles.Count;
                 else
                     numUniqueTiles = (ushort)schematic.uniqueTiles.Count;
@@ -615,7 +649,7 @@ namespace CalamityMod.Schematics
                 for (ushort y = 0; y < tileHeight; ++y)
                     for (ushort x = 0; x < tileWidth; ++x)
                     {
-                        if (infernum)
+                        if (fourByteIndices)
                             writer.Write(schematic.areaIndices[x, y]);
                         else
                             writer.Write((ushort)schematic.areaIndices[x, y]);
@@ -652,13 +686,13 @@ namespace CalamityMod.Schematics
         #endregion
 
         #region Import Helper Methods
-        private static void ReplaceMetaIndicesWithLoadedIDs(ref SchematicMetaTile smt, string[] modTileNames, string[] modWallNames)
+        private static void ReplaceMetaIndicesWithLoadedIDs(ref SchematicMetaTile smt, string[] modTileNames, string[] modWallNames, ushort tileIDCount, ushort wallIDCount)
         {
             // If this schematic tile has a modded foreground tile, replace the meta index offset with that modded tile's ID.
-            if (smt.TileType >= TileID.Count)
+            if (smt.TileType >= tileIDCount)
             {
                 // The first entry in modTileNames is always the special preserver name. If you hit this name, just set the keepTile flag.
-                string tileFullName = modTileNames[smt.TileType - TileID.Count];
+                string tileFullName = modTileNames[smt.TileType - tileIDCount];
                 if (tileFullName == PreserveTileName)
                     smt.keepTile = true;
                 else
@@ -671,10 +705,10 @@ namespace CalamityMod.Schematics
                 }
             }
             // If this schematic tile has a modded wall, replace the meta index offset with that modded wall's ID.
-            if (smt.WallType >= WallID.Count)
+            if (smt.WallType >= wallIDCount)
             {
                 // The first entry in modWallNames is always the special preserver name. If you hit this name, just set the keepWall flag.
-                string wallFullName = modWallNames[smt.WallType - WallID.Count];
+                string wallFullName = modWallNames[smt.WallType - wallIDCount];
                 if (wallFullName == PreserveTileName)
                     smt.keepWall = true;
                 else
@@ -738,6 +772,12 @@ namespace CalamityMod.Schematics
                 SchematicMetaTile[,] empty = new SchematicMetaTile[0, 0];
                 return empty;
             }
+
+            // Declare the TileID Count to use.
+            // Schematics from the 1.4 era recorded modded tiles at lower indices.
+            // These will be incorrectly interpreted as vanilla tiles in 1.4.4 unless this precaution is taken.
+            ushort TileIDCount = isTML14Schematic || isInfernumSchematic ? TML_14_TileID_Count : TileID.Count;
+            ushort WallIDCount = isTML14Schematic || isInfernumSchematic ? TML_14_WallID_Count : WallID.Count;
 
             // Declare schematic size.
             // "Large" schematics (Infernum 1.4 and all 1.4.4 schematics) use 4 bytes instead of 2 for all lookup indices.
@@ -803,8 +843,8 @@ namespace CalamityMod.Schematics
                 // 7: List of definitions of unique tiles. For modded tiles, their types are lookup indices to the mod tile and mod wall name arrays.
                 for (int i = 0; i < numUniqueTiles; ++i)
                 {
-                    SchematicMetaTile smt = reader.ReadSchematicMetaTile();
-                    ReplaceMetaIndicesWithLoadedIDs(ref smt, modTileNames, modWallNames);
+                    SchematicMetaTile smt = reader.ReadSchematicMetaTile(isTML144Schematic);
+                    ReplaceMetaIndicesWithLoadedIDs(ref smt, modTileNames, modWallNames, TileIDCount, WallIDCount);
                     uniqueTiles[i] = smt;
                 }
 
