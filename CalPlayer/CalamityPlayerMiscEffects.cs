@@ -3058,33 +3058,6 @@ namespace CalamityMod.CalPlayer
                 Player.npcTypeNoAggro[ModContent.NPCType<GammaSlime>()] = true;
             }
 
-            if (oldDukeScales)
-            {
-                Player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
-                Player.buffImmune[BuffID.Poisoned] = true;
-                Player.buffImmune[BuffID.Venom] = true;
-                if (Player.statLife <= (int)(Player.statLifeMax2 * 0.75))
-                {
-                    Player.GetDamage<GenericDamageClass>() += 0.06f;
-                    Player.GetCritChance<GenericDamageClass>() += 3;
-                }
-                if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
-                {
-                    Player.GetDamage<GenericDamageClass>() += 0.06f;
-                    Player.GetCritChance<GenericDamageClass>() += 3;
-                }
-                if (Player.statLife <= (int)(Player.statLifeMax2 * 0.25))
-                {
-                    Player.GetDamage<GenericDamageClass>() += 0.06f;
-                    Player.GetCritChance<GenericDamageClass>() += 3;
-                }
-                if (Player.lifeRegen < 0)
-                {
-                    Player.GetDamage<GenericDamageClass>() += 0.1f;
-                    Player.GetCritChance<GenericDamageClass>() += 5;
-                }
-            }
-
             if (dArtifact)
                 Player.GetDamage<GenericDamageClass>() += 0.25f;
 

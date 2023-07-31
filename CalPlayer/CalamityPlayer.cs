@@ -543,7 +543,6 @@ namespace CalamityMod.CalPlayer
         public bool voltaicJelly = false;
         public bool jellyChargedBattery = false;
         public float summonProjCooldown;
-        public bool oldDukeScales = false;
         public bool sandWaifu = false;
         public bool sandWaifuVanity = false;
         public bool sandBoobWaifu = false;
@@ -1612,7 +1611,6 @@ namespace CalamityMod.CalPlayer
             thiefsDime = false;
             dynamoStemCells = false;
             etherealExtorter = false;
-            oldDukeScales = false;
             blazingCore = false;
             voltaicJelly = false;
             jellyChargedBattery = false;
