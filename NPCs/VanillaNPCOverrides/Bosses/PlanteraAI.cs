@@ -173,27 +173,39 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     velocity *= MathHelper.Lerp(MovementVelocityMultiplierForSlowAttacks, 1f, (float)Math.Pow(currentSeedGatlingTime / SeedGatlingDuration, 2D));
 
                     // Shoot projectiles
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        float shootProjectileGateValue = 30f;
-                        if (currentSeedGatlingTime >= 240f)
-                            shootProjectileGateValue = 3f;
-                        else if (currentSeedGatlingTime >= 180f)
-                            shootProjectileGateValue = 5f;
-                        else if (currentSeedGatlingTime >= 120f)
-                            shootProjectileGateValue = 9f;
-                        else if (currentSeedGatlingTime >= 60f)
-                            shootProjectileGateValue = 15f;
+                    float shootProjectileGateValue = 30f;
+                    if (currentSeedGatlingTime >= 240f)
+                        shootProjectileGateValue = 3f;
+                    else if (currentSeedGatlingTime >= 180f)
+                        shootProjectileGateValue = 5f;
+                    else if (currentSeedGatlingTime >= 120f)
+                        shootProjectileGateValue = 9f;
+                    else if (currentSeedGatlingTime >= 60f)
+                        shootProjectileGateValue = 15f;
 
-                        if (npc.ai[1] % shootProjectileGateValue == 0f)
+                    if (npc.ai[1] % shootProjectileGateValue == 0f)
+                    {
+                        bool shootThornBall = npc.ai[1] % 90f == 0f && addThornBallsToGatlingAttack;
+                        bool shootPoisonSeed = npc.ai[1] % 9f == 0f;
+                        float projectileSpeed = 14f;
+                        int projectileType = shootThornBall ? ProjectileID.ThornBall : shootPoisonSeed ? ProjectileID.PoisonSeedPlantera : ProjectileID.SeedPlantera;
+                        int damage = npc.GetProjectileDamage(projectileType);
+                        Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
+                        Vector2 spawnOffset = npc.Center + projectileVelocity * 50f;
+
+                        int dustType = shootPoisonSeed ? DustID.Plantera_Green : DustID.Plantera_Pink;
+                        int dustSpawnBoxSize = shootThornBall ? 38 : 14;
+                        int dustAmount = shootThornBall ? 15 : 5;
+                        Vector2 dustVelocity = projectileVelocity * projectileSpeed;
+                        for (int k = 0; k < dustAmount; k++)
                         {
-                            bool shootThornBall = npc.ai[1] % 90f == 0f && addThornBallsToGatlingAttack;
-                            bool shootPoisonSeed = npc.ai[1] % 9f == 0f;
-                            float projectileSpeed = 14f;
-                            int projectileType = shootThornBall ? ProjectileID.ThornBall : shootPoisonSeed ? ProjectileID.PoisonSeedPlantera : ProjectileID.SeedPlantera;
-                            int damage = npc.GetProjectileDamage(projectileType);
-                            Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 50f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
+                            int dust = Dust.NewDust(spawnOffset, dustSpawnBoxSize, dustSpawnBoxSize, dustType, dustVelocity.X, dustVelocity.Y);
+                            Main.dust[dust].noGravity = true;
+                        }
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), spawnOffset, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
                             if (projectileType == ProjectileID.ThornBall && (Main.rand.NextBool(2) || !Main.zenithWorld))
                                 Main.projectile[proj].tileCollide = false;
                         }
@@ -203,17 +215,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Spore Gas vomit color telegraph
                 if (addSporeGasBlastToGatlingAttack)
                 {
-                    bool startEmittingDust = npc.ai[1] > PlanteraAI.SeedGatlingColorChangeGateValue;
+                    bool startEmittingDust = npc.ai[1] > SeedGatlingColorChangeGateValue;
                     if (startEmittingDust)
                     {
-                        float dustEmitAmount = npc.ai[1] - PlanteraAI.SeedGatlingColorChangeGateValue;
+                        float dustEmitAmount = npc.ai[1] - SeedGatlingColorChangeGateValue;
                         int dustInXChanceMin = 2;
                         int dustInXChanceMax = 8;
-                        int dustChance = (int)Math.Round(MathHelper.Lerp(dustInXChanceMin, dustInXChanceMax, 1f - dustEmitAmount / PlanteraAI.SeedGatlingColorChangeDuration));
+                        int dustChance = (int)Math.Round(MathHelper.Lerp(dustInXChanceMin, dustInXChanceMax, 1f - dustEmitAmount / SeedGatlingColorChangeDuration));
                         if (Main.rand.NextBool(dustChance))
                         {
                             int dust = Dust.NewDust(npc.position, npc.width, npc.height, 74, 0f, 0f, 0, default, 1f);
-                            Main.dust[dust].noGravity = true;
                             Vector2 vector = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                             vector.Normalize();
                             vector *= Main.rand.Next(50, 100) * 0.04f;
@@ -231,20 +242,26 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (addSporeGasBlastToGatlingAttack)
                     {
                         SoundEngine.PlaySound(SoundID.Item74, npc.Center);
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        int totalProjectiles = 30;
+                        float radians = MathHelper.TwoPi / totalProjectiles;
+                        int type = ModContent.ProjectileType<SporeGasPlantera>();
+                        int damage = npc.GetProjectileDamage(type);
+                        float velocity2 = CalamityWorld.LegendaryMode ? 10f : 5f;
+                        Vector2 spinningPoint = new Vector2(0f, -velocity2);
+                        for (int k = 0; k < totalProjectiles; k++)
                         {
-                            int totalProjectiles = 30;
-                            float radians = MathHelper.TwoPi / totalProjectiles;
-                            int type = ModContent.ProjectileType<SporeGasPlantera>();
-                            int damage = npc.GetProjectileDamage(type);
-                            float velocity2 = CalamityWorld.LegendaryMode ? 10f : 5f;
-                            Vector2 spinningPoint = new Vector2(0f, -velocity2);
-                            for (int k = 0; k < totalProjectiles; k++)
-                            {
-                                Vector2 projectileVelocity = spinningPoint.RotatedBy(radians * k);
-                                float ai0 = Main.rand.Next(3);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 50f, projectileVelocity * Main.rand.NextFloat(0.8f, 1.2f), type, damage, 0f, Main.myPlayer, ai0);
-                            }
+                            Vector2 projectileVelocity = spinningPoint.RotatedBy(radians * k);
+                            Vector2 spawnOffset = npc.Center + Vector2.Normalize(projectileVelocity) * 50f;
+                            float randomSpeed = Main.rand.NextFloat(0.8f, 1.2f);
+
+                            int dustType = 74;
+                            Vector2 dustVelocity = projectileVelocity * randomSpeed;
+                            for (int l = 0; l < 5; l++)
+                                Dust.NewDust(spawnOffset, 32, 32, dustType, dustVelocity.X, dustVelocity.Y);
+
+                            float ai0 = Main.rand.Next(3);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), spawnOffset, projectileVelocity * randomSpeed, type, damage, 0f, Main.myPlayer, ai0);
                         }
                     }
 
@@ -278,20 +295,28 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 velocity *= MathHelper.Lerp(MovementVelocityMultiplierForSlowAttacks, 1f, (float)Math.Pow(absValueOfTimer / SeedGatlingDuration, 2D));
 
                 // Shoot homing pink bulb projectiles that leave behind lingering pink clouds
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    float shootBulbGateValue = death ? 90f : 120f;
-                    if (addSporeGasBlastToGatlingAttack)
-                        shootBulbGateValue *= 0.8f;
+                float shootBulbGateValue = death ? 90f : 120f;
+                if (addSporeGasBlastToGatlingAttack)
+                    shootBulbGateValue *= 0.8f;
 
-                    if (absValueOfTimer % shootBulbGateValue == 0f)
+                if (absValueOfTimer % shootBulbGateValue == 0f)
+                {
+                    float projectileSpeed = 9f;
+                    int projectileType = ModContent.ProjectileType<HomingGasBulb>();
+                    int damage = npc.GetProjectileDamage(projectileType);
+                    Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
+                    Vector2 spawnOffset = npc.Center + projectileVelocity * 50f;
+
+                    int dustType = DustID.Plantera_Pink;
+                    Vector2 dustVelocity = projectileVelocity * projectileSpeed;
+                    for (int k = 0; k < 5; k++)
                     {
-                        float projectileSpeed = 9f;
-                        int projectileType = ModContent.ProjectileType<HomingGasBulb>();
-                        int damage = npc.GetProjectileDamage(projectileType);
-                        Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 50f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
+                        int dust = Dust.NewDust(spawnOffset, 18, 18, dustType, dustVelocity.X, dustVelocity.Y);
+                        Main.dust[dust].noGravity = true;
                     }
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), spawnOffset, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
                 }
             }
 
@@ -330,14 +355,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float sporeGasDashGateValue = death ? 4f : 6f;
                     if (phase3 && npc.ai[3] % sporeGasDashGateValue == 0f)
                     {
+                        int projectileType = ModContent.ProjectileType<SporeGasPlantera>();
+                        int damage = npc.GetProjectileDamage(projectileType);
+                        Vector2 projectileVelocity = npc.velocity * Main.rand.NextVector2CircularEdge(0.2f, 0.2f);
+                        Vector2 spawnOffset = npc.Center + Vector2.Normalize(projectileVelocity) * 30f;
+
+                        int dustType = 74;
+                        Vector2 dustVelocity = projectileVelocity;
+                        for (int k = 0; k < 5; k++)
+                            Dust.NewDust(spawnOffset, 32, 32, dustType, dustVelocity.X, dustVelocity.Y);
+
+                        float ai0 = Main.rand.Next(3);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-                            int projectileType = ModContent.ProjectileType<SporeGasPlantera>();
-                            int damage = npc.GetProjectileDamage(projectileType);
-                            Vector2 projectileVelocity = npc.velocity * Main.rand.NextVector2CircularEdge(0.2f, 0.2f);
-                            float ai0 = Main.rand.Next(3);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 30f, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, ai0);
-                        }
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), spawnOffset, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, ai0);
                     }
 
                     npc.ai[3] -= 1f;
@@ -364,6 +394,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     else
                         npc.velocity *= 0.98f;
 
+                    // Emit dust to show that a spore and charge attack are about to happen
+                    float dustEmitAmount = Math.Abs(BeginChargeGateValue) - Math.Abs(npc.ai[3]);
+                    int dustInXChanceMin = 2;
+                    int dustInXChanceMax = 8;
+                    int dustChance = (int)Math.Round(MathHelper.Lerp(dustInXChanceMin, dustInXChanceMax, 1f - dustEmitAmount / Math.Abs(BeginChargeGateValue)));
+                    if (Main.rand.NextBool(dustChance))
+                    {
+                        int dust = Dust.NewDust(npc.position, npc.width, npc.height, 74, 0f, 0f, 0, default, 1f);
+                        Vector2 vector = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+                        vector.Normalize();
+                        vector *= Main.rand.Next(50, 100) * 0.04f;
+                        Main.dust[dust].velocity = vector;
+                        vector.Normalize();
+                        vector *= 86f;
+                        Main.dust[dust].position = npc.Center - vector;
+                    }
+
                     float timeToLineUpChargeDecrement = phase4 ? 2f : 1f;
                     npc.ai[3] -= timeToLineUpChargeDecrement;
                     if (npc.ai[3] <= BeginChargeGateValue)
@@ -375,27 +422,33 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         // Spore dust cloud
                         Vector2 dustVelocity = npc.velocity * -0.25f;
-                        for (int k = 0; k < 50; k++)
+                        for (int k = 0; k < 30; k++)
                         {
                             Dust dust = Dust.NewDustDirect(npc.Center, npc.width, npc.height, 44, dustVelocity.X, dustVelocity.Y, 250, default, 0.8f);
                             dust.fadeIn = 0.7f;
                         }
 
                         // Vomit spread of spore gas
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        int totalProjectiles = 12;
+                        float radians = MathHelper.TwoPi / totalProjectiles;
+                        int type = ModContent.ProjectileType<SporeGasPlantera>();
+                        int damage = npc.GetProjectileDamage(type);
+                        float velocity2 = CalamityWorld.LegendaryMode ? 10f : 5f;
+                        Vector2 spinningPoint = new Vector2(0f, -velocity2);
+                        for (int k = 0; k < totalProjectiles; k++)
                         {
-                            int totalProjectiles = 12;
-                            float radians = MathHelper.TwoPi / totalProjectiles;
-                            int type = ModContent.ProjectileType<SporeGasPlantera>();
-                            int damage = npc.GetProjectileDamage(type);
-                            float velocity2 = CalamityWorld.LegendaryMode ? 10f : 5f;
-                            Vector2 spinningPoint = new Vector2(0f, -velocity2);
-                            for (int k = 0; k < totalProjectiles; k++)
-                            {
-                                Vector2 projectileVelocity = spinningPoint.RotatedBy(radians * k);
-                                float ai0 = Main.rand.Next(3);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 50f, projectileVelocity * Main.rand.NextFloat(0.8f, 1.2f), type, damage, 0f, Main.myPlayer, ai0);
-                            }
+                            Vector2 projectileVelocity = spinningPoint.RotatedBy(radians * k);
+                            Vector2 spawnOffset = npc.Center + Vector2.Normalize(projectileVelocity) * 50f;
+                            float randomSpeed = Main.rand.NextFloat(0.8f, 1.2f);
+
+                            int dustType = 74;
+                            Vector2 dustVelocity2 = projectileVelocity * randomSpeed;
+                            for (int l = 0; l < 5; l++)
+                                Dust.NewDust(spawnOffset, 32, 32, dustType, dustVelocity2.X, dustVelocity2.Y);
+
+                            float ai0 = Main.rand.Next(3);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), spawnOffset, projectileVelocity * randomSpeed, type, damage, 0f, Main.myPlayer, ai0);
                         }
                     }
 
@@ -489,7 +542,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.damage = npc.defDamage;
 
                 // Fire projectiles
-                if (Main.netMode != NetmodeID.MultiplayerClient && !usingSeedGatling && !slowedAfterGatlingAttack)
+                if (!usingSeedGatling && !slowedAfterGatlingAttack)
                 {
                     float shootBoost = 2f * (1f - lifeRatio);
                     npc.localAI[1] += 1f + shootBoost;
@@ -505,11 +558,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         npc.localAI[1] = 0f;
                         npc.TargetClosest();
-                        int projectileType = (CalamityWorld.LegendaryMode || Main.rand.NextBool(4)) ? ProjectileID.PoisonSeedPlantera : ProjectileID.SeedPlantera;
+                        bool shootPoisonSeed = CalamityWorld.LegendaryMode || Main.rand.NextBool(4);
+                        int projectileType = shootPoisonSeed ? ProjectileID.PoisonSeedPlantera : ProjectileID.SeedPlantera;
                         float projectileSpeed = 14f;
                         int damage = npc.GetProjectileDamage(projectileType);
                         Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 50f, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
+                        Vector2 spawnOffset = npc.Center + projectileVelocity * 50f;
+
+                        int dustType = shootPoisonSeed ? DustID.Plantera_Green : DustID.Plantera_Pink;
+                        Vector2 dustVelocity = projectileVelocity * projectileSpeed;
+                        for (int k = 0; k < 5; k++)
+                        {
+                            int dust = Dust.NewDust(spawnOffset, 14, 14, dustType, dustVelocity.X, dustVelocity.Y);
+                            Main.dust[dust].noGravity = true;
+                        }
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), spawnOffset, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
                     }
                 }
             }
@@ -593,7 +658,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.localAI[2] = 1f;
                 }
 
-                if (Main.netMode != NetmodeID.MultiplayerClient && !charging)
+                if (!charging)
                 {
                     // Fire spreads of poison seeds
                     npc.localAI[3] += 1f;
@@ -619,13 +684,25 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         for (int i = 0; i < numProj; i++)
                         {
-                            if (i % 2 == 0)
+                            bool shootPinkSeed = i % 2 == 0;
+                            if (shootPinkSeed)
                                 type = ProjectileID.SeedPlantera;
                             else
                                 type = ProjectileID.PoisonSeedPlantera;
 
                             Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + perturbedSpeed * 50f, perturbedSpeed * projectileSpeed, type, damage, 0f, Main.myPlayer);
+                            Vector2 spawnOffset = npc.Center + perturbedSpeed * 50f;
+
+                            int dustType = shootPinkSeed ? DustID.Plantera_Pink : DustID.Plantera_Green;
+                            Vector2 dustVelocity = perturbedSpeed * projectileSpeed;
+                            for (int k = 0; k < 5; k++)
+                            {
+                                int dust = Dust.NewDust(spawnOffset, 14, 14, dustType, dustVelocity.X, dustVelocity.Y);
+                                Main.dust[dust].noGravity = true;
+                            }
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), spawnOffset, perturbedSpeed * projectileSpeed, type, damage, 0f, Main.myPlayer);
                         }
 
                         npc.localAI[3] = 0f;
