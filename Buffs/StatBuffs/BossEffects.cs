@@ -24,14 +24,8 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void ModifyBuffText(ref string buffName, ref string tip, ref int rare)
         {
-            StringBuilder sb = new StringBuilder(512);
-            sb.Append("The nearby boss is:\n");
             if (CalamityConfig.Instance.BossZen)
-                sb.Append("Greatly reducing enemy spawn rates\n");
-            sb.Append("Increasing Nurse healing cost by 400%\n");
-            sb.Append("Disabling Target and Super Dummy hitboxes");
-
-            tip = sb.ToString();
+                tip = tip.Replace(":", ":\n" + this.GetLocalizedValue("ZenDescription"));
         }
     }
 }

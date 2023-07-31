@@ -250,7 +250,8 @@ namespace CalamityMod.CalPlayer
 
         #region Sound
         public bool playRogueStealthSound = false;
-        public bool playFullRageSound = true;
+        public int fullRageSoundCountdownTimer = 0;
+        private const int FullRageSoundDelay = 300; // The "Rage full" sound cannot play for 5 seconds after Rage has filled. This stops it from jittering.
         public bool playFullAdrenalineSound = true;
 
         public static readonly SoundStyle RageFilledSound = new("CalamityMod/Sounds/Custom/AbilitySounds/FullRage");
@@ -3197,19 +3198,6 @@ namespace CalamityMod.CalPlayer
             Player.accRunSpeed += Player.accRunSpeed * moveSpeedBonus * 0.2f;
             if (Player.accRunSpeed < accRunSpeedMin)
                 Player.accRunSpeed = accRunSpeedMin;
-
-            #region Melee Speed for Projectile Melee Weapons
-            float meleeSpeedMult = 0f;
-    
-            // Nerfs the effectiveness of Beetle Scale Mail.
-            if (Player.beetleOffense && Player.beetleOrbs > 0)
-                Player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f * Player.beetleOrbs;
-
-            if (GemTechSet && GemTechState.IsYellowGemActive)
-                meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;
-
-            Player.GetAttackSpeed<MeleeDamageClass>() += meleeSpeedMult;
-            #endregion
 
             if (snowman)
             {

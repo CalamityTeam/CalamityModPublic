@@ -1,3 +1,19 @@
+// Buff Descriptions
+BuffDescription: {
+	BeetleMight: Melee damage and speed increase by {0}% and {1}% respectively
+	ChaosState: Rod of Discord teleports are disabled
+	LeafCrystal: Emits powerful life pulses at nearby enemies
+	WarmthExtra: Grants immunity to Chilled, Frozen and Glacial State
+	WeaponImbueConfetti: All attacks cause confetti to appear
+	WeaponImbueCursedFlames: Melee, Whip, and Rogue attacks inflict enemies with cursed flames
+	WeaponImbueFire: Melee, Whip, and Rogue attacks set enemies on fire
+	WeaponImbueGold: Melee, Whip, and Rogue attacks make enemies drop more gold
+	WeaponImbueIchor: Melee, Whip, and Rogue attacks decrease enemies defense
+	WeaponImbueNanites: Melee, Whip, and Rogue attacks confuse enemies
+	WeaponImbuePoison: Melee, Whip, and Rogue attacks poison enemies
+	WeaponImbueVenom: Melee, Whip, and Rogue attacks inflict acid venom on your targets
+}
+
 // Vanilla NPC dialogues added by Calamity
 AnglerChat.SeaKing: Someone tell {0} to quit trying to throw me out of town, it's not going to work.
 

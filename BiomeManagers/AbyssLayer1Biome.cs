@@ -59,9 +59,7 @@ namespace CalamityMod.BiomeManagers
             {
                 if (CalamityPlayer.areThereAnyDamnBosses)
                     return Main.curMusic;
-                return !Main.dayTime
-                ? CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSeaNight") ?? MusicID.Desert // Nighttime
-                : CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSeaDay") ?? MusicID.Desert; // Daytime
+                return CalamityMod.Instance.GetMusicFromMusicMod("AbyssLayer1") ?? MusicID.Desert;
             }
         }
 

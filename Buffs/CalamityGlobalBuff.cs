@@ -1,7 +1,9 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.NPCs;
+using System.Text;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs
@@ -83,15 +85,15 @@ namespace CalamityMod.Buffs
             }
             else if (type == BuffID.BeetleMight1)
             {
-                player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.05f;
             }
             else if (type == BuffID.BeetleMight2)
             {
-                player.GetAttackSpeed<MeleeDamageClass>() -= 0.2f;
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
             }
             else if (type == BuffID.BeetleMight3)
             {
-                player.GetAttackSpeed<MeleeDamageClass>() -= 0.3f;
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.15f;
             }
         }
 
@@ -126,109 +128,127 @@ namespace CalamityMod.Buffs
 
         public override void ModifyBuffText(int type, ref string buffName, ref string tip, ref int rare)
         {
-            // Vanilla buffs
+            // Vanilla buffs (sorted alphabetically)
             switch (type)
             {
-                case BuffID.Ironskin:
-                    tip = "Increase defense by " + CalamityUtils.GetScalingDefense(-1);
-                    break;
-
-                case BuffID.MagicPower:
-                    tip = "10% increased magic damage";
-                    break;
-
                 case BuffID.Archery:
-                    tip = "20% increased arrow speed and 5% increased arrow damage";
-                    break;
-
-                case BuffID.Swiftness:
-                    tip = "15% increased movement speed";
-                    break;
-
-                case BuffID.SugarRush:
-                    tip = "10% increased movement and mining speed";
-                    break;
-
-                case BuffID.Mining:
-                    tip = "15% increased mining speed";
-                    break;
-
-                case BuffID.LeafCrystal:
-                    tip = "Emits powerful life pulses at nearby enemies";
-                    break;
-
-                case BuffID.NebulaUpDmg1:
-                    tip = "7.5% increased damage";
-                    break;
-
-                case BuffID.NebulaUpDmg2:
-                    tip = "15% increased damage";
-                    break;
-
-                case BuffID.NebulaUpDmg3:
-                    tip = "22.5% increased damage";
-                    break;
-
-                case BuffID.BeetleMight1:
-                    tip = "Melee damage increased by 10%";
-                    break;
-
-                case BuffID.BeetleMight2:
-                    tip = "Melee damage increased by 20%";
-                    break;
-
-                case BuffID.BeetleMight3:
-                    tip = "Melee damage increased by 30%";
+                    tip = tip.Replace("10", "5");
                     break;
 
                 case BuffID.BeetleEndurance1:
-                    tip = "Damage taken reduced by 10%";
+                    tip = tip.Replace("15", "10");
                     break;
 
                 case BuffID.BeetleEndurance2:
-                    tip = "Damage taken reduced by 20%";
+                    tip = tip.Replace("30", "20");
                     break;
 
                 case BuffID.BeetleEndurance3:
-                    tip = "Damage taken reduced by 30%";
+                    tip = tip.Replace("45", "30");
                     break;
 
-                case BuffID.WeaponImbueVenom:
-                case BuffID.WeaponImbueCursedFlames:
-                case BuffID.WeaponImbueFire:
-                case BuffID.WeaponImbueGold:
-                case BuffID.WeaponImbueIchor:
-                case BuffID.WeaponImbueNanites:
-                case BuffID.WeaponImbuePoison:
-                    tip = tip.Insert(tip.IndexOf("Melee") + 5, ", Whip, and Rogue");
+                case BuffID.BeetleMight1:
+                    tip = CalamityUtils.GetText("Vanilla.BuffDescription.BeetleMight").Format(10, 5);
                     break;
 
-                case BuffID.WeaponImbueConfetti:
-                    tip = "All attacks cause confetti to appear";
+                case BuffID.BeetleMight2:
+                    tip = CalamityUtils.GetText("Vanilla.BuffDescription.BeetleMight").Format(20, 10);
                     break;
 
-                case BuffID.IceBarrier:
-                    tip = "Damage taken is reduced by 15%";
+                case BuffID.BeetleMight3:
+                    tip = CalamityUtils.GetText("Vanilla.BuffDescription.BeetleMight").Format(30, 15);
                     break;
 
                 case BuffID.ChaosState:
-                    tip = "Rod of Discord teleports are disabled";
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.ChaosState");
+                    break;
+
+                case BuffID.IceBarrier:
+                    tip = tip.Replace("25", "15");
+                    break;
+
+                case BuffID.Ironskin:
+                    tip = tip.Replace("8", CalamityUtils.GetScalingDefense(-1).ToString());
+                    break;
+
+                case BuffID.LeafCrystal:
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.LeafCrystal");
+                    break;
+
+                case BuffID.MagicPower:
+                    tip = tip.Replace("20", "10");
+                    break;
+
+                case BuffID.Mining:
+                    tip = tip.Replace("25", "15");
+                    break;
+
+                case BuffID.NebulaUpDmg1:
+                    tip = tip.Replace("15", "7.5");
+                    break;
+
+                case BuffID.NebulaUpDmg2:
+                    tip = tip.Replace("30", "15");
+                    break;
+
+                case BuffID.NebulaUpDmg3:
+                    tip = tip.Replace("45", "22.5");
+                    break;
+
+                case BuffID.SugarRush:
+                    tip = tip.Replace("20", "10");
+                    break;
+
+                case BuffID.Swiftness:
+                    tip = tip.Replace("25", "15");
                     break;
 
                 case BuffID.Warmth:
-                    tip += ". Grants immunity to Chilled, Frozen and Glacial State";
+                    tip += "\n" + CalamityUtils.GetTextValue("Vanilla.BuffDescription.WarmthExtra");
+                    break;
+
+                case BuffID.WeaponImbueConfetti:
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbueConfetti");
+                    break;
+
+                case BuffID.WeaponImbueCursedFlames:
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbueCursedFlames");
+                    break;
+
+                case BuffID.WeaponImbueFire:
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbueFire");
+                    break;
+
+                case BuffID.WeaponImbueGold:
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbueGold");
+                    break;
+
+                case BuffID.WeaponImbueIchor:
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbueIchor");
+                    break;
+
+                case BuffID.WeaponImbueNanites:
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbueNanites");
+                    break;
+
+                case BuffID.WeaponImbuePoison:
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbuePoison");
+                    break;
+
+                case BuffID.WeaponImbueVenom:
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbueVenom");
                     break;
 
                 case BuffID.WellFed:
-                    tip = "Minor improvements to all stats";
+                    tip = Language.GetTextValue("BuffDescription.WellFed");
                     break;
 
                 case BuffID.WellFed2:
-                    tip = "Medium improvements to all stats";
+                    tip = Language.GetTextValue("BuffDescription.WellFed2");
                     break;
 
                 case BuffID.WellFed3:
-                    tip = "Major improvements to all stats";
+                    tip = Language.GetTextValue("BuffDescription.WellFed3");
                     break;
             }
         }
