@@ -77,7 +77,6 @@ namespace CalamityMod
     {
         public static IList<string> donatorList;
         public static List<int> projectileDestroyExceptionList;
-        public static List<int> projectileMinionList;
         public static List<int> enemyImmunityList;
         public static List<int> confusionEnemyList;
         public static List<int> dungeonEnemyBuffList;
@@ -104,11 +103,8 @@ namespace CalamityMod
         public static List<int> revengeanceLifeStealExceptionList;
         public static List<int> noRageWormSegmentList;
         public static List<int> needsDebuffIconDisplayList;
-        public static List<int> trapProjectileList;
         public static List<int> scopedWeaponList;
-        public static List<int> lavaFishList;
         public static List<int> highTestFishList;
-        public static List<int> flamethrowerList;
         public static List<int> forceItemList;
         public static List<int> livingFireBlockList;
         public static List<int> amalgamBuffList;
@@ -116,6 +112,7 @@ namespace CalamityMod
         public static List<int> MushroomWeaponIDs;
         public static List<int> MushroomProjectileIDs;
 
+        // Some of these lists of enemies are unused, but were difficult to create. Many of these common enemy types have a ton of variants.
         public static List<int> zombieList;
         public static List<int> demonEyeList;
         public static List<int> skeletonList;
@@ -124,6 +121,7 @@ namespace CalamityMod
         public static List<int> mossHornetList;
         public static List<int> bossMinionList;
         public static List<int> minibossList;
+
         public static List<int> pierceResistList;
         public static List<int> pierceResistExceptionList;
 
@@ -156,10 +154,6 @@ namespace CalamityMod
         public static List<int> legOverrideList;
 
         public static List<int> kamiDebuffColorImmuneList;
-
-        public static List<int> MinionsToNotResurrectList;
-        public static List<int> ZeroMinionSlotExceptionList;
-        public static List<int> DontCopyOriginalMinionAIList;
 
         public static Dictionary<int, int> EncryptedSchematicIDRelationship;
 
@@ -825,30 +819,6 @@ namespace CalamityMod
                 ProjectileType<ThanatosBeamStart>()
             };
 
-            projectileMinionList = new List<int>()
-            {
-                ProjectileID.PygmySpear,
-                ProjectileID.UFOMinion,
-                ProjectileID.UFOLaser,
-                ProjectileID.StardustCellMinionShot,
-                ProjectileID.MiniSharkron,
-                ProjectileID.MiniRetinaLaser,
-                ProjectileID.ImpFireball,
-                ProjectileID.HornetStinger,
-                ProjectileID.DD2FlameBurstTowerT1Shot,
-                ProjectileID.DD2FlameBurstTowerT2Shot,
-                ProjectileID.DD2FlameBurstTowerT3Shot,
-                ProjectileID.DD2BallistraProj,
-                ProjectileID.DD2ExplosiveTrapT1Explosion,
-                ProjectileID.DD2ExplosiveTrapT2Explosion,
-                ProjectileID.DD2ExplosiveTrapT3Explosion,
-                ProjectileID.SpiderEgg,
-                ProjectileID.BabySpider,
-                ProjectileID.FrostBlastFriendly,
-                ProjectileID.MoonlordTurretLaser,
-                ProjectileID.RainbowCrystalExplosion
-            };
-
             enemyImmunityList = new List<int>()
             {
                 NPCID.KingSlime,
@@ -1226,8 +1196,8 @@ namespace CalamityMod
                 ItemID.Swordfish,
                 ItemID.TheRottedFork,
                 ItemID.TitaniumTrident,
-                ItemID.Trident
-                //ItemID.StormSpear
+                ItemID.Trident,
+                ItemID.ThunderSpear
             };
 
             pumpkinMoonBuffList = new List<int>()
@@ -1507,17 +1477,7 @@ namespace CalamityMod
                 NPCID.WallofFleshEye
             };
 
-            trapProjectileList = new List<int>()
-            {
-                ProjectileID.PoisonDartTrap,
-                ProjectileID.SpikyBallTrap,
-                ProjectileID.SpearTrap,
-                ProjectileID.FlamethrowerTrap,
-                ProjectileID.FlamesTrap,
-                ProjectileID.PoisonDart,
-                ProjectileID.GeyserTrap
-            };
-
+            // TODO -- override HoldItem => Player.scope = true; on these items
             scopedWeaponList = new List<int>()
             {
                 ItemType<AntiMaterielRifle>(),
@@ -1533,12 +1493,6 @@ namespace CalamityMod
                 ItemID.GoldenFishingRod,
                 ItemType<EarlyBloomRod>(),
                 ItemType<TheDevourerofCods>()
-            };
-
-            flamethrowerList = new List<int>()
-            {
-                ItemType<DragoonDrizzlefish>(),
-                ItemType<BloodBoiler>()
             };
 
             forceItemList = new List<int>()
@@ -2700,35 +2654,6 @@ namespace CalamityMod
                 NPCType<OldDuke>()
             };
 
-            MinionsToNotResurrectList = new List<int>()
-            {
-                ProjectileID.StardustDragon1,
-                ProjectileID.StardustDragon2,
-                ProjectileID.StardustDragon3,
-                ProjectileID.StardustDragon4,
-                ProjectileType<DeathstareEyeball>(),
-                ProjectileType<MechwormHead>(),
-                ProjectileType<MechwormBody>(),
-                ProjectileType<MechwormTail>(),
-                ProjectileType<EndoHydraHead>(),
-                ProjectileType<EndoHydraBody>(),
-                ProjectileType<SeekerSummonProj>(),
-                ProjectileType<SepulcherMinion>(),
-                ProjectileType<MountedScannerLaser>()
-            };
-
-            ZeroMinionSlotExceptionList = new List<int>()
-            {
-                ProjectileID.StardustDragon1,
-                ProjectileType<MechwormHead>(),
-                ProjectileType<EndoHydraBody>()
-            };
-
-            DontCopyOriginalMinionAIList = new List<int>()
-            {
-                ProjectileType<GammaHead>()
-            };
-
             EncryptedSchematicIDRelationship = new Dictionary<int, int>()
             {
                 [1] = ItemType<EncryptedSchematicPlanetoid>(),
@@ -2745,7 +2670,6 @@ namespace CalamityMod
         {
             donatorList = null;
             projectileDestroyExceptionList = null;
-            projectileMinionList = null;
             enemyImmunityList = null;
             confusionEnemyList = null;
             dungeonEnemyBuffList = null;
@@ -2772,15 +2696,12 @@ namespace CalamityMod
             revengeanceLifeStealExceptionList = null;
             noRageWormSegmentList = null;
             needsDebuffIconDisplayList = null;
-            trapProjectileList = null;
             scopedWeaponList = null;
-            lavaFishList = null;
             highTestFishList = null;
-            flamethrowerList = null;
             forceItemList = null;
             livingFireBlockList = null;
-			amalgamBuffList = null;
-			persistentBuffList = null;
+            amalgamBuffList = null;
+            persistentBuffList = null;
             MushroomWeaponIDs = null;
             MushroomProjectileIDs = null;
 
@@ -2810,7 +2731,7 @@ namespace CalamityMod
             SkeletronPrimeIDs = null;
             StormWeaverIDs = null;
             RavagerIDs = null;
-			GolemIDs = null;
+            GolemIDs = null;
             BoundNPCIDs = null;
             GrenadeResistIDs = null;
             ZeroContactDamageNPCList = null;
@@ -2826,10 +2747,6 @@ namespace CalamityMod
             legOverrideList = null;
 
             kamiDebuffColorImmuneList = null;
-
-            MinionsToNotResurrectList = null;
-            ZeroMinionSlotExceptionList = null;
-            DontCopyOriginalMinionAIList = null;
 
             EncryptedSchematicIDRelationship = null;
 
