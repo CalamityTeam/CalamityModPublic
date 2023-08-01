@@ -127,7 +127,7 @@ namespace CalamityMod.CalPlayer
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
         public bool LungingDown = false;
-		public Vector2? BossRushReturnPosition = null;
+        public Vector2? BossRushReturnPosition = null;
 
         public float moveSpeedBonus = 0f;
         public int momentumCapacitorTime = 0;
@@ -3058,62 +3058,62 @@ namespace CalamityMod.CalPlayer
         #region TeleportMethods
         public static Vector2? GetJunglePosition(Player player)
         {
-			bool canSpawn = false;
+            bool canSpawn = false;
             int teleportStartX = Abyss.AtLeftSideOfWorld ? (int)(Main.maxTilesX * 0.65) : (int)(Main.maxTilesX * 0.2);
             int teleportRangeX = (int)(Main.maxTilesX * 0.15);
             int teleportStartY = (int)Main.worldSurface - 75;
             int teleportRangeY = 50;
 
-			Player.RandomTeleportationAttemptSettings settings = new Player.RandomTeleportationAttemptSettings
-			{
-				mostlySolidFloor = true,
-				avoidAnyLiquid = true,
-				avoidLava = true,
-				avoidHurtTiles = true,
-				avoidWalls = true,
-				attemptsBeforeGivingUp = 1000,
-				maximumFallDistanceFromOrignalPoint = 30
-			};
+            Player.RandomTeleportationAttemptSettings settings = new Player.RandomTeleportationAttemptSettings
+            {
+                mostlySolidFloor = true,
+                avoidAnyLiquid = true,
+                avoidLava = true,
+                avoidHurtTiles = true,
+                avoidWalls = true,
+                attemptsBeforeGivingUp = 1000,
+                maximumFallDistanceFromOrignalPoint = 30
+            };
 
-			Vector2 vector = player.CheckForGoodTeleportationSpot(ref canSpawn, teleportStartX, teleportRangeX, teleportStartY, teleportRangeY, settings);
+            Vector2 vector = player.CheckForGoodTeleportationSpot(ref canSpawn, teleportStartX, teleportRangeX, teleportStartY, teleportRangeY, settings);
 
-			if (canSpawn)
-			{
-				return (Vector2?)vector;
-			}
+            if (canSpawn)
+            {
+                return (Vector2?)vector;
+            }
             return null;
         }
 
         public static Vector2? GetUnderworldPosition(Player player)
         {
-			bool canSpawn = false;
-			int num = Main.maxTilesX / 2;
-			int num2 = 100;
-			int num3 = num2 / 2;
-			int teleportStartY = Main.UnderworldLayer + 20;
-			int teleportRangeY = 80;
-			Player.RandomTeleportationAttemptSettings settings = new Player.RandomTeleportationAttemptSettings
-			{
-				mostlySolidFloor = true,
-				avoidAnyLiquid = true,
-				avoidLava = true,
-				avoidHurtTiles = true,
-				avoidWalls = true,
-				attemptsBeforeGivingUp = 1000,
-				maximumFallDistanceFromOrignalPoint = 30
-			};
+            bool canSpawn = false;
+            int num = Main.maxTilesX / 2;
+            int num2 = 100;
+            int num3 = num2 / 2;
+            int teleportStartY = Main.UnderworldLayer + 20;
+            int teleportRangeY = 80;
+            Player.RandomTeleportationAttemptSettings settings = new Player.RandomTeleportationAttemptSettings
+            {
+                mostlySolidFloor = true,
+                avoidAnyLiquid = true,
+                avoidLava = true,
+                avoidHurtTiles = true,
+                avoidWalls = true,
+                attemptsBeforeGivingUp = 1000,
+                maximumFallDistanceFromOrignalPoint = 30
+            };
 
-			Vector2 vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num - num3, num2, teleportStartY, teleportRangeY, settings);
-			if (!canSpawn)
-				vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num - num2, num3, teleportStartY, teleportRangeY, settings);
+            Vector2 vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num - num3, num2, teleportStartY, teleportRangeY, settings);
+            if (!canSpawn)
+                vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num - num2, num3, teleportStartY, teleportRangeY, settings);
 
-			if (!canSpawn)
-				vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num + num3, num3, teleportStartY, teleportRangeY, settings);
+            if (!canSpawn)
+                vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num + num3, num3, teleportStartY, teleportRangeY, settings);
 
-			if (canSpawn)
-			{
-				return (Vector2?)vector;
-			}
+            if (canSpawn)
+            {
+                return (Vector2?)vector;
+            }
             return null;
         }
 
@@ -3121,12 +3121,12 @@ namespace CalamityMod.CalPlayer
         {
             bool postImmune = player.immune;
             int postImmuneTime = player.immuneTime;
-			player.StopVanityActions(false);
+            player.StopVanityActions(false);
             player.RemoveAllGrapplingHooks();
             player.Teleport(pos, style);
-			if (Main.netMode == NetmodeID.Server)
-				RemoteClient.CheckSection(player.whoAmI, player.Center);
-			NetMessage.SendData(MessageID.TeleportEntity, -1, -1, null, 0, (float)player.whoAmI, pos.X, pos.Y, style, 0, 0);
+            if (Main.netMode == NetmodeID.Server)
+                RemoteClient.CheckSection(player.whoAmI, player.Center);
+            NetMessage.SendData(MessageID.TeleportEntity, -1, -1, null, 0, (float)player.whoAmI, pos.X, pos.Y, style, 0, 0);
             player.velocity = Vector2.Zero;
             player.immune = postImmune;
             player.immuneTime = postImmuneTime;
@@ -3136,46 +3136,46 @@ namespace CalamityMod.CalPlayer
             {
                 Main.dust[Dust.NewDust(player.position, player.width, player.height, 164, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 150, Color.Cyan, 1.2f)].velocity *= 0.5f;
             }
-			Rectangle rect = player.getRect();
-			int dustAmt = rect.Width * rect.Height / 5;
-			for (int k = 0; k < dustAmt; k++)
-			{
-				int idx = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, 164);
-				Main.dust[idx].scale = Main.rand.NextFloat(0.2f, 0.7f);
-				if (k < 10)
-					Main.dust[idx].scale += 0.25f;
-				if (k < 5)
-					Main.dust[idx].scale += 0.25f;
-			}
-			for (int k = 0; k < 50; k++)
-			{
-				int idx = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, 180);
-				Main.dust[idx].noGravity = true;
-				for (int i = 0; i < 5; i++)
-				{
-					if (Main.rand.NextBool(3))
-						Main.dust[idx].velocity *= 0.75f;
-				}
-				if (Main.rand.NextBool(3))
-				{
-					Main.dust[idx].velocity *= 2f;
-					Main.dust[idx].scale *= 1.2f;
-				}
-				if (Main.rand.NextBool(3))
-				{
-					Main.dust[idx].velocity *= 2f;
-					Main.dust[idx].scale *= 1.2f;
-				}
-				if (Main.rand.NextBool(2))
-				{
-					Main.dust[idx].fadeIn = Main.rand.NextFloat(0.75f, 1f);
-					Main.dust[idx].scale = Main.rand.NextFloat(0.25f, 0.75f);
-				}
-				Main.dust[idx].scale *= 0.8f;
-			}
+            Rectangle rect = player.getRect();
+            int dustAmt = rect.Width * rect.Height / 5;
+            for (int k = 0; k < dustAmt; k++)
+            {
+                int idx = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, 164);
+                Main.dust[idx].scale = Main.rand.NextFloat(0.2f, 0.7f);
+                if (k < 10)
+                    Main.dust[idx].scale += 0.25f;
+                if (k < 5)
+                    Main.dust[idx].scale += 0.25f;
+            }
+            for (int k = 0; k < 50; k++)
+            {
+                int idx = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, 180);
+                Main.dust[idx].noGravity = true;
+                for (int i = 0; i < 5; i++)
+                {
+                    if (Main.rand.NextBool(3))
+                        Main.dust[idx].velocity *= 0.75f;
+                }
+                if (Main.rand.NextBool(3))
+                {
+                    Main.dust[idx].velocity *= 2f;
+                    Main.dust[idx].scale *= 1.2f;
+                }
+                if (Main.rand.NextBool(3))
+                {
+                    Main.dust[idx].velocity *= 2f;
+                    Main.dust[idx].scale *= 1.2f;
+                }
+                if (Main.rand.NextBool(2))
+                {
+                    Main.dust[idx].fadeIn = Main.rand.NextFloat(0.75f, 1f);
+                    Main.dust[idx].scale = Main.rand.NextFloat(0.25f, 0.75f);
+                }
+                Main.dust[idx].scale *= 0.8f;
+            }
 
-			if (playSound)
-				SoundEngine.PlaySound(SoundID.Item6, player.Center);
+            if (playSound)
+                SoundEngine.PlaySound(SoundID.Item6, player.Center);
         }
         #endregion
 
@@ -5442,36 +5442,19 @@ namespace CalamityMod.CalPlayer
             if ((godSlayerDamage && info.Damage <= 80) || info.Damage < 1)
                 return true;
 
-            return base.FreeDodge(info);
-        }
-
-        public override bool ConsumableDodge(Player.HurtInfo info)
-        {
-            if (HandleDodges())
-                return true;
-
-            return base.ConsumableDodge(info);
-        }
-        #endregion
-
-        #region Pre Hurt
-        public override void ModifyHurt(ref Player.HurtModifiers modifiers)
-        {
-            #region Ignore Incoming Hits
-            // If Armageddon is active, instantly kill the player.
-            if (CalamityWorld.armageddon && areThereAnyDamnBosses)
-                KillPlayer();
-
-            // Lunic Corps Armor Shield damage doesn't count as actual damage.
+            // Apply Lunic Corps Armor's energy shield here. If the shield completely absorbs the hit, iframes are granted and the hit is considered dodged.
             if (lunicCorpsSet)
             {
-                bool noDamage = false;
+                bool shieldsAbsorbedHit = false;
+
+                // Shields can only have any effect if they have any energy left.
                 if (masterChefShieldDurability > 0)
                 {
                     // Cancel actual damage if the shield has enough durability to cancel out all damage from the hit.
-                    if (masterChefShieldDurability >= hurtInfo.Damage)
+                    if (masterChefShieldDurability >= info.Damage)
                     {
-                        masterChefShieldDurability -= hurtInfo.Damage;
+                        // Hits which break the shield cause a sound and slight screen shake.
+                        masterChefShieldDurability -= info.Damage;
                         if (masterChefShieldDurability <= 0)
                         {
                             masterChefShieldDurability = 0;
@@ -5480,21 +5463,24 @@ namespace CalamityMod.CalPlayer
                         }
 
                         // Display text indicating that shield damage was taken.
-                        string text = (-hurtInfo.Damage).ToString();
+                        string text = (-info.Damage).ToString();
                         Color messageColor = Color.LightBlue;
                         Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
                         CombatText.NewText(location, messageColor, Language.GetTextValue(text));
 
+                        // Cancel defense damage, if it was going to occur this frame.
                         justHitByDefenseDamage = false;
                         defenseDamageToTake = 0;
-                        noDamage = true;
+                        shieldsAbsorbedHit = true;
                     }
 
-                    // Take actual damage if the shield doesn't cancel out all damage from the hit.
+                    // If the shields exist, but aren't enough to block the whole hit, then reduce that much damage and break the shield.
                     else
                     {
-                        int totalDamageBeforeModification = hurtInfo.Damage;
-                        hurtInfo.Damage -= masterChefShieldDurability;
+                        int totalDamageBeforeModification = info.Damage;
+                        info.Damage -= masterChefShieldDurability;
+
+                        // Hits which break the shield cause a sound and slight screen shake.
                         masterChefShieldDurability -= totalDamageBeforeModification;
                         if (masterChefShieldDurability <= 0)
                         {
@@ -5510,30 +5496,47 @@ namespace CalamityMod.CalPlayer
                         CombatText.NewText(location, messageColor, Language.GetTextValue(text));
                     }
 
+                    // Spawn particles when hit with the shields up, regardless of whether or not the shields broke.
                     int numParticles = Main.rand.Next(2, 6);
                     for (int i = 0; i < numParticles; i++)
                     {
                         Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3, 7);
-                        velocity.X += 5f * modifiers.HitDirection;
+                        velocity.X += 5f * info.HitDirection;
                         GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(Player.Center, velocity, Main.rand.NextFloat(2.5f, 3f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25));
                     }
                 }
 
+                // Set the cooldown rack's shield meter appropriately.
                 if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var cdDurability))
                     cdDurability.timeLeft = masterChefShieldDurability;
 
-                // Reset recharge time
+                // Stop regen of shields on ANY hit, even if you are hit while shields are fully down.
                 if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cd))
                     cd.timeLeft = LunicCorpsHelmet.MasterChefShieldRechargeTime;
 
-                if (noDamage)
+                // Give iframes and use a "Free Dodge" to cancel the hit if the shields completely absorbed the hit.
+                if (shieldsAbsorbedHit)
                 {
-                    Player.GiveIFrames(modifiers.PvP ? 8 : ((hurtInfo.Damage != 1) ? (Player.longInvince ? 80 : 40) : (Player.longInvince ? 40 : 20)), true);
-                    return;
+                    Player.GiveIFrames(info.PvP ? 8 : ((info.Damage != 1) ? (Player.longInvince ? 80 : 40) : (Player.longInvince ? 40 : 20)), true);
+                    return true;
                 }
             }
-            #endregion
 
+            return base.FreeDodge(info);
+        }
+
+        public override bool ConsumableDodge(Player.HurtInfo info)
+        {
+            if (HandleDodges())
+                return true;
+
+            return base.ConsumableDodge(info);
+        }
+        #endregion
+
+        #region Pre Hurt
+        public override void ModifyHurt(ref Player.HurtModifiers modifiers)
+        {
             // TODO -- At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
             #region Custom Hurt Sounds
             if (hurtSoundTimer == 0)
@@ -5617,9 +5620,13 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Hurt
+        #region On Hurt
         public override void OnHurt(Player.HurtInfo hurtInfo)
         {
+            // If Armageddon is active, instantly kill the player.
+            if (CalamityWorld.armageddon && areThereAnyDamnBosses)
+                KillPlayer();
+
             #region Actually Dealing Defense Damage
             // Check if the player has iframes for the sake of avoiding defense damage.
             bool hasIFrames = false;
@@ -5642,7 +5649,7 @@ namespace CalamityMod.CalPlayer
             // Also set the Rage gain cooldown to prevent bizarre abuse cases.
             if (shatteredCommunity && rageGainCooldown == 0)
             {
-                float HPRatio = (float)hurtInfo.SourceDamage / Player.statLifeMax2;A
+                float HPRatio = (float)hurtInfo.SourceDamage / Player.statLifeMax2;
                 float rageConversionRatio = 0.8f;
 
                 // Damage to rage conversion is half as effective while Rage Mode is active.
