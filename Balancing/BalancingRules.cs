@@ -25,7 +25,7 @@ namespace CalamityMod.Balancing
         public bool AppliesTo(NPC npc, NPC.HitModifiers modifiers, Projectile? projectile)
         {
             // E.g. so that a melee resist also applies to MeleeNoSpeed, TrueMelee, and TrueMeleeNoSpeed.
-            return ApplicableClass.CountsAsClass(modifiers.DamageType);
+            return modifiers.DamageType.CountsAsClass(ApplicableClass);
         }
 
         public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers)
