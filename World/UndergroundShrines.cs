@@ -494,11 +494,14 @@ namespace CalamityMod.World
         {
             int tries = 0;
             string mapKey = MushroomShrineKey;
-            
+
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.8f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.9f));
+                if (Main.getGoodWorld)
+                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.7f), (int)(Main.maxTilesY * 0.95f));
+
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
@@ -507,7 +510,7 @@ namespace CalamityMod.World
                 int yExtraArea = 40;
                 bool canGenerateInLocation = true;
 
-                float requiredShrooms = 20; //for now lower this, will look through the gen later
+                int requiredShrooms = 20; //for now lower this, will look through the gen later
                 for (int x = placementPoint.X - extraArea; x < placementPoint.X + schematicSize.X + extraArea; x++)
                 {
                     for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y + yExtraArea; y++)
@@ -516,28 +519,33 @@ namespace CalamityMod.World
 
                         //For some reason, mushroom biomes are very wet
                         //It gets way too difficult to generate if it doesn't ignore water
-                        
+
                         if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
 
                         //Only generated within the area of mushroom plants
                         if (tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees || tile.TileType == TileID.MushroomGrass)
                             realMushroomsInArea++;
+
+                        if ((!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y))) && !Main.getGoodWorld)
+                        {
+                            tries++;
+                        }
+                        else if (!canGenerateInLocation && Main.getGoodWorld) //GFB will not give a shit about mushrooms or the rectangle
+                        {
+                            tries++;
+                        } 
+                        else
+                        {
+                            bool _ = true;
+                            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillMushroomShrineChest));
+                            structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                            break;
+                        }
                     }
                 }
-                if (!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
-                {
-                    tries++;
-                }
-                else
-                {
-                    bool _ = true;
-                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillMushroomShrineChest));
-                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
-                    break;
-                }
 
-            } while (tries <= 20000);
+            } while (tries <= 60000) ;
         }
         #endregion
 
