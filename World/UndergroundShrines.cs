@@ -498,9 +498,9 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.9f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.85f));
                 if (Main.getGoodWorld)
-                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.7f), (int)(Main.maxTilesY * 0.95f));
+                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.8f), (int)(Main.maxTilesY * 0.85f)); //Mushroom layer
 
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
@@ -527,25 +527,24 @@ namespace CalamityMod.World
                         if (tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees || tile.TileType == TileID.MushroomGrass)
                             realMushroomsInArea++;
 
-                        if ((!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y))) && !Main.getGoodWorld)
-                        {
-                            tries++;
-                        }
-                        else if (!canGenerateInLocation && Main.getGoodWorld) //GFB will not give a shit about mushrooms or the rectangle
-                        {
-                            tries++;
-                        } 
-                        else
-                        {
-                            bool _ = true;
-                            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillMushroomShrineChest));
-                            structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
-                            break;
-                        }
                     }
                 }
-
-            } while (tries <= 60000) ;
+                if ((!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y))) && !Main.getGoodWorld)
+                {
+                    tries++;
+                }
+                else if (!canGenerateInLocation && Main.getGoodWorld) //GFB will not give a shit about mushrooms or the rectangle
+                {
+                    tries++;
+                }
+                else
+                {
+                    bool _ = true;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillMushroomShrineChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    break;
+                }
+            } while (tries <= 20000);
         }
         #endregion
 
