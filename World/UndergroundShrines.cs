@@ -498,7 +498,10 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.95f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.9f));
+                if (Main.getGoodWorld)
+                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.7f), (int)(Main.maxTilesY * 0.95f));
+
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
@@ -524,20 +527,15 @@ namespace CalamityMod.World
                         if (tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees || tile.TileType == TileID.MushroomGrass)
                             realMushroomsInArea++;
 
-                        if (Main.getGoodWorld)
-                            realMushroomsInArea = requiredShrooms;
-
-                        if (!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                        if ((!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y))) && !Main.getGoodWorld)
                         {
                             tries++;
                         }
-                        else if (canGenerateInLocation && Main.getGoodWorld) //GFB will not give a shit
+                        else if (!canGenerateInLocation && Main.getGoodWorld) //GFB will not give a shit about mushrooms or the rectangle
                         {
-                            bool _ = true;
-                            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillMushroomShrineChest));
-                            structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
-                            break;
-                        } else
+                            tries++;
+                        } 
+                        else
                         {
                             bool _ = true;
                             PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillMushroomShrineChest));
