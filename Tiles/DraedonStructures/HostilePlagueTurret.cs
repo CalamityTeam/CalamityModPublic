@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using System.Collections.Generic;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
@@ -59,9 +60,6 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<DubiousPlating>(), 8);
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<MysteriousCircuitry>(), 8);
-
             Tile t = Main.tile[i, j];
             int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
             int top = j - t.TileFrameY % (Height * SheetSquare) / SheetSquare;
@@ -91,6 +89,14 @@ namespace CalamityMod.Tiles.DraedonStructures
 
             SpriteEffects sfx = drawDirection == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
             spriteBatch.Draw(tex, drawOffset, null, drawColor, te.Angle, tex.Size() * 0.5f, 1f, sfx, 0.0f);
+        }
+        public override IEnumerable<Item> GetItemDrops(int i, int j)
+        {
+            for (int itemCount = 0; itemCount < 8; itemCount++)
+            {
+                yield return new Item(ModContent.ItemType<DubiousPlating>());
+                yield return new Item(ModContent.ItemType<MysteriousCircuitry>());
+            }
         }
     }
 }
