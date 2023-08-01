@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxySmasher";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f };
-        public static readonly SoundStyle RedHamSound = new("CalamityMod/Sounds/Item/StellarContemptClone") { Volume = 1f };
+        public static readonly SoundStyle RedHamSound = new("CalamityMod/Sounds/Item/GalaxySmasherClone") { Volume = 1f };
         public static readonly SoundStyle UseSoundFunny = new("CalamityMod/Sounds/Item/CalamityBell") { Volume = 1.5f };
         private static float StartDustQuantity = 26f;
         public ref int EmpoweredHammer => ref Main.player[Projectile.owner].Calamity().GalaxyHammer;
@@ -152,6 +152,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (InPulse == 0)
                 {
+                    SoundEngine.PlaySound(RedHamSound, Projectile.Center);
                     Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Aqua, new Vector2(1f, 1f), Main.rand.NextFloat(12f, 25f), 0.1f, 1.95f, 120);
                     GeneralParticleHandler.SpawnParticle(pulse);
                     InPulse = 1;
@@ -177,7 +178,6 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 else
                 {
-                    SoundEngine.PlaySound(RedHamSound, Projectile.Center);
                     int hammer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<GalaxySmasherEcho>(), Projectile.damage * 10, Projectile.knockBack * 2.5f, Projectile.owner, 0f, Projectile.ai[1]);
                     Main.projectile[hammer].localAI[0] = Math.Sign(Projectile.velocity.X);
                     Main.projectile[hammer].netUpdate = true;

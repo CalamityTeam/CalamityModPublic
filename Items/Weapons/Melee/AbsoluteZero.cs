@@ -10,12 +10,10 @@ namespace CalamityMod.Items.Weapons.Melee
     public class AbsoluteZero : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public override void SetStaticDefaults()
-        {
-        }
+
         public override void SetDefaults()
         {
-            Item.damage = 120;
+            Item.damage = 105;
             Item.DamageType = DamageClass.Melee;
             Item.width = 58;
             Item.height = 58;

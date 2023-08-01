@@ -49,8 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 default:
                     break;
             }
-            int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, Main.myPlayer);
-            Main.projectile[proj].extraUpdates += 1;
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, Main.myPlayer, 1f);
             return false;
         }
 

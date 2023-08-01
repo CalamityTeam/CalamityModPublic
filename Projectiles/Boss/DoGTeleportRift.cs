@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            if (Projectile.ai[0] == -1f)
+            if (Projectile.ai[0] == -1f || Projectile.ai[2] == 1f)
                 return;
 
             int dustAmt = 50;

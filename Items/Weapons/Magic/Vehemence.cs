@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
     public class Vehemence : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-        public const int BaseDamage = 5185;
-        public const float SkullRatio = 0.08f;
+        public static float SkullRatio = 0.11f;
 
         public override void SetStaticDefaults()
         {
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = BaseDamage;
+            Item.damage = 6666;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 41;
             Item.width = 44;
@@ -36,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item73;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<VehemenceHoldout>();
-            Item.shootSpeed = 16f;
+            Item.shootSpeed = 16.5f;
 
             Item.rare = ModContent.RarityType<Violet>();
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;

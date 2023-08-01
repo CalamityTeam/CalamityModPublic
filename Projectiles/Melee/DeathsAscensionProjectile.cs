@@ -28,6 +28,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 3;
             Projectile.timeLeft = 300;
             Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
             AIType = ProjectileID.DeathSickle;
         }
 

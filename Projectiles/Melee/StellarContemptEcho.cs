@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
     public class StellarContemptEcho : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        public static readonly SoundStyle SlamHamSound = new("CalamityMod/Sounds/Item/StellarContemptImpact") { Volume = 1f};
+        public static readonly SoundStyle SlamHamSound = new("CalamityMod/Sounds/Item/StellarContemptImpact") { Volume = 0.6f };
         public static readonly SoundStyle Kunk = new("CalamityMod/Sounds/Item/TF2PanHit") { Volume = 1.1f };
         public float rotatehammer = 35f;
         public int ColorAlpha = 225;

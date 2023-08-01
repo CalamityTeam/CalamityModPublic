@@ -132,6 +132,11 @@ namespace CalamityMod.Items
         }
 
         #region SetDefaults
+        public override void SetStaticDefaults()
+        {
+            SetStaticDefaults_ShimmerRecipes();
+        }
+
         public override void SetDefaults(Item item)
         {
             #region Vanilla Wing Tweaks
@@ -619,10 +624,6 @@ namespace CalamityMod.Items
                 }
             }
 
-            // Give 2 minutes of Honey buff when drinking Bottled Honey.
-            if (item.type == ItemID.BottledHoney)
-                player.AddBuff(BuffID.Honey, 7200);
-
             // Give 1 minute of Mushy buff when consuming Mushrooms with Fungal Symbiote equipped.
             if (item.type == ItemID.Mushroom && player.Calamity().fungalSymbiote)
                 player.AddBuff(ModContent.BuffType<Mushy>(), 3600);
@@ -1028,10 +1029,6 @@ namespace CalamityMod.Items
 
                 case ItemID.TitaniumMask:
                     player.GetAttackSpeed<MeleeDamageClass>() += 0.05f;
-                    break;
-
-                case ItemID.BeetleScaleMail:
-                    player.GetAttackSpeed<MeleeDamageClass>() += 0.03f;
                     break;
 
                 case ItemID.SquireGreatHelm:

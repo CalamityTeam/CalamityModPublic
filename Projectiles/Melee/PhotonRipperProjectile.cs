@@ -36,6 +36,7 @@ namespace CalamityMod.Projectiles.Melee
             // No reason to ID-static the chainsaw -- multiple players can true melee simultaneously!
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 8;
+            Projectile.noEnchantmentVisuals = true;
         }
 
         public override bool PreDraw(ref Color lightColor)

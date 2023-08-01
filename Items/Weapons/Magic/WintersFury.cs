@@ -13,12 +13,10 @@ namespace CalamityMod.Items.Weapons.Magic
     public class WintersFury : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-        public override void SetStaticDefaults()
-        {
-        }
+
         public override void SetDefaults()
         {
-            Item.damage = 59;
+            Item.damage = 70;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 7;
             Item.width = 36;

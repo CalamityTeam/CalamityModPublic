@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         // Weapon attribute constants
-        public static readonly int BaseDamage = 780;
+        public static readonly int BaseDamage = 650;
         public static readonly float GiantSkullDamageMultiplier = 1.5f;
 
         // Weapon projectile attribute constants
@@ -27,11 +27,8 @@ namespace CalamityMod.Items.Weapons.Melee
         internal static string SkullsplosionEntitySourceContext => "GaelsGreatswordRageSkullsplosion";
 
         // Rage gain attribute constant
-        public static readonly float RagePerSecond = 0.03f; // 3% rage per second, consistent with what it was prior to rage rework
+        public static readonly float RagePerSecond = 0.025f; // 2.5% rage per second
 
-        public override void SetStaticDefaults()
-        {
-                   }
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()
         {

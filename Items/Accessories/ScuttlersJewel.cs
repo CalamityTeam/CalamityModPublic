@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
+            ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 
         public override void SetDefaults()
@@ -20,12 +20,7 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
             Item.accessory = true;
-
-            Item.useStyle = ItemUseStyleID.HiddenAnimation;
-            Item.useAnimation = 10;
-            Item.useTime = 2;
-            Item.consumable = true;
-
+            Item.MakeUsableWithChlorophyteExtractinator();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

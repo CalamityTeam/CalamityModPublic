@@ -14,6 +14,7 @@ namespace CalamityMod.NPCs.HiveMind
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
@@ -42,19 +43,6 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
-        }
-
-        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        {
-            int associatedNPCType = ModContent.NPCType<HiveMind>();
-            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
-
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
-            {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCorruption,
-				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.DarkHeart")
-            });
         }
 
         public override void FindFrame(int frameHeight)

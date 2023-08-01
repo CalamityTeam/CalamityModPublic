@@ -14,6 +14,7 @@ namespace CalamityMod.NPCs.Crabulon
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
@@ -43,18 +44,6 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
-        }
-
-        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        {
-            int associatedNPCType = ModContent.NPCType<Crabulon>();
-            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
-
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
-            {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundMushroom,
-				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.CrabShroom")
-            });
         }
 
         public override void FindFrame(int frameHeight)

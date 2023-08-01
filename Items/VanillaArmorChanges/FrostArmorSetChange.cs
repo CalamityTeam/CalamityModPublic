@@ -21,7 +21,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {   
-            int PercentBoost = (int)Math.Round(ProximityBoost * 100) - 100;
+            int PercentBoost = (int)Math.Round(ProximityBoost * 100);
             setBonusText = "Melee and ranged attacks inflict Frostbite\n" +
                 $"{PercentBoost}% increased damage which scales based on how far the target is from you\n" +
                 "Closer range grants melee damage, while farther range grants ranged damage";

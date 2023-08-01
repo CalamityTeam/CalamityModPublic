@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CalamityMod.Balancing;
+using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -73,7 +74,6 @@ namespace CalamityMod.Items
                 { ItemID.Blowpipe, Do(PointBlank, DamageExact(16), UseExact(35)) },
                 { ItemID.BluePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(51)) },
                 { ItemID.BluePhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
-                { ItemID.BlueSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.BonePickaxe, Do(PickPower(55), UseTimeExact(6)) },
                 { ItemID.BoneSword, Do(AutoReuse, UseTurn, ScaleRatio(1.3f)) },
                 { ItemID.BoneWhip, autoReuse },
@@ -142,7 +142,6 @@ namespace CalamityMod.Items
                 // Vanilla 1.4 nerfed Daedalus Stormbow themselves. If further nerfs are needed, apply them here.
                 // { ItemID.DaedalusStormbow, Do(DamageRatio(0.9f)) },
                 { ItemID.DaoofPow, Do(DamageExact(160)) },
-                { ItemID.DarkBlueSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.DarkLance, Do(AutoReuse, TrueMelee, DamageExact(68)) },
                 { ItemID.DartPistol, pointBlank },
                 { ItemID.DartRifle, Do(PointBlank, DamageExact(58)) },
@@ -225,7 +224,6 @@ namespace CalamityMod.Items
                 { ItemID.Grapefruit, Do(Value(Item.buyPrice(silver: 2))) },
                 { ItemID.GreenPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(51)) },
                 { ItemID.GreenPhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
-                { ItemID.GreenSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.GrenadeLauncher, Do(DamageRatio(1.5f)) },
                 { ItemID.GuideVoodooDoll, maxStack9999 },
                 { ItemID.Gungnir, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(92), ShootSpeedRatio(1.25f)) },
@@ -397,7 +395,6 @@ namespace CalamityMod.Items
                 { ItemID.PurpleClubberfish, Do(UseTurn, ScaleRatio(1.5f), DamageExact(45), KnockbackExact(10f)) },
                 { ItemID.PurplePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(51)) },
                 { ItemID.PurplePhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
-                { ItemID.PurpleSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.Pwnhammer, Do(HammerPower(80), UseTimeExact(11), TileBoostExact(+1)) },
                 { ItemID.PygmyStaff, Do(AutoReuse, UseExact(20)) },
                 { ItemID.QuadBarrelShotgun, pointBlank },
@@ -414,7 +411,6 @@ namespace CalamityMod.Items
                 { ItemID.RedPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(51)) },
                 { ItemID.RedPhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.RedRyder, Do(PointBlank, DamageExact(24)) },
-                { ItemID.RedSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.RedsYoyo, autoReuse },
                 { ItemID.Revolver, Do(PointBlank, AutoReuse) },
                 { ItemID.RichMahoganyBow, pointBlank },
@@ -1348,6 +1344,29 @@ namespace CalamityMod.Items
         internal static IItemTweak Worthless => new ValueRule(0);
         #endregion
         #endregion
+        #endregion
+
+        #region Shimmer Transmutations
+        private void SetStaticDefaults_ShimmerRecipes()
+        {
+            var shimmerTransmute = ItemID.Sets.ShimmerTransformToItem;
+
+            // Note: Making Luminite Ore -> Astral Ore makes Deus almost completely skippable with no (recipe-related) downsides.
+
+            shimmerTransmute[ModContent.ItemType<AuricOre>()] = ModContent.ItemType<UelibloomOre>();
+            shimmerTransmute[ModContent.ItemType<UelibloomOre>()] = ModContent.ItemType<ExodiumCluster>();
+            shimmerTransmute[ModContent.ItemType<ExodiumCluster>()] = ItemID.LunarOre;
+            shimmerTransmute[ModContent.ItemType<AstralOre>()] = ModContent.ItemType<ScoriaOre>();
+            shimmerTransmute[ModContent.ItemType<ScoriaOre>()] = ModContent.ItemType<PerennialOre>();
+            shimmerTransmute[ModContent.ItemType<PerennialOre>()] = shimmerTransmute[ItemID.LunarOre];
+            shimmerTransmute[ModContent.ItemType<HallowedOre>()] = shimmerTransmute[ItemID.ChlorophyteOre];
+            shimmerTransmute[ModContent.ItemType<AerialiteOre>()] = shimmerTransmute[ItemID.CobaltOre];
+
+            //shimmerTransmute[ItemID.LunarOre] = ModContent.ItemType<AstralOre>();
+            shimmerTransmute[ItemID.LunarOre] = ModContent.ItemType<ScoriaOre>();
+            shimmerTransmute[ItemID.ChlorophyteOre] = ModContent.ItemType<HallowedOre>();
+            shimmerTransmute[ItemID.CobaltOre] = ModContent.ItemType<AerialiteOre>();
+        }
         #endregion
     }
 }

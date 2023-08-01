@@ -11,20 +11,20 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class Condemnation : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-        public const int MaxLoadedArrows = 8;
+        public static int MaxLoadedArrows = 9;
 
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 1914;
+            Item.damage = 2775;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 130;
             Item.height = 42;
-            Item.useTime = Item.useAnimation = 23;
+            Item.useTime = Item.useAnimation = 22;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.channel = true;
             Item.noMelee = true;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ModContent.RarityType<Violet>();
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<CondemnationArrow>();
-            Item.shootSpeed = 14.5f;
+            Item.shootSpeed = 16f;
             Item.useAmmo = AmmoID.Arrow;
             Item.Calamity().canFirePointBlankShots = true;
         }

@@ -248,7 +248,7 @@ Condemnation: {
 	Tooltip:
 		'''
 		Fires powerful scarlet bolts suffused with hateful magics
-		Hold <left> to load up to eight bolts for powerful burst fire
+		Hold <left> to load up to nine bolts for powerful burst fire
 		Hold <right> to use the repeater full auto
 		'''
 }
