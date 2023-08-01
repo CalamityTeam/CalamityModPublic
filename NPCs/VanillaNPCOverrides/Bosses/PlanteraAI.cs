@@ -201,6 +201,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             int dust = Dust.NewDust(spawnOffset, dustSpawnBoxSize, dustSpawnBoxSize, dustType, dustVelocity.X, dustVelocity.Y);
                             Main.dust[dust].noGravity = true;
+                            Main.dust[dust].scale = 1.4f;
                         }
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -224,7 +225,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int dustChance = (int)Math.Round(MathHelper.Lerp(dustInXChanceMin, dustInXChanceMax, 1f - dustEmitAmount / SeedGatlingColorChangeDuration));
                         if (Main.rand.NextBool(dustChance))
                         {
-                            int dust = Dust.NewDust(npc.position, npc.width, npc.height, 74, 0f, 0f, 0, default, 1f);
+                            int dust = Dust.NewDust(npc.position, npc.width, npc.height, 74, 0f, 0f, 0, default, 1.4f);
                             Vector2 vector = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                             vector.Normalize();
                             vector *= Main.rand.Next(50, 100) * 0.04f;
@@ -257,7 +258,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int dustType = 74;
                             Vector2 dustVelocity = projectileVelocity * randomSpeed;
                             for (int l = 0; l < 5; l++)
-                                Dust.NewDust(spawnOffset, 32, 32, dustType, dustVelocity.X, dustVelocity.Y);
+                            {
+                                int dust = Dust.NewDust(spawnOffset, 32, 32, dustType, dustVelocity.X, dustVelocity.Y);
+                                Main.dust[dust].scale = 1.4f;
+                            }
 
                             float ai0 = Main.rand.Next(3);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -313,6 +317,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         int dust = Dust.NewDust(spawnOffset, 18, 18, dustType, dustVelocity.X, dustVelocity.Y);
                         Main.dust[dust].noGravity = true;
+                        Main.dust[dust].scale = 1.4f;
                     }
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -363,7 +368,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int dustType = 74;
                         Vector2 dustVelocity = projectileVelocity;
                         for (int k = 0; k < 5; k++)
-                            Dust.NewDust(spawnOffset, 32, 32, dustType, dustVelocity.X, dustVelocity.Y);
+                        {
+                            int dust = Dust.NewDust(spawnOffset, 32, 32, dustType, dustVelocity.X, dustVelocity.Y);
+                            Main.dust[dust].scale = 1.4f;
+                        }
 
                         float ai0 = Main.rand.Next(3);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -401,7 +409,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     int dustChance = (int)Math.Round(MathHelper.Lerp(dustInXChanceMin, dustInXChanceMax, 1f - dustEmitAmount / Math.Abs(BeginChargeGateValue)));
                     if (Main.rand.NextBool(dustChance))
                     {
-                        int dust = Dust.NewDust(npc.position, npc.width, npc.height, 74, 0f, 0f, 0, default, 1f);
+                        int dust = Dust.NewDust(npc.position, npc.width, npc.height, 74, 0f, 0f, 0, default, 1.4f);
                         Vector2 vector = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                         vector.Normalize();
                         vector *= Main.rand.Next(50, 100) * 0.04f;
@@ -444,7 +452,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int dustType = 74;
                             Vector2 dustVelocity2 = projectileVelocity * randomSpeed;
                             for (int l = 0; l < 5; l++)
-                                Dust.NewDust(spawnOffset, 32, 32, dustType, dustVelocity2.X, dustVelocity2.Y);
+                            {
+                                int dust = Dust.NewDust(spawnOffset, 32, 32, dustType, dustVelocity2.X, dustVelocity2.Y);
+                                Main.dust[dust].scale = 1.4f;
+                            }
 
                             float ai0 = Main.rand.Next(3);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -571,6 +582,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             int dust = Dust.NewDust(spawnOffset, 14, 14, dustType, dustVelocity.X, dustVelocity.Y);
                             Main.dust[dust].noGravity = true;
+                            Main.dust[dust].scale = 1.4f;
                         }
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -699,6 +711,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             {
                                 int dust = Dust.NewDust(spawnOffset, 14, 14, dustType, dustVelocity.X, dustVelocity.Y);
                                 Main.dust[dust].noGravity = true;
+                                Main.dust[dust].scale = 1.4f;
                             }
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
