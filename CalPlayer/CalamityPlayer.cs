@@ -4560,7 +4560,9 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
         {
-            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && hurtInfo.Damage > 0)
+            // TODO -- Evolution dodge isn't actually a dodge and you'll still get hit for 1.
+            // This should probably be changed so that when the evolution reflects it gives you 1 frame of guaranteed free dodging everything.
+            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && proj.damage > 0)
             {
                 // Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
                 if (!disableAllDodges && !Player.HasCooldown(GlobalDodge.ID))
@@ -4575,7 +4577,7 @@ namespace CalamityMod.CalPlayer
                         proj.penetrate = 1;
                         Player.GiveIFrames(20, false);
 
-                        modifiers.SourceDamage *= 0;
+                        modifiers.SetMaxDamage(1);
                         evolutionLifeRegenCounter = 300;
                         projTypeJustHitBy = proj.type;
 
@@ -4603,7 +4605,7 @@ namespace CalamityMod.CalPlayer
 
             // Torch God does 1 damage but inflicts a random fire debuff
             if (proj.type == ProjectileID.TorchGod)
-                modifiers.SourceDamage /= hurtInfo.Damage;
+                modifiers.SetMaxDamage(1);
 
             // Reduce damage from vanilla traps
 
@@ -4708,7 +4710,7 @@ namespace CalamityMod.CalPlayer
                     projectileDamageReduction += 0.5;
             }
 
-            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && hurtInfo.Damage > 0)
+            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && proj.damage > 0)
             {
                 // Daedalus Reflect counts as a reflect but doesn't actually stop you from taking damage
                 if (daedalusReflect && !disableAllDodges && !evolution && !Player.HasCooldown(GlobalDodge.ID))
