@@ -4403,20 +4403,6 @@ namespace CalamityMod.CalPlayer
                 modifiers.SourceDamage *= damageReductionFromWhisperingDeath;
             }
 
-            // Check if the player has iframes for the sake of avoiding defense damage.
-            bool hasIFrames = false;
-            for (int i = 0; i < Player.hurtCooldowns.Length; i++)
-                if (Player.hurtCooldowns[i] > 0)
-                    hasIFrames = true;
-
-            // If this NPC deals defense damage with contact damage, then mark the player to take defense damage.
-            // Defense damage is not applied if the player has iframes.
-            if (!hasIFrames && !Player.creativeGodMode)
-            {
-                justHitByDefenseDamage = npc.Calamity().canBreakPlayerDefense;
-                defenseDamageToTake = npc.Calamity().canBreakPlayerDefense ? hurtInfo.Damage : 0;
-            }
-
             //
             // At this point, the player is guaranteed to be hit if there is no dodge.
             // The amount of damage that will be dealt is yet to be determined.
@@ -4711,20 +4697,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Check if the player has iframes for the sake of avoiding defense damage.
-            bool hasIFrames = false;
-            for (int i = 0; i < Player.hurtCooldowns.Length; i++)
-                if (Player.hurtCooldowns[i] > 0)
-                    hasIFrames = true;
-
-            // If this projectile is capable of dealing defense damage, then apply defense damage.
-            // Defense damage is not applied if the player has iframes.
-            if (!hasIFrames && !Player.creativeGodMode)
-            {
-                justHitByDefenseDamage = proj.Calamity().DealsDefenseDamage;
-                defenseDamageToTake = proj.Calamity().DealsDefenseDamage ? hurtInfo.Damage : 0;
-            }
-
             //
             // At this point, the player is guaranteed to be hit if there is no dodge.
             // The amount of damage that will be dealt is yet to be determined.
@@ -4854,6 +4826,20 @@ namespace CalamityMod.CalPlayer
         #region On Hit
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
+            // Check if the player has iframes for the sake of avoiding defense damage.
+            bool hasIFrames = false;
+            for (int i = 0; i < Player.hurtCooldowns.Length; i++)
+                if (Player.hurtCooldowns[i] > 0)
+                    hasIFrames = true;
+
+            // If this NPC deals defense damage with contact damage, then mark the player to take defense damage.
+            // Defense damage is not applied if the player has iframes, or is in Journey god mode.
+            if (!hasIFrames && !Player.creativeGodMode)
+            {
+                justHitByDefenseDamage |= npc.Calamity().canBreakPlayerDefense;
+                defenseDamageToTake = npc.Calamity().canBreakPlayerDefense ? hurtInfo.Damage : 0;
+            }
+
             // ModifyHit (Flesh Totem effect happens here) -> Hurt (includes dodges) -> OnHit
             // As such, to avoid cooldowns proccing from dodge hits, do it here
             if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && hurtInfo.Damage > 0)
@@ -4866,6 +4852,20 @@ namespace CalamityMod.CalPlayer
 
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
+            // Check if the player has iframes for the sake of avoiding defense damage.
+            bool hasIFrames = false;
+            for (int i = 0; i < Player.hurtCooldowns.Length; i++)
+                if (Player.hurtCooldowns[i] > 0)
+                    hasIFrames = true;
+
+            // If this projectile is capable of dealing defense damage, then mark the player to take defense damage.
+            // Defense damage is not applied if the player has iframes, or is in Journey god mode.
+            if (!hasIFrames && !Player.creativeGodMode)
+            {
+                justHitByDefenseDamage = proj.Calamity().DealsDefenseDamage;
+                defenseDamageToTake = proj.Calamity().DealsDefenseDamage ? hurtInfo.Damage : 0;
+            }
+
             if (sulfurSet && !proj.friendly && hurtInfo.Damage > 0)
             {
                 if (Main.player[proj.owner] is null)
@@ -5435,6 +5435,20 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+        #region Free and Consumable Dodge Hooks
+        public override bool FreeDodge(Player.HurtInfo info)
+        {
+            // Boss Rush is a "dodge" that makes you take more damage and always fails to dodge the attack
+            if (BossRushEvent.BossRushActive)
+            {
+                int bossRushDamageFloor = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
+                if (info.Damage < bossRushDamageFloor)
+                    info.Damage += (bossRushDamageFloor - info.Damage);
+            }
+
+            return base.FreeDodge(info);
+        }
+
         public override bool ConsumableDodge(Player.HurtInfo info)
         {
             if (HandleDodges())
@@ -5442,9 +5456,10 @@ namespace CalamityMod.CalPlayer
 
             return base.ConsumableDodge(info);
         }
+        #endregion
 
         #region Pre Hurt
-        public override void ModifyHurt(ref Player.HurtModifiers modifiers)/* tModPorter Override ImmuneTo, FreeDodge or ConsumableDodge instead to prevent taking damage */
+        public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
             #region Ignore Incoming Hits
             // If Armageddon is active, instantly kill the player.
@@ -5594,7 +5609,7 @@ namespace CalamityMod.CalPlayer
 
             modifiers.SourceDamage *= (float)damageMult;
             #endregion
-
+            
             //
             // At this point, the true, final incoming damage to the player has been calculated.
             // It has not yet been mitigated by any means.
