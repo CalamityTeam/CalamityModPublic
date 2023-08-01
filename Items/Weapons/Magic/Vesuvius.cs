@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                int meteorAmt = Main.rand.Next(3, 4);
+                int meteorAmt = Main.rand.Next(3, 4 + 1);
                 for (int i = 0; i < meteorAmt; ++i)
                 {
                     float SpeedX = velocity.X + (float)Main.rand.Next(-30, 31) * 0.05f;
