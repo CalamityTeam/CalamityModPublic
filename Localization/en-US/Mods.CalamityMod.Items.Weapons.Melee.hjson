@@ -573,7 +573,7 @@ GalaxySmasher: {
 		'''
 		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
 		Consecutive hits summon more and more cosmic hammers
-		After returning eight times, the hammer supercharges itself with galactic energies,
+		After hitting eight times, the hammer supercharges itself with galactic energies,
 		delivering an apocalyptic strike that reverberates through space and time
 		'''
 }
@@ -1070,7 +1070,7 @@ StellarContempt: {
 		'''
 		Throws a heavy, gravity-affected hammer that will return to you after striking an enemy
 		Consecutive hits call down more and more lunar flares from the sky
-		After returning five times, the hammer supercharges with lunar energy to pulverize your target
+		After hitting five times, the hammer supercharges with lunar energy to pulverize your target
 		'''
 }
 
