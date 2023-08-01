@@ -2394,19 +2394,6 @@ namespace CalamityMod
                     }
                     return eventActive;
 
-                case "ExcludeMinionsFromResurrection":
-                    // This assumes all arguments after the calling command name are projectile types.
-                    IEnumerable<object> secondaryArguments = args.Skip(1);
-                    if (secondaryArguments.Any(argument => !castID(argument, out _)))
-                        return new ArgumentException("ERROR: All arguments after the calling command to \"ExcludeMinionsFromResurrection\" must be int or short IDs.");
-
-                    CalamityLists.MinionsToNotResurrectList.AddRange(secondaryArguments.Select(argument =>
-                    {
-                        castID(argument, out int id);
-                        return id;
-                    }));
-                    return null;
-
                 case "CreateEnchantment":
                 case "RegisterEnchantment":
                     EnchantmentManager.ConstructFromModcall(args.Skip(1));
