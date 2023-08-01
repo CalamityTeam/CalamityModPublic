@@ -5031,11 +5031,7 @@ namespace CalamityMod.CalPlayer
                         proj.velocity *= -1f;
                         proj.penetrate = 1;
                         Player.GiveIFrames(20, false);
-
-                        modifiers.SourceDamage /= 2;
-
                         Player.AddCooldown(GlobalDodge.ID, BalancingConstants.DaedalusReflectCooldown);
-                        // No return because the projectile hit isn't canceled -- it only does half damage.
                     }
                 }
             }
@@ -5441,6 +5437,11 @@ namespace CalamityMod.CalPlayer
                     info.Damage += (bossRushDamageFloor - info.Damage);
             }
 
+            // God Slayer Damage Resistance makes you ignore hits that came in as less than 80.
+            // Alternatively, if the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
+            if ((godSlayerDamage && info.Damage <= 80) || info.Damage < 1)
+                return true;
+
             return base.FreeDodge(info);
         }
 
@@ -5513,7 +5514,7 @@ namespace CalamityMod.CalPlayer
                     for (int i = 0; i < numParticles; i++)
                     {
                         Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3, 7);
-                        velocity.X += 5f * hurtInfo.HitDirection;
+                        velocity.X += 5f * modifiers.HitDirection;
                         GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(Player.Center, velocity, Main.rand.NextFloat(2.5f, 3f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25));
                     }
                 }
@@ -5533,7 +5534,7 @@ namespace CalamityMod.CalPlayer
             }
             #endregion
 
-            //Todo - At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
+            // TODO -- At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
             #region Custom Hurt Sounds
             if (hurtSoundTimer == 0)
             {
@@ -5610,29 +5611,6 @@ namespace CalamityMod.CalPlayer
             // It has not yet been mitigated by any means.
             //
 
-            // God Slayer Damage Resistance makes you ignore hits that came in as less than 80.
-            if ((godSlayerDamage && hurtInfo.Damage <= 80) || hurtInfo.Damage < 1)
-                modifiers.SourceDamage /= hurtInfo.Damage;
-
-            // Shattered Community makes the player gain rage based on the amount of damage taken.
-            // Also set the Rage gain cooldown to prevent bizarre abuse cases.
-            if (shatteredCommunity && rageGainCooldown == 0)
-            {
-                float HPRatio = (float)hurtInfo.Damage / Player.statLifeMax2;
-                float rageConversionRatio = 0.8f;
-
-                // Damage to rage conversion is half as effective while Rage Mode is active.
-                if (rageModeActive)
-                    rageConversionRatio *= 0.5f;
-                // If Rage is over 100%, damage to rage conversion scales down asymptotically based on how full Rage is.
-                if (rage >= rageMax)
-                    rageConversionRatio *= 3f / (3f + rage / rageMax);
-
-                rage += rageMax * HPRatio * rageConversionRatio;
-                rageGainCooldown = ShatteredCommunity.RageGainCooldown;
-                // Rage capping is handled in MiscEffects
-            }
-
             // Resilient Candle makes defense 5% more effective, aka 5% of defense is subtracted from all incoming damage.
             if (purpleCandle)
                 modifiers.SourceDamage.Flat -= (int)(Player.statDefense * 0.05);
@@ -5657,6 +5635,27 @@ namespace CalamityMod.CalPlayer
             }
             justHitByDefenseDamage = false;
             defenseDamageToTake = 0;
+            #endregion
+
+            #region Shattered Community Rage Gain
+            // Shattered Community makes the player gain rage based on the amount of damage taken.
+            // Also set the Rage gain cooldown to prevent bizarre abuse cases.
+            if (shatteredCommunity && rageGainCooldown == 0)
+            {
+                float HPRatio = (float)hurtInfo.SourceDamage / Player.statLifeMax2;A
+                float rageConversionRatio = 0.8f;
+
+                // Damage to rage conversion is half as effective while Rage Mode is active.
+                if (rageModeActive)
+                    rageConversionRatio *= 0.5f;
+                // If Rage is over 100%, damage to rage conversion scales down asymptotically based on how full Rage is.
+                if (rage >= rageMax)
+                    rageConversionRatio *= 3f / (3f + rage / rageMax);
+
+                rage += rageMax * HPRatio * rageConversionRatio;
+                rageGainCooldown = ShatteredCommunity.RageGainCooldown;
+                // Rage capping is handled in MiscEffects
+            }
             #endregion
 
             modStealth = 1f;
