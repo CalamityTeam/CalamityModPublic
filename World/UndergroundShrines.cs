@@ -524,7 +524,10 @@ namespace CalamityMod.World
                         if (tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees || tile.TileType == TileID.MushroomGrass)
                             realMushroomsInArea++;
 
-                        if ((!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y))) && !Main.getGoodWorld)
+                        if (Main.getGoodWorld)
+                            realMushroomsInArea = requiredShrooms;
+
+                        if (!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                         {
                             tries++;
                         }
