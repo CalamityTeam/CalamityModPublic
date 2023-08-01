@@ -5489,12 +5489,9 @@ namespace CalamityMod.CalPlayer
                             Player.Calamity().GeneralScreenShakePower += 2f;
                         }
 
-                        // Display text indicating that shield damage was taken.
-                        string text = (-masterChefShieldDurability).ToString();
-                        Color messageColor = Color.LightBlue;
-                        Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
-                        CombatText.NewText(location, messageColor, Language.GetTextValue(text));
-                    }
+                    // Display text indicating that shield damage was taken.
+                    Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
+                    CombatText.NewText(location, Color.LightBlue, (-realDamage).ToString());
 
                     // Spawn particles when hit with the shields up, regardless of whether or not the shields broke.
                     int numParticles = Main.rand.Next(2, 6);
@@ -5504,22 +5501,24 @@ namespace CalamityMod.CalPlayer
                         velocity.X += 5f * info.HitDirection;
                         GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(Player.Center, velocity, Main.rand.NextFloat(2.5f, 3f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25));
                     }
-                }
 
                 // Set the cooldown rack's shield meter appropriately.
                 if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var cdDurability))
                     cdDurability.timeLeft = masterChefShieldDurability;
 
+                // Give the player iframes for taking the hit, regardless of whether or not the shields broke
+                Player.GiveIFrames(Player.longInvince ? 100 : 60, true);
+
                 // Stop regen of shields on ANY hit, even if you are hit while shields are fully down.
                 if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cd))
                     cd.timeLeft = LunicCorpsHelmet.MasterChefShieldRechargeTime;
+            }
+            return base.FreeDodge(info);
+        }
 
-                // Give iframes and use a "Free Dodge" to cancel the hit if the shields completely absorbed the hit.
+                // Use a "Free Dodge" to cancel the hit if the shields completely absorbed the hit.
                 if (shieldsAbsorbedHit)
-                {
-                    Player.GiveIFrames(info.PvP ? 8 : ((info.Damage != 1) ? (Player.longInvince ? 80 : 40) : (Player.longInvince ? 40 : 20)), true);
                     return true;
-                }
             }
 
             return base.FreeDodge(info);
