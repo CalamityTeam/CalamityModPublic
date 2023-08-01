@@ -1418,7 +1418,7 @@ StarSwallowerBuff: {
 }
 
 StellarTorusBuff: {
-	DisplayName: Stellar Torus Buff
+	DisplayName: Stellar Torus
 	Description: Summons a Torus Orbital that fries your foes
 }
 
