@@ -1031,10 +1031,6 @@ namespace CalamityMod.Items
                     player.GetAttackSpeed<MeleeDamageClass>() += 0.05f;
                     break;
 
-                case ItemID.BeetleScaleMail:
-                    player.GetAttackSpeed<MeleeDamageClass>() += 0.03f;
-                    break;
-
                 case ItemID.SquireGreatHelm:
                     player.lifeRegen -= 3;
                     break;
