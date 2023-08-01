@@ -4554,13 +4554,6 @@ namespace CalamityMod.CalPlayer
                     modifiers.SourceDamage *= 0.6f;
                 }
             }
-
-            if (hideOfDeus)
-            {
-                hideOfDeusMeleeBoostTimer += 3 * hurtInfo.Damage;
-                if (hideOfDeusMeleeBoostTimer > 900)
-                    hideOfDeusMeleeBoostTimer = 900;
-            }
         }
         #endregion
 
@@ -5647,7 +5640,7 @@ namespace CalamityMod.CalPlayer
         #region Hurt
         public override void OnHurt(Player.HurtInfo hurtInfo)
         {
-            #region Defense Damage
+            #region Actually Dealing Defense Damage
             // Check if the player has iframes for the sake of avoiding defense damage.
             bool hasIFrames = false;
             for (int i = 0; i < Player.hurtCooldowns.Length; i++)
@@ -5669,6 +5662,14 @@ namespace CalamityMod.CalPlayer
             // Give Rage combat frames because being hurt counts as combat.
             if (RageEnabled)
                 rageCombatFrames = BalancingConstants.RageCombatDelayTime;
+
+            // Hide of Astrum Deus' melee boost
+            if (hideOfDeus)
+            {
+                hideOfDeusMeleeBoostTimer += 3 * hurtInfo.Damage;
+                if (hideOfDeusMeleeBoostTimer > 900)
+                    hideOfDeusMeleeBoostTimer = 900;
+            }
 
             if (Player.whoAmI == Main.myPlayer)
             {
