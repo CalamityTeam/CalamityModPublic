@@ -499,8 +499,18 @@ namespace CalamityMod.World
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
                 int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.85f));
+
+                // Gfb
                 if (Main.getGoodWorld)
+                {
+                    // Ensure that the shrine doesn't generate too close to the center of the world
+                    do
+                    {
+                        placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
+                    }
+                    while (placementPositionX > (int)(Main.maxTilesX * 0.4f) && placementPositionX < (int)(Main.maxTilesX * 0.6f));
                     placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.8f), (int)(Main.maxTilesY * 0.85f)); //Mushroom layer
+                }
 
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
