@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
                         Vector2 spawnOffset = npc.Center + projectileVelocity * 50f;
 
-                        int dustType = shootPoisonSeed ? DustID.Plantera_Green : DustID.Plantera_Pink;
+                        int dustType = shootPoisonSeed ? 74 : 73;
                         int dustSpawnBoxSize = shootThornBall ? 38 : 14;
                         int dustAmount = shootThornBall ? 15 : 5;
                         Vector2 dustVelocity = projectileVelocity * projectileSpeed;
@@ -311,7 +311,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
                     Vector2 spawnOffset = npc.Center + projectileVelocity * 50f;
 
-                    int dustType = DustID.Plantera_Pink;
+                    int dustType = 73;
                     Vector2 dustVelocity = projectileVelocity * projectileSpeed;
                     for (int k = 0; k < 5; k++)
                     {
@@ -576,7 +576,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
                         Vector2 spawnOffset = npc.Center + projectileVelocity * 50f;
 
-                        int dustType = shootPoisonSeed ? DustID.Plantera_Green : DustID.Plantera_Pink;
+                        int dustType = shootPoisonSeed ? 74 : 73;
                         Vector2 dustVelocity = projectileVelocity * projectileSpeed;
                         for (int k = 0; k < 5; k++)
                         {
@@ -705,7 +705,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                             Vector2 spawnOffset = npc.Center + perturbedSpeed * 50f;
 
-                            int dustType = shootPinkSeed ? DustID.Plantera_Pink : DustID.Plantera_Green;
+                            int dustType = shootPinkSeed ? 73 : 74;
                             Vector2 dustVelocity = perturbedSpeed * projectileSpeed;
                             for (int k = 0; k < 5; k++)
                             {
