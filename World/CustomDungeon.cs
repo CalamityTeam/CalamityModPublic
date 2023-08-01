@@ -89,7 +89,7 @@ namespace CalamityMod.World
             GenVars.dungeonY = y;
 
             // The horizontal adjustment Calamity makes.
-            GenVars.dungeonX = Utils.Clamp(GenVars.dungeonX, SulphurousSea.BiomeWidth + 167, Main.maxTilesX - SulphurousSea.BiomeWidth - 167);
+            GenVars.dungeonX = Utils.Clamp(GenVars.dungeonX, SulphurousSea.BiomeWidth + 242, Main.maxTilesX - SulphurousSea.BiomeWidth - 242);
 
             // Adjust the Y position of the dungeon to accomodate for the X shift.
             WorldUtils.Find(new Point(GenVars.dungeonX, GenVars.dungeonY), Searches.Chain(new Searches.Down(9001), new Conditions.IsSolid()), out Point result);
@@ -2083,7 +2083,7 @@ namespace CalamityMod.World
             vector2D.X = i;
 
             // This is what the Calamity IL edit used to do, in order to move the dungeon halls away from the Sulphur Sea.
-            vector2D.X = MathHelper.Clamp((float)vector2D.X, SulphurousSea.BiomeWidth + 25, Main.maxTilesX - SulphurousSea.BiomeWidth - 25);
+            vector2D.X = MathHelper.Clamp((float)vector2D.X, SulphurousSea.BiomeWidth + 100, Main.maxTilesX - SulphurousSea.BiomeWidth - 100);
 
             vector2D.Y = j;
             int num4 = WorldGen.genRand.Next(35, 80);

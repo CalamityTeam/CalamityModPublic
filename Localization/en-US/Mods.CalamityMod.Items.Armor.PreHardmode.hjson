@@ -81,7 +81,7 @@ DesertProwlerShirt: {
 
 MarniteArchitectHeadgear: {
 	DisplayName: Marnite Architect Headgear
-	Tooltip: Increases block placement range by 5
+	Tooltip: Increases block placement & tool range by 5
 	AbilityBrief: Marnite Lift - You can summon a lift under your feet to reach higher up
 	AbilityDescription:
 		'''

@@ -23,13 +23,13 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.penetrate = 5;
-            Projectile.timeLeft = 300;
+            Projectile.penetrate = 3;
             Projectile.ignoreWater = true;
             AIType = ProjectileID.DeathSickle;
+            Projectile.MaxUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 4;
-            Projectile.extraUpdates = 1;
+            Projectile.localNPCHitCooldown = 15 * Projectile.MaxUpdates;
+            Projectile.timeLeft = 120 * Projectile.MaxUpdates;
         }
 
         public override void AI()

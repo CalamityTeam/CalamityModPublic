@@ -23,17 +23,21 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
-            Projectile.penetrate = 5;
-            Projectile.timeLeft = 180;
+            Projectile.penetrate = 3;
             Projectile.ignoreWater = true;
             AIType = ProjectileID.DeathSickle;
+            Projectile.MaxUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20 * Projectile.MaxUpdates;
+            Projectile.timeLeft = 180 * Projectile.MaxUpdates;
         }
 
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0.6f, 0f, 0f);
 
-            CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 8f, 20f);
+            float homingSpeed = (Projectile.ai[0] == 1f ? 8f : 4f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 250f, homingSpeed, 20f);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -55,7 +59,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.immune[Projectile.owner] = 5;
             target.AddBuff(BuffID.OnFire, 180);
         }
     }

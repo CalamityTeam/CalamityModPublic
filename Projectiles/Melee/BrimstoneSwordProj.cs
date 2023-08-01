@@ -23,9 +23,9 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.timeLeft = 600;
             AIType = ProjectileID.BoneJavelin;
             Projectile.DamageType = DamageClass.Melee;
+            Projectile.MaxUpdates = 2;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
-            Projectile.extraUpdates = 1;
+            Projectile.localNPCHitCooldown = 10 * Projectile.MaxUpdates;
         }
 
         public override void AI()

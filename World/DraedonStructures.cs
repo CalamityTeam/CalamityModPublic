@@ -339,9 +339,12 @@ namespace CalamityMod.World
                 Rectangle ugDesert = GenVars.UndergroundDesertLocation;
                 int placementPositionX = -1;
 
+                // Desperation generation: if 75% of attempts failed, start generating literally anywhere in the Sunken Sea
+                if (tries >= 1500)
+                    placementPositionX = WorldGen.genRand.Next(ugDesert.Left, ugDesert.Right - labWidth);
                 // 50% chance to be on either the left or the right.
                 // If it's on the right then shove it left because all schematics are placed based on their top left corner.
-                if (WorldGen.genRand.NextBool())
+                else if (WorldGen.genRand.NextBool())
                     placementPositionX = WorldGen.genRand.Next(ugDesert.Left - 20, ugDesert.Left + 10);
                 else
                     placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
-            Item.damage = 31;
+            Item.damage = 25;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 5;
             Item.width = 28;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item7;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<TradewindsProjectile>();
-            Item.shootSpeed = 25f;
+            Item.shootSpeed = 20f;
         }
 
         public override void AddRecipes()

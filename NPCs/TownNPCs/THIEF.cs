@@ -300,8 +300,8 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        // Make this Town NPC teleport to the Queen statue when triggered.
-        public override bool CanGoToStatue(bool toKingStatue) => !toKingStatue;
+        // Make this Town NPC teleport to the Queen or King statue when triggered.
+        public override bool CanGoToStatue(bool toKingStatue) => true;
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {

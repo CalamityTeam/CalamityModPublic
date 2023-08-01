@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -92,6 +93,7 @@ namespace CalamityMod.Projectiles.Melee
         // Create impact and cosmic parallax particles when hitting enemies.
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
             SoundEngine.PlaySound(SoundID.Item74, target.Center);
             if (Main.netMode == NetmodeID.Server)
                 return;

@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 124;
+            Item.damage = 180;
             Item.knockBack = 4f;
             Item.useAnimation = Item.useTime = 30;
             Item.DamageType = DamageClass.Melee;

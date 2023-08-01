@@ -7,22 +7,13 @@ namespace CalamityMod.Items.Placeables.MusicBoxes
     public class DraedonsAmbienceMusicBox : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
-        public override void SetDefaults()
+
+        public override void SetStaticDefaults()
         {
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTurn = true;
-            Item.useAnimation = 15;
-            Item.useTime = 10;
-            Item.autoReuse = true;
-            Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.MusicBoxes.DraedonsAmbienceMusicBox>();
-            Item.width = 32;
-            Item.height = 32;
-            Item.rare = ItemRarityID.LightRed;
-            Item.value = 100000;
-            Item.accessory = true;
+            ItemID.Sets.CanGetPrefixes[Type] = false;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.MusicBox;
         }
 
-        public override bool? PrefixChance(int pre, UnifiedRandom rand) => false;
+        public override void SetDefaults() => Item.DefaultToMusicBox(ModContent.TileType<Tiles.MusicBoxes.DraedonsAmbienceMusicBox>(), 0);
     }
 }

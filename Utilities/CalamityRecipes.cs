@@ -834,7 +834,7 @@ namespace CalamityMod
                 // Tier unlock various items to a lower tier (sorted by progression)
                 // Move a bunch of mythril anvil locked stuff in early HM to regular anvils to fit progression changes
                 { VanillaEach(
-                    ItemID.MechanicalEye, ItemID.MechanicalWorm, ItemID.MechanicalSkull,
+                    ItemID.MechanicalEye, ItemID.MechanicalWorm, ItemID.MechanicalSkull, ItemID.MechdusaSummon,
                     ItemID.DaoofPow, ItemID.Chik, ItemID.MeteorStaff, ItemID.CoolWhip,
                     ItemID.AngelWings, ItemID.DemonWings, ItemID.FairyWings,
                     ItemID.CursedArrow, ItemID.CursedBullet, ItemID.IchorArrow, ItemID.IchorBullet),

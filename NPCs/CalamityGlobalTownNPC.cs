@@ -1377,9 +1377,9 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Steampunker)
             {
-                shop.AddWithCustomValue(ItemType<AstralSolution>(), Item.buyPrice(silver: 5))
-                .AddWithCustomValue(ItemID.PurpleSolution, Item.buyPrice(silver: 5), Condition.InGraveyard, Condition.CrimsonWorld)
-                .AddWithCustomValue(ItemID.RedSolution, Item.buyPrice(silver: 5), Condition.InGraveyard, Condition.CorruptWorld);
+                shop.Add(ItemType<AstralSolution>(), Condition.NotRemixWorld)
+                .Add(ItemID.PurpleSolution, Condition.InGraveyard, Condition.CrimsonWorld, Condition.NotRemixWorld)
+                .Add(ItemID.RedSolution, Condition.InGraveyard, Condition.CorruptWorld, Condition.NotRemixWorld);
             }
 
             if (type == NPCID.Wizard)

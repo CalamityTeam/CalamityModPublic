@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 99;
-           			ItemID.Sets.SortingPriorityTerraforming[Type] = 95; // Red Solution
+           	ItemID.Sets.SortingPriorityTerraforming[Type] = 95; // Red Solution
         }
 
         public override void SetDefaults()
@@ -20,10 +20,9 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<AstralSpray>() - ProjectileID.PureSpray;
             Item.width = 10;
             Item.height = 12;
-            Item.value = Item.buyPrice(0, 0, 5, 0);
+            Item.value = Item.buyPrice(silver: 15);
             Item.rare = ItemRarityID.Orange;
             Item.maxStack = 9999;
-            Item.ResearchUnlockCount = 99;
             Item.consumable = true;
             return;
         }
