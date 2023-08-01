@@ -203,7 +203,7 @@ namespace CalamityMod
                 "Luis",
                 "Alexander",
                 "BakaQing",
-                "Laura",
+                "Taylor",
                 "Xaphlactus",
                 "MajinBagel",
                 "Bendy",
