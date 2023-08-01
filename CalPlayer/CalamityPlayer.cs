@@ -4327,16 +4327,6 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By NPC
         public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
         {
-            // 1.4.4 PORT TODO - DO NOT DO THIS!
-            Player.HurtInfo hurtInfo = new Player.HurtInfo();
-
-            int bossRushDamage = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
-            if (BossRushEvent.BossRushActive)
-            {
-                if (hurtInfo.Damage < bossRushDamage)
-                    modifiers.SourceDamage *= bossRushDamage/hurtInfo.Damage;
-            }
-
             // Enemies deal less contact damage while sick, due to being weakened.
             if (npc.poisoned)
             {
@@ -4591,9 +4581,6 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
         {
-            // 1.4.4 PORT TODO - DO NOT DO THIS!
-            Player.HurtInfo hurtInfo = new Player.HurtInfo();
-
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && hurtInfo.Damage > 0)
             {
                 // Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
@@ -4695,13 +4682,6 @@ namespace CalamityMod.CalPlayer
 
                      modifiers.SourceDamage *= (float)damageMultiplier;
                 }
-            }
-
-            int bossRushDamage = (Main.expertMode ? 90 : 110) + (BossRushEvent.BossRushStage / 2);
-            if (BossRushEvent.BossRushActive)
-            {
-                if (hurtInfo.Damage < bossRushDamage)
-                    modifiers.SourceDamage *= bossRushDamage / hurtInfo.Damage;
             }
 
             // Reduce damage dealt by rainbow trails depending on how faded they are.
@@ -4886,9 +4866,6 @@ namespace CalamityMod.CalPlayer
 
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
-            // 1.4.4 PORT TODO - DO NOT DO THIS!
-            Player.HurtModifiers modifiers = new Player.HurtModifiers();
-
             if (sulfurSet && !proj.friendly && hurtInfo.Damage > 0)
             {
                 if (Main.player[proj.owner] is null)
@@ -5469,9 +5446,6 @@ namespace CalamityMod.CalPlayer
         #region Pre Hurt
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)/* tModPorter Override ImmuneTo, FreeDodge or ConsumableDodge instead to prevent taking damage */
         {
-            // 1.4.4 PORT TODO - DO NOT DO THIS!
-            Player.HurtInfo hurtInfo = new Player.HurtInfo();
-
             #region Ignore Incoming Hits
             // If Armageddon is active, instantly kill the player.
             if (CalamityWorld.armageddon && areThereAnyDamnBosses)
