@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Particles;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
 {
@@ -21,6 +22,8 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
 
         public override void SetDefaults()
         {
+            Projectile.MaxUpdates = MirrorofKalandra.Wind_ArrowSpeedMult;
+
             Projectile.DamageType = DamageClass.Summon;
             Projectile.width = Projectile.height = 18;
             Projectile.friendly = true;
