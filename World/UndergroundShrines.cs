@@ -500,8 +500,8 @@ namespace CalamityMod.World
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
                 int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.85f));
 
-                // Gfb
-                if (Main.getGoodWorld)
+                // Gfb and Dont Dig up
+                if (Main.remixWorld)
                 {
                     // Ensure that the shrine doesn't generate too close to the center of the world
                     do
@@ -539,11 +539,11 @@ namespace CalamityMod.World
 
                     }
                 }
-                if ((!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y))) && !Main.getGoodWorld)
+                if ((!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y))) && !Main.remixWorld)
                 {
                     tries++;
                 }
-                else if (!canGenerateInLocation && Main.getGoodWorld) //GFB will not give a shit about mushrooms or the rectangle
+                else if (!canGenerateInLocation && Main.remixWorld) //GFB nor dont dig up will not give a shit about mushrooms or the rectangle
                 {
                     tries++;
                 }
