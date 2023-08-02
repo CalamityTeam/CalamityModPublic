@@ -342,7 +342,7 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.3f), (int)(Main.maxTilesY * 0.85f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.85f));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
@@ -481,7 +481,7 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.3f), (int)(Main.maxTilesY * 0.85f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.85f));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
@@ -502,7 +502,7 @@ namespace CalamityMod.World
                         //This should be near maximum to prevent the structure from overextending
                         if ((tile.TileType == TileID.Marble || tile.WallType == WallID.MarbleUnsafe) && !Main.getGoodWorld)
                             marbleStuffInArea++;
-                        else if (tile.WallType == WallID.GraniteUnsafe && !tile.HasTile && Main.getGoodWorld) //Generates like granite in gfb
+                        else if ((tile.WallType == WallID.GraniteUnsafe || tile.TileType == TileID.Granite) && Main.getGoodWorld) //Generates in granite in remix
                             marbleStuffInArea++;
                         
                         //There should be some space between the pillars so it doesn't make pillars in the middle of nowhere zone
@@ -584,7 +584,7 @@ namespace CalamityMod.World
                         placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
                     }
                     while (placementPositionX > (int)(Main.maxTilesX * 0.4f) && placementPositionX < (int)(Main.maxTilesX * 0.6f));
-                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.8f), (int)(Main.maxTilesY * 0.85f)); //Mushroom layer
+                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.85f), (int)(Main.maxTilesY * 0.9f)); //Mushroom layer
                 }
 
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
