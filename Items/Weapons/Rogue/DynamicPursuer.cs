@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 3f;
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.rare = ModContent.RarityType<DarkOrange>();
+            Item.rare = ModContent.RarityType<Violet>();
 
             Item.noUseGraphic = true;
 

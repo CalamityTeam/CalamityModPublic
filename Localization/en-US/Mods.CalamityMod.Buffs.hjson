@@ -1418,7 +1418,7 @@ StarSwallowerBuff: {
 }
 
 StellarTorusBuff: {
-	DisplayName: Astral Vengeance Buff
+	DisplayName: Stellar Torus
 	Description: Summons a Torus Orbital that fries your foes
 }
 

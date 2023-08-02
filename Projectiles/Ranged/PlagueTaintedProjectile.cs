@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Ranged
             float distanceFromOwner = target.Distance(Main.player[Projectile.owner].Center);
             if (distanceFromOwner < maxDamageScalingDistance)
             {
-                float amount = MathHelper.Clamp(maxDamageScalingDistance - (distanceFromOwner / maxDamageScalingDistance), 0f, 1f);
+                float amount = MathHelper.Clamp((maxDamageScalingDistance - distanceFromOwner) / maxDamageScalingDistance, 0f, 1f);
                 modifiers.SourceDamage *= MathHelper.Lerp(1f, maxDamageMultiplier, amount);
                 modifiers.Knockback *= MathHelper.Lerp(1f, maxDamageMultiplier, amount);
             }
