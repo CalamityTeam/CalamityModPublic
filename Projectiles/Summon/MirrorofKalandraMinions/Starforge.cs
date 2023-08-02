@@ -35,6 +35,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
         public override void SetDefaults()
         {
             Projectile.minionSlots = 1;
+            Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = MirrorofKalandra.Purple_IFrames;
             Projectile.penetrate = -1;
 

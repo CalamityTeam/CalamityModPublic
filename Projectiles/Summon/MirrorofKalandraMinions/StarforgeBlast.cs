@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
         public override void SetDefaults()
         {
             Projectile.timeLeft = MirrorofKalandra.Purple_BlastChargeTime;
+            Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = MirrorofKalandra.Purple_BlastChargeTime;
             Projectile.penetrate = -1;
 

@@ -23,6 +23,8 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
 
         public override void SetDefaults()
         {
+            Projectile.MaxUpdates = MirrorofKalandra.Vile_ArrowSpeedMult;
+
             Projectile.DamageType = DamageClass.Summon;
             Projectile.width = Projectile.height = 22;
             Projectile.friendly = true;

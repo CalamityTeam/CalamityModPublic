@@ -26,7 +26,7 @@ namespace CalamityMod.Items.SummonItems
         public int spawnYAdd = 0;
         public override void SetStaticDefaults()
         {
-           	ItemID.Sets.SortingPriorityBossSpawns[Type] = 10; // Pirate Map
+            ItemID.Sets.SortingPriorityBossSpawns[Type] = 10; // Pirate Map
         }
 
         public override void SetDefaults()
@@ -40,10 +40,10 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = false;
         }
 
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
-		}
+        public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+        {
+            itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+        }
 
         public override bool CanUseItem(Player player)
         {
@@ -105,7 +105,8 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient(ItemID.HellstoneBar, 10).
-                AddIngredient<EssenceofHavoc>(7).
+                // waffles% stipulation: you can only get 5 essences of havoc from the music box, not 7, and cal clone must be accessible
+                AddIngredient<EssenceofHavoc>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

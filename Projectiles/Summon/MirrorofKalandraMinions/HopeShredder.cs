@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
 
         public override void SetDefaults()
         {
-            Projectile.penetrate = -1;
+            Projectile.minionSlots = 1;
 
             Projectile.DamageType = DamageClass.Summon;
             Projectile.width = Projectile.height = 84;

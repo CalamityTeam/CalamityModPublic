@@ -15,7 +15,7 @@ namespace CalamityMod.Walls
 
         public override void RandomUpdate(int i, int j)
         {
-            if ((Main.tile[i, j].LiquidAmount == 0 || Main.tile[i, j].LiquidType == LiquidID.Water) && j < Main.maxTilesY - 205)
+            if (Main.tile[i, j].LiquidAmount == 0 && j < Main.maxTilesY - 205)
             {
                 Main.tile[i, j].Get<LiquidData>().LiquidType = LiquidID.Water;
                 Main.tile[i, j].LiquidAmount = byte.MaxValue;

@@ -1424,7 +1424,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.SkeletonMerchant)
             {
-                shop.AddWithCustomValue(ItemType<CalciumPotion>(), Item.buyPrice(silver: 25), potionSells, Condition.HappyEnough)
+                shop.AddWithCustomValue(ItemType<CalciumPotion>(), Item.buyPrice(silver: 25), potionSells)
                 .Add(ItemID.MilkCarton)
                 .AddWithCustomValue(ItemID.Marrow, Item.buyPrice(gold: 25), Condition.Hardmode);
             }
