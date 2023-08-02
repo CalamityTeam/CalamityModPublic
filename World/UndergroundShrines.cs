@@ -64,7 +64,7 @@ namespace CalamityMod.World
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
             };
 
-            if (Main.getGoodWorld)
+            if (Main.zenithWorld)
             {
                 int evil = Utils.SelectRandom(WorldGen.genRand, ModContent.ItemType<StressPills>(), ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>());
                 contents = new List<ChestItem>()
@@ -154,7 +154,7 @@ namespace CalamityMod.World
             };
 
             //Gfb loot change
-            if (Main.getGoodWorld)
+            if (Main.zenithWorld)
             {
                 //Cannot modify the return value of List<ChestItem>.this[int] because its not a variable so gotta do this instead
                 contents = new List<ChestItem>()
@@ -244,7 +244,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
             };
-            if (Main.getGoodWorld)
+            if (Main.zenithWorld)
             {
                 int golfClub = Utils.SelectRandom(WorldGen.genRand, ItemID.GolfClubBronzeWedge, ItemID.GolfClubWedge);
                 contents = new List<ChestItem>()
@@ -315,7 +315,7 @@ namespace CalamityMod.World
         public static void FillGraniteShrineChest(Chest chest)
         {
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
-            if (Main.getGoodWorld)
+            if (Main.zenithWorld)
                 potionType = ItemID.RedPotion;
 
             List<ChestItem> contents = new List<ChestItem>()
@@ -325,7 +325,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.BlueTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
-                new ChestItem(potionType, WorldGen.genRand.Next(Main.getGoodWorld ? 1 : 10, (Main.getGoodWorld ? 2 : 12) + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(Main.remixWorld ? 1 : 10, (Main.remixWorld ? 2 : 12) + 1)),
             };
 
             for (int i = 0; i < contents.Count; i++)
@@ -359,9 +359,9 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
 
                         //The granite geode is supposed to fully float in free air. No tile replacements
-                        if (tile.WallType == WallID.GraniteUnsafe && !tile.HasTile && !Main.getGoodWorld)
+                        if (tile.WallType == WallID.GraniteUnsafe && !tile.HasTile && !Main.remixWorld)
                             graniteWallsInArea++;
-                        else if ((tile.WallType == WallID.MarbleUnsafe || tile.TileType == TileID.Marble) && Main.getGoodWorld) //Get fixed boi makes it generate in marble biomes
+                        else if ((tile.WallType == WallID.MarbleUnsafe || tile.TileType == TileID.Marble) && Main.remixWorld) //Get fixed boi makes it generate in marble biomes
                             graniteWallsInArea++;
                     }
                 }
@@ -385,7 +385,7 @@ namespace CalamityMod.World
         public static void FillIceShrineChest(Chest chest)
         {
             int foodType = Utils.SelectRandom(WorldGen.genRand, ItemID.ChristmasPudding, ItemID.SugarCookie, ItemID.GingerbreadCookie);
-            if (Main.getGoodWorld)
+            if (Main.zenithWorld)
                 foodType = ModContent.ItemType<DeliciousMeat>();
             List<ChestItem> contents = new List<ChestItem>()
             {
@@ -394,8 +394,8 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.FrozenKey, 1),
                 new ChestItem(ItemID.IceTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
-                new ChestItem(Main.getGoodWorld ? ItemID.Eggnog :ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
-                new ChestItem(foodType, WorldGen.genRand.Next(Main.getGoodWorld ? 200 : 10, (Main.getGoodWorld ? 349 : 12) + 1)),
+                new ChestItem(Main.zenithWorld ? ItemID.Eggnog :ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(foodType, WorldGen.genRand.Next(Main.remixWorld ? 200 : 10, (Main.zenithWorld ? 349 : 12) + 1)),
             };
 
             for (int i = 0; i < contents.Count; i++)
@@ -455,7 +455,7 @@ namespace CalamityMod.World
         public static void FillMarbleShrineChest(Chest chest)
         {
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
-            if (Main.getGoodWorld)
+            if (Main.zenithWorld)
                 potionType = ItemID.RedPotion;
             List<ChestItem> contents = new List<ChestItem>()
             {
@@ -464,7 +464,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.WhiteTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
-                new ChestItem(potionType, WorldGen.genRand.Next(Main.getGoodWorld ? 1 : 10, (Main.getGoodWorld ? 2 : 12) + 1))
+                new ChestItem(potionType, WorldGen.genRand.Next(Main.zenithWorld ? 1 : 10, (Main.remixWorld ? 2 : 12) + 1))
             };
 
             for (int i = 0; i < contents.Count; i++)
@@ -500,9 +500,9 @@ namespace CalamityMod.World
 
                         //Marble biomes either have blocks or walls, occasionally both
                         //This should be near maximum to prevent the structure from overextending
-                        if ((tile.TileType == TileID.Marble || tile.WallType == WallID.MarbleUnsafe) && !Main.getGoodWorld)
+                        if ((tile.TileType == TileID.Marble || tile.WallType == WallID.MarbleUnsafe) && !Main.zenithWorld)
                             marbleStuffInArea++;
-                        else if ((tile.WallType == WallID.GraniteUnsafe || tile.TileType == TileID.Granite) && Main.getGoodWorld) //Generates in granite in remix
+                        else if ((tile.WallType == WallID.GraniteUnsafe || tile.TileType == TileID.Granite) && Main.zenithWorld) //Generates in granite in gfb
                             marbleStuffInArea++;
                         
                         //There should be some space between the pillars so it doesn't make pillars in the middle of nowhere zone
@@ -544,7 +544,7 @@ namespace CalamityMod.World
                 };
 
             // Gfb loot change
-            if (Main.getGoodWorld)
+            if (Main.zenithWorld)
             {
                 //"Cannot modify the return value of List<ChestItem>.this[int] because its not a variable" so gotta do this instead, I could add a bunch of bools but I feel this is better for how much is changed
                 contents = new List<ChestItem>()
@@ -614,7 +614,7 @@ namespace CalamityMod.World
 
                     }
                 }
-                if ((!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y))) && !Main.getGoodWorld)
+                if ((!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y))) && !Main.remixWorld)
                 {
                     tries++;
                 }
@@ -637,7 +637,7 @@ namespace CalamityMod.World
         public static void FillSurfaceShrineChest(Chest chest)
         {
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.RecallPotion, ItemID.CalmingPotion, ItemID.SwiftnessPotion);
-            if (Main.getGoodWorld)
+            if (Main.zenithWorld)
                 potionType = ItemID.Sake;
             List<ChestItem> contents = new List<ChestItem>()
             {
@@ -645,7 +645,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.PinkGel, WorldGen.genRand.Next(12, 15 + 1)),
                 new ChestItem(ItemID.Torch, WorldGen.genRand.Next(50, 60 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(4, 6 + 1)),
-                new ChestItem(Main.getGoodWorld ? ItemID.LesserRestorationPotion : ItemID.LesserHealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(Main.zenithWorld ? ItemID.RestorationPotion : ItemID.LesserHealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
             };
 
@@ -712,7 +712,7 @@ namespace CalamityMod.World
                 }
                 else
                 {
-                    if (!Main.remixWorld) // Make tunnel if its not remix
+                    if (!Main.remixWorld) // Make tunnel if its not remix or Gfb
                     {
                         Point result;
                         Point shrineTunnelPlacementPoint = new Point(placementPoint.X + (int)(schematicSize.X * 0.5f), placementPoint.Y);
