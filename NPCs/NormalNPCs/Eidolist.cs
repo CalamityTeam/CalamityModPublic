@@ -314,7 +314,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!Main.hardMode || NPC.AnyNPCs(ModContent.NPCType<Eidolist>()))
+            // waffles% stipulation: eidolists are accessible by beating cal clone, even without beating WoF
+            bool hardmodeOrCalClone = Main.hardMode || DownedBossSystem.downedCalamitasClone;
+            if (!hardmodeOrCalClone || NPC.AnyNPCs(ModContent.NPCType<Eidolist>()))
             {
                 return 0f;
             }
