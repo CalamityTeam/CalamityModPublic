@@ -279,10 +279,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.OnFire, 120);
                     break;
 
-                case ProjectileID.Spark:
-                    target.AddBuff(BuffID.OnFire, 30);
-                    break;
-
                 case ProjectileID.GolemFist:
                     target.AddBuff(BuffType<ArmorCrunch>(), 180);
                     break;
