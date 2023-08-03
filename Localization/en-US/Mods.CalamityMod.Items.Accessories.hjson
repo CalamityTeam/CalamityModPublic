@@ -1170,7 +1170,7 @@ OldDukeScales: {
 	DisplayName: Old Duke's Scales
 	Tooltip:
 		'''
-		15% increased damage reduction
+		10% increased damage reduction
 		10% increased max movement speed and acceleration
 		25% increased dash velocity and length
 		Gives you a stamina indicator on the cooldown rack

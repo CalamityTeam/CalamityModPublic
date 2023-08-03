@@ -66,10 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             Projectile.StickyProjAI(5);
         }
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(4, true);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(4);
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

@@ -189,7 +189,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // Apply sticky AI.
-            Projectile.ModifyHitNPCSticky(3, true);
+            Projectile.ModifyHitNPCSticky(3);
         }
 
         public override bool PreDraw(ref Color lightColor)

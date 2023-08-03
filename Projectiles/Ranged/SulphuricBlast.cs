@@ -66,10 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(2, true);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(2);
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

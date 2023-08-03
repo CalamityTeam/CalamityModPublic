@@ -27,6 +27,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -609,6 +610,11 @@ namespace CalamityMod.Items
         #region Use Item Changes
         public override bool? UseItem(Item item, Player player)
         {
+            if (Main.zenithWorld && item.type == ItemID.RodOfHarmony && NPC.AnyNPCs(ModContent.NPCType<THELORDE>()))
+            {
+                //one hour of NOU when using rod of harmony while LORDE is alive
+                player.AddBuff(ModContent.BuffType<NOU>(), 3600 * 60);
+            }
             if (player.Calamity().evilSmasherBoost > 0)
             {
                 if (item.type != ModContent.ItemType<EvilSmasher>())
