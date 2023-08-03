@@ -31,14 +31,10 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY) 
 		{
-            if (Main.rand.Next(5) == 0)
-            {
+            if (Main.rand.NextBool(5))
 			    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemID.PinkPearl);
-            }
             else
-            {
                 Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemID.WhitePearl);
-            }
         }
     }
 }

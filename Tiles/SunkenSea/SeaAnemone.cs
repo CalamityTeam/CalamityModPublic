@@ -35,9 +35,7 @@ namespace CalamityMod.Tiles.SunkenSea
                 frameCounter = 0;
                 frame++;
                 if (frame > 5)
-                {
                     frame = 0;
-                }
             }
         }
     }

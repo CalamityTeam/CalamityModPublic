@@ -12,6 +12,7 @@ namespace CalamityMod.Tiles.Abyss
         public byte[,] tileAdjacency;
         public byte[,] secondTileAdjacency;
         public byte[,] thirdTileAdjacency;
+
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -34,6 +35,7 @@ namespace CalamityMod.Tiles.Abyss
         {
             num = fail ? 1 : 3;
         }
+
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             if (CalamityUtils.ParanoidTileRetrieval(i, j + 1).HasTile &&
@@ -42,12 +44,14 @@ namespace CalamityMod.Tiles.Abyss
                 WorldGen.KillTile(i, j + 1);
             }
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             TileFraming.DrawUniversalMergeFrames(i, j, thirdTileAdjacency, "CalamityMod/Tiles/Merges/HardenedSulphurousSandstoneMerge");
             TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/StoneMerge");
             TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/DirtMerge");
         }
+
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             TileFraming.GetAdjacencyData(i, j, TileID.Dirt, out tileAdjacency[i, j]);
@@ -55,6 +59,7 @@ namespace CalamityMod.Tiles.Abyss
             TileFraming.GetAdjacencyData(i, j, ModContent.TileType<HardenedSulphurousSandstone>(), out thirdTileAdjacency[i, j]);
             return true;
         }
+
         public override void RandomUpdate(int i, int j)
         {
             int num8 = WorldGen.genRand.Next((int)Main.rockLayer, (int)(Main.rockLayer + (double)Main.maxTilesY * 0.143));
@@ -73,6 +78,7 @@ namespace CalamityMod.Tiles.Abyss
                     }
                 }
             }
+
             if (Main.tile[i, j + 1] != null && nearbyVineCount < 5 && j >= SulphurousSea.VineGrowTopLimit)
             {
                 if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
@@ -102,9 +108,7 @@ namespace CalamityMod.Tiles.Abyss
                             Main.tile[num53, num54].Get<TileWallWireStateData>().HasTile = true;
                             WorldGen.SquareTileFrame(num53, num54, true);
                             if (Main.netMode == NetmodeID.Server)
-                            {
                                 NetMessage.SendTileSquare(-1, num53, num54, 3, TileChangeType.None);
-                            }
                         }
                         Main.tile[i, j].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                         Main.tile[i, j].Get<TileWallWireStateData>().IsHalfBlock = false;

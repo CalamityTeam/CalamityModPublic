@@ -48,9 +48,9 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             brightness *= (float)MathF.Sin(-j / 8f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes + i);
             brightness *= (float)MathF.Sin(-i / 8f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes + j);
             brightness += 0.7f;
-            r = 191f / 350f;
-            g = 85f / 350f;
-            b = 28f / 350f;
+            r = 0.55f;
+            g = 0.24f;
+            b = 0.08f;
             r *= brightness;
             g *= brightness;
             b *= brightness;

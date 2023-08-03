@@ -42,7 +42,6 @@ namespace CalamityMod.Tiles.SunkenSea
             int xframe = tile.TileFrameX / 18;
             if (xframe > 7 && xframe < 14)
             {
-
                 r = 0.8f;
                 g = 0.7f;
                 b = 0.9f;
@@ -85,21 +84,14 @@ namespace CalamityMod.Tiles.SunkenSea
             Tile leftTile = Main.tile[i - 1, j];
 
             if (belowTile.Slope == SlopeType.Solid && !belowTile.IsHalfBlock && belowTile.HasTile && belowTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 0;
-            }
             else if (aboveTile.Slope == SlopeType.Solid && !aboveTile.IsHalfBlock && aboveTile.HasTile && aboveTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 18;
-            }
             else if (rightTile.Slope == SlopeType.Solid && !rightTile.IsHalfBlock && rightTile.HasTile && rightTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 36;
-            }
             else if (leftTile.Slope == SlopeType.Solid && !leftTile.IsHalfBlock && leftTile.HasTile && leftTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 54;
-            }
+
             Main.tile[i, j].TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
         }
     }

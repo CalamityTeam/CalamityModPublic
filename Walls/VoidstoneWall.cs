@@ -37,7 +37,7 @@ namespace CalamityMod.Walls
 
             Rectangle frame = new Rectangle(tile.WallFrameX + xOff, tile.WallFrameY, xLength, 32);
             Color drawcolor;
-            drawcolor = WorldGen.paintColor(tile.WallColor) * (255f / 255f);
+            drawcolor = WorldGen.paintColor(tile.WallColor);
             drawcolor.A = 255;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
 

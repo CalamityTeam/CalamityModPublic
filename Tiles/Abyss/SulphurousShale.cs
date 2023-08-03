@@ -20,6 +20,7 @@ namespace CalamityMod.Tiles.Abyss
         public byte[,] thirdTileAdjacency;
 
         public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/AbyssGravelMine", 3);
+
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -68,6 +69,7 @@ namespace CalamityMod.Tiles.Abyss
                     }
                 }
             }
+
             if (Main.tile[i, j + 1] != null && nearbyVineCount < 5 && j >= SulphurousSea.VineGrowTopLimit)
             {
                 if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
@@ -97,34 +99,31 @@ namespace CalamityMod.Tiles.Abyss
                             Main.tile[num53, num54].Get<TileWallWireStateData>().HasTile = true;
                             WorldGen.SquareTileFrame(num53, num54, true);
                             if (Main.netMode == NetmodeID.Server)
-                            {
                                 NetMessage.SendTileSquare(-1, num53, num54, 3, TileChangeType.None);
-                            }
                         }
                         Main.tile[i, j].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                         Main.tile[i, j].Get<TileWallWireStateData>().IsHalfBlock = false;
                     }
                 }
             }
+
             Tile tile = Main.tile[i, j];
             Tile up = Main.tile[i, j - 1];
             Tile up2 = Main.tile[i, j - 2];
 
-            //place sulphur tentacle corals
+            // Place sulphur tentacle corals
             if (WorldGen.genRand.Next(10) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
             {
                 up.TileType = (ushort)ModContent.TileType<SulphurTentacleCorals>();
                 up.HasTile = true;
                 up.TileFrameY = 0;
 
-                //18 different frames, choose a random one
+                // 18 different frames, choose a random one
                 up.TileFrameX = (short)(WorldGen.genRand.Next(22) * 18);
                 WorldGen.SquareTileFrame(i, j - 1, true);
 
                 if (Main.netMode == NetmodeID.Server)
-                {
                     NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
-                }
             }
         }
 
@@ -218,6 +217,7 @@ namespace CalamityMod.Tiles.Abyss
             }
             frameXOffset = uniqueAnimationFrameX * animationFrameWidth;
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             TileFraming.DrawUniversalMergeFrames(i, j, thirdTileAdjacency, "CalamityMod/Tiles/Merges/AbyssGravelMerge");

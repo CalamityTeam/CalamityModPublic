@@ -34,10 +34,11 @@ namespace CalamityMod.Tiles.SunkenSea
         {
             num = fail ? 1 : 3;
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             float transparency = 0.60f;
-            //must be set here 
+            // Must be set here 
             TileID.Sets.DrawsWalls[Type] = true;
             Main.tileNoSunLight[Type] = false;
 
@@ -50,12 +51,12 @@ namespace CalamityMod.Tiles.SunkenSea
             int frameYOffset = yPos * sheetHeight;
             Rectangle frame = new Rectangle(tile.TileFrameX + frameXOffset, tile.TileFrameY + frameYOffset, 16, 16);
 
-
             Color color = Lighting.GetColor(i, j) * transparency;
             Vector2 offScreenRange = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
             Vector2 drawPos = new Vector2(i * 16, j * 16) - Main.screenPosition + offScreenRange;
             TileFraming.SlopedGlowmask(i, j, tile.TileType, tex, drawPos, frame, GetDrawColour(i, j, color), default);
         }
+
         private Color GetDrawColour(int i, int j, Color colour)
         {
             int colType = Main.tile[i, j].TileColor;
@@ -68,6 +69,7 @@ namespace CalamityMod.Tiles.SunkenSea
             }
             return colour;
         }
+
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             TileFraming.CompactFraming(i, j, resetFrame);

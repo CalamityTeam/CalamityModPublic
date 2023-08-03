@@ -51,27 +51,20 @@ namespace CalamityMod.Tiles.Abyss
 						Projectile.NewProjectile(new EntitySource_TileBreak(i, j), i * 16 + 16, j * 16 + 16, 0f, -12f, ProjectileID.CoinPortal, 0, 0f, Main.myPlayer);
 				}
 				// Followed by a 1 in 4 for a bomb in For The Worthy worlds
-				else if (Main.getGoodWorld && Main.rand.Next(4) == 0)
-				{
+				else if (Main.getGoodWorld && Main.rand.NextBool(4))
 					Projectile.NewProjectile(new EntitySource_TileBreak(i, j), i * 16 + 16, j * 16 + 8, (float)Main.rand.Next(-100, 101) * 0.002f, 0f, ProjectileID.Bomb, 0, 0f, Player.FindClosest(new Vector2(i * 16, j * 16), 16, 16));
-				}
 				else
-				{
 					yield return new Item(ModContent.ItemType<AbyssalTreasure>());
-				}
 			}
 		}
 
         public override bool CreateDust(int i, int j, ref int type)
         {
             if (Main.rand.NextBool(2))
-            {
                 type = 29;
-            }
             else
-            {
                 type = 186;
-            }
+
             return true;
         }
 

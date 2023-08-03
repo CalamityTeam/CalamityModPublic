@@ -20,6 +20,7 @@ namespace CalamityMod.Tiles.Abyss
         public byte[,] secondTileAdjacency;
         public byte[,] thirdTileAdjacency;
         public byte[,] fourthTileAdjacency;
+
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -54,6 +55,7 @@ namespace CalamityMod.Tiles.Abyss
                 WorldGen.KillTile(i, j + 1);
             }
         }
+
         public override void RandomUpdate(int i, int j)
         {
             int tileLocationY = j - 1;
@@ -64,8 +66,9 @@ namespace CalamityMod.Tiles.Abyss
                     if (!CalamityPlayer.areThereAnyDamnBosses && Main.tile[i, tileLocationY].LiquidAmount == 255 && Main.tile[i, tileLocationY - 1].LiquidAmount == 255 &&
                         Main.tile[i, tileLocationY - 2].LiquidAmount == 255 && !Main.tile[i, tileLocationY - 2].HasTile && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(new EntitySource_WorldEvent(), (float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<SulphuricAcidBubble>(), 0, 2f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(new EntitySource_WorldEvent(), (float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<SulphuricAcidBubble>(), 0, 2f, Main.myPlayer);
                     }
+
                     if (i < 250 || i > Main.maxTilesX - 250)
                     {
                         if (Main.rand.NextBool(400))
@@ -80,9 +83,7 @@ namespace CalamityMod.Tiles.Abyss
                                     for (int m = tileLocationY - num13; m <= tileLocationY + num13; m++)
                                     {
                                         if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == 81)
-                                        {
                                             num15++;
-                                        }
                                     }
                                 }
                                 if (num15 < num14 && Main.tile[i, tileLocationY - 1].LiquidAmount == 255 &&
@@ -91,9 +92,7 @@ namespace CalamityMod.Tiles.Abyss
                                 {
                                     WorldGen.PlaceTile(i, tileLocationY, 81, true, false, -1, 0);
                                     if (Main.netMode == NetmodeID.Server && Main.tile[i, tileLocationY].HasTile)
-                                    {
                                         NetMessage.SendTileSquare(-1, i, tileLocationY, 1, TileChangeType.None);
-                                    }
                                 }
                             }
                             else if (Main.tile[i, tileLocationY].LiquidAmount == 0)
@@ -106,18 +105,14 @@ namespace CalamityMod.Tiles.Abyss
                                     for (int m = tileLocationY - num13; m <= tileLocationY + num13; m++)
                                     {
                                         if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == 324)
-                                        {
                                             num15++;
-                                        }
                                     }
                                 }
                                 if (num15 < num14)
                                 {
                                     WorldGen.PlaceTile(i, tileLocationY, 324, true, false, -1, Main.rand.Next(2));
                                     if (Main.netMode == NetmodeID.Server && Main.tile[i, tileLocationY].HasTile)
-                                    {
                                         NetMessage.SendTileSquare(-1, i, tileLocationY, 1, TileChangeType.None);
-                                    }
                                 }
                             }
                         }
@@ -141,6 +136,7 @@ namespace CalamityMod.Tiles.Abyss
                     }
                 }
             }
+
             if (Main.tile[i, j + 1] != null && nearbyVineCount < 5 && j >= SulphurousSea.VineGrowTopLimit)
             {
                 if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
@@ -170,9 +166,7 @@ namespace CalamityMod.Tiles.Abyss
                             Main.tile[num53, num54].Get<TileWallWireStateData>().HasTile = true;
                             WorldGen.SquareTileFrame(num53, num54, true);
                             if (Main.netMode == NetmodeID.Server)
-                            {
                                 NetMessage.SendTileSquare(-1, num53, num54, 3, TileChangeType.None);
-                            }
                         }
                         Main.tile[i, j].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                         Main.tile[i, j].Get<TileWallWireStateData>().IsHalfBlock = false;
@@ -180,6 +174,7 @@ namespace CalamityMod.Tiles.Abyss
                 }
             }
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
 

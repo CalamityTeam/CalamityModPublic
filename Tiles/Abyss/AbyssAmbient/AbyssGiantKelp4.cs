@@ -40,9 +40,9 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             Tile tile = Framing.GetTileSafely(i, j);
             if (tile.TileFrameY <= 36)
             {
-                r = 184f / 300f;
-                g = 90f / 300f;
-                b = 20f / 300f;
+                r = 0.61f;
+                g = 0.3f;
+                b = 0.07f;
             }
         }
         public override void NearbyEffects(int i, int j, bool closer)

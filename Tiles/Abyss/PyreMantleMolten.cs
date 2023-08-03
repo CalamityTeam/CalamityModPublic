@@ -19,6 +19,7 @@ namespace CalamityMod.Tiles.Abyss
         public byte[,] secondTileAdjacency;
         public byte[,] thirdTileAdjacency;
         public byte[,] fourthTileAdjacency;
+
         public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
@@ -61,21 +62,19 @@ namespace CalamityMod.Tiles.Abyss
             Tile up = Main.tile[i, j - 1];
             Tile up2 = Main.tile[i, j - 2];
 
-            //place PhoviamareHalm
-            if (WorldGen.genRand.Next(12) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
+            // Place PhoviamareHalm
+            if (WorldGen.genRand.NextBool(12) && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
             {
                 up.TileType = (ushort)ModContent.TileType<PhoviamareHalm>();
                 up.HasTile = true;
                 up.TileFrameY = 0;
 
-                //16 different frames, choose a random one
+                // 16 different frames, choose a random one
                 up.TileFrameX = (short)(WorldGen.genRand.Next(16) * 18);
                 WorldGen.SquareTileFrame(i, j - 1, true);
 
                 if (Main.netMode == NetmodeID.Server) 
-                {
                     NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
-                }
             }
         }
 
@@ -83,6 +82,7 @@ namespace CalamityMod.Tiles.Abyss
         {
             if (GlowTexture is null)
                 return;
+
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
@@ -103,15 +103,16 @@ namespace CalamityMod.Tiles.Abyss
             TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/StoneMerge");
             TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/DirtMerge");
         }
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             float brightness = 0.7f;
             float lightspeed = Main.GameUpdateCount * 0.01f;
             brightness *= (float)MathF.Sin(i / 60f + lightspeed);
             brightness += 0.3f;
-            r = 255f / 255f;
-            g = 83f / 255f;
-            b = 0f; // 255f;
+            r = 1f;
+            g = 0.33f;
+            b = 0f;
             r *= brightness;
             g *= brightness;
             b *= brightness;

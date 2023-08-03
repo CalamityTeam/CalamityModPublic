@@ -15,6 +15,7 @@ namespace CalamityMod.Tiles.Ores
     {
         public byte[,] TileAdjacency;
         public byte[,] secondTileAdjacency;
+
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
@@ -65,7 +66,7 @@ namespace CalamityMod.Tiles.Ores
                     if (!Main.tile[i, tileLocationY].HasTile)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            Projectile.NewProjectile(new EntitySource_WorldEvent(), (float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, 0.1f, ModContent.ProjectileType<LavaChunk>(), 25, 2f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(new EntitySource_WorldEvent(), (float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, 0.1f, ModContent.ProjectileType<LavaChunk>(), 25, 2f, Main.myPlayer);
                     }
                 }
             }

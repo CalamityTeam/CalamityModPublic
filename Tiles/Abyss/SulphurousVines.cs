@@ -49,11 +49,10 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            //GIVE VINE ROPE IF SPECIAL VINE BOOK
+            // GIVE VINE ROPE IF SPECIAL VINE BOOK
             if (WorldGen.genRand.NextBool(2) && Main.player[(int)Player.FindClosest(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16)].cordage)
-            {
                 Item.NewItem(new EntitySource_TileBreak(i, j), new Vector2(i * 16 + 8f, j * 16 + 8f), ItemID.VineRope);
-            }
+
             if (Main.tile[i, j + 1] != null)
             {
                 if (Main.tile[i, j + 1].HasTile)
@@ -62,13 +61,12 @@ namespace CalamityMod.Tiles.Abyss
                     {
                         WorldGen.KillTile(i, j + 1, false, false, false);
                         if (!Main.tile[i, j + 1].HasTile && Main.netMode != NetmodeID.SinglePlayer)
-                        {
                             NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, (float)i, (float)j + 1, 0f, 0, 0, 0);
-                        }
                     }
                 }
             }
         }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (closer && Main.rand.NextBool(200) && j > Main.worldSurface)
@@ -83,6 +81,7 @@ namespace CalamityMod.Tiles.Abyss
 
         // Ozzatron 01JUL2022: heavily refactored this code to not suck. also, sulphurous vines won't grow in honey anymore.
         private const int MaxVineHeight = 10;
+
         public override void RandomUpdate(int i, int j)
         {
             Tile below = Main.tile[i, j + 1];
@@ -111,23 +110,23 @@ namespace CalamityMod.Tiles.Abyss
                     int x = i;
                     int y = j + 1;
 
-                    // zero faith that code using local variables works with struct tiles, from experience
+                    // Zero faith that code using local variables works with struct tiles, from experience.
 
-                    // Spawn the new vine
+                    // Spawn the new vine.
                     Main.tile[x, y].TileType = (ushort)ModContent.TileType<SulphurousVines>();
                     Main.tile[x, y].TileFrameX = (short)(WorldGen.genRand.Next(8) * 18);
                     Main.tile[x, y].TileFrameY = 4 * 18;
-                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true; // .HasTile = true; refuses to work
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true; // .HasTile = true; refuses to work.
 
-                    // Pick a new sprite for the current vine
+                    // Pick a new sprite for the current vine.
                     Main.tile[i, j].TileFrameX = (short)(WorldGen.genRand.Next(12) * 18);
                     Main.tile[i, j].TileFrameY = (short)(WorldGen.genRand.Next(4) * 18);
 
-                    // Reframe both vines the correct vanilla way
+                    // Reframe both vines the correct vanilla way.
                     WorldGen.SquareTileFrame(x, y, true);
                     WorldGen.SquareTileFrame(i, j, true);
 
-                    // Send update packets as needed
+                    // Send update packets as needed.
                     if (Main.netMode == NetmodeID.Server)
                         NetMessage.SendTileSquare(-1, x, y, 3, TileChangeType.None);
                 }
@@ -137,11 +136,10 @@ namespace CalamityMod.Tiles.Abyss
         {
             float brightness = 0.7f;
             brightness *= (float)MathF.Sin(-j / 40f + Main.GameUpdateCount * 0.01f + i);
-            //brightness *= (float)MathF.Sin(-i / 50f + Main.GameUpdateCount * 0.01f);
             brightness += 0.5f;
-            r = 173f / 255f;
+            r = 0.68f;
             g = 1f;
-            b = 200f / 255f;
+            b = 0.78f;
             r *= brightness;
             g *= brightness;
             b *= brightness;
