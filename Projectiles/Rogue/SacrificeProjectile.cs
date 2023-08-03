@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.ModifyHitNPCSticky(15, true);
+            Projectile.ModifyHitNPCSticky(15);
             Projectile.velocity *= 0.5f;
         }
 

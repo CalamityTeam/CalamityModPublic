@@ -47,10 +47,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.StickyProjAI(15);
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(6, true);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(6);
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

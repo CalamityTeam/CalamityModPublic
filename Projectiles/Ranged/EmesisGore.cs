@@ -61,10 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(8, true);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(8);
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
