@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.DraedonMisc;
+using CalamityMod.Items.Placeables.PlaceableTurrets;
 using CalamityMod.UI;
 using CalamityMod.Rarities;
 using System;
@@ -85,10 +86,25 @@ namespace CalamityMod.Items.DraedonMisc
                     rogueDisplay.OverrideColor = new Color(255, 64, 31);
                     list.Insert(insertIndex + 5, rogueDisplay);
 
+                    int turretWaterItem = ModContent.ItemType<WaterTurret>();
+                    TooltipLine turretWaterDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{turretWaterItem}] {CalamityUtils.GetItemName(turretWaterItem)}");
+                    turretWaterDisplay.OverrideColor = new Color(165, 118, 104);
+                    list.Insert(insertIndex + 6, turretWaterDisplay);
+
+                    int turretOnyxItem = ModContent.ItemType<OnyxTurret>();
+                    TooltipLine turretOnyxDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{turretOnyxItem}] {CalamityUtils.GetItemName(turretOnyxItem)}");
+                    turretOnyxDisplay.OverrideColor = new Color(165, 118, 104);
+                    list.Insert(insertIndex + 7, turretOnyxDisplay);
+
+                    int turretLabItem = ModContent.ItemType<LabTurret>();
+                    TooltipLine turretLabDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{turretLabItem}] {CalamityUtils.GetItemName(turretLabItem)}");
+                    turretLabDisplay.OverrideColor = new Color(165, 118, 104);
+                    list.Insert(insertIndex + 8, turretLabDisplay);
+
                     int codeItem = ModContent.ItemType<DecryptionComputer>();
                     TooltipLine machineDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{codeItem}] {CalamityUtils.GetItemName(codeItem)}");
                     machineDisplay.OverrideColor = new Color(165, 118, 104);
-                    list.Insert(insertIndex + 6, machineDisplay);
+                    list.Insert(insertIndex + 9, machineDisplay);
                 }
             }
         }
