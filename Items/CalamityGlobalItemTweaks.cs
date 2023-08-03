@@ -12,6 +12,9 @@ namespace CalamityMod.Items
     // ApplyTweaks(ref Item item) would be the one exposed function, which CalamityGlobalItem would call in SetDefaults.
     public partial class CalamityGlobalItem : GlobalItem
     {
+        // 02AUG2023: Ozzatron: Having Overhaul enabled turns off all scaling changes, per direct request from Mirsario on 8/2/23.
+        private static bool DisableScalingForOverhaul => CalamityMod.Instance.overhaul is not null;
+
         #region Database and Initialization
         internal static SortedDictionary<int, IItemTweak[]> currentTweaks = null;
 
@@ -1015,6 +1018,8 @@ namespace CalamityMod.Items
             public bool AppliesTo(Item it) => IsScalable(it);
             public void ApplyTweak(Item it)
             {
+                if (DisableScalingForOverhaul)
+                    return;
                 it.scale += delta;
                 if (it.scale < 0f)
                     it.scale = 0f;
@@ -1030,6 +1035,8 @@ namespace CalamityMod.Items
             public bool AppliesTo(Item it) => IsScalable(it);
             public void ApplyTweak(Item it)
             {
+                if (DisableScalingForOverhaul)
+                    return;
                 it.scale = newScale;
                 if (it.scale < 0f)
                     it.scale = 0f;
@@ -1045,6 +1052,8 @@ namespace CalamityMod.Items
             public bool AppliesTo(Item it) => IsScalable(it);
             public void ApplyTweak(Item it)
             {
+                if (DisableScalingForOverhaul)
+                    return;
                 it.scale *= ratio;
                 if (it.scale < 0f)
                     it.scale = 0f;
