@@ -170,7 +170,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 if (chosen == 6 || chosen == 9)
                     return this.GetLocalization("Help.PreHardmode" + chosen).Format(worldEvil);
 
-                return this.GetLocalizedValue("Help.PreHardmdoe" + chosen);
+                return this.GetLocalizedValue("Help.PreHardmode" + chosen);
             }
         }
 
