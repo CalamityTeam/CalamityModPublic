@@ -33,6 +33,7 @@ namespace CalamityMod.Skies
         {
             skyActive = true;
         }
+
         public override Color OnTileColor(Color inColor)
         {
             return Color.Lerp(inColor, new Color(63, 51, 90, inColor.A), opacity);

@@ -13,6 +13,7 @@ namespace CalamityMod.Skies
     public class BrimstoneCragSky : CustomSky
     {
         public int skyActiveLeeway = 0;
+
         public class Cinder
         {
             public int Time;
@@ -23,6 +24,7 @@ namespace CalamityMod.Skies
             public Color DrawColor;
             public Vector2 Velocity;
             public Vector2 Center;
+
             public Cinder(int lifetime, int identity, float depth, Color color, Vector2 startingPosition, Vector2 startingVelocity)
             {
                 Lifetime = lifetime;
@@ -51,18 +53,16 @@ namespace CalamityMod.Skies
             if (!Main.LocalPlayer.Calamity().ZoneCalamity || Main.gameMenu)
             {
                 skyActive = false;
-                if (skyActiveLeeway > 0) skyActiveLeeway--;
+                if (skyActiveLeeway > 0)
+                    skyActiveLeeway--;
             }
-            else if (skyActiveLeeway < 60) skyActiveLeeway++;
+            else if (skyActiveLeeway < 60)
+                skyActiveLeeway++;
 
             if (skyActive && opacity < 1f)
-            {
                 opacity += 0.02f;
-            }
             else if (!skyActive && opacity > 0f)
-            {
                 opacity -= 0.02f;
-            }
 
             static Color selectCinderColor()
             {
@@ -126,6 +126,7 @@ namespace CalamityMod.Skies
                     offsetDrawColor.A = 0;
                     spriteBatch.Draw(cinderTexture, offsetDrawPosition, null, offsetDrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale * 1.5f * scaleFade, SpriteEffects.None, 0f);
                 }
+
                 spriteBatch.Draw(cinderTexture, drawPosition, null, Cinders[i].DrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale * scaleFade, SpriteEffects.None, 0f);
             }
         }
