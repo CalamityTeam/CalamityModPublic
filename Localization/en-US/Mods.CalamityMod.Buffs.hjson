@@ -1471,3 +1471,8 @@ WulfrumDroidBuff: {
 	DisplayName: Wulfrum Droid
 	Description: The wulfrum droid will protect you
 }
+
+PinkJellyRegen: {
+	DisplayName: Pink Jelly Regen
+	Description: You feel refreshed by the power of goo, life regen increased by 4
+}

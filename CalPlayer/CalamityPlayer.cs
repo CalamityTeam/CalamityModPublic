@@ -58,6 +58,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Typless;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -83,6 +84,8 @@ namespace CalamityMod.CalPlayer
         #region No Category
         public static bool areThereAnyDamnBosses = false;
         public static bool areThereAnyDamnEvents = false;
+        public bool potionSick = false;
+        public int timePotionSick;
         public bool drawBossHPBar = true;
         public float stealthUIAlpha = 1f;
         public float SulphWaterUIOpacity = 1f;
@@ -493,6 +496,7 @@ namespace CalamityMod.CalPlayer
         public bool toxicHeart = false;
         public bool abaddon = false;
         public bool aeroStone = false;
+        public bool lifejelly = false;
         public bool community = false;
         public bool shatteredCommunity = false;
         public bool fleshTotem = false;
@@ -825,6 +829,7 @@ namespace CalamityMod.CalPlayer
         public bool flaskBrimstone = false;
         public bool fabsolVodka = false;
         public bool mushy = false;
+        public bool PinkJellyRegen = false;
         public bool shellBoost = false;
         public bool cFreeze = false;
         public bool shine = false;
@@ -1563,6 +1568,7 @@ namespace CalamityMod.CalPlayer
             toxicHeart = false;
             abaddon = false;
             aeroStone = false;
+            lifejelly = false;
             community = false;
             shatteredCommunity = false;
             stressPills = false;
@@ -1829,6 +1835,7 @@ namespace CalamityMod.CalPlayer
             shine = false;
             anechoicCoating = false;
             mushy = false;
+            PinkJellyRegen = false;
             shellBoost = false;
             cFreeze = false;
             tRegen = false;
@@ -2264,6 +2271,7 @@ namespace CalamityMod.CalPlayer
             shine = false;
             anechoicCoating = false;
             mushy = false;
+            PinkJellyRegen = false;
             enraged = false;
             shellBoost = false;
             cFreeze = false;
@@ -3197,6 +3205,11 @@ namespace CalamityMod.CalPlayer
             if (Player.accRunSpeed < accRunSpeedMin)
                 Player.accRunSpeed = accRunSpeedMin;
 
+            //Life Jelly regen aura spawn when using a healing potion
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && lifejelly)
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PinkJellyAura>(), 0, 0, Player.whoAmI);
+
+
             if (snowman)
             {
                 if (Player.whoAmI == Main.myPlayer && !snowmanNoseless)
@@ -3360,8 +3373,18 @@ namespace CalamityMod.CalPlayer
         {
             if (Player.whoAmI == Main.myPlayer && CalamityConfig.Instance.VanillaCooldownDisplay)
             {
+                if (Player.whoAmI == Main.myPlayer && Player.potionDelay != 0)
+                    potionSick = true;
+                else
+                    potionSick = false;
+
+                if (!potionSick)
+                    timePotionSick = 0;
+                else
+                    timePotionSick++;
+
                 // Add a cooldown display for potion sickness if the player has the vanilla counter ticking
-                if (Player.potionDelay > 0 && !Player.HasCooldown(PotionSickness.ID))
+                if (potionSick && !Player.HasCooldown(PotionSickness.ID))
                     Player.AddCooldown(PotionSickness.ID, Player.potionDelay, false);
 
                 if (cooldowns.TryGetValue(PotionSickness.ID, out CooldownInstance cd))

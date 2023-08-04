@@ -987,8 +987,8 @@ LifeJelly: {
 	DisplayName: Life Jelly
 	Tooltip:
 		'''
-		+20 max life
-		Standing still boosts life regen
+		Using a healing potion will spawn an aura that provides life 
+		regeneration to all player inside for 5 seconds
 		'''
 }
 

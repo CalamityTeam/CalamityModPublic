@@ -660,6 +660,9 @@ namespace CalamityMod.CalPlayer
             if (sRegen)
                 Player.lifeRegen += 2;
 
+            if (PinkJellyRegen)
+                Player.lifeRegen += 4;
+
             if (hallowedRegen)
                 Player.lifeRegen += 3;
 
