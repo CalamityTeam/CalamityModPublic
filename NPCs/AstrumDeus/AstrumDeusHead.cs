@@ -219,7 +219,7 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             if (NPC.life <= 0)
             {
-                if (Main.zenithWorld && Main.rand.NextBool(5)) // I value people's computers
+                if (!Main.zenithWorld && Main.rand.NextBool(5)) // I value people's computers
                 {
                     NPC.position.X = NPC.position.X + (NPC.width / 2);
                     NPC.position.Y = NPC.position.Y + (NPC.height / 2);
