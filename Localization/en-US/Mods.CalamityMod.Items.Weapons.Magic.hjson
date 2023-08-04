@@ -667,7 +667,7 @@ ShadecrystalTome: {
 
 ShaderainStaff: {
 	DisplayName: Shaderain Staff
-	Tooltip: Fires a shade storm cloud
+	Tooltip: Fires a spray of evil clouds and rain
 }
 
 ShadowboltStaff: {
