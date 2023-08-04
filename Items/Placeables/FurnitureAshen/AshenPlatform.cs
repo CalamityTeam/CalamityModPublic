@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             Item.useAnimation = 15;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Orange;
             Item.consumable = true;
             Item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenPlatform>();
         }

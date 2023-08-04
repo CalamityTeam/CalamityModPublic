@@ -1,4 +1,3 @@
-using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.FurnitureSacrilegious;
 using Terraria;
@@ -21,7 +20,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.rare = ModContent.RarityType<Violet>();
             Item.value = Item.buyPrice(0, 0, 10, 0);
             Item.createTile = ModContent.TileType<OccultLegionnaireBannerTile>();
         }
