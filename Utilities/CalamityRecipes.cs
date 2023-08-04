@@ -1208,23 +1208,6 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.Register();
 
-            // Magic Mirror
-            r = Recipe.Create(ItemID.MagicMirror);
-            r.AddRecipeGroup("AnySilverBar", 10);
-            r.AddIngredient(ItemID.Glass, 10);
-            r.AddIngredient(ItemID.FallenStar, 10);
-            r.AddTile(TileID.Anvils);
-            r.Register();
-
-            // Ice Mirror
-            r = Recipe.Create(ItemID.IceMirror);
-            r.AddRecipeGroup("AnySilverBar", 5);
-            r.AddRecipeGroup("AnyIceBlock", 20);
-            r.AddIngredient(ItemID.Glass, 10);
-            r.AddIngredient(ItemID.FallenStar, 10);
-            r.AddTile(TileID.Anvils);
-            r.Register();
-
             // Bloody Tear
             r = Recipe.Create(ItemID.BloodMoonStarter);
             r.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
