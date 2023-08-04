@@ -156,9 +156,11 @@ namespace CalamityMod
                 {
                     int dust = Dust.NewDust(new Vector2(i * 16 + 4, j * 16 + 2), 4, 4, dustType, 0f, 0f, 100, default, 1f);
                     if (Main.rand.Next(3) != 0)
-                    {
                         Main.dust[dust].noGravity = true;
-                    }
+
+                    // Prevent lag.
+                    Main.dust[dust].noLightEmittence = true;
+
                     Main.dust[dust].velocity *= 0.3f;
                     Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1.5f;
                 }

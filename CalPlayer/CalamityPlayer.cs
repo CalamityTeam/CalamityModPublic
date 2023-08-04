@@ -3908,9 +3908,7 @@ namespace CalamityMod.CalPlayer
             if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
             {
                 if (sCalDeathCount < 51)
-                {
                     sCalDeathCount++;
-                }
             }
 
             return true;
@@ -4546,11 +4544,8 @@ namespace CalamityMod.CalPlayer
             if (Main.hardMode && Main.expertMode)
             {
                 bool reduceChaosBallDamage = npc.type == NPCID.ChaosBall && !NPC.AnyNPCs(NPCID.GoblinSummoner);
-
                 if (reduceChaosBallDamage || npc.type == NPCID.ChaosBallTim || npc.type == NPCID.BurningSphere || npc.type == NPCID.WaterSphere)
-                {
                     modifiers.SourceDamage *= 0.6f;
-                }
             }
         }
         #endregion

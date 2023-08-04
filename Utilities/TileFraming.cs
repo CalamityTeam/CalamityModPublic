@@ -587,9 +587,7 @@ namespace CalamityMod
 
             Tile tile = Main.tile[x, y];
             if (tile.Slope > 0 && TileID.Sets.HasSlopeFrames[tile.TileType])
-            {
                 return true;
-            }
 
             GetAdjacentTiles(x, y, out bool up, out bool down, out bool left, out bool right, out bool upLeft, out bool upRight, out bool downLeft, out bool downRight);
 
@@ -601,9 +599,9 @@ namespace CalamityMod
                 Main.tile[x, y].Get<TileWallWireStateData>().TileFrameNumber = randomFrame;
             }
             else
-            {
                 randomFrame = Main.tile[x, y].TileFrameNumber;
-            }
+
+            int randomFrameX54 = randomFrame * 54;
 
             /*
                 8 2 9
@@ -614,25 +612,28 @@ namespace CalamityMod
             #region L States
             if (!up && down && !left && right && !downRight)
             {
-                tile.TileFrameX = (short)((16 * 18) + (randomFrame * 54));
+                tile.TileFrameX = (short)((16 * 18) + randomFrameX54);
                 tile.TileFrameY = 0;
                 return false;
             }
+
             if (!up && down && left && !right && !downLeft)
             {
-                tile.TileFrameX = (short)((18 * 18) + (randomFrame * 54));
+                tile.TileFrameX = (short)((18 * 18) + randomFrameX54);
                 tile.TileFrameY = 0;
                 return false;
             }
+
             if (up && !down && !left && right && !upRight)
             {
-                tile.TileFrameX = (short)((16 * 18) + (randomFrame * 54));
+                tile.TileFrameX = (short)((16 * 18) + randomFrameX54);
                 tile.TileFrameY = 2 * 18;
                 return false;
             }
+
             if (up && !down && left && !right && !upLeft)
             {
-                tile.TileFrameX = (short)((18 * 18) + (randomFrame * 54));
+                tile.TileFrameX = (short)((18 * 18) + randomFrameX54);
                 tile.TileFrameY = 2 * 18;
                 return false;
             }
@@ -641,25 +642,28 @@ namespace CalamityMod
             #region T States
             if (!up && down && left && right && !downLeft && !downRight)
             {
-                tile.TileFrameX = (short)((17 * 18) + (randomFrame * 54));
+                tile.TileFrameX = (short)((17 * 18) + randomFrameX54);
                 tile.TileFrameY = 0;
                 return false;
             }
+
             if (up && !down && left && right && !upLeft && !upRight)
             {
-                tile.TileFrameX = (short)((17 * 18) + (randomFrame * 54));
+                tile.TileFrameX = (short)((17 * 18) + randomFrameX54);
                 tile.TileFrameY = 2 * 18;
                 return false;
             }
+
             if (up && down && !left && right && !downRight && !upRight)
             {
-                tile.TileFrameX = (short)((16 * 18) + (randomFrame * 54));
+                tile.TileFrameX = (short)((16 * 18) + randomFrameX54);
                 tile.TileFrameY = 18;
                 return false;
             }
+
             if (up && down && left && !right && !downLeft && !upLeft)
             {
-                tile.TileFrameX = (short)((18 * 18) + (randomFrame * 54));
+                tile.TileFrameX = (short)((18 * 18) + randomFrameX54);
                 tile.TileFrameY = 18;
                 return false;
             }
@@ -668,7 +672,7 @@ namespace CalamityMod
             #region X State
             if (up && down && left && right && !downLeft && !downRight && !upLeft && !upRight)
             {
-                tile.TileFrameX = (short)((17 * 18) + (randomFrame * 54));
+                tile.TileFrameX = (short)((17 * 18) + randomFrameX54);
                 tile.TileFrameY = 18;
                 return false;
             }
@@ -681,18 +685,21 @@ namespace CalamityMod
                 tile.TileFrameY = (short)((5 * 18) + (randomFrame * 36));
                 return false;
             }
+
             if (up && down && left && right && downLeft && !downRight && upLeft && upRight)
             {
                 tile.TileFrameX = 13 * 18;
                 tile.TileFrameY = (short)((5 * 18) + (randomFrame * 36));
                 return false;
             }
+
             if (up && down && left && right && downLeft && downRight && !upLeft && upRight)
             {
                 tile.TileFrameX = 14 * 18;
                 tile.TileFrameY = (short)((6 * 18) + (randomFrame * 36));
                 return false;
             }
+
             if (up && down && left && right && downLeft && downRight && upLeft && !upRight)
             {
                 tile.TileFrameX = 13 * 18;
@@ -708,18 +715,21 @@ namespace CalamityMod
                 tile.TileFrameY = 2 * 18;
                 return false;
             }
+
             if (up && down && left && right && downLeft && downRight && !upLeft && !upRight)
             {
                 tile.TileFrameX = (short)((6 * 18) + (randomFrame * 18));
                 tile.TileFrameY = 1 * 18;
                 return false;
             }
+
             if (up && down && left && right && !downLeft && downRight && !upLeft && upRight)
             {
                 tile.TileFrameX = 10 * 18;
                 tile.TileFrameY = (short)(randomFrame * 18);
                 return false;
             }
+
             if (up && down && left && right && downLeft && !downRight && upLeft && !upRight)
             {
                 tile.TileFrameX = 11 * 18;
@@ -735,6 +745,7 @@ namespace CalamityMod
                 tile.TileFrameY = 4 * 18;
                 return false;
             }
+
             if (up && down && left && right && downLeft && !downRight && !upLeft && upRight)
             {
                 tile.TileFrameX = (short)((13 * 18) + (randomFrame * 18));
@@ -750,18 +761,21 @@ namespace CalamityMod
                 tile.TileFrameY = (short)((6 * 18) + (randomFrame * 36));
                 return false;
             }
+
             if (up && down && left && right && !downLeft && downRight && !upLeft && !upRight)
             {
                 tile.TileFrameX = 15 * 18;
                 tile.TileFrameY = (short)((5 * 18) + (randomFrame * 36));
                 return false;
             }
+
             if (up && down && left && right && !downLeft && !downRight && upLeft && !upRight)
             {
                 tile.TileFrameX = 16 * 18;
                 tile.TileFrameY = (short)((6 * 18) + (randomFrame * 36));
                 return false;
             }
+
             if (up && down && left && right && downLeft && !downRight && !upLeft && !upRight)
             {
                 tile.TileFrameX = 16 * 18;
@@ -777,42 +791,49 @@ namespace CalamityMod
                 tile.TileFrameY = 3 * 18;
                 return false;
             }
+
             if (!up && down && left && right && downLeft && !downRight && !upLeft && !upRight)
             {
                 tile.TileFrameX = (short)((16 * 18) + (randomFrame * 36));
                 tile.TileFrameY = 3 * 18;
                 return false;
             }
+
             if (up && !down && left && right && !downLeft && !downRight && !upLeft && upRight)
             {
                 tile.TileFrameX = (short)((17 * 18) + (randomFrame * 36));
                 tile.TileFrameY = 4 * 18;
                 return false;
             }
+
             if (up && !down && left && right && !downLeft && !downRight && upLeft && !upRight)
             {
                 tile.TileFrameX = (short)((16 * 18) + (randomFrame * 36));
                 tile.TileFrameY = 4 * 18;
                 return false;
             }
+
             if (up && down && !left && right && !downLeft && !downRight && !upLeft && upRight)
             {
                 tile.TileFrameX = 17 * 18;
                 tile.TileFrameY = (short)((5 * 18) + (randomFrame * 36));
                 return false;
             }
+
             if (up && down && !left && right && !downLeft && downRight && !upLeft && !upRight)
             {
                 tile.TileFrameX = 17 * 18;
                 tile.TileFrameY = (short)((6 * 18) + (randomFrame * 36));
                 return false;
             }
+
             if (up && down && left && !right && !downLeft && !downRight && upLeft && !upRight)
             {
                 tile.TileFrameX = 18 * 18;
                 tile.TileFrameY = (short)((5 * 18) + (randomFrame * 36));
                 return false;
             }
+
             if (up && down && left && !right && downLeft && !downRight && !upLeft && !upRight)
             {
                 tile.TileFrameX = 18 * 18;
@@ -833,9 +854,7 @@ namespace CalamityMod
 
             Tile tile = Main.tile[x, y];
             if (tile.Slope > 0 && TileID.Sets.HasSlopeFrames[tile.TileType])
-            {
                 return;
-            }
 
             // Reset the tile's random frame style if the frame is being reset.
             int randomFrame;
@@ -845,9 +864,7 @@ namespace CalamityMod
                 Main.tile[x, y].Get<TileWallWireStateData>().TileFrameNumber = (byte)randomFrame;
             }
             else
-            {
                 randomFrame = Main.tile[x, y].TileFrameNumber;
-            }
 
             GetAdjacentTiles(x, y, out bool up, out bool down, out bool left, out bool right, out bool upLeft, out bool upRight, out bool downLeft, out bool downRight);
 
@@ -1175,29 +1192,36 @@ namespace CalamityMod
             }
             #endregion
         }
+
         internal static void SlopedGlowmask(int i, int j, int type, Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color drawColor, Vector2 positionOffset,  bool overrideTileFrame = false)
         {
             Tile tile = Main.tile[i, j];
+
             int TileFrameX = tile.TileFrameX;
             int TileFrameY = tile.TileFrameY;
+
             if (overrideTileFrame)
             {
                 TileFrameX = 0;
                 TileFrameY = 0;
             }
+
             int width = 16;
             int height = 16;
+
             if (sourceRectangle != null)
             {
                 TileFrameX = ((Rectangle)sourceRectangle).X;
                 TileFrameY = ((Rectangle)sourceRectangle).Y;
             }
-            Vector2 location = new Vector2(i * 16, j * 16);
+
+            int iX16 = i * 16;
+            int jX16 = j * 16;
+            Vector2 location = new Vector2(iX16, jX16);
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
-            {
                 zero = Vector2.Zero;
-            }
+
             Vector2 offsets = -Main.screenPosition + zero + positionOffset;
             Vector2 drawCoordinates = location + offsets;
             if ((tile.Slope == 0 && !tile.IsHalfBlock) || (Main.tileSolid[tile.TileType] && Main.tileSolidTop[tile.TileType])) //second one should be for platforms
@@ -1219,22 +1243,25 @@ namespace CalamityMod
                     int height2;
                     for (int a = 0; a < 8; ++a)
                     {
+                        int aX2 = a * 2;
                         if (b == 2)
                         {
-                            length = 16 - a * 2 - 2;
-                            height2 = 14 - a * 2;
+                            length = 16 - aX2 - 2;
+                            height2 = 14 - aX2;
                         }
                         else
                         {
-                            length = a * 2;
+                            length = aX2;
                             height2 = 14 - length;
                         }
+
                         TileFrame = new Rectangle(TileFrameX + length, TileFrameY, 2, height2);
-                        drawPos = new Vector2(i * 16 + length, j * 16 + a * 2) + offsets;
+                        drawPos = new Vector2(iX16 + length, jX16 + aX2) + offsets;
                         Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                     }
+
                     TileFrame = new Rectangle(TileFrameX, TileFrameY + 14, 16, 2);
-                    drawPos = new Vector2(i * 16, j * 16 + 14) + offsets;
+                    drawPos = new Vector2(iX16, jX16 + 14) + offsets;
                     Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                 }
                 else
@@ -1243,21 +1270,24 @@ namespace CalamityMod
                     int height2;
                     for (int a = 0; a < 8; ++a)
                     {
+                        int aX2 = a * 2;
                         if (b == 3)
                         {
-                            length = a * 2;
+                            length = aX2;
                             height2 = 16 - length;
                         }
                         else
                         {
-                            length = 16 - a * 2 - 2;
-                            height2 = 16 - a * 2;
+                            length = 16 - aX2 - 2;
+                            height2 = 16 - aX2;
                         }
+
                         TileFrame = new Rectangle(TileFrameX + length, TileFrameY + 16 - height2, 2, height2);
-                        drawPos = new Vector2(i * 16 + length, j * 16) + offsets;
+                        drawPos = new Vector2(iX16 + length, jX16) + offsets;
                         Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                     }
-                    drawPos = new Vector2(i * 16, j * 16) + offsets;
+
+                    drawPos = new Vector2(iX16, jX16) + offsets;
                     if (tile.TileType != ModContent.TileType<EutrophicGlass>())
                     {
                         TileFrame = new Rectangle(TileFrameX, TileFrameY, 16, 2);
@@ -1265,7 +1295,7 @@ namespace CalamityMod
                     }
                 }
             }
-            //Contribuited by Vortex
+            // Contribuited by Vortex
         }
         #endregion
 
@@ -1922,6 +1952,8 @@ namespace CalamityMod
 
             // Get tile variant number
             int randomFrame = myTile.TileFrameNumber;
+            int randomFrameX18 = randomFrame * 18;
+            int randomFrameX36 = randomFrame * 36;
 
             // Couple of commonly used masks
             // bit to relative tile pos for reference
@@ -1938,117 +1970,122 @@ namespace CalamityMod
             {
                 case 0b11110000:
                     // All sides
-                    Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 18) + subFrameX, 18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                    Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX18 + subFrameX, 18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                     return;
+
                 case 0b01110000:
                     // All except north
                     switch (thisTileData & 0b00001100)
                     {
                         case 0b00001100:
                             // Extend to both north corners
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + (randomFrame * 18) + subFrameX, 90 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + randomFrameX18 + subFrameX, 90 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00001000:
                             // Extend to northwest corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(198 + (randomFrame * 18) + subFrameX, 180 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(198 + randomFrameX18 + subFrameX, 180 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000100:
                             // Extend to northeast corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + (randomFrame * 18) + subFrameX, 180 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + randomFrameX18 + subFrameX, 180 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         default:
                             // Extend to neither corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + (randomFrame * 18) + subFrameX, 144 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + randomFrameX18 + subFrameX, 144 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                     }
+
                 case 0b10110000:
                     // All except east
                     switch (thisTileData & 0b00000110)
                     {
                         case 0b00000110:
                             // Extend to both east corners
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(108 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(108 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000100:
                             // Extend to northeast corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(234 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(234 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000010:
                             // Extend to southeast corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(198 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(198 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         default:
                             // Extend to neither corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(162 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(162 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                     }
+
                 case 0b11010000:
                     // All except south
                     switch (thisTileData & 0b00000011)
                     {
                         case 0b00000011:
                             // Extend to both south corners
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + (randomFrame * 18) + subFrameX, 72 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + randomFrameX18 + subFrameX, 72 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000010:
                             // Extend to southeast corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + (randomFrame * 18) + subFrameX, 162 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + randomFrameX18 + subFrameX, 162 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000001:
                             // Extend to southwest corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(198 + (randomFrame * 18) + subFrameX, 162 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(198 + randomFrameX18 + subFrameX, 162 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         default:
                             // Extend to neither corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + (randomFrame * 18) + subFrameX, 126 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + randomFrameX18 + subFrameX, 126 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                     }
+
                 case 0b11100000:
                     // All except west
                     switch (thisTileData & 0b00001001)
                     {
                         case 0b00001001:
                             // Extend to both west corners
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(126 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(126 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000001:
                             // Extend to southwest corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(216 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(216 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00001000:
                             // Extend to northwest corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(252 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(252 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         default:
                             // Extend to neither corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(180 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(180 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                     }
+
                 case 0b10010000:
                     // North & West edges
                     if ((thisTileData & 0b01100010) == 0b00000010)
                     {
                         // Blending tile at southeast corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle((randomFrame * 36) + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(randomFrameX36 + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                     }
 
                     switch (thisTileData & 0b00000101)
                     {
                         case 0b00000101:
                             // Extend to both corners
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle((randomFrame * 36) + subFrameX, 90 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(randomFrameX36 + subFrameX, 90 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000100:
                             // Extend to northeast corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(234 + subFrameX, 54 + (randomFrame * 36) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(234 + subFrameX, 54 + randomFrameX36 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000001:
                             // Extend to southwest corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(198 + subFrameX, 54 + (randomFrame * 36) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(198 + subFrameX, 54 + randomFrameX36 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         default:
                             // Extend to neither corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle((randomFrame * 36) + subFrameX, 126 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(randomFrameX36 + subFrameX, 126 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                     }
                 case 0b11000000:
@@ -2056,80 +2093,82 @@ namespace CalamityMod
                     if ((thisTileData & 0b00110001) == 0b00000001)
                     {
                         // Blending tile at southwest corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 36) + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX36 + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                     }
 
                     switch (thisTileData & 0b00001010)
                     {
                         case 0b00001010:
                             // Extend to both corners
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 36) + subFrameX, 90 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX36 + subFrameX, 90 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00001000:
                             // Extend to northwest corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(252 + subFrameX, 54 + (randomFrame * 36) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(252 + subFrameX, 54 + randomFrameX36 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000010:
                             // Extend to southeast corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(216 + subFrameX, 54 + (randomFrame * 36) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(216 + subFrameX, 54 + randomFrameX36 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         default:
                             // Extend to neither corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 36) + subFrameX, 126 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX36 + subFrameX, 126 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                     }
+
                 case 0b01100000:
                     // South & East edges
                     if ((thisTileData & 0b10011000) == 0b00001000)
                     {
                         // Blending tile at northwest corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 36) + subFrameX, 72 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX36 + subFrameX, 72 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                     }
 
                     switch (thisTileData & 0b00000101)
                     {
                         case 0b00000101:
                             // Extend to both corners
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 36) + subFrameX, 108 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX36 + subFrameX, 108 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000100:
                             // Extend to northeast corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(216 + subFrameX, 72 + (randomFrame * 36) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(216 + subFrameX, 72 + randomFrameX36 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000001:
                             // Extend to southwest corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(252 + subFrameX, 72 + (randomFrame * 36) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(252 + subFrameX, 72 + randomFrameX36 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         default:
                             // Extend to neither corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 36) + subFrameX, 144 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX36 + subFrameX, 144 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                     }
+
                 case 0b00110000:
                     // South & West edges
                     if ((thisTileData & 0b11000100) == 0b00000100)
                     {
                         // Blending tile at northeast corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle((randomFrame * 36) + subFrameX, 72 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(randomFrameX36 + subFrameX, 72 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                     }
 
                     switch (thisTileData & 0b00001010)
                     {
                         case 0b00001010:
                             // Extend to both corners
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle((randomFrame * 36), 108 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(randomFrameX36, 108 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00001000:
                             // Extend to northwest corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(198 + subFrameX, 72 + (randomFrame * 36) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(198 + subFrameX, 72 + randomFrameX36 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         case 0b00000010:
                             // Extend to southeast corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(234 + subFrameX, 72 + (randomFrame * 36) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(234 + subFrameX, 72 + randomFrameX36 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                         default:
                             // Extend to neither corner
-                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle((randomFrame * 36) + subFrameX, 144 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                            Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(randomFrameX36 + subFrameX, 144 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                             return;
                     }
             }
@@ -2142,22 +2181,23 @@ namespace CalamityMod
                 {
                     case 0b00000000:
                         // Narrow
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + (randomFrame * 18) + subFrameX, 108 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + randomFrameX18 + subFrameX, 108 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     case 0b00001000:
                         // Extends to Northwest corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(126 + subFrameX, 108 + (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(126 + subFrameX, 108 + randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     case 0b00000100:
                         // Extends to Northeast corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(108 + subFrameX, 108 + (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(108 + subFrameX, 108 + randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     default:
                         // Extends to both corners
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 18) + subFrameX, 36 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX18 + subFrameX, 36 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                 }
             }
+
             // East Edge
             if ((thisTileData & 0b11100000) == 0b01000000)
             {
@@ -2165,22 +2205,23 @@ namespace CalamityMod
                 {
                     case 0b00000000:
                         // Narrow
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(90 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(90 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     case 0b00000100:
                         // Extends to Northeast corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle((randomFrame * 18) + subFrameX, 180 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(randomFrameX18 + subFrameX, 180 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     case 0b00000010:
                         // Extends to Southeast corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle((randomFrame * 18) + subFrameX, 162 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(randomFrameX18 + subFrameX, 162 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     default:
                         // Extends to both corners
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(0 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(0 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                 }
             }
+
             // South Edge
             if ((thisTileData & 0b01110000) == 0b00100000)
             {
@@ -2188,22 +2229,23 @@ namespace CalamityMod
                 {
                     case 0b00000000:
                         // Narrow
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + (randomFrame * 18) + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + randomFrameX18 + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     case 0b00000010:
                         // Extends to Southeast corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(108 + subFrameX, 54 + (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(108 + subFrameX, 54 + randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     case 0b00000001:
                         // Extends to Southwest corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(126 + subFrameX, 54 + (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(126 + subFrameX, 54 + randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     default:
                         // Extends to both corners
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 18) + subFrameX, 0 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX18 + subFrameX, 0 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                 }
             }
+
             // West Edge
             if ((thisTileData & 0b10110000) == 0b00010000)
             {
@@ -2211,41 +2253,45 @@ namespace CalamityMod
                 {
                     case 0b00000000:
                         // Narrow
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(144 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     case 0b00000001:
                         // Extends to Southwest corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(54 + (randomFrame * 18) + subFrameX, 162 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(54 + randomFrameX18 + subFrameX, 162 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     case 0b00001000:
                         // Extends to Northwest corner
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(54 + (randomFrame * 18) + subFrameX, 180 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(54 + randomFrameX18 + subFrameX, 180 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                     default:
                         // Extends to both corners
-                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(72 + subFrameX, (randomFrame * 18) + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                        Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(72 + subFrameX, randomFrameX18 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                         break;
                 }
             }
+
             // Northwest Corner
             if ((thisTileData & 0b10011000) == 0b00001000)
             {
-                Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 36) + subFrameX, 72 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX36 + subFrameX, 72 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
+
             // Northeast Corner
             if ((thisTileData & 0b11000100) == 0b00000100)
             {
-                Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle((randomFrame * 36) + subFrameX, 72 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(randomFrameX36 + subFrameX, 72 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
+
             // Southeast Corner
             if ((thisTileData & 0b01100010) == 0b00000010)
             {
-                Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle((randomFrame * 36) + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(randomFrameX36 + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
+
             // Southwest Corner
             if ((thisTileData & 0b00110001) == 0b00000001)
             {
-                Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + (randomFrame * 36) + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX36 + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
             #endregion
         }

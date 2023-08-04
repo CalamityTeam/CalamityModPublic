@@ -12,6 +12,7 @@ namespace CalamityMod.Tiles.SunkenSea
     {
         private static int sheetWidth = 216;
         private static int sheetHeight = 72;
+
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -37,7 +38,8 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            float transparency = 0.60f;
+            float transparency = 0.6f;
+
             // Must be set here 
             TileID.Sets.DrawsWalls[Type] = true;
             Main.tileNoSunLight[Type] = false;

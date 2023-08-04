@@ -128,14 +128,16 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player) || NPC.AnyNPCs(NPC.type))
-            {
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player) || !spawnInfo.Player.InAstral())
                 return 0f;
-            }
-            else if (spawnInfo.Player.InAstral(2))
-            {
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPC.type))
+                return 0f;
+
+            if (spawnInfo.Player.InAstral(2))
                 return 0.17f;
-            }
+
             return 0f;
         }
 

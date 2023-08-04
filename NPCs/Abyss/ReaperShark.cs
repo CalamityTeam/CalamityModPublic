@@ -682,9 +682,8 @@ namespace CalamityMod.NPCs.Abyss
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<ReaperShark>()))
-            {
                 return Main.remixWorld ? 10.8f : SpawnCondition.CaveJellyfish.Chance * 1.2f;
-            }
+
             return 0f;
         }
 

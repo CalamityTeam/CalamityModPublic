@@ -47,10 +47,12 @@ namespace CalamityMod.NPCs
                 NPC npc = info.npc;
                 if (npc is null)
                     return false;
+
                 if (npc.type == NPCID.Retinazer)
                     return !NPC.AnyNPCs(NPCID.Spazmatism);
                 else if (npc.type == NPCID.Spazmatism)
                     return !NPC.AnyNPCs(NPCID.Retinazer);
+
                 return false;
             }
 

@@ -896,9 +896,9 @@ namespace CalamityMod.ILEditing
 
             if (tile.TileType != (ushort)ModContent.TileType<RustyChestTile>())
             {
-                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == true && !Main.raining)
+                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime && !Main.raining)
                 {
-                    float brightness = MathHelper.Clamp(0.2f - (y / 680), 0.0f, 0.2f);
+                    float brightness = MathHelper.Clamp(0.2f - (y / 680), 0f, 0.2f);
                     if (y > 580)
                         brightness *= 1f - (y - 580) / 100f;
 
@@ -919,9 +919,9 @@ namespace CalamityMod.ILEditing
                     outputColor *= brightness;
                 }
 
-                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == false && !Main.raining)
+                if (Main.waterStyle == SulphuricWater.Type && !Main.dayTime && !Main.raining)
                 {
-                    float brightness = MathHelper.Clamp(0.17f - (y / 680), 0.0f, 0.17f);
+                    float brightness = MathHelper.Clamp(0.17f - (y / 680), 0f, 0.17f);
                     if (y > 580)
                         brightness *= 1f - (y - 580) / 100f;
 
@@ -944,7 +944,7 @@ namespace CalamityMod.ILEditing
 
                 if (Main.waterStyle == SulphuricWater.Type && Main.raining)
                 {
-                    float brightness = MathHelper.Clamp(1f - (y / 680), 0.0f, 1f);
+                    float brightness = MathHelper.Clamp(1f - (y / 680), 0f, 1f);
                     if (y > 580)
                         brightness *= 1f - (y - 580) / 100f;
 

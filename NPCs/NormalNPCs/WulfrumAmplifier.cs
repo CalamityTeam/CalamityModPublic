@@ -174,16 +174,14 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            float amplifierMult = !NPC.AnyNPCs(ModContent.NPCType<WulfrumAmplifier>()) ? 1.3f : 1f;
-
-            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur || !spawnInfo.Player.ZoneOverworldHeight)
                 return 0f;
 
             // Spawn less frequently in the inner third of the world.
             if (spawnInfo.PlayerFloorX > Main.maxTilesX * 0.333f && spawnInfo.PlayerFloorX < Main.maxTilesX - Main.maxTilesX * 0.333f)
-                return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.01f : 0.06f) * amplifierMult;
+                return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.01f : 0.06f) * (!NPC.AnyNPCs(NPC.type) ? 1.3f : 1f);
 
-            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.033f : 0.15f) * amplifierMult;
+            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.033f : 0.15f) * (!NPC.AnyNPCs(NPC.type) ? 1.3f : 1f);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.HiveMind
 
             if (Main.zenithWorld && NPC.AnyNPCs(ModContent.NPCType<HiveMind>()))
             {
-                //Passively spawns random enemies
+                // Passively spawns random enemies
                 NPC.ai[0]++;
                 
                 if (NPC.ai[0] >= timeToSpawn)
@@ -93,14 +93,22 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player) || !spawnInfo.Player.ZoneCorrupt)
                 return 0f;
+
             if (spawnInfo.Player.Calamity().disableHiveCystSpawns)
                 return 0f;
 
-            bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<HiveTumor>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>());
-            bool corrupt = TileID.Sets.Corrupt[spawnInfo.SpawnTileType] || spawnInfo.SpawnTileType == TileID.Demonite && spawnInfo.Player.ZoneCorrupt;
-            if (anyBossElements || spawnInfo.PlayerSafe || !corrupt)
+            bool corrupt = TileID.Sets.Corrupt[spawnInfo.SpawnTileType] || spawnInfo.SpawnTileType == TileID.Demonite;
+            if (spawnInfo.PlayerSafe || !corrupt)
+                return 0f;
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPC.type))
+                return 0f;
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(ModContent.NPCType<HiveMind>()))
                 return 0f;
 
             if (NPC.downedBoss2 && !DownedBossSystem.downedHiveMind)

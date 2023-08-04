@@ -25,9 +25,12 @@ namespace CalamityMod.Systems
     {
         public override void PostUpdateWorld()
         {
-            // Reset this int because it causes bugs with other mods if you delete Dr. Draedon through abnormal means
-            if (!NPC.AnyNPCs(ModContent.NPCType<Draedon>()))
-                CalamityGlobalNPC.draedon = -1;
+            // Reset this int because it causes bugs with other mods if you delete Dr. Draedon through abnormal means.
+            if (CalamityGlobalNPC.draedon != -1)
+            {
+                if (!NPC.AnyNPCs(ModContent.NPCType<Draedon>()))
+                    CalamityGlobalNPC.draedon = -1;
+            }
 
             // Reset the exo mech to summon if Draedon is absent.
             if (DraedonMechToSummon != ExoMech.None && CalamityGlobalNPC.draedon == -1)
@@ -39,12 +42,12 @@ namespace CalamityMod.Systems
                 HandleDraedonSummoning();
             }
 
-            // Sunken Sea Location
-            // This moved in 1.4, it's now officially the "lower half of the Underground Desert" until its worldgen gets fixed
+            // Sunken Sea Location.
+            // This moved in 1.4, it's now officially the "lower half of the Underground Desert" until its worldgen gets fixed.
             Rectangle ugDesert = GenVars.UndergroundDesertLocation;
             SunkenSeaLocation = new Rectangle(ugDesert.Left, ugDesert.Center.Y, ugDesert.Width, ugDesert.Height / 2);
 
-            // Player variable, always finds the closest player relative to the center of the map
+            // Player variable, always finds the closest player relative to the center of the map.
             int closestPlayer = Player.FindClosest(new Vector2(Main.maxTilesX / 2, (float)Main.worldSurface / 2f) * 16f, 0, 0);
             Player player = Main.player[closestPlayer];
 
@@ -69,7 +72,7 @@ namespace CalamityMod.Systems
                 AcidRainEvent.HasStartedAcidicDownpour = false;
             }
 
-            // Lumenyl crystal and sea prism crystal spawn rates
+            // Lumenyl crystal and sea prism crystal spawn rates.
             HandleTileGrowth();
 
             // Update Boss Rush.
@@ -413,8 +416,11 @@ namespace CalamityMod.Systems
             if (Main.drunkWorld && player.position.Y / 16f < (float)(Main.dungeonY + 40))
                 spawn = false;
 
-            if (!NPC.AnyNPCs(NPCID.DungeonGuardian) && spawn)
-                NPC.SpawnOnPlayer(player.whoAmI, NPCID.DungeonGuardian); //your hell is as vast as my bonergrin, pray your life ends quickly
+            if (spawn)
+            {
+                if (!NPC.AnyNPCs(NPCID.DungeonGuardian))
+                    NPC.SpawnOnPlayer(player.whoAmI, NPCID.DungeonGuardian); //your hell is as vast as my bonergrin, pray your life ends quickly
+            }
         }
         #endregion
 

@@ -421,7 +421,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || !Main.hardMode || !Main.raining || NPC.AnyNPCs(ModContent.NPCType<ThiccWaifu>()))
+            if (spawnInfo.PlayerSafe || !Main.hardMode || !Main.raining || !spawnInfo.Player.ZoneSkyHeight)
+                return 0f;
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPC.type))
                 return 0f;
 
             return SpawnCondition.Sky.Chance * 0.1f;

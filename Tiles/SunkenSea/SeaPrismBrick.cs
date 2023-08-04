@@ -11,6 +11,7 @@ namespace CalamityMod.Tiles.SunkenSea
     {
         private static int sheetWidth = 216;
         private static int sheetHeight = 72;
+
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -32,6 +33,7 @@ namespace CalamityMod.Tiles.SunkenSea
         {
             num = fail ? 1 : 3;
         }
+
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             int xPos = i % 3;

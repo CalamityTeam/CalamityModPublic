@@ -316,18 +316,19 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             // waffles% stipulation: eidolists are accessible by beating cal clone, even without beating WoF
             bool hardmodeOrCalClone = Main.hardMode || DownedBossSystem.downedCalamitasClone;
-            if (!hardmodeOrCalClone || NPC.AnyNPCs(ModContent.NPCType<Eidolist>()))
-            {
+            if (!hardmodeOrCalClone || !spawnInfo.Player.InAbyss())
                 return 0f;
-            }
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPC.type))
+                return 0f;
+
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water)
-            {
                 return Main.remixWorld ? 2.25f : 0.25f;
-            }
+
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water)
-            {
                 return Main.remixWorld ? 4.5f : 0.5f;
-            }
+
             return 0f;
         }
 

@@ -4887,7 +4887,9 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 0.2);
                 maxSpawns = (int)(maxSpawns * 5f);
             }
-            if (NPC.AnyNPCs(NPCType<WulfrumAmplifier>()))
+
+            // This is horribly unoptimized, I'm leaving it commented out. - Fab
+            /*if (NPC.AnyNPCs(NPCType<WulfrumAmplifier>()))
             {
                 int otherWulfrumEnemies = NPC.CountNPCS(NPCType<WulfrumDrone>()) + NPC.CountNPCS(NPCType<WulfrumGyrator>()) + NPC.CountNPCS(NPCType<WulfrumHovercraft>()) + NPC.CountNPCS(NPCType<WulfrumRover>());
                 if (otherWulfrumEnemies < 4)
@@ -4895,7 +4897,7 @@ namespace CalamityMod.NPCs
                     spawnRate = (int)(spawnRate * 0.8);
                     maxSpawns = (int)(maxSpawns * 1.2f);
                 }
-            }
+            }*/
 
             // Reductions
             if (Main.SceneMetrics.PeaceCandleCount > 0)
@@ -5882,13 +5884,17 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.zenithWorld && NPC.AnyNPCs(NPCType<CeaselessVoid.CeaselessVoid>()))
+            if (Main.zenithWorld)
             {
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-                var midnightShader = GameShaders.Armor.GetShaderFromItemId(ItemID.MidnightRainbowDye);
-                midnightShader.Apply();
+                if (NPC.AnyNPCs(NPCType<CeaselessVoid.CeaselessVoid>()))
+                {
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+                    var midnightShader = GameShaders.Armor.GetShaderFromItemId(ItemID.MidnightRainbowDye);
+                    midnightShader.Apply();
+                }
             }
+
             return true;
         }
 

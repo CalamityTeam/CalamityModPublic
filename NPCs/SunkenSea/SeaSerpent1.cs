@@ -298,9 +298,8 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             if (Main.hardMode && spawnInfo.Player.Calamity().ZoneSunkenSea && spawnInfo.Water &&
                 !NPC.AnyNPCs(ModContent.NPCType<SeaSerpent1>()) && !spawnInfo.Player.Calamity().clamity && !spawnInfo.PlayerSafe)
-            {
                 return SpawnCondition.CaveJellyfish.Chance * 0.3f;
-            }
+
             return 0f;
         }
 

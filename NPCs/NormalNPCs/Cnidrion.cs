@@ -72,11 +72,13 @@ namespace CalamityMod.NPCs.NormalNPCs
                 Main.eclipse ||
                 Main.snowMoon ||
                 Main.pumpkinMoon ||
-                Main.invasionType != InvasionID.None ||
-                NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))
-            {
+                Main.invasionType != InvasionID.None)
                 return 0f;
-            }
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPC.type))
+                return 0f;
+
             return 0.05f;
         }
 

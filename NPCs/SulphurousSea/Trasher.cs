@@ -341,10 +341,13 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnKill()
         {
-            if (!NPC.savedAngler && !NPC.AnyNPCs(NPCID.Angler) && !NPC.AnyNPCs(NPCID.SleepingAngler) && Main.netMode != NetmodeID.MultiplayerClient)
+            if (!NPC.savedAngler && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.Angler);
-                NPC.savedAngler = true;
+                if (!NPC.AnyNPCs(NPCID.Angler) && !NPC.AnyNPCs(NPCID.SleepingAngler))
+                {
+                    NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.Angler);
+                    NPC.savedAngler = true;
+                }
             }
         }
 
