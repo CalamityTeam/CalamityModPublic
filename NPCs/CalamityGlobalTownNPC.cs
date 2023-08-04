@@ -167,7 +167,6 @@ namespace CalamityMod.NPCs
             "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
             "Jade", // <@!187395834625785869> (VeryMasterNinja#7728)
             "Nyavi Aceso", // <@!270260920888852480> (Navigator#8739)
-            "Octo", // <@!796112889353994281> (OctolingGrimm#8888)
         };
         private static readonly string[] SkeletonMerchantNames =
         {
@@ -277,6 +276,7 @@ namespace CalamityMod.NPCs
             "Katsafaros", // <@!190595401328492544> (NavyGuy#2650)
             "Lucerne", // <@!271954788676141066> (lord_lucerne)
             "Milo", // <@!401849201597874179> (maskedmilo)
+			"Octo", // <@!796112889353994281> (OctolingGrimm#8888)
         };
         private static readonly string[] TownCatSiameseNames = null;
         private static readonly string[] TownCatBlackNames =
