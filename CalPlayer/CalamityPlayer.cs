@@ -5681,17 +5681,20 @@ namespace CalamityMod.CalPlayer
             if (Player.whoAmI == Main.myPlayer)
             {
                 // Summon a portal if needed.
-                if (Player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
+                if (Player.Calamity().persecutedEnchant)
                 {
-                    int tries = 0;
-                    Vector2 spawnPosition;
-                    do
+                    if (NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
                     {
-                        spawnPosition = Player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
-                        tries++;
+                        int tries = 0;
+                        Vector2 spawnPosition;
+                        do
+                        {
+                            spawnPosition = Player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+                            tries++;
+                        }
+                        while (Collision.SolidCollision(spawnPosition - Vector2.One * 24f, 48, 24) && tries < 100);
+                        CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), Player);
                     }
-                    while (Collision.SolidCollision(spawnPosition - Vector2.One * 24f, 48, 24) && tries < 100);
-                    CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), Player);
                 }
 
                 if (daedalusAbsorb && Main.rand.NextBool(10))

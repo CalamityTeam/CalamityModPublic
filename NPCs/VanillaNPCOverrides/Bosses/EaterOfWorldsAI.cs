@@ -55,6 +55,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float totalSegments = GetEaterOfWorldsSegmentsCountRevDeath();
 
             // Count segments remaining
+            // TODO - This runs for every EoW segment, this is bad because there are three separate loops here running every frame.
             float segmentCount = NPC.CountNPCS(NPCID.EaterofWorldsHead) + NPC.CountNPCS(NPCID.EaterofWorldsBody) + NPC.CountNPCS(NPCID.EaterofWorldsTail);
 
             // Percent segments remaining, add two to total for head and tail

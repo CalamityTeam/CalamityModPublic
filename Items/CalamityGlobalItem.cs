@@ -240,10 +240,13 @@ namespace CalamityMod.Items
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (Main.myPlayer == player.whoAmI && player.Calamity().cursedSummonsEnchant && NPC.CountNPCS(ModContent.NPCType<CalamitasEnchantDemon>()) < 2)
+            if (Main.myPlayer == player.whoAmI && player.Calamity().cursedSummonsEnchant)
             {
-                CalamityNetcode.NewNPC_ClientSide(Main.MouseWorld, ModContent.NPCType<CalamitasEnchantDemon>(), player);
-                SoundEngine.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, Main.MouseWorld);
+                if (NPC.CountNPCS(ModContent.NPCType<CalamitasEnchantDemon>()) < 2)
+                {
+                    CalamityNetcode.NewNPC_ClientSide(Main.MouseWorld, ModContent.NPCType<CalamitasEnchantDemon>(), player);
+                    SoundEngine.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, Main.MouseWorld);
+                }
             }
 
             // Traitorous enchantment implementation
