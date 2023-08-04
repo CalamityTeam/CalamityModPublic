@@ -4243,10 +4243,17 @@ namespace CalamityMod.CalPlayer
                     modifiers.ScalingBonusDamage += 0.05f;
             }
 
-            // Calamity buffs Inferno Fork by 33%. This is multiplicative because it's supposed to be a buff to the weapon's base damage.
+            // Excalibur and True Excalibur deal +100% damage to targets above 75% HP.
+            if (proj.type == ProjectileID.Excalibur || proj.type == ProjectileID.TrueExcalibur)
+            {
+                if (target.life > (int)(target.lifeMax * 0.75))
+                    modifiers.ScalingBonusDamage += 1f;
+            }
+
+            // Calamity buffs Inferno Fork by 20%. This is multiplicative because it's supposed to be a buff to the weapon's base damage.
             // However, because the weapon is coded like spaghetti, you have to multiply the explosion's damage too.
             if (proj.type == ProjectileID.InfernoFriendlyBlast)
-                modifiers.SourceDamage *= 1.33f;
+                modifiers.SourceDamage *= 1.2f;
 
             // Gungnir deals +100% damage to targets above 75% HP.
             if (proj.type == ProjectileID.Gungnir)
