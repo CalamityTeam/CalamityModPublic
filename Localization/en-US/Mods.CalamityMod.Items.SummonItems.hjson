@@ -68,7 +68,7 @@ CosmicWorm: {
 
 CryoKey: {
 	DisplayName: Cryo Key
-	GFBName: Pryo Key
+	GFBName: Pyro Key
 	Tooltip:
 		'''
 		[SPAWN]
