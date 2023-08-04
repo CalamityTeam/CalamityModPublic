@@ -522,7 +522,15 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(24) && drawInfo.shadow == 0f)
                 {
-                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.5f, 1.2f), Color.HotPink, Color.LightPink, 1f, Main.rand.Next(10, 15));
+                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.5f, 1.2f), Color.HotPink, Color.LightPink, Main.rand.Next(10, 15));
+                    GeneralParticleHandler.SpawnParticle(Plus);
+                }
+            }
+            if (calamityPlayer.GreenJellyRegen)
+            {
+                if (Main.rand.NextBool(16) && drawInfo.shadow == 0f)
+                {
+                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.6f, 1.3f), Color.Lime, Color.LimeGreen, Main.rand.Next(10, 15));
                     GeneralParticleHandler.SpawnParticle(Plus);
                 }
             }

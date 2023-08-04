@@ -498,6 +498,7 @@ namespace CalamityMod.CalPlayer
         public bool aeroStone = false;
         public bool lifejelly = false;
         public bool cleansingjelly = false;
+        public bool GrandGelatin = false;
         public int CleansingEffect = 0;
         public bool community = false;
         public bool shatteredCommunity = false;
@@ -832,6 +833,7 @@ namespace CalamityMod.CalPlayer
         public bool fabsolVodka = false;
         public bool mushy = false;
         public bool PinkJellyRegen = false;
+        public bool GreenJellyRegen = false;
         public bool shellBoost = false;
         public bool cFreeze = false;
         public bool shine = false;
@@ -1571,6 +1573,7 @@ namespace CalamityMod.CalPlayer
             abaddon = false;
             aeroStone = false;
             lifejelly = false;
+            GrandGelatin = false;
             cleansingjelly = false;
             community = false;
             shatteredCommunity = false;
@@ -1839,6 +1842,7 @@ namespace CalamityMod.CalPlayer
             anechoicCoating = false;
             mushy = false;
             PinkJellyRegen = false;
+            GreenJellyRegen = false;
             shellBoost = false;
             cFreeze = false;
             tRegen = false;
@@ -2275,6 +2279,7 @@ namespace CalamityMod.CalPlayer
             anechoicCoating = false;
             mushy = false;
             PinkJellyRegen = false;
+            GreenJellyRegen = false;
             enraged = false;
             shellBoost = false;
             cFreeze = false;
@@ -3212,10 +3217,13 @@ namespace CalamityMod.CalPlayer
             if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && lifejelly)
                     Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PinkJellyAura>(), 0, 0, Player.whoAmI);
 
-            //Cleansing Jelly regen aura spawn when using a healing potion
+            //Cleansing Jelly cleansing aura spawn when using a healing potion
             if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && cleansingjelly)
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<BlueJellyAura>(), 0, 0, Player.whoAmI);
 
+            //Grand Gellatin regen and cleansing aura spawn when using a healing potion
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && GrandGelatin)
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<GreenJellyAura>(), 0, 0, Player.whoAmI);
 
             if (snowman)
             {

@@ -1476,3 +1476,8 @@ PinkJellyRegen: {
 	DisplayName: Pink Jelly Regen
 	Description: The power of goo refreshes you, life regen increased by 4
 }
+
+GreenJellyRegen: {
+	DisplayName: Green Jelly Regen
+	Description: Mods.CalamityMod.Buffs.GreenJellyRegen.Description
+}

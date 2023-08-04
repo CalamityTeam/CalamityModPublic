@@ -851,9 +851,10 @@ GrandGelatin: {
 	DisplayName: Grand Gelatin
 	Tooltip:
 		'''
+		Using a healing potion will spawn an aura that both cleanses 
+		all debuffs and defense damage once and provides life 
+		regeneration to all player inside for 8 seconds
 		10% increased movement and jump speed
-		+20 max life and mana
-		Standing still boosts life and mana regen
 		'''
 }
 

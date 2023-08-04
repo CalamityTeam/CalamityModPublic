@@ -20,7 +20,7 @@ namespace CalamityMod.Particles
         public Vector2 OverridePosition;
         public float Opacity;
 
-        public HealingPlus(Vector2 position, float scale, Color colorStart, Color colorEnd, float opacity,  int lifetime)
+        public HealingPlus(Vector2 position, float scale, Color colorStart, Color colorEnd, int lifetime)
         {
             Position = position;
             Scale = scale;
@@ -30,7 +30,6 @@ namespace CalamityMod.Particles
             StartColor = colorStart;
             EndColor = colorEnd;
             Color = colorStart;
-            Opacity = opacity;
             Lifetime = lifetime;
         }
 

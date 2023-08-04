@@ -4,6 +4,7 @@ Mods: {
 			Typless: {
 				PinkJellyAura.DisplayName: Pink Jelly Aura
 				BlueJellyAura.DisplayName: Blue Jelly Aura
+				GreenJellyAura.DisplayName: Green Jelly Aura
 			}
 		}
 	}
