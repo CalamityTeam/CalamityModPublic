@@ -12,6 +12,8 @@ namespace CalamityMod.Items.Fishing
         {
             Item.ResearchUnlockCount = 10;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
+            // For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 19; // Mana Crystal
         }
 
         public override void SetDefaults()
@@ -31,18 +33,14 @@ namespace CalamityMod.Items.Fishing
 
         public override bool? UseItem(Player player)
         {
-            if (player.itemAnimation > 0 && (player.statManaMax < 200 && player.itemTime == 0))
+            if (player.itemAnimation > 0 && (player.ConsumedManaCrystals < Player.ManaCrystalMax && player.itemTime == 0))
             {
                 player.itemTime = Item.useTime;
-                player.statManaMax += 20;
-                player.statManaMax2 += 20;
-                player.statMana += 20;
-                if (Main.myPlayer == player.whoAmI)
-                    player.ManaEffect(20);
+                player.UseManaMaxIncreasingItem(20);
+                player.ConsumedManaCrystals++;
                 AchievementsHelper.HandleSpecialEvent(player, 1);
-                player.ConsumeItem(ModContent.ItemType<EnchantedStarfish>(), true);
             }
-            return false;
+            return true;
         }
     }
 }
