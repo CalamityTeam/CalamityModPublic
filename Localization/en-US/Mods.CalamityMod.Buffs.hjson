@@ -1474,5 +1474,5 @@ WulfrumDroidBuff: {
 
 PinkJellyRegen: {
 	DisplayName: Pink Jelly Regen
-	Description: You feel refreshed by the power of goo, life regen increased by 4
+	Description: The power of goo refreshes you, life regen increased by 4
 }

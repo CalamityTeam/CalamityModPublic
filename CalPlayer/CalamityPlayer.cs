@@ -497,6 +497,8 @@ namespace CalamityMod.CalPlayer
         public bool abaddon = false;
         public bool aeroStone = false;
         public bool lifejelly = false;
+        public bool cleansingjelly = false;
+        public int CleansingEffect = 0;
         public bool community = false;
         public bool shatteredCommunity = false;
         public bool fleshTotem = false;
@@ -1569,6 +1571,7 @@ namespace CalamityMod.CalPlayer
             abaddon = false;
             aeroStone = false;
             lifejelly = false;
+            cleansingjelly = false;
             community = false;
             shatteredCommunity = false;
             stressPills = false;
@@ -3208,6 +3211,10 @@ namespace CalamityMod.CalPlayer
             //Life Jelly regen aura spawn when using a healing potion
             if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && lifejelly)
                     Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PinkJellyAura>(), 0, 0, Player.whoAmI);
+
+            //Cleansing Jelly regen aura spawn when using a healing potion
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && cleansingjelly)
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<BlueJellyAura>(), 0, 0, Player.whoAmI);
 
 
             if (snowman)

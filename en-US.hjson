@@ -1,1 +1,10 @@
-Mods.CalamityMod.Projectiles.Typless.PinkJellyAura.DisplayName: Pink Jelly Aura
+Mods: {
+	CalamityMod: {
+		Projectiles: {
+			Typless: {
+				PinkJellyAura.DisplayName: Pink Jelly Aura
+				BlueJellyAura.DisplayName: Blue Jelly Aura
+			}
+		}
+	}
+}

@@ -3553,7 +3553,7 @@ namespace CalamityMod.CalPlayer
         #region Defense Effects
         private void DefenseEffects()
         {
-            //
+            //yeshere
             // Defense Damage
             //
             // Current defense damage can be calculated at any time using the accessor property CurrentDefenseDamage.
@@ -3570,6 +3570,16 @@ namespace CalamityMod.CalPlayer
             // (in addition to the player taking more defense damage, of course).
             if (totalDefenseDamage > 0)
             {
+                //Used to cleanse all defense damage by accessories
+                if (CleansingEffect == 1)
+                {
+                    totalDefenseDamage = 0;
+                    defenseDamageRecoveryFrames = 0;
+                    totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
+                    defenseDamageDelayFrames = 0;
+                    CleansingEffect = 0;
+                }
+
                 // Defense damage is capped at your maximum defense, no matter what.
                 if (totalDefenseDamage > Player.statDefense)
                     totalDefenseDamage = Player.statDefense;

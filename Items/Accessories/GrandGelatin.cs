@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ManaJelly>().
+                AddIngredient<CleansingJelly>().
                 AddIngredient<LifeJelly>().
                 AddIngredient<VitalJelly>().
                 AddIngredient(ItemID.SoulofLight, 2).

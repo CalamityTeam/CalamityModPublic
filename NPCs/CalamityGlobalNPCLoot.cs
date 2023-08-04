@@ -255,9 +255,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Blue Jellyfish
-                // Mana Jelly @ 14.29% Normal, 25% Expert+
+                // Cleansing Jelly @ 14.29% Normal, 25% Expert+
                 case NPCID.BlueJellyfish:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<ManaJelly>(), 7, 4));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<CleansingJelly>(), 7, 4));
                     break;
 
                 // Green Jellyfish

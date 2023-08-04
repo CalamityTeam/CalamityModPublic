@@ -1,6 +1,7 @@
 ﻿using System;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
@@ -12,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typless
 {
-    public class PinkJellyAura : ModProjectile, ILocalizedModType
+    public class BlueJellyAura : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Typless";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
@@ -20,10 +21,12 @@ namespace CalamityMod.Projectiles.Typless
         private static float Radius = 160f;
         public int ShinkGrow = 0;
         public int Framecounter = 0;
+        public int CleanseOnce = 1;
         public int PulseOnce = 1;
         public int PulseOnce2 = 1;
         public int PulseOnce3 = 1;
         public static readonly SoundStyle Spawnsound = new("CalamityMod/Sounds/Custom/OrbHeal1") { Volume = 0.5f };
+        public ref int CleansingEffect => ref Main.player[Projectile.owner].Calamity().CleansingEffect;
 
         public override void SetDefaults()
         {
@@ -48,9 +51,20 @@ namespace CalamityMod.Projectiles.Typless
             {
                 Player player = Main.player[playerIndex];
                 float targetDist = Vector2.Distance(player.Center, Projectile.Center);
-                if (targetDist < 155f)
+                
+                //Remove the players debuffs and defense damage, but only once per aura
+                if (targetDist < 155f && CleanseOnce == 1)
                 {
-                    player.AddBuff(ModContent.BuffType<PinkJellyRegen>(), 300);
+                    CleansingEffect = 1;
+                    for (int l = 0; l < Player.MaxBuffs; l++)
+                    {
+                        int hasBuff = player.buffType[l];
+                        if (player.buffTime[l] > 2 && CalamityLists.debuffList.Contains(hasBuff))
+                        {
+                            player.buffTime[l] *= 0;
+                        }
+                    }
+                    CleanseOnce = 0;
                 }
             }
 
@@ -58,9 +72,9 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce == 1)
                 {
-                    Particle pulse = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 0f, 2f, 10);
-                    GeneralParticleHandler.SpawnParticle(pulse);
                     SoundEngine.PlaySound(Spawnsound with { Pitch = -0.05f }, Projectile.Center);
+                    Particle pulse = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.RoyalBlue, new Vector2(1f, 1f), 0f, 0f, 2f, 10);
+                    GeneralParticleHandler.SpawnParticle(pulse);
                     PulseOnce = 0;
                 }
 
@@ -73,21 +87,21 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce2 == 1)
                 {
-                    Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 2f, 2f, 2700);
+                    Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.RoyalBlue, new Vector2(1f, 1f), 0f, 2f, 2f, 2700);
                     GeneralParticleHandler.SpawnParticle(pulse2);
                     PulseOnce2 = 0;
                 }
 
                 for (int i = 0; i < 1; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2CircularEdge(155f, 155f), 242);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2CircularEdge(155f, 155f), 59);
                     dust.scale = Main.rand.NextFloat(2.2f, 3.3f);
                     dust.noGravity = true;
                 }
 
                 for (int i = 0; i < 1; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(150f, 150f), 242);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(150f, 150f), 59);
                     dust.scale = Main.rand.NextFloat(0.8f, 1.3f);
                     dust.noGravity = true;
                 }
@@ -101,7 +115,7 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce3 == 1)
                 {
-                    Particle pulse3 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 2f, 0f, 10);
+                    Particle pulse3 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.RoyalBlue, new Vector2(1f, 1f), 0f, 2f, 0f, 10);
                     GeneralParticleHandler.SpawnParticle(pulse3);
                     PulseOnce3 = 0;
                 }

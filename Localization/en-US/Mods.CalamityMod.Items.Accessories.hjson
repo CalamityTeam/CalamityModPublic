@@ -1021,12 +1021,12 @@ LuxorsGift: {
 		'''
 }
 
-ManaJelly: {
-	DisplayName: Mana Jelly
+CleansingJelly: {
+	DisplayName: Cleansing Jelly
 	Tooltip:
 		'''
-		+20 max mana
-		Standing still boosts mana regen
+		Using a healing potion will spawn an aura that cleanses 
+		all debuffs and defense damage once
 		'''
 }
 
