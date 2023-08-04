@@ -1360,6 +1360,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Wood, 5);
             r.AddIngredient(ItemID.Torch, 3);
             r.AddIngredient(ItemID.FallenStar);
+            r.AddCondition(Condition.NotRemixWorld);
             r.AddTile(TileID.Anvils);
             r.Register();
 
