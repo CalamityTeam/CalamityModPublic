@@ -109,6 +109,7 @@ namespace CalamityMod
             // ACCESSORIES
             if (item.accessory)
             {
+                int accRerolls = 0;
                 int[][] accessoryReforgeTiers = new int[][]
                 {
                     /* 0 */ new int[] { PrefixID.Hard, PrefixID.Jagged, PrefixID.Brisk, PrefixID.Wild, GetCalPrefix("Quiet") },
@@ -116,7 +117,18 @@ namespace CalamityMod
                     /* 2 */ new int[] { PrefixID.Armored, PrefixID.Angry, PrefixID.Hasty2, PrefixID.Intrepid, PrefixID.Arcane, GetCalPrefix("Camouflaged") },
                     /* 3 */ new int[] { PrefixID.Warding, PrefixID.Menacing, PrefixID.Lucky, PrefixID.Quick2, PrefixID.Violent, GetCalPrefix("Silent") },
                 };
-                prefix = IteratePrefix(rand, accessoryReforgeTiers, currentPrefix);
+
+                // Try to prevent the player from rolling the same modifier twice
+                do
+                {
+                    int newPrefix = IteratePrefix(rand, accessoryReforgeTiers, currentPrefix);
+                    if (newPrefix != currentPrefix)
+                    {
+                        prefix = newPrefix;
+                        break;
+                    }
+                    accRerolls++;
+                } while (accRerolls < 20);
             }
 
             // MELEE (includes tools and whips)

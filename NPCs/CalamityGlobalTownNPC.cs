@@ -167,7 +167,6 @@ namespace CalamityMod.NPCs
             "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
             "Jade", // <@!187395834625785869> (VeryMasterNinja#7728)
             "Nyavi Aceso", // <@!270260920888852480> (Navigator#8739)
-            "Octo", // <@!796112889353994281> (OctolingGrimm#8888)
         };
         private static readonly string[] SkeletonMerchantNames =
         {
@@ -277,6 +276,7 @@ namespace CalamityMod.NPCs
             "Katsafaros", // <@!190595401328492544> (NavyGuy#2650)
             "Lucerne", // <@!271954788676141066> (lord_lucerne)
             "Milo", // <@!401849201597874179> (maskedmilo)
+			"Octo", // <@!796112889353994281> (OctolingGrimm#8888)
         };
         private static readonly string[] TownCatSiameseNames = null;
         private static readonly string[] TownCatBlackNames =
@@ -1283,7 +1283,6 @@ namespace CalamityMod.NPCs
             {
                 shop.AddWithCustomValue(ItemID.Bottle, Item.buyPrice(copper: 20), potionSells, Condition.HappyEnough)
                 .AddWithCustomValue(ItemID.WormholePotion, Item.buyPrice(copper: 25), potionSells, Condition.HappyEnough);
-                AddScalingPotion(ref shop, ItemID.ArcheryPotion, Condition.DownedEyeOfCthulhu);
                 shop.Add(ItemID.HealingPotion, potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc)
                 .Add(ItemID.ManaPotion, potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc)
                 .Add(ItemID.Flare, hasFlareGunUpgrade)
@@ -1447,16 +1446,6 @@ namespace CalamityMod.NPCs
                 shop[nextSlot] = ItemType<FrostBarrier>();
                 nextSlot++;
             }
-        }
-
-        public static NPCShop AddScalingPotion(ref NPCShop shop, int itemID, Condition extraCondition = null)
-        {
-            Condition potionSells = new(CalamityUtils.GetText("Condition.PotionConfig"), () => CalamityConfig.Instance.PotionSelling);
-
-            return shop
-            .AddWithCustomValue(itemID, Item.buyPrice(gold: 4), extraCondition, potionSells, Condition.HappyEnough, Condition.PreHardmode)
-            .AddWithCustomValue(itemID, Item.buyPrice(gold: 8), extraCondition, potionSells, Condition.HappyEnough, Condition.Hardmode, Condition.NotDownedMoonLord)
-            .AddWithCustomValue(itemID, Item.buyPrice(gold: 12), extraCondition, potionSells, Condition.HappyEnough, Condition.DownedMoonLord);
         }
         #endregion
     }

@@ -25,7 +25,6 @@ namespace CalamityMod.Items.Placeables
             Item.height = 10;
             Item.maxStack = 9999;
             Item.value = 1000;
-            Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()

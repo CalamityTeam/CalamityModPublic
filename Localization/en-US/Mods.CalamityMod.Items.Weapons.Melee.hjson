@@ -730,7 +730,11 @@ MajesticGuard: {
 
 MantisClaws: {
 	DisplayName: Mantis Claws
-	Tooltip: Explodes on enemy hits
+	Tooltip:
+		'''
+		Explodes on enemy hits
+		'It's just that shrimple'
+		'''
 }
 
 MirrorBlade: {

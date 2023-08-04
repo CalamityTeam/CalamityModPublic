@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Placeables.Walls
             Item.useAnimation = 15;
             Item.useTime = 7;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Orange;
             Item.consumable = true;
             Item.createWall = ModContent.WallType<WallTiles.AshenSlabWall>();
         }

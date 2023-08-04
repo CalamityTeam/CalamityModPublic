@@ -159,9 +159,8 @@ namespace CalamityMod.Items
             ArmorIDs.Wing.Sets.Stats[(int)VanillaWingID.LongRainbowTrailWings] = new WingStats(180, 8f, 2.75f, true, 11.6f, 11.6f);
             #endregion
 
-            // Shield of Cthulhu cannot be enchanted (it is an accessory with a damage value).
-            // TODO -- there are better ways to do this. Just stop letting accessories be enchanted, even if they do have a damage value.
-            if (item.type == ItemID.EoCShield)
+            // Accessories can never be enchanted, to prevent Shield of Cthulhu & High Ruler from being enchantable
+            if (item.accessory)
                 CannotBeEnchanted = true;
 
             // Fix Bones being attracted to the player when you have open ammo slots.

@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             Item.autoReuse = true;
             Item.useAnimation = 15;
             Item.useTime = 10;
-            Item.rare = ItemRarityID.Orange;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.value = 0;

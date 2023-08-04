@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Placeables
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.rare = ItemRarityID.Green;
         }
 
         public override void AddRecipes()
