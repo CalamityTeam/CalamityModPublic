@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Typless
                 {
                     Particle pulse = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 0f, 2f, 10);
                     GeneralParticleHandler.SpawnParticle(pulse);
-                    SoundEngine.PlaySound(Spawnsound with { Pitch = -0.05f }, Projectile.Center);
+                    SoundEngine.PlaySound(Spawnsound with { Pitch = -0.9f }, Projectile.Center);
                     PulseOnce = 0;
                 }
 

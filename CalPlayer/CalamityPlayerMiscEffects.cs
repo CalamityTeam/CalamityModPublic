@@ -3553,7 +3553,7 @@ namespace CalamityMod.CalPlayer
         #region Defense Effects
         private void DefenseEffects()
         {
-            //yeshere
+            //
             // Defense Damage
             //
             // Current defense damage can be calculated at any time using the accessor property CurrentDefenseDamage.

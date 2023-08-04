@@ -500,6 +500,7 @@ namespace CalamityMod.CalPlayer
         public bool cleansingjelly = false;
         public bool GrandGelatin = false;
         public int CleansingEffect = 0;
+        public bool HasGotCleansed = false;
         public bool community = false;
         public bool shatteredCommunity = false;
         public bool fleshTotem = false;
@@ -3219,11 +3220,16 @@ namespace CalamityMod.CalPlayer
 
             //Cleansing Jelly cleansing aura spawn when using a healing potion
             if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && cleansingjelly)
+            {
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<BlueJellyAura>(), 0, 0, Player.whoAmI);
-
+                HasGotCleansed = false;
+            }
             //Grand Gellatin regen and cleansing aura spawn when using a healing potion
             if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && GrandGelatin)
+            {
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<GreenJellyAura>(), 0, 0, Player.whoAmI);
+                HasGotCleansed = false;
+            }
 
             if (snowman)
             {

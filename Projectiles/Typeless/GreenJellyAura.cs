@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Typless
         public int PulseOnce3 = 1;
         public static readonly SoundStyle Spawnsound = new("CalamityMod/Sounds/Custom/OrbHeal3") { Volume = 0.5f };
         public ref int CleansingEffect => ref Main.player[Projectile.owner].Calamity().CleansingEffect;
+        public ref bool HasGotCleansed => ref Main.player[Projectile.owner].Calamity().HasGotCleansed;
 
         public override void SetDefaults()
         {
@@ -56,7 +57,7 @@ namespace CalamityMod.Projectiles.Typless
                 if (targetDist < 232f)
                 {
                     player.AddBuff(ModContent.BuffType<GreenJellyRegen>(), 480);
-                    if (CleanseOnce == 1)
+                    if (HasGotCleansed == false)
                     {
                         CleansingEffect = 1;
                         for (int l = 0; l < Player.MaxBuffs; l++)
@@ -67,7 +68,8 @@ namespace CalamityMod.Projectiles.Typless
                                 player.buffTime[l] *= 0;
                             }
                         }
-                        CleanseOnce = 0;
+                        SoundEngine.PlaySound(Spawnsound with { Pitch = -0.9f }, Projectile.Center);
+                        HasGotCleansed = true;
                     }
                 }
             }
@@ -76,7 +78,6 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce == 1)
                 {
-                    SoundEngine.PlaySound(Spawnsound with { Pitch = -0.05f }, Projectile.Center);
                     Particle pulse = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.Lime, new Vector2(1f, 1f), 0f, 0f, 3f, 10);
                     GeneralParticleHandler.SpawnParticle(pulse);
                     PulseOnce = 0;
@@ -98,14 +99,14 @@ namespace CalamityMod.Projectiles.Typless
 
                 for (int i = 0; i < 2; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2CircularEdge(232f, 232f), 61);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2CircularEdge(232f, 232f), 298);
                     dust.scale = Main.rand.NextFloat(2.2f, 3.3f);
                     dust.noGravity = true;
                 }
 
                 for (int i = 0; i < 1; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(225f, 225f), 61);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(225f, 225f), 298);
                     dust.scale = Main.rand.NextFloat(0.8f, 1.3f);
                     dust.noGravity = true;
                 }

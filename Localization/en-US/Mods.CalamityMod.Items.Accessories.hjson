@@ -851,10 +851,10 @@ GrandGelatin: {
 	DisplayName: Grand Gelatin
 	Tooltip:
 		'''
-		Using a healing potion will spawn an aura that both cleanses 
-		all debuffs and defense damage once and provides life 
-		regeneration to all player inside for 8 seconds
-		10% increased movement and jump speed
+		10% increased movement speed and jump speed
+		Using a healing potion will spawn a cleansing aura
+		Walking into the aura removes all debuffs and defense damage one time
+		The aura provides increased life regen for all players inside for 8 seconds
 		'''
 }
 
@@ -988,8 +988,8 @@ LifeJelly: {
 	DisplayName: Life Jelly
 	Tooltip:
 		'''
-		Using a healing potion will spawn an aura that provides life 
-		regeneration to all player inside for 5 seconds
+		Using a healing potion will spawn a lingering aura 
+		The aura provides increased life regen for all players inside for 5 seconds
 		'''
 }
 
@@ -1026,8 +1026,8 @@ CleansingJelly: {
 	DisplayName: Cleansing Jelly
 	Tooltip:
 		'''
-		Using a healing potion will spawn an aura that cleanses 
-		all debuffs and defense damage once
+		Using a healing potion will spawn a cleansing aura 
+		Walking into the aura removes all debuffs and defense damage one time
 		'''
 }
 
