@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Typeless
             float playerDist = Vector2.Distance(player.Center, Projectile.Center);
             if (!player.immune && playerDist < 50f && !player.dead && Projectile.position.X < player.position.X + player.width && Projectile.position.X + Projectile.width > player.position.X && Projectile.position.Y < player.position.Y + player.height && Projectile.position.Y + Projectile.height > player.position.Y)
             {
-                int healAmt = Utils.Clamp((200 - Projectile.timeLeft) / 4, 1, 15); //min heal is 2 because of above timeleft check, max heal is 15, achievable after 1 second
+                int healAmt = Utils.Clamp((200 - Projectile.timeLeft) / 10, 1, 10); //min heal is 5, max heal is 10, achievable after 2 seconds
                 player.HealEffect(healAmt, false);
                 player.statLife += healAmt;
                 if (player.statLife > player.statLifeMax2)
