@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Collections.Generic;
 
 namespace CalamityMod.Projectiles.Typless
 {
@@ -27,6 +28,8 @@ namespace CalamityMod.Projectiles.Typless
         public int PulseOnce3 = 1;
         public static readonly SoundStyle Spawnsound = new("CalamityMod/Sounds/Custom/OrbHeal1") { Volume = 0.5f };
         public ref int CleansingEffect => ref Main.player[Projectile.owner].Calamity().CleansingEffect;
+        public List<bool> cleanseList = new List<bool>(new bool[Main.maxPlayers]);
+        
 
         public override void SetDefaults()
         {
@@ -64,8 +67,9 @@ namespace CalamityMod.Projectiles.Typless
                 player.Calamity().HasGotCleansed = false;
 
                 //Remove the players debuffs and defense damage, but only once per aura
-                if (targetDist < 155f && player.Calamity().HasGotCleansed == false)
+                if (targetDist < 155f && cleanseList[playerIndex] == false)
                 {
+                    cleanseList[playerIndex] = true;
                     CleansingEffect = 1;
                     for (int l = 0; l < Player.MaxBuffs; l++)
                     {
@@ -84,7 +88,6 @@ namespace CalamityMod.Projectiles.Typless
                     }
 
                     SoundEngine.PlaySound(Spawnsound with { Pitch = -0.9f }, Projectile.Center);
-                    player.Calamity().HasGotCleansed = true;
                 }
             }
 

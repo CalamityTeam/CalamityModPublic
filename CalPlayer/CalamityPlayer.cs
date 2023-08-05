@@ -500,7 +500,6 @@ namespace CalamityMod.CalPlayer
         public bool cleansingjelly = false;
         public bool GrandGelatin = false;
         public int CleansingEffect = 0;
-        public bool HasGotCleansed = false;
         public bool community = false;
         public bool shatteredCommunity = false;
         public bool fleshTotem = false;

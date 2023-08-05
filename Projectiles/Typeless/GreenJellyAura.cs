@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Collections.Generic;
 
 namespace CalamityMod.Projectiles.Typless
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Projectiles.Typless
         public int PulseOnce2 = 1;
         public int PulseOnce3 = 1;
         public static readonly SoundStyle Spawnsound = new("CalamityMod/Sounds/Custom/OrbHeal3") { Volume = 0.5f };
+        public List<bool> cleanseList = new List<bool>(new bool[Main.maxPlayers]);
         public ref int CleansingEffect => ref Main.player[Projectile.owner].Calamity().CleansingEffect;
 
         public override void SetDefaults()
@@ -67,8 +69,9 @@ namespace CalamityMod.Projectiles.Typless
                 if (targetDist < 232f)
                 {
                     player.AddBuff(ModContent.BuffType<GreenJellyRegen>(), 480);
-                    if (player.Calamity().HasGotCleansed == false)
+                    if (cleanseList[playerIndex] == false)
                     {
+                        cleanseList[playerIndex] = true;
                         CleansingEffect = 1;
                         for (int l = 0; l < Player.MaxBuffs; l++)
                         {
@@ -86,7 +89,6 @@ namespace CalamityMod.Projectiles.Typless
                             Main.dust[dust].velocity.Y -= 0.5f;
                         }
                         SoundEngine.PlaySound(Spawnsound with { Pitch = -0.9f }, Projectile.Center);
-                        player.Calamity().HasGotCleansed = true;
                     }
                 }
             }
