@@ -6780,13 +6780,14 @@ namespace CalamityMod.CalPlayer
                                 dam = (int)(dam * 0.5f);
                             float angleVariance = MathHelper.TwoPi / (float)numSpears;
                             float spinOffsetAngle = MathHelper.Pi / (2f * numSpears);
-                            Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
-                            posVec = posVec.RotatedBy(angleVariance);
-                            Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
-                            velocity.Normalize();
-                            velocity *= 8f;
+
                             for (int x = 0; x < numSpears; x++)
                             {
+                                Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
+                                posVec = posVec.RotatedBy(angleVariance);
+                                Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
+                                velocity.Normalize();
+                                velocity *= 8f;
                                 int proj = Projectile.NewProjectile(source, Main.projectile[i].Center + posVec, velocity, ModContent.ProjectileType<MiniGuardianSpear>(), dam, 0f, Player.whoAmI, 0f, 0f);
                                 Main.projectile[proj].originalDamage = dam;
                             }
