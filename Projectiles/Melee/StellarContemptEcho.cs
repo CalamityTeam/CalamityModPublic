@@ -17,12 +17,14 @@ namespace CalamityMod.Projectiles.Melee
         public float rotatehammer = 35f;
         public int ColorAlpha = 225;
         public float speed = 0f;
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
-        //This is all copied straight from PwnagehammerEcho with some minor edits.
+
+        // This is all copied straight from PwnagehammerEcho with some minor edits.
         public override void SetDefaults()
         {
             Projectile.width = 78;
@@ -47,15 +49,11 @@ namespace CalamityMod.Projectiles.Melee
             ColorAlpha -= 4;
             rotatehammer--;
             Projectile.rotation += MathHelper.ToRadians(rotatehammer) * Projectile.direction;
+
             Projectile.ai[0] += 1f;
-            speed = Projectile.velocity.Length();
-            if (Projectile.ai[0] > 55f)
-            {
-                CalamityUtils.HomeInOnNPC(Projectile, Projectile.tileCollide, 2000f, speed, 12f);
-            }
             if (Projectile.ai[0] < 42f)
             {
-                Projectile.velocity *= 0.9575f;
+                Projectile.velocity *= 0.95f;
                 Projectile.rotation += MathHelper.ToRadians(Projectile.ai[0] * 0.5f) * Projectile.localAI[0];
             }
             else if (Projectile.ai[0] < 44f)
@@ -69,7 +67,9 @@ namespace CalamityMod.Projectiles.Melee
 
                 NPC target = Main.npc[(int)Projectile.ai[1]];
                 if (!target.CanBeChasedBy(Projectile, false) || !target.active)
+                {
                     Projectile.Kill();
+                }
                 else
                 {
                     float velConst = 24f;
@@ -101,6 +101,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Projectile.ai[0] <= 42f)
                 return false;
+
             return null;
         }
 
@@ -114,11 +115,12 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
-            //This is what we call fucking IMPACT (2).
+
+            // This is what we call fucking IMPACT (2).
             Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 7;
+
             if (Main.zenithWorld)
                 SoundEngine.PlaySound(Kunk, Projectile.Center);
-
             else
                 SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
 
@@ -134,42 +136,43 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[dust].velocity = velOffset;
                 Main.dust[dust].scale = 3.8f;
             }
+
             for (int i = 0; i < 88; ++i)
+            {
+                // Pick a random type of dust.
+                int dustID;
+                switch (Main.rand.Next(6))
                 {
-                    // Pick a random type of dust
-                    int dustID;
-                    switch (Main.rand.Next(6))
-                    {
-                        case 0:
-                            dustID = 229;
-                            break;
-                        case 1:
-                        case 2:
-                            dustID = 156;
-                            break;
-                        default:
-                            dustID = 156;
-                            break;
-                    }
+                    case 0:
+                        dustID = 229;
+                        break;
+                    case 1:
+                    case 2:
+                        dustID = 156;
+                        break;
+                    default:
+                        dustID = 156;
+                        break;
+                }
 
-                    // Choose a random speed and angle for the dust
-                    float dustSpeed = Main.rand.NextFloat(6.0f, 29.0f);
-                    float angleRandom = 0.09f;
-                    Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
-                    dustVel = dustVel.RotatedBy(-angleRandom);
-                    dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
+                // Choose a random speed and angle for the dust.
+                float dustSpeed = Main.rand.NextFloat(6.0f, 29.0f);
+                float angleRandom = 0.09f;
+                Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
+                dustVel = dustVel.RotatedBy(-angleRandom);
+                dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
 
-                    // Pick a size for the dust particle
-                    float scale = Main.rand.NextFloat(2.2f, 4.8f);
+                // Pick a size for the dust particle.
+                float scale = Main.rand.NextFloat(2.2f, 4.8f);
 
-                    // Actually spawn the dust
-                    int idx = Dust.NewDust(Projectile.Center, 1, 1, dustID, dustVel.X, dustVel.Y, 0, default, scale);
-                    Main.dust[idx].noGravity = true;
-                    Main.dust[idx].position = Projectile.Center;
+                // Actually spawn the dust.
+                int idx = Dust.NewDust(Projectile.Center, 1, 1, dustID, dustVel.X, dustVel.Y, 0, default, scale);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].position = Projectile.Center;
             }
-            
+
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<StellarContemptBlast>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, 0f);
-            
+
             return false;
         }
 
@@ -178,6 +181,7 @@ namespace CalamityMod.Projectiles.Melee
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
+
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle sourceRectangle = new Rectangle(0, 0, texture.Width + 12, texture.Height + 12);
             Vector2 origin = sourceRectangle.Size() / 2f;
@@ -189,6 +193,7 @@ namespace CalamityMod.Projectiles.Melee
                 Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                 Main.EntitySpriteDraw(texture, drawPos, new Rectangle?(), color, Projectile.rotation - i * rot, origin, Projectile.scale, spriteEffects, 0);
             }
+
             return false;
         }
     }
