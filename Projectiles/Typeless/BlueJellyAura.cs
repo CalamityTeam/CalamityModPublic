@@ -27,7 +27,6 @@ namespace CalamityMod.Projectiles.Typless
         public int PulseOnce3 = 1;
         public static readonly SoundStyle Spawnsound = new("CalamityMod/Sounds/Custom/OrbHeal1") { Volume = 0.5f };
         public ref int CleansingEffect => ref Main.player[Projectile.owner].Calamity().CleansingEffect;
-        public ref bool HasGotCleansed => ref Main.player[Projectile.owner].Calamity().HasGotCleansed;
 
         public override void SetDefaults()
         {
@@ -54,7 +53,7 @@ namespace CalamityMod.Projectiles.Typless
                 float targetDist = Vector2.Distance(player.Center, Projectile.Center);
                 
                 //Remove the players debuffs and defense damage, but only once per aura
-                if (targetDist < 155f && HasGotCleansed == false)
+                if (targetDist < 155f && player.Calamity().HasGotCleansed == false)
                 {
                     CleansingEffect = 1;
                     for (int l = 0; l < Player.MaxBuffs; l++)
@@ -74,7 +73,7 @@ namespace CalamityMod.Projectiles.Typless
                     }
 
                     SoundEngine.PlaySound(Spawnsound with { Pitch = -0.9f }, Projectile.Center);
-                    HasGotCleansed = true;
+                    player.Calamity().HasGotCleansed = true;
                 }
             }
 

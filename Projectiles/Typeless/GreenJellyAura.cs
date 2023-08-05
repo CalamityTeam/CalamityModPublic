@@ -27,7 +27,6 @@ namespace CalamityMod.Projectiles.Typless
         public int PulseOnce3 = 1;
         public static readonly SoundStyle Spawnsound = new("CalamityMod/Sounds/Custom/OrbHeal3") { Volume = 0.5f };
         public ref int CleansingEffect => ref Main.player[Projectile.owner].Calamity().CleansingEffect;
-        public ref bool HasGotCleansed => ref Main.player[Projectile.owner].Calamity().HasGotCleansed;
 
         public override void SetDefaults()
         {
@@ -57,7 +56,7 @@ namespace CalamityMod.Projectiles.Typless
                 if (targetDist < 232f)
                 {
                     player.AddBuff(ModContent.BuffType<GreenJellyRegen>(), 480);
-                    if (HasGotCleansed == false)
+                    if (player.Calamity().HasGotCleansed == false)
                     {
                         CleansingEffect = 1;
                         for (int l = 0; l < Player.MaxBuffs; l++)
@@ -76,7 +75,7 @@ namespace CalamityMod.Projectiles.Typless
                             Main.dust[dust].velocity.Y -= 0.5f;
                         }
                         SoundEngine.PlaySound(Spawnsound with { Pitch = -0.9f }, Projectile.Center);
-                        HasGotCleansed = true;
+                        player.Calamity().HasGotCleansed = true;
                     }
                 }
             }
