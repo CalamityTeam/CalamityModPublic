@@ -3215,11 +3215,11 @@ namespace CalamityMod.CalPlayer
                 Player.accRunSpeed = accRunSpeedMin;
 
             //Life Jelly regen aura spawn when using a healing potion
-            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && lifejelly)
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && lifejelly && !GrandGelatin)
                     Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PinkJellyAura>(), 0, 0, Player.whoAmI);
 
             //Cleansing Jelly cleansing aura spawn when using a healing potion
-            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && cleansingjelly)
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && cleansingjelly && !GrandGelatin)
             {
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<BlueJellyAura>(), 0, 0, Player.whoAmI);
                 //Allowing all players to get cleansed after another aura is spawned by anyone

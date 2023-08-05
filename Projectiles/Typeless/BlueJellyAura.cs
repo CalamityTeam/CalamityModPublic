@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Typless
                     }
                     for (int i = 0; i < 55; i++)
                     {
-                        int dust = Dust.NewDust(player.Center - new Vector2(2f), player.width + 4, player.height + 4, 187, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 100, default, 5.5f);
+                        int dust = Dust.NewDust(player.Center, player.width + 4, player.height + 4, 187, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 100, default, 5.5f);
                         Main.dust[dust].noGravity = true;
                         Main.dust[dust].velocity *= 1.2f;
                         Main.dust[dust].velocity.Y -= 0.5f;
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce == 1)
                 {
-                    Particle pulse = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.RoyalBlue, new Vector2(1f, 1f), 0f, 0f, 2f, 10);
+                    Particle pulse = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.RoyalBlue, new Vector2(1f, 1f), 0f, 0f, 0.156f, 10);
                     GeneralParticleHandler.SpawnParticle(pulse);
                     PulseOnce = 0;
                 }
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce2 == 1)
                 {
-                    Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.RoyalBlue, new Vector2(1f, 1f), 0f, 2f, 2f, 2700);
+                    Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.RoyalBlue, new Vector2(1f, 1f), 0f, 0.156f, 0.156f, 2700);
                     GeneralParticleHandler.SpawnParticle(pulse2);
                     PulseOnce2 = 0;
                 }
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce3 == 1)
                 {
-                    Particle pulse3 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.RoyalBlue, new Vector2(1f, 1f), 0f, 2f, 0f, 10);
+                    Particle pulse3 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.RoyalBlue, new Vector2(1f, 1f), 0f, 0.156f, 0f, 10);
                     GeneralParticleHandler.SpawnParticle(pulse3);
                     PulseOnce3 = 0;
                 }

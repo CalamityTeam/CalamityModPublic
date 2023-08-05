@@ -9,7 +9,7 @@ namespace CalamityMod.Particles
 {
     public class StaticPulseRing : Particle
     {
-        public override string Texture => "CalamityMod/Particles/HollowCircleHardEdge";
+        public override string Texture => "CalamityMod/Particles/HighResHollowCircleHardEdge";
         public override bool UseAdditiveBlend => true;
         public override bool SetLifetime => true;
         public override bool UseCustomDraw => true;
