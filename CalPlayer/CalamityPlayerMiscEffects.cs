@@ -1294,6 +1294,14 @@ namespace CalamityMod.CalPlayer
             if (auralisAuroraCooldown > 0)
                 auralisAuroraCooldown--;
             
+            if (blazingCore)
+            {
+                if (blazingCoreSuccessfulParry > 0)
+                    BlazingCore.HandleStars(Player);
+                else if (blazingCoreParry > 0)
+                    BlazingCore.HandleParryCountdown(Player);
+            }
+            
             // Silver Armor "Medkit" effect
             if (silverMedkitTimer > 0)
             {
@@ -2311,49 +2319,15 @@ namespace CalamityMod.CalPlayer
             {
                 bool spawnDust = false;
 
-                // Activate buff
-                if (elysianGuard)
-                {
-                    if (Player.whoAmI == Main.myPlayer)
-                        Player.AddBuff(ModContent.BuffType<ElysianGuard>(), 2, false);
-
-                    float shieldBoostInitial = shieldInvinc;
-                    shieldInvinc -= 0.08f;
-                    if (shieldInvinc < 0f)
-                        shieldInvinc = 0f;
-                    else
-                        spawnDust = true;
-
-                    if (shieldInvinc == 0f && shieldBoostInitial != shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
-                        NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, Player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-
-                    float damageBoost = (5f - shieldInvinc) * 0.03f;
-                    Player.GetDamage<GenericDamageClass>() += damageBoost;
-
-                    int critBoost = (int)((5f - shieldInvinc) * 2f);
-                    Player.GetCritChance<GenericDamageClass>() += critBoost;
-
-                    Player.aggro += (int)((5f - shieldInvinc) * 220f);
-                    Player.statDefense += (int)((5f - shieldInvinc) * 8f);
-                    Player.moveSpeed *= 0.85f;
-
-                    if (Player.mount.Active)
-                        elysianGuard = false;
-                }
-
-                // Remove buff
+                float shieldBoostInitial = shieldInvinc;
+                shieldInvinc += 0.08f;
+                if (shieldInvinc > 5f)
+                    shieldInvinc = 5f;
                 else
-                {
-                    float shieldBoostInitial = shieldInvinc;
-                    shieldInvinc += 0.08f;
-                    if (shieldInvinc > 5f)
-                        shieldInvinc = 5f;
-                    else
-                        spawnDust = true;
+                    spawnDust = true;
 
-                    if (shieldInvinc == 5f && shieldBoostInitial != shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
-                        NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, Player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                }
+                if (shieldInvinc == 5f && shieldBoostInitial != shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
+                    NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, Player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 
                 // Emit dust
                 if (spawnDust)
@@ -2381,8 +2355,6 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            else
-                elysianGuard = false;
         }
         #endregion
 
@@ -2926,9 +2898,6 @@ namespace CalamityMod.CalPlayer
 
             if (ursaSergeant)
                 Player.moveSpeed -= 0.15f;
-
-            if (elysianGuard)
-                Player.moveSpeed -= 0.5f;
 
             if (godSlayerThrowing)
             {
