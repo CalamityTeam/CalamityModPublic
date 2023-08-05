@@ -5692,12 +5692,13 @@ namespace CalamityMod.CalPlayer
                     {
                         int tries = 0;
                         Vector2 spawnPosition;
+                        Vector2 spawnPositionOffset = Vector2.One * 24f;
                         do
                         {
                             spawnPosition = Player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
                             tries++;
                         }
-                        while (Collision.SolidCollision(spawnPosition - Vector2.One * 24f, 48, 24) && tries < 100);
+                        while (Collision.SolidCollision(spawnPosition - spawnPositionOffset, 48, 24) && tries < 100);
                         CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), Player);
                     }
                 }

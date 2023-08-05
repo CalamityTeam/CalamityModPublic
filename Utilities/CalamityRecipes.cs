@@ -939,7 +939,7 @@ namespace CalamityMod
 
             // Apply all recipe changes.
             IEnumerator<Recipe> recipeEnumerator = Main.recipe.ToList().GetEnumerator();
-            while(recipeEnumerator.MoveNext())
+            while (recipeEnumerator.MoveNext())
             {
                 Recipe r = recipeEnumerator.Current;
                 foreach (var kv in edits)

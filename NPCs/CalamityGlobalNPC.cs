@@ -2466,28 +2466,22 @@ namespace CalamityMod.NPCs
                              0f);
         }
 
-        public static void DrawAfterimage(NPC npc, SpriteBatch spriteBatch, Color startingColor, Color endingColor, Texture2D texture = null,
-            Func<NPC, int, float> rotationCalculation = null, bool directioning = false, bool invertedDirection = false)
+        public static void DrawAfterimage(NPC npc, SpriteBatch spriteBatch, Color startingColor, Color endingColor, Texture2D texture = null, Func<NPC, int, float> rotationCalculation = null, bool directioning = false, bool invertedDirection = false)
         {
             if (NPCID.Sets.TrailingMode[npc.type] != 1)
                 return;
+
             SpriteEffects spriteEffects = SpriteEffects.None;
 
             if (npc.spriteDirection == -1 && directioning)
-            {
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            }
 
             if (invertedDirection)
-            {
                 spriteEffects ^= SpriteEffects.FlipHorizontally; // Same as x XOR 1, or x XOR TRUE, which inverts the bit. In this case, this reverses the horizontal flip
-            }
 
             // Set the rotation calculation to a predefined value. The null default is solely so that
             if (rotationCalculation is null)
-            {
                 rotationCalculation = (nPC, afterimageIndex) => nPC.rotation;
-            }
 
             endingColor.A = 0;
 
@@ -6401,9 +6395,7 @@ namespace CalamityMod.NPCs
             Player player = Main.player[plr];
 
             if (!player.active || player.dead)
-            {
                 return;
-            }
 
             int m = 0;
             while (m < Main.maxProjectiles)
