@@ -2543,10 +2543,9 @@ namespace CalamityMod.CalPlayer
                     Projectile proj = Main.projectile[projIndex];
                     if (proj.minionSlots <= 0f || !proj.CountsAsClass<SummonDamageClass>())
                         continue;
+
                     if (proj.active && proj.owner == Player.whoAmI)
-                    {
                         angelAmt += 1f;
-                    }
                 }
 
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<AngelicAlliance>()));
@@ -3274,9 +3273,7 @@ namespace CalamityMod.CalPlayer
             for (int i = 0; i < Player.dye.Length; i++)
             {
                 if (Player.dye[i].type == ModContent.ItemType<ProfanedMoonlightDye>())
-                {
                     GameShaders.Armor.GetSecondaryShader(Player.dye[i].dye, Player)?.UseColor(GetCurrentMoonlightDyeColor());
-                }
             }
 
             // Syncing mouse controls
@@ -5336,35 +5333,40 @@ namespace CalamityMod.CalPlayer
                 {
                     // Aurora Count does not scale to save on resources if you have a lot of dyes
                     int auroraCount = 5;
+                    float unclampedAuroraPower = totalMoonlightDyes / 3f;
+                    float timeScalar1 = Main.GlobalTimeWrappedHourly * 0.56f;
+                    float timeScalar2 = Main.GlobalTimeWrappedHourly * 0.32f;
+                    float timeScalar3 = Main.GlobalTimeWrappedHourly * 0.91f;
+                    Vector2 velocityScale = new Vector2(0.15f, 1f);
+                    Vector2 playerVelocityOffset = Vector2.UnitX * Player.velocity.X / 9f;
+                    Vector2 drawPosition = Main.LocalPlayer.Center - Main.screenPosition;
+                    Vector2 auroraSpawnPosition = drawPosition - Vector2.UnitY * 15f;
+                    int origin = size / 2;
                     for (int i = 0; i < auroraCount; i++)
                     {
-                        float auroraPower = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
-                        float offsetAngle = MathHelper.TwoPi * i / auroraCount + Main.GlobalTimeWrappedHourly * 0.56f;
+                        float auroraPower = MathHelper.Clamp(unclampedAuroraPower, 0f, 1f);
+                        float offsetAngle = MathHelper.TwoPi * i / auroraCount + timeScalar1;
                         Color auroraColor = GetCurrentMoonlightDyeColor(offsetAngle) * 0.8f;
                         auroraColor.A = 0;
 
-                        Vector2 auroraVelocity = (offsetAngle / 3f + Main.GlobalTimeWrappedHourly * 0.32f).ToRotationVector2();
+                        Vector2 auroraVelocity = (offsetAngle / 3f + timeScalar2).ToRotationVector2();
                         auroraVelocity.Y = -Math.Abs(auroraVelocity.Y);
-                        auroraVelocity = (auroraVelocity * new Vector2(0.15f, 1f) - Vector2.UnitX * Player.velocity.X / 9f).SafeNormalize(Vector2.UnitY) * 0.07f;
+                        auroraVelocity = (auroraVelocity * velocityScale - playerVelocityOffset).SafeNormalize(Vector2.UnitY) * 0.07f;
 
-                        Vector2 drawPosition = Main.LocalPlayer.Center - Main.screenPosition;
-                        Vector2 auroraSpawnPosition = drawPosition - Vector2.UnitY * 15f;
-                        auroraSpawnPosition.X += (float)Math.Cos(offsetAngle + Main.GlobalTimeWrappedHourly * 0.91f) * 75f;
-
+                        auroraSpawnPosition.X += (float)Math.Cos(offsetAngle + timeScalar3) * 75f;
                         int x = (int)((auroraSpawnPosition.X - drawPosition.X) / ProfanedMoonlightAuroraDrawer.Scale);
                         int y = (int)((auroraSpawnPosition.Y - drawPosition.Y) / ProfanedMoonlightAuroraDrawer.Scale);
                         for (int j = -sourceArea; j <= sourceArea; j++)
                         {
                             for (int k = -sourceArea; k <= sourceArea; k++)
-                                ProfanedMoonlightAuroraDrawer.CreateSource(x + size / 2 + j, y + size / 2 + k, auroraPower, auroraColor, auroraVelocity);
+                                ProfanedMoonlightAuroraDrawer.CreateSource(x + origin + j, y + origin + k, auroraPower, auroraColor, auroraVelocity);
                         }
                     }
                 };
             }
+
             if (NOU)
-            {
                 NOULOL();
-            }
         }
 
         private void DisableDashes()
