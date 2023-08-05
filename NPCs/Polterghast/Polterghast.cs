@@ -51,7 +51,8 @@ namespace CalamityMod.NPCs.Polterghast
             phase3IconIndex = ModContent.GetModBossHeadSlot(phase3IconPath);
         }
 
-        private int despawnTimer = 600;
+        private const int DespawnTimerMax = 900;
+        private int despawnTimer = DespawnTimerMax;
         private int soundTimer = 0;
         private bool reachedChargingPoint = false;
         private bool threeAM = false;
@@ -238,7 +239,6 @@ namespace CalamityMod.NPCs.Polterghast
             float chargeDistance = 480f;
             bool charging = NPC.ai[2] >= chargePhaseGateValue - 180f;
             bool reset = NPC.ai[2] >= chargePhaseGateValue + 120f;
-            float speedUpDistance = 480f - 360f * (1f - lifeRatio);
 
             if ((Main.time >= 27000 && Main.time < 30600 && Main.dayTime == false && Main.zenithWorld) || threeAM)
             {
@@ -264,9 +264,8 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             Player player = Main.player[NPC.target];
-            bool speedUp = Vector2.Distance(player.Center, vector) > speedUpDistance; // 30 or 40 tile distance
-            float velocity = 10f; // Max should be 21
-            float acceleration = 0.05f; // Max should be 0.13
+            float velocity = 15f;
+            float acceleration = 0.075f;
 
             if (!player.active || player.dead)
             {
@@ -336,7 +335,8 @@ namespace CalamityMod.NPCs.Polterghast
                 }
             }
 
-            if (!player.ZoneDungeon && !bossRush && player.position.Y < Main.worldSurface * 16.0)
+            bool despawn = !player.ZoneDungeon && !bossRush && player.position.Y < Main.worldSurface * 16.0;
+            if (despawn)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
@@ -412,58 +412,12 @@ namespace CalamityMod.NPCs.Polterghast
                 acceleration += revenge ? 0.035f : 0.025f;
             }
 
-            // Slow down if close to target and not inside tiles
-            if (!speedUp && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height) && Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height) && !charging && !chargePhase)
-            {
-                velocity = 8f;
-                acceleration = 0.035f;
-            }
+            NPC.Calamity().CurrentlyEnraged = despawn;
 
-            // Detect active tiles around Polterghast
-            int radius = 30; // 30 tile radius
-            int diameter = radius * 2;
-            int npcCenterX = (int)(vector.X / 16f);
-            int npcCenterY = (int)(vector.Y / 16f);
-            Rectangle area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
-            int nearbyActiveTiles = 0; // 0 to 3600
-            for (int x = area.Left; x < area.Right; x++)
-            {
-                for (int y = area.Top; y < area.Bottom; y++)
-                {
-                    if (Main.tile[x, y] != null)
-                    {
-                        if (Main.tile[x, y].HasUnactuatedTile && Main.tileSolid[Main.tile[x, y].TileType] && !Main.tileSolidTop[Main.tile[x, y].TileType] && !TileID.Sets.Platforms[Main.tile[x, y].TileType])
-                            nearbyActiveTiles++;
-                    }
-                }
-            }
+            // Used to inform the clone and hooks about how aggressive they should be.
+            NPC.ai[3] = 1.5f;
 
-            // Scale multiplier based on nearby active tiles
-            float tileEnrageMult = 1f;
-            if (nearbyActiveTiles < 1000)
-                tileEnrageMult += (1000 - nearbyActiveTiles) * 0.00075f; // Ranges from 1f to 1.75f
-
-            if (bossRush)
-                tileEnrageMult = 1.75f;
-
-            NPC.Calamity().CurrentlyEnraged = !bossRush && tileEnrageMult >= 1.6f;
-
-            // Used to inform clone and hooks about number of active tiles nearby
-            NPC.ai[3] = tileEnrageMult;
-
-            // Increase projectile fire rate based on number of nearby active tiles
-            float amount = 1f - ((tileEnrageMult - 1f) / 0.75f);
-            if (amount < 0f)
-                amount = 0f;
-            float projectileFireRateMultiplier = MathHelper.Lerp(1f, 2f, amount);
-
-            // Increase projectile stats based on number of nearby active tiles
-            int baseProjectileTimeLeft = (int)(1200f * tileEnrageMult);
-            int baseProjectileAmt = (int)(4f * tileEnrageMult);
-            int baseProjectileSpread = (int)(45f * tileEnrageMult);
-            float baseProjectileVelocity = 5f * tileEnrageMult;
-            if (speedBoost)
-                baseProjectileVelocity *= 1.25f;
+            float baseProjectileVelocity = speedBoost ? 9.375f : 7.5f;
 
             // Predictiveness
             Vector2 predictionVector = chargePhase && bossRush ? player.velocity * 20f : Vector2.Zero;
@@ -521,10 +475,6 @@ namespace CalamityMod.NPCs.Polterghast
                 if (death)
                     maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);
 
-                // Increase speed based on nearby active tiles
-                velocity *= tileEnrageMult;
-                acceleration *= tileEnrageMult;
-
                 if (death)
                 {
                     velocity += velocity * 0.15f * (1f - lifeRatio);
@@ -579,13 +529,6 @@ namespace CalamityMod.NPCs.Polterghast
                     NPC.velocity.Y -= acceleration;
                     if (NPC.velocity.Y > 0f && num737 < 0f)
                         NPC.velocity.Y -= acceleration * 2f;
-                }
-
-                // Slow down considerably if near player
-                if (!speedUp && nearbyActiveTiles > 1000 && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height) && Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height) && !charging)
-                {
-                    if (NPC.velocity.Length() > velocity)
-                        NPC.velocity *= 0.97f;
                 }
             }
             else
@@ -723,7 +666,7 @@ namespace CalamityMod.NPCs.Polterghast
                     if (speedBoost)
                         NPC.localAI[1] += 2f;
 
-                    if (NPC.localAI[1] >= 90f * projectileFireRateMultiplier)
+                    if (NPC.localAI[1] >= 120f)
                     {
                         NPC.localAI[1] = 0f;
 
@@ -756,16 +699,16 @@ namespace CalamityMod.NPCs.Polterghast
                             vector93.X += num743 * 3f;
                             vector93.Y += num744 * 3f;
 
-                            float rotation = MathHelper.ToRadians(baseProjectileSpread);
+                            float rotation = MathHelper.ToRadians(65);
                             float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
                             double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-                            double deltaAngle = rotation / baseProjectileAmt;
+                            double deltaAngle = rotation / 6;
                             double offsetAngle;
-                            for (int i = 0; i < baseProjectileAmt; i++)
+                            for (int i = 0; i < 6; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
                                 int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[proj].timeLeft = type == ModContent.ProjectileType<PhantomBlast>() ? baseProjectileTimeLeft / 4 : baseProjectileTimeLeft;
+                                Main.projectile[proj].timeLeft = type == ModContent.ProjectileType<PhantomBlast>() ? 450 : 1800;
                             }
                         }
                         else
@@ -784,16 +727,16 @@ namespace CalamityMod.NPCs.Polterghast
                             vector93.X += num743 * 3f;
                             vector93.Y += num744 * 3f;
 
-                            float rotation = MathHelper.ToRadians(baseProjectileSpread + 15);
+                            float rotation = MathHelper.ToRadians(80);
                             float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
                             double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-                            double deltaAngle = rotation / baseProjectileAmt;
+                            double deltaAngle = rotation / 6;
                             double offsetAngle;
-                            for (int i = 0; i < baseProjectileAmt; i++)
+                            for (int i = 0; i < 6; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
                                 int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[proj].timeLeft = baseProjectileTimeLeft / 4;
+                                Main.projectile[proj].timeLeft = 450;
                             }
                         }
                     }
@@ -858,7 +801,7 @@ namespace CalamityMod.NPCs.Polterghast
                     if (speedBoost)
                         NPC.localAI[1] += 2f;
 
-                    if (NPC.localAI[1] >= 150f * projectileFireRateMultiplier)
+                    if (NPC.localAI[1] >= 200f)
                     {
                         NPC.localAI[1] = 0f;
 
@@ -891,8 +834,8 @@ namespace CalamityMod.NPCs.Polterghast
                             vector93.X += num743 * 3f;
                             vector93.Y += num744 * 3f;
 
-                            int numProj = baseProjectileAmt + 1;
-                            float rotation = MathHelper.ToRadians(baseProjectileSpread + 15);
+                            int numProj = 7;
+                            float rotation = MathHelper.ToRadians(80);
                             float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
                             double startAngle = Math.Atan2(num743, num744) - rotation / 2;
                             double deltaAngle = rotation / numProj;
@@ -901,7 +844,7 @@ namespace CalamityMod.NPCs.Polterghast
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
                                 int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[proj].timeLeft = type == ModContent.ProjectileType<PhantomBlast2>() ? baseProjectileTimeLeft / 4 : baseProjectileTimeLeft;
+                                Main.projectile[proj].timeLeft = type == ModContent.ProjectileType<PhantomBlast2>() ? 450 : 1800;
                             }
                         }
                         else
@@ -920,8 +863,8 @@ namespace CalamityMod.NPCs.Polterghast
                             vector93.X += num743 * 3f;
                             vector93.Y += num744 * 3f;
 
-                            int numProj = baseProjectileAmt + 1;
-                            float rotation = MathHelper.ToRadians(baseProjectileSpread + 35);
+                            int numProj = 7;
+                            float rotation = MathHelper.ToRadians(100);
                             float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
                             double startAngle = Math.Atan2(num743, num744) - rotation / 2;
                             double deltaAngle = rotation / numProj;
@@ -930,7 +873,7 @@ namespace CalamityMod.NPCs.Polterghast
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
                                 int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[proj].timeLeft = baseProjectileTimeLeft / 4;
+                                Main.projectile[proj].timeLeft = 450;
                             }
                         }
                     }
@@ -1007,7 +950,7 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.defense = (int)(NPC.defDefense * 0.5f);
 
                 NPC.localAI[1] += 1f;
-                if (NPC.localAI[1] >= (getPissed ? 150f : 210f) * projectileFireRateMultiplier && Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                if (NPC.localAI[1] >= (getPissed ? 200f : 280f) && Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                 {
                     NPC.localAI[1] = 0f;
                     if (Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
@@ -1023,8 +966,8 @@ namespace CalamityMod.NPCs.Polterghast
                         vector93.X += num743 * 3f;
                         vector93.Y += num744 * 3f;
 
-                        int numProj = baseProjectileAmt + (getPissed ? 4 : 2);
-                        float rotation = MathHelper.ToRadians(baseProjectileSpread + (getPissed ? 60 : 45));
+                        int numProj = 6 + (getPissed ? 4 : 2);
+                        float rotation = MathHelper.ToRadians(110 + (getPissed ? 15 : 0));
                         float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
                         double startAngle = Math.Atan2(num743, num744) - rotation / 2;
                         double deltaAngle = rotation / numProj;
