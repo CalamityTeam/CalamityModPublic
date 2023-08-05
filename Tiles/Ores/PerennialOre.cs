@@ -17,6 +17,7 @@ namespace CalamityMod.Tiles.Ores
         public byte[,] tileAdjacency;
         public byte[,] secondTileAdjacency;
         public byte[,] thirdTileAdjacency;
+
         public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
@@ -44,6 +45,7 @@ namespace CalamityMod.Tiles.Ores
             TileFraming.SetUpUniversalMerge(Type, TileID.Stone, out secondTileAdjacency);
             TileFraming.SetUpUniversalMerge(Type, TileID.Mud, out thirdTileAdjacency);
         }
+
         int animationFrameWidth = 234;
 
         public override bool CanExplode(int i, int j)
@@ -55,6 +57,7 @@ namespace CalamityMod.Tiles.Ores
         {
             num = fail ? 1 : 3;
         }
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             // The base green color glow
@@ -79,28 +82,29 @@ namespace CalamityMod.Tiles.Ores
 
             };
 
-            // Declare these variables here for performance reasons
-            float timeScalar = Main.GameUpdateCount * 0.017f;
-            float jDiv14 = j / 14f;
-            float iDiv14 = i / 14f;
-            float brightness = 0.7f;
-            brightness *= (float)MathF.Sin(jDiv14 + timeScalar);
-            brightness *= (float)MathF.Sin(iDiv14 + timeScalar);
-            brightness += 0.3f;
-            float flowerPosBrightnessR = 0.83f * brightness;
-            float flowerPosBrightnessG = 0.16f * brightness;
-            float flowerPosBrightnessB = 0.31f * brightness;
-
             foreach (var positionFlower in positionsFlower)
             {
                 if (pos == positionFlower)
                 {
+                    float timeScalar = Main.GameUpdateCount * 0.017f;
+                    float jDiv14 = j / 14f;
+                    float iDiv14 = i / 14f;
+                    float brightness = 0.7f;
+                    brightness *= (float)MathF.Sin(jDiv14 + timeScalar);
+                    brightness *= (float)MathF.Sin(iDiv14 + timeScalar);
+                    brightness += 0.3f;
+                    float flowerPosBrightnessR = 0.83f * brightness;
+                    float flowerPosBrightnessG = 0.16f * brightness;
+                    float flowerPosBrightnessB = 0.31f * brightness;
+
+                    // Adjust brightness for flowers
                     r = flowerPosBrightnessR;
                     g = flowerPosBrightnessG;
                     b = flowerPosBrightnessB;
                 }
             }
         }
+
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             int uniqueAnimationFrameX = 0;
@@ -191,6 +195,7 @@ namespace CalamityMod.Tiles.Ores
             }
             frameXOffset = uniqueAnimationFrameX * animationFrameWidth;
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (GlowTexture is null)
@@ -284,6 +289,7 @@ namespace CalamityMod.Tiles.Ores
                     }
                     break;
             }
+
             xOffset *= 234;
             xPos += xOffset;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
@@ -296,6 +302,7 @@ namespace CalamityMod.Tiles.Ores
             TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/StoneMerge");
             TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/DirtMerge");
         }
+
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             TileFraming.GetAdjacencyData(i, j, TileID.Dirt, out tileAdjacency[i, j]);
@@ -303,6 +310,7 @@ namespace CalamityMod.Tiles.Ores
             TileFraming.GetAdjacencyData(i, j, TileID.Mud, out thirdTileAdjacency[i, j]);
             return true;
         }
+
         private Color GetDrawColour(int i, int j, Color colour)
         {
             int colType = Main.tile[i, j].TileColor;
