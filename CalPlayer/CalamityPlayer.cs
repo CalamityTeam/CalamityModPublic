@@ -5773,9 +5773,12 @@ namespace CalamityMod.CalPlayer
                     if (abyssalDivingSuitPlateHits >= 3)
                     {
                         SoundEngine.PlaySound(SoundID.NPCDeath14, Player.Center);
+
                         if (plateCDExists)
                             cooldowns.Remove(DivingPlatesBreaking.ID);
+
                         Player.AddCooldown(DivingPlatesBroken.ID, 10830);
+
                         for (int d = 0; d < 20; d++)
                         {
                             int dust = Dust.NewDust(Player.position, Player.width, Player.height, 31, 0f, 0f, 100, default, 2f);
@@ -5786,6 +5789,7 @@ namespace CalamityMod.CalPlayer
                                 Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                             }
                         }
+
                         for (int d = 0; d < 35; d++)
                         {
                             int fire = Dust.NewDust(Player.position, Player.width, Player.height, 6, 0f, 0f, 100, default, 3f);

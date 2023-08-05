@@ -96,6 +96,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (OldPositions[i - 1] == Vector2.Zero)
                     OldPositions[i - 1] = Player.position;
+
                 OldPositions[i] = OldPositions[i - 1];
             }
             OldPositions[0] = Player.position;
@@ -800,9 +801,7 @@ namespace CalamityMod.CalPlayer
                     {
                         int hasBuff = Player.buffType[l];
                         if (Player.buffTime[l] > 2 && CalamityLists.debuffList.Contains(hasBuff))
-                        {
                             Player.buffTime[l]--;
-                        }
                     }
                 }
             }
@@ -1084,6 +1083,7 @@ namespace CalamityMod.CalPlayer
                                 target = npcIndex;
                             }
                         }
+
                         if (target > 0) 
                         {
                             unstableSelectedTarget = Main.npc[target];
@@ -1093,7 +1093,8 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (zapActivity > 600) { zapActivity = 0; }
+                else if (zapActivity > 600)
+                    zapActivity = 0;
             }
 
             if (nucleogenesis)
@@ -1656,6 +1657,7 @@ namespace CalamityMod.CalPlayer
                             NPC npc = Main.npc[l];
                             if (!npc.active || npc.friendly || npc.damage <= 0 || npc.dontTakeDamage)
                                 continue;
+
                             if (!npc.buffImmune[buffType] && Vector2.Distance(Player.Center, npc.Center) <= freezeDist)
                             {
                                 if (npc.FindBuffIndex(buffType) == -1)
@@ -3253,9 +3255,7 @@ namespace CalamityMod.CalPlayer
                     {
                         bool electrified = Player.buffType[l] == BuffID.Electrified;
                         if (Player.buffTime[l] > 2 && electrified)
-                        {
                             Player.buffTime[l]--;
-                        }
                     }
 
                     //Summon the aura
@@ -3397,9 +3397,7 @@ namespace CalamityMod.CalPlayer
                 {
                     int hasBuff = Player.buffType[l];
                     if (hasBuff == ModContent.BuffType<Buffs.StatBuffs.DivineBless>())
-                    {
                         angelicActivate = Player.buffTime[l];
-                    }
                 }
 
                 if (Player.FindBuffIndex(ModContent.BuffType<Buffs.StatBuffs.DivineBless>()) == -1)
