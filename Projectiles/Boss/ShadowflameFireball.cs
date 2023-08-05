@@ -45,14 +45,14 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             // Trailing brighter purple fire trail dust
-            int dustType = 70;
+            int dustType2 = 70;
             float velMult = Main.rand.NextFloat(0.05f, 0.6f);
-            float dustScale = Main.rand.NextFloat(1.2f, 1.8f);
-            int dustID = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
-            Main.dust[dustID].noGravity = true;
-            Main.dust[dustID].velocity *= 0.1f;
-            Main.dust[dustID].velocity += Projectile.velocity * velMult;
-            Main.dust[dustID].scale = dustScale;
+            float dustScale2 = Main.rand.NextFloat(1.2f, 1.8f);
+            int dustID2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType2);
+            Main.dust[dustID2].noGravity = true;
+            Main.dust[dustID2].velocity *= 0.1f;
+            Main.dust[dustID2].velocity += Projectile.velocity * velMult;
+            Main.dust[dustID2].scale = dustScale2;
 
             Projectile.rotation += 0.3f * (float)Projectile.direction;
 

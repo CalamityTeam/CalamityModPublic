@@ -77,7 +77,8 @@ namespace CalamityMod.CalPlayer
                                     float distanceY = Math.Abs(dustCenter.Y - Player.Center.Y);
                                     if (j == 0 || j == 2)
                                         dustDrawPosition.X = Player.Center.X + distanceX;
-                                    else dustDrawPosition.X = Player.Center.X - distanceX;
+                                    else
+                                        dustDrawPosition.X = Player.Center.X - distanceX;
 
                                     dustDrawPosition.X -= 4f;
 
