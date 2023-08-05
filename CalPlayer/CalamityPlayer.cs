@@ -2093,6 +2093,7 @@ namespace CalamityMod.CalPlayer
                 {
                     foreach (string cdID in removedCooldowns)
                         cooldowns.Remove(cdID);
+
                     SyncCooldownDictionary(Main.netMode == NetmodeID.Server);
                 }
             }
@@ -5340,7 +5341,7 @@ namespace CalamityMod.CalPlayer
                     Vector2 velocityScale = new Vector2(0.15f, 1f);
                     Vector2 playerVelocityOffset = Vector2.UnitX * Player.velocity.X / 9f;
                     Vector2 drawPosition = Main.LocalPlayer.Center - Main.screenPosition;
-                    Vector2 auroraSpawnPosition = drawPosition - Vector2.UnitY * 15f;
+                    Vector2 auroraOffset = drawPosition - Vector2.UnitY * 15f;
                     int origin = size / 2;
                     for (int i = 0; i < auroraCount; i++)
                     {
@@ -5353,7 +5354,9 @@ namespace CalamityMod.CalPlayer
                         auroraVelocity.Y = -Math.Abs(auroraVelocity.Y);
                         auroraVelocity = (auroraVelocity * velocityScale - playerVelocityOffset).SafeNormalize(Vector2.UnitY) * 0.07f;
 
+                        Vector2 auroraSpawnPosition = auroraOffset;
                         auroraSpawnPosition.X += (float)Math.Cos(offsetAngle + timeScalar3) * 75f;
+
                         int x = (int)((auroraSpawnPosition.X - drawPosition.X) / ProfanedMoonlightAuroraDrawer.Scale);
                         int y = (int)((auroraSpawnPosition.Y - drawPosition.Y) / ProfanedMoonlightAuroraDrawer.Scale);
                         for (int j = -sourceArea; j <= sourceArea; j++)

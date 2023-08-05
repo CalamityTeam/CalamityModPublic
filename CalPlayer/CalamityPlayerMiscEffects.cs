@@ -539,8 +539,8 @@ namespace CalamityMod.CalPlayer
 
                 if (tile.TileType == abyssKelpID)
                 {
-                    if (Player.velocity.Length() == 0)
-                    { return; }
+                    if (Player.velocity.Length() == 0f)
+                        return;
 
                     Dust dust;
                     dust = Main.dust[Dust.NewDust(Player.Center, 16, 16, 304, 0.23255825f, 10f, 0, new Color(117, 55, 15), 1.5116279f)];

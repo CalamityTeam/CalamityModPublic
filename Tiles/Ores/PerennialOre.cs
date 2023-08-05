@@ -57,7 +57,7 @@ namespace CalamityMod.Tiles.Ores
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            //The base green color glow
+            // The base green color glow
             r = 0.08f;
             g = 0.2f;
             b = 0.04f;
@@ -66,32 +66,38 @@ namespace CalamityMod.Tiles.Ores
 
             Vector2[] positionsFlower = new Vector2[]
             {
-                //Top row (always y = 0 on tile sheets)
+                // Top row (always y = 0 on tile sheets)
                 new Vector2(0, 0),
                 new Vector2(36, 0),
 
-                //Second row (always y = 18 on tile sheets)
+                // Second row (always y = 18 on tile sheets)
                 new Vector2(18, 18),
                 new Vector2(54, 18),
 
-                //Third row (always y = 36 on tile sheets)
+                // Third row (always y = 36 on tile sheets)
                 new Vector2(36, 36),
 
             };
+
+            // Declare these variables here for performance reasons
+            float timeScalar = Main.GameUpdateCount * 0.017f;
+            float jDiv14 = j / 14f;
+            float iDiv14 = i / 14f;
+            float brightness = 0.7f;
+            brightness *= (float)MathF.Sin(jDiv14 + timeScalar);
+            brightness *= (float)MathF.Sin(iDiv14 + timeScalar);
+            brightness += 0.3f;
+            float flowerPosBrightnessR = 0.83f * brightness;
+            float flowerPosBrightnessG = 0.16f * brightness;
+            float flowerPosBrightnessB = 0.31f * brightness;
+
             foreach (var positionFlower in positionsFlower)
             {
                 if (pos == positionFlower)
                 {
-                    float brightness = 0.7f;
-                    brightness *= (float)MathF.Sin(j / 14f + Main.GameUpdateCount * 0.017f);
-                    brightness *= (float)MathF.Sin(i / 14f + Main.GameUpdateCount * 0.017f);
-                    brightness += 0.3f;
-                    r = 0.83f;
-                    g = 0.16f;
-                    b = 0.31f;
-                    r *= brightness;
-                    g *= brightness;
-                    b *= brightness;
+                    r = flowerPosBrightnessR;
+                    g = flowerPosBrightnessG;
+                    b = flowerPosBrightnessB;
                 }
             }
         }
