@@ -3226,9 +3226,9 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     Player otherPlayer = Main.player[i];
-                    if (otherPlayer.active && !otherPlayer.dead && ((!Player.hostile && !otherPlayer.hostile) || Player.team == otherPlayer.team))
+                    if (otherPlayer.active)
                     {
-                        HasGotCleansed = false;
+                        otherPlayer.Calamity().HasGotCleansed = false;
                     }
                 }
                 HasGotCleansed = false;
@@ -3241,9 +3241,9 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     Player otherPlayer = Main.player[i];
-                    if (otherPlayer.active && !otherPlayer.dead && ((!Player.hostile && !otherPlayer.hostile) || Player.team == otherPlayer.team))
+                    if (otherPlayer.active)
                     {
-                        HasGotCleansed = false;
+                        otherPlayer.Calamity().HasGotCleansed = false;
                     }
                 }
                 HasGotCleansed = false;
