@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce == 1)
                 {
-                    Particle pulse = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 0f, 0.156f, 10);
+                    Particle pulse = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 0f, 0.152f, 10);
                     GeneralParticleHandler.SpawnParticle(pulse);
                     SoundEngine.PlaySound(Spawnsound with { Pitch = -0.9f }, Projectile.Center);
                     PulseOnce = 0;
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce2 == 1)
                 {
-                    Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 0.156f, 0.156f, 2700);
+                    Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 0.152f, 0.152f, 2700);
                     GeneralParticleHandler.SpawnParticle(pulse2);
                     PulseOnce2 = 0;
                 }
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce3 == 1)
                 {
-                    Particle pulse3 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 0.156f, 0f, 10);
+                    Particle pulse3 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 0.152f, 0f, 10);
                     GeneralParticleHandler.SpawnParticle(pulse3);
                     PulseOnce3 = 0;
                 }
