@@ -6768,10 +6768,11 @@ namespace CalamityMod.CalPlayer
                 {
                     if (spearsFired == 2)
                         break;
-                    if (Main.projectile[i].friendly && Main.projectile[i].owner == Player.whoAmI)
+                    if (Main.projectile[i].owner == Player.whoAmI && Main.projectile[i].friendly)
                     {
-                        bool attack = Main.projectile[i].type == ModContent.ProjectileType<MiniGuardianAttack>() && Main.projectile[i].owner == Player.whoAmI;
-                        if (attack || (Main.projectile[i].type == ModContent.ProjectileType<MiniGuardianDefense>() && Main.projectile[i].owner == Player.whoAmI))
+                        bool attack =  Main.projectile[i].owner == Player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<MiniGuardianAttack>();
+                        bool defense = Main.projectile[i].owner == Player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<MiniGuardianDefense>();
+                        if (attack || defense)
                         {
                             int numSpears = attack ? 12 : 6;
                             int dam = Main.projectile[i].originalDamage;
@@ -6780,12 +6781,12 @@ namespace CalamityMod.CalPlayer
                             float angleVariance = MathHelper.TwoPi / (float)numSpears;
                             float spinOffsetAngle = MathHelper.Pi / (2f * numSpears);
                             Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
+                            posVec = posVec.RotatedBy(angleVariance);
+                            Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
+                            velocity.Normalize();
+                            velocity *= 8f;
                             for (int x = 0; x < numSpears; x++)
                             {
-                                posVec = posVec.RotatedBy(angleVariance);
-                                Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
-                                velocity.Normalize();
-                                velocity *= 8f;
                                 int proj = Projectile.NewProjectile(source, Main.projectile[i].Center + posVec, velocity, ModContent.ProjectileType<MiniGuardianSpear>(), dam, 0f, Player.whoAmI, 0f, 0f);
                                 Main.projectile[proj].originalDamage = dam;
                             }
@@ -6836,7 +6837,7 @@ namespace CalamityMod.CalPlayer
         public override void PostUpdate() //needs to be here else it doesn't work properly, otherwise i'd have stuck it with the wing anim stuffs
         {
             ProfanedSoulCrystal.DetermineTransformationEligibility(Player);
-            if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide && Player.legs == EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Legs))
+            if (!profanedCrystalHide && (profanedCrystal || profanedCrystalForce) && Player.legs == EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Legs))
             {
                 bool usingCarpet = Player.carpetTime > 0 && Player.controlJump; //doesn't make sense for carpet to use jump frame since you have solid ground
                 AnimationType animType = AnimationType.Walk;
