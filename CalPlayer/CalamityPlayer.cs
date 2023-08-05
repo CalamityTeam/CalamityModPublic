@@ -3222,12 +3222,30 @@ namespace CalamityMod.CalPlayer
             if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && cleansingjelly)
             {
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<BlueJellyAura>(), 0, 0, Player.whoAmI);
+                //Allowing all players to get cleansed after another aura is spawned by anyone
+                for (int i = 0; i < Main.maxPlayers; i++)
+                {
+                    Player otherPlayer = Main.player[i];
+                    if (otherPlayer.active && !otherPlayer.dead && ((!Player.hostile && !otherPlayer.hostile) || Player.team == otherPlayer.team))
+                    {
+                        HasGotCleansed = false;
+                    }
+                }
                 HasGotCleansed = false;
             }
             //Grand Gellatin regen and cleansing aura spawn when using a healing potion
             if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && GrandGelatin)
             {
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<GreenJellyAura>(), 0, 0, Player.whoAmI);
+                //Allowing all players to get cleansed after another aura is spawned by anyone
+                for (int i = 0; i < Main.maxPlayers; i++)
+                {
+                    Player otherPlayer = Main.player[i];
+                    if (otherPlayer.active && !otherPlayer.dead && ((!Player.hostile && !otherPlayer.hostile) || Player.team == otherPlayer.team))
+                    {
+                        HasGotCleansed = false;
+                    }
+                }
                 HasGotCleansed = false;
             }
 

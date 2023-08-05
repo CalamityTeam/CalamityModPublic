@@ -68,6 +68,13 @@ namespace CalamityMod.Projectiles.Typless
                                 player.buffTime[l] *= 0;
                             }
                         }
+                        for (int i = 0; i < 55; i++)
+                        {
+                            int dust = Dust.NewDust(player.Center, player.width + 4, player.height + 4, 298, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 100, default, 5.5f);
+                            Main.dust[dust].noGravity = true;
+                            Main.dust[dust].velocity *= 1.5f;
+                            Main.dust[dust].velocity.Y -= 0.5f;
+                        }
                         SoundEngine.PlaySound(Spawnsound with { Pitch = -0.9f }, Projectile.Center);
                         HasGotCleansed = true;
                     }
