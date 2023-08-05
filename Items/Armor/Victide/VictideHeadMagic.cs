@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Armor.Victide
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = CalamityUtils.GetTextValueFromModItem<VictideBreastplate>("CommonSetBonus");
+            player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<VictideBreastplate>("CommonSetBonus");
             var modPlayer = player.Calamity();
             modPlayer.victideSet = true;
             player.ignoreWater = true;
