@@ -585,12 +585,12 @@ namespace CalamityMod.CalPlayer
             // The sigil's brightness slowly fades away every frame if not incinerating anything.
             blazingMouseAuraFade = MathHelper.Clamp(blazingMouseAuraFade - 0.025f, 0.25f, 1f);
 
-            // Allows the blazing aura to display if the accessory is vanity, but it deals no damage
+            // Allows the blazing aura to display if the accessory is vanity, but it deals no damage.
             if (!blazingCursorDamage)
                 return;
 
             // miscCounter is used to limit Calamity's hit rate.
-            int framesPerHit = 60 / Calamity.HitsPerSecond;
+            int framesPerHit = 5;
             if (Player.miscCounter % framesPerHit != 1)
                 return;
 
@@ -628,6 +628,7 @@ namespace CalamityMod.CalPlayer
                     fire.scale = 1f + fire.velocity.Length() / 6f;
                     fire.color = Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat(0.85f));
                     fire.noGravity = true;
+                    fire.noLightEmittence = true;
                 }
             }
         }

@@ -551,10 +551,14 @@ namespace CalamityMod.ILEditing
                         if (player.Calamity().CalamityFireDyeShader is not null)
                             color = Color.Lerp(color, Color.White, 0.75f);
 
+                        float offsetAngleValue = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6.7f) * 0.99f;
+                        float horizontalAreaValue = (float)horizontalArea * 0.34f;
+                        int origin = size / 2;
+
                         for (int i = -horizontalArea; i <= horizontalArea; i++)
                         {
-                            float offsetAngle = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6.7f) * 0.99f;
-                            offsetAngle += i / (float)horizontalArea * 0.34f;
+                            float offsetAngle = offsetAngleValue;
+                            offsetAngle += i / horizontalAreaValue;
                             Vector2 velocity = Main.MouseWorld - UIManagementSystem.PreviousMouseWorld;
                             if (velocity.Length() < 64f)
                             {
@@ -571,7 +575,7 @@ namespace CalamityMod.ILEditing
                             velocity *= Main.rand.NextFloat(0.9f, 1.1f);
 
                             for (int j = -verticalArea; j <= verticalArea; j++)
-                                player.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, i == 0 && j == 0 ? velocity : Vector2.Zero);
+                                player.Calamity().CalamityFireDrawer.CreateSource(x + origin + i, y + origin + j, 1f, color, i == 0 && j == 0 ? velocity : Vector2.Zero);
                         }
                     };
 
