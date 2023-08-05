@@ -220,7 +220,6 @@ VictideBreastplate: {
 		'''
 	CommonSetBonus:
 		'''
-		+3 life regen and 10% increased magic damage while submerged in liquid
 		When using any weapon you have a 10% chance to throw a returning seashell projectile
 		This seashell does true damage and does not benefit from any damage class
 		Provides increased underwater mobility and slightly reduces breath loss in the abyss
@@ -239,23 +238,33 @@ VictideGreaves: {
 VictideHeadMagic: {
 	DisplayName: Victide Hermit Helmet
 	Tooltip: 5% increased magic damage
+	SetBonus: +3 life regen and 10% increased magic damage while submerged in liquid
 }
 
 VictideHeadMelee: {
 	DisplayName: Victide Shellmet
 	Tooltip: 5% increased melee damage
-	SetBonus: Enemies are more likely to target you
+	SetBonus:
+		'''
+		Enemies are more likely to target you
+		+3 life regen and 10% increased melee damage while submerged in liquid
+		'''
 }
 
 VictideHeadRanged: {
 	DisplayName: Victide Coral Turban
 	Tooltip: 5% increased ranged damage
+	SetBonus: +3 life regen and 10% increased ranged damage while submerged in liquid
 }
 
 VictideHeadRogue: {
 	DisplayName: Victide Headcrab
 	Tooltip: 5% increased rogue damage
-	SetBonus: +60 maximum stealth
+	SetBonus:
+		'''
+		+60 maximum stealth
+		+3 life regen and 10% increased rogue damage while submerged in liquid
+		'''
 }
 
 VictideHeadSummon: {
@@ -265,6 +274,7 @@ VictideHeadSummon: {
 		'''
 		+1 max minion
 		Summons a sea snail to protect you
+		+3 life regen and 10% increased summon damage while submerged in liquid
 		'''
 }
 
