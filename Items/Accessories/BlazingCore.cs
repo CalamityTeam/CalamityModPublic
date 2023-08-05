@@ -51,10 +51,6 @@ namespace CalamityMod.Items.Accessories
 
             if (patternInterval % 2 == 0)
             {
-                if (player.Calamity().blazingCoreSuccessfulParry % divisor == 0)
-                {
-
-                }
                 SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, player.Center);
                 double radians = MathHelper.TwoPi / chains;
                 double angleA = radians * 0.5;
@@ -66,8 +62,8 @@ namespace CalamityMod.Items.Accessories
                     Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(offset));
 
                     int projectileType = ModContent.ProjectileType<BlazingStarThatDoesNotHeal>();
-                    int dmgAmt = 100;
-                    if (!player.Calamity().blazingCoreEmpoweredParry && Main.rand.NextBool())
+                    int dmgAmt = 90;
+                    if (!player.Calamity().blazingCoreEmpoweredParry && Main.rand.NextBool(4))
                     {
                         projectileType = ModContent.ProjectileType<BlazingStarHeal>();
                     }

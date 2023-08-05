@@ -2098,6 +2098,8 @@ namespace CalamityMod.CalPlayer
                     SyncCooldownDictionary(Main.netMode == NetmodeID.Server);
                 }
             }
+            
+            
 
             #region Debuffs
             totalDefenseDamage = 0;
@@ -2430,6 +2432,9 @@ namespace CalamityMod.CalPlayer
             elysianWingsDust = false;
             elysianAegis = false;
             GemTechState.OnDeathEffects();
+            blazingCoreParry = 0;
+            blazingCoreEmpoweredParry = false;
+            blazingCoreSuccessfulParry = 0;
             #endregion
 
             CurrentlyViewedFactoryID = -1;
@@ -5634,7 +5639,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (!Player.HasCooldown(BlazingCoreCooldown.ID))
                     {
-                        Player.GiveIFrames(10);
+                        Player.GiveIFrames(45);
                         blazingCoreEmpoweredParry = true;
                         modifiers.SetMaxDamage(1); //ONLY REDUCE DAMAGE IF NOT ON COOLDOWN
                     }

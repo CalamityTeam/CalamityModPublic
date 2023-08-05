@@ -28,8 +28,9 @@ namespace CalamityMod.Projectiles.Typeless
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0f, 0.6f, 0f);
-            
-            if (Projectile.velocity.Length() < 16f)
+            if (Projectile.timeLeft > 190)
+                Projectile.velocity *= 1.1f;
+            else if (Projectile.timeLeft <= 190)
                 Projectile.velocity *= 0.99f;
             if (Projectile.timeLeft <= 160)
                 Projectile.velocity = Vector2.Zero;
@@ -42,7 +43,7 @@ namespace CalamityMod.Projectiles.Typeless
             float playerDist = Vector2.Distance(player.Center, Projectile.Center);
             if (!player.immune && playerDist < 50f && !player.dead && Projectile.position.X < player.position.X + player.width && Projectile.position.X + Projectile.width > player.position.X && Projectile.position.Y < player.position.Y + player.height && Projectile.position.Y + Projectile.height > player.position.Y)
             {
-                int healAmt = Utils.Clamp((200 - Projectile.timeLeft) / 5, 1, 10); //min heal is 2 because of above timeleft check, max heal is 10
+                int healAmt = Utils.Clamp((200 - Projectile.timeLeft) / 4, 1, 15); //min heal is 2 because of above timeleft check, max heal is 15, achievable after 1 second
                 player.HealEffect(healAmt, false);
                 player.statLife += healAmt;
                 if (player.statLife > player.statLifeMax2)
