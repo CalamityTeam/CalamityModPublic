@@ -2837,8 +2837,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (blazingCore && blazingCoreParry == 0 && blazingCoreSuccessfulParry == 0)
                 {
-                    bool hasActiveParryCooldown = Player.HasCooldown(BlazingCoreCooldown.ID);
-                    blazingCoreParry = blazingCoreParry == 0 ? 30 : blazingCoreParry;
+                    blazingCoreParry = 30;
                     SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact);
                     var mySourceIsIMadeItUp = Player.GetSource_FromThis();
                     int blazingSun = Projectile.NewProjectile(mySourceIsIMadeItUp, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), 0, 0f, Player.whoAmI, 0f, 0f);
@@ -5644,7 +5643,7 @@ namespace CalamityMod.CalPlayer
                         modifiers.SetMaxDamage(1); //ONLY REDUCE DAMAGE IF NOT ON COOLDOWN
                     }
                     
-                    SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
+                    SoundEngine.PlaySound(SoundID.Shatter);
                     blazingCoreSuccessfulParry = 60;
                     Player.AddCooldown(BlazingCoreCooldown.ID, 60 * 30, false); //cooldown is frames in seconds multiplied by the desired amount of seconds
                 }

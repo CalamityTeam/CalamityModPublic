@@ -45,13 +45,17 @@ namespace CalamityMod.Items.Accessories
         {
             float divisor = 3f;
             int totalFlameProjectiles = 45;
-            int chains = 4;
+            int chains = 3;
             float interval = totalFlameProjectiles / chains * divisor;
             double patternInterval = Math.Floor(player.Calamity().blazingCoreSuccessfulParry / interval);
 
-            if (patternInterval % 2 == 0)
+            if (player.Calamity().blazingCoreSuccessfulParry % 4 == 0) //play sound every 4 frames
             {
                 SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, player.Center);
+            }
+            
+            if (patternInterval % 2 == 0)
+            {
                 double radians = MathHelper.TwoPi / chains;
                 double angleA = radians * 0.5;
                 double angleB = MathHelper.ToRadians(90f) - angleA;
@@ -86,12 +90,6 @@ namespace CalamityMod.Items.Accessories
                 player.Calamity().blazingCoreEmpoweredParry = false;
             }
                 
-        }
-        
-        public static void HandleIncomingHit(Player player, ref Player.HurtInfo hurtInfo)
-        {
-            Main.NewText(player.Calamity().blazingCoreParry >= 18);
-
         }
 
         public static void HandleParryCountdown(Player player)
