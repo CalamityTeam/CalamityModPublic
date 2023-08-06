@@ -32,7 +32,7 @@ namespace CalamityMod.Tiles.Abyss
 
             TileID.Sets.ChecksForMerge[Type] = true;
             HitSound = MineSound;
-            MineResist = 10f;
+            MineResist = 15f;
             MinPick = 180;
             AddMapEntry(new Color(15, 15, 15));
 

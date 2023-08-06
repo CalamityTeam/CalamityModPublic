@@ -31,7 +31,7 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithAbyss(Type);
 
             AddMapEntry(new Color(57, 44, 93));
-            MineResist = 5f;
+            MineResist = 3f;
             MinPick = 65;
             HitSound = MineSound;
             DustType = 33;

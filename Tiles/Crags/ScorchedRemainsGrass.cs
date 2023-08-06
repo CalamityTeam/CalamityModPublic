@@ -31,7 +31,6 @@ namespace CalamityMod.Tiles.Crags
             CalamityUtils.SetMerge(Type, ModContent.TileType<ScorchedRemains>());
 
             HitSound = SoundID.Dig;
-            MineResist = 1f;
             MinPick = 100;
             RegisterItemDrop(ModContent.ItemType<Items.Placeables.ScorchedRemains>());
             AddMapEntry(new Color(212, 82, 227));
