@@ -89,7 +89,6 @@ namespace CalamityMod.Items.Accessories
                 offset = 0f;
                 player.Calamity().blazingCoreEmpoweredParry = false;
             }
-                
         }
 
         public static void HandleParryCountdown(Player player)
@@ -109,6 +108,14 @@ namespace CalamityMod.Items.Accessories
                 player.gravDir = 1f;
                 player.velocity = Vector2.Zero;
                 player.RemoveAllGrapplingHooks();
+            }
+            else
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    int theDust = Dust.NewDust(player.position, player.width, player.height, 205, 0f, 0f, 100, new Color(255, 255, 255), 2f);
+                    Main.dust[theDust].noGravity = true;
+                }
             }
         }
     }

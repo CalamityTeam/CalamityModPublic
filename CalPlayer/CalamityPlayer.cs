@@ -2837,6 +2837,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (blazingCore && blazingCoreParry == 0 && blazingCoreSuccessfulParry == 0)
                 {
+                    GeneralScreenShakePower = 3.5f;
                     blazingCoreParry = 30;
                     SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact);
                     var mySourceIsIMadeItUp = Player.GetSource_FromThis();

@@ -8,7 +8,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 {
     public class BlazingCoreCrystalLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.FrontAccFront);
+        public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.FrontAccFront); //me when the player layer is called front acc front :skull:
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
