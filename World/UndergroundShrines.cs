@@ -76,6 +76,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(evil, 1),
                 new ChestItem(ItemID.RedPotion, WorldGen.genRand.Next(1, 2 + 1)),
+                new ChestItem(ItemID.GasTrap,1),
             };
             }
 
@@ -166,6 +167,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ModContent.ItemType<BloodyMary>(), WorldGen.genRand.Next(2, 2 + 1)),
                 new ChestItem(ItemID.RedPotion, WorldGen.genRand.Next(1, 2 + 1)),
+                new ChestItem(ItemID.GasTrap, 1),
                 };
             }
 
@@ -246,7 +248,7 @@ namespace CalamityMod.World
             };
             if (Main.zenithWorld)
             {
-                int golfClub = Utils.SelectRandom(WorldGen.genRand, ItemID.GolfClubBronzeWedge, ItemID.GolfClubWedge);
+                int golfClub = Utils.SelectRandom(WorldGen.genRand, ItemID.GolfClubBronzeWedge, ItemID.GolfClubWedge, ItemID.GasTrap);
                 contents = new List<ChestItem>()
                 {
                 new ChestItem(ModContent.ItemType<LuxorsGift>(), 1),
@@ -255,8 +257,8 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.DesertTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ModContent.ItemType<SpelunkersAmulet>(), 1),
-                new ChestItem(golfClub, 1), //Implying that the golfer messed with the loot but forgot this
                 new ChestItem(ItemID.RedPotion, WorldGen.genRand.Next(1, 2 + 1)),
+                new ChestItem(golfClub, 1), //Implying that the golfer messed with the loot but forgot this, OR its trapped
                 };
             }
 
@@ -325,7 +327,8 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.BlueTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
-                new ChestItem(potionType, WorldGen.genRand.Next(Main.remixWorld ? 1 : 10, (Main.remixWorld ? 2 : 12) + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(Main.zenithWorld ? 1 : 10, (Main.zenithWorld ? 2 : 12) + 1)),
+                new ChestItem((Main.rand.NextBool(2) && Main.zenithWorld) ? ItemID.GasTrap : ItemID.Granite, Main.zenithWorld ? 1 : WorldGen.genRand.Next(7,15+1)),
             };
 
             for (int i = 0; i < contents.Count; i++)
@@ -385,8 +388,6 @@ namespace CalamityMod.World
         public static void FillIceShrineChest(Chest chest)
         {
             int foodType = Utils.SelectRandom(WorldGen.genRand, ItemID.ChristmasPudding, ItemID.SugarCookie, ItemID.GingerbreadCookie);
-            if (Main.zenithWorld)
-                foodType = ModContent.ItemType<DeliciousMeat>();
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<TundraLeash>(), 1),
@@ -394,9 +395,24 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.FrozenKey, 1),
                 new ChestItem(ItemID.IceTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
-                new ChestItem(Main.zenithWorld ? ItemID.Eggnog :ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
-                new ChestItem(foodType, WorldGen.genRand.Next(Main.remixWorld ? 200 : 10, (Main.zenithWorld ? 349 : 12) + 1)),
+                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(foodType, WorldGen.genRand.Next(10, 12 + 1)),
             };
+
+            if (Main.zenithWorld)
+            {
+                contents = new List<ChestItem>()
+            {
+                new ChestItem(ModContent.ItemType<TundraLeash>(), 1),
+                new ChestItem(ItemID.FlinxFur, WorldGen.genRand.Next(6, 8 + 1)),
+                new ChestItem(ItemID.FrozenKey, 1),
+                new ChestItem(ItemID.IceTorch, WorldGen.genRand.Next(100, 110 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
+                new ChestItem(ItemID.Eggnog, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(ModContent.ItemType<DeliciousMeat>(), WorldGen.genRand.Next(200, 349 + 1)),
+                new ChestItem(Main.rand.NextBool(2) ? ItemID.GasTrap : ItemID.Marshmallow, 1)
+            };
+            }
 
             for (int i = 0; i < contents.Count; i++)
             {
@@ -464,7 +480,8 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.WhiteTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
-                new ChestItem(potionType, WorldGen.genRand.Next(Main.zenithWorld ? 1 : 10, (Main.remixWorld ? 2 : 12) + 1))
+                new ChestItem(potionType, WorldGen.genRand.Next(Main.zenithWorld ? 1 : 10, (Main.zenithWorld ? 2 : 12) + 1)),
+                new ChestItem((Main.rand.NextBool(2) && Main.zenithWorld) ? ItemID.GasTrap : ItemID.Marble, Main.zenithWorld ? 1 : WorldGen.genRand.Next(7,15+1)),
             };
 
             for (int i = 0; i < contents.Count; i++)
@@ -555,6 +572,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(4, 6 + 1)),
                 new ChestItem(ModContent.ItemType<OddMushroom>(), WorldGen.genRand.Next(2, 3 + 1)),
                 new ChestItem(ItemID.RedPotion, WorldGen.genRand.Next(1, 2 + 1)),
+                new ChestItem(ItemID.GasTrap, 1)
                 };
             }
 
@@ -647,6 +665,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(4, 6 + 1)),
                 new ChestItem(Main.zenithWorld ? ItemID.RestorationPotion : ItemID.LesserHealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(Main.zenithWorld ? ItemID.GasTrap : ItemID.Mushroom, Main.zenithWorld ? 1 : WorldGen.genRand.Next(5,9+1)),
             };
 
             for (int i = 0; i < contents.Count; i++)
