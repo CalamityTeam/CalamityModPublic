@@ -54,17 +54,6 @@ namespace CalamityMod.Projectiles.Typless
                 Player player = Main.player[playerIndex];
                 float targetDist = Vector2.Distance(player.Center, Projectile.Center);
 
-                //Allowing all players to get cleansed after another aura is spawned by anyone
-                for (int i = 0; i < Main.maxPlayers; i++)
-                {
-                    Player otherPlayer = Main.player[i];
-                    if (otherPlayer.active)
-                    {
-                        otherPlayer.Calamity().HasGotCleansed = false;
-                    }
-                }
-                player.Calamity().HasGotCleansed = false;
-
                 //Remove the players debuffs and defense damage, but only once per aura
                 if (targetDist < 232f)
                 {
