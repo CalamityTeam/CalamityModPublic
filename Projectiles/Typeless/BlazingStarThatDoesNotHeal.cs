@@ -32,7 +32,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 0.45f, 0.35f, 0f);
+            if (Projectile.timeLeft % 4 == 0) //only once per 4 frames
+                Lighting.AddLight(Projectile.Center, 0.45f, 0.35f, 0f);
 
             if (Projectile.ai[0] < 240f)
             {
