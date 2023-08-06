@@ -657,6 +657,28 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             NPC.Calamity().CurrentlyEnraged = !player.Hitbox.Intersects(safeBox);
 
+            // Cirrus fucks mounts if you exit her arena.
+            if (cirrus)
+            {
+                if (!player.Hitbox.Intersects(safeBox) && player.mount.Active)
+                {
+                    player.ResetEffects();
+                    player.head = -1;
+                    player.body = -1;
+                    player.legs = -1;
+                    player.handon = -1;
+                    player.handoff = -1;
+                    player.back = -1;
+                    player.front = -1;
+                    player.shoe = -1;
+                    player.waist = -1;
+                    player.shield = -1;
+                    player.neck = -1;
+                    player.face = -1;
+                    player.balloon = -1;
+                }
+            }
+
             // Set DR to be 99% and unbreakable if enraged. Boost DR during the 5th attack.
             CalamityGlobalNPC global = NPC.Calamity();
             if (protectionBoost && !gettingTired5)
