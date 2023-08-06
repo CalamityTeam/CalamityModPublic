@@ -168,11 +168,11 @@ namespace CalamityMod.Projectiles.Boss
         {
             Vector2 idealAimDirection = (Main.player[Cirrus.target].Center - cirrusRotatedPosition).SafeNormalize(Vector2.UnitX * Cirrus.direction);
 
-            float angularAimVelocity = 0.15f;
+            float angularAimVelocity = 0.03f;
             float directionAngularDisparity = Projectile.velocity.AngleBetween(idealAimDirection) / MathHelper.Pi;
 
             // Increase the turn speed if close to the ideal direction, since successive linear interpolations are asymptotic.
-            angularAimVelocity += MathHelper.Lerp(0f, 0.25f, Utils.GetLerpValue(0.28f, 0.08f, directionAngularDisparity, true));
+            angularAimVelocity += MathHelper.Lerp(0f, 0.05f, Utils.GetLerpValue(0.28f, 0.08f, directionAngularDisparity, true));
 
             if (directionAngularDisparity > 0.02f)
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealAimDirection, angularAimVelocity);
