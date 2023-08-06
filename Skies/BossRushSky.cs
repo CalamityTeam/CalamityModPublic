@@ -18,6 +18,7 @@ namespace CalamityMod.Skies
         public static float IncrementalInterest = 0f;
         public static float CurrentInterestMin = 0f;
         public static bool ShouldDrawRegularly;
+
         public static Color GeneralColor => Color.Lerp(Color.LightGray, Color.Black, BossRushEvent.WhiteDimness) * 0.2f;
 
         public static bool DetermineDrawEligibility()
@@ -28,12 +29,10 @@ namespace CalamityMod.Skies
             {
                 if (useEffect)
                     SkyManager.Instance.Activate("CalamityMod:BossRush");
-
                 else
-                {
                     SkyManager.Instance.Deactivate("CalamityMod:BossRush", new object[0]);
-                }
             }
+
             if (useEffect != Filters.Scene["CalamityMod:BossRush"].IsActive())
             {
                 if (useEffect)
@@ -51,6 +50,7 @@ namespace CalamityMod.Skies
             {
                 if (Intensity < 1f)
                     Intensity += 0.03f;
+
                 CurrentInterest = MathHelper.Clamp(CurrentInterest - 0.005f, CurrentInterestMin, 1f);
                 IncrementalInterest = MathHelper.Lerp(IncrementalInterest, CurrentInterest, 0.085f);
                 IdleTimer += MathHelper.Lerp(0.04f, 0.1f, IncrementalInterest);
@@ -96,7 +96,6 @@ namespace CalamityMod.Skies
                 fadeToWhite *= Utils.GetLerpValue(BossRushEvent.EndVisualEffectTime - 5f, BossRushEvent.EndVisualEffectTime - 25f, BossRushEvent.EndTimer, true);
                 float backScale = MathHelper.Lerp(0.01f, 8f, fadeToWhite);
                 Color backFadeColor = Color.White * fadeToWhite * 0.64f;
-
                 spriteBatch.Draw(whiteTexture, screenCenter, null, backFadeColor, 0f, whiteTexture.Size() * 0.5f, backScale, SpriteEffects.None, 0f);
             }
 

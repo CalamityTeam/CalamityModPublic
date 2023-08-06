@@ -149,16 +149,24 @@ namespace CalamityMod.NPCs.Leviathan
             if (spawnInfo.Player.Calamity().disableAnahitaSpawns)
                 return 0f;
 
-            if (spawnInfo.PlayerSafe ||
-                NPC.AnyNPCs(NPCID.DukeFishron) ||
-                NPC.AnyNPCs(NPC.type) ||
-                NPC.AnyNPCs(ModContent.NPCType<Anahita>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<Leviathan>()) ||
-                spawnInfo.Player.Calamity().ZoneSulphur ||
-                spawnInfo.Player.PillarZone())
-            {
+            if (spawnInfo.PlayerSafe || !spawnInfo.Player.ZoneBeach || spawnInfo.Player.Calamity().ZoneSulphur || spawnInfo.Player.PillarZone())
                 return 0f;
-            }
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPC.type))
+                return 0f;
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPCID.DukeFishron))
+                return 0f;
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(ModContent.NPCType<Anahita>()))
+                return 0f;
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(ModContent.NPCType<Leviathan>()))
+                return 0f;
 
             if (!Main.hardMode)
                 return SpawnCondition.OceanMonster.Chance * 0.025f;
@@ -179,9 +187,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (NPC.life > 0)
             {
                 for (int k = 0; k < 5; k++)
-                {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hit.HitDirection, -1f, 0, default, 1f);
-                }
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient)
             {

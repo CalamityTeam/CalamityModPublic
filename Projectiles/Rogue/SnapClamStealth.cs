@@ -9,9 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
     public class SnapClamStealth : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
-        public int clamCounter = 0;
-        public bool openClam = true;
-        public bool onEnemy = false;
 
         public override string Texture => "CalamityMod/Projectiles/Rogue/SnapClamProj";
 
@@ -28,20 +25,17 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
-            Projectile.localNPCHitCooldown = 10;
             Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            if (openClam && !onEnemy)
+            if (Projectile.ai[2] < 30f && Projectile.ai[0] != 1f)
             {
-                ++clamCounter;
-                if (clamCounter >= 30)
-                {
-                    openClam = false;
+                Projectile.ai[2]++;
+                if (Projectile.ai[2] >= 30f)
                     Projectile.damage = (int)(Projectile.damage * 0.8);
-                }
             }
             if (Projectile.ai[0] == 0f)
             {
@@ -52,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             //Sticky Behaviour
             Projectile.StickyProjAI(15);
-            if (openClam && !onEnemy)
+            if (Projectile.ai[2] < 30f && Projectile.ai[0] != 1f)
             {
                 Projectile.frame = 1;
             }
@@ -64,12 +58,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (openClam)
-            {
-                onEnemy = true;
-                Projectile.ModifyHitNPCSticky(5, false);
-            }
+            if (Projectile.ai[2] < 30f)
+                Projectile.ModifyHitNPCSticky(5);
         }
+
+        public override bool? CanDamage() => Projectile.ai[0] == 1f ? false : base.CanDamage();
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -97,9 +90,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<SnapClamDebuff>(), 360);
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<SnapClamDebuff>(), 360);
     }
 }

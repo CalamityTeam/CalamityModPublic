@@ -94,6 +94,7 @@ namespace CalamityMod
                         int increment = Math.Max(1, typeOneIncrement);
                         Color drawColor = proj.GetAlpha(lightColor);
                         int afterimageCount = ProjectileID.Sets.TrailCacheLength[proj.type];
+                        float afterimageColorCount = (float)afterimageCount * 1.5f;
                         int k = 0;
                         while (k < afterimageCount)
                         {
@@ -102,7 +103,7 @@ namespace CalamityMod
                             if (k > 0)
                             {
                                 float colorMult = (float)(afterimageCount - k);
-                                drawColor *= colorMult / ((float)afterimageCount * 1.5f);
+                                drawColor *= colorMult / afterimageColorCount;
                             }
                             Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), drawColor, rotation, origin, scale, spriteEffects, 0f);
                             k += increment;

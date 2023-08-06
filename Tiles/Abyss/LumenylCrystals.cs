@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.00f;
+            r = 0f;
             g = 0.3f;
             b = 0.4f;
         }
@@ -58,21 +58,13 @@ namespace CalamityMod.Tiles.Abyss
             Tile leftTile = Main.tile[i - 1, j];
 
             if (belowTile.Slope == SlopeType.Solid && !belowTile.IsHalfBlock && belowTile.HasTile && belowTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 0;
-            }
             else if (aboveTile.Slope == SlopeType.Solid && !aboveTile.IsHalfBlock && aboveTile.HasTile && aboveTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 18;
-            }
             else if (rightTile.Slope == SlopeType.Solid && !rightTile.IsHalfBlock && rightTile.HasTile && rightTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 36;
-            }
             else if (leftTile.Slope == SlopeType.Solid && !leftTile.IsHalfBlock && leftTile.HasTile && leftTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 54;
-            }
             
             Main.tile[i, j].TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
         }

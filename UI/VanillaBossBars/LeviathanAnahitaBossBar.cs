@@ -20,6 +20,7 @@ namespace CalamityMod.UI.VanillaBossBars
             // Prevent icon seizures by prioritizing Leviathan first
             if (NPC.AnyNPCs(NPCType<Leviathan>()))
                 return TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<Leviathan>()]];
+
             return TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<Anahita>()]];
         }
 

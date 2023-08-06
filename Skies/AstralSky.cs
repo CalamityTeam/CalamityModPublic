@@ -33,6 +33,7 @@ namespace CalamityMod.Skies
         {
             skyActive = true;
         }
+
         public override Color OnTileColor(Color inColor)
         {
             return Color.Lerp(inColor, new Color(63, 51, 90, inColor.A), opacity);
@@ -40,29 +41,28 @@ namespace CalamityMod.Skies
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            //small worlds, default draw height
+            // Small worlds, default draw height
             int AstralBiomeHeight = (World.AstralBiome.YStart + (int)Main.worldSurface) / 2;
 
-            //medium worlds
+            // Medium worlds
             if (Main.maxTilesX >= 6400 && Main.maxTilesX < 8400)
-            {
                 AstralBiomeHeight = (World.AstralBiome.YStart + (int)Main.worldSurface) / 4;
-            }
-            //large worlds (and anything bigger)
+
+            // Large worlds (and anything bigger)
             if (Main.maxTilesX >= 8400)
-            {
                 AstralBiomeHeight = (World.AstralBiome.YStart + (int)Main.worldSurface) / 140;
-            }
-            if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)
+
+            float whateverTheFuckThisVariableIsSupposedToBe = 3.40282347E+38f;
+            if (maxDepth >= whateverTheFuckThisVariableIsSupposedToBe && minDepth < whateverTheFuckThisVariableIsSupposedToBe)
             {
                 spriteBatch.Draw(CalamityMod.AstralSky, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * opacity);
 
-                //Terraria's conditions.
+                // Terraria's conditions.
+                int bgTop = (int)((-Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0);
                 if (Main.netMode != NetmodeID.Server)
                 {
                     for (int i = 0; i < Main.star.Length; i++)
                     {
-
                         Star star = Main.star[i];
                         if (star == null)
                             continue;
@@ -70,7 +70,6 @@ namespace CalamityMod.Skies
                         Texture2D t2D = TextureAssets.Star[star.type].Value;
                         Vector2 origin = new Vector2(t2D.Width * 0.5f, t2D.Height * 0.5f);
 
-                        int bgTop = (int)((-Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0);
                         float posX = star.position.X * (Main.screenWidth / 500f);
                         float posY = star.position.Y * (Main.screenHeight / 600f);
                         Color astralcyan = new Color(100, 183, 255);
@@ -79,12 +78,9 @@ namespace CalamityMod.Skies
 
                         spriteBatch.Draw(t2D, position, new Rectangle(0, 0, t2D.Width, t2D.Height), astralcyan * star.twinkle * 0.952f * opacity, star.rotation, origin, (star.scale * star.twinkle) - 0.2f, SpriteEffects.None, 0f);
                     }
-                }
-                if (Main.netMode != NetmodeID.Server)
-                {
+
                     for (int i = 0; i < Main.star.Length; i++)
                     {
-
                         Star star = Main.star[i];
                         if (star == null)
                             continue;
@@ -92,7 +88,6 @@ namespace CalamityMod.Skies
                         Texture2D t2D = TextureAssets.Star[star.type].Value;
                         Vector2 origin = new Vector2(t2D.Width * 0.2f, t2D.Height * 0.2f);
 
-                        int bgTop = (int)((-Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0);
                         float posX = star.position.X * (Main.screenWidth / 600f);
                         float posY = star.position.Y * (Main.screenHeight / 800f);
                         Color purple = new Color(201, 148, 255);
@@ -101,12 +96,9 @@ namespace CalamityMod.Skies
 
                         spriteBatch.Draw(t2D, position, new Rectangle(0, 0, t2D.Width, t2D.Height), purple * star.twinkle * 0.952f * opacity, star.rotation, origin, (star.scale * star.twinkle) + 0.2f, SpriteEffects.None, 0f);
                     }
-                }
-                if (Main.netMode != NetmodeID.Server)
-                {
+
                     for (int i = 0; i < Main.star.Length; i++)
                     {
-
                         Star star = Main.star[i];
                         if (star == null)
                             continue;
@@ -114,7 +106,6 @@ namespace CalamityMod.Skies
                         Texture2D t2D = TextureAssets.Star[star.type].Value;
                         Vector2 origin = new Vector2(t2D.Width * 0.8f, t2D.Height * 0.8f);
 
-                        int bgTop = (int)((-Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0);
                         float posX = star.position.X * (Main.screenWidth / 200f);
                         float posY = star.position.Y * (Main.screenHeight / 900f);
                         Color yellow = new Color(255, 146, 73);
@@ -123,12 +114,9 @@ namespace CalamityMod.Skies
 
                         spriteBatch.Draw(t2D, position, new Rectangle(0, 0, t2D.Width, t2D.Height), yellow * star.twinkle * 0.952f * opacity, star.rotation, origin, star.scale * star.twinkle, SpriteEffects.None, 0f);
                     }
-                }
-                if (Main.netMode != NetmodeID.Server)
-                {
+
                     for (int i = 0; i < Main.star.Length; i++)
                     {
-
                         Star star = Main.star[i];
                         if (star == null)
                             continue;
@@ -136,7 +124,6 @@ namespace CalamityMod.Skies
                         Texture2D t2D = TextureAssets.Star[star.type].Value;
                         Vector2 origin = new Vector2(t2D.Width * 0.5f, t2D.Height * 0.5f);
 
-                        int bgTop = (int)((-Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0);
                         float posX = star.position.X * (Main.screenWidth / 1000f);
                         float posY = star.position.Y * (Main.screenHeight / 200f);
 
@@ -146,7 +133,6 @@ namespace CalamityMod.Skies
                     }
                 }
             }
-            
         }
 
         public override void Update(GameTime gameTime)
@@ -155,13 +141,9 @@ namespace CalamityMod.Skies
                 skyActive = false;
 
             if (skyActive && opacity < 1f)
-            {
                 opacity += 0.02f;
-            }
             else if (!skyActive && opacity > 0f)
-            {
                 opacity -= 0.02f;
-            }
         }
 
         public override float GetCloudAlpha()

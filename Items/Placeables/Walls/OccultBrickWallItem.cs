@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureSacrilegious;
-using CalamityMod.Rarities;
 using CalamityMod.Walls;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +25,6 @@ namespace CalamityMod.Items.Placeables.Walls
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createWall = ModContent.WallType<OccultBrickWall>();
-            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void AddRecipes()

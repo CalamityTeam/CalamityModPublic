@@ -313,6 +313,7 @@ namespace CalamityMod.FluidSimulation
 
             if (velocity != Vector2.Zero)
                 VelocityField.PendingChanges.Enqueue(new(pos, new Vector4(velocity.X, velocity.Y, 0f, 0f)));
+
             DensityField.PendingChanges.Enqueue(new PixelQueueValue(pos, new Color(density, 0f, 0f)));
         }
 

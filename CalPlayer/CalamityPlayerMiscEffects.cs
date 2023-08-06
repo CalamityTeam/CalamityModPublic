@@ -96,6 +96,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (OldPositions[i - 1] == Vector2.Zero)
                     OldPositions[i - 1] = Player.position;
+
                 OldPositions[i] = OldPositions[i - 1];
             }
             OldPositions[0] = Player.position;
@@ -538,8 +539,8 @@ namespace CalamityMod.CalPlayer
 
                 if (tile.TileType == abyssKelpID)
                 {
-                    if (Player.velocity.Length() == 0)
-                    { return; }
+                    if (Player.velocity.Length() == 0f)
+                        return;
 
                     Dust dust;
                     dust = Main.dust[Dust.NewDust(Player.Center, 16, 16, 304, 0.23255825f, 10f, 0, new Color(117, 55, 15), 1.5116279f)];
@@ -800,9 +801,7 @@ namespace CalamityMod.CalPlayer
                     {
                         int hasBuff = Player.buffType[l];
                         if (Player.buffTime[l] > 2 && CalamityLists.debuffList.Contains(hasBuff))
-                        {
                             Player.buffTime[l]--;
-                        }
                     }
                 }
             }
@@ -1084,6 +1083,7 @@ namespace CalamityMod.CalPlayer
                                 target = npcIndex;
                             }
                         }
+
                         if (target > 0) 
                         {
                             unstableSelectedTarget = Main.npc[target];
@@ -1093,7 +1093,8 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (zapActivity > 600) { zapActivity = 0; }
+                else if (zapActivity > 600)
+                    zapActivity = 0;
             }
 
             if (nucleogenesis)
@@ -1129,7 +1130,7 @@ namespace CalamityMod.CalPlayer
             // It may not tick down the timer or not do anything at all.
             IList<string> expiredCooldowns = new List<string>(16);
             var cdIterator = cooldowns.GetEnumerator();
-            while(cdIterator.MoveNext())
+            while (cdIterator.MoveNext())
             {
                 KeyValuePair<string, CooldownInstance> kv = cdIterator.Current;
                 string id = kv.Key;
@@ -1259,17 +1260,21 @@ namespace CalamityMod.CalPlayer
             else
             {
                 persecutedEnchantSummonTimer = 0;
-                if (Main.myPlayer == Player.whoAmI && persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
+                if (Main.myPlayer == Player.whoAmI && persecutedEnchant)
                 {
-                    int tries = 0;
-                    Vector2 spawnPosition;
-                    do
+                    if (NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
                     {
-                        spawnPosition = Player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
-                        tries++;
+                        int tries = 0;
+                        Vector2 spawnPosition;
+                        Vector2 spawnPositionOffset = Vector2.One * 24f;
+                        do
+                        {
+                            spawnPosition = Player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+                            tries++;
+                        }
+                        while (Collision.SolidCollision(spawnPosition - spawnPositionOffset, 48, 24) && tries < 100);
+                        CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), Player);
                     }
-                    while (Collision.SolidCollision(spawnPosition - Vector2.One * 24f, 48, 24) && tries < 100);
-                    CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), Player);
                 }
             }
             if (Player.miscCounter % 20 == 0)
@@ -1653,6 +1658,7 @@ namespace CalamityMod.CalPlayer
                             NPC npc = Main.npc[l];
                             if (!npc.active || npc.friendly || npc.damage <= 0 || npc.dontTakeDamage)
                                 continue;
+
                             if (!npc.buffImmune[buffType] && Vector2.Distance(Player.Center, npc.Center) <= freezeDist)
                             {
                                 if (npc.FindBuffIndex(buffType) == -1)
@@ -3058,33 +3064,6 @@ namespace CalamityMod.CalPlayer
                 Player.npcTypeNoAggro[ModContent.NPCType<GammaSlime>()] = true;
             }
 
-            if (oldDukeScales)
-            {
-                Player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
-                Player.buffImmune[BuffID.Poisoned] = true;
-                Player.buffImmune[BuffID.Venom] = true;
-                if (Player.statLife <= (int)(Player.statLifeMax2 * 0.75))
-                {
-                    Player.GetDamage<GenericDamageClass>() += 0.06f;
-                    Player.GetCritChance<GenericDamageClass>() += 3;
-                }
-                if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
-                {
-                    Player.GetDamage<GenericDamageClass>() += 0.06f;
-                    Player.GetCritChance<GenericDamageClass>() += 3;
-                }
-                if (Player.statLife <= (int)(Player.statLifeMax2 * 0.25))
-                {
-                    Player.GetDamage<GenericDamageClass>() += 0.06f;
-                    Player.GetCritChance<GenericDamageClass>() += 3;
-                }
-                if (Player.lifeRegen < 0)
-                {
-                    Player.GetDamage<GenericDamageClass>() += 0.1f;
-                    Player.GetCritChance<GenericDamageClass>() += 5;
-                }
-            }
-
             if (dArtifact)
                 Player.GetDamage<GenericDamageClass>() += 0.25f;
 
@@ -3277,9 +3256,7 @@ namespace CalamityMod.CalPlayer
                     {
                         bool electrified = Player.buffType[l] == BuffID.Electrified;
                         if (Player.buffTime[l] > 2 && electrified)
-                        {
                             Player.buffTime[l]--;
-                        }
                     }
 
                     //Summon the aura
@@ -3421,9 +3398,7 @@ namespace CalamityMod.CalPlayer
                 {
                     int hasBuff = Player.buffType[l];
                     if (hasBuff == ModContent.BuffType<Buffs.StatBuffs.DivineBless>())
-                    {
                         angelicActivate = Player.buffTime[l];
-                    }
                 }
 
                 if (Player.FindBuffIndex(ModContent.BuffType<Buffs.StatBuffs.DivineBless>()) == -1)

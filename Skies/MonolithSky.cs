@@ -22,6 +22,7 @@ namespace CalamityMod.Skies
             public Color DrawColor;
             public Vector2 Velocity;
             public Vector2 Center;
+
             public Cinder(int lifetime, int identity, float depth, Color color, Vector2 startingPosition, Vector2 startingVelocity)
             {
                 Lifetime = lifetime;
@@ -51,13 +52,9 @@ namespace CalamityMod.Skies
                 skyActive = false;
 
             if (skyActive && opacity < 1f)
-            {
                 opacity += 0.02f;
-            }
             else if (!skyActive && opacity > 0f)
-            {
                 opacity -= 0.02f;
-            }
 
             static Color selectCinderColor()
             {
@@ -124,6 +121,7 @@ namespace CalamityMod.Skies
                     offsetDrawColor.A = 0;
                     spriteBatch.Draw(cinderTexture, offsetDrawPosition, null, offsetDrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale * 1.5f, SpriteEffects.None, 0f);
                 }
+
                 spriteBatch.Draw(cinderTexture, drawPosition, null, Cinders[i].DrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale, SpriteEffects.None, 0f);
             }
         }

@@ -70,14 +70,17 @@ namespace CalamityMod.NPCs.Astral
             NPC.ai[0]++;
             if (NPC.ai[0] > (CalamityWorld.death ? 60f : CalamityWorld.revenge ? 120f : 180f))
             {
-                if (Main.rand.NextBool(100) && NPC.CountNPCS(ModContent.NPCType<Hiveling>()) < 10)
+                if (Main.rand.NextBool(100))
                 {
-                    NPC.ai[0] = 0;
+                    if (NPC.CountNPCS(ModContent.NPCType<Hiveling>()) < 10)
+                    {
+                        NPC.ai[0] = 0;
 
-                    //spawn hiveling, it's ai[0] is the hive npc index.
-                    int n = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Hiveling>(), 0, NPC.whoAmI);
-                    Main.npc[n].velocity.X = Main.rand.NextFloat(-0.4f, 0.4f);
-                    Main.npc[n].velocity.Y = Main.rand.NextFloat(-0.5f, -0.05f);
+                        // Spawn hiveling, it's ai[0] is the hive npc index.
+                        int n = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Hiveling>(), 0, NPC.whoAmI);
+                        Main.npc[n].velocity.X = Main.rand.NextFloat(-0.4f, 0.4f);
+                        Main.npc[n].velocity.Y = Main.rand.NextFloat(-0.5f, -0.05f);
+                    }
                 }
             }
         }
@@ -98,7 +101,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            //draw glowmask
+            // Draw glowmask.
             spriteBatch.Draw(glowmask, NPC.Center - screenPos, NPC.frame, Color.White * 0.6f, NPC.rotation, new Vector2(19, 30), 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
         }
 
@@ -128,14 +131,16 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player) || NPC.AnyNPCs(NPC.type))
-            {
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player) || !spawnInfo.Player.InAstral())
                 return 0f;
-            }
-            else if (spawnInfo.Player.InAstral(2))
-            {
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPC.type))
+                return 0f;
+
+            if (spawnInfo.Player.InAstral(2))
                 return 0.17f;
-            }
+
             return 0f;
         }
 

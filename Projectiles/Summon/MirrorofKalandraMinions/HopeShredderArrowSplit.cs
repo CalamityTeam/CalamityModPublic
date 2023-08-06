@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
 
         public override void SetDefaults()
         {
+            Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = MirrorofKalandra.Vile_SplitIFrames;
             Projectile.penetrate = 3;
             

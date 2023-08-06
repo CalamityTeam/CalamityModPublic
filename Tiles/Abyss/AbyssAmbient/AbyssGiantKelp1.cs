@@ -51,9 +51,9 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             Tile tile = Framing.GetTileSafely(i, j);
             if (tile.TileFrameY <= 36)
             {
-                r = 184f / 255f;
-                g = 90f / 255f;
-                b = 20f / 255f;
+                r = 0.72f;
+                g = 0.35f;
+                b = 0.08f;
             }
         }
 

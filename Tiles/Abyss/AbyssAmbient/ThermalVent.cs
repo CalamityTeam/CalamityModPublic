@@ -46,8 +46,8 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 145f / 350f;
-            g = 75f / 350f;
+            r = 0.41f;
+            g = 0.21f;
             b = 0f;
         }
 
@@ -59,11 +59,8 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             if (!Main.gamePaused && t.TileFrameX % 36 == 0 && t.TileFrameY % 36 == 0 && Collision.CanHitLine(spawnPosition, 1, 1, spawnPosition - Vector2.UnitY * 100f, 1, 1))
             {
                 steamTimer += Main.rand.Next(0, 2);
-
                 if (steamTimer >= 600)
-                {
                     steamTimer = 0;
-                }
             }
         }
 
@@ -80,9 +77,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
                 smokeVelocity.Y -= Main.rand.Next(3, 6);
 
                 if (steamTimer >= 450 && Main.rand.NextBool(3))
-                {
                     Projectile.NewProjectile(new EntitySource_WorldEvent(), spawnPosition, smokeVelocity, ModContent.ProjectileType<ThermalSteam>(), Main.expertMode ? 20 : 30, 0f);
-                }
             }
         }
     }

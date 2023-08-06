@@ -20,6 +20,7 @@ namespace CalamityMod.Skies
             public Vector2 Center;
             public SpriteEffects DirectionEffect;
         }
+
         public int CryogenIndex = -1;
         public float FadeInCountdown = 0f;
         public float FadeoutTimer = 0f;
@@ -104,6 +105,7 @@ namespace CalamityMod.Skies
                     break;
                 }
             }
+
             return CryogenIndex != -1;
         }
 

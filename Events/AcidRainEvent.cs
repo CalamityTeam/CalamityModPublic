@@ -268,11 +268,14 @@ namespace CalamityMod.Events
             // If the rain stops for whatever reason, end the invasion.
             // This is primarily done for compatibility, so that if another mod wants to manipulate the weather,
             // they can without having to deal with endless rain.
-            if (!Main.raining && !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) && TimeSinceEventStarted > 20)
+            if (!Main.raining && TimeSinceEventStarted > 20)
             {
-                AccumulatedKillPoints = 0;
-                HasTriedToSummonOldDuke = false;
-                UpdateInvasion(false);
+                if (!NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
+                {
+                    AccumulatedKillPoints = 0;
+                    HasTriedToSummonOldDuke = false;
+                    UpdateInvasion(false);
+                }
             }
             else if (TimeSinceEventStarted < 20)
             {
@@ -290,24 +293,27 @@ namespace CalamityMod.Events
             // Summon Old Duke tornado post-Polter as needed
             if (DownedBossSystem.downedPolterghast && AccumulatedKillPoints == 1)
             {
-                if (!NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) && CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)
+                if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)
                 {
-                    // If the Old Duke has been summoned already, that means that he was successfully killed and it's time to end the event.
-                    if (HasTriedToSummonOldDuke)
+                    if (!NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
                     {
-                        AccumulatedKillPoints = 0;
-                        HasTriedToSummonOldDuke = false;
-                        UpdateInvasion(false);
-                    }
+                        // If the Old Duke has been summoned already, that means that he was successfully killed and it's time to end the event.
+                        if (HasTriedToSummonOldDuke)
+                        {
+                            AccumulatedKillPoints = 0;
+                            HasTriedToSummonOldDuke = false;
+                            UpdateInvasion(false);
+                        }
 
-                    // If not, that means he's ready to be summoned.
-                    else
-                    {
-                        var source = new EntitySource_WorldEvent();
-                        int playerClosestToAbyss = Player.FindClosest(new Vector2(Abyss.AtLeftSideOfWorld ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
-                        Player closestToAbyss = Main.player[playerClosestToAbyss];
-                        if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (Abyss.AtLeftSideOfWorld ? 0 : Main.maxTilesX * 16)) <= 12000f)
-                            Projectile.NewProjectile(source, closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero, ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f, Main.myPlayer);
+                        // If not, that means he's ready to be summoned.
+                        else
+                        {
+                            var source = new EntitySource_WorldEvent();
+                            int playerClosestToAbyss = Player.FindClosest(new Vector2(Abyss.AtLeftSideOfWorld ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
+                            Player closestToAbyss = Main.player[playerClosestToAbyss];
+                            if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (Abyss.AtLeftSideOfWorld ? 0 : Main.maxTilesX * 16)) <= 12000f)
+                                Projectile.NewProjectile(source, closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero, ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f, Main.myPlayer);
+                        }
                     }
                 }
             }

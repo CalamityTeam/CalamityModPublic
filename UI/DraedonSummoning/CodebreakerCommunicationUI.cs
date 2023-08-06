@@ -236,6 +236,13 @@ namespace CalamityMod.UI.DraedonSummoning
             float opacity = DraedonTextOptionsOpacity * (1f - DraedonScreenStaticInterpolant);
             Vector2 textTopLeft = selectionArea.TopLeft() + new Vector2(20f, 12f) * panelScale;
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
+            Vector2 markerScale = panelScale * 0.24f;
+            Vector2 markerDrawPositionOffset = Vector2.UnitX * markerTexture.Width * markerScale.X * 0.52f;
+            Vector2 markerTextureSize = markerTexture.Size() * markerScale;
+            float bloomTexScale = (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.05f + 0.26f;
+            float bloomTexRot = Main.GlobalTimeWrappedHourly * 0.5f;
+            Vector2 markerTextureOrigin = markerTexture.Size() * 0.5f;
+            float panelOffset = panelScale.Y * 12f;
 
             foreach (var dialog in DialogOptions.Where(d => d.Condition()))
             {
@@ -253,15 +260,14 @@ namespace CalamityMod.UI.DraedonSummoning
                     continue;
 
                 // Draw the text marker.
-                Vector2 markerScale = panelScale * 0.24f;
-                Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.52f;
+                Vector2 markerDrawPosition = textTopLeft - markerDrawPositionOffset;
                 markerDrawPosition.Y += markerScale.Y * 22f;
 
                 Color textColor = Color.Cyan;
                 Color markerColor = Color.White;
                 Vector2 textArea = DialogFont.MeasureString(inquiry) * GeneralScale;
                 Rectangle textAreaRect = new((int)textTopLeft.X, (int)textTopLeft.Y, (int)textArea.X, (int)textArea.Y);
-                Rectangle markerArea = Utils.CenteredRectangle(markerDrawPosition, markerTexture.Size() * markerScale);
+                Rectangle markerArea = Utils.CenteredRectangle(markerDrawPosition, markerTextureSize);
                 textAreaRect.Y = markerArea.Y;
                 textAreaRect.Height = markerArea.Height;
 
@@ -273,10 +279,7 @@ namespace CalamityMod.UI.DraedonSummoning
                     Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Matrix.Identity);
 
                     Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/BloomFlare").Value;
-                    float scale = (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.05f + 0.26f;
-                    float rot = Main.GlobalTimeWrappedHourly * 0.5f;
-
-                    Main.spriteBatch.Draw(bloomTex, markerDrawPosition, null, Color.SteelBlue * dialog.BloomOpacity * opacity, rot, new Vector2(123f, 124f), scale, 0, 0f);
+                    Main.spriteBatch.Draw(bloomTex, markerDrawPosition, null, Color.SteelBlue * dialog.BloomOpacity * opacity, bloomTexRot, new Vector2(123f, 124f), bloomTexScale, 0, 0f);
 
                     Main.spriteBatch.End();
                     Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Matrix.Identity);
@@ -327,10 +330,11 @@ namespace CalamityMod.UI.DraedonSummoning
                         CanDisplayLatestDialogEntries = false;
                     }
                 }
-                Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, markerColor * opacity, 0f, markerTexture.Size() * 0.5f, markerScale, 0, 0f);
+
+                Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, markerColor * opacity, 0f, markerTextureOrigin, markerScale, 0, 0f);
 
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, inquiry, textTopLeft, textColor * opacity, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.76f);
-                textTopLeft.Y += panelScale.Y * 12f;
+                textTopLeft.Y += panelOffset;
             }
 
             if (!hoveringOverAnyOption)
@@ -397,6 +401,14 @@ namespace CalamityMod.UI.DraedonSummoning
             var dialogEntries = DialogHistory.Where(d => !string.IsNullOrEmpty(d.Dialog));
             Vector2 textTopLeft = dialogArea.TopLeft() + new Vector2(20f, 14f) * panelScale;
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
+            Vector2 markerScale = panelScale * 0.24f;
+            Vector2 markerDrawPositionOffset = Vector2.UnitX * markerTexture.Width * markerScale.X * 0.6f;
+            float markerDrawPositionOffsetY = markerScale.Y * 24f;
+            float localTextOffsetY = markerScale.Y * 4f;
+            Vector2 markerTextureOrigin = markerTexture.Size() * 0.5f;
+            float panelOffset = panelScale.Y * 7.6f;
+            float panelOffset2 = panelScale.Y * 16f;
+
             foreach (var entry in dialogEntries)
             {
                 int lineIndex = 0;
@@ -409,9 +421,8 @@ namespace CalamityMod.UI.DraedonSummoning
                     bool textIsFromDraedon = entry.FromDraedon;
                     Color dialogColor = Draedon.TextColor;
                     Vector2 localTextTopLeft = textTopLeft;
-                    Vector2 markerScale = panelScale * 0.24f;
-                    Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.6f;
-                    markerDrawPosition.Y += markerScale.Y * 24f;
+                    Vector2 markerDrawPosition = textTopLeft - markerDrawPositionOffset;
+                    markerDrawPosition.Y += markerDrawPositionOffsetY;
                     SpriteEffects markerDirection = SpriteEffects.None;
                     if (!textIsFromDraedon)
                     {
@@ -420,7 +431,7 @@ namespace CalamityMod.UI.DraedonSummoning
                         markerDrawPosition.X = anchorPoint.X + (anchorPoint.X - markerDrawPosition.X);
                         localTextTopLeft.X = anchorPoint.X + (anchorPoint.X - localTextTopLeft.X);
                         localTextTopLeft.X -= DialogFont.MeasureString(line).X * GeneralScale * 0.725f;
-                        localTextTopLeft.Y -= markerScale.Y * 4f;
+                        localTextTopLeft.Y -= localTextOffsetY;
 
                         // Use a neutral grey-ish color if text is being said by the player.
                         dialogColor = Color.LightGray;
@@ -432,16 +443,17 @@ namespace CalamityMod.UI.DraedonSummoning
                     {
                         // Draw the text marker.
                         if (lineIndex <= 0)
-                            Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, Color.White * dialogHistoryDrawInterpolant, 0f, markerTexture.Size() * 0.5f, markerScale, markerDirection, 0f);
+                            Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, Color.White * dialogHistoryDrawInterpolant, 0f, markerTextureOrigin, markerScale, markerDirection, 0f);
 
                         // Draw the text itself.
                         ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.7f);
                     }
 
-                    textTopLeft.Y += panelScale.Y * 7.6f;
+                    textTopLeft.Y += panelOffset;
                     lineIndex++;
                 }
-                textTopLeft.Y += panelScale.Y * 16f;
+
+                textTopLeft.Y += panelOffset2;
                 if (textTopLeft.Y >= dialogArea.Bottom)
                     entriesToPrune++;
 

@@ -2800,12 +2800,15 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (Main.zenithWorld && NPC.AnyNPCs(NPCType<NPCs.CeaselessVoid.CeaselessVoid>()))
+            if (Main.zenithWorld)
             {
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-                var midnightShader = Terraria.Graphics.Shaders.GameShaders.Armor.GetShaderFromItemId(ItemID.MidnightRainbowDye);
-                midnightShader.Apply();
+                if (NPC.AnyNPCs(NPCType<NPCs.CeaselessVoid.CeaselessVoid>()))
+                {
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+                    var midnightShader = Terraria.Graphics.Shaders.GameShaders.Armor.GetShaderFromItemId(ItemID.MidnightRainbowDye);
+                    midnightShader.Apply();
+                }
             }
 
             return true;

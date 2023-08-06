@@ -33,6 +33,7 @@ namespace CalamityMod.Skies
         {
             skyActive = true;
         }
+
         public override Color OnTileColor(Color inColor)
         {
             return Color.Lerp(inColor, new Color(63, 51, 90, inColor.A), opacity);
@@ -40,37 +41,34 @@ namespace CalamityMod.Skies
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            //small worlds, default draw height
+            // Small worlds, default draw height
             int AstralBiomeHeight = (World.AstralBiome.YStart + (int)Main.worldSurface) / 2;
 
-            //medium worlds
+            // Medium worlds
             if (Main.maxTilesX >= 6400 && Main.maxTilesX < 8400)
-            {
                 AstralBiomeHeight = (World.AstralBiome.YStart + (int)Main.worldSurface) / 4;
-            }
 
-            //large worlds (and anything bigger)
+            // Large worlds (and anything bigger)
             if (Main.maxTilesX >= 8400)
-            {
                 AstralBiomeHeight = (World.AstralBiome.YStart + (int)Main.worldSurface) / 140;
-            }
 
-            //Background from here starting from the back layer to the front layer
+            // Background from here starting from the back layer to the front layer
             if (maxDepth >= 9f && minDepth < 9f)
             {
-                float screenParralaxMultiplier = 0.4f;
+                float screenParralaxMultiplier = 0.16f;
                 Texture2D texture = CalamityMod.AstralSurfaceHorizon;
                 float scale = 2.0f;
-                int x = (int)(Main.screenPosition.X * 0.4f * screenParralaxMultiplier);
+                int x = (int)(Main.screenPosition.X * screenParralaxMultiplier);
                 x %= (int)(texture.Width * scale);
-                int y = (int)(Main.screenPosition.Y * 0.4f * screenParralaxMultiplier);
-                y -= 1380; //1000
+                int y = (int)(Main.screenPosition.Y * screenParralaxMultiplier);
+                y -= 1380; // 1000
                 for (int k = -1; k <= 1; k++)
                 {
                     var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
                     spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                 }
             }
+
             if (maxDepth >= 8f && minDepth < 8f)
             {
                 float screenParralaxMultiplier = 0.4f;
@@ -79,13 +77,14 @@ namespace CalamityMod.Skies
                 int x = (int)(Main.screenPosition.X * 0.5f * screenParralaxMultiplier);
                 x %= (int)(texture.Width * scale);
                 int y = (int)(Main.screenPosition.Y * 0.45f * screenParralaxMultiplier);
-                y -= 1520; //1000
+                y -= 1520; // 1000
                 for (int k = -1; k <= 1; k++)
                 {
                     var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
                     spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                 }
             }
+
             if (maxDepth >= 7f && minDepth < 7f)
             {
                 float screenParralaxMultiplier = 0.4f;
@@ -94,13 +93,14 @@ namespace CalamityMod.Skies
                 int x = (int)(Main.screenPosition.X * 0.8f * screenParralaxMultiplier);
                 x %= (int)(texture.Width * scale);
                 int y = (int)(Main.screenPosition.Y * 0.5f * screenParralaxMultiplier);
-                y -= 1900; //1000
+                y -= 1900; // 1000
                 for (int k = -1; k <= 1; k++)
                 {
                     var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
                     spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                 }
             }
+
             if (maxDepth >= 6f && minDepth < 6f)
             {
                 float screenParralaxMultiplier = 0.4f;
@@ -109,7 +109,7 @@ namespace CalamityMod.Skies
                 int x = (int)(Main.screenPosition.X * 0.9f * screenParralaxMultiplier);
                 x %= (int)(texture.Width * scale);
                 int y = (int)(Main.screenPosition.Y * 0.55f * screenParralaxMultiplier);
-                y -= 1880; //1000
+                y -= 1880; // 1000
                 for (int k = -1; k <= 1; k++)
                 {
                     var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
@@ -123,6 +123,7 @@ namespace CalamityMod.Skies
                     spriteBatch.Draw(textureglow, pos - texture.Size() / 2f * scale, null, Color.White * 0.7f * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                 }
             }
+
             if (maxDepth >= 5f && minDepth < 5f)
             {
                 float screenParralaxMultiplier = 0.4f;
@@ -131,7 +132,7 @@ namespace CalamityMod.Skies
                 int x = (int)(Main.screenPosition.X * 1.1f * screenParralaxMultiplier);
                 x %= (int)(texture.Width * scale);
                 int y = (int)(Main.screenPosition.Y * 0.6f * screenParralaxMultiplier);
-                y -= 2100; //1000
+                y -= 2100; // 1000
                 for (int k = -1; k <= 1; k++)
                 {
                     var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
@@ -153,13 +154,9 @@ namespace CalamityMod.Skies
                 skyActive = false;
 
             if (skyActive && opacity < 1f)
-            {
                 opacity += 0.02f;
-            }
             else if (!skyActive && opacity > 0f)
-            {
                 opacity -= 0.02f;
-            }
         }
 
         public override float GetCloudAlpha()

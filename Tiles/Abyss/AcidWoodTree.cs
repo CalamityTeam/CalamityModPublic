@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Abyss
         public override TreePaintingSettings TreeShaderSettings => new TreePaintingSettings
         {
             UseSpecialGroups = true,
-            SpecialGroupMinimalHueValue = 11f / 72f,
+            SpecialGroupMinimalHueValue = 0.153f,
             SpecialGroupMaximumHueValue = 0.25f,
             SpecialGroupMinimumSaturationValue = 0.8802f,
             SpecialGroupMaximumSaturationValue = 1f

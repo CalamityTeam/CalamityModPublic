@@ -423,11 +423,7 @@ HauntedScroll: {
 
 HerringStaff: {
 	DisplayName: Herring Staff
-	Tooltip:
-		'''
-		Summons a herring to fight for you
-		Each herring takes only half of a minion slot
-		'''
+	Tooltip: Summons a school of herrings to fight for you
 }
 
 HivePod: {

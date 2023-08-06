@@ -332,8 +332,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             Vector2 betweenL = NeuronLeft + velocity * 650;
                         
                             Terraria.Audio.SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = CommonCalamitySounds.LaserCannonSound.Volume - 0.2f, Pitch = CommonCalamitySounds.LaserCannonSound.Pitch + 0.2f }, NeuronRight);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), betweenL, betweenL + velocity, ModContent.ProjectileType<ArtemisLaser>(), 222, 0f, Main.myPlayer, 7, NPC.whoAmI);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), betweenR, betweenR + velocity, ModContent.ProjectileType<ArtemisLaser>(), 222, 0f, Main.myPlayer, 7, NPC.whoAmI);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), betweenL, betweenL + velocity, ModContent.ProjectileType<ArtemisLaser>(), 111, 0f, Main.myPlayer, 7, NPC.whoAmI);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), betweenR, betweenR + velocity, ModContent.ProjectileType<ArtemisLaser>(), 111, 0f, Main.myPlayer, 7, NPC.whoAmI);
 
                         }
                         neurontimer = 0;

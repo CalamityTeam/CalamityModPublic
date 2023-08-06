@@ -78,14 +78,16 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || !NPC.downedMoonlord || NPC.AnyNPCs(NPC.type) || spawnInfo.Player.Calamity().ZoneCalamity)
-            {
+            if (spawnInfo.PlayerSafe || !NPC.downedMoonlord || spawnInfo.Player.Calamity().ZoneCalamity || (!spawnInfo.Player.ZoneUnderworldHeight && !spawnInfo.Player.ZoneHallow))
                 return 0f;
-            }
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPC.type))
+                return 0f;
+
             if (SpawnCondition.Underworld.Chance > 0f)
-            {
                 return SpawnCondition.Underworld.Chance / 6f;
-            }
+
             return SpawnCondition.OverworldHallow.Chance / 6f;
         }
 

@@ -1170,10 +1170,17 @@ OldDukeScales: {
 	DisplayName: Old Duke's Scales
 	Tooltip:
 		'''
-		While under the effects of a damaging debuff, you gain 10% increased damage and 5% crit
-		For every 25% of lost life, you gain 6% increased damage and 3% crit
-		This will max out at 18% increased damage and 9% crit when under 25% life
-		Provides immunity to poisoned, venom, and sulphuric poisoning
+		10% increased damage reduction
+		10% increased max movement speed and acceleration
+		25% increased dash velocity and length
+		Gives you a stamina indicator on the cooldown rack
+		Using any dash will consume 20% of your stamina
+		Stamina will gradually recover to 100% after not dashing for 1 second
+		Stamina recovers faster when you are stationary
+		If your stamina reaches 0%, you become exhausted
+		[c/CE0E18:While exhausted, this item's damage reduction and movement bonuses are negated]
+		[c/CE0E18:Being exhausted reduces movement speed by 30% and dash velocity by 50%]
+		This debuff lasts until your stamina reaches 100% again
 		'''
 }
 

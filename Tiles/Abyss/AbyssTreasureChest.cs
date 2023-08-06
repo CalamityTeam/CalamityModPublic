@@ -27,20 +27,19 @@ namespace CalamityMod.Tiles.Abyss
 		// Locked Chest stuff
 		public override bool IsLockedChest(int i, int j) => Main.tile[i, j].TileFrameX / 36 == 1;
 		public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual) => true;
+
 		public override bool RightClick(int i, int j) 
 		{
 			Tile tile = Main.tile[i, j];
 
 			int left = i;
 			int top = j;
+
 			if (tile.TileFrameX % 36 != 0) 
-			{
 				left--;
-			}
 			if (tile.TileFrameY != 0) 
-			{
 				top--;
-			}
+
 			return CalamityUtils.LockedChestRightClick(IsLockedChest(left, top), left, top, i, j);
 		}
 	}

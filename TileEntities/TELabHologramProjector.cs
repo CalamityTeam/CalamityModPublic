@@ -35,7 +35,7 @@ namespace CalamityMod.TileEntities
             // If one is, pop up.
             Vector2 projectorCenterPos = Center;
             float distSQ = PopupDistance * PopupDistance;
-            for(int i = 0; i < Main.maxPlayers; ++i)
+            for (int i = 0; i < Main.maxPlayers; ++i)
             {
                 Player p = Main.player[i];
                 if (!p.active) // The lack of a dead check is intentional. Dead players keep hologram boxes on for amusement.

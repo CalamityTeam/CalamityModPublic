@@ -25,6 +25,7 @@ namespace CalamityMod.Skies
             public Color DrawColor;
             public Vector2 Velocity;
             public Vector2 Center;
+
             public Cinder(int lifetime, int identity, float depth, Color color, Vector2 startingPosition, Vector2 startingVelocity)
             {
                 Lifetime = lifetime;
@@ -106,6 +107,7 @@ namespace CalamityMod.Skies
                 return 5.6f;
             }
         }
+
         public static float OverridingIntensity = 0f;
 
         public override void Update(GameTime gameTime)
@@ -182,6 +184,7 @@ namespace CalamityMod.Skies
 
                 return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityFactor;
             }
+
             return 0f;
         }
 
@@ -191,9 +194,8 @@ namespace CalamityMod.Skies
         {
             int SCalType = ModContent.NPCType<SupremeCalamitas>();
             if (SCalIndex >= 0 && Main.npc[SCalIndex].active && Main.npc[SCalIndex].type == SCalType)
-            {
                 return true;
-            }
+
             SCalIndex = -1;
             for (int i = 0; i < Main.npc.Length; i++)
             {
@@ -203,6 +205,7 @@ namespace CalamityMod.Skies
                     break;
                 }
             }
+
             return SCalIndex != -1;
         }
 
@@ -232,6 +235,7 @@ namespace CalamityMod.Skies
                     offsetDrawColor.A = 0;
                     spriteBatch.Draw(cinderTexture, offsetDrawPosition, null, offsetDrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale * 1.5f, SpriteEffects.None, 0f);
                 }
+
                 spriteBatch.Draw(cinderTexture, drawPosition, null, Cinders[i].DrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale, SpriteEffects.None, 0f);
             }
         }

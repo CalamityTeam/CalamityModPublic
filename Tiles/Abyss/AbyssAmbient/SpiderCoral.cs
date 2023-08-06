@@ -28,9 +28,9 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 190f / 400f;
-            g = 48f / 400f;
-            b = 30f / 400f;
+            r = 0.48f;
+            g = 0.12f;
+            b = 0.08f;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

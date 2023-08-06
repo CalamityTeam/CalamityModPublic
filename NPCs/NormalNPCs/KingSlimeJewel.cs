@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -47,7 +48,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.damage = 0;
 
             // Despawn
-            if (!NPC.AnyNPCs(NPCID.KingSlime))
+            if (!CalamityPlayer.areThereAnyDamnBosses)
             {
                 NPC.life = 0;
                 NPC.HitEffect();

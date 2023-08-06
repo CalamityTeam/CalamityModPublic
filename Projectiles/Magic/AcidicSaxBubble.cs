@@ -114,10 +114,8 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.StickyProjAI(15);
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(3, false);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(3);
+        public override bool? CanDamage() => Projectile.ai[0] == 1f ? false : base.CanDamage();
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

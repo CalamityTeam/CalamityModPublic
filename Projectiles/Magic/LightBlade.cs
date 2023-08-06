@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Magic
             // Spawn starting dust.
             Vector2 baseOffsetVec = new Vector2(1f, 4f);
             int numDust = 16;
-            for(int i = 0; i < numDust; ++i)
+            for (int i = 0; i < numDust; ++i)
             {
                 Vector2 dustOffset = Vector2.UnitY.RotatedBy(i * MathHelper.TwoPi / numDust) * baseOffsetVec;
                 dustOffset = dustOffset.RotatedBy(Projectile.velocity.ToRotation());

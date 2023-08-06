@@ -55,6 +55,7 @@ namespace CalamityMod.Tiles.Abyss
             if (Main.netMode == NetmodeID.Server)
                 return;
         }
+
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 2;

@@ -1,5 +1,4 @@
-﻿using CalamityMod.Rarities;
-using CalamityMod.Tiles.FurnitureExo;
+﻿using CalamityMod.Tiles.FurnitureExo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
@@ -28,7 +27,6 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createTile = ModContent.TileType<ExoPrismPlatformTile>();
-            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

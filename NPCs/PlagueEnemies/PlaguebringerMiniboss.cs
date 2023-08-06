@@ -604,10 +604,13 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || !NPC.downedGolemBoss || NPC.AnyNPCs(ModContent.NPCType<PlaguebringerMiniboss>()))
-            {
+            if (spawnInfo.PlayerSafe || !NPC.downedGolemBoss || !spawnInfo.Player.ZoneJungle)
                 return 0f;
-            }
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPC.type))
+                return 0f;
+
             return SpawnCondition.HardmodeJungle.Chance * 0.02f;
         }
 

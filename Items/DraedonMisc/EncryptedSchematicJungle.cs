@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.DraedonMisc;
+using CalamityMod.Items.Placeables.PlaceableTurrets;
 using CalamityMod.Rarities;
 using CalamityMod.UI;
 using System;
@@ -72,10 +73,15 @@ namespace CalamityMod.Items.DraedonMisc
                     rogueDisplay.OverrideColor = new Color(31, 242, 245);
                     list.Insert(insertIndex + 5, rogueDisplay);
 
+                    int turretPlagueItem = ModContent.ItemType<PlagueTurret>();
+                    TooltipLine turretPlagueDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{turretPlagueItem}] {CalamityUtils.GetItemName(turretPlagueItem)}");
+                    turretPlagueDisplay.OverrideColor = new Color(165, 118, 104);
+                    list.Insert(insertIndex + 6, turretPlagueDisplay);
+
                     int codeItem = ModContent.ItemType<AdvancedDisplay>();
                     TooltipLine machineDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{codeItem}] {CalamityUtils.GetItemName(codeItem)}");
                     machineDisplay.OverrideColor = new Color(165, 118, 104);
-                    list.Insert(insertIndex + 6, machineDisplay);
+                    list.Insert(insertIndex + 7, machineDisplay);
                 }
             }
         }

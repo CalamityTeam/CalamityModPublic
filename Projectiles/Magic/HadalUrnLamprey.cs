@@ -85,10 +85,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(5, true);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(5);
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

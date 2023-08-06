@@ -33,7 +33,6 @@ namespace CalamityMod.Tiles.Abyss
             MinPick = 180;
             AddMapEntry(new Color(19, 20, 32));
 
-
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);
             TileFraming.SetUpUniversalMerge(Type, TileID.Stone, out secondTileAdjacency);
             TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<AbyssGravel>(), out thirdTileAdjacency);
@@ -49,29 +48,29 @@ namespace CalamityMod.Tiles.Abyss
         {
             return false;
         }
+
         public override void RandomUpdate(int i, int j)
         {
             Tile tile = Main.tile[i, j];
             Tile up = Main.tile[i, j - 1];
             Tile up2 = Main.tile[i, j - 2];
 
-            //place Phoviamare Halm
-            if (WorldGen.genRand.Next(12) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
+            // Place Phoviamare Halm
+            if (WorldGen.genRand.NextBool(12) && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
             {
                 up.TileType = (ushort)ModContent.TileType<PhoviamareHalm>();
                 up.HasTile = true;
                 up.TileFrameY = 0;
 
-                //16 different frames, choose a random one
+                // 16 different frames, choose a random one
                 up.TileFrameX = (short)(WorldGen.genRand.Next(16) * 18);
                 WorldGen.SquareTileFrame(i, j - 1, true);
 
                 if (Main.netMode == NetmodeID.Server)
-                {
                     NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
-                }
             }
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             TileFraming.DrawUniversalMergeFrames(i, j, thirdTileAdjacency, "CalamityMod/Tiles/Merges/AbyssGravelMerge");

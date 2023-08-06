@@ -22,7 +22,7 @@ namespace CalamityMod.Walls
 
         public override void RandomUpdate(int i, int j)
         {
-            if ((Main.tile[i, j].LiquidAmount == 0 || Main.tile[i, j].LiquidType == LiquidID.Water) && j < Main.maxTilesY - 205)
+            if (Main.tile[i, j].LiquidAmount == 0 && j < Main.maxTilesY - 205)
             {
                 Main.tile[i, j].Get<LiquidData>().LiquidType = LiquidID.Water;
                 Main.tile[i, j].LiquidAmount = byte.MaxValue;
@@ -43,7 +43,7 @@ namespace CalamityMod.Walls
 
             Rectangle frame = new Rectangle(tile.WallFrameX + xOff, tile.WallFrameY, xLength, 32);
             Color drawcolor;
-            drawcolor = WorldGen.paintColor(tile.WallColor) * (255f / 255f);
+            drawcolor = WorldGen.paintColor(tile.WallColor);
             drawcolor.A = 255;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
 

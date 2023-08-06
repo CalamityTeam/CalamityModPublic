@@ -78,11 +78,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || !Main.hardMode || spawnInfo.Player.Calamity().ZoneAbyss ||
-                spawnInfo.Player.Calamity().ZoneSunkenSea || NPC.AnyNPCs(NPC.type))
-            {
+            if (spawnInfo.PlayerSafe || !Main.hardMode || spawnInfo.Player.Calamity().ZoneAbyss || spawnInfo.Player.Calamity().ZoneSunkenSea || !spawnInfo.Player.ZoneRockLayerHeight)
                 return 0f;
-            }
+
+            // Keep this as a separate if check, because it's a loop and we don't want to be checking it constantly.
+            if (NPC.AnyNPCs(NPC.type))
+                return 0f;
+
             return SpawnCondition.Cavern.Chance * 0.005f;
         }
 

@@ -16,6 +16,7 @@ namespace CalamityMod.Tiles.Ores
 
         public byte[,] tileAdjacency;
         public byte[,] secondTileAdjacency;
+
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -57,15 +58,17 @@ namespace CalamityMod.Tiles.Ores
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.50f;
-            g = 0.00f;
-            b = 0.00f;
+            r = 0.5f;
+            g = 0f;
+            b = 0f;
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/AshMerge");
             TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/BrimstoneSlagMerge");
         }
+
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             TileFraming.GetAdjacencyData(i, j, ModContent.TileType<BrimstoneSlag>(), out tileAdjacency[i, j]);

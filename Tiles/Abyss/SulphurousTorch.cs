@@ -49,9 +49,7 @@ namespace CalamityMod.Tiles.Abyss
             {
                 offsetY = 2;
                 if (WorldGen.SolidTile(i - 1, j + 1) || WorldGen.SolidTile(i + 1, j + 1))
-                {
                     offsetY = 4;
-                }
             }
         }
 

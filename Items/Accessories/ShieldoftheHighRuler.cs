@@ -29,6 +29,9 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
+        public override bool MeleePrefix() => false;
+        public override bool WeaponPrefix() => false;
+
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();

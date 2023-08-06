@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile[] pair = new Projectile[2];
-            for(int i = 0; i < 2; ++i)
+            for (int i = 0; i < 2; ++i)
             {
                 // Pick a random direction somewhere behind the player
                 float shootAngle = (float)Math.Atan2(velocity.Y, velocity.X);

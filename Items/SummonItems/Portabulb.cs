@@ -13,8 +13,8 @@ namespace CalamityMod.Items.SummonItems
         public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
-           			NPCID.Sets.MPAllowedEnemies[NPCID.Plantera] = true;
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 11; // Truffle Worm
+                    NPCID.Sets.MPAllowedEnemies[NPCID.Plantera] = true;
+            ItemID.Sets.SortingPriorityBossSpawns[Type] = 11; // Truffle Worm
         }
 
         public override void SetDefaults()
@@ -28,10 +28,10 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = false;
         }
 
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
-		}
+        public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+        {
+            itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+        }
 
         public override bool CanUseItem(Player player)
         {
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.SummonItems
                 AddIngredient(ItemID.JungleSpores, 15).
                 AddIngredient<MurkyPaste>(3).
                 AddIngredient<TrapperBulb>().
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.Anvils).
                 Register();
         }
     }

@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.DraedonMisc;
+using CalamityMod.Items.Placeables.PlaceableTurrets;
 using CalamityMod.Rarities;
 using CalamityMod.UI;
 using System;
@@ -72,10 +73,25 @@ namespace CalamityMod.Items.DraedonMisc
                     rogueDisplay.OverrideColor = new Color(201, 41, 255);
                     list.Insert(insertIndex + 5, rogueDisplay);
 
+                    int turretFireItem = ModContent.ItemType<FireTurret>();
+                    TooltipLine turretFireDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{turretFireItem}] {CalamityUtils.GetItemName(turretFireItem)}");
+                    turretFireDisplay.OverrideColor = new Color(165, 118, 104);
+                    list.Insert(insertIndex + 6, turretFireDisplay);
+
+                    int turretIceItem = ModContent.ItemType<IceTurret>();
+                    TooltipLine turretIceDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{turretIceItem}] {CalamityUtils.GetItemName(turretIceItem)}");
+                    turretIceDisplay.OverrideColor = new Color(165, 118, 104);
+                    list.Insert(insertIndex + 7, turretIceDisplay);
+
+                    int turretLaserItem = ModContent.ItemType<LaserTurret>();
+                    TooltipLine turretLaserDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{turretLaserItem}] {CalamityUtils.GetItemName(turretLaserItem)}");
+                    turretLaserDisplay.OverrideColor = new Color(165, 118, 104);
+                    list.Insert(insertIndex + 8, turretLaserDisplay);
+
                     int codeItem = ModContent.ItemType<LongRangedSensorArray>();
                     TooltipLine machineDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{codeItem}] {CalamityUtils.GetItemName(codeItem)}");
                     machineDisplay.OverrideColor = new Color(165, 118, 104);
-                    list.Insert(insertIndex + 6, machineDisplay);
+                    list.Insert(insertIndex + 9, machineDisplay);
                 }
             }
         }

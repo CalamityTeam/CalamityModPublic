@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -35,9 +35,9 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 49f / 500f;
-            g = 159f / 500f;
-            b = 242f / 500f;
+            r = 0.1f;
+            g = 0.32f;
+            b = 0.5f;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -31,34 +31,26 @@ namespace CalamityMod.Tiles.SunkenSea
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             var tile = Main.tile[i, j];
-            float brightness = 0.6f;
-            if (tile.LiquidAmount > 50 && tile.LiquidType == 0)
-                brightness = 0.75f;
-
-            r = 0.6f;
-            g = 0.9f;
-            b = 0.9f;
-
+            bool lessLightDueToLowWater = tile.LiquidAmount > 50 && tile.LiquidType == LiquidID.Water;
             int xframe = tile.TileFrameX / 18;
             if (xframe > 7 && xframe < 14)
             {
-
-                r = 0.8f;
-                g = 0.7f;
-                b = 0.9f;
+                r = lessLightDueToLowWater ? 0.36f : 0.48f;
+                g = lessLightDueToLowWater ? 0.315f : 0.42f;
+                b = lessLightDueToLowWater ? 0.405f : 0.54f;
             }
-
-            if (xframe >= 14)
+            else if (xframe >= 14)
             {
-                r = 0.5f;
-                g = 0.9f;
-                b = 0.7f;
+                r = lessLightDueToLowWater ? 0.225f : 0.3f;
+                g = lessLightDueToLowWater ? 0.405f : 0.54f;
+                b = lessLightDueToLowWater ? 0.315f : 0.42f;
             }
-
-            r *= brightness;
-            g *= brightness;
-            b *= brightness;
-
+            else
+            {
+                r = lessLightDueToLowWater ? 0.27f : 0.36f;
+                g = lessLightDueToLowWater ? 0.405f : 0.54f;
+                b = lessLightDueToLowWater ? 0.405f : 0.54f;
+            }
         }
 
         public override bool CanPlace(int i, int j)
@@ -85,21 +77,14 @@ namespace CalamityMod.Tiles.SunkenSea
             Tile leftTile = Main.tile[i - 1, j];
 
             if (belowTile.Slope == SlopeType.Solid && !belowTile.IsHalfBlock && belowTile.HasTile && belowTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 0;
-            }
             else if (aboveTile.Slope == SlopeType.Solid && !aboveTile.IsHalfBlock && aboveTile.HasTile && aboveTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 18;
-            }
             else if (rightTile.Slope == SlopeType.Solid && !rightTile.IsHalfBlock && rightTile.HasTile && rightTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 36;
-            }
             else if (leftTile.Slope == SlopeType.Solid && !leftTile.IsHalfBlock && leftTile.HasTile && leftTile.IsTileSolid())
-            {
                 Main.tile[i, j].TileFrameY = 54;
-            }
+
             Main.tile[i, j].TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
         }
     }

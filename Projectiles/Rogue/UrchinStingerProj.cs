@@ -12,8 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/UrchinStinger";
-
-        private int projdmg = 0;
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -48,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Projectile.localAI[0] % 40 == 0 && Projectile.ai[0] == 1f)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, Projectile.owner, 2f);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(Projectile.damage * 0.5f), 1f, Projectile.owner, 2f);
                     if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].DamageType = RogueDamageClass.Instance;
                 }
@@ -60,11 +58,10 @@ namespace CalamityMod.Projectiles.Rogue
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.Calamity().stealthStrike)
-            {
-                projdmg = Projectile.damage;
-                Projectile.ModifyHitNPCSticky(4, false);
-            }
+                Projectile.ModifyHitNPCSticky(4);
         }
+
+        public override bool? CanDamage() => Projectile.ai[0] == 1f ? false : base.CanDamage();
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

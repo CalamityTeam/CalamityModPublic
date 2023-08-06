@@ -458,8 +458,7 @@ namespace CalamityMod
         /// </summary>
         /// <param name="projectile">The projectile you're giving sticky behaviour to</param>
         /// <param name="maxStick">How many projectiles of this type can stick to one enemy</param>
-        /// <param name="constantDamage">Decides if you want the projectile to deal damage while its sticked to enemies or not</param>
-        public static void ModifyHitNPCSticky(this Projectile projectile, int maxStick, bool constantDamage)
+        public static void ModifyHitNPCSticky(this Projectile projectile, int maxStick)
         {
             Player player = Main.player[projectile.owner];
             Rectangle myRect = projectile.Hitbox;
@@ -509,10 +508,6 @@ namespace CalamityMod
                                 projectile.velocity = (npc.Center - projectile.Center) * 0.75f;
 
                                 projectile.netUpdate = true;
-
-                                //Set projectile damage to 0 if desired
-                                if (!constantDamage)
-                                    projectile.damage = 0;
 
                                 //Count how many projectiles are attached, delete as necessary
                                 Point[] array2 = new Point[maxStick];

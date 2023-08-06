@@ -77,7 +77,8 @@ namespace CalamityMod.CalPlayer
                                     float distanceY = Math.Abs(dustCenter.Y - Player.Center.Y);
                                     if (j == 0 || j == 2)
                                         dustDrawPosition.X = Player.Center.X + distanceX;
-                                    else dustDrawPosition.X = Player.Center.X - distanceX;
+                                    else
+                                        dustDrawPosition.X = Player.Center.X - distanceX;
 
                                     dustDrawPosition.X -= 4f;
 
@@ -174,14 +175,18 @@ namespace CalamityMod.CalPlayer
             }
             if (calamityPlayer.dsSetBonus)
             {
-                if (!Player.StandingStill() && !Player.mount.Active)
+                if (Player != null && !Player.dead)
                 {
-                    if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
+                    Lighting.AddLight((int)Player.Center.X / 16, (int)Player.Center.Y / 16, 100 / 235f, 1 / 235f, 250 / 235f);
+                    if (!Player.StandingStill() && !Player.mount.Active)
                     {
-                        int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 27, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].velocity *= 0.5f;
-                        drawInfo.DustCache.Add(dust);
+                        if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
+                        {
+                            int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 27, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
+                            Main.dust[dust].noGravity = true;
+                            Main.dust[dust].velocity *= 0.5f;
+                            drawInfo.DustCache.Add(dust);
+                        }
                     }
                     if (noRogueStealth)
                     {
