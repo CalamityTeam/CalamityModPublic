@@ -696,7 +696,7 @@ namespace CalamityMod.World
                 int placementPositionY = (int)Main.worldSurface + numTilesBelowSurface;
                 
                 if (Main.remixWorld)
-                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.5f), (int)(Main.maxTilesY * 0.7f)); //above mushroom layer
+                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.65f), (int)(Main.maxTilesY * 0.7f)); //above mushroom layer
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
