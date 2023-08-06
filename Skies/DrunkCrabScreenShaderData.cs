@@ -25,38 +25,45 @@ namespace CalamityMod.Skies
             int CrabType = ModContent.NPCType<Crabulon>();
             int CirrusType = ModContent.NPCType<SupremeCalamitas>();
             bool shouldCheckForCirrus = false;
+            bool shouldForceDeactivateCirrusShader = false;
             if (CalamityGlobalNPC.SCal != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.SCal].active)
                 {
                     if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                    {
                         shouldCheckForCirrus = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().gettingTired5;
+                        shouldForceDeactivateCirrusShader = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().giveUpCounter <= 1;
+                    }
                 }
             }
 
             if (shouldCheckForCirrus)
             {
-                if (CirrusIndex >= 0 && Main.npc[CirrusIndex].active && Main.npc[CirrusIndex].type == CirrusType)
-                {
+                if (CirrusIndex >= 0 && Main.npc[CirrusIndex].active && Main.npc[CirrusIndex].type == CirrusType && !shouldForceDeactivateCirrusShader)
                     return;
-                }
+
                 CirrusIndex = -1;
-                for (int i = 0; i < Main.npc.Length; i++)
+
+                if (!shouldForceDeactivateCirrusShader)
                 {
-                    if (Main.npc[i].active && Main.npc[i].type == CirrusType)
+                    for (int i = 0; i < Main.npc.Length; i++)
                     {
-                        CirrusIndex = i;
-                        break;
+                        if (Main.npc[i].active && Main.npc[i].type == CirrusType)
+                        {
+                            CirrusIndex = i;
+                            break;
+                        }
                     }
                 }
             }
             else
             {
                 if (CrabIndex >= 0 && Main.npc[CrabIndex].active && Main.npc[CrabIndex].type == CrabType)
-                {
                     return;
-                }
+
                 CrabIndex = -1;
+
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     if (Main.npc[i].active && Main.npc[i].type == CrabType)
