@@ -262,7 +262,7 @@ BlazingCore: {
 	Tooltip:
 		'''
 		The searing core of the Profaned Goddess
-		Pressing [KEY] will encase you in profaned crystal
+		Pressing [KEY] will activate Elysian Guard, encasing you in luminous profaned crystal
 		Being hit shortly after encasement will shatter the crystal
 		Upon shattering, waves of holy stars spiral outwards and the damage you would have taken is reduced to 1
 		After shattering, this damage reduction effect goes on cooldown

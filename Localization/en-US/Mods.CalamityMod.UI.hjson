@@ -76,12 +76,12 @@ Cooldowns: {
 	BloodflareFrenzy: Blood Frenzy Cooldown
 	BloodflareRangedSet: Bloodflare Soul Cooldown
 	BrimflameFrenzy: Brimflame Frenzy Cooldown
-	BlazingCore: Blazing Core Cooldown
 	ChaosState: Teleportation Cooldown
 	CounterScarf: Scarf Cooldown
 	DivineBless: Divine Bless Cooldown
 	DivingPlatesBreaking: Abyssal Diving Suit Plates Durability
 	DivingPlatesBroken: Abyssal Diving Suit Broken Plates
+	ElysianGuard: Elysian Guard Cooldown
 	EvasionScarf: Scarf Cooldown
 	FleshTotem: Contact Damage Halving Cooldown
 	GlobalDodge: Dodge Cooldown

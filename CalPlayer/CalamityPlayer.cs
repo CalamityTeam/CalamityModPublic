@@ -5636,7 +5636,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (blazingCoreParry >= 18) //only the first 12 frames (0.2 seconds) counts for a valid parry
                 {
-                    if (!Player.HasCooldown(BlazingCoreCooldown.ID))
+                    if (!Player.HasCooldown(ElysianGuardCooldown.ID))
                     {
                         Player.GiveIFrames(45);
                         blazingCoreEmpoweredParry = true;
@@ -5645,7 +5645,7 @@ namespace CalamityMod.CalPlayer
                     
                     SoundEngine.PlaySound(SoundID.Shatter);
                     blazingCoreSuccessfulParry = 60;
-                    Player.AddCooldown(BlazingCoreCooldown.ID, 60 * 30, false); //cooldown is frames in seconds multiplied by the desired amount of seconds
+                    Player.AddCooldown(ElysianGuardCooldown.ID, 60 * 30, false); //cooldown is frames in seconds multiplied by the desired amount of seconds
                 }
 
                 if (blazingCoreParry > 1)
