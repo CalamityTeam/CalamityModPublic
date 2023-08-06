@@ -208,7 +208,7 @@ namespace CalamityMod.Projectiles
             // Reduce secondary yoyo damage if the player has Yoyo Glove
             // Brief behavior documentation of yoyo AI: ai[0, 1] are the x, y co-ords and localAI[0] is the airtime in frames
             // All secondary yoyos are spawned with ai[0] of 1 which tells then tell its AI to do secondary yoyo AI
-            if (Main.player[projectile.owner].yoyoGlove && projectile.aiStyle == 99)
+            if (Main.player[projectile.owner].yoyoGlove && projectile.aiStyle == ProjAIStyleID.Yoyo)
             {
                 // Store damage on first frame
                 if (projectile.ai[2] == 0f)
@@ -2772,6 +2772,8 @@ namespace CalamityMod.Projectiles
                 Color color9 = new(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
                 Color alpha15 = projectile.GetAlpha(color9);
 
+                float offsetX = Main.screenPosition.X + (projectile.width / 2) - texture.Width * projectile.scale / 2f + vector11.X * projectile.scale;
+                float offsetY = Main.screenPosition.Y + projectile.height - texture.Height * projectile.scale / Main.projFrames[projectile.type] + 4f + vector11.Y * projectile.scale + projectile.gfxOffY;
                 for (int num213 = 0; num213 < 4; num213++)
                 {
                     Vector2 position9 = projectile.position;
@@ -2795,7 +2797,7 @@ namespace CalamityMod.Projectiles
                     position9.Y -= projectile.height / 2;
 
                     Main.spriteBatch.Draw(texture,
-                        new Vector2(position9.X - Main.screenPosition.X + (projectile.width / 2) - texture.Width * projectile.scale / 2f + vector11.X * projectile.scale, position9.Y - Main.screenPosition.Y + projectile.height - texture.Height * projectile.scale / Main.projFrames[projectile.type] + 4f + vector11.Y * projectile.scale + projectile.gfxOffY),
+                        new Vector2(position9.X - offsetX, position9.Y - offsetY),
                         new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y, texture.Width, frames)), alpha15, projectile.rotation, vector11, projectile.scale, spriteEffects, 0);
                 }
             }

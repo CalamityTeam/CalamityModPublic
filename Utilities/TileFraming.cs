@@ -206,8 +206,10 @@ namespace CalamityMod
                     return false;
 
                 for (int i = 0; i < PlantCheckAgainst[plant].Length; ++i)
+                {
                     if (PlantCheckAgainst[plant][i] == check)
                         return false;
+                }
 
                 return true;
             }

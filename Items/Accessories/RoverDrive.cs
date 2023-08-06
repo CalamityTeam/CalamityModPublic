@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Accessories
 
                 float scale = 0.15f + 0.03f * (0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f + i * 0.2f));
 
-                if (playerFound == false)
+                if (!playerFound)
                 {
                     float shieldStrentgh = forcedVisibility ? 1f : (float)Math.Pow(Main.LocalPlayer.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability / (float)ProtectionMatrixDurabilityMax, 0.5f);
                     float noiseScale = MathHelper.Lerp(0.4f, 0.8f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.3f) * 0.5f + 0.5f);

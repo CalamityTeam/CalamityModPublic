@@ -37,10 +37,11 @@ namespace CalamityMod.Items.Materials
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
             float outlineWidth = MathHelper.Lerp(2, 3, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.5f + 0.5f);
+            float positionOffset = outlineWidth * scale;
 
             for (float i = 0; i < 1; i += 0.25f)
             {
-               spriteBatch.Draw(tex, position + (i * MathHelper.TwoPi).ToRotationVector2() * outlineWidth * scale, frame, outlineColor, 0f, origin, scale, 0f, 0f);
+               spriteBatch.Draw(tex, position + (i * MathHelper.TwoPi).ToRotationVector2() * positionOffset, frame, outlineColor, 0f, origin, scale, 0f, 0f);
             }
 
             spriteBatch.End();

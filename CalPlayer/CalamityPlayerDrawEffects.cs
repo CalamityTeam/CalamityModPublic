@@ -59,6 +59,7 @@ namespace CalamityMod.CalPlayer
                     Rectangle screenArea = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 50, Main.screenWidth + 1000, Main.screenHeight + 100);
                     int dustDrawn = 0;
                     float maxShroomDust = Main.maxDustToDraw / 2;
+                    Color shroomColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
                     for (int i = 0; i < Main.maxDustToDraw; i++)
                     {
                         Dust dust = Main.dust[i];
@@ -67,7 +68,7 @@ namespace CalamityMod.CalPlayer
                             // Only draw dust near the screen, for performance reasons.
                             if (new Rectangle((int)dust.position.X, (int)dust.position.Y, 4, 4).Intersects(screenArea))
                             {
-                                dust.color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
+                                dust.color = shroomColor;
                                 for (int j = 0; j < 4; j++)
                                 {
                                     Vector2 dustDrawPosition = dust.position;
@@ -84,8 +85,8 @@ namespace CalamityMod.CalPlayer
 
                                     if (j == 0 || j == 1)
                                         dustDrawPosition.Y = Player.Center.Y + distanceY;
-
-                                    else dustDrawPosition.Y = Player.Center.Y - distanceY;
+                                    else
+                                        dustDrawPosition.Y = Player.Center.Y - distanceY;
 
                                     dustDrawPosition.Y -= 4f;
                                     Main.spriteBatch.Draw(TextureAssets.Dust.Value, dustDrawPosition - Main.screenPosition, dust.frame, dust.color, dust.rotation, new Vector2(4f), dust.scale, SpriteEffects.None, 0f);

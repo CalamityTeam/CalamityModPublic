@@ -31,11 +31,13 @@ namespace CalamityMod.Items.Materials
             float outwardnessFactor = MathHelper.Lerp(0.9f, 1.3f, pulse);
             Color drawColor = Color.MintCream * (1f - pulse) * 0.27f;
             drawColor.A = 0;
+            float scale = baseScale * outwardnessFactor;
+            float velocity = Item.velocity.X * 0.2f;
+            Vector2 origin = frame.Size() * 0.5f;
             for (int i = 0; i < 4; i++)
             {
-                float scale = baseScale * outwardnessFactor;
                 Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 4f).ToRotationVector2() * 4f;
-                spriteBatch.Draw(TextureAssets.Item[Item.type].Value, drawPosition, frame, drawColor, Item.velocity.X * 0.2f, frame.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(TextureAssets.Item[Item.type].Value, drawPosition, frame, drawColor, velocity, origin, scale, SpriteEffects.None, 0f);
             }
         }
 
