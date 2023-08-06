@@ -31,7 +31,6 @@ namespace CalamityMod.Tiles.SunkenSea
 
             DustType = 108;
             AddMapEntry(new Color(67, 107, 143));
-            MineResist = 2f;
 
             TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<EutrophicSand>(), out tileAdjacency);
             TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<Navystone>(), out secondTileAdjacency);
