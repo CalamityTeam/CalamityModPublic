@@ -479,6 +479,8 @@ namespace CalamityMod
                     maxTrailPoints = (int)projectile.localAI[0];
 
                 Vector2 cumulativeOffset = Vector2.Zero;
+                Color alpha = projectile.GetAlpha(lightColor);
+                float fixedRotation = projectile.rotation + MathHelper.PiOver2;
                 for (int i = 1; i <= (int)projectile.localAI[0]; i++)
                 {
                     Vector2 velToUseThisIter = projectile.velocity;
@@ -493,10 +495,9 @@ namespace CalamityMod
                         }
                     }
                     cumulativeOffset += Vector2.Normalize(velToUseThisIter) * spacer;
-                    Color color = projectile.GetAlpha(lightColor);
+                    Color color = alpha;
                     color *= (maxTrailPoints - (float)i) / maxTrailPoints;
                     color.A = 0;
-                    float fixedRotation = projectile.rotation + MathHelper.PiOver2;
                     Main.spriteBatch.Draw(texture, drawPos - cumulativeOffset, null, color, fixedRotation, origin, projectile.scale, spriteEffects, 0f);
                 }
             }
@@ -548,9 +549,10 @@ namespace CalamityMod
             float time = Main.player[projectile.owner].miscCounter % 216000f / 60f;
             Color outerColor = outer * 0.2f;
             outerColor.A = 0;
+            float rotation = MathHelper.TwoPi * time;
             for (int o = 0; o < 6; o += 2)
             {
-                Vector2 spinStart = drawStartOuter + spinPoint.RotatedBy(MathHelper.TwoPi * time - MathHelper.Pi * o / 3f);
+                Vector2 spinStart = drawStartOuter + spinPoint.RotatedBy(rotation - MathHelper.Pi * o / 3f);
                 float scaleMultOuter = 1.5f - o * 0.1f;
                 Main.EntitySpriteDraw(aura, spinStart, auraRec, outerColor, auraRotation, auraOrigin, scaleMultOuter, SpriteEffects.None, 0);
             }
@@ -565,9 +567,8 @@ namespace CalamityMod
                 scaleMult = (scaleMult + i) % 1f;
                 float colorMult = scaleMult * 2f;
                 if (colorMult > 1f)
-                {
                     colorMult = 2f - colorMult;
-                }
+
                 Main.EntitySpriteDraw(aura, drawStartInner, auraRec, innerColor * colorMult, auraRotation, auraOrigin, 0.3f + scaleMult * 0.5f, SpriteEffects.None, 0);
             }
         }
@@ -596,11 +597,13 @@ namespace CalamityMod
             }
 
             bool canKillWalls = false;
+            float projectilePositionX = projectile.position.X / 16f;
+            float projectilePositionY = projectile.position.Y / 16f;
             for (int x = minTileX; x <= maxTileX; x++)
             {
                 for (int y = minTileY; y <= maxTileY; y++)
                 {
-                    Vector2 explodeArea = new Vector2(Math.Abs(x - projectile.position.X / 16f), Math.Abs(y - projectile.position.Y / 16f));
+                    Vector2 explodeArea = new Vector2(Math.Abs(x - projectilePositionX), Math.Abs(y - projectilePositionY));
                     float distance = explodeArea.Length();
                     if (distance < explosionRadius && Main.tile[x, y] != null && Main.tile[x, y].WallType == WallID.None)
                     {
@@ -644,7 +647,7 @@ namespace CalamityMod
                     Tile tile = Main.tile[i, j];
                     bool t = 1 == 1; bool f = 1 == 2;
 
-                    Vector2 explodeArea = new Vector2(Math.Abs(i - projectile.position.X / 16f), Math.Abs(j - projectile.position.Y / 16f));
+                    Vector2 explodeArea = new Vector2(Math.Abs(i - projectilePositionX), Math.Abs(j - projectilePositionY));
                     float distance = explodeArea.Length();
                     if (distance < explosionRadius)
                     {
@@ -654,14 +657,11 @@ namespace CalamityMod
                             if (checkExplosions)
                             {
                                 if (Main.tileDungeon[tile.TileType] || explosionCheckList.Contains(tile.TileType))
-                                {
                                     canKillTile = false;
-                                }
                                 if (!TileLoader.CanExplode(i, j))
-                                {
                                     canKillTile = false;
-                                }
                             }
+
                             if (Main.tileContainer[tile.TileType])
                                 canKillTile = false;
                             if (!TileLoader.CanKillTile(i, j, tile.TileType, ref t) || !TileLoader.CanKillTile(i, j, tile.TileType, ref f))
@@ -673,11 +673,10 @@ namespace CalamityMod
                             {
                                 WorldGen.KillTile(i, j, false, false, false);
                                 if (!tile.HasTile && Main.netMode != NetmodeID.SinglePlayer)
-                                {
                                     NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, i, j, 0f, 0, 0, 0);
-                                }
                             }
                         }
+
                         if (canKillTile)
                         {
                             for (int x = i - 1; x <= i + 1; x++)
@@ -689,13 +688,12 @@ namespace CalamityMod
                                         canExplode = WallLoader.CanExplode(x, y, Main.tile[x, y].WallType);
                                     if (wallExcludeList.Any() && wallExcludeList.Contains(Main.tile[x, y].WallType))
                                         canKillWalls = false;
+
                                     if (Main.tile[x, y] != null && Main.tile[x, y].WallType > WallID.None && canKillWalls && canExplode)
                                     {
                                         WorldGen.KillWall(x, y, false);
                                         if (Main.tile[x, y].WallType == WallID.None && Main.netMode != NetmodeID.SinglePlayer)
-                                        {
                                             NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 2, x, y, 0f, 0, 0, 0);
-                                        }
                                     }
                                 }
                             }

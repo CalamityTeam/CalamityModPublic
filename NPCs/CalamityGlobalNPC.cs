@@ -6076,7 +6076,7 @@ namespace CalamityMod.NPCs
                             for (int i = 0; i < 3; i++)
                             {
                                 spriteBatch.Draw(TextureAssets.Dest[npc.type - NPCID.TheDestroyer].Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame,
-                                     drawColor2, npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+                                    drawColor2, npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
                             }
                         }
                         else
