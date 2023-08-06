@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // NOTE: Modded item variants don't seem to be supported as of now, so this is probably temporary (also there is no way around modifiers screwing rarity/value in some way)
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage += (Main.zenithWorld ? (1369f / 180f - 1f) : 0f);
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage += (Main.zenithWorld ? (1669f / 180f - 1f) : 0f);
         public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback) => knockback += (Main.zenithWorld ? 1.5f : 0f);
         public override float UseSpeedMultiplier(Player player) => Main.zenithWorld ? 2.5f : 1f;
         public override void ModifyItemScale(Player player, ref float scale) => scale *= (Main.zenithWorld ? 2.5f : 1f);
