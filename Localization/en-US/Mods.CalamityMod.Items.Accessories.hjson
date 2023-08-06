@@ -418,7 +418,11 @@ CounterScarf: {
 
 CrawCarapace: {
 	DisplayName: Craw Carapace
-	Tooltip: Enemies take damage when they touch you
+	Tooltip:
+		'''
+		5% increased damage
+		Enemies that hit you are inflicted with Armor Crunch
+		'''
 }
 
 CrimsonFlask: {
@@ -799,8 +803,8 @@ GiantShell: {
 	DisplayName: Giant Shell
 	Tooltip:
 		'''
-		15% reduced movement speed
-		Taking a hit will make you move very fast for a short time
+		10% reduced dash velocity
+		Taking a hit will remove the dash penalty and reduce defense for 5 seconds
 		'''
 }
 

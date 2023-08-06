@@ -74,6 +74,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace CalamityMod.CalPlayer
 {
@@ -233,6 +234,7 @@ namespace CalamityMod.CalPlayer
         public int auralisAurora = 0;
         public int necroReviveCounter = -1;
         public int hideOfDeusTimer = 0;
+        public int giantShellPostHit = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
         public int RustyMedallionCooldown = 0;
@@ -528,6 +530,8 @@ namespace CalamityMod.CalPlayer
         public bool spiritOrigin = false;
         public bool spiritOriginVanity = false;
         public bool darkSunRing = false;
+        public bool crawCarapace = false;
+        public bool HasReducedDashFirstFrame = false;
         public bool voidOfCalamity = false;
         public bool voidOfExtinction = false;
         public bool eArtifact = false;
@@ -1592,6 +1596,8 @@ namespace CalamityMod.CalPlayer
             harpyWingBoost = false; //harpy wings + harpy ring
             fleshKnuckles = false;
             darkSunRing = false;
+            crawCarapace = false;
+            gShell = false;
             voidOfCalamity = false;
             voidOfExtinction = false;
             eArtifact = false;
@@ -4881,7 +4887,13 @@ namespace CalamityMod.CalPlayer
             if (NPC.AnyNPCs(ModContent.NPCType<THELORDE>()))
             {
                 Player.AddBuff(ModContent.BuffType<NOU>(), 15, true);
-            }                 
+            }         
+            
+            if (crawCarapace)
+            {
+                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), (int)720);
+                SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
+            }
         }
 
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
@@ -5803,8 +5815,11 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(SoundID.Item96, Player.Center);
                 }
 
-                if ((gShell || flameLickedShell) && !Player.panic)
+                if ((flameLickedShell) && !Player.panic)
                     Player.AddBuff(ModContent.BuffType<ShellBoost>(), 180);
+
+                if (gShell) //5 seconds of no dash reduction and reduced defense
+                    giantShellPostHit = 300;
 
                 if (abyssalDivingSuitPlates && hurtInfo.Damage > 50)
                 {
