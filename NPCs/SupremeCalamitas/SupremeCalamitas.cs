@@ -676,6 +676,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     player.neck = -1;
                     player.face = -1;
                     player.balloon = -1;
+                    player.mount.Dismount(player);
                 }
             }
 
