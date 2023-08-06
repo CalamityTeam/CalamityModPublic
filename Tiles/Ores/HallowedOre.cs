@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Ores
 
             CalamityUtils.MergeWithGeneral(Type);
             AddMapEntry(new Color(250, 250, 150), CreateMapEntryName());
-            MineResist = 3f;
+            MineResist = 2f;
             MinPick = 180;
             HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;

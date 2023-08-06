@@ -38,7 +38,6 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
             AddMapEntry(new Color(204, 170, 81), CreateMapEntryName());
-            MineResist = 2f;
             MinPick = 110;
             HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
