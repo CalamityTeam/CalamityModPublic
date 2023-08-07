@@ -6,6 +6,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("ManaJelly")]
     public class CleansingJelly : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";

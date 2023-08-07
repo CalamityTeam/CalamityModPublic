@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Typless
 {
     public class BlueJellyAura : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.Typless";
+        public new string LocalizationCategory => "Projectiles.Healing";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public Player Owner => Main.player[Projectile.owner];
         private static float Radius = 160f;
