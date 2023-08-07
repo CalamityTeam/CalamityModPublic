@@ -277,6 +277,7 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle DrownSound = new("CalamityMod/Sounds/Custom/AbyssDrown");
         public static readonly SoundStyle LeonDeathNoiseRE4_ForGFB = new("CalamityMod/Sounds/Custom/GFB/LeonDeathNoiseRE4");
         public static readonly SoundStyle CrabClawHit = new("CalamityMod/Sounds/NPCKilled/DevourerSegmentBreak2") { Volume = 0.7f };
+        public static readonly SoundStyle AbsorberHit = new("CalamityMod/Sounds/Custom/AbilitySounds/SilvaActivation") { Volume = 0.7f };
         #endregion
 
         #region Rogue
@@ -842,6 +843,7 @@ namespace CalamityMod.CalPlayer
         public bool mushy = false;
         public bool PinkJellyRegen = false;
         public bool GreenJellyRegen = false;
+        public bool AbsorberRegen = false;
         public bool shellBoost = false;
         public bool cFreeze = false;
         public bool shine = false;
@@ -1071,6 +1073,7 @@ namespace CalamityMod.CalPlayer
 
         public bool witheringWeaponEnchant = false;
         public bool witheredDebuff = false;
+        public bool absorberAffliction = false;
         public int witheredWeaponHoldTime = 0;
         public int witheringDamageDone = 0;
 
@@ -1386,9 +1389,6 @@ namespace CalamityMod.CalPlayer
         #region ResetEffects
         public override void ResetEffects()
         {
-            // Max health bonuses
-            if (absorber)
-                Player.statLifeMax2 += sponge ? 30 : 20;
             if (fleshKnuckles)
                 Player.statLifeMax2 += 45;
 
@@ -1790,6 +1790,7 @@ namespace CalamityMod.CalPlayer
             irradiated = false;
             bFlames = false;
             witheredDebuff = false;
+            absorberAffliction = false;
             weakBrimstoneFlames = false;
             gsInferno = false;
             astralInfection = false;
@@ -1856,6 +1857,7 @@ namespace CalamityMod.CalPlayer
             mushy = false;
             PinkJellyRegen = false;
             GreenJellyRegen = false;
+            AbsorberRegen = false;
             shellBoost = false;
             cFreeze = false;
             tRegen = false;
@@ -2193,6 +2195,7 @@ namespace CalamityMod.CalPlayer
             irradiated = false;
             bFlames = false;
             witheredDebuff = false;
+            absorberAffliction = false;
             weakBrimstoneFlames = false;
             gsInferno = false;
             astralInfection = false;
@@ -2293,6 +2296,7 @@ namespace CalamityMod.CalPlayer
             mushy = false;
             PinkJellyRegen = false;
             GreenJellyRegen = false;
+            AbsorberRegen = false;
             enraged = false;
             shellBoost = false;
             cFreeze = false;
@@ -3236,9 +3240,14 @@ namespace CalamityMod.CalPlayer
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<BlueJellyAura>(), 0, 0, Player.whoAmI);
             }
             //Grand Gellatin regen and cleansing aura spawn when using a healing potion
-            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && GrandGelatin)
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && GrandGelatin && !absorber)
             {
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<GreenJellyAura>(), 0, 0, Player.whoAmI);
+            }
+            //Absorber's regen, cleansing, and buffing aura spawn when using a healing potion
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && absorber)
+            {
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<AbsorberAura>(), 0, 0, Player.whoAmI);
             }
 
             if (snowman)
@@ -4920,6 +4929,25 @@ namespace CalamityMod.CalPlayer
                     GeneralParticleHandler.SpawnParticle(spark);
                 }
             }
+
+            if (absorber)
+            {
+                npc.AddBuff(ModContent.BuffType<AbsorberAffliction>(), 1800);
+                SoundEngine.PlaySound(AbsorberHit, Player.Center);
+                Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
+                Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
+                for (int i = 0; i < 12; i++)
+                {
+                    int sparkLifetime = Main.rand.Next(11, 16);
+                    float sparkScale = Main.rand.NextFloat(1.8f, 2.8f) * 0.955f;
+                    Color sparkColor = Color.Lerp(Color.DarkSeaGreen, Color.MediumSeaGreen, Main.rand.NextFloat(0.7f));
+                    sparkColor = Color.Lerp(sparkColor, Color.DarkSeaGreen, Main.rand.NextFloat());
+                    Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 25f);
+                    sparkVelocity.Y -= 4.7f;
+                    SparkParticle spark = new SparkParticle(Player.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
+                    GeneralParticleHandler.SpawnParticle(spark);
+                }
+            }
         }
 
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
@@ -5791,7 +5819,7 @@ namespace CalamityMod.CalPlayer
 
                 if (absorber)
                 {
-                    int healAmt = (int)(hurtInfo.Damage / (sponge ? 16D : 20D));
+                    int healAmt = (int)(hurtInfo.Damage / 20D);
                     Player.statLife += healAmt;
                     Player.HealEffect(healAmt);
                 }

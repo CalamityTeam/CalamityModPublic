@@ -1700,14 +1700,12 @@ TheAbsorber: {
 	DisplayName: The Absorber
 	Tooltip:
 		'''
-		5% increased movement and jump speed
-		+20 max life and mana
-		Standing still boosts life and mana regen
-		Enemies take damage when they touch you
-		You emit a cloud of mushroom spores when you are hit
-		7% increased damage reduction
+		10% increased movement and jump speed
+		Enemies take immense damage when they touch you and are afflicted with a debuff that reduces damage reduction significantly
+		Using a healing potion will spawn a cleansing aura
+		Walking into the aura removes all debuffs and defense damage one time
+		The aura provides greatly increased life regen, damage, and damage reduction for all players inside for 15 seconds
 		5% of the damage from enemy attacks is absorbed and converted into healing
-		Grants immunity to Armor Crunch
 		'''
 }
 
@@ -1789,17 +1787,7 @@ TheFirstShadowflame: {
 
 TheSponge: {
 	DisplayName: The Sponge
-	Tooltip:
-		'''
-		10% increased damage reduction
-		+30 max life and mana
-		5% increased movement and jump speed
-		Standing still boosts life and mana regen
-		Enemies take damage when they touch you
-		You emit a cloud of mushroom spores when you are hit
-		6.25% of the damage from enemy attacks is absorbed and converted into healing
-		Grants immunity to Armor Crunch
-		'''
+	Tooltip: OUT OF ORDER
 }
 
 TheTransformer: {

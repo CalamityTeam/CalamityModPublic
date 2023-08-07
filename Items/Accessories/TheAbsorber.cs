@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.defense = 15;
+            Item.defense = 16;
             Item.width = 20;
             Item.height = 24;
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
@@ -24,12 +24,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            // Removed Giant Shell speed boost from The Absorber
-            // modPlayer.gShell = true;
-            modPlayer.fCarapace = true;
             modPlayer.absorber = true;
-            player.statManaMax2 += 20;
-            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
         }
 
         public override void AddRecipes()

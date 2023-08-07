@@ -1481,3 +1481,17 @@ GreenJellyRegen: {
 	DisplayName: Green Jelly Regen
 	Description: The regenerative goo empowers you, life regen increased by 6
 }
+
+AbsorberRegen: {
+	DisplayName: Regeneraga
+	Description:
+		'''
+		You are blessed by the culmimation of nature's powers
+		life regen increased by 7, damage increased by 10%, damage reduction increased by 7%
+		'''
+}
+
+AbsorberAffliction: {
+	DisplayName: Absorber Affliction
+	Description: Damn nature, you scary!
+}
