@@ -1786,6 +1786,7 @@ namespace CalamityMod.NPCs
                     // First kill: Notify of Abyss chests being unlocked.
                     if (!NPC.downedBoss3)
                     {
+                        World.Abyss.AbleToUnlockChests = true;
                         World.Abyss.UnlockAllAbyssChests();
 
                         string keysk = "Mods.CalamityMod.Status.Progression.SkeletronAbyssChestNotification";
