@@ -36,17 +36,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<GrandGelatin>().
-                AddIngredient<CrawCarapace>().
-                AddIngredient<FungalCarapace>().
-                AddIngredient<GiantTortoiseShell>().
-                AddIngredient<MolluskHusk>(5).
-                AddTile(TileID.LunarCraftingStation).
-                Register();
-
-            CreateRecipe().
-                AddIngredient<GrandGelatin>().
-                AddIngredient<GiantShell>().
-                AddIngredient<FungalCarapace>().
+                AddIngredient<CrabClaw>().
                 AddIngredient<GiantTortoiseShell>().
                 AddIngredient<MolluskHusk>(5).
                 AddTile(TileID.LunarCraftingStation).

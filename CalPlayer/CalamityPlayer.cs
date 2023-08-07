@@ -58,6 +58,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Typless;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -73,6 +74,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace CalamityMod.CalPlayer
 {
@@ -83,6 +85,8 @@ namespace CalamityMod.CalPlayer
         #region No Category
         public static bool areThereAnyDamnBosses = false;
         public static bool areThereAnyDamnEvents = false;
+        public bool potionSick = false;
+        public int timePotionSick;
         public bool drawBossHPBar = true;
         public float stealthUIAlpha = 1f;
         public float SulphWaterUIOpacity = 1f;
@@ -230,6 +234,8 @@ namespace CalamityMod.CalPlayer
         public int auralisAurora = 0;
         public int necroReviveCounter = -1;
         public int hideOfDeusTimer = 0;
+        public int giantShellPostHit = 0;
+        public int tortShellPostHit = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
         public int RustyMedallionCooldown = 0;
@@ -270,6 +276,7 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
         public static readonly SoundStyle DrownSound = new("CalamityMod/Sounds/Custom/AbyssDrown");
         public static readonly SoundStyle LeonDeathNoiseRE4_ForGFB = new("CalamityMod/Sounds/Custom/GFB/LeonDeathNoiseRE4");
+        public static readonly SoundStyle CrabClawHit = new("CalamityMod/Sounds/NPCKilled/DevourerSegmentBreak2") { Volume = 0.7f };
         #endregion
 
         #region Rogue
@@ -460,6 +467,7 @@ namespace CalamityMod.CalPlayer
         public bool dAmulet = false;
         public bool fCarapace = false;
         public bool gShell = false;
+        public bool tortShell = false;
         public bool absorber = false;
         public bool aAmpoule = false;
         public bool sponge = false;
@@ -493,6 +501,10 @@ namespace CalamityMod.CalPlayer
         public bool toxicHeart = false;
         public bool abaddon = false;
         public bool aeroStone = false;
+        public bool lifejelly = false;
+        public bool cleansingjelly = false;
+        public bool GrandGelatin = false;
+        public int CleansingEffect = 0;
         public bool community = false;
         public bool shatteredCommunity = false;
         public bool fleshTotem = false;
@@ -521,6 +533,9 @@ namespace CalamityMod.CalPlayer
         public bool spiritOrigin = false;
         public bool spiritOriginVanity = false;
         public bool darkSunRing = false;
+        public bool crawCarapace = false;
+        public bool crabClaw = false;
+        public bool HasReducedDashFirstFrame = false;
         public bool voidOfCalamity = false;
         public bool voidOfExtinction = false;
         public bool eArtifact = false;
@@ -825,6 +840,8 @@ namespace CalamityMod.CalPlayer
         public bool flaskBrimstone = false;
         public bool fabsolVodka = false;
         public bool mushy = false;
+        public bool PinkJellyRegen = false;
+        public bool GreenJellyRegen = false;
         public bool shellBoost = false;
         public bool cFreeze = false;
         public bool shine = false;
@@ -1537,6 +1554,7 @@ namespace CalamityMod.CalPlayer
             dAmulet = false;
             fCarapace = false;
             gShell = false;
+            tortShell = false;
             absorber = false;
             aAmpoule = false;
             sponge = false;
@@ -1563,6 +1581,9 @@ namespace CalamityMod.CalPlayer
             toxicHeart = false;
             abaddon = false;
             aeroStone = false;
+            lifejelly = false;
+            GrandGelatin = false;
+            cleansingjelly = false;
             community = false;
             shatteredCommunity = false;
             stressPills = false;
@@ -1580,6 +1601,10 @@ namespace CalamityMod.CalPlayer
             harpyWingBoost = false; //harpy wings + harpy ring
             fleshKnuckles = false;
             darkSunRing = false;
+            crawCarapace = false;
+            crabClaw = false;
+            gShell = false;
+            tortShell = false;
             voidOfCalamity = false;
             voidOfExtinction = false;
             eArtifact = false;
@@ -1829,6 +1854,8 @@ namespace CalamityMod.CalPlayer
             shine = false;
             anechoicCoating = false;
             mushy = false;
+            PinkJellyRegen = false;
+            GreenJellyRegen = false;
             shellBoost = false;
             cFreeze = false;
             tRegen = false;
@@ -2264,6 +2291,8 @@ namespace CalamityMod.CalPlayer
             shine = false;
             anechoicCoating = false;
             mushy = false;
+            PinkJellyRegen = false;
+            GreenJellyRegen = false;
             enraged = false;
             shellBoost = false;
             cFreeze = false;
@@ -3197,6 +3226,21 @@ namespace CalamityMod.CalPlayer
             if (Player.accRunSpeed < accRunSpeedMin)
                 Player.accRunSpeed = accRunSpeedMin;
 
+            //Life Jelly regen aura spawn when using a healing potion
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && lifejelly && !GrandGelatin)
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<PinkJellyAura>(), 0, 0, Player.whoAmI);
+
+            //Cleansing Jelly cleansing aura spawn when using a healing potion
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && cleansingjelly && !GrandGelatin)
+            {
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<BlueJellyAura>(), 0, 0, Player.whoAmI);
+            }
+            //Grand Gellatin regen and cleansing aura spawn when using a healing potion
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && GrandGelatin)
+            {
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<GreenJellyAura>(), 0, 0, Player.whoAmI);
+            }
+
             if (snowman)
             {
                 if (Player.whoAmI == Main.myPlayer && !snowmanNoseless)
@@ -3360,8 +3404,18 @@ namespace CalamityMod.CalPlayer
         {
             if (Player.whoAmI == Main.myPlayer && CalamityConfig.Instance.VanillaCooldownDisplay)
             {
+                if (Player.whoAmI == Main.myPlayer && Player.potionDelay != 0)
+                    potionSick = true;
+                else
+                    potionSick = false;
+
+                if (!potionSick)
+                    timePotionSick = 0;
+                else
+                    timePotionSick++;
+
                 // Add a cooldown display for potion sickness if the player has the vanilla counter ticking
-                if (Player.potionDelay > 0 && !Player.HasCooldown(PotionSickness.ID))
+                if (potionSick && !Player.HasCooldown(PotionSickness.ID))
                     Player.AddCooldown(PotionSickness.ID, Player.potionDelay, false);
 
                 if (cooldowns.TryGetValue(PotionSickness.ID, out CooldownInstance cd))
@@ -4840,7 +4894,32 @@ namespace CalamityMod.CalPlayer
             if (NPC.AnyNPCs(ModContent.NPCType<THELORDE>()))
             {
                 Player.AddBuff(ModContent.BuffType<NOU>(), 15, true);
-            }                 
+            }         
+            
+            if (crawCarapace)
+            {
+                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 720);
+                SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
+            }
+            
+            if (crabClaw)
+            {
+                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1800);
+                SoundEngine.PlaySound(CrabClawHit, Player.Center);
+                Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
+                Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
+                for (int i = 0; i < 9; i++)
+                {
+                    int sparkLifetime = Main.rand.Next(12, 18);
+                    float sparkScale = Main.rand.NextFloat(0.8f, 1f) * 0.955f;
+                    Color sparkColor = Color.Lerp(Color.RoyalBlue, Color.DarkBlue, Main.rand.NextFloat(0.7f));
+                    sparkColor = Color.Lerp(sparkColor, Color.RoyalBlue, Main.rand.NextFloat());
+                    Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 25f);
+                    sparkVelocity.Y -= 5.5f;
+                    SparkParticle spark = new SparkParticle(Player.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
+                    GeneralParticleHandler.SpawnParticle(spark);
+                }
+            }
         }
 
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
@@ -5762,8 +5841,14 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(SoundID.Item96, Player.Center);
                 }
 
-                if ((gShell || flameLickedShell) && !Player.panic)
+                if ((flameLickedShell) && !Player.panic)
                     Player.AddBuff(ModContent.BuffType<ShellBoost>(), 180);
+
+                if (gShell) //5 seconds of no dash reduction and reduced defense
+                    giantShellPostHit = 300;
+
+                if (tortShell) //5 seconds of no dash reduction and reduced defense
+                    tortShellPostHit = 300;
 
                 if (abyssalDivingSuitPlates && hurtInfo.Damage > 50)
                 {

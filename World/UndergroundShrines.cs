@@ -15,6 +15,8 @@ using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 using static CalamityMod.Schematics.SchematicManager;
+using CalamityMod.Items.Potions.Alcohol;
+using CalamityMod.Items.Potions;
 
 namespace CalamityMod.World
 {
@@ -61,6 +63,22 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
             };
+
+            if (Main.zenithWorld)
+            {
+                int evil = Utils.SelectRandom(WorldGen.genRand, ModContent.ItemType<StressPills>(), ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>());
+                contents = new List<ChestItem>()
+            {
+                new ChestItem(ModContent.ItemType<CorruptionEffigy>(), 1),
+                new ChestItem(ItemID.RottenChunk, WorldGen.genRand.Next(24, 28 + 1)),
+                new ChestItem(ItemID.CorruptionKey, 1),
+                new ChestItem(ItemID.CorruptTorch, WorldGen.genRand.Next(100, 110 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
+                new ChestItem(evil, 1),
+                new ChestItem(ItemID.RedPotion, WorldGen.genRand.Next(1, 2 + 1)),
+                new ChestItem(ItemID.GasTrap,1),
+            };
+            }
 
             for (int i = 0; i < contents.Count; i++)
             {
@@ -135,6 +153,23 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
             };
+
+            //Gfb loot change
+            if (Main.zenithWorld)
+            {
+                //Cannot modify the return value of List<ChestItem>.this[int] because its not a variable so gotta do this instead
+                contents = new List<ChestItem>()
+                {
+                new ChestItem(ModContent.ItemType<CrimsonEffigy>(), 1),
+                new ChestItem(ItemID.Vertebrae, WorldGen.genRand.Next(24, 28 + 1)),
+                new ChestItem(ItemID.CrimsonKey, 1),
+                new ChestItem(ItemID.CrimsonTorch, WorldGen.genRand.Next(100, 110 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
+                new ChestItem(ModContent.ItemType<BloodyMary>(), WorldGen.genRand.Next(2, 2 + 1)),
+                new ChestItem(ItemID.RedPotion, WorldGen.genRand.Next(1, 2 + 1)),
+                new ChestItem(ItemID.GasTrap, 1),
+                };
+            }
 
             for (int i = 0; i < contents.Count; i++)
             {
@@ -211,6 +246,21 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
             };
+            if (Main.zenithWorld)
+            {
+                int golfClub = Utils.SelectRandom(WorldGen.genRand, ItemID.GolfClubBronzeWedge, ItemID.GolfClubWedge, ItemID.GasTrap);
+                contents = new List<ChestItem>()
+                {
+                new ChestItem(ModContent.ItemType<LuxorsGift>(), 1),
+                new ChestItem(ModContent.ItemType<Items.Placeables.PrismShard>(), WorldGen.genRand.Next(6, 8 + 1)),
+                new ChestItem(ItemID.DungeonDesertKey, 1),
+                new ChestItem(ItemID.DesertTorch, WorldGen.genRand.Next(100, 110 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
+                new ChestItem(ModContent.ItemType<SpelunkersAmulet>(), 1),
+                new ChestItem(ItemID.RedPotion, WorldGen.genRand.Next(1, 2 + 1)),
+                new ChestItem(golfClub, 1), //Implying that the golfer messed with the loot but forgot this, OR its trapped
+                };
+            }
 
             for (int i = 0; i < contents.Count; i++)
             {
@@ -267,6 +317,9 @@ namespace CalamityMod.World
         public static void FillGraniteShrineChest(Chest chest)
         {
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            if (Main.zenithWorld)
+                potionType = ItemID.RedPotion;
+
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<UnstableGraniteCore>(), 1),
@@ -274,7 +327,8 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.BlueTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
-                new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(Main.zenithWorld ? 1 : 10, (Main.zenithWorld ? 2 : 12) + 1)),
+                new ChestItem((Main.rand.NextBool(2) && Main.zenithWorld) ? ItemID.GasTrap : ItemID.Granite, Main.zenithWorld ? 1 : WorldGen.genRand.Next(7,15+1)),
             };
 
             for (int i = 0; i < contents.Count; i++)
@@ -291,7 +345,7 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.3f), (int)(Main.maxTilesY * 0.85f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.85f));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
@@ -308,8 +362,10 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
 
                         //The granite geode is supposed to fully float in free air. No tile replacements
-                        if (tile.WallType == WallID.GraniteUnsafe && !tile.HasTile)
-                                graniteWallsInArea++;
+                        if (tile.WallType == WallID.GraniteUnsafe && !tile.HasTile && !Main.remixWorld)
+                            graniteWallsInArea++;
+                        else if ((tile.WallType == WallID.MarbleUnsafe || tile.TileType == TileID.Marble) && Main.remixWorld) //Get fixed boi makes it generate in marble biomes
+                            graniteWallsInArea++;
                     }
                 }
                 if (!canGenerateInLocation || graniteWallsInArea < totalTiles * 0.95f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
@@ -324,7 +380,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 20000);
+            } while (tries <= 30000);
         }
         #endregion
 
@@ -342,6 +398,21 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(foodType, WorldGen.genRand.Next(10, 12 + 1)),
             };
+
+            if (Main.zenithWorld)
+            {
+                contents = new List<ChestItem>()
+            {
+                new ChestItem(ModContent.ItemType<TundraLeash>(), 1),
+                new ChestItem(ItemID.FlinxFur, WorldGen.genRand.Next(6, 8 + 1)),
+                new ChestItem(ItemID.FrozenKey, 1),
+                new ChestItem(ItemID.IceTorch, WorldGen.genRand.Next(100, 110 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
+                new ChestItem(ItemID.Eggnog, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(ModContent.ItemType<DeliciousMeat>(), WorldGen.genRand.Next(200, 349 + 1)),
+                new ChestItem(Main.rand.NextBool(2) ? ItemID.GasTrap : ItemID.Marshmallow, 1)
+            };
+            }
 
             for (int i = 0; i < contents.Count; i++)
             {
@@ -400,6 +471,8 @@ namespace CalamityMod.World
         public static void FillMarbleShrineChest(Chest chest)
         {
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            if (Main.zenithWorld)
+                potionType = ItemID.RedPotion;
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<GladiatorsLocket>(), 1),
@@ -407,7 +480,8 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.WhiteTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
-                new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(Main.zenithWorld ? 1 : 10, (Main.zenithWorld ? 2 : 12) + 1)),
+                new ChestItem((Main.rand.NextBool(2) && Main.zenithWorld) ? ItemID.GasTrap : ItemID.Marble, Main.zenithWorld ? 1 : WorldGen.genRand.Next(7,15+1)),
             };
 
             for (int i = 0; i < contents.Count; i++)
@@ -424,7 +498,7 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.3f), (int)(Main.maxTilesY * 0.85f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.85f));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
@@ -443,7 +517,9 @@ namespace CalamityMod.World
 
                         //Marble biomes either have blocks or walls, occasionally both
                         //This should be near maximum to prevent the structure from overextending
-                        if (tile.TileType == TileID.Marble || tile.WallType == WallID.MarbleUnsafe)
+                        if ((tile.TileType == TileID.Marble || tile.WallType == WallID.MarbleUnsafe) && !Main.zenithWorld)
+                            marbleStuffInArea++;
+                        else if ((tile.WallType == WallID.GraniteUnsafe || tile.TileType == TileID.Granite) && Main.zenithWorld) //Generates in granite in gfb
                             marbleStuffInArea++;
                         
                         //There should be some space between the pillars so it doesn't make pillars in the middle of nowhere zone
@@ -466,7 +542,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 20000);
+            } while (tries <= 30000);
         }
         #endregion
 
@@ -475,14 +551,31 @@ namespace CalamityMod.World
         {
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.ShinePotion, ItemID.MiningPotion, ItemID.BuilderPotion);
             List<ChestItem> contents = new List<ChestItem>()
-            {
+                {
                 new ChestItem(ModContent.ItemType<FungalSymbiote>(), 1),
                 new ChestItem(ItemID.TruffleWorm, 3),
                 new ChestItem(ItemID.MushroomTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
-            };
+                };
+
+            // Gfb loot change
+            if (Main.zenithWorld)
+            {
+                //"Cannot modify the return value of List<ChestItem>.this[int] because its not a variable" so gotta do this instead, I could add a bunch of bools but I feel this is better for how much is changed
+                contents = new List<ChestItem>()
+                {
+                new ChestItem(ModContent.ItemType<FungalSymbiote>(), 1),
+                new ChestItem(ItemID.TruffleWorm, 3),
+                new ChestItem(ItemID.MushroomTorch, WorldGen.genRand.Next(50, 60 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(4, 6 + 1)),
+                new ChestItem(ModContent.ItemType<OddMushroom>(), WorldGen.genRand.Next(2, 3 + 1)),
+                new ChestItem(ItemID.RedPotion, WorldGen.genRand.Next(1, 2 + 1)),
+                new ChestItem(ItemID.GasTrap, 1)
+                };
+            }
+
 
             for (int i = 0; i < contents.Count; i++)
             {
@@ -500,7 +593,7 @@ namespace CalamityMod.World
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
                 int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.85f));
 
-                // Gfb and Dont Dig up
+                // Gfb and remix
                 if (Main.remixWorld)
                 {
                     // Ensure that the shrine doesn't generate too close to the center of the world
@@ -509,7 +602,7 @@ namespace CalamityMod.World
                         placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
                     }
                     while (placementPositionX > (int)(Main.maxTilesX * 0.4f) && placementPositionX < (int)(Main.maxTilesX * 0.6f));
-                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.8f), (int)(Main.maxTilesY * 0.85f)); //Mushroom layer
+                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.85f), (int)(Main.maxTilesY * 0.9f)); //Mushroom layer
                 }
 
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
@@ -543,7 +636,7 @@ namespace CalamityMod.World
                 {
                     tries++;
                 }
-                else if (!canGenerateInLocation && Main.remixWorld) //GFB nor dont dig up will not give a shit about mushrooms or the rectangle
+                else if (!canGenerateInLocation && Main.remixWorld) //GFB and remix will not give a shit about mushrooms or the rectangle
                 {
                     tries++;
                 }
@@ -562,14 +655,17 @@ namespace CalamityMod.World
         public static void FillSurfaceShrineChest(Chest chest)
         {
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.RecallPotion, ItemID.CalmingPotion, ItemID.SwiftnessPotion);
+            if (Main.zenithWorld)
+                potionType = ItemID.Sake;
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<TrinketofChi>(), 1),
                 new ChestItem(ItemID.PinkGel, WorldGen.genRand.Next(12, 15 + 1)),
                 new ChestItem(ItemID.Torch, WorldGen.genRand.Next(50, 60 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(4, 6 + 1)),
-                new ChestItem(ItemID.LesserHealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(Main.zenithWorld ? ItemID.RestorationPotion : ItemID.LesserHealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(Main.zenithWorld ? ItemID.GasTrap : ItemID.Mushroom, Main.zenithWorld ? 1 : WorldGen.genRand.Next(5,9+1)),
             };
 
             for (int i = 0; i < contents.Count; i++)
@@ -598,6 +694,9 @@ namespace CalamityMod.World
                 
                 //use Main.worldSurface and not WorldGen.WorldSurface, i believe that is why it was genning on the surface so much
                 int placementPositionY = (int)Main.worldSurface + numTilesBelowSurface;
+                
+                if (Main.remixWorld)
+                    placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.65f), (int)(Main.maxTilesY * 0.7f)); //above mushroom layer
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
@@ -632,49 +731,59 @@ namespace CalamityMod.World
                 }
                 else
                 {
-                    Point result;
-                    Point shrineTunnelPlacementPoint = new Point(placementPoint.X + (int)(schematicSize.X * 0.5f), placementPoint.Y);
-                    bool flag = WorldUtils.Find(shrineTunnelPlacementPoint, Searches.Chain(new Searches.Up(1000), new Conditions.IsSolid().AreaOr(1, 50).Not()), out result);
-                    if (WorldUtils.Find(shrineTunnelPlacementPoint, Searches.Chain(new Searches.Up(shrineTunnelPlacementPoint.Y - result.Y), new Conditions.IsTile(TileID.Sand)), out Point _))
+                    if (!Main.remixWorld) // Make tunnel if its not remix or Gfb
                     {
-                        tries++;
-                    }
-                    else if (!flag)
-                    {
-                        tries++;
-                    }
-                    else
-                    {
-                        result.Y += numTilesBelowSurface;
-
-                        bool[] array = new bool[TileID.Sets.GeneralPlacementTiles.Length];
-                        for (int i = 0; i < array.Length; i++)
-                            array[i] = TileID.Sets.GeneralPlacementTiles[i];
-
-                        array[TileID.Containers] = false;
-                        array[TileID.Containers2] = false;
-
-                        if (!structures.CanPlace(new Rectangle(shrineTunnelPlacementPoint.X, result.Y + 10, 1, shrineTunnelPlacementPoint.Y - result.Y - 9), array, 2))
+                        Point result;
+                        Point shrineTunnelPlacementPoint = new Point(placementPoint.X + (int)(schematicSize.X * 0.5f), placementPoint.Y);
+                        bool flag = WorldUtils.Find(shrineTunnelPlacementPoint, Searches.Chain(new Searches.Up(1000), new Conditions.IsSolid().AreaOr(1, 50).Not()), out result);
+                        if (WorldUtils.Find(shrineTunnelPlacementPoint, Searches.Chain(new Searches.Up(shrineTunnelPlacementPoint.Y - result.Y), new Conditions.IsTile(TileID.Sand)), out Point _))
+                        {
+                            tries++;
+                        }
+                        else if (!flag)
                         {
                             tries++;
                         }
                         else
                         {
-                            bool _ = true;
-                            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillSurfaceShrineChest));
-                            structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                            result.Y += numTilesBelowSurface;
 
-                            // Generate entrance tunnel
-                            ShapeData data = new ShapeData();
-                            WorldUtils.Gen(new Point(shrineTunnelPlacementPoint.X, result.Y + 10), new Shapes.Rectangle(1, shrineTunnelPlacementPoint.Y - result.Y - 9), Actions.Chain(new Modifiers.Blotches(2, 0.2), new Modifiers.SkipTiles(TileID.LivingWood, TileID.LeafBlock), new Actions.ClearTile().Output(data), new Modifiers.Expand(1), new Modifiers.OnlyTiles(TileID.Sand), new Actions.SetTile(TileID.HardenedSand).Output(data)));
-                            WorldUtils.Gen(new Point(shrineTunnelPlacementPoint.X, result.Y + 10), new ModShapes.All(data), new Actions.SetFrames(frameNeighbors: true));
+                            bool[] array = new bool[TileID.Sets.GeneralPlacementTiles.Length];
+                            for (int i = 0; i < array.Length; i++)
+                                array[i] = TileID.Sets.GeneralPlacementTiles[i];
 
-                            break;
+                            array[TileID.Containers] = false;
+                            array[TileID.Containers2] = false;
+
+                            if (!structures.CanPlace(new Rectangle(shrineTunnelPlacementPoint.X, result.Y + 10, 1, shrineTunnelPlacementPoint.Y - result.Y - 9), array, 2))
+                            {
+                                tries++;
+                            }
+                            else
+                            {
+                                bool _ = true;
+                                PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillSurfaceShrineChest));
+                                structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+
+                                // Generate entrance tunnel
+                                ShapeData data = new ShapeData();
+                                WorldUtils.Gen(new Point(shrineTunnelPlacementPoint.X, result.Y + 10), new Shapes.Rectangle(1, shrineTunnelPlacementPoint.Y - result.Y - 9), Actions.Chain(new Modifiers.Blotches(2, 0.2), new Modifiers.SkipTiles(TileID.LivingWood, TileID.LeafBlock), new Actions.ClearTile().Output(data), new Modifiers.Expand(1), new Modifiers.OnlyTiles(TileID.Sand), new Actions.SetTile(TileID.HardenedSand).Output(data)));
+                                WorldUtils.Gen(new Point(shrineTunnelPlacementPoint.X, result.Y + 10), new ModShapes.All(data), new Actions.SetFrames(frameNeighbors: true));
+
+                                break;
+                            }
                         }
+                    } else
+                    {
+                        bool _ = true;
+                        PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillSurfaceShrineChest));
+                        structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                        break;
                     }
+
                 }
 
-            } while (tries <= 20000);
+            } while (tries <= 30000);
         }
         #endregion
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CalamityMod.CalPlayer.DrawLayers;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -515,6 +516,22 @@ namespace CalamityMod.CalPlayer
                     g *= 0.01f;
                     b *= 0.01f;
                     fullBright = true;
+                }
+            }
+            if (calamityPlayer.PinkJellyRegen)
+            {
+                if (Main.rand.NextBool(24) && drawInfo.shadow == 0f)
+                {
+                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.5f, 1.2f), Color.HotPink, Color.LightPink, Main.rand.Next(10, 15));
+                    GeneralParticleHandler.SpawnParticle(Plus);
+                }
+            }
+            if (calamityPlayer.GreenJellyRegen)
+            {
+                if (Main.rand.NextBool(16) && drawInfo.shadow == 0f)
+                {
+                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.6f, 1.3f), Color.Lime, Color.LimeGreen, Main.rand.Next(10, 15));
+                    GeneralParticleHandler.SpawnParticle(Plus);
                 }
             }
             if (calamityPlayer.bloodfinBoost)

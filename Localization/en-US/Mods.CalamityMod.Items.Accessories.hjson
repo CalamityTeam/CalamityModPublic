@@ -418,7 +418,20 @@ CounterScarf: {
 
 CrawCarapace: {
 	DisplayName: Craw Carapace
-	Tooltip: Enemies take damage when they touch you
+	Tooltip:
+		'''
+		5% increased damage
+		Enemies that hit you take damage and are inflicted with Armor Crunch
+		'''
+}
+
+CrabClaw: {
+	DisplayName: Crab Claw
+	Tooltip:
+		'''
+		8% increased damage
+		Enemies that hit you take high damage and are inflicted with Armor Crunch for a long time
+		'''
 }
 
 CrimsonFlask: {
@@ -799,8 +812,8 @@ GiantShell: {
 	DisplayName: Giant Shell
 	Tooltip:
 		'''
-		15% reduced movement speed
-		Taking a hit will make you move very fast for a short time
+		10% reduced dash velocity
+		Taking a hit will remove the dash penalty and reduce defense for 5 seconds
 		'''
 }
 
@@ -808,9 +821,9 @@ GiantTortoiseShell: {
 	DisplayName: Giant Tortoise Shell
 	Tooltip:
 		'''
-		10% decreased movement speed
-		Enemies take damage when they hit you
-		Grants immunity to Armor Crunch
+		5% increased damage reduction
+		15% reduced dash velocity
+		Taking a hit will remove the dash penalty and reduce defense and damage reduction for 5 seconds
 		'''
 }
 
@@ -851,9 +864,10 @@ GrandGelatin: {
 	DisplayName: Grand Gelatin
 	Tooltip:
 		'''
-		10% increased movement and jump speed
-		+20 max life and mana
-		Standing still boosts life and mana regen
+		10% increased movement speed and jump speed
+		Using a healing potion will spawn a cleansing aura
+		Walking into the aura removes all debuffs and defense damage one time
+		The aura provides increased life regen for all players inside for 8 seconds
 		'''
 }
 
@@ -987,8 +1001,8 @@ LifeJelly: {
 	DisplayName: Life Jelly
 	Tooltip:
 		'''
-		+20 max life
-		Standing still boosts life regen
+		Using a healing potion will spawn a lingering aura 
+		The aura provides increased life regen for all players inside for 5 seconds
 		'''
 }
 
@@ -1021,12 +1035,12 @@ LuxorsGift: {
 		'''
 }
 
-ManaJelly: {
-	DisplayName: Mana Jelly
+CleansingJelly: {
+	DisplayName: Cleansing Jelly
 	Tooltip:
 		'''
-		+20 max mana
-		Standing still boosts mana regen
+		Using a healing potion will spawn a cleansing aura 
+		Walking into the aura removes all debuffs and defense damage one time
 		'''
 }
 

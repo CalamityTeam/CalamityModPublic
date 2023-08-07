@@ -238,6 +238,36 @@ namespace CalamityMod.CalPlayer
             //Todo - Move this back to the wulfrum set class whenever statmodifiers are implemented for stats other than damage
             if (WulfrumHat.PowerModeEngaged(Player, out _))
                 Player.moveSpeed *= 0.8f;
+
+            if (gShell)
+            {
+                //reduce player dash velocity as long as you didn't just get hit
+                if (Player.dashDelay == -1 && giantShellPostHit == 0)
+                {
+                    if (!HasReducedDashFirstFrame)
+                    {
+                        Player.velocity.X *= 0.9f;
+                        HasReducedDashFirstFrame = true;
+                    }
+                }
+                else
+                    HasReducedDashFirstFrame = false;
+            }
+
+            if (tortShell)
+            {
+                //reduce player dash velocity as long as you didn't just get hit
+                if (Player.dashDelay == -1 && tortShellPostHit == 0)
+                {
+                    if (!HasReducedDashFirstFrame)
+                    {
+                        Player.velocity.X *= 0.85f;
+                        HasReducedDashFirstFrame = true;
+                    }
+                }
+                else
+                    HasReducedDashFirstFrame = false;
+            }
         }
         #endregion
 
@@ -2485,6 +2515,48 @@ namespace CalamityMod.CalPlayer
                     Player.statDefense += Main.eclipse ? 10 : 20;
             }
 
+            if (crawCarapace)
+                Player.GetDamage<GenericDamageClass>() += 0.05f;
+
+            if (crabClaw)
+                Player.GetDamage<GenericDamageClass>() += 0.08f;
+
+            if (gShell)
+            {
+                if (giantShellPostHit == 1)
+                    SoundEngine.PlaySound(SoundID.Zombie58, Player.Center);
+
+                if (giantShellPostHit > 0)
+                {
+                    Player.statDefense -= 5;
+                    giantShellPostHit--;
+                }
+                if (giantShellPostHit < 0)
+                {
+                    giantShellPostHit = 0;
+                }
+            }
+
+            if (tortShell)
+            {
+                if (tortShellPostHit == 1)
+                    SoundEngine.PlaySound(SoundID.NPCHit24 with {Volume = 0.5f}, Player.Center);
+
+                if (tortShellPostHit > 0)
+                {
+                    Player.statDefense -= 10;
+                    tortShellPostHit--;
+                }
+                else
+                    Player.endurance += 0.05f;
+
+                if (tortShellPostHit < 0)
+                {
+                    tortShellPostHit = 0;
+                }
+            }
+
+
             // Ancient Chisel nerf
             if (Player.chiselSpeed)
                 Player.pickSpeed += 0.1f;
@@ -3570,6 +3642,16 @@ namespace CalamityMod.CalPlayer
             // (in addition to the player taking more defense damage, of course).
             if (totalDefenseDamage > 0)
             {
+                //Used to cleanse all defense damage by accessories
+                if (CleansingEffect == 1)
+                {
+                    totalDefenseDamage = 0;
+                    defenseDamageRecoveryFrames = 0;
+                    totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
+                    defenseDamageDelayFrames = 0;
+                    CleansingEffect = 0;
+                }
+
                 // Defense damage is capped at your maximum defense, no matter what.
                 if (totalDefenseDamage > Player.statDefense)
                     totalDefenseDamage = Player.statDefense;

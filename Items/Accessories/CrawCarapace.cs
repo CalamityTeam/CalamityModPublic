@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -9,7 +10,6 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.defense = 5;
             Item.width = 28;
             Item.height = 28;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
@@ -19,7 +19,9 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.thorns += 0.5f;
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.crawCarapace = true;
+            player.thorns += 0.25f;
         }
     }
 }
