@@ -1,8 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Events;
-using CalamityMod.NPCs;
 using CalamityMod.NPCs.Providence;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

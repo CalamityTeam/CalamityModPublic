@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using Terraria;
 using Terraria.Localization;
 
 namespace CalamityMod.Cooldowns
 {
-    public class ElysianGuardCooldown : CooldownHandler
+    public class ElysianGuard : CooldownHandler
     {
         public static new string ID => "ElysianGuard";
         public override bool ShouldDisplay => true;

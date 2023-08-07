@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CalamityMod.CalPlayer;
-using CalamityMod.Cooldowns;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
@@ -17,7 +15,7 @@ namespace CalamityMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
 
-        public static float offset = 0f;
+        private static float offset = 0f;
         
         public override void SetStaticDefaults()
         {
@@ -37,8 +35,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.blazingCore = true;
+            player.Calamity().blazingCore = true;
         }
 
         public static void HandleStars(Player player)

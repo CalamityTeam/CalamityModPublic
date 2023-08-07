@@ -73,6 +73,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using ElysianGuard = CalamityMod.Cooldowns.ElysianGuard;
 
 namespace CalamityMod.CalPlayer
 {
@@ -5637,16 +5638,17 @@ namespace CalamityMod.CalPlayer
             {
                 if (blazingCoreParry >= 18) //only the first 12 frames (0.2 seconds) counts for a valid parry
                 {
-                    if (!Player.HasCooldown(ElysianGuardCooldown.ID))
+                    if (!Player.HasCooldown(ElysianGuard.ID))
                     {
                         Player.GiveIFrames(45);
                         blazingCoreEmpoweredParry = true;
                         modifiers.SetMaxDamage(1); //ONLY REDUCE DAMAGE IF NOT ON COOLDOWN
+                        modifiers.DisableSound(); //prevents hurt sound from playing, had no idea this was a thing
                     }
                     
                     SoundEngine.PlaySound(SoundID.Shatter);
                     blazingCoreSuccessfulParry = 60;
-                    Player.AddCooldown(ElysianGuardCooldown.ID, 60 * 30, false); //cooldown is frames in seconds multiplied by the desired amount of seconds
+                    Player.AddCooldown(ElysianGuard.ID, 60 * 30, false); //cooldown is frames in seconds multiplied by the desired amount of seconds
                 }
 
                 if (blazingCoreParry > 1)
