@@ -56,12 +56,14 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.velocity *= 0.95f;
                 Projectile.rotation += MathHelper.ToRadians(Projectile.ai[0] * 0.5f) * Projectile.localAI[0];
             }
-            else if (Projectile.ai[0] < 44f)
+            else if (Projectile.ai[0] > 42f)
             {
                 Projectile.extraUpdates = 1;
                 if (Projectile.ai[1] < 0f)
                 {
-                    Projectile.Kill();
+                    CalamityUtils.HomeInOnNPC(Projectile, Projectile.tileCollide, 2000f, speed, 12f);
+                    if (Projectile.ai[0] > 80f)
+                        Projectile.Kill();
                     return;
                 }
 
@@ -72,11 +74,13 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 else
                 {
-                    float velConst = 24f;
+                    float velConst = 7f;
+                    velConst--;
                     Projectile.velocity = new Vector2((target.Center.X - Projectile.Center.X) / velConst, (target.Center.Y - Projectile.Center.Y) / velConst);
                     Projectile.rotation += MathHelper.ToRadians(48f) * Projectile.localAI[0];
                 }
             }
+            
 
             if (Main.rand.NextBool(2))
             {
