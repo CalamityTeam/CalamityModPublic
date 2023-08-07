@@ -425,8 +425,8 @@ CrawCarapace: {
 		'''
 }
 
-CrabClaw: {
-	DisplayName: Crab Claw
+Baroclaw: {
+	DisplayName: Baroclaw
 	Tooltip:
 		'''
 		8% increased damage

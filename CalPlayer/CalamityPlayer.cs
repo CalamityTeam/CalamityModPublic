@@ -276,7 +276,7 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
         public static readonly SoundStyle DrownSound = new("CalamityMod/Sounds/Custom/AbyssDrown");
         public static readonly SoundStyle LeonDeathNoiseRE4_ForGFB = new("CalamityMod/Sounds/Custom/GFB/LeonDeathNoiseRE4");
-        public static readonly SoundStyle CrabClawHit = new("CalamityMod/Sounds/NPCKilled/DevourerSegmentBreak2") { Volume = 0.7f };
+        public static readonly SoundStyle BaroclawHit = new("CalamityMod/Sounds/NPCKilled/DevourerSegmentBreak2") { Volume = 0.7f };
         public static readonly SoundStyle AbsorberHit = new("CalamityMod/Sounds/Custom/AbilitySounds/SilvaActivation") { Volume = 0.7f };
         #endregion
 
@@ -534,7 +534,7 @@ namespace CalamityMod.CalPlayer
         public bool spiritOriginVanity = false;
         public bool darkSunRing = false;
         public bool crawCarapace = false;
-        public bool crabClaw = false;
+        public bool baroclaw = false;
         public bool HasReducedDashFirstFrame = false;
         public bool voidOfCalamity = false;
         public bool voidOfExtinction = false;
@@ -1600,7 +1600,7 @@ namespace CalamityMod.CalPlayer
             fleshKnuckles = false;
             darkSunRing = false;
             crawCarapace = false;
-            crabClaw = false;
+            baroclaw = false;
             gShell = false;
             tortShell = false;
             voidOfCalamity = false;
@@ -4909,10 +4909,10 @@ namespace CalamityMod.CalPlayer
                 SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
             }
             
-            if (crabClaw)
+            if (baroclaw)
             {
                 npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1800);
-                SoundEngine.PlaySound(CrabClawHit, Player.Center);
+                SoundEngine.PlaySound(BaroclawHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
                 for (int i = 0; i < 9; i++)
