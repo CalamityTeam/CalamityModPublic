@@ -55,40 +55,43 @@ namespace CalamityMod.UI
             }
             else
             {
-                //Closed, do stuff in here if need be
+                // Closed, do stuff in here if need be.
             }
         }
 
         public static void UpdateAndDraw(SpriteBatch sb)
         {
-            //Don't do anything if not open
+            // Don't do anything if not open.
             if (!Open)
                 return;
 
-            //Draw center circle
+            // Draw center circle
             DrawCircle(sb, CenterPoint, 0, CircleStyle.Normal);
 
             Vector2 centerToMouse = Main.MouseScreen - CenterPoint;
             float rotation = centerToMouse.ToRotation();
 
-            //Draw the arrow that points towards the mouse
+            // Draw the arrow that points towards the mouse.
             sb.Draw(CircleTextures, CenterPoint, new Rectangle(0, CircleTextureSize, 24, 10), Color.White, rotation, new Vector2(12, 5f), 1f, SpriteEffects.None, 0f);
 
             int current = 0;
             int selectedCircle = -1;
+            int offset = CircleOffset * 2;
+            int radius = CircleTextureSize / 2;
+
             for (int x = 0; x < 2; x++)
             {
                 for (int y = 0; y < 2; y++)
                 {
                     Vector2 center = new Vector2(
-                        CenterPoint.X - CircleOffset + x * CircleOffset * 2,
-                        CenterPoint.Y - CircleOffset + y * CircleOffset * 2);
+                        CenterPoint.X - CircleOffset + x * offset,
+                        CenterPoint.Y - CircleOffset + y * offset);
 
-                    Circle c = new Circle(center, CircleTextureSize / 2);
+                    Circle c = new Circle(center, radius);
 
                     CircleStyle style = CircleStyle.Normal;
 
-                    //If the mouse is in the circle
+                    // If the mouse is in the circle.
                     if (c.Contains(Main.MouseScreen))
                     {
                         style = CircleStyle.Selected;
@@ -97,7 +100,7 @@ namespace CalamityMod.UI
 
                         selectedCircle = current;
 
-                        //If left clicked
+                        // If left clicked.
                         if ((Main.mouseLeft && Main.mouseLeftRelease))
                         {
                             Main.mouseLeftRelease = false;
@@ -113,7 +116,7 @@ namespace CalamityMod.UI
                 }
             }
 
-            //Literally so the sound plays
+            // Literally so the sound plays.
             if (LastHovered != selectedCircle)
             {
                 LastHovered = selectedCircle;

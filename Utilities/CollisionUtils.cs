@@ -75,6 +75,7 @@ namespace CalamityMod
                 if (WorldGen.SolidTile(tile) || (checkDirection.Y >= 0f && tile.HasTile && Main.tileSolidTop[tile.TileType]))
                     return i;
             }
+
             return null;
         }
     }
