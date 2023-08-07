@@ -421,7 +421,16 @@ CrawCarapace: {
 	Tooltip:
 		'''
 		5% increased damage
-		Enemies that hit you are inflicted with Armor Crunch
+		Enemies that hit you take damage and are inflicted with Armor Crunch
+		'''
+}
+
+CrabClaw: {
+	DisplayName: Crab Claw
+	Tooltip:
+		'''
+		8% increased damage
+		Enemies that hit you take high damage and are inflicted with Armor Crunch for a long time
 		'''
 }
 
@@ -812,9 +821,9 @@ GiantTortoiseShell: {
 	DisplayName: Giant Tortoise Shell
 	Tooltip:
 		'''
-		10% decreased movement speed
-		Enemies take damage when they hit you
-		Grants immunity to Armor Crunch
+		5% increased damage reduction
+		15% reduced dash velocity
+		Taking a hit will remove the dash penalty and reduce defense and damage reduction for 5 seconds
 		'''
 }
 

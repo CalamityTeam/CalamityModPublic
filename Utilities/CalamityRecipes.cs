@@ -1798,11 +1798,6 @@ namespace CalamityMod
             r.AddTile(TileID.CrystalBall);
             r.Register();
 
-            // Turtle Shell with Giant Tortoise Shell
-            r = Recipe.Create(ItemID.TurtleShell);
-            r.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
-            r.Register();
-
             // Pulse Bow
             r = Recipe.Create(ItemID.PulseBow);
             r.AddIngredient(ItemID.ShroomiteBar, 16);

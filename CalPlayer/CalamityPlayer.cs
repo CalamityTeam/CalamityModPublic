@@ -235,6 +235,7 @@ namespace CalamityMod.CalPlayer
         public int necroReviveCounter = -1;
         public int hideOfDeusTimer = 0;
         public int giantShellPostHit = 0;
+        public int tortShellPostHit = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
         public int RustyMedallionCooldown = 0;
@@ -275,6 +276,7 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
         public static readonly SoundStyle DrownSound = new("CalamityMod/Sounds/Custom/AbyssDrown");
         public static readonly SoundStyle LeonDeathNoiseRE4_ForGFB = new("CalamityMod/Sounds/Custom/GFB/LeonDeathNoiseRE4");
+        public static readonly SoundStyle CrabClawHit = new("CalamityMod/Sounds/NPCKilled/DevourerSegmentBreak2") { Volume = 0.7f };
         #endregion
 
         #region Rogue
@@ -465,6 +467,7 @@ namespace CalamityMod.CalPlayer
         public bool dAmulet = false;
         public bool fCarapace = false;
         public bool gShell = false;
+        public bool tortShell = false;
         public bool absorber = false;
         public bool aAmpoule = false;
         public bool sponge = false;
@@ -531,6 +534,7 @@ namespace CalamityMod.CalPlayer
         public bool spiritOriginVanity = false;
         public bool darkSunRing = false;
         public bool crawCarapace = false;
+        public bool crabClaw = false;
         public bool HasReducedDashFirstFrame = false;
         public bool voidOfCalamity = false;
         public bool voidOfExtinction = false;
@@ -1550,6 +1554,7 @@ namespace CalamityMod.CalPlayer
             dAmulet = false;
             fCarapace = false;
             gShell = false;
+            tortShell = false;
             absorber = false;
             aAmpoule = false;
             sponge = false;
@@ -1597,7 +1602,9 @@ namespace CalamityMod.CalPlayer
             fleshKnuckles = false;
             darkSunRing = false;
             crawCarapace = false;
+            crabClaw = false;
             gShell = false;
+            tortShell = false;
             voidOfCalamity = false;
             voidOfExtinction = false;
             eArtifact = false;
@@ -4894,6 +4901,25 @@ namespace CalamityMod.CalPlayer
                 npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), (int)720);
                 SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
             }
+            
+            if (crabClaw)
+            {
+                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), (int)1800);
+                SoundEngine.PlaySound(CrabClawHit, Player.Center);
+                Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
+                Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
+                for (int i = 0; i < 9; i++)
+                {
+                    int sparkLifetime = Main.rand.Next(12, 18);
+                    float sparkScale = Main.rand.NextFloat(0.8f, 1f) * 0.955f;
+                    Color sparkColor = Color.Lerp(Color.RoyalBlue, Color.DarkBlue, Main.rand.NextFloat(0.7f));
+                    sparkColor = Color.Lerp(sparkColor, Color.RoyalBlue, Main.rand.NextFloat());
+                    Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 25f);
+                    sparkVelocity.Y -= 5.5f;
+                    SparkParticle spark = new SparkParticle(Player.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
+                    GeneralParticleHandler.SpawnParticle(spark);
+                }
+            }
         }
 
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
@@ -5820,6 +5846,9 @@ namespace CalamityMod.CalPlayer
 
                 if (gShell) //5 seconds of no dash reduction and reduced defense
                     giantShellPostHit = 300;
+
+                if (tortShell) //5 seconds of no dash reduction and reduced defense
+                    tortShellPostHit = 300;
 
                 if (abyssalDivingSuitPlates && hurtInfo.Damage > 50)
                 {

@@ -359,12 +359,6 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<MurkyPaste>(), 3, 2));
                     break;
 
-                // Giant Tortoise
-                // Giant Tortoise Shell @ 14.29% Normal, 25% Expert+
-                case NPCID.GiantTortoise:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<GiantTortoiseShell>(), 7, 4));
-                    break;
-
                 // Angry Trapper
                 // Trapper Bulb @ 50% Normal, 100% Expert+
                 case NPCID.AngryTrapper:

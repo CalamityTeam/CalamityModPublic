@@ -253,6 +253,21 @@ namespace CalamityMod.CalPlayer
                 else
                     HasReducedDashFirstFrame = false;
             }
+
+            if (tortShell)
+            {
+                //reduce player dash velocity as long as you didn't just get hit
+                if (Player.dashDelay == -1 && tortShellPostHit == 0)
+                {
+                    if (!HasReducedDashFirstFrame)
+                    {
+                        Player.velocity.X *= 0.85f;
+                        HasReducedDashFirstFrame = true;
+                    }
+                }
+                else
+                    HasReducedDashFirstFrame = false;
+            }
         }
         #endregion
 
@@ -2503,6 +2518,9 @@ namespace CalamityMod.CalPlayer
             if (crawCarapace)
                 Player.GetDamage<GenericDamageClass>() += 0.05f;
 
+            if (crabClaw)
+                Player.GetDamage<GenericDamageClass>() += 0.08f;
+
             if (gShell)
             {
                 if (giantShellPostHit == 1)
@@ -2516,6 +2534,25 @@ namespace CalamityMod.CalPlayer
                 if (giantShellPostHit < 0)
                 {
                     giantShellPostHit = 0;
+                }
+            }
+
+            if (tortShell)
+            {
+                if (tortShellPostHit == 1)
+                    SoundEngine.PlaySound(SoundID.NPCHit24 with {Volume = 0.5f}, Player.Center);
+
+                if (tortShellPostHit > 0)
+                {
+                    Player.statDefense -= 10;
+                    tortShellPostHit--;
+                }
+                else
+                    Player.endurance += 0.05f;
+
+                if (tortShellPostHit < 0)
+                {
+                    tortShellPostHit = 0;
                 }
             }
 

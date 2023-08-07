@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.crawCarapace = true;
+            player.thorns += 0.25f;
         }
     }
 }
