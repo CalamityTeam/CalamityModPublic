@@ -474,7 +474,7 @@ namespace CalamityMod.CalPlayer
         public int gSabatonHotkeyHoldTime = 0;
         public int gSabatonFall = 0;
         public bool gSabatonFalling = false;
-        public int gSabatonCooldown = 0;
+        public int gSabatonTempJumpSpeed = 0;
         public bool sGlyph = false;
         public bool sRegen = false;
         public bool tracersDust = false;
@@ -2132,7 +2132,7 @@ namespace CalamityMod.CalPlayer
             gSabatonHotkeyHoldTime = 0;
             gSabatonFall = 0;
             gSabatonFalling = false;
-            gSabatonCooldown = 0;
+            gSabatonTempJumpSpeed = 0;
             astralStarRainCooldown = 0;
             silvaMageCooldown = 0;
             bloodflareMageCooldown = 0;
@@ -2505,21 +2505,17 @@ namespace CalamityMod.CalPlayer
             if (Player.dead)
                 return;
 
-            if (CalamityKeybinds.GravistarSabatonHotkey.Current && gSabaton && Main.myPlayer == Player.whoAmI && (Player.velocity.Y != Player.oldVelocity.Y) && !Player.pulley)
+            if (CalamityKeybinds.GravistarSabatonHotkey.Current && gSabaton && Main.myPlayer == Player.whoAmI && (Player.velocity.Y != Player.oldVelocity.Y) && !Player.pulley && !Player.mount.Active && Player.grappling[0] == -1 && !Player.tongued)
             {
                 gSabatonHotkeyHoldTime++;
-                Player.mount.Dismount(Player);
-                Player.RemoveAllGrapplingHooks();
-                Player.controlMount = false;
-                Player.controlHook = false;
+                if (gSabatonHotkeyHoldTime < 60 && gSabatonHotkeyHoldTime % 3f == 0)
+                {
+                    SpawnGravistarParticle();
+                }
             }
             else if (Main.myPlayer == Player.whoAmI)
             {
                 gSabatonHotkeyHoldTime = 0;
-            }
-            if (Main.myPlayer == Player.whoAmI && gSabatonFalling)
-            {
-                Player.controlMount = false;
             }
             
             if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
@@ -3261,30 +3257,34 @@ namespace CalamityMod.CalPlayer
             {
                 Player.AddBuff(ModContent.BuffType<ProfanedCrystalBuff>(), 60, true);
             }
-            if (gSabaton)
+            if (gSabaton && Player.whoAmI == Main.myPlayer)
             {
                 if (gSabatonHotkeyHoldTime < 60 && gSabatonHotkeyHoldTime != 0 && !gSabatonFalling)
                 {
                     Player.velocity.Y *= (60 - (gSabatonHotkeyHoldTime/4f))/60f;
                 }
+                if (gSabatonHotkeyHoldTime == 45)
+                {
+                    SoundEngine.PlaySound(new("CalamityMod/Sounds/Custom/GravistarCharge") { Volume = 0.3f });
+                }
                 if (gSabatonHotkeyHoldTime == 60)
                 {
                     gSabatonFalling = true;
                 }
-                if (Player.pulley)
+                if (Player.pulley || Player.mount.Active || Player.grappling[0] != -1 || Player.tongued)
                 {
                     gSabatonFall = 0;
                     gSabatonFalling = false;
                 }
                 if (gSabatonFalling)
                 {
+                    SpawnGravistarParticle();
+
                     if (gSabatonFall < 120)
                         gSabatonFall++;
                     
                     Player.maxFallSpeed = 40f;
                     Player.gravity = 1.3f;
-                    Player.mount.Dismount(Player);
-                    Player.controlHook = false;
                     Player.controlJump = false;
 
                     if (Player.oldVelocity.Y == Player.velocity.Y)
@@ -3293,6 +3293,7 @@ namespace CalamityMod.CalPlayer
                         Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SabatonSlam>(), 300, 4f, Player.whoAmI, gSabatonFall);
                         gSabatonFall = 0;
                         gSabatonFalling = false;
+                        gSabatonTempJumpSpeed = 40;
                     }
                 }
                 
@@ -3473,6 +3474,15 @@ namespace CalamityMod.CalPlayer
 
             ForceVariousEffects();
             BaseIdleHoldoutProjectile.CheckForEveryHoldout(Player);
+
+            if (gSabatonTempJumpSpeed > 0)
+            {
+                gSabatonTempJumpSpeed--;
+                if (gSabaton && Player.whoAmI == Main.myPlayer)
+                {
+                    Player.jumpSpeedBoost += 2f;
+                }
+            }
         }
         #endregion
 
@@ -5499,6 +5509,32 @@ namespace CalamityMod.CalPlayer
                     info.Damage += (bossRushDamageFloor - info.Damage);
             }
 
+            if (gSabatonFalling)
+            {
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    NPC n = Main.npc[i];
+
+                    // Ignore critters with the Guide to Critter Companionship
+                    if (Player.dontHurtCritters && NPCID.Sets.CountsAsCritter[n.type])
+                        continue;
+
+                    if (n.active && !n.dontTakeDamage && !n.friendly && n.Calamity().dashImmunityTime[Player.whoAmI] <= 0)
+                    {
+                        Rectangle npcHitbox = n.getRect();
+                        if ((Player.getRect()).Intersects(npcHitbox) && (n.noTileCollide || Collision.CanHit(Player.position, Player.width, Player.height, n.position, n.width, n.height)))
+                        {
+                            Projectile.NewProjectile(Player.GetSource_FromThis(), n.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), 150, 0, Main.myPlayer);
+
+                            n.Calamity().dashImmunityTime[Player.whoAmI] = 4;
+                            Player.GiveIFrames(5, false);
+                            return true;
+                        }
+                    }
+                }
+
+            }
+
             // God Slayer Damage Resistance makes you ignore hits that came in as less than 80.
             // Alternatively, if the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
             if ((godSlayerDamage && info.Damage <= 80) || info.Damage < 1)
@@ -6950,6 +6986,16 @@ namespace CalamityMod.CalPlayer
             range *= eclipseMirror ? 0.3f : 1f;
             range *= reaverExplore ? 0.9f : 1f;
             return range;
+        }
+
+        public void SpawnGravistarParticle()
+        {
+            Vector2 position1 = Player.position + new Vector2(Player.width / 14, Player.height);
+            Vector2 position2 = Player.position + new Vector2(Player.width * 13 / 14, Player.height);
+            SquareParticle square1 = new SquareParticle(position1, Player.velocity * (0.15f + Main.rand.NextFloat(0.1f)), false, 15, 1.7f + Main.rand.NextFloat(0.6f), Color.Cyan * 1.5f);
+            SquareParticle square2 = new SquareParticle(position2, Player.velocity * (0.15f + Main.rand.NextFloat(0.1f)), false, 15, 1.7f + Main.rand.NextFloat(0.6f), Color.Cyan * 1.5f);
+            GeneralParticleHandler.SpawnParticle(square1);
+            GeneralParticleHandler.SpawnParticle(square2);
         }
         #endregion
 
