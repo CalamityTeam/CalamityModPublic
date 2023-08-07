@@ -466,7 +466,6 @@ namespace CalamityMod.CalPlayer
         public bool transformer = false;
         public bool hideOfDeus = false;
         public bool dAmulet = false;
-        public bool fCarapace = false;
         public bool gShell = false;
         public bool tortShell = false;
         public bool absorber = false;
@@ -1552,7 +1551,6 @@ namespace CalamityMod.CalPlayer
             transformer = false;
             hideOfDeus = false;
             dAmulet = false;
-            fCarapace = false;
             gShell = false;
             tortShell = false;
             absorber = false;
@@ -6198,32 +6196,6 @@ namespace CalamityMod.CalPlayer
                             star.DamageType = DamageClass.Generic;
                             star.usesLocalNPCImmunity = true;
                             star.localNPCHitCooldown = 5;
-                        }
-                    }
-                }
-                if (fCarapace)
-                {
-                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<FungalCarapace>()));
-                    if (hurtInfo.Damage > 0)
-                    {
-                        SoundEngine.PlaySound(SoundID.NPCHit45, Player.Center);
-                        float spread = 45f * 0.0174f;
-                        double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
-                        double deltaAngle = spread / 8f;
-                        double offsetAngle;
-                        int fDamage = (int)Player.GetBestClassDamage().ApplyTo(70);
-                        if (Player.whoAmI == Main.myPlayer)
-                        {
-                            for (int i = 0; i < 4; i++)
-                            {
-                                float xPos = Main.rand.NextBool(2) ? Player.Center.X + 100 : Player.Center.X - 100;
-                                Vector2 spawnPos = new Vector2(xPos, Player.Center.Y + Main.rand.Next(-100, 101));
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                int spore1 = Projectile.NewProjectile(source, spawnPos.X, spawnPos.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, Player.whoAmI, 0f, 0f);
-                                int spore2 = Projectile.NewProjectile(source, spawnPos.X, spawnPos.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, Player.whoAmI, 0f, 0f);
-                                Main.projectile[spore1].timeLeft = 300;
-                                Main.projectile[spore2].timeLeft = 300;
-                            }
                         }
                     }
                 }

@@ -768,11 +768,6 @@ FrostFlare: {
 		'''
 }
 
-FungalCarapace: {
-	DisplayName: Fungal Carapace
-	Tooltip: You emit a cloud of mushroom spores when you are hit
-}
-
 FungalClump: {
 	DisplayName: Fungal Clump
 	Tooltip:

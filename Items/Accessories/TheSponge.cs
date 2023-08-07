@@ -41,7 +41,6 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             // Removed Giant Shell speed boost from Sponge
             // modPlayer.gShell = true;
-            modPlayer.fCarapace = true;
             modPlayer.sponge = true;
             player.statManaMax2 += 30;
             player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;

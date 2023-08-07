@@ -137,12 +137,6 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<CrawCarapace>(), 7, 4));
                     break;
 
-                // Anomura Fungus
-                // Fungal Carapace @ 14.29% Normal, 25% Expert+
-                case NPCID.AnomuraFungus:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<FungalCarapace>(), 7, 4));
-                    break;
-
                 // Tim
                 // Plasma Rod @ 33.33% Normal, 50% Expert+
                 case NPCID.Tim:
