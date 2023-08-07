@@ -962,7 +962,7 @@ namespace CalamityMod.CalPlayer
                         Player.maxFallSpeed = 12f;
                     if (aeroSet)
                         Player.maxFallSpeed = 15f;
-                    if (gSabatonFall > 0 || Player.PortalPhysicsEnabled)
+                    if (Player.PortalPhysicsEnabled)
                         Player.maxFallSpeed = 20f;
                 }
 
@@ -1190,10 +1190,6 @@ namespace CalamityMod.CalPlayer
                 raiderCritBonus -= RaidersTalisman.RaiderBonus / (float)CalamityUtils.SecondsToFrames(RaidersTalisman.RaiderCooldown);
             if (raiderSoundCooldown > 0)
                 raiderSoundCooldown--;
-            if (gSabatonCooldown > 0)
-                gSabatonCooldown--;
-            if (gSabatonFall > 0)
-                gSabatonFall--;
             if (astralStarRainCooldown > 0)
                 astralStarRainCooldown--;
             if (tarraRangedCooldown > 0)
@@ -1811,33 +1807,6 @@ namespace CalamityMod.CalPlayer
                         Main.dust[dust].noGravity = true;
                         Main.dust[dust].velocity *= 1.2f;
                         Main.dust[dust].velocity.Y -= 0.15f;
-                    }
-                }
-            }
-
-            // Gravistar Sabaton effects
-            if (gSabaton && Player.whoAmI == Main.myPlayer)
-            {
-                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<GravistarSabaton>()));
-                if (gSabatonCooldown <= 0 && !Player.mount.Active)
-                {
-                    if (Player.controlDown && Player.releaseDown && Player.position.Y != Player.oldPosition.Y)
-                    {
-                        gSabatonFall = 300;
-                        gSabatonCooldown = 480; //8 second cooldown
-                        Player.gravity *= 2f;
-                        Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y + (Player.height / 5f), Player.velocity.X, Player.velocity.Y, ModContent.ProjectileType<SabatonSlam>(), 0, 0, Player.whoAmI);
-                    }
-                }
-                if (gSabatonCooldown == 1) //dust when ready to use again
-                {
-                    for (int i = 0; i < 66; i++)
-                    {
-                        int d = Dust.NewDust(Player.position, Player.width, Player.height, Main.rand.NextBool(2) ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), 0, 0, 100, default, 2.6f);
-                        Main.dust[d].noGravity = true;
-                        Main.dust[d].noLight = true;
-                        Main.dust[d].fadeIn = 1f;
-                        Main.dust[d].velocity *= 6.6f;
                     }
                 }
             }

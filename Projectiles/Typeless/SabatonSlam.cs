@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -11,49 +13,36 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public float scaleFromFall;
+        public float damageScaleFromFall;
 
         public override void SetDefaults()
         {
-            Projectile.width = 10;
-            Projectile.height = 35;
+            Projectile.width = 160;
+            Projectile.height = 160;
             Projectile.friendly = true;
-            Projectile.timeLeft = 300;
-            Projectile.tileCollide = true;
+            Projectile.timeLeft = 60;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
-            Player player = Main.player[Main.myPlayer];
-            if (player.Calamity().gSabatonFall == 0)
-            {
-                Projectile.Kill();
-            }
-            //Makes the projectiles follow the player
-            Projectile.velocity.X = player.velocity.X;
-            Projectile.velocity.Y = player.velocity.Y;
+            // Image is 156x156
+            scaleFromFall = (Projectile.ai[0] / 22) + 0.5f;
+            damageScaleFromFall = Projectile.ai[0] / 40;
+            Projectile.damage = (int)(300f * damageScaleFromFall + 300f);
         }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Player player = Main.player[Projectile.owner];
-            //Spawns the shockwave
-            if (Main.myPlayer == Projectile.owner)
-            {
-                int sabatonDamage = (int)player.GetBestClassDamage().ApplyTo(300);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + 25, Projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<SabatonBoom>(), sabatonDamage, 12, Projectile.owner);
-                SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-                player.Calamity().gSabatonFall = 0;
-                Projectile.Kill();
-            }
-            //Pretty things
-            for (int dustexplode = 0; dustexplode < 360; dustexplode++)
-            {
-                Vector2 dustd = new Vector2(17f, 17f).RotatedBy(MathHelper.ToRadians(dustexplode));
-                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(2) ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 3f);
-                Main.dust[d].noGravity = true;
-                Main.dust[d].position = Projectile.Center;
-            }
+            Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/HollowCircleHardEdge").Value;
+
+            Main.EntitySpriteDraw(lightTexture, Projectile.Center - Main.screenPosition, null, Color.White, 0f, lightTexture.Size() * 0.5f, scaleFromFall, SpriteEffects.None, 0);
+
             return false;
         }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, (scaleFromFall * 64f), targetHitbox);
     }
 }

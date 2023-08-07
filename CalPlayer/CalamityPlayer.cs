@@ -471,7 +471,9 @@ namespace CalamityMod.CalPlayer
         public float raiderCritBonus = RaidersTalisman.RaiderBonus;
         public int raiderSoundCooldown = 0;
         public bool gSabaton = false;
+        public int gSabatonHotkeyHoldTime = 0;
         public int gSabatonFall = 0;
+        public bool gSabatonFalling = false;
         public int gSabatonCooldown = 0;
         public bool sGlyph = false;
         public bool sRegen = false;
@@ -2127,7 +2129,9 @@ namespace CalamityMod.CalPlayer
             adrenaline = 0f;
             raiderCritBonus = 0f;
             raiderSoundCooldown = 0;
+            gSabatonHotkeyHoldTime = 0;
             gSabatonFall = 0;
+            gSabatonFalling = false;
             gSabatonCooldown = 0;
             astralStarRainCooldown = 0;
             silvaMageCooldown = 0;
@@ -2500,6 +2504,23 @@ namespace CalamityMod.CalPlayer
             // Why does this otherwise work when you're dead lmao
             if (Player.dead)
                 return;
+
+            if (CalamityKeybinds.GravistarSabatonHotkey.Current && gSabaton && Main.myPlayer == Player.whoAmI && (Player.velocity.Y != Player.oldVelocity.Y) && !Player.pulley)
+            {
+                gSabatonHotkeyHoldTime++;
+                Player.mount.Dismount(Player);
+                Player.RemoveAllGrapplingHooks();
+                Player.controlMount = false;
+                Player.controlHook = false;
+            }
+            else if (Main.myPlayer == Player.whoAmI)
+            {
+                gSabatonHotkeyHoldTime = 0;
+            }
+            if (Main.myPlayer == Player.whoAmI && gSabatonFalling)
+            {
+                Player.controlMount = false;
+            }
             
             if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
             {
@@ -3239,6 +3260,42 @@ namespace CalamityMod.CalPlayer
             if (profanedCrystal)
             {
                 Player.AddBuff(ModContent.BuffType<ProfanedCrystalBuff>(), 60, true);
+            }
+            if (gSabaton)
+            {
+                if (gSabatonHotkeyHoldTime < 60 && gSabatonHotkeyHoldTime != 0 && !gSabatonFalling)
+                {
+                    Player.velocity.Y *= (60 - (gSabatonHotkeyHoldTime/4f))/60f;
+                }
+                if (gSabatonHotkeyHoldTime == 60)
+                {
+                    gSabatonFalling = true;
+                }
+                if (Player.pulley)
+                {
+                    gSabatonFall = 0;
+                    gSabatonFalling = false;
+                }
+                if (gSabatonFalling)
+                {
+                    if (gSabatonFall < 120)
+                        gSabatonFall++;
+                    
+                    Player.maxFallSpeed = 40f;
+                    Player.gravity = 1.3f;
+                    Player.mount.Dismount(Player);
+                    Player.controlHook = false;
+                    Player.controlJump = false;
+
+                    if (Player.oldVelocity.Y == Player.velocity.Y)
+                    {
+                        var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<GravistarSabaton>()));
+                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SabatonSlam>(), 300, 4f, Player.whoAmI, gSabatonFall);
+                        gSabatonFall = 0;
+                        gSabatonFalling = false;
+                    }
+                }
+                
             }
         }
         #endregion
