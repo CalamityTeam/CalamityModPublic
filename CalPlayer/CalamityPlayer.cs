@@ -4898,13 +4898,13 @@ namespace CalamityMod.CalPlayer
             
             if (crawCarapace)
             {
-                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), (int)720);
+                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 720);
                 SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
             }
             
             if (crabClaw)
             {
-                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), (int)1800);
+                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1800);
                 SoundEngine.PlaySound(CrabClawHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
