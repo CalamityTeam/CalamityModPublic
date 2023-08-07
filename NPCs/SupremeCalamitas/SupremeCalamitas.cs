@@ -1279,7 +1279,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         if (giveUpCounter > 1)
                         {
-                            // Spin around the target and fire a bunch of beams (Sans) while also firing other projectiles
+                            // Spin around the target and fire a bunch of beams (Sans) while also firing other projectiles.
                             int blasterTimer = GiveUpCounterMax - giveUpCounter;
                             Vector2 circleOffset = player.Center + (Vector2.UnitY * 640f).RotatedBy(MathHelper.ToRadians(blasterTimer * 3f));
                             NPC.Center = circleOffset;

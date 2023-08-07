@@ -43,11 +43,13 @@ namespace CalamityMod.Items.Accessories
                         Vector2 baseVelocity = player.Center - baseSpawn;
                         baseVelocity.Normalize();
                         baseVelocity *= speed2;
+                        int spawnOffset = ShardProjectiles * 15;
+                        float spread = -ShardAngleSpread / 2f;
                         for (int i = 0; i < ShardProjectiles; i++)
                         {
                             Vector2 spawn = baseSpawn;
-                            spawn.X = spawn.X + i * 30 - (ShardProjectiles * 15);
-                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-ShardAngleSpread / 2 + (ShardAngleSpread * i / (float)ShardProjectiles)));
+                            spawn.X = spawn.X + i * 30 - spawnOffset;
+                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(spread + (ShardAngleSpread * i / (float)ShardProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                             int type = 0;
                             int damage = 0;
@@ -67,7 +69,7 @@ namespace CalamityMod.Items.Accessories
                                     break;
                             }
                             int finalDamage = (int)player.GetBestClassDamage().ApplyTo(damage);
-                            Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, finalDamage, 5f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, finalDamage, 5f, Main.myPlayer);
                         }
                     }
                 }

@@ -342,14 +342,15 @@ namespace CalamityMod.DataStructures
                 Owner.manaRegen += GemTechHeadgear.NonMagicItemManaRegenBoost;
         }
 
-        public float CalculateGemOffsetAngle(GemTechArmorGemType gemType)
+        public float CalculateGemOffsetAngle(GemTechArmorGemType gemType, float time)
         {
-            return MathHelper.TwoPi * (int)gemType / 6f + Main.GlobalTimeWrappedHourly * 3.41f;
+            return MathHelper.TwoPi * (int)gemType / 6f + time;
         }
 
         public Vector2 CalculateGemPosition(GemTechArmorGemType gemType)
         {
-            Vector2 baseDrawOffsetDirection = CalculateGemOffsetAngle(gemType).ToRotationVector2() * new Vector2(1f, 0.2f);
+            float gemTime = Main.GlobalTimeWrappedHourly * 3.41f;
+            Vector2 baseDrawOffsetDirection = CalculateGemOffsetAngle(gemType, gemTime).ToRotationVector2() * new Vector2(1f, 0.2f);
             Vector2 gemPosition = Owner.Center + baseDrawOffsetDirection * Owner.width * 1.25f;
             gemPosition.Y += Owner.gfxOffY;
             if (Owner.mount?.Active ?? false)

@@ -36,11 +36,14 @@ namespace CalamityMod.Items.Materials
             float outwardness = pulse * baseScale * 8f;
             Color drawColor = Color.BlueViolet * (float)Math.Sqrt(1f - pulse) * 0.7f;
             drawColor.A = 0;
+            float scale = baseScale * MathHelper.Lerp(1f, 1.45f, pulse);
+            Vector2 drawPositionOffset = Vector2.UnitY * 2f;
+            float velocity = Item.velocity.X * 0.2f;
+            Vector2 origin = frame.Size() * 0.5f;
             for (int i = 0; i < 4; i++)
             {
-                float scale = baseScale * MathHelper.Lerp(1f, 1.45f, pulse);
-                Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness - Vector2.UnitY * 2f;
-                spriteBatch.Draw(TextureAssets.Item[Item.type].Value, drawPosition, frame, drawColor, Item.velocity.X * 0.2f, frame.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness - drawPositionOffset;
+                spriteBatch.Draw(TextureAssets.Item[Item.type].Value, drawPosition, frame, drawColor, velocity, origin, scale, SpriteEffects.None, 0f);
             }
         }
 

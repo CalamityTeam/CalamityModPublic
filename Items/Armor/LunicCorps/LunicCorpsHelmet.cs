@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Armor.LunicCorps
 
                 float scale = 0.11f + 0.022f * (0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f + i * 0.2f));
 
-                if (playerFound == false)
+                if (!playerFound)
                 {
                     float shieldStrentgh = (float)Math.Pow(Main.LocalPlayer.GetModPlayer<CalamityPlayer>().masterChefShieldDurability / (float)MasterChefShieldDurabilityMax, 0.5f);
                     float noiseScale = MathHelper.Lerp(0.4f, 0.8f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.3f) * 0.5f + 0.5f);

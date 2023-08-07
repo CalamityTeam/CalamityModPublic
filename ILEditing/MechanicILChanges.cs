@@ -552,13 +552,12 @@ namespace CalamityMod.ILEditing
                             color = Color.Lerp(color, Color.White, 0.75f);
 
                         float offsetAngleValue = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6.7f) * 0.99f;
-                        float horizontalAreaValue = (float)horizontalArea * 0.34f;
                         int origin = size / 2;
 
                         for (int i = -horizontalArea; i <= horizontalArea; i++)
                         {
                             float offsetAngle = offsetAngleValue;
-                            offsetAngle += i / horizontalAreaValue;
+                            offsetAngle += i / (float)horizontalArea * 0.34f;
                             Vector2 velocity = Main.MouseWorld - UIManagementSystem.PreviousMouseWorld;
                             if (velocity.Length() < 64f)
                             {

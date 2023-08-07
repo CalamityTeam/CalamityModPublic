@@ -50,7 +50,6 @@ namespace CalamityMod.Particles
 
             for (int i = 0; i < StarAmount; i++)
             {
-
                 float starHeight = (float)Math.Sin(Offset + Main.GlobalTimeWrappedHourly * SpinSpeed + i * MathHelper.TwoPi / (float)StarAmount);
                 float starWidth = (float)Math.Cos(Offset + Main.GlobalTimeWrappedHourly * SpinSpeed + i * MathHelper.TwoPi / (float)StarAmount);
 
