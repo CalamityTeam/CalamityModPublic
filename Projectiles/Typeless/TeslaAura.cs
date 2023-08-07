@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            //Protect against other mod projectile reflection like emode Granite Golems
+            // Protect against other mod projectile reflection like emode Granite Golems.
             Projectile.friendly = true;
             Projectile.hostile = false;
 
@@ -55,11 +55,11 @@ namespace CalamityMod.Projectiles.Typeless
                 Projectile.localAI[1]++;
             }
             if (Projectile.localAI[1] >= framesX)
-            {
                 Projectile.localAI[1] = 0;
-            }
-            Player player = Main.player[Projectile.owner];
+
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.15f / 255f, (255 - Projectile.alpha) * 0.15f / 255f, (255 - Projectile.alpha) * 0.01f / 255f);
+
+            Player player = Main.player[Projectile.owner];
             Projectile.Center = player.Center;
             if (player is null || player.dead)
             {
@@ -139,10 +139,9 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (NPCID.Sets.ProjectileNPC[target.type] || target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>())
-            {
+            if (NPCID.Sets.ProjectileNPC[target.type] || (target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>()))
                 return false;
-            }
+
             return null;
         }
     }

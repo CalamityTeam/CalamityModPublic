@@ -3252,7 +3252,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
-                    //Reduce the buffTime of Electrified
+                    // Reduce the buffTime of Electrified.
                     for (int l = 0; l < Player.MaxBuffs; l++)
                     {
                         bool electrified = Player.buffType[l] == BuffID.Electrified;
@@ -3260,15 +3260,15 @@ namespace CalamityMod.CalPlayer
                             Player.buffTime[l]--;
                     }
 
-                    //Summon the aura
+                    // Summon the aura.
                     // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
                     var source = Player.GetSource_Buff(Player.FindBuffIndex(ModContent.BuffType<TeslaBuff>()));
                     int damage = (int)Player.GetBestClassDamage().ApplyTo(10);
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
-                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), damage, 0f, Player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), damage, 0f, Player.whoAmI);
                 }
             }
-            else if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)
+            else if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] > 0)
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
