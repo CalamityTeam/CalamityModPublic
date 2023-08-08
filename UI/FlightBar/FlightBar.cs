@@ -51,10 +51,7 @@ namespace CalamityMod.UI
             {
                 int currentFlight = (int)modPlayer.Player.wingTime;
                 int maxFlight = modPlayer.Player.wingTimeMax;
-                string percent = (100f * currentFlight / maxFlight).ToString("0.00");
-                StringBuilder sb = new StringBuilder(32);
-                sb.Append(percent);
-                return sb.ToString();
+                return (100f * currentFlight / maxFlight).ToString("0.00");
             }
 
             return result;
