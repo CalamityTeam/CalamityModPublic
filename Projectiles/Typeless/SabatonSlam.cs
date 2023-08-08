@@ -45,13 +45,17 @@ namespace CalamityMod.Projectiles.Typeless
                 scaleFromFall = (Projectile.ai[0] / 22) + 0.5f;
                 damageScaleFromFall = Projectile.ai[0] / 40;
                 Projectile.damage = (int)(300f * damageScaleFromFall + 300f);
+
                 SoundEngine.PlaySound(new("CalamityMod/Sounds/Custom/GravistarSlam") { Volume = 0.75f }, Projectile.Center);
+
+                //Spawn particles, but also increase the count to fill more of the circle the bigger it is
                 int particleCount = (int)(10 * scaleFromFall);
                 for (int i = 0; i < particleCount; i++)
                 {
                     SquareParticle square = new SquareParticle(Projectile.Center + Main.rand.NextVector2Circular(scaleFromFall * 74f, scaleFromFall * 74f), Main.rand.NextVector2Circular(2.5f, 2.5f), false, 120, 3.5f + Main.rand.NextFloat(0.6f), Color.Lerp(Color.Cyan, Color.LightCyan, 0.75f));
                     GeneralParticleHandler.SpawnParticle(square);
                 }
+
                 Projectile.localAI[0]++;
             }
                 

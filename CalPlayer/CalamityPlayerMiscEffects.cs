@@ -981,7 +981,7 @@ namespace CalamityMod.CalPlayer
                     bool notOnRope = !Player.pulley && Player.ropeCount == 0;
                     bool notGrappling = Player.grappling[0] == -1;
                     bool airborne = Player.velocity.Y != 0;
-                    if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling && airborne && !Player.Calamity().gSabatonFalling)
+                    if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling && airborne && !Player.Calamity().gSabatonFalling) //Player cannot further increase their ridiculous gravity during a Gravistar Slam
                     {
                         Player.velocity.Y += Player.gravity * Player.gravDir * (BalancingConstants.HoldingDownGravityMultiplier - 1f);
                         if (Player.Calamity().gSabaton)

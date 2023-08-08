@@ -2505,6 +2505,7 @@ namespace CalamityMod.CalPlayer
             if (Player.dead)
                 return;
 
+            //Only increment hotkey holdtime if not on ground, not mounted, not on rope, not hooked, not tongued, otherwise reset hold time to zero
             if (CalamityKeybinds.GravistarSabatonHotkey.Current && gSabaton && Main.myPlayer == Player.whoAmI && (Player.velocity.Y != Player.oldVelocity.Y) && !Player.pulley && !Player.mount.Active && Player.grappling[0] == -1 && !Player.tongued)
             {
                 gSabatonHotkeyHoldTime++;
@@ -3259,18 +3260,22 @@ namespace CalamityMod.CalPlayer
             }
             if (gSabaton && Player.whoAmI == Main.myPlayer)
             {
+                //While holding hotkey, but before slam, bring Y velocity closer to 0
                 if (gSabatonHotkeyHoldTime < 60 && gSabatonHotkeyHoldTime != 0 && !gSabatonFalling)
                 {
                     Player.velocity.Y *= (60 - (gSabatonHotkeyHoldTime/4f))/60f;
                 }
+                //Play sound a bit early so it goes in time with the fall
                 if (gSabatonHotkeyHoldTime == 45 && !gSabatonFalling)
                 {
                     SoundEngine.PlaySound(new("CalamityMod/Sounds/Custom/GravistarCharge") { Volume = 0.3f });
                 }
+                //1 second passed, falling time
                 if (gSabatonHotkeyHoldTime == 60)
                 {
                     gSabatonFalling = true;
                 }
+                //Cancel fall and don't give 'on ground' effects if on rope, on mount, grappled, or tongued
                 if (Player.pulley || Player.mount.Active || Player.grappling[0] != -1 || Player.tongued)
                 {
                     gSabatonFall = 0;
@@ -3279,20 +3284,25 @@ namespace CalamityMod.CalPlayer
                 if (gSabatonFalling)
                 {
                     SpawnGravistarParticle();
-
+                    
+                    //Cap time converted to damage at 2 seconds
                     if (gSabatonFall < 120)
                         gSabatonFall++;
                     
                     Player.maxFallSpeed = 40f;
                     Player.gravity = 1.3f;
+                    //If the player can fly during the fall, the physics gets a bit funky
                     Player.controlJump = false;
 
+                    //Check if player hit some form of solid resistance (the ground)
                     if (Player.oldVelocity.Y == Player.velocity.Y)
                     {
                         var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<GravistarSabaton>()));
+                        //Spawn explosion. ai[0] is used for transferring the recorded falling time
                         Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SabatonSlam>(), 300, 4f, Player.whoAmI, gSabatonFall);
                         gSabatonFall = 0;
                         gSabatonFalling = false;
+                        //Temporary jump speed is granted for 40 frames
                         gSabatonTempJumpSpeed = 40;
                     }
                 }
@@ -3478,6 +3488,7 @@ namespace CalamityMod.CalPlayer
             if (gSabatonTempJumpSpeed > 0)
             {
                 gSabatonTempJumpSpeed--;
+                //Only give temporary jump speed if Gravistar Sabaton is equipped, but still decrement the time so that you can't store it for later
                 if (gSabaton && Player.whoAmI == Main.myPlayer)
                 {
                     Player.jumpSpeedBoost += 2f;
@@ -5509,6 +5520,7 @@ namespace CalamityMod.CalPlayer
                     info.Damage += (bossRushDamageFloor - info.Damage);
             }
 
+            //Gravistar Sabaton fall ram
             if (gSabatonFalling)
             {
                 for (int i = 0; i < Main.maxNPCs; i++)
