@@ -252,47 +252,51 @@ namespace CalamityMod.NPCs.DesertScourge
                     }
                     TailSpawned = true;
                 }
+            }
 
-                if (expertMode)
+            if (expertMode)
+            {
+                if (NPC.Calamity().newAI[2] < 300f)
+                    NPC.Calamity().newAI[2] += 1f;
+
+                if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f) &&
+                    NPC.Calamity().newAI[2] >= 300f && Vector2.Distance(NPC.Center, player.Center) > 320f &&
+                    Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                 {
-                    if (NPC.Calamity().newAI[2] < 300f)
-                        NPC.Calamity().newAI[2] += 1f;
-
-                    if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f) &&
-                        NPC.Calamity().newAI[2] >= 300f && Vector2.Distance(NPC.Center, player.Center) > 320f &&
-                        Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                    if (NPC.Calamity().newAI[2] % 30f == 0f)
                     {
-                        if (NPC.Calamity().newAI[2] % 30f == 0f)
+                        SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
+
+                        float velocity = bossRush ? 6f : death ? 5.5f : 5f;
+                        int type = ModContent.ProjectileType<SandBlast>();
+                        int type2 = ModContent.ProjectileType<HorsWaterBlast>();
+                        int damage = NPC.GetProjectileDamage(type);
+                        Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
+                        int baseProjectileAmt = bossRush ? 6 : death ? 4 : revenge ? 3 : 2;
+                        int numProj = NPC.Calamity().newAI[2] % 60f == 0f ? (int)(baseProjectileAmt * 1.5) : baseProjectileAmt;
+                        int spread = bossRush ? 18 : death ? 14 : revenge ? 12 : 10;
+                        float rotation = MathHelper.ToRadians(spread);
+                        for (int i = 0; i < numProj; i++)
                         {
-                            SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
-                            float velocity = bossRush ? 6f : death ? 5.5f : 5f;
-                            int type = ModContent.ProjectileType<SandBlast>();
-                            int type2 = ModContent.ProjectileType<HorsWaterBlast>();
-                            int damage = NPC.GetProjectileDamage(type);
-                            Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
-                            int baseProjectileAmt = bossRush ? 6 : death ? 4 : revenge ? 3 : 2;
-                            int numProj = NPC.Calamity().newAI[2] % 60f == 0f ? (int)(baseProjectileAmt * 1.5) : baseProjectileAmt;
-                            int spread = bossRush ? 18 : death ? 14 : revenge ? 12 : 10;
-                            float rotation = MathHelper.ToRadians(spread);
-                            for (int i = 0; i < numProj; i++)
+                            Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                                perturbedSpeed *= Main.rand.NextFloat() + 0.5f;
+
+                            for (int k = 0; k < 10; k++)
+                                Dust.NewDust(NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, 10, 10, 85, perturbedSpeed.X, perturbedSpeed.Y);
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
-                                    perturbedSpeed *= Main.rand.NextFloat() + 0.5f;
-
-                                for (int k = 0; k < 10; k++)
-                                    Dust.NewDust(NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, 10, 10, 85, perturbedSpeed.X, perturbedSpeed.Y);
-
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                                 if (Main.zenithWorld)
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 3f, perturbedSpeed, type2, damage, 0f, Main.myPlayer);
                             }
                         }
-
-                        NPC.Calamity().newAI[2] += 1f;
-                        if (NPC.Calamity().newAI[2] > 360f)
-                            NPC.Calamity().newAI[2] = 0f;
                     }
+
+                    NPC.Calamity().newAI[2] += 1f;
+                    if (NPC.Calamity().newAI[2] > 360f)
+                        NPC.Calamity().newAI[2] = 0f;
                 }
             }
 
@@ -431,27 +435,25 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 // Spit a huge spread of sand upwards that falls down
                 SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                float velocity = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 16f : bossRush ? 9f : death ? 7f : 6f;
+                int type = ModContent.ProjectileType<GreatSandBlast>();
+                int damage = NPC.GetProjectileDamage(type);
+                Vector2 projectileVelocity = Vector2.Normalize(NPC.Center + NPC.velocity * 10f - NPC.Center) * velocity;
+                int numProj = bossRush ? 24 : death ? 20 : revenge ? 18 : expertMode ? 16 : 12;
+                if (Main.getGoodWorld)
+                    numProj *= 2;
+
+                int spread = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 120 : 90;
+                float rotation = MathHelper.ToRadians(spread);
+                for (int i = 0; i < numProj; i++)
                 {
-                    float velocity = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 16f : bossRush ? 9f : death ? 7f : 6f;
-                    int type = ModContent.ProjectileType<GreatSandBlast>();
-                    int damage = NPC.GetProjectileDamage(type);
-                    Vector2 projectileVelocity = Vector2.Normalize(NPC.Center + NPC.velocity * 10f - NPC.Center) * velocity;
-                    int numProj = bossRush ? 24 : death ? 20 : revenge ? 18 : expertMode ? 16 : 12;
-                    if (Main.getGoodWorld)
-                        numProj *= 2;
+                    Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
 
-                    int spread = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 120 : 90;
-                    float rotation = MathHelper.ToRadians(spread);
-                    for (int i = 0; i < numProj; i++)
-                    {
-                        Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                    for (int k = 0; k < 10; k++)
+                        Dust.NewDust(NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, 10, 10, 85, perturbedSpeed.X, perturbedSpeed.Y);
 
-                        for (int k = 0; k < 10; k++)
-                            Dust.NewDust(NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, 10, 10, 85, perturbedSpeed.X, perturbedSpeed.Y);
-
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
-                    }
                 }
 
                 NPC.TargetClosest();

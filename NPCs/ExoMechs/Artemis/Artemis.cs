@@ -1071,10 +1071,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                 ExoMechsSky.CreateLightningBolt(12);
 
                                 // Fire deathray
+                                DeathraySoundSlot = SoundEngine.PlaySound(SpinLaserbeamSound, NPC.Center);
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    DeathraySoundSlot = SoundEngine.PlaySound(SpinLaserbeamSound, NPC.Center);
-                                    
                                     int type = ModContent.ProjectileType<ArtemisSpinLaserbeam>();
                                     int damage = NPC.GetProjectileDamage(type);
                                     int laser = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, NPC.whoAmI);

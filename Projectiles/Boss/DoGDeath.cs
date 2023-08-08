@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Boss
     public class DoGDeath : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
+
         public float TelegraphDelay
         {
             get => Projectile.ai[0];

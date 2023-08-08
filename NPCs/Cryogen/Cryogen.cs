@@ -331,26 +331,30 @@ namespace CalamityMod.NPCs.Cryogen
             float chargeSlownDownPhaseGateValue = chargeGateValue + chargeSlowDownTime;
             bool chargePhase = NPC.ai[1] >= chargePhaseGateValue;
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (NPC.ai[0] < 5f || !phase6) && !chargePhase)
+            if (expertMode && (NPC.ai[0] < 5f || !phase6) && !chargePhase)
             {
                 calamityGlobalNPC.newAI[3] += 1f;
                 if (calamityGlobalNPC.newAI[3] >= (bossRush ? 660f : 900f))
                 {
                     calamityGlobalNPC.newAI[3] = 0f;
                     SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
-                    int totalProjectiles = 3;
-                    float radians = MathHelper.TwoPi / totalProjectiles;
-                    int type = iceBomb;
-                    int damage = NPC.GetProjectileDamage(type);
-                    float velocity = 2f + NPC.ai[0];
-                    double angleA = radians * 0.5;
-                    double angleB = MathHelper.ToRadians(90f) - angleA;
-                    float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
-                    Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
-                    for (int k = 0; k < totalProjectiles; k++)
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer);
+                        int totalProjectiles = 3;
+                        float radians = MathHelper.TwoPi / totalProjectiles;
+                        int type = iceBomb;
+                        int damage = NPC.GetProjectileDamage(type);
+                        float velocity = 2f + NPC.ai[0];
+                        double angleA = radians * 0.5;
+                        double angleB = MathHelper.ToRadians(90f) - angleA;
+                        float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+                        Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
+                        for (int k = 0; k < totalProjectiles; k++)
+                        {
+                            Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer);
+                        }
                     }
                 }
             }
@@ -359,16 +363,17 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 NPC.rotation = NPC.velocity.X * 0.1f;
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.localAI[0] += 1f;
+                if (NPC.localAI[0] >= 120f)
                 {
-                    NPC.localAI[0] += 1f;
-                    if (NPC.localAI[0] >= 120f)
+                    NPC.localAI[0] = 0f;
+                    NPC.TargetClosest();
+                    if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                     {
-                        NPC.localAI[0] = 0f;
-                        NPC.TargetClosest();
-                        if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                        SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                             int totalProjectiles = bossRush ? 24 : 16;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = iceBlast;
@@ -419,16 +424,17 @@ namespace CalamityMod.NPCs.Cryogen
 
                     NPC.rotation = NPC.velocity.X * 0.1f;
 
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    NPC.localAI[0] += 1f;
+                    if (NPC.localAI[0] >= 120f)
                     {
-                        NPC.localAI[0] += 1f;
-                        if (NPC.localAI[0] >= 120f)
+                        NPC.localAI[0] = 0f;
+                        NPC.TargetClosest();
+                        if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
-                            NPC.localAI[0] = 0f;
-                            NPC.TargetClosest();
-                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                            SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int totalProjectiles = bossRush ? 18 : 12;
                                 float radians = MathHelper.TwoPi / totalProjectiles;
                                 int type = iceBlast;
@@ -498,11 +504,12 @@ namespace CalamityMod.NPCs.Cryogen
                     float totalSpreads = 3f;
                     if ((NPC.ai[1] - chargePhaseGateValue) % (chargeTelegraphTime / totalSpreads) == 0f)
                     {
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
-                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                            SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceRain;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float maxVelocity = 9f + enrageScale;
@@ -593,16 +600,17 @@ namespace CalamityMod.NPCs.Cryogen
 
                     NPC.rotation = NPC.velocity.X * 0.1f;
 
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    NPC.localAI[0] += 1f;
+                    if (NPC.localAI[0] >= 120f)
                     {
-                        NPC.localAI[0] += 1f;
-                        if (NPC.localAI[0] >= 120f)
+                        NPC.localAI[0] = 0f;
+                        NPC.TargetClosest();
+                        if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
-                            NPC.localAI[0] = 0f;
-                            NPC.TargetClosest();
-                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                            SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int totalProjectiles = bossRush ? 18 : 12;
                                 float radians = MathHelper.TwoPi / totalProjectiles;
                                 int type = iceBlast;
@@ -644,11 +652,12 @@ namespace CalamityMod.NPCs.Cryogen
                     float totalSpreads = 2f;
                     if ((NPC.ai[1] - chargePhaseGateValue) % (chargeTelegraphTime / totalSpreads) == 0f)
                     {
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
-                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                            SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceRain;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float maxVelocity = 9f + enrageScale;
@@ -742,15 +751,16 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 NPC.rotation = NPC.velocity.X * 0.1f;
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.localAI[0] += 1f;
+                if (NPC.localAI[0] >= 90f && NPC.Opacity == 1f)
                 {
-                    NPC.localAI[0] += 1f;
-                    if (NPC.localAI[0] >= 90f && NPC.Opacity == 1f)
+                    NPC.localAI[0] = 0f;
+                    if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                     {
-                        NPC.localAI[0] = 0f;
-                        if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                        SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                             int totalProjectiles = bossRush ? 18 : 12;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = iceBlast;
@@ -855,12 +865,13 @@ namespace CalamityMod.NPCs.Cryogen
                             Main.dust[num39].noGravity = true;
                         }
 
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
-                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                            NPC.localAI[0] = 0f;
+                            SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                NPC.localAI[0] = 0f;
-                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceRain;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float velocity = 9f + enrageScale;
@@ -939,11 +950,12 @@ namespace CalamityMod.NPCs.Cryogen
                     {
                         NPC.velocity = Vector2.Normalize(player.Center - NPC.Center) * (18f + enrageScale * 2f);
 
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
-                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                            SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(Main.zenithWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceBlast;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float velocity = 1.5f + enrageScale * 0.5f;

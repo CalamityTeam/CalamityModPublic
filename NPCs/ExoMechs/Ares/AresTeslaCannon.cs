@@ -430,19 +430,19 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
                         if ((calamityGlobalNPC.newAI[2] - teslaOrbTelegraphDuration) % divisor == 0f && canFire)
                         {
+                            SoundEngine.PlaySound(TeslaOrbShootSound, NPC.Center);
+                            Vector2 teslaOrbVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(TeslaOrbShootSound, NPC.Center);
-                                Vector2 teslaOrbVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
                                 int type = ModContent.ProjectileType<AresTeslaOrb>();
                                 int damage = NPC.GetProjectileDamage(type);
                                 Vector2 offset = Vector2.Normalize(teslaOrbVelocity) * 40f + Vector2.UnitY * 8f;
                                 float identity = fireMoreOrbs ? -2f : calamityGlobalNPC.newAI[3] + (calamityGlobalNPC.newAI[2] - teslaOrbTelegraphDuration) / divisor;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, identity);
-
-                                // Recoil
-                                NPC.velocity -= teslaOrbVelocity;
                             }
+
+                            // Recoil
+                            NPC.velocity -= teslaOrbVelocity;
                         }
                     }
 

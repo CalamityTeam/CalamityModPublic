@@ -55,16 +55,19 @@ namespace CalamityMod.NPCs.Bumblebirb
             if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.zenithWorld)
+            if (Main.zenithWorld)
             {
                 SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, NPC.Center - Vector2.UnitY * 300f);
-                for (int i = 0; i < 5; i++)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Vector2 fireFrom = new Vector2(NPC.Center.X + (40 * i) - 120, NPC.Center.Y - 900f);
-                    Vector2 ai0 = NPC.Center - fireFrom;
-                    float ai = Main.rand.Next(100);
-                    Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), NPC.damage, 0f, Main.myPlayer, ai0.ToRotation(), ai);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Vector2 fireFrom = new Vector2(NPC.Center.X + (40 * i) - 120, NPC.Center.Y - 900f);
+                        Vector2 ai0 = NPC.Center - fireFrom;
+                        float ai = Main.rand.Next(100);
+                        Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), NPC.damage, 0f, Main.myPlayer, ai0.ToRotation(), ai);
+                    }
                 }
             }
         }
