@@ -13,6 +13,11 @@ namespace CalamityMod.Skies
         private bool skyActive;
         private float opacity;
 
+        private const float ScreenParralaxMultiplier = 0.4f;
+
+        // Vanila scales backgrounds to 250% size. Depending on what you might want to do you can change this if you wanted to make a non scaled bg.
+        private const float Scale = 2.5f;
+
         public override void Deactivate(params object[] args)
         {
             skyActive = Main.LocalPlayer.Calamity().ZoneSulphur;
@@ -49,46 +54,52 @@ namespace CalamityMod.Skies
             if (Main.maxTilesX >= 8400)
                 sulphurSeaHeight = (World.SulphurousSea.YStart + (int)Main.worldSurface) / 140;
 
+            // Explantion on how to use this BG code for skies.
+            // This changes the speed of the parralax, the closer the layer to the player the faster it should be.
             if (maxDepth >= 1f && minDepth < 1f)
             {
-                // Explantion on how to use this BG code for skies.
-                // This changes the speed of the parralax, the closer the layer to the player the faster it should be.
-                float screenParralaxMultiplier = 0.4f;
                 Texture2D texture = CalamityMod.SulphurSeaSkyFront;
 
-                // Vanila scales backgrounds to 250% size. Depending on what you might want to do you can change this if you wanted to make a non scaled bg.
-                float scale = 2.5f;
-
-                //Keep in mind that y paralex should always be half of x's or it will feel odd compared to how terraria does it.
-                //keep in mind when you change screen parralax it affects the y offset for the bg in the world.
-                int x = (int)(Main.screenPosition.X * 1f * screenParralaxMultiplier);
-                x %= (int)(texture.Width * scale);
-                int y = (int)(Main.screenPosition.Y * 0.5f * screenParralaxMultiplier);
+                // Keep in mind that y paralex should always be half of x's or it will feel odd compared to how terraria does it.
+                // Keep in mind when you change screen parralax it affects the y offset for the bg in the world.
+                int x = (int)(Main.screenPosition.X * ScreenParralaxMultiplier);
+                x %= (int)(texture.Width * Scale);
+                int y = (int)(Main.screenPosition.Y * 0.5f * ScreenParralaxMultiplier);
 
                 // Y offset to align with whatever position you want it in the world (is affected by screenParralaxMultiplier as stated before).
                 y -= 1800;
 
-                //this loops the BG horizontally.
+                float screenWidth = Main.screenWidth / 2f;
+                float screenHeight = Main.screenHeight / 2f;
+                Vector2 position = texture.Size() / 2f * Scale;
+                Color color = Color.LightSeaGreen * 0.5f * opacity;
+
+                // This loops the BG horizontally.
                 for (int k = -1; k <= 1; k++)
                 {
-                    var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                    spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, Color.LightSeaGreen * 0.5f * opacity, 0f, new Vector2(0f, (float)sulphurSeaHeight), scale, SpriteEffects.None, 0f);
+                    var pos = new Vector2(screenWidth - x + texture.Width * k * Scale, screenHeight - y);
+                    spriteBatch.Draw(texture, pos - position, null, color, 0f, new Vector2(0f, (float)sulphurSeaHeight), Scale, SpriteEffects.None, 0f);
                 }
             }
 
             if (maxDepth >= 3f && minDepth < 3f)
             {
-                float screenParralaxMultiplier = 0.4f;
                 Texture2D texture = CalamityMod.SulphurSeaSurface;
-                float scale = 2.5f;
-                int x = (int)(Main.screenPosition.X * 1f * screenParralaxMultiplier);
-                x %= (int)(texture.Width * scale);
-                int y = (int)(Main.screenPosition.Y * 0.5f * screenParralaxMultiplier);
+
+                int x = (int)(Main.screenPosition.X * ScreenParralaxMultiplier);
+                x %= (int)(texture.Width * Scale);
+                int y = (int)(Main.screenPosition.Y * 0.5f * ScreenParralaxMultiplier);
                 y -= 1800; // 1000
+
+                float screenWidth = Main.screenWidth / 2f;
+                float screenHeight = Main.screenHeight / 2f;
+                Vector2 position = texture.Size() / 2f * Scale;
+                Color color = Main.ColorOfTheSkies * opacity;
+
                 for (int k = -1; k <= 1; k++)
                 {
-                    var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                    spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, Main.ColorOfTheSkies * opacity, 0f, new Vector2(0f, (float)sulphurSeaHeight), scale, SpriteEffects.None, 0f);
+                    var pos = new Vector2(screenWidth - x + texture.Width * k * Scale, screenHeight - y);
+                    spriteBatch.Draw(texture, pos - position, null, color, 0f, new Vector2(0f, (float)sulphurSeaHeight), Scale, SpriteEffects.None, 0f);
                 }
             }
         }
