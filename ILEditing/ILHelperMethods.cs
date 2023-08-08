@@ -137,18 +137,32 @@ namespace CalamityMod.ILEditing
                     new Vector2(x + 0.5f, y + 0.5f),
                 };
 
+                float lerpAmt = (1f - SulphuricWaterSafeZoneSystem.NearbySafeTiles[closestSafeZone]) * 21f;
                 for (int i = 0; i < 4; i++)
                 {
                     float distanceToClosest = points[i].Distance(closestSafeZone.ToVector2());
-                    float acidicWaterInterpolant = Utils.GetLerpValue(12f, 20.5f, distanceToClosest + (1f - SulphuricWaterSafeZoneSystem.NearbySafeTiles[closestSafeZone]) * 21f, true);
-                    if (i == 0)
-                        initialColor.TopLeftColor = Color.Lerp(initialColor.TopLeftColor, cleanWaterColor, 1f - acidicWaterInterpolant);
-                    if (i == 1)
-                        initialColor.TopRightColor = Color.Lerp(initialColor.TopRightColor, cleanWaterColor, 1f - acidicWaterInterpolant);
-                    if (i == 2)
-                        initialColor.BottomLeftColor = Color.Lerp(initialColor.BottomLeftColor, cleanWaterColor, 1f - acidicWaterInterpolant);
-                    if (i == 3)
-                        initialColor.BottomRightColor = Color.Lerp(initialColor.BottomRightColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                    float acidicWaterInterpolant = Utils.GetLerpValue(12f, 20.5f, distanceToClosest + lerpAmt, true);
+                    switch (i)
+                    {
+                        case 0:
+                            initialColor.TopLeftColor = Color.Lerp(initialColor.TopLeftColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                            break;
+
+                        case 1:
+                            initialColor.TopRightColor = Color.Lerp(initialColor.TopRightColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                            break;
+
+                        case 2:
+                            initialColor.BottomLeftColor = Color.Lerp(initialColor.BottomLeftColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                            break;
+
+                        case 3:
+                            initialColor.BottomRightColor = Color.Lerp(initialColor.BottomRightColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                            break;
+
+                        default:
+                            break;
+                    }   
                 }
             }
 

@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     if (InPulse == 1)
                     {
-                        Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Orchid, new Vector2(1f, 1f), Main.rand.NextFloat(12f, 25f), 50f, 0.1f, 30);
+                        Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.Orchid, new Vector2(1f, 1f), 0f, 4.9f, 0f, 25);
                         GeneralParticleHandler.SpawnParticle(pulse2);
                         InPulse = 2;
                     }

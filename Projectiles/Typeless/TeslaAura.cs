@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            //Protect against other mod projectile reflection like emode Granite Golems
+            // Protect against other mod projectile reflection like emode Granite Golems.
             Projectile.friendly = true;
             Projectile.hostile = false;
 
@@ -55,11 +55,11 @@ namespace CalamityMod.Projectiles.Typeless
                 Projectile.localAI[1]++;
             }
             if (Projectile.localAI[1] >= framesX)
-            {
                 Projectile.localAI[1] = 0;
-            }
-            Player player = Main.player[Projectile.owner];
+
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.15f / 255f, (255 - Projectile.alpha) * 0.15f / 255f, (255 - Projectile.alpha) * 0.01f / 255f);
+
+            Player player = Main.player[Projectile.owner];
             Projectile.Center = player.Center;
             if (player is null || player.dead)
             {
@@ -77,13 +77,10 @@ namespace CalamityMod.Projectiles.Typeless
             if (target.knockBackResist <= 0f)
                 return;
 
+            // 07AUG2023: Ozzatron: TML was giving NaN knockback, probably due to 0 base knockback. Do not use hit.Knockback
             if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {
-                float knockbackMultiplier = hit.Knockback - (1f - target.knockBackResist);
-                if (knockbackMultiplier < 0)
-                {
-                    knockbackMultiplier = 0;
-                }
+                float knockbackMultiplier = MathHelper.Clamp(1f - target.knockBackResist, 0f, 1f);
                 Vector2 trueKnockback = target.Center - Projectile.Center;
                 trueKnockback.Normalize();
                 target.velocity = trueKnockback * knockbackMultiplier;
@@ -139,10 +136,9 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (NPCID.Sets.ProjectileNPC[target.type] || target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>())
-            {
+            if (NPCID.Sets.ProjectileNPC[target.type] || (target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>()))
                 return false;
-            }
+
             return null;
         }
     }

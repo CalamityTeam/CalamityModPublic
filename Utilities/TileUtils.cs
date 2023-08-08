@@ -62,18 +62,16 @@ namespace CalamityMod
             {
                 if (xIter < 0 || xIter >= Main.maxTilesX)
                     continue;
+
                 for (int yIter = y - 1; yIter <= y + 1; yIter++)
                 {
                     if (yIter < 0 || yIter >= Main.maxTilesY)
                         continue;
+
                     if (xIter == x && yIter == y)
-                    {
                         WorldGen.TileFrame(x, y, resetFrame, false);
-                    }
                     else
-                    {
                         WorldGen.TileFrame(xIter, yIter, false, false);
-                    }
                 }
             }
         }
@@ -82,31 +80,27 @@ namespace CalamityMod
         {
             int x = i - Main.tile[i, j].TileFrameX / 18 % tileX;
             int y = j - Main.tile[i, j].TileFrameY / 18 % tileY;
+            int tileXX18 = 18 * tileX;
             for (int l = x; l < x + tileX; l++)
             {
                 for (int m = y; m < y + tileY; m++)
                 {
                     if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == type)
                     {
-                        if (Main.tile[l, m].TileFrameX < (18 * tileX))
-                        {
-                            Main.tile[l, m].TileFrameX += (short)(18 * tileX);
-                        }
+                        if (Main.tile[l, m].TileFrameX < tileXX18)
+                            Main.tile[l, m].TileFrameX += (short)(tileXX18);
                         else
-                        {
-                            Main.tile[l, m].TileFrameX -= (short)(18 * tileX);
-                        }
+                            Main.tile[l, m].TileFrameX -= (short)(tileXX18);
                     }
                 }
             }
+
             if (Wiring.running)
             {
                 for (int k = 0; k < tileX; k++)
                 {
                     for (int l = 0; l < tileY; l++)
-                    {
                         Wiring.SkipWire(x + k, y + l);
-                    }
                 }
             }
         }
@@ -121,12 +115,13 @@ namespace CalamityMod
             int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
 
             ulong num190 = Main.TileFrameSeed ^ (ulong)((long)j << 32 | (long)(uint)i);
-
+            float drawPositionX = i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f;
+            float drawPositionY = j * 16 - (int)Main.screenPosition.Y;
             for (int c = 0; c < 7; c++)
             {
                 float shakeX = Utils.RandomInt(ref num190, -10, 11) * 0.15f;
                 float shakeY = Utils.RandomInt(ref num190, -10, 1) * 0.35f;
-                Main.spriteBatch.Draw(flameTexture, new Vector2(i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f + shakeX, j * 16 - (int)Main.screenPosition.Y + shakeY + yOffset) + zero, new Rectangle(tile.TileFrameX + offsetX, tile.TileFrameY + offsetY, width, height), new Color(100, 100, 100, 0), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(flameTexture, new Vector2(drawPositionX + shakeX, drawPositionY + shakeY + yOffset) + zero, new Rectangle(tile.TileFrameX + offsetX, tile.TileFrameY + offsetY, width, height), new Color(100, 100, 100, 0), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
             }
         }
 
@@ -171,11 +166,13 @@ namespace CalamityMod
         {
             int width = flameTexture.Width;
             int height = flameTexture.Height;
+            float drawPositionX = item.position.X - Main.screenPosition.X + item.width * 0.5f;
+            float drawPositionY = item.position.Y - Main.screenPosition.Y + item.height - flameTexture.Height * 0.5f + 2f;
             for (int c = 0; c < 7; c++)
             {
                 float shakeX = Main.rand.Next(-10, 11) * 0.15f;
                 float shakeY = Main.rand.Next(-10, 1) * 0.35f;
-                Main.spriteBatch.Draw(flameTexture, new Vector2(item.position.X - Main.screenPosition.X + item.width * 0.5f + shakeX, item.position.Y - Main.screenPosition.Y + item.height - flameTexture.Height * 0.5f + 2f + shakeY), new Rectangle(0, 0, width, height), new Color(100, 100, 100, 0), 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(flameTexture, new Vector2(drawPositionX + shakeX, drawPositionY + shakeY), new Rectangle(0, 0, width, height), new Color(100, 100, 100, 0), 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
 
@@ -239,6 +236,7 @@ namespace CalamityMod
                 {
                     if (WorldGen.InWorld(i, j))
                         continue;
+
                     if (WorldGen.SolidTile(Framing.GetTileSafely(i, j)))
                         return true;
                 }
@@ -254,6 +252,7 @@ namespace CalamityMod
                 {
                     if (!WorldGen.InWorld(i, j))
                         return false;
+
                     if (!WorldGen.SolidTile(Framing.GetTileSafely(i, j)))
                         return false;
                 }
@@ -269,6 +268,7 @@ namespace CalamityMod
                 {
                     if (!WorldGen.InWorld(i, j))
                         return false;
+
                     if (!WorldGen.SolidTile(Framing.GetTileSafely(i, j)))
                         return false;
                 }

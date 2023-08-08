@@ -1471,3 +1471,27 @@ WulfrumDroidBuff: {
 	DisplayName: Wulfrum Droid
 	Description: The wulfrum droid will protect you
 }
+
+PinkJellyRegen: {
+	DisplayName: Pink Jelly Regen
+	Description: The power of goo refreshes you, life regen increased by 4
+}
+
+GreenJellyRegen: {
+	DisplayName: Green Jelly Regen
+	Description: The regenerative goo empowers you, life regen increased by 6
+}
+
+AbsorberRegen: {
+	DisplayName: Regeneraga
+	Description:
+		'''
+		You are blessed by the culmimation of nature's powers
+		Life regen increased by 7, damage increased by 10%, damage reduction increased by 7%
+		'''
+}
+
+AbsorberAffliction: {
+	DisplayName: Absorber Affliction
+	Description: Damn nature, you scary!
+}

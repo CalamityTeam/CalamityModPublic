@@ -238,6 +238,36 @@ namespace CalamityMod.CalPlayer
             //Todo - Move this back to the wulfrum set class whenever statmodifiers are implemented for stats other than damage
             if (WulfrumHat.PowerModeEngaged(Player, out _))
                 Player.moveSpeed *= 0.8f;
+
+            if (gShell)
+            {
+                //reduce player dash velocity as long as you didn't just get hit
+                if (Player.dashDelay == -1 && giantShellPostHit == 0)
+                {
+                    if (!HasReducedDashFirstFrame)
+                    {
+                        Player.velocity.X *= 0.9f;
+                        HasReducedDashFirstFrame = true;
+                    }
+                }
+                else
+                    HasReducedDashFirstFrame = false;
+            }
+
+            if (tortShell)
+            {
+                //reduce player dash velocity as long as you didn't just get hit
+                if (Player.dashDelay == -1 && tortShellPostHit == 0)
+                {
+                    if (!HasReducedDashFirstFrame)
+                    {
+                        Player.velocity.X *= 0.85f;
+                        HasReducedDashFirstFrame = true;
+                    }
+                }
+                else
+                    HasReducedDashFirstFrame = false;
+            }
         }
         #endregion
 
@@ -1556,13 +1586,9 @@ namespace CalamityMod.CalPlayer
             // Absorber bonus
             if (absorber)
             {
-                Player.moveSpeed += 0.05f;
-                Player.jumpSpeedBoost += 0.25f;
-                Player.thorns += 0.5f;
-                Player.endurance += sponge ? 0.1f : 0.07f;
-
-                if (Player.StandingStill() && Player.itemAnimation == 0)
-                    Player.manaRegenBonus += 4;
+                Player.moveSpeed += 0.1f;
+                Player.jumpSpeedBoost += 0.5f;
+                Player.thorns += 3.5f;
             }
 
             // Affliction bonus
@@ -2458,6 +2484,54 @@ namespace CalamityMod.CalPlayer
                     Player.statDefense += Main.eclipse ? 10 : 20;
             }
 
+            if (AbsorberRegen)
+            {
+                Player.GetDamage<GenericDamageClass>() += 0.1f;
+                Player.endurance += 0.07f;
+            }
+
+            if (crawCarapace)
+                Player.GetDamage<GenericDamageClass>() += 0.05f;
+
+            if (baroclaw)
+                Player.GetDamage<GenericDamageClass>() += 0.08f;
+
+            if (gShell)
+            {
+                if (giantShellPostHit == 1)
+                    SoundEngine.PlaySound(SoundID.Zombie58, Player.Center);
+
+                if (giantShellPostHit > 0)
+                {
+                    Player.statDefense -= 5;
+                    giantShellPostHit--;
+                }
+                if (giantShellPostHit < 0)
+                {
+                    giantShellPostHit = 0;
+                }
+            }
+
+            if (tortShell)
+            {
+                if (tortShellPostHit == 1)
+                    SoundEngine.PlaySound(SoundID.NPCHit24 with {Volume = 0.5f}, Player.Center);
+
+                if (tortShellPostHit > 0)
+                {
+                    Player.statDefense -= 10;
+                    tortShellPostHit--;
+                }
+                else
+                    Player.endurance += 0.05f;
+
+                if (tortShellPostHit < 0)
+                {
+                    tortShellPostHit = 0;
+                }
+            }
+
+
             // Ancient Chisel nerf
             if (Player.chiselSpeed)
                 Player.pickSpeed += 0.1f;
@@ -3225,7 +3299,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
-                    //Reduce the buffTime of Electrified
+                    // Reduce the buffTime of Electrified.
                     for (int l = 0; l < Player.MaxBuffs; l++)
                     {
                         bool electrified = Player.buffType[l] == BuffID.Electrified;
@@ -3233,15 +3307,15 @@ namespace CalamityMod.CalPlayer
                             Player.buffTime[l]--;
                     }
 
-                    //Summon the aura
+                    // Summon the aura.
                     // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
                     var source = Player.GetSource_Buff(Player.FindBuffIndex(ModContent.BuffType<TeslaBuff>()));
                     int damage = (int)Player.GetBestClassDamage().ApplyTo(10);
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
-                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), damage, 0f, Player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), damage, 0f, Player.whoAmI);
                 }
             }
-            else if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)
+            else if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] > 0)
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
@@ -3543,6 +3617,16 @@ namespace CalamityMod.CalPlayer
             // (in addition to the player taking more defense damage, of course).
             if (totalDefenseDamage > 0)
             {
+                //Used to cleanse all defense damage by accessories
+                if (CleansingEffect == 1)
+                {
+                    totalDefenseDamage = 0;
+                    defenseDamageRecoveryFrames = 0;
+                    totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
+                    defenseDamageDelayFrames = 0;
+                    CleansingEffect = 0;
+                }
+
                 // Defense damage is capped at your maximum defense, no matter what.
                 if (totalDefenseDamage > Player.statDefense)
                     totalDefenseDamage = Player.statDefense;

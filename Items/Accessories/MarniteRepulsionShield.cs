@@ -109,12 +109,14 @@ namespace CalamityMod.Items.Accessories
                     Vector2 dustDirection = (Vector2.UnitX * -1 * Owner.direction).RotatedByRandom(MathHelper.PiOver2 * 0.93f);
                     dustOrigin += dustDirection * 14f;
                     float spikeSpeed = Main.rand.NextFloat(1f, 3f);
+                    Vector2 dustVelocity = dustDirection * spikeSpeed + Owner.velocity;
+                    Vector2 dustOriginOffset = dustDirection * 4f;
 
                     for (int i = 0; i < 5; i++)
                     {
-                        Dust dust = Dust.NewDustPerfect(dustOrigin, 229, dustDirection * spikeSpeed + Owner.velocity, 120, Scale: Main.rand.NextFloat(0.6f, 1f));
+                        Dust dust = Dust.NewDustPerfect(dustOrigin, 229, dustVelocity, 120, Scale: Main.rand.NextFloat(0.6f, 1f));
                         dust.noGravity = true;
-                        dustOrigin += dustDirection * 4f;
+                        dustOrigin += dustOriginOffset;
                     }
                 }
             }

@@ -61,23 +61,15 @@ namespace CalamityMod.UI.DraedonLogs
             float yPageTop = MathHelper.Lerp(Main.screenHeight * 2, Main.screenHeight * 0.25f, FadeTime / (float)FadeTimeMax);
 
             Rectangle mouseRectangle = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 2, 2);
+            float drawPositionX = Main.screenWidth * 0.5f;
+            Vector2 drawPosition = new Vector2(drawPositionX, yPageTop);
+            Rectangle pageRectangle = new Rectangle((int)drawPosition.X - (int)(pageTexture.Width * scale.X), (int)yPageTop, (int)(pageTexture.Width * scale.X) * 2, (int)(pageTexture.Height * scale.Y));
             for (int i = 0; i < 2; i++)
             {
-                Vector2 drawPosition = new Vector2(Main.screenWidth * 0.5f, yPageTop);
-                spriteBatch.Draw(pageTexture,
-                                 drawPosition,
-                                 null,
-                                 Color.White,
-                                 0f,
-                                 new Vector2(i == 0f ? pageTexture.Width : 0f, 0f),
-                                 scale,
-                                 i == 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                                 0f);
+                spriteBatch.Draw(pageTexture, drawPosition, null, Color.White, 0f, new Vector2(i == 0f ? pageTexture.Width : 0f, 0f), scale, i == 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+
                 if (!HoveringOverBook)
-                {
-                    Rectangle pageRectangle = new Rectangle((int)drawPosition.X - (int)(pageTexture.Width * scale.X), (int)yPageTop, (int)(pageTexture.Width * scale.X) * 2, (int)(pageTexture.Height * scale.Y));
                     HoveringOverBook = mouseRectangle.Intersects(pageRectangle);
-                }
             }
 
             // Create text and arrows.
@@ -100,24 +92,19 @@ namespace CalamityMod.UI.DraedonLogs
                     Page = TotalPages;
 
                 DrawArrows(spriteBatch, xResolutionScale, yResolutionScale, yPageTop + 506f * yResolutionScale, mouseRectangle);
+
+                int textDrawPositionX = (int)(pageTexture.Width * xResolutionScale + 350 * xResolutionScale);
+                int yScale = (int)(42 * yResolutionScale);
+                int yScale2 = (int)(yOffsetPerLine * yResolutionScale);
                 for (int i = 0; i < dialogLines.Count; i++)
                 {
                     if (dialogLines[i] != null)
                     {
-                        int textDrawPositionX = (int)(pageTexture.Width * xResolutionScale + 350 * xResolutionScale);
-                        int textDrawPositionY = (int)(42 * yResolutionScale) + i * (int)(yOffsetPerLine * yResolutionScale) + (int)yPageTop;
-
-                        Utils.DrawBorderStringFourWay(spriteBatch,
-                                                      FontAssets.MouseText.Value,
-                                                      dialogLines[i],
-                                                      textDrawPositionX,
-                                                      textDrawPositionY,
-                                                      Color.DarkCyan,
-                                                      Color.Black,
-                                                      Vector2.Zero,
-                                                      xResolutionScale);
+                        int textDrawPositionY = yScale + i * yScale2 + (int)yPageTop;
+                        Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, dialogLines[i], textDrawPositionX, textDrawPositionY, Color.DarkCyan, Color.Black, Vector2.Zero, xResolutionScale);
                     }
                 }
+
                 DrawSpecialImage(spriteBatch, xResolutionScale, yResolutionScale, yPageTop - 70f * yResolutionScale);
             }
         }

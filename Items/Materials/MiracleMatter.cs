@@ -43,9 +43,10 @@ namespace CalamityMod.Items.Materials
             Color drawColor = Color.Lerp(new Color(255, 218, 99), new Color(249, 134, 44), pulse);
             drawColor *= MathHelper.Lerp(0.35f, 0.67f, CalamityUtils.Convert01To010(pulse));
             drawColor.A = 25;
+            float drawPositionOffset = outwardnessFactor * baseScale * 8f;
             for (int i = 0; i < 8; i++)
             {
-                Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 8f).ToRotationVector2() * outwardnessFactor * baseScale * 8f;
+                Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 8f).ToRotationVector2() * drawPositionOffset;
                 spriteBatch.Draw(TextureAssets.Item[Item.type].Value, drawPosition, frame, drawColor, 0f, Vector2.Zero, baseScale, SpriteEffects.None, 0f);
             }
         }

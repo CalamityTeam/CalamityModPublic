@@ -56,10 +56,12 @@ namespace CalamityMod.CalPlayer.DrawLayers
             drawInfo.DrawDataCache.Add(drawData);
 
             // Draw 4 semi-transparent copies.
+            float timeX4 = sinusoidalTime * 4f;
+            Vector2 origin = texture.Size() * 0.5f;
             for (float i = 0f; i < 4f; i++)
             {
-                float angle = MathHelper.TwoPi / 4f * i;
-                drawData = new(glowmask, position + angle.ToRotationVector2() * sinusoidalTime * 4f, null, afterimageColor, drawPlayer.bodyRotation, texture.Size() * 0.5f, 1f, spriteEffects, 0);
+                float angle = MathHelper.PiOver2 * i;
+                drawData = new(glowmask, position + angle.ToRotationVector2() * timeX4, null, afterimageColor, drawPlayer.bodyRotation, origin, 1f, spriteEffects, 0);
                 drawInfo.DrawDataCache.Add(drawData);
             }
         }

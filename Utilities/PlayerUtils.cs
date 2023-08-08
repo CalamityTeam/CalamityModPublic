@@ -226,10 +226,9 @@ namespace CalamityMod
             {
                 if (player.inventory[item].pick <= 0)
                     continue;
+
                 if (player.inventory[item].pick > highestPickPower)
-                {
                     highestPickPower = player.inventory[item].pick;
-                }
             }
 
             return highestPickPower;
@@ -256,23 +255,25 @@ namespace CalamityMod
         /// <param name="airExposureNeeded">How many tiles above every checked tile are checked for non-solid ground</param>
         public static bool CheckSolidGround(this Player player, int solidGroundAhead = 0, int airExposureNeeded = 0)
         {
-            if (player.velocity.Y != 0) //Player gotta be standing still in any case
+            if (player.velocity.Y != 0) // Player gotta be standing still in any case.
                 return false;
 
             Tile checkedTile;
             bool ConditionMet = true;
 
-            for (int i = 0; i <= solidGroundAhead; i++) //Check i tiles in front of the player
+            int playerCenterX = (int)player.Center.X / 16;
+            int playerCenterY = (int)(player.position.Y + (float)player.height - 1f) / 16 + 1;
+            for (int i = 0; i <= solidGroundAhead; i++) // Check i tiles in front of the player.
             {
-                ConditionMet = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1].IsTileSolidGround();
+                ConditionMet = Main.tile[playerCenterX + player.direction * i, playerCenterY].IsTileSolidGround();
                 if (!ConditionMet)
                     return ConditionMet;
 
-                for (int j = 1; j <= airExposureNeeded; j++) //Check j tiles ontop of each checked tiles for non-solid ground
+                for (int j = 1; j <= airExposureNeeded; j++) // Check j tiles ontop of each checked tiles for non-solid ground.
                 {
-                    checkedTile = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1 - j];
+                    checkedTile = Main.tile[playerCenterX + player.direction * i, playerCenterY - j];
 
-                    ConditionMet = !(checkedTile != null && checkedTile.HasUnactuatedTile && Main.tileSolid[checkedTile.TileType]); //IsTileSolidGround minus the ground part, to avoid platforms and other half solid tiles messing it up
+                    ConditionMet = !(checkedTile != null && checkedTile.HasUnactuatedTile && Main.tileSolid[checkedTile.TileType]); // IsTileSolidGround minus the ground part, to avoid platforms and other half solid tiles messing it up.
                     if (!ConditionMet)
                         return ConditionMet;
                 }
@@ -283,6 +284,7 @@ namespace CalamityMod
 
         #region Location and Biomes
         public static bool IsUnderwater(this Player player) => Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
+
         public static bool InSpace(this Player player)
         {
             float x = Main.maxTilesX / 4200f;
@@ -290,10 +292,15 @@ namespace CalamityMod
             float spaceGravityMult = (float)((player.position.Y / 16f - (60f + 10f * x)) / (Main.worldSurface / 6.0));
             return spaceGravityMult < 1f;
         }
+
         public static bool PillarZone(this Player player) => player.ZoneTowerStardust || player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula;
+
         public static bool InCalamity(this Player player) => player.Calamity().ZoneCalamity;
+
         public static bool InSunkenSea(this Player player) => player.Calamity().ZoneSunkenSea;
+
         public static bool InSulphur(this Player player) => player.Calamity().ZoneSulphur;
+
         public static bool InAstral(this Player player, int biome = 0) //1 is above ground, 2 is underground, 3 is desert
         {
             switch (biome)
@@ -311,6 +318,7 @@ namespace CalamityMod
                     return player.Calamity().ZoneAstral;
             }
         }
+
         public static bool InAbyss(this Player player, int layer = 0)
         {
             switch (layer)
@@ -390,6 +398,7 @@ namespace CalamityMod
             for (int i = 0; i < player.hurtCooldowns.Length; ++i)
                 if (player.hurtCooldowns[i] < frames)
                     player.hurtCooldowns[i] = frames;
+
             return true;
         }
 

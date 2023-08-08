@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 //using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
@@ -54,7 +54,7 @@ namespace CalamityMod.Systems
 			if (MusicModMusic is null && VanillaMusic == -1)
 				return false;
 
-			/*
+            /*
 			// You can't even edit music if the game has Otherworld toggle on lol.
 			// Theoretically, reflection would only occur if the music mod is disabled
 			if (MusicModMusic is null)
@@ -69,31 +69,35 @@ namespace CalamityMod.Systems
 			}
 			*/
 
-			for (int j = 0; j < Main.maxNPCs; j++)
+            Rectangle screenRect = new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
+            int musicDistance = MusicDistance * 2;
+            for (int j = 0; j < Main.maxNPCs; j++)
 			{
 				NPC npc = Main.npc[j];
 				if (!npc.active)
 					continue;
 
 				bool inList = false;
-				if (npc.type == NPCType)
-					inList = true;
-				else
-				{
-					for (int i = 0; i < AdditionalNPCs.Length; i++)
-					{
-						if (npc.type == AdditionalNPCs[i])
-						{
-							inList = true;
-							break;
-						}
-					}
-				}
+                if (npc.type == NPCType)
+                {
+                    inList = true;
+                }
+                else
+                {
+                    for (int i = 0; i < AdditionalNPCs.Length; i++)
+                    {
+                        if (npc.type == AdditionalNPCs[i])
+                        {
+                            inList = true;
+                            break;
+                        }
+                    }
+                }
+
 				if (!inList)
 					continue;
 
-				Rectangle screenRect = new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
-				Rectangle npcBox = new Rectangle((int)npc.Center.X - MusicDistance, (int)npc.Center.Y - MusicDistance, MusicDistance * 2, MusicDistance * 2);
+				Rectangle npcBox = new Rectangle((int)npc.Center.X - MusicDistance, (int)npc.Center.Y - MusicDistance, musicDistance, musicDistance);
 				if (screenRect.Intersects(npcBox))
 					return true;
 			}

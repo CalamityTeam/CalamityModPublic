@@ -58,7 +58,7 @@ namespace CalamityMod.ILEditing
             // Mechanics / features
             On_NPC.ApplyTileCollision += AllowTriggeredFallthrough;
             IL_Player.ApplyEquipFunctional += ScopesRequireVisibilityToZoom;
-            On_Player.Hurt_PlayerDeathReason_int_int_bool_bool_int_bool_float_float_float += RemoveRNGFromDodges;
+            IL_Player.Hurt_PlayerDeathReason_int_int_refHurtInfo_bool_bool_int_bool_float_float_float += DodgeMechanicAdjustments;
             IL_Player.DashMovement += FixAllDashMechanics;
             On_Player.DoCommonDashHandle += ApplyDashKeybind;
             IL_Player.GiveImmuneTimeForCollisionAttack += MakeShieldSlamIFramesConsistent;
