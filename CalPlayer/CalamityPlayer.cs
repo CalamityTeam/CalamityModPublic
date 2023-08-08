@@ -3569,37 +3569,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Dodges
-        private bool HandleDodges()
-        {
-            if (Player.whoAmI != Main.myPlayer || disableAllDodges)
-                return false;
-
-            if (spectralVeil && spectralVeilImmunity > 0)
-            {
-                SpectralVeilDodge();
-                return true;
-            }
-
-            if (HandleDashDodges())
-                return true;
-
-            // Mirror evades do not work if the global dodge cooldown is active. This cooldown can be triggered by either mirror.
-            if (!Player.HasCooldown(GlobalDodge.ID))
-            {
-                if (eclipseMirror)
-                {
-                    EclipseMirrorEvade();
-                    return true;
-                }
-                else if (abyssalMirror)
-                {
-                    AbyssMirrorEvade();
-                    return true;
-                }
-            }
-            return false;
-        }
-
         private void SpectralVeilDodge()
         {
             Player.GiveIFrames(spectralVeilImmunity, true); //Set immunity before setting this variable to 0
@@ -3683,7 +3652,7 @@ namespace CalamityMod.CalPlayer
             NetMessage.SendData(MessageID.Dodge, -1, -1, null, Player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
         }
 
-        public void AbyssMirrorEvade()
+        public void AbyssMirrorDodge()
         {
             if (Player.whoAmI == Main.myPlayer && abyssalMirror && !eclipseMirror)
             {
@@ -3715,7 +3684,7 @@ namespace CalamityMod.CalPlayer
             }
         }
 
-        public void EclipseMirrorEvade()
+        public void EclipseMirrorDodge()
         {
             if (Player.whoAmI == Main.myPlayer && eclipseMirror)
             {
@@ -5636,8 +5605,58 @@ namespace CalamityMod.CalPlayer
 
         public override bool ConsumableDodge(Player.HurtInfo info)
         {
-            if (HandleDodges())
+            // Vanilla dodges are gated behind the global dodge cooldown
+            if (!Player.HasCooldown(GlobalDodge.ID))
+            {
+                // Re-implementation of vanilla item Black Belt as a consumable dodge
+                if (Player.whoAmI == Main.myPlayer && Player.blackBelt)
+                {
+                    Player.NinjaDodge();
+                    Player.AddCooldown(GlobalDodge.ID, BalancingConstants.BeltDodgeCooldown);
+                    return true;
+                }
+
+                // Re-implementation of vanilla item Brain of Confusion as a consumable dodge
+                if (Player.whoAmI == Main.myPlayer && Player.brainOfConfusionItem != null && !Player.brainOfConfusionItem.IsAir)
+                {
+                    Player.BrainOfConfusionDodge();
+                    int cooldownTime = amalgam ? BalancingConstants.AmalgamDodgeCooldown : BalancingConstants.BrainDodgeCooldown;
+                    Player.AddCooldown(GlobalDodge.ID, cooldownTime);
+                    return true;
+                }
+            }
+
+            //
+            // CALAMITY DODGES
+            //
+            
+            if (Player.whoAmI != Main.myPlayer || disableAllDodges)
+                return false;
+
+            if (spectralVeil && spectralVeilImmunity > 0)
+            {
+                SpectralVeilDodge();
                 return true;
+            }
+
+            // TODO -- drag all dodge code into a CalamityPlayer sub-file dedicated to dodging and nothing else
+            if (HandleDashDodges())
+                return true;
+
+            // Mirror evades do not work if the global dodge cooldown is active. This cooldown can be triggered by either mirror.
+            if (!Player.HasCooldown(GlobalDodge.ID))
+            {
+                if (eclipseMirror)
+                {
+                    EclipseMirrorDodge();
+                    return true;
+                }
+                else if (abyssalMirror)
+                {
+                    AbyssMirrorDodge();
+                    return true;
+                }
+            }
 
             return base.ConsumableDodge(info);
         }
