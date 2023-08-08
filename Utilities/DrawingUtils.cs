@@ -73,6 +73,7 @@ namespace CalamityMod
             if (CalamityConfig.Instance.Afterimages)
             {
                 Vector2 centerOffset = drawCentered ? proj.Size / 2f : Vector2.Zero;
+                Color alphaColor = proj.GetAlpha(lightColor);
                 switch (mode)
                 {
                     // Standard afterimages. No customizable features other than total afterimage count.
@@ -82,7 +83,7 @@ namespace CalamityMod
                         {
                             Vector2 drawPos = proj.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
                             // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
-                            Color color = proj.GetAlpha(lightColor) * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
+                            Color color = alphaColor * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
                             Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, rotation, origin, scale, spriteEffects, 0f);
                         }
                         break;
@@ -92,8 +93,9 @@ namespace CalamityMod
                     case 1:
                         // Safety check: the loop must increment
                         int increment = Math.Max(1, typeOneIncrement);
-                        Color drawColor = proj.GetAlpha(lightColor);
+                        Color drawColor = alphaColor;
                         int afterimageCount = ProjectileID.Sets.TrailCacheLength[proj.type];
+                        float afterimageColorCount = (float)afterimageCount * 1.5f;
                         int k = 0;
                         while (k < afterimageCount)
                         {
@@ -102,7 +104,7 @@ namespace CalamityMod
                             if (k > 0)
                             {
                                 float colorMult = (float)(afterimageCount - k);
-                                drawColor *= colorMult / ((float)afterimageCount * 1.5f);
+                                drawColor *= colorMult / afterimageColorCount;
                             }
                             Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), drawColor, rotation, origin, scale, spriteEffects, 0f);
                             k += increment;
@@ -119,7 +121,7 @@ namespace CalamityMod
 
                             Vector2 drawPos = proj.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
                             // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
-                            Color color = proj.GetAlpha(lightColor) * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
+                            Color color = alphaColor * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
                             Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, afterimageRot, origin, scale, sfxForThisAfterimage, 0f);
                         }
                         break;

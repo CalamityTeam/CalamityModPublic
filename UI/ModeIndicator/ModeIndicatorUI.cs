@@ -18,6 +18,7 @@ using Terraria.GameInput;
 using Terraria.UI.Chat;
 using System.Text.RegularExpressions;
 using static Terraria.GameContent.FontAssets;
+using System.Runtime.InteropServices;
 
 namespace CalamityMod.UI.ModeIndicator
 {
@@ -310,35 +311,39 @@ namespace CalamityMod.UI.ModeIndicator
 
             text = string.Empty;
             bool modeHovered = false;
+            Vector2 positionOffset = (barLength / (float)(tiers + 1f)) * Vector2.UnitY;
+            float progressMult = 0.8f * progress;
+            Color progressColor = Color.White * progress;
 
             for (int i = 0; i < tiers; i++)
             {
                 int modesAtTier = DifficultyTiers[i].Length;
+                float width = WidthForTier(modesAtTier) * 0.5f;
                 for (int j = 0; j < modesAtTier; j++)
                 {
                     DifficultyMode mode = DifficultyTiers[i][j];
                     Texture2D hexIcon = mode.Texture.Value;
+                    Vector2 hexIconSize = hexIcon.Size();
 
-                    //Get position
-                    Vector2 iconPosition = basePosition + (barLength / (float)(tiers + 1f)) * Vector2.UnitY * i;
+                    // Get position.
+                    Vector2 iconPosition = basePosition + positionOffset * i;
                     if (modesAtTier > 1)
-                        iconPosition += Vector2.UnitX * MathHelper.Lerp(WidthForTier(modesAtTier) * -0.5f, WidthForTier(modesAtTier) * 0.5f, j / (float)(modesAtTier - 1)) * BarWidthExpansionProgress;
+                        iconPosition += Vector2.UnitX * MathHelper.Lerp(width * -1f, width, j / (float)(modesAtTier - 1)) * BarWidthExpansionProgress;
 
-                    bool hovered = MouseScreenArea.Intersects(Utils.CenteredRectangle(iconPosition, hexIcon.Size()));
+                    bool hovered = MouseScreenArea.Intersects(Utils.CenteredRectangle(iconPosition, hexIconSize));
 
                     float usedOpacity = mode.Enabled ? 0.85f : 0.55f;
-
                     if (hovered)
                         usedOpacity = MathHelper.Lerp(usedOpacity, 1f, 0.7f);
 
-                    //outline the currently selected difficulty.
+                    // Outline the currently selected difficulty.
                     if (mode == GetCurrentDifficulty)
                     {
                         usedOpacity = 1f;
-                        spriteBatch.Draw(outlineTexture, iconPosition, null, mode.ChatTextColor * 0.8f * progress, 0f, outlineTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(outlineTexture, iconPosition, null, mode.ChatTextColor * progressMult, 0f, outlineTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
                     }
-                    spriteBatch.Draw(hexIcon, iconPosition, null, Color.White * usedOpacity * progress, 0f, hexIcon.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
 
+                    spriteBatch.Draw(hexIcon, iconPosition, null, progressColor * usedOpacity, 0f, hexIconSize * 0.5f, 1f, SpriteEffects.None, 0f);
 
                     if (menuOpenTransitionTime == 0 && hovered)
                     {
@@ -376,10 +381,10 @@ namespace CalamityMod.UI.ModeIndicator
 
             string text = "\n" + mode.ShortDescription.ToString();
 
-            //Not scuffed anymore
+            // Not scuffed anymore.
             if (mode.ExpandedDescription != LocalizedText.Empty)
             {
-                //Show the description either if the player is holding shift.
+                // Show the description either if the player is holding shift.
                 if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
                     text += "\n" + mode.ExpandedDescription.ToString();
 
@@ -393,47 +398,45 @@ namespace CalamityMod.UI.ModeIndicator
         public static void SwitchToDifficulty(DifficultyMode mode)
         {
             //No swap on server (although this doesn't matter anymore since it's not an item but dnc.
-            //No swap if the requested difficulty is the same as the current one
+            //No swap if the requested difficulty is the same as the current one.
             if (mode == GetCurrentDifficulty)
                 return;
 
-            //Todo, maybe in the future having a way to have multiple difficulty options on the same tier that can coexist, and it works in branching pathes? Not very necessary for cal & addons
-            //But would be super useful so other mods can let their own difficulties go there.
+            // Todo, maybe in the future having a way to have multiple difficulty options on the same tier that can coexist, and it works in branching pathes? Not very necessary for cal & addons.
+            // But would be super useful so other mods can let their own difficulties go there.
 
-            //Disable difficulties
+            // Disable difficulties.
             for (int i = 0; i < Difficulties.Length; i++)
             {
-                //Disable all difficulties at the same tier / at a tier above itself
+                // Disable all difficulties at the same tier / at a tier above itself.
                 if (Difficulties[i]._difficultyTier >= mode._difficultyTier && Difficulties[i] != mode)
                 {
                     if (Difficulties[i].Enabled)
                     {
                         if (Difficulties[i].DeactivationTextKey != string.Empty)
                             DisplayLocalizedText(Difficulties[i].DeactivationTextKey, Difficulties[i].ChatTextColor);
+
                         Difficulties[i].Enabled = false;
                     }
                 }
             }
 
-            //Look at all the lower tiers.
+            // Look at all the lower tiers.
             for (int i = 0; i < mode._difficultyTier; i++)
             {
-                //If there are no alternate difficulties at that tier, no need to ask, just choose that one.
+                // If there are no alternate difficulties at that tier, no need to ask, just choose that one.
                 if (DifficultyTiers[i].Length == 1)
                 {
                     DifficultyTiers[i][0].Enabled = true;
-                }    
-
-                //if there are alternate difficulties, we ask nicely to know which one is the preffered one.
+                }
+                // If there are alternate difficulties, we ask nicely to know which one is the preffered one.
                 else
                 {
-                    //First off, disable them all to avoid conflicts if one was already selected before.
+                    // First off, disable them all to avoid conflicts if one was already selected before.
                     for (int j = 0; j < DifficultyTiers[i].Length; j++)
-                    {
                         DifficultyTiers[i][j].Enabled = false;
-                    }
 
-                    //Enable the one favored by the mode.
+                    // Enable the one favored by the mode.
                     DifficultyTiers[i][mode.FavoredDifficultyAtTier(i)].Enabled = true;
                 }
             }

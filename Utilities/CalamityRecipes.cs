@@ -939,7 +939,7 @@ namespace CalamityMod
 
             // Apply all recipe changes.
             IEnumerator<Recipe> recipeEnumerator = Main.recipe.ToList().GetEnumerator();
-            while(recipeEnumerator.MoveNext())
+            while (recipeEnumerator.MoveNext())
             {
                 Recipe r = recipeEnumerator.Current;
                 foreach (var kv in edits)
@@ -1796,11 +1796,6 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Lens, 5);
             r.AddIngredient(ItemID.SoulofLight, 8);
             r.AddTile(TileID.CrystalBall);
-            r.Register();
-
-            // Turtle Shell with Giant Tortoise Shell
-            r = Recipe.Create(ItemID.TurtleShell);
-            r.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
             r.Register();
 
             // Pulse Bow

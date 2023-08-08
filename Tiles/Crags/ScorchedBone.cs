@@ -25,7 +25,6 @@ namespace CalamityMod.Tiles.Crags
 
             DustType = 155;
             HitSound = SoundID.Dig;
-            MineResist = 1f;
             MinPick = 100;
             AddMapEntry(new Color(87, 62, 67));
 

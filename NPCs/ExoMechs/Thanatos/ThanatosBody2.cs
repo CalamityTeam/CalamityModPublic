@@ -249,164 +249,165 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
             if (shootLasers && !invisiblePhase)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                // Only charge up lasers if not venting or firing lasers
+                if (NPC.Calamity().newAI[0] == 0f)
+                    NPC.ai[3] += 1f;
+
+                double numSegmentsAbleToFire = bossRush ? 42D : death ? 36D : revenge ? 34D : expertMode ? 30D : 24D;
+                if (shouldGetBuffedByBerserkPhase)
+                    numSegmentsAbleToFire *= 1.25;
+
+                float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
+
+                if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
                 {
-                    // Only charge up lasers if not venting or firing lasers
-                    if (NPC.Calamity().newAI[0] == 0f)
-                        NPC.ai[3] += 1f;
-
-                    double numSegmentsAbleToFire = bossRush ? 42D : death ? 36D : revenge ? 34D : expertMode ? 30D : 24D;
-                    if (shouldGetBuffedByBerserkPhase)
-                        numSegmentsAbleToFire *= 1.25;
-
-                    float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
-
-                    if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
+                    float divisor = lastMechAlive ? 45f : shouldGetBuffedByBerserkPhase ? 60f : 75f;
+                    if ((NPC.ai[3] % divisor == 0f && NPC.ai[0] % segmentDivisor == 0f) || NPC.Calamity().newAI[0] > 0f)
                     {
-                        float divisor = lastMechAlive ? 45f : shouldGetBuffedByBerserkPhase ? 60f : 75f;
-                        if ((NPC.ai[3] % divisor == 0f && NPC.ai[0] % segmentDivisor == 0f) || NPC.Calamity().newAI[0] > 0f)
+                        // Body is vulnerable while firing lasers
+                        vulnerable = true;
+
+                        if (NPC.Calamity().newAI[1] == 0f)
                         {
-                            // Body is vulnerable while firing lasers
-                            vulnerable = true;
-
-                            if (NPC.Calamity().newAI[1] == 0f)
+                            NPC.Calamity().newAI[0] += 1f;
+                            if (NPC.Calamity().newAI[0] >= timeToOpenAndFireLasers)
                             {
-                                NPC.Calamity().newAI[0] += 1f;
-                                if (NPC.Calamity().newAI[0] >= timeToOpenAndFireLasers)
+                                NPC.ai[3] = 0f;
+                                NPC.Calamity().newAI[1] = 1f;
+
+                                int maxTargets = 3;
+                                int[] whoAmIArray = new int[maxTargets];
+                                Vector2[] targetCenterArray = new Vector2[maxTargets];
+                                int numProjectiles = 0;
+                                float maxDistance = 2400f;
+
+                                for (int i = 0; i < Main.maxPlayers; i++)
                                 {
-                                    NPC.ai[3] = 0f;
-                                    NPC.Calamity().newAI[1] = 1f;
-                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    if (!Main.player[i].active || Main.player[i].dead)
+                                        continue;
+
+                                    Vector2 playerCenter = Main.player[i].Center;
+                                    float distance = Vector2.Distance(playerCenter, NPC.Center);
+                                    if (distance < maxDistance)
                                     {
-                                        int maxTargets = 3;
-                                        int[] whoAmIArray = new int[maxTargets];
-                                        Vector2[] targetCenterArray = new Vector2[maxTargets];
-                                        int numProjectiles = 0;
-                                        float maxDistance = 2400f;
-
-                                        for (int i = 0; i < Main.maxPlayers; i++)
-                                        {
-                                            if (!Main.player[i].active || Main.player[i].dead)
-                                                continue;
-
-                                            Vector2 playerCenter = Main.player[i].Center;
-                                            float distance = Vector2.Distance(playerCenter, NPC.Center);
-                                            if (distance < maxDistance)
-                                            {
-                                                whoAmIArray[numProjectiles] = i;
-                                                targetCenterArray[numProjectiles] = playerCenter;
-                                                int projectileLimit = numProjectiles + 1;
-                                                numProjectiles = projectileLimit;
-                                                if (projectileLimit >= targetCenterArray.Length)
-                                                    break;
-                                            }
-                                        }
-
-                                        SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound with { Volume = 0.1f * CommonCalamitySounds.ExoLaserShootSound.Volume }, NPC.Center);
-
-                                        for (int i = 0; i < numProjectiles; i++)
-                                        {
-                                            // Normal laser
-                                            int type = ModContent.ProjectileType<ThanatosLaser>();
-                                            int damage = NPC.GetProjectileDamage(type);
-                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
-                                        }
+                                        whoAmIArray[numProjectiles] = i;
+                                        targetCenterArray[numProjectiles] = playerCenter;
+                                        int projectileLimit = numProjectiles + 1;
+                                        numProjectiles = projectileLimit;
+                                        if (projectileLimit >= targetCenterArray.Length)
+                                            break;
                                     }
                                 }
-                            }
-                            else
-                            {
-                                NPC.Calamity().newAI[0] -= segmentCloseTimerDecrement + fasterSegmentClosingVar;
-                                if (NPC.Calamity().newAI[0] <= 0f)
+
+                                SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound with { Volume = 0.1f * CommonCalamitySounds.ExoLaserShootSound.Volume }, NPC.Center);
+
+                                for (int i = 0; i < numProjectiles; i++)
                                 {
-                                    NPC.Calamity().newAI[0] = 0f;
-                                    NPC.Calamity().newAI[1] = 0f;
+                                    // Normal laser
+                                    int type = ModContent.ProjectileType<ThanatosLaser>();
+                                    int damage = NPC.GetProjectileDamage(type);
+
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                 }
                             }
                         }
-                    }
-                    else
-                    {
-                        float divisor = NPC.ai[0] * (lastMechAlive ? 1f : shouldGetBuffedByBerserkPhase ? 2f : 3f); // Ranges from 3 to 300
-                        if ((NPC.ai[3] == divisor && NPC.ai[0] % segmentDivisor == 0f) || NPC.Calamity().newAI[0] > 0f)
+                        else
                         {
-                            // Body is vulnerable while firing lasers
-                            vulnerable = true;
-
-                            if (NPC.Calamity().newAI[1] == 0f)
+                            NPC.Calamity().newAI[0] -= segmentCloseTimerDecrement + fasterSegmentClosingVar;
+                            if (NPC.Calamity().newAI[0] <= 0f)
                             {
-                                NPC.Calamity().newAI[0] += 1f;
-                                if (NPC.Calamity().newAI[0] >= timeToOpenAndFireLasers)
+                                NPC.Calamity().newAI[0] = 0f;
+                                NPC.Calamity().newAI[1] = 0f;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    float divisor = NPC.ai[0] * (lastMechAlive ? 1f : shouldGetBuffedByBerserkPhase ? 2f : 3f); // Ranges from 3 to 300
+                    if ((NPC.ai[3] == divisor && NPC.ai[0] % segmentDivisor == 0f) || NPC.Calamity().newAI[0] > 0f)
+                    {
+                        // Body is vulnerable while firing lasers
+                        vulnerable = true;
+
+                        if (NPC.Calamity().newAI[1] == 0f)
+                        {
+                            NPC.Calamity().newAI[0] += 1f;
+                            if (NPC.Calamity().newAI[0] >= timeToOpenAndFireLasers)
+                            {
+                                NPC.ai[3] = 0f;
+                                NPC.Calamity().newAI[1] = 1f;
+
+                                int maxTargets = 3;
+                                int[] whoAmIArray = new int[maxTargets];
+                                Vector2[] targetCenterArray = new Vector2[maxTargets];
+                                int numProjectiles = 0;
+                                float maxDistance = 2400f;
+
+                                for (int i = 0; i < Main.maxPlayers; i++)
                                 {
-                                    NPC.ai[3] = 0f;
-                                    NPC.Calamity().newAI[1] = 1f;
-                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    if (!Main.player[i].active || Main.player[i].dead)
+                                        continue;
+
+                                    Vector2 playerCenter = Main.player[i].Center;
+                                    float distance = Vector2.Distance(playerCenter, NPC.Center);
+                                    if (distance < maxDistance)
                                     {
-                                        int maxTargets = 3;
-                                        int[] whoAmIArray = new int[maxTargets];
-                                        Vector2[] targetCenterArray = new Vector2[maxTargets];
-                                        int numProjectiles = 0;
-                                        float maxDistance = 2400f;
+                                        whoAmIArray[numProjectiles] = i;
+                                        targetCenterArray[numProjectiles] = playerCenter;
+                                        int projectileLimit = numProjectiles + 1;
+                                        numProjectiles = projectileLimit;
+                                        if (projectileLimit >= targetCenterArray.Length)
+                                            break;
+                                    }
+                                }
 
-                                        for (int i = 0; i < Main.maxPlayers; i++)
+                                float predictionAmt = bossRush ? 24f : death ? 20f : revenge ? 18f : expertMode ? 16f : 12f;
+                                if (NPC.ai[0] % 3f == 0f)
+                                    predictionAmt *= 0.5f;
+
+                                int type = ModContent.ProjectileType<ThanatosLaser>();
+                                int damage = NPC.GetProjectileDamage(type);
+                                SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
+                                for (int i = 0; i < numProjectiles; i++)
+                                {
+                                    // Fire normal lasers if head is in passive state
+                                    if (calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.Passive)
+                                    {
+                                        // Normal laser
+                                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                    }
+                                    else
+                                    {
+                                        // Normal laser
+                                        if (shouldGetBuffedByBerserkPhase && NPC.ai[0] % 3f == 0f)
                                         {
-                                            if (!Main.player[i].active || Main.player[i].dead)
-                                                continue;
-
-                                            Vector2 playerCenter = Main.player[i].Center;
-                                            float distance = Vector2.Distance(playerCenter, NPC.Center);
-                                            if (distance < maxDistance)
-                                            {
-                                                whoAmIArray[numProjectiles] = i;
-                                                targetCenterArray[numProjectiles] = playerCenter;
-                                                int projectileLimit = numProjectiles + 1;
-                                                numProjectiles = projectileLimit;
-                                                if (projectileLimit >= targetCenterArray.Length)
-                                                    break;
-                                            }
-                                        }
-
-                                        float predictionAmt = bossRush ? 24f : death ? 20f : revenge ? 18f : expertMode ? 16f : 12f;
-                                        if (NPC.ai[0] % 3f == 0f)
-                                            predictionAmt *= 0.5f;
-
-                                        int type = ModContent.ProjectileType<ThanatosLaser>();
-                                        int damage = NPC.GetProjectileDamage(type);
-                                        SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
-                                        for (int i = 0; i < numProjectiles; i++)
-                                        {
-                                            // Fire normal lasers if head is in passive state
-                                            if (calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.Passive)
-                                            {
-                                                // Normal laser
+                                            if (Main.netMode != NetmodeID.MultiplayerClient)
                                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
-                                            }
-                                            else
-                                            {
-                                                // Normal laser
-                                                if (shouldGetBuffedByBerserkPhase && NPC.ai[0] % 3f == 0f)
-                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
-
-                                                // Predictive laser
-                                                Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt;
-                                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
-
-                                                // Opposite laser
-                                                projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt;
-                                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
-                                            }
                                         }
+
+                                        // Predictive laser
+                                        Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt;
+                                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+
+                                        // Opposite laser
+                                        projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt;
+                                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                     }
                                 }
                             }
-                            else
+                        }
+                        else
+                        {
+                            NPC.Calamity().newAI[0] -= segmentCloseTimerDecrement + fasterSegmentClosingVar;
+                            if (NPC.Calamity().newAI[0] <= 0f)
                             {
-                                NPC.Calamity().newAI[0] -= segmentCloseTimerDecrement + fasterSegmentClosingVar;
-                                if (NPC.Calamity().newAI[0] <= 0f)
-                                {
-                                    NPC.Calamity().newAI[0] = 0f;
-                                    NPC.Calamity().newAI[1] = 0f;
-                                }
+                                NPC.Calamity().newAI[0] = 0f;
+                                NPC.Calamity().newAI[1] = 0f;
                             }
                         }
                     }

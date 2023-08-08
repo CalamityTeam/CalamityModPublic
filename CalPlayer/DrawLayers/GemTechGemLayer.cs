@@ -22,6 +22,9 @@ namespace CalamityMod.CalPlayer.DrawLayers
         {
             Player drawPlayer = drawInfo.drawPlayer;
             CalamityPlayer modPlayer = drawPlayer.Calamity();
+            float opacity = MathHelper.Lerp(0.85f, 1.05f, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 2.3f) * 0.5f + 0.5f);
+            float time = Main.GlobalTimeWrappedHourly * 0.61f;
+            float gemTime = Main.GlobalTimeWrappedHourly * 3.41f;
             for (int i = 5; i >= 0; i--)
             {
                 Texture2D gemTexture;
@@ -61,11 +64,11 @@ namespace CalamityMod.CalPlayer.DrawLayers
                 if (!modPlayer.GemTechState.GemIsActive(gemType))
                     continue;
 
-                float drawOffsetAngle = modPlayer.GemTechState.CalculateGemOffsetAngle(gemType);
-                float gemOpacity = MathHelper.Lerp(0.85f, 1.05f, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 2.3f) * 0.5f + 0.5f);
+                float drawOffsetAngle = modPlayer.GemTechState.CalculateGemOffsetAngle(gemType, gemTime);
+                float gemOpacity = opacity;
 
                 // Incorporate a sinusoidal pulse into the pulse factor.
-                pulseFactor *= (float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.61f + drawOffsetAngle);
+                pulseFactor *= (float)Math.Cos(time + drawOffsetAngle);
 
                 // Somewhat unorthodox way of creating an illusion of gems being drawn behind the player via orbiting.
                 // Instead of actually messing with a Z position it simply fades away when the sine of the draw
@@ -75,12 +78,15 @@ namespace CalamityMod.CalPlayer.DrawLayers
                 Vector2 baseDrawPosition = modPlayer.GemTechState.CalculateGemPosition(gemType) - Main.screenPosition;
 
                 // Draw back afterimages.
+                float afterimageTime = Main.GlobalTimeWrappedHourly * 0.47f;
+                float backAfterImageOpacity = gemOpacity * 0.24f;
+                Vector2 origin = gemTexture.Size() * 0.5f;
                 for (int j = 0; j < 5; j++)
                 {
-                    Color backAfterimageColor = Main.hslToRgb((Main.GlobalTimeWrappedHourly * 0.47f + j / 5f) % 1f, 1f, 0.67f);
-                    backAfterimageColor = Color.Lerp(backAfterimageColor, Color.White, 0.64f) * gemOpacity * 0.24f;
+                    Color backAfterimageColor = Main.hslToRgb((afterimageTime + j / 5f) % 1f, 1f, 0.67f);
+                    backAfterimageColor = Color.Lerp(backAfterimageColor, Color.White, 0.64f) * backAfterImageOpacity;
                     Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * j / 5f).ToRotationVector2() * pulseFactor;
-                    DrawData gemBackDrawData = new DrawData(gemTexture, drawPosition, null, backAfterimageColor, 0f, gemTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
+                    DrawData gemBackDrawData = new DrawData(gemTexture, drawPosition, null, backAfterimageColor, 0f, origin, 1f, SpriteEffects.None, 0);
                     drawInfo.DrawDataCache.Add(gemBackDrawData);
                 }
 

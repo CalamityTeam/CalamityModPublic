@@ -238,6 +238,36 @@ namespace CalamityMod.CalPlayer
             //Todo - Move this back to the wulfrum set class whenever statmodifiers are implemented for stats other than damage
             if (WulfrumHat.PowerModeEngaged(Player, out _))
                 Player.moveSpeed *= 0.8f;
+
+            if (gShell)
+            {
+                //reduce player dash velocity as long as you didn't just get hit
+                if (Player.dashDelay == -1 && giantShellPostHit == 0)
+                {
+                    if (!HasReducedDashFirstFrame)
+                    {
+                        Player.velocity.X *= 0.9f;
+                        HasReducedDashFirstFrame = true;
+                    }
+                }
+                else
+                    HasReducedDashFirstFrame = false;
+            }
+
+            if (tortShell)
+            {
+                //reduce player dash velocity as long as you didn't just get hit
+                if (Player.dashDelay == -1 && tortShellPostHit == 0)
+                {
+                    if (!HasReducedDashFirstFrame)
+                    {
+                        Player.velocity.X *= 0.85f;
+                        HasReducedDashFirstFrame = true;
+                    }
+                }
+                else
+                    HasReducedDashFirstFrame = false;
+            }
         }
         #endregion
 
@@ -539,8 +569,8 @@ namespace CalamityMod.CalPlayer
 
                 if (tile.TileType == abyssKelpID)
                 {
-                    if (Player.velocity.Length() == 0)
-                    { return; }
+                    if (Player.velocity.Length() == 0f)
+                        return;
 
                     Dust dust;
                     dust = Main.dust[Dust.NewDust(Player.Center, 16, 16, 304, 0.23255825f, 10f, 0, new Color(117, 55, 15), 1.5116279f)];
@@ -585,12 +615,12 @@ namespace CalamityMod.CalPlayer
             // The sigil's brightness slowly fades away every frame if not incinerating anything.
             blazingMouseAuraFade = MathHelper.Clamp(blazingMouseAuraFade - 0.025f, 0.25f, 1f);
 
-            // Allows the blazing aura to display if the accessory is vanity, but it deals no damage
+            // Allows the blazing aura to display if the accessory is vanity, but it deals no damage.
             if (!blazingCursorDamage)
                 return;
 
             // miscCounter is used to limit Calamity's hit rate.
-            int framesPerHit = 60 / Calamity.HitsPerSecond;
+            int framesPerHit = 5;
             if (Player.miscCounter % framesPerHit != 1)
                 return;
 
@@ -628,6 +658,7 @@ namespace CalamityMod.CalPlayer
                     fire.scale = 1f + fire.velocity.Length() / 6f;
                     fire.color = Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat(0.85f));
                     fire.noGravity = true;
+                    fire.noLightEmittence = true;
                 }
             }
         }
@@ -1130,7 +1161,7 @@ namespace CalamityMod.CalPlayer
             // It may not tick down the timer or not do anything at all.
             IList<string> expiredCooldowns = new List<string>(16);
             var cdIterator = cooldowns.GetEnumerator();
-            while(cdIterator.MoveNext())
+            while (cdIterator.MoveNext())
             {
                 KeyValuePair<string, CooldownInstance> kv = cdIterator.Current;
                 string id = kv.Key;
@@ -1266,12 +1297,13 @@ namespace CalamityMod.CalPlayer
                     {
                         int tries = 0;
                         Vector2 spawnPosition;
+                        Vector2 spawnPositionOffset = Vector2.One * 24f;
                         do
                         {
                             spawnPosition = Player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
                             tries++;
                         }
-                        while (Collision.SolidCollision(spawnPosition - Vector2.One * 24f, 48, 24) && tries < 100);
+                        while (Collision.SolidCollision(spawnPosition - spawnPositionOffset, 48, 24) && tries < 100);
                         CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), Player);
                     }
                 }
@@ -1562,13 +1594,9 @@ namespace CalamityMod.CalPlayer
             // Absorber bonus
             if (absorber)
             {
-                Player.moveSpeed += 0.05f;
-                Player.jumpSpeedBoost += 0.25f;
-                Player.thorns += 0.5f;
-                Player.endurance += sponge ? 0.1f : 0.07f;
-
-                if (Player.StandingStill() && Player.itemAnimation == 0)
-                    Player.manaRegenBonus += 4;
+                Player.moveSpeed += 0.1f;
+                Player.jumpSpeedBoost += 0.5f;
+                Player.thorns += 3.5f;
             }
 
             // Affliction bonus
@@ -2455,6 +2483,54 @@ namespace CalamityMod.CalPlayer
                     Player.statDefense += Main.eclipse ? 10 : 20;
             }
 
+            if (AbsorberRegen)
+            {
+                Player.GetDamage<GenericDamageClass>() += 0.1f;
+                Player.endurance += 0.07f;
+            }
+
+            if (crawCarapace)
+                Player.GetDamage<GenericDamageClass>() += 0.05f;
+
+            if (baroclaw)
+                Player.GetDamage<GenericDamageClass>() += 0.08f;
+
+            if (gShell)
+            {
+                if (giantShellPostHit == 1)
+                    SoundEngine.PlaySound(SoundID.Zombie58, Player.Center);
+
+                if (giantShellPostHit > 0)
+                {
+                    Player.statDefense -= 5;
+                    giantShellPostHit--;
+                }
+                if (giantShellPostHit < 0)
+                {
+                    giantShellPostHit = 0;
+                }
+            }
+
+            if (tortShell)
+            {
+                if (tortShellPostHit == 1)
+                    SoundEngine.PlaySound(SoundID.NPCHit24 with {Volume = 0.5f}, Player.Center);
+
+                if (tortShellPostHit > 0)
+                {
+                    Player.statDefense -= 10;
+                    tortShellPostHit--;
+                }
+                else
+                    Player.endurance += 0.05f;
+
+                if (tortShellPostHit < 0)
+                {
+                    tortShellPostHit = 0;
+                }
+            }
+
+
             // Ancient Chisel nerf
             if (Player.chiselSpeed)
                 Player.pickSpeed += 0.1f;
@@ -3219,7 +3295,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
-                    //Reduce the buffTime of Electrified
+                    // Reduce the buffTime of Electrified.
                     for (int l = 0; l < Player.MaxBuffs; l++)
                     {
                         bool electrified = Player.buffType[l] == BuffID.Electrified;
@@ -3227,15 +3303,15 @@ namespace CalamityMod.CalPlayer
                             Player.buffTime[l]--;
                     }
 
-                    //Summon the aura
+                    // Summon the aura.
                     // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
                     var source = Player.GetSource_Buff(Player.FindBuffIndex(ModContent.BuffType<TeslaBuff>()));
                     int damage = (int)Player.GetBestClassDamage().ApplyTo(10);
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
-                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), damage, 0f, Player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), damage, 0f, Player.whoAmI);
                 }
             }
-            else if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)
+            else if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] > 0)
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
@@ -3537,6 +3613,16 @@ namespace CalamityMod.CalPlayer
             // (in addition to the player taking more defense damage, of course).
             if (totalDefenseDamage > 0)
             {
+                //Used to cleanse all defense damage by accessories
+                if (CleansingEffect == 1)
+                {
+                    totalDefenseDamage = 0;
+                    defenseDamageRecoveryFrames = 0;
+                    totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
+                    defenseDamageDelayFrames = 0;
+                    CleansingEffect = 0;
+                }
+
                 // Defense damage is capped at your maximum defense, no matter what.
                 if (totalDefenseDamage > Player.statDefense)
                     totalDefenseDamage = Player.statDefense;

@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,21 +20,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.GrandGelatin = true;
             player.moveSpeed += 0.1f;
             player.jumpSpeedBoost += 0.5f;
-            player.statLifeMax2 += 20;
-            player.statManaMax2 += 20;
-            if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
-            {
-                player.lifeRegen += 4;
-                player.manaRegenBonus += 4;
-            }
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ManaJelly>().
+                AddIngredient<CleansingJelly>().
                 AddIngredient<LifeJelly>().
                 AddIngredient<VitalJelly>().
                 AddIngredient(ItemID.SoulofLight, 2).

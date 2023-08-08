@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -19,11 +20,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 20;
-            if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
-            {
-                player.lifeRegen += 4;
-            }
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.lifejelly = true;
         }
     }
 }

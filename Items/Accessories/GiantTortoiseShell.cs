@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Materials;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -10,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.defense = 14;
+            Item.defense = 15;
             Item.width = 20;
             Item.height = 24;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
@@ -20,9 +22,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.moveSpeed -= 0.1f;
-            player.thorns += 0.25f;
-            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.tortShell = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<GiantShell>().
+                AddIngredient(ItemID.TurtleShell).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

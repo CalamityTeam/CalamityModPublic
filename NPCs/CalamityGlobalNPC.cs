@@ -217,6 +217,7 @@ namespace CalamityMod.NPCs
         public int pearlAura = 0;
         public int bBlood = 0;
         public int marked = 0;
+        public int absorberAffliction = 0;
         public int irradiated = 0;
         public int bFlames = 0;
         public int hFlames = 0;
@@ -424,6 +425,7 @@ namespace CalamityMod.NPCs
             myClone.pearlAura = pearlAura;
             myClone.bBlood = bBlood;
             myClone.marked = marked;
+            myClone.absorberAffliction = absorberAffliction;
             myClone.irradiated = irradiated;
             myClone.bFlames = bFlames;
             myClone.hFlames = hFlames;
@@ -2466,28 +2468,22 @@ namespace CalamityMod.NPCs
                              0f);
         }
 
-        public static void DrawAfterimage(NPC npc, SpriteBatch spriteBatch, Color startingColor, Color endingColor, Texture2D texture = null,
-            Func<NPC, int, float> rotationCalculation = null, bool directioning = false, bool invertedDirection = false)
+        public static void DrawAfterimage(NPC npc, SpriteBatch spriteBatch, Color startingColor, Color endingColor, Texture2D texture = null, Func<NPC, int, float> rotationCalculation = null, bool directioning = false, bool invertedDirection = false)
         {
             if (NPCID.Sets.TrailingMode[npc.type] != 1)
                 return;
+
             SpriteEffects spriteEffects = SpriteEffects.None;
 
             if (npc.spriteDirection == -1 && directioning)
-            {
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            }
 
             if (invertedDirection)
-            {
                 spriteEffects ^= SpriteEffects.FlipHorizontally; // Same as x XOR 1, or x XOR TRUE, which inverts the bit. In this case, this reverses the horizontal flip
-            }
 
             // Set the rotation calculation to a predefined value. The null default is solely so that
             if (rotationCalculation is null)
-            {
                 rotationCalculation = (nPC, afterimageIndex) => nPC.rotation;
-            }
 
             endingColor.A = 0;
 
@@ -2676,6 +2672,8 @@ namespace CalamityMod.NPCs
             float calcDR = DR;
             if (marked > 0)
                 calcDR *= 0.5f;
+            if (absorberAffliction > 0)
+                calcDR *= 0.7f;
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
             if (npc.Calamity().kamiFlu > 0)
@@ -4202,6 +4200,8 @@ namespace CalamityMod.NPCs
                 vulnerabilityHex--;
             if (marked > 0)
                 marked--;
+            if (absorberAffliction > 0)
+                absorberAffliction--;
             if (irradiated > 0)
                 irradiated--;
             if (bFlames > 0)
@@ -4942,6 +4942,7 @@ namespace CalamityMod.NPCs
         #region Edit Spawn Pool
 
         internal static readonly FieldInfo MaxSpawnsField = typeof(NPC).GetField("maxSpawns", BindingFlags.NonPublic | BindingFlags.Static);
+
         public static void AttemptToSpawnLabCritters(Player player)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -4955,19 +4956,26 @@ namespace CalamityMod.NPCs
             if (player.nearbyActiveNPCs >= maxSpawnCount)
                 return;
 
+            float playerCenterX = player.Center.X / 16f;
+            float playerCenterY = player.Center.Y / 16f;
+            Vector2 sunkenSeaLabCenter = CalamityWorld.SunkenSeaLabCenter / 16f;
+            Vector2 planetoidLabCenter = CalamityWorld.PlanetoidLabCenter / 16f;
+            Vector2 jungleLabCenter = CalamityWorld.JungleLabCenter / 16f;
+            Vector2 hellLabCenter = CalamityWorld.HellLabCenter / 16f;
+            Vector2 iceLabCenter = CalamityWorld.IceLabCenter / 16f;
             for (int i = 0; i < 8; i++)
             {
-                int checkPositionX = (int)(player.Center.X / 16 + Main.rand.Next(30, 54) * Main.rand.NextBool(2).ToDirectionInt());
-                int checkPositionY = (int)(player.Center.Y / 16 + Main.rand.Next(24, 45) * Main.rand.NextBool(2).ToDirectionInt());
+                int checkPositionX = (int)(playerCenterX + Main.rand.Next(30, 54) * Main.rand.NextBool(2).ToDirectionInt());
+                int checkPositionY = (int)(playerCenterY + Main.rand.Next(24, 45) * Main.rand.NextBool(2).ToDirectionInt());
                 Vector2 checkPosition = new Vector2(checkPositionX, checkPositionY);
 
                 Tile aboveSpawnTile = CalamityUtils.ParanoidTileRetrieval(checkPositionX, checkPositionY - 1);
-                bool nearLab = CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.SunkenSeaLabCenter / 16f) < 180f;
-                nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.PlanetoidLabCenter / 16f) < 180f;
-                nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.JungleLabCenter / 16f) < 180f;
-                nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.HellLabCenter / 16f) < 180f;
-                nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.IceLabCenter / 16f) < 180f;
-                bool nearPlagueLab = CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.JungleLabCenter / 16f) < 180f;
+                bool nearLab = CalamityUtils.ManhattanDistance(checkPosition, sunkenSeaLabCenter) < 180f;
+                nearLab |= CalamityUtils.ManhattanDistance(checkPosition, planetoidLabCenter) < 180f;
+                nearLab |= CalamityUtils.ManhattanDistance(checkPosition, jungleLabCenter) < 180f;
+                nearLab |= CalamityUtils.ManhattanDistance(checkPosition, hellLabCenter) < 180f;
+                nearLab |= CalamityUtils.ManhattanDistance(checkPosition, iceLabCenter) < 180f;
+                bool nearPlagueLab = CalamityUtils.ManhattanDistance(checkPosition, jungleLabCenter) < 180f;
 
                 bool isLabWall = aboveSpawnTile.WallType == WallType<HazardChevronWall>() || aboveSpawnTile.WallType == WallType<LaboratoryPanelWall>() || aboveSpawnTile.WallType == WallType<LaboratoryPlateBeam>();
                 isLabWall |= aboveSpawnTile.WallType == WallType<LaboratoryPlatePillar>() || aboveSpawnTile.WallType == WallType<LaboratoryPlatingWall>() || aboveSpawnTile.WallType == WallType<RustedPlateBeam>();
@@ -5526,6 +5534,9 @@ namespace CalamityMod.NPCs
             if (marked > 0 || sulphurPoison > 0 || vaporfied > 0)
                 drawColor = Color.Fuchsia;
 
+            if (absorberAffliction > 0)
+                drawColor = Color.DarkSeaGreen;
+
             if (pearlAura > 0)
                 drawColor = Color.White;
 
@@ -5626,6 +5637,8 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/KamiFlu").Value);
                     if (marked > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/MarkedforDeath").Value);
+                    if (absorberAffliction > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/AbsorberAffliction").Value);
                     if (pearlAura > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/PearlAura").Value);
                     if (relicOfResilienceWeakness > 0)
@@ -5790,6 +5803,8 @@ namespace CalamityMod.NPCs
                 alpha15.G = (byte)(alpha15.G * num212);
                 alpha15.B = (byte)(alpha15.B * num212);
                 alpha15.A = (byte)(alpha15.A * num212);
+                float xOffset = screenPos.X + npc.width / 2 - TextureAssets.Npc[npc.type].Value.Width * npc.scale / 2f + vector11.X * npc.scale;
+                float yOffset = screenPos.Y + npc.height - TextureAssets.Npc[npc.type].Value.Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + vector11.Y * npc.scale + num66 + npc.gfxOffY;
                 for (int num213 = 0; num213 < 4; num213++)
                 {
                     Vector2 position9 = npc.position;
@@ -5797,28 +5812,20 @@ namespace CalamityMod.NPCs
                     float num215 = Math.Abs(npc.Center.Y - Main.LocalPlayer.Center.Y);
 
                     if (num213 == 0 || num213 == 2)
-                    {
                         position9.X = Main.LocalPlayer.Center.X + num214;
-                    }
                     else
-                    {
                         position9.X = Main.LocalPlayer.Center.X - num214;
-                    }
 
                     position9.X -= npc.width / 2;
 
                     if (num213 == 0 || num213 == 1)
-                    {
                         position9.Y = Main.LocalPlayer.Center.Y + num215;
-                    }
                     else
-                    {
                         position9.Y = Main.LocalPlayer.Center.Y - num215;
-                    }
 
                     position9.Y -= npc.height / 2;
 
-                    Main.spriteBatch.Draw(TextureAssets.Npc[npc.type].Value, new Vector2(position9.X - screenPos.X + npc.width / 2 - TextureAssets.Npc[npc.type].Value.Width * npc.scale / 2f + vector11.X * npc.scale, position9.Y - screenPos.Y + npc.height - TextureAssets.Npc[npc.type].Value.Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + vector11.Y * npc.scale + num66 + npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(npc.frame), alpha15, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                    Main.spriteBatch.Draw(TextureAssets.Npc[npc.type].Value, new Vector2(position9.X - xOffset, position9.Y - yOffset), new Microsoft.Xna.Framework.Rectangle?(npc.frame), alpha15, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
                 }
             }
             else
@@ -6076,16 +6083,18 @@ namespace CalamityMod.NPCs
 
                         if ((newAI[3] >= 900f && destroyerLifeRatio < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f))
                         {
+                            Color drawColor2 = new Color(50, 50, 255, 0) * (1f - npc.alpha / 255f);
                             for (int i = 0; i < 3; i++)
                             {
                                 spriteBatch.Draw(TextureAssets.Dest[npc.type - NPCID.TheDestroyer].Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame,
-                                    new Color(50, 50, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+                                    drawColor2, npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
                             }
                         }
                         else
                         {
+                            Color drawColor2 = new Color(255, 255, 255, 0) * (1f - npc.alpha / 255f);
                             spriteBatch.Draw(TextureAssets.Dest[npc.type - NPCID.TheDestroyer].Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame,
-                                new Color(255, 255, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+                                drawColor2, npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
                         }
                     }
                 }
@@ -6401,9 +6410,7 @@ namespace CalamityMod.NPCs
             Player player = Main.player[plr];
 
             if (!player.active || player.dead)
-            {
                 return;
-            }
 
             int m = 0;
             while (m < Main.maxProjectiles)

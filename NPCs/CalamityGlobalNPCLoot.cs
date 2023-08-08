@@ -137,12 +137,6 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<CrawCarapace>(), 7, 4));
                     break;
 
-                // Anomura Fungus
-                // Fungal Carapace @ 14.29% Normal, 25% Expert+
-                case NPCID.AnomuraFungus:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<FungalCarapace>(), 7, 4));
-                    break;
-
                 // Tim
                 // Plasma Rod @ 33.33% Normal, 50% Expert+
                 case NPCID.Tim:
@@ -255,9 +249,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Blue Jellyfish
-                // Mana Jelly @ 14.29% Normal, 25% Expert+
+                // Cleansing Jelly @ 14.29% Normal, 25% Expert+
                 case NPCID.BlueJellyfish:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<ManaJelly>(), 7, 4));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<CleansingJelly>(), 7, 4));
                     break;
 
                 // Green Jellyfish
@@ -357,12 +351,6 @@ namespace CalamityMod.NPCs
                 case NPCID.SpikedJungleSlime:
                 case NPCID.Arapaima:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<MurkyPaste>(), 3, 2));
-                    break;
-
-                // Giant Tortoise
-                // Giant Tortoise Shell @ 14.29% Normal, 25% Expert+
-                case NPCID.GiantTortoise:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<GiantTortoiseShell>(), 7, 4));
                     break;
 
                 // Angry Trapper
@@ -1786,6 +1774,7 @@ namespace CalamityMod.NPCs
                     // First kill: Notify of Abyss chests being unlocked.
                     if (!NPC.downedBoss3)
                     {
+                        World.Abyss.AbleToUnlockChests = true;
                         World.Abyss.UnlockAllAbyssChests();
 
                         string keysk = "Mods.CalamityMod.Status.Progression.SkeletronAbyssChestNotification";

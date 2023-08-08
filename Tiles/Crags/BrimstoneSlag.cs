@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Crags
             CalamityUtils.SetMerge(Type, ModContent.TileType<InfernalSuevite>());
 
             HitSound = SoundID.Tink;
-            MineResist = 3f;
+            MineResist = 2f;
             MinPick = 100;
             AddMapEntry(new Color(53, 33, 56));
             TileFraming.SetUpUniversalMerge(Type, TileID.Ash, out TileAdjacency);

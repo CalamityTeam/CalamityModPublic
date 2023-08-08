@@ -41,8 +41,6 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             // Removed Giant Shell speed boost from Sponge
             // modPlayer.gShell = true;
-            modPlayer.fCarapace = true;
-            modPlayer.absorber = true;
             modPlayer.sponge = true;
             player.statManaMax2 += 30;
             player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
@@ -100,7 +98,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<TheAbsorber>().
+                AddIngredient<RoverDrive>().
                 AddIngredient<MysteriousCircuitry>(10).
                 AddIngredient<DubiousPlating>(20).
                 AddIngredient<CosmiliteBar>(5).

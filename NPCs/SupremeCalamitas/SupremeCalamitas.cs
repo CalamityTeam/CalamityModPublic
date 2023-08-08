@@ -657,6 +657,29 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             NPC.Calamity().CurrentlyEnraged = !player.Hitbox.Intersects(safeBox);
 
+            // Cirrus fucks mounts if you exit her arena.
+            if (cirrus)
+            {
+                if (!player.Hitbox.Intersects(safeBox) && player.mount.Active)
+                {
+                    player.ResetEffects();
+                    player.head = -1;
+                    player.body = -1;
+                    player.legs = -1;
+                    player.handon = -1;
+                    player.handoff = -1;
+                    player.back = -1;
+                    player.front = -1;
+                    player.shoe = -1;
+                    player.waist = -1;
+                    player.shield = -1;
+                    player.neck = -1;
+                    player.face = -1;
+                    player.balloon = -1;
+                    player.mount.Dismount(player);
+                }
+            }
+
             // Set DR to be 99% and unbreakable if enraged. Boost DR during the 5th attack.
             CalamityGlobalNPC global = NPC.Calamity();
             if (protectionBoost && !gettingTired5)
@@ -1256,7 +1279,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         if (giveUpCounter > 1)
                         {
-                            // Spin around the target and fire a bunch of beams (Sans) while also firing other projectiles
+                            // Spin around the target and fire a bunch of beams (Sans) while also firing other projectiles.
                             int blasterTimer = GiveUpCounterMax - giveUpCounter;
                             Vector2 circleOffset = player.Center + (Vector2.UnitY * 640f).RotatedBy(MathHelper.ToRadians(blasterTimer * 3f));
                             NPC.Center = circleOffset;

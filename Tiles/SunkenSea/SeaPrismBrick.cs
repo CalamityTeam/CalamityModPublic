@@ -23,7 +23,6 @@ namespace CalamityMod.Tiles.SunkenSea
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
             AddMapEntry(new Color(47, 193, 236));
-            MineResist = 3f;
             HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
             MinPick = 55;

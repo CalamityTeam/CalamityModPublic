@@ -23,7 +23,6 @@ namespace CalamityMod.Tiles.Abyss
 
             DustType = 32;
             AddMapEntry(new Color(76, 58, 59));
-            MineResist = 1.45f;
             HitSound = SoundID.Dig;
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);
             TileFraming.SetUpUniversalMerge(Type, TileID.Stone, out secondTileAdjacency);
