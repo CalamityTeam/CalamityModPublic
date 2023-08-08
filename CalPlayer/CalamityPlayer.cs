@@ -276,7 +276,8 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
         public static readonly SoundStyle DrownSound = new("CalamityMod/Sounds/Custom/AbyssDrown");
         public static readonly SoundStyle LeonDeathNoiseRE4_ForGFB = new("CalamityMod/Sounds/Custom/GFB/LeonDeathNoiseRE4");
-        public static readonly SoundStyle CrabClawHit = new("CalamityMod/Sounds/NPCKilled/DevourerSegmentBreak2") { Volume = 0.7f };
+        public static readonly SoundStyle BaroclawHit = new("CalamityMod/Sounds/NPCKilled/DevourerSegmentBreak2") { Volume = 0.7f };
+        public static readonly SoundStyle AbsorberHit = new("CalamityMod/Sounds/Custom/AbilitySounds/SilvaActivation") { Volume = 0.7f };
         #endregion
 
         #region Rogue
@@ -465,7 +466,6 @@ namespace CalamityMod.CalPlayer
         public bool transformer = false;
         public bool hideOfDeus = false;
         public bool dAmulet = false;
-        public bool fCarapace = false;
         public bool gShell = false;
         public bool tortShell = false;
         public bool absorber = false;
@@ -534,7 +534,7 @@ namespace CalamityMod.CalPlayer
         public bool spiritOriginVanity = false;
         public bool darkSunRing = false;
         public bool crawCarapace = false;
-        public bool crabClaw = false;
+        public bool baroclaw = false;
         public bool HasReducedDashFirstFrame = false;
         public bool voidOfCalamity = false;
         public bool voidOfExtinction = false;
@@ -842,6 +842,7 @@ namespace CalamityMod.CalPlayer
         public bool mushy = false;
         public bool PinkJellyRegen = false;
         public bool GreenJellyRegen = false;
+        public bool AbsorberRegen = false;
         public bool shellBoost = false;
         public bool cFreeze = false;
         public bool shine = false;
@@ -1071,6 +1072,7 @@ namespace CalamityMod.CalPlayer
 
         public bool witheringWeaponEnchant = false;
         public bool witheredDebuff = false;
+        public bool absorberAffliction = false;
         public int witheredWeaponHoldTime = 0;
         public int witheringDamageDone = 0;
 
@@ -1386,9 +1388,6 @@ namespace CalamityMod.CalPlayer
         #region ResetEffects
         public override void ResetEffects()
         {
-            // Max health bonuses
-            if (absorber)
-                Player.statLifeMax2 += sponge ? 30 : 20;
             if (fleshKnuckles)
                 Player.statLifeMax2 += 45;
 
@@ -1552,7 +1551,6 @@ namespace CalamityMod.CalPlayer
             transformer = false;
             hideOfDeus = false;
             dAmulet = false;
-            fCarapace = false;
             gShell = false;
             tortShell = false;
             absorber = false;
@@ -1602,7 +1600,7 @@ namespace CalamityMod.CalPlayer
             fleshKnuckles = false;
             darkSunRing = false;
             crawCarapace = false;
-            crabClaw = false;
+            baroclaw = false;
             gShell = false;
             tortShell = false;
             voidOfCalamity = false;
@@ -1790,6 +1788,7 @@ namespace CalamityMod.CalPlayer
             irradiated = false;
             bFlames = false;
             witheredDebuff = false;
+            absorberAffliction = false;
             weakBrimstoneFlames = false;
             gsInferno = false;
             astralInfection = false;
@@ -1856,6 +1855,7 @@ namespace CalamityMod.CalPlayer
             mushy = false;
             PinkJellyRegen = false;
             GreenJellyRegen = false;
+            AbsorberRegen = false;
             shellBoost = false;
             cFreeze = false;
             tRegen = false;
@@ -2193,6 +2193,7 @@ namespace CalamityMod.CalPlayer
             irradiated = false;
             bFlames = false;
             witheredDebuff = false;
+            absorberAffliction = false;
             weakBrimstoneFlames = false;
             gsInferno = false;
             astralInfection = false;
@@ -2293,6 +2294,7 @@ namespace CalamityMod.CalPlayer
             mushy = false;
             PinkJellyRegen = false;
             GreenJellyRegen = false;
+            AbsorberRegen = false;
             enraged = false;
             shellBoost = false;
             cFreeze = false;
@@ -3236,9 +3238,14 @@ namespace CalamityMod.CalPlayer
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<BlueJellyAura>(), 0, 0, Player.whoAmI);
             }
             //Grand Gellatin regen and cleansing aura spawn when using a healing potion
-            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && GrandGelatin)
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && GrandGelatin && !absorber)
             {
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<GreenJellyAura>(), 0, 0, Player.whoAmI);
+            }
+            //Absorber's regen, cleansing, and buffing aura spawn when using a healing potion
+            if (timePotionSick == 1 && Player.whoAmI == Main.myPlayer && absorber)
+            {
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<AbsorberAura>(), 0, 0, Player.whoAmI);
             }
 
             if (snowman)
@@ -4902,10 +4909,10 @@ namespace CalamityMod.CalPlayer
                 SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
             }
             
-            if (crabClaw)
+            if (baroclaw)
             {
                 npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1800);
-                SoundEngine.PlaySound(CrabClawHit, Player.Center);
+                SoundEngine.PlaySound(BaroclawHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
                 for (int i = 0; i < 9; i++)
@@ -4916,6 +4923,25 @@ namespace CalamityMod.CalPlayer
                     sparkColor = Color.Lerp(sparkColor, Color.RoyalBlue, Main.rand.NextFloat());
                     Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 25f);
                     sparkVelocity.Y -= 5.5f;
+                    SparkParticle spark = new SparkParticle(Player.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
+                    GeneralParticleHandler.SpawnParticle(spark);
+                }
+            }
+
+            if (absorber)
+            {
+                npc.AddBuff(ModContent.BuffType<AbsorberAffliction>(), 1800);
+                SoundEngine.PlaySound(AbsorberHit, Player.Center);
+                Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
+                Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
+                for (int i = 0; i < 12; i++)
+                {
+                    int sparkLifetime = Main.rand.Next(11, 16);
+                    float sparkScale = Main.rand.NextFloat(1.8f, 2.8f) * 0.955f;
+                    Color sparkColor = Color.Lerp(Color.DarkSeaGreen, Color.MediumSeaGreen, Main.rand.NextFloat(0.7f));
+                    sparkColor = Color.Lerp(sparkColor, Color.DarkSeaGreen, Main.rand.NextFloat());
+                    Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 25f);
+                    sparkVelocity.Y -= 4.7f;
                     SparkParticle spark = new SparkParticle(Player.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
                     GeneralParticleHandler.SpawnParticle(spark);
                 }
@@ -5791,7 +5817,7 @@ namespace CalamityMod.CalPlayer
 
                 if (absorber)
                 {
-                    int healAmt = (int)(hurtInfo.Damage / (sponge ? 16D : 20D));
+                    int healAmt = (int)(hurtInfo.Damage / 20D);
                     Player.statLife += healAmt;
                     Player.HealEffect(healAmt);
                 }
@@ -6170,32 +6196,6 @@ namespace CalamityMod.CalPlayer
                             star.DamageType = DamageClass.Generic;
                             star.usesLocalNPCImmunity = true;
                             star.localNPCHitCooldown = 5;
-                        }
-                    }
-                }
-                if (fCarapace)
-                {
-                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<FungalCarapace>()));
-                    if (hurtInfo.Damage > 0)
-                    {
-                        SoundEngine.PlaySound(SoundID.NPCHit45, Player.Center);
-                        float spread = 45f * 0.0174f;
-                        double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
-                        double deltaAngle = spread / 8f;
-                        double offsetAngle;
-                        int fDamage = (int)Player.GetBestClassDamage().ApplyTo(70);
-                        if (Player.whoAmI == Main.myPlayer)
-                        {
-                            for (int i = 0; i < 4; i++)
-                            {
-                                float xPos = Main.rand.NextBool(2) ? Player.Center.X + 100 : Player.Center.X - 100;
-                                Vector2 spawnPos = new Vector2(xPos, Player.Center.Y + Main.rand.Next(-100, 101));
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                int spore1 = Projectile.NewProjectile(source, spawnPos.X, spawnPos.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, Player.whoAmI, 0f, 0f);
-                                int spore2 = Projectile.NewProjectile(source, spawnPos.X, spawnPos.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, Player.whoAmI, 0f, 0f);
-                                Main.projectile[spore1].timeLeft = 300;
-                                Main.projectile[spore2].timeLeft = 300;
-                            }
                         }
                     }
                 }

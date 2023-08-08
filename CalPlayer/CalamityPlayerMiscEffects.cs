@@ -1586,13 +1586,9 @@ namespace CalamityMod.CalPlayer
             // Absorber bonus
             if (absorber)
             {
-                Player.moveSpeed += 0.05f;
-                Player.jumpSpeedBoost += 0.25f;
-                Player.thorns += 0.5f;
-                Player.endurance += sponge ? 0.1f : 0.07f;
-
-                if (Player.StandingStill() && Player.itemAnimation == 0)
-                    Player.manaRegenBonus += 4;
+                Player.moveSpeed += 0.1f;
+                Player.jumpSpeedBoost += 0.5f;
+                Player.thorns += 3.5f;
             }
 
             // Affliction bonus
@@ -2515,10 +2511,16 @@ namespace CalamityMod.CalPlayer
                     Player.statDefense += Main.eclipse ? 10 : 20;
             }
 
+            if (AbsorberRegen)
+            {
+                Player.GetDamage<GenericDamageClass>() += 0.1f;
+                Player.endurance += 0.07f;
+            }
+
             if (crawCarapace)
                 Player.GetDamage<GenericDamageClass>() += 0.05f;
 
-            if (crabClaw)
+            if (baroclaw)
                 Player.GetDamage<GenericDamageClass>() += 0.08f;
 
             if (gShell)

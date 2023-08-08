@@ -217,6 +217,7 @@ namespace CalamityMod.NPCs
         public int pearlAura = 0;
         public int bBlood = 0;
         public int marked = 0;
+        public int absorberAffliction = 0;
         public int irradiated = 0;
         public int bFlames = 0;
         public int hFlames = 0;
@@ -424,6 +425,7 @@ namespace CalamityMod.NPCs
             myClone.pearlAura = pearlAura;
             myClone.bBlood = bBlood;
             myClone.marked = marked;
+            myClone.absorberAffliction = absorberAffliction;
             myClone.irradiated = irradiated;
             myClone.bFlames = bFlames;
             myClone.hFlames = hFlames;
@@ -2670,6 +2672,8 @@ namespace CalamityMod.NPCs
             float calcDR = DR;
             if (marked > 0)
                 calcDR *= 0.5f;
+            if (absorberAffliction > 0)
+                calcDR *= 0.7f;
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
             if (npc.Calamity().kamiFlu > 0)
@@ -4196,6 +4200,8 @@ namespace CalamityMod.NPCs
                 vulnerabilityHex--;
             if (marked > 0)
                 marked--;
+            if (absorberAffliction > 0)
+                absorberAffliction--;
             if (irradiated > 0)
                 irradiated--;
             if (bFlames > 0)
@@ -5528,6 +5534,9 @@ namespace CalamityMod.NPCs
             if (marked > 0 || sulphurPoison > 0 || vaporfied > 0)
                 drawColor = Color.Fuchsia;
 
+            if (absorberAffliction > 0)
+                drawColor = Color.DarkSeaGreen;
+
             if (pearlAura > 0)
                 drawColor = Color.White;
 
@@ -5628,6 +5637,8 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/KamiFlu").Value);
                     if (marked > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/MarkedforDeath").Value);
+                    if (absorberAffliction > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/AbsorberAffliction").Value);
                     if (pearlAura > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/PearlAura").Value);
                     if (relicOfResilienceWeakness > 0)

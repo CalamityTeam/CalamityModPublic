@@ -6,13 +6,13 @@ using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class CrabClaw : ModItem, ILocalizedModType
+    public class Baroclaw : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
             Item.width = 30;
-            Item.height = 28;
+            Item.height = 44;
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.accessory = true;
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.crabClaw = true;
+            modPlayer.baroclaw = true;
             player.thorns += 1.1f;
         }
         public override void AddRecipes()
