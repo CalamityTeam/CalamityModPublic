@@ -2868,14 +2868,20 @@ namespace CalamityMod.CalPlayer
             {
                 if (blazingCore && blazingCoreParry == 0 && blazingCoreSuccessfulParry == 0)
                 {
-                    GeneralScreenShakePower = 3.5f;
-                    blazingCoreParry = 30;
-                    SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact);
-                    var mySourceIsIMadeItUp = Player.GetSource_FromThis();
-                    int blazingSun = Projectile.NewProjectile(mySourceIsIMadeItUp, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), 0, 0f, Player.whoAmI, 0f, 0f);
-                    Main.projectile[blazingSun].Center = Player.Center;
-                    int blazingSun2 = Projectile.NewProjectile(mySourceIsIMadeItUp, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun2>(), 0, 0f, Player.whoAmI, 0f, 0f);
-                    Main.projectile[blazingSun2].Center = Player.Center;
+                    //because of ordering, if they do not have the cooldown, it will not check the projectile array.
+                    //Furthermore, Enumerable#Any is lightweight and returns immediately if a single object matches it's predicate
+                    if (!Player.HasCooldown(Cooldowns.ElysianGuard.ID) ||
+                        Main.projectile.Any(proj => proj.active && proj.owner == Main.myPlayer && proj.type == ModContent.ProjectileType<BlazingStarHeal>()))
+                    {
+                        GeneralScreenShakePower = 3.5f;
+                        blazingCoreParry = 30;
+                        SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact);
+                        var mySourceIsIMadeItUp = Player.GetSource_FromThis();
+                        int blazingSun = Projectile.NewProjectile(mySourceIsIMadeItUp, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), 0, 0f, Player.whoAmI, 0f, 0f);
+                        Main.projectile[blazingSun].Center = Player.Center;
+                        int blazingSun2 = Projectile.NewProjectile(mySourceIsIMadeItUp, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun2>(), 0, 0f, Player.whoAmI, 0f, 0f);
+                        Main.projectile[blazingSun2].Center = Player.Center;
+                    }
                 }
             }
 
