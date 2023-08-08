@@ -113,17 +113,20 @@ namespace CalamityMod.Skies
 
                 Texture2D eyeTexture = ModContent.Request<Texture2D>("CalamityMod/Skies/XerocEye").Value;
                 Color baseColorDraw = Color.Lerp(Color.White, Color.Red, IncrementalInterest);
+                Vector2 origin = eyeTexture.Size() * 0.5f;
 
-                spriteBatch.Draw(eyeTexture, drawPosition, null, baseColorDraw, 0f, eyeTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(eyeTexture, drawPosition, null, baseColorDraw, 0f, origin, scale, SpriteEffects.None, 0f);
                 Color fadedColor = Color.Lerp(baseColorDraw, Color.Coral, 0.3f) * MathHelper.Lerp(0.18f, 0.3f, IncrementalInterest);
                 fadedColor.A = 0;
 
                 float backEyeOutwardness = MathHelper.Lerp(8f, 4f, IncrementalInterest);
                 int backInstances = (int)MathHelper.Lerp(6f, 24f, IncrementalInterest);
+                float fourPi = MathHelper.TwoPi * 2f;
+                float time = Main.GlobalTimeWrappedHourly * 2.1f;
                 for (int i = 0; i < backInstances; i++)
                 {
-                    Vector2 drawOffset = (MathHelper.TwoPi * 2f * i / backInstances + Main.GlobalTimeWrappedHourly * 2.1f).ToRotationVector2() * backEyeOutwardness;
-                    spriteBatch.Draw(eyeTexture, drawPosition + drawOffset, null, fadedColor, 0f, eyeTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                    Vector2 drawOffset = (fourPi * i / backInstances + time).ToRotationVector2() * backEyeOutwardness;
+                    spriteBatch.Draw(eyeTexture, drawPosition + drawOffset, null, fadedColor, 0f, origin, scale, SpriteEffects.None, 0f);
                 }
             }
 
