@@ -5417,9 +5417,9 @@ namespace CalamityMod.CalPlayer
                     Vector2 drawPosition = Main.LocalPlayer.Center - Main.screenPosition;
                     Vector2 auroraOffset = drawPosition - Vector2.UnitY * 15f;
                     int origin = size / 2;
+                    float auroraPower = MathHelper.Clamp(unclampedAuroraPower, 0f, 1f);
                     for (int i = 0; i < auroraCount; i++)
                     {
-                        float auroraPower = MathHelper.Clamp(unclampedAuroraPower, 0f, 1f);
                         float offsetAngle = MathHelper.TwoPi * i / auroraCount + timeScalar1;
                         Color auroraColor = GetCurrentMoonlightDyeColor(offsetAngle) * 0.8f;
                         auroraColor.A = 0;
