@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -15,6 +16,8 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
             Item.rare = ItemRarityID.Lime;
         }
+
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.GravistarSabatonHotkey);
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

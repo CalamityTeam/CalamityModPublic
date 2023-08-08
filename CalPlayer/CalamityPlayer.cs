@@ -3263,7 +3263,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Player.velocity.Y *= (60 - (gSabatonHotkeyHoldTime/4f))/60f;
                 }
-                if (gSabatonHotkeyHoldTime == 45)
+                if (gSabatonHotkeyHoldTime == 45 && !gSabatonFalling)
                 {
                     SoundEngine.PlaySound(new("CalamityMod/Sounds/Custom/GravistarCharge") { Volume = 0.3f });
                 }
@@ -6990,8 +6990,13 @@ namespace CalamityMod.CalPlayer
 
         public void SpawnGravistarParticle()
         {
-            Vector2 position1 = Player.position + new Vector2(Player.width / 14, Player.height);
-            Vector2 position2 = Player.position + new Vector2(Player.width * 13 / 14, Player.height);
+            float height = Player.height;
+            if (Player.gravDir == -1)
+            {
+                height = 0;
+            }
+            Vector2 position1 = Player.position + new Vector2(Player.width / 14, height);
+            Vector2 position2 = Player.position + new Vector2(Player.width * 13 / 14, height);
             SquareParticle square1 = new SquareParticle(position1, Player.velocity * (0.15f + Main.rand.NextFloat(0.1f)), false, 15, 1.7f + Main.rand.NextFloat(0.6f), Color.Cyan * 1.5f);
             SquareParticle square2 = new SquareParticle(position2, Player.velocity * (0.15f + Main.rand.NextFloat(0.1f)), false, 15, 1.7f + Main.rand.NextFloat(0.6f), Color.Cyan * 1.5f);
             GeneralParticleHandler.SpawnParticle(square1);

@@ -46,10 +46,10 @@ namespace CalamityMod.Projectiles.Typeless
                 damageScaleFromFall = Projectile.ai[0] / 40;
                 Projectile.damage = (int)(300f * damageScaleFromFall + 300f);
                 SoundEngine.PlaySound(new("CalamityMod/Sounds/Custom/GravistarSlam") { Volume = 0.75f }, Projectile.Center);
-                int particleCount = (int)(20 * scaleFromFall);
+                int particleCount = (int)(10 * scaleFromFall);
                 for (int i = 0; i < particleCount; i++)
                 {
-                    SquareParticle square = new SquareParticle(Projectile.Center + Main.rand.NextVector2Circular(scaleFromFall * 78f, scaleFromFall * 78f), Main.rand.NextVector2Circular(5f, 5f), false, 60, 1.7f + Main.rand.NextFloat(0.6f), Color.Cyan * 1.5f);
+                    SquareParticle square = new SquareParticle(Projectile.Center + Main.rand.NextVector2Circular(scaleFromFall * 74f, scaleFromFall * 74f), Main.rand.NextVector2Circular(2.5f, 2.5f), false, 120, 3.5f + Main.rand.NextFloat(0.6f), Color.Lerp(Color.Cyan, Color.LightCyan, 0.75f));
                     GeneralParticleHandler.SpawnParticle(square);
                 }
                 Projectile.localAI[0]++;
@@ -62,12 +62,12 @@ namespace CalamityMod.Projectiles.Typeless
             Main.spriteBatch.EnterShaderRegion();
             Texture2D telegraphBase = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
 
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseOpacity(0.75f * Projectile.timeLeft/(float)timeLeft);
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseColor(Color.Lerp(Color.Cyan, Color.LightCyan, 0.35f));
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSecondaryColor(Color.White);
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSaturation(1);
+            GameShaders.Misc["CalamityMod:CircularGradientWithEdge"].UseOpacity(0.75f * Projectile.timeLeft/(float)timeLeft);
+            GameShaders.Misc["CalamityMod:CircularGradientWithEdge"].UseColor(Color.Lerp(Color.Cyan, Color.LightCyan, 0.5f));
+            GameShaders.Misc["CalamityMod:CircularGradientWithEdge"].UseSecondaryColor(Color.White);
+            GameShaders.Misc["CalamityMod:CircularGradientWithEdge"].UseSaturation(scaleFromFall);
 
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].Apply();
+            GameShaders.Misc["CalamityMod:CircularGradientWithEdge"].Apply();
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Main.EntitySpriteDraw(telegraphBase, drawPosition, null, lightColor, 0, telegraphBase.Size() / 2f, scaleFromFall*156f, 0, 0);
