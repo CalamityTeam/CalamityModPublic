@@ -37,6 +37,8 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.Opacity = 0f;
             NPC.defense = 10;
             NPC.lifeMax = 5000;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.dontTakeDamage = true;
             NPC.noGravity = true;

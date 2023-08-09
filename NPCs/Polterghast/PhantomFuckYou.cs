@@ -35,6 +35,8 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.canGhostHeal = false;
             NPC.damage = 50;
             NPC.lifeMax = 20000;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.HitSound = SoundID.NPCHit36;
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.Calamity().VulnerableToSickness = false;
