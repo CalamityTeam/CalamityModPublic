@@ -95,7 +95,6 @@ namespace CalamityMod.Items
                 { ItemID.CandyCornRifle, pointBlank },
                 { ItemID.Cascade, Do(AutoReuse, DamageExact(39)) },
                 { ItemID.CelestialSigil, nonConsumableBossSummon },
-                { ItemID.CellPhone, Do(UseExact(30)) },
                 { ItemID.ChainGuillotines, Do(DamageExact(100)) },
                 { ItemID.ChainGun, pointBlank },
                 { ItemID.ChainKnife, Do(AutoReuse, DamageExact(14)) },
