@@ -26,6 +26,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.height = 50;
             NPC.defense = 70;
             NPC.lifeMax = 50000;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;

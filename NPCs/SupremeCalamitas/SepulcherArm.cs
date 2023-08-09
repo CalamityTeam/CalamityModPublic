@@ -76,6 +76,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             global.DR = 0.999999f;
             global.unbreakableDR = true;
             NPC.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.scale *= Main.expertMode ? 1.35f : 1.2f;

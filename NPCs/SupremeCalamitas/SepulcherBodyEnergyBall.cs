@@ -32,6 +32,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.width = 20;
             NPC.height = 20;
             NPC.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;

@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 NPC.lifeMax = 1000;
             }
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.alpha = 255;
             NPC.HitSound = SoundID.NPCHit5;
             NPC.DeathSound = SoundID.NPCDeath7;

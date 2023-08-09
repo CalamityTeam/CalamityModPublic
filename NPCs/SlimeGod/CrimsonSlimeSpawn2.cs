@@ -34,6 +34,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
             NPC.defense = 6;
             NPC.lifeMax = BossRushEvent.BossRushActive ? 12000 : (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 260 : 130;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.Opacity = 0.8f;
             NPC.lavaImmune = false;
