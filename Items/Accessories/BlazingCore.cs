@@ -40,11 +40,13 @@ namespace CalamityMod.Items.Accessories
 
         public static void HandleStars(Player player)
         {
+            bool empowered = player.Calamity().blazingCoreEmpoweredParry;
             float divisor = 3f;
             int totalFlameProjectiles = 45;
             int chains = 3;
             float interval = totalFlameProjectiles / chains * divisor;
             double patternInterval = Math.Floor(player.Calamity().blazingCoreSuccessfulParry / interval);
+            
 
             if (player.Calamity().blazingCoreSuccessfulParry % 4 == 0) //play sound every 4 frames
             {
@@ -60,16 +62,16 @@ namespace CalamityMod.Items.Accessories
                 Vector2 spinningPoint = new Vector2(velocityX, -2f);
                 for (int i = 0; i < chains; i++)
                 {
-                    Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(offset));
-
                     int projectileType = ModContent.ProjectileType<BlazingStarThatDoesNotHeal>();
                     int dmgAmt = 90;
-                    if (!player.Calamity().blazingCoreEmpoweredParry && Main.rand.NextBool(4))
+                    if (!empowered && Main.rand.NextBool(5))
                     {
                         projectileType = ModContent.ProjectileType<BlazingStarHeal>();
                     }
-
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    
+                    Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(offset));
+                    //not sure if this is correct, will see in testing
+                    if (!Main.dedServ)
                     {
                         spinningPoint *= 1.5f;
                         dmgAmt = (int)player.GetTotalDamage<GenericDamageClass>().ApplyTo(dmgAmt);

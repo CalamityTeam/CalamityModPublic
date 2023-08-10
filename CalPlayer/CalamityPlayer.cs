@@ -2889,10 +2889,11 @@ namespace CalamityMod.CalPlayer
             {
                 if (blazingCore && blazingCoreParry == 0 && blazingCoreSuccessfulParry == 0)
                 {
-                    //because of ordering, if they do not have the cooldown, it will not check the projectile array.
+                    //minor cheese prevention with standing on a spike with later game gear spamming parry :skull:
+                    //because of ordering, if they do not have the cooldown, it will not check the projectile array. Likewise if there are no bosses alive.
                     //Furthermore, Enumerable#Any is lightweight and returns immediately if a single object matches it's predicate
-                    if (!Player.HasCooldown(Cooldowns.ElysianGuard.ID) ||
-                        Main.projectile.Any(proj => proj.active && proj.owner == Main.myPlayer && proj.type == ModContent.ProjectileType<BlazingStarHeal>()))
+                    if (!Player.HasCooldown(Cooldowns.ElysianGuard.ID) || 
+                        (!Main.projectile.Any(proj => proj.active && proj.owner == Main.myPlayer && proj.type == ModContent.ProjectileType<BlazingStarHeal>())))
                     {
                         GeneralScreenShakePower = 3.5f;
                         blazingCoreParry = 30;
