@@ -1028,7 +1028,7 @@ namespace CalamityMod.CalPlayer
                 if (Player.mount.Type == MountID.Slime)
                     Player.velocity.X *= 0.91f;
                 else if (Player.mount.Type == MountID.QueenSlime)
-                    Player.velocity.X *= 0.935f;
+                    Player.velocity.X *= 0.95f;
             }
 
             // Omega Blue Armor bonus

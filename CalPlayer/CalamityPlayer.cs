@@ -311,7 +311,6 @@ namespace CalamityMod.CalPlayer
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
         public const float UnicornSpeedNerfPower = 0.8f;
-        public const float MechanicalCartSpeedNerfPower = 0.7f;
         #endregion
 
         #region Pet
