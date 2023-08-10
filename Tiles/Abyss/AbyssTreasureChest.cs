@@ -26,7 +26,15 @@ namespace CalamityMod.Tiles.Abyss
 
 		// Locked Chest stuff
 		public override bool IsLockedChest(int i, int j) => Main.tile[i, j].TileFrameX / 36 == 1;
-		public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual) => true;
+		public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual)
+        {
+            //Skeletron must be dead, NPC.downedBoss3 is added as a safety measure for worlds generated before this was placed or in case the first bool gets cleared
+            // since tmod has not fixed the modded data disappearing bug
+            if (World.Abyss.AbleToUnlockChests || NPC.downedBoss3) 
+                return true; 
+            else
+                return false;
+        }
 
 		public override bool RightClick(int i, int j) 
 		{

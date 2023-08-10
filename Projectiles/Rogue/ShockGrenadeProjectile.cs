@@ -123,6 +123,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 SoundEngine.PlaySound(SoundID.Item93 with { Volume = SoundID.Item93.Volume * 0.5f }, Projectile.position);
             }
+
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShockGrenadeExplosion>(), Projectile.damage, 3, Projectile.owner, 0, 0);
         }
     }

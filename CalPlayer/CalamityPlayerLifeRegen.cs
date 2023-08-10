@@ -656,6 +656,15 @@ namespace CalamityMod.CalPlayer
             if (sRegen)
                 Player.lifeRegen += 2;
 
+            if (PinkJellyRegen)
+                Player.lifeRegen += 4;
+
+            if (GreenJellyRegen)
+                Player.lifeRegen += 6;
+
+            if (AbsorberRegen)
+                Player.lifeRegen += 7;
+
             if (hallowedRegen)
                 Player.lifeRegen += 3;
 
@@ -664,12 +673,6 @@ namespace CalamityMod.CalPlayer
 
             if (trinketOfChi || chiRegen)
                 Player.lifeRegen += 2;
-
-            if (absorber)
-            {
-                if (Player.StandingStill() && Player.itemAnimation == 0)
-                    Player.lifeRegen += 4;
-            }
 
             if (aAmpoule)
             {

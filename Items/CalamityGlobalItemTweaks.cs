@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CalamityMod.Balancing;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -1383,6 +1384,15 @@ namespace CalamityMod.Items
             shimmerTransmute[ItemID.LunarOre] = ModContent.ItemType<ScoriaOre>();
             shimmerTransmute[ItemID.ChlorophyteOre] = ModContent.ItemType<HallowedOre>();
             shimmerTransmute[ItemID.CobaltOre] = ModContent.ItemType<AerialiteOre>();
+
+            //Fuck vanilla's stupid Giant Shelly, Crawdad, and Salamander exclusivity 
+            shimmerTransmute[ModContent.ItemType<CrawCarapace>()] = ModContent.ItemType<GiantShell>();
+            shimmerTransmute[ModContent.ItemType<GiantShell>()] = ModContent.ItemType<CrawCarapace>();
+
+            //Jelly swap'n
+            shimmerTransmute[ModContent.ItemType<LifeJelly>()] = ModContent.ItemType<CleansingJelly>();
+            shimmerTransmute[ModContent.ItemType<CleansingJelly>()] = ModContent.ItemType<VitalJelly>();
+            shimmerTransmute[ModContent.ItemType<VitalJelly>()] = ModContent.ItemType<LifeJelly>();
         }
         #endregion
     }

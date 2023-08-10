@@ -188,9 +188,10 @@ namespace CalamityMod.UI.CalamitasEnchants
             costDrawPositionTopLeft.X += (int)((FontAssets.MouseText.Value.MeasureString(costText).X * 0.5f + 12f) * Main.UIScale);
 
             int[] coinsArray = Utils.CoinsSplit(cost);
+            float y = costDrawPositionTopLeft.Y + 54f * Main.UIScale;
             for (int i = 0; i < 4; i++)
             {
-                Vector2 drawPosition = new Vector2(costDrawPositionTopLeft.X + (ChatManager.GetStringSize(FontAssets.MouseText.Value, costText, Vector2.One, -1f).X + ((24 * i) - 24f)) * Main.UIScale, costDrawPositionTopLeft.Y + 54f * Main.UIScale);
+                Vector2 drawPosition = new Vector2(costDrawPositionTopLeft.X + (ChatManager.GetStringSize(FontAssets.MouseText.Value, costText, Vector2.One, -1f).X + ((24 * i) - 24f)) * Main.UIScale, y);
                 spriteBatch.Draw(TextureAssets.Item[ItemID.PlatinumCoin - i].Value, drawPosition, null, Color.White, 0f, TextureAssets.Item[ItemID.PlatinumCoin - i].Size() * 0.5f, Main.UIScale, SpriteEffects.None, 0f);
                 Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.ItemStack.Value, coinsArray[3 - i].ToString(), drawPosition.X - 11f, drawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), 0.75f * Main.UIScale);
             }

@@ -811,8 +811,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     {
                         if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < DeathrayEnrageDistance)
                         {
-                            if (Main.player[Main.myPlayer].wingTime < Main.player[Main.myPlayer].wingTimeMax)
-                                Main.player[Main.myPlayer].wingTime = Main.player[Main.myPlayer].wingTimeMax;
+                            Main.player[Main.myPlayer].Calamity().infiniteFlight = true;
                         }
                     }
 
@@ -904,9 +903,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                 // Create a bunch of lightning bolts in the sky
                                 ExoMechsSky.CreateLightningBolt(12);
 
+                                SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                     int type = ModContent.ProjectileType<AresDeathBeamTelegraph>();
                                     Vector2 spawnPoint = NPC.Center + new Vector2(-1f, 23f);
                                     for (int k = 0; k < totalProjectiles; k++)

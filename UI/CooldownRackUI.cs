@@ -57,19 +57,22 @@ namespace CalamityMod.UI
             Rectangle mouse = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
 
             string mouseHover = "";
+            float iconOpacityScale = (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.1f + 0.6f;
+            Vector2 mouseCenter = mouse.Center.ToVector2();
+            float opacity = MathHelper.Clamp((float)Math.Sin(Main.GlobalTimeWrappedHourly % MathHelper.Pi) * 2f, 0, 1) * 0.1f + 0.9f;
 
             foreach (CooldownInstance instance in cooldownsToDraw)
             {
                 CooldownHandler handler = instance.handler;
-                float iconOpacity = (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.1f + 0.6f;
+                float iconOpacity = iconOpacityScale;
 
                 // Icons get brighter if the mouse gets closer
-                iconOpacity += 0.3f * (1 - MathHelper.Clamp(Vector2.Distance(mouse.Center.ToVector2(), iconRectangle.Center.ToVector2()), 0f, 80f) / 80f);
+                iconOpacity += 0.3f * (1 - MathHelper.Clamp(Vector2.Distance(mouseCenter, iconRectangle.Center.ToVector2()), 0f, 80f) / 80f);
 
                 if (iconRectangle.Intersects(mouse))
                 {
                     mouseHover = handler.DisplayName.ToString();
-                    iconOpacity = MathHelper.Clamp((float)Math.Sin(Main.GlobalTimeWrappedHourly % MathHelper.Pi) * 2f, 0, 1) * 0.1f + 0.9f;
+                    iconOpacity = opacity;
                 }
 
                 if (DebugFullDisplay)

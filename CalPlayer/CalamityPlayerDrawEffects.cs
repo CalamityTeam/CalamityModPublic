@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CalamityMod.CalPlayer.DrawLayers;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -59,6 +60,7 @@ namespace CalamityMod.CalPlayer
                     Rectangle screenArea = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 50, Main.screenWidth + 1000, Main.screenHeight + 100);
                     int dustDrawn = 0;
                     float maxShroomDust = Main.maxDustToDraw / 2;
+                    Color shroomColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
                     for (int i = 0; i < Main.maxDustToDraw; i++)
                     {
                         Dust dust = Main.dust[i];
@@ -67,7 +69,7 @@ namespace CalamityMod.CalPlayer
                             // Only draw dust near the screen, for performance reasons.
                             if (new Rectangle((int)dust.position.X, (int)dust.position.Y, 4, 4).Intersects(screenArea))
                             {
-                                dust.color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
+                                dust.color = shroomColor;
                                 for (int j = 0; j < 4; j++)
                                 {
                                     Vector2 dustDrawPosition = dust.position;
@@ -77,14 +79,15 @@ namespace CalamityMod.CalPlayer
                                     float distanceY = Math.Abs(dustCenter.Y - Player.Center.Y);
                                     if (j == 0 || j == 2)
                                         dustDrawPosition.X = Player.Center.X + distanceX;
-                                    else dustDrawPosition.X = Player.Center.X - distanceX;
+                                    else
+                                        dustDrawPosition.X = Player.Center.X - distanceX;
 
                                     dustDrawPosition.X -= 4f;
 
                                     if (j == 0 || j == 1)
                                         dustDrawPosition.Y = Player.Center.Y + distanceY;
-
-                                    else dustDrawPosition.Y = Player.Center.Y - distanceY;
+                                    else
+                                        dustDrawPosition.Y = Player.Center.Y - distanceY;
 
                                     dustDrawPosition.Y -= 4f;
                                     Main.spriteBatch.Draw(TextureAssets.Dust.Value, dustDrawPosition - Main.screenPosition, dust.frame, dust.color, dust.rotation, new Vector2(4f), dust.scale, SpriteEffects.None, 0f);
@@ -377,6 +380,24 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
+            if (calamityPlayer.absorberAffliction)
+            {
+                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
+                {
+                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 63, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, Color.DarkSeaGreen, 1.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.8f;
+                    Main.dust[dust].velocity.Y -= 0.5f;
+                    drawInfo.DustCache.Add(dust);
+                }
+                if (noRogueStealth)
+                {
+                    r *= 0.25f;
+                    g *= 0.25f;
+                    b *= 0.1f;
+                    fullBright = true;
+                }
+            }
             else if (calamityPlayer.icarusFolly || calamityPlayer.dragonFire)
             {
                 if (Main.rand.NextBool(calamityPlayer.dragonFire ? 6 : 12) && drawInfo.shadow == 0f)
@@ -513,6 +534,30 @@ namespace CalamityMod.CalPlayer
                     g *= 0.01f;
                     b *= 0.01f;
                     fullBright = true;
+                }
+            }
+            if (calamityPlayer.PinkJellyRegen)
+            {
+                if (Main.rand.NextBool(24) && drawInfo.shadow == 0f)
+                {
+                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.5f, 1.2f), Color.HotPink, Color.LightPink, Main.rand.Next(10, 15));
+                    GeneralParticleHandler.SpawnParticle(Plus);
+                }
+            }
+            if (calamityPlayer.GreenJellyRegen)
+            {
+                if (Main.rand.NextBool(16) && drawInfo.shadow == 0f)
+                {
+                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.6f, 1.3f), Color.Lime, Color.LimeGreen, Main.rand.Next(10, 15));
+                    GeneralParticleHandler.SpawnParticle(Plus);
+                }
+            }
+            if (calamityPlayer.AbsorberRegen)
+            {
+                if (Main.rand.NextBool(11) && drawInfo.shadow == 0f)
+                {
+                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.7f, 1.4f), Color.DarkSeaGreen, Color.DarkSeaGreen, Main.rand.Next(10, 15));
+                    GeneralParticleHandler.SpawnParticle(Plus);
                 }
             }
             if (calamityPlayer.bloodfinBoost)

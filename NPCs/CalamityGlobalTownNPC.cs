@@ -1425,7 +1425,9 @@ namespace CalamityMod.NPCs
             {
                 shop.AddWithCustomValue(ItemType<CalciumPotion>(), Item.buyPrice(silver: 25), potionSells)
                 .Add(ItemID.MilkCarton)
-                .AddWithCustomValue(ItemID.Marrow, Item.buyPrice(gold: 25), Condition.Hardmode);
+                .AddWithCustomValue(ItemID.Marrow, Item.buyPrice(gold: 25), Condition.Hardmode)
+                .AddWithCustomValue(ItemType<GiantShell>(), Item.buyPrice(gold: 12))
+                .AddWithCustomValue(ItemType<CrawCarapace>(), Item.buyPrice(gold: 12));
             }
 
             if (type == NPCID.Golfer)

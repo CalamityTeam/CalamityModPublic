@@ -141,12 +141,13 @@ namespace CalamityMod.Skies
                 Vector2 scale = new Vector2(Main.screenWidth * 1.1f / TextureAssets.MagicPixel.Value.Width, Main.screenHeight * 1.1f / TextureAssets.MagicPixel.Value.Height);
                 Vector2 screenArea = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
                 Color drawColor = Color.White * MathHelper.Lerp(0f, 0.24f, LightningIntensity) * BackgroundIntensity;
+                Vector2 origin = TextureAssets.MagicPixel.Value.Size() * 0.5f;
 
                 // Draw a grey background as base.
-                spriteBatch.Draw(TextureAssets.MagicPixel.Value, screenArea, null, OnTileColor(Color.Transparent), 0f, TextureAssets.MagicPixel.Value.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(TextureAssets.MagicPixel.Value, screenArea, null, OnTileColor(Color.Transparent), 0f, origin, scale, SpriteEffects.None, 0f);
 
                 for (int i = 0; i < 2; i++)
-                    spriteBatch.Draw(TextureAssets.MagicPixel.Value, screenArea, null, drawColor, 0f, TextureAssets.MagicPixel.Value.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(TextureAssets.MagicPixel.Value, screenArea, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
             }
 
             Texture2D flashTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/VortexSky/Flash").Value;

@@ -362,6 +362,7 @@ namespace CalamityMod
             StealthUI.Load();
             ChargeMeterUI.Load();
             AstralArcanumUI.Load(this);
+            FlightBar.Load();
 
             // TODO -- Is this not possible to place in ModNPC.Load or ModNPC.SetStaticDefaults ?
             // Centralizing head texture registration like this seems absurdly stiff
@@ -465,6 +466,7 @@ namespace CalamityMod
             StealthUI.Unload();
             ChargeMeterUI.Unload();
             AstralArcanumUI.Unload();
+            FlightBar.Unload();
 
             if (!Main.dedServ)
             {

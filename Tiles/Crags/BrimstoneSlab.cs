@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles.Crags
             CalamityUtils.MergeWithHell(Type);
 
             AddMapEntry(new Color(79, 55, 70));
-            MineResist = 3f;
+            MineResist = 2f;
             MinPick = 100;
             HitSound = SoundID.Tink;
             DustType = 235;

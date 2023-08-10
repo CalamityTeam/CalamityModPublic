@@ -464,18 +464,21 @@ namespace CalamityMod.NPCs.Bumblebirb
             DownedBossSystem.downedDragonfolly = true;
             CalamityNetcode.SyncWorld();
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.zenithWorld)
+            if (Main.zenithWorld)
             {
                 int spacing = 40;
                 int amt = 7;
                 SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, NPC.Center - Vector2.UnitY * 300f);
-                for (int i = 0; i < amt; i++)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Vector2 fireFrom = new Vector2(NPC.Center.X + (spacing * i) - (spacing * amt / 2), NPC.Center.Y - 900f);
-                    Vector2 ai0 = NPC.Center - fireFrom;
-                    float ai = Main.rand.Next(100);
-                    Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), NPC.damage, 0f, Main.myPlayer, ai0.ToRotation(), ai);
+                    for (int i = 0; i < amt; i++)
+                    {
+                        Vector2 fireFrom = new Vector2(NPC.Center.X + (spacing * i) - (spacing * amt / 2), NPC.Center.Y - 900f);
+                        Vector2 ai0 = NPC.Center - fireFrom;
+                        float ai = Main.rand.Next(100);
+                        Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), NPC.damage, 0f, Main.myPlayer, ai0.ToRotation(), ai);
+                    }
                 }
             }
 

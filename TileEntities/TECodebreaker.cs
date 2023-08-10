@@ -162,6 +162,7 @@ namespace CalamityMod.TileEntities
                 int totalCellsToDrop = InputtedCellCount;
                 if (totalCellsToDrop > 999)
                     totalCellsToDrop = 999;
+
                 InputtedCellCount -= totalCellsToDrop;
                 int itemType = ContainsBloodSample ? ModContent.ItemType<BloodSample>() : ModContent.ItemType<DraedonPowerCell>();
                 Item.NewItem(new EntitySource_TileEntity(this), x * 16, y * 16, 32, 32, itemType, totalCellsToDrop);

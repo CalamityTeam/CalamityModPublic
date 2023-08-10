@@ -180,6 +180,7 @@ namespace CalamityMod.UI
         {
             BossExclusionList = new List<int>
             {
+                NPCID.None,
                 NPCID.MoonLordFreeEye,
                 NPCID.MoonLordHead,
                 NPCID.MoonLordHand,
@@ -695,10 +696,12 @@ namespace CalamityMod.UI
                     {
                         float pulse = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 4.5f) * 0.5f + 0.5f;
                         float outwardness = EnrageTimer / (float)EnrageAnimationTime * 1.5f + pulse * 2f;
+                        Color color1 = Color.Red * 0.6f;
+                        Color color2 = Color.Black * 0.2f;
                         for (int i = 0; i < 4; i++)
                         {
                             Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
-                            CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.MouseText.Value, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.Red * 0.6f, Color.Black * 0.2f);
+                            CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.MouseText.Value, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, color1, color2);
                         }
                     }
                 }
@@ -708,10 +711,12 @@ namespace CalamityMod.UI
                     {
                         float pulse = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 4.5f) * 0.5f + 0.5f;
                         float outwardness = IncreasingDefenseOrDRTimer / (float)IncreasedDefenseOrDRAnimationTime * 1.5f + pulse * 2f;
+                        Color color1 = Color.LightGray * 0.6f;
+                        Color color2 = Color.Black * 0.2f;
                         for (int i = 0; i < 4; i++)
                         {
                             Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
-                            CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.MouseText.Value, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.LightGray * 0.6f, Color.Black * 0.2f);
+                            CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.MouseText.Value, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, color1, color2);
                         }
                     }
                 }

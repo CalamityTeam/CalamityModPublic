@@ -48,19 +48,27 @@ namespace CalamityMod.Particles
 
             spriteBatch.Draw(ringTexture, Position - Main.screenPosition, null, Color * Opacity, Rotation, ringTexture.Size() / 2f, Squish * Scale, SpriteEffects.None, 0);
 
+            float time = Main.GlobalTimeWrappedHourly * SpinSpeed;
+            float starPosOffsetX = Squish.X * Scale * ringTexture.Width * 0.45f;
+            float starPosOffsetY = Squish.Y * Scale * ringTexture.Height * 0.45f;
+            float properBloomSize = (float)starTexture.Height / (float)bloomTexture.Height;
+            Color starColor = Color * Opacity * 0.5f;
+            Color starColor2 = Color.White * Opacity;
+            Vector2 bloomOrigin = bloomTexture.Size() / 2f;
+            float bloomScale = Scale * properBloomSize;
+            Vector2 starOrigin = starTexture.Size() / 2f;
+            float starScale = Scale * 0.75f;
             for (int i = 0; i < StarAmount; i++)
             {
+                float starHeight = (float)Math.Sin(Offset + time + i * MathHelper.TwoPi / (float)StarAmount);
+                float starWidth = (float)Math.Cos(Offset + time + i * MathHelper.TwoPi / (float)StarAmount);
 
-                float starHeight = (float)Math.Sin(Offset + Main.GlobalTimeWrappedHourly * SpinSpeed + i * MathHelper.TwoPi / (float)StarAmount);
-                float starWidth = (float)Math.Cos(Offset + Main.GlobalTimeWrappedHourly * SpinSpeed + i * MathHelper.TwoPi / (float)StarAmount);
+                Vector2 starPos = Position + Rotation.ToRotationVector2() * starWidth * starPosOffsetX + (Rotation + MathHelper.PiOver2).ToRotationVector2() * starHeight * starPosOffsetY;
 
-                Vector2 starPos = Position + Rotation.ToRotationVector2() * starWidth * (Squish.X * Scale * ringTexture.Width * 0.45f) + (Rotation + MathHelper.PiOver2).ToRotationVector2() * starHeight * (Squish.Y * Scale * ringTexture.Height * 0.45f);
-
-                //Ajust the bloom's texture to be the same size as the star's
-                float properBloomSize = (float)starTexture.Height / (float)bloomTexture.Height;
-                spriteBatch.Draw(bloomTexture, starPos - Main.screenPosition, null, Color * Opacity * 0.5f, 0, bloomTexture.Size() / 2f, Scale * properBloomSize, SpriteEffects.None, 0);
-                spriteBatch.Draw(starTexture, starPos - Main.screenPosition, null, Color * Opacity * 0.5f, Rotation + MathHelper.PiOver4 + MathHelper.PiOver4 * i, starTexture.Size() / 2f, Scale * 0.75f, SpriteEffects.None, 0);
-                spriteBatch.Draw(starTexture, starPos - Main.screenPosition, null, Color.White * Opacity, Rotation + MathHelper.PiOver4 * i, starTexture.Size() / 2f, Scale, SpriteEffects.None, 0);
+                // Ajust the bloom's texture to be the same size as the star's.
+                spriteBatch.Draw(bloomTexture, starPos - Main.screenPosition, null, starColor, 0, bloomOrigin, bloomScale, SpriteEffects.None, 0);
+                spriteBatch.Draw(starTexture, starPos - Main.screenPosition, null, starColor, Rotation + MathHelper.PiOver4 + MathHelper.PiOver4 * i, starOrigin, starScale, SpriteEffects.None, 0);
+                spriteBatch.Draw(starTexture, starPos - Main.screenPosition, null, starColor2, Rotation + MathHelper.PiOver4 * i, starOrigin, Scale, SpriteEffects.None, 0);
             }
 
         }

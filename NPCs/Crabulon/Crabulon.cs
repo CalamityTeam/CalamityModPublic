@@ -191,47 +191,44 @@ namespace CalamityMod.NPCs.Crabulon
             if (NPC.ai[0] < 2f)
             {
                 Vector2 vector34 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                int num352 = 1;
+                NPC.localAI[3] += 2f;
+                if (phase2)
                 {
-                    int num352 = 1;
+                    NPC.localAI[3] += 1f;
+                    num352 += 2;
+                }
+                if (phase3)
+                {
                     NPC.localAI[3] += 2f;
-                    if (phase2)
+                    num352 += 3;
+                }
+                if (NPC.ai[3] == 0f)
+                {
+                    if (NPC.localAI[3] > 600f)
                     {
-                        NPC.localAI[3] += 1f;
-                        num352 += 2;
-                    }
-                    if (phase3)
-                    {
-                        NPC.localAI[3] += 2f;
-                        num352 += 3;
-                    }
-                    if (NPC.ai[3] == 0f)
-                    {
-                        if (NPC.localAI[3] > 600f)
-                        {
-                            NPC.ai[3] = 1f;
-                            NPC.localAI[3] = 0f;
-                        }
-                    }
-                    else if (NPC.localAI[3] > 45f)
-                    {
+                        NPC.ai[3] = 1f;
                         NPC.localAI[3] = 0f;
-                        NPC.ai[3] += 1f;
-                        if (NPC.ai[3] >= num352)
-                        {
-                            NPC.ai[3] = 0f;
-                        }
-                        float num353 = 10f;
-                        int type = ModContent.ProjectileType<MushBomb>();
-                        SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                    }
+                }
+                else if (NPC.localAI[3] > 45f)
+                {
+                    NPC.localAI[3] = 0f;
+                    NPC.ai[3] += 1f;
+                    if (NPC.ai[3] >= num352)
+                        NPC.ai[3] = 0f;
+
+                    float num353 = 10f;
+                    int type = ModContent.ProjectileType<MushBomb>();
+                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
                         if (phase2)
-                        {
                             num353 += 1f;
-                        }
                         if (phase3)
-                        {
                             num353 += 1f;
-                        }
+
                         vector34 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
                         float num349 = player.position.X + player.width * 0.5f - vector34.X;
                         float num350 = player.position.Y + player.height * 0.5f - vector34.Y;
@@ -873,9 +870,7 @@ namespace CalamityMod.NPCs.Crabulon
             if (Main.zenithWorld && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 for (int i = 0; i < Main.rand.Next(10, 23); i++)
-                {
                     NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-NPC.width / 2, NPC.width / 2), (int)NPC.Center.Y + Main.rand.Next(-NPC.height / 2, NPC.height / 2), NPCID.Crab);
-                }
             }
         }
 

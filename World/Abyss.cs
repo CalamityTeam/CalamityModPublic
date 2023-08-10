@@ -36,6 +36,7 @@ namespace CalamityMod.World
         public static bool AtLeftSideOfWorld = false;
         public static int AbyssChasmBottom = 0;
 
+        public static bool AbleToUnlockChests = false; //used for unlocking chests during skeletron's death and so that they cannot be opened beforehand
         public static void PlaceAbyss()
         {
             int x = Main.maxTilesX;

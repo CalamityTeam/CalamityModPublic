@@ -83,14 +83,14 @@ namespace CalamityMod.UI.DraedonsArsenal
                 Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
             // Draw the dialogue itself.
+            float x = (int)TextPadding + (int)(Main.screenWidth - TextAreaWidth) / 2;
             for (int i = 0; i < lineCount + 1; i++)
             {
                 string text = dialogLines[i];
                 if (text is null)
                     continue;
-                Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, dialogLines[i],
-                    (int)TextPadding + (int)(Main.screenWidth - TextAreaWidth) / 2, 120 + i * YOffsetPerLine, Color.Cyan, Color.Black,
-                    Vector2.Zero);
+
+                Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, dialogLines[i], x, 120 + i * YOffsetPerLine, Color.Cyan, Color.Black, Vector2.Zero);
             }
         }
     }

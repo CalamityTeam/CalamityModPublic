@@ -31,7 +31,6 @@ namespace CalamityMod.Tiles.Abyss
 
             DustType = 2;
             AddMapEntry(new Color(84, 102, 39), CalamityUtils.GetItemName<Items.Placeables.PlantyMush>());
-            MineResist = 1f;
             HitSound = MineSound;
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);

@@ -40,9 +40,11 @@ namespace CalamityMod.Projectiles.Environment
                     Projectile.ai[1] = 0f;
                     Projectile.timeLeft = 60;
                 }
+
                 Projectile.ai[1] += 1f;
                 if (Projectile.ai[1] >= 60f)
                     Projectile.Kill();
+
                 for (int index1 = 0; index1 < 3; ++index1)
                 {
                     int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, new Color(), 1f);
@@ -52,15 +54,19 @@ namespace CalamityMod.Projectiles.Environment
                     Main.dust[index2].position = Projectile.Center + new Vector2(0f, (float) (-Projectile.height / 2)).RotatedBy((double)Projectile.rotation, new Vector2()) * 1.1f;
                 }
             }
+
             if (Projectile.ai[0] != 1f)
                 return;
+
             Projectile.velocity = new Vector2(0f, (float) Math.Sign(Projectile.velocity.Y) * (1f / 1000f));
+
             if (num1 != 0)
             {
                 int num3 = 16;
                 int num4 = 320;
                 while (num3 < num4 && !Collision.SolidCollision(Projectile.position + new Vector2(0f, num1 == -1 ? (float)(Projectile.height - num3 - 16) : 0f), Projectile.width, num3 + 16))
                     num3 += 16;
+
                 if (num1 == -1)
                 {
                     Projectile.position.Y += (float)Projectile.height;
@@ -70,9 +76,11 @@ namespace CalamityMod.Projectiles.Environment
                 else
                     Projectile.height = num3;
             }
+
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] >= 60f)
                 Projectile.Kill();
+
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 1f;

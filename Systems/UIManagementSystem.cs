@@ -96,6 +96,13 @@ namespace CalamityMod.Systems
                     SulphurousWaterMeterUI.Draw(Main.spriteBatch, Main.LocalPlayer);
                     return true;
                 }, InterfaceScaleType.None));
+                
+                //Flight bar
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Flight UI", () =>
+                {
+                    FlightBar.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
 
                 // Charge meter
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Charge UI", () =>

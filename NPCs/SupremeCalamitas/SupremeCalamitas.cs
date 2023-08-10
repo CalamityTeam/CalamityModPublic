@@ -657,6 +657,29 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             NPC.Calamity().CurrentlyEnraged = !player.Hitbox.Intersects(safeBox);
 
+            // Cirrus fucks mounts if you exit her arena.
+            if (cirrus)
+            {
+                if (!player.Hitbox.Intersects(safeBox) && player.mount.Active)
+                {
+                    player.ResetEffects();
+                    player.head = -1;
+                    player.body = -1;
+                    player.legs = -1;
+                    player.handon = -1;
+                    player.handoff = -1;
+                    player.back = -1;
+                    player.front = -1;
+                    player.shoe = -1;
+                    player.waist = -1;
+                    player.shield = -1;
+                    player.neck = -1;
+                    player.face = -1;
+                    player.balloon = -1;
+                    player.mount.Dismount(player);
+                }
+            }
+
             // Set DR to be 99% and unbreakable if enraged. Boost DR during the 5th attack.
             CalamityGlobalNPC global = NPC.Calamity();
             if (protectionBoost && !gettingTired5)
@@ -1048,7 +1071,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             float bottleSpeed = 12f;
                             Vector2 bottleVelocity = Vector2.Normalize(player.Center + player.velocity * 20f - NPC.Center) * bottleSpeed;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, bottleVelocity * uDieLul, ModContent.ProjectileType<CirrusVolatileVodkaBottle>(), 350, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, bottleVelocity * uDieLul, ModContent.ProjectileType<CirrusVolatileVodkaBottle>(), 125, 0f, Main.myPlayer);
                         }
                     }
 
@@ -1164,7 +1187,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             float bottleSpeed = 12f;
                             Vector2 bottleVelocity = Vector2.Normalize(player.Center + player.velocity * 20f - NPC.Center) * bottleSpeed;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, bottleVelocity * uDieLul, ModContent.ProjectileType<CirrusVolatileVodkaBottle>(), 350, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, bottleVelocity * uDieLul, ModContent.ProjectileType<CirrusVolatileVodkaBottle>(), 125, 0f, Main.myPlayer);
                         }
                     }
 
@@ -1256,7 +1279,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         if (giveUpCounter > 1)
                         {
-                            // Spin around the target and fire a bunch of beams (Sans) while also firing other projectiles
+                            // Spin around the target and fire a bunch of beams (Sans) while also firing other projectiles.
                             int blasterTimer = GiveUpCounterMax - giveUpCounter;
                             Vector2 circleOffset = player.Center + (Vector2.UnitY * 640f).RotatedBy(MathHelper.ToRadians(blasterTimer * 3f));
                             NPC.Center = circleOffset;
@@ -1265,7 +1288,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (blasterTimer % blasterDivisor == 0)
                             {
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, player.Center, ModContent.ProjectileType<CirrusBlaster>(), 500, 0f, Main.myPlayer, 0f, 1f);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, player.Center, ModContent.ProjectileType<CirrusBlaster>(), 350, 0f, Main.myPlayer, 0f, 1f);
                             }
 
                             int beamDivisor = 60;
@@ -1280,7 +1303,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
                                         Vector2 rayVelocity = spinningPoint.RotatedBy(radians * k);
-                                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(rayVelocity) * 16f, rayVelocity, ModContent.ProjectileType<Projectiles.Magic.FabRay>(), 350, 0f, Main.myPlayer);
+                                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(rayVelocity) * 16f, rayVelocity, ModContent.ProjectileType<Projectiles.Magic.FabRay>(), 250, 0f, Main.myPlayer);
                                         if (proj.WithinBounds(Main.maxProjectiles))
                                         {
                                             Main.projectile[proj].DamageType = DamageClass.Default;
@@ -1921,14 +1944,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                     SoundEngine.PlaySound(SoundID.Item60, NPC.Center);
                                     float velocity = 8;
                                     int type = ModContent.ProjectileType<Projectiles.Magic.FabRay>();
-                                    int damage = (int)(NPC.damage / 2);
+                                    int damage = (int)(NPC.damage / 3);
                                     Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
                                     float rotation = MathHelper.ToRadians(22);
                                     for (int i = 0; i < 3; i++)
                                     {
                                         Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(2)));
 
-                                        int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                        int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 3f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                                         if (p.WithinBounds(Main.maxProjectiles))
                                         {
                                              Main.projectile[p].DamageType = DamageClass.Default;
