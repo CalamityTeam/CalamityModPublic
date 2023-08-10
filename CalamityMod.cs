@@ -217,8 +217,6 @@ namespace CalamityMod
             // Mount balancing occurs during runtime and is undone when Calamity is unloaded.
             Mount.mounts[MountID.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.Unicorn].runSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
-            Mount.mounts[MountID.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
-            Mount.mounts[MountID.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
             // Make Graveyard biomes require more Gravestones
             SceneMetrics.GraveyardTileMax = 88;
@@ -476,8 +474,6 @@ namespace CalamityMod
 
             Mount.mounts[MountID.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
-            Mount.mounts[MountID.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
-            Mount.mounts[MountID.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
             SceneMetrics.GraveyardTileMax = 36;
             SceneMetrics.GraveyardTileMin = 16;

@@ -628,10 +628,6 @@ namespace CalamityMod.CalPlayer
         #region Update Life Regen
         public override void UpdateLifeRegen()
         {
-            // Fuck the 'sitting in a chair' meta.
-            if (Player.sitting.isSitting)
-                Player.lifeRegenTime -= 10;
-
             if (rum)
                 Player.lifeRegen += 2;
 
