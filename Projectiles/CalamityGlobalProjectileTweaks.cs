@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles
             // 3. Ambiguous internal names should have comments for ease of access.
             currentTweaks = new SortedDictionary<int, IProjectileTweak[]>
             {
-                // CATEGORY 1: Weapon balancing
+                #region CATEGORY 1: Weapon Balancing
                 { ProjectileID.Amarok, Do(LocalIFrames(10)) },
                 { ProjectileID.Anchor, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Bee, Do(PiercingExact(2)) },
@@ -107,8 +107,9 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.WoodYoyo, Do(LocalIFrames(10)) },
                 { ProjectileID.Yelets, Do(LocalIFrames(10)) },
                 { ProjectileID.YellowCounterweight, counterweightTweaks },
+                #endregion
 
-                // CATEGORY 2: True Melee support
+                #region CATEGORY 2: True Melee support
                 { ProjectileID.AdamantiteChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.AdamantiteDrill, trueMeleeNoSpeed },
                 { ProjectileID.AdamantiteGlaive, trueMelee },
@@ -164,8 +165,9 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.TungstenShortswordStab, trueMelee },
                 { ProjectileID.VortexChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.VortexDrill, trueMeleeNoSpeed },
+                #endregion
 
-                // CATEGORY 3: Point-Blank support
+                #region CATEGORY 3: Point Blank support
                 { ProjectileID.BeeArrow, pointBlank },
                 { ProjectileID.Blizzard, pointBlank }, // Blizzard Staff projectiles, re-used in Frostbite Blaster.
                 { ProjectileID.BlueFlare, pointBlank },
@@ -202,8 +204,9 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.UnholyArrow, pointBlank },
                 { ProjectileID.VenomArrow, pointBlank },
                 { ProjectileID.WoodenArrowFriendly, pointBlank },
+                #endregion
 
-                // CATEGORY 4: Defense Damage support
+                #region CATEGORY 4: Defense Damage support
                 { ProjectileID.BombSkeletronPrime, defenseDamage },
                 { ProjectileID.CannonballHostile, defenseDamage },
                 { ProjectileID.Cthulunado, defenseDamage }, // Duke Fishron's larger Sharknados
@@ -238,6 +241,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Spike, defenseDamage }, // Santank spike balls
                 { ProjectileID.ThornBall, Do(Main.zenithWorld ? IgnoreWater : DontIgnoreWater, DefenseDamage) }, // Plantera bouncing thorn balls
                 { ProjectileID.UnholyTridentHostile, defenseDamage },
+                #endregion
             };
         }
 
