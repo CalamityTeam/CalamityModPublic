@@ -276,6 +276,12 @@ namespace CalamityMod
                 case "jungledragonyharon":
                 case "jungle dragon yharon":
                 case "jungle dragon, yharon":
+                case "yharondragonofrebirth":
+                case "yharon, dragon of rebirth":
+                case "yharon dragon of rebirth":
+                case "yharonresplendentphoenix":
+                case "yharon, resplendent phoenix":
+                case "yharon resplendent phoenix":
                     return DownedBossSystem.downedYharon;
 
                 case "draedon":
@@ -290,6 +296,8 @@ namespace CalamityMod
                 case "ares":
                     return DownedBossSystem.downedAres;
 
+                case "exotwins":
+                case "exo twins":
                 case "apollo":
                 case "artemis":
                     return DownedBossSystem.downedArtemisAndApollo;
@@ -309,6 +317,8 @@ namespace CalamityMod
                 case "adult wyrm":
                 case "adulteidolon":
                 case "adult eidolon":
+                case "primordialwyrm":
+                case "primordial wyrm":
                     return DownedBossSystem.downedPrimordialWyrm;
 
                 case "bossrush":
