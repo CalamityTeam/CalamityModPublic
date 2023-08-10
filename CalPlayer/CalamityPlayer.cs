@@ -3366,6 +3366,10 @@ namespace CalamityMod.CalPlayer
         #region PreUpdate
         public override void PreUpdate()
         {
+            //Infinite flight granted by some boss attacks
+            if (infiniteFlight)
+                Player.wingTime = Player.wingTimeMax;
+            
             // Reset the Calamity shader.
             CalamityFireDyeShader = null;
 
