@@ -901,6 +901,7 @@ namespace CalamityMod.CalPlayer
         public bool kamiBoost = false;
         public bool avertorBonus = false;
         public bool divineBless = false;
+        public bool infiniteFlight = false;
         #endregion
 
         #region Minion
@@ -2059,6 +2060,8 @@ namespace CalamityMod.CalPlayer
             flatStealthLossReduction = 0;
 
             AbleToSelectExoMech = false;
+
+            infiniteFlight = false;
 
             EnchantHeldItemEffects(Player, Player.Calamity(), Player.ActiveItem());
         }

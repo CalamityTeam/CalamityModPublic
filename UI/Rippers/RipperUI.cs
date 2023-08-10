@@ -16,7 +16,7 @@ namespace CalamityMod.UI.Rippers
     {
         // These values were handpicked on a 1080p screen by Ozzatron. Please disregard the bizarre precision.
         public const float DefaultRagePosX = 35.77406f;
-        public const float DefaultRagePosY = 3.9761431f;
+        public const float DefaultRagePosY = 4.5761431f;
         public const float DefaultAdrenPosX = 35.77406f;
         public const float DefaultAdrenPosY = 8.846918f;
         private const float MouseDragEpsilon = 0.05f; // 0.05%

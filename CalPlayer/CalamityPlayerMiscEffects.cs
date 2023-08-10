@@ -2419,6 +2419,12 @@ namespace CalamityMod.CalPlayer
         #region Other Buff Effects
         private void OtherBuffEffects()
         {
+            //Infinite flight granted by some boss attacks
+            if (infiniteFlight)
+            {
+                Player.wingTime = Player.wingTimeMax;
+            }
+            
             if (gravityNormalizer)
             {
                 Player.buffImmune[BuffID.VortexDebuff] = true;
