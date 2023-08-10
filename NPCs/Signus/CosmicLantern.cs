@@ -28,6 +28,8 @@ namespace CalamityMod.NPCs.Signus
             NPC.height = 25;
             NPC.defense = 50;
             NPC.lifeMax = 25;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.alpha = 255;
             NPC.knockBackResist = 0.85f;
             NPC.noGravity = true;

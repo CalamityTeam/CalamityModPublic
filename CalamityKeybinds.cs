@@ -18,6 +18,7 @@ namespace CalamityMod
         public static ModKeybind GodSlayerDashHotKey { get; private set; }
         public static ModKeybind ExoChairSlowdownHotkey { get; private set; }
         public static ModKeybind DashHotkey { get; private set; }
+        public static ModKeybind GravistarSabatonHotkey { get; private set; }
 
         public override void Load()
         {
@@ -36,6 +37,7 @@ namespace CalamityMod
             GodSlayerDashHotKey = KeybindLoader.RegisterKeybind(Mod, "GodSlayerDash", "H");
             ExoChairSlowdownHotkey = KeybindLoader.RegisterKeybind(Mod, "ExoChairSlowDown", "RightShift");
             DashHotkey = KeybindLoader.RegisterKeybind(Mod, "DashDoubleTapOverride", "F");
+            GravistarSabatonHotkey = KeybindLoader.RegisterKeybind(Mod, "GravistarSabatonHotkey", "X");
         }
 
         public override void Unload()
@@ -54,6 +56,7 @@ namespace CalamityMod
             GodSlayerDashHotKey = null;
             ExoChairSlowdownHotkey = null;
             DashHotkey = null;
+            GravistarSabatonHotkey = null;
         }
     }
 }

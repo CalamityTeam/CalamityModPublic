@@ -39,6 +39,8 @@ namespace CalamityMod.NPCs.OldDuke
             {
                 NPC.lifeMax = 10000;
             }
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0f;

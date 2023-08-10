@@ -4,6 +4,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.Graphics.Shaders;
+using System;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -11,49 +15,70 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public float scaleFromFall;
+        public float damageScaleFromFall;
+        public int timeLeft = 60;
+        public bool ableToHit = true;
 
         public override void SetDefaults()
         {
-            Projectile.width = 10;
-            Projectile.height = 35;
+            Projectile.width = 160;
+            Projectile.height = 160;
             Projectile.friendly = true;
-            Projectile.timeLeft = 300;
-            Projectile.tileCollide = true;
+            Projectile.timeLeft = 60;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
-            Player player = Main.player[Main.myPlayer];
-            if (player.Calamity().gSabatonFall == 0)
-            {
-                Projectile.Kill();
-            }
-            //Makes the projectiles follow the player
-            Projectile.velocity.X = player.velocity.X;
-            Projectile.velocity.Y = player.velocity.Y;
-        }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
+            if (Projectile.timeLeft <= 40)
+            {
+                ableToHit = false;
+            }
+            if (Projectile.localAI[0] == 0)
+            {
+                scaleFromFall = (Projectile.ai[0] / 22) + 0.5f;
+                damageScaleFromFall = Projectile.ai[0] / 40;
+                Projectile.damage = (int)(300f * damageScaleFromFall + 300f);
+
+                SoundEngine.PlaySound(new("CalamityMod/Sounds/Custom/GravistarSlam") { Volume = 0.75f }, Projectile.Center);
+
+                //Spawn particles, but also increase the count to fill more of the circle the bigger it is
+                int particleCount = (int)(10 * scaleFromFall);
+                for (int i = 0; i < particleCount; i++)
+                {
+                    SquareParticle square = new SquareParticle(Projectile.Center + Main.rand.NextVector2Circular(scaleFromFall * 74f, scaleFromFall * 74f), Main.rand.NextVector2Circular(2.5f, 2.5f), false, 120, 3.5f + Main.rand.NextFloat(0.6f), Color.Lerp(Color.Cyan, Color.LightCyan, 0.75f));
+                    GeneralParticleHandler.SpawnParticle(square);
+                }
+
+                Projectile.localAI[0]++;
+            }
+                
+            
+        }
+        public override bool PreDraw(ref Color lightColor)
         {
-            Player player = Main.player[Projectile.owner];
-            //Spawns the shockwave
-            if (Main.myPlayer == Projectile.owner)
-            {
-                int sabatonDamage = (int)player.GetBestClassDamage().ApplyTo(300);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + 25, Projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<SabatonBoom>(), sabatonDamage, 12, Projectile.owner);
-                SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-                player.Calamity().gSabatonFall = 0;
-                Projectile.Kill();
-            }
-            //Pretty things
-            for (int dustexplode = 0; dustexplode < 360; dustexplode++)
-            {
-                Vector2 dustd = new Vector2(17f, 17f).RotatedBy(MathHelper.ToRadians(dustexplode));
-                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(2) ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 3f);
-                Main.dust[d].noGravity = true;
-                Main.dust[d].position = Projectile.Center;
-            }
+            Main.spriteBatch.EnterShaderRegion();
+            Texture2D telegraphBase = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
+
+            GameShaders.Misc["CalamityMod:CircularGradientWithEdge"].UseOpacity(0.75f * Projectile.timeLeft/(float)timeLeft);
+            GameShaders.Misc["CalamityMod:CircularGradientWithEdge"].UseColor(Color.Lerp(Color.Cyan, Color.LightCyan, 0.5f));
+            GameShaders.Misc["CalamityMod:CircularGradientWithEdge"].UseSecondaryColor(Color.White);
+            GameShaders.Misc["CalamityMod:CircularGradientWithEdge"].UseSaturation(scaleFromFall);
+
+            GameShaders.Misc["CalamityMod:CircularGradientWithEdge"].Apply();
+
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Main.EntitySpriteDraw(telegraphBase, drawPosition, null, lightColor, 0, telegraphBase.Size() / 2f, scaleFromFall*156f, 0, 0);
+            Main.spriteBatch.ExitShaderRegion();
+
             return false;
         }
+        public override bool? CanDamage() => ableToHit ? (bool?)null : false;
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, (scaleFromFall * 78f), targetHitbox);
     }
 }

@@ -170,6 +170,29 @@ CalamityConfig: {
 			'''
 	}
 
+	FlightBar: {
+		Label: "[i:CalamityMod/DrewsWings] Display Flight Bar"
+		Tooltip: Enables the Flight Bar UI, which displays the player's flight capabilities
+	}
+
+	FlightBarPosX: {
+		Label: "[i:LaserRuler] Flight Bar X Position"
+		Tooltip:
+			'''
+			The X position of the Flight Bar, measured as a % of your screen height.
+			The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+			'''
+	}
+
+	FlightBarPosY: {
+		Label: "[i:LaserRuler] Flight Bar Y Position"
+		Tooltip:
+			'''
+			The Y position of the Flight Bar, measured as a % of your screen height.
+			The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+			'''
+	}
+
 	ForceTownSafety: {
 		Label: "[i:Sunflower] Force Town Safety"
 		Tooltip:

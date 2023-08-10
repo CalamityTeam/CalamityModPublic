@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             NPC.height = 22;
             NPC.defense = 20;
             NPC.lifeMax = BossRushEvent.BossRushActive ? 5000 : 500;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
