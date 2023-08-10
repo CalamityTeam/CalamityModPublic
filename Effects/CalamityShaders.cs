@@ -173,6 +173,9 @@ namespace CalamityMod.Effects
         internal static Effect MiracleBlight;
         #endregion
 
+        #region Aqua's Shaders
+        internal static Effect CircularGradientWithEdge;
+        #endregion
         // Shorthand to register a loaded shader in Terraria's graphics engine
         // All shaders registered this way are accessible under GameShaders.Misc
         // They will use the prefix described above
@@ -364,6 +367,11 @@ namespace CalamityMod.Effects
 
             MiracleBlight = LoadShader("MiracleBlight");
             RegisterMiscShader(MiracleBlight, "BlightPass", "MiracleBlight");
+            #endregion
+
+            #region Loading Aqua's Shaders
+            CircularGradientWithEdge = LoadShader("CircularGradientWithEdge");
+            RegisterMiscShader(CircularGradientWithEdge, "CircularGradientWithEdgePass", "CircularGradientWithEdge");
             #endregion
         }
     }

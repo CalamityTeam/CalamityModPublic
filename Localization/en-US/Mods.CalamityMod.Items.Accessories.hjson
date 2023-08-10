@@ -870,9 +870,14 @@ GravistarSabaton: {
 	DisplayName: Gravistar Sabaton
 	Tooltip:
 		'''
-		Tap the DOWN key to increase your fall speed for 5 seconds
-		This has an 8 second cooldown
-		Striking the ground with increased fall speed will cause an astral explosion
+		20% increased jump speed
+		Grants immunity to fall damage
+		Hold DOWN to increase your maximum fall speed
+		Hold [KEY] for 1 second while midair to charge up a superspeed slam
+		While slamming, you ram through enemies and don't take contact damage
+		Once you reach the ground, you create an explosion at your feet 
+		The explosion scales in both damage and size the longer you slam for
+		Temporary 40% increased jump speed after slamming into the ground
 		'''
 }
 
