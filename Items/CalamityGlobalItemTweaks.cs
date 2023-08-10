@@ -34,7 +34,7 @@ namespace CalamityMod.Items
             // 3. Items with different display names as opposed to internal ones should have comments for display names for ease of access.
             currentTweaks = new SortedDictionary<int, IItemTweak[]>
             {
-                // CATEGORY 1: Weapon balancing
+                #region CATEGORY 1: Weapon Balancing
                 { ItemID.AdamantiteGlaive, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(65), ShootSpeedRatio(1.25f)) },
                 { ItemID.AdamantiteRepeater, Do(PointBlank, UseExact(18), DamageExact(61)) },
                 { ItemID.AdamantiteSword, Do(UseTurn, ScaleRatio(1.45f), DamageExact(77)) },
@@ -264,8 +264,9 @@ namespace CalamityMod.Items
                 { ItemID.YellowPhaseblade, Do(AutoReuse, UseTurn, DamageExact(32)) },
                 { ItemID.YellowPhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.ZombieArm, Do(AutoReuse, UseTurn, ScaleRatio(1.25f), KnockbackExact(12f)) },
+                #endregion
 
-                // CATEGORY 2: Defense balancing
+                #region CATEGORY 2: Defense Balancing
                 { ItemID.AncientHallowedGreaves, Do(DefenseDelta(+2)) },
                 { ItemID.AncientHallowedPlateMail, Do(DefenseDelta(+3)) },
                 { ItemID.AnkhShield, Do(DefenseDelta(+8)) },
@@ -293,8 +294,9 @@ namespace CalamityMod.Items
                 { ItemID.PalladiumMask, Do(DefenseDelta(+1)) },
                 { ItemID.PalladiumLeggings, Do(DefenseDelta(+3)) },
                 { ItemID.Shackle, Do(DefenseDelta(+2)) },
+                #endregion
 
-                // CATEGORY 3: Tool balancing
+                #region CATEGORY 3: Tool Balancing
                 { ItemID.AcornAxe, Do(AxePower(125)) }, // Axe of Regrowth
                 { ItemID.AdamantiteChainsaw, Do(TrueMeleeNoSpeed, AxePower(90), UseTimeExact(4), TileBoostExact(+0)) },
                 { ItemID.AdamantiteDrill, Do(TrueMeleeNoSpeed, PickPower(180), UseTimeExact(4), TileBoostExact(+1)) },
@@ -397,8 +399,9 @@ namespace CalamityMod.Items
                 { ItemID.VortexPickaxe, Do(PickPower(225), UseTimeExact(6), TileBoostExact(+4)) },
                 { ItemID.WarAxeoftheNight, Do(AxePower(100), UseTimeExact(13), TileBoostExact(+0)) },
                 { ItemID.WoodenHammer, Do(HammerPower(25), UseTimeExact(11), TileBoostExact(+0)) },
+                #endregion
 
-                // CATEGORY 4: True Melee support
+                #region CATEGORY 4: True Melee support
                 { ItemID.Arkhalis, trueMeleeNoSpeed },
                 { ItemID.CopperShortsword, Do(AutoReuse, TrueMelee) },
                 { ItemID.Gladius, Do(AutoReuse, TrueMelee) },
@@ -416,8 +419,9 @@ namespace CalamityMod.Items
                 { ItemID.TheHorsemansBlade, trueMelee },
                 { ItemID.TinShortsword, Do(AutoReuse, TrueMelee) },
                 { ItemID.VortexChainsaw, trueMeleeNoSpeed },
+                #endregion
 
-                // CATEGORY 5: Point-Blank support
+                #region CATEGORY 5: Point Blank support
                 { ItemID.BorealWoodBow, pointBlank },
                 { ItemID.CandyCornRifle, pointBlank },
                 { ItemID.ChainGun, pointBlank },
@@ -448,8 +452,9 @@ namespace CalamityMod.Items
                 { ItemID.VenusMagnum, pointBlank },
                 { ItemID.VortexBeater, pointBlank },
                 { ItemID.WoodenBow, pointBlank },
+                #endregion
 
-                // CATEGORY 6: Summoner QoL
+                #region CATEGORY 6: Summoner Quality of Life
                 { ItemID.AbigailsFlower, autoReuse },
                 { ItemID.BabyBirdStaff, Do(AutoReuse, UseExact(35)) }, // Finch Staff
                 { ItemID.BlandWhip, autoReuse }, // Leather Whip
@@ -491,8 +496,9 @@ namespace CalamityMod.Items
                 { ItemID.ThornWhip, autoReuse }, // Snapthorn
                 { ItemID.VampireFrogStaff, Do(AutoReuse, UseExact(30)) },                
                 { ItemID.XenoStaff, Do(AutoReuse, UseExact(20)) },
+                #endregion
 
-                // CATEGORY 7: Other auto-swing QoL / UseTurn
+                #region CATEGORY 7: Other Quality of Life (AutoReuse / UseTurn)
                 { ItemID.Amarok, autoReuse },
                 { ItemID.BatBat, autoReuse },
                 { ItemID.BladeofGrass, Do(AutoReuse, UseTurn) },
@@ -541,8 +547,9 @@ namespace CalamityMod.Items
                 { ItemID.Yelets, autoReuse },
                 { ItemID.ZapinatorGray, autoReuse },
                 { ItemID.ZapinatorOrange, autoReuse },
+                #endregion
 
-                // CATEGORY 8: Non-consumable QoL
+                #region CATEGORY 8: Non-consumable Quality of Life
                 { ItemID.Abeemination, nonConsumableBossSummon },
                 { ItemID.BloodMoonStarter, nonConsumableBossSummon }, // Bloody Tear
                 { ItemID.BloodySpine, nonConsumableBossSummon },
@@ -562,8 +569,9 @@ namespace CalamityMod.Items
                 { ItemID.SolarTablet, nonConsumableBossSummon },
                 { ItemID.SuspiciousLookingEye, nonConsumableBossSummon },
                 { ItemID.WormFood, nonConsumableBossSummon },
+                #endregion
 
-                // CATEGORY 9: Sell prices
+                #region CATEGORY 9: Sell Prices
                 { ItemID.Apple, Do(Value(Item.sellPrice(copper: 40))) },
                 { ItemID.Apricot, Do(Value(Item.sellPrice(copper: 40))) },
                 { ItemID.Banana, Do(Value(Item.sellPrice(copper: 40))) },
@@ -589,6 +597,7 @@ namespace CalamityMod.Items
                 { ItemID.PortableStool, Do(Value(Item.sellPrice(copper: 20))) }, // Step Stool
                 { ItemID.ViciousMushroom, Do(Worthless) },
                 { ItemID.VileMushroom, Do(Worthless) },
+                #endregion
             };
         }
 
