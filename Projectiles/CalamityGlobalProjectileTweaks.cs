@@ -34,68 +34,68 @@ namespace CalamityMod.Projectiles
                 #region CATEGORY 1: Vanilla Yoyo Balancing
                 // note this is only yoyos, not counterweights
 
-                // original: 15s duration | 270px range | 14px/f top speed | 0 extra updates
+                // original: 15s lifetime | 270px range | 14px/f top speed | 0 extra updates
                 { ProjectileID.Amarok, Do(LocalIFrames(10)) },
 
-                // original: 13s duration | 235px range | 14px/f top speed | 0 extra updates
-                { ProjectileID.Cascade, Do(LocalIFrames(10)) },
+                // original: 13s lifetime | 235px range | 14px/f top speed | 0 extra updates
+                { ProjectileID.Cascade, Do(LocalIFrames(20), YoyoLifetime(30), YoyoRange(384f), YoyoTopSpeed(14f), ExtraUpdatesExact(1)) },
 
-                // original: 16s duration | 275px range | 17px/f top speed | 0 extra updates
+                // original: 16s lifetime | 275px range | 17px/f top speed | 0 extra updates
                 { ProjectileID.Chik, Do(LocalIFrames(10)) },
 
-                // original: 9s duration | 220px range | 13px/f top speed | 0 extra updates
-                { ProjectileID.Code1, Do(LocalIFrames(20), ExtraUpdatesExact(1), YoyoRange(240f)) },
+                // original: 9s lifetime | 220px range | 13px/f top speed | 0 extra updates
+                { ProjectileID.Code1, Do(LocalIFrames(20), YoyoLifetime(21), YoyoRange(320f), YoyoTopSpeed(12.5f), ExtraUpdatesExact(1)) },
 
-                // original: INF duration | 280px range | 17px/f top speed | 0 extra updates
+                // original: INF lifetime | 280px range | 17px/f top speed | 0 extra updates
                 { ProjectileID.Code2, Do(LocalIFrames(10)) },
 
-                // original: 7s duration | 195px range | 12.5px/f top speed | 0 extra updates
-                { ProjectileID.CorruptYoyo, Do(LocalIFrames(10)) }, // Malaise
+                // original: 7s lifetime | 195px range | 12.5px/f top speed | 0 extra updates
+                { ProjectileID.CorruptYoyo, Do(LocalIFrames(20), YoyoLifetime(18), YoyoRange(288f), YoyoTopSpeed(11f), ExtraUpdatesExact(1)) }, // Malaise
 
-                // original: 6s duration | 207px range | 12px/f top speed | 0 extra updates
-                { ProjectileID.CrimsonYoyo, Do(LocalIFrames(10)) }, // Artery
+                // original: 6s lifetime | 207px range | 12px/f top speed | 0 extra updates
+                { ProjectileID.CrimsonYoyo, Do(LocalIFrames(20), YoyoLifetime(18), YoyoRange(288f), YoyoTopSpeed(11f), ExtraUpdatesExact(1)) }, // Artery
 
-                // original: 8s duration | 235px range | 15px/f top speed | 0 extra updates
+                // original: 8s lifetime | 235px range | 15px/f top speed | 0 extra updates
                 { ProjectileID.FormatC, Do(LocalIFrames(10)) },
 
-                // original: 10s duration | 250px range | 12px/f top speed | 0 extra updates
+                // original: 10s lifetime | 250px range | 12px/f top speed | 0 extra updates
                 { ProjectileID.Gradient, Do(LocalIFrames(10)) },
 
-                // original: 12s duration | 275px range | 15px/f top speed | 0 extra updates
+                // original: 12s lifetime | 275px range | 15px/f top speed | 0 extra updates
                 { ProjectileID.HelFire, Do(LocalIFrames(10)) },
 
-                // original: 11s duration | 225px range | 14px/f top speed | 0 extra updates
-                { ProjectileID.HiveFive, Do(LocalIFrames(10)) },
+                // original: 11s lifetime | 225px range | 14px/f top speed | 0 extra updates
+                { ProjectileID.HiveFive, Do(LocalIFrames(10), YoyoLifetime(24), YoyoRange(320f), YoyoTopSpeed(17f)) },
 
-                // original: 8s duration | 215px range | 13px/f top speed | 0 extra updates
-                { ProjectileID.JungleYoyo, Do(LocalIFrames(10)) }, // Amazon
+                // original: 8s lifetime | 215px range | 13px/f top speed | 0 extra updates
+                { ProjectileID.JungleYoyo, Do(LocalIFrames(10), YoyoLifetime(20), YoyoRange(288f), YoyoTopSpeed(17f)) }, // Amazon
 
-                // original: INF duration | 340px range | 16px/f top speed | 0 extra updates
+                // original: INF lifetime | 340px range | 16px/f top speed | 0 extra updates
                 { ProjectileID.Kraken, Do(LocalIFrames(10)) },
 
-                // original: 5s duration | 170px range | 11px/f top speed | 0 extra updates
-                { ProjectileID.Rally, Do(LocalIFrames(10)) },
+                // original: 5s lifetime | 170px range | 11px/f top speed | 0 extra updates
+                { ProjectileID.Rally, Do(LocalIFrames(20), YoyoLifetime(16), YoyoRange(272f), YoyoTopSpeed(10f), ExtraUpdatesExact(1)) },
 
-                // original: INF duration | 370px range | 16px/f top speed | 0 extra updates
+                // original: INF lifetime | 370px range | 16px/f top speed | 0 extra updates
                 { ProjectileID.RedsYoyo, Do(LocalIFrames(10)) }, // Red's Throw
 
-                // original: INF duration | 400px range | 17.5px/f top speed | 0 extra updates
+                // original: INF lifetime | 400px range | 17.5px/f top speed | 0 extra updates
                 { ProjectileID.Terrarian, Do(LocalIFrames(10)) },
                 { ProjectileID.TerrarianBeam, Do(LocalIFrames(-1)) }, // Terrarian yoyo orbs
 
-                // original: INF duration | 360px range | 16.5px/f top speed | 0 extra updates
+                // original: INF lifetime | 360px range | 16.5px/f top speed | 0 extra updates
                 { ProjectileID.TheEyeOfCthulhu, Do(LocalIFrames(10)) }, // the yoyo, of course
 
-                // original: INF duration | 370px range | 16px/f top speed | 0 extra updates
+                // original: INF lifetime | 370px range | 16px/f top speed | 0 extra updates
                 { ProjectileID.ValkyrieYoyo, Do(LocalIFrames(10)) },
 
-                // original: 11s duration | 225px range | 14px/f top speed | 0 extra updates
-                { ProjectileID.Valor, Do(LocalIFrames(10), YoyoRange(384f), YoyoTopSpeed(16f)) },
+                // original: 11s lifetime | 225px range | 14px/f top speed | 0 extra updates
+                { ProjectileID.Valor, Do(LocalIFrames(20), YoyoLifetime(30), YoyoRange(384f), YoyoTopSpeed(16f), ExtraUpdatesExact(1)) },
 
-                // original: 3s duration | 130px range | 9px/f top speed | 0 extra updates
-                { ProjectileID.WoodYoyo, Do(LocalIFrames(10)) },
+                // original: 3s lifetime | 130px range | 9px/f top speed | 0 extra updates
+                { ProjectileID.WoodYoyo, Do(LocalIFrames(10), YoyoLifetime(15), YoyoRange(240f), YoyoTopSpeed(14f)) },
 
-                // original: 14s duration | 290px range | 16px/f top speed | 0 extra updates
+                // original: 14s lifetime | 290px range | 16px/f top speed | 0 extra updates
                 { ProjectileID.Yelets, Do(LocalIFrames(10)) },
                 #endregion
 
