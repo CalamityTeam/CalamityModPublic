@@ -23,6 +23,17 @@ namespace CalamityMod.Projectiles
             IProjectileTweak[] standardBulletTweaks = Do(PointBlank, ExtraUpdatesDelta(+2));
             IProjectileTweak[] counterweightTweaks = Do(MaxUpdatesExact(2), IDStaticIFrames(10));
 
+            // Shorthand for changing all the stats of a yoyo at once. This handles extra update related math for you.
+            // For topSpeed, put in how fast you want the yoyo to be EXACTLY: it will be divided out in extra updates for you.
+            static IProjectileTweak[] RebalanceYoyo(float lifetime, float range, float topSpeed, int extraUpdates, int iframes = 10) => new IProjectileTweak[]
+            {
+                ExtraUpdatesExact(extraUpdates),
+                LocalIFrames(iframes * (extraUpdates + 1)),
+                YoyoLifetime(lifetime * (extraUpdates + 1)),
+                YoyoRange(range),
+                YoyoTopSpeed(topSpeed / (extraUpdates + 1)),
+            };
+
             // TODO -- Very few vanilla yoyos have range and speed tweaks. Looks like an unfinished job.
 
             // SORTING NOTES:
@@ -38,22 +49,22 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Amarok, Do(LocalIFrames(10)) },
 
                 // original: 13s lifetime | 235px range | 14px/f top speed | 0 extra updates
-                { ProjectileID.Cascade, Do(LocalIFrames(20), YoyoLifetime(30), YoyoRange(384f), YoyoTopSpeed(14f), ExtraUpdatesExact(1)) },
+                { ProjectileID.Cascade, RebalanceYoyo(30f, 384f, 28f, 1) },
 
                 // original: 16s lifetime | 275px range | 17px/f top speed | 0 extra updates
                 { ProjectileID.Chik, Do(LocalIFrames(10)) },
 
                 // original: 9s lifetime | 220px range | 13px/f top speed | 0 extra updates
-                { ProjectileID.Code1, Do(LocalIFrames(20), YoyoLifetime(21), YoyoRange(320f), YoyoTopSpeed(12.5f), ExtraUpdatesExact(1)) },
+                { ProjectileID.Code1, RebalanceYoyo(21f, 320f, 25f, 1) },
 
                 // original: INF lifetime | 280px range | 17px/f top speed | 0 extra updates
                 { ProjectileID.Code2, Do(LocalIFrames(10)) },
 
                 // original: 7s lifetime | 195px range | 12.5px/f top speed | 0 extra updates
-                { ProjectileID.CorruptYoyo, Do(LocalIFrames(20), YoyoLifetime(18), YoyoRange(288f), YoyoTopSpeed(11f), ExtraUpdatesExact(1)) }, // Malaise
+                { ProjectileID.CorruptYoyo, RebalanceYoyo(18f, 288f, 22f, 1) }, // Malaise
 
                 // original: 6s lifetime | 207px range | 12px/f top speed | 0 extra updates
-                { ProjectileID.CrimsonYoyo, Do(LocalIFrames(20), YoyoLifetime(18), YoyoRange(288f), YoyoTopSpeed(11f), ExtraUpdatesExact(1)) }, // Artery
+                { ProjectileID.CrimsonYoyo, RebalanceYoyo(18f, 288f, 22f, 1) }, // Artery
 
                 // original: 8s lifetime | 235px range | 15px/f top speed | 0 extra updates
                 { ProjectileID.FormatC, Do(LocalIFrames(10)) },
@@ -65,16 +76,16 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.HelFire, Do(LocalIFrames(10)) },
 
                 // original: 11s lifetime | 225px range | 14px/f top speed | 0 extra updates
-                { ProjectileID.HiveFive, Do(LocalIFrames(10), YoyoLifetime(24), YoyoRange(320f), YoyoTopSpeed(17f)) },
+                { ProjectileID.HiveFive, RebalanceYoyo(24f, 320f, 17f, 0) },
 
                 // original: 8s lifetime | 215px range | 13px/f top speed | 0 extra updates
-                { ProjectileID.JungleYoyo, Do(LocalIFrames(10), YoyoLifetime(20), YoyoRange(288f), YoyoTopSpeed(17f)) }, // Amazon
+                { ProjectileID.JungleYoyo, RebalanceYoyo(20f, 288f, 17f, 0) }, // Amazon
 
                 // original: INF lifetime | 340px range | 16px/f top speed | 0 extra updates
                 { ProjectileID.Kraken, Do(LocalIFrames(10)) },
 
                 // original: 5s lifetime | 170px range | 11px/f top speed | 0 extra updates
-                { ProjectileID.Rally, Do(LocalIFrames(20), YoyoLifetime(16), YoyoRange(272f), YoyoTopSpeed(10f), ExtraUpdatesExact(1)) },
+                { ProjectileID.Rally, RebalanceYoyo(16f, 272f, 20f, 1) },
 
                 // original: INF lifetime | 370px range | 16px/f top speed | 0 extra updates
                 { ProjectileID.RedsYoyo, Do(LocalIFrames(10)) }, // Red's Throw
@@ -90,10 +101,10 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.ValkyrieYoyo, Do(LocalIFrames(10)) },
 
                 // original: 11s lifetime | 225px range | 14px/f top speed | 0 extra updates
-                { ProjectileID.Valor, Do(LocalIFrames(20), YoyoLifetime(30), YoyoRange(384f), YoyoTopSpeed(16f), ExtraUpdatesExact(1)) },
+                { ProjectileID.Valor, RebalanceYoyo(30f, 384f, 32f, 1) },
 
                 // original: 3s lifetime | 130px range | 9px/f top speed | 0 extra updates
-                { ProjectileID.WoodYoyo, Do(LocalIFrames(10), YoyoLifetime(15), YoyoRange(240f), YoyoTopSpeed(14f)) },
+                { ProjectileID.WoodYoyo, RebalanceYoyo(15f, 240f, 14f, 0) },
 
                 // original: 14s lifetime | 290px range | 16px/f top speed | 0 extra updates
                 { ProjectileID.Yelets, Do(LocalIFrames(10)) },
