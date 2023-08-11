@@ -120,6 +120,7 @@ namespace CalamityMod.UI
 
                 if (changed)
                     CalamityMod.SaveConfig(CalamityConfig.Instance);
+                return;
             }
 
             Rectangle mouseHitbox = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
