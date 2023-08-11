@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles
             // 3. Ambiguous internal names should have comments for ease of access.
             currentTweaks = new SortedDictionary<int, IProjectileTweak[]>
             {
-                #region CATEGORY 1: Weapon Balancing
+                #region CATEGORY 1: Weapon/Enemy Balancing
                 { ProjectileID.Amarok, Do(LocalIFrames(10)) },
                 { ProjectileID.Anchor, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Bee, Do(PiercingExact(2)) },
@@ -43,9 +43,9 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
                 { ProjectileID.Cascade, Do(LocalIFrames(10)) },
                 { ProjectileID.Chik, Do(LocalIFrames(10)) },
-                { ProjectileID.Code1, Do(YoyoRange(240f), ExtraUpdatesExact(1), LocalIFrames(20)) },
+                { ProjectileID.Code1, Do(YoyoRange(240f), ExtraUpdatesExact(1), LocalIFrames(20)) }, // Original: 220 range
                 { ProjectileID.Code2, Do(LocalIFrames(10)) },
-                { ProjectileID.CorruptYoyo, Do(YoyoRange(190f), LocalIFrames(10)) }, // Malaise
+                { ProjectileID.CorruptYoyo, Do(LocalIFrames(10)) }, // Malaise
                 { ProjectileID.CrimsonYoyo, Do(LocalIFrames(10)) }, // Artery
                 { ProjectileID.CrystalBullet, standardBulletTweaks },
                 { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(10)) },
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Flamarang, Do(ExtraUpdatesExact(2)) },
                 { ProjectileID.Flames, Do(IDStaticIFrames(6), ExtraUpdatesDelta(+1)) }, // Flamethrower + Elf Melter
                 { ProjectileID.FlamingJack, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.FlowerPetal, Do(MaxUpdatesExact(4), LocalIFrames(10)) },
+                { ProjectileID.FlowerPetal, Do(MaxUpdatesExact(4), LocalIFrames(10)) }, // Orichalcum armor
                 { ProjectileID.FlowerPow, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.FlyingKnife, Do(ExtraUpdatesExact(1)) }, 
                 { ProjectileID.FormatC, Do(LocalIFrames(10)) },
@@ -72,11 +72,10 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.IceBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.IchorBullet, standardBulletTweaks },
                 { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.JungleYoyo, Do(YoyoTopSpeed(14f), LocalIFrames(10)) }, // Amazon
+                { ProjectileID.JungleYoyo, Do(LocalIFrames(10)) }, // Amazon
                 { ProjectileID.Kraken, Do(LocalIFrames(10)) },
-                { ProjectileID.LightBeam, Do(PiercingExact(2)) },
                 { ProjectileID.LightDisc, Do(MaxUpdatesExact(3)) },
-                { ProjectileID.LostSoulHostile, Do(TileCollide) },
+                { ProjectileID.LostSoulHostile, Do(TileCollide) }, // Ragged Caster
                 { ProjectileID.MeteorShot, standardBulletTweaks },
                 { ProjectileID.MonkStaffT1, Do(TrueMeleeNoSpeed, ScaleExact(3f)) }, // Sleepy Octopod
                 { ProjectileID.MonkStaffT2, Do(TrueMelee, IDStaticIFrames(18)) }, // Ghastly Glaive
@@ -101,7 +100,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.TheEyeOfCthulhu, Do(LocalIFrames(10)) }, // this is the yoyo
                 { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.ValkyrieYoyo, Do(LocalIFrames(10)) },
-                { ProjectileID.Valor, Do(YoyoRange(384f), YoyoTopSpeed(16f), LocalIFrames(10)) },
+                { ProjectileID.Valor, Do(YoyoRange(384f), YoyoTopSpeed(16f), LocalIFrames(10)) }, // Original: 225 range, 14 speed
                 { ProjectileID.VenomBullet, standardBulletTweaks },
                 { ProjectileID.VenomFang, Do(LocalIFrames(10)) },
                 { ProjectileID.WoodYoyo, Do(LocalIFrames(10)) },
