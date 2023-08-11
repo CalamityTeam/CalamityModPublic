@@ -31,8 +31,75 @@ namespace CalamityMod.Projectiles
             // 3. Ambiguous internal names should have comments for ease of access.
             currentTweaks = new SortedDictionary<int, IProjectileTweak[]>
             {
-                #region CATEGORY 1: Weapon/Enemy Balancing
+                #region CATEGORY 1: Vanilla Yoyo Balancing
+                // note this is only yoyos, not counterweights
+
+                // original: 15s duration | 270px range | 14px/f top speed | 0 extra updates
                 { ProjectileID.Amarok, Do(LocalIFrames(10)) },
+
+                // original: 13s duration | 235px range | 14px/f top speed | 0 extra updates
+                { ProjectileID.Cascade, Do(LocalIFrames(10)) },
+
+                // original: 16s duration | 275px range | 17px/f top speed | 0 extra updates
+                { ProjectileID.Chik, Do(LocalIFrames(10)) },
+
+                // original: 9s duration | 220px range | 13px/f top speed | 0 extra updates
+                { ProjectileID.Code1, Do(LocalIFrames(20), ExtraUpdatesExact(1), YoyoRange(240f)) },
+
+                // original: INF duration | 280px range | 17px/f top speed | 0 extra updates
+                { ProjectileID.Code2, Do(LocalIFrames(10)) },
+
+                // original: 7s duration | 195px range | 12.5px/f top speed | 0 extra updates
+                { ProjectileID.CorruptYoyo, Do(LocalIFrames(10)) }, // Malaise
+
+                // original: 6s duration | 207px range | 12px/f top speed | 0 extra updates
+                { ProjectileID.CrimsonYoyo, Do(LocalIFrames(10)) }, // Artery
+
+                // original: 8s duration | 235px range | 15px/f top speed | 0 extra updates
+                { ProjectileID.FormatC, Do(LocalIFrames(10)) },
+
+                // original: 10s duration | 250px range | 12px/f top speed | 0 extra updates
+                { ProjectileID.Gradient, Do(LocalIFrames(10)) },
+
+                // original: 12s duration | 275px range | 15px/f top speed | 0 extra updates
+                { ProjectileID.HelFire, Do(LocalIFrames(10)) },
+
+                // original: 11s duration | 225px range | 14px/f top speed | 0 extra updates
+                { ProjectileID.HiveFive, Do(LocalIFrames(10)) },
+
+                // original: 8s duration | 215px range | 13px/f top speed | 0 extra updates
+                { ProjectileID.JungleYoyo, Do(LocalIFrames(10)) }, // Amazon
+
+                // original: INF duration | 340px range | 16px/f top speed | 0 extra updates
+                { ProjectileID.Kraken, Do(LocalIFrames(10)) },
+
+                // original: 5s duration | 170px range | 11px/f top speed | 0 extra updates
+                { ProjectileID.Rally, Do(LocalIFrames(10)) },
+
+                // original: INF duration | 370px range | 16px/f top speed | 0 extra updates
+                { ProjectileID.RedsYoyo, Do(LocalIFrames(10)) }, // Red's Throw
+
+                // original: INF duration | 400px range | 17.5px/f top speed | 0 extra updates
+                { ProjectileID.Terrarian, Do(LocalIFrames(10)) },
+                { ProjectileID.TerrarianBeam, Do(LocalIFrames(-1)) }, // Terrarian yoyo orbs
+
+                // original: INF duration | 360px range | 16.5px/f top speed | 0 extra updates
+                { ProjectileID.TheEyeOfCthulhu, Do(LocalIFrames(10)) }, // the yoyo, of course
+
+                // original: INF duration | 370px range | 16px/f top speed | 0 extra updates
+                { ProjectileID.ValkyrieYoyo, Do(LocalIFrames(10)) },
+
+                // original: 11s duration | 225px range | 14px/f top speed | 0 extra updates
+                { ProjectileID.Valor, Do(LocalIFrames(10), YoyoRange(384f), YoyoTopSpeed(16f)) },
+
+                // original: 3s duration | 130px range | 9px/f top speed | 0 extra updates
+                { ProjectileID.WoodYoyo, Do(LocalIFrames(10)) },
+
+                // original: 14s duration | 290px range | 16px/f top speed | 0 extra updates
+                { ProjectileID.Yelets, Do(LocalIFrames(10)) },
+                #endregion
+
+                #region CATEGORY 2: Weapon/Enemy Balancing
                 { ProjectileID.Anchor, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Bee, Do(PiercingExact(2)) },
                 { ProjectileID.BlackCounterweight, counterweightTweaks },
@@ -41,12 +108,6 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Bullet, standardBulletTweaks },
                 { ProjectileID.BulletHighVelocity, Do(PointBlank, LocalIFrames(-1)) },
                 { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
-                { ProjectileID.Cascade, Do(LocalIFrames(10)) },
-                { ProjectileID.Chik, Do(LocalIFrames(10)) },
-                { ProjectileID.Code1, Do(YoyoRange(240f), ExtraUpdatesExact(1), LocalIFrames(20)) }, // Original: 220 range
-                { ProjectileID.Code2, Do(LocalIFrames(10)) },
-                { ProjectileID.CorruptYoyo, Do(LocalIFrames(10)) }, // Malaise
-                { ProjectileID.CrimsonYoyo, Do(LocalIFrames(10)) }, // Artery
                 { ProjectileID.CrystalBullet, standardBulletTweaks },
                 { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(10)) },
                 { ProjectileID.CrystalVileShardShaft, Do(LocalIFrames(10)) },
@@ -61,18 +122,14 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.FlowerPetal, Do(MaxUpdatesExact(4), LocalIFrames(10)) }, // Orichalcum armor
                 { ProjectileID.FlowerPow, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.FlyingKnife, Do(ExtraUpdatesExact(1)) }, 
-                { ProjectileID.FormatC, Do(LocalIFrames(10)) },
                 { ProjectileID.FrostBoltStaff, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.FruitcakeChakram, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.GiantBee, Do(PiercingExact(2)) },
                 { ProjectileID.GoldenBullet, standardBulletTweaks },
-                { ProjectileID.Gradient, Do(LocalIFrames(10)) },
                 { ProjectileID.GreenCounterweight, counterweightTweaks },
-                { ProjectileID.HelFire, Do(LocalIFrames(10)) },
                 { ProjectileID.IceBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.IchorBullet, standardBulletTweaks },
                 { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.JungleYoyo, Do(LocalIFrames(10)) }, // Amazon
                 { ProjectileID.Kraken, Do(LocalIFrames(10)) },
                 { ProjectileID.LightDisc, Do(MaxUpdatesExact(3)) },
                 { ProjectileID.LostSoulHostile, Do(TileCollide) }, // Ragged Caster
@@ -88,27 +145,18 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.PurpleCounterweight, counterweightTweaks },
                 { ProjectileID.QueenSlimeGelAttack, Do(NoPiercing) },
                 { ProjectileID.QueenSlimeMinionPinkBall, Do(NoPiercing) },
-                { ProjectileID.Rally, Do(LocalIFrames(10)) },
                 { ProjectileID.RedCounterweight, counterweightTweaks },
-                { ProjectileID.RedsYoyo, Do(LocalIFrames(10)) },
                 { ProjectileID.ShadowBeamHostile, Do(TimeLeftExact(60)) },
                 { ProjectileID.Shroomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.StarWrath, Do(NoPiercing) },
                 { ProjectileID.Sunfury, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.Terrarian, Do(LocalIFrames(10)) },
-                { ProjectileID.TerrarianBeam, Do(LocalIFrames(-1)) }, // Terrarian yoyo orbs
-                { ProjectileID.TheEyeOfCthulhu, Do(LocalIFrames(10)) }, // this is the yoyo
                 { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.ValkyrieYoyo, Do(LocalIFrames(10)) },
-                { ProjectileID.Valor, Do(YoyoRange(384f), YoyoTopSpeed(16f), LocalIFrames(10)) }, // Original: 225 range, 14 speed
                 { ProjectileID.VenomBullet, standardBulletTweaks },
                 { ProjectileID.VenomFang, Do(LocalIFrames(10)) },
-                { ProjectileID.WoodYoyo, Do(LocalIFrames(10)) },
-                { ProjectileID.Yelets, Do(LocalIFrames(10)) },
                 { ProjectileID.YellowCounterweight, counterweightTweaks },
                 #endregion
 
-                #region CATEGORY 2: True Melee support
+                #region CATEGORY 3: True Melee support
                 { ProjectileID.AdamantiteChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.AdamantiteDrill, trueMeleeNoSpeed },
                 { ProjectileID.AdamantiteGlaive, trueMelee },
@@ -166,7 +214,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.VortexDrill, trueMeleeNoSpeed },
                 #endregion
 
-                #region CATEGORY 3: Point Blank support
+                #region CATEGORY 4: Point Blank support
                 { ProjectileID.BeeArrow, pointBlank },
                 { ProjectileID.Blizzard, pointBlank }, // Blizzard Staff projectiles, re-used in Frostbite Blaster.
                 { ProjectileID.BlueFlare, pointBlank },
@@ -205,7 +253,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.WoodenArrowFriendly, pointBlank },
                 #endregion
 
-                #region CATEGORY 4: Defense Damage support
+                #region CATEGORY 5: Defense Damage support
                 { ProjectileID.BombSkeletronPrime, defenseDamage },
                 { ProjectileID.CannonballHostile, defenseDamage },
                 { ProjectileID.Cthulunado, defenseDamage }, // Duke Fishron's larger Sharknados
@@ -553,9 +601,19 @@ namespace CalamityMod.Projectiles
         #endregion
 
         #region Yoyo Stats
+        internal class YoyoLifetimeRule : IProjectileTweak
+        {
+            internal readonly float newLifetime = -1f; // -1 is unlimited. Otherwise it's the lifetime in seconds
+
+            public YoyoLifetimeRule(float l) => newLifetime = l;
+            public bool AppliesTo(Projectile proj) => IsAYoyo(proj);
+            public void ApplyTweak(Projectile proj) => ProjectileID.Sets.YoyosLifeTimeMultiplier[proj.type] = newLifetime;
+        }
+        internal static IProjectileTweak YoyoLifetime(float l) => new YoyoLifetimeRule(l);
+
         internal class YoyoRangeRule : IProjectileTweak
         {
-            internal readonly float newMaxRange = 0f;
+            internal readonly float newMaxRange = 0f; // Range is measured in pixels
 
             public YoyoRangeRule(float r) => newMaxRange = r;
             public bool AppliesTo(Projectile proj) => IsAYoyo(proj);
