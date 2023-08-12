@@ -276,6 +276,12 @@ namespace CalamityMod
                 case "jungledragonyharon":
                 case "jungle dragon yharon":
                 case "jungle dragon, yharon":
+                case "yharondragonofrebirth":
+                case "yharon, dragon of rebirth":
+                case "yharon dragon of rebirth":
+                case "yharonresplendentphoenix":
+                case "yharon, resplendent phoenix":
+                case "yharon resplendent phoenix":
                     return DownedBossSystem.downedYharon;
 
                 case "draedon":
@@ -290,6 +296,8 @@ namespace CalamityMod
                 case "ares":
                     return DownedBossSystem.downedAres;
 
+                case "exotwins":
+                case "exo twins":
                 case "apollo":
                 case "artemis":
                     return DownedBossSystem.downedArtemisAndApollo;
@@ -309,6 +317,8 @@ namespace CalamityMod
                 case "adult wyrm":
                 case "adulteidolon":
                 case "adult eidolon":
+                case "primordialwyrm":
+                case "primordial wyrm":
                     return DownedBossSystem.downedPrimordialWyrm;
 
                 case "bossrush":
@@ -1442,6 +1452,12 @@ namespace CalamityMod
                 p.Calamity().externalAbyssLight += add;
         }
 
+        public static void ToggleInfiniteFlight(Player p, bool enabled)
+        {
+            if (p != null)
+                p.Calamity().infiniteFlight = enabled;
+        }
+
         public static bool MakeColdImmune(Player p) => p is null ? false : (p.Calamity().externalColdImmunity = true);
         public static bool MakeHeatImmune(Player p) => p is null ? false : (p.Calamity().externalHeatImmunity = true);
         #endregion
@@ -1848,6 +1864,22 @@ namespace CalamityMod
                     if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"AddLightStrength\" must be a Player or an int.");
                     AddAbyssLightStrength(castPlayer(args[1]), light);
+                    return null;
+
+                case "InfiniteFlight":
+                case "AddInfiniteFlight":
+                case "EnableInfiniteFlight":
+                case "ToggleInfiniteFlight":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and if the player should gain infinite flight as a bool.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify if a player should gain infinite flight as a bool.");
+                    if (!(args[2] is bool))
+                        return new ArgumentException("ERROR: The second argument to \"InfiniteFlight\" must be a bool.");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"InfiniteFlight\" must be a Player or an int.");
+                    bool fly = (bool)args[2];
+                    ToggleInfiniteFlight(castPlayer(args[1]), fly);
                     return null;
 
                 case "GetRogueVelocity":

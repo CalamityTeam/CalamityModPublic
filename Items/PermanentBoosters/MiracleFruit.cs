@@ -22,7 +22,7 @@ namespace CalamityMod.Items.PermanentBoosters
         public override void SetStaticDefaults()
         {
            	// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 18; // Life Fruit
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 20; // Life Fruit
         }
 
         public override void SetDefaults()

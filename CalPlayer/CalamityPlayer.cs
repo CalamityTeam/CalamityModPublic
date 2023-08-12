@@ -311,7 +311,6 @@ namespace CalamityMod.CalPlayer
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
         public const float UnicornSpeedNerfPower = 0.8f;
-        public const float MechanicalCartSpeedNerfPower = 0.7f;
         #endregion
 
         #region Pet
@@ -479,8 +478,10 @@ namespace CalamityMod.CalPlayer
         public float raiderCritBonus = RaidersTalisman.RaiderBonus;
         public int raiderSoundCooldown = 0;
         public bool gSabaton = false;
+        public int gSabatonHotkeyHoldTime = 0;
         public int gSabatonFall = 0;
-        public int gSabatonCooldown = 0;
+        public bool gSabatonFalling = false;
+        public int gSabatonTempJumpSpeed = 0;
         public bool sGlyph = false;
         public bool sRegen = false;
         public bool tracersDust = false;
@@ -901,6 +902,7 @@ namespace CalamityMod.CalPlayer
         public bool kamiBoost = false;
         public bool avertorBonus = false;
         public bool divineBless = false;
+        public bool infiniteFlight = false;
         #endregion
 
         #region Minion
@@ -2060,6 +2062,8 @@ namespace CalamityMod.CalPlayer
 
             AbleToSelectExoMech = false;
 
+            infiniteFlight = false;
+
             EnchantHeldItemEffects(Player, Player.Calamity(), Player.ActiveItem());
         }
         #endregion
@@ -2154,8 +2158,10 @@ namespace CalamityMod.CalPlayer
             adrenaline = 0f;
             raiderCritBonus = 0f;
             raiderSoundCooldown = 0;
+            gSabatonHotkeyHoldTime = 0;
             gSabatonFall = 0;
-            gSabatonCooldown = 0;
+            gSabatonFalling = false;
+            gSabatonTempJumpSpeed = 0;
             astralStarRainCooldown = 0;
             silvaMageCooldown = 0;
             bloodflareMageCooldown = 0;
@@ -2531,6 +2537,20 @@ namespace CalamityMod.CalPlayer
             // Why does this otherwise work when you're dead lmao
             if (Player.dead)
                 return;
+
+            //Only increment hotkey holdtime if not on ground, not mounted, not on rope, not hooked, not tongued, otherwise reset hold time to zero
+            if (CalamityKeybinds.GravistarSabatonHotkey.Current && gSabaton && Main.myPlayer == Player.whoAmI && (Player.velocity.Y != Player.oldVelocity.Y) && !Player.pulley && !Player.mount.Active && Player.grappling[0] == -1 && !Player.tongued)
+            {
+                gSabatonHotkeyHoldTime++;
+                if (gSabatonHotkeyHoldTime < 60 && gSabatonHotkeyHoldTime % 3f == 0)
+                {
+                    SpawnGravistarParticle();
+                }
+            }
+            else if (Main.myPlayer == Player.whoAmI)
+            {
+                gSabatonHotkeyHoldTime = 0;
+            }
             
             if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
             {
@@ -3289,12 +3309,66 @@ namespace CalamityMod.CalPlayer
             {
                 Player.AddBuff(ModContent.BuffType<ProfanedCrystalBuff>(), 60, true);
             }
+            if (gSabaton && Player.whoAmI == Main.myPlayer)
+            {
+                //While holding hotkey, but before slam, bring Y velocity closer to 0
+                if (gSabatonHotkeyHoldTime < 60 && gSabatonHotkeyHoldTime != 0 && !gSabatonFalling)
+                {
+                    Player.velocity.Y *= (60 - (gSabatonHotkeyHoldTime/4f))/60f;
+                }
+                //Play sound a bit early so it goes in time with the fall
+                if (gSabatonHotkeyHoldTime == 45 && !gSabatonFalling)
+                {
+                    SoundEngine.PlaySound(new("CalamityMod/Sounds/Custom/GravistarCharge") { Volume = 0.3f });
+                }
+                //1 second passed, falling time
+                if (gSabatonHotkeyHoldTime == 60)
+                {
+                    gSabatonFalling = true;
+                }
+                //Cancel fall and don't give 'on ground' effects if on rope, on mount, grappled, or tongued
+                if (Player.pulley || Player.mount.Active || Player.grappling[0] != -1 || Player.tongued)
+                {
+                    gSabatonFall = 0;
+                    gSabatonFalling = false;
+                }
+                if (gSabatonFalling)
+                {
+                    SpawnGravistarParticle();
+                    
+                    //Cap time converted to damage at 2 seconds
+                    if (gSabatonFall < 120)
+                        gSabatonFall++;
+                    
+                    Player.maxFallSpeed = 40f;
+                    Player.gravity = 1.3f;
+                    //If the player can fly during the fall, the physics gets a bit funky
+                    Player.controlJump = false;
+
+                    //Check if player hit some form of solid resistance (the ground)
+                    if (Player.oldVelocity.Y == Player.velocity.Y)
+                    {
+                        var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<GravistarSabaton>()));
+                        //Spawn explosion. ai[0] is used for transferring the recorded falling time
+                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SabatonSlam>(), 300, 4f, Player.whoAmI, gSabatonFall);
+                        gSabatonFall = 0;
+                        gSabatonFalling = false;
+                        //Temporary jump speed is granted for 40 frames
+                        gSabatonTempJumpSpeed = 40;
+                    }
+                }
+                
+            }
         }
         #endregion
 
         #region PreUpdate
         public override void PreUpdate()
         {
+            //Infinite flight granted by some boss attacks
+            if (infiniteFlight)
+                Player.wingTime = Player.wingTimeMax;
+            
             // Reset the Calamity shader.
             CalamityFireDyeShader = null;
 
@@ -3475,6 +3549,16 @@ namespace CalamityMod.CalPlayer
 
             ForceVariousEffects();
             BaseIdleHoldoutProjectile.CheckForEveryHoldout(Player);
+
+            if (gSabatonTempJumpSpeed > 0)
+            {
+                gSabatonTempJumpSpeed--;
+                //Only give temporary jump speed if Gravistar Sabaton is equipped, but still decrement the time so that you can't store it for later
+                if (gSabaton && Player.whoAmI == Main.myPlayer)
+                {
+                    Player.jumpSpeedBoost += 2f;
+                }
+            }
         }
         #endregion
 
@@ -5514,6 +5598,33 @@ namespace CalamityMod.CalPlayer
                     info.Damage += (bossRushDamageFloor - info.Damage);
             }
 
+            //Gravistar Sabaton fall ram
+            if (gSabatonFalling)
+            {
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    NPC n = Main.npc[i];
+
+                    // Ignore critters with the Guide to Critter Companionship
+                    if (Player.dontHurtCritters && NPCID.Sets.CountsAsCritter[n.type])
+                        continue;
+
+                    if (n.active && !n.dontTakeDamage && !n.friendly && n.Calamity().dashImmunityTime[Player.whoAmI] <= 0)
+                    {
+                        Rectangle npcHitbox = n.getRect();
+                        if ((Player.getRect()).Intersects(npcHitbox) && (n.noTileCollide || Collision.CanHit(Player.position, Player.width, Player.height, n.position, n.width, n.height)))
+                        {
+                            Projectile.NewProjectile(Player.GetSource_FromThis(), n.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), 150, 0, Main.myPlayer);
+
+                            n.Calamity().dashImmunityTime[Player.whoAmI] = 4;
+                            Player.GiveIFrames(5, false);
+                            return true;
+                        }
+                    }
+                }
+
+            }
+
             // God Slayer Damage Resistance makes you ignore hits that came in as less than 80.
             // Alternatively, if the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
             if ((godSlayerDamage && info.Damage <= 80) || info.Damage < 1)
@@ -6479,19 +6590,11 @@ namespace CalamityMod.CalPlayer
             if (abyssDeath)
             {
                 SoundEngine.PlaySound(DrownSound, Player.Center);
-
-                if (Main.rand.NextBool(2))
-                {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " is food for the Wyrms.");
-                }
-                else
-                {
-                    damageSource = PlayerDeathReason.ByCustomReason("Oxygen failed to reach " + Player.name + " from the depths of the Abyss.");
-                }
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AbyssDrown" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
             }
             else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " failed the challenge at hand.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Armageddon").Format(Player.name));
             }
 
             NetworkText deathText = damageSource.GetDeathText(Player.name);
@@ -6995,6 +7098,21 @@ namespace CalamityMod.CalPlayer
             range *= eclipseMirror ? 0.3f : 1f;
             range *= reaverExplore ? 0.9f : 1f;
             return range;
+        }
+
+        public void SpawnGravistarParticle()
+        {
+            float height = Player.height;
+            if (Player.gravDir == -1)
+            {
+                height = 0;
+            }
+            Vector2 position1 = Player.position + new Vector2(Player.width / 14, height);
+            Vector2 position2 = Player.position + new Vector2(Player.width * 13 / 14, height);
+            SquareParticle square1 = new SquareParticle(position1, Player.velocity * (0.15f + Main.rand.NextFloat(0.1f)), false, 15, 1.7f + Main.rand.NextFloat(0.6f), Color.Cyan * 1.5f);
+            SquareParticle square2 = new SquareParticle(position2, Player.velocity * (0.15f + Main.rand.NextFloat(0.1f)), false, 15, 1.7f + Main.rand.NextFloat(0.6f), Color.Cyan * 1.5f);
+            GeneralParticleHandler.SpawnParticle(square1);
+            GeneralParticleHandler.SpawnParticle(square2);
         }
         #endregion
 

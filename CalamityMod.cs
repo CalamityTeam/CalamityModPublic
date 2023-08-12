@@ -217,8 +217,6 @@ namespace CalamityMod
             // Mount balancing occurs during runtime and is undone when Calamity is unloaded.
             Mount.mounts[MountID.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.Unicorn].runSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
-            Mount.mounts[MountID.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
-            Mount.mounts[MountID.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
             // Make Graveyard biomes require more Gravestones
             SceneMetrics.GraveyardTileMax = 88;
@@ -364,6 +362,7 @@ namespace CalamityMod
             StealthUI.Load();
             ChargeMeterUI.Load();
             AstralArcanumUI.Load(this);
+            FlightBar.Load();
 
             // TODO -- Is this not possible to place in ModNPC.Load or ModNPC.SetStaticDefaults ?
             // Centralizing head texture registration like this seems absurdly stiff
@@ -467,6 +466,7 @@ namespace CalamityMod
             StealthUI.Unload();
             ChargeMeterUI.Unload();
             AstralArcanumUI.Unload();
+            FlightBar.Unload();
 
             if (!Main.dedServ)
             {
@@ -476,8 +476,6 @@ namespace CalamityMod
 
             Mount.mounts[MountID.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
-            Mount.mounts[MountID.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
-            Mount.mounts[MountID.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
             SceneMetrics.GraveyardTileMax = 36;
             SceneMetrics.GraveyardTileMin = 16;

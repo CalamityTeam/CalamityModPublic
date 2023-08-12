@@ -236,7 +236,12 @@ SlimePuppet.DisplayName: Slime Puppet
 CannonLaserbeam.DisplayName: Exothermal Deathray
 ExoskeletonGaussNukeCannon.DisplayName: Gauss Nuke
 ExoskeletonLaserCannon.DisplayName: Laser Cannon
-ExoskeletonPanel.DisplayName: UI
+
+ExoskeletonPanel: {
+	DisplayName: UI
+	NoSlots: Insufficient minion slots!
+}
+
 ExoskeletonPlasmaCannon.DisplayName: Plasma Cannon
 ExoskeletonTeslaCannon.DisplayName: Tesla Cannon
 MinionGaussBoom.DisplayName: Gauss Hyperexplosion

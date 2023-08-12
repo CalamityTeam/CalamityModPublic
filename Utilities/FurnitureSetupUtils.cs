@@ -701,6 +701,8 @@ namespace CalamityMod
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 4, 0);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.WaterPlacement = LiquidPlacement.Allowed;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
             TileObjectData.addAlternate(1);
@@ -737,6 +739,8 @@ namespace CalamityMod
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 4, 0);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.WaterPlacement = LiquidPlacement.Allowed;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
             TileObjectData.addAlternate(1);
@@ -765,6 +769,8 @@ namespace CalamityMod
             Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.WaterPlacement = LiquidPlacement.Allowed;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.addTile(mt.Type);
 
             // Skip this for special bookcases such as Monolith Amalgam
@@ -785,11 +791,13 @@ namespace CalamityMod
         {
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
-            Main.tileLavaDeath[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.WaterPlacement = LiquidPlacement.Allowed;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
 
@@ -815,7 +823,9 @@ namespace CalamityMod
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
+            TileObjectData.newTile.WaterPlacement = LiquidPlacement.Allowed;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newTile.DrawYOffset = offset;
             TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
@@ -849,6 +859,8 @@ namespace CalamityMod
             TileObjectData.newTile.StyleMultiplier = 2;
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.WaterPlacement = LiquidPlacement.Allowed;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
             TileObjectData.addAlternate(1);
@@ -881,6 +893,8 @@ namespace CalamityMod
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 1, 1);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.WaterPlacement = LiquidPlacement.Allowed;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
 
@@ -916,6 +930,7 @@ namespace CalamityMod
             TileObjectData.newTile.AnchorInvalidTiles = new int[] { TileID.MagicalIceBlock };
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.LavaPlacement = LiquidPlacement.Allowed;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(mt.Type);
 
@@ -946,6 +961,7 @@ namespace CalamityMod
             TileObjectData.newTile.Origin = new Point16(0, 4);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.addTile(mt.Type);
 
             mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("ItemName.GrandfatherClock"));
@@ -975,11 +991,12 @@ namespace CalamityMod
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.LavaDeath = true;
+            TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.WaterPlacement = LiquidPlacement.Allowed;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Origin = new Point16(0, 1);
             TileObjectData.addAlternate(0);
@@ -1021,6 +1038,7 @@ namespace CalamityMod
             TileObjectData.newTile.StyleWrapLimit = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.PlaceRight;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Origin = new Point16(0, 1);
             TileObjectData.addAlternate(0);
@@ -1102,6 +1120,7 @@ namespace CalamityMod
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
 
@@ -1126,6 +1145,7 @@ namespace CalamityMod
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2Top);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newTile.StyleLineSkip = 2;
             TileObjectData.addTile(mt.Type);
 
@@ -1153,6 +1173,8 @@ namespace CalamityMod
             Main.tileWaterDeath[mt.Type] = false;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.addTile(mt.Type);
 
             // All pianos count as tables.
@@ -1184,6 +1206,7 @@ namespace CalamityMod
             TileObjectData.newTile.StyleWrapLimit = 27;
             TileObjectData.newTile.UsesCustomCanPlace = false;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.addTile(mt.Type);
 
             // All platforms count as doors (so that you may have top-or-bottom entry/exit rooms)
@@ -1216,6 +1239,7 @@ namespace CalamityMod
 
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newTile.DrawYOffset = offset;
             TileObjectData.addTile(mp.Type);
 
@@ -1242,6 +1266,7 @@ namespace CalamityMod
             TileID.Sets.CountsAsLavaSource[mt.Type] = honey;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.addTile(mt.Type);
 
             mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
@@ -1265,6 +1290,7 @@ namespace CalamityMod
             TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.addTile(mt.Type);
 
             // All sofas count as chairs.
@@ -1289,6 +1315,7 @@ namespace CalamityMod
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.addTile(mt.Type);
 
             // As you could probably guess, all tables count as tables.
@@ -1317,22 +1344,30 @@ namespace CalamityMod
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleTorch);
             TileObjectData.newTile.WaterDeath = !waterImmune;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.WaterPlacement = waterImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newAlternate.CopyFrom(TileObjectData.StyleTorch);
             TileObjectData.newAlternate.WaterDeath = !waterImmune;
             TileObjectData.newAlternate.LavaDeath = !lavaImmune;
+            TileObjectData.newAlternate.WaterPlacement = waterImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
+            TileObjectData.newAlternate.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newAlternate.AnchorLeft = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide | AnchorType.Tree | AnchorType.AlternateTile, TileObjectData.newTile.Height, 0);
             TileObjectData.newAlternate.AnchorAlternateTiles = new int[] { 124 };
             TileObjectData.addAlternate(1);
             TileObjectData.newAlternate.CopyFrom(TileObjectData.StyleTorch);
             TileObjectData.newAlternate.WaterDeath = !waterImmune;
             TileObjectData.newAlternate.LavaDeath = !lavaImmune;
+            TileObjectData.newAlternate.WaterPlacement = waterImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
+            TileObjectData.newAlternate.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newAlternate.AnchorRight = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide | AnchorType.Tree | AnchorType.AlternateTile, TileObjectData.newTile.Height, 0);
             TileObjectData.newAlternate.AnchorAlternateTiles = new int[] { 124 };
             TileObjectData.addAlternate(2);
             TileObjectData.newAlternate.CopyFrom(TileObjectData.StyleTorch);
             TileObjectData.newAlternate.WaterDeath = !waterImmune;
             TileObjectData.newAlternate.LavaDeath = !lavaImmune;
+            TileObjectData.newAlternate.WaterPlacement = waterImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
+            TileObjectData.newAlternate.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newAlternate.AnchorWall = true;
             TileObjectData.addAlternate(0);
             TileObjectData.addTile(mt.Type);
@@ -1360,6 +1395,7 @@ namespace CalamityMod
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 18 };
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.addTile(mt.Type);
 
             // All work benches count as tables.
@@ -1381,6 +1417,7 @@ namespace CalamityMod
             Main.tileLavaDeath[mt.Type] = false;
             Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.LavaPlacement = LiquidPlacement.Allowed;
             TileObjectData.addTile(mt.Type);
             TileID.Sets.HasOutlines[mt.Type] = true;
 
@@ -1415,6 +1452,7 @@ namespace CalamityMod
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.addTile(mt.Type);
 
             // Vanilla bars are labeled as "Metal Bar" on the minimap
@@ -1454,6 +1492,7 @@ namespace CalamityMod
 			TileObjectData.newTile.Origin = new Point16(2, 2);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16 };
 			TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
 			TileObjectData.addTile(mt.Type);
 		}
     }

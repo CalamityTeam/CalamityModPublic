@@ -33,6 +33,11 @@ namespace CalamityMod
         /// <param name="targetHitbox">The hitbox of the target to check.</param>
         public static bool CircularHitboxCollision(Vector2 centerCheckPosition, float radius, Rectangle targetHitbox)
         {
+            // If the center intersects the hitbox, return true immediately
+            Rectangle center = new Rectangle((int)centerCheckPosition.X, (int)centerCheckPosition.Y, 1, 1);
+            if (center.Intersects(targetHitbox))
+                return true;
+
             float topLeftDistance = Vector2.Distance(centerCheckPosition, targetHitbox.TopLeft());
             float topRightDistance = Vector2.Distance(centerCheckPosition, targetHitbox.TopRight());
             float bottomLeftDistance = Vector2.Distance(centerCheckPosition, targetHitbox.BottomLeft());

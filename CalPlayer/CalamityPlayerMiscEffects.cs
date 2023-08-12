@@ -992,7 +992,7 @@ namespace CalamityMod.CalPlayer
                         Player.maxFallSpeed = 12f;
                     if (aeroSet)
                         Player.maxFallSpeed = 15f;
-                    if (gSabatonFall > 0 || Player.PortalPhysicsEnabled)
+                    if (Player.PortalPhysicsEnabled)
                         Player.maxFallSpeed = 20f;
                 }
 
@@ -1011,9 +1011,13 @@ namespace CalamityMod.CalPlayer
                     bool notOnRope = !Player.pulley && Player.ropeCount == 0;
                     bool notGrappling = Player.grappling[0] == -1;
                     bool airborne = Player.velocity.Y != 0;
-                    if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling && airborne)
+                    if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling && airborne && !Player.Calamity().gSabatonFalling) //Player cannot further increase their ridiculous gravity during a Gravistar Slam
                     {
                         Player.velocity.Y += Player.gravity * Player.gravDir * (BalancingConstants.HoldingDownGravityMultiplier - 1f);
+                        if (Player.Calamity().gSabaton)
+                        { 
+                            Player.maxFallSpeed *= 1.5f;
+                        }
                         if (Player.velocity.Y * Player.gravDir > Player.maxFallSpeed)
                             Player.velocity.Y = Player.maxFallSpeed * Player.gravDir;
                     }
@@ -1024,7 +1028,7 @@ namespace CalamityMod.CalPlayer
                 if (Player.mount.Type == MountID.Slime)
                     Player.velocity.X *= 0.91f;
                 else if (Player.mount.Type == MountID.QueenSlime)
-                    Player.velocity.X *= 0.935f;
+                    Player.velocity.X *= 0.95f;
             }
 
             // Omega Blue Armor bonus
@@ -1220,10 +1224,6 @@ namespace CalamityMod.CalPlayer
                 raiderCritBonus -= RaidersTalisman.RaiderBonus / (float)CalamityUtils.SecondsToFrames(RaidersTalisman.RaiderCooldown);
             if (raiderSoundCooldown > 0)
                 raiderSoundCooldown--;
-            if (gSabatonCooldown > 0)
-                gSabatonCooldown--;
-            if (gSabatonFall > 0)
-                gSabatonFall--;
             if (astralStarRainCooldown > 0)
                 astralStarRainCooldown--;
             if (tarraRangedCooldown > 0)
@@ -1841,33 +1841,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Gravistar Sabaton effects
-            if (gSabaton && Player.whoAmI == Main.myPlayer)
-            {
-                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<GravistarSabaton>()));
-                if (gSabatonCooldown <= 0 && !Player.mount.Active)
-                {
-                    if (Player.controlDown && Player.releaseDown && Player.position.Y != Player.oldPosition.Y)
-                    {
-                        gSabatonFall = 300;
-                        gSabatonCooldown = 480; //8 second cooldown
-                        Player.gravity *= 2f;
-                        Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y + (Player.height / 5f), Player.velocity.X, Player.velocity.Y, ModContent.ProjectileType<SabatonSlam>(), 0, 0, Player.whoAmI);
-                    }
-                }
-                if (gSabatonCooldown == 1) //dust when ready to use again
-                {
-                    for (int i = 0; i < 66; i++)
-                    {
-                        int d = Dust.NewDust(Player.position, Player.width, Player.height, Main.rand.NextBool(2) ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), 0, 0, 100, default, 2.6f);
-                        Main.dust[d].noGravity = true;
-                        Main.dust[d].noLight = true;
-                        Main.dust[d].fadeIn = 1f;
-                        Main.dust[d].velocity *= 6.6f;
-                    }
-                }
-            }
-
             // This section of code ensures set bonuses and accessories with cooldowns go on cooldown immediately if the armor or accessory is removed.
             if (!brimflameSet && brimflameFrenzy)
             {
@@ -2419,6 +2392,7 @@ namespace CalamityMod.CalPlayer
         #region Other Buff Effects
         private void OtherBuffEffects()
         {
+            
             if (gravityNormalizer)
             {
                 Player.buffImmune[BuffID.VortexDebuff] = true;

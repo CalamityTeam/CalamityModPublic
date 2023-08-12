@@ -547,12 +547,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<RelicOfConvergence>(), 4);
 
-        public override void BossLoot(ref string name, ref int potionType)
-        {
-            name = "A Profaned Guardian";
-            potionType = ItemID.GreaterHealingPotion;
-        }
-
         // Can only hit the target if within certain distance
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {

@@ -647,7 +647,7 @@ namespace CalamityMod
         /// Returns if a tile is safe to be mined in terms of it being "important"
         /// </summary>
         /// <param name="tile"></param>
-        /// <param name="ignoreAbyss">If voidstone and abyss gravel should be considered unsafe to mine</param>
+        /// <param name="ignoreAbyss">If abyss terrain blocks should be considered unsafe to mine</param>
         /// <returns></returns>
         public static bool ShouldBeMined(this Tile tile, bool ignoreAbyss = true)
         {
@@ -659,6 +659,8 @@ namespace CalamityMod
             if (ignoreAbyss)
             {
                 tileExcludeList.Add(ModContent.TileType<AbyssGravel>());
+                tileExcludeList.Add(ModContent.TileType<PyreMantle>());
+                tileExcludeList.Add(ModContent.TileType<PyreMantleMolten>());
                 tileExcludeList.Add(ModContent.TileType<Voidstone>());
             }
 

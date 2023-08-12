@@ -10,28 +10,24 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     public class RiptideYoyo : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        private const int MaxUpdates = 2;
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 7.5f;
-            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 220f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 12.5f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 18f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 288f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 25f;
         }
 
         public override void SetDefaults()
         {
             Projectile.aiStyle = ProjAIStyleID.Yoyo;
-            Projectile.width = 16;
-            Projectile.height = 16;
-            Projectile.scale = 1f;
+            Projectile.width = Projectile.height = 16;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.alpha = 150;
             Projectile.penetrate = -1;
-            Projectile.MaxUpdates = MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10 * MaxUpdates;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -50,13 +46,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Projectile.Kill();
 
             Projectile.localAI[1]++;
-            if (Projectile.localAI[1] % (15f * MaxUpdates) == 0f)
+            if (Projectile.localAI[1] % 15f == 0f)
             {
                 float xVelocity = 0f;
                 float yVelocity = -10f;
                 float xIncrement = 1.2f;
                 float yIncrement = 0.2f;
-                switch (Projectile.localAI[1] / (15f * MaxUpdates))
+                switch (Projectile.localAI[1] / 15f)
                 {
                     case 1:
                         break;
