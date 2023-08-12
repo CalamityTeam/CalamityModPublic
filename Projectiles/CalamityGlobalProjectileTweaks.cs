@@ -61,10 +61,10 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Code2, RebalanceYoyo(-1f, 432f, 44f, 1) },
 
                 // original: 7s lifetime | 195px range | 12.5px/f top speed | 0 extra updates
-                { ProjectileID.CorruptYoyo, RebalanceYoyo(18f, 288f, 22f, 1) }, // Malaise
+                { ProjectileID.CorruptYoyo, RebalanceYoyo(18f, 288f, 22f, 0, 20) }, // Malaise
 
                 // original: 6s lifetime | 207px range | 12px/f top speed | 0 extra updates
-                { ProjectileID.CrimsonYoyo, RebalanceYoyo(18f, 288f, 22f, 1) }, // Artery
+                { ProjectileID.CrimsonYoyo, RebalanceYoyo(18f, 288f, 22f, 0, 20) }, // Artery
 
                 // original: 8s lifetime | 235px range | 15px/f top speed | 0 extra updates
                 { ProjectileID.FormatC, RebalanceYoyo(-1f, 384f, 42f, 1) },
@@ -79,13 +79,13 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.HiveFive, RebalanceYoyo(24f, 320f, 17f, 0) },
 
                 // original: 8s lifetime | 215px range | 13px/f top speed | 0 extra updates
-                { ProjectileID.JungleYoyo, RebalanceYoyo(20f, 288f, 17f, 0) }, // Amazon
+                { ProjectileID.JungleYoyo, RebalanceYoyo(20f, 288f, 17f, 0, 20) }, // Amazon
 
                 // original: INF lifetime | 340px range | 16px/f top speed | 0 extra updates
                 { ProjectileID.Kraken, RebalanceYoyo(-1f, 480f, 57f, 2) },
 
                 // original: 5s lifetime | 170px range | 11px/f top speed | 0 extra updates
-                { ProjectileID.Rally, RebalanceYoyo(16f, 272f, 20f, 1) },
+                { ProjectileID.Rally, RebalanceYoyo(16f, 272f, 20f, 0, 20) },
 
                 // original: INF lifetime | 370px range | 16px/f top speed | 0 extra updates
                 { ProjectileID.RedsYoyo, RebalanceYoyo(-1f, 480f, 48f, 2) }, // Red's Throw
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Valor, RebalanceYoyo(30f, 384f, 32f, 1) },
 
                 // original: 3s lifetime | 130px range | 9px/f top speed | 0 extra updates
-                { ProjectileID.WoodYoyo, RebalanceYoyo(15f, 240f, 14f, 0) },
+                { ProjectileID.WoodYoyo, RebalanceYoyo(15f, 240f, 14f, 0, 20) },
 
                 // original: 14s lifetime | 290px range | 16px/f top speed | 0 extra updates
                 { ProjectileID.Yelets, RebalanceYoyo(-1f, 400f, 36f, 1) },
