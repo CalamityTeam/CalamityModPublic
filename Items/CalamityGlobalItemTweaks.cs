@@ -57,7 +57,7 @@ namespace CalamityMod.Items
                 { ItemID.BookStaff, Do(ManaExact(14)) }, // Tome of Infinite Wisdom
                 { ItemID.Boomstick, Do(PointBlank, DamageExact(11)) },
                 { ItemID.BreakerBlade, Do(AutoReuse, UseTurn, ScaleRatio(1.4f), DamageExact(97)) },
-                { ItemID.Cascade, Do(AutoReuse, DamageExact(39)) },
+                { ItemID.Cascade, Do(AutoReuse, DamageExact(30)) },
                 { ItemID.ChainGuillotines, Do(DamageExact(100)) },
                 { ItemID.ChainKnife, Do(AutoReuse, DamageRatio(1.34f)) },  // Uses ratios due to remix seed
                 // Charged Blaster Cannon is now an earlier Last Prism-like, so it will probably need careful balance attention.
@@ -73,8 +73,8 @@ namespace CalamityMod.Items
                 { ItemID.CobaltNaginata, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(90)) },
                 { ItemID.CobaltRepeater, Do(PointBlank, DamageExact(50), UseExact(20)) },
                 { ItemID.CobaltSword, Do(UseTurn, ScaleRatio(1.4f), DamageExact(80)) },
-                { ItemID.CorruptYoyo, Do(AutoReuse, DamageExact(21)) }, // Malaise
-                { ItemID.CrimsonYoyo, Do(AutoReuse, DamageExact(21)) }, // Artery
+                { ItemID.CorruptYoyo, Do(AutoReuse, DamageExact(20)) }, // Malaise
+                { ItemID.CrimsonYoyo, Do(AutoReuse, DamageExact(20)) }, // Artery
                 { ItemID.CrystalDart, Do(DamageExact(20)) },
                 { ItemID.CrystalSerpent, Do(DamageExact(45)) },
                 { ItemID.CrystalStorm, Do(DamageExact(40))},
@@ -238,7 +238,6 @@ namespace CalamityMod.Items
                 { ItemID.TungstenShortsword, Do(AutoReuse, TrueMelee, DamageExact(15)) },
                 { ItemID.UnholyArrow, Do(DamageExact(11)) },
                 { ItemID.UnholyTrident, Do(ManaRatio(0.78f), DamageRatio(1.25f)) },  // Uses ratios due to remix seed
-                { ItemID.Valor, Do(DamageExact(32)) },
                 { ItemID.VampireKnives, Do(DamageRatio(1.33f)) },
                 { ItemID.VenomStaff, Do(DamageRatio(1.5f)) },
                 { ItemID.WaspGun, Do(UseExact(11)) },
@@ -510,6 +509,7 @@ namespace CalamityMod.Items
                 { ItemID.GoldBroadsword, Do(AutoReuse, UseTurn) },
                 { ItemID.Gradient, autoReuse },
                 { ItemID.HelFire, autoReuse },
+                { ItemID.HiveFive, autoReuse },
                 { ItemID.IronBroadsword, Do(AutoReuse, UseTurn) },
                 { ItemID.JungleYoyo, autoReuse }, // Amazon
                 { ItemID.Kraken, autoReuse },
@@ -534,6 +534,7 @@ namespace CalamityMod.Items
                 { ItemID.TungstenBroadsword, Do(AutoReuse, UseTurn) },
                 { ItemID.Umbrella, autoReuse },
                 { ItemID.ValkyrieYoyo, autoReuse },
+                { ItemID.Valor, autoReuse },
                 { ItemID.WandofFrosting, autoReuse },
                 { ItemID.WandofSparking, autoReuse },
                 { ItemID.WeatherPain, autoReuse },

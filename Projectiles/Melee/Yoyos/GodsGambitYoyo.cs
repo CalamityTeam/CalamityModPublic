@@ -10,25 +10,25 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     public class GodsGambitYoyo : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
+        public const int MaxUpdates = 2;
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 320f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 14f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 400f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 32f / MaxUpdates;
         }
 
         public override void SetDefaults()
         {
             Projectile.aiStyle = ProjAIStyleID.Yoyo;
-            Projectile.width = 16;
-            Projectile.height = 16;
-            Projectile.scale = 1.15f;
+            Projectile.width = Projectile.height = 16;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
-            Projectile.MaxUpdates = 2;
+            Projectile.MaxUpdates = MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            Projectile.localNPCHitCooldown = 12 * MaxUpdates;
         }
 
         public override void AI()
@@ -38,10 +38,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Projectile.Kill();
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(BuffID.Slimed, 300);
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Slimed, 300);
 
         public override bool PreDraw(ref Color lightColor)
         {

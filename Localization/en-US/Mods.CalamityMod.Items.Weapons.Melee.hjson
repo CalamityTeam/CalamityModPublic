@@ -61,7 +61,7 @@ Aorta: {
 	Tooltip:
 		'''
 		Fires homing blood when enemies are near
-		An exceptionally agile yoyo
+		A very agile yoyo
 		'''
 }
 
@@ -848,7 +848,6 @@ Oracle: {
 		Fires auric orbs when supercharged
 		An exceptionally agile yoyo
 		'Gaze into the past, the present, the future... and the circumstances of your inevitable demise'
-
 		'''
 }
 
@@ -959,11 +958,7 @@ RemsRevenge: {
 
 Riptide: {
 	DisplayName: Riptide
-	Tooltip:
-		'''
-		Sprays a spiral of aqua streams
-		A very agile yoyo
-		'''
+	Tooltip: Sprays a spiral of aqua streams
 }
 
 Roxcalibur: {
@@ -1014,11 +1009,7 @@ Shimmerspark: {
 
 SmokingComet: {
 	DisplayName: Smoking Comet
-	Tooltip:
-		'''
-		Rains stars from the sky
-		A very agile yoyo
-		'''
+	Tooltip: Rains stars from the sky
 }
 
 SolarFlare: {

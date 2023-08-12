@@ -49,13 +49,13 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Amarok, RebalanceYoyo(-1f, 400f, 28f, 1) },
 
                 // original: 13s lifetime | 235px range | 14px/f top speed | 0 extra updates
-                { ProjectileID.Cascade, RebalanceYoyo(30f, 384f, 28f, 1) },
+                { ProjectileID.Cascade, RebalanceYoyo(30f, 384f, 28f, 1, 12) },
 
                 // original: 16s lifetime | 275px range | 17px/f top speed | 0 extra updates
                 { ProjectileID.Chik, RebalanceYoyo(-1f, 400f, 36f, 1) },
 
                 // original: 9s lifetime | 220px range | 13px/f top speed | 0 extra updates
-                { ProjectileID.Code1, RebalanceYoyo(21f, 320f, 25f, 1) },
+                { ProjectileID.Code1, RebalanceYoyo(21f, 320f, 25f, 1, 15) },
 
                 // original: INF lifetime | 280px range | 17px/f top speed | 0 extra updates
                 { ProjectileID.Code2, RebalanceYoyo(-1f, 432f, 44f, 1) },
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.HelFire, RebalanceYoyo(-1f, 320f, 48f, 2) },
 
                 // original: 11s lifetime | 225px range | 14px/f top speed | 0 extra updates
-                { ProjectileID.HiveFive, RebalanceYoyo(24f, 320f, 17f, 0) },
+                { ProjectileID.HiveFive, RebalanceYoyo(24f, 320f, 20f, 0, 15) },
 
                 // original: 8s lifetime | 215px range | 13px/f top speed | 0 extra updates
                 { ProjectileID.JungleYoyo, RebalanceYoyo(20f, 288f, 17f, 0, 20) }, // Amazon
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.ValkyrieYoyo, RebalanceYoyo(-1f, 480f, 48f, 2) },
 
                 // original: 11s lifetime | 225px range | 14px/f top speed | 0 extra updates
-                { ProjectileID.Valor, RebalanceYoyo(30f, 384f, 32f, 1) },
+                { ProjectileID.Valor, RebalanceYoyo(30f, 400f, 36f, 1, 12) },
 
                 // original: 3s lifetime | 130px range | 9px/f top speed | 0 extra updates
                 { ProjectileID.WoodYoyo, RebalanceYoyo(15f, 240f, 14f, 0, 20) },
