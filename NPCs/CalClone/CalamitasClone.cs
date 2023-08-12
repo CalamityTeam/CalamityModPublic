@@ -250,11 +250,7 @@ namespace CalamityMod.NPCs.CalClone
             CalamityNetcode.SyncWorld();
         }
 
-        public override void BossLoot(ref string name, ref int potionType)
-        {
-            name = "The Calamitas Clone";
-            potionType = ItemID.GreaterHealingPotion;
-        }
+        public override void BossLoot(ref string name, ref int potionType) => potionType = ItemID.GreaterHealingPotion;
 
         public override void HitEffect(NPC.HitInfo hit)
         {

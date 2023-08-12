@@ -137,10 +137,7 @@ namespace CalamityMod.Items
         public override void SetStaticDefaults()
         {
             SetStaticDefaults_ShimmerRecipes();
-        }
 
-        public override void SetDefaults(Item item)
-        {
             #region Vanilla Wing Tweaks
             // 170 -> 240 flight time
             ArmorIDs.Wing.Sets.Stats[(int)VanillaWingID.BoneWings] = new WingStats(240, 7.5f, 1f);
@@ -159,14 +156,13 @@ namespace CalamityMod.Items
             // (Celestial Starboard) 4.5 -> 2.75 acceleration multiplier, 16 -> 11.6 hover stats
             ArmorIDs.Wing.Sets.Stats[(int)VanillaWingID.LongRainbowTrailWings] = new WingStats(180, 8f, 2.75f, true, 11.6f, 11.6f);
             #endregion
+        }
 
+        public override void SetDefaults(Item item)
+        {
             // Accessories can never be enchanted, to prevent Shield of Cthulhu & High Ruler from being enchantable
             if (item.accessory)
                 CannotBeEnchanted = true;
-
-            // Fix Bones being attracted to the player when you have open ammo slots.
-            if (item.type == ItemID.Bone)
-                item.notAmmo = true;
 
             // Modified Pearlwood items are now Light Red.
             if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)

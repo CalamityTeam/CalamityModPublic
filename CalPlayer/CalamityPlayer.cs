@@ -6590,19 +6590,11 @@ namespace CalamityMod.CalPlayer
             if (abyssDeath)
             {
                 SoundEngine.PlaySound(DrownSound, Player.Center);
-
-                if (Main.rand.NextBool(2))
-                {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " is food for the Wyrms.");
-                }
-                else
-                {
-                    damageSource = PlayerDeathReason.ByCustomReason("Oxygen failed to reach " + Player.name + " from the depths of the Abyss.");
-                }
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AbyssDrown" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
             }
             else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " failed the challenge at hand.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Armageddon").Format(Player.name));
             }
 
             NetworkText deathText = damageSource.GetDeathText(Player.name);
