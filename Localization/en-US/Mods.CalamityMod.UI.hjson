@@ -35,9 +35,9 @@ RevengeanceShortInfo: "[c/F54254:The intended Calamity experience!]"
 RevengeanceExpandedInfo:
 	'''
 	[c/B55362:Enables the] [c/85FFE9:Adrenaline] [c/B55362:mechanic. You gain Adrenaline while fighting bosses. Getting hit drops Adrenaline back to 0]
-	[c/B55362:    When Adrenaline is maxed, press] {0} [c/B55362:for a large damage boost]
+	[c/B55362:    When Adrenaline is maxed, press] {1} [c/B55362:for a large damage boost]
 	[c/B55362:Enables the] [c/FF8B54:Rage] [c/B55362:mechanic. You gain Rage when in proximity of enemies or by using certain items]
-	[c/B55362:    When Rage is maxed, press] {1} [c/B55362:for a temporary damage boost]
+	[c/B55362:    When Rage is maxed, press] {0} [c/B55362:for a temporary damage boost]
 	[c/B55362:Most foes have higher stats and more aggressive AIs]
 	[c/B55362:Bosses have new AI mechanics, new phases, and will drop Master Mode loot. Enemies spawn more frequently]
 	[c/F7342A:This mode is more difficult than Expert. Be sure to prepare for the challenge]
