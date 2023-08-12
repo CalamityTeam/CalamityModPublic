@@ -9,11 +9,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     public class ShimmersparkYoyo : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
+        public const int MaxUpdates = 2;
+
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 16f;
-            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 350f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 17f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 448f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 40f / MaxUpdates;
         }
 
         public override void SetDefaults()
@@ -25,9 +27,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
-            Projectile.MaxUpdates = 2;
+            Projectile.MaxUpdates = MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            Projectile.localNPCHitCooldown = 10 * MaxUpdates;
         }
 
         public override void AI()
@@ -44,9 +46,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             return false;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(BuffID.Frostburn2, 120);
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Frostburn2, 120);
     }
 }

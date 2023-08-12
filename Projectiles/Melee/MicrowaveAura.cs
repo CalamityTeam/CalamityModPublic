@@ -18,16 +18,15 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
-            Projectile.width = 200;
-            Projectile.height = 200;
+            Projectile.width = Projectile.height = 200;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;            
         }
 
         public override void AI()

@@ -157,7 +157,7 @@ Azathoth: {
 	Tooltip:
 		'''
 		Fires cosmic orbs that blast nearby enemies with lasers
-		A very agile yoyo
+		An exceptionally agile yoyo
 		'Destroy the universe in the blink of an eye'
 		'''
 }
@@ -687,7 +687,7 @@ Lacerator: {
 	Tooltip:
 		'''
 		Enemies that are hit by the yoyo will have their life drained
-		A very agile yoyo
+		An exceptionally agile yoyo
 		[GFB]
 		'''
 	TooltipNormal: Someone thought this was a viable weapon against DoG at one point lol
@@ -923,7 +923,11 @@ Pwnagehammer: {
 
 Quagmire: {
 	DisplayName: Quagmire
-	Tooltip: Fires spore clouds
+	Tooltip:
+		'''
+		Fires spore clouds
+		A very agile yoyo
+		'''
 }
 
 RedSun: {
@@ -1017,7 +1021,7 @@ SolarFlare: {
 	Tooltip:
 		'''
 		Emits large holy explosions on hit
-		A very agile yoyo
+		An exceptionally agile yoyo
 		'''
 }
 
@@ -1210,7 +1214,7 @@ TheMicrowave: {
 	Tooltip:
 		'''
 		Fries nearby enemies with radiation
-		A very agile yoyo
+		An exceptionally agile yoyo
 		'Cooking, Astral Infection style'
 		'''
 }
