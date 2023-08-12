@@ -92,9 +92,8 @@ namespace CalamityMod.Projectiles
 
                 // original: INF lifetime | 400px range | 17.5px/f top speed | 0 extra updates
                 { ProjectileID.Terrarian, RebalanceYoyo(-1f, 512f, 60f, 2) },
-                // Due to Terrarian's increased updates and thus increased orb spawns, giving orbs local iframes basically multiplies orb DPS by 3
-                // Vanilla currently uses ID static iframes which prevents such an issue. Change this with extreme caution.
-                // { ProjectileID.TerrarianBeam, Do(LocalIFrames(-1)) }, // Terrarian yoyo orbs
+                // 12AUG2023: Ozzatron: Terrarian has been IL edited to not emit more orb spawns with extra updates. This iframe change is safe.
+                { ProjectileID.TerrarianBeam, Do(LocalIFrames(-1)) }, // Terrarian yoyo orbs
 
                 // original: INF lifetime | 360px range | 16.5px/f top speed | 0 extra updates
                 { ProjectileID.TheEyeOfCthulhu, RebalanceYoyo(-1f, 480f, 36f, 1) }, // the yoyo, of course
