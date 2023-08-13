@@ -415,6 +415,23 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
+        #region Terrarian Projectile Limitation for Extra Updates
+        private static void LimitTerrarianProjectiles(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcI4(ProjectileID.Terrarian)))
+            {
+                LogFailure("Limit Terrarian Yoyo Projectiles", "Could not locate the yoyo ID.");
+                return;
+            }
+
+            // Emit a delegate which corrupts the projectile ID checked for if the projectile is not on its final extra update.
+            // This delegate intentionally eats the original ID off the stack and gives it back if finished.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate((int x, Projectile p) => p.FinalExtraUpdate() ? x : int.MinValue);
+        }
+        #endregion
+
         #region Sharpening Station Nerf
         private static void NerfSharpeningStation(ILContext il)
         {

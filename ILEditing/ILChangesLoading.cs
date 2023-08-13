@@ -86,6 +86,7 @@ namespace CalamityMod.ILEditing
             IL_Projectile.Damage += MakeTagDamageMultiplicative;
             IL_NPC.ScaleStats_ApplyExpertTweaks += RemoveExpertHardmodeScaling;
             IL_Projectile.AI_001 += AdjustChlorophyteBullets;
+            IL_Projectile.AI_099_2 += LimitTerrarianProjectiles;
             IL_Player.UpdateBuffs += NerfSharpeningStation;
 
             // Movement speed balance

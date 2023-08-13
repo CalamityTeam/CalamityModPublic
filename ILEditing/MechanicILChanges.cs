@@ -403,7 +403,6 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldc_I4_0);
 
             // No interference with ShadowDodge (previously Titanium armor, now Hallowed armor)
-            CalamityMod.Instance.Logger.Info(il.ToString());
         }
         #endregion
 
