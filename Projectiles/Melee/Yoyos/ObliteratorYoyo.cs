@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 640f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 72f / UpdatesPerFrame;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 720f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 54f / UpdatesPerFrame;
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
@@ -85,13 +85,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Vector2 laserSpawnPosition = Projectile.Center;
                 Vector2 offset;
                 if (Projectile.localAI[1] < FramesPerShot)
-                    offset = new Vector2(7, 7);
+                    offset = new Vector2(4, 4);
                 else if (Projectile.localAI[1] < 2 * FramesPerShot)
-                    offset = new Vector2(-7, 7);
+                    offset = new Vector2(-4, 4);
                 else if (Projectile.localAI[1] < 3 * FramesPerShot)
-                    offset = new Vector2(-7, -7);
+                    offset = new Vector2(-4, -4);
                 else
-                    offset = new Vector2(7, -7);
+                    offset = new Vector2(4, -4);
                 laserSpawnPosition += offset.RotatedBy(Projectile.rotation);
 
                 ref NPC target = ref Main.npc[targets[Main.rand.Next(targets.Count)]];

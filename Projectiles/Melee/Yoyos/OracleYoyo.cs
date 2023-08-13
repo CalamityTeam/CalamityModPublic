@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         private const float MinDischargeRate = 0.05f;
         private const float MaxDischargeRate = 0.53f;
         private const float DischargeRateScaleFactor = 0.003f;
-        private const float ChargePerHit = 4.5f;
+        private const float ChargePerHit = 4f;
         private const int HitsPerOrbVolley = 3;
 
         // The aura hits once per this many frames.
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 800f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 72f / UpdatesPerFrame;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 60f / UpdatesPerFrame;
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
@@ -255,7 +255,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
             int numOrbs = 3;
             int orbID = ModContent.ProjectileType<Orbacle>();
-            int orbDamage = Projectile.damage * 3;
+            int orbDamage = Projectile.damage * 2;
             float orbKB = 8f;
             float angleVariance = MathHelper.TwoPi / numOrbs;
             float spinOffsetAngle = MathHelper.Pi / (2f * numOrbs);

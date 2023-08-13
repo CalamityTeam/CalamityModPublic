@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.JungleYoyo, RebalanceYoyo(20f, 288f, 17f, 0, 20) }, // Amazon
 
                 // original: INF lifetime | 340px range | 16px/f top speed | 0 extra updates
-                { ProjectileID.Kraken, RebalanceYoyo(-1f, 480f, 57f, 2) },
+                { ProjectileID.Kraken, RebalanceYoyo(-1f, 480f, 54f, 2) },
 
                 // original: 5s lifetime | 170px range | 11px/f top speed | 0 extra updates
                 { ProjectileID.Rally, RebalanceYoyo(16f, 272f, 20f, 0, 20) },
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.RedsYoyo, RebalanceYoyo(-1f, 480f, 42f, 2, 12) }, // Red's Throw
 
                 // original: INF lifetime | 400px range | 17.5px/f top speed | 0 extra updates
-                { ProjectileID.Terrarian, RebalanceYoyo(-1f, 512f, 60f, 2) },
+                { ProjectileID.Terrarian, RebalanceYoyo(-1f, 512f, 54f, 2) },
                 // 12AUG2023: Ozzatron: Terrarian has been IL edited to not emit more orb spawns with extra updates. This iframe change is safe.
                 { ProjectileID.TerrarianBeam, Do(LocalIFrames(-1)) }, // Terrarian yoyo orbs
 
