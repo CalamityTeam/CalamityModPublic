@@ -214,7 +214,7 @@ namespace CalamityMod.NPCs
         };
         private static readonly string[] WizardNames =
         {
-            "Mage One-Trick",
+            "Mage One-Trick", // <@!340996105460514816> (pixlgray) - going of off memory on this one
             "Inorim, son of Ivukey",
             "Jensen",
             "Merasmus", // <@!288066987819663360> (Spider pee pee#3328)
@@ -228,6 +228,7 @@ namespace CalamityMod.NPCs
         {
             "Kiriku", // <@!395312478160027668> (rulosss#6814)
             "Lacuna", // <@!790746689211203604> (Lacuna#8629)
+            "Mae Borowski", //<@!219158690433990656> (justakkolite)
         };
 
         // The following sets are for the 1.4 Town Pets: Town Dogs, Cats and Bunnies.
