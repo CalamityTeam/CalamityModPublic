@@ -967,9 +967,12 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a clock.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpClock(this ModTile mt, bool lavaImmune = false)
+        internal static void SetUpClock(this ModTile mt, int itemDropID, bool lavaImmune = false)
         {
+            mt.RegisterItemDrop(itemDropID);
+
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileNoAttach[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;

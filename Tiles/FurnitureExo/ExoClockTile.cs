@@ -2,17 +2,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoClockTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpClock(true);
+        public override void SetStaticDefaults() => this.SetUpClock(ModContent.ItemType<ExoClock>(), true);
 
         public override bool CanExplode(int i, int j) => false;
 
