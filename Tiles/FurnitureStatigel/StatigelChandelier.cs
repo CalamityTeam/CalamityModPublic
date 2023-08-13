@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelChandelier : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpChandelier(ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelChandelier>(), );
+        public override void SetStaticDefaults() => this.SetUpChandelier(ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelChandelier>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoCandelabraTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandelabra(ModContnet.ItemType<ExoCandelabra>(), true);
+        public override void SetStaticDefaults() => this.SetUpCandelabra(ModContent.ItemType<ExoCandelabra>(), true);
 
         public override bool CanExplode(int i, int j) => false;
 

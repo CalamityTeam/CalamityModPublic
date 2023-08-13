@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousCandleTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandle(ModCOntent.ItemType<SacrilegiousCandle>(), true);
+        public override void SetStaticDefaults() => this.SetUpCandle(ModContent.ItemType<SacrilegiousCandle>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

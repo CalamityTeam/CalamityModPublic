@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicChandelier : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpChandelier(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicChandelier>(), );
+        public override void SetStaticDefaults() => this.SetUpChandelier(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicChandelier>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {
