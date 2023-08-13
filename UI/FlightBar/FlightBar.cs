@@ -40,8 +40,9 @@ namespace CalamityMod.UI
         
         private static object GetFlightTime(CalamityPlayer modPlayer)
         {
+            Player player = modPlayer.Player;
             object result;
-            if (modPlayer.Player.equippedWings != null && modPlayer.Player.wingTimeMax == 0)
+            if (player.equippedWings != null && player.wingTimeMax == 0)
                 result = 0;
             if (modPlayer.infiniteFlight && completedAnimation)
             {
@@ -49,9 +50,9 @@ namespace CalamityMod.UI
             }
             else
             {
-                int currentFlight = (int)modPlayer.Player.wingTime;
-                int maxFlight = modPlayer.Player.wingTimeMax;
-                return (100f * currentFlight / maxFlight).ToString("0.00");
+                int currentFlight = (int)player.wingTime;
+                int maxFlight = player.wingTimeMax;
+                return (Math.Min(100f * currentFlight / maxFlight, 100f)).ToString("0.00"); // why the FUCK can wingtime be higher than max wingtime?????????
             }
 
             return result;
@@ -185,7 +186,7 @@ namespace CalamityMod.UI
         {
             float uiScale = Main.UIScale;
             Player player = modPlayer.Player;
-            float flightRatio = player.wingTime / player.wingTimeMax; 
+            float flightRatio = Math.Min(player.wingTime / player.wingTimeMax, 1f); // why the FUCK can wingtime be higher than max wingtime?????????
             if (!completedAnimation && FlightAnimFrame == -1 && modPlayer.infiniteFlight) 
                 FlightAnimFrame++;
             if (FlightAnimFrame > -1) //animation started, complete it.
