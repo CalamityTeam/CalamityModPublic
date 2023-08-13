@@ -929,8 +929,13 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a chest.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
-        internal static void SetUpChest(this ModTile mt, bool offset = false, int offsetAmt = 4)
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
+        /// <param name="offset">If true, uses the parameter offsetAmt to decide the Y draw offset.</param>
+        /// <param name="offsetAmt">If offset is true, this is the Y draw offset to use. Otherwise it is ignored.</param>
+        internal static void SetUpChest(this ModTile mt, int itemDropID, bool offset = false, int offsetAmt = 4)
         {
+            mt.RegisterItemDrop(itemDropID);
+
             Main.tileSpelunker[mt.Type] = true;
             Main.tileContainer[mt.Type] = true;
             Main.tileShine2[mt.Type] = true;

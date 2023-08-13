@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -12,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpChest(true);
+            this.SetUpChest(ModContent.ItemType< Items.Placeables.FurnitureAshen.AshenChest>(), true);
             AddMapEntry(new Color(191, 142, 111), this.GetLocalization("MapEntry0"), MapChestName);
             AddMapEntry(new Color(174, 129, 92), this.GetLocalization("MapEntry1"), MapChestName);
         }
@@ -31,7 +29,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override LocalizedText DefaultContainerName(int frameX, int frameY)
         {
             int option = frameX / 36;
-			return this.GetLocalization("MapEntry" + option);
+            return this.GetLocalization("MapEntry" + option);
         }
         public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureAshen.AshenChest>(i, j);
         public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureAshen.AshenChest>(i, j);
