@@ -176,40 +176,43 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             if (AITimer >= TimeBetweenBurst)
             {
-                if (TimerForShooting % TimeBetweenProjectiles == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+                if (TimerForShooting % TimeBetweenProjectiles == 0)
                 {
                     Vector2 vecToPlayer = NPC.SafeDirectionTo(player.Center);
                     Vector2 projVelocity = vecToPlayer * ProjectileSpeed;
                     int type = ModContent.ProjectileType<IceClasperEnemyProjectile>();
 
                     // If Death Mode on, the enemy will shoot out a spead of projectiles, instead of a burst.
-                    if (death)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        for (int i = -16; i < 8; i += 8)
+                        if (death)
                         {
-                            Vector2 spreadVelocity = projVelocity.RotatedBy(MathHelper.ToRadians(i));
-                            int projectile = Projectile.NewProjectile(NPC.GetSource_FromAI(), 
+                            for (int i = -16; i < 8; i += 8)
+                            {
+                                Vector2 spreadVelocity = projVelocity.RotatedBy(MathHelper.ToRadians(i));
+                                int projectile = Projectile.NewProjectile(NPC.GetSource_FromAI(),
+                                    NPC.Center + projVelocity.SafeNormalize(Vector2.Zero) * 10f,
+                                    spreadVelocity,
+                                    type,
+                                    24,
+                                    0f,
+                                    Main.myPlayer);
+                                Main.projectile[projectile].timeLeft = 300;
+                            }
+                            NPC.netUpdate = true;
+                        }
+                        else
+                        {
+                            int projectile = Projectile.NewProjectile(NPC.GetSource_FromAI(),
                                 NPC.Center + projVelocity.SafeNormalize(Vector2.Zero) * 10f,
-                                spreadVelocity,
-                                type, 
-                                24, 
-                                0f, 
+                                projVelocity,
+                                type,
+                                24,
+                                0f,
                                 Main.myPlayer);
                             Main.projectile[projectile].timeLeft = 300;
+                            NPC.netUpdate = true;
                         }
-                        NPC.netUpdate = true;
-                    }
-                    else
-                    {
-                        int projectile = Projectile.NewProjectile(NPC.GetSource_FromAI(), 
-                            NPC.Center + projVelocity.SafeNormalize(Vector2.Zero) * 10f,
-                            projVelocity,
-                            type, 
-                            24, 
-                            0f, 
-                            Main.myPlayer);
-                        Main.projectile[projectile].timeLeft = 300;
-                        NPC.netUpdate = true;
                     }
 
                     // Recoil effect when shooting.

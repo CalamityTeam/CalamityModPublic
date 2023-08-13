@@ -1,15 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.Enums;
-using System;
-using ReLogic.Content;
-using Terraria.Localization;
-using CalamityMod.ForegroundDrawing;
 
 namespace CalamityMod.Tiles.BaseTiles
 {
@@ -54,6 +53,8 @@ namespace CalamityMod.Tiles.BaseTiles
 
         public override void SetStaticDefaults()
         {
+            RegisterItemDrop(AssociatedItem);
+
             Main.tileShine[Type] = 400; // Responsible for golden particles
             Main.tileFrameImportant[Type] = true; // Any multitile requires this
             TileID.Sets.InteractibleByNPCs[Type] = true; // Town NPCs will palm their hand at this tile

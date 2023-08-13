@@ -351,9 +351,9 @@ namespace CalamityMod.NPCs.Other
                 }
                 if (deathrayCounter == 100)
                 {
+                    SoundEngine.PlaySound(NPCs.ExoMechs.Ares.AresBody.LaserStartSound, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        SoundEngine.PlaySound(NPCs.ExoMechs.Ares.AresBody.LaserStartSound, NPC.Center);
                         int type = ModContent.ProjectileType<AresDeathBeamStart>();
                         int damage = 69;
                         Vector2 spawnPoint = NPC.Center + new Vector2(-1f, 23f);

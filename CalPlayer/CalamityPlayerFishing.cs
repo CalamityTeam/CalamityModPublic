@@ -589,11 +589,11 @@ namespace CalamityMod.CalPlayer
         public override void GetFishingLevel(Item fishingRod, Item bait, ref float fishingLevel)
         {
             if ((ZoneAstral || ZoneAbyss || ZoneSulphur) && bait.type == ModContent.ItemType<ArcturusAstroidean>())
-                fishingLevel = (int)(fishingLevel * 1.1f);
+                fishingLevel = fishingLevel * 1.1f;
             if (Player.ZoneSnow && fishingRod.type == ModContent.ItemType<VerstaltiteFishingRod>())
-                fishingLevel = (int)(fishingLevel * 1.1f);
+                fishingLevel = fishingLevel * 1.1f;
             if (Player.ZoneSkyHeight && fishingRod.type == ModContent.ItemType<HeronRod>())
-                fishingLevel = (int)(fishingLevel * 1.1f);
+                fishingLevel = fishingLevel * 1.1f;
 
 			// Prevent the player from fishing if they have the Bloodworm
             if (bait.type == ModContent.ItemType<BloodwormItem>())

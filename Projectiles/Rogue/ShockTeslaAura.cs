@@ -97,13 +97,10 @@ namespace CalamityMod.Projectiles.Rogue
             if (target.knockBackResist <= 0f)
                 return;
 
+            // 12AUG2023: Ozzatron: TML was giving NaN knockback, probably due to 0 base knockback. Do not use hit.Knockback
             if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {
-                float knockbackMultiplier = hit.Knockback - (1f - target.knockBackResist);
-                if (knockbackMultiplier < 0)
-                {
-                    knockbackMultiplier = 0;
-                }
+                float knockbackMultiplier = MathHelper.Clamp(1f - target.knockBackResist, 0f, 1f);
                 Vector2 trueKnockback = target.Center - Projectile.Center;
                 trueKnockback.Normalize();
                 target.velocity = trueKnockback * knockbackMultiplier;

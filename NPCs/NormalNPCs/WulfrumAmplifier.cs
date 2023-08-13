@@ -86,31 +86,35 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             Player player = Main.player[NPC.target];
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && !Charging && NPC.Distance(player.Center) < ChargeRadiusMax * 0.667f)
+            if (!Charging && NPC.Distance(player.Center) < ChargeRadiusMax * 0.667f)
             {
                 // Spawn some off-screen enemies to act as threats if the player enters the field.
-                int enemiesToSpawn = CalamityWorld.death ? 3 : CalamityWorld.revenge ? 2 : 1;
-                for (int i = 0; i < enemiesToSpawn; i++)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int tries = 0;
-                    Vector2 spawnPosition;
-                    do
+                    int enemiesToSpawn = CalamityWorld.death ? 3 : CalamityWorld.revenge ? 2 : 1;
+                    for (int i = 0; i < enemiesToSpawn; i++)
                     {
-                        spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(600f, 1015f) * new Vector2(1.5f, 1f);
-                        if (spawnPosition.Y > player.Center.Y)
-                            spawnPosition.Y = player.Center.Y;
-                        if (tries > 500)
-                            break;
-                        tries++;
-                    }
-                    while (WorldGen.SolidTile(CalamityUtils.ParanoidTileRetrieval((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16)));
+                        int tries = 0;
+                        Vector2 spawnPosition;
+                        do
+                        {
+                            spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(600f, 1015f) * new Vector2(1.5f, 1f);
+                            if (spawnPosition.Y > player.Center.Y)
+                                spawnPosition.Y = player.Center.Y;
+                            if (tries > 500)
+                                break;
+                            tries++;
+                        }
+                        while (WorldGen.SolidTile(CalamityUtils.ParanoidTileRetrieval((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16)));
 
-                    if (tries < 500)
-                    {
-                        int npcToSpawn = Main.rand.NextBool(2) ? ModContent.NPCType<WulfrumDrone>() : ModContent.NPCType<WulfrumHovercraft>();
-                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnPosition.X, (int)spawnPosition.Y, npcToSpawn);
+                        if (tries < 500)
+                        {
+                            int npcToSpawn = Main.rand.NextBool(2) ? ModContent.NPCType<WulfrumDrone>() : ModContent.NPCType<WulfrumHovercraft>();
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnPosition.X, (int)spawnPosition.Y, npcToSpawn);
+                        }
                     }
                 }
+
                 Charging = true;
                 NPC.netUpdate = true;
             }

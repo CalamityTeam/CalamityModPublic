@@ -15,9 +15,11 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoToiletTile : ModTile
     {
-		public const int NextStyleHeight = 40;
+        public const int NextStyleHeight = 40;
         public override void SetStaticDefaults()
         {
+            RegisterItemDrop(ModContent.ItemType<ExoToilet>());
+
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;

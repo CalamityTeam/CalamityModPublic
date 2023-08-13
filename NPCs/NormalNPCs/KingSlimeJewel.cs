@@ -109,42 +109,43 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             // Fire projectiles
             NPC.ai[0] += 1f;
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (NPC.ai[0] >= (BossRushEvent.BossRushActive ? BoltShootGateValue_BossRush : CalamityWorld.death ? BoltShootGateValue_Death : BoltShootGateValue))
             {
-                if (NPC.ai[0] >= (BossRushEvent.BossRushActive ? BoltShootGateValue_BossRush : CalamityWorld.death ? BoltShootGateValue_Death : BoltShootGateValue))
+                NPC.ai[0] = 0f;
+
+                Vector2 npcPos = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float xDist = Main.player[NPC.target].Center.X - npcPos.X;
+                float yDist = Main.player[NPC.target].Center.Y - npcPos.Y;
+                Vector2 projVector = new Vector2(xDist, yDist);
+                float projLength = projVector.Length();
+
+                float speed = 10f;
+                int type = ModContent.ProjectileType<JewelProjectile>();
+
+                projLength = speed / projLength;
+                projVector.X *= projLength;
+                projVector.Y *= projLength;
+                npcPos.X += projVector.X * 2f;
+                npcPos.Y += projVector.Y * 2f;
+
+                for (int dusty = 0; dusty < 10; dusty++)
                 {
-                    NPC.ai[0] = 0f;
-
-                    Vector2 npcPos = new Vector2(NPC.Center.X, NPC.Center.Y);
-                    float xDist = Main.player[NPC.target].Center.X - npcPos.X;
-                    float yDist = Main.player[NPC.target].Center.Y - npcPos.Y;
-                    Vector2 projVector = new Vector2(xDist, yDist);
-                    float projLength = projVector.Length();
-
-                    float speed = 10f;
-                    int type = ModContent.ProjectileType<JewelProjectile>();
-
-                    projLength = speed / projLength;
-                    projVector.X *= projLength;
-                    projVector.Y *= projLength;
-                    npcPos.X += projVector.X * 2f;
-                    npcPos.Y += projVector.Y * 2f;
-
-                    for (int dusty = 0; dusty < 10; dusty++)
+                    Vector2 dustVel = projVector;
+                    dustVel.Normalize();
+                    int ruby = Dust.NewDust(NPC.Center, NPC.width, NPC.height, 90, dustVel.X, dustVel.Y, 100, default, 2f);
+                    Main.dust[ruby].velocity *= 1.5f;
+                    Main.dust[ruby].noGravity = true;
+                    if (Main.rand.NextBool(2))
                     {
-                        Vector2 dustVel = projVector;
-                        dustVel.Normalize();
-                        int ruby = Dust.NewDust(NPC.Center, NPC.width, NPC.height, 90, dustVel.X, dustVel.Y, 100, default, 2f);
-                        Main.dust[ruby].velocity *= 1.5f;
-                        Main.dust[ruby].noGravity = true;
-                        if (Main.rand.NextBool(2))
-                        {
-                            Main.dust[ruby].scale = 0.5f;
-                            Main.dust[ruby].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
-                        }
+                        Main.dust[ruby].scale = 0.5f;
+                        Main.dust[ruby].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
+                }
 
-                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+                SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
                     int damage = NPC.GetProjectileDamage(type);
                     if (CalamityWorld.death || BossRushEvent.BossRushActive)
                     {

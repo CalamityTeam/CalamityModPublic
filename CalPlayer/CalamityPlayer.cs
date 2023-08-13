@@ -312,7 +312,6 @@ namespace CalamityMod.CalPlayer
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
         public const float UnicornSpeedNerfPower = 0.8f;
-        public const float MechanicalCartSpeedNerfPower = 0.7f;
         #endregion
 
         #region Pet
@@ -3387,6 +3386,10 @@ namespace CalamityMod.CalPlayer
         #region PreUpdate
         public override void PreUpdate()
         {
+            //Infinite flight granted by some boss attacks
+            if (infiniteFlight)
+                Player.wingTime = Player.wingTimeMax;
+            
             // Reset the Calamity shader.
             CalamityFireDyeShader = null;
 
@@ -6612,19 +6615,11 @@ namespace CalamityMod.CalPlayer
             if (abyssDeath)
             {
                 SoundEngine.PlaySound(DrownSound, Player.Center);
-
-                if (Main.rand.NextBool(2))
-                {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " is food for the Wyrms.");
-                }
-                else
-                {
-                    damageSource = PlayerDeathReason.ByCustomReason("Oxygen failed to reach " + Player.name + " from the depths of the Abyss.");
-                }
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AbyssDrown" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
             }
             else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " failed the challenge at hand.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Armageddon").Format(Player.name));
             }
 
             NetworkText deathText = damageSource.GetDeathText(Player.name);

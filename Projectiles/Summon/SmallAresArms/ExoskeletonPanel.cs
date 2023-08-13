@@ -339,7 +339,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
             // Tell the player if they don't have enough summon slots.
             if (hoveringOverAnySlot && !sufficientSlots)
-                Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, "Insufficient minion slots!", Main.MouseScreen.X + 20f, Main.MouseScreen.Y + 12f, Color.Cyan, Color.Black, new Vector2(0f, 0.5f));
+                Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, this.GetLocalizedValue("NoSlots"), Main.MouseScreen.X + 20f, Main.MouseScreen.Y + 12f, Color.Cyan, Color.Black, new Vector2(0f, 0.5f));
 
             // Reset the clicked icon if a click is made but not to a specific icon.
             if (!hoveringOverAnySlot && Main.mouseLeft && Main.mouseLeftRelease)

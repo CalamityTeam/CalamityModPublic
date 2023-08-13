@@ -16,6 +16,8 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
     {
         public override void SetStaticDefaults()
         {
+            RegisterItemDrop(ModContent.ItemType<AcidwoodChair>());
+
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = false;

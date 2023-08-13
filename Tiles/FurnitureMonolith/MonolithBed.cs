@@ -2,17 +2,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureMonolith
 {
     public class MonolithBed : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpBed(true);
+        public override void SetStaticDefaults() => this.SetUpBed(ModContent.ItemType<Items.Placeables.FurnitureMonolith.MonolithBed>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

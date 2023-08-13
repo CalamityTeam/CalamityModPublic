@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     public class MicrowaveYoyo : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
+        public const int MaxUpdates = 3;
         private const float Radius = 100f;
         private SlotId mmmmmm;
         private bool spawnedAura = false;
@@ -23,8 +24,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 450f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 14f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 512f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 54f / MaxUpdates;
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -33,15 +34,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetDefaults()
         {
             Projectile.aiStyle = ProjAIStyleID.Yoyo;
-            Projectile.width = 16;
-            Projectile.height = 16;
-            Projectile.scale = 1f;
+            Projectile.width = Projectile.height = 16;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
-            Projectile.MaxUpdates = 2;
+            Projectile.MaxUpdates = MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            Projectile.localNPCHitCooldown = 10 * MaxUpdates;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(soundCooldown);

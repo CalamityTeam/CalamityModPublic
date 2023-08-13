@@ -134,7 +134,7 @@ BrimstoneElemental: {
 Bumblebirb: Bumblebirb
 
 Bumblefuck: {
-	DisplayName: The Dragonfolly
+	DisplayName: Dragonfolly
 
 	BossChecklistIntegration: {
 		EntryName: Dragonfolly
@@ -202,7 +202,7 @@ Cryogen: {
 Pyrogen: Pyrogen
 CryogenShield.DisplayName: Cryogen's Shield
 PyrogenShield: Pyrogen's Shield
-DesertNuisanceHead.DisplayName: A Desert Nuisance
+DesertNuisanceHead.DisplayName: Desert Nuisance
 
 DesertScourgeHead: {
 	DisplayName: Desert Scourge
@@ -385,8 +385,11 @@ LecherousOrb.DisplayName: Lecherous Orb
 THELORDE.DisplayName: THE LORDE
 PerforatorCyst.DisplayName: Perforator Cyst
 PerforatorHeadLarge.DisplayName: The Perforator
+PerforatorLarge: The Large Perforator
 PerforatorHeadMedium.DisplayName: The Perforator
+PerforatorMedium: The Medium Perforator
 PerforatorHeadSmall.DisplayName: The Perforator
+PerforatorSmall: The Small Perforator
 
 PerforatorHive: {
 	DisplayName: The Perforator Hive

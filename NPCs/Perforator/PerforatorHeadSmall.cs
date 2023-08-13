@@ -560,7 +560,7 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            name = "The Small Perforator";
+            name = CalamityUtils.GetTextValue("NPCs.PerforatorSmall");
             potionType = ItemID.HealingPotion;
         }
 

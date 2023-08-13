@@ -227,9 +227,11 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         int oldAlpha = NPC.alpha;
                         NPC.alpha = Utils.Clamp(NPC.alpha + 9, 0, 255);
-                        if (Main.netMode != NetmodeID.MultiplayerClient && NPC.alpha >= 255 && oldAlpha < 255)
+                        if (NPC.alpha >= 255 && oldAlpha < 255)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanSpawner>(), 0, 0f);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanSpawner>(), 0, 0f);
+
                             HasBegunSummoningLeviathan = true;
                             NPC.netUpdate = true;
                         }

@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicBathtub : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpBathtub();
+        public override void SetStaticDefaults() => this.SetUpBathtub(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicBathtub>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

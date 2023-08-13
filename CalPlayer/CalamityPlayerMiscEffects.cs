@@ -1028,7 +1028,7 @@ namespace CalamityMod.CalPlayer
                 if (Player.mount.Type == MountID.Slime)
                     Player.velocity.X *= 0.91f;
                 else if (Player.mount.Type == MountID.QueenSlime)
-                    Player.velocity.X *= 0.935f;
+                    Player.velocity.X *= 0.95f;
             }
 
             // Omega Blue Armor bonus
@@ -2364,11 +2364,6 @@ namespace CalamityMod.CalPlayer
         #region Other Buff Effects
         private void OtherBuffEffects()
         {
-            //Infinite flight granted by some boss attacks
-            if (infiniteFlight)
-            {
-                Player.wingTime = Player.wingTimeMax;
-            }
             
             if (gravityNormalizer)
             {

@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs
         {
             if (type == BuffID.Archery)
             {
-                player.arrowDamage *= 0.875f;
+                player.arrowDamage *= 0.955f;
             }
             else if (type == BuffID.Ironskin)
             {
