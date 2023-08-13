@@ -3,15 +3,13 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlateChair : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpChair(true);
+        public override void SetStaticDefaults() => this.SetUpChair(ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateChair>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {
