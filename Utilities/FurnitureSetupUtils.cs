@@ -1113,8 +1113,11 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a dresser.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
-        internal static void SetUpDresser(this ModTile mt)
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
+        internal static void SetUpDresser(this ModTile mt, int itemDropID)
         {
+            mt.RegisterItemDrop(itemDropID);
+
             Main.tileSolidTop[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileNoAttach[mt.Type] = true;

@@ -1,9 +1,7 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureAcidwood;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -13,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDresser();
+            this.SetUpDresser(ModContent.ItemType<AcidwoodDresser>());
             AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<AcidwoodDresser>(), CalamityUtils.GetMapChestName);
         }
 
@@ -23,7 +21,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
             return false;
         }
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
-		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
         public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<AcidwoodDresser>();
         public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<AcidwoodDresser>();
