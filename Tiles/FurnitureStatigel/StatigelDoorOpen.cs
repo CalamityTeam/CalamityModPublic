@@ -1,10 +1,8 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureStatigel;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
@@ -13,8 +11,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorOpen();
-            RegisterItemDrop(ModContent.ItemType<StatigelDoor>());
+            this.SetUpDoorOpen(ModContent.ItemType<StatigelDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<StatigelDoorClosed>();
         }
 

@@ -2,10 +2,8 @@
 using CalamityMod.Items.Placeables.FurnitureSilva;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSilva
@@ -14,8 +12,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorOpen(true);
-            RegisterItemDrop(ModContent.ItemType<SilvaDoor>());
+            this.SetUpDoorOpen(ModContent.ItemType<SilvaDoor>(), true);
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<SilvaDoorClosed>();
         }
 

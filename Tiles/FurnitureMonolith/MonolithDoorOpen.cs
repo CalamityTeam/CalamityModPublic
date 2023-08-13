@@ -3,10 +3,8 @@ using CalamityMod.Items.Placeables.FurnitureMonolith;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureMonolith
@@ -15,8 +13,7 @@ namespace CalamityMod.Tiles.FurnitureMonolith
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorOpen(true);
-            RegisterItemDrop(ModContent.ItemType<MonolithDoor>());
+            this.SetUpDoorOpen(ModContent.ItemType<MonolithDoor>(), true);
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<MonolithDoorClosed>();
         }
 

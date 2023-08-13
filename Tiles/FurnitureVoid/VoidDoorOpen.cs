@@ -1,10 +1,8 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureVoid;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureVoid
@@ -13,8 +11,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorOpen(true);
-            RegisterItemDrop(ModContent.ItemType<VoidDoor>());
+            this.SetUpDoorOpen(ModContent.ItemType<VoidDoor>(), true);
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<VoidDoorClosed>();
         }
 

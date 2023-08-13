@@ -2,10 +2,8 @@
 using CalamityMod.Items.Placeables.FurnitureProfaned;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
@@ -14,8 +12,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorOpen(true);
-            RegisterItemDrop(ModContent.ItemType<ProfanedDoor>());
+            this.SetUpDoorOpen(ModContent.ItemType<ProfanedDoor>(), true);
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<ProfanedDoorClosed>();
         }
 

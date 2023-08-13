@@ -1,10 +1,8 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureAcidwood;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAcidwood
@@ -13,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorClosed();
+            this.SetUpDoorClosed(ModContent.ItemType<AcidwoodDoor>());
             TileID.Sets.OpenDoorID[Type] = ModContent.TileType<AcidwoodDoorOpen>();
         }
 
