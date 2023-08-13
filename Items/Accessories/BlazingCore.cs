@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Accessories
                     if (!Main.dedServ)
                     {
                         spinningPoint *= 1.5f;
-                        dmgAmt = (int)player.GetTotalDamage<GenericDamageClass>().ApplyTo(dmgAmt);
+                        dmgAmt = (int)player.GetBestClassDamage().ApplyTo(dmgAmt);
                         Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, vector2, projectileType, dmgAmt, 0f, Main.myPlayer);
 
                     }
