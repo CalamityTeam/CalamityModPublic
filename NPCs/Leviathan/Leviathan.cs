@@ -170,8 +170,8 @@ namespace CalamityMod.NPCs.Leviathan
                 {
                     int siren = NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height - 1000, ModContent.NPCType<Anahita>(), NPC.whoAmI);
                     CalamityUtils.BossAwakenMessage(siren);
-                    gfbAnaSummoned = true;
                 }
+                gfbAnaSummoned = true;
             }
 
             SoundStyle soundChoiceRage = SoundID.Zombie92;
