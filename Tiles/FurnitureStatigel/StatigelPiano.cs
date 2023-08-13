@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelPiano : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPiano();
+        public override void SetStaticDefaults() => this.SetUpPiano(ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelPiano>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

@@ -1,14 +1,12 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaPiano : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPiano(true);
+        public override void SetStaticDefaults() => this.SetUpPiano(ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaPiano>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

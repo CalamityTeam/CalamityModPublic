@@ -1205,10 +1205,13 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a piano.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
         /// <param name="solidTop">Whether this tile is supposed to have a solid top. Defaults to true.</param>
-        internal static void SetUpPiano(this ModTile mt, bool lavaImmune = false, bool solidTop = true)
+        internal static void SetUpPiano(this ModTile mt, int itemDropID, bool lavaImmune = false, bool solidTop = true)
         {
+            mt.RegisterItemDrop(itemDropID);
+            
             Main.tileTable[mt.Type] = solidTop;
             Main.tileSolidTop[mt.Type] = solidTop;
             Main.tileLighted[mt.Type] = true;

@@ -2,14 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureMonolith
 {
     public class MonolithPiano : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPiano(true);
+        public override void SetStaticDefaults() => this.SetUpPiano(ModContent.ItemType<Items.Placeables.FurnitureMonolith.MonolithPiano>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

@@ -2,14 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoKeyboardTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPiano(true);
+        public override void SetStaticDefaults() => this.SetUpPiano(ModContent.ItemType<ExoKeyboard>(), true);
 
         public override bool CanExplode(int i, int j) => false;
 

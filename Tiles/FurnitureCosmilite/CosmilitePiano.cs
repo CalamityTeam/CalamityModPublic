@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmilitePiano : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPiano(true);
+        public override void SetStaticDefaults() => this.SetUpPiano(ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmilitePiano>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

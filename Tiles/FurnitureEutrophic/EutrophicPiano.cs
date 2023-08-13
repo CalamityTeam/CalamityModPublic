@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicPiano : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPiano();
+        public override void SetStaticDefaults() => this.SetUpPiano(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicPiano>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

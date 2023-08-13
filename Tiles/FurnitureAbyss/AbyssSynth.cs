@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
     [LegacyName("AbyssPiano")]
     public class AbyssSynth : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPiano(true);
+        public override void SetStaticDefaults() => this.SetUpPiano(ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssSynth>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {
