@@ -823,11 +823,14 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a candle.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
         /// <param name="autoMapEntry">Whether this tile is supposed to use normal map entries. Defaults to true.</param>
         /// <param name="offset">The vertical offset of the tile. Defaults to -4.</param>
-        internal static void SetUpCandle(this ModTile mt, bool lavaImmune = false, bool autoMapEntry = true, int offset = -4)
+        internal static void SetUpCandle(this ModTile mt, int itemDropID, bool lavaImmune = false, bool autoMapEntry = true, int offset = -4)
         {
+            mt.RegisterItemDrop(itemDropID);
+
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;

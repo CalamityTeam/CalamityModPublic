@@ -2,15 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodCandleTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandle();
+        public override void SetStaticDefaults() => this.SetUpCandle(ModContent.ItemType<AcidwoodCandle>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

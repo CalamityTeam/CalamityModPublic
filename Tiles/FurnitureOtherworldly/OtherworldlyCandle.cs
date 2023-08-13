@@ -1,8 +1,6 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
@@ -10,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
     [LegacyName("OccultCandle")]
     public class OtherworldlyCandle : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandle(true);
+        public override void SetStaticDefaults() => this.SetUpCandle(ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlyCandle>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

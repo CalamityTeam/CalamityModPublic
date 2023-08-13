@@ -2,15 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoCandleTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandle(true);
+        public override void SetStaticDefaults() => this.SetUpCandle(ModContent.ItemType<ExoCandle>(), true);
 
         public override bool CanExplode(int i, int j) => false;
 

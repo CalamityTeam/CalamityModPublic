@@ -1,14 +1,12 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicCandle : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandle();
+        public override void SetStaticDefaults() => this.SetUpCandle(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicCandle>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

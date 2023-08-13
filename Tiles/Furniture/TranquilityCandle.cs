@@ -1,11 +1,8 @@
 ﻿using CalamityMod.Buffs.Placeables;
-using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture
@@ -14,7 +11,7 @@ namespace CalamityMod.Tiles.Furniture
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpCandle(false, false);
+            this.SetUpCandle(ModContent.ItemType<Items.Placeables.Furniture.TranquilityCandle>(), false, false);
             AddMapEntry(new Color(238, 145, 105), CalamityUtils.GetItemName<Items.Placeables.Furniture.TranquilityCandle>());
         }
 
