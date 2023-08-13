@@ -66,18 +66,18 @@ namespace CalamityMod
             return true;
         }
 
-		#region Sitting in Chairs
-		// fat is for 2 tile chairs like Exo Chair and Exo Toilet
+        #region Sitting in Chairs
+        // fat is for 2 tile chairs like Exo Chair and Exo Toilet
         public static void ChairSitInfo(int i, int j, ref TileRestingInfo info, int nextStyleHeight = 40, bool fat = false, bool hasOffset = false)
         {
-			if (hasOffset)
-			{
-				info.DirectionOffset = 0;
-				info.VisualOffset = new Vector2(-8f, 0f);
-			}
+            if (hasOffset)
+            {
+                info.DirectionOffset = 0;
+                info.VisualOffset = new Vector2(-8f, 0f);
+            }
 
             Tile tile = Framing.GetTileSafely(i, j);
-			bool frameCheck = fat ? tile.TileFrameX >= 35 : tile.TileFrameX != 0;
+            bool frameCheck = fat ? tile.TileFrameX >= 35 : tile.TileFrameX != 0;
 
             info.TargetDirection = -1;
             if (frameCheck)
@@ -85,14 +85,14 @@ namespace CalamityMod
                 info.TargetDirection = 1;
             }
 
-			if (fat)
-			{
-				int xPos = tile.TileFrameX / 18;
-				if (xPos == 1)
-					i--;
-				if (xPos == 2)
-					i++;
-			}
+            if (fat)
+            {
+                int xPos = tile.TileFrameX / 18;
+                if (xPos == 1)
+                    i--;
+                if (xPos == 2)
+                    i++;
+            }
 
             info.AnchorTilePosition.X = i;
             info.AnchorTilePosition.Y = j;
@@ -128,7 +128,7 @@ namespace CalamityMod
             player.cursorItemIconEnabled = true;
             player.cursorItemIconID = itemID;
 
-			bool frameCheck = fat ? Main.tile[i, j].TileFrameX <= 35 : Main.tile[i, j].TileFrameX / 18 < 0;
+            bool frameCheck = fat ? Main.tile[i, j].TileFrameX <= 35 : Main.tile[i, j].TileFrameX / 18 < 0;
             if (frameCheck)
             {
                 player.cursorItemIconReversed = true;
@@ -142,26 +142,26 @@ namespace CalamityMod
             player.cursorItemIconEnabled = true;
             player.cursorItemIconID = itemID;
         }
-		#endregion
+        #endregion
 
-		#region Sitting in Sofas/Benches
+        #region Sitting in Sofas/Benches
         public static void BenchSitInfo(int i, int j, ref TileRestingInfo info, int nextStyleHeight = 40)
         {
             Tile tile = Framing.GetTileSafely(i, j);
             Player player = Main.LocalPlayer;
 
-			info.DirectionOffset = 0;
-			float offset = 0f;
-			if (tile.TileFrameX < 17 && player.direction == 1)
-				offset = 8f;
-			if (tile.TileFrameX < 17 && player.direction == -1)
-				offset = -8f;
-			if (tile.TileFrameX > 34 && player.direction == 1)
-				offset = -8f;
-			if (tile.TileFrameX > 34 && player.direction == -1)
-				offset = 8f;
-			info.VisualOffset = new Vector2(offset, 0f);
-			info.TargetDirection = player.direction;
+            info.DirectionOffset = 0;
+            float offset = 0f;
+            if (tile.TileFrameX < 17 && player.direction == 1)
+                offset = 8f;
+            if (tile.TileFrameX < 17 && player.direction == -1)
+                offset = -8f;
+            if (tile.TileFrameX > 34 && player.direction == 1)
+                offset = -8f;
+            if (tile.TileFrameX > 34 && player.direction == -1)
+                offset = 8f;
+            info.VisualOffset = new Vector2(offset, 0f);
+            info.TargetDirection = player.direction;
 
             info.AnchorTilePosition.X = i;
             info.AnchorTilePosition.Y = j;
@@ -185,7 +185,7 @@ namespace CalamityMod
             player.cursorItemIconEnabled = true;
             player.cursorItemIconID = itemID;
         }
-		#endregion
+        #endregion
 
         public static bool ChestRightClick(int i, int j)
         {
@@ -762,11 +762,14 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a bookcase.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
         /// <param name="solidTop">Whether this tile is supposed to have a solid top. Defaults to true.</param>
         /// <param name="autoBookcase">Whether this tile is automatically registered as a bookcase and table with proper map entry. Defaults to true.</param>
-        internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false, bool solidTop = true, bool autoBookcase = true)
+        internal static void SetUpBookcase(this ModTile mt, int itemDropID, bool lavaImmune = false, bool solidTop = true, bool autoBookcase = true)
         {
+            mt.RegisterItemDrop(itemDropID);
+
             Main.tileSolidTop[mt.Type] = solidTop;
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
@@ -1482,24 +1485,24 @@ namespace CalamityMod
             mt.DustType = 7;
         }
 
-		/// <summary>
-		/// Extension which initializes a ModTile to be a 6x6 Painting.
-		/// </summary>
-		/// <param name="mt">The ModTile which is being initialized.</param>
-		/// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-		internal static void SetUp6x6Painting(this ModTile mt, bool lavaImmune = false)
-		{
-			Main.tileFrameImportant[mt.Type] = true;
-			Main.tileLavaDeath[mt.Type] = !lavaImmune;
-			Main.tileWaterDeath[mt.Type] = false;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
-			TileObjectData.newTile.Width = 6;
-			TileObjectData.newTile.Height = 6;
-			TileObjectData.newTile.Origin = new Point16(2, 2);
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16 };
-			TileObjectData.newTile.LavaDeath = !lavaImmune;
+        /// <summary>
+        /// Extension which initializes a ModTile to be a 6x6 Painting.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUp6x6Painting(this ModTile mt, bool lavaImmune = false)
+        {
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
+            TileObjectData.newTile.Width = 6;
+            TileObjectData.newTile.Height = 6;
+            TileObjectData.newTile.Origin = new Point16(2, 2);
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16 };
+            TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
-			TileObjectData.addTile(mt.Type);
-		}
+            TileObjectData.addTile(mt.Type);
+        }
     }
 }

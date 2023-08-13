@@ -2,16 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoBookcaseTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpBookcase(true);
+        public override void SetStaticDefaults() => this.SetUpBookcase(ModContent.ItemType<ExoBookcase>(), true);
 
         public override bool CanExplode(int i, int j) => false;
 
