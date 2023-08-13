@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 480f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 40f / MaxUpdates;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 36f / MaxUpdates;
         }
 
         public override void SetDefaults()
@@ -38,9 +38,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 44, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             if (Projectile.owner == Main.myPlayer)
             {
-                if (Main.rand.NextBool(5 * MaxUpdates))
+                if (Main.rand.NextBool(10 * MaxUpdates))
                 {
-                    Projectile spore = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * Main.rand.NextFloat(0.15f, 0.35f), ProjectileID.SporeGas + Main.rand.Next(3), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
+                    Projectile spore = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * Main.rand.NextFloat(0.15f, 0.35f) + Vector2.UnitX.RotatedByRandom(MathHelper.Pi), ProjectileID.SporeGas + Main.rand.Next(3), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
                     spore.DamageType = DamageClass.MeleeNoSpeed;
                     spore.usesLocalNPCImmunity = true;
                     spore.localNPCHitCooldown = 30;

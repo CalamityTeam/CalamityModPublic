@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
     public class ChlorophyteLifePulse : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
-        public const int Lifetime = 95;
+        public const int Lifetime = 60;
         public float LifetimeCompletion => 1f - Projectile.timeLeft / (float)Lifetime;
         public override void SetDefaults()
         {
@@ -29,11 +29,12 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
         public override bool? CanHitNPC(NPC target) => !target.CountsAsACritter && !target.friendly && target.chaseable;
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Projectile.damage = (int)(Projectile.damage * 0.8f);
 
         public override void AI()
         {
             Projectile.Opacity = 1f - (float)Math.Pow(LifetimeCompletion, 1.56);
-            Projectile.scale = MathHelper.Lerp(0.5f, 12f, LifetimeCompletion);
+            Projectile.scale = MathHelper.Lerp(0.5f, 6f, LifetimeCompletion);
 
             // Heal all members of the same team.
             if (Projectile.timeLeft == (int)(Lifetime * 0.925f))

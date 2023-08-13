@@ -15,15 +15,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 448f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 40f / MaxUpdates;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 36f / MaxUpdates;
         }
 
         public override void SetDefaults()
         {
             Projectile.aiStyle = ProjAIStyleID.Yoyo;
-            Projectile.width = 16;
-            Projectile.height = 16;
-            Projectile.scale = 1f;
+            Projectile.width = Projectile.height = 16;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;

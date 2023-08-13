@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             target.AddBuff(BuffID.OnFire3, 240);
             if (Projectile.owner == Main.myPlayer)
             {
-                int boom = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int boom = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 if (boom.WithinBounds(Main.maxProjectiles))
                     Main.projectile[boom].DamageType = DamageClass.MeleeNoSpeed;
             }

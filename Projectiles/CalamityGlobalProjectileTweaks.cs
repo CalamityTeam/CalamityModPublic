@@ -46,19 +46,19 @@ namespace CalamityMod.Projectiles
                 // note this is only yoyos, not counterweights
 
                 // original: 15s lifetime | 270px range | 14px/f top speed | 0 extra updates
-                { ProjectileID.Amarok, RebalanceYoyo(-1f, 400f, 28f, 1) },
+                { ProjectileID.Amarok, RebalanceYoyo(-1f, 432f, 28f, 1, 12) },
 
                 // original: 13s lifetime | 235px range | 14px/f top speed | 0 extra updates
                 { ProjectileID.Cascade, RebalanceYoyo(30f, 384f, 28f, 1, 12) },
 
                 // original: 16s lifetime | 275px range | 17px/f top speed | 0 extra updates
-                { ProjectileID.Chik, RebalanceYoyo(-1f, 400f, 36f, 1) },
+                { ProjectileID.Chik, RebalanceYoyo(-1f, 400f, 32f, 1, 12) },
 
                 // original: 9s lifetime | 220px range | 13px/f top speed | 0 extra updates
                 { ProjectileID.Code1, RebalanceYoyo(21f, 320f, 25f, 1, 15) },
 
                 // original: INF lifetime | 280px range | 17px/f top speed | 0 extra updates
-                { ProjectileID.Code2, RebalanceYoyo(-1f, 432f, 44f, 1) },
+                { ProjectileID.Code2, RebalanceYoyo(-1f, 432f, 42f, 1, 12) },
 
                 // original: 7s lifetime | 195px range | 12.5px/f top speed | 0 extra updates
                 { ProjectileID.CorruptYoyo, RebalanceYoyo(18f, 288f, 22f, 0, 20) }, // Malaise
@@ -67,13 +67,13 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.CrimsonYoyo, RebalanceYoyo(18f, 288f, 22f, 0, 20) }, // Artery
 
                 // original: 8s lifetime | 235px range | 15px/f top speed | 0 extra updates
-                { ProjectileID.FormatC, RebalanceYoyo(-1f, 384f, 42f, 1) },
+                { ProjectileID.FormatC, RebalanceYoyo(-1f, 384f, 36f, 1, 12) },
 
                 // original: 10s lifetime | 250px range | 12px/f top speed | 0 extra updates
-                { ProjectileID.Gradient, RebalanceYoyo(-1f, 384f, 42f, 1) },
+                { ProjectileID.Gradient, RebalanceYoyo(-1f, 384f, 36f, 1, 12) },
 
                 // original: 12s lifetime | 275px range | 15px/f top speed | 0 extra updates
-                { ProjectileID.HelFire, RebalanceYoyo(-1f, 320f, 48f, 2) },
+                { ProjectileID.HelFire, RebalanceYoyo(-1f, 320f, 42f, 2, 12) },
 
                 // original: 11s lifetime | 225px range | 14px/f top speed | 0 extra updates
                 { ProjectileID.HiveFive, RebalanceYoyo(24f, 320f, 20f, 0, 15) },
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Rally, RebalanceYoyo(16f, 272f, 20f, 0, 20) },
 
                 // original: INF lifetime | 370px range | 16px/f top speed | 0 extra updates
-                { ProjectileID.RedsYoyo, RebalanceYoyo(-1f, 480f, 48f, 2) }, // Red's Throw
+                { ProjectileID.RedsYoyo, RebalanceYoyo(-1f, 480f, 42f, 2, 12) }, // Red's Throw
 
                 // original: INF lifetime | 400px range | 17.5px/f top speed | 0 extra updates
                 { ProjectileID.Terrarian, RebalanceYoyo(-1f, 512f, 60f, 2) },
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.TheEyeOfCthulhu, RebalanceYoyo(-1f, 480f, 36f, 1) }, // the yoyo, of course
 
                 // original: INF lifetime | 370px range | 16px/f top speed | 0 extra updates
-                { ProjectileID.ValkyrieYoyo, RebalanceYoyo(-1f, 480f, 48f, 2) },
+                { ProjectileID.ValkyrieYoyo, RebalanceYoyo(-1f, 480f, 42f, 2, 12) },
 
                 // original: 11s lifetime | 225px range | 14px/f top speed | 0 extra updates
                 { ProjectileID.Valor, RebalanceYoyo(30f, 400f, 36f, 1, 12) },
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.WoodYoyo, RebalanceYoyo(15f, 240f, 14f, 0, 20) },
 
                 // original: 14s lifetime | 290px range | 16px/f top speed | 0 extra updates
-                { ProjectileID.Yelets, RebalanceYoyo(-1f, 400f, 36f, 1) },
+                { ProjectileID.Yelets, RebalanceYoyo(-1f, 400f, 36f, 1, 12) },
                 #endregion
 
                 #region CATEGORY 2: Weapon/Enemy Balancing

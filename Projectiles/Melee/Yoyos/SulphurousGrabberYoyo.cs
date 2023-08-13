@@ -44,14 +44,15 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 if (bubbleStronk)
                 {
                     Projectile.MaxUpdates = 3;
+                    Projectile.localNPCHitCooldown = 12 * Projectile.MaxUpdates;
                     bubbleStronkCounter++;
                 }
                 else
                 {
                     Projectile.MaxUpdates = 2;
+                    Projectile.localNPCHitCooldown = 15 * Projectile.MaxUpdates;
                     bubbleStronkCounter = 0;
                 }
-                Projectile.localNPCHitCooldown = 10 * Projectile.MaxUpdates;
 
                 if (bubbleStronkCounter >= 180)
                     bubbleStronk = false;
@@ -80,10 +81,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     for (float i = 0; i < bubbleAmt; i++)
                     {
                         int projType = ModContent.ProjectileType<SulphurousGrabberBubble>();
-                        if (Main.rand.NextBool(10))
+                        if (Main.rand.NextBool(8))
                             projType = ModContent.ProjectileType<SulphurousGrabberBubble2>();
                         float angle = MathHelper.TwoPi / bubbleAmt * i + (float)Math.Sin(arbitraryTimer / 20f) * MathHelper.PiOver2;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, angle.ToRotationVector2() * 8f, projType, Projectile.damage / 2, Projectile.knockBack / 4, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, angle.ToRotationVector2() * 10f, projType, Projectile.damage / 2, Projectile.knockBack / 4, Projectile.owner);
                     }
                     bubbleCounter = 0;
                 }

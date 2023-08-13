@@ -27,12 +27,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Projectile.penetrate = -1;
             Projectile.MaxUpdates = MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10 * MaxUpdates;
+            Projectile.localNPCHitCooldown = 12 * MaxUpdates;
         }
 
         public override void AI()
         {
-            CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 10f, 144f, 5, Main.rand.NextBool(2) ? ModContent.ProjectileType<YinYoDark>() : ModContent.ProjectileType<YinYoLight>());
+            CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 10f, 144f, 5, Main.rand.NextBool(2) ? ModContent.ProjectileType<YinYoDark>() : ModContent.ProjectileType<YinYoLight>(), 0.5);
             if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
                 Projectile.Kill();
         }
