@@ -1,16 +1,13 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaChandelier : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpChandelier(true);
+        public override void SetStaticDefaults() => this.SetUpChandelier(ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaChandelier>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

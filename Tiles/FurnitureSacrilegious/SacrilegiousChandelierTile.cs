@@ -2,16 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousChandelierTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpChandelier(true);
+        public override void SetStaticDefaults() => this.SetUpChandelier(ModContent.ItemType<SacrilegiousChandelier>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

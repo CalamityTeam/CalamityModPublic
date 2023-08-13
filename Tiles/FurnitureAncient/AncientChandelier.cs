@@ -2,14 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientChandelier : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpChandelier(true);
+        public override void SetStaticDefaults() => this.SetUpChandelier(ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientChandelier>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {
