@@ -17,6 +17,9 @@ namespace CalamityMod.Items.Accessories
 
         private static float offset = 0f;
         
+        public static readonly SoundStyle ParryActivateSound = new("CalamityMod/Sounds/Item/BlazingCoreParryActivate") { Volume = 0.7f};
+        public static readonly SoundStyle ParrySuccessSound = new("CalamityMod/Sounds/Item/BlazingCoreParry") { Volume = 0.6f};
+        
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 6));

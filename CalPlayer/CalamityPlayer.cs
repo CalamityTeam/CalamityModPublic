@@ -2892,11 +2892,11 @@ namespace CalamityMod.CalPlayer
                     //because of ordering, if they do not have the cooldown, it will not check the projectile array. Likewise if there are no bosses alive.
                     //Furthermore, Enumerable#Any is lightweight and returns immediately if a single object matches it's predicate
                     if (!Player.HasCooldown(Cooldowns.ElysianGuard.ID) || 
-                        (!Main.projectile.Any(proj => proj.active && proj.owner == Main.myPlayer && proj.type == ModContent.ProjectileType<BlazingStarHeal>())))
+                        Player.ownedProjectileCounts[ModContent.ProjectileType<BlazingStarHeal>()] == 0)
                     {
                         GeneralScreenShakePower = 3.5f;
                         blazingCoreParry = 30;
-                        SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact);
+                        SoundEngine.PlaySound(BlazingCore.ParryActivateSound, Player.Center);
                         var mySourceIsIMadeItUp = Player.GetSource_FromThis();
                         int blazingSun = Projectile.NewProjectile(mySourceIsIMadeItUp, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), 0, 0f, Player.whoAmI, 0f, 0f);
                         Main.projectile[blazingSun].Center = Player.Center;
@@ -5881,13 +5881,13 @@ namespace CalamityMod.CalPlayer
                 {
                     if (!Player.HasCooldown(ElysianGuard.ID))
                     {
-                        Player.GiveIFrames(45);
+                        Player.GiveIFrames(60, true); 
                         blazingCoreEmpoweredParry = true;
                         modifiers.SetMaxDamage(1); //ONLY REDUCE DAMAGE IF NOT ON COOLDOWN
                         modifiers.DisableSound(); //prevents hurt sound from playing, had no idea this was a thing
                     }
                     
-                    SoundEngine.PlaySound(SoundID.Shatter);
+                    SoundEngine.PlaySound(BlazingCore.ParrySuccessSound, Player.Center);
                     blazingCoreSuccessfulParry = 60;
                     Player.AddCooldown(ElysianGuard.ID, 60 * 30, false); //cooldown is frames in seconds multiplied by the desired amount of seconds
                 }
