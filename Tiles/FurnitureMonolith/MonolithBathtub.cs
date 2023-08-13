@@ -2,14 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureMonolith
 {
     public class MonolithBathtub : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpBathtub(true);
+        public override void SetStaticDefaults() => this.SetUpBathtub(ModContent.ItemType<Items.Placeables.FurnitureMonolith.MonolithBathtub>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

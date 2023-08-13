@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.FurnitureSacrilegious;
+﻿using CalamityMod.Items.Placeables.FurnitureSacrilegious;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -14,6 +14,8 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
+            RegisterItemDrop(ModContent.ItemType<LargeRitualCandle>());
+
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
@@ -26,7 +28,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
                 16,
                 16,
                 16,
-				16
+                16
             };
             TileObjectData.newTile.Origin = new Point16(0, 4);
             TileObjectData.newTile.UsesCustomCanPlace = true;
@@ -34,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             TileObjectData.newTile.StyleLineSkip = 4;
             TileObjectData.addTile(Type);
 
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(43, 19, 42), Language.GetText("Large Ritual Candle"));
 
             TileID.Sets.DisableSmartCursor[Type] = true;

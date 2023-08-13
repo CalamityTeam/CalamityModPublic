@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusBathtub : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpBathtub(true);
+        public override void SetStaticDefaults() => this.SetUpBathtub(ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusBathtub>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {
