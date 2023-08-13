@@ -14,9 +14,11 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumToilet : ModTile
     {
-		public const int NextStyleHeight = 40;
+        public const int NextStyleHeight = 40;
         public override void SetStaticDefaults()
         {
+            RegisterItemDrop(ModContent.ItemType<Items.Placeables.FurnitureWulfrum.WulfrumToilet>());
+
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;

@@ -1,14 +1,12 @@
-using CalamityMod.Items.Placeables.FurnitureAcidwood;
+﻿using CalamityMod.Items.Placeables.FurnitureAcidwood;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodBathTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpBathtub();
+        public override void SetStaticDefaults() => this.SetUpBathtub(ModContent.ItemType<AcidwoodBathtub>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {
