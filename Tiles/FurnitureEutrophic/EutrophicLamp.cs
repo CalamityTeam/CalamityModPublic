@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicLamp : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpLamp();
+        public override void SetStaticDefaults() => this.SetUpLamp(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicLamp>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

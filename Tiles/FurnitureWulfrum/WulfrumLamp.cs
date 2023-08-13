@@ -1,16 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumLamp : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpLamp();
+        public override void SetStaticDefaults() => this.SetUpLamp(ModContent.ItemType<Items.Placeables.FurnitureWulfrum.WulfrumLamp>());
 
         public override bool CanExplode(int i, int j) => false;
 

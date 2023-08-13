@@ -2,16 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoLampTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpLamp(true);
+        public override void SetStaticDefaults() => this.SetUpLamp(ModContent.ItemType<ExoLamp>(), true);
 
         public override bool CanExplode(int i, int j) => false;
 

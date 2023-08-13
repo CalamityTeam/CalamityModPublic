@@ -2,15 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientLamp : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpLamp(true);
+        public override void SetStaticDefaults() => this.SetUpLamp(ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientLamp>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

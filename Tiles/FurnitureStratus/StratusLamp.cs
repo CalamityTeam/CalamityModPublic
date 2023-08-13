@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusLamp : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpLamp(true);
+        public override void SetStaticDefaults() => this.SetUpLamp(ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusLamp>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {
