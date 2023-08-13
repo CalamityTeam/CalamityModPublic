@@ -146,6 +146,8 @@ namespace CalamityMod.Items.Mounts
                                 List<int> tileExcludeList = new List<int>()
                                 {
                                     ModContent.TileType<AbyssGravel>(),
+                                    ModContent.TileType<PyreMantle>(),
+                                    ModContent.TileType<PyreMantleMolten>(),
                                     ModContent.TileType<Voidstone>(),
                                     TileID.DemonAltar,
                                     TileID.ElderCrystalStand

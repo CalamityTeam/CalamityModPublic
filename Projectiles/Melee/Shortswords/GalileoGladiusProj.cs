@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.scale = 1f;
-            Projectile.DamageType = TrueMeleeDamageClass.Instance;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.ownerHitCheck = true;
             Projectile.timeLeft = 360;
             Projectile.extraUpdates = 1;

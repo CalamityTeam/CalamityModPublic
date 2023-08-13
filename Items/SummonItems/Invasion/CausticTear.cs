@@ -11,8 +11,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
         public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
-           			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
-
+           	ItemID.Sets.SortingPriorityBossSpawns[Type] = 4; // Goblin Battle Standard
         }
 
         public override void SetDefaults()

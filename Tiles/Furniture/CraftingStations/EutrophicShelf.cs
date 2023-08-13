@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -19,6 +18,11 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
         //
         public override void SetStaticDefaults()
         {
+            // 12AUG2023: Ozzatron: I had to touch this code
+            // It was absolutely necessary to allow for right-facing Eutrophic Shelves to drop following the TML 1.4.4 change:
+            // https://github.com/tModLoader/tModLoader/pull/3420
+            RegisterItemDrop(ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.EutrophicShelf>());
+
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;

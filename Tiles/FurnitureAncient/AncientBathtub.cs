@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientBathtub : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpBathtub(true);
+        public override void SetStaticDefaults() => this.SetUpBathtub(ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientBathtub>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

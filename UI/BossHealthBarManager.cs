@@ -180,6 +180,7 @@ namespace CalamityMod.UI
         {
             BossExclusionList = new List<int>
             {
+                NPCID.None,
                 NPCID.MoonLordFreeEye,
                 NPCID.MoonLordHead,
                 NPCID.MoonLordHand,

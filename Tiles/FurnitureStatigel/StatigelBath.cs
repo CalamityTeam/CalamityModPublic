@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelBath : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpBathtub();
+        public override void SetStaticDefaults() => this.SetUpBathtub(ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelBathtub>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

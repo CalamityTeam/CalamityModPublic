@@ -20,7 +20,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public const int DelayBetweenHeals = 270;
 
-        public const int BaseDamageToEnemies = 300;
+        public const int BaseDamageToEnemies = 250;
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {

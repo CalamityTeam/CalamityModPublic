@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.alpha = 60;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 120;
+            Projectile.timeLeft = 60;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
         }
 

@@ -183,7 +183,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 cost = (int)(cost * 0.8);
 
             // Draw the coin costs.
-            string costText = "Cost: ";
+            string costText = CalamityUtils.GetTextValue("UI.Cost");
             Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, costText, costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y + 45f * Main.UIScale, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, Main.UIScale);
             costDrawPositionTopLeft.X += (int)((FontAssets.MouseText.Value.MeasureString(costText).X * 0.5f + 12f) * Main.UIScale);
 

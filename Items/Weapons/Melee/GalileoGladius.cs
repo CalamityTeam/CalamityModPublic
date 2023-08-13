@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Rapier;
-            Item.DamageType = TrueMeleeDamageClass.Instance;
+            Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 8;
             Item.useTime = 8;
             Item.width = 44;

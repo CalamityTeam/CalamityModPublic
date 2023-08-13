@@ -709,7 +709,8 @@ namespace CalamityMod
                 "Gretchen",
                 "Spirit Shield",
                 "Briny_Coffee",
-                "_Skeggy_"
+                "_Skeggy_",
+                "just akkolite"
             };
 
             projectileDestroyExceptionList = new List<int>()

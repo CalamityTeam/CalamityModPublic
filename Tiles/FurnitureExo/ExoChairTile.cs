@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Enums;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
@@ -17,6 +17,8 @@ namespace CalamityMod.Tiles.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
+            RegisterItemDrop(ModContent.ItemType<ExoChair>());
+
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;

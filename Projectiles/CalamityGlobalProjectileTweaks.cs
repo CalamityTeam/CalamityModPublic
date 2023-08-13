@@ -23,213 +23,283 @@ namespace CalamityMod.Projectiles
             IProjectileTweak[] standardBulletTweaks = Do(PointBlank, ExtraUpdatesDelta(+2));
             IProjectileTweak[] counterweightTweaks = Do(MaxUpdatesExact(2), IDStaticIFrames(10));
 
+            // Shorthand for changing all the stats of a yoyo at once. This handles extra update related math for you.
+            // For topSpeed, put in how fast you want the yoyo to be EXACTLY: it will be divided out in extra updates for you.
+            static IProjectileTweak[] RebalanceYoyo(float lifetime, float range, float topSpeed, int extraUpdates, int iframes = 10) => new IProjectileTweak[]
+            {
+                ExtraUpdatesExact(extraUpdates),
+                LocalIFrames(iframes * (extraUpdates + 1)),
+                YoyoLifetime(lifetime <= 0f ? -1f : lifetime * (extraUpdates + 1)),
+                YoyoRange(range),
+                YoyoTopSpeed(topSpeed / (extraUpdates + 1)),
+            };
+
             // TODO -- Very few vanilla yoyos have range and speed tweaks. Looks like an unfinished job.
 
-            // Please keep this strictly alphabetical. It's the only way to keep it sane. Thanks in advance.
-            // - Ozzatron
+            // SORTING NOTES:
+            // 1. Sort tweaks by categories first, then sort by the internal name in alphabetical order. Navigate through categories and names using the search function.
+            // 2. Higher categories hold priority over lower ones (ie. Balancing with PB tweaks belong in balancing, rather than PB)
+            // 3. Ambiguous internal names should have comments for ease of access.
             currentTweaks = new SortedDictionary<int, IProjectileTweak[]>
             {
-                { ProjectileID.AdamantiteChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.AdamantiteDrill, trueMeleeNoSpeed },
-                { ProjectileID.AdamantiteGlaive, trueMelee },
-                { ProjectileID.Amarok, Do(LocalIFrames(10)) },
+                #region CATEGORY 1: Vanilla Yoyo Balancing
+                // note this is only yoyos, not counterweights
+
+                // original: 15s lifetime | 270px range | 14px/f top speed | 0 extra updates
+                { ProjectileID.Amarok, RebalanceYoyo(-1f, 432f, 28f, 1, 12) },
+
+                // original: 13s lifetime | 235px range | 14px/f top speed | 0 extra updates
+                { ProjectileID.Cascade, RebalanceYoyo(30f, 384f, 28f, 1, 12) },
+
+                // original: 16s lifetime | 275px range | 17px/f top speed | 0 extra updates
+                { ProjectileID.Chik, RebalanceYoyo(-1f, 400f, 32f, 1, 12) },
+
+                // original: 9s lifetime | 220px range | 13px/f top speed | 0 extra updates
+                { ProjectileID.Code1, RebalanceYoyo(21f, 320f, 25f, 1, 15) },
+
+                // original: INF lifetime | 280px range | 17px/f top speed | 0 extra updates
+                { ProjectileID.Code2, RebalanceYoyo(-1f, 432f, 42f, 1, 12) },
+
+                // original: 7s lifetime | 195px range | 12.5px/f top speed | 0 extra updates
+                { ProjectileID.CorruptYoyo, RebalanceYoyo(18f, 288f, 22f, 0, 20) }, // Malaise
+
+                // original: 6s lifetime | 207px range | 12px/f top speed | 0 extra updates
+                { ProjectileID.CrimsonYoyo, RebalanceYoyo(18f, 288f, 22f, 0, 20) }, // Artery
+
+                // original: 8s lifetime | 235px range | 15px/f top speed | 0 extra updates
+                { ProjectileID.FormatC, RebalanceYoyo(-1f, 384f, 36f, 1, 12) },
+
+                // original: 10s lifetime | 250px range | 12px/f top speed | 0 extra updates
+                { ProjectileID.Gradient, RebalanceYoyo(-1f, 384f, 36f, 1, 12) },
+
+                // original: 12s lifetime | 275px range | 15px/f top speed | 0 extra updates
+                { ProjectileID.HelFire, RebalanceYoyo(-1f, 320f, 42f, 2, 12) },
+
+                // original: 11s lifetime | 225px range | 14px/f top speed | 0 extra updates
+                { ProjectileID.HiveFive, RebalanceYoyo(24f, 320f, 20f, 0, 15) },
+
+                // original: 8s lifetime | 215px range | 13px/f top speed | 0 extra updates
+                { ProjectileID.JungleYoyo, RebalanceYoyo(20f, 288f, 17f, 0, 20) }, // Amazon
+
+                // original: INF lifetime | 340px range | 16px/f top speed | 0 extra updates
+                { ProjectileID.Kraken, RebalanceYoyo(-1f, 480f, 54f, 2) },
+
+                // original: 5s lifetime | 170px range | 11px/f top speed | 0 extra updates
+                { ProjectileID.Rally, RebalanceYoyo(16f, 272f, 20f, 0, 20) },
+
+                // original: INF lifetime | 370px range | 16px/f top speed | 0 extra updates
+                { ProjectileID.RedsYoyo, RebalanceYoyo(-1f, 480f, 42f, 2, 12) }, // Red's Throw
+
+                // original: INF lifetime | 400px range | 17.5px/f top speed | 0 extra updates
+                { ProjectileID.Terrarian, RebalanceYoyo(-1f, 512f, 54f, 2) },
+                // 12AUG2023: Ozzatron: Terrarian has been IL edited to not emit more orb spawns with extra updates. This iframe change is safe.
+                { ProjectileID.TerrarianBeam, Do(LocalIFrames(-1)) }, // Terrarian yoyo orbs
+
+                // original: INF lifetime | 360px range | 16.5px/f top speed | 0 extra updates
+                { ProjectileID.TheEyeOfCthulhu, RebalanceYoyo(-1f, 480f, 36f, 1) }, // the yoyo, of course
+
+                // original: INF lifetime | 370px range | 16px/f top speed | 0 extra updates
+                { ProjectileID.ValkyrieYoyo, RebalanceYoyo(-1f, 480f, 42f, 2, 12) },
+
+                // original: 11s lifetime | 225px range | 14px/f top speed | 0 extra updates
+                { ProjectileID.Valor, RebalanceYoyo(30f, 400f, 36f, 1, 12) },
+
+                // original: 3s lifetime | 130px range | 9px/f top speed | 0 extra updates
+                { ProjectileID.WoodYoyo, RebalanceYoyo(15f, 240f, 14f, 0, 20) },
+
+                // original: 14s lifetime | 290px range | 16px/f top speed | 0 extra updates
+                { ProjectileID.Yelets, RebalanceYoyo(-1f, 400f, 36f, 1, 12) },
+                #endregion
+
+                #region CATEGORY 2: Weapon/Enemy Balancing
                 { ProjectileID.Anchor, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.Arkhalis, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
                 { ProjectileID.Bee, Do(PiercingExact(2)) },
-                { ProjectileID.BeeArrow, pointBlank },
                 { ProjectileID.BlackCounterweight, counterweightTweaks },
-                { ProjectileID.Blizzard, pointBlank }, // Blizzard Staff projectiles, re-used in Frostbite Blaster.
                 { ProjectileID.BlueCounterweight, counterweightTweaks },
-                { ProjectileID.BlueFlare, pointBlank },
-                { ProjectileID.BombSkeletronPrime, defenseDamage },
-                { ProjectileID.BoneArrow, pointBlank },
                 { ProjectileID.BlueMoon, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Bullet, standardBulletTweaks },
                 { ProjectileID.BulletHighVelocity, Do(PointBlank, LocalIFrames(-1)) },
                 { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
-                { ProjectileID.CandyCorn, pointBlank },
-                { ProjectileID.CannonballHostile, defenseDamage },
-                { ProjectileID.Cascade, Do(LocalIFrames(10)) },
-                { ProjectileID.Chik, Do(LocalIFrames(10)) },
-                { ProjectileID.ChlorophyteArrow, pointBlank },
-                { ProjectileID.ChlorophyteBullet, pointBlank },
+                { ProjectileID.CrystalBullet, standardBulletTweaks },
+                { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(10)) },
+                { ProjectileID.CrystalVileShardShaft, Do(LocalIFrames(10)) },
+                { ProjectileID.CursedBullet, standardBulletTweaks },
+                { ProjectileID.EmeraldBolt, Do(NoPiercing) },
+                { ProjectileID.EmpressBlade, Do(LocalIFrames(30)) }, // Terraprisma
+                { ProjectileID.EnchantedBoomerang, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.ExplosiveBullet, standardBulletTweaks },
+                { ProjectileID.Flamarang, Do(ExtraUpdatesExact(2)) },
+                { ProjectileID.Flames, Do(IDStaticIFrames(6), ExtraUpdatesDelta(+1)) }, // Flamethrower + Elf Melter
+                { ProjectileID.FlamingJack, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.FlowerPetal, Do(MaxUpdatesExact(4), LocalIFrames(10)) }, // Orichalcum armor
+                { ProjectileID.FlowerPow, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.FlyingKnife, Do(ExtraUpdatesExact(1)) }, 
+                { ProjectileID.FrostBoltStaff, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.FruitcakeChakram, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.GiantBee, Do(PiercingExact(2)) },
+                { ProjectileID.GoldenBullet, standardBulletTweaks },
+                { ProjectileID.GreenCounterweight, counterweightTweaks },
+                { ProjectileID.IceBoomerang, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.IchorBullet, standardBulletTweaks },
+                { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.LightDisc, Do(MaxUpdatesExact(3)) },
+                { ProjectileID.LostSoulHostile, Do(TileCollide) }, // Ragged Caster
+                { ProjectileID.MeteorShot, standardBulletTweaks },
+                { ProjectileID.MonkStaffT1, Do(TrueMeleeNoSpeed, ScaleExact(3f)) }, // Sleepy Octopod
+                { ProjectileID.MonkStaffT2, Do(TrueMelee, IDStaticIFrames(18)) }, // Ghastly Glaive
+                { ProjectileID.MonkStaffT3, Do(ScaleRatio(2f)) }, // Sky Dragon's Fury
+                { ProjectileID.MoonlordBullet, standardBulletTweaks }, // Luminite Bullet
+                { ProjectileID.NanoBullet, standardBulletTweaks },
+                { ProjectileID.NebulaLaser, Do(ExtraUpdatesDelta(+1)) },
+                { ProjectileID.PartyBullet, standardBulletTweaks },
+                { ProjectileID.PoisonFang, Do(LocalIFrames(10)) },
+                { ProjectileID.PurpleCounterweight, counterweightTweaks },
+                { ProjectileID.QueenSlimeGelAttack, Do(NoPiercing) },
+                { ProjectileID.QueenSlimeMinionPinkBall, Do(NoPiercing) },
+                { ProjectileID.RedCounterweight, counterweightTweaks },
+                { ProjectileID.ShadowBeamHostile, Do(TimeLeftExact(60)) },
+                { ProjectileID.Shroomerang, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.StarWrath, Do(NoPiercing) },
+                { ProjectileID.Sunfury, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.VenomBullet, standardBulletTweaks },
+                { ProjectileID.VenomFang, Do(LocalIFrames(10)) },
+                { ProjectileID.YellowCounterweight, counterweightTweaks },
+                #endregion
+
+                #region CATEGORY 3: True Melee support
+                { ProjectileID.AdamantiteChainsaw, trueMeleeNoSpeed },
+                { ProjectileID.AdamantiteDrill, trueMeleeNoSpeed },
+                { ProjectileID.AdamantiteGlaive, trueMelee },
+                { ProjectileID.Arkhalis, trueMeleeNoSpeed },
                 { ProjectileID.ChlorophyteChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.ChlorophyteDrill, trueMeleeNoSpeed },
                 { ProjectileID.ChlorophyteJackhammer, trueMeleeNoSpeed },
                 { ProjectileID.CobaltChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.CobaltDrill, trueMeleeNoSpeed },
                 { ProjectileID.CobaltNaginata, trueMelee },
-                { ProjectileID.Code1, Do(YoyoRange(240f), ExtraUpdatesExact(1), LocalIFrames(20)) },
-                { ProjectileID.Code2, Do(LocalIFrames(10)) },
                 { ProjectileID.CopperShortswordStab, trueMelee },
-                { ProjectileID.CorruptYoyo, Do(YoyoRange(190f), LocalIFrames(10)) }, // Malaise
-                { ProjectileID.CrimsandBallGun, pointBlank },
-                { ProjectileID.CrimsonYoyo, Do(LocalIFrames(10)) }, // Artery
-                { ProjectileID.CrystalBullet, standardBulletTweaks },
-                { ProjectileID.CrystalDart, pointBlank },
-                { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(10)) },
-                { ProjectileID.CrystalVileShardShaft, Do(LocalIFrames(10)) },
-                { ProjectileID.Cthulunado, defenseDamage }, // Duke Fishron's larger Sharknados
-                { ProjectileID.CultistBossFireBall, defenseDamage },
-                { ProjectileID.CultistBossFireBallClone, defenseDamage },
-                { ProjectileID.CultistBossIceMist, defenseDamage },
-                { ProjectileID.CultistBossLightningOrbArc, defenseDamage },
-                { ProjectileID.CursedArrow, pointBlank },
-                { ProjectileID.CursedBullet, standardBulletTweaks },
-                { ProjectileID.CursedDart, pointBlank },
                 { ProjectileID.DarkLance, trueMelee },
-                { ProjectileID.DD2BetsyFireball, defenseDamage },
-                { ProjectileID.DD2BetsyFlameBreath, defenseDamage },
-                { ProjectileID.DD2PhoenixBowShot, pointBlank }, // Phantom Phoenix
-                { ProjectileID.DeerclopsIceSpike, defenseDamage },
-                { ProjectileID.DeerclopsRangedProjectile, defenseDamage }, // Deerclops shadow hands
-                { ProjectileID.DemonSickle, defenseDamage },
-                { ProjectileID.EbonsandBallGun, pointBlank },
-                { ProjectileID.EmeraldBolt, Do(NoPiercing) },
-                { ProjectileID.EmpressBlade, Do(LocalIFrames(30)) }, // Terraprisma
-                { ProjectileID.EnchantedBoomerang, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.ExplosiveBullet, standardBulletTweaks },
-                { ProjectileID.FairyQueenLance, defenseDamage }, // Empress of Light's lance walls
-                { ProjectileID.FairyQueenSunDance, defenseDamage }, // Empress of Light's Sun Dance
-                { ProjectileID.FireArrow, pointBlank },
-                { ProjectileID.Flamarang, Do(ExtraUpdatesExact(2)) },
-                { ProjectileID.Flames, Do(IDStaticIFrames(6), ExtraUpdatesDelta(+1)) }, // Flamethrower + Elf Melter
-                { ProjectileID.FlamingJack, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.FlamingScythe, defenseDamage }, // Pumpking orange spinning scythes
-                { ProjectileID.Flare, pointBlank },
-                { ProjectileID.FlowerPetal, Do(MaxUpdatesExact(4), LocalIFrames(10)) },
-                { ProjectileID.FlowerPow, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.FlyingKnife, Do(ExtraUpdatesExact(1)) }, 
-                { ProjectileID.FormatC, Do(LocalIFrames(10)) },
-                { ProjectileID.FrostBoltStaff, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.FrostburnArrow, pointBlank },
-                { ProjectileID.FrostWave, defenseDamage }, // Ice Queen frost waves
-                { ProjectileID.FruitcakeChakram, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.GiantBee, Do(PiercingExact(2)) },
                 { ProjectileID.GladiusStab, trueMelee },
-                { ProjectileID.GoldenBullet, standardBulletTweaks },
                 { ProjectileID.GoldShortswordStab, trueMelee },
-                { ProjectileID.Gradient, Do(LocalIFrames(10)) },
-                { ProjectileID.GreenCounterweight, counterweightTweaks },
                 { ProjectileID.Gungnir, trueMelee },
-                { ProjectileID.HallowBossLastingRainbow, defenseDamage }, // Empress of Light's lingering rainbow trail hitboxes
                 { ProjectileID.HallowJoustingLance, trueMelee },
                 { ProjectileID.Hamdrax, trueMeleeNoSpeed }, // Drax (never internally renamed since 1.1)
-                { ProjectileID.Harpoon, pointBlank },
-                { ProjectileID.HelFire, Do(LocalIFrames(10)) },
-                { ProjectileID.HellfireArrow, pointBlank },
-                { ProjectileID.Hellwing, pointBlank },
-                { ProjectileID.HolyArrow, pointBlank },
-                { ProjectileID.IceBoomerang, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.IchorArrow, pointBlank },
-                { ProjectileID.IchorBullet, standardBulletTweaks },
-                { ProjectileID.InfernoHostileBlast, defenseDamage }, // Diabolist inferno fork explosions
                 { ProjectileID.IronShortswordStab, trueMelee },
-                { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
-                { ProjectileID.JavelinHostile, defenseDamage },
-                { ProjectileID.JestersArrow, pointBlank },
                 { ProjectileID.JoustingLance, trueMelee },
-                { ProjectileID.JungleYoyo, Do(YoyoTopSpeed(14f), LocalIFrames(10)) }, // Amazon
-                { ProjectileID.Kraken, Do(LocalIFrames(10)) },
                 { ProjectileID.LeadShortswordStab, trueMelee },
-                { ProjectileID.LightBeam, Do(PiercingExact(2)) },
-                { ProjectileID.LightDisc, Do(MaxUpdatesExact(3)) },
-                { ProjectileID.LostSoulFriendly, pointBlank }, // TODO -- why does LostSoulFriendly have point blank enabled
-                { ProjectileID.LostSoulHostile, Do(TileCollide) },
-                { ProjectileID.MeteorShot, standardBulletTweaks },
-                { ProjectileID.MonkStaffT1, Do(TrueMeleeNoSpeed, ScaleExact(3f)) }, // Sleepy Octopod
-                { ProjectileID.MonkStaffT2, Do(TrueMelee, IDStaticIFrames(18)) }, // Ghastly Glaive
-                { ProjectileID.MonkStaffT3, Do(ScaleRatio(2f)) }, // Sky Dragon's Fury
-                { ProjectileID.MoonlordArrow, pointBlank }, // Luminite Arrow
-                { ProjectileID.MoonlordBullet, standardBulletTweaks }, // Luminite Bullet
                 { ProjectileID.MushroomSpear, trueMelee },
                 { ProjectileID.MythrilChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.MythrilDrill, trueMeleeNoSpeed },
                 { ProjectileID.MythrilHalberd, trueMelee },
-                { ProjectileID.NanoBullet, standardBulletTweaks },
                 { ProjectileID.NebulaChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.NebulaDrill, trueMeleeNoSpeed },
-                { ProjectileID.NebulaLaser, Do(ExtraUpdatesDelta(+1)) },
                 { ProjectileID.ObsidianSwordfish, trueMelee },
                 { ProjectileID.OrichalcumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.OrichalcumDrill, trueMeleeNoSpeed },
                 { ProjectileID.OrichalcumHalberd, trueMelee },
-                { ProjectileID.PainterPaintball, pointBlank },
-                { ProjectileID.PaladinsHammerHostile, defenseDamage },
                 { ProjectileID.PalladiumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.PalladiumDrill, trueMeleeNoSpeed },
                 { ProjectileID.PalladiumPike, trueMelee },
-                { ProjectileID.PartyBullet, standardBulletTweaks },
-                { ProjectileID.PearlSandBallGun, pointBlank },
-                { ProjectileID.PhantasmalDeathray, defenseDamage },
-                { ProjectileID.PhantasmalSphere, defenseDamage },
-                { ProjectileID.PhantasmArrow, pointBlank },
                 { ProjectileID.PiercingStarlight, trueMelee },
                 { ProjectileID.PlatinumShortswordStab, trueMelee },
-                { ProjectileID.PoisonDartBlowgun, pointBlank },
-                { ProjectileID.PoisonFang, Do(LocalIFrames(10)) },
-                { ProjectileID.Present, defenseDamage }, // Falling present bombs in Frost Moon
-                { ProjectileID.PulseBolt, pointBlank },
-                { ProjectileID.PurpleCounterweight, counterweightTweaks },
-                { ProjectileID.QueenSlimeGelAttack, Do(NoPiercing) },
-                { ProjectileID.QueenSlimeMinionPinkBall, Do(NoPiercing) },
-                { ProjectileID.Rally, Do(LocalIFrames(10)) },
-                { ProjectileID.RedCounterweight, counterweightTweaks },
-                { ProjectileID.RedsYoyo, Do(LocalIFrames(10)) },
-                { ProjectileID.RocketSkeleton, defenseDamage }, // Skeleton Commando rockets
-                { ProjectileID.RockGolemRock, defenseDamage },
                 { ProjectileID.RulerStab, trueMelee },
-                { ProjectileID.RuneBlast, defenseDamage }, // Rune Wizard shots
-                { ProjectileID.SandBallGun, pointBlank },
-                { ProjectileID.SaucerDeathray, defenseDamage },
-                { ProjectileID.SaucerMissile, defenseDamage },
                 { ProjectileID.SawtoothShark, trueMeleeNoSpeed },
-                { ProjectileID.Seed, pointBlank },
-                { ProjectileID.ShadowBeamHostile, Do(TimeLeftExact(60)) },
-                { ProjectileID.ShadowFlameArrow, pointBlank },
                 { ProjectileID.ShadowJoustingLance, trueMelee },
-                { ProjectileID.Sharknado, defenseDamage },
-                { ProjectileID.Shroomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.SilverShortswordStab, trueMelee },
-                { ProjectileID.Skull, defenseDamage }, // Skeletron Expert+ skulls
-                { ProjectileID.SniperBullet, defenseDamage }, // Skeleton Sniper bullets
-                { ProjectileID.SnowBallFriendly, pointBlank },
                 { ProjectileID.SolarFlareChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.SolarFlareDrill, trueMeleeNoSpeed },
                 { ProjectileID.Spear, trueMelee },
-                { ProjectileID.Spike, defenseDamage }, // Santank spike balls
-                { ProjectileID.Stake, pointBlank },
                 { ProjectileID.StardustChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.StardustDrill, trueMeleeNoSpeed },
-                { ProjectileID.StarWrath, Do(NoPiercing) },
-                { ProjectileID.Sunfury, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Swordfish, trueMelee },
-                { ProjectileID.Terragrim, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
-                { ProjectileID.Terrarian, Do(LocalIFrames(10)) },
-                { ProjectileID.TerrarianBeam, Do(LocalIFrames(-1)) }, // Terrarian yoyo orbs
-                { ProjectileID.TheEyeOfCthulhu, Do(LocalIFrames(10)) }, // this is the yoyo
+                { ProjectileID.Terragrim, trueMeleeNoSpeed },
                 { ProjectileID.TheRottedFork, trueMelee },
-                { ProjectileID.ThornBall, Do(Main.zenithWorld ? IgnoreWater : DontIgnoreWater, DefenseDamage) }, // Plantera bouncing thorn balls
                 { ProjectileID.TinShortswordStab, trueMelee },
                 { ProjectileID.TitaniumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.TitaniumDrill, trueMeleeNoSpeed },
                 { ProjectileID.TitaniumTrident, trueMelee },
                 { ProjectileID.Trident, trueMelee },
-                { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.TungstenShortswordStab, trueMelee },
-                { ProjectileID.UnholyArrow, pointBlank },
-                { ProjectileID.UnholyTridentHostile, defenseDamage },
-                { ProjectileID.ValkyrieYoyo, Do(LocalIFrames(10)) },
-                { ProjectileID.Valor, Do(YoyoRange(384f), YoyoTopSpeed(16f), LocalIFrames(10)) },
-                { ProjectileID.VenomArrow, pointBlank },
-                { ProjectileID.VenomBullet, standardBulletTweaks },
-                { ProjectileID.VenomFang, Do(LocalIFrames(10)) },
                 { ProjectileID.VortexChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.VortexDrill, trueMeleeNoSpeed },
+                #endregion
+
+                #region CATEGORY 4: Point Blank support
+                { ProjectileID.BeeArrow, pointBlank },
+                { ProjectileID.Blizzard, pointBlank }, // Blizzard Staff projectiles, re-used in Frostbite Blaster.
+                { ProjectileID.BlueFlare, pointBlank },
+                { ProjectileID.BoneArrow, pointBlank },
+                { ProjectileID.CandyCorn, pointBlank },
+                { ProjectileID.ChlorophyteArrow, pointBlank },
+                { ProjectileID.ChlorophyteBullet, pointBlank },
+                { ProjectileID.CrimsandBallGun, pointBlank },
+                { ProjectileID.CrystalDart, pointBlank },
+                { ProjectileID.CursedArrow, pointBlank },
+                { ProjectileID.CursedDart, pointBlank },
+                { ProjectileID.DD2PhoenixBowShot, pointBlank }, // Phantom Phoenix
+                { ProjectileID.EbonsandBallGun, pointBlank },
+                { ProjectileID.FireArrow, pointBlank },
+                { ProjectileID.Flare, pointBlank },
+                { ProjectileID.FrostburnArrow, pointBlank },
+                { ProjectileID.Harpoon, pointBlank },
+                { ProjectileID.HellfireArrow, pointBlank },
+                { ProjectileID.Hellwing, pointBlank },
+                { ProjectileID.HolyArrow, pointBlank },
+                { ProjectileID.IchorArrow, pointBlank },
+                { ProjectileID.JestersArrow, pointBlank },
+                { ProjectileID.MoonlordArrow, pointBlank }, // Luminite Arrow
+                { ProjectileID.PainterPaintball, pointBlank },
+                { ProjectileID.PearlSandBallGun, pointBlank },
+                { ProjectileID.PhantasmArrow, pointBlank },
+                { ProjectileID.PoisonDartBlowgun, pointBlank },
+                { ProjectileID.PulseBolt, pointBlank },
+                { ProjectileID.SandBallGun, pointBlank },
+                { ProjectileID.Seed, pointBlank },
+                { ProjectileID.ShadowFlameArrow, pointBlank },
+                { ProjectileID.SnowBallFriendly, pointBlank },
+                { ProjectileID.Stake, pointBlank },
+                { ProjectileID.UnholyArrow, pointBlank },
+                { ProjectileID.VenomArrow, pointBlank },
                 { ProjectileID.WoodenArrowFriendly, pointBlank },
-                { ProjectileID.WoodYoyo, Do(LocalIFrames(10)) },
-                { ProjectileID.Yelets, Do(LocalIFrames(10)) },
-                { ProjectileID.YellowCounterweight, counterweightTweaks },
+                #endregion
+
+                #region CATEGORY 5: Defense Damage support
+                { ProjectileID.BombSkeletronPrime, defenseDamage },
+                { ProjectileID.CannonballHostile, defenseDamage },
+                { ProjectileID.Cthulunado, defenseDamage }, // Duke Fishron's larger Sharknados
+                { ProjectileID.CultistBossFireBall, defenseDamage },
+                { ProjectileID.CultistBossFireBallClone, defenseDamage },
+                { ProjectileID.CultistBossIceMist, defenseDamage },
+                { ProjectileID.CultistBossLightningOrbArc, defenseDamage },
+                { ProjectileID.DD2BetsyFireball, defenseDamage },
+                { ProjectileID.DD2BetsyFlameBreath, defenseDamage },
+                { ProjectileID.DeerclopsIceSpike, defenseDamage },
+                { ProjectileID.DeerclopsRangedProjectile, defenseDamage }, // Deerclops shadow hands
+                { ProjectileID.DemonSickle, defenseDamage },
+                { ProjectileID.FairyQueenLance, defenseDamage }, // Empress of Light's lance walls
+                { ProjectileID.FairyQueenSunDance, defenseDamage }, // Empress of Light's Sun Dance
+                { ProjectileID.FlamingScythe, defenseDamage }, // Pumpking orange spinning scythes
+                { ProjectileID.FrostWave, defenseDamage }, // Ice Queen frost waves
+                { ProjectileID.HallowBossLastingRainbow, defenseDamage }, // Empress of Light's lingering rainbow trail hitboxes
+                { ProjectileID.InfernoHostileBlast, defenseDamage }, // Diabolist inferno fork explosions
+                { ProjectileID.JavelinHostile, defenseDamage },
+                { ProjectileID.PaladinsHammerHostile, defenseDamage },
+                { ProjectileID.PhantasmalDeathray, defenseDamage },
+                { ProjectileID.PhantasmalSphere, defenseDamage },
+                { ProjectileID.Present, defenseDamage }, // Falling present bombs in Frost Moon
+                { ProjectileID.RocketSkeleton, defenseDamage }, // Skeleton Commando rockets
+                { ProjectileID.RockGolemRock, defenseDamage },
+                { ProjectileID.RuneBlast, defenseDamage }, // Rune Wizard shots
+                { ProjectileID.SaucerDeathray, defenseDamage },
+                { ProjectileID.SaucerMissile, defenseDamage },
+                { ProjectileID.Sharknado, defenseDamage },
+                { ProjectileID.Skull, defenseDamage }, // Skeletron Expert+ skulls
+                { ProjectileID.SniperBullet, defenseDamage }, // Skeleton Sniper bullets
+                { ProjectileID.Spike, defenseDamage }, // Santank spike balls
+                { ProjectileID.ThornBall, Do(Main.zenithWorld ? IgnoreWater : DontIgnoreWater, DefenseDamage) }, // Plantera bouncing thorn balls
+                { ProjectileID.UnholyTridentHostile, defenseDamage },
+                #endregion
             };
         }
 
@@ -542,9 +612,19 @@ namespace CalamityMod.Projectiles
         #endregion
 
         #region Yoyo Stats
+        internal class YoyoLifetimeRule : IProjectileTweak
+        {
+            internal readonly float newLifetime = -1f; // -1 is unlimited. Otherwise it's the lifetime in seconds
+
+            public YoyoLifetimeRule(float l) => newLifetime = l;
+            public bool AppliesTo(Projectile proj) => IsAYoyo(proj);
+            public void ApplyTweak(Projectile proj) => ProjectileID.Sets.YoyosLifeTimeMultiplier[proj.type] = newLifetime;
+        }
+        internal static IProjectileTweak YoyoLifetime(float l) => new YoyoLifetimeRule(l);
+
         internal class YoyoRangeRule : IProjectileTweak
         {
-            internal readonly float newMaxRange = 0f;
+            internal readonly float newMaxRange = 0f; // Range is measured in pixels
 
             public YoyoRangeRule(float r) => newMaxRange = r;
             public bool AppliesTo(Projectile proj) => IsAYoyo(proj);

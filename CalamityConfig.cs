@@ -160,6 +160,22 @@ namespace CalamityMod
         [Range(0f, 100f)]
         [DefaultValue(SpeedrunTimerUI.DefaultTimerPosY)]
         public float SpeedrunTimerPosY { get; set; }
+        
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        public bool FlightBar { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(0f, 100f)]
+        [DefaultValue(UI.FlightBar.DefaultFlightPosX)]
+        public float FlightBarPosX { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(0f, 100f)]
+        [DefaultValue(UI.FlightBar.DefaultFlightPosY)]
+        public float FlightBarPosY { get; set; }
         #endregion
 
         #region General Gameplay Changes

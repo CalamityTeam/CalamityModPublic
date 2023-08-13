@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 30;
             Item.height = 26;
             Item.DamageType = DamageClass.MeleeNoSpeed;
-            Item.damage = 88; // 110 pre-nerf
+            Item.damage = 75; // 110 pre-nerf
             Item.knockBack = 4f;
             Item.useTime = 22;
             Item.useAnimation = 22;

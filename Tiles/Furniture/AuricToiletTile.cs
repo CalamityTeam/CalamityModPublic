@@ -14,6 +14,8 @@ namespace CalamityMod.Tiles.Furniture
     {
         public override void SetStaticDefaults()
         {
+            RegisterItemDrop(ModContent.ItemType<AuricToilet>());
+
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
@@ -22,7 +24,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.DrawYOffset = 4;
+            TileObjectData.newTile.DrawYOffset = 4;
             TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.Origin = new Point16(1, 1);

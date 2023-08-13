@@ -8,11 +8,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     public class AzathothYoyo : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
+        public const int MaxUpdates = 3;
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 700f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 18f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 880f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 60f / MaxUpdates;
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
@@ -21,20 +23,18 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetDefaults()
         {
             Projectile.aiStyle = ProjAIStyleID.Yoyo;
-            Projectile.width = 24;
-            Projectile.height = 24;
-            Projectile.scale = 1.2f;
+            Projectile.width = Projectile.height = 24;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
-            Projectile.MaxUpdates = 2;
+            Projectile.MaxUpdates = MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 6;
+            Projectile.localNPCHitCooldown = 2 * MaxUpdates;
         }
 
         public override void AI()
         {
-            if (Main.rand.NextBool(6))
+            if (Main.rand.NextBool(2 * MaxUpdates))
             {
                 if (Projectile.owner == Main.myPlayer)
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.35f, ModContent.ProjectileType<CosmicOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);

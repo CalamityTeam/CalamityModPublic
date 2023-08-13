@@ -28,11 +28,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         private const float MinDischargeRate = 0.05f;
         private const float MaxDischargeRate = 0.53f;
         private const float DischargeRateScaleFactor = 0.003f;
-        private const float ChargePerHit = 4.5f;
+        private const float ChargePerHit = 4f;
         private const int HitsPerOrbVolley = 3;
 
         // The aura hits once per this many frames.
-        private const int AuraLocalIFrames = 10;
+        private const int AuraLocalIFrames = 12;
 
         // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates
         private const int UpdatesPerFrame = 3;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 800f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 16f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 60f / UpdatesPerFrame;
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
@@ -62,15 +62,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetDefaults()
         {
             Projectile.aiStyle = ProjAIStyleID.Yoyo;
-            Projectile.width = 20;
-            Projectile.height = 20;
-            Projectile.scale = 1.2f;
+            Projectile.width = Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
             Projectile.MaxUpdates = UpdatesPerFrame;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 7 * UpdatesPerFrame;
+            Projectile.localNPCHitCooldown = 6 * UpdatesPerFrame;
         }
 
         public override void AI()
@@ -257,7 +255,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
             int numOrbs = 3;
             int orbID = ModContent.ProjectileType<Orbacle>();
-            int orbDamage = Projectile.damage * 3;
+            int orbDamage = Projectile.damage * 2;
             float orbKB = 8f;
             float angleVariance = MathHelper.TwoPi / numOrbs;
             float spinOffsetAngle = MathHelper.Pi / (2f * numOrbs);

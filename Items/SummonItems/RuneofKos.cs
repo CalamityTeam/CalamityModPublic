@@ -21,7 +21,7 @@ namespace CalamityMod.Items.SummonItems
         public static readonly SoundStyle StormSound = new("CalamityMod/Sounds/Item/StormWeaverSpawn");
         public override void SetStaticDefaults()
         {
-           	ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
+           	ItemID.Sets.SortingPriorityBossSpawns[Type] = 19; // Celestial Sigil
         }
 
         public override void SetDefaults()

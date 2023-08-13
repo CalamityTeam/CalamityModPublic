@@ -336,14 +336,7 @@ namespace CalamityMod.NPCs
                 #endregion
 
                 #region Jungle
-                // All Moss Hornets
-                // Stinger @ 50% Normal, 100% Expert+
-                // Needler @ 4% Normal, 6.67% Expert+
-                if (CalamityLists.mossHornetList.Contains(npc.type))
-                {
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.Stinger, 2, 1));
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<Needler>(), 25, 15));
-                }
+                //Moss hornets are after all of this switching since it no longer works if placed here
 
                 // Jungle Slime, Spiked Jungle Slime, Arapaima
                 // Murky Paste @ 33.33% Normal, 50% Expert+
@@ -384,10 +377,7 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<StaffOfNecrosteocytes>(), 25, 15));
                     break;
 
-                // All Hardmode Dungeon Enemies
-                // Ectoplasm @ 20%
-                if (CalamityLists.dungeonEnemyBuffList.Contains(npc.type))
-                    npcLoot.Add(ItemID.Ectoplasm, 5);
+                //The ectoplasm extra drops got moved to the list section; just like moss hornets
 
                 // Hardmode Dungeon Melee Skeletons
                 // Wisp in a Bottle @ 0.5% INSTEAD OF 0.25%
@@ -790,7 +780,7 @@ namespace CalamityMod.NPCs
                         };
 
                         npcLoot.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, saucerItems));
-                        
+
                         //Cosmic Car Key is also in the vanilla selection pool. Pull it out.
                         npcLoot.Add(ItemID.CosmicCarKey, 4);
                     }
@@ -1211,7 +1201,7 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.DestroyerMasterTrophy);
                     rev.Add(ItemID.DestroyerPetItem, 4);
-                    
+
                     // GFB Bloodworm drop
                     GFB.Add(ModContent.ItemType<BloodwormItem>());
 
@@ -1633,13 +1623,30 @@ namespace CalamityMod.NPCs
 
                 default:
                     break;
-                #endregion
+                    #endregion
+            }
+            //If the enemy is part of a list (Hornets, Skeletons, etc,) place it here as in the section before it no longer works
+            #region Enemy Lists
+
+            // All Moss Hornets
+            // Stinger @ 50% Normal, 100% Expert+
+            // Needler @ 4% Normal, 6.67% Expert+
+            if (CalamityLists.mossHornetList.Contains(npc.type))
+            {
+                npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.Stinger, 2, 1));
+                npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<Needler>(), 25, 15));
             }
 
             // All Skeletons
             // Ancient Bone Dust @ 20% Normal, 33.33% Expert+
             if (CalamityLists.skeletonList.Contains(npc.type))
                 npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<AncientBoneDust>(), 5, 3));
+
+            // All Hardmode Dungeon Enemies
+            // Ectoplasm @ 20%
+            if (CalamityLists.dungeonEnemyBuffList.Contains(npc.type))
+                npcLoot.Add(ItemID.Ectoplasm, 5);
+            #endregion
         }
         #endregion
 

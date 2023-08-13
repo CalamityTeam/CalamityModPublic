@@ -15,13 +15,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates
         private int extraUpdateCounter = 0;
-        private const int UpdatesPerFrame = 2;
+        private const int UpdatesPerFrame = 3;
 
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 640f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 13f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 720f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 54f / UpdatesPerFrame;
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
@@ -30,15 +30,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetDefaults()
         {
             Projectile.aiStyle = ProjAIStyleID.Yoyo;
-            Projectile.width = 16;
-            Projectile.height = 16;
-            Projectile.scale = 1.6f;
+            Projectile.width = Projectile.height = 16;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
             Projectile.MaxUpdates = UpdatesPerFrame;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 3 * UpdatesPerFrame;
+            Projectile.localNPCHitCooldown = 6 * UpdatesPerFrame;
         }
 
         // localAI[1] is the shot counter. Every 5 frames, The Obliterator tries to fire a laser at a nearby target.
@@ -87,24 +85,22 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Vector2 laserSpawnPosition = Projectile.Center;
                 Vector2 offset;
                 if (Projectile.localAI[1] < FramesPerShot)
-                    offset = new Vector2(7, 7);
+                    offset = new Vector2(4, 4);
                 else if (Projectile.localAI[1] < 2 * FramesPerShot)
-                    offset = new Vector2(-7, 7);
+                    offset = new Vector2(-4, 4);
                 else if (Projectile.localAI[1] < 3 * FramesPerShot)
-                    offset = new Vector2(-7, -7);
+                    offset = new Vector2(-4, -4);
                 else
-                    offset = new Vector2(7, -7);
+                    offset = new Vector2(4, -4);
                 laserSpawnPosition += offset.RotatedBy(Projectile.rotation);
 
                 ref NPC target = ref Main.npc[targets[Main.rand.Next(targets.Count)]];
                 const float laserSpeed = 6f;
-                int laserDamage = (int)(Projectile.damage * 0.5f);
-                const float laserKB = 3f;
                 Vector2 velocity = target.Center - Projectile.Center;
                 velocity = velocity.SafeNormalize(Vector2.Zero) * laserSpeed;
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].DamageType = DamageClass.MeleeNoSpeed;
                 }
@@ -123,9 +119,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/ObliteratorYoyoGlow").Value, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 2f, SpriteEffects.None, 0);
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
     }
 }

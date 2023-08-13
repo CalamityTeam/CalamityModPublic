@@ -811,8 +811,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     {
                         if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < DeathrayEnrageDistance)
                         {
-                            if (Main.player[Main.myPlayer].wingTime < Main.player[Main.myPlayer].wingTimeMax)
-                                Main.player[Main.myPlayer].wingTime = Main.player[Main.myPlayer].wingTimeMax;
+                            Main.player[Main.myPlayer].Calamity().infiniteFlight = true;
                         }
                     }
 

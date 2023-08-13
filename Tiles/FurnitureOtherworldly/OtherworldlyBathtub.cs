@@ -1,15 +1,13 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
     [LegacyName("OccultBathtub")]
     public class OtherworldlyBathtub : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpBathtub(true);
+        public override void SetStaticDefaults() => this.SetUpBathtub(ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlyBathtub>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

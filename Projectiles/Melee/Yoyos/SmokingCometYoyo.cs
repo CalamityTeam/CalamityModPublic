@@ -11,14 +11,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     public class SmokingCometYoyo : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        // Declare max updates as a contant up here since it will be used in many places
-        private const int MaxUpdates = 2;
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 8f;
-            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 200f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 12f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 15f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 240f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 14f;
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
@@ -27,15 +25,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetDefaults()
         {
             Projectile.aiStyle = ProjAIStyleID.Yoyo;
-            Projectile.width = 16;
-            Projectile.height = 16;
-            Projectile.scale = 1f;
+            Projectile.width = Projectile.height = 16;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
-            Projectile.MaxUpdates = MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10 * MaxUpdates;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -58,25 +53,26 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Projectile.Kill();
 
             // Rain Starfury stars every 30 frames
-            // Multiply the gate value by the amount of extra updates the projectile has because it's updating faster than normal per frame
             Projectile.localAI[1]++;
-            float starRainGateValue = 30f * MaxUpdates;
+            float starRainGateValue = 30f;
             if (Projectile.localAI[1] % starRainGateValue == 0f)
             {
                 Vector2 starSpawnLocation = Projectile.Center + new Vector2(Main.rand.Next(-200, 201), -600f);
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), starSpawnLocation, Vector2.Normalize(Projectile.Center - starSpawnLocation) * 12f, ProjectileID.Starfury, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Main.projectile[proj].extraUpdates = 1;
+                Projectile star = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), starSpawnLocation, Vector2.Normalize(Projectile.Center - starSpawnLocation) * 12f, ProjectileID.Starfury, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                star.MaxUpdates = 2;
+                star.usesLocalNPCImmunity = true;
+                star.localNPCHitCooldown = 40;
             }
 
-            if (Main.rand.NextBool(5 * MaxUpdates))
+            if (Main.rand.NextBool(5))
                 Dust.NewDust(Projectile.Center + new Vector2(-25f, -25f), 50, 50, 58, 0f, 0f, 150, default(Color), 1.2f);
 
-            if (Main.rand.NextBool(10 * MaxUpdates))
+            if (Main.rand.NextBool(10))
                 Gore.NewGore(Projectile.GetSource_FromAI(), new Vector2(Projectile.position.X, Projectile.position.Y), default(Vector2), Main.rand.Next(16, 18));
         }
 
         // Hitbox is larger than normal while trying to hit NPCs
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 25f, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 28f, targetHitbox);
 
         // Draw the new string
         public override bool PreDraw(ref Color lightColor)

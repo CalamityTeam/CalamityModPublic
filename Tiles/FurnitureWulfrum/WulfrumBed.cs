@@ -1,17 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumBed : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpBed();
+        public override void SetStaticDefaults() => this.SetUpBed(ModContent.ItemType<Items.Placeables.FurnitureWulfrum.WulfrumBed>());
 
         public override bool CanExplode(int i, int j) => false;
 
