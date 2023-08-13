@@ -2,15 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenLantern : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpLantern(true);
+        public override void SetStaticDefaults() => this.SetUpLantern(ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenLantern>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

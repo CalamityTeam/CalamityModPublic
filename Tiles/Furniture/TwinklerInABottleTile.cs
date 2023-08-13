@@ -1,9 +1,7 @@
 ﻿using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture
@@ -12,7 +10,7 @@ namespace CalamityMod.Tiles.Furniture
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpLantern(false, false);
+            this.SetUpLantern(ModContent.ItemType<TwinklerInABottle>(), false, false);
             AddMapEntry(new Color(255, 99, 71), CalamityUtils.GetItemName<TwinklerInABottle>());
             AnimationFrameHeight = 36;
             AdjTiles = new int[] { TileID.HangingLanterns, TileID.FireflyinaBottle, TileID.LightningBuginaBottle };

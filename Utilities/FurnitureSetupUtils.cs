@@ -1175,10 +1175,13 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a hanging lantern.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
         /// <param name="autoMapEntry">Whether this tile is supposed to use normal map entries. Defaults to true.</param>
-        internal static void SetUpLantern(this ModTile mt, bool lavaImmune = false, bool autoMapEntry = true)
+        internal static void SetUpLantern(this ModTile mt, int itemDropID, bool lavaImmune = false, bool autoMapEntry = true)
         {
+            mt.RegisterItemDrop(itemDropID);
+
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
