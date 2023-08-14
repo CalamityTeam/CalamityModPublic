@@ -1501,6 +1501,25 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Extension which initializes a ModTile to be a trophy.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        internal static void SetUpTrophy(this ModTile mt)
+        {
+            // TODO -- how to force trophy drops correctly? they all have zero code in them
+            
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
+            TileObjectData.addTile(mt.Type);
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
+            TileID.Sets.FramesOnKillWall[mt.Type] = true;
+
+            mt.AddMapEntry(new Color(120, 85, 60), Language.GetText("MapObject.Trophy"));
+            mt.DustType = 7;
+        }
+
+        /// <summary>
         /// Extension which initializes a ModTile to be a work bench.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
@@ -1527,23 +1546,6 @@ namespace CalamityMod
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("ItemName.WorkBench"));
             mt.AdjTiles = new int[] { TileID.WorkBenches };
-        }
-
-        /// <summary>
-        /// Extension which initializes a ModTile to be a trophy.
-        /// </summary>
-        /// <param name="mt">The ModTile which is being initialized.</param>
-        internal static void SetUpTrophy(this ModTile mt)
-        {
-            Main.tileFrameImportant[mt.Type] = true;
-            Main.tileLavaDeath[mt.Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
-            TileObjectData.addTile(mt.Type);
-            TileID.Sets.DisableSmartCursor[mt.Type] = true;
-            TileID.Sets.FramesOnKillWall[mt.Type] = true;
-
-            mt.AddMapEntry(new Color(120, 85, 60), Language.GetText("MapObject.Trophy"));
-            mt.DustType = 7;
         }
 
         /// <summary>
