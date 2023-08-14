@@ -74,6 +74,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using ElysianGuard = CalamityMod.Cooldowns.ElysianGuard;
 using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace CalamityMod.CalPlayer
@@ -454,7 +455,6 @@ namespace CalamityMod.CalPlayer
         public bool nucleogenesis = false;
         public bool nuclearFuelRod = false;
         public bool elysianAegis = false;
-        public bool elysianGuard = false;
         public bool nCore = false;
         public bool deepDiver = false;
         public bool abyssalDivingSuitPlates = false;
@@ -556,6 +556,9 @@ namespace CalamityMod.CalPlayer
         public bool dynamoStemCells = false;
         public bool etherealExtorter = false;
         public bool blazingCore = false;
+        public int blazingCoreParry = 0;
+        public int blazingCoreSuccessfulParry = 0;
+        public bool blazingCoreEmpoweredParry = false;
         public bool voltaicJelly = false;
         public bool jellyChargedBattery = false;
         public float summonProjCooldown;
@@ -2128,6 +2131,8 @@ namespace CalamityMod.CalPlayer
                     SyncCooldownDictionary(Main.netMode == NetmodeID.Server);
                 }
             }
+            
+            
 
             #region Debuffs
             totalDefenseDamage = 0;
@@ -2465,8 +2470,10 @@ namespace CalamityMod.CalPlayer
             tracersDust = false;
             elysianWingsDust = false;
             elysianAegis = false;
-            elysianGuard = false;
             GemTechState.OnDeathEffects();
+            blazingCoreParry = 0;
+            blazingCoreEmpoweredParry = false;
+            blazingCoreSuccessfulParry = 0;
             #endregion
 
             CurrentlyViewedFactoryID = -1;
@@ -2877,11 +2884,25 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (CalamityKeybinds.AegisHotKey.JustPressed)
+            if (CalamityKeybinds.BlazingCoreHotKey.JustPressed)
             {
-                if (elysianAegis && !Player.mount.Active)
+                if (blazingCore && blazingCoreParry == 0 && blazingCoreSuccessfulParry == 0)
                 {
-                    elysianGuard = !elysianGuard;
+                    //minor cheese prevention with standing on a spike with later game gear spamming parry :skull:
+                    //because of ordering, if they do not have the cooldown, it will not check the projectile array. Likewise if there are no bosses alive.
+                    //Furthermore, Enumerable#Any is lightweight and returns immediately if a single object matches it's predicate
+                    if (!Player.HasCooldown(Cooldowns.ElysianGuard.ID) || 
+                        Player.ownedProjectileCounts[ModContent.ProjectileType<BlazingStarHeal>()] == 0)
+                    {
+                        GeneralScreenShakePower = 3.5f;
+                        blazingCoreParry = 30;
+                        SoundEngine.PlaySound(BlazingCore.ParryActivateSound, Player.Center);
+                        var mySourceIsIMadeItUp = Player.GetSource_FromThis();
+                        int blazingSun = Projectile.NewProjectile(mySourceIsIMadeItUp, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), 0, 0f, Player.whoAmI, 0f, 0f);
+                        Main.projectile[blazingSun].Center = Player.Center;
+                        int blazingSun2 = Projectile.NewProjectile(mySourceIsIMadeItUp, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun2>(), 0, 0f, Player.whoAmI, 0f, 0f);
+                        Main.projectile[blazingSun2].Center = Player.Center;
+                    }
                 }
             }
 
@@ -4948,12 +4969,11 @@ namespace CalamityMod.CalPlayer
             // ModifyHit (Flesh Totem effect happens here) -> Hurt (includes dodges) -> OnHit
             // As such, to avoid cooldowns proccing from dodge hits, do it here
             if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && hurtInfo.Damage > 0)
-                Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");     
+                Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");
             if (NPC.AnyNPCs(ModContent.NPCType<THELORDE>()))
             {
                 Player.AddBuff(ModContent.BuffType<NOU>(), 15, true);
-            }         
-            
+            }
             if (crawCarapace)
             {
                 npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 720);
@@ -5854,6 +5874,28 @@ namespace CalamityMod.CalPlayer
             // Resilient Candle makes defense 5% more effective, aka 5% of defense is subtracted from all incoming damage.
             if (purpleCandle)
                 modifiers.SourceDamage.Flat -= (int)(Player.statDefense * 0.05);
+            
+            if (blazingCoreParry > 0) //check for active parry
+            {
+                if (blazingCoreParry >= 18) //only the first 12 frames (0.2 seconds) counts for a valid parry
+                {
+                    if (!Player.HasCooldown(ElysianGuard.ID))
+                    {
+                        Player.GiveIFrames(60, true); 
+                        blazingCoreEmpoweredParry = true;
+                        modifiers.SetMaxDamage(1); //ONLY REDUCE DAMAGE IF NOT ON COOLDOWN
+                        modifiers.DisableSound(); //prevents hurt sound from playing, had no idea this was a thing
+                    }
+                    
+                    SoundEngine.PlaySound(BlazingCore.ParrySuccessSound, Player.Center);
+                    blazingCoreSuccessfulParry = 60;
+                    Player.AddCooldown(ElysianGuard.ID, 60 * 30, false); //cooldown is frames in seconds multiplied by the desired amount of seconds
+                }
+
+                if (blazingCoreParry > 1)
+                    blazingCoreParry = 1; //schedule parry to end next frame
+            }
+            
         }
         #endregion
 
@@ -5967,7 +6009,8 @@ namespace CalamityMod.CalPlayer
                 {
                     // Being hit for zero from Paladin's Shield damage share does not cancel Adrenaline.
                     // Adrenaline is not lost when hit if using Draedon's Heart.
-                    if (!draedonsHeart && !adrenalineModeActive && hurtInfo.Damage > 0)
+                    // Adrenaline is not lost when an empowered parry is performed with blazing core (reduces damage to 1, but not 0)
+                    if (!draedonsHeart && !blazingCoreEmpoweredParry && !adrenalineModeActive && hurtInfo.Damage > 0)
                     {
                         if (adrenaline >= adrenalineMax)
                         {
@@ -6378,24 +6421,6 @@ namespace CalamityMod.CalPlayer
                             if (ink.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[ink].DamageType = DamageClass.Generic;
                         }
-                    }
-                }
-                if (blazingCore)
-                {
-                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<BlazingCore>()));
-                    if (Player.ownedProjectileCounts[ModContent.ProjectileType<BlazingSun>()] < 1 && Player.ownedProjectileCounts[ModContent.ProjectileType<BlazingSun2>()] < 1)
-                    {
-                        for (int i = 0; i < 360; i += 3)
-                        {
-                            Vector2 BCDSpeed = new Vector2(5f, 5f).RotatedBy(MathHelper.ToRadians(i));
-                            Dust.NewDust(Player.Center, 1, 1, 244, BCDSpeed.X, BCDSpeed.Y, 0, default, 1.1f);
-                        }
-                        SoundEngine.PlaySound(SoundID.Item14, Player.Center);
-                        int sunDamage = (int)Player.GetBestClassDamage().ApplyTo(1270);
-                        int blazingSun = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), sunDamage, 0f, Player.whoAmI, 0f, 0f);
-                        Main.projectile[blazingSun].Center = Player.Center;
-                        int blazingSun2 = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun2>(), 0, 0f, Player.whoAmI, 0f, 0f);
-                        Main.projectile[blazingSun2].Center = Player.Center;
                     }
                 }
                 if (ataxiaBlaze)

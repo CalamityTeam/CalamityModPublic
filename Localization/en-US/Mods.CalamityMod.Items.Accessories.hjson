@@ -221,8 +221,6 @@ AsgardianAegis: {
 		+40 max life and increased life regeneration
 		Grants a cosmic inferno dash which can slam through enemies without taking damage
 		Can be used to ram enemies
-		Press [KEY] to activate buffs to all damage, crit chance, and defense
-		Activating this buff will reduce your movement speed and increase enemy aggro
 		+20 defense while submerged in liquid
 		'''
 }
@@ -263,10 +261,13 @@ BlazingCore: {
 	DisplayName: Blazing Core
 	Tooltip:
 		'''
-		The searing core of the profaned goddess
-		Being hit creates a miniature sun that lingers, dealing damage to nearby enemies
-		The sun will slowly drag enemies into it
-		Only one sun can be active at once
+		The searing core of the Profaned Goddess
+		Pressing [KEY] will activate Elysian Guard, encasing you in luminous profaned crystal
+		Being hit shortly after encasement will shatter the crystal
+		Upon shattering, waves of holy stars spiral outwards and the damage you would have taken is reduced to 1
+		After shattering, this damage reduction effect goes on cooldown
+		If another encasement is shattered whilst on cooldown, healing stars will be interspersed throughout the waves of stars
+		The damage of a hit is not reduced whilst on cooldown
 		Provides a moderate amount of light in the Abyss
 		'''
 }
@@ -663,8 +664,6 @@ ElysianAegis: {
 		+30 max life
 		Grants an enhanced holy flame dash which can slam through enemies without taking damage
 		Can be used to ram enemies
-		Press [KEY] to activate buffs to all damage, crit chance and defense
-		Activating this buff will reduce your movement speed and increase enemy aggro
 		Blessed by the Profaned Flame
 		'''
 }
