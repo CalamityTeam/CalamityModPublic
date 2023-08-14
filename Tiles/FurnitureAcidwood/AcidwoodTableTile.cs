@@ -1,16 +1,13 @@
-using CalamityMod.Items.Placeables.FurnitureAcidwood;
+﻿using CalamityMod.Items.Placeables.FurnitureAcidwood;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodTableTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpTable();
+        public override void SetStaticDefaults() => this.SetUpTable(ModContent.ItemType<AcidwoodTable>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {
