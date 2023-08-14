@@ -1,13 +1,12 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelPlatform : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPlatform();
+        public override void SetStaticDefaults() => this.SetUpPlatform(ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelPlatform>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

@@ -1,14 +1,13 @@
-using CalamityMod.Items.Placeables.FurnitureExo;
+﻿using CalamityMod.Items.Placeables.FurnitureExo;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoPlatformTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPlatform(true);
+        public override void SetStaticDefaults() => this.SetUpPlatform(ModContent.ItemType<ExoPlatform>(), true);
 
         public override bool CanExplode(int i, int j) => false;
 

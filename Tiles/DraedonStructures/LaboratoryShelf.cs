@@ -1,5 +1,4 @@
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,7 +8,7 @@ namespace CalamityMod.Tiles.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpPlatform(true);
+            this.SetUpPlatform(ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryShelf>(), true);
             HitSound = SoundID.Tink;
             DustType = 30;
         }

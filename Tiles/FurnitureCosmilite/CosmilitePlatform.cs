@@ -1,13 +1,12 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmilitePlatform : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPlatform(true);
+        public override void SetStaticDefaults() => this.SetUpPlatform(ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmilitePlatform>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

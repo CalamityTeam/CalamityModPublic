@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpPlatform(true);
+            this.SetUpPlatform(ModContent.ItemType<Items.Placeables.FurnitureAbyss.SmoothAbyssGravelPlatform>(), true);
             HitSound = SoundID.Tink;
         }
 

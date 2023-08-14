@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
@@ -19,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureExo
                 GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoPrismPlatformTileGlow", AssetRequestMode.ImmediateLoad).Value;
             }
 
-            this.SetUpPlatform(true);
+            this.SetUpPlatform(ModContent.ItemType<ExoPrismPlatform>(), true);
             AnimationFrameHeight = 18;
         }
 
