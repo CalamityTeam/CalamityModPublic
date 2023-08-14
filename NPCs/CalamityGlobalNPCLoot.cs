@@ -373,8 +373,8 @@ namespace CalamityMod.NPCs
                 // Shinobi Blade @ 4% Normal, 6.67% Expert+
                 // Staff of Necrosteocytes @ 4% Normal, 6.67% Expert+
                 case NPCID.DarkCaster:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<ShinobiBlade>(), 25, 15));
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<StaffOfNecrosteocytes>(), 25, 15));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<ShinobiBlade>(), 15, 10));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<StaffOfNecrosteocytes>(), 15, 10));
                     break;
 
                 //The ectoplasm extra drops got moved to the list section; just like moss hornets
