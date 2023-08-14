@@ -3,14 +3,12 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicBench : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSofa(false, true);
+        public override void SetStaticDefaults() => this.SetUpSofa(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicBench>(), false, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

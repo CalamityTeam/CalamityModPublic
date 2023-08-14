@@ -1330,10 +1330,13 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a sofa.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
         /// <param name="bench">Whether this tile is displayed as bench instead of sofa on the map. Defaults to false.</param>
-        internal static void SetUpSofa(this ModTile mt, bool lavaImmune = false, bool bench = false)
+        internal static void SetUpSofa(this ModTile mt, int itemDropID, bool lavaImmune = false, bool bench = false)
         {
+            mt.RegisterItemDrop(itemDropID);
+
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
