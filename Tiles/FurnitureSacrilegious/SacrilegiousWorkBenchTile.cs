@@ -1,16 +1,13 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureSacrilegious;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousWorkBenchTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench(true);
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<SacrilegiousWorkBench>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

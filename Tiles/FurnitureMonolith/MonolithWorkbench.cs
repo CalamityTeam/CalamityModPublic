@@ -2,16 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureMonolith
 {
     public class MonolithWorkBench : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench(true);
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureMonolith.MonolithWorkBench>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

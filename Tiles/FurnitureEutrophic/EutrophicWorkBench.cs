@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicWorkBench : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench();
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicWorkBench>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

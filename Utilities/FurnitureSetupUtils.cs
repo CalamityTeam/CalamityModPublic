@@ -1387,8 +1387,9 @@ namespace CalamityMod
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
+        /// <param name="waterImmune">Whether this tile is supposed to be immune to water. Defaults to false.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpTorch(this ModTile mt, int itemDropID, bool lavaImmune = false, bool waterImmune = false)
+        internal static void SetUpTorch(this ModTile mt, int itemDropID, bool waterImmune = false, bool lavaImmune = false)
         {
             mt.RegisterItemDrop(itemDropID);
 
@@ -1443,9 +1444,12 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a work bench.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpWorkBench(this ModTile mt, bool lavaImmune = false)
+        internal static void SetUpWorkBench(this ModTile mt, int itemDropID, bool lavaImmune = false)
         {
+            mt.RegisterItemDrop(itemDropID);
+
             Main.tileSolidTop[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileNoAttach[mt.Type] = true;
