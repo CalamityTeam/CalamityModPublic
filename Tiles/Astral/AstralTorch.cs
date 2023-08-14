@@ -3,18 +3,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Astral
 {
     public class AstralTorch : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpTorch();
-
-        // This is required for torches to break underwater
-        public override bool CanPlace(int i, int j) => Main.tile[i, j].LiquidAmount <= 0;
+        public override void SetStaticDefaults() => this.SetUpTorch(ModContent.ItemType<Items.Placeables.Furniture.AstralTorch>(), waterImmune: true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -77,10 +72,10 @@ namespace CalamityMod.Tiles.Astral
             return true;
         }
 
-		public override float GetTorchLuck(Player player)
-		{
-			// Note: Total Torch luck never goes below zero
-			return player.Calamity().ZoneAstral ? 1f : -1f;
-		}
+        public override float GetTorchLuck(Player player)
+        {
+            // Note: Total Torch luck never goes below zero
+            return player.Calamity().ZoneAstral ? 1f : -1f;
+        }
     }
 }

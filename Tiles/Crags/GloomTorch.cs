@@ -1,21 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
 using Terraria.DataStructures;
-using Terraria.Enums;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Crags
 {
     public class GloomTorch : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpTorch();
-
-        // This is required for torches to break underwater
-        public override bool CanPlace(int i, int j) => Main.tile[i, j].LiquidAmount <= 0;
+        public override void SetStaticDefaults() => this.SetUpTorch(ModContent.ItemType<Items.Placeables.Furniture.GloomTorch>(), lavaImmune: true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

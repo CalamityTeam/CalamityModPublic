@@ -1386,9 +1386,12 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a torch.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpTorch(this ModTile mt, bool lavaImmune = false, bool waterImmune = false)
+        internal static void SetUpTorch(this ModTile mt, int itemDropID, bool lavaImmune = false, bool waterImmune = false)
         {
+            mt.RegisterItemDrop(itemDropID);
+
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileSolid[mt.Type] = false;

@@ -2,15 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class AbyssTorch : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpTorch(true, true);
+        public override void SetStaticDefaults() => this.SetUpTorch(ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>(), true, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {
