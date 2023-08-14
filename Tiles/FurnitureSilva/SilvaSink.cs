@@ -1,16 +1,13 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaSink : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSink(true);
+        public override void SetStaticDefaults() => this.SetUpSink(ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaSink>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

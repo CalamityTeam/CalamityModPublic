@@ -1,9 +1,6 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
@@ -11,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
     [LegacyName("OccultSink")]
     public class OtherworldlySink : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSink(true);
+        public override void SetStaticDefaults() => this.SetUpSink(ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlySink>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteSink : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSink(true);
+        public override void SetStaticDefaults() => this.SetUpSink(ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteSink>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

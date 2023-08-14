@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelSink : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSink();
+        public override void SetStaticDefaults() => this.SetUpSink(ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelSink>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {
