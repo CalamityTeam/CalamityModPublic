@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpBar(new Color(229, 141, 246));
+            this.SetUpBar(ModContent.ItemType<CosmiliteBar>(), new Color(229, 141, 246));
             DustType = ModContent.DustType<CosmiliteBarDust>();
         }
 

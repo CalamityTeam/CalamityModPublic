@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
+    // TODO -- WHY IS THIS IN PLACEABLES. IT IS A CRAFTING MATERIAL FIRST AND FOREMOST.
     public class AstralBar : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";

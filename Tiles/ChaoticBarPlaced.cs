@@ -1,15 +1,16 @@
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Tiles
 {
+    // TODO -- this name is inconsistent with all other placed bars, and needs to be updated for Scoria
     public class ChaoticBarPlaced : ModTile
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpBar(new Color(255, 165, 0));
+            this.SetUpBar(ModContent.ItemType<ScoriaBar>(), new Color(255, 165, 0));
             DustType = 87;
         }
 

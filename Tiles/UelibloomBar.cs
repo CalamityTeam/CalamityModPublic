@@ -1,5 +1,4 @@
-using CalamityMod.Dusts.Furniture;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -10,7 +9,7 @@ namespace CalamityMod.Tiles
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpBar(new Color(134, 209, 102));
+            this.SetUpBar(ModContent.ItemType<Items.Materials.UelibloomBar>(), new Color(134, 209, 102));
             DustType = ModContent.DustType<BloomTileLeaves>();
         }
 
