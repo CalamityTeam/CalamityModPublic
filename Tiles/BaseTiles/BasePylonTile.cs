@@ -50,6 +50,8 @@ namespace CalamityMod.Tiles.BaseTiles
 
         public override void SetStaticDefaults()
         {
+            RegisterItemDrop(AssociatedItem);
+
             TEModdedPylon moddedPylon = ModContent.GetInstance<TECalamityPylon>();
             this.SetUpPylon(moddedPylon, true);
 

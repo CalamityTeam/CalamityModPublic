@@ -1276,7 +1276,6 @@ namespace CalamityMod
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
         internal static void SetUpPylon(this ModPylon mp, TEModdedPylon pylonHook, bool lavaImmune = false, int offset = 2)
         {
-
             Main.tileLighted[mp.Type] = true;
             Main.tileFrameImportant[mp.Type] = true;
             Main.tileLavaDeath[mp.Type] = !lavaImmune;
