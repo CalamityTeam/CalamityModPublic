@@ -109,6 +109,7 @@ namespace CalamityMod.Items.Accessories
                 player.controlThrow = false;
                 player.gravDir = 1f;
                 player.velocity = Vector2.Zero;
+                player.velocity.Y = -0.1f; //if player velocity is 0, the flight meter gets reset
                 player.RemoveAllGrapplingHooks();
             }
             else
