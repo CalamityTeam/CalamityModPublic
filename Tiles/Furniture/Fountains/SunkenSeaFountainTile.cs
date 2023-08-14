@@ -2,17 +2,15 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
 {
     public class SunkenSeaFountainTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpFountain(new Color(104, 195, 255));
+        public override void SetStaticDefaults() => this.SetUpFountain(ModContent.ItemType<SunkenSeaFountain>(), new Color(104, 195, 255));
 
         public override void NearbyEffects(int i, int j, bool closer)
         {

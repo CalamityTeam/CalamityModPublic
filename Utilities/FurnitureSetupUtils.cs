@@ -1145,6 +1145,40 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Extension which initializes a ModTile to be a fountain.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="itemDropID">The ID of the item this tile drops when broken.</param>
+        /// <param name="mapColor">The map color of the tile.</param>
+        internal static void SetUpFountain(this ModTile mt, int itemDropID, Color mapColor)
+        {
+            mt.RegisterItemDrop(itemDropID);
+
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = false;
+            Main.tileWaterDeath[mt.Type] = false;
+            TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.LavaPlacement = LiquidPlacement.Allowed;
+            TileObjectData.addTile(mt.Type);
+            TileID.Sets.HasOutlines[mt.Type] = true;
+
+            TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.Height = 4;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.Origin = new Point16(0, 3);
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
+            TileObjectData.newTile.StyleLineSkip = 2;
+            TileObjectData.addTile(mt.Type);
+
+            mt.AddMapEntry(mapColor, Language.GetText("MapObject.WaterFountain"));
+            mt.AnimationFrameHeight = 72;
+        }
+
+        /// <summary>
         /// Extension which initializes a ModTile to be a floor lamp.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
@@ -1467,38 +1501,6 @@ namespace CalamityMod
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("ItemName.WorkBench"));
             mt.AdjTiles = new int[] { TileID.WorkBenches };
-        }
-
-        /// <summary>
-        /// Extension which initializes a ModTile to be a fountain.
-        /// </summary>
-        /// <param name="mt">The ModTile which is being initialized.</param>
-        /// <param name="mapColor">The map color of the tile.</param>
-        internal static void SetUpFountain(this ModTile mt, Color mapColor)
-        {
-            //All fountains are immune to lava
-            Main.tileLighted[mt.Type] = true;
-            Main.tileFrameImportant[mt.Type] = true;
-            Main.tileLavaDeath[mt.Type] = false;
-            Main.tileWaterDeath[mt.Type] = false;
-            TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.newTile.LavaPlacement = LiquidPlacement.Allowed;
-            TileObjectData.addTile(mt.Type);
-            TileID.Sets.HasOutlines[mt.Type] = true;
-
-            TileObjectData.newTile.Width = 2;
-            TileObjectData.newTile.Height = 4;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.Origin = new Point16(0, 3);
-            TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
-            TileObjectData.newTile.StyleLineSkip = 2;
-            TileObjectData.addTile(mt.Type);
-
-            mt.AddMapEntry(mapColor, Language.GetText("MapObject.WaterFountain"));
-            mt.AnimationFrameHeight = 72;
         }
 
         /// <summary>
