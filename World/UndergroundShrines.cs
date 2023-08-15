@@ -123,7 +123,7 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
                     }
                 }
-                if (!canGenerateInLocation || corruptStuffInArea < totalTiles * 0.4 || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)) || !inYourWalls)
+                if (!canGenerateInLocation || corruptStuffInArea < totalTiles*0.9 || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)) || !inYourWalls)
                 {
                     tries++;
                 }
