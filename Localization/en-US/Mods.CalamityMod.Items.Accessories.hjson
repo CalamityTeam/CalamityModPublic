@@ -32,7 +32,7 @@ AbyssalDivingSuit: {
 		'''
 		Transforms the holder into an armored diver
 		Increases max movement speed and acceleration while underwater but you move slowly outside of water
-		The suits' armored plates increase damage reduction by 15%
+		The suit's armored plates increase damage reduction by 15%
 		The plates will only take damage if the damage taken is over 50
 		After the suit has taken too much damage its armored plates will take 3 minutes to regenerate
 		Reduces the damage caused by the pressure of the abyss while out of breath
