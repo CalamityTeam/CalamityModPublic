@@ -123,9 +123,6 @@ namespace CalamityMod.CalPlayer
             // Standing still effects
             StandingStillEffects();
 
-            // Elysian Aegis effects
-            ElysianAegisEffects();
-
             // Other buff effects
             OtherBuffEffects();
 
@@ -2311,52 +2308,6 @@ namespace CalamityMod.CalPlayer
                     }
                 }
                 auralisAuroraCounter = 0;
-            }
-        }
-        #endregion
-
-        #region Elysian Aegis Effects
-        private void ElysianAegisEffects()
-        {
-            if (elysianAegis)
-            {
-                bool spawnDust = false;
-
-                float shieldBoostInitial = shieldInvinc;
-                shieldInvinc += 0.08f;
-                if (shieldInvinc > 5f)
-                    shieldInvinc = 5f;
-                else
-                    spawnDust = true;
-
-                if (shieldInvinc == 5f && shieldBoostInitial != shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
-                    NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, Player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-
-                // Emit dust
-                if (spawnDust)
-                {
-                    if (Main.rand.NextBool(2))
-                    {
-                        Vector2 vector = Vector2.UnitY.RotatedByRandom(Math.PI * 2D);
-                        Dust dust = Main.dust[Dust.NewDust(Player.Center - vector * 30f, 0, 0, (int)CalamityDusts.ProfanedFire, 0f, 0f, 0, default, 1f)];
-                        dust.noGravity = true;
-                        dust.position = Player.Center - vector * (float)Main.rand.Next(5, 11);
-                        dust.velocity = vector.RotatedBy(Math.PI / 2D, default) * 4f;
-                        dust.scale = 0.5f + Main.rand.NextFloat();
-                        dust.fadeIn = 0.5f;
-                    }
-
-                    if (Main.rand.NextBool(2))
-                    {
-                        Vector2 vector2 = Vector2.UnitY.RotatedByRandom(Math.PI * 2D);
-                        Dust dust2 = Main.dust[Dust.NewDust(Player.Center - vector2 * 30f, 0, 0, 246, 0f, 0f, 0, default, 1f)];
-                        dust2.noGravity = true;
-                        dust2.position = Player.Center - vector2 * 12f;
-                        dust2.velocity = vector2.RotatedBy(-Math.PI / 2D, default) * 2f;
-                        dust2.scale = 0.5f + Main.rand.NextFloat();
-                        dust2.fadeIn = 0.5f;
-                    }
-                }
             }
         }
         #endregion

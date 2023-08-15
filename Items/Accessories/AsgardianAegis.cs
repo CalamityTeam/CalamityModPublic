@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.DashID = AsgardianAegisDash.ID;
             player.dashType = 0;
-            modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;
             player.statLifeMax2 += 40;

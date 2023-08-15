@@ -219,7 +219,6 @@ namespace CalamityMod.CalPlayer
         public float modStealth = 1f;
         public float aquaticBoostMax = 10000f;
         public float aquaticBoost = 0f;
-        public float shieldInvinc = 5f;
         public int galileoCooldown = 0;
         public int soundCooldown = 0;
         public int planarSpeedBoost = 0;
@@ -454,7 +453,6 @@ namespace CalamityMod.CalPlayer
         public int statisTimer = 0;
         public bool nucleogenesis = false;
         public bool nuclearFuelRod = false;
-        public bool elysianAegis = false;
         public bool nCore = false;
         public bool deepDiver = false;
         public bool abyssalDivingSuitPlates = false;
@@ -1487,8 +1485,6 @@ namespace CalamityMod.CalPlayer
             dodgeScarf = false;
             evasionScarf = false;
 
-            elysianAegis = false;
-
             nCore = false;
 
             godSlayer = false;
@@ -2469,7 +2465,6 @@ namespace CalamityMod.CalPlayer
             xerocSet = false;
             tracersDust = false;
             elysianWingsDust = false;
-            elysianAegis = false;
             GemTechState.OnDeathEffects();
             blazingCoreParry = 0;
             blazingCoreEmpoweredParry = false;
