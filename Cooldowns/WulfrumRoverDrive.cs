@@ -1,14 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using CalamityMod.Items.Accessories;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.Graphics.Shaders;
 using Terraria.Localization;
 using static CalamityMod.CalamityUtils;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.Items.Accessories;
-using Terraria.Audio;
-using Terraria.Graphics.Shaders;
-using System;
 
 namespace CalamityMod.Cooldowns
 {
@@ -17,11 +17,11 @@ namespace CalamityMod.Cooldowns
         private static Color ringColorLerpStart = new Color(49, 220, 221);
         private static Color ringColorLerpEnd = new Color(99, 226, 142);
 
-        private float AdjustedCompletion => (instance.timeLeft) / (float)RoverDrive.ProtectionMatrixDurabilityMax;
+        private float AdjustedCompletion => instance.timeLeft / (float)RoverDrive.ShieldDurabilityMax;
 
         public static new string ID => "WulfrumRoverDriveDurability";
-        public override bool CanTickDown => !instance.player.GetModPlayer<RoverDrivePlayer>().RoverDriveOn || instance.timeLeft <= 0;
-        public override bool ShouldDisplay => instance.player.GetModPlayer<RoverDrivePlayer>().RoverDriveOn;
+        public override bool CanTickDown => !instance.player.Calamity().roverDrive || instance.timeLeft <= 0;
+        public override bool ShouldDisplay => instance.player.Calamity().roverDrive;
         public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/WulfrumRoverDriveActive";
         public override string OutlineTexture => "CalamityMod/Cooldowns/WulfrumRoverDriveOutline";
@@ -88,7 +88,8 @@ namespace CalamityMod.Cooldowns
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
 
-        public override void OnCompleted() => instance.player.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability = RoverDrive.ProtectionMatrixDurabilityMax;
+        // Rover Drive shields are recharged as a side effect of the cooldown completing client side
+        public override void OnCompleted() => instance.player.Calamity().RoverDriveShieldDurability = RoverDrive.ShieldDurabilityMax;
         public override SoundStyle? EndSound => null;
     }
 }

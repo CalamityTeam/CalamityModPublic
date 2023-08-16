@@ -6,14 +6,12 @@ using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Cooldowns;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
-using CalamityMod.EntitySources;
 using CalamityMod.Enums;
 using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
@@ -25,7 +23,6 @@ using CalamityMod.Items.Armor.Aerospec;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Items.Armor.Brimflame;
 using CalamityMod.Items.Armor.Demonshade;
-using CalamityMod.Items.Armor.GemTech;
 using CalamityMod.Items.Armor.LunicCorps;
 using CalamityMod.Items.Armor.OmegaBlue;
 using CalamityMod.Items.Armor.PlagueReaper;
@@ -39,7 +36,6 @@ using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
@@ -62,7 +58,6 @@ using CalamityMod.Projectiles.Typless;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Chat;
@@ -74,8 +69,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using ElysianGuard = CalamityMod.Cooldowns.ElysianGuard;
-using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace CalamityMod.CalPlayer
 {
@@ -392,6 +385,22 @@ namespace CalamityMod.CalPlayer
         public int defenseDamageToTake = 0;
         #endregion
 
+        #region Energy Shields
+        public bool HasAnyEnergyShield => roverDrive || lunicCorpsSet || sponge;
+        public bool drawnAnyShieldThisFrame = false;
+
+        public int TotalEnergyShielding => RoverDriveShieldDurability + LunicCorpsShieldDurability + SpongeShieldDurability;
+        public int RoverDriveShieldDurability = 0;
+        public int LunicCorpsShieldDurability = 0;
+        public int SpongeShieldDurability = 0;
+
+        public bool roverDrive = false;
+        public bool roverDriveShieldVisible = false;
+        // Lunic Corps shield is controlled by its armor set bool
+        public bool sponge = false;
+        public bool spongeShieldVisible = false;
+        #endregion
+
         #region Abyss
         public float abyssBreathLossStat = 0;
         public float abyssBreathLossRateStat = 0;
@@ -467,7 +476,6 @@ namespace CalamityMod.CalPlayer
         public bool tortShell = false;
         public bool absorber = false;
         public bool aAmpoule = false;
-        public bool sponge = false;
         public bool rOoze = false;
         public bool fBarrier = false;
         public bool aBrain = false;
@@ -688,7 +696,6 @@ namespace CalamityMod.CalPlayer
         public bool brimflameSet = false;
         public bool brimflameFrenzy = false;
         public bool lunicCorpsSet = false;
-        public int masterChefShieldDurability = 0;
         public bool lunicCorpsLegs = false;
         public bool shadeRegen = false;
         public bool shadowSpeed = false;
@@ -1434,6 +1441,19 @@ namespace CalamityMod.CalPlayer
             alcoholPoisonLevel = 0;
             noLifeRegen = false;
 
+            // Shields. Has to intentionally be above resetting accessories and armor or the shields would clear instantly
+            drawnAnyShieldThisFrame = false;
+            if (!roverDrive)
+                RoverDriveShieldDurability = 0;
+            if (!lunicCorpsSet)
+                LunicCorpsShieldDurability = 0;
+            if (!sponge)
+                SpongeShieldDurability = 0;
+            roverDrive = false;
+            roverDriveShieldVisible = false;
+            sponge = false;
+            spongeShieldVisible = false;
+
             thirdSage = false;
             perfmini = false;
             akato = false;
@@ -1556,7 +1576,6 @@ namespace CalamityMod.CalPlayer
             tortShell = false;
             absorber = false;
             aAmpoule = false;
-            sponge = false;
             rOoze = false;
             fBarrier = false;
             aBrain = false;
@@ -1661,9 +1680,6 @@ namespace CalamityMod.CalPlayer
 
             brimflameSet = false;
             brimflameFrenzy = false;
-
-            if (!lunicCorpsSet)
-                masterChefShieldDurability = 0;
 
             lunicCorpsSet = false;
             lunicCorpsLegs = false;
@@ -2127,8 +2143,6 @@ namespace CalamityMod.CalPlayer
                     SyncCooldownDictionary(Main.netMode == NetmodeID.Server);
                 }
             }
-            
-            
 
             #region Debuffs
             totalDefenseDamage = 0;
@@ -2350,7 +2364,7 @@ namespace CalamityMod.CalPlayer
             divineBless = false;
             #endregion
 
-            #region Armorbonuses
+            #region Armor Set Bonuses
             silverMedkit = false;
             silverMedkitTimer = 0;
             goldArmorGoldDrops = false;
@@ -2388,7 +2402,6 @@ namespace CalamityMod.CalPlayer
             brimflameSet = false;
             brimflameFrenzy = false;
             lunicCorpsSet = false;
-            masterChefShieldDurability = 0;
             lunicCorpsLegs = false;
             reaverSpeed = false;
             reaverRegen = false;
@@ -2471,10 +2484,18 @@ namespace CalamityMod.CalPlayer
             blazingCoreSuccessfulParry = 0;
             #endregion
 
+            #region Shields
+            RoverDriveShieldDurability = 0;
+            LunicCorpsShieldDurability = 0;
+            SpongeShieldDurability = 0;
+            #endregion
+
+            #region UI
             CurrentlyViewedFactoryID = -1;
             CurrentlyViewedChargerID = -1;
             CurrentlyViewedHologramID = -1;
             CurrentlyViewedHologramText = string.Empty;
+            #endregion
 
             KameiBladeUseDelay = 0;
             brimlashBusterBoost = false;
@@ -2886,8 +2907,7 @@ namespace CalamityMod.CalPlayer
                     //minor cheese prevention with standing on a spike with later game gear spamming parry :skull:
                     //because of ordering, if they do not have the cooldown, it will not check the projectile array. Likewise if there are no bosses alive.
                     //Furthermore, Enumerable#Any is lightweight and returns immediately if a single object matches it's predicate
-                    if (!Player.HasCooldown(Cooldowns.ElysianGuard.ID) || 
-                        Player.ownedProjectileCounts[ModContent.ProjectileType<BlazingStarHeal>()] == 0)
+                    if (!Player.HasCooldown(ElysianGuard.ID) || Player.ownedProjectileCounts[ModContent.ProjectileType<BlazingStarHeal>()] == 0)
                     {
                         GeneralScreenShakePower = 3.5f;
                         blazingCoreParry = 30;
@@ -5645,82 +5665,181 @@ namespace CalamityMod.CalPlayer
             if ((godSlayerDamage && info.Damage <= 80) || info.Damage < 1)
                 return true;
 
-            // Apply Lunic Corps Armor's energy shield here. If the shield completely absorbs the hit, iframes are granted and the hit is considered dodged.
-            if (lunicCorpsSet)
+            // Apply energy shields here. Currently implementred energy shields are:
+            // - Rover Drive
+            // - Lunic Corps Armor set bonus
+            // - The Sponge
+            //
+            // If the shield(s) completely absorb the hit, iframes are granted and the hit is considered dodged.
+            // Shields are drained in order of progression, so your weaker shields will break first.
+            // Damage can and will be blocked by multiple shields if it has to be.
+            if (HasAnyEnergyShield)
             {
                 bool shieldsFullyAbsorbedHit = false;
+                bool shieldsTookHit = false;
+                bool anyShieldBroke = false;
+                int totalDamageBlocked = 0;
 
-                // Shields can only have any effect if they have any energy left.
-                if (masterChefShieldDurability > 0)
+                // ROVER DRIVE
+                if (roverDrive && RoverDriveShieldDurability > 0 && !shieldsFullyAbsorbedHit)
                 {
-                    // Cancel actual damage if the shield has enough durability to cancel out all damage from the hit.
-                    if (masterChefShieldDurability >= info.Damage)
+                    // Check whether this shield can fully absorb the incoming hit (or what's left of it).
+                    bool thisShieldCanFullyAbsorb = RoverDriveShieldDurability >= info.Damage;
+
+                    // Tally up how much damage was blocked by this shield.
+                    int roverDriveDamageBlocked = Math.Min(RoverDriveShieldDurability, info.Damage);
+                    totalDamageBlocked += roverDriveDamageBlocked;
+
+                    // Deal all incoming damage to this shield, because it is available.
+                    RoverDriveShieldDurability -= info.Damage;
+                    shieldsTookHit = true;
+
+                    // Hits which break the Rover Drive shield cause a sound and slight screen shake.
+                    // Multiple shields breaking simultaneously has slightly stronger screen shake.
+                    if (RoverDriveShieldDurability <= 0)
                     {
-                        // Hits which break the shield cause a sound and slight screen shake.
-                        masterChefShieldDurability -= info.Damage;
-                        if (masterChefShieldDurability <= 0)
-                        {
-                            masterChefShieldDurability = 0;
-                            SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
-                            Player.Calamity().GeneralScreenShakePower += 2f;
-                        }
+                        RoverDriveShieldDurability = 0;
+                        SoundEngine.PlaySound(RoverDrive.BreakSound, Player.Center);
+                        Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
+                        anyShieldBroke = true;
+                    }
 
-                        // Display text indicating that shield damage was taken.
-                        string shieldDamageText = (-info.Damage).ToString();
-                        Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
-                        CombatText.NewText(location, Color.LightBlue, Language.GetTextValue(shieldDamageText));
-
-                        // Cancel defense damage, if it was going to occur this frame.
-                        justHitByDefenseDamage = false;
-                        defenseDamageToTake = 0;
+                    // Mark the hit as being canceled if this shield has enough durability to fully absorb it.
+                    // This prevents further shields from attempting to absorb the hit.
+                    if (thisShieldCanFullyAbsorb)
                         shieldsFullyAbsorbedHit = true;
-                    }
 
-                    // If the shields exist, but aren't enough to block the whole hit, then reduce that much damage and break the shield.
-                    else
+                    // Actually remove damage from the incoming hit, so that later shields have less damage incoming.
+                    info.Damage -= roverDriveDamageBlocked;
+                }
+                
+                // LUNIC CORPS ARMOR
+                if (lunicCorpsSet && LunicCorpsShieldDurability > 0 && !shieldsFullyAbsorbedHit)
+                {
+                    // Check whether this shield can fully absorb the incoming hit (or what's left of it).
+                    bool thisShieldCanFullyAbsorb = LunicCorpsShieldDurability >= info.Damage;
+
+                    // Tally up how much damage was blocked by this shield.
+                    int masterChefDamageBlocked = Math.Min(LunicCorpsShieldDurability, info.Damage);
+                    totalDamageBlocked += masterChefDamageBlocked;
+
+                    // Deal all incoming damage to this shield, because it is available.
+                    LunicCorpsShieldDurability -= info.Damage;
+                    shieldsTookHit = true;
+
+                    // Hits which break the Lunic Corps shield cause a sound and a slight screen shake.
+                    // Multiple shields breaking simultaneously has slightly stronger screen shake.
+                    if (LunicCorpsShieldDurability <= 0)
                     {
-                        int totalDamageBeforeModification = info.Damage;
-                        info.Damage -= masterChefShieldDurability;
-
-                        // Hits which break the shield cause a sound and slight screen shake.
-                        masterChefShieldDurability -= totalDamageBeforeModification;
-                        if (masterChefShieldDurability <= 0)
-                        {
-                            masterChefShieldDurability = 0;
-                            SoundEngine.PlaySound(LunicCorpsHelmet.BreakSound, Player.Center);
-                            Player.Calamity().GeneralScreenShakePower += 2f;
-                        }
-
-                        // Display text indicating that shield damage was taken.
-                        string shieldDamageText = (-info.Damage).ToString();
-                        Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
-                        CombatText.NewText(location, Color.LightBlue, shieldDamageText);
+                        LunicCorpsShieldDurability = 0;
+                        SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
+                        Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
+                        anyShieldBroke = true;
                     }
 
-                    // Spawn particles when hit with the shields up, regardless of whether or not the shields broke.
-                    int numParticles = Main.rand.Next(2, 6);
-                    for (int i = 0; i < numParticles; i++)
-                    {
-                        Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3, 7);
-                        velocity.X += 5f * info.HitDirection;
-                        GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(Player.Center, velocity, Main.rand.NextFloat(2.5f, 3f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25));
-                    }
+                    // Mark the hit as being canceled if this shield has enough durability to fully absorb it.
+                    // This prevents further shields from attempting to absorb the hit.
+                    if (thisShieldCanFullyAbsorb)
+                        shieldsFullyAbsorbedHit = true;
 
-                    // Set the cooldown rack's shield meter appropriately.
-                    if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var cdDurability))
-                        cdDurability.timeLeft = masterChefShieldDurability;
-
-                    // Give the player iframes for taking the hit, regardless of whether or not the shields broke
-                    Player.GiveIFrames(Player.longInvince ? 100 : 60, true);
+                    // Actually remove damage from the incoming hit, so that later shields have less damage incoming.
+                    info.Damage -= masterChefDamageBlocked;
                 }
 
-                // Stop regen of shields on ANY hit, even if you are hit while shields are fully down.
-                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cd))
-                    cd.timeLeft = LunicCorpsHelmet.MasterChefShieldRechargeTime;
+                // THE SPONGE
+                if (sponge && SpongeShieldDurability > 0 && !shieldsFullyAbsorbedHit)
+                {
+                    // Check whether this shield can fully absorb the incoming hit (or what's left of it).
+                    bool thisShieldCanFullyAbsorb = SpongeShieldDurability >= info.Damage;
+
+                    // Tally up how much damage was blocked by this shield.
+                    int spongeDamageBlocked = Math.Min(SpongeShieldDurability, info.Damage);
+                    totalDamageBlocked += spongeDamageBlocked;
+
+                    // Deal all incoming damage to this shield, because it is available.
+                    SpongeShieldDurability -= info.Damage;
+                    shieldsTookHit = true;
+
+                    // Hits which break The Sponge's shield cause a sound and a slight screen shake.
+                    // Multiple shields breaking simultaneously has slightly stronger screen shake.
+                    if (SpongeShieldDurability <= 0)
+                    {
+                        SpongeShieldDurability = 0;
+                        // TODO -- unique sound for The Sponge
+                        SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
+                        Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
+                        anyShieldBroke = true;
+                    }
+
+                    // Mark the hit as being canceled if this shield has enough durability to fully absorb it.
+                    // This prevents further shields from attempting to absorb the hit.
+                    if (thisShieldCanFullyAbsorb)
+                        shieldsFullyAbsorbedHit = true;
+
+                    // Actually remove damage from the incoming hit, so that later shields have less damage incoming.
+                    info.Damage -= spongeDamageBlocked;
+                }
+
+                // If any shields took damage, there is some code that must be run.
+                if (shieldsTookHit)
+                {
+                    // If any shields took damage, display text indicating that shield damage was taken.
+                    string shieldDamageText = (-totalDamageBlocked).ToString();
+                    Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
+                    CombatText.NewText(location, Color.LightBlue, Language.GetTextValue(shieldDamageText));
+
+                    // Give the player iframes for taking the a shield hit, regardless of whether or not the shields broke
+                    Player.GiveIFrames(Player.longInvince ? 100 : 60, true);
+
+                    // Spawn particles when hit with the shields up, regardless of whether or not the shields broke.
+                    // More particles spawn if a shield broke.
+                    int numParticles = Main.rand.Next(2, 6) + (anyShieldBroke ? 6 : 0);
+                    for (int i = 0; i < numParticles; i++)
+                    {
+                        // Rover Drive has slightly higher particle velocity
+                        float maxVelocity = roverDrive ? 14f : 7f;
+                        Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3f, maxVelocity);
+                        velocity.X += 5f * info.HitDirection;
+
+                        float scale = Main.rand.NextFloat(2.5f, 3f);
+                        Color particleColor = Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247);
+                        int lifetime = 25;
+
+                        var shieldParticle = new TechyHoloysquareParticle(Player.Center, velocity, scale, particleColor, lifetime);
+                        GeneralParticleHandler.SpawnParticle(shieldParticle);
+                    }
+
+                    // Update Rover Drive durability on the cooldown rack.
+                    if (roverDrive && cooldowns.TryGetValue(WulfrumRoverDriveDurability.ID, out var roverDriveDurabilityCD))
+                        roverDriveDurabilityCD.timeLeft = RoverDriveShieldDurability;
+
+                    // Update Lunic Corps Armor durability on the cooldown rack.
+                    if (lunicCorpsSet && cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var masterChefDurabilityCD))
+                        masterChefDurabilityCD.timeLeft = LunicCorpsShieldDurability;
+
+                    // TODO -- Sponge cooldown...
+                }
+
+                // Regardless of whether shields took damage, stop all shield regen on ANY hit.
+                // This applies even if you are hit while shields are fully down, or if you unequip any of the relevant items.
+                {
+                    if (cooldowns.TryGetValue(WulfrumRoverDriveRecharge.ID, out var roverDriveRechargeCD))
+                        roverDriveRechargeCD.timeLeft = RoverDrive.ShieldRechargeTime;
+
+                    if (cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cd))
+                        cd.timeLeft = LunicCorpsHelmet.ShieldRechargeDelay;
+
+                    // TODO -- Stop Sponge cooldown
+                }
 
                 // Use a "Free Dodge" to cancel the hit if the shields completely absorbed the hit.
                 if (shieldsFullyAbsorbedHit)
+                {
+                    // Cancel defense damage, if it was going to occur this frame.
+                    justHitByDefenseDamage = false;
+                    defenseDamageToTake = 0;
                     return true;
+                }
             }
 
             // If no other effects occurred, run vanilla code
@@ -5793,10 +5912,23 @@ namespace CalamityMod.CalPlayer
             #region Custom Hurt Sounds
             if (hurtSoundTimer == 0)
             {
-                if (Player.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability > 0)
+                if (roverDrive && RoverDriveShieldDurability > 0)
                 {
                     modifiers.DisableSound();
                     SoundEngine.PlaySound(RoverDrive.ShieldHurtSound, Player.Center);
+                    hurtSoundTimer = 20;
+                }
+                else if (lunicCorpsSet && LunicCorpsShieldDurability > 0)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
+                    hurtSoundTimer = 20;
+                }
+                else if (sponge && SpongeShieldDurability > 0)
+                {
+                    // TODO -- unique sound for The Sponge
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
                     hurtSoundTimer = 20;
                 }
                 else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)

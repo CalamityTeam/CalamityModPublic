@@ -1,11 +1,10 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using System;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 30));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 30));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
@@ -39,11 +38,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            // Removed Giant Shell speed boost from Sponge
-            // modPlayer.gShell = true;
             modPlayer.sponge = true;
-            player.statManaMax2 += 30;
-            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

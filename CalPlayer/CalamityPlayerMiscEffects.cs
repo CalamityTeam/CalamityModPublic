@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using CalamityMod.Balancing;
-using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
@@ -12,18 +12,22 @@ using CalamityMod.Cooldowns;
 using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
-using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
+using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Items.Armor.Brimflame;
 using CalamityMod.Items.Armor.DesertProwler;
+using CalamityMod.Items.Armor.Hydrothermic;
+using CalamityMod.Items.Armor.LunicCorps;
+using CalamityMod.Items.Armor.OmegaBlue;
+using CalamityMod.Items.Armor.Prismatic;
 using CalamityMod.Items.Armor.Silva;
+using CalamityMod.Items.Armor.Tarragon;
+using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Dyes;
-using CalamityMod.Items.Fishing.AstralCatches;
-using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.Potions;
@@ -39,7 +43,6 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
-using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
@@ -47,6 +50,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Systems;
+using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -63,14 +67,6 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
-using CalamityMod.Items.Armor.Wulfrum;
-using CalamityMod.Tiles.Abyss.AbyssAmbient;
-using CalamityMod.Items.Armor.LunicCorps;
-using CalamityMod.Items.Armor.Bloodflare;
-using CalamityMod.Items.Armor.Hydrothermic;
-using CalamityMod.Items.Armor.OmegaBlue;
-using CalamityMod.Items.Armor.Prismatic;
-using CalamityMod.Items.Armor.Tarragon;
 
 namespace CalamityMod.CalPlayer
 {
@@ -126,6 +122,9 @@ namespace CalamityMod.CalPlayer
             // Other buff effects
             OtherBuffEffects();
 
+            // Update energy shields
+            EnergyShields();
+
             // Defense manipulation (Mostly defense damage, but also Bloodflare Core and others)
             DefenseEffects();
 
@@ -157,32 +156,6 @@ namespace CalamityMod.CalPlayer
 
             // Update the gem tech armor set.
             GemTechState.Update();
-
-            // Lunic Corps Shield Shit
-            if (!lunicCorpsSet)
-            {
-                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var cdDurability))
-                    cdDurability.timeLeft = 0;
-
-                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cdRecharge))
-                    cdRecharge.timeLeft = 0;
-            }
-            else
-            {
-                if (masterChefShieldDurability == 0 && !Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cd))
-                    Player.AddCooldown(MasterChefShieldRecharge.ID, LunicCorpsHelmet.MasterChefShieldRechargeTime);
-
-                if (masterChefShieldDurability > 0 && !Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out cd))
-                {
-                    CooldownInstance durabilityCooldown = Player.AddCooldown(MasterChefShieldDurability.ID, LunicCorpsHelmet.MasterChefShieldDurabilityMax);
-                    durabilityCooldown.timeLeft = masterChefShieldDurability;
-
-                    SoundEngine.PlaySound(LunicCorpsHelmet.ActivationSound, Player.Center);
-                }
-
-                if (masterChefShieldDurability > 0)
-                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.2f);
-            }
 
             // Regularly sync player stats & mouse control info during multiplayer
             if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
@@ -3515,6 +3488,104 @@ namespace CalamityMod.CalPlayer
 
             // Gem Tech stats based on gems.
             GemTechState.ProvideGemBoosts();
+        }
+        #endregion
+
+        #region Energy Shields
+        private void EnergyShields()
+        {
+            // Because later tier shields are brighter, shields are handled from highest tier to lowest tier here.
+            bool shieldAddedLight = false;
+
+            // TODO -- Sponge cooldown management
+            if (!sponge)
+            {
+                // stuff
+            }
+            else
+            {
+                if (SpongeShieldDurability == 0 && true)
+                {
+                    // stuff
+                }
+
+                if (SpongeShieldDurability > 0 && true)
+                {
+                    // stuff
+                }
+
+                // Add light if this shield is currently active
+                if (SpongeShieldDurability > 0 && !shieldAddedLight)
+                {
+                    // The Sponge is much brigher than other shields
+                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.75f);
+                    shieldAddedLight = true;
+                }
+            }
+
+            // If the Lunic Corps armor is not equipped, obliterate its durability cooldown.
+            // The recharge cooldown is intentionally left in place to prevent hot swapping to recharge the shield
+            if (!lunicCorpsSet)
+            {
+                if (cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var cdDurability))
+                    cdDurability.timeLeft = 0;
+                // if (cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cdRecharge)) cdRecharge.timeLeft = 0;
+            }
+
+            // Stuff to do if the Lunic Corps armor is equipped
+            else
+            {
+                if (LunicCorpsShieldDurability == 0 && !cooldowns.ContainsKey(MasterChefShieldRecharge.ID))
+                    Player.AddCooldown(MasterChefShieldRecharge.ID, LunicCorpsHelmet.ShieldRechargeDelay);
+
+                // If the shield has greater than zero durability but that durability is not on the cooldown rack,
+                // add it to the cooldown rack and play a sound of the shield turning on.
+                if (LunicCorpsShieldDurability > 0 && !cooldowns.ContainsKey(MasterChefShieldDurability.ID))
+                {
+                    CooldownInstance durabilityCooldown = Player.AddCooldown(MasterChefShieldDurability.ID, LunicCorpsHelmet.ShieldDurabilityMax);
+                    durabilityCooldown.timeLeft = LunicCorpsShieldDurability;
+                    SoundEngine.PlaySound(LunicCorpsHelmet.ActivationSound, Player.Center);
+                }
+
+                // Add light if this shield is currently active
+                if (LunicCorpsShieldDurability > 0 && !shieldAddedLight)
+                {
+                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.2f);
+                    shieldAddedLight = true;
+                }
+            }
+
+            // If the Rover Drive is not equipped, obliterate its durability cooldown.
+            // The recharge cooldown is intentionally left in place to prevent hot swapping to recharge the shield
+            if (!roverDrive)
+            {
+                if (cooldowns.TryGetValue(WulfrumRoverDriveDurability.ID, out var cdDurability))
+                    cdDurability.timeLeft = 0;
+                // if (cooldowns.TryGetValue(WulfrumRoverDriveRecharge.ID, out var cdRecharge)) cdRecharge.timeLeft = 0;
+            }
+
+            // Stuff to do if the Rover Drive is equipped
+            else
+            {
+                if (RoverDriveShieldDurability == 0 && !cooldowns.ContainsKey(WulfrumRoverDriveRecharge.ID))
+                    Player.AddCooldown(WulfrumRoverDriveRecharge.ID, RoverDrive.ShieldRechargeTime);
+
+                // If the shield has greater than zero durability but that durability is not on the cooldown rack,
+                // add it to the cooldown rack and play a sound of the shield turning on.
+                if (RoverDriveShieldDurability > 0 && !cooldowns.ContainsKey(WulfrumRoverDriveDurability.ID))
+                {
+                    CooldownInstance durabilityCooldown = Player.AddCooldown(WulfrumRoverDriveDurability.ID, RoverDrive.ShieldDurabilityMax);
+                    durabilityCooldown.timeLeft = RoverDriveShieldDurability;
+                    SoundEngine.PlaySound(RoverDrive.ActivationSound, Player.Center);
+                }
+
+                // Add light if this shield is currently active
+                if (RoverDriveShieldDurability > 0 && !shieldAddedLight)
+                {
+                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.2f);
+                    shieldAddedLight = true;
+                }
+            }
         }
         #endregion
 

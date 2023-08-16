@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.LunicCorps;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.FurnitureExo;
 using Terraria;
@@ -47,6 +49,10 @@ namespace CalamityMod.ILEditing
             On_TileDrawing.PreDrawTiles += ClearForegroundStuff;
             On_TileDrawing.Draw += ClearTilePings;
             On_CommonCode.ModifyItemDropFromNPC += ColorBlightedGel;
+
+            // Graphics (Energy shields)
+            On_Main.DrawInfernoRings += RoverDrive.DrawRoverDriveShields;
+            On_Main.DrawInfernoRings += LunicCorpsHelmet.DrawHaloShields;
 
             // NPC behavior
             IL_Main.UpdateTime += PermitNighttimeTownNPCSpawning;

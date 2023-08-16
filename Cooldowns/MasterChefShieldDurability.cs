@@ -19,7 +19,7 @@ namespace CalamityMod.Cooldowns
         private static Color ringColorLerpStart = new Color(49, 220, 221);
         private static Color ringColorLerpEnd = new Color(99, 226, 142);
 
-        private float AdjustedCompletion => (instance.timeLeft) / (float)LunicCorpsHelmet.MasterChefShieldDurabilityMax;
+        private float AdjustedCompletion => (instance.timeLeft) / (float)LunicCorpsHelmet.ShieldDurabilityMax;
 
         public static new string ID => "MasterChefShieldDurability";
         public override bool CanTickDown => !instance.player.GetModPlayer<CalamityPlayer>().lunicCorpsSet || instance.timeLeft <= 0;
@@ -89,7 +89,7 @@ namespace CalamityMod.Cooldowns
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
 
-        public override void OnCompleted() => instance.player.GetModPlayer<CalamityPlayer>().masterChefShieldDurability = LunicCorpsHelmet.MasterChefShieldDurabilityMax;
+        public override void OnCompleted() => instance.player.GetModPlayer<CalamityPlayer>().LunicCorpsShieldDurability = LunicCorpsHelmet.ShieldDurabilityMax;
         public override SoundStyle? EndSound => null;
     }
 }

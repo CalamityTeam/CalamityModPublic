@@ -1388,9 +1388,10 @@ RoverDrive: {
 	DisplayName: Rover Drive
 	Tooltip:
 		'''
-		Activates a protective matrix that can absorb 40 damage and grants 10 defense
-		However, the systems are fickle and the shield will need 10 seconds to recharge when broken
-		Getting hit during the shield recharge period will restart the recharging process
+		Projects an energy shield that can absorb 20 damage
+        The shield grants 10 defense while active
+		It takes 10 seconds to recharge the protective matrix when the shield is broken
+		Being hit again while recharging restarts the charge timer
 		Can also be scrapped at an extractinator
 		'''
 }
