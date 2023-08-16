@@ -3527,24 +3527,45 @@ namespace CalamityMod.CalPlayer
             // The recharge cooldown is intentionally left in place to prevent hot swapping to recharge the shield
             if (!lunicCorpsSet)
             {
-                if (cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var cdDurability))
+                if (cooldowns.TryGetValue(Cooldowns.LunicCorpsShieldDurability.ID, out var cdDurability))
                     cdDurability.timeLeft = 0;
                 // if (cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cdRecharge)) cdRecharge.timeLeft = 0;
+
+                // As Lunic Corps shields can be left in partially recharged states, this is for safety.
+                // If the player does not have the armor equipped for even one frame, discharge all shields.
+                LunicCorpsShieldDurability = 0;
             }
 
             // Stuff to do if the Lunic Corps armor is equipped
             else
             {
-                if (LunicCorpsShieldDurability == 0 && !cooldowns.ContainsKey(MasterChefShieldRecharge.ID))
-                    Player.AddCooldown(MasterChefShieldRecharge.ID, LunicCorpsHelmet.ShieldRechargeDelay);
+                // If the Lunic Corps shield is discharged and hasn't started its recharge delay, start that.
+                if (LunicCorpsShieldDurability == 0 && !cooldowns.ContainsKey(LunicCorpsShieldRecharge.ID))
+                    Player.AddCooldown(LunicCorpsShieldRecharge.ID, LunicCorpsHelmet.ShieldRechargeDelay);
 
                 // If the shield has greater than zero durability but that durability is not on the cooldown rack,
                 // add it to the cooldown rack and play a sound of the shield turning on.
-                if (LunicCorpsShieldDurability > 0 && !cooldowns.ContainsKey(MasterChefShieldDurability.ID))
+                if (LunicCorpsShieldDurability > 0 && !cooldowns.ContainsKey(Cooldowns.LunicCorpsShieldDurability.ID))
                 {
-                    CooldownInstance durabilityCooldown = Player.AddCooldown(MasterChefShieldDurability.ID, LunicCorpsHelmet.ShieldDurabilityMax);
+                    var durabilityCooldown = Player.AddCooldown(Cooldowns.LunicCorpsShieldDurability.ID, LunicCorpsHelmet.ShieldDurabilityMax);
                     durabilityCooldown.timeLeft = LunicCorpsShieldDurability;
                     SoundEngine.PlaySound(LunicCorpsHelmet.ActivationSound, Player.Center);
+                }
+
+                // If the shield has greater than zero durability and isn't in its recharge delay, actively replenish shield points.
+                if (LunicCorpsShieldDurability > 0 && !cooldowns.ContainsKey(LunicCorpsShieldRecharge.ID))
+                {
+                    // TODO -- sound should be played when recharging starts. This requires extra state tracking
+                    
+                    // This number is not an integer, and stores exact per-frame recharge progress.
+                    lunicCorpsShieldPartialRechargeProgress += LunicCorpsHelmet.ShieldDurabilityMax / (float)LunicCorpsHelmet.TotalShieldRechargeTime;
+
+                    // Cast to int to get whole number of shield points recharged this frame.
+                    int pointsActuallyRecharged = (int)lunicCorpsShieldPartialRechargeProgress;
+
+                    // Give those points to the real shield durability. Then remove them from recharge progress.
+                    LunicCorpsShieldDurability += pointsActuallyRecharged;
+                    lunicCorpsShieldPartialRechargeProgress -= pointsActuallyRecharged;
                 }
 
                 // Add light if this shield is currently active
@@ -3567,6 +3588,7 @@ namespace CalamityMod.CalPlayer
             // Stuff to do if the Rover Drive is equipped
             else
             {
+                // If the Rover Drive shield is discharged and hasn't started its recharge delay, start that.
                 if (RoverDriveShieldDurability == 0 && !cooldowns.ContainsKey(WulfrumRoverDriveRecharge.ID))
                     Player.AddCooldown(WulfrumRoverDriveRecharge.ID, RoverDrive.ShieldRechargeTime);
 

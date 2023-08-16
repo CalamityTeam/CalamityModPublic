@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +23,7 @@ namespace CalamityMod.Cooldowns
         public static new string ID => "WulfrumRoverDriveDurability";
         public override bool CanTickDown => !instance.player.Calamity().roverDrive || instance.timeLeft <= 0;
         public override bool ShouldDisplay => instance.player.Calamity().roverDrive;
-        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
+        public override LocalizedText DisplayName => GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/WulfrumRoverDriveActive";
         public override string OutlineTexture => "CalamityMod/Cooldowns/WulfrumRoverDriveOutline";
         public override string OverlayTexture => "CalamityMod/Cooldowns/WulfrumRoverDriveOverlay";
@@ -57,13 +58,13 @@ namespace CalamityMod.Cooldowns
             Texture2D outline = Request<Texture2D>(OutlineTexture).Value;
             Texture2D overlay = Request<Texture2D>(OverlayTexture).Value;
 
-            //Draw the outline
+            // Draw the outline
             spriteBatch.Draw(outline, position, null, OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 
-            //Draw the icon
+            // Draw the icon
             spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 
-            //Draw the small overlay
+            // Draw the small overlay
             int lostHeight = (int)Math.Ceiling(overlay.Height * AdjustedCompletion);
             Rectangle crop = new Rectangle(0, lostHeight, overlay.Width, overlay.Height - lostHeight);
             spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, OutlineColor * opacity * 0.9f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
@@ -89,7 +90,12 @@ namespace CalamityMod.Cooldowns
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
 
         // Rover Drive shields are recharged as a side effect of the cooldown completing client side
-        public override void OnCompleted() => instance.player.Calamity().RoverDriveShieldDurability = RoverDrive.ShieldDurabilityMax;
+        public override void OnCompleted()
+        {
+            CalamityPlayer modPlayer = instance.player.Calamity();
+            if (modPlayer.roverDrive)
+                modPlayer.RoverDriveShieldDurability = RoverDrive.ShieldDurabilityMax;
+        }
         public override SoundStyle? EndSound => null;
     }
 }

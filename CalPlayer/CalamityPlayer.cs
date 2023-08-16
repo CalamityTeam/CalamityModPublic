@@ -396,7 +396,11 @@ namespace CalamityMod.CalPlayer
 
         public bool roverDrive = false;
         public bool roverDriveShieldVisible = false;
+
         // Lunic Corps shield is controlled by its armor set bool
+        // Lunic Corps shield comes from an armor set and its visibility is non optional
+        internal float lunicCorpsShieldPartialRechargeProgress = 0f;
+
         public bool sponge = false;
         public bool spongeShieldVisible = false;
         #endregion
@@ -5814,20 +5818,26 @@ namespace CalamityMod.CalPlayer
                         roverDriveDurabilityCD.timeLeft = RoverDriveShieldDurability;
 
                     // Update Lunic Corps Armor durability on the cooldown rack.
-                    if (lunicCorpsSet && cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var masterChefDurabilityCD))
+                    if (lunicCorpsSet && cooldowns.TryGetValue(Cooldowns.LunicCorpsShieldDurability.ID, out var masterChefDurabilityCD))
                         masterChefDurabilityCD.timeLeft = LunicCorpsShieldDurability;
 
                     // TODO -- Sponge cooldown...
                 }
 
-                // Regardless of whether shields took damage, stop all shield regen on ANY hit.
+                // Regardless of whether shields took damage, iterate over all shield regen on ANY hit.
                 // This applies even if you are hit while shields are fully down, or if you unequip any of the relevant items.
                 {
+                    // Rover Drive does not recharge while partially full, only when broken.
+                    // If you are hit when recharging, though, that timer gets reset.
                     if (cooldowns.TryGetValue(WulfrumRoverDriveRecharge.ID, out var roverDriveRechargeCD))
                         roverDriveRechargeCD.timeLeft = RoverDrive.ShieldRechargeTime;
 
-                    if (cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cd))
+                    // If the Lunic Corps Armor is still recharging, reset its recharge delay to full.
+                    if (cooldowns.TryGetValue(LunicCorpsShieldRecharge.ID, out var cd))
                         cd.timeLeft = LunicCorpsHelmet.ShieldRechargeDelay;
+                    // If the Lunic Corps Armor is not yet recharging, start its recharge timer.
+                    else
+                        Player.AddCooldown(Cooldowns.LunicCorpsShieldRecharge.ID, LunicCorpsHelmet.ShieldRechargeDelay, true);
 
                     // TODO -- Stop Sponge cooldown
                 }
