@@ -1849,6 +1849,11 @@ AbandonedWulfrumHelmet: {
 		'''
 }
 
+HapuFruit: {
+	DisplayName: Ha-pu Fruit
+	Tooltip: ""
+}
+
 Popo: {
 	DisplayName: Magic Scarf and Hat
 	Tooltip:

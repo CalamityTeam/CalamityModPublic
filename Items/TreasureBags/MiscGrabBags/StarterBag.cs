@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.LoreItems;
+﻿using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
@@ -79,6 +80,15 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
                 return playerName == "Aleksh" || playerName == "Shark Lad";
             };
             itemLoot.AddIf(getsLadPet, ModContent.ItemType<JoyfulHeart>());
+
+            // HPU dev item
+            // Name specific: "Heart Plus Up"
+            static bool getsHapuFruit(DropAttemptInfo info)
+            {
+                string playerName = info.player.name;
+                return playerName == "Heart Plus Up";
+            };
+            itemLoot.AddIf(getsHapuFruit, ModContent.ItemType<HapuFruit>());
         }
     }
 }
