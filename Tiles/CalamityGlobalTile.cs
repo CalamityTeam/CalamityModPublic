@@ -255,7 +255,7 @@ namespace CalamityMod.Tiles
 
                             if (treeDropItemType != 0)
                             {
-                                if (Main.rand.NextBool(100) || (DateTime.Now.Month == 4 && DateTime.Now.Day == 1 && Main.rand.NextBool(15)))
+                                if (Main.rand.NextBool(100) || (DateTime.Now.Month == 2 && DateTime.Now.Day == 14 && Main.rand.NextBool(15)))
                                 {
                                     treeDropItemType = ModContent.ItemType<HapuFruit>();
                                 }
