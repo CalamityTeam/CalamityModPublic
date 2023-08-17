@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Summon
         public float PupilScale = 1f;
         public const int BeamFireRate = 60;
         public Player Owner => Main.player[Projectile.owner];
+        public NPC Target => Projectile.Center.MinionHoming(720f, Owner, Target.IsABoss());
         public ref float Time => ref Projectile.ai[1];
         public ref float PupilAngle => ref Projectile.localAI[0];
         public ref float PupilOutwardness => ref Projectile.localAI[1];
@@ -74,12 +75,11 @@ namespace CalamityMod.Projectiles.Summon
                 Initialize(Owner);
                 Projectile.ai[0] = 1f;
             }
-            NPC potentialTarget = Projectile.Center.MinionHoming(720f, Owner);
 
-            if (potentialTarget is null)
+            if (Target is null)
                 DoHoveringAI();
             else
-                DoAttackingAI(potentialTarget);
+                DoAttackingAI(Target);
 
             Projectile.frame = (int)(Time / 5) % 4;
 

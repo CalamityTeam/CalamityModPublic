@@ -4,6 +4,7 @@ using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,13 +13,11 @@ namespace CalamityMod.Projectiles.Summon
     public class BelladonnaSpirit : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+
         public Player Owner => Main.player[Projectile.owner];
-
-        public CalamityPlayer moddedOwner => Owner.Calamity();
-
+        public CalamityPlayer ModdedOwner => Owner.Calamity();
+        public NPC Target => Projectile.Center.MinionHoming(BelladonnaSpiritStaff.EnemyDistanceDetection, Owner, Target.IsABoss());
         public ref float PetalFireTimer => ref Projectile.ai[0];
-
-        public bool CheckForSpawning = false;
 
         public override void SetStaticDefaults()
         {
@@ -43,21 +42,15 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override void AI()
-        {
-            // Detects a target at a given distance
-            NPC potentialTarget = Projectile.Center.MinionHoming(BelladonnaSpiritStaff.EnemyDistanceDetection, Owner);
-
+        {   
             // Checks if the minion can still exist.
             CanMinionExist();
 
-            // Makes a dust effect where the minion spawns.
-            OnSpawn();
-
             // Does the animation of the minion.
-            DoAnimation(potentialTarget);
+            DoAnimation(Target);
 
             // Points in the right directions.
-            PointInDirection(potentialTarget);
+            PointInDirection(Target);
 
             // Vibes around the player.
             FollowPlayer();
@@ -66,7 +59,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.MinionAntiClump();
 
             // If there's a target, it'll shoot at it.
-            if (potentialTarget is not null)
+            if (Target is not null)
                 TargetNPC();
 
             Projectile.netUpdate = true;
@@ -80,27 +73,23 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.type == ModContent.ProjectileType<BelladonnaSpirit>())
             {
                 if (Owner.dead)
-                    moddedOwner.belladonaSpirit = false;
-                if (moddedOwner.belladonaSpirit)
+                    ModdedOwner.belladonaSpirit = false;
+                if (ModdedOwner.belladonaSpirit)
                     Projectile.timeLeft = 2;
             }
         }
 
-        public void OnSpawn()
+        public override void OnSpawn(IEntitySource source)
         {
-            if (CheckForSpawning == false)
+            int dustAmount = 45;
+            for (int dustIndex = 0; dustIndex < dustAmount; dustIndex++)
             {
-                int dustAmount = 45;
-                for (int dustIndex = 0; dustIndex < dustAmount; dustIndex++)
-                {
-                    float angle = MathHelper.TwoPi / 45f * dustIndex;
-                    Vector2 velocity = angle.ToRotationVector2() * Main.rand.NextFloat(3f, 4.5f);
-                    Dust spawnDust = Dust.NewDustPerfect(Projectile.Center, 39, velocity);
-                    spawnDust.noGravity = true;
-                    spawnDust.scale = velocity.Length() * 0.1f;
-                    spawnDust.velocity *= 0.3f;
-                }
-                CheckForSpawning = true;
+                float angle = MathHelper.TwoPi / 45f * dustIndex;
+                Vector2 velocity = angle.ToRotationVector2() * Main.rand.NextFloat(3f, 4.5f);
+                Dust spawnDust = Dust.NewDustPerfect(Projectile.Center, 39, velocity);
+                spawnDust.noGravity = true;
+                spawnDust.scale = velocity.Length() * 0.1f;
+                spawnDust.velocity *= 0.3f;
             }
         }
 

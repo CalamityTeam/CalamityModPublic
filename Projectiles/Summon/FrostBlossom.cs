@@ -10,6 +10,11 @@ namespace CalamityMod.Projectiles.Summon
     public class FrostBlossom : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+
+        public Player Owner => Main.player[Projectile.owner];
+        public CalamityPlayer ModdedOwner => Owner.Calamity();
+        public NPC Target => Projectile.Center.MinionHoming(500f, Owner, Target.IsABoss());
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
@@ -36,22 +41,20 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             bool isCorrectMinion = Projectile.type == ModContent.ProjectileType<FrostBlossom>();
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<FrostBlossomBuff>(), 3600);
+            Owner.AddBuff(ModContent.BuffType<FrostBlossomBuff>(), 3600);
             if (isCorrectMinion)
             {
-                if (player.dead)
+                if (Owner.dead)
                 {
-                    modPlayer.frostBlossom = false;
+                    ModdedOwner.frostBlossom = false;
                 }
-                if (modPlayer.frostBlossom)
+                if (ModdedOwner.frostBlossom)
                 {
                     Projectile.timeLeft = 2;
                 }
             }
-            Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
-            if (player.gravDir == -1f)
+            Projectile.Center = Owner.Center + Vector2.UnitY * (Owner.gfxOffY - 60f);
+            if (Owner.gravDir == -1f)
             {
                 Projectile.position.Y += 120f;
                 Projectile.rotation = MathHelper.Pi;
@@ -76,12 +79,11 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                NPC potentialTarget = Projectile.Center.MinionHoming(500f, player);
-                if (potentialTarget != null)
+                if (Target != null)
                 {
-                    if (Projectile.ai[1]++ % 35f == 34f && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
+                    if (Projectile.ai[1]++ % 35f == 34f && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Target.position, Target.width, Target.height))
                     {
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 20f, ModContent.ProjectileType<FrostBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(Target.Center) * 20f, ModContent.ProjectileType<FrostBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }

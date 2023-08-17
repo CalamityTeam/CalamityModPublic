@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public new string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
+        public NPC Target => Projectile.Center.MinionHoming(750f, Owner, Target.IsABoss());
         public ref float HoverTime => ref Projectile.ai[0];
 
         public const int ShootRate = 60;
@@ -39,11 +40,10 @@ namespace CalamityMod.Projectiles.Summon
         {
             ProvidePlayerMinionBuffs();
             GenerateVisuals();
-            NPC potentialTarget = Projectile.Center.MinionHoming(750f, Owner);
-            if (potentialTarget is null)
+            if (Target is null)
                 FlyNearOwner();
             else
-                AttackTarget(potentialTarget);
+                AttackTarget(Target);
         }
 
         internal void ProvidePlayerMinionBuffs()
