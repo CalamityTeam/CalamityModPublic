@@ -27,7 +27,7 @@ namespace CalamityMod.Cooldowns
         public override string Texture => "CalamityMod/Cooldowns/LunicCorpsShieldActive";
         public override string OutlineTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOutline";
         public override string OverlayTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOverlay";
-        public override Color OutlineColor => new Color(133, 204, 237);
+        public override Color OutlineColor => new Color(57, 195, 237);
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override bool SavedWithPlayer => false;
@@ -86,7 +86,7 @@ namespace CalamityMod.Cooldowns
         public override string OverlayTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOverlay";
         public override bool SavedWithPlayer => false;
         public override bool PersistsThroughDeath => false;
-        public override Color OutlineColor => new Color(133, 204, 237);
+        public override Color OutlineColor => new Color(57, 195, 237);
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override SoundStyle? EndSound => LunicCorpsHelmet.ActivationSound;
