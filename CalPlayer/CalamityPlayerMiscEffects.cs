@@ -3521,14 +3521,6 @@ namespace CalamityMod.CalPlayer
                     durabilityCooldown.timeLeft = SpongeShieldDurability;
                 }
 
-                // Add light if this shield is currently active
-                if (SpongeShieldDurability > 0 && !shieldAddedLight)
-                {
-                    // The Sponge is much brigher than other shields
-                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.75f);
-                    shieldAddedLight = true;
-                }
-
                 // If the shield has greater than zero durability and isn't in its recharge delay, actively replenish shield points.
                 // Play a sound on the first frame this occurs.
                 if (SpongeShieldDurability > 0 && !cooldowns.ContainsKey(SpongeRecharge.ID))
@@ -3540,12 +3532,24 @@ namespace CalamityMod.CalPlayer
                     // This number is not an integer, and stores exact per-frame recharge progress.
                     spongeShieldPartialRechargeProgress += TheSponge.ShieldDurabilityMax / (float)TheSponge.TotalShieldRechargeTime;
 
-                    // Cast to int to get whole number of shield points recharged this frame.
-                    int pointsActuallyRecharged = (int)spongeShieldPartialRechargeProgress;
+                    // Floor the value to get whole number of shield points recharged this frame.
+                    int pointsActuallyRecharged = (int)MathF.Floor(spongeShieldPartialRechargeProgress);
 
-                    // Give those points to the real shield durability. Then remove them from recharge progress.
-                    SpongeShieldDurability += pointsActuallyRecharged;
+                    // Give those points to the real shield durability, capping the result. Then remove them from recharge progress.
+                    SpongeShieldDurability = Math.Min(SpongeShieldDurability + pointsActuallyRecharged, TheSponge.ShieldDurabilityMax);
                     spongeShieldPartialRechargeProgress -= pointsActuallyRecharged;
+
+                    // Update the cooldown rack's durability indicator.
+                    if (cooldowns.TryGetValue(SpongeDurability.ID, out var cdDurability))
+                        cdDurability.timeLeft = SpongeShieldDurability;
+                }
+
+                // Add light if this shield is currently active
+                if (SpongeShieldDurability > 0 && !shieldAddedLight)
+                {
+                    // The Sponge is much brigher than other shields
+                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.75f);
+                    shieldAddedLight = true;
                 }
             }
 
