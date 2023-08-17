@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor.LunicCorps
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/RoverDriveActivate") { Volume = 0.85f };
         public static readonly SoundStyle BreakSound = new("CalamityMod/Sounds/Custom/RoverDriveBreak") { Volume = 0.75f };
 
-        public static int ShieldDurabilityMax = 70;
+        public static int ShieldDurabilityMax = 50;
 
         // The following two values taken directly from Halo 3:
         // https://www.halopedia.org/Energy_shielding#Gameplay
