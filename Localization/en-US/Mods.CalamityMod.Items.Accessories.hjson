@@ -1389,7 +1389,7 @@ RoverDrive: {
 	Tooltip:
 		'''
 		Projects an energy shield that can absorb 20 damage
-        The shield grants 10 defense while active
+		The shield grants 10 defense while active
 		It takes 10 seconds to recharge the protective matrix when the shield is broken
 		Being hit again while recharging restarts the charge timer
 		Can also be scrapped at an extractinator
@@ -1787,7 +1787,14 @@ TheFirstShadowflame: {
 
 TheSponge: {
 	DisplayName: The Sponge
-	Tooltip: OUT OF ORDER
+	Tooltip:
+		'''
+		Projects an incredibly durable hexagonal bubble shield that absorbs up to 180 damage
+		The shield starts recharging 6 seconds after being hit
+		Recharging from zero to full charge takes 6 seconds
+		Being hit again while recharging restarts the charge timer
+		While active, the bubble shield grants 30 defense and reduces damage taken by 30%
+		'''
 }
 
 TheTransformer: {
