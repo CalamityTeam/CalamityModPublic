@@ -51,8 +51,11 @@ namespace CalamityMod.ILEditing
             On_CommonCode.ModifyItemDropFromNPC += ColorBlightedGel;
 
             // Graphics (Energy shields)
+            // ORDER MATTERS. Whichever hook is registered last will draw a shield first, blocking all other hooks
+            // Please order these hooks in the ordering priority you want energy shields to have
             On_Main.DrawInfernoRings += RoverDrive.DrawRoverDriveShields;
             On_Main.DrawInfernoRings += LunicCorpsHelmet.DrawHaloShields;
+            On_Main.DrawInfernoRings += TheSponge.DrawSpongeShields;
 
             // NPC behavior
             IL_Main.UpdateTime += PermitNighttimeTownNPCSpawning;
