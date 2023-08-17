@@ -131,9 +131,9 @@ namespace CalamityMod.Items.Armor.LunicCorps
                     shieldEffect.Parameters["shieldEdgeBlendStrenght"].SetValue(4f);
 
                     // Lunic Corps shields are not team specific
-                    Color shieldColor = new Color(113, 178, 222);
-                    Color primaryEdgeColor = shieldColor;
-                    Color secondaryEdgeColor = new Color(57, 195, 237);
+                    Color shieldColor = new Color(201, 180, 129);
+                    Color primaryEdgeColor = new Color(232, 212, 175);
+                    Color secondaryEdgeColor = new Color(237, 205, 145);
                     Color edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, primaryEdgeColor, secondaryEdgeColor);
 
                     // Define shader parameters for shield color
