@@ -3548,7 +3548,7 @@ namespace CalamityMod.CalPlayer
                 if (SpongeShieldDurability > 0 && !shieldAddedLight)
                 {
                     // The Sponge is much brigher than other shields
-                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.75f);
+                    Lighting.AddLight(Player.Center, Color.White.ToVector3() * 0.75f);
                     shieldAddedLight = true;
                 }
             }
