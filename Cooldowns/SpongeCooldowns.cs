@@ -1,7 +1,6 @@
 ﻿using System;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Armor.LunicCorps;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -14,20 +13,20 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Cooldowns
 {
-    public class LunicCorpsShieldDurability : CooldownHandler
+    public class SpongeDurability : CooldownHandler
     {
         private static Color ringColorLerpStart = new Color(82, 203, 222);
         private static Color ringColorLerpEnd = new Color(113, 178, 222);
 
-        private float AdjustedCompletion => instance.timeLeft / (float)LunicCorpsHelmet.ShieldDurabilityMax;
+        private float AdjustedCompletion => instance.timeLeft / (float)TheSponge.ShieldDurabilityMax;
 
-        public static new string ID => "MasterChefShieldDurability";
-        public override bool CanTickDown => !instance.player.Calamity().lunicCorpsSet || instance.timeLeft <= 0;
-        public override bool ShouldDisplay => instance.player.Calamity().lunicCorpsSet;
+        public static new string ID => "SpongeDurability";
+        public override bool CanTickDown => !instance.player.Calamity().sponge || instance.timeLeft <= 0;
+        public override bool ShouldDisplay => instance.player.Calamity().sponge;
         public override LocalizedText DisplayName => GetText($"UI.Cooldowns.{ID}");
-        public override string Texture => "CalamityMod/Cooldowns/LunicCorpsShieldActive";
-        public override string OutlineTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOutline";
-        public override string OverlayTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOverlay";
+        public override string Texture => "CalamityMod/Cooldowns/SpongeDurability";
+        public override string OutlineTexture => "CalamityMod/Cooldowns/SpongeOutline";
+        public override string OverlayTexture => "CalamityMod/Cooldowns/SpongeOverlay";
         public override Color OutlineColor => new Color(133, 204, 237);
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
@@ -74,21 +73,21 @@ namespace CalamityMod.Cooldowns
         }
     }
 
-    public class LunicCorpsShieldRecharge : CooldownHandler
+    public class SpongeRecharge : CooldownHandler
     {
         private static Color ringColorLerpStart = new Color(179, 212, 242);
         private static Color ringColorLerpEnd = new Color(113, 178, 222);
 
-        public static new string ID => "MasterChefShieldRecharge";
+        public static new string ID => "SpongeRecharge";
         public override bool ShouldDisplay => true;
         public override LocalizedText DisplayName => GetText($"UI.Cooldowns.{ID}");
-        public override string Texture => "CalamityMod/Cooldowns/MasterChefShieldDurability";
+        public override string Texture => "CalamityMod/Cooldowns/SpongeRecharge";
         public override bool SavedWithPlayer => false;
         public override bool PersistsThroughDeath => false;
         public override Color OutlineColor => new Color(133, 204, 237);
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
-        public override SoundStyle? EndSound => LunicCorpsHelmet.ActivationSound;
-        public override void Tick() => instance.player.Calamity().playedLunicCorpsShieldSound = false;
+        public override SoundStyle? EndSound => TheSponge.ActivationSound;
+        public override void Tick() => instance.player.Calamity().playedSpongeShieldSound = false;
     }
 }

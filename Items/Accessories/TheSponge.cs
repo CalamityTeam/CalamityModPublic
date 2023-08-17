@@ -6,6 +6,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -17,7 +18,22 @@ namespace CalamityMod.Items.Accessories
     public class TheSponge : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+
         public override string Texture => (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) ? "CalamityMod/Items/Accessories/TheSpongeReal" : "CalamityMod/Items/Accessories/TheSponge";
+
+        // TODO -- Unique sounds for The Sponge
+        public static readonly SoundStyle ShieldHurtSound = new("CalamityMod/Sounds/Custom/RoverDriveHit") { PitchVariance = 0.6f, Volume = 0.6f, MaxInstances = 0 };
+        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/RoverDriveActivate") { Volume = 0.85f };
+        public static readonly SoundStyle BreakSound = new("CalamityMod/Sounds/Custom/RoverDriveBreak") { Volume = 0.75f };
+
+        public static int ShieldDurabilityMax = 180;
+        public static int ShieldRechargeDelay = CalamityUtils.SecondsToFrames(6);
+        public static int TotalShieldRechargeTime = CalamityUtils.SecondsToFrames(6);
+
+        // While active, The Sponge gives 30 defense and 30% DR
+        public static int ShieldActiveDefense = 30;
+        public static float ShieldActiveDamageReduction = 0.3f;
+
 
         public override void SetStaticDefaults()
         {
@@ -27,7 +43,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            Item.defense = 20;
             Item.width = 20;
             Item.height = 20;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
@@ -39,10 +54,22 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.sponge = true;
+            modPlayer.spongeShieldVisible = !hideVisual;
+
+            if (modPlayer.SpongeShieldDurability > 0)
+            {
+                player.statDefense += ShieldActiveDefense;
+                player.endurance += ShieldActiveDamageReduction;
+            }
         }
 
+        // In vanity, provides a visual shield but no actual functionality
+        public override void UpdateVanity(Player player) => player.Calamity().spongeShieldVisible = true;
+
+        // Renders the bubble shield over the item in the world.
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
+            // Will not render a shield if the April Fool's sprite is active.
             if (Texture == "CalamityMod/Items/Accessories/TheSponge")
             {
                 Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/TheSpongeShield").Value;
@@ -50,13 +77,16 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
+        // TODO -- Is this necessary to block the shield in-inventory on April first?
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             return Texture != "CalamityMod/Items/Accessories/TheSponge";
         }
 
+        // Renders the bubble shield over the item in a player's inventory.
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
+            // Will not render a shield if the April Fool's sprite is active.
             if (Texture == "CalamityMod/Items/Accessories/TheSponge")
             {
                 float wantedScale = 0.85f;

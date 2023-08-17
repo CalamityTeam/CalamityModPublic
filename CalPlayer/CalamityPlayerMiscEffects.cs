@@ -3497,21 +3497,28 @@ namespace CalamityMod.CalPlayer
             // Because later tier shields are brighter, shields are handled from highest tier to lowest tier here.
             bool shieldAddedLight = false;
 
-            // TODO -- Sponge cooldown management
+            // If The Sponge is not equipped, obliterate its durability cooldown.
+            // The recharge cooldown is intentionally left in place to prevent hot swapping to recharge the shield
             if (!sponge)
             {
-                // stuff
+                if (cooldowns.TryGetValue(SpongeDurability.ID, out var cdDurability))
+                    cdDurability.timeLeft = 0;
+
+                // As The Sponge's shield can be left in a partially recharged state, this is for safety.
+                // If the player does not have the accessory equipped for even one frame, discharge all shields.
+                SpongeShieldDurability = 0;
             }
             else
             {
-                if (SpongeShieldDurability == 0 && true)
-                {
-                    // stuff
-                }
+                // If The Sponge's shield is discharged and hasn't started its recharge delay, start that.
+                if (SpongeShieldDurability == 0 && !cooldowns.ContainsKey(SpongeRecharge.ID))
+                    Player.AddCooldown(SpongeRecharge.ID, TheSponge.ShieldRechargeDelay);
 
-                if (SpongeShieldDurability > 0 && true)
+                // If the shield has greater than zero durability but that durability is not on the cooldown rack, add it to the cooldown rack.
+                if (SpongeShieldDurability > 0 && !cooldowns.ContainsKey(SpongeDurability.ID))
                 {
-                    // stuff
+                    var durabilityCooldown = Player.AddCooldown(SpongeDurability.ID, TheSponge.ShieldDurabilityMax);
+                    durabilityCooldown.timeLeft = SpongeShieldDurability;
                 }
 
                 // Add light if this shield is currently active
@@ -3521,6 +3528,25 @@ namespace CalamityMod.CalPlayer
                     Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.75f);
                     shieldAddedLight = true;
                 }
+
+                // If the shield has greater than zero durability and isn't in its recharge delay, actively replenish shield points.
+                // Play a sound on the first frame this occurs.
+                if (SpongeShieldDurability > 0 && !cooldowns.ContainsKey(SpongeRecharge.ID))
+                {
+                    if (!playedSpongeShieldSound)
+                        SoundEngine.PlaySound(TheSponge.ActivationSound, Player.Center);
+                    playedSpongeShieldSound = true;
+
+                    // This number is not an integer, and stores exact per-frame recharge progress.
+                    spongeShieldPartialRechargeProgress += TheSponge.ShieldDurabilityMax / (float)TheSponge.TotalShieldRechargeTime;
+
+                    // Cast to int to get whole number of shield points recharged this frame.
+                    int pointsActuallyRecharged = (int)spongeShieldPartialRechargeProgress;
+
+                    // Give those points to the real shield durability. Then remove them from recharge progress.
+                    SpongeShieldDurability += pointsActuallyRecharged;
+                    spongeShieldPartialRechargeProgress -= pointsActuallyRecharged;
+                }
             }
 
             // If the Lunic Corps armor is not equipped, obliterate its durability cooldown.
@@ -3529,9 +3555,8 @@ namespace CalamityMod.CalPlayer
             {
                 if (cooldowns.TryGetValue(Cooldowns.LunicCorpsShieldDurability.ID, out var cdDurability))
                     cdDurability.timeLeft = 0;
-                // if (cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cdRecharge)) cdRecharge.timeLeft = 0;
 
-                // As Lunic Corps shields can be left in partially recharged states, this is for safety.
+                // As the Lunic Corps armor's shield can be left in a partially recharged state, this is for safety.
                 // If the player does not have the armor equipped for even one frame, discharge all shields.
                 LunicCorpsShieldDurability = 0;
             }
@@ -3543,20 +3568,21 @@ namespace CalamityMod.CalPlayer
                 if (LunicCorpsShieldDurability == 0 && !cooldowns.ContainsKey(LunicCorpsShieldRecharge.ID))
                     Player.AddCooldown(LunicCorpsShieldRecharge.ID, LunicCorpsHelmet.ShieldRechargeDelay);
 
-                // If the shield has greater than zero durability but that durability is not on the cooldown rack,
-                // add it to the cooldown rack and play a sound of the shield turning on.
+                // If the shield has greater than zero durability but that durability is not on the cooldown rack, add it to the cooldown rack.
                 if (LunicCorpsShieldDurability > 0 && !cooldowns.ContainsKey(Cooldowns.LunicCorpsShieldDurability.ID))
                 {
                     var durabilityCooldown = Player.AddCooldown(Cooldowns.LunicCorpsShieldDurability.ID, LunicCorpsHelmet.ShieldDurabilityMax);
                     durabilityCooldown.timeLeft = LunicCorpsShieldDurability;
-                    SoundEngine.PlaySound(LunicCorpsHelmet.ActivationSound, Player.Center);
                 }
 
                 // If the shield has greater than zero durability and isn't in its recharge delay, actively replenish shield points.
+                // Play a sound on the first frame this occurs.
                 if (LunicCorpsShieldDurability > 0 && !cooldowns.ContainsKey(LunicCorpsShieldRecharge.ID))
                 {
-                    // TODO -- sound should be played when recharging starts. This requires extra state tracking
-                    
+                    if (!playedLunicCorpsShieldSound)
+                        SoundEngine.PlaySound(LunicCorpsHelmet.ActivationSound, Player.Center);
+                    playedLunicCorpsShieldSound = true;
+
                     // This number is not an integer, and stores exact per-frame recharge progress.
                     lunicCorpsShieldPartialRechargeProgress += LunicCorpsHelmet.ShieldDurabilityMax / (float)LunicCorpsHelmet.TotalShieldRechargeTime;
 

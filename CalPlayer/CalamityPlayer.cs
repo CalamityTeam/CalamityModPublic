@@ -388,8 +388,10 @@ namespace CalamityMod.CalPlayer
         #region Energy Shields
         public bool HasAnyEnergyShield => roverDrive || lunicCorpsSet || sponge;
         public bool drawnAnyShieldThisFrame = false;
-
+        
+        // TODO -- Some way to show the player their total shield points.
         public int TotalEnergyShielding => RoverDriveShieldDurability + LunicCorpsShieldDurability + SpongeShieldDurability;
+
         public int RoverDriveShieldDurability = 0;
         public int LunicCorpsShieldDurability = 0;
         public int SpongeShieldDurability = 0;
@@ -400,9 +402,12 @@ namespace CalamityMod.CalPlayer
         // Lunic Corps shield is controlled by its armor set bool
         // Lunic Corps shield comes from an armor set and its visibility is non optional
         internal float lunicCorpsShieldPartialRechargeProgress = 0f;
+        internal bool playedLunicCorpsShieldSound = false;
 
         public bool sponge = false;
         public bool spongeShieldVisible = false;
+        internal float spongeShieldPartialRechargeProgress = 0f;
+        internal bool playedSpongeShieldSound = false;
         #endregion
 
         #region Abyss
@@ -5769,8 +5774,7 @@ namespace CalamityMod.CalPlayer
                     if (SpongeShieldDurability <= 0)
                     {
                         SpongeShieldDurability = 0;
-                        // TODO -- unique sound for The Sponge
-                        SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
+                        SoundEngine.PlaySound(TheSponge.ShieldHurtSound, Player.Center);
                         Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
                         anyShieldBroke = true;
                     }
@@ -5821,10 +5825,12 @@ namespace CalamityMod.CalPlayer
                     if (lunicCorpsSet && cooldowns.TryGetValue(Cooldowns.LunicCorpsShieldDurability.ID, out var masterChefDurabilityCD))
                         masterChefDurabilityCD.timeLeft = LunicCorpsShieldDurability;
 
-                    // TODO -- Sponge cooldown...
+                    // Update Sponge durability on the cooldown rack.
+                    if (sponge && cooldowns.TryGetValue(SpongeDurability.ID, out var spongeDurabilityCD))
+                        spongeDurabilityCD.timeLeft = SpongeShieldDurability;
                 }
 
-                // Regardless of whether shields took damage, iterate over all shield regen on ANY hit.
+                // Regardless of whether shields took damage, iterate over and stall all shield regen on ANY hit.
                 // This applies even if you are hit while shields are fully down, or if you unequip any of the relevant items.
                 {
                     // Rover Drive does not recharge while partially full, only when broken.
@@ -5832,14 +5838,13 @@ namespace CalamityMod.CalPlayer
                     if (cooldowns.TryGetValue(WulfrumRoverDriveRecharge.ID, out var roverDriveRechargeCD))
                         roverDriveRechargeCD.timeLeft = RoverDrive.ShieldRechargeTime;
 
-                    // If the Lunic Corps Armor is still recharging, reset its recharge delay to full.
-                    if (cooldowns.TryGetValue(LunicCorpsShieldRecharge.ID, out var cd))
-                        cd.timeLeft = LunicCorpsHelmet.ShieldRechargeDelay;
-                    // If the Lunic Corps Armor is not yet recharging, start its recharge timer.
-                    else
-                        Player.AddCooldown(Cooldowns.LunicCorpsShieldRecharge.ID, LunicCorpsHelmet.ShieldRechargeDelay, true);
+                    // Set the Lunic Corps Armor's recharge delay to full. Override any existing cooldown instance.
+                    if (lunicCorpsSet)
+                        Player.AddCooldown(LunicCorpsShieldRecharge.ID, LunicCorpsHelmet.ShieldRechargeDelay, true);
 
-                    // TODO -- Stop Sponge cooldown
+                    // Set The Sponge's recharge delay to full. Override any existing cooldown instance.
+                    if (sponge)
+                        Player.AddCooldown(SpongeRecharge.ID, TheSponge.ShieldRechargeDelay, true);
                 }
 
                 // Use a "Free Dodge" to cancel the hit if the shields completely absorbed the hit.
@@ -5936,9 +5941,8 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (sponge && SpongeShieldDurability > 0)
                 {
-                    // TODO -- unique sound for The Sponge
                     modifiers.DisableSound();
-                    SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
+                    SoundEngine.PlaySound(TheSponge.ShieldHurtSound, Player.Center);
                     hurtSoundTimer = 20;
                 }
                 else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
