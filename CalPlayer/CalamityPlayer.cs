@@ -387,6 +387,7 @@ namespace CalamityMod.CalPlayer
 
         #region Energy Shields
         public bool HasAnyEnergyShield => roverDrive || lunicCorpsSet || sponge;
+        public bool freeDodgeFromShieldAbsorption = false;
         public bool drawnAnyShieldThisFrame = false;
         
         // TODO -- Some way to show the player their total shield points.
@@ -5631,15 +5632,20 @@ namespace CalamityMod.CalPlayer
         #region Free and Consumable Dodge Hooks
         public override bool FreeDodge(Player.HurtInfo info)
         {
-            // Boss Rush is a "dodge" that makes you take more damage and always fails to dodge the attack
-            if (BossRushEvent.BossRushActive)
+            // God Slayer Damage Resistance makes you ignore hits that came in as less than 80.
+            // Alternatively, if the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
+            if (info.Damage < 1 || (godSlayerDamage && info.Damage <= 80))
+                return true;
+
+            // If this hit was marked to be completely ignored due to shield absorption, then ignore it.
+            if (freeDodgeFromShieldAbsorption)
             {
-                int bossRushDamageFloor = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
-                if (info.Damage < bossRushDamageFloor)
-                    info.Damage += (bossRushDamageFloor - info.Damage);
+                freeDodgeFromShieldAbsorption = false;
+                return true;
             }
 
-            //Gravistar Sabaton fall ram
+            // Gravistar Sabaton fall ram gives you a free dodge as long as you're slamming through NPCs
+            // This also strikes the NPCs as a side effect
             if (gSabatonFalling)
             {
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -5663,20 +5669,208 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-
             }
 
-            // God Slayer Damage Resistance makes you ignore hits that came in as less than 80.
-            // Alternatively, if the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
-            if ((godSlayerDamage && info.Damage <= 80) || info.Damage < 1)
+            // If no other effects occurred, run vanilla code
+            return base.FreeDodge(info);
+        }
+
+        public override bool ConsumableDodge(Player.HurtInfo info)
+        {
+            // Vanilla dodges are gated behind the global dodge cooldown
+            if (!Player.HasCooldown(GlobalDodge.ID))
+            {
+                // Re-implementation of vanilla item Black Belt as a consumable dodge
+                if (Player.whoAmI == Main.myPlayer && Player.blackBelt)
+                {
+                    Player.NinjaDodge();
+                    Player.AddCooldown(GlobalDodge.ID, BalancingConstants.BeltDodgeCooldown);
+                    return true;
+                }
+
+                // Re-implementation of vanilla item Brain of Confusion as a consumable dodge
+                if (Player.whoAmI == Main.myPlayer && Player.brainOfConfusionItem != null && !Player.brainOfConfusionItem.IsAir)
+                {
+                    Player.BrainOfConfusionDodge();
+                    int cooldownTime = amalgam ? BalancingConstants.AmalgamDodgeCooldown : BalancingConstants.BrainDodgeCooldown;
+                    Player.AddCooldown(GlobalDodge.ID, cooldownTime);
+                    return true;
+                }
+            }
+
+            //
+            // CALAMITY DODGES
+            //
+            
+            if (Player.whoAmI != Main.myPlayer || disableAllDodges)
+                return false;
+
+            if (spectralVeil && spectralVeilImmunity > 0)
+            {
+                SpectralVeilDodge();
+                return true;
+            }
+
+            // TODO -- drag all dodge code into a CalamityPlayer sub-file dedicated to dodging and nothing else
+            if (HandleDashDodges())
                 return true;
 
-            // Apply energy shields here. Currently implementred energy shields are:
+            // Mirror evades do not work if the global dodge cooldown is active. This cooldown can be triggered by either mirror.
+            if (!Player.HasCooldown(GlobalDodge.ID))
+            {
+                if (eclipseMirror)
+                {
+                    EclipseMirrorDodge();
+                    return true;
+                }
+                else if (abyssalMirror)
+                {
+                    AbyssMirrorDodge();
+                    return true;
+                }
+            }
+
+            return base.ConsumableDodge(info);
+        }
+        #endregion
+
+        #region Modify Hurt
+        public override void ModifyHurt(ref Player.HurtModifiers modifiers)
+        {
+            // Handles energy shields and Boss Rush, in that order
+            modifiers.ModifyHurtInfo += ModifyHurtInfo_Calamity;
+            
+            // TODO -- At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
+            #region Custom Hurt Sounds
+            if (hurtSoundTimer == 0)
+            {
+                if (roverDrive && RoverDriveShieldDurability > 0)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(RoverDrive.ShieldHurtSound, Player.Center);
+                    hurtSoundTimer = 20;
+                }
+                else if (lunicCorpsSet && LunicCorpsShieldDurability > 0)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
+                    hurtSoundTimer = 20;
+                }
+                else if (sponge && SpongeShieldDurability > 0)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(TheSponge.ShieldHurtSound, Player.Center);
+                    hurtSoundTimer = 20;
+                }
+                else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(Providence.HurtSound, Player.Center);
+                    hurtSoundTimer = 20;
+                }
+                else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.Center); //metal hit noise
+                    hurtSoundTimer = 10;
+                }
+                else if ((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(SoundID.FemaleHit, Player.Center); //female hit noise
+                    hurtSoundTimer = 10;
+                }
+                else if (titanHeartSet)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.Center);
+                    hurtSoundTimer = 10;
+                }
+                else if (Player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.Center);
+                    hurtSoundTimer = 10;
+                }
+                else if (Player.GetModPlayer<WulfrumArmorPlayer>().wulfrumSet && (Player.name.ToLower() == "wagstaff" || Player.name.ToLower() == "john wulfrum"))
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(SoundID.DSTMaleHurt, Player.Center);
+                    hurtSoundTimer = 10;
+                }
+            }
+            #endregion
+
+            #region Player Incoming Damage Multiplier (Increases)
+            double damageMult = 1D;
+            if (dArtifact) // Dimensional Soul Artifact increases incoming damage by 15%.
+                damageMult += 0.15;
+            if (enraged) // Demonshade Enrage increases incoming damage by 25%.
+                damageMult += 0.25;
+
+            // Add 5% damage multiplier for each Beetle Shell beetle that is active, thus reducing the DR from 10% to 5% per stack.
+            // TODO -- Remove this when the new DR scaling system is implemented.
+            if (Player.beetleDefense && Player.beetleOrbs > 0)
+                damageMult += 0.05 * Player.beetleOrbs;
+
+            // Blood Pact gives you a 1/4 chance to be crit, increasing the incoming damage by 25%.
+            if (bloodPact && Main.rand.NextBool(4))
+            {
+                Player.AddBuff(ModContent.BuffType<BloodyBoost>(), 600);
+                SoundEngine.PlaySound(BloodCritSound, Player.Center);
+                damageMult += 1.25;
+            }
+
+            modifiers.SourceDamage *= (float)damageMult;
+            #endregion
+            
+            //
+            // At this point, the true, final incoming damage to the player has been calculated.
+            // It has not yet been mitigated by any means.
+            //
+            
+            if (blazingCoreParry > 0) //check for active parry
+            {
+                if (blazingCoreParry >= 18) //only the first 12 frames (0.2 seconds) counts for a valid parry
+                {
+                    if (!Player.HasCooldown(ElysianGuard.ID))
+                    {
+                        Player.GiveIFrames(60, true); 
+                        blazingCoreEmpoweredParry = true;
+                        modifiers.SetMaxDamage(1); //ONLY REDUCE DAMAGE IF NOT ON COOLDOWN
+                        modifiers.DisableSound(); //prevents hurt sound from playing, had no idea this was a thing
+                    }
+                    
+                    SoundEngine.PlaySound(BlazingCore.ParrySuccessSound, Player.Center);
+                    blazingCoreSuccessfulParry = 60;
+                    Player.AddCooldown(ElysianGuard.ID, 60 * 30, false); //cooldown is frames in seconds multiplied by the desired amount of seconds
+                }
+
+                if (blazingCoreParry > 1)
+                    blazingCoreParry = 1; //schedule parry to end next frame
+            }
+        }
+
+        private void ModifyHurtInfo_Calamity(ref Player.HurtInfo info)
+        {
+            // Boss Rush's damage floor is implemented as a dirty modifier
+            if (BossRushEvent.BossRushActive)
+            {
+                int bossRushDamageFloor = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
+                if (info.Damage < bossRushDamageFloor)
+                    info.Damage += (bossRushDamageFloor - info.Damage);
+            }
+
+            // Energy shields are implemented as a dirty modifier
+            // This is what SLR Barrier does; see
+            // https://github.com/ProjectStarlight/StarlightRiver/blob/master/Core/Systems/BarrierSystem/BarrierPlayer.cs
+            //
+            // Currently implemented energy shields:
             // - Rover Drive
             // - Lunic Corps Armor set bonus
             // - The Sponge
             //
-            // If the shield(s) completely absorb the hit, iframes are granted and the hit is considered dodged.
+            // If the shield(s) completely absorb the hit, iframes are granted on the spot and the hit is marked to be dodged.
             // Shields are drained in order of progression, so your weaker shields will break first.
             // Damage can and will be blocked by multiple shields if it has to be.
             if (HasAnyEnergyShield)
@@ -5718,7 +5912,7 @@ namespace CalamityMod.CalPlayer
                     // Actually remove damage from the incoming hit, so that later shields have less damage incoming.
                     info.Damage -= roverDriveDamageBlocked;
                 }
-                
+
                 // LUNIC CORPS ARMOR
                 if (lunicCorpsSet && LunicCorpsShieldDurability > 0 && !shieldsFullyAbsorbedHit)
                 {
@@ -5844,192 +6038,16 @@ namespace CalamityMod.CalPlayer
                         Player.AddCooldown(SpongeRecharge.ID, TheSponge.ShieldRechargeDelay, true);
                 }
 
-                // Use a "Free Dodge" to cancel the hit if the shields completely absorbed the hit.
+                // If the shields completely absorbed the hit, mark the player as dodging this damage instance later down the chain with a "Free Dodge".
                 if (shieldsFullyAbsorbedHit)
                 {
+                    freeDodgeFromShieldAbsorption = true;
+                    
                     // Cancel defense damage, if it was going to occur this frame.
                     justHitByDefenseDamage = false;
                     defenseDamageToTake = 0;
-                    return true;
                 }
             }
-
-            // If no other effects occurred, run vanilla code
-            return base.FreeDodge(info);
-        }
-
-        public override bool ConsumableDodge(Player.HurtInfo info)
-        {
-            // Vanilla dodges are gated behind the global dodge cooldown
-            if (!Player.HasCooldown(GlobalDodge.ID))
-            {
-                // Re-implementation of vanilla item Black Belt as a consumable dodge
-                if (Player.whoAmI == Main.myPlayer && Player.blackBelt)
-                {
-                    Player.NinjaDodge();
-                    Player.AddCooldown(GlobalDodge.ID, BalancingConstants.BeltDodgeCooldown);
-                    return true;
-                }
-
-                // Re-implementation of vanilla item Brain of Confusion as a consumable dodge
-                if (Player.whoAmI == Main.myPlayer && Player.brainOfConfusionItem != null && !Player.brainOfConfusionItem.IsAir)
-                {
-                    Player.BrainOfConfusionDodge();
-                    int cooldownTime = amalgam ? BalancingConstants.AmalgamDodgeCooldown : BalancingConstants.BrainDodgeCooldown;
-                    Player.AddCooldown(GlobalDodge.ID, cooldownTime);
-                    return true;
-                }
-            }
-
-            //
-            // CALAMITY DODGES
-            //
-            
-            if (Player.whoAmI != Main.myPlayer || disableAllDodges)
-                return false;
-
-            if (spectralVeil && spectralVeilImmunity > 0)
-            {
-                SpectralVeilDodge();
-                return true;
-            }
-
-            // TODO -- drag all dodge code into a CalamityPlayer sub-file dedicated to dodging and nothing else
-            if (HandleDashDodges())
-                return true;
-
-            // Mirror evades do not work if the global dodge cooldown is active. This cooldown can be triggered by either mirror.
-            if (!Player.HasCooldown(GlobalDodge.ID))
-            {
-                if (eclipseMirror)
-                {
-                    EclipseMirrorDodge();
-                    return true;
-                }
-                else if (abyssalMirror)
-                {
-                    AbyssMirrorDodge();
-                    return true;
-                }
-            }
-
-            return base.ConsumableDodge(info);
-        }
-        #endregion
-
-        #region Modify Hurt
-        public override void ModifyHurt(ref Player.HurtModifiers modifiers)
-        {
-            // TODO -- At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
-            #region Custom Hurt Sounds
-            if (hurtSoundTimer == 0)
-            {
-                if (roverDrive && RoverDriveShieldDurability > 0)
-                {
-                    modifiers.DisableSound();
-                    SoundEngine.PlaySound(RoverDrive.ShieldHurtSound, Player.Center);
-                    hurtSoundTimer = 20;
-                }
-                else if (lunicCorpsSet && LunicCorpsShieldDurability > 0)
-                {
-                    modifiers.DisableSound();
-                    SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
-                    hurtSoundTimer = 20;
-                }
-                else if (sponge && SpongeShieldDurability > 0)
-                {
-                    modifiers.DisableSound();
-                    SoundEngine.PlaySound(TheSponge.ShieldHurtSound, Player.Center);
-                    hurtSoundTimer = 20;
-                }
-                else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
-                {
-                    modifiers.DisableSound();
-                    SoundEngine.PlaySound(Providence.HurtSound, Player.Center);
-                    hurtSoundTimer = 20;
-                }
-                else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
-                {
-                    modifiers.DisableSound();
-                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.Center); //metal hit noise
-                    hurtSoundTimer = 10;
-                }
-                else if ((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide)
-                {
-                    modifiers.DisableSound();
-                    SoundEngine.PlaySound(SoundID.FemaleHit, Player.Center); //female hit noise
-                    hurtSoundTimer = 10;
-                }
-                else if (titanHeartSet)
-                {
-                    modifiers.DisableSound();
-                    SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.Center);
-                    hurtSoundTimer = 10;
-                }
-                else if (Player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive)
-                {
-                    modifiers.DisableSound();
-                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.Center);
-                    hurtSoundTimer = 10;
-                }
-                else if (Player.GetModPlayer<WulfrumArmorPlayer>().wulfrumSet && (Player.name.ToLower() == "wagstaff" || Player.name.ToLower() == "john wulfrum"))
-                {
-                    modifiers.DisableSound();
-                    SoundEngine.PlaySound(SoundID.DSTMaleHurt, Player.Center);
-                    hurtSoundTimer = 10;
-                }
-            }
-            #endregion
-
-            #region Player Incoming Damage Multiplier (Increases)
-            double damageMult = 1D;
-            if (dArtifact) // Dimensional Soul Artifact increases incoming damage by 15%.
-                damageMult += 0.15;
-            if (enraged) // Demonshade Enrage increases incoming damage by 25%.
-                damageMult += 0.25;
-
-            // Add 5% damage multiplier for each Beetle Shell beetle that is active, thus reducing the DR from 10% to 5% per stack.
-            // TODO -- Remove this when the new DR scaling system is implemented.
-            if (Player.beetleDefense && Player.beetleOrbs > 0)
-                damageMult += 0.05 * Player.beetleOrbs;
-
-            // Blood Pact gives you a 1/4 chance to be crit, increasing the incoming damage by 25%.
-            if (bloodPact && Main.rand.NextBool(4))
-            {
-                Player.AddBuff(ModContent.BuffType<BloodyBoost>(), 600);
-                SoundEngine.PlaySound(BloodCritSound, Player.Center);
-                damageMult += 1.25;
-            }
-
-            modifiers.SourceDamage *= (float)damageMult;
-            #endregion
-            
-            //
-            // At this point, the true, final incoming damage to the player has been calculated.
-            // It has not yet been mitigated by any means.
-            //
-            
-            if (blazingCoreParry > 0) //check for active parry
-            {
-                if (blazingCoreParry >= 18) //only the first 12 frames (0.2 seconds) counts for a valid parry
-                {
-                    if (!Player.HasCooldown(ElysianGuard.ID))
-                    {
-                        Player.GiveIFrames(60, true); 
-                        blazingCoreEmpoweredParry = true;
-                        modifiers.SetMaxDamage(1); //ONLY REDUCE DAMAGE IF NOT ON COOLDOWN
-                        modifiers.DisableSound(); //prevents hurt sound from playing, had no idea this was a thing
-                    }
-                    
-                    SoundEngine.PlaySound(BlazingCore.ParrySuccessSound, Player.Center);
-                    blazingCoreSuccessfulParry = 60;
-                    Player.AddCooldown(ElysianGuard.ID, 60 * 30, false); //cooldown is frames in seconds multiplied by the desired amount of seconds
-                }
-
-                if (blazingCoreParry > 1)
-                    blazingCoreParry = 1; //schedule parry to end next frame
-            }
-            
         }
         #endregion
 
