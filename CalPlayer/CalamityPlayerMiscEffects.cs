@@ -3586,12 +3586,16 @@ namespace CalamityMod.CalPlayer
                     // This number is not an integer, and stores exact per-frame recharge progress.
                     lunicCorpsShieldPartialRechargeProgress += LunicCorpsHelmet.ShieldDurabilityMax / (float)LunicCorpsHelmet.TotalShieldRechargeTime;
 
-                    // Cast to int to get whole number of shield points recharged this frame.
-                    int pointsActuallyRecharged = (int)lunicCorpsShieldPartialRechargeProgress;
+                    // Floor the value to get whole number of shield points recharged this frame.
+                    int pointsActuallyRecharged = (int)MathF.Floor(lunicCorpsShieldPartialRechargeProgress);
 
-                    // Give those points to the real shield durability. Then remove them from recharge progress.
-                    LunicCorpsShieldDurability += pointsActuallyRecharged;
+                    // Give those points to the real shield durability, capping the result. Then remove them from recharge progress.
+                    LunicCorpsShieldDurability = Math.Min(LunicCorpsShieldDurability + pointsActuallyRecharged, LunicCorpsHelmet.ShieldDurabilityMax);
                     lunicCorpsShieldPartialRechargeProgress -= pointsActuallyRecharged;
+
+                    // Update the cooldown rack's durability indicator.
+                    if (cooldowns.TryGetValue(Cooldowns.LunicCorpsShieldDurability.ID, out var cdDurability))
+                        cdDurability.timeLeft = LunicCorpsShieldDurability;
                 }
 
                 // Add light if this shield is currently active

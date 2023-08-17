@@ -81,8 +81,10 @@ namespace CalamityMod.Cooldowns
 
         public static new string ID => "WulfrumRoverDriveRecharge";
         public override bool ShouldDisplay => true;
-        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
+        public override LocalizedText DisplayName => GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/WulfrumRoverDrive";
+        public override string OutlineTexture => "CalamityMod/Cooldowns/WulfrumRoverDriveOutline";
+        public override string OverlayTexture => "CalamityMod/Cooldowns/WulfrumRoverDriveOverlay";
         public override bool SavedWithPlayer => false;
         public override bool PersistsThroughDeath => false;
         public override Color OutlineColor => new Color(194, 255, 67);

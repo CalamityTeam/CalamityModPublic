@@ -1,6 +1,5 @@
 ﻿using System;
 using CalamityMod.CalPlayer;
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.LunicCorps;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -82,13 +81,24 @@ namespace CalamityMod.Cooldowns
         public static new string ID => "MasterChefShieldRecharge";
         public override bool ShouldDisplay => true;
         public override LocalizedText DisplayName => GetText($"UI.Cooldowns.{ID}");
-        public override string Texture => "CalamityMod/Cooldowns/MasterChefShieldDurability";
+        public override string Texture => "CalamityMod/Cooldowns/LunicCorpsShieldRecharge";
+        public override string OutlineTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOutline";
+        public override string OverlayTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOverlay";
         public override bool SavedWithPlayer => false;
         public override bool PersistsThroughDeath => false;
         public override Color OutlineColor => new Color(133, 204, 237);
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override SoundStyle? EndSound => LunicCorpsHelmet.ActivationSound;
+
         public override void Tick() => instance.player.Calamity().playedLunicCorpsShieldSound = false;
+        // When the recharge period completes, grant 1 point of shielding immediately so the rest my refill normally.
+        // The shield durability cooldown is added elsewhere, in Misc Effects.
+        public override void OnCompleted()
+        {
+            CalamityPlayer modPlayer = instance.player.Calamity();
+            if (modPlayer.LunicCorpsShieldDurability <= 0)
+                modPlayer.LunicCorpsShieldDurability = 1;
+        }
     }
 }
