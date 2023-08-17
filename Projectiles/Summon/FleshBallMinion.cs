@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -11,11 +12,10 @@ namespace CalamityMod.Projectiles.Summon
     {
         public new string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
-        public NPC Target => Projectile.Center.MinionHoming(950f, Owner, TileVision);
+        public NPC Target => Owner.Center.MinionHoming(950f, Owner, CalamityPlayer.areThereAnyDamnBosses);
         public bool SittingOnGround => Math.Abs(Projectile.velocity.X) < 1.55f && Projectile.velocity.Y == 0f;
         public ref float HopTimer => ref Projectile.ai[0];
         public ref float HopAmount => ref Projectile.ai[1];
-        public bool TileVision = false;
         public const float Gravity = 0.25f;
         public const float MaxFallSpeed = 12f;
         public override void SetStaticDefaults()
@@ -51,7 +51,6 @@ namespace CalamityMod.Projectiles.Summon
 
             HopTimer++;
             SufferFromSeparationAnxiety();
-            TileVision = Target is not null && Target.IsABoss();
             if (Target is null)
                 GoNearOwner();
             else

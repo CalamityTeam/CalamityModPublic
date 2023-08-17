@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public Player Owner => Main.player[Projectile.owner];
         public CalamityPlayer ModdedOwner => Owner.Calamity();
-        public NPC Target => Projectile.Center.MinionHoming(EnemyDistanceDetection, Owner);
         public float EnemyDistanceDetection = 1200f;
 
         public override void SetStaticDefaults()
@@ -49,7 +48,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
             // Although the sprite is invisible, we'll keep track of it's direction and rotation so we can later apply it to the decorative herrings.
 
-            Projectile.ChargingMinionAI(EnemyDistanceDetection, 1500f, 2200f, 150f, 0, 24f, 15f, 4f, new Vector2(0f, -60f), 12f, 12f, Target.IsABoss(), true, 1); // The AI of the minion.
+            Projectile.ChargingMinionAI(EnemyDistanceDetection, 1500f, 2200f, 150f, 0, 24f, 15f, 4f, new Vector2(0f, -60f), 12f, 12f, CalamityPlayer.areThereAnyDamnBosses, true, 1); // The AI of the minion.
 
             Projectile.netUpdate = true;
         }

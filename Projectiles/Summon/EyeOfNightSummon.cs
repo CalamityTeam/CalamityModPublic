@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -11,9 +12,8 @@ namespace CalamityMod.Projectiles.Summon
     {
         public new string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
-        public NPC Target => Projectile.Center.MinionHoming(750f, Owner, TileVision);
+        public NPC Target => Owner.Center.MinionHoming(750f, Owner, CalamityPlayer.areThereAnyDamnBosses);
         public ref float HoverTime => ref Projectile.ai[0];
-        public bool TileVision = false;
 
         public const int ShootRate = 60;
         public override void SetStaticDefaults()
@@ -41,7 +41,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             ProvidePlayerMinionBuffs();
             GenerateVisuals();
-            TileVision = Target is not null && Target.IsABoss(),
             if (Target is null)
                 FlyNearOwner();
             else

@@ -15,9 +15,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public Player Owner => Main.player[Projectile.owner];
         public CalamityPlayer ModdedOwner => Owner.Calamity();
-        public NPC Target => Projectile.Center.MinionHoming(1200f, Owner, TileVision);
+        public NPC Target => Owner.Center.MinionHoming(1200f, Owner, CalamityPlayer.areThereAnyDamnBosses);
         public ref float DelayBetweenShooting => ref Projectile.ai[0];
-        public bool TileVision = false;
 
         public override void SetStaticDefaults()
         {
@@ -44,7 +43,6 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             CheckMinionExistince(); // Checks if the minion can still exist.
-            TileVision = Target is not null && Target.IsABoss();
             ShootTarget(Target); // Shoots at the target if there's one.
 
             Projectile.Center = Owner.Center - Vector2.UnitY * 60f;
