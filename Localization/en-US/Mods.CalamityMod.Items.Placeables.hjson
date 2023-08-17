@@ -1242,7 +1242,7 @@ ResilientCandle: {
 	DisplayName: Resilient Candle
 	Tooltip:
 		'''
-		When placed, nearby players' defense blocks 5% more damage
+		When placed, nearby players' defense blocks 15% more damage
 		'Neither rain nor wind can snuff its undying flame'
 		'''
 }

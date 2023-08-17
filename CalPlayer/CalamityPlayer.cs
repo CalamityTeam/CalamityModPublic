@@ -902,7 +902,6 @@ namespace CalamityMod.CalPlayer
         public bool evergreenGin = false;
         public bool tranquilityCandle = false;
         public bool chaosCandle = false;
-        public bool purpleCandle = false;
         public bool blueCandle = false;
         public bool pinkCandle = false;
         public double pinkCandleHealFraction = 0D;
@@ -1916,7 +1915,6 @@ namespace CalamityMod.CalPlayer
 
             tranquilityCandle = false;
             chaosCandle = false;
-            purpleCandle = false;
             blueCandle = false;
             pinkCandle = false;
             yellowCandle = false;
@@ -2352,7 +2350,6 @@ namespace CalamityMod.CalPlayer
             evergreenGin = false;
             tranquilityCandle = false;
             chaosCandle = false;
-            purpleCandle = false;
             blueCandle = false;
             pinkCandle = false;
             pinkCandleHealFraction = 0D;
@@ -5920,7 +5917,7 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Pre Hurt
+        #region Modify Hurt
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
             // TODO -- At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
@@ -6011,10 +6008,6 @@ namespace CalamityMod.CalPlayer
             // At this point, the true, final incoming damage to the player has been calculated.
             // It has not yet been mitigated by any means.
             //
-
-            // Resilient Candle makes defense 5% more effective, aka 5% of defense is subtracted from all incoming damage.
-            if (purpleCandle)
-                modifiers.SourceDamage.Flat -= (int)(Player.statDefense * 0.05);
             
             if (blazingCoreParry > 0) //check for active parry
             {
