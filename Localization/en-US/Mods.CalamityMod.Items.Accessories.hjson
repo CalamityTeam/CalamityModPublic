@@ -1851,7 +1851,10 @@ AbandonedWulfrumHelmet: {
 
 HapuFruit: {
 	DisplayName: Ha-pu Fruit
-	Tooltip: ""
+	Tooltip:
+		'''
+		'A fruit that calms your nerves (may have unintended side effects)'
+		'''
 }
 
 Popo: {
