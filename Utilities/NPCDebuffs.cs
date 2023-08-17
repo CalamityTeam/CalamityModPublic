@@ -249,6 +249,8 @@ namespace CalamityMod
                 { ModContent.NPCType<SeaSerpent4>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
                 { ModContent.NPCType<SeaSerpent5>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
 
+                { ModContent.NPCType<BabyCannonballJellyfish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
+                { ModContent.NPCType<CannonballJellyfish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
                 { ModContent.NPCType<Bloatfish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
                 { ModContent.NPCType<BobbitWormHead>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
                 { ModContent.NPCType<BoxJellyfish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
