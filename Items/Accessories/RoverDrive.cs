@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
 
+        public static Asset<Texture2D> NoiseTex;
         public static readonly SoundStyle ShieldHurtSound = new("CalamityMod/Sounds/Custom/RoverDriveHit") { PitchVariance = 0.6f, Volume = 0.6f, MaxInstances = 0 };
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/RoverDriveActivate") { Volume = 0.85f };
         public static readonly SoundStyle BreakSound = new("CalamityMod/Sounds/Custom/RoverDriveBreak") { Volume = 0.75f };
@@ -25,8 +26,6 @@ namespace CalamityMod.Items.Accessories
 
         // While active, Rover Drive gives 10 defense
         public static int ShieldDefenseBoost = 10;
-
-        public static Asset<Texture2D> NoiseTex;
 
         // Allows item to be extractinated and specifies custom behavior instead of copying an existing item
         public override void SetStaticDefaults() => ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
@@ -126,7 +125,7 @@ namespace CalamityMod.Items.Accessories
                     Color shieldColor;
 
                     // Outside of single player, the shield color is overridden if the player is on a team.
-                    if (Main.netMode != NetmodeID.SinglePlayer && Main.player[i].team != 0)
+                    if (Main.netMode != NetmodeID.SinglePlayer && player.team != 0)
                     {
                         switch (Main.player[i].team)
                         {
@@ -154,7 +153,7 @@ namespace CalamityMod.Items.Accessories
                                 edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.Gold, Color.Coral, Color.LightGoldenrodYellow);
                                 break;
 
-                            // Pink team
+                            // Pink team or any other team
                             default:
                                 shieldColor = new Color(173, 111, 221);
                                 edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.DeepPink, Color.MediumOrchid, Color.MediumPurple);
@@ -183,6 +182,7 @@ namespace CalamityMod.Items.Accessories
                 }
 
                 alreadyDrawnShieldForPlayer = true;
+                modPlayer.drawnAnyShieldThisFrame = true;
 
                 // Draw shield noise? Why is this unconditional?
                 NoiseTex ??= ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/TechyNoise");
