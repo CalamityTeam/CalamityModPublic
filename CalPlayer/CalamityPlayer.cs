@@ -5932,7 +5932,7 @@ namespace CalamityMod.CalPlayer
                     if (LunicCorpsShieldDurability <= 0)
                     {
                         LunicCorpsShieldDurability = 0;
-                        SoundEngine.PlaySound(LunicCorpsHelmet.ShieldHurtSound, Player.Center);
+                        SoundEngine.PlaySound(LunicCorpsHelmet.BreakSound, Player.Center);
                         Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
                         anyShieldBroke = true;
                     }
