@@ -5965,7 +5965,7 @@ namespace CalamityMod.CalPlayer
                     if (SpongeShieldDurability <= 0)
                     {
                         SpongeShieldDurability = 0;
-                        SoundEngine.PlaySound(TheSponge.ShieldHurtSound, Player.Center);
+                        SoundEngine.PlaySound(TheSponge.BreakSound, Player.Center);
                         Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
                         anyShieldBroke = true;
                     }
