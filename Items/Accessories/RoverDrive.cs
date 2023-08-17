@@ -184,7 +184,7 @@ namespace CalamityMod.Items.Accessories
                 alreadyDrawnShieldForPlayer = true;
                 modPlayer.drawnAnyShieldThisFrame = true;
 
-                // Draw shield noise? Why is this unconditional?
+                // Fetch shield noise overlay texture (this is the techy overlay fed to the shader)
                 NoiseTex ??= ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/TechyNoise");
                 Vector2 pos = player.MountedCenter + player.gfxOffY * Vector2.UnitY - Main.screenPosition;
                 Texture2D tex = NoiseTex.Value;
