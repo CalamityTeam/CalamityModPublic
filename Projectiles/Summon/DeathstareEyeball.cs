@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class DeathstareEyeball : ModProjectile, ILocalizedModType
@@ -15,10 +16,12 @@ namespace CalamityMod.Projectiles.Summon
         public float PupilScale = 1f;
         public const int BeamFireRate = 60;
         public Player Owner => Main.player[Projectile.owner];
-        public NPC Target => Projectile.Center.MinionHoming(720f, Owner, Target.IsABoss());
+        public NPC Target => Projectile.Center.MinionHoming(720f, Owner, TileVision);
         public ref float Time => ref Projectile.ai[1];
         public ref float PupilAngle => ref Projectile.localAI[0];
         public ref float PupilOutwardness => ref Projectile.localAI[1];
+        public bool TileVision = false;
+
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
@@ -76,6 +79,8 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.ai[0] = 1f;
             }
 
+            TileVision = Target is not null && Target.IsABoss();
+            
             if (Target is null)
                 DoHoveringAI();
             else

@@ -13,7 +13,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public Player Owner => Main.player[Projectile.owner];
         public CalamityPlayer ModdedOwner => Owner.Calamity();
-        public NPC Target => Projectile.Center.MinionHoming(500f, Owner, Target.IsABoss());
+        public NPC Target => Projectile.Center.MinionHoming(500f, Owner, TileVision);
+        public bool TileVision = false;
 
         public override void SetStaticDefaults()
         {
@@ -77,6 +78,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 Projectile.localAI[0] += 1f;
             }
+            TileVision = Target is not null && Target.IsABoss();
             if (Projectile.owner == Main.myPlayer)
             {
                 if (Target != null)

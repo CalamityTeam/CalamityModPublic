@@ -16,8 +16,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public Player Owner => Main.player[Projectile.owner];
         public CalamityPlayer ModdedOwner => Owner.Calamity();
-        public NPC Target => Projectile.Center.MinionHoming(BelladonnaSpiritStaff.EnemyDistanceDetection, Owner, Target.IsABoss());
+        public NPC Target => Projectile.Center.MinionHoming(BelladonnaSpiritStaff.EnemyDistanceDetection, Owner, TileVision);
         public ref float PetalFireTimer => ref Projectile.ai[0];
+        public bool TileVision = false;
 
         public override void SetStaticDefaults()
         {
@@ -57,6 +58,8 @@ namespace CalamityMod.Projectiles.Summon
 
             // The minions push eachother to not clump.
             Projectile.MinionAntiClump();
+
+            TileVision = Target is not null && Target.IsABoss();
 
             // If there's a target, it'll shoot at it.
             if (Target is not null)

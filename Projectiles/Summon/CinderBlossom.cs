@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.Summon;
+﻿using System.Diagnostics.CodeAnalysis;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -14,8 +15,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public Player Owner => Main.player[Projectile.owner];
         public CalamityPlayer ModdedOwner => Owner.Calamity();
-        public NPC Target => Projectile.Center.MinionHoming(1200f, Owner, Target.IsABoss());
+        public NPC Target => Projectile.Center.MinionHoming(1200f, Owner, TileVision);
         public ref float DelayBetweenShooting => ref Projectile.ai[0];
+        public bool TileVision = false;
 
         public override void SetStaticDefaults()
         {
@@ -42,6 +44,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             CheckMinionExistince(); // Checks if the minion can still exist.
+            TileVision = Target is not null && Target.IsABoss();
             ShootTarget(Target); // Shoots at the target if there's one.
 
             Projectile.Center = Owner.Center - Vector2.UnitY * 60f;
