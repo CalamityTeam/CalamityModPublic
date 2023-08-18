@@ -4664,23 +4664,27 @@ namespace CalamityMod.NPCs
 							modifiers.FlatBonusDamage += -4f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.DurendalTagDamageMultiplier - 1f) * TagDamageMult;
 							break;
-						case BuffID.SwordWhipNPCDebuff: // Durendal
-							modifiers.FlatBonusDamage += -9f * TagDamageMult;
-                            modifiers.ScalingBonusDamage += (BalancingConstants.DurendalTagDamageMultiplier - 1f) * TagDamageMult;
-							break;
-						case BuffID.FlameWhipEnemyDebuff: // Firecracker
-							modifiers.ScalingBonusDamage += (BalancingConstants.FirecrackerExplosionDamageMultiplier - 2.75f) * TagDamageMult;
-							break;
-						case BuffID.ScytheWhipEnemyDebuff: // Dark Harvest
-							modifiers.FlatBonusDamage += -10f * TagDamageMult;
-							break;
-						case BuffID.ThornWhipNPCDebuff: // Snapthorn
+                        case BuffID.ThornWhipNPCDebuff: // Snapthorn
 							modifiers.FlatBonusDamage += -6f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.SnapthornTagDamageMultiplier - 1f) * TagDamageMult;
 							break;
 						case BuffID.BoneWhipNPCDebuff: // Spinal Tap
 							modifiers.FlatBonusDamage += -7f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.SpinalTapTagDamageMultiplier - 1f) * TagDamageMult;
+							break;
+                        case BuffID.FlameWhipEnemyDebuff: // Firecracker
+							modifiers.ScalingBonusDamage += (BalancingConstants.FirecrackerExplosionDamageMultiplier - 2.75f) * TagDamageMult;
+							break;
+                        case BuffID.CoolWhipNPCDebuff: // Cool Whip
+							modifiers.FlatBonusDamage += -6f * TagDamageMult;
+                            modifiers.ScalingBonusDamage += (BalancingConstants.CoolWhipTagDamageMultiplier - 1f) * TagDamageMult;
+		    				break;
+						case BuffID.SwordWhipNPCDebuff: // Durendal
+							modifiers.FlatBonusDamage += -9f * TagDamageMult;
+                            modifiers.ScalingBonusDamage += (BalancingConstants.DurendalTagDamageMultiplier - 1f) * TagDamageMult;
+							break;
+						case BuffID.ScytheWhipEnemyDebuff: // Dark Harvest
+							modifiers.FlatBonusDamage += -10f * TagDamageMult;
 							break;
 						case BuffID.MaceWhipNPCDebuff: // Morning Star
 							modifiers.FlatBonusDamage += -8f * TagDamageMult;
@@ -4690,10 +4694,6 @@ namespace CalamityMod.NPCs
 				    		modifiers.FlatBonusDamage += -20f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.KaleidoscopeTagDamageMultiplier - 1f) * TagDamageMult;
 							break;
-    					case BuffID.CoolWhipNPCDebuff: // Cool Whip
-							modifiers.FlatBonusDamage += -6f * TagDamageMult;
-                            modifiers.ScalingBonusDamage += (BalancingConstants.CoolWhipTagDamageMultiplier - 1f) * TagDamageMult;
-		    				break;
 					}
 				}
             }
