@@ -92,7 +92,6 @@ namespace CalamityMod.ILEditing
 
             // Damage and health balance
             On_Main.DamageVar_float_int_float += AdjustDamageVariance;
-            IL_Projectile.Damage += MakeTagDamageMultiplicative;
             IL_NPC.ScaleStats_ApplyExpertTweaks += RemoveExpertHardmodeScaling;
             IL_Projectile.AI_001 += AdjustChlorophyteBullets;
             IL_Projectile.AI_099_2 += LimitTerrarianProjectiles;

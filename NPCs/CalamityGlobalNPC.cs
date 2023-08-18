@@ -4623,6 +4623,9 @@ namespace CalamityMod.NPCs
 
             if (modPlayer.camper && !player.StandingStill())
                 modifiers.SourceDamage *= 0.1f;
+
+            if (projectile.minion || ProjectileID.Sets.MinionShot[projectile.type] || projectile.sentry || ProjectileID.Sets.SentryShot[projectile.type])
+                EditWhipTagDamage(projectile, npc, ref modifiers);
         }
 
         // Generalized pierce resistance that stacks with all other resistances for some specific bosses defined in a list.
@@ -4641,6 +4644,59 @@ namespace CalamityMod.NPCs
 
             if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !CalamityLists.pierceResistExceptionList.Contains(projectile.type) && !projectile.CountsAsClass<SummonDamageClass>() && projectile.aiStyle != 15 && projectile.aiStyle != 39 && projectile.aiStyle != 99)
                 projectile.Calamity().timesPierced++;
+        }
+
+        // Make whip tags multiplicative, by effectively reversing the process done to it
+        private void EditWhipTagDamage(Projectile proj, NPC npc, ref NPC.HitModifiers modifiers)
+        {
+            // Don't make it run through the index if it's a trap
+            if (proj.npcProj || proj.trap)
+                return;
+
+            float TagDamageMult = ProjectileID.Sets.SummonTagDamageMultiplier[proj.type];
+            for (int i = 0; i < NPC.maxBuffs; i++)
+			{
+				if (npc.buffTime[i] >= 1)
+				{
+					switch (npc.buffType[i])
+					{
+						case BuffID.BlandWhipEnemyDebuff: // Leather Whip
+							modifiers.FlatBonusDamage += -4f * TagDamageMult;
+                            modifiers.ScalingBonusDamage += (BalancingConstants.DurendalTagDamageMultiplier - 1f) * TagDamageMult;
+							break;
+						case BuffID.SwordWhipNPCDebuff: // Durendal
+							modifiers.FlatBonusDamage += -9f * TagDamageMult;
+                            modifiers.ScalingBonusDamage += (BalancingConstants.DurendalTagDamageMultiplier - 1f) * TagDamageMult;
+							break;
+						case BuffID.FlameWhipEnemyDebuff: // Firecracker
+							modifiers.ScalingBonusDamage += (BalancingConstants.FirecrackerExplosionDamageMultiplier - 2.75f) * TagDamageMult;
+							break;
+						case BuffID.ScytheWhipEnemyDebuff: // Dark Harvest
+							modifiers.FlatBonusDamage += -10f * TagDamageMult;
+							break;
+						case BuffID.ThornWhipNPCDebuff: // Snapthorn
+							modifiers.FlatBonusDamage += -6f * TagDamageMult;
+                            modifiers.ScalingBonusDamage += (BalancingConstants.SnapthornTagDamageMultiplier - 1f) * TagDamageMult;
+							break;
+						case BuffID.BoneWhipNPCDebuff: // Spinal Tap
+							modifiers.FlatBonusDamage += -7f * TagDamageMult;
+                            modifiers.ScalingBonusDamage += (BalancingConstants.SpinalTapTagDamageMultiplier - 1f) * TagDamageMult;
+							break;
+						case BuffID.MaceWhipNPCDebuff: // Morning Star
+							modifiers.FlatBonusDamage += -8f * TagDamageMult;
+                            modifiers.ScalingBonusDamage += (BalancingConstants.MorningStarTagDamageMultiplier - 1f) * TagDamageMult;
+							break;
+						case BuffID.RainbowWhipNPCDebuff: // Kaleidoscope
+				    		modifiers.FlatBonusDamage += -20f * TagDamageMult;
+                            modifiers.ScalingBonusDamage += (BalancingConstants.KaleidoscopeTagDamageMultiplier - 1f) * TagDamageMult;
+							break;
+    					case BuffID.CoolWhipNPCDebuff: // Cool Whip
+							modifiers.FlatBonusDamage += -6f * TagDamageMult;
+                            modifiers.ScalingBonusDamage += (BalancingConstants.CoolWhipTagDamageMultiplier - 1f) * TagDamageMult;
+		    				break;
+					}
+				}
+            }
         }
         #endregion
 
