@@ -127,7 +127,7 @@ namespace CalamityMod.ILEditing
             IL_Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
             IL_Item.TryGetPrefixStatMultipliersForItem += RelaxPrefixRequirements;
             On_NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
-            On_Item.CanShimmer += ChangeRodOfHarmonyShimmerRequirement;
+            On_Item.CanShimmer += AdjustShimmerRequirements;
 
             // TODO -- Beat Lava Slimes once and for all
             // IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
