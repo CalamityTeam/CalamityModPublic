@@ -4661,7 +4661,12 @@ namespace CalamityMod.CalPlayer
             {
                 bool fullAdrenWithoutDH = !draedonsHeart && (adrenaline == adrenalineMax) && !adrenalineModeActive;
                 bool usingNanomachinesWithDH = draedonsHeart && adrenalineModeActive;
-                if (fullAdrenWithoutDH || usingNanomachinesWithDH)
+
+                // 18AUG2023: Ozzatron: Adrenaline DR does not apply if you have energy shields active.
+                // Otherwise, it becomes almost impossible to break energy shields due to Adrenaline DR.
+                // If the shield never breaks, you never lose full Adrenaline, meaning you keep the DR forever and are functionally immortal.
+                // This intentionally gives Adrenaline much-needed anti-synergy with energy shields, because they make gaining Adrenaline much safer.
+                if ((fullAdrenWithoutDH || usingNanomachinesWithDH) && TotalEnergyShielding <= 0)
                     contactDamageReduction += this.GetAdrenalineDR();
             }
 
@@ -4910,7 +4915,12 @@ namespace CalamityMod.CalPlayer
             {
                 bool fullAdrenWithoutDH = !draedonsHeart && (adrenaline == adrenalineMax) && !adrenalineModeActive;
                 bool usingNanomachinesWithDH = draedonsHeart && adrenalineModeActive;
-                if (fullAdrenWithoutDH || usingNanomachinesWithDH)
+
+                // 18AUG2023: Ozzatron: Adrenaline DR does not apply if you have energy shields active.
+                // Otherwise, it becomes almost impossible to break energy shields due to Adrenaline DR.
+                // If the shield never breaks, you never lose full Adrenaline, meaning you keep the DR forever and are functionally immortal.
+                // This intentionally gives Adrenaline much-needed anti-synergy with energy shields, because they make gaining Adrenaline much safer.
+                if ((fullAdrenWithoutDH || usingNanomachinesWithDH) && TotalEnergyShielding <= 0)
                     projectileDamageReduction += this.GetAdrenalineDR();
             }
 
