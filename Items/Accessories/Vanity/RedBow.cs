@@ -67,24 +67,4 @@ namespace CalamityMod.Items.Accessories.Vanity
                 Register();
         }
     }
-
-    public class RedBowPlayer : ModPlayer
-    {
-        public bool vanityEquipped = false;
-
-        public override void ResetEffects()
-        {
-            vanityEquipped = false;
-        }
-
-        public override void FrameEffects()
-        {
-            if (vanityEquipped)
-            {
-                Player.legs = EquipLoader.GetEquipSlot(Mod, "RedBow", EquipType.Legs);
-                Player.body = EquipLoader.GetEquipSlot(Mod, "RedBow", EquipType.Body);
-                Player.head = EquipLoader.GetEquipSlot(Mod, "RedBow", EquipType.Head);
-            }
-        }
-    }
 }
