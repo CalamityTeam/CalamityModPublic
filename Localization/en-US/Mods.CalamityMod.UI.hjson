@@ -107,6 +107,8 @@ Cooldowns: {
 	SandsmokeBombActive: Sandsmoke Bomb Duration
 	SandsmokeBombCooldown: Sandsmoke Bomb Cooldown
 	SilvaRevive: Silva Revive Cooldown
+	SpongeDurability: Sponge Barrier Durability
+	SpongeRecharge: Sponge Barrier Recharge
 	TarragonCloak: Tarragon Cloak Cooldown
 	TarragonImmunity: Tarragon Immunity Cooldown
 	UniverseSplitter: Universe Splitter Cooldown
