@@ -1,9 +1,11 @@
 ﻿using System;
 using CalamityMod.Balancing;
+using CalamityMod.Items.Accessories;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.ILEditing
 {
@@ -11,10 +13,10 @@ namespace CalamityMod.ILEditing
     {
         #region Rod of Harmony Changes
 
-        private static bool ChangeRodOfHarmonyShimmerRequirement(On_Item.orig_CanShimmer orig, Item item)
+        private static bool AdjustShimmerRequirements(On_Item.orig_CanShimmer orig, Item item)
         {
-            //Rod of Harmony requires Draedong and SCal dead instead of Moon Lord.
-            if (item.type == ItemID.RodofDiscord)
+            //Rod of Harmony / psc requires Draedong and SCal dead instead of Moon Lord.
+            if (item.type == ItemID.RodofDiscord || item.type == ModContent.ItemType<ProfanedSoulCrystal>())
             {
                 return DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs;
             }
