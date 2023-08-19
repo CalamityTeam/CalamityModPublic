@@ -15,9 +15,18 @@ namespace CalamityMod.CalPlayer
     {
         public int VerticalGodslayerDashTimer;
 
-        public string DashID;
+        private string dashID; //private backing variable
 
-        public string DeferredDashID;
+        public string DashID
+        {
+            get
+            {
+                return (String.IsNullOrEmpty(dashID) && Player.dashType == 0 && CalamityConfig.Instance.DefaultDashEnabled) ? DefaultDash.ID : dashID; //gives default dash ONLY if no custom or vanilla dash.
+            }
+            set => dashID = value;
+        }
+
+    public string DeferredDashID;
 
         public string LastUsedDashID;
         

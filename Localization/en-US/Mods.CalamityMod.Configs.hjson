@@ -65,6 +65,15 @@ CalamityConfig: {
 			'''
 	}
 
+	DefaultDashEnabled: {
+		Label: "[i:EoCShield] Default Dash Enabled"
+		Tooltip:
+			'''
+			Enables a very weak dash.
+			This dash is disabled when you have any other dash available.
+			'''
+	}
+
 	BossZen: {
 		Label: "[i:CalamityMod/ZenPotion] Bosses Drastically Reduce Spawn Rates"
 		Tooltip:

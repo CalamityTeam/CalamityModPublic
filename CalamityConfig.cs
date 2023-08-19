@@ -225,6 +225,10 @@ namespace CalamityMod
         [DrawTicks]
         [DefaultValue(MinBossHealthBoost)]
         public float BossHealthBoost { get; set; }
+        
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        public bool DefaultDashEnabled { get; set; }
         #endregion
 
         #region Default Player Stat Boosts
