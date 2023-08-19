@@ -1388,9 +1388,9 @@ RoverDrive: {
 	DisplayName: Rover Drive
 	Tooltip:
 		'''
-		Projects an energy shield that can absorb 20 damage
+		Projects an energy shield that absorbs up to 20 damage
 		The shield grants 10 defense while active
-		It takes 10 seconds to recharge the protective matrix when the shield is broken
+		After the shield is broken, it takes 10 seconds to charge back up
 		Being hit again while recharging restarts the charge timer
 		The shield's color will change to match your team selection as needed
 		Can also be scrapped at an extractinator
@@ -1791,11 +1791,11 @@ TheSponge: {
 	DisplayName: The Sponge
 	Tooltip:
 		'''
-		Projects an incredibly durable barrier of quantum foam that absorbs up to 180 damage
+		Projects a quantum foam barrier that absorbs up to 180 damage
+		The barrier grants 30 defense and reduces damage taken by 30% while active
 		The barrier starts recharging 6 seconds after being hit
 		Recharging from zero to full charge takes 6 seconds
 		Being hit again while recharging restarts the charge timer
-		While active, the quantum barrier grants 30 defense and reduces damage taken by 30%
 		The barrier's color will change to match your team selection as needed
 		'''
 }
