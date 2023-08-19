@@ -3350,13 +3350,10 @@ namespace CalamityMod.CalPlayer
                     Player.AddCooldown(Cooldowns.DivineBless.ID, CalamityUtils.SecondsToFrames(60));
             }
 
-            if (theBee)
+            if (theBee && Player.statLife >= Player.statLifeMax2 && (!HasAnyEnergyShield || TotalEnergyShielding >= TotalMaxShieldDurability))
             {
-                if (Player.statLife >= Player.statLifeMax2)
-                {
-                    float beeBoost = Player.endurance / 2f;
-                    Player.GetDamage<GenericDamageClass>() += beeBoost;
-                }
+                float beeBoost = Player.endurance / 2f;
+                Player.GetDamage<GenericDamageClass>() += beeBoost;
             }
 
             if (badgeOfBravery)

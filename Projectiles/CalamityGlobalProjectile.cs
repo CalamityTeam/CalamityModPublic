@@ -2452,9 +2452,10 @@ namespace CalamityMod.Projectiles
                     }
                 }
 
-                if (modPlayer.theBee && projectile.owner == Main.myPlayer && projectile.damage > 0 && player.statLife >= player.statLifeMax2)
+                if (modPlayer.theBee && projectile.owner == Main.myPlayer && projectile.damage > 0)
                 {
-                    if (Main.rand.NextBool(5))
+                    bool lifeAndShieldCondition = player.statLife >= player.statLifeMax2 && (!modPlayer.HasAnyEnergyShield || modPlayer.TotalEnergyShielding >= modPlayer.TotalMaxShieldDurability);
+                    if (lifeAndShieldCondition && Main.rand.NextBool(5))
                     {
                         Dust dust = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 91, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
                         dust.noGravity = true;

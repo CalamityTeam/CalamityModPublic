@@ -392,6 +392,7 @@ namespace CalamityMod.CalPlayer
         
         // TODO -- Some way to show the player their total shield points.
         public int TotalEnergyShielding => RoverDriveShieldDurability + LunicCorpsShieldDurability + SpongeShieldDurability;
+        public int TotalMaxShieldDurability => (roverDrive ? RoverDrive.ShieldDurabilityMax : 0) + (lunicCorpsSet ? LunicCorpsHelmet.ShieldDurabilityMax : 0) + (sponge ? TheSponge.ShieldDurabilityMax : 0);
 
         public int RoverDriveShieldDurability = 0;
         public int LunicCorpsShieldDurability = 0;
@@ -4650,7 +4651,8 @@ namespace CalamityMod.CalPlayer
             if (Player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] > 0 && Player.ActiveItem().type == ModContent.ItemType<LionHeart>())
                 contactDamageReduction += 0.5;
 
-            if (theBee && Player.statLife >= Player.statLifeMax2 && theBeeCooldown <= 0)
+            bool lifeAndShieldCondition = Player.statLife >= Player.statLifeMax2 && (!HasAnyEnergyShield || TotalEnergyShielding >= TotalMaxShieldDurability);
+            if (theBee && theBeeCooldown <= 0 && lifeAndShieldCondition)
             {
                 contactDamageReduction += 0.5;
                 theBeeCooldown = 600;
@@ -4904,7 +4906,8 @@ namespace CalamityMod.CalPlayer
             if (Player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] > 0 && Player.ActiveItem().type == ModContent.ItemType<LionHeart>())
                 projectileDamageReduction += 0.5;
 
-            if (theBee && Player.statLife >= Player.statLifeMax2 && theBeeCooldown <= 0)
+            bool lifeAndShieldCondition = Player.statLife >= Player.statLifeMax2 && (!HasAnyEnergyShield || TotalEnergyShielding >= TotalMaxShieldDurability);
+            if (theBee && theBeeCooldown <= 0 && lifeAndShieldCondition)
             {
                 projectileDamageReduction += 0.5;
                 theBeeCooldown = 600;

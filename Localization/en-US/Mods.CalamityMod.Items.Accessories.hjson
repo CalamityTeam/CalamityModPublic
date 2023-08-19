@@ -1730,6 +1730,7 @@ TheBee: {
 		'''
 		When at full HP, your damage is increased based on your damage reduction
 		Damage taken at full HP is halved
+		If you have any energy shields, they must also be full for these effects to work
 		This has a 10 second cooldown
 		'''
 }
