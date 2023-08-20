@@ -24,12 +24,10 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
-            Projectile.penetrate = 2;
+            Projectile.penetrate = 1;
             Projectile.timeLeft = 480;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.extraUpdates = 2;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -113,8 +111,6 @@ namespace CalamityMod.Projectiles.Ranged
                         Projectile bubble = CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(20f, 25f), ModContent.ProjectileType<SeasSearingBubble>(), Projectile.damage / 2, 1f, Projectile.owner);
                         bubble.rotation = angle;
                         bubble.tileCollide = false;
-                        bubble.usesLocalNPCImmunity = true;
-                        bubble.localNPCHitCooldown = -1;
                     }
                 }
             }

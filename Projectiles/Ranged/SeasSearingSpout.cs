@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);
+            target.AddBuff(BuffID.Venom, 180);
         }
     }
 }
