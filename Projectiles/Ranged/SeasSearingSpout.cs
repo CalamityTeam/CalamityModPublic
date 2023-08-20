@@ -4,7 +4,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class SeasSearingSpout : ModProjectile, ILocalizedModType
