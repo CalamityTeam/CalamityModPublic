@@ -32,7 +32,7 @@ AbyssalDivingSuit: {
 		'''
 		Transforms the holder into an armored diver
 		Increases max movement speed and acceleration while underwater but you move slowly outside of water
-		The suits' armored plates increase damage reduction by 15%
+		The suit's armored plates increase damage reduction by 15%
 		The plates will only take damage if the damage taken is over 50
 		After the suit has taken too much damage its armored plates will take 3 minutes to regenerate
 		Reduces the damage caused by the pressure of the abyss while out of breath
@@ -1388,9 +1388,11 @@ RoverDrive: {
 	DisplayName: Rover Drive
 	Tooltip:
 		'''
-		Activates a protective matrix that can absorb 40 damage and grants 10 defense
-		However, the systems are fickle and the shield will need 10 seconds to recharge when broken
-		Getting hit during the shield recharge period will restart the recharging process
+		Projects an energy shield that absorbs up to 20 damage
+		The shield grants 10 defense while active
+		After the shield is broken, it takes 10 seconds to charge back up
+		Being hit again while recharging restarts the charge timer
+		The shield's color will change to match your team selection as needed
 		Can also be scrapped at an extractinator
 		'''
 }
@@ -1728,6 +1730,7 @@ TheBee: {
 		'''
 		When at full HP, your damage is increased based on your damage reduction
 		Damage taken at full HP is halved
+		If you have any energy shields, they must also be full for these effects to work
 		This has a 10 second cooldown
 		'''
 }
@@ -1786,7 +1789,15 @@ TheFirstShadowflame: {
 
 TheSponge: {
 	DisplayName: The Sponge
-	Tooltip: OUT OF ORDER
+	Tooltip:
+		'''
+		Projects a quantum foam barrier that absorbs up to 180 damage
+		The barrier grants 30 defense and reduces damage taken by 30% while active
+		The barrier starts recharging 6 seconds after being hit
+		Recharging from zero to full charge takes 6 seconds
+		Being hit again while recharging restarts the charge timer
+		The barrier's color will change to match your team selection as needed
+		'''
 }
 
 TheTransformer: {
@@ -1847,6 +1858,16 @@ AbandonedWulfrumHelmet: {
 		[c/83B87E:'This rather flimsy armor was commonly worn by scavengers and looters.]
 		[c/83B87E:Its versatility and common nature led it to be used as currency in trades.']
 		'''
+}
+
+HapuFruit: {
+	DisplayName: Ha-pu Fruit
+	Tooltip: "'A fruit that calms your nerves (may have unintended side effects)'"
+}
+
+RedBow: {
+	DisplayName: Red Bow
+	Tooltip: "'Pelusa's favorite bow'"
 }
 
 Popo: {

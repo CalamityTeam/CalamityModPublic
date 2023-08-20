@@ -11,7 +11,8 @@ namespace CalamityMod.Projectiles.Summon
     {
         public new string LocalizationCategory => "Projectiles.Summon";
         public Player Owner => Main.player[Projectile.owner];
-        public CalamityPlayer moddedOwner => Owner.Calamity();
+        public CalamityPlayer ModdedOwner => Owner.Calamity();
+        public float EnemyDistanceDetection = 1200f;
         
         public override void SetStaticDefaults()
         {
@@ -42,9 +43,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (Owner.dead)
                 {
-                    moddedOwner.brittleStar = false;
+                    ModdedOwner.brittleStar = false;
                 }
-                if (moddedOwner.brittleStar)
+                if (ModdedOwner.brittleStar)
                 {
                     Projectile.timeLeft = 2;
                 }
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
 
             Projectile.rotation += Projectile.velocity.X * 0.04f; // Spins faster the faster it moves in the X-axis.
 
-            Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 24f, 15f, 4f, new Vector2(0f, -60f), 12f, 12f, false, false, 1);
+            Projectile.ChargingMinionAI(EnemyDistanceDetection, 1500f, 2200f, 150f, 0, 24f, 15f, 4f, new Vector2(0f, -60f), 12f, 12f, CalamityPlayer.areThereAnyDamnBosses, true, 1);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

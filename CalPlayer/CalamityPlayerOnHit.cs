@@ -472,7 +472,8 @@ namespace CalamityMod.CalPlayer
                     Main.projectile[projectile.whoAmI].DamageType = DamageClass.Generic;
             }
 
-            if (theBee && Player.statLife >= Player.statLifeMax2)
+            bool lifeAndShieldCondition = Player.statLife >= Player.statLifeMax2 && (!HasAnyEnergyShield || TotalEnergyShielding >= TotalMaxShieldDurability);
+            if (theBee && lifeAndShieldCondition)
                 SoundEngine.PlaySound(SoundID.Item110, proj.Center);
 
             if (reaverDefense)

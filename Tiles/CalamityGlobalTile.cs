@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Tiles.Abyss;
@@ -253,7 +254,13 @@ namespace CalamityMod.Tiles
                             }
 
                             if (treeDropItemType != 0)
+                            {
+                                if (Main.rand.NextBool(100) || (DateTime.Now.Month == 2 && DateTime.Now.Day == 14 && Main.rand.NextBool(15)))
+                                {
+                                    treeDropItemType = ModContent.ItemType<HapuFruit>();
+                                }
                                 Item.NewItem(new EntitySource_TileBreak(treeX, treeY), treeX * 16, treeY * 16, 16, 16, treeDropItemType);
+                            }
                         }
                     }
                 }

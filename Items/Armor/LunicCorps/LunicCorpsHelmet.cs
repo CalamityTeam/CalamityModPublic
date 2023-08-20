@@ -1,14 +1,9 @@
-﻿using CalamityMod.CalPlayer;
-using CalamityMod.Cooldowns;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
+﻿using System;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Particles;
-using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Effects;
@@ -21,85 +16,19 @@ namespace CalamityMod.Items.Armor.LunicCorps
     public class LunicCorpsHelmet : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor.Hardmode";
+
+        public static Asset<Texture2D> NoiseTex;
+        // TODO -- Accurate shield sounds from Halo
         public static readonly SoundStyle ShieldHurtSound = new("CalamityMod/Sounds/Custom/RoverDriveHit") { PitchVariance = 0.6f, Volume = 0.6f, MaxInstances = 0 };
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/RoverDriveActivate") { Volume = 0.85f };
         public static readonly SoundStyle BreakSound = new("CalamityMod/Sounds/Custom/RoverDriveBreak") { Volume = 0.75f };
 
-        public const int MasterChefShieldDefenseBoostMax = 20;
-        public const int MasterChefShieldDurabilityMax = 70;
-        public const int MasterChefShieldRechargeTime_Seconds = 10;
-        public const int MasterChefShieldRechargeTime = 60 * MasterChefShieldRechargeTime_Seconds;
+        public static int ShieldDurabilityMax = 50;
 
-        public static Asset<Texture2D> NoiseTex;
-
-        // Still not sure why the fuck this is necessary
-        public override void Load() => Terraria.On_Main.DrawInfernoRings += DrawMasterChefShields;
-
-        private void DrawMasterChefShields(Terraria.On_Main.orig_DrawInfernoRings orig, Main self)
-        {
-            bool playerFound = false;
-
-            for (int i = 0; i < Main.maxPlayers; i++)
-            {
-                if (!Main.player[i].active || Main.player[i].outOfRange || Main.player[i].dead)
-                    continue;
-
-                CalamityPlayer modPlayer = Main.player[i].GetModPlayer<CalamityPlayer>();
-
-                // Skip if not forced, if it has a value (aka false since if it was true forced visibility would be true
-                if (modPlayer.masterChefShieldDurability <= 0)
-                    continue;
-
-                float scale = 0.11f + 0.022f * (0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f + i * 0.2f));
-
-                if (!playerFound)
-                {
-                    float shieldStrentgh = (float)Math.Pow(Main.LocalPlayer.GetModPlayer<CalamityPlayer>().masterChefShieldDurability / (float)MasterChefShieldDurabilityMax, 0.5f);
-                    float noiseScale = MathHelper.Lerp(0.4f, 0.8f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.3f) * 0.5f + 0.5f);
-
-                    Effect shieldEffect = Filters.Scene["CalamityMod:RoverDriveShield"].GetShader().Shader;
-                    shieldEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.24f);
-                    shieldEffect.Parameters["blowUpPower"].SetValue(2.5f);
-                    shieldEffect.Parameters["blowUpSize"].SetValue(0.5f);
-                    shieldEffect.Parameters["noiseScale"].SetValue(noiseScale);
-
-                    float baseShieldOpacity = 0.9f + 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f);
-                    shieldEffect.Parameters["shieldOpacity"].SetValue(baseShieldOpacity * (0.5f + 0.5f * shieldStrentgh));
-                    shieldEffect.Parameters["shieldEdgeBlendStrenght"].SetValue(4f);
-
-                    Color blueTint = new Color(51, 102, 255);
-                    Color cyanTint = new Color(71, 202, 255);
-                    Color wulfGreen = new Color(194, 255, 67) * 0.8f;
-                    Color edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, blueTint, cyanTint, wulfGreen);
-                    Color shieldColor = blueTint;
-
-                    shieldEffect.Parameters["shieldColor"].SetValue(shieldColor.ToVector3());
-                    shieldEffect.Parameters["shieldEdgeColor"].SetValue(edgeColor.ToVector3());
-
-                    Main.spriteBatch.End();
-                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, shieldEffect, Main.GameViewMatrix.TransformationMatrix);
-
-                }
-
-                playerFound = true;
-                if (NoiseTex == null)
-                    NoiseTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/VoronoiShapes2");
-
-                Player myPlayer = Main.player[i];
-                Vector2 pos = myPlayer.MountedCenter + myPlayer.gfxOffY * Vector2.UnitY - Main.screenPosition;
-
-                Texture2D tex = NoiseTex.Value;
-                Main.spriteBatch.Draw(tex, pos, null, Color.White, 0, tex.Size() / 2f, scale, 0, 0);
-            }
-
-            if (playerFound)
-            {
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
-            }
-
-            orig(self);
-        }
+        // The following two values taken directly from Halo 3:
+        // https://www.halopedia.org/Energy_shielding#Gameplay
+        public static int ShieldRechargeDelay = CalamityUtils.SecondsToFrames(5);
+        public static int TotalShieldRechargeTime = CalamityUtils.SecondsToFrames(2);
 
         public override void SetDefaults()
         {
@@ -144,6 +73,96 @@ namespace CalamityMod.Items.Armor.LunicCorps
                 AddIngredient(ItemID.Glass, 20).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
+        }
+
+        // Complex drawcode which draws Lunic Corps shields on ALL players who have it available. Supposedly.
+        // This is applied as IL (On hook) which draws right before Inferno Ring.
+        internal static void DrawHaloShields(On_Main.orig_DrawInfernoRings orig, Main mainObj)
+        {
+            // TODO -- Control flow analysis indicates that this hook is not stable (as it was copied from Rover Drive).
+            // Lunic Corps shields will be drawn for each player with the Lunic Corps armor, yes.
+            // But there is no guarantee that the shields will be in the right condition for each player.
+            // Visibility is not net synced, for example.
+            bool alreadyDrawnShieldForPlayer = false;
+
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                Player player = Main.player[i];
+                if (player is null || !player.active || player.outOfRange || player.dead)
+                    continue;
+
+                CalamityPlayer modPlayer = player.Calamity();
+
+                // Do not render shield if it does not exist
+                if (modPlayer.LunicCorpsShieldDurability <= 0 || modPlayer.drawnAnyShieldThisFrame)
+                    continue;
+
+                // Scale the shield is drawn at. The Lunic Corps shield sticks very close to the body to mimic Halo and occasionally pulses.
+                // The "i" parameter is to make different player's shields not be perfectly synced.
+                float baseScale = 0.11f;
+                float maxExtraScale = 0.013f;
+                float extraScalePulseInterpolant = MathF.Pow(12f, MathF.Sin(Main.GlobalTimeWrappedHourly * 1.6f + i) - 1);
+                float scale = baseScale + maxExtraScale * extraScalePulseInterpolant;
+
+                if (!alreadyDrawnShieldForPlayer)
+                {
+                    // Again, I believe there is no way this looks correct when two players have Lunic Corps armor equipped.
+                    CalamityPlayer localModPlayer = Main.LocalPlayer.Calamity();
+                    float shieldDurabilityRatio = localModPlayer.LunicCorpsShieldDurability / (float)ShieldDurabilityMax;
+                    float visualShieldStrength = MathF.Pow(shieldDurabilityRatio, 0.5f);
+
+                    // The scale used for the noise overlay polygons also grows and shrinks
+                    // This is intentionally out of sync with the shield, and intentionally desynced per player
+                    // Don't put this anywhere less than 0.25f or higher than 1f. The higher it is, the denser / more zoomed out the noise overlay is.
+                    float noiseScale = MathHelper.Lerp(0.65f, 0.75f, 0.5f + 0.5f * MathF.Sin(Main.GlobalTimeWrappedHourly * 0.87f + i));
+
+                    // Define shader parameters
+                    Effect shieldEffect = Filters.Scene["CalamityMod:RoverDriveShield"].GetShader().Shader;
+                    shieldEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.058f); // Scrolling speed of polygonal overlay
+                    shieldEffect.Parameters["blowUpPower"].SetValue(2.8f);
+                    shieldEffect.Parameters["blowUpSize"].SetValue(0.4f);
+                    shieldEffect.Parameters["noiseScale"].SetValue(noiseScale);
+
+                    // Shield opacity multiplier slightly changes, this is independent of current shield strength
+                    float baseShieldOpacity = 0.9f + 0.1f * MathF.Sin(Main.GlobalTimeWrappedHourly * 1.95f);
+                    float minShieldStrengthOpacityMultiplier = 0.5f;
+                    float finalShieldOpacity = baseShieldOpacity * MathHelper.Lerp(minShieldStrengthOpacityMultiplier, 1f, visualShieldStrength);
+                    shieldEffect.Parameters["shieldOpacity"].SetValue(finalShieldOpacity);
+                    shieldEffect.Parameters["shieldEdgeBlendStrenght"].SetValue(4f);
+
+                    // Lunic Corps shields are not team specific
+                    Color shieldColor = new Color(201, 180, 129);
+                    Color primaryEdgeColor = new Color(232, 212, 175);
+                    Color secondaryEdgeColor = new Color(237, 205, 145);
+                    Color edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, primaryEdgeColor, secondaryEdgeColor);
+
+                    // Define shader parameters for shield color
+                    shieldEffect.Parameters["shieldColor"].SetValue(shieldColor.ToVector3());
+                    shieldEffect.Parameters["shieldEdgeColor"].SetValue(edgeColor.ToVector3());
+
+                    // GOD I LOVE END BEGIN CAN THIS GAME PLEASE BE SWALLOWED BY THE FIRES OF HELL THANKS
+                    // yes I copy pasted that comment, I hate end begin that much
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, shieldEffect, Main.GameViewMatrix.TransformationMatrix);
+                }
+
+                alreadyDrawnShieldForPlayer = true;
+                modPlayer.drawnAnyShieldThisFrame = true;
+
+                // Fetch shield noise overlay texture (this is the polygons fed to the shader)
+                NoiseTex ??= ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/VoronoiShapes2");
+                Vector2 pos = player.MountedCenter + player.gfxOffY * Vector2.UnitY - Main.screenPosition;
+                Texture2D tex = NoiseTex.Value;
+                Main.spriteBatch.Draw(tex, pos, null, Color.White, 0, tex.Size() / 2f, scale, 0, 0);
+            }
+
+            if (alreadyDrawnShieldForPlayer)
+            {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
+            }
+
+            orig(mainObj);
         }
     }
 }

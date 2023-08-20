@@ -368,15 +368,13 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             ShootTimer = ShootDelay;
 
-                            if (Main.rand.NextBool(3))
+                            // 1/3 chance to directly recharge the Rover Drive shield by 1 point
+                            if (Main.rand.NextBool(3) && modPlayer.roverDrive && modPlayer.RoverDriveShieldDurability < RoverDrive.ShieldDurabilityMax)
                             {
-                                RoverDrivePlayer shieldMan = playerToBuff.GetModPlayer<RoverDrivePlayer>();
-                                if (shieldMan.ProtectionMatrixDurability > 0 && shieldMan.ProtectionMatrixDurability < RoverDrive.ProtectionMatrixDurabilityMax)
-                                {
-                                    shieldMan.ProtectionMatrixDurability++;
-                                    if (playerToBuff.Calamity().cooldowns.TryGetValue(Cooldowns.WulfrumRoverDriveDurability.ID, out var cd))
-                                        cd.timeLeft = shieldMan.ProtectionMatrixDurability;
-                                }
+                                CalamityPlayer buffedCalPlayer = playerToBuff.Calamity();
+                                buffedCalPlayer.RoverDriveShieldDurability++;
+                                if (buffedCalPlayer.cooldowns.TryGetValue(Cooldowns.WulfrumRoverDriveDurability.ID, out var cd))
+                                    cd.timeLeft = buffedCalPlayer.RoverDriveShieldDurability;
                             }
                         }
                     }

@@ -702,11 +702,6 @@ DivineBless: {
 	Description: Increased health regen and minions inflict Banishing Fire
 }
 
-ElysianGuard: {
-	DisplayName: Elysian Guard
-	Description: Movement speed reduced, other stats buffed
-}
-
 EmpyreanRage: {
 	DisplayName: Empyrean Rage
 	Description: Rage of the cosmos

@@ -324,9 +324,10 @@ LunicCorpsHelmet: {
 	SetBonus:
 		'''
 		'Finish the fight'
-		Provides an energy shield that absorbs up to 70 damage
-		The shield recharges over 10 seconds after being broken
-		Getting hit during the shield recharge period will restart the recharging process
+		Projects a bubble shield that absorbs up to 50 damage
+		The shield starts recharging 5 seconds after being hit
+		Recharging from zero to full charge takes 2 seconds
+		Being hit again while recharging restarts the charge timer
 		10% increased bullet damage
 		10% increased specialist ranged damage
 		These are launchers, dartguns, or anything else that doesn't shoot arrows/bullets

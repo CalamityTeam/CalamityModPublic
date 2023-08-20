@@ -30,7 +30,6 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.DashID = ElysianAegisDash.ID;
             player.dashType = 0;
-            modPlayer.elysianAegis = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.noKnockback = true;

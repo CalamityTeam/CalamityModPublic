@@ -90,8 +90,8 @@ Cooldowns: {
 	InkBomb: Ink Bomb Cooldown
 	LifeSteal: Life Steal Cooldown
 	LionHeartShield: Energy Shell Cooldown
-	MasterChefShieldDurability: Energy Shield Durability
-	MasterChefShieldRecharge: Energy Shield Recharge
+	MasterChefShieldDurability: MJOLNIR Shield Level
+	MasterChefShieldRecharge: MJOLNIR Shield Recharge
 	NebulousCore: Nebulous Core Cooldown
 	OldDukeScalesFatigue: Stamina
 	OmegaBlueActive: Abyssal Madness
@@ -107,6 +107,8 @@ Cooldowns: {
 	SandsmokeBombActive: Sandsmoke Bomb Duration
 	SandsmokeBombCooldown: Sandsmoke Bomb Cooldown
 	SilvaRevive: Silva Revive Cooldown
+	SpongeDurability: Sponge Barrier Durability
+	SpongeRecharge: Sponge Barrier Recharge
 	TarragonCloak: Tarragon Cloak Cooldown
 	TarragonImmunity: Tarragon Immunity Cooldown
 	UniverseSplitter: Universe Splitter Cooldown

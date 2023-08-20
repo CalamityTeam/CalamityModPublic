@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Typless
     {
         public new string LocalizationCategory => "Projectiles.Healing";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-        public Player Owner => Main.player[Projectile.owner];
         private static float Radius = 160f;
         public int ShinkGrow = 0;
         public int Framecounter = 0;
@@ -33,16 +32,11 @@ namespace CalamityMod.Projectiles.Typless
         public override void SetDefaults()
         {
             //These shouldn't matter because its circular
-            Projectile.width = 336;
-            Projectile.height = 336;
+            Projectile.width = Projectile.height = 336;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Default;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.penetrate = -1;
             Projectile.timeLeft = 2710;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -135,17 +129,6 @@ namespace CalamityMod.Projectiles.Typless
             }
         }
 
-        public override bool? CanCutTiles()
-        {
-            return false;
-        }
-        public override bool? CanHitNPC(NPC target)
-        {
-        return false;
-        }
-
-
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, Radius, targetHitbox);
-
+        public override bool? CanDamage() => false;
     }
 }

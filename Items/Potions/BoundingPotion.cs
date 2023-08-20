@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            Item.width = 28;
-            Item.height = 18;
+            Item.width = 26;
+            Item.height = 38;
             Item.useTurn = true;
             Item.maxStack = 9999;
             Item.value = Item.buyPrice(0, 2, 0, 0);

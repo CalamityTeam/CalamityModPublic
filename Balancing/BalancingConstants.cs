@@ -47,7 +47,8 @@
         internal static readonly float LeatherWhipTagDamageMultiplier = 1.08f;
         internal static readonly float SnapthornTagDamageMultiplier = 1.04f;
         internal static readonly float SpinalTapTagDamageMultiplier = 1.08f;
-        internal static readonly float FirecrackerExplosionDamageMultiplier = 2.25f; // Relative to the whip, not the summon.
+        internal static readonly float FirecrackerExplosionDamageMultiplier = 2f; // Note: Lasts for 1 hit
+        internal static readonly float CoolWhipTagDamageMultiplier = 1.08f;
         internal static readonly float DurendalTagDamageMultiplier = 1.09f;
         internal static readonly float MorningStarTagDamageMultiplier = 1.11f;
         internal static readonly float KaleidoscopeTagDamageMultiplier = 1.12f;
