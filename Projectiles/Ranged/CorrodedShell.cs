@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = 6;
             Projectile.timeLeft = 600;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 12;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.velocity *= 0.9995f;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (Projectile.timeLeft % 3 == 0)
+            if (Projectile.timeLeft % 5 == 0)
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
                     if (aura.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[aura].DamageType = DamageClass.Ranged;
-                        Main.projectile[aura].timeLeft = 40;
+                        Main.projectile[aura].timeLeft = 20;
                     }
                 }
             }

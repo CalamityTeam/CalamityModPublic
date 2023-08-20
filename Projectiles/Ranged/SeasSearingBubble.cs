@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 using Terraria.Audio;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -88,14 +89,14 @@ namespace CalamityMod.Projectiles.Ranged
         {
             OnHitEffects(target.Center);
             target.AddBuff(BuffID.Wet, 300);
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
+            target.AddBuff(BuffID.Venom, 180);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             OnHitEffects(target.Center);
             target.AddBuff(BuffID.Wet, 300);
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
+            target.AddBuff(BuffID.Venom, 180);
         }
 
         private void OnHitEffects(Vector2 targetPos)
