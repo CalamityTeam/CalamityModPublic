@@ -429,7 +429,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float num805 = (float)Math.Sqrt(num803 * num803 + num804 * num804);
                 float num806 = (death ? 2f : 1f) + (creeperScale * 0.1f);
                 if (Main.getGoodWorld)
-                    num806 *= 3f;
+                    num806 *= 2f;
 
                 if (num805 < num806)
                 {
