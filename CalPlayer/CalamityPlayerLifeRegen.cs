@@ -660,10 +660,10 @@ namespace CalamityMod.CalPlayer
                 Player.lifeRegen += 4;
 
             if (GreenJellyRegen)
-                Player.lifeRegen += 6;
+                Player.lifeRegen += 5;
 
             if (AbsorberRegen)
-                Player.lifeRegen += 7;
+                Player.lifeRegen += 6;
 
             if (hallowedRegen)
                 Player.lifeRegen += 3;
@@ -674,15 +674,9 @@ namespace CalamityMod.CalPlayer
             if (trinketOfChi || chiRegen)
                 Player.lifeRegen += 2;
 
-            if (aAmpoule)
-            {
+            if (rOoze)
                 Player.lifeRegen += 4;
-            }
-            else if (rOoze)
-            {
-                if (!Main.dayTime)
-                    Player.lifeRegen += 4;
-            }
+
 
             if (ursaSergeant)
             {
