@@ -1311,7 +1311,7 @@ QuiverofNihility: {
 
 RadiantOoze: {
 	DisplayName: Radiant Ooze
-	Tooltip: You emit light and regen life more quickly at night
+	Tooltip: You emit light and regen life more quickly
 }
 
 RaidersTalisman: {
