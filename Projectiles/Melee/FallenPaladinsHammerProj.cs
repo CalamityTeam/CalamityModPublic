@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Weapons/Melee/FallenPaladinsHammer";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f};
         public static readonly SoundStyle UseSoundFunny = new("CalamityMod/Sounds/Item/CalamityBell") { Volume = 1.5f};
-        public static readonly SoundStyle RedHamSound = new("CalamityMod/Sounds/Item/FallenPaladinsHammerClone") { Volume = 1f};
+        public static readonly SoundStyle RedHamSound = new("CalamityMod/Sounds/Item/FallenPaladinsHammerClone") { Volume = 0.6f };
         public ref int EmpoweredHammer => ref Main.player[Projectile.owner].Calamity().PHAThammer; 
         public int returnhammer = 0;
 
