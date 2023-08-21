@@ -306,7 +306,7 @@ namespace CalamityMod.CalPlayer
                     break;
 
                 case ProjectileID.BoneArrow:
-                    target.AddBuff(BuffType<ArmorCrunch>(), 300);
+                    target.AddBuff(BuffType<Crumbling>(), 300);
                     break;
 
                 case ProjectileID.FrostBlastFriendly:
@@ -1017,7 +1017,7 @@ namespace CalamityMod.CalPlayer
 			{
 				if (flaskCrumbling)
 				{
-                    CalamityUtils.Inflict246DebuffsNPC(target, BuffType<ArmorCrunch>());
+                    CalamityUtils.Inflict246DebuffsNPC(target, BuffType<Crumbling>());
                 }
 				if (flaskBrimstone)
 				{

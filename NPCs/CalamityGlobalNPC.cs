@@ -223,6 +223,7 @@ namespace CalamityMod.NPCs
         public int hFlames = 0;
         public int pFlames = 0;
         public int aCrunch = 0;
+        public int crumble = 0;
 
         // Soma Prime Shred deals damage with DirectStrikes instead of with direct debuff damage
         // It also stacks, scales with ranged damage, and can crit, meaning it needs to know who applied it most recently
@@ -431,6 +432,7 @@ namespace CalamityMod.NPCs
             myClone.hFlames = hFlames;
             myClone.pFlames = pFlames;
             myClone.aCrunch = aCrunch;
+            myClone.crumble = crumble;
 
             myClone.somaShredStacks = somaShredStacks;
             myClone.somaShredApplicator = somaShredApplicator;
@@ -2687,6 +2689,9 @@ namespace CalamityMod.NPCs
                 calcDR *= KamiFlu.MultiplicativeDamageReduction;
             if (npc.Calamity().aCrunch > 0)
                 calcDR *= ArmorCrunch.MultiplicativeDamageReductionEnemy;
+            if (npc.Calamity().crumble > 0)
+                calcDR *= Crumbling.MultiplicativeDamageReductionEnemy;
+
 
             return calcDR;
         }
@@ -4220,6 +4225,8 @@ namespace CalamityMod.NPCs
             // Soma Prime's Shred stacks have a unique falloff mechanic in the debuff's own file.
             if (aCrunch > 0)
                 aCrunch--;
+            if (crumble > 0)
+                crumble--;
             if (cDepth > 0)
                 cDepth--;
             if (gsInferno > 0)
@@ -5711,6 +5718,8 @@ namespace CalamityMod.NPCs
                     // Stat debuffs
                     if (aCrunch > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/ArmorCrunch").Value);
+                    if (crumble > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Crumbling").Value);
                     if (enraged > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Enraged").Value);
                     if (eutrophication > 0)

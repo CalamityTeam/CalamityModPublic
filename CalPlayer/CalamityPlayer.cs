@@ -807,6 +807,7 @@ namespace CalamityMod.CalPlayer
         public bool dragonFire = false;
         public bool miracleBlight = false;
         public bool aCrunch = false;
+        public bool crumble = false;
         public bool irradiated = false;
         public bool bFlames = false;
         public bool weakBrimstoneFlames = false;
@@ -1813,6 +1814,7 @@ namespace CalamityMod.CalPlayer
             dragonFire = false;
             miracleBlight = false;
             aCrunch = false;
+            crumble = false;
             irradiated = false;
             bFlames = false;
             witheredDebuff = false;
@@ -2223,6 +2225,7 @@ namespace CalamityMod.CalPlayer
             dragonFire = false;
             miracleBlight = false;
             aCrunch = false;
+            crumble = false;
             irradiated = false;
             bFlames = false;
             witheredDebuff = false;
@@ -4689,6 +4692,8 @@ namespace CalamityMod.CalPlayer
             {
                 if (aCrunch)
                     contactDamageReduction *= (double)ArmorCrunch.MultiplicativeDamageReductionPlayer;
+                if (crumble)
+                    contactDamageReduction *= (double)Crumbling.MultiplicativeDamageReductionPlayer;
 
                 // Contact damage reduction is reduced by DR Damage, which itself is proportional to defense damage
                 int currentDefense = Player.GetCurrentDefense(false);
@@ -4962,6 +4967,8 @@ namespace CalamityMod.CalPlayer
             {
                 if (aCrunch)
                     projectileDamageReduction *= (double)ArmorCrunch.MultiplicativeDamageReductionPlayer;
+                if (crumble)
+                    contactDamageReduction *= (double)Crumbling.MultiplicativeDamageReductionPlayer;
 
                 // Projectile damage reduction is reduced by DR Damage, which itself is proportional to defense damage
                 int currentDefense = Player.GetCurrentDefense(false);
@@ -5014,7 +5021,7 @@ namespace CalamityMod.CalPlayer
             }
             if (crawCarapace)
             {
-                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 720);
+                npc.AddBuff(ModContent.BuffType<Crumbling>(), 720);
                 SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
             }
             

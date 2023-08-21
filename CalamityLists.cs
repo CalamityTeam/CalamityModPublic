@@ -1148,6 +1148,7 @@ namespace CalamityMod
                 BuffType<MarkedforDeath>(),
                 BuffType<AbsorberAffliction>(),
                 BuffType<ArmorCrunch>(),
+                BuffType<Crumbling>(),
                 BuffType<Vaporfied>(),
                 BuffType<Eutrophication>(),
                 BuffType<Dragonfire>(),
