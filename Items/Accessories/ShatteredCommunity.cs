@@ -46,6 +46,7 @@ namespace CalamityMod.Items.Accessories
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<TheCommunity>();
         }
 
         public override void SetDefaults()
