@@ -1007,6 +1007,13 @@ namespace CalamityMod.NPCs
                 ApplyDPSDebuff(baseKamiFluDoTValue, baseKamiFluDoTValue / 10, ref npc.lifeRegen, ref damage);
             }
 
+            //Absorber Affliction
+            if (absorberAffliction > 0)
+            {
+                int baseAbsorberDoTValue = (int)(260 * sicknessDamageMult);
+                ApplyDPSDebuff(baseAbsorberDoTValue, baseAbsorberDoTValue / 10, ref npc.lifeRegen, ref damage);
+            }
+
             // Poisoned
             if (npc.poisoned)
             {
@@ -5411,6 +5418,29 @@ namespace CalamityMod.NPCs
                     }
                 }
                 Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
+            }
+
+            if (absorberAffliction > 0)
+            {
+                if (Main.rand.Next(5) >= 0)
+                {
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, ModContent.DustType<AbsorberDust>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 2.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity.Y -= 1.8f;
+                    Main.dust[dust].velocity.Y *= 2.5f;
+                    Main.dust[dust].noGravity = true;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Vector2 offCenter = Main.rand.NextVector2Unit();
+                        offCenter *= Main.rand.NextFloat(3f, 5f);
+                        Main.dust[dust].position = npc.Center + offCenter;
+                        Main.dust[dust].velocity.X *= 1.5f;
+                        Main.dust[dust].velocity.Y *= 2.8f;
+                        Main.dust[dust].scale *= 0.9f;
+                    }
+                    else
+                        Main.dust[dust].velocity.X *= 0.9f;
+                }
             }
 
             if (dragonFire > 0)
