@@ -20,6 +20,7 @@ using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.NormalNPCs;
@@ -328,7 +329,23 @@ namespace CalamityMod.CalPlayer
                 }
                 if (vHex)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.VulnerabilityHex").Format(Player.name));
+                    // Unique messages appear half the time during each individual stage of SCal's fight
+                    string vHexKeyToUse = "Status.Death.VulnerabilityHex";
+                    if (Main.rand.NextBool() && CalamityGlobalNPC.SCal != -1)
+                    {
+                        if (CalamityGlobalNPC.SCalGrief != -1)
+                            vHexKeyToUse = "Status.Death.VulnerabilityHexGrief";
+                        else if (CalamityGlobalNPC.SCalLament != -1)
+                            vHexKeyToUse = "Status.Death.VulnerabilityHexLament";
+                        else if (CalamityGlobalNPC.SCalEpiphany != -1)
+                            vHexKeyToUse = "Status.Death.VulnerabilityHexEpiphany";
+                        // good luck dying to SCal in Acceptance to see this
+                        else if (CalamityGlobalNPC.SCalAcceptance != -1)
+                            vHexKeyToUse = "Status.Death.VulnerabilityHexAcceptance";
+
+                        // if none of SCal's phases are detected somehow then it just uses the normal messages all the time
+                    }
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText(vHexKeyToUse).Format(Player.name));
                 }
                 if (ZoneCalamity && Player.lavaWet)
                 {
@@ -399,7 +416,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (manaOverloader || ManaBurn)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ManaConversion").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ManaBurn").Format(Player.name));
                 }
                 if (bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine || Player.tipsy)
                 {
