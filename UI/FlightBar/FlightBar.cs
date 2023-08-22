@@ -221,8 +221,9 @@ namespace CalamityMod.UI
                 Rectangle barRectangle = barTexture.Bounds;
                 barRectangle.Height = (int)(correctHeight * flightRatio);
                 Vector2 origin = correctBorder.Size() * 0.5f;
-
-                spriteBatch.Draw(barTexture, screenPos - new Vector2(offset * uiScale, 11), barRectangle, Color.White, MathHelper.ToRadians(180), origin, uiScale, SpriteEffects.None, 0);
+                origin.Y += 0.1f;
+                Vector2 drawPos = screenPos - new Vector2(offset * uiScale, 14);
+                spriteBatch.Draw(barTexture, drawPos, barRectangle, Color.White, MathHelper.ToRadians(180), origin, uiScale * 1.06f, SpriteEffects.None, 0);
             }
             if (!completedAnimation && FlightAnimFrame >= 0)
             {

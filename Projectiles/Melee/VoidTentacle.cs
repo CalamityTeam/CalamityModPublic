@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
 
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 10;
+            Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 4;
         }
 
         public override void AI()
