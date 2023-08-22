@@ -21,38 +21,17 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.beeResist = true;
-
-            if (player.ZoneJungle)
-            {
-                player.lifeRegen += 1;
-                player.statDefense += 9;
-                player.endurance += 0.05f;
-            }
-
-            player.buffImmune[BuffID.Venom] = true;
-            player.buffImmune[BuffID.Poisoned] = true;
-
-            if (!player.honey && player.lifeRegen < 0)
-            {
-                player.lifeRegen += 2;
-                if (player.lifeRegen > 0)
-                    player.lifeRegen = 0;
-            }
-
-            player.lifeRegenTime += 1;
-            player.lifeRegen += 2;
+            modPlayer.hDew = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<LivingDew>().
-                AddIngredient(ItemID.BottledHoney, 10).
-                AddIngredient<TrapperBulb>(2).
-                AddIngredient(ItemID.ButterflyDust).
-                AddIngredient<BeetleJuice>(3).
-                AddTile(TileID.MythrilAnvil).
+                AddIngredient(ItemID.JungleSpores, 12).
+                AddIngredient<MurkyPaste>(5).
+                AddIngredient<TrapperBulb>(3).
+                AddIngredient(ItemID.BottledHoney, 5).
+                AddTile(TileID.Anvils).
                 Register();
         }
     }

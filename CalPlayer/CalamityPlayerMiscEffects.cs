@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
@@ -1577,22 +1578,84 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() += 0.1f;
             }
 
-            // Ambrosial Ampoule bonus and other light-granting bonuses
+            if (hDew && !aAmpoule)
+            {
+                if (HoneyDewHealCooldown == 12)
+                    HoneyDewHealCooldown = 0;
+                Player.statLifeMax2 += 30;
+                for (int l = 0; l < Player.MaxBuffs; l++)
+                {
+                    int hasBuff = Player.buffType[l];
+                    if (Player.buffTime[l] > 2 && CalamityLists.sicknessDebuffList.Contains(hasBuff))
+                    {
+                        Player.buffTime[l]--;
+                        if (HoneyDewHealCooldown == 0)
+                        {
+                            HoneyDewHealCooldown++;
+                            Player.Heal(1);
+                        }
+                        else
+                            HoneyDewHealCooldown++;
+                    }
+                }
+                //Honey Like life regen, does not work if you have honey buff
+                if (!Player.honey && Player.lifeRegen < 0)
+                {
+                    Player.lifeRegen += 2;
+                    if (Player.lifeRegen > 0)
+                        Player.lifeRegen = 0;
+                }
+                if (!Player.honey)
+                {
+                    Player.lifeRegenTime += 1;
+                    Player.lifeRegen += 2;
+                }
+            }
+
+            // Radiant Ooze light-granting
             float[] light = new float[3];
-            if ((rOoze && !Main.dayTime) || aAmpoule)
+            if (rOoze && !aAmpoule)
             {
                 light[0] += 1f;
                 light[1] += 1f;
                 light[2] += 0.6f;
             }
+
+            // Ambrosial Ampoule bonus and other light-granting bonuses
             if (aAmpoule)
             {
-                Player.endurance += 0.05f;
-                Player.buffImmune[BuffID.Frozen] = true;
-                Player.buffImmune[BuffID.Chilled] = true;
-                Player.buffImmune[BuffID.Frostburn] = true;
-                Player.buffImmune[BuffID.CursedInferno] = true;
-                Player.buffImmune[ModContent.BuffType<BurningBlood>()] = true;
+                light[0] += 1.3f;
+                light[1] += 1.3f;
+                light[2] += 0.8f;
+            }
+            if (aAmpoule)
+            {
+                if (AmbrosialAmpouleHealCooldown == 10)
+                    AmbrosialAmpouleHealCooldown = 0;
+                Player.statLifeMax2 += 50;
+                for (int l = 0; l < Player.MaxBuffs; l++)
+                {
+                    int hasBuff = Player.buffType[l];
+                    if (Player.buffTime[l] > 2 && CalamityLists.sicknessDebuffList.Contains(hasBuff))
+                    {
+                        Player.buffTime[l]--;
+                        if (AmbrosialAmpouleHealCooldown == 0)
+                        {
+                            AmbrosialAmpouleHealCooldown++;
+                            Player.Heal(1);
+                        }
+                        else
+                            AmbrosialAmpouleHealCooldown++;
+                    }
+                }
+                if (Player.lifeRegen < 0)
+                {
+                    Player.lifeRegen += 2;
+                    if (Player.lifeRegen > 0)
+                        Player.lifeRegen = 0;
+                }
+
+
             }
             if (cFreeze)
             {

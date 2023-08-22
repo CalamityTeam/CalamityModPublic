@@ -87,6 +87,7 @@ namespace CalamityMod
         public static List<int> friendlyBeeList;
         public static List<int> hardModeNerfList;
         public static List<int> debuffList;
+        public static List<int> sicknessDebuffList;
         public static List<int> alcoholList;
         public static List<int> spearAutoreuseList;
         public static List<int> pumpkinMoonBuffList;
@@ -1155,7 +1156,20 @@ namespace CalamityMod
                 BuffType<Dragonfire>(),
                 BuffType<Nightwither>(),
                 BuffType<VulnerabilityHex>(),
-                BuffType<MiracleBlight>()
+                BuffType<MiracleBlight>(),
+                BuffType<WhisperingDeath>()
+            };
+
+            sicknessDebuffList = new List<int>()
+            {
+                BuffID.Poisoned,
+                BuffID.Venom,
+                BuffType<SulphuricPoisoning>(),
+                BuffType<AstralInfectionDebuff>(),
+                BuffType<Plague>(),
+                BuffType<AbsorberAffliction>(),
+                BuffType<WhisperingDeath>(),
+                BuffType<Irradiated>()
             };
 
             alcoholList = new List<int>()

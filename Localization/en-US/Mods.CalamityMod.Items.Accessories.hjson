@@ -116,8 +116,11 @@ AmbrosialAmpoule: {
 	Tooltip:
 		'''
 		You emit light
-		5% increased damage reduction and increased life regen
-		Grants immunity to the Frozen, Chilled, Frostburn, Cursed Inferno and Burning Blood debuffs
+		+50 max life
+		Your life regen is increased by 5
+		Your natural life regen is greatly improved
+		Halves how long you are afflicted with sickness debuffs
+		When you are afflicted with a sickness debuff you quickly heal
 		'''
 }
 
@@ -934,10 +937,10 @@ HoneyDew: {
 	DisplayName: Honey Dew
 	Tooltip:
 		'''
-		5% increased damage reduction, +9 defense and increased life regen while in the Jungle
-		Poison and Venom immunity
-		Honey-like life regen with no speed penalty
-		Most bee/hornet enemies and projectiles do 75% damage to you
+		+30 max life
+		You have Honey-like life regen
+		Halves how long you are afflicted with sickness debuffs
+		When you are afflicted with a sickness debuff you quickly heal
 		'''
 }
 
@@ -1007,11 +1010,7 @@ LifeJelly: {
 
 LivingDew: {
 	DisplayName: Living Dew
-	Tooltip:
-		'''
-		5% increased damage reduction, +5 defense, and increased life regen while in the Jungle
-		Immunity to Poison
-		'''
+	Tooltip: 20% increased movement and jump speed, but 12% reduced damage
 }
 
 LumenousAmulet: {
@@ -1311,7 +1310,12 @@ QuiverofNihility: {
 
 RadiantOoze: {
 	DisplayName: Radiant Ooze
-	Tooltip: You emit light and regen life more quickly
+	Tooltip:
+		'''
+		You produce light
+		Your life regen is increased by 3
+		Your natural life regen is improved
+		'''
 }
 
 RaidersTalisman: {

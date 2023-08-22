@@ -175,7 +175,7 @@ namespace CalamityMod
                 light += 1;
             if (mp.aAmpoule)
                 light += 1;
-            else if (mp.rOoze && !Main.dayTime) // radiant ooze and ampoule/higher don't stack
+            else if (mp.rOoze) // radiant ooze and ampoule/higher don't stack
                 light += 1;
             if (mp.aquaticEmblem && underwater)
                 light += 1;

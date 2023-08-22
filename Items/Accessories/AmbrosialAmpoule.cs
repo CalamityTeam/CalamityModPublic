@@ -12,11 +12,10 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.defense = 6;
             Item.width = 20;
             Item.height = 20;
-            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            Item.rare = ItemRarityID.Pink;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
             Item.accessory = true;
         }
 
@@ -24,23 +23,14 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aAmpoule = true;
-            modPlayer.rOoze = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CorruptFlask>().
+                AddIngredient<HoneyDew>().
                 AddIngredient<RadiantOoze>().
-                AddIngredient<CryonicBar>(5).
-                AddIngredient<SeaPrism>(10).
-                AddTile(TileID.MythrilAnvil).
-                Register();
-
-            CreateRecipe().
-                AddIngredient<CrimsonFlask>().
-                AddIngredient<RadiantOoze>().
-                AddIngredient<CryonicBar>(5).
+                AddIngredient<LifeAlloy>(3).
                 AddIngredient<SeaPrism>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

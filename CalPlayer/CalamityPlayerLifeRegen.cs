@@ -673,9 +673,17 @@ namespace CalamityMod.CalPlayer
             if (trinketOfChi || chiRegen)
                 Player.lifeRegen += 2;
 
-            if (rOoze)
-                Player.lifeRegen += 4;
+            if (rOoze && !aAmpoule)
+            {
+                Player.lifeRegen += 3;
+                Player.lifeRegenTime += 2;
+            }
 
+            if (aAmpoule)
+            {
+                Player.lifeRegen += 5;
+                Player.lifeRegenTime += 4;
+            }
 
             if (ursaSergeant)
             {

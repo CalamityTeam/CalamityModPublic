@@ -470,6 +470,9 @@ namespace CalamityMod.CalPlayer
         public bool gShell = false;
         public bool tortShell = false;
         public bool absorber = false;
+        public bool hDew = false;
+        public int HoneyDewHealCooldown = 0;
+        public int AmbrosialAmpouleHealCooldown = 0;
         public bool aAmpoule = false;
         public bool rOoze = false;
         public bool fBarrier = false;
@@ -812,6 +815,7 @@ namespace CalamityMod.CalPlayer
         public bool fishAlert = false;
         public bool clamity = false;
         public bool NOU = false;
+        public bool absorberAffliction = false;
         public bool sulphurPoison = false;
         public bool nightwither = false;
         public bool eutrophication = false;
@@ -1079,7 +1083,6 @@ namespace CalamityMod.CalPlayer
 
         public bool witheringWeaponEnchant = false;
         public bool witheredDebuff = false;
-        public bool absorberAffliction = false;
         public int witheredWeaponHoldTime = 0;
         public int witheringDamageDone = 0;
 
@@ -1572,6 +1575,7 @@ namespace CalamityMod.CalPlayer
             gShell = false;
             tortShell = false;
             absorber = false;
+            hDew = false;
             aAmpoule = false;
             rOoze = false;
             fBarrier = false;
