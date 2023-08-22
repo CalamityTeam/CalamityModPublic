@@ -482,6 +482,17 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
+            if (calamityPlayer.rTide)
+            {
+                if (Main.rand.NextBool(7) && drawInfo.shadow == 0f)
+                {
+                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 165, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
+                    Main.dust[dust].noGravity = false;
+                    Main.dust[dust].velocity *= 1.8f;
+                    Main.dust[dust].velocity.Y += 0.5f;
+                    drawInfo.DustCache.Add(dust);
+                }
+            }
             if (calamityPlayer.bBlood)
             {
                 if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)

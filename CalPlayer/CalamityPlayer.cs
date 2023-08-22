@@ -791,6 +791,7 @@ namespace CalamityMod.CalPlayer
         public bool dragonFire = false;
         public bool miracleBlight = false;
         public bool aCrunch = false;
+        public bool crumble = false;
         public bool irradiated = false;
         public bool bFlames = false;
         public bool weakBrimstoneFlames = false;
@@ -807,6 +808,7 @@ namespace CalamityMod.CalPlayer
         public bool DoGExtremeGravity = false;
         public bool warped = false;
         public bool cDepth = false;
+        public bool rTide = false;
         public bool fishAlert = false;
         public bool clamity = false;
         public bool NOU = false;
@@ -1797,6 +1799,7 @@ namespace CalamityMod.CalPlayer
             dragonFire = false;
             miracleBlight = false;
             aCrunch = false;
+            crumble = false;
             irradiated = false;
             bFlames = false;
             witheredDebuff = false;
@@ -1814,6 +1817,7 @@ namespace CalamityMod.CalPlayer
             DoGExtremeGravity = false;
             warped = false;
             cDepth = false;
+            rTide = false;
             fishAlert = false;
             clamity = false;
             NOU = false;
@@ -2207,6 +2211,7 @@ namespace CalamityMod.CalPlayer
             dragonFire = false;
             miracleBlight = false;
             aCrunch = false;
+            crumble = false;
             irradiated = false;
             bFlames = false;
             witheredDebuff = false;
@@ -2224,6 +2229,7 @@ namespace CalamityMod.CalPlayer
             DoGExtremeGravity = false;
             warped = false;
             cDepth = false;
+            rTide = false;
             fishAlert = false;
             clamity = false;
             NOU = false;

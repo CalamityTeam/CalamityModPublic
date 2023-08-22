@@ -223,6 +223,7 @@ namespace CalamityMod.NPCs
         public int hFlames = 0;
         public int pFlames = 0;
         public int aCrunch = 0;
+        public int crumble = 0;
 
         // Soma Prime Shred deals damage with DirectStrikes instead of with direct debuff damage
         // It also stacks, scales with ranged damage, and can crit, meaning it needs to know who applied it most recently
@@ -232,6 +233,7 @@ namespace CalamityMod.NPCs
         public int somaShredFalloff = Shred.StackFalloffFrames;
 
         public int cDepth = 0;
+        public int rTide = 0;
         public int gsInferno = 0;
         public int dragonFire = 0;
         public int miracleBlight = 0;
@@ -431,12 +433,14 @@ namespace CalamityMod.NPCs
             myClone.hFlames = hFlames;
             myClone.pFlames = pFlames;
             myClone.aCrunch = aCrunch;
+            myClone.crumble = crumble;
 
             myClone.somaShredStacks = somaShredStacks;
             myClone.somaShredApplicator = somaShredApplicator;
             myClone.somaShredFalloff = somaShredFalloff;
 
             myClone.cDepth = cDepth;
+            myClone.rTide = rTide;
             myClone.gsInferno = gsInferno;
             myClone.miracleBlight = miracleBlight;
             myClone.dragonFire = dragonFire;
@@ -1011,7 +1015,7 @@ namespace CalamityMod.NPCs
             if (absorberAffliction > 0)
             {
                 int baseAbsorberDoTValue = (int)(260 * sicknessDamageMult);
-                ApplyDPSDebuff(baseAbsorberDoTValue, baseAbsorberDoTValue / 10, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(baseAbsorberDoTValue, baseAbsorberDoTValue / 65, ref npc.lifeRegen, ref damage);
             }
 
             // Poisoned
@@ -1042,9 +1046,15 @@ namespace CalamityMod.NPCs
             // Crush Depth
             if (cDepth > 0)
             {
-                int baseCrushDepthDoTValue = (int)(((Main.hardMode ? 36 : 12) - npc.defense) * 5 * waterDamageMult);
-                if (baseCrushDepthDoTValue > 0)
-                    ApplyDPSDebuff(baseCrushDepthDoTValue, baseCrushDepthDoTValue / 5, ref npc.lifeRegen, ref damage);
+                int baseCrushDepthDoTValue = (int)(100 * waterDamageMult);
+                ApplyDPSDebuff(baseCrushDepthDoTValue, baseCrushDepthDoTValue / 2, ref npc.lifeRegen, ref damage);
+            }
+            
+            //Riptide
+            if (rTide > 0)
+            {
+                int baseRiptideDoTValue = (int)(40 * waterDamageMult);
+                ApplyDPSDebuff(baseRiptideDoTValue, baseRiptideDoTValue / 3, ref npc.lifeRegen, ref damage);
             }
 
             // Debuffs that aren't affected by weaknesses or resistances.
@@ -2687,6 +2697,9 @@ namespace CalamityMod.NPCs
                 calcDR *= KamiFlu.MultiplicativeDamageReduction;
             if (npc.Calamity().aCrunch > 0)
                 calcDR *= ArmorCrunch.MultiplicativeDamageReductionEnemy;
+            if (npc.Calamity().crumble > 0)
+                calcDR *= Crumbling.MultiplicativeDamageReductionEnemy;
+
 
             return calcDR;
         }
@@ -4220,8 +4233,12 @@ namespace CalamityMod.NPCs
             // Soma Prime's Shred stacks have a unique falloff mechanic in the debuff's own file.
             if (aCrunch > 0)
                 aCrunch--;
+            if (crumble > 0)
+                crumble--;
             if (cDepth > 0)
                 cDepth--;
+            if (rTide > 0)
+                rTide--;
             if (gsInferno > 0)
                 gsInferno--;
             if (dragonFire > 0)
@@ -5538,6 +5555,17 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            if (rTide > 0)
+            {
+                if (Main.rand.Next(7) < 3)
+                {
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 165, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1f);
+                    Main.dust[dust].noGravity = false;
+                    Main.dust[dust].velocity *= 1.8f;
+                    Main.dust[dust].velocity.Y += 0.5f;
+                }
+            }
+
             if (sulphurPoison > 0)
             {
                 if (Main.rand.Next(5) < 4)
@@ -5681,6 +5709,8 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BurningBlood").Value);
                     if (cDepth > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/CrushDepth").Value);
+                    if (rTide > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/RiptideDebuff").Value);
                     if (dragonFire > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Dragonfire").Value);
                     if (miracleBlight > 0)
@@ -5711,6 +5741,8 @@ namespace CalamityMod.NPCs
                     // Stat debuffs
                     if (aCrunch > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/ArmorCrunch").Value);
+                    if (crumble > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Crumbling").Value);
                     if (enraged > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Enraged").Value);
                     if (eutrophication > 0)

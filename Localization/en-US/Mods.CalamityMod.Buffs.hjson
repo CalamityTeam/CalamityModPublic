@@ -138,6 +138,11 @@ CrushDepth: {
 	Description: Crushed by aquatic pressure
 }
 
+RiptideDebuff: {
+	DisplayName: Riptide
+	Description: Lashed at by powerful waters
+}
+
 Dragonfire: {
 	DisplayName: Dragonfire
 	Description: Engulfed by roaring flames
@@ -857,6 +862,11 @@ AndromedaCripple: {
 ArmorCrunch: {
 	DisplayName: Armor Crunch
 	Description: Your armor is shredded
+}
+
+Crumbling: {
+	DisplayName: Crumbling
+	Description: Your armor is damaged
 }
 
 Clamity: {

@@ -2584,7 +2584,7 @@ namespace CalamityMod.Projectiles
                 modifiers.SetCrit();
 
             if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
-                target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);
+                target.AddBuff(BuffType<Crumbling>(), RottenDogtooth.ArmorCrunchDebuffTime);
 
             if (modPlayer.flamingItemEnchant && !projectile.minion && !projectile.npcProj && !projectile.Calamity().CreatedByPlayerDash)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);

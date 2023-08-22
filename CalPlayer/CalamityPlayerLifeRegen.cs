@@ -282,21 +282,20 @@ namespace CalamityMod.CalPlayer
 
             if (cDepth)
             {
-                if (Player.statDefense > 0)
-                {
-                    int depthDamage = depthCharm ? 9 : 18;
-                    int subtractDefense = (int)(Player.statDefense * 0.05); // 240 defense = 0 damage taken with depth charm
-                    int calcDepthDamage = depthDamage - subtractDefense;
+                if (Player.lifeRegen > 0)
+                    Player.lifeRegen = 0;
 
-                    if (calcDepthDamage < 0)
-                        calcDepthDamage = 0;
+                Player.lifeRegenTime = 0;
+                lifeRegenLost += 18;
+            }
+            
+            if (rTide)
+            {
+                if (Player.lifeRegen > 0)
+                    Player.lifeRegen = 0;
 
-                    if (Player.lifeRegen > 0)
-                        Player.lifeRegen = 0;
-
-                    Player.lifeRegenTime = 0;
-                    lifeRegenLost += calcDepthDamage;
-                }
+                Player.lifeRegenTime = 0;
+                lifeRegenLost += 6;
             }
 
             if (vodka)

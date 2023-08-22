@@ -373,6 +373,10 @@ namespace CalamityMod.CalPlayer
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CrushDepth" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
+                if (rTide)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Riptide").Format(Player.name));
+                }
                 if (bFlames || weakBrimstoneFlames)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BrimstoneFlames").Format(Player.name));
@@ -813,6 +817,8 @@ namespace CalamityMod.CalPlayer
             {
                 if (aCrunch)
                     contactDamageReduction *= (double)ArmorCrunch.MultiplicativeDamageReductionPlayer;
+                if (crumble)
+                    contactDamageReduction *= (double)Crumbling.MultiplicativeDamageReductionPlayer;
 
                 // Contact damage reduction is reduced by DR Damage, which itself is proportional to defense damage
                 int currentDefense = Player.GetCurrentDefense(false);
@@ -1086,6 +1092,8 @@ namespace CalamityMod.CalPlayer
             {
                 if (aCrunch)
                     projectileDamageReduction *= (double)ArmorCrunch.MultiplicativeDamageReductionPlayer;
+                if (crumble)
+                    projectileDamageReduction *= (double)Crumbling.MultiplicativeDamageReductionPlayer;
 
                 // Projectile damage reduction is reduced by DR Damage, which itself is proportional to defense damage
                 int currentDefense = Player.GetCurrentDefense(false);
@@ -1138,13 +1146,14 @@ namespace CalamityMod.CalPlayer
             }
             if (crawCarapace)
             {
-                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 720);
+                npc.AddBuff(ModContent.BuffType<Crumbling>(), 720);
                 SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
             }
 
             if (baroclaw)
             {
                 npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1800);
+                npc.AddBuff(ModContent.BuffType<CrushDepth>(), 1800);
                 SoundEngine.PlaySound(BaroclawHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
