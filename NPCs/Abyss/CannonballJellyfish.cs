@@ -308,6 +308,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.Bomb, 1, 1, 1);
+            npcLoot.Add(ItemID.JellyfishNecklace, 100);
         }
     }
 }
