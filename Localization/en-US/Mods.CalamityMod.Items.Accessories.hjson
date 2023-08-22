@@ -240,13 +240,18 @@ AsgardsValor: {
 		'''
 }
 
-AstralArcanum: {
-	DisplayName: Astral Arcanum
+Purity: {
+	DisplayName: Purity
 	Tooltip:
 		'''
-		Provides immunity to the astral infection debuff
+		A once infected crystal, now perfectly purified
+		You emit light
+		+80 max life
+		Your life regen is increased by 5
+		Your natural life regen is greatly improved
+		Greatly reduces how long you are afflicted with debuffs
+		When you are afflicted with a debuff you heal rapidly and gain 18 defense
 		Boosts life regen even while under the effects of a damaging debuff
-		While under the effects of a damaging debuff you will gain 15 defense
 		Press [KEY] to toggle teleportation UI while no bosses are alive
 		'''
 }
@@ -354,8 +359,8 @@ CelestialJewel: {
 	DisplayName: Celestial Jewel
 	Tooltip:
 		'''
-		Boosts life regen even while under the effects of a damaging debuff
-		While under the effects of a damaging debuff you will gain 11 defense
+		Boosts life regen even while under the effects of a debuff
+		While under the effects of a debuff you will gain 12 defense
 		Press [KEY] to teleport to a random location while no bosses are alive
 		'''
 }
@@ -451,8 +456,8 @@ CrownJewel: {
 	DisplayName: Crown Jewel
 	Tooltip:
 		'''
-		Boosts life regen even while under the effects of a damaging debuff
-		While under the effects of a damaging debuff you will gain 8 defense
+		Boosts life regen even while under the effects of a debuff
+		While under the effects of a debuff you will gain 8 defense
 		'''
 }
 

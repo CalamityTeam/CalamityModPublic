@@ -13,6 +13,8 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using CalamityMod.Systems;
 using System.Linq;
+using CalamityMod.Buffs.Pets;
+using CalamityMod.Particles;
 
 namespace CalamityMod.CalPlayer
 {
@@ -507,58 +509,68 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (celestialJewel || astralArcanum)
+            if (celestialJewel || purity)
             {
-                bool lesserEffect = false;
+                Player.lifeRegen += 5;
+                Player.lifeRegenTime += 6;
+                if (PurityHealCooldown == 5)
+                    PurityHealCooldown = 0;
+                Player.statLifeMax2 += 80;
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
                     int hasBuff = Player.buffType[l];
-                    lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
-                }
-
-                int defenseBoost = astralArcanum ? 15 : 11;
-                if (lesserEffect)
-                {
-                    Player.lifeRegen += astralArcanum ? 2 : 1;
-                    Player.statDefense += defenseBoost;
-                }
-                else
-                {
-                    if (Player.lifeRegen < 0)
+                    if (Player.buffTime[l] > 3 && CalamityLists.debuffList.Contains(hasBuff))
                     {
+                        Player.buffTime[l] -= 2;
+
                         if (Player.lifeRegenTime < 1800)
                             Player.lifeRegenTime = 1800;
+                        //add extra regen when effected by a debuff
+                        Player.lifeRegen += 5;
+                        Player.statDefense += 18;
 
-                        Player.lifeRegen += astralArcanum ? 6 : 4;
-                        Player.statDefense += defenseBoost;
+                        if (PurityHealCooldown == 0)
+                        {
+                            PurityHealCooldown++;
+                            Player.Heal(1);
+                        }
+                        else
+                            PurityHealCooldown++;
                     }
-                    else
-                        Player.lifeRegen += astralArcanum ? 3 : 2;
                 }
             }
-            else if (crownJewel)
+
+            if (celestialJewel && !purity)
             {
-                bool lesserEffect = false;
+                Player.lifeRegen += 2;
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
                     int hasBuff = Player.buffType[l];
-                    lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
-                }
-
-                if (lesserEffect)
-                    Player.statDefense += 8;
-                else
-                {
-                    if (Player.lifeRegen < 0)
+                    if (Player.buffTime[l] > 2 && CalamityLists.debuffList.Contains(hasBuff))
                     {
                         if (Player.lifeRegenTime < 1800)
                             Player.lifeRegenTime = 1800;
-
-                        Player.lifeRegen += 4;
+                        //add extra regen when effected by a debuff
+                        Player.lifeRegen += 2;
+                        Player.statDefense += 12;
+                    }
+                }
+            }
+            
+            if (crownJewel && !celestialJewel && !purity)
+            {
+                Player.lifeRegen += 2;
+                for (int l = 0; l < Player.MaxBuffs; l++)
+                {
+                    int hasBuff = Player.buffType[l];
+                    if (Player.buffTime[l] > 2 && CalamityLists.debuffList.Contains(hasBuff))
+                    {
+                        if (Player.lifeRegenTime < 1800)
+                            Player.lifeRegenTime = 1800;
+                        //add extra regen when effected by a debuff
+                        Player.lifeRegen += 2;
                         Player.statDefense += 8;
                     }
-                    else
-                        Player.lifeRegen += 2;
                 }
             }
 
@@ -673,13 +685,13 @@ namespace CalamityMod.CalPlayer
             if (trinketOfChi || chiRegen)
                 Player.lifeRegen += 2;
 
-            if (rOoze && !aAmpoule)
+            if (rOoze && !aAmpoule && !purity)
             {
                 Player.lifeRegen += 3;
                 Player.lifeRegenTime += 2;
             }
 
-            if (aAmpoule)
+            if (aAmpoule && !purity)
             {
                 Player.lifeRegen += 5;
                 Player.lifeRegenTime += 4;

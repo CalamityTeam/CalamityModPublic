@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Rarities;
 using System.Collections.Generic;
 using Terraria;
@@ -9,34 +10,36 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class AstralArcanum : ModItem, ILocalizedModType
+    [LegacyName("AstralArcanum")]
+    public class Purity : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.defense = 12;
-            Item.width = 26;
-            Item.height = 26;
+            Item.defense = 8;
+            Item.width = 24;
+            Item.height = 24;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ModContent.RarityType<Turquoise>();
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.AstralArcanumUIHotkey);
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.PurityUIHotkey);
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.astralArcanum = true;
-            player.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            modPlayer.purity = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<CelestialJewel>().
-                AddIngredient<DarkPlasma>(3).
-                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<AmbrosialAmpoule>().
+                AddIngredient<CoreofCalamity>(1).
+                AddIngredient<DivineGeode>(8).
+                AddIngredient<SeaPrism>(8).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

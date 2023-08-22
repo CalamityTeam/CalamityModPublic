@@ -65,7 +65,7 @@ namespace CalamityMod.Systems
                 // Astral Arcanum overlay (if open)
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Astral Arcanum UI", delegate ()
                 {
-                    AstralArcanumUI.UpdateAndDraw(Main.spriteBatch);
+                    PurityUI.UpdateAndDraw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
 

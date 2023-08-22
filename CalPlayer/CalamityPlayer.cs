@@ -473,6 +473,7 @@ namespace CalamityMod.CalPlayer
         public bool hDew = false;
         public int HoneyDewHealCooldown = 0;
         public int AmbrosialAmpouleHealCooldown = 0;
+        public int PurityHealCooldown = 0;
         public bool aAmpoule = false;
         public bool rOoze = false;
         public bool fBarrier = false;
@@ -521,7 +522,7 @@ namespace CalamityMod.CalPlayer
         public bool elementalHeart = false;
         public bool crownJewel = false;
         public bool celestialJewel = false;
-        public bool astralArcanum = false;
+        public bool purity = false;
         public bool harpyRing = false;
         public bool angelTreads = false;
         public bool harpyWingBoost = false; //harpy wings + harpy ring
@@ -1614,7 +1615,7 @@ namespace CalamityMod.CalPlayer
             elementalHeart = false;
             crownJewel = false;
             celestialJewel = false;
-            astralArcanum = false;
+            purity = false;
             harpyRing = false;
             angelTreads = false;
             harpyWingBoost = false; //harpy wings + harpy ring
@@ -2886,9 +2887,9 @@ namespace CalamityMod.CalPlayer
                 if (prismaticSet && !Player.HasCooldown(PrismaticLaser.ID) && prismaticLasers <= 0)
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
-            if (CalamityKeybinds.AstralArcanumUIHotkey.JustPressed && astralArcanum && !areThereAnyDamnBosses)
+            if (CalamityKeybinds.PurityUIHotkey.JustPressed && purity && !areThereAnyDamnBosses)
             {
-                AstralArcanumUI.Toggle();
+                PurityUI.Toggle();
             }
             if (CalamityKeybinds.AstralTeleportHotKey.JustPressed)
             {

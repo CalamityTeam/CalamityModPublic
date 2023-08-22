@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<HoneyDew>().
                 AddIngredient<RadiantOoze>().
                 AddIngredient<LifeAlloy>(3).
-                AddIngredient<SeaPrism>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

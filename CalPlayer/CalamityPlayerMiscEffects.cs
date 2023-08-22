@@ -1578,7 +1578,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() += 0.1f;
             }
 
-            if (hDew && !aAmpoule)
+            if (hDew && !aAmpoule && !purity)
             {
                 if (HoneyDewHealCooldown == 12)
                     HoneyDewHealCooldown = 0;
@@ -1614,7 +1614,7 @@ namespace CalamityMod.CalPlayer
 
             // Radiant Ooze light-granting
             float[] light = new float[3];
-            if (rOoze && !aAmpoule)
+            if (rOoze && !aAmpoule && !purity)
             {
                 light[0] += 1f;
                 light[1] += 1f;
@@ -1622,13 +1622,19 @@ namespace CalamityMod.CalPlayer
             }
 
             // Ambrosial Ampoule bonus and other light-granting bonuses
-            if (aAmpoule)
+            if (aAmpoule && !purity)
             {
                 light[0] += 1.3f;
                 light[1] += 1.3f;
                 light[2] += 0.8f;
             }
-            if (aAmpoule)
+            if (purity)
+            {
+                light[0] += 1.2f;
+                light[1] += 1.7f;
+                light[2] += 2.7f;
+            }
+            if (aAmpoule && !purity)
             {
                 if (AmbrosialAmpouleHealCooldown == 10)
                     AmbrosialAmpouleHealCooldown = 0;

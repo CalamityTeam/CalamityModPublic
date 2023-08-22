@@ -361,7 +361,7 @@ namespace CalamityMod
             RipperUI.Load();
             StealthUI.Load();
             ChargeMeterUI.Load();
-            AstralArcanumUI.Load(this);
+            PurityUI.Load(this);
             FlightBar.Load();
 
             // TODO -- Is this not possible to place in ModNPC.Load or ModNPC.SetStaticDefaults ?
@@ -465,7 +465,7 @@ namespace CalamityMod
             RipperUI.Unload();
             StealthUI.Unload();
             ChargeMeterUI.Unload();
-            AstralArcanumUI.Unload();
+            PurityUI.Unload();
             FlightBar.Unload();
 
             if (!Main.dedServ)
