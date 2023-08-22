@@ -7,8 +7,8 @@ AbyssalAmulet: {
 	DisplayName: Abyssal Amulet
 	Tooltip:
 		'''
-		Attacks inflict the Crush Depth debuff
-		Grants immunity to the Crush Depth debuff
+		Attacks inflict the Riptide debuff
+		Grants immunity to the Riptide debuff
 		While in the abyss you gain 10% increased max life
 		'''
 }
@@ -431,7 +431,7 @@ Baroclaw: {
 	Tooltip:
 		'''
 		10% increased damage
-		Enemies that hit you take high damage and are inflicted with Armor Crunch for a long time
+		Enemies that hit you take high damage and are inflicted with Armor Crunch and Crush Depth for a long time
 		'''
 }
 

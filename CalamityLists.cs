@@ -1145,6 +1145,7 @@ namespace CalamityMod
                 BuffType<Irradiated>(),
                 BuffType<Plague>(),
                 BuffType<CrushDepth>(),
+                BuffType<RiptideDebuff>(),
                 BuffType<MarkedforDeath>(),
                 BuffType<AbsorberAffliction>(),
                 BuffType<ArmorCrunch>(),

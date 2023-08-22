@@ -824,6 +824,7 @@ namespace CalamityMod.CalPlayer
         public bool DoGExtremeGravity = false;
         public bool warped = false;
         public bool cDepth = false;
+        public bool rTide = false;
         public bool fishAlert = false;
         public bool clamity = false;
         public bool NOU = false;
@@ -1832,6 +1833,7 @@ namespace CalamityMod.CalPlayer
             DoGExtremeGravity = false;
             warped = false;
             cDepth = false;
+            rTide = false;
             fishAlert = false;
             clamity = false;
             NOU = false;
@@ -2243,6 +2245,7 @@ namespace CalamityMod.CalPlayer
             DoGExtremeGravity = false;
             warped = false;
             cDepth = false;
+            rTide = false;
             fishAlert = false;
             clamity = false;
             NOU = false;
@@ -4023,6 +4026,10 @@ namespace CalamityMod.CalPlayer
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CrushDepth" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
+                if (rTide)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Riptide").Format(Player.name));
+                }
                 if (bFlames || weakBrimstoneFlames)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BrimstoneFlames").Format(Player.name));
@@ -5028,6 +5035,7 @@ namespace CalamityMod.CalPlayer
             if (baroclaw)
             {
                 npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1800);
+                npc.AddBuff(ModContent.BuffType<CrushDepth>(), 1800);
                 SoundEngine.PlaySound(BaroclawHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);

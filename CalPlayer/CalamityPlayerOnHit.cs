@@ -1106,7 +1106,7 @@ namespace CalamityMod.CalPlayer
                 target.AddBuff(BuffID.Poisoned, 120);
             if (abyssalAmulet)
             {
-                CalamityUtils.Inflict246DebuffsNPC(target, BuffType<CrushDepth>());
+                CalamityUtils.Inflict246DebuffsNPC(target, BuffType<RiptideDebuff>());
             }
             if (alchFlask)
             {

@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.abyssalAmulet = true;
-            player.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
+            player.buffImmune[ModContent.BuffType<RiptideDebuff>()] = true;
         }
     }
 }

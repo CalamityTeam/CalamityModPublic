@@ -138,6 +138,11 @@ CrushDepth: {
 	Description: Crushed by aquatic pressure
 }
 
+RiptideDebuff: {
+	DisplayName: Riptide
+	Description: Lashed at by powerful waters
+}
+
 Dragonfire: {
 	DisplayName: Dragonfire
 	Description: Engulfed by roaring flames
