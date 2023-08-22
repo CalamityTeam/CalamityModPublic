@@ -31,6 +31,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.rare = ModContent.RarityType<Violet>();
         }
+        
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<GhastlyVisage>();
+        }
 
         // This weapon uses a holdout projectile.
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

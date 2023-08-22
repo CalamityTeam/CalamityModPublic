@@ -2391,7 +2391,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() += 0.05f;
 
             if (baroclaw)
-                Player.GetDamage<GenericDamageClass>() += 0.08f;
+                Player.GetDamage<GenericDamageClass>() += 0.1f;
 
             if (gShell)
             {

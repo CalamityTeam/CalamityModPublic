@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Typless
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 2710;
+            Projectile.timeLeft = 1810;
         }
 
         public override void AI()
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce2 == 1)
                 {
-                    Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.Lime, new Vector2(1f, 1f), 0f, 0.225f, 0.225f, 2700);
+                    Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.Lime, new Vector2(1f, 1f), 0f, 0.225f, 0.225f, 1790);
                     GeneralParticleHandler.SpawnParticle(pulse2);
                     PulseOnce2 = 0;
                 }
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Typless
                     dust.noGravity = true;
                 }
 
-                if (Framecounter == 2710)
+                if (Framecounter == 1800)
                 {
                     ShinkGrow = 2;
                 }

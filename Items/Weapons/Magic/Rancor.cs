@@ -32,6 +32,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ModContent.RarityType<Violet>();
         }
 
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<BurningSea>();
+        }
+
         // This weapon uses a holdout projectile.
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 

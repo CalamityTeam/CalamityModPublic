@@ -138,6 +138,11 @@ CrushDepth: {
 	Description: Crushed by aquatic pressure
 }
 
+RiptideDebuff: {
+	DisplayName: Riptide
+	Description: Lashed at by powerful waters
+}
+
 Dragonfire: {
 	DisplayName: Dragonfire
 	Description: Engulfed by roaring flames
@@ -859,6 +864,11 @@ ArmorCrunch: {
 	Description: Your armor is shredded
 }
 
+Crumbling: {
+	DisplayName: Crumbling
+	Description: Your armor is damaged
+}
+
 Clamity: {
 	DisplayName: Clamity
 	Description: The clams have been angered!
@@ -1474,7 +1484,7 @@ PinkJellyRegen: {
 
 GreenJellyRegen: {
 	DisplayName: Green Jelly Regen
-	Description: The regenerative goo empowers you, life regen increased by 6
+	Description: The regenerative goo empowers you, life regen increased by 5
 }
 
 AbsorberRegen: {
@@ -1482,7 +1492,7 @@ AbsorberRegen: {
 	Description:
 		'''
 		You are blessed by the culmimation of nature's powers
-		Life regen increased by 7, damage increased by 10%, damage reduction increased by 7%
+		Life regen increased by 6, damage increased by 10%, damage reduction increased by 7%
 		'''
 }
 

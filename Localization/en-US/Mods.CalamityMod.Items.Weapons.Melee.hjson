@@ -318,8 +318,7 @@ DepthCrusher: {
 	DisplayName: Depth Crusher
 	Tooltip:
 		'''
-		Hitting enemies will inflict the crush depth debuff
-		The lower the enemies' defense, the more damage they take from this debuff
+		Hitting enemies will inflict the Riptide debuff
 		Press <right> to use without hammering down walls
 		'''
 }
@@ -792,7 +791,6 @@ NeptunesBounty: {
 		'''
 		Fires a trident that rains additional tridents as it travels
 		Hitting enemies will inflict the crush depth debuff
-		The lower the enemies' defense, the more damage they take from this debuff
 		'''
 }
 

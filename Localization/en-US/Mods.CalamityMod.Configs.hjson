@@ -41,7 +41,7 @@ CalamityConfig: {
 		Label: "[i:CalamityMod/TorrentialTear] Bosses Stop Weather"
 		Tooltip:
 			'''
-			When enabled, many late game bosses while stop all rain and related weather when spawned.
+			When enabled, many late game bosses will stop all rain and related weather when spawned.
 			Enable if you have performance issues during late game boss fights.
 			'''
 	}
@@ -65,12 +65,23 @@ CalamityConfig: {
 			'''
 	}
 
+	DefaultDashEnabled: {
+		Label: "[i:Tabi] Default Dash"
+		Tooltip:
+			'''
+			Gives the player a very weak dash by default that requires no equipment or items to use.
+			This dash will be replaced by any other available dash, including those from other mods.
+			Calamity is balanced around this setting being enabled.
+			'''
+	}
+
 	BossZen: {
 		Label: "[i:CalamityMod/ZenPotion] Bosses Drastically Reduce Spawn Rates"
 		Tooltip:
 			'''
 			All living bosses will drastically reduce the spawn rates of regular enemies.
 			This also prevents Slime Rain from occurring while a boss is alive.
+			Calamity is balanced around this setting being enabled.
 			'''
 	}
 
@@ -172,7 +183,12 @@ CalamityConfig: {
 
 	FlightBar: {
 		Label: "[i:CalamityMod/DrewsWings] Display Flight Bar"
-		Tooltip: Enables the Flight Bar UI, which displays the player's flight capabilities
+		Tooltip:
+			'''
+			Enables the Flight Bar UI, which shows the player's remaining wing flight time.
+			This bar will also indicate if maximum flight time is decreased by a debuff.
+			It glows bright blue if the player's maximum flight time is currently unlimited.
+			'''
 	}
 
 	FlightBarPosX: {
@@ -215,7 +231,7 @@ CalamityConfig: {
 		Label: "[i:GemLockTopaz] Lock Meter Positions"
 		Tooltip:
 			'''
-			Prevents clicking on the Stealth, Charge, Rage, and Adrenaline Meters.
+			Prevents clicking on the Calamity's various Meters on the screen.
 			This stops them from being dragged around with the mouse.
 			'''
 	}
@@ -399,7 +415,7 @@ CalamityConfig: {
 		Tooltip:
 			'''
 			Adds the vanilla debuffs Potion Sickness and Chaos State to the Cooldown Rack.
-			This doesn't remove them from your buff list, but can help with visibility nonetheless
+			The debuffs will still appear in the buffs array, but this may help make them more visible.
 			'''
 	}
 
