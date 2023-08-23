@@ -1,5 +1,5 @@
 AbyssDrown1: "{0} is food for the Wyrms."
-AbyssDrown2: "Oxygen failed to reach {0} from the depths of the Abyss."
+AbyssDrown2: Oxygen failed to reach {0} from the depths of the Abyss.
 AbyssDrown3: "{0} faded away, lost in the dark waters."
 AlcoholBig1: "{0} downed too many shots."
 AlcoholBig2: "{0}'s liver failed."
@@ -30,7 +30,7 @@ Riptide2: "{0} was ripped apart by the current."
 Dragonfire1: "{0}'s ashes scatter in the wind."
 Dragonfire2: "{0}'s embers fade away in a warm glow."
 Dragonfire3: "{0} can no longer feel the heat of the dragonfire."
-Dragonfire4: "This was a fight {0} could not win."
+Dragonfire4: This was a fight {0} could not win.
 GodSlayerInferno1: "{0} imploded into nothingness."
 GodSlayerInferno2: "{0}'s body slipped into oblivion."
 GodSlayerInferno3: "{0} ceased being a part of our universe."
