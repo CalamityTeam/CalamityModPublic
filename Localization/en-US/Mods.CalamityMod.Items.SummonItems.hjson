@@ -234,12 +234,12 @@ RuneofKos: {
 	DisplayName: Rune of Kos
 	Tooltip:
 		'''
-		Contains the power hunted relentlessly by the sentinels of the cosmic devourer
+		An ornate sigil of the Profaned Flame
+                Hatred yet burns upon its brow
 		[SPAWN]
 		Not consumable
-		A relic of the profaned flame
 		'''
-	SpawnInfo: When used in certain areas of the world, it will unleash them
+	SpawnInfo: Such power attracts otherworldly beings
 	SpawnVoid:
 		'''
 		Summons the Ceaseless Void
