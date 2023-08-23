@@ -849,7 +849,7 @@ namespace CalamityMod
                 case "godslayer_melee":
                 case "godslayer melee":
                 case "god slayer melee":
-                    return mp.godSlayerDamage; // melee helm's unique damage reducing property
+                    return mp.godSlayerDamage; // melee helm
                 case "godslayer_ranged":
                 case "godslayer ranged":
                 case "god slayer ranged":
@@ -1264,7 +1264,7 @@ namespace CalamityMod
                 case "godslayer melee":
                 case "god slayer melee":
                     mp.godSlayer = enabled;
-                    mp.godSlayerDamage = enabled; // melee helm's unique damage reducing property
+                    mp.godSlayerDamage = enabled; // melee helm
                     return true;
                 case "godslayer_ranged":
                 case "godslayer ranged":

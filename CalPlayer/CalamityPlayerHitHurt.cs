@@ -1407,9 +1407,9 @@ namespace CalamityMod.CalPlayer
         #region Free and Consumable Dodge Hooks
         public override bool FreeDodge(Player.HurtInfo info)
         {
-            // God Slayer Damage Resistance makes you ignore hits that came in as less than 80.
-            // Alternatively, if the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
-            if (info.Damage < 1 || (godSlayerDamage && info.Damage <= 80))
+            // 22AUG2023: Ozzatron: god slayer damage resistance removed due to it being strong enough to godmode rev yharon
+            // If the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
+            if (info.Damage < 1 /* || (godSlayerDamage && info.Damage <= 80) */)
                 return true;
 
             // If this hit was marked to be completely ignored due to shield absorption, then ignore it.

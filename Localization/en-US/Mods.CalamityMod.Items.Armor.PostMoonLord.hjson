@@ -331,7 +331,6 @@ GodSlayerHeadMelee: {
 		20% increased melee speed
 		Enemies are more likely to target you
 		Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts
-		You completely ignore incoming attacks that would deal less than 80 damage
 		Enemies take a lot of damage when they hit you
 		'''
 }
