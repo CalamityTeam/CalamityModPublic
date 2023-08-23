@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackType[NPC.type] = 0;
             NPCID.Sets.AttackTime[NPC.type] = 60;
             NPCID.Sets.AttackAverageChance[NPC.type] = 15;
+            NPCID.Sets.ShimmerTownTransform[Type] = false;
             NPC.Happiness
                 .SetBiomeAffection<HallowBiome>(AffectionLevel.Love)
                 .SetBiomeAffection<OceanBiome>(AffectionLevel.Like)
