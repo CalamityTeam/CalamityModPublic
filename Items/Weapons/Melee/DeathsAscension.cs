@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     float SpeedX = velocity.X + Main.rand.NextFloat(-spreadfactor, spreadfactor + 1);
                     float SpeedY = velocity.Y + Main.rand.NextFloat(-spreadfactor, spreadfactor + 1);
-                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.15f), knockback, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.1f), knockback, player.whoAmI, 0f, 0f);
                 }
             }
             else
