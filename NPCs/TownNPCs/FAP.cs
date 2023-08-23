@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.TownNPCs
             Player player = Main.player[Main.myPlayer];
             if (Main.zenithWorld)
             {
-                player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CirrusSlap").Format(player.name)), player.statLife / 2, -player.direction, false, false, -1, false);
+                player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CirrusSlap" + Main.rand.Next(1, 2 + 1)).Format(player.name)), player.statLife / 2, -player.direction, false, false, -1, false);
                 SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, player.Center);
             }
 
@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 if (Main.rand.NextBool(4))
                 {
-                    player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CirrusSlap").Format(player.name)), player.statLife / 2, -player.direction, false, false, -1, false); ;
+                    player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CirrusSlap" + Main.rand.Next(1, 2 + 1)).Format(player.name)), player.statLife / 2, -player.direction, false, false, -1, false); ;
                     SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, player.Center);
                     return this.GetLocalizedValue("Chat.BloodMoonSlap");
                 }
