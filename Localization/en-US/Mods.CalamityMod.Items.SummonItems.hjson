@@ -85,7 +85,7 @@ DeathWhistle: {
 		'''
 		Summons the Ravager
 		Not consumable
-		A very old temple whistle
+		A whistle soaked in blood
 		'''
 }
 
@@ -125,7 +125,7 @@ ExoticPheromones: {
 		Summons The Dragonfolly when used in the Jungle
 		Enrages outside the Jungle
 		Not consumable
-		Specifically formulated to attract draconic hybrids
+		Specifically formulated to attract draconic offshots
 		'''
 }
 
@@ -137,7 +137,6 @@ EyeofDesolation: {
 		Summons the Calamitas Clone when used during nighttime[GFB]
 		Enrages during the day
 		Not consumable
-		'Tonight is going to be a horrific night...'
 		'''
 	GFBInfo: Creates a square arena of blocks, with you at its center
 }
