@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
             Projectile.extraUpdates = 100;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 500;
         }
 
         public override void AI()
@@ -82,11 +82,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 PulseBurst(4f, 5f);
         }
 
-        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 280 && target.CanBeChasedBy(Projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 480 && target.CanBeChasedBy(Projectile);
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (Projectile.ai[1] < 5f && !hasHit && Main.myPlayer == Projectile.owner)
+            if (Projectile.ai[1] < 3f && !hasHit && Main.myPlayer == Projectile.owner)
             {
                 hasHit = true;
 
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                     if (alreadyTargetedNPCType != Main.npc[i].whoAmI && Projectile.Center.ManhattanDistance(Main.npc[i].Center) < 600f)
                     {
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(Main.npc[i].Center) * 5f, Projectile.type, Projectile.damage / 2, 0f, Projectile.owner, Main.npc[i].whoAmI, Projectile.ai[1] + 1f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(Main.npc[i].Center) * 5f, Projectile.type, (int)(Projectile.damage * 0.4f), 0f, Projectile.owner, Main.npc[i].whoAmI, Projectile.ai[1] + 1f);
                         break;
                     }
                 }
@@ -133,16 +133,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     height = 25;
                     totalDust = 250;
                     speed1 = 5.5f;
-                    break;
-                case 4:
-                    height = 20;
-                    totalDust = 200;
-                    speed1 = 4f;
-                    break;
-                case 5:
-                    height = 15;
-                    totalDust = 150;
-                    speed1 = 2.5f;
                     break;
                 default:
                     break;

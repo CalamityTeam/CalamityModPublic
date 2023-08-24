@@ -72,7 +72,7 @@ FlaskOfBrimstone: {
 
 FlaskOfCrumbling: {
 	DisplayName: Flask of Crumbling
-	Tooltip: Melee, Whip, and Rogue attacks inflict Armor Crunch on enemies
+	Tooltip: Melee, Whip, and Rogue attacks inflict Crumbling on enemies
 }
 
 FlaskOfHolyFlames: {

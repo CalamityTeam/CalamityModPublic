@@ -849,7 +849,7 @@ namespace CalamityMod
                 case "godslayer_melee":
                 case "godslayer melee":
                 case "god slayer melee":
-                    return mp.godSlayerDamage; // melee helm's unique damage reducing property
+                    return mp.godSlayerDamage; // melee helm
                 case "godslayer_ranged":
                 case "godslayer ranged":
                 case "god slayer ranged":
@@ -1264,7 +1264,7 @@ namespace CalamityMod
                 case "godslayer melee":
                 case "god slayer melee":
                     mp.godSlayer = enabled;
-                    mp.godSlayerDamage = enabled; // melee helm's unique damage reducing property
+                    mp.godSlayerDamage = enabled; // melee helm
                     return true;
                 case "godslayer_ranged":
                 case "godslayer ranged":
@@ -1456,6 +1456,22 @@ namespace CalamityMod
         {
             if (p != null)
                 p.Calamity().infiniteFlight = enabled;
+        }
+
+        public static bool GetWearingRogueArmor(Player p) => p?.Calamity()?.wearingRogueArmor ?? false;
+
+        public static void SetWearingRogueArmor(Player p, bool enabled)
+        {
+            if (p != null)
+                p.Calamity().wearingRogueArmor = enabled;
+        }
+
+        public static bool GetWearingPostMLSummonerArmor(Player p) => p?.Calamity()?.WearingPostMLSummonerSet ?? false;
+
+        public static void SetWearingPostMLSummonerArmor(Player p, bool enabled)
+        {
+            if (p != null)
+                p.Calamity().WearingPostMLSummonerSet = enabled;
         }
 
         public static bool MakeColdImmune(Player p) => p is null ? false : (p.Calamity().externalColdImmunity = true);
@@ -1880,6 +1896,62 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The first argument to \"InfiniteFlight\" must be a Player or an int.");
                     bool fly = (bool)args[2];
                     ToggleInfiniteFlight(castPlayer(args[1]), fly);
+                    return null;
+
+                case "GetRogueArmor":
+                case "GetWearingRogueArmor":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if(!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The argument to \"GetRogueArmor\" must be a Player or an int.");
+                    return GetWearingRogueArmor(castPlayer(args[1]));
+
+                case "SetRogueArmor":
+                case "SetWearingRogueArmor":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and if the player should be counted as wearing rogue armor as a bool.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify if a player should be counted as wearing rogue armor as a bool.");
+                    if (!(args[2] is bool))
+                        return new ArgumentException("ERROR: The second argument to \"SetRogueArmor\" must be a bool.");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"SetRogueArmor\" must be a Player or an int.");
+                    bool roguearmor = (bool)args[2];
+                    SetWearingRogueArmor(castPlayer(args[1]), roguearmor);
+                    return null;
+
+                case "GetPostMLSummonArmor":
+                case "GetWearingPostMLSummonArmor":
+                case "GetPostMoonLordSummonArmor":
+                case "GetWearingPostMoonLordSummonArmor":
+                case "GetPostMLSummonerArmor":
+                case "GetWearingPostMLSummonerArmor":
+                case "GetPostMoonLordSummonerArmor":
+                case "GetWearingPostMoonLordSummonerArmor":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if(!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The argument to \"GetPostMoonLordSummonerArmor\" must be a Player or an int.");
+                    return GetWearingPostMLSummonerArmor(castPlayer(args[1]));
+
+                case "SetPostMLSummonArmor":
+                case "SetWearingPostMLSummonArmor":
+                case "SetPostMoonLordSummonArmor":
+                case "SetWearingPostMoonLordSummonArmor":
+                case "SetPostMLSummonerArmor":
+                case "SetWearingPostMLSummonerArmor":
+                case "SetPostMoonLordSummonerArmor":
+                case "SetWearingPostMoonLordSummonerArmor":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and if the player should be counted as wearing Post-Moon Lord summoner armor as a bool.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify if a player should be counted as wearing Post-Moon Lord summoner armor as a bool.");
+                    if (!(args[2] is bool))
+                        return new ArgumentException("ERROR: The second argument to \"SetPostMoonLordSummonerArmor\" must be a bool.");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"SetPostMoonLordSummonerArmor\" must be a Player or an int.");
+                    bool summonarmor = (bool)args[2];
+                    SetWearingPostMLSummonerArmor(castPlayer(args[1]), summonarmor);
                     return null;
 
                 case "GetRogueVelocity":

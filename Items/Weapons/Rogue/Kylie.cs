@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Orange;
             Item.useTime = 25;
             Item.useAnimation = 25;
-            Item.width = 32;
-            Item.height = 46;
+            Item.width = 34;
+            Item.height = 50;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item1;
             Item.shootSpeed = Speed;

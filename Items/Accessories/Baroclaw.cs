@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.baroclaw = true;
-            player.thorns += 1.1f;
+            player.thorns += 2.5f;
         }
         public override void AddRecipes()
         {

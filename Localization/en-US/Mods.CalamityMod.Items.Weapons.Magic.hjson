@@ -733,7 +733,8 @@ SubsumingVortex: {
 		Press <left> to release a barrage of vortices that race towards enemies
 		Press <right> to cast a gigantic vortex in front of you with a bias towards the mouse
 		When enemies are near the vortex, it sends multiple fast-moving smaller vortices towards them
-		After enough time has passed the vortex stops shooting, and releasing <right> fires the vortex towards the mouse
+		Releasing <right> fires the vortex towards the mouse if enough time has passed
+                Damage scales based on how long the vortex was held out
 		'''
 }
 

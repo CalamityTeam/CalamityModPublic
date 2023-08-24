@@ -1313,7 +1313,6 @@ namespace CalamityMod.NPCs
 
                 shop.AddWithCustomValue(ItemType<P90>(), Item.buyPrice(gold: 25), Condition.Hardmode)
                 .AddWithCustomValue(ItemID.Boomstick, Item.buyPrice(gold: 20), Condition.DownedQueenBee)
-                .AddWithCustomValue(ItemID.AmmoBox, Item.buyPrice(gold: 25), Condition.Hardmode)
                 .AddWithCustomValue(ItemID.Uzi, Item.buyPrice(gold: 45), Condition.DownedPlantera)
                 .AddWithCustomValue(ItemID.TacticalShotgun, Item.buyPrice(gold: 60), Condition.DownedGolem)
                 .AddWithCustomValue(ItemID.SniperRifle, Item.buyPrice(gold: 60), Condition.DownedGolem)

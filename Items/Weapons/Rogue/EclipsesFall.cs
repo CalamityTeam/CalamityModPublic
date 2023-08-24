@@ -23,7 +23,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<EclipsesFallMain>();
 
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.width = Item.height = 72;
+            Item.width = 82;
+            Item.height = 88;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;

@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.autoReuse = true;
 
-            Item.width = 44;
-            Item.height = 7;
+            Item.width = 86;
+            Item.height = 38;
 
             Item.useTime = 24;
             Item.useAnimation = 24;

@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Potions
             }
             if (player.statLife <= 0)
             {
-                player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AstralInjection").Format(player.name)), 1000.0, 0, false);
+                player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AstralInjection" + Main.rand.Next(1, 2 + 1)).Format(player.name)), 1000.0, 0, false);
             }
         }
 
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<Stardust>(4).
                 AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
-				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
+                AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe(15).

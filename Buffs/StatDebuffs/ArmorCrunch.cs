@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,7 +8,8 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public static int DefenseReduction = 15;
         public static float MultiplicativeDamageReductionPlayer = 0.33f;
-        public static float MultiplicativeDamageReductionEnemy = 0.85f;
+        //20% dr reduction
+        public static float MultiplicativeDamageReductionEnemy = 0.80f;
 
         public override void SetStaticDefaults()
         {

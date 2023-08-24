@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public const float ReleaseSpeed = 33f;
 
-        public const float ReleaseDamageFactor = 4.35f;
+        public const float ReleaseDamageFactor = 4.48f;
 
         public static readonly SoundStyle ExplosionSound = new("CalamityMod/Sounds/Custom/SubsumingVortexExplosion");
 
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 533;
+            Item.damage = 507;
             Item.DamageType = DamageClass.Magic;
             Item.useTime = Item.useAnimation = 20;
             Item.shootSpeed = 7f;

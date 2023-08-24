@@ -25,6 +25,7 @@ namespace CalamityMod.NPCs.TownNPCs
             value.Position.Y += 16;
             value.PortraitPositionYOverride = 36f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+            NPCID.Sets.ShimmerTownTransform[Type] = false;
         }
 
         public override void SetDefaults()
