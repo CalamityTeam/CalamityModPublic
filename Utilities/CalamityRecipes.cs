@@ -958,10 +958,10 @@ namespace CalamityMod
             r.ChangeIngredientStack(ItemID.WoodenArrow, intendedStack);
         }
 
-        // Increases Teleportation Potion's recipe to give 10 per craft and use 10 bottled waters
+        // Increases Teleportation Potion's recipe to give 5 per craft and use 5 bottled waters
         private static void TeleportationPotionRecipeEdit(Recipe r)
         {
-            int intendedStack = 10;
+            int intendedStack = 5;
             if (r.createItem.stack < intendedStack)
                 r.createItem.stack = intendedStack;
             r.ChangeIngredientStack(ItemID.BottledWater, intendedStack);
