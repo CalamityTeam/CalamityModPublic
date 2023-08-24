@@ -231,7 +231,7 @@ CalamityConfig: {
 		Label: "[i:GemLockTopaz] Lock Meter Positions"
 		Tooltip:
 			'''
-			Prevents clicking on the Calamity's various Meters on the screen.
+			Prevents clicking on Calamity's various Meters on the screen.
 			This stops them from being dragged around with the mouse.
 			'''
 	}
