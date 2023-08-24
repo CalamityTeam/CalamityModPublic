@@ -1,8 +1,11 @@
-﻿using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs;
+using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
@@ -11,6 +14,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -1157,7 +1161,17 @@ namespace CalamityMod
                 BuffType<Nightwither>(),
                 BuffType<VulnerabilityHex>(),
                 BuffType<MiracleBlight>(),
-                BuffType<WhisperingDeath>()
+                BuffType<WhisperingDeath>(),
+                BuffType<FrozenLungs>(),
+                BuffType<FishAlert>(),
+                BuffType<HolyInferno>(),
+                BuffType<IcarusFolly>(),
+                BuffType<NOU>(),
+                BuffType<ManaBurn>(),
+                BuffType<PopoNoselessBuff>(),
+                BuffType<SearingLava>(),
+                BuffType<WeakBrimstoneFlames>(),
+                BuffType<Withered>()
             };
 
             sicknessDebuffList = new List<int>()

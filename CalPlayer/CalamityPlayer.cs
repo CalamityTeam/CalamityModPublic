@@ -472,10 +472,19 @@ namespace CalamityMod.CalPlayer
         public bool absorber = false;
         public bool hDew = false;
         public int HoneyDewHealCooldown = 0;
+        public int HoneyDewHealSpeed = 12;
         public int AmbrosialAmpouleHealCooldown = 0;
+        public int AmbrosialAmpouleHealSpeed = 9;
         public int PurityHealCooldown = 0;
+        public int PurityHealSpeed = 5;
+        //Used to time until you get reduced healing
+        public int ReducedHealingCounter = 0;
+        public int CrownJewelBonusDefense = 0;
+        public int InfectedJewelBonusDefense = 0;
+        public int PurityBonusDefense = 0;
         public bool aAmpoule = false;
         public bool rOoze = false;
+        public bool JustWasDebuffed = false;
         public bool fBarrier = false;
         public bool aBrain = false;
         public bool amalgam = false;
@@ -521,7 +530,7 @@ namespace CalamityMod.CalPlayer
         public bool coreOfTheBloodGod = false;
         public bool elementalHeart = false;
         public bool crownJewel = false;
-        public bool celestialJewel = false;
+        public bool infectedJewel = false;
         public bool purity = false;
         public bool harpyRing = false;
         public bool angelTreads = false;
@@ -1614,7 +1623,7 @@ namespace CalamityMod.CalPlayer
             coreOfTheBloodGod = false;
             elementalHeart = false;
             crownJewel = false;
-            celestialJewel = false;
+            infectedJewel = false;
             purity = false;
             harpyRing = false;
             angelTreads = false;
@@ -2891,21 +2900,7 @@ namespace CalamityMod.CalPlayer
             {
                 PurityUI.Toggle();
             }
-            if (CalamityKeybinds.AstralTeleportHotKey.JustPressed)
-            {
-                if (celestialJewel && !areThereAnyDamnBosses)
-                {
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Player.TeleportationPotion();
-                        SoundEngine.PlaySound(SoundID.Item6, Player.Center);
-                    }
-                    else if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
-                    {
-                        NetMessage.SendData(MessageID.RequestTeleportationByServer, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-                    }
-                }
-            }
+
             if (CalamityKeybinds.BlazingCoreHotKey.JustPressed)
             {
                 if (blazingCore && blazingCoreParry == 0 && blazingCoreSuccessfulParry == 0)

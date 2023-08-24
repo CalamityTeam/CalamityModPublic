@@ -509,67 +509,123 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (celestialJewel || purity)
+            if (purity)
             {
-                Player.lifeRegen += 5;
+                Player.lifeRegen += 4;
                 Player.lifeRegenTime += 6;
-                if (PurityHealCooldown == 5)
+                Player.statDefense += PurityBonusDefense;
+                //heal every 5 frames
+                if (PurityHealCooldown == PurityHealSpeed)
                     PurityHealCooldown = 0;
                 Player.statLifeMax2 += 80;
+                bool hasAnyDebuffs = false;
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
                     int hasBuff = Player.buffType[l];
-                    if (Player.buffTime[l] > 3 && CalamityLists.debuffList.Contains(hasBuff))
+                    if (CalamityLists.debuffList.Contains(hasBuff))
                     {
-                        Player.buffTime[l] -= 2;
-
-                        if (Player.lifeRegenTime < 1800)
-                            Player.lifeRegenTime = 1800;
-                        //add extra regen when effected by a debuff
-                        Player.lifeRegen += 5;
-                        Player.statDefense += 18;
-
-                        if (PurityHealCooldown == 0)
+                        if (Player.buffTime[l] > 3)
                         {
-                            PurityHealCooldown++;
-                            Player.Heal(1);
+                            hasAnyDebuffs = true;
+                            //JustWasDebuffed = false;
+                            Player.buffTime[l] -= 2;
+
+                            if (Player.lifeRegenTime < 1800)
+                                Player.lifeRegenTime = 1800;
+                            //add extra regen when effected by a debuff
+                            Player.lifeRegen += 6;
+                            PurityBonusDefense = 18;
+                            if (ReducedHealingCounter < 120)
+                                ReducedHealingCounter++;
+
+                            //If it's been over 2 seconds with a debuff, Every 15 frames increase the ammount of frames between healing 1, up to a max of 4x the original frames
+                            if (ReducedHealingCounter == 120 && PurityHealSpeed < 20)
+                                if (Player.miscCounter % 15 == 0)
+                                {
+                                    PurityHealSpeed++;
+                                }
+
+                            if (PurityHealCooldown == 0)
+                            {
+                                PurityHealCooldown++;
+                                Player.Heal(1);
+                            }
+                            else
+                                PurityHealCooldown++;
                         }
-                        else
-                            PurityHealCooldown++;
+                    }
+                }
+                
+                if (!hasAnyDebuffs)
+                {
+                    //recover any heal penalty youve gained as long as youre not currently debuffed
+                    if (PurityHealSpeed > 5)
+                        if (Player.miscCounter % 15 == 0)
+                            PurityHealSpeed--;
+                    //If you're not debuffed and you are back to full healing speed, give the 3 second countdown back
+                    if (PurityHealSpeed == 5)
+                        ReducedHealingCounter = 0;
+                    //Bonus defense goes down by 1 every second after 
+                    if (Player.miscCounter % 90 == 0 && PurityBonusDefense > 0)
+                        PurityBonusDefense--;
+                }
+                
+            }
+
+            if (infectedJewel && !purity)
+            {
+                bool hasAnyDebuffs = false;
+                Player.lifeRegen += 2;
+                Player.statDefense += InfectedJewelBonusDefense;
+                if (!hasAnyDebuffs)
+                {
+                    //Bonus defense goes down by 1 every second after 
+                    if (Player.miscCounter % 90 == 0 && InfectedJewelBonusDefense > 0)
+                        InfectedJewelBonusDefense--;
+                }
+                for (int l = 0; l < Player.MaxBuffs; l++)
+                {
+                    int hasBuff = Player.buffType[l];
+                    if (CalamityLists.debuffList.Contains(hasBuff))
+                    {
+                        if (Player.buffTime[l] > 2)
+                        {
+                            hasAnyDebuffs = true;
+                            if (Player.lifeRegenTime < 1800)
+                                Player.lifeRegenTime = 1800;
+                            //add extra regen when effected by a debuff
+                            Player.lifeRegen += 4;
+                            InfectedJewelBonusDefense = 14;
+                        }
                     }
                 }
             }
 
-            if (celestialJewel && !purity)
+            if (crownJewel && !infectedJewel && !purity)
             {
-                Player.lifeRegen += 2;
-                for (int l = 0; l < Player.MaxBuffs; l++)
+                bool hasAnyDebuffs = false;
+                Player.lifeRegen += 1;
+                Player.statDefense += CrownJewelBonusDefense;
+                if (!hasAnyDebuffs)
                 {
-                    int hasBuff = Player.buffType[l];
-                    if (Player.buffTime[l] > 2 && CalamityLists.debuffList.Contains(hasBuff))
-                    {
-                        if (Player.lifeRegenTime < 1800)
-                            Player.lifeRegenTime = 1800;
-                        //add extra regen when effected by a debuff
-                        Player.lifeRegen += 2;
-                        Player.statDefense += 12;
-                    }
+                    //Bonus defense goes down by 1 every second after 
+                    if (Player.miscCounter % 90 == 0 && CrownJewelBonusDefense > 0)
+                        CrownJewelBonusDefense--;
                 }
-            }
-            
-            if (crownJewel && !celestialJewel && !purity)
-            {
-                Player.lifeRegen += 2;
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
                     int hasBuff = Player.buffType[l];
-                    if (Player.buffTime[l] > 2 && CalamityLists.debuffList.Contains(hasBuff))
+                    if (CalamityLists.debuffList.Contains(hasBuff))
                     {
-                        if (Player.lifeRegenTime < 1800)
-                            Player.lifeRegenTime = 1800;
-                        //add extra regen when effected by a debuff
-                        Player.lifeRegen += 2;
-                        Player.statDefense += 8;
+                        if (Player.buffTime[l] > 2)
+                        {
+                            hasAnyDebuffs = true;
+                            if (Player.lifeRegenTime < 1800)
+                                Player.lifeRegenTime = 1800;
+                            //add extra regen when effected by a debuff
+                            Player.lifeRegen += 3;
+                            CrownJewelBonusDefense = 8;
+                        }
                     }
                 }
             }

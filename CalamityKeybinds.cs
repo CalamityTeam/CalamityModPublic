@@ -9,7 +9,6 @@ namespace CalamityMod
         public static ModKeybind SetBonusHotKey { get; private set; }
         public static ModKeybind RageHotKey { get; private set; }
         public static ModKeybind AdrenalineHotKey { get; private set; }
-        public static ModKeybind AstralTeleportHotKey { get; private set; }
         public static ModKeybind PurityUIHotkey { get; private set; }
         public static ModKeybind SandCloakHotkey { get; private set; }
         public static ModKeybind SpectralVeilHotKey { get; private set; }
@@ -28,7 +27,6 @@ namespace CalamityMod
             AdrenalineHotKey = KeybindLoader.RegisterKeybind(Mod, "AdrenalineMode", "B");
             BlazingCoreHotKey = KeybindLoader.RegisterKeybind(Mod, "BlazingCoreParry", "N");
             SetBonusHotKey = KeybindLoader.RegisterKeybind(Mod, "ArmorSetBonus", "Y");
-            AstralTeleportHotKey = KeybindLoader.RegisterKeybind(Mod, "AstralTeleport", "P");
             PurityUIHotkey = KeybindLoader.RegisterKeybind(Mod, "PurityUIToggle", "O");
             SandCloakHotkey = KeybindLoader.RegisterKeybind(Mod, "SandCloakEffect", "C");
             SpectralVeilHotKey = KeybindLoader.RegisterKeybind(Mod, "SpectralVeilTeleport", "Z");
@@ -47,7 +45,6 @@ namespace CalamityMod
             AdrenalineHotKey = null;
             BlazingCoreHotKey = null;
             SetBonusHotKey = null;
-            AstralTeleportHotKey = null;
             PurityUIHotkey = null;
             SandCloakHotkey = null;
             SpectralVeilHotKey = null;

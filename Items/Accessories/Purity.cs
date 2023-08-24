@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CelestialJewel>().
+                AddIngredient<InfectedJewel>().
                 AddIngredient<AmbrosialAmpoule>().
                 AddIngredient<CoreofCalamity>(1).
                 AddIngredient<DivineGeode>(8).

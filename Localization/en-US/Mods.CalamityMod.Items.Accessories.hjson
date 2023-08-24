@@ -247,11 +247,13 @@ Purity: {
 		A once infected crystal, now perfectly purified
 		You emit light
 		+80 max life
-		Your life regen is increased by 5
-		Your natural life regen is greatly improved
+		Your life regen is increased by 4
+		Increases life regen by 6 while afflicted with a debuff 
+		Your life regen is still increased even when afflicted with a damage over time debuff
+		Your natural life regen is massively improved
 		Greatly reduces how long you are afflicted with debuffs
-		When you are afflicted with a debuff you heal rapidly and gain 18 defense
-		Boosts life regen even while under the effects of a damaging debuff
+		When afflicted with a debuff, you will gain 18 defense
+		This defense will begin to fade away when you are no longer debuffed
 		Press [KEY] to toggle teleportation UI while no bosses are alive
 		'''
 }
@@ -355,13 +357,16 @@ Calamity: {
 		'''
 }
 
-CelestialJewel: {
-	DisplayName: Celestial Jewel
+InfectedJewel: {
+	DisplayName: Infected Jewel
 	Tooltip:
 		'''
-		Boosts life regen even while under the effects of a debuff
-		While under the effects of a debuff you will gain 12 defense
-		Press [KEY] to teleport to a random location while no bosses are alive
+        A beautiful gem that has been corrupted by the astral infection
+		Life regen increased by 2
+		Increases life regen by 4 while afflicted with a debuff 
+		Your life regen is still increased even when afflicted with a damage over time debuff
+		When afflicted with a debuff, you will gain 14 defense
+		This defense will begin to fade away when you are no longer debuffed
 		'''
 }
 
@@ -456,8 +461,11 @@ CrownJewel: {
 	DisplayName: Crown Jewel
 	Tooltip:
 		'''
-		Boosts life regen even while under the effects of a debuff
-		While under the effects of a debuff you will gain 8 defense
+		Life regen increased by 1
+		Increases life regen by 3 while afflicted with a debuff 
+		Your life regen is still increased even when afflicted with a damage over time debuff
+		When afflicted with a debuff, you will gain 8 defense
+		This defense will begin to fade away when you are no longer debuffed
 		'''
 }
 

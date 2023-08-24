@@ -1580,7 +1580,8 @@ namespace CalamityMod.CalPlayer
 
             if (hDew && !aAmpoule && !purity)
             {
-                if (HoneyDewHealCooldown == 12)
+                //heal ever 12 frames
+                if (HoneyDewHealCooldown == HoneyDewHealSpeed)
                     HoneyDewHealCooldown = 0;
                 Player.statLifeMax2 += 30;
                 for (int l = 0; l < Player.MaxBuffs; l++)
@@ -1636,7 +1637,8 @@ namespace CalamityMod.CalPlayer
             }
             if (aAmpoule && !purity)
             {
-                if (AmbrosialAmpouleHealCooldown == 10)
+                //heal every 9 frames
+                if (AmbrosialAmpouleHealCooldown == AmbrosialAmpouleHealSpeed)
                     AmbrosialAmpouleHealCooldown = 0;
                 Player.statLifeMax2 += 50;
                 for (int l = 0; l < Player.MaxBuffs; l++)
@@ -3796,7 +3798,7 @@ namespace CalamityMod.CalPlayer
             ref int lostDef = ref bloodflareCoreLostDefense;
             if (lostDef > 0)
             {
-                // Defense regeneration occurs every six frames while defense is missing
+                // Defense regeneration occurs every six frames while defense is missing (Call Xyk a bitch if he doesn't change this)
                 if (Player.miscCounter % 6 == 0)
                 {
                     --lostDef;
