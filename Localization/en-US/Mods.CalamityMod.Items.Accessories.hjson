@@ -361,7 +361,7 @@ InfectedJewel: {
 	DisplayName: Infected Jewel
 	Tooltip:
 		'''
-        A beautiful gem that has been corrupted by the astral infection
+		A beautiful gem that has been corrupted by the astral infection
 		Life regen increased by 2
 		Increases life regen by 4 while afflicted with a debuff 
 		Your life regen is still increased even when afflicted with a damage over time debuff

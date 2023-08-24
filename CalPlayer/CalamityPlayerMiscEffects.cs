@@ -3798,7 +3798,7 @@ namespace CalamityMod.CalPlayer
             ref int lostDef = ref bloodflareCoreLostDefense;
             if (lostDef > 0)
             {
-                // Defense regeneration occurs every six frames while defense is missing (Call Xyk a bitch if he doesn't change this)
+                // Defense regeneration occurs every six frames while defense is missing
                 if (Player.miscCounter % 6 == 0)
                 {
                     --lostDef;
