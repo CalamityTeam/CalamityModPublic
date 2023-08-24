@@ -938,7 +938,7 @@ namespace CalamityMod.CalPlayer
         public bool sandnado = false;
         public bool plantera = false;
         public bool astralProbe = false;
-        public bool donutBabs = false;
+        public bool pSoulGuardians = false;
         public bool cEnergy = false;
         public int healCounter = 300;
         public bool shellfish = false;
@@ -1940,7 +1940,7 @@ namespace CalamityMod.CalPlayer
             cLamp = false;
             pGuy = false;
             cEnergy = false;
-            donutBabs = false;
+            pSoulGuardians = false;
             sWaifu = false;
             dWaifu = false;
             cWaifu = false;

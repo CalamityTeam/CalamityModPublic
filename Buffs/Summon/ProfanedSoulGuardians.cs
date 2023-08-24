@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class ProfanedBabs : ModBuff //Buff name is reference to how I refer to the guardians as my babs ~Amber
+    public class ProfanedSoulGuardians : ModBuff 
     {
         public override void SetStaticDefaults()
         {
@@ -15,7 +15,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.donutBabs || modPlayer.profanedCrystalBuffs)
+            if (!modPlayer.pSoulGuardians || modPlayer.profanedCrystalBuffs)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

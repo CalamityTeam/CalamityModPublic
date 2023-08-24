@@ -3026,10 +3026,10 @@ namespace CalamityMod.CalPlayer
                 if (Player.whoAmI == Main.myPlayer)
                 {
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.ProfanedSoulArtifact>()));
-                    if (Player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1)
-                        Player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
+                    if (Player.FindBuffIndex(ModContent.BuffType<ProfanedSoulGuardians>()) == -1)
+                        Player.AddBuff(ModContent.BuffType<ProfanedSoulGuardians>(), 3600, true);
 
-                    donutBabs = true;
+                    pSoulGuardians = true;
 
                     int guardianAmt = 1;
                     float babCheck = profanedCrystal ? 1f : 0f;

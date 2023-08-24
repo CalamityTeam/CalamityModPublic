@@ -41,11 +41,11 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             // Despawn properly
-            if (Owner.Calamity().donutBabs)
+            if (Owner.Calamity().pSoulGuardians)
                 Projectile.timeLeft = 2;
             if (!Owner.Calamity().pArtifact || Owner.dead || !Owner.active)
             {
-                Owner.Calamity().donutBabs = false;
+                Owner.Calamity().pSoulGuardians = false;
                 Projectile.active = false;
                 return;
             }

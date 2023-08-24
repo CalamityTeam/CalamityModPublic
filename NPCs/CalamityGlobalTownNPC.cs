@@ -1135,7 +1135,7 @@ namespace CalamityMod.NPCs
                     {
                         if (Main.LocalPlayer.Calamity().profanedCrystalBuffs)
                             chat = CalamityUtils.GetTextValue("Vanilla.StylistChat.ProfanedSoulCrystal" + Main.rand.Next(1, 2 + 1));
-                        else if (Main.LocalPlayer.Calamity().donutBabs)
+                        else if (Main.LocalPlayer.Calamity().pSoulGuardians)
                             chat = CalamityUtils.GetTextValue("Vanilla.StylistChat.ProfanedDonuts");
                     }
                     break;
