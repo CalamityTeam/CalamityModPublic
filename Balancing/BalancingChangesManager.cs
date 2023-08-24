@@ -276,8 +276,8 @@ namespace CalamityMod.Balancing
             // TODO -- NPC sets (mostly worm bosses) should probably be their own holding class.
             int[] exoTwins = new int[] { NPCType<Artemis>(), NPCType<Apollo>() };
 
-            // 20% resist to Dynamic Pursuer
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<DynamicPursuerProjectile>(), ProjectileType<DynamicPursuerLaser>(), ProjectileType<DynamicPursuerElectricity>()))));
+            // 20% resist to Dynamic Pursuer.
+            NPCSpecificBalancingChanges.AddRange(Bundle(exoTwins, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<DynamicPursuerProjectile>(), ProjectileType<DynamicPursuerLaser>(), ProjectileType<DynamicPursuerElectricity>()))));
 
             // 10% resist to Eclipse's Fall stealth strike.
             NPCSpecificBalancingChanges.AddRange(Bundle(exoTwins, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<EclipsesSmol>()))));
@@ -376,6 +376,9 @@ namespace CalamityMod.Balancing
             #region Supreme Calamitas: Soul Seekers
             // 85% resist to Chicken Cannon.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.15f, ProjectileType<ChickenExplosion>())));
+
+            // 35% resist to Subsuming Vortex.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.65f, ProjectileType<ExoVortex>(), ProjectileType<ExoVortex2>(), ProjectileType<EnormousConsumingVortex>())));
 
             // 30% resist to Murasama.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.7f, ProjectileType<MurasamaSlash>())));

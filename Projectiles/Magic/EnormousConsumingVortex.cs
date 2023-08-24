@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Magic
             // Emit light.
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 1.3f);
 
-            // If the player is no longer able to channel the vortex and it hasn't been released yet, release it.
+            // If the player has channeled the vortex for long enough and it hasn't been released yet, release it.
             if ((!Owner.Calamity().mouseRight || Owner.noItems || Owner.CCed) && !HasBeenReleased)
             {
                 if (Time >= SubsumingVortex.LargeVortexChargeupTime)
@@ -74,6 +74,16 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         Projectile.velocity = Projectile.SafeDirectionTo(Main.MouseWorld) * SubsumingVortex.ReleaseSpeed;
                         Projectile.damage = (int)(Projectile.damage * SubsumingVortex.ReleaseDamageFactor);
+                        HasBeenReleased = true;
+                        Projectile.netUpdate = true;
+                    }
+                }
+                else if (Time >= SubsumingVortex.VortexShootDelay)
+                {
+                    if (Main.myPlayer == Projectile.owner)
+                    {
+                        Projectile.velocity = Projectile.SafeDirectionTo(Main.MouseWorld) * SubsumingVortex.ReleaseSpeed;
+                        Projectile.damage = (int)(Projectile.damage * (1f + Time * 0.0145f));
                         HasBeenReleased = true;
                         Projectile.netUpdate = true;
                     }
