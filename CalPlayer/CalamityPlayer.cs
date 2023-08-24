@@ -2896,10 +2896,6 @@ namespace CalamityMod.CalPlayer
                 if (prismaticSet && !Player.HasCooldown(PrismaticLaser.ID) && prismaticLasers <= 0)
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
-            if (CalamityKeybinds.PurityUIHotkey.JustPressed && purity && !areThereAnyDamnBosses)
-            {
-                PurityUI.Toggle();
-            }
 
             if (CalamityKeybinds.BlazingCoreHotKey.JustPressed)
             {

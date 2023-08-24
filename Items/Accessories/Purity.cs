@@ -24,8 +24,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ModContent.RarityType<Turquoise>();
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.PurityUIHotkey);
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();

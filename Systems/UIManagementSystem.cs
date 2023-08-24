@@ -62,10 +62,10 @@ namespace CalamityMod.Systems
                     return true;
                 }, InterfaceScaleType.UI));
 
-                // Astral Arcanum overlay (if open)
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Astral Arcanum UI", delegate ()
+                // Special Teleport overlay (if open)
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Special Teleport UI", delegate ()
                 {
-                    PurityUI.UpdateAndDraw(Main.spriteBatch);
+                    SpecialTeleportUI.UpdateAndDraw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
 

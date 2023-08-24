@@ -254,7 +254,6 @@ Purity: {
 		Greatly reduces how long you are afflicted with debuffs
 		When afflicted with a debuff, you will gain 18 defense
 		This defense will begin to fade away when you are no longer debuffed
-		Press [KEY] to toggle teleportation UI while no bosses are alive
 		'''
 }
 
