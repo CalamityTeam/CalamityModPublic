@@ -1702,8 +1702,25 @@ namespace CalamityMod
         public static bool IsOnPersistentBuffList(int type) => CalamityLists.persistentBuffList.Contains(type);
         #endregion
 
+        #region Venerated Locket Bans
+        public static bool SetVeneratedLocketBanlist(int type, bool shouldBeListed2)
+        {
+            if (shouldBeListed2 && !CalamityLists.VeneratedLocketBanlist.Contains(type))
+            {
+                CalamityLists.VeneratedLocketBanlist.Add(type);
+                return true;
+            }
+            else if (!shouldBeListed2)
+            {
+                return CalamityLists.VeneratedLocketBanlist.Remove(type);
+            }
+
+            return false;
+        }
+        #endregion
+
         #region Summoner Cross Class Nerf Disabling
-        public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
+            public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
         {
             if (disableNerf && !CalamityLists.DisabledSummonerNerfMinions.Contains(type))
             {
@@ -2683,6 +2700,13 @@ namespace CalamityMod
                         throw new ArgumentException("ERROR: Must specify a string that determines the inquiry, a string that determines the response, and a Func<bool> that determines the condition.");
                     DraedonDialogRegistry.DialogOptions.Add(new(inquiry, response, condition));
                     return null;
+
+                case "SetVeneratedLocketBanlist":
+                    if (args.Length < 2 || !isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: Must specify a valid item to check status of.");
+                    if (args.Length != 3 || args[2] is not bool shouldBeListed2)
+                        return new ArgumentException("ERROR: Must specify a bool that determines whether the weapon is banned from being cloned by Venerated Locket.");
+                    return SetVeneratedLocketBanlist(castItem(args[1]).type, shouldBeListed2);
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");
