@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
         public bool HasRegeneratedStealth = false;
-        public const float StealthReturnRatio = 0.35f;
+        public static float StealthReturnRatio = 0.40f;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 11;

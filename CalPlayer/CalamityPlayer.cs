@@ -3977,7 +3977,7 @@ namespace CalamityMod.CalPlayer
 
                         // Handle AI edge-cases. These are like overlapping projectiles and the projectile not spawning at all
                         if (item.type == ModContent.ItemType<FinalDawn>())
-                            Main.projectile[p].ai[1] = 1f;
+                            Main.projectile[p].ai[1] = 1f; //MUST BE 1 OTHERWISE CLONES GENERATE STEALTH AAAAAAAAAAA
                         if (item.type == ModContent.ItemType<TheAtomSplitter>())
                             Main.projectile[p].ai[0] = -1f;
                     }
