@@ -511,7 +511,7 @@ namespace CalamityMod.CalPlayer
 
             if (purity)
             {
-                Player.lifeRegen += 4;
+                Player.lifeRegen += 5;
                 Player.lifeRegenTime += 6;
                 Player.statDefense += PurityBonusDefense;
                 //heal every 5 frames
@@ -533,7 +533,7 @@ namespace CalamityMod.CalPlayer
                             if (Player.lifeRegenTime < 1800)
                                 Player.lifeRegenTime = 1800;
                             //add extra regen when effected by a debuff
-                            Player.lifeRegen += 6;
+                            Player.lifeRegen += 5;
                             PurityBonusDefense = 18;
                             if (ReducedHealingCounter < 120)
                                 ReducedHealingCounter++;

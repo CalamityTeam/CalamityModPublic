@@ -247,8 +247,8 @@ Purity: {
 		A once infected crystal, now perfectly purified
 		You emit light
 		+80 max life
-		Your life regen is increased by 4
-		Increases life regen by 6 while afflicted with a debuff 
+		Your life regen is increased by 5
+		You gain an additional 5 life regen while afflicted with a debuff 
 		Your life regen is still increased even when afflicted with a damage over time debuff
 		Your natural life regen is massively improved
 		Greatly reduces how long you are afflicted with debuffs
@@ -362,7 +362,7 @@ InfectedJewel: {
 		'''
 		A beautiful gem that has been corrupted by the astral infection
 		Life regen increased by 2
-		Increases life regen by 4 while afflicted with a debuff 
+		You gain an additional 4 life regen while afflicted with a debuff 
 		Your life regen is still increased even when afflicted with a damage over time debuff
 		When afflicted with a debuff, you will gain 14 defense
 		This defense will begin to fade away when you are no longer debuffed
@@ -461,7 +461,7 @@ CrownJewel: {
 	Tooltip:
 		'''
 		Life regen increased by 1
-		Increases life regen by 3 while afflicted with a debuff 
+		You gain an additional 3 life regen while afflicted with a debuff
 		Your life regen is still increased even when afflicted with a damage over time debuff
 		When afflicted with a debuff, you will gain 8 defense
 		This defense will begin to fade away when you are no longer debuffed
