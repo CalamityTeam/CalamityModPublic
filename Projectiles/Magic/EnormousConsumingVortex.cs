@@ -130,8 +130,6 @@ namespace CalamityMod.Projectiles.Magic
                         }
                         Projectile.netUpdate = true;
                     }
-                    else if (!vortexStillInUse)
-                        Projectile.Kill();
                 }
             }
 
