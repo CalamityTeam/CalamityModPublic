@@ -3968,9 +3968,12 @@ namespace CalamityMod.CalPlayer
                     int p = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.075), knockBack * 0.5f, Player.whoAmI);
 
                     if (p.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[p].DamageType = DamageClass.Generic; //in case melee/rogue variants bug out
+                    {
+                        Main.projectile[p].DamageType = DamageClass.Generic; //Makes it not proc shit like nanotech, extorter and other stuff
+                        Main.projectile[p].Calamity().LocketClone = true; //To not have clones trigger effects like Sacrifice's Lifesteal and Final Dawn's stealth generation
+                    }
 
-                    // Handle AI edge-cases.
+                    // Handle AI edge-cases. These are like overlapping projectiles and the projectile not spawning at all
                     if (item.type == ModContent.ItemType<FinalDawn>())
                         Main.projectile[p].ai[1] = 1f;
                     if (item.type == ModContent.ItemType<TheAtomSplitter>())
@@ -3978,8 +3981,8 @@ namespace CalamityMod.CalPlayer
 
                     if (StealthStrikeAvailable())
                     {
-                        int knifeCount = 16;
-                        int knifeDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(60);
+                        int knifeCount = 12;
+                        int knifeDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(75);
                         float angleStep = MathHelper.TwoPi / knifeCount;
                         float speed = 15f;
 
