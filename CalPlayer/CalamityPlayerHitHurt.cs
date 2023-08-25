@@ -1629,9 +1629,10 @@ namespace CalamityMod.CalPlayer
         private void ModifyHurtInfo_Calamity(ref Player.HurtInfo info)
         {
             // Boss Rush's damage floor is implemented as a dirty modifier
+            // TODO -- implementing this correctly would require fully reimplementing all of DR and ADR
             if (BossRushEvent.BossRushActive)
             {
-                int bossRushDamageFloor = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
+                int bossRushDamageFloor = (Main.expertMode ? 160 : 100) + (BossRushEvent.BossRushStage * 2);
                 if (info.Damage < bossRushDamageFloor)
                     info.Damage += (bossRushDamageFloor - info.Damage);
             }
