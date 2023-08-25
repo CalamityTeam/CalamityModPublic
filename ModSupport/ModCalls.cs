@@ -2698,10 +2698,10 @@ namespace CalamityMod
 
                 case "AddToVeneratedLocketBanlist":
                     if (args.Length < 2)
-                        return new ArgumentException("ERROR: Not enough arguments");
-                    if (args[1] is not int ItemType)
-                        return new ArgumentException("ERROR: Must specify a valid item type.");
-                    return AddToVeneratedLocketBanlist(ItemType);
+                        return new ArgumentException("ERROR: Not enough arguments!");
+                    if (args[1] is not int itemType)
+                        return new ArgumentException("ERROR: Must specify a valid item type as an int index of the item.");
+                    return AddToVeneratedLocketBanlist(itemType);
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");
