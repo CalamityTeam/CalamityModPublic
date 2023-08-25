@@ -112,9 +112,9 @@ namespace CalamityMod.Projectiles.Magic
                     GeneralParticleHandler.SpawnParticle(exoEnergy);
                 }
 
-                // Fire vortices at nearby target if not fully charged yet.
+                // Fire vortices at nearby target if not fully charged and has not been released yet.
                 NPC potentialTarget = Projectile.Center.ClosestNPCAt(SubsumingVortex.SmallVortexTargetRange - 100f);
-                if (potentialTarget != null && Time % SubsumingVortex.VortexReleaseRate == SubsumingVortex.VortexReleaseRate - 1 && Time < SubsumingVortex.LargeVortexChargeupTime)
+                if (potentialTarget != null && Time % SubsumingVortex.VortexReleaseRate == SubsumingVortex.VortexReleaseRate - 1 && Time < SubsumingVortex.LargeVortexChargeupTime && !HasBeenReleased)
                 {
                     // CheckMana returns true if the mana cost can be paid..
                     bool allowContinuedUse = Owner.CheckMana(Owner.ActiveItem(), -1, true, false);
