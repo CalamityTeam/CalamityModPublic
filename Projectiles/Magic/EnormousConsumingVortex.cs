@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Magic
                     if (Main.myPlayer == Projectile.owner)
                     {
                         Projectile.velocity = Projectile.SafeDirectionTo(Main.MouseWorld) * SubsumingVortex.ReleaseSpeed;
-                        Projectile.damage = (int)(Projectile.damage * (1f + Time * 0.0145f));
+                        Projectile.damage = (int)(Projectile.damage * (1f + Time * 0.0152f));
                         HasBeenReleased = true;
                         Projectile.netUpdate = true;
                     }
@@ -130,8 +130,6 @@ namespace CalamityMod.Projectiles.Magic
                         }
                         Projectile.netUpdate = true;
                     }
-                    else if (!vortexStillInUse)
-                        Projectile.Kill();
                 }
             }
 
