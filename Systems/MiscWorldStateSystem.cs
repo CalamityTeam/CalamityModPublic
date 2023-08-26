@@ -16,8 +16,8 @@ namespace CalamityMod
 {
     public class MiscWorldStateSystem : ModSystem
     {
-        #region Resetting
-        public static void ResetWorldData()
+        #region Clear World Data (Reset)
+        public override void ClearWorld()
         {
             CalamityGlobalNPC.holyBoss = -1;
             CalamityGlobalNPC.doughnutBoss = -1;
@@ -71,10 +71,6 @@ namespace CalamityMod
             AcidRainEvent.AcidRainEventIsOngoing = false;
             AcidRainEvent.CountdownUntilForcedAcidRain = 0;
         }
-
-        public override void OnWorldLoad() => ResetWorldData();
-
-        public override void OnWorldUnload() => ResetWorldData();
         #endregion
 
         #region Saving/Loading
