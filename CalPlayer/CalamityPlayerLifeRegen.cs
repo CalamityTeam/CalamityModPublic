@@ -572,7 +572,8 @@ namespace CalamityMod.CalPlayer
                 
             }
 
-            if (infectedJewel && !purity)
+            // Infected Jewel will not stack with Purity
+            else if (infectedJewel)
             {
                 bool hasAnyDebuffs = false;
                 Player.lifeRegen += 2;
@@ -601,7 +602,8 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (crownJewel && !infectedJewel && !purity)
+            // Crown Jewel will not stack with Purity or Infected Jewel
+            else if (crownJewel)
             {
                 bool hasAnyDebuffs = false;
                 Player.lifeRegen += 1;
