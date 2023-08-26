@@ -566,7 +566,7 @@ namespace CalamityMod.CalPlayer
                     if (PurityHealSpeed == 5)
                         ReducedHealingCounter = 0;
                     //Bonus defense goes down by 1 every second after 
-                    if (Player.miscCounter % 90 == 0 && PurityBonusDefense > 0)
+                    if (Player.miscCounter % 60 == 0 && PurityBonusDefense > 0)
                         PurityBonusDefense--;
                 }
                 
@@ -580,7 +580,7 @@ namespace CalamityMod.CalPlayer
                 if (!hasAnyDebuffs)
                 {
                     //Bonus defense goes down by 1 every second after 
-                    if (Player.miscCounter % 90 == 0 && InfectedJewelBonusDefense > 0)
+                    if (Player.miscCounter % 60 == 0 && InfectedJewelBonusDefense > 0)
                         InfectedJewelBonusDefense--;
                 }
                 for (int l = 0; l < Player.MaxBuffs; l++)
@@ -609,7 +609,7 @@ namespace CalamityMod.CalPlayer
                 if (!hasAnyDebuffs)
                 {
                     //Bonus defense goes down by 1 every second after 
-                    if (Player.miscCounter % 90 == 0 && CrownJewelBonusDefense > 0)
+                    if (Player.miscCounter % 60 == 0 && CrownJewelBonusDefense > 0)
                         CrownJewelBonusDefense--;
                 }
                 for (int l = 0; l < Player.MaxBuffs; l++)
