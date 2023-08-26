@@ -283,7 +283,7 @@ DefectiveSphere: {
 }
 
 DeificThunderbolt: {
-	DisplayName: Deific Thunderbolt
+	DisplayName: Twisting Thunder
 	Tooltip:
 		'''
 		Fires a lightning bolt to electrocute enemies
