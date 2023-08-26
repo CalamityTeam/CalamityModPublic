@@ -403,7 +403,7 @@ GlacialEmbrace: {
 }
 
 GodspawnHelixStaff: {
-	DisplayName: Godspawn Helix Staff
+	DisplayName: Starspawn Helix Staff
 	Tooltip: Summons astral probes to protect you
 }
 
@@ -633,7 +633,7 @@ StormjawStaff: {
 }
 
 SunGodStaff: {
-	DisplayName: Sun God Staff
+	DisplayName: Vengeful Sun Staff
 	Tooltip:
 		'''
 		Summons a solar god spirit to protect you
