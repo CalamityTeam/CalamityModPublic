@@ -554,8 +554,8 @@ TarragonHeadRogue: {
 	SetBonus:
 		'''
 		+115 maximum stealth
-		After every 25 rogue critical hits you will gain 3 seconds of damage immunity
-		This effect can only occur once every 30 seconds
+		After every 50 rogue critical hits you will gain 2.5 seconds of damage immunity
+		This effect has a cooldown of 25 seconds
 		While under the effects of a debuff you gain 10% increased rogue damage
 		'''
 }
