@@ -69,11 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
 
-            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 2.355f;
-            if (Projectile.spriteDirection == -1)
-            {
-                Projectile.rotation -= 1.57f;
-            }
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
             Lighting.AddLight(Projectile.Center, 0.7f, 0.3f, 0f);
             CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);

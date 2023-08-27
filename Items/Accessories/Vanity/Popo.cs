@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Accessories.Vanity
 
         public override void SetStaticDefaults()
         {
-           
             if (Main.netMode == NetmodeID.Server)
                 return;
 
@@ -35,8 +34,8 @@ namespace CalamityMod.Items.Accessories.Vanity
 
         public override void SetDefaults()
         {
-            Item.width = 26;
-            Item.height = 30;
+            Item.width = 36;
+            Item.height = 44;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;

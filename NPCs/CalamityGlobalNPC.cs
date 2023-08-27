@@ -3858,6 +3858,10 @@ namespace CalamityMod.NPCs
 
             // Nothing should be immune to Enraged.
             npc.buffImmune[BuffType<Enraged>()] = false;
+            
+            // Town npcs should NOT be immune to shimmer
+            if (npc.townNPC && NPCID.Sets.ShimmerTownTransform[npc.type])
+                npc.buffImmune[BuffID.Shimmer] = false;
 
             // Extra Notes:
             // Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.

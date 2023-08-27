@@ -332,7 +332,6 @@ GodSlayerHeadMelee: {
 		Enemies are more likely to target you
 		Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts
 		Enemies take a lot of damage when they hit you
-		An attack that would deal 80 damage or less will have its damage reduced to 1
 		'''
 }
 
@@ -555,8 +554,8 @@ TarragonHeadRogue: {
 	SetBonus:
 		'''
 		+115 maximum stealth
-		After every 25 rogue critical hits you will gain 3 seconds of damage immunity
-		This effect can only occur once every 30 seconds
+		After every 50 rogue critical hits you will gain 2.5 seconds of damage immunity
+		This effect has a cooldown of 25 seconds
 		While under the effects of a debuff you gain 10% increased rogue damage
 		'''
 }

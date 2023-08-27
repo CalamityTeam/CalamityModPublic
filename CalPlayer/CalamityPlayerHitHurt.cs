@@ -330,7 +330,7 @@ namespace CalamityMod.CalPlayer
                 if (vHex)
                 {
                     // Unique messages appear half the time during each individual stage of SCal's fight
-                    string vHexKeyToUse = "Status.Death.VulnerabilityHex";
+                    string vHexKeyToUse = "Status.Death.VulnerabilityHex" + Main.rand.Next(1, 3 + 1);
                     if (Main.rand.NextBool() && CalamityGlobalNPC.SCal != -1)
                     {
                         if (CalamityGlobalNPC.SCalGrief != -1)
@@ -349,26 +349,26 @@ namespace CalamityMod.CalPlayer
                 }
                 if (ZoneCalamity && Player.lavaWet)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SearingLava").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SearingLava" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (gsInferno)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.GodSlayerInferno").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.GodSlayerInferno" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (sulphurPoison)
                 {
-                    if (Main.rand.NextBool(2))
-                        damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SulphuricPoisoning").Format(Player.name));
+                    if (!Main.rand.NextBool(4)) // 75% custom
+                        damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SulphuricPoisoning" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                     else
-                        damageSource = PlayerDeathReason.ByOther(9);
+                        damageSource = PlayerDeathReason.ByOther(9); // 25% generic Poisoned death text
                 }
                 if (dragonFire)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Dragonfire").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Dragonfire" + Main.rand.Next(1, 4 + 1)).Format(Player.name));
                 }
                 if (miracleBlight)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.MiracleBlight" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.MiracleBlight" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (hInferno)
                 {
@@ -376,7 +376,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (hFlames || banishingFire)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.HolyFlames").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.HolyFlames" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (shadowflame)
                 {
@@ -384,27 +384,27 @@ namespace CalamityMod.CalPlayer
                 }
                 if (bBlood)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BurningBlood").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BurningBlood" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (cDepth)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CrushDepth" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CrushDepth" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (rTide)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Riptide").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Riptide" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (bFlames || weakBrimstoneFlames)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BrimstoneFlames").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BrimstoneFlames" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (pFlames)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Plague" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Plague" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (astralInfection)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AstralInfection" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AstralInfection" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (nightwither)
                 {
@@ -1407,9 +1407,9 @@ namespace CalamityMod.CalPlayer
         #region Free and Consumable Dodge Hooks
         public override bool FreeDodge(Player.HurtInfo info)
         {
-            // God Slayer Damage Resistance makes you ignore hits that came in as less than 80.
-            // Alternatively, if the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
-            if (info.Damage < 1 || (godSlayerDamage && info.Damage <= 80))
+            // 22AUG2023: Ozzatron: god slayer damage resistance removed due to it being strong enough to godmode rev yharon
+            // If the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
+            if (info.Damage < 1 /* || (godSlayerDamage && info.Damage <= 80) */)
                 return true;
 
             // If this hit was marked to be completely ignored due to shield absorption, then ignore it.
@@ -1629,9 +1629,10 @@ namespace CalamityMod.CalPlayer
         private void ModifyHurtInfo_Calamity(ref Player.HurtInfo info)
         {
             // Boss Rush's damage floor is implemented as a dirty modifier
+            // TODO -- implementing this correctly would require fully reimplementing all of DR and ADR
             if (BossRushEvent.BossRushActive)
             {
-                int bossRushDamageFloor = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
+                int bossRushDamageFloor = (Main.expertMode ? 160 : 100) + (BossRushEvent.BossRushStage * 2);
                 if (info.Damage < bossRushDamageFloor)
                     info.Damage += (bossRushDamageFloor - info.Damage);
             }
@@ -2542,7 +2543,7 @@ namespace CalamityMod.CalPlayer
             if (abyssDeath)
             {
                 SoundEngine.PlaySound(DrownSound, Player.Center);
-                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AbyssDrown" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AbyssDrown" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
             }
             else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
             {

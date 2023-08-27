@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
         public bool HasRegeneratedStealth = false;
-        public const float StealthReturnRatio = 0.25f;
+        public static float StealthReturnRatio = 0.40f;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 11;
@@ -93,14 +93,14 @@ namespace CalamityMod.Projectiles.Rogue
         {
             CalamityPlayer calamityPlayer = Main.player[Projectile.owner].Calamity();
             // Restore stealth
-            if (!HasRegeneratedStealth)
+            if (!HasRegeneratedStealth && !Projectile.Calamity().LocketClone) //Locket clones dont create stealth
             {
                 calamityPlayer.rogueStealth += calamityPlayer.rogueStealthMax * StealthReturnRatio;
                 if (calamityPlayer.rogueStealth > calamityPlayer.rogueStealthMax)
                     calamityPlayer.rogueStealth = calamityPlayer.rogueStealthMax;
                 HasRegeneratedStealth = true;
-                target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
             }
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
         }
         public override bool PreDraw(ref Color lightColor)
         {

@@ -163,6 +163,8 @@ namespace CalamityMod
         public static List<int> DisabledSummonerNerfItems;
         public static List<int> DisabledSummonerNerfMinions;
 
+        public static List<int> VeneratedLocketBanlist; //To ban projectiles from locket, mainly spikeballs altho Toasty asked me to add mod calls for adding stuff like Dreamtastic
+
         public static void LoadLists()
         {
             donatorList = new List<string>()
@@ -2713,6 +2715,18 @@ namespace CalamityMod
 
             DisabledSummonerNerfItems = new();
             DisabledSummonerNerfMinions = new();
+
+            VeneratedLocketBanlist = new List<int>()
+            {
+                ItemType<PoisonPack>(),
+                ItemType<SkyStabber>(),
+                ItemType<Nychthemeron>(),
+                ItemType<HellsSun>(),
+                ItemType<GodsParanoia>(),
+                ItemType<SlickCane>(),
+                ItemType<Mycoroot>(),
+                ItemType<CosmicKunai>()
+            };
         }
 
         public static void UnloadLists()
@@ -2803,6 +2817,8 @@ namespace CalamityMod
 
             DisabledSummonerNerfItems = null;
             DisabledSummonerNerfMinions = null;
+
+            VeneratedLocketBanlist = null;
         }
     }
 }

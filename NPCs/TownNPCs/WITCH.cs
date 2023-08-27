@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackType[NPC.type] = 1;
             NPCID.Sets.AttackTime[NPC.type] = 30;
             NPCID.Sets.AttackAverageChance[NPC.type] = 5;
+            NPCID.Sets.ShimmerTownTransform[Type] = false;
             NPC.Happiness
                 .SetBiomeAffection<ForestBiome>(AffectionLevel.Like)
                 .SetBiomeAffection<BrimstoneCragsBiome>(AffectionLevel.Dislike)
