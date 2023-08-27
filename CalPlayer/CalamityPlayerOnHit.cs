@@ -707,7 +707,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Fearmonger set's colossal life regeneration
+            // Fearmonger set gains +10 frames (max 90) of regen when any minion lands any hit
             if (fearmongerSet)
             {
                 fearmongerRegenFrames += 10;

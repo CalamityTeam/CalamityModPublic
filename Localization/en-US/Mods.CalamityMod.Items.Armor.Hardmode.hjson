@@ -172,7 +172,7 @@ FathomSwarmerBreastplate: {
 		'''
 		6% increased damage reduction
 		6% increased summon damage
-		Boosted defense and regen increased while submerged in liquid
+		Increases defense by 10 and grants +2.5 HP/s life regen while submerged in liquid
 		Reduces defense loss within the Abyss
 		'''
 }
@@ -488,11 +488,11 @@ ReaverHeadTank: {
 		'''
 		15% increased damage reduction but 30% decreased damage
 		+50 max life
-		Passively regenerates one health point every second
+		Restores 1 HP every second, this applies separately from life regen
 		'''
 	SetBonus:
 		'''
-		+10 defense and +3 life regen
+		+10 defense and +1.5 HP/s life regen
 		Enemies are more likely to target you
 		Reduces the life regen lost from damage over time debuffs by 20%
 		All attacks have a small chance to steal life and speed up the rate of life regen

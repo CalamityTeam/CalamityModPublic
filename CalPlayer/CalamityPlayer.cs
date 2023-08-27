@@ -470,8 +470,14 @@ namespace CalamityMod.CalPlayer
         public bool gShell = false;
         public bool tortShell = false;
         public bool absorber = false;
+        public bool alwaysHoneyRegen = false;
+        public bool honeyTurboRegen = false;
+        public bool honeyDewHalveDebuffs = false;
+        public bool livingDewHalveDebuffs = false;
+        public int jewelBonusDefense = 0;
         public bool aAmpoule = false;
         public bool rOoze = false;
+        public bool JustWasDebuffed = false;
         public bool fBarrier = false;
         public bool aBrain = false;
         public bool amalgam = false;
@@ -517,8 +523,9 @@ namespace CalamityMod.CalPlayer
         public bool coreOfTheBloodGod = false;
         public bool elementalHeart = false;
         public bool crownJewel = false;
-        public bool celestialJewel = false;
-        public bool astralArcanum = false;
+        public bool infectedJewel = false;
+        public bool purity = false;
+        public int PurityHealSlowdownFrames = 0;
         public bool harpyRing = false;
         public bool angelTreads = false;
         public bool harpyWingBoost = false; //harpy wings + harpy ring
@@ -812,6 +819,7 @@ namespace CalamityMod.CalPlayer
         public bool fishAlert = false;
         public bool clamity = false;
         public bool NOU = false;
+        public bool absorberAffliction = false;
         public bool sulphurPoison = false;
         public bool nightwither = false;
         public bool eutrophication = false;
@@ -1079,7 +1087,6 @@ namespace CalamityMod.CalPlayer
 
         public bool witheringWeaponEnchant = false;
         public bool witheredDebuff = false;
-        public bool absorberAffliction = false;
         public int witheredWeaponHoldTime = 0;
         public int witheringDamageDone = 0;
 
@@ -1572,6 +1579,10 @@ namespace CalamityMod.CalPlayer
             gShell = false;
             tortShell = false;
             absorber = false;
+            alwaysHoneyRegen = false;
+            honeyTurboRegen = false;
+            honeyDewHalveDebuffs = false;
+            livingDewHalveDebuffs = false;
             aAmpoule = false;
             rOoze = false;
             fBarrier = false;
@@ -1609,8 +1620,8 @@ namespace CalamityMod.CalPlayer
             coreOfTheBloodGod = false;
             elementalHeart = false;
             crownJewel = false;
-            celestialJewel = false;
-            astralArcanum = false;
+            infectedJewel = false;
+            purity = false;
             harpyRing = false;
             angelTreads = false;
             harpyWingBoost = false; //harpy wings + harpy ring
@@ -2243,6 +2254,7 @@ namespace CalamityMod.CalPlayer
             vaporfied = false;
             banishingFire = false;
             wither = false;
+            PurityHealSlowdownFrames = 0;
             #endregion
 
             #region Rogue
@@ -2882,25 +2894,7 @@ namespace CalamityMod.CalPlayer
                 if (prismaticSet && !Player.HasCooldown(PrismaticLaser.ID) && prismaticLasers <= 0)
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
-            if (CalamityKeybinds.AstralArcanumUIHotkey.JustPressed && astralArcanum && !areThereAnyDamnBosses)
-            {
-                AstralArcanumUI.Toggle();
-            }
-            if (CalamityKeybinds.AstralTeleportHotKey.JustPressed)
-            {
-                if (celestialJewel && !areThereAnyDamnBosses)
-                {
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Player.TeleportationPotion();
-                        SoundEngine.PlaySound(SoundID.Item6, Player.Center);
-                    }
-                    else if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
-                    {
-                        NetMessage.SendData(MessageID.RequestTeleportationByServer, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-                    }
-                }
-            }
+
             if (CalamityKeybinds.BlazingCoreHotKey.JustPressed)
             {
                 if (blazingCore && blazingCoreParry == 0 && blazingCoreSuccessfulParry == 0)

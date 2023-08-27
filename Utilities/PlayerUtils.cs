@@ -173,9 +173,9 @@ namespace CalamityMod
                 light += 1;
             if (mp.aquaticHeart)
                 light += 1;
-            if (mp.aAmpoule)
-                light += 1;
-            else if (mp.rOoze && !Main.dayTime) // radiant ooze and ampoule/higher don't stack
+            if (mp.purity) // does not stack with downgrades
+                light += 2;
+            else if (mp.rOoze || mp.aAmpoule) // the two "yellow lights" do not stack with each other
                 light += 1;
             if (mp.aquaticEmblem && underwater)
                 light += 1;
@@ -245,6 +245,8 @@ namespace CalamityMod
             return true;
         }
         
+        // See also: Player.IsStandingStillForSpecialEffects (Vanilla shiny stone + standing still mana regen)
+        // That is more or less equivalent to this with the default value of 0.05
         public static bool StandingStill(this Player player, float velocity = 0.05f) => player.velocity.Length() < velocity;
 
         /// <summary>

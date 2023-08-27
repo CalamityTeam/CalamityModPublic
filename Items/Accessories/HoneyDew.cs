@@ -13,46 +13,27 @@ namespace CalamityMod.Items.Accessories
         {
             Item.width = 20;
             Item.height = 20;
-            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            Item.rare = ItemRarityID.Pink;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
             Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.statLifeMax2 += 30;
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.beeResist = true;
-
-            if (player.ZoneJungle)
-            {
-                player.lifeRegen += 1;
-                player.statDefense += 9;
-                player.endurance += 0.05f;
-            }
-
-            player.buffImmune[BuffID.Venom] = true;
-            player.buffImmune[BuffID.Poisoned] = true;
-
-            if (!player.honey && player.lifeRegen < 0)
-            {
-                player.lifeRegen += 2;
-                if (player.lifeRegen > 0)
-                    player.lifeRegen = 0;
-            }
-
-            player.lifeRegenTime += 1;
-            player.lifeRegen += 2;
+            modPlayer.alwaysHoneyRegen = true;
+            modPlayer.honeyTurboRegen = true;
+            modPlayer.honeyDewHalveDebuffs = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<LivingDew>().
                 AddIngredient(ItemID.BottledHoney, 10).
-                AddIngredient<TrapperBulb>(2).
-                AddIngredient(ItemID.ButterflyDust).
-                AddIngredient<BeetleJuice>(3).
-                AddTile(TileID.MythrilAnvil).
+                AddIngredient(ItemID.BeeWax, 3).
+                AddIngredient<MurkyPaste>(3).
+                AddTile(TileID.Anvils).
                 Register();
         }
     }

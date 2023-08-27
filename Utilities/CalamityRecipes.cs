@@ -813,6 +813,7 @@ namespace CalamityMod
                 // Make various things cheaper (sorted by progression)
                 { Vanilla(ItemID.Leather), ChangeIngredientStack(ItemID.RottenChunk, 2) },
                 { Vanilla(ItemID.JestersArrow), JesterArrowRecipeEdit },
+                { Vanilla(ItemID.TeleportationPotion), TeleportationPotionRecipeEdit },
                 { Vanilla(ItemID.WormFood), WormFoodRecipeEdit },
                 { Vanilla(ItemID.BloodySpine), BloodySpineRecipeEdit },
                 { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
@@ -955,6 +956,15 @@ namespace CalamityMod
             if (r.createItem.stack < intendedStack)
                 r.createItem.stack = intendedStack;
             r.ChangeIngredientStack(ItemID.WoodenArrow, intendedStack);
+        }
+
+        // Increases Teleportation Potion's recipe to give 5 per craft and use 5 bottled waters
+        private static void TeleportationPotionRecipeEdit(Recipe r)
+        {
+            int intendedStack = 5;
+            if (r.createItem.stack < intendedStack)
+                r.createItem.stack = intendedStack;
+            r.ChangeIngredientStack(ItemID.BottledWater, intendedStack);
         }
 
         // Change True Night's Edge recipe to require far less mech boss souls
