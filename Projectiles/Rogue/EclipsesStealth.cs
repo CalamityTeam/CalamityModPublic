@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Particles;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,6 +11,10 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/EclipsesFall";
+
+        // these also affect KB
+        public const float RainDamageMult = 0.25f;
+        public const float ExplosionDamageMult = 0.5f;
 
         // For more consistent DPS, always alternates between spawning 1 and 2 spears instead of picking randomly
         private bool spawnTwoSpears = true;
@@ -22,30 +28,35 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            Projectile.width = 25;
-            Projectile.height = 25;
+            Projectile.width = Projectile.height = 40;
             Projectile.friendly = true;
-            Projectile.penetrate = -1;
-            Projectile.timeLeft = 300;
             Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
+            Projectile.tileCollide = false;            
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.MaxUpdates = 2;
+            Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.timeLeft = 150 * Projectile.MaxUpdates;
         }
 
         // Uses localAI[1] to decide how many frames until the next spear drops.
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 1f, 0.8f, 0.3f);
             // Behavior when not sticking to anything
             if (Projectile.ai[0] == 0f)
             {
                 // Keep the spear oriented in the correct direction
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
-
-                // Spawn dust while flying
-                if (Main.rand.NextBool(8))
-                    Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 138, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+                if (Main.rand.NextBool(5))
+                {
+                    Vector2 trailPos = Projectile.Center + Vector2.UnitY.RotatedBy(Projectile.rotation) * Main.rand.NextFloat(-16f, 16f);
+                    float trailScale = Main.rand.NextFloat(0.8f, 1.2f);
+                    Color trailColor = Main.rand.NextBool() ? Color.Indigo : Color.DarkOrange;
+                    Particle eclipseTrail = new SparkParticle(trailPos, Projectile.velocity * 0.2f, false, 60, trailScale, trailColor);
+                    GeneralParticleHandler.SpawnParticle(eclipseTrail);
+                }
             }
 
             // Behavior when having impaled a target
@@ -54,12 +65,12 @@ namespace CalamityMod.Projectiles.Rogue
                 // Eclipse's Fall is guaranteed to impale for 10 seconds, no more, no less
                 if (!changedTimeLeft)
                 {
-                    Projectile.timeLeft = 600;
+                    Projectile.timeLeft = 600 * Projectile.MaxUpdates;
                     changedTimeLeft = true;
                 }
 
                 // Spawn spears. As this uses local AI, it's done client-side only.
-                if (Projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer && Projectile.FinalExtraUpdate())
                 {
                     Projectile.localAI[1] -= 1f;
 
@@ -67,16 +78,14 @@ namespace CalamityMod.Projectiles.Rogue
                     if (Projectile.localAI[1] <= 0f)
                     {
                         // Set up the spear counter for next time. Used to be every 5 frames there was a 50% chance; now it's more reliable but slower.
-                        Projectile.localAI[1] = Main.rand.Next(8, 14); // 8 to 13 frames between each spearfall
+                        Projectile.localAI[1] = Main.rand.Next(8, 13); // 8 to 12 frames between each spearfall
 
                         int type = ModContent.ProjectileType<EclipsesSmol>();
-                        int smolDamage = (int)(Projectile.damage * 0.22f);
-                        float smolKB = 3f;
                         // Used to be a 50% chance each spearfall for 1 or 2. Now is consistent.
                         int numSpears = spawnTwoSpears ? 2 : 1;
                         spawnTwoSpears = !spawnTwoSpears;
                         for (int i = 0; i < numSpears; ++i)
-                            CalamityUtils.ProjectileRain(source, Projectile.Center, 400f, 100f, 500f, 800f, 29f, type, smolDamage, smolKB, Projectile.owner);
+                            CalamityUtils.ProjectileRain(source, Projectile.Center, 400f, 100f, 500f, 800f, 29f, type, (int)(Projectile.damage * RainDamageMult), Projectile.knockBack * RainDamageMult, Projectile.owner);
                     }
                 }
             }
@@ -102,15 +111,15 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override bool? CanHitNPC(NPC target)
-        {
-            if (Projectile.ai[0] == 1f)
-            {
-                return false;
-            }
-            return null;
-        }
+        public override bool? CanHitNPC(NPC target) => Projectile.ai[0] == 1f ? false : base.CanHitNPC(target);
 
         public override bool CanHitPvp(Player target) => Projectile.ai[0] != 1f;
+
+        public override void Kill(int timeLeft)
+        {
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            if (Main.myPlayer == Projectile.owner)
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<EclipseStealthBoom>(), (int)(Projectile.damage * ExplosionDamageMult), Projectile.knockBack * ExplosionDamageMult, Projectile.owner);
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,36 +8,33 @@ namespace CalamityMod.Projectiles.Rogue
     public class UmbraphileBoom : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
-        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        public const int Lifetime = 35; // 7 animation frames, 12 FPS
+
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Type] = 7;
+        }
 
         public override void SetDefaults()
         {
-            Projectile.width = 60;
-            Projectile.height = 60;
+            Projectile.width = Projectile.height = 58;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 5;
+            Projectile.timeLeft = Lifetime;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }
 
-        public override void Kill(int timeLeft)
+        public override void AI()
         {
-            for (int s = 0; s < 20; s++)
-            {
-                int dustType = Main.rand.NextBool() ? 246 : 176;
-                float dustSpeed = Main.rand.NextFloat(3f, 9f);
-                Vector2 dustVel = CalamityUtils.RandomVelocity(10f, dustSpeed, dustSpeed, 1f);
-                int boom = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1f);
-                Dust dust = Main.dust[boom];
-                dust.noGravity = true;
-                dust.position = Projectile.Center;
-                dust.position.X += (float)Main.rand.Next(-10, 11);
-                dust.position.Y += (float)Main.rand.Next(-10, 11);
-                dust.velocity = dustVel;
-            }
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 5;
+
+            if (Projectile.frameCounter > Lifetime)
+                Projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
