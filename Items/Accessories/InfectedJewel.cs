@@ -1,8 +1,6 @@
-﻿using CalamityMod.Items.Placeables;
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Potions;
-using System.Collections.Generic;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Potions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

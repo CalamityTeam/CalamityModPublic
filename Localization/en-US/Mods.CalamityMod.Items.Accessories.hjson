@@ -115,12 +115,12 @@ AmbrosialAmpoule: {
 	DisplayName: Ambrosial Ampoule
 	Tooltip:
 		'''
-		You emit light
-		+50 max life
-		+2.5 HP/s life regen
-		Your natural life regen is greatly improved
-		Halves how long you are afflicted with sickness debuffs
-		When you are afflicted with a sickness debuff you quickly heal
+		+70 max life
+		Grants +2 to +6 HP/s life regen based on missing health
+		Provides life regeneration equivalent to standing in Honey
+		Standing still in Honey grants extremely powerful regen
+		Halves how long you are afflicted with fire and sickness debuffs
+		You emit yellow light if visibility is enabled
 		'''
 }
 
@@ -244,16 +244,18 @@ Purity: {
 	DisplayName: Purity
 	Tooltip:
 		'''
-		A once infected crystal, now perfectly purified
-		You emit light
-		+80 max life
-		+2.5 HP/s life regen
-		You gain an additional +2.5 HP/s life regen while afflicted with a debuff
-		Your life regen is still increased even when afflicted with a damage over time debuff
-		Your natural life regen is massively improved
-		Greatly reduces how long you are afflicted with debuffs
-		When afflicted with a debuff, you will gain 18 defense
-		This defense will begin to fade away when you are no longer debuffed
+		+100 max life
+		Grants +3 to +7 HP/s life regen based on missing health
+		Provides life regeneration equivalent to standing in Honey
+		Standing still grants extremely powerful regen
+		Grants 40 defense and continuous healing while afflicted with any debuff
+		The healing eventually slows down if debuffed for an extended period of time
+		Massively boosts natural life regen while afflicted with any debuff
+		Each debuff beyond the first grants 10 additional defense
+		Granted defense fades away slowly when not afflicted with any debuffs
+		Makes weak damage over time debuffs harmless and halves the duration of all but the strongest debuffs
+		You emit shining blue light if visibility is enabled
+		'A once putrid crystal, now glimmering with immaculate purity'
 		'''
 }
 
@@ -361,12 +363,13 @@ InfectedJewel: {
 	DisplayName: Infected Jewel
 	Tooltip:
 		'''
-		A beautiful gem that has been corrupted by the astral infection
 		+1 HP/s life regen
-		You gain an additional +2 HP/s life regen while afflicted with a debuff
-		Your life regen is still increased even when afflicted with a damage over time debuff
-		When afflicted with a debuff, you will gain 14 defense
-		This defense will begin to fade away when you are no longer debuffed
+		Grants 16 defense and +2 HP/s life regen while afflicted with any debuff
+		Massively boosts natural life regen while afflicted with any debuff
+		Each debuff beyond the first grants 4 additional defense
+		Granted defense fades away slowly when not afflicted with any debuffs
+		Makes the Astral Infection debuff harmless
+		'A beautiful gemstone tarnished by spaceborne rot'
 		'''
 }
 
@@ -461,11 +464,9 @@ CrownJewel: {
 	DisplayName: Crown Jewel
 	Tooltip:
 		'''
-		+0.5 HP/s life regen
-		You gain an additional +1.5 HP/s life regen while afflicted with a debuff
-		Your life regen is still increased even when afflicted with a damage over time debuff
-		When afflicted with a debuff, you will gain 8 defense
-		This defense will begin to fade away when you are no longer debuffed
+		+1 HP/s life regen
+		You gain an additional +1.5 HP/s life regen while afflicted with any debuff
+		Massively boosts natural life regen while afflicted with any debuff
 		'''
 }
 
@@ -952,9 +953,9 @@ HoneyDew: {
 	Tooltip:
 		'''
 		+30 max life
-		You have Honey-like life regen
+		Provides life regeneration equivalent to standing in Honey
+		Standing still in Honey grants extremely powerful regen
 		Halves how long you are afflicted with sickness debuffs
-		When you are afflicted with a sickness debuff you quickly heal
 		'''
 }
 
@@ -1024,7 +1025,13 @@ LifeJelly: {
 
 LivingDew: {
 	DisplayName: Living Dew
-	Tooltip: 20% increased movement and jump speed, but 12% reduced damage
+	Tooltip:
+		'''
+		+50 max life
+		Provides life regeneration equivalent to standing in Honey
+		Standing still in Honey grants extremely powerful regen
+		Halves how long you are afflicted with fire and sickness debuffs
+		'''
 }
 
 LumenousAmulet: {
@@ -1326,9 +1333,8 @@ RadiantOoze: {
 	DisplayName: Radiant Ooze
 	Tooltip:
 		'''
-		You produce light
-		+1.5 HP/s life regen
-		Your natural life regen is improved
+		Grants +2 to +6 HP/s life regen based on missing health
+		You emit yellow light if visibility is enabled
 		'''
 }
 

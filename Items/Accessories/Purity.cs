@@ -1,11 +1,9 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
 using CalamityMod.Rarities;
-using System.Collections.Generic;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -27,18 +25,38 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
+            player.statLifeMax2 += 100;
+
+            // Grant life regen based on missing health
+            if (!(modPlayer.rOoze || modPlayer.aAmpoule))
+            {
+                float missingLifeRatio = (player.statLifeMax2 - player.statLife) / player.statLifeMax2;
+                float lifeRegenToGive = MathHelper.Lerp(6f, 14f, missingLifeRatio);
+                player.lifeRegen += (int)lifeRegenToGive;
+            }
+
+            // Abyss light, debuff near-immunity, and massively enhances debuff halving
             modPlayer.purity = true;
+
+            // Inherits effects from Honey Dew and Living Dew
+            modPlayer.alwaysHoneyRegen = true;
+            modPlayer.honeyTurboRegen = true;
+            modPlayer.honeyDewHalveDebuffs = true;
+            modPlayer.livingDewHalveDebuffs = true;
+
+            // Add light if the other accessories aren't equipped and visibility is turned on
+            if (!(modPlayer.rOoze || modPlayer.purity) && !hideVisual)
+                Lighting.AddLight(player.Center, new Vector3(0.688f, 0.829f, 1.402f));
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<InfectedJewel>().
                 AddIngredient<AmbrosialAmpoule>().
-                AddIngredient<CoreofCalamity>(1).
-                AddIngredient<DivineGeode>(8).
-                AddIngredient<SeaPrism>(8).
-                AddTile(TileID.LunarCraftingStation).
+                AddIngredient<InfectedJewel>().
+                AddIngredient<AuricBar>(4).
+                AddIngredient<AscendantSpiritEssence>(5).
+                AddTile(ModContent.TileType<CosmicAnvil>()).
                 Register();
         }
     }

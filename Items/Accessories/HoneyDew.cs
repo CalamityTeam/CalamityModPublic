@@ -20,17 +20,19 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.statLifeMax2 += 30;
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.hDew = true;
+            modPlayer.alwaysHoneyRegen = true;
+            modPlayer.honeyTurboRegen = true;
+            modPlayer.honeyDewHalveDebuffs = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.JungleSpores, 12).
-                AddIngredient<MurkyPaste>(5).
-                AddIngredient<TrapperBulb>(3).
-                AddIngredient(ItemID.BottledHoney, 5).
+                AddIngredient(ItemID.BottledHoney, 10).
+                AddIngredient(ItemID.BeeWax, 3).
+                AddIngredient<MurkyPaste>(3).
                 AddTile(TileID.Anvils).
                 Register();
         }

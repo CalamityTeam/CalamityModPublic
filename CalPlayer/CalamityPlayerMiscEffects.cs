@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
@@ -1578,93 +1576,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() += 0.1f;
             }
 
-            if (hDew && !aAmpoule && !purity)
-            {
-                //heal ever 12 frames
-                if (HoneyDewHealCooldown == HoneyDewHealSpeed)
-                    HoneyDewHealCooldown = 0;
-                Player.statLifeMax2 += 30;
-                for (int l = 0; l < Player.MaxBuffs; l++)
-                {
-                    int hasBuff = Player.buffType[l];
-                    if (Player.buffTime[l] > 2 && CalamityLists.sicknessDebuffList.Contains(hasBuff))
-                    {
-                        Player.buffTime[l]--;
-                        if (HoneyDewHealCooldown == 0)
-                        {
-                            HoneyDewHealCooldown++;
-                            Player.Heal(1);
-                        }
-                        else
-                            HoneyDewHealCooldown++;
-                    }
-                }
-                //Honey Like life regen, does not work if you have honey buff
-                if (!Player.honey && Player.lifeRegen < 0)
-                {
-                    Player.lifeRegen += 2;
-                    if (Player.lifeRegen > 0)
-                        Player.lifeRegen = 0;
-                }
-                if (!Player.honey)
-                {
-                    Player.lifeRegenTime += 1;
-                    Player.lifeRegen += 2;
-                }
-            }
-
-            // Radiant Ooze light-granting
             float[] light = new float[3];
-            if (rOoze && !aAmpoule && !purity)
-            {
-                light[0] += 1f;
-                light[1] += 1f;
-                light[2] += 0.6f;
-            }
-
-            // Ambrosial Ampoule bonus and other light-granting bonuses
-            if (aAmpoule && !purity)
-            {
-                light[0] += 1.3f;
-                light[1] += 1.3f;
-                light[2] += 0.8f;
-            }
-            if (purity)
-            {
-                light[0] += 1.2f;
-                light[1] += 1.7f;
-                light[2] += 2.7f;
-            }
-            if (aAmpoule && !purity)
-            {
-                //heal every 9 frames
-                if (AmbrosialAmpouleHealCooldown == AmbrosialAmpouleHealSpeed)
-                    AmbrosialAmpouleHealCooldown = 0;
-                Player.statLifeMax2 += 50;
-                for (int l = 0; l < Player.MaxBuffs; l++)
-                {
-                    int hasBuff = Player.buffType[l];
-                    if (Player.buffTime[l] > 2 && CalamityLists.sicknessDebuffList.Contains(hasBuff))
-                    {
-                        Player.buffTime[l]--;
-                        if (AmbrosialAmpouleHealCooldown == 0)
-                        {
-                            AmbrosialAmpouleHealCooldown++;
-                            Player.Heal(1);
-                        }
-                        else
-                            AmbrosialAmpouleHealCooldown++;
-                    }
-                }
-                if (Player.lifeRegen < 0)
-                {
-                    Player.lifeRegen += 2;
-                    if (Player.lifeRegen > 0)
-                        Player.lifeRegen = 0;
-                }
-
-
-            }
             if (cFreeze)
             {
                 light[0] += 0.3f;
@@ -2769,25 +2681,25 @@ namespace CalamityMod.CalPlayer
                 Player.lifeMagnet = true;
             }
 
-            if (wDeath)
+            if (wDeath && !purity)
                 Player.GetDamage<GenericDamageClass>() -= 0.25f;
 
-            if (astralInfection)
+            if (astralInfection && !(infectedJewel || purity))
                 Player.GetDamage<GenericDamageClass>() -= 0.15f;
 
-            if (pFlames)
+            if (pFlames && !purity)
             {
                 Player.blind = true;
                 Player.GetDamage<GenericDamageClass>() -= 0.15f;
             }
 
-            if (aCrunch && !laudanum)
+            if (aCrunch && !laudanum && !purity)
             {
                 Player.statDefense -= ArmorCrunch.DefenseReduction;
                 Player.endurance *= ArmorCrunch.MultiplicativeDamageReductionPlayer;
             }
 
-            if (wither)
+            if (wither && !purity)
             {
                 Player.statDefense -= WitherDebuff.DefenseReduction;
             }
@@ -2800,10 +2712,10 @@ namespace CalamityMod.CalPlayer
                     Player.velocity.Y = 15f;
             }
 
-            if (eutrophication)
+            if (eutrophication && !purity)
                 Player.velocity = Vector2.Zero;
 
-            if (vaporfied || galvanicCorrosion)
+            if ((vaporfied && !purity) || galvanicCorrosion)
                 Player.velocity *= 0.98f;
 
             if (molluskSet)

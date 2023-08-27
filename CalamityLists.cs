@@ -1,20 +1,18 @@
-﻿using CalamityMod.Buffs;
+﻿using System.Collections.Generic;
+using CalamityMod.Buffs;
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -68,7 +66,6 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.LivingFire;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -91,6 +88,7 @@ namespace CalamityMod
         public static List<int> friendlyBeeList;
         public static List<int> hardModeNerfList;
         public static List<int> debuffList;
+        public static List<int> fireDebuffList;
         public static List<int> sicknessDebuffList;
         public static List<int> alcoholList;
         public static List<int> spearAutoreuseList;
@@ -1166,12 +1164,29 @@ namespace CalamityMod
                 BuffType<FishAlert>(),
                 BuffType<HolyInferno>(),
                 BuffType<IcarusFolly>(),
-                BuffType<NOU>(),
-                BuffType<ManaBurn>(),
+                BuffType<DoGExtremeGravity>(),
+                // BuffType<NOU>(),
                 BuffType<PopoNoselessBuff>(),
                 BuffType<SearingLava>(),
                 BuffType<WeakBrimstoneFlames>(),
                 BuffType<Withered>()
+            };
+
+            fireDebuffList = new List<int>()
+            {
+                BuffID.OnFire,
+                BuffID.OnFire3, // Hellfire
+                BuffID.Burning, // Touching meteorite ore or hellstone without obsidian skull
+                BuffID.CursedInferno,
+                BuffID.ShadowFlame, // Vanilla Shadowflame, can normally never be applied to players
+                BuffType<Shadowflame>(), // Calamity Shadowflame copy for players
+                BuffType<SearingLava>(), // Crags lava
+                BuffType<BrimstoneFlames>(),
+                BuffType<HolyFlames>(),
+                BuffType<GodSlayerInferno>(),
+                BuffType<Dragonfire>(),
+                BuffType<WeakBrimstoneFlames>(), // Aflame enchant self damage
+                BuffType<BanishingFire>(),
             };
 
             sicknessDebuffList = new List<int>()
@@ -2714,6 +2729,8 @@ namespace CalamityMod
             beeProjectileList = null;
             hardModeNerfList = null;
             debuffList = null;
+            fireDebuffList = null;
+            sicknessDebuffList = null;
             alcoholList = null;
             spearAutoreuseList = null;
             pumpkinMoonBuffList = null;

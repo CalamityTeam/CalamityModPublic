@@ -470,18 +470,11 @@ namespace CalamityMod.CalPlayer
         public bool gShell = false;
         public bool tortShell = false;
         public bool absorber = false;
-        public bool hDew = false;
-        public int HoneyDewHealCooldown = 0;
-        public int HoneyDewHealSpeed = 12;
-        public int AmbrosialAmpouleHealCooldown = 0;
-        public int AmbrosialAmpouleHealSpeed = 9;
-        public int PurityHealCooldown = 0;
-        public int PurityHealSpeed = 5;
-        //Used to time until you get reduced healing
-        public int ReducedHealingCounter = 0;
-        public int CrownJewelBonusDefense = 0;
-        public int InfectedJewelBonusDefense = 0;
-        public int PurityBonusDefense = 0;
+        public bool alwaysHoneyRegen = false;
+        public bool honeyTurboRegen = false;
+        public bool honeyDewHalveDebuffs = false;
+        public bool livingDewHalveDebuffs = false;
+        public int jewelBonusDefense = 0;
         public bool aAmpoule = false;
         public bool rOoze = false;
         public bool JustWasDebuffed = false;
@@ -532,6 +525,7 @@ namespace CalamityMod.CalPlayer
         public bool crownJewel = false;
         public bool infectedJewel = false;
         public bool purity = false;
+        public int PurityHealSlowdownFrames = 0;
         public bool harpyRing = false;
         public bool angelTreads = false;
         public bool harpyWingBoost = false; //harpy wings + harpy ring
@@ -1585,7 +1579,10 @@ namespace CalamityMod.CalPlayer
             gShell = false;
             tortShell = false;
             absorber = false;
-            hDew = false;
+            alwaysHoneyRegen = false;
+            honeyTurboRegen = false;
+            honeyDewHalveDebuffs = false;
+            livingDewHalveDebuffs = false;
             aAmpoule = false;
             rOoze = false;
             fBarrier = false;
@@ -2257,6 +2254,7 @@ namespace CalamityMod.CalPlayer
             vaporfied = false;
             banishingFire = false;
             wither = false;
+            PurityHealSlowdownFrames = 0;
             #endregion
 
             #region Rogue

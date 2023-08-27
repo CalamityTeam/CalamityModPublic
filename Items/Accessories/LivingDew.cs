@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,21 +20,25 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            //20% Movespeed and Jumpspeed, 12% reduced damage
-            player.moveSpeed += 0.2f;
-            player.jumpSpeedBoost += 1f;
-            player.GetDamage<GenericDamageClass>() -= 0.12f;
+            player.statLifeMax2 += 50;
+
+            // Inherits all effects of Honey Dew
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.alwaysHoneyRegen = true;
+            modPlayer.honeyTurboRegen = true;
+            modPlayer.honeyDewHalveDebuffs = true;
+            modPlayer.livingDewHalveDebuffs = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.JungleSpores, 12).
-                AddIngredient<MurkyPaste>(5).
+                AddIngredient<HoneyDew>().
                 AddIngredient<TrapperBulb>(3).
-                //replace with water essence later
+                AddIngredient<LivingShard>(6).
+                // TODO -- Replace with Water Essence
                 AddIngredient<EssenceofSunlight>(5).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }
