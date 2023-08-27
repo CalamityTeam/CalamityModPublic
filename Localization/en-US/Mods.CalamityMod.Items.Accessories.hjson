@@ -74,7 +74,7 @@ Affliction: {
 	DisplayName: Affliction
 	Tooltip:
 		'''
-		Gives you and all other players on your team +1 life regen,
+		Gives you and all other players on your team +0.5 HP/s life regen,
 		+10% max life, 7% damage reduction, 13 defense and 10% increased damage
 		'''
 }
@@ -117,7 +117,7 @@ AmbrosialAmpoule: {
 		'''
 		You emit light
 		+50 max life
-		Your life regen is increased by 5
+		+2.5 HP/s life regen
 		Your natural life regen is greatly improved
 		Halves how long you are afflicted with sickness debuffs
 		When you are afflicted with a sickness debuff you quickly heal
@@ -155,7 +155,7 @@ AngelicAlliance: {
 		Call upon the force of heaven to empower your attacks and minions
 		Courage, Enlightenment, Bliss. United in Judgement
 		+2 max minions, 15% increased summon damage, and 8% increased damage to all other classes
-		Life regeneration is boosted while jumping
+		+2 HP/s life regen while airborne using wings
 		Press [KEY] to grace yourself in divinity for 15 seconds
 		While under the effects of Divine Bless, for every minion you have, an archangel shall be summoned to aid you in combat
 		Each spawned angel will instantly heal you for two health
@@ -221,7 +221,7 @@ AsgardianAegis: {
 		'''
 		Grants immunity to knockback
 		Immune to most debuffs
-		+40 max life and increased life regeneration
+		+40 max life and +0.5 HP/s life regen
 		Grants a cosmic inferno dash which can slam through enemies without taking damage
 		Can be used to ram enemies
 		+20 defense while submerged in liquid
@@ -247,8 +247,8 @@ Purity: {
 		A once infected crystal, now perfectly purified
 		You emit light
 		+80 max life
-		Your life regen is increased by 5
-		You gain an additional 5 life regen while afflicted with a debuff 
+		+2.5 HP/s life regen
+		You gain an additional +2.5 HP/s life regen while afflicted with a debuff
 		Your life regen is still increased even when afflicted with a damage over time debuff
 		Your natural life regen is massively improved
 		Greatly reduces how long you are afflicted with debuffs
@@ -325,8 +325,9 @@ BloomStone: {
 	DisplayName: Bloom Stone
 	Tooltip:
 		'''
-		You quickly regenerate life while on the ground
-		This effect works best during daytime
+		Grants between +1 HP/s and +3 HP/s life regen depending on time of day
+		Accelerates life regen based on time of day
+		Both of these effects are maximized from noon to sunset
 		Flowers grow if you are standing on grass
 		Random dye plants will grow while standing on grassless dirt
 		One of the ancient relics
@@ -361,8 +362,8 @@ InfectedJewel: {
 	Tooltip:
 		'''
 		A beautiful gem that has been corrupted by the astral infection
-		Life regen increased by 2
-		You gain an additional 4 life regen while afflicted with a debuff 
+		+1 HP/s life regen
+		You gain an additional +2 HP/s life regen while afflicted with a debuff
 		Your life regen is still increased even when afflicted with a damage over time debuff
 		When afflicted with a debuff, you will gain 14 defense
 		This defense will begin to fade away when you are no longer debuffed
@@ -460,8 +461,8 @@ CrownJewel: {
 	DisplayName: Crown Jewel
 	Tooltip:
 		'''
-		Life regen increased by 1
-		You gain an additional 3 life regen while afflicted with a debuff
+		+0.5 HP/s life regen
+		You gain an additional +1.5 HP/s life regen while afflicted with a debuff
 		Your life regen is still increased even when afflicted with a damage over time debuff
 		When afflicted with a debuff, you will gain 8 defense
 		This defense will begin to fade away when you are no longer debuffed
@@ -511,11 +512,11 @@ DarkSunRing: {
 	Tooltip:
 		'''
 		12% increase to damage
-		+1 life regen and +2 max minions
+		+0.5 HP/s life regen and +2 max minions
 		Increased minion knockback
-		During the day the player has +4 life regen
-		During the night the player has +20 defense
-		During an eclipse the player has +2 life regen and +10 defense
+		During the day, grants +2 HP/s life regen
+		During the night, grants +20 defense
+		During an eclipse, grants +1 HP/s life regen and +10 defense
 		'Contains the power of the dark sun'
 		'''
 }
@@ -543,7 +544,8 @@ DeificAmulet: {
 	Tooltip:
 		'''
 		Causes stars to fall and grants increased immune time when damaged
-		Provides life regeneration and reduces the cooldown of healing potions
+		+0.5 HP/s life regen
+		Reduces the cooldown of healing potions
 		'''
 }
 
@@ -796,7 +798,7 @@ FungalSymbiote: {
 	Tooltip:
 		'''
 		You grow mushrooms on the grass beneath you
-		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and life regen by 2
+		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and granting 0.5 HP/s life regen
 		All mushroom-based weapons deal 10% more damage and emit non-damaging mushrooms
 		'''
 }
@@ -876,7 +878,7 @@ GrandGelatin: {
 		10% increased movement speed and jump speed
 		Using a healing potion will spawn a cleansing aura
 		Walking into the aura removes all debuffs and defense damage one time
-		The aura provides increased life regen for all players inside for 8 seconds
+		The aura grants +2.5 HP/s life regen for all players inside for 8 seconds
 		'''
 }
 
@@ -1016,7 +1018,7 @@ LifeJelly: {
 	Tooltip:
 		'''
 		Using a healing potion will spawn a lingering aura 
-		The aura provides increased life regen for all players inside for 5 seconds
+		The aura grants +2 HP/s life regen for all players inside for 5 seconds
 		'''
 }
 
@@ -1059,7 +1061,7 @@ ManaPolarizer: {
 	Tooltip:
 		'''
 		Increases max mana by 50 and magic damage by 6%
-		Life regen lowered by 3 if mana is above 50% of its maximum
+		-1.5 HP/s life regen if mana is above 50% of its maximum
 		Grants spectre healing, the amount healed scales with your mana
 		The healing only works while holding a magic weapon
 		The more mana you have, the more you heal
@@ -1231,8 +1233,8 @@ PermafrostsConcoction: {
 	Tooltip:
 		'''
 		Increases maximum mana by 50 and reduces mana cost by 15%
-		Increases life regen as life decreases
-		Increases life regen when afflicted with any fire debuff
+		+0.5 HP/s life regen below half health, +1 HP/s when below 25% health and +2 HP/s when below 10% health
+		+3 HP/s life regen while afflicted with any fire debuff
 		You will survive fatal damage and revive with 30% life on a 3 minute cooldown
 		You are encased in an ice barrier for 3 seconds when revived
 		'''
@@ -1325,7 +1327,7 @@ RadiantOoze: {
 	Tooltip:
 		'''
 		You produce light
-		Your life regen is increased by 3
+		+1.5 HP/s life regen
 		Your natural life regen is improved
 		'''
 }
@@ -1344,7 +1346,7 @@ RampartofDeities: {
 	Tooltip:
 		'''
 		Causes stars to fall and gives increased immune time when damaged
-		Provides life regeneration and reduces the cooldown of healing potions
+		+0.5 HP/s life regen and reduces the cooldown of healing potions
 		Absorbs 15% of damage done to players on your team
 		This effect is only active above 25% life
 		Grants immunity to knockback
@@ -1366,7 +1368,7 @@ Regenator: {
 	DisplayName: Regenator
 	Tooltip:
 		'''
-		Greatly improves life regeneration
+		+6 HP/s life regen and massively accelerated natural life regen
 		However, your health cannot exceed 50% of its maximum
 		'''
 }
@@ -1436,7 +1438,7 @@ SandCloak: {
 	Tooltip:
 		'''
 		5% increased movement speed
-		Press [KEY] to consume 10% of your maximum stealth to create a protective dust veil which provides +6 defense and +2 life regen
+		Press [KEY] to consume 10% of your maximum stealth to create a protective dust veil which provides +6 defense and +1 HP/s life regen
 		This effect has a 30 second cooldown before it can be used again
 		'''
 }
@@ -1465,7 +1467,7 @@ ShatteredCommunity: {
 		'''
 		'Ruined by unknowable hatred, it still contains (most of) the power of The Community...'
 		Increases damage by 10% and critical strike chance by 5%
-		Increases max health by 10%, damage reduction by 5%, defense by 10 and life regen by 2
+		Increases max health by 10%, damage reduction by 5%, defense by 10, and life regen by 1 HP/s
 		Increases movement speed by 10% and flight time by 20%
 		[RAGEDESC]
 		Taking damage gives rage, this effect is not hindered by your defensive stats
@@ -1503,7 +1505,7 @@ ShieldoftheOcean: {
 	Tooltip:
 		'''
 		Increased defense by 5 when submerged in liquid
-		Increases movement speed and life regen while wearing the Victide armor
+		10% increased movement speed and +1 HP/s life regen while wearing Victide armor
 		'''
 }
 
@@ -1721,7 +1723,7 @@ TheAbsorber: {
 		Enemies take immense damage when they touch you and are afflicted with a debuff that reduces damage reduction significantly
 		Using a healing potion will spawn a cleansing aura
 		Walking into the aura removes all debuffs and defense damage one time
-		The aura provides greatly increased life regen, damage, and damage reduction for all players inside for 15 seconds
+		The aura grants +3 HP/s life regen, +10% damage, and +7% damage reduction for all players inside for 15 seconds
 		5% of the damage from enemy attacks is absorbed and converted into healing
 		'''
 }
@@ -1776,7 +1778,7 @@ TheCommunity: {
 		'''
 		Increases damage by {0}% and critical strike chance by {1}%
 		Increases max health by {2}%, damage reduction by {3}%, and defense by {4}
-		Increases life regen by {5} while under damage over time effects
+		+{5} HP/s life regen while suffering from damage over time debuffs
 		Increases movement speed by {6}% and flight time by {7}%
 		Become more powerful as you defeat bosses ({8}% Power)
 		'''
@@ -1789,7 +1791,7 @@ TheEvolution: {
 		You reflect projectiles when they hit you
 		Reflected projectiles deal no damage to you
 		This reflect has a 90 second cooldown which is shared with all other dodges and reflects
-		If this effect triggers you get a health regeneration boost for 5 seconds
+		After reflecting something, grants +1 HP/s life regen and accelerated life regen for 5 seconds
 		If the same enemy projectile type hits you again you will resist its damage by 15%
 		'''
 }
@@ -1842,7 +1844,7 @@ TrinketofChi: {
 	Tooltip:
 		'''
 		Provides 10% damage reduction after not being hit for 15 seconds, this is removed when you are hit
-		Provides 2 life regen for you and everyone on your team
+		+1 HP/s life regen for you and everyone on your team
 		'''
 }
 

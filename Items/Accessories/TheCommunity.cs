@@ -116,7 +116,7 @@ namespace CalamityMod.Items.Accessories
                 (int)(HealthMultiplier * power),
                 (DRMultiplier * power * 100).ToString("N2"),
                 (int)(DefenseMultiplier * power),
-                1 + (int)(RegenMultiplier * power),
+                (0.5f * (1f + (int)(RegenMultiplier * power))).ToString("n1"),
                 (SpeedMultiplier * power * 100).ToString("N1"),
                 (FlightMultiplier * power * 100).ToString("N1"),
                 (CalculatePower(true) * 100).ToString("N0"));
