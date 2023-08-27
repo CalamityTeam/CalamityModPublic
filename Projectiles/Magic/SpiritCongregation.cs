@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 6;
+            Projectile.localNPCHitCooldown = 10;
             Projectile.timeLeft = 90000;
         }
 
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Magic
                 BaseDamage = Projectile.damage;
             else
             {
-                float damageBoostFactor = MathHelper.SmoothStep(1f, 3.3f, CurrentPower);
+                float damageBoostFactor = MathHelper.SmoothStep(1f, 2f, CurrentPower);
                 Projectile.damage = (int)(BaseDamage * damageBoostFactor);
             }
 
