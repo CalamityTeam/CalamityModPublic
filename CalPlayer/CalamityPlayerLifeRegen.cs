@@ -436,7 +436,7 @@ namespace CalamityMod.CalPlayer
                     // Count up total frames spent healing for slowdown.
                     ++PurityHealSlowdownFrames;
                 }
-                else if (Player.miscCounter % 20 == 0 && jewelBonusDefense > 0)
+                else if (Player.miscCounter % 20 == 0 && jewelBonusDefense > 0) //TODO reduce defense and put cooldown at 60 like infected jewel
                     --jewelBonusDefense;
 
                 // If the player is clear of all debuffs then gradually reduce the slowdown frames

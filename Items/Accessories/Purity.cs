@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetDefaults()
         {
             Item.defense = 8;
-            Item.width = 20;
+            Item.width = 18;
             Item.height = 44;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
@@ -45,8 +45,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.livingDewHalveDebuffs = true;
 
             // Add light if the other accessories aren't equipped and visibility is turned on
-            if (!(modPlayer.rOoze || modPlayer.purity) && !hideVisual)
-                Lighting.AddLight(player.Center, new Vector3(0.688f, 0.829f, 1.402f));
+            if (!(modPlayer.rOoze || modPlayer.aAmpoule) && !hideVisual)
+                Lighting.AddLight(player.Center, new Vector3(1.376f, 1.658f, 2.103f));
         }
 
         public override void AddRecipes()
