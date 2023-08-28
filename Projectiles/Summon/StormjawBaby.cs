@@ -414,8 +414,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.tileCollide = true;
                 float accelFast = 0.5f;
-                float maxSpeed = 4f;
-                float xVel = 4f;
+                float maxSpeed = 7f;
+                float xVel = 7f;
                 float accelSlow = 0.1f;
                 if (xVel < Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y))
                 {
