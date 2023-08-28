@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.EnchantedBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.ExplosiveBullet, standardBulletTweaks },
                 { ProjectileID.Flamarang, Do(ExtraUpdatesExact(2)) },
-                { ProjectileID.Flames, Do(IDStaticIFrames(6), ExtraUpdatesDelta(+1)) }, // Flamethrower + Elf Melter
+                { ProjectileID.Flames, Do(IDStaticIFrames(6) }, // Flamethrower + Elf Melter
                 { ProjectileID.FlamingJack, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.FlowerPetal, Do(MaxUpdatesExact(4), LocalIFrames(10)) }, // Orichalcum armor
                 { ProjectileID.FlowerPow, Do(ExtraUpdatesExact(1)) },

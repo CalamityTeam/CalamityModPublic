@@ -105,7 +105,7 @@ namespace CalamityMod.Items
                 // { ItemID.FireworksLauncher, Do(DamageRatio(2f)) }, // Celebration
                 { ItemID.Flamarang, Do(DamageExact(43)) },
                 { ItemID.Flamelash, Do(DamageRatio(1.25f)) },
-                { ItemID.Flamethrower, Do(DamageExact(42), ShootSpeedDelta(+3f)) },
+                { ItemID.Flamethrower, ShootSpeedDelta(+3f)) },
                 { ItemID.FlowerofFire, Do(AutoReuse, ManaExact(7), UseRatio(0.88f)) }, // Uses ratios due to remix seed
                 { ItemID.FlowerofFrost, Do(AutoReuse, ManaExact(7), UseExact(30), DamageExact(70), ShootSpeedExact(14)) },
                 { ItemID.FlyingKnife, Do(DamageExact(70)) },
