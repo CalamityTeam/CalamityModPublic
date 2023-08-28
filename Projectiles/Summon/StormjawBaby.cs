@@ -393,7 +393,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (sparkCounter < 0)
                     sparkCounter = 0;
 
-                float sepAnxietyDist = 500f;
+                float sepAnxietyDist = 1000f;
                 Vector2 playerDist = player.Center - Projectile.Center;
                 // Teleport to the player if too far
                 if (playerDist.Length() > 2000f)
