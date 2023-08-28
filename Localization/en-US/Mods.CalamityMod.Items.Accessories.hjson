@@ -1490,7 +1490,7 @@ ShatteredCommunity: {
 		When Rage is maxed, press {0} for a temporary damage boost
 		'''
 	RageModified: You generate rage over time and rage does not fade out of combat
-    LevelUpText: Level Up!
+	LevelUpText: The Community cracks...
 }
 
 ShieldoftheHighRuler: {
