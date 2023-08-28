@@ -32,5 +32,11 @@ namespace CalamityMod.Projectiles.Rogue
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
+
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D glow = ModContent.Request<Texture2D>(Texture + "Glow").Value;
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, glow.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+        }
     }
 }

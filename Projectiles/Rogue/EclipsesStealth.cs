@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -22,8 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Type] = 6;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
         }
 
         public override void SetDefaults()
@@ -65,12 +66,13 @@ namespace CalamityMod.Projectiles.Rogue
                 // Eclipse's Fall is guaranteed to impale for 10 seconds, no more, no less
                 if (!changedTimeLeft)
                 {
-                    Projectile.timeLeft = 600 * Projectile.MaxUpdates;
+                    Projectile.MaxUpdates = 1;
+                    Projectile.timeLeft = 600;
                     changedTimeLeft = true;
                 }
 
                 // Spawn spears. As this uses local AI, it's done client-side only.
-                if (Projectile.owner == Main.myPlayer && Projectile.FinalExtraUpdate())
+                if (Projectile.owner == Main.myPlayer)
                 {
                     Projectile.localAI[1] -= 1f;
 
@@ -107,8 +109,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor, 1);
             return false;
+        }
+
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D glow = ModContent.Request<Texture2D>(Texture + "Glow").Value;
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, glow.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
         }
 
         public override bool? CanHitNPC(NPC target) => Projectile.ai[0] == 1f ? false : base.CanHitNPC(target);

@@ -1,4 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -53,6 +55,13 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (!Main.dayTime || Main.rand.NextBool(3)) //100% at night, 33.33% chance during day
                 target.AddBuff(ModContent.BuffType<Nightwither>(), 45);
+        }
+
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D glow = ModContent.Request<Texture2D>(Texture + "Glow").Value;
+            Rectangle frame = glow.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, frame.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
         }
     }
 }
