@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ModContent.RarityType<Turquoise>();
             Item.UseSound = SoundID.Item102;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
             Item.shootSpeed = 30f;
             Item.useAmmo = AmmoID.Arrow;
         }
