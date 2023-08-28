@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79;
-            Projectile num121 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
+            Projectile num121 = Projectile.NewProjectileDirect(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
             Main.projectile[num121].noDropItem = true;
             Main.projectile[num121].tileCollide = false;
             CalamityGlobalProjectile cgp = num121.Calamity();
