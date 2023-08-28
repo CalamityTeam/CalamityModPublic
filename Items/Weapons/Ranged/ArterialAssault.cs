@@ -76,16 +76,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79;
-            if (CalamityUtils.CheckWoodenAmmo(type, player))
-            {
-                int bloodfire = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<BloodfireArrowProj>(), damage, knockback, player.whoAmI, 0f, 80f);
-                Main.projectile[bloodfire].tileCollide = false;
-            }
-            else
-            {
-                int num121 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
-                Main.projectile[num121].noDropItem = true;
-            }
+            int num121 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
+            Main.projectile[num121].noDropItem = true;
+            Main.projectile[num121].tileCollide = false;
+            CalamityUtils.HomeInOnNPC(num121, !num121.tileCollide, 200f, 12f, 20f);
             return false;
         }
 
