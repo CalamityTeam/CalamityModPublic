@@ -40,13 +40,17 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.rare = ModContent.RarityType<DarkBlue>();
 
             Item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
-            Item.shootSpeed = 10f;
+            Item.shootSpeed = 11f;
             Item.DamageType = RogueDamageClass.Instance;
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 250f;
             modItem.ChargePerUse = 0.25f;
         }
+
+        public override float StealthDamageMultiplier => 1.2f;
+        public override float StealthVelocityMultiplier => 1.2f;
+        public override float StealthKnockbackMultiplier => 1.5f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
