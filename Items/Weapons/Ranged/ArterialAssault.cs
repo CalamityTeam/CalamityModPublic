@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
