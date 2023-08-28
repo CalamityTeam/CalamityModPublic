@@ -1,5 +1,5 @@
-﻿using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles;
+﻿﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ModContent.RarityType<Turquoise>();
             Item.UseSound = SoundID.Item102;
             Item.autoReuse = true;
-            Item.shoot = ProjectileID.WoodenArrowFriendly;
+            Item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
             Item.shootSpeed = 30f;
             Item.useAmmo = AmmoID.Arrow;
         }
@@ -76,11 +76,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79;
-            Projectile num121 = Projectile.NewProjectileDirect(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
-            Main.projectile[num121].noDropItem = true;
-            Main.projectile[num121].tileCollide = false;
-            CalamityGlobalProjectile cgp = num121.Calamity();
-            cgp.allProjectilesHome = true;
+            if (CalamityUtils.CheckWoodenAmmo(type, player))
+            {
+                int bloodfire = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<BloodfireArrowProj>(), damage, knockback, player.whoAmI, 0f, 80f);
+                Main.projectile[bloodfire].tileCollide = false;
+            }
+            else
+            {
+                int num121 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
+                Main.projectile[num121].noDropItem = true;
+            }
             return false;
         }
 
