@@ -8,12 +8,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalamityMod.Items.Accessories;
+using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Filters = Terraria.Graphics.Effects.Filters;
 
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
@@ -853,10 +856,42 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 color *= 0.6f;
                 color2 *= 0.6f;
                 float scaleMult = 1.2f + scaleDuringShieldDespawn;
+                
+                // The scale used for the noise overlay polygons also grows and shrinks
+                // This is intentionally out of sync with the shield, and intentionally desynced per player
+                // Don't put this anywhere less than 0.25f or higher than 1f. The higher it is, the denser / more zoomed out the noise overlay is.
+                float noiseScale = MathHelper.Lerp(0.4f, 0.8f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.3f) * 0.5f + 0.5f);
+
+                // Define shader parameters
+                Effect shieldEffect = Filters.Scene["CalamityMod:RoverDriveShield"].GetShader().Shader;
+                shieldEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.058f); // Scrolling speed of polygonal overlay
+                shieldEffect.Parameters["blowUpPower"].SetValue(2.8f);
+                shieldEffect.Parameters["blowUpSize"].SetValue(0.4f);
+                shieldEffect.Parameters["noiseScale"].SetValue(noiseScale);
+                
+                shieldEffect.Parameters["shieldOpacity"].SetValue(opacityScaleDuringShieldDespawn);
+                shieldEffect.Parameters["shieldEdgeBlendStrenght"].SetValue(4f);
+                
+                Color edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, color, color2);
+                
+                // Define shader parameters for shield color
+                shieldEffect.Parameters["shieldColor"].SetValue(color.ToVector3());
+                shieldEffect.Parameters["shieldEdgeColor"].SetValue(edgeColor.ToVector3());
+                
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale2 * scaleMult, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.95f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale * scaleMult, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale * scaleMult * 0.95f, SpriteEffects.None, 0f);
+                
+                    // GOD I LOVE END BEGIN CAN THIS GAME PLEASE BE SWALLOWED BY THE FIRES OF HELL THANKS
+                    // yes I copy pasted that comment, I hate end begin that much
+                    // I also copy pasted that comment, this time for consistency :hdfailure:
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, shieldEffect, Main.GameViewMatrix.TransformationMatrix);
+                    // Fetch shield heat overlay texture (this is the neutrons fed to the shader)
+                    Texture2D heatTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons2").Value;
+                    Vector2 pos = NPC.Center + NPC.gfxOffY * Vector2.UnitY - Main.screenPosition;
+                    Main.spriteBatch.Draw(heatTex, shieldDrawPos, null, Color.White, 0, heatTex.Size() / 2f, shieldScale * scaleMult * 0.5f, 0, 0);
             }
 
             return false;
