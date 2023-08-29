@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
         {
             Projectile.Size = new Vector2(22);
             Projectile.friendly = true;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 2;
             Projectile.tileCollide = false;
             Projectile.scale = 1f;
             Projectile.DamageType = TrueMeleeDamageClass.Instance;
