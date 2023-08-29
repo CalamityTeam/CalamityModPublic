@@ -1730,7 +1730,7 @@ TheAbsorber: {
 		Enemies take immense damage when they touch you and are afflicted with a debuff that reduces damage reduction significantly
 		Using a healing potion will spawn a cleansing aura
 		Walking into the aura removes all debuffs and defense damage one time
-		The aura grants +3 HP/s life regen, +10% damage, and +7% damage reduction for all players inside for 15 seconds
+		The aura grants +3 HP/s life regen, +8% damage, and +5% damage reduction for all players inside for 10 seconds
 		5% of the damage from enemy attacks is absorbed and converted into healing
 		'''
 }
