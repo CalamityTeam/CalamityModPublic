@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 17;
+            Item.damage = 28;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 40;
             Item.height = 72;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.WoodenArrowFriendly;
-            Item.shootSpeed = 16f;
+            Item.shootSpeed = 20f;
             Item.useAmmo = AmmoID.Arrow;
             Item.Calamity().canFirePointBlankShots = true;
         }
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num117 = 0.314159274f;
-            int num118 = 4;
+            int num118 = 3;
             Vector2 vector7 = velocity;
             vector7.Normalize();
             vector7 *= 50f;
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<EssenceofSunlight>(5).
                 AddIngredient(ItemID.LivingFireBlock, 50).
                 AddIngredient(ItemID.Obsidian, 10).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.Anvils).
                 Register();
         }
     }

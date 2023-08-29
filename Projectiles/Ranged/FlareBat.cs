@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.height = 24;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 2;
             Projectile.timeLeft = 300;
             Projectile.light = 0.25f;
             Projectile.usesLocalNPCImmunity = true;
@@ -64,34 +64,48 @@ namespace CalamityMod.Projectiles.Ranged
             }
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) * Projectile.direction;
-        }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Projectile.penetrate--;
-            if (Projectile.penetrate <= 0)
+            if (Projectile.localAI[0] > 0f)
+                Projectile.localAI[0]--;
+            
+            // Makes the bat home onto enemies after piercing once; this is just the HomeInOnNPC util without the extra update shenanigans
+            if (Projectile.penetrate == 1 && Projectile.localAI[0] <= 0f)
             {
-                Projectile.Kill();
-            }
-            else
-            {
-                if (Projectile.velocity.X != oldVelocity.X)
+                if (!Projectile.friendly)
+                    return;
+
+                Vector2 destination = Projectile.Center;
+                float maxDistance = 300;
+                bool locatedTarget = false;
+
+                // Find a target
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    Projectile.velocity.X = -oldVelocity.X;
+                    float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
+                    if (!Main.npc[i].CanBeChasedBy(Projectile, false) || !Projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance))
+                        continue;
+
+                    if (Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+                    {
+                        destination = Main.npc[i].Center;
+                        locatedTarget = true;
+                        break;
+                    }
                 }
-                if (Projectile.velocity.Y != oldVelocity.Y)
+
+                if (locatedTarget)
                 {
-                    Projectile.velocity.Y = -oldVelocity.Y;
+                    Vector2 homeDirection = (destination - Projectile.Center).SafeNormalize(Vector2.UnitY);
+                    Projectile.velocity = (Projectile.velocity * 20f + homeDirection * 12f) / (20f + 1f);
                 }
             }
-            return false;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 480);
-
-            Projectile.Kill();
+            Projectile.localAI[0] = 10f;
+            Projectile.damage /= 2;
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
