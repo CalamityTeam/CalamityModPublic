@@ -1492,7 +1492,7 @@ AbsorberRegen: {
 	Description:
 		'''
 		You are blessed by the culmimation of nature's powers
-		Life regen increased by 6, damage increased by 10%, damage reduction increased by 7%
+		Life regen increased by 6, damage increased by 8%, damage reduction increased by 5%
 		'''
 }
 
