@@ -2260,6 +2260,8 @@ namespace CalamityMod.NPCs.Providence
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.45f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.5f, SpriteEffects.None, 0f);
                 
+                // The shield for the border MUST be drawn before the main shield, it becomes incredibly visually obnoxious otherwise.
+                
                 // The scale used for the noise overlay polygons also grows and shrinks
                 // This is intentionally out of sync with the shield, and intentionally desynced per player
                 // Don't put this anywhere less than 0.25f or higher than 1f. The higher it is, the denser / more zoomed out the noise overlay is.
