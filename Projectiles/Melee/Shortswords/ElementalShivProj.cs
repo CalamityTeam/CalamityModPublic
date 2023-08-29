@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
         {
             Projectile.Size = new Vector2(22);
             Projectile.friendly = true;
-            Projectile.penetrate = 2;
+            Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.scale = 1f;
             Projectile.DamageType = TrueMeleeDamageClass.Instance;
