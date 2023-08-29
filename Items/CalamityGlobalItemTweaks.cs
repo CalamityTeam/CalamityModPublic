@@ -212,7 +212,6 @@ namespace CalamityMod.Items
                 { ItemID.StakeLauncher, Do(PointBlank, DamageRatio(2f), UseRatio(1.5f)) },
                 { ItemID.StarCannon, Do(DamageExact(25)) },
                 { ItemID.StardustDragonStaff, Do(AutoReuse, DamageExact(20), UseExact(19)) },
-                { ItemID.StarWrath, Do(DamageRatio(0.9f)) },
                 { ItemID.StormTigerStaff, Do(AutoReuse, DamageExact(49), UseExact(20)) }, // Desert Tiger Staff
                 { ItemID.StylistKilLaKillScissorsIWish, Do(AutoReuse, UseTurn, DamageExact(18)) }, // Stylish Scissors
                 { ItemID.Swordfish, Do(AutoReuse, TrueMelee, DamageExact(24)) },
