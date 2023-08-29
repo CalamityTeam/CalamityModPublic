@@ -27,10 +27,9 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         public override void AI()
-        {
-            if (Projectile.velocity.Length() < 25f && Projectile.timeLeft % 2 == 0)
-                Projectile.velocity *= 2.08f;
-
+        {                       
+            CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);                                                                                                                                                                           
+        
             int rainbow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
             Main.dust[rainbow].noGravity = true;
             Main.dust[rainbow].velocity = Vector2.Zero;
