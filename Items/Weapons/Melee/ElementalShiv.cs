@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.useStyle = ItemUseStyleID.Rapier;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 10;
-            Item.useTime = 10;
+            Item.useAnimation = 14;
+            Item.useTime = 14;
             Item.width = 44;
             Item.height = 44;
             Item.damage = 190;
