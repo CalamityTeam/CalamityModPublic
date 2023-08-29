@@ -2366,8 +2366,8 @@ namespace CalamityMod.CalPlayer
 
             if (AbsorberRegen)
             {
-                Player.GetDamage<GenericDamageClass>() += 0.1f;
-                Player.endurance += 0.07f;
+                Player.GetDamage<GenericDamageClass>() += 0.08f;
+                Player.endurance += 0.05f;
             }
 
             if (crawCarapace)
