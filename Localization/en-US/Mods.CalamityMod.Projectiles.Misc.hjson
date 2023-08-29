@@ -45,6 +45,7 @@ UnstableMatter.DisplayName: Unstable Matter
 VoltageStream.DisplayName: Voltage Stream
 WavePounderBoom.DisplayName: Explosion
 WavePounderProjectile.DisplayName: Wave Pounder
+SnakeEyesProjectile.DisplayName: Snake Eyes' Beam
 // Environmental
 AcidDrop.DisplayName: Acid
 BrimstoneGeyser.DisplayName: Smoke
@@ -71,4 +72,3 @@ PlagueShot.DisplayName: Plague Shot
 PlagueShotBuffer.DisplayName: Plague Shot
 WaterShot.DisplayName: Water Shot
 WaterShotBuffer.DisplayName: Water Shot
-SnakeEyesProjectile.DisplayName: Snake Eyes Projectile

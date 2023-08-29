@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public Player Owner => Main.player[Projectile.owner];
         public CalamityPlayer ModdedOwner => Owner.Calamity();
-        public NPC Target => Owner.Center.MinionHoming(2000f, Owner);
+        public NPC Target => Owner.Center.MinionHoming(SnakeEyes.EnemyDistanceDetection, Owner);
 
         public enum AIState
         {
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.minionSlots = 1f;
             Projectile.width = Projectile.height = 22;
             Projectile.penetrate = -1;
-            
+
             Projectile.friendly = true;
             Projectile.minion = true;
             Projectile.tileCollide = false;
@@ -63,9 +63,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             // Checks if the minion can still exist given the player's circumstance.
             CheckMinionExistence();
-
-            // The minion does not use velocity at all, so to prevent AI breaks, velocity will always be 0.
-            Projectile.velocity = Vector2.Zero;
 
             // The properties of the minion's pupil, it looks around the target if there's one and to the mouse if there isn't any.
             EyeAngle = Projectile.SafeDirectionTo((Target is not null) ? Target.Center : Main.MouseWorld).ToRotation();
@@ -96,16 +93,18 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         private void IdleState()
         {
+            AITimer += .01f;
+
             // The projectile oscillates in place.
-            Projectile.Center += Vector2.UnitY * MathF.Sin(Main.GlobalTimeWrappedHourly) / 3f;
-            
+            Projectile.velocity.Y -= MathF.Cos(AITimer) / 350f;
+
             // If the player's far enough from the minion, he'll teleport somewhere around the player.
             if (!Projectile.WithinRange(Owner.Center, 400f))
             {
                 Projectile.Center = Owner.Center + Main.rand.NextVector2Circular(300f, 300f);
                 DoVFXPulse();
             }
-            
+
             if (Target is not null)
                 SwitchAIState(AIState.Targetting);
         }
@@ -172,7 +171,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 DoVFXPulse();
 
                 SoundEngine.PlaySound(SoundID.Item91 with { Volume = .8f, Pitch = .5f, PitchVariance = .1f }, Projectile.Center);
-                
+
                 HasShot = true;
                 Projectile.netUpdate = true;
             }
@@ -195,11 +194,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         private void SwitchAIState(AIState state)
         {
             State = state;
-
             AITimer = 0f;
             HasTeleported = false;
             HasShot = false;
             RandomPosition = Vector2.Zero;
+
+            Projectile.velocity = Vector2.Zero;
 
             DoVFXPulse(state == AIState.Redirecting);
 

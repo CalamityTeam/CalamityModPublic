@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionShot[Type] = true;
-            
+
             // While this projectile doesn't have afterimages, it keeps track of old positions for its primitive drawcode.
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 6;
@@ -92,10 +92,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                 Projectile.timeLeft = 2;
             }
-            
+
             for (int i = 0; i < 2; i++)
             {
-                Dust trailDust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, HasRedirected ? 261 : 226, Scale : HasRedirected ? 2f : .5f);
+                Dust trailDust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, HasRedirected ? 261 : 226, Scale: HasRedirected ? 2f : .5f);
                 trailDust.velocity = Vector2.Zero;
                 trailDust.noGravity = true;
             }
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             if (!HasRedirected)
                 return;
-            
+
             Projectile.ExpandHitboxBy(300);
             Projectile.Damage();
 
