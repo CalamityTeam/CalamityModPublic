@@ -1989,6 +1989,7 @@ namespace CalamityMod
                 ProjectileID.MonkStaffT3,
                 ProjectileID.LastPrismLaser,
                 ProjectileID.ChargedBlasterLaser,
+                ProjectileID.PiercingStarlight,
                 ProjectileID.FinalFractal,
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<MurasamaSlash>(),
