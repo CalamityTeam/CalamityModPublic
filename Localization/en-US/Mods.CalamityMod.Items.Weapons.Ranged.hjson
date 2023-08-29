@@ -475,8 +475,8 @@ FlarewingBow: {
 	DisplayName: Flarewing Bow
 	Tooltip:
 		'''
-		Shoots a spread of 4 arrows
-		Wooden arrows are converted into bouncing obsidian bats
+		Shoots a spread of 3 arrows
+		Wooden arrows are converted into obsidian bats which home in after piercing once
 		'''
 }
 
