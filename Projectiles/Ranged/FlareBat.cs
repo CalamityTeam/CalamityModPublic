@@ -68,37 +68,9 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.localAI[0] > 0f)
                 Projectile.localAI[0]--;
             
-            // Makes the bat home onto enemies after piercing once; this is just the HomeInOnNPC util without the extra update shenanigans
+            // Makes the bat home onto enemies after piercing once
             if (Projectile.penetrate == 1 && Projectile.localAI[0] <= 0f)
-            {
-                if (!Projectile.friendly)
-                    return;
-
-                Vector2 destination = Projectile.Center;
-                float maxDistance = 300;
-                bool locatedTarget = false;
-
-                // Find a target
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-                    float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
-                    if (!Main.npc[i].CanBeChasedBy(Projectile, false) || !Projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance))
-                        continue;
-
-                    if (Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-                    {
-                        destination = Main.npc[i].Center;
-                        locatedTarget = true;
-                        break;
-                    }
-                }
-
-                if (locatedTarget)
-                {
-                    Vector2 homeDirection = (destination - Projectile.Center).SafeNormalize(Vector2.UnitY);
-                    Projectile.velocity = (Projectile.velocity * 20f + homeDirection * 12f) / (20f + 1f);
-                }
-            }
+                CalamityUtils.HomeInOnNPC(Projectile, false, 400f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
