@@ -19,11 +19,13 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 2;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 90;
             Projectile.aiStyle = ProjAIStyleID.Beam;
             Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
