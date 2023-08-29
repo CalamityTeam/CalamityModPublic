@@ -2038,6 +2038,8 @@ namespace CalamityMod
                 ProjectileType<YharimsCrystalBeam>(),
                 ProjectileType<PrismaticBeam>(),
                 ProjectileType<SpiritCongregation>(),
+                ProjectileType<BallisticPoisonCloud>(),
+                ProjectileType<DuststormCloudHitbox>(),
             };
 
             // Lists of enemies that resist piercing to some extent (mostly worms).
