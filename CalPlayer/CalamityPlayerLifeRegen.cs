@@ -11,6 +11,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -422,6 +423,7 @@ namespace CalamityMod.CalPlayer
 
             if (purity)
             {
+                int intendedPurityDefense = 0;
                 int currentDebuffs = Player.buffType.Count(CalamityLists.debuffList.Contains);
                 if (currentDebuffs > 0)
                 {
@@ -442,12 +444,17 @@ namespace CalamityMod.CalPlayer
                     if (Player.lifeRegenTime < 1800)
                         Player.lifeRegenTime = 1800;
 
-                    jewelBonusDefense = 20 + (currentDebuffs - 1) * 12;
+                    intendedPurityDefense = 20 + (currentDebuffs - 1) * 12;
+                    if (jewelBonusDefense < intendedPurityDefense)
+                        jewelBonusDefense = intendedPurityDefense;
 
                     // Count up total frames spent healing for slowdown.
                     ++PurityHealSlowdownFrames;
                 }
-                else if (Player.miscCounter % 60 == 0 && jewelBonusDefense > 0)
+
+                // If the defense should be ticking down to some lower value, do that.
+                // Purity loses 1 point of defense every second.
+                if (Player.miscCounter % 60 == 0 && jewelBonusDefense > intendedPurityDefense)
                     --jewelBonusDefense;
 
                 // If the player is clear of all debuffs then gradually reduce the slowdown frames
@@ -458,6 +465,7 @@ namespace CalamityMod.CalPlayer
                         PurityHealSlowdownFrames = 0;
                 }
 
+                // Actually apply defense bonus
                 Player.statDefense += jewelBonusDefense;
             }
 
@@ -468,6 +476,7 @@ namespace CalamityMod.CalPlayer
 
                 // If the player has any debuffs, give the extra life regen and defense
                 // More defense is given for each additional debuff
+                int intendedJewelDefense = 0;
                 int currentDebuffs = Player.buffType.Count(CalamityLists.debuffList.Contains);
                 if (currentDebuffs > 0)
                 {
@@ -475,13 +484,17 @@ namespace CalamityMod.CalPlayer
                     if (Player.lifeRegenTime < 1800)
                         Player.lifeRegenTime = 1800;
 
-                    jewelBonusDefense = 16 + (currentDebuffs - 1) * 8;
+                    intendedJewelDefense = 16 + (currentDebuffs - 1) * 8;
+                    if (jewelBonusDefense < intendedJewelDefense)
+                        jewelBonusDefense = intendedJewelDefense;
                 }
 
-                // Otherwise tick down the defense, one point per second
-                else if (Player.miscCounter % 20 == 0 && jewelBonusDefense > 0)
+                // If the defense should be ticking down to some lower value, do that.
+                // Infected Jewel loses 1 point of defense every 20 frames.
+                if (Player.miscCounter % 20 == 0 && jewelBonusDefense > intendedJewelDefense)
                     --jewelBonusDefense;
 
+                // Actually apply defense bonus
                 Player.statDefense += jewelBonusDefense;
             }
 
