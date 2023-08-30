@@ -55,11 +55,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<Starfleet>().
-                AddIngredient<StarSputter>().
                 AddIngredient<BarracudaGun>().
-                AddIngredient<AscendantSpiritEssence>().
                 AddIngredient<CosmiliteBar>(5).
-                AddIngredient<Lumenyl>(10).
                 AddIngredient<DarksunFragment>(10).
                 AddIngredient<ExodiumCluster>(15).
                 AddTile(ModContent.TileType<CosmicAnvil>()).
