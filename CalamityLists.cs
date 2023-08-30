@@ -2040,6 +2040,7 @@ namespace CalamityMod
                 ProjectileType<SpiritCongregation>(),
                 ProjectileType<BallisticPoisonCloud>(),
                 ProjectileType<DuststormCloudHitbox>(),
+                ProjectileType<StarmageddonBinaryStarCenter>(),
             };
 
             // Lists of enemies that resist piercing to some extent (mostly worms).
