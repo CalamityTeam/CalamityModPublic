@@ -118,7 +118,7 @@ AmbrosialAmpoule: {
 		+70 max life
 		Grants +2 to +6 HP/s life regen based on missing health
 		Provides life regeneration equivalent to standing in Honey
-		Standing still in Honey grants extremely powerful regen
+		Standing still grants extremely powerful regen
 		Halves how long you are afflicted with fire and sickness debuffs
 		You emit yellow light if visibility is enabled
 		'''
@@ -248,11 +248,11 @@ Purity: {
 		Grants +3 to +7 HP/s life regen based on missing health
 		Provides life regeneration equivalent to standing in Honey
 		Standing still grants extremely powerful regen
-		Grants 40 defense and continuous healing while afflicted with any debuff
+		Grants 20 defense and continuous healing while afflicted with any debuff
 		The healing eventually slows down if debuffed for an extended period of time
 		Massively boosts natural life regen while afflicted with any debuff
-		Each debuff beyond the first grants 10 additional defense
 		Granted defense fades away slowly when not afflicted with any debuffs
+  Each debuff beyond the first temporarily grants 12 additional defense while debuffed
 		Makes weak damage over time debuffs harmless and halves the duration of all but the strongest debuffs
 		You emit shining blue light if visibility is enabled
 		'A once putrid crystal, now glimmering with immaculate purity'
@@ -366,8 +366,8 @@ InfectedJewel: {
 		+1 HP/s life regen
 		Grants 16 defense and +2 HP/s life regen while afflicted with any debuff
 		Massively boosts natural life regen while afflicted with any debuff
-		Each debuff beyond the first grants 4 additional defense
 		Granted defense fades away slowly when not afflicted with any debuffs
+  Each debuff beyond the first temporarily grants 8 additional defense while debuffed
 		Makes the Astral Infection debuff harmless
 		'A beautiful gemstone tarnished by spaceborne rot'
 		'''

@@ -23,15 +23,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
 
-            // Grant life regen based on missing health
-            if (!(modPlayer.aAmpoule || modPlayer.purity))
-            {
-                float missingLifeRatio = (player.statLifeMax2 - player.statLife) / player.statLifeMax2;
-                float lifeRegenToGive = MathHelper.Lerp(4f, 12f, missingLifeRatio);
-                player.lifeRegen += (int)lifeRegenToGive;
-            }
-            
-            // bool left in for abyss light purposes
+            // bool left in for abyss light purposes and life regen effects
             modPlayer.rOoze = true;
 
             // Add light if the other accessories aren't equipped and visibility is turned on
