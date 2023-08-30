@@ -71,7 +71,6 @@ CalamityConfig: {
 			'''
 			Gives the player a very weak dash by default that requires no equipment or items to use.
 			This dash will be replaced by any other available dash, including those from other mods.
-			Calamity is balanced around this setting being enabled.
 			'''
 	}
 
