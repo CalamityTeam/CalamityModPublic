@@ -251,7 +251,7 @@ Purity: {
 		Grants 20 defense and continuous healing while afflicted with any debuff
 		The healing eventually slows down if debuffed for an extended period of time
 		Massively boosts natural life regen while afflicted with any debuff
-		Each debuff beyond the first grants 12 additional defense
+		Each debuff beyond the first grants 8 additional defense
 		Granted defense fades away slowly when not afflicted with any debuffs
 		Makes weak damage over time debuffs harmless and halves the duration of all but the strongest debuffs
 		You emit shining blue light if visibility is enabled
@@ -367,7 +367,7 @@ InfectedJewel: {
 		Grants 16 defense and +2 HP/s life regen while afflicted with any debuff
 		Massively boosts natural life regen while afflicted with any debuff
 		Granted defense fades away quickly when not afflicted with any debuffs
-		Each debuff beyond the first grants 8 additional defense
+		Each debuff beyond the first grants 5 additional defense
 		Makes the Astral Infection debuff harmless
 		'A beautiful gemstone tarnished by spaceborne rot'
 		'''

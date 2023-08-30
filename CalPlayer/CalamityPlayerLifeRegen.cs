@@ -444,7 +444,7 @@ namespace CalamityMod.CalPlayer
                     if (Player.lifeRegenTime < 1800)
                         Player.lifeRegenTime = 1800;
 
-                    intendedPurityDefense = 20 + (currentDebuffs - 1) * 12;
+                    intendedPurityDefense = 20 + (currentDebuffs - 1) * 8;
                     if (jewelBonusDefense < intendedPurityDefense)
                         jewelBonusDefense = intendedPurityDefense;
 
@@ -484,14 +484,14 @@ namespace CalamityMod.CalPlayer
                     if (Player.lifeRegenTime < 1800)
                         Player.lifeRegenTime = 1800;
 
-                    intendedJewelDefense = 16 + (currentDebuffs - 1) * 8;
+                    intendedJewelDefense = 16 + (currentDebuffs - 1) * 5;
                     if (jewelBonusDefense < intendedJewelDefense)
                         jewelBonusDefense = intendedJewelDefense;
                 }
 
                 // If the defense should be ticking down to some lower value, do that.
                 // Infected Jewel loses 1 point of defense every 20 frames.
-                if (Player.miscCounter % 20 == 0 && jewelBonusDefense > intendedJewelDefense)
+                if (Player.miscCounter % 60 == 0 && jewelBonusDefense > intendedJewelDefense)
                     --jewelBonusDefense;
 
                 // Actually apply defense bonus
