@@ -2,16 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoTableTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpTable(true);
+        public override void SetStaticDefaults() => this.SetUpTable(ModContent.ItemType<ExoTable>(), true);
 
         public override bool CanExplode(int i, int j) => false;
 

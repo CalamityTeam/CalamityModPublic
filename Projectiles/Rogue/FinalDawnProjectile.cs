@@ -138,12 +138,14 @@ namespace CalamityMod.Projectiles.Rogue
                     else
                     {
                         //This one doesn't consume stealth since it replenishes stealth on hits
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
                                                  Projectile.velocity,
                                                  ModContent.ProjectileType<FinalDawnFireSlash>(),
                                                  Projectile.damage,
                                                  Projectile.knockBack,
                                                  Projectile.owner);
+                        if (p.WithinBounds(Main.maxProjectiles) && Projectile.Calamity().LocketClone)
+                            Main.projectile[p].Calamity().LocketClone = true; // NO STEALTH GEN OK?
                     }
                 }
             }

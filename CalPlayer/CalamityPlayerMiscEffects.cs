@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CalamityMod.Balancing;
-using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
@@ -12,18 +11,22 @@ using CalamityMod.Cooldowns;
 using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
-using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
+using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Items.Armor.Brimflame;
 using CalamityMod.Items.Armor.DesertProwler;
+using CalamityMod.Items.Armor.Hydrothermic;
+using CalamityMod.Items.Armor.LunicCorps;
+using CalamityMod.Items.Armor.OmegaBlue;
+using CalamityMod.Items.Armor.Prismatic;
 using CalamityMod.Items.Armor.Silva;
+using CalamityMod.Items.Armor.Tarragon;
+using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Dyes;
-using CalamityMod.Items.Fishing.AstralCatches;
-using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.Potions;
@@ -39,7 +42,6 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
-using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
@@ -47,6 +49,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Systems;
+using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -63,14 +66,6 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
-using CalamityMod.Items.Armor.Wulfrum;
-using CalamityMod.Tiles.Abyss.AbyssAmbient;
-using CalamityMod.Items.Armor.LunicCorps;
-using CalamityMod.Items.Armor.Bloodflare;
-using CalamityMod.Items.Armor.Hydrothermic;
-using CalamityMod.Items.Armor.OmegaBlue;
-using CalamityMod.Items.Armor.Prismatic;
-using CalamityMod.Items.Armor.Tarragon;
 
 namespace CalamityMod.CalPlayer
 {
@@ -123,11 +118,11 @@ namespace CalamityMod.CalPlayer
             // Standing still effects
             StandingStillEffects();
 
-            // Elysian Aegis effects
-            ElysianAegisEffects();
-
             // Other buff effects
             OtherBuffEffects();
+
+            // Update energy shields
+            EnergyShields();
 
             // Defense manipulation (Mostly defense damage, but also Bloodflare Core and others)
             DefenseEffects();
@@ -160,32 +155,6 @@ namespace CalamityMod.CalPlayer
 
             // Update the gem tech armor set.
             GemTechState.Update();
-
-            // Lunic Corps Shield Shit
-            if (!lunicCorpsSet)
-            {
-                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out var cdDurability))
-                    cdDurability.timeLeft = 0;
-
-                if (Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cdRecharge))
-                    cdRecharge.timeLeft = 0;
-            }
-            else
-            {
-                if (masterChefShieldDurability == 0 && !Player.Calamity().cooldowns.TryGetValue(MasterChefShieldRecharge.ID, out var cd))
-                    Player.AddCooldown(MasterChefShieldRecharge.ID, LunicCorpsHelmet.MasterChefShieldRechargeTime);
-
-                if (masterChefShieldDurability > 0 && !Player.Calamity().cooldowns.TryGetValue(MasterChefShieldDurability.ID, out cd))
-                {
-                    CooldownInstance durabilityCooldown = Player.AddCooldown(MasterChefShieldDurability.ID, LunicCorpsHelmet.MasterChefShieldDurabilityMax);
-                    durabilityCooldown.timeLeft = masterChefShieldDurability;
-
-                    SoundEngine.PlaySound(LunicCorpsHelmet.ActivationSound, Player.Center);
-                }
-
-                if (masterChefShieldDurability > 0)
-                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.2f);
-            }
 
             // Regularly sync player stats & mouse control info during multiplayer
             if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
@@ -1327,6 +1296,14 @@ namespace CalamityMod.CalPlayer
             if (auralisAuroraCooldown > 0)
                 auralisAuroraCooldown--;
             
+            if (blazingCore)
+            {
+                if (blazingCoreSuccessfulParry > 0)
+                    BlazingCore.HandleStars(Player);
+                else if (blazingCoreParry > 0)
+                    BlazingCore.HandleParryCountdown(Player);
+            }
+            
             // Silver Armor "Medkit" effect
             if (silverMedkitTimer > 0)
             {
@@ -1599,23 +1576,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() += 0.1f;
             }
 
-            // Ambrosial Ampoule bonus and other light-granting bonuses
             float[] light = new float[3];
-            if ((rOoze && !Main.dayTime) || aAmpoule)
-            {
-                light[0] += 1f;
-                light[1] += 1f;
-                light[2] += 0.6f;
-            }
-            if (aAmpoule)
-            {
-                Player.endurance += 0.05f;
-                Player.buffImmune[BuffID.Frozen] = true;
-                Player.buffImmune[BuffID.Chilled] = true;
-                Player.buffImmune[BuffID.Frostburn] = true;
-                Player.buffImmune[BuffID.CursedInferno] = true;
-                Player.buffImmune[ModContent.BuffType<BurningBlood>()] = true;
-            }
             if (cFreeze)
             {
                 light[0] += 0.3f;
@@ -2307,88 +2268,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Elysian Aegis Effects
-        private void ElysianAegisEffects()
-        {
-            if (elysianAegis)
-            {
-                bool spawnDust = false;
-
-                // Activate buff
-                if (elysianGuard)
-                {
-                    if (Player.whoAmI == Main.myPlayer)
-                        Player.AddBuff(ModContent.BuffType<ElysianGuard>(), 2, false);
-
-                    float shieldBoostInitial = shieldInvinc;
-                    shieldInvinc -= 0.08f;
-                    if (shieldInvinc < 0f)
-                        shieldInvinc = 0f;
-                    else
-                        spawnDust = true;
-
-                    if (shieldInvinc == 0f && shieldBoostInitial != shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
-                        NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, Player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-
-                    float damageBoost = (5f - shieldInvinc) * 0.03f;
-                    Player.GetDamage<GenericDamageClass>() += damageBoost;
-
-                    int critBoost = (int)((5f - shieldInvinc) * 2f);
-                    Player.GetCritChance<GenericDamageClass>() += critBoost;
-
-                    Player.aggro += (int)((5f - shieldInvinc) * 220f);
-                    Player.statDefense += (int)((5f - shieldInvinc) * 8f);
-                    Player.moveSpeed *= 0.85f;
-
-                    if (Player.mount.Active)
-                        elysianGuard = false;
-                }
-
-                // Remove buff
-                else
-                {
-                    float shieldBoostInitial = shieldInvinc;
-                    shieldInvinc += 0.08f;
-                    if (shieldInvinc > 5f)
-                        shieldInvinc = 5f;
-                    else
-                        spawnDust = true;
-
-                    if (shieldInvinc == 5f && shieldBoostInitial != shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
-                        NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, Player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                }
-
-                // Emit dust
-                if (spawnDust)
-                {
-                    if (Main.rand.NextBool(2))
-                    {
-                        Vector2 vector = Vector2.UnitY.RotatedByRandom(Math.PI * 2D);
-                        Dust dust = Main.dust[Dust.NewDust(Player.Center - vector * 30f, 0, 0, (int)CalamityDusts.ProfanedFire, 0f, 0f, 0, default, 1f)];
-                        dust.noGravity = true;
-                        dust.position = Player.Center - vector * (float)Main.rand.Next(5, 11);
-                        dust.velocity = vector.RotatedBy(Math.PI / 2D, default) * 4f;
-                        dust.scale = 0.5f + Main.rand.NextFloat();
-                        dust.fadeIn = 0.5f;
-                    }
-
-                    if (Main.rand.NextBool(2))
-                    {
-                        Vector2 vector2 = Vector2.UnitY.RotatedByRandom(Math.PI * 2D);
-                        Dust dust2 = Main.dust[Dust.NewDust(Player.Center - vector2 * 30f, 0, 0, 246, 0f, 0f, 0, default, 1f)];
-                        dust2.noGravity = true;
-                        dust2.position = Player.Center - vector2 * 12f;
-                        dust2.velocity = vector2.RotatedBy(-Math.PI / 2D, default) * 2f;
-                        dust2.scale = 0.5f + Main.rand.NextFloat();
-                        dust2.fadeIn = 0.5f;
-                    }
-                }
-            }
-            else
-                elysianGuard = false;
-        }
-        #endregion
-
         #region Other Buff Effects
         private void OtherBuffEffects()
         {
@@ -2487,15 +2366,15 @@ namespace CalamityMod.CalPlayer
 
             if (AbsorberRegen)
             {
-                Player.GetDamage<GenericDamageClass>() += 0.1f;
-                Player.endurance += 0.07f;
+                Player.GetDamage<GenericDamageClass>() += 0.08f;
+                Player.endurance += 0.05f;
             }
 
             if (crawCarapace)
                 Player.GetDamage<GenericDamageClass>() += 0.05f;
 
             if (baroclaw)
-                Player.GetDamage<GenericDamageClass>() += 0.08f;
+                Player.GetDamage<GenericDamageClass>() += 0.1f;
 
             if (gShell)
             {
@@ -2802,25 +2681,25 @@ namespace CalamityMod.CalPlayer
                 Player.lifeMagnet = true;
             }
 
-            if (wDeath)
+            if (wDeath && !purity)
                 Player.GetDamage<GenericDamageClass>() -= 0.25f;
 
-            if (astralInfection)
+            if (astralInfection && !(infectedJewel || purity))
                 Player.GetDamage<GenericDamageClass>() -= 0.15f;
 
-            if (pFlames)
+            if (pFlames && !purity)
             {
                 Player.blind = true;
                 Player.GetDamage<GenericDamageClass>() -= 0.15f;
             }
 
-            if (aCrunch && !laudanum)
+            if (aCrunch && !laudanum && !purity)
             {
                 Player.statDefense -= ArmorCrunch.DefenseReduction;
                 Player.endurance *= ArmorCrunch.MultiplicativeDamageReductionPlayer;
             }
 
-            if (wither)
+            if (wither && !purity)
             {
                 Player.statDefense -= WitherDebuff.DefenseReduction;
             }
@@ -2833,10 +2712,10 @@ namespace CalamityMod.CalPlayer
                     Player.velocity.Y = 15f;
             }
 
-            if (eutrophication)
+            if (eutrophication && !purity)
                 Player.velocity = Vector2.Zero;
 
-            if (vaporfied || galvanicCorrosion)
+            if ((vaporfied && !purity) || galvanicCorrosion)
                 Player.velocity *= 0.98f;
 
             if (molluskSet)
@@ -2978,9 +2857,6 @@ namespace CalamityMod.CalPlayer
 
             if (ursaSergeant)
                 Player.moveSpeed -= 0.15f;
-
-            if (elysianGuard)
-                Player.moveSpeed -= 0.5f;
 
             if (godSlayerThrowing)
             {
@@ -3457,13 +3333,10 @@ namespace CalamityMod.CalPlayer
                     Player.AddCooldown(Cooldowns.DivineBless.ID, CalamityUtils.SecondsToFrames(60));
             }
 
-            if (theBee)
+            if (theBee && Player.statLife >= Player.statLifeMax2 && (!HasAnyEnergyShield || TotalEnergyShielding >= TotalMaxShieldDurability))
             {
-                if (Player.statLife >= Player.statLifeMax2)
-                {
-                    float beeBoost = Player.endurance / 2f;
-                    Player.GetDamage<GenericDamageClass>() += beeBoost;
-                }
+                float beeBoost = Player.endurance / 2f;
+                Player.GetDamage<GenericDamageClass>() += beeBoost;
             }
 
             if (badgeOfBravery)
@@ -3595,6 +3468,160 @@ namespace CalamityMod.CalPlayer
 
             // Gem Tech stats based on gems.
             GemTechState.ProvideGemBoosts();
+        }
+        #endregion
+
+        #region Energy Shields
+        private void EnergyShields()
+        {
+            // Because later tier shields are brighter, shields are handled from highest tier to lowest tier here.
+            bool shieldAddedLight = false;
+
+            // If The Sponge is not equipped, obliterate its durability cooldown.
+            // The recharge cooldown is intentionally left in place to prevent hot swapping to recharge the shield
+            if (!sponge)
+            {
+                if (cooldowns.TryGetValue(SpongeDurability.ID, out var cdDurability))
+                    cdDurability.timeLeft = 0;
+
+                // As The Sponge's shield can be left in a partially recharged state, this is for safety.
+                // If the player does not have the accessory equipped for even one frame, discharge all shields.
+                SpongeShieldDurability = 0;
+            }
+            else
+            {
+                // If The Sponge's shield is discharged and hasn't started its recharge delay, start that.
+                if (SpongeShieldDurability == 0 && !cooldowns.ContainsKey(SpongeRecharge.ID))
+                    Player.AddCooldown(SpongeRecharge.ID, TheSponge.ShieldRechargeDelay);
+
+                // If the shield has greater than zero durability but that durability is not on the cooldown rack, add it to the cooldown rack.
+                if (SpongeShieldDurability > 0 && !cooldowns.ContainsKey(SpongeDurability.ID))
+                {
+                    var durabilityCooldown = Player.AddCooldown(SpongeDurability.ID, TheSponge.ShieldDurabilityMax);
+                    durabilityCooldown.timeLeft = SpongeShieldDurability;
+                }
+
+                // If the shield has greater than zero durability and isn't in its recharge delay, actively replenish shield points.
+                // Play a sound on the first frame this occurs.
+                if (SpongeShieldDurability > 0 && !cooldowns.ContainsKey(SpongeRecharge.ID))
+                {
+                    if (!playedSpongeShieldSound)
+                        SoundEngine.PlaySound(TheSponge.ActivationSound, Player.Center);
+                    playedSpongeShieldSound = true;
+
+                    // This number is not an integer, and stores exact per-frame recharge progress.
+                    spongeShieldPartialRechargeProgress += TheSponge.ShieldDurabilityMax / (float)TheSponge.TotalShieldRechargeTime;
+
+                    // Floor the value to get whole number of shield points recharged this frame.
+                    int pointsActuallyRecharged = (int)MathF.Floor(spongeShieldPartialRechargeProgress);
+
+                    // Give those points to the real shield durability, capping the result. Then remove them from recharge progress.
+                    SpongeShieldDurability = Math.Min(SpongeShieldDurability + pointsActuallyRecharged, TheSponge.ShieldDurabilityMax);
+                    spongeShieldPartialRechargeProgress -= pointsActuallyRecharged;
+
+                    // Update the cooldown rack's durability indicator.
+                    if (cooldowns.TryGetValue(SpongeDurability.ID, out var cdDurability))
+                        cdDurability.timeLeft = SpongeShieldDurability;
+                }
+
+                // Add light if this shield is currently active
+                if (SpongeShieldDurability > 0 && !shieldAddedLight)
+                {
+                    // The Sponge is much brigher than other shields
+                    Lighting.AddLight(Player.Center, Color.White.ToVector3() * 0.75f);
+                    shieldAddedLight = true;
+                }
+            }
+
+            // If the Lunic Corps armor is not equipped, obliterate its durability cooldown.
+            // The recharge cooldown is intentionally left in place to prevent hot swapping to recharge the shield
+            if (!lunicCorpsSet)
+            {
+                if (cooldowns.TryGetValue(Cooldowns.LunicCorpsShieldDurability.ID, out var cdDurability))
+                    cdDurability.timeLeft = 0;
+
+                // As the Lunic Corps armor's shield can be left in a partially recharged state, this is for safety.
+                // If the player does not have the armor equipped for even one frame, discharge all shields.
+                LunicCorpsShieldDurability = 0;
+            }
+
+            // Stuff to do if the Lunic Corps armor is equipped
+            else
+            {
+                // If the Lunic Corps shield is discharged and hasn't started its recharge delay, start that.
+                if (LunicCorpsShieldDurability == 0 && !cooldowns.ContainsKey(LunicCorpsShieldRecharge.ID))
+                    Player.AddCooldown(LunicCorpsShieldRecharge.ID, LunicCorpsHelmet.ShieldRechargeDelay);
+
+                // If the shield has greater than zero durability but that durability is not on the cooldown rack, add it to the cooldown rack.
+                if (LunicCorpsShieldDurability > 0 && !cooldowns.ContainsKey(Cooldowns.LunicCorpsShieldDurability.ID))
+                {
+                    var durabilityCooldown = Player.AddCooldown(Cooldowns.LunicCorpsShieldDurability.ID, LunicCorpsHelmet.ShieldDurabilityMax);
+                    durabilityCooldown.timeLeft = LunicCorpsShieldDurability;
+                }
+
+                // If the shield has greater than zero durability and isn't in its recharge delay, actively replenish shield points.
+                // Play a sound on the first frame this occurs.
+                if (LunicCorpsShieldDurability > 0 && !cooldowns.ContainsKey(LunicCorpsShieldRecharge.ID))
+                {
+                    if (!playedLunicCorpsShieldSound)
+                        SoundEngine.PlaySound(LunicCorpsHelmet.ActivationSound, Player.Center);
+                    playedLunicCorpsShieldSound = true;
+
+                    // This number is not an integer, and stores exact per-frame recharge progress.
+                    lunicCorpsShieldPartialRechargeProgress += LunicCorpsHelmet.ShieldDurabilityMax / (float)LunicCorpsHelmet.TotalShieldRechargeTime;
+
+                    // Floor the value to get whole number of shield points recharged this frame.
+                    int pointsActuallyRecharged = (int)MathF.Floor(lunicCorpsShieldPartialRechargeProgress);
+
+                    // Give those points to the real shield durability, capping the result. Then remove them from recharge progress.
+                    LunicCorpsShieldDurability = Math.Min(LunicCorpsShieldDurability + pointsActuallyRecharged, LunicCorpsHelmet.ShieldDurabilityMax);
+                    lunicCorpsShieldPartialRechargeProgress -= pointsActuallyRecharged;
+
+                    // Update the cooldown rack's durability indicator.
+                    if (cooldowns.TryGetValue(Cooldowns.LunicCorpsShieldDurability.ID, out var cdDurability))
+                        cdDurability.timeLeft = LunicCorpsShieldDurability;
+                }
+
+                // Add light if this shield is currently active
+                if (LunicCorpsShieldDurability > 0 && !shieldAddedLight)
+                {
+                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.2f);
+                    shieldAddedLight = true;
+                }
+            }
+
+            // If the Rover Drive is not equipped, obliterate its durability cooldown.
+            // The recharge cooldown is intentionally left in place to prevent hot swapping to recharge the shield
+            if (!roverDrive)
+            {
+                if (cooldowns.TryGetValue(WulfrumRoverDriveDurability.ID, out var cdDurability))
+                    cdDurability.timeLeft = 0;
+                // if (cooldowns.TryGetValue(WulfrumRoverDriveRecharge.ID, out var cdRecharge)) cdRecharge.timeLeft = 0;
+            }
+
+            // Stuff to do if the Rover Drive is equipped
+            else
+            {
+                // If the Rover Drive shield is discharged and hasn't started its recharge delay, start that.
+                if (RoverDriveShieldDurability == 0 && !cooldowns.ContainsKey(WulfrumRoverDriveRecharge.ID))
+                    Player.AddCooldown(WulfrumRoverDriveRecharge.ID, RoverDrive.ShieldRechargeTime);
+
+                // If the shield has greater than zero durability but that durability is not on the cooldown rack,
+                // add it to the cooldown rack and play a sound of the shield turning on.
+                if (RoverDriveShieldDurability > 0 && !cooldowns.ContainsKey(WulfrumRoverDriveDurability.ID))
+                {
+                    CooldownInstance durabilityCooldown = Player.AddCooldown(WulfrumRoverDriveDurability.ID, RoverDrive.ShieldDurabilityMax);
+                    durabilityCooldown.timeLeft = RoverDriveShieldDurability;
+                    SoundEngine.PlaySound(RoverDrive.ActivationSound, Player.Center);
+                }
+
+                // Add light if this shield is currently active
+                if (RoverDriveShieldDurability > 0 && !shieldAddedLight)
+                {
+                    Lighting.AddLight(Player.Center, Color.DeepSkyBlue.ToVector3() * 0.2f);
+                    shieldAddedLight = true;
+                }
+            }
         }
         #endregion
 

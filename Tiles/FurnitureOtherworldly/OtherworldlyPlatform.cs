@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
@@ -9,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
     [LegacyName("OccultPlatform")]
     public class OtherworldlyPlatform : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPlatform(true);
+        public override void SetStaticDefaults() => this.SetUpPlatform(ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlyPlatform>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

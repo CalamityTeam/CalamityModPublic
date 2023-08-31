@@ -27,14 +27,11 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.AegisHotKey);
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.DashID = AsgardianAegisDash.ID;
             player.dashType = 0;
-            modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;
             player.statLifeMax2 += 40;

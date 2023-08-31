@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Typless
     {
         public new string LocalizationCategory => "Projectiles.Healing";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-        public Player Owner => Main.player[Projectile.owner];
         private static float Radius = 160f;
         public int ShinkGrow = 0;
         public int Framecounter = 0;
@@ -28,16 +27,11 @@ namespace CalamityMod.Projectiles.Typless
         public override void SetDefaults()
         {
             //These shouldn't matter because its circular
-            Projectile.width = 336;
-            Projectile.height = 336;
+            Projectile.width = Projectile.height = 336;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Default;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.penetrate = -1;
-            Projectile.timeLeft = 2710;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.timeLeft = 1810;
         }
 
         public override void AI()
@@ -73,7 +67,7 @@ namespace CalamityMod.Projectiles.Typless
             {
                 if (PulseOnce2 == 1)
                 {
-                    Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 0.152f, 0.152f, 2700);
+                    Particle pulse2 = new StaticPulseRing(Projectile.Center, Vector2.Zero, Color.HotPink, new Vector2(1f, 1f), 0f, 0.152f, 0.152f, 1790);
                     GeneralParticleHandler.SpawnParticle(pulse2);
                     PulseOnce2 = 0;
                 }
@@ -92,7 +86,7 @@ namespace CalamityMod.Projectiles.Typless
                     dust.noGravity = true;
                 }
 
-                if (Framecounter == 2710)
+                if (Framecounter == 1800)
                 {
                     ShinkGrow = 2;
                 }
@@ -108,17 +102,6 @@ namespace CalamityMod.Projectiles.Typless
             }
         }
 
-        public override bool? CanCutTiles()
-        {
-            return false;
-        }
-        public override bool? CanHitNPC(NPC target)
-        {
-        return false;
-        }
-
-
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, Radius, targetHitbox);
-
+        public override bool? CanDamage() => false;
     }
 }

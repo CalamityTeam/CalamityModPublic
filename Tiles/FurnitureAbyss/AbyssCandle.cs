@@ -1,14 +1,12 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class AbyssCandle : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandle(true);
+        public override void SetStaticDefaults() => this.SetUpCandle(ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssCandle>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

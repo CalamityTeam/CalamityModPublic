@@ -380,24 +380,6 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (calamityPlayer.absorberAffliction)
-            {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 63, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, Color.DarkSeaGreen, 1.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    drawInfo.DustCache.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.25f;
-                    g *= 0.25f;
-                    b *= 0.1f;
-                    fullBright = true;
-                }
-            }
             else if (calamityPlayer.icarusFolly || calamityPlayer.dragonFire)
             {
                 if (Main.rand.NextBool(calamityPlayer.dragonFire ? 6 : 12) && drawInfo.shadow == 0f)
@@ -498,6 +480,17 @@ namespace CalamityMod.CalPlayer
                     g *= 0.05f;
                     b *= 0.3f;
                     fullBright = true;
+                }
+            }
+            if (calamityPlayer.rTide)
+            {
+                if (Main.rand.NextBool(7) && drawInfo.shadow == 0f)
+                {
+                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 165, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
+                    Main.dust[dust].noGravity = false;
+                    Main.dust[dust].velocity *= 1.8f;
+                    Main.dust[dust].velocity.Y += 0.5f;
+                    drawInfo.DustCache.Add(dust);
                 }
             }
             if (calamityPlayer.bBlood)

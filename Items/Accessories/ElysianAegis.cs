@@ -25,14 +25,11 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.AegisHotKey);
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.DashID = ElysianAegisDash.ID;
             player.dashType = 0;
-            modPlayer.elysianAegis = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.noKnockback = true;

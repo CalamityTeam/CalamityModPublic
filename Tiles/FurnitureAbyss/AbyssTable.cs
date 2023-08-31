@@ -1,15 +1,12 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class AbyssTable : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpTable(true);
+        public override void SetStaticDefaults() => this.SetUpTable(ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTable>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

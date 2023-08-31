@@ -5,14 +5,12 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoSofaTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSofa(true);
+        public override void SetStaticDefaults() => this.SetUpSofa(ModContent.ItemType<ExoSofa>(), true);
 
         public override bool CanExplode(int i, int j) => false;
 

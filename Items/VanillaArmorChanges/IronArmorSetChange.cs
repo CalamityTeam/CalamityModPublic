@@ -29,7 +29,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nIncreases damage reduction by 6%\n+2 life regen");
+            sb.Append("\nIncreases damage reduction by 6%\n+1 HP/s life regen");
             setBonusText += sb.ToString();
         }
 

@@ -7,8 +7,8 @@ AbyssalAmulet: {
 	DisplayName: Abyssal Amulet
 	Tooltip:
 		'''
-		Attacks inflict the Crush Depth debuff
-		Grants immunity to the Crush Depth debuff
+		Attacks inflict the Riptide debuff
+		Grants immunity to the Riptide debuff
 		While in the abyss you gain 10% increased max life
 		'''
 }
@@ -32,7 +32,7 @@ AbyssalDivingSuit: {
 		'''
 		Transforms the holder into an armored diver
 		Increases max movement speed and acceleration while underwater but you move slowly outside of water
-		The suits' armored plates increase damage reduction by 15%
+		The suit's armored plates increase damage reduction by 15%
 		The plates will only take damage if the damage taken is over 50
 		After the suit has taken too much damage its armored plates will take 3 minutes to regenerate
 		Reduces the damage caused by the pressure of the abyss while out of breath
@@ -74,7 +74,7 @@ Affliction: {
 	DisplayName: Affliction
 	Tooltip:
 		'''
-		Gives you and all other players on your team +1 life regen,
+		Gives you and all other players on your team +0.5 HP/s life regen,
 		+10% max life, 7% damage reduction, 13 defense and 10% increased damage
 		'''
 }
@@ -115,9 +115,12 @@ AmbrosialAmpoule: {
 	DisplayName: Ambrosial Ampoule
 	Tooltip:
 		'''
-		You emit light
-		5% increased damage reduction and increased life regen
-		Grants immunity to the Frozen, Chilled, Frostburn, Cursed Inferno and Burning Blood debuffs
+		+70 max life
+		Grants +2 to +6 HP/s life regen based on missing health
+		Provides life regeneration equivalent to standing in Honey
+		Standing still grants extremely powerful regen
+		Halves how long you are afflicted with fire and sickness debuffs
+		You emit yellow light if visibility is enabled
 		'''
 }
 
@@ -152,7 +155,7 @@ AngelicAlliance: {
 		Call upon the force of heaven to empower your attacks and minions
 		Courage, Enlightenment, Bliss. United in Judgement
 		+2 max minions, 15% increased summon damage, and 8% increased damage to all other classes
-		Life regeneration is boosted while jumping
+		+2 HP/s life regen while airborne using wings
 		Press [KEY] to grace yourself in divinity for 15 seconds
 		While under the effects of Divine Bless, for every minion you have, an archangel shall be summoned to aid you in combat
 		Each spawned angel will instantly heal you for two health
@@ -218,11 +221,9 @@ AsgardianAegis: {
 		'''
 		Grants immunity to knockback
 		Immune to most debuffs
-		+40 max life and increased life regeneration
+		+40 max life and +0.5 HP/s life regen
 		Grants a cosmic inferno dash which can slam through enemies without taking damage
 		Can be used to ram enemies
-		Press [KEY] to activate buffs to all damage, crit chance, and defense
-		Activating this buff will reduce your movement speed and increase enemy aggro
 		+20 defense while submerged in liquid
 		'''
 }
@@ -239,14 +240,22 @@ AsgardsValor: {
 		'''
 }
 
-AstralArcanum: {
-	DisplayName: Astral Arcanum
+Purity: {
+	DisplayName: Purity
 	Tooltip:
 		'''
-		Provides immunity to the astral infection debuff
-		Boosts life regen even while under the effects of a damaging debuff
-		While under the effects of a damaging debuff you will gain 15 defense
-		Press [KEY] to toggle teleportation UI while no bosses are alive
+		+100 max life
+		Grants +3 to +7 HP/s life regen based on missing health
+		Provides life regeneration equivalent to standing in Honey
+		Standing still grants extremely powerful regen
+		Grants 20 defense and continuous healing while afflicted with any debuff
+		The healing eventually slows down if debuffed for an extended period of time
+		Massively boosts natural life regen while afflicted with any debuff
+		Each debuff beyond the first grants 8 additional defense
+		Granted defense fades away slowly when not afflicted with any debuffs
+		Makes weak damage over time debuffs harmless and halves the duration of all but the strongest debuffs
+		You emit shining blue light if visibility is enabled
+		'A once putrid crystal, now glimmering with immaculate purity'
 		'''
 }
 
@@ -263,10 +272,13 @@ BlazingCore: {
 	DisplayName: Blazing Core
 	Tooltip:
 		'''
-		The searing core of the profaned goddess
-		Being hit creates a miniature sun that lingers, dealing damage to nearby enemies
-		The sun will slowly drag enemies into it
-		Only one sun can be active at once
+		The searing core of the Profaned Goddess
+		Pressing [KEY] will activate Elysian Guard, encasing you in luminous profaned crystal
+		Being hit shortly after encasement will shatter the crystal
+		Upon shattering, waves of holy stars spiral outwards and the damage you would have taken is reduced to 1
+		After shattering, this damage reduction effect goes on cooldown
+		If another encasement is shattered whilst on cooldown, healing stars will be interspersed throughout the waves of stars
+		The damage of a hit is not reduced whilst on cooldown
 		Provides a moderate amount of light in the Abyss
 		'''
 }
@@ -315,8 +327,9 @@ BloomStone: {
 	DisplayName: Bloom Stone
 	Tooltip:
 		'''
-		You quickly regenerate life while on the ground
-		This effect works best during daytime
+		Grants between +1 HP/s and +3 HP/s life regen depending on time of day
+		Accelerates life regen based on time of day
+		Both of these effects are maximized from noon to sunset
 		Flowers grow if you are standing on grass
 		Random dye plants will grow while standing on grassless dirt
 		One of the ancient relics
@@ -346,13 +359,17 @@ Calamity: {
 		'''
 }
 
-CelestialJewel: {
-	DisplayName: Celestial Jewel
+InfectedJewel: {
+	DisplayName: Infected Jewel
 	Tooltip:
 		'''
-		Boosts life regen even while under the effects of a damaging debuff
-		While under the effects of a damaging debuff you will gain 11 defense
-		Press [KEY] to teleport to a random location while no bosses are alive
+		+1 HP/s life regen
+		Grants 16 defense and +2 HP/s life regen while afflicted with any debuff
+		Massively boosts natural life regen while afflicted with any debuff
+		Granted defense fades away quickly when not afflicted with any debuffs
+		Each debuff beyond the first grants 5 additional defense
+		Makes the Astral Infection debuff harmless
+		'A beautiful gemstone tarnished by spaceborne rot'
 		'''
 }
 
@@ -421,7 +438,7 @@ CrawCarapace: {
 	Tooltip:
 		'''
 		5% increased damage
-		Enemies that hit you take damage and are inflicted with Armor Crunch
+		Enemies that hit you take damage and are inflicted with Crumbling
 		'''
 }
 
@@ -429,8 +446,8 @@ Baroclaw: {
 	DisplayName: Baroclaw
 	Tooltip:
 		'''
-		8% increased damage
-		Enemies that hit you take high damage and are inflicted with Armor Crunch for a long time
+		10% increased damage
+		Enemies that hit you take high damage and are inflicted with Armor Crunch and Crush Depth
 		'''
 }
 
@@ -447,8 +464,9 @@ CrownJewel: {
 	DisplayName: Crown Jewel
 	Tooltip:
 		'''
-		Boosts life regen even while under the effects of a damaging debuff
-		While under the effects of a damaging debuff you will gain 8 defense
+		+1 HP/s life regen
+		You gain an additional +1.5 HP/s life regen while afflicted with any debuff
+		Massively boosts natural life regen while afflicted with any debuff
 		'''
 }
 
@@ -480,7 +498,7 @@ DaawnlightSpiritOrigin: {
 }
 
 DarkGodsSheath: {
-	DisplayName: Dark God's Sheath
+	DisplayName: Dark Matter Sheath
 	Tooltip:
 		'''
 		+10 maximum stealth
@@ -495,11 +513,11 @@ DarkSunRing: {
 	Tooltip:
 		'''
 		12% increase to damage
-		+1 life regen and +2 max minions
+		+0.5 HP/s life regen and +2 max minions
 		Increased minion knockback
-		During the day the player has +4 life regen
-		During the night the player has +20 defense
-		During an eclipse the player has +2 life regen and +10 defense
+		During the day, grants +2 HP/s life regen
+		During the night, grants +20 defense
+		During an eclipse, grants +1 HP/s life regen and +10 defense
 		'Contains the power of the dark sun'
 		'''
 }
@@ -527,7 +545,8 @@ DeificAmulet: {
 	Tooltip:
 		'''
 		Causes stars to fall and grants increased immune time when damaged
-		Provides life regeneration and reduces the cooldown of healing potions
+		+0.5 HP/s life regen
+		Reduces the cooldown of healing potions
 		'''
 }
 
@@ -663,8 +682,6 @@ ElysianAegis: {
 		+30 max life
 		Grants an enhanced holy flame dash which can slam through enemies without taking damage
 		Can be used to ram enemies
-		Press [KEY] to activate buffs to all damage, crit chance and defense
-		Activating this buff will reduce your movement speed and increase enemy aggro
 		Blessed by the Profaned Flame
 		'''
 }
@@ -782,7 +799,7 @@ FungalSymbiote: {
 	Tooltip:
 		'''
 		You grow mushrooms on the grass beneath you
-		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and life regen by 2
+		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and granting 0.5 HP/s life regen
 		All mushroom-based weapons deal 10% more damage and emit non-damaging mushrooms
 		'''
 }
@@ -862,7 +879,7 @@ GrandGelatin: {
 		10% increased movement speed and jump speed
 		Using a healing potion will spawn a cleansing aura
 		Walking into the aura removes all debuffs and defense damage one time
-		The aura provides increased life regen for all players inside for 8 seconds
+		The aura grants +2.5 HP/s life regen for all players inside for 8 seconds
 		'''
 }
 
@@ -935,10 +952,10 @@ HoneyDew: {
 	DisplayName: Honey Dew
 	Tooltip:
 		'''
-		5% increased damage reduction, +9 defense and increased life regen while in the Jungle
-		Poison and Venom immunity
-		Honey-like life regen with no speed penalty
-		Most bee/hornet enemies and projectiles do 75% damage to you
+		+30 max life
+		Provides life regeneration equivalent to standing in Honey
+		Standing still in Honey grants extremely powerful regen
+		Halves how long you are afflicted with sickness debuffs
 		'''
 }
 
@@ -1002,7 +1019,7 @@ LifeJelly: {
 	Tooltip:
 		'''
 		Using a healing potion will spawn a lingering aura 
-		The aura provides increased life regen for all players inside for 5 seconds
+		The aura grants +2 HP/s life regen for all players inside for 5 seconds
 		'''
 }
 
@@ -1010,8 +1027,10 @@ LivingDew: {
 	DisplayName: Living Dew
 	Tooltip:
 		'''
-		5% increased damage reduction, +5 defense, and increased life regen while in the Jungle
-		Immunity to Poison
+		+50 max life
+		Provides life regeneration equivalent to standing in Honey
+		Standing still in Honey grants extremely powerful regen
+		Halves how long you are afflicted with fire and sickness debuffs
 		'''
 }
 
@@ -1049,7 +1068,7 @@ ManaPolarizer: {
 	Tooltip:
 		'''
 		Increases max mana by 50 and magic damage by 6%
-		Life regen lowered by 3 if mana is above 50% of its maximum
+		-1.5 HP/s life regen if mana is above 50% of its maximum
 		Grants spectre healing, the amount healed scales with your mana
 		The healing only works while holding a magic weapon
 		The more mana you have, the more you heal
@@ -1221,8 +1240,8 @@ PermafrostsConcoction: {
 	Tooltip:
 		'''
 		Increases maximum mana by 50 and reduces mana cost by 15%
-		Increases life regen as life decreases
-		Increases life regen when afflicted with any fire debuff
+		+0.5 HP/s life regen below half health, +1 HP/s when below 25% health and +2 HP/s when below 10% health
+		+3 HP/s life regen while afflicted with any fire debuff
 		You will survive fatal damage and revive with 30% life on a 3 minute cooldown
 		You are encased in an ice barrier for 3 seconds when revived
 		'''
@@ -1312,7 +1331,11 @@ QuiverofNihility: {
 
 RadiantOoze: {
 	DisplayName: Radiant Ooze
-	Tooltip: You emit light and regen life more quickly at night
+	Tooltip:
+		'''
+		Grants +2 to +6 HP/s life regen based on missing health
+		You emit yellow light if visibility is enabled
+		'''
 }
 
 RaidersTalisman: {
@@ -1329,7 +1352,7 @@ RampartofDeities: {
 	Tooltip:
 		'''
 		Causes stars to fall and gives increased immune time when damaged
-		Provides life regeneration and reduces the cooldown of healing potions
+		+0.5 HP/s life regen and reduces the cooldown of healing potions
 		Absorbs 15% of damage done to players on your team
 		This effect is only active above 25% life
 		Grants immunity to knockback
@@ -1351,7 +1374,7 @@ Regenator: {
 	DisplayName: Regenator
 	Tooltip:
 		'''
-		Greatly improves life regeneration
+		+6 HP/s life regen and massively accelerated natural life regen
 		However, your health cannot exceed 50% of its maximum
 		'''
 }
@@ -1382,16 +1405,18 @@ RottenBrain: {
 
 RottenDogtooth: {
 	DisplayName: Rotten Dogtooth
-	Tooltip: Makes Stealth strikes inflict Armor Crunch and deal 8% more damage
+	Tooltip: Makes Stealth strikes inflict Crumbling and deal 8% more damage
 }
 
 RoverDrive: {
 	DisplayName: Rover Drive
 	Tooltip:
 		'''
-		Activates a protective matrix that can absorb 40 damage and grants 10 defense
-		However, the systems are fickle and the shield will need 10 seconds to recharge when broken
-		Getting hit during the shield recharge period will restart the recharging process
+		Projects an energy shield that absorbs up to 20 damage
+		The shield grants 10 defense while active
+		After the shield is broken, it takes 10 seconds to charge back up
+		Being hit again while recharging restarts the charge timer
+		The shield's color will change to match your team selection as needed
 		Can also be scrapped at an extractinator
 		'''
 }
@@ -1419,7 +1444,7 @@ SandCloak: {
 	Tooltip:
 		'''
 		5% increased movement speed
-		Press [KEY] to consume 10% of your maximum stealth to create a protective dust veil which provides +6 defense and +2 life regen
+		Press [KEY] to consume 10% of your maximum stealth to create a protective dust veil which provides +6 defense and +1 HP/s life regen
 		This effect has a 30 second cooldown before it can be used again
 		'''
 }
@@ -1448,7 +1473,7 @@ ShatteredCommunity: {
 		'''
 		'Ruined by unknowable hatred, it still contains (most of) the power of The Community...'
 		Increases damage by 10% and critical strike chance by 5%
-		Increases max health by 10%, damage reduction by 5%, defense by 10 and life regen by 2
+		Increases max health by 10%, damage reduction by 5%, defense by 10, and life regen by 1 HP/s
 		Increases movement speed by 10% and flight time by 20%
 		[RAGEDESC]
 		Taking damage gives rage, this effect is not hindered by your defensive stats
@@ -1465,6 +1490,7 @@ ShatteredCommunity: {
 		When Rage is maxed, press {0} for a temporary damage boost
 		'''
 	RageModified: You generate rage over time and rage does not fade out of combat
+	LevelUpText: The Community cracks...
 }
 
 ShieldoftheHighRuler: {
@@ -1486,7 +1512,7 @@ ShieldoftheOcean: {
 	Tooltip:
 		'''
 		Increased defense by 5 when submerged in liquid
-		Increases movement speed and life regen while wearing the Victide armor
+		10% increased movement speed and +1 HP/s life regen while wearing Victide armor
 		'''
 }
 
@@ -1701,10 +1727,10 @@ TheAbsorber: {
 	Tooltip:
 		'''
 		10% increased movement and jump speed
-		Enemies take immense damage when they touch you and are afflicted with a debuff that reduces damage reduction significantly
+		Enemies take immense damage when they touch you and are afflicted with a damaging sickeness debuff that reduces damage reduction significantly
 		Using a healing potion will spawn a cleansing aura
 		Walking into the aura removes all debuffs and defense damage one time
-		The aura provides greatly increased life regen, damage, and damage reduction for all players inside for 15 seconds
+		The aura grants +3 HP/s life regen, +8% damage, and +5% damage reduction for all players inside for 10 seconds
 		5% of the damage from enemy attacks is absorbed and converted into healing
 		'''
 }
@@ -1729,6 +1755,7 @@ TheBee: {
 		'''
 		When at full HP, your damage is increased based on your damage reduction
 		Damage taken at full HP is halved
+		If you have any energy shields, they must also be full for these effects to work
 		This has a 10 second cooldown
 		'''
 }
@@ -1758,7 +1785,7 @@ TheCommunity: {
 		'''
 		Increases damage by {0}% and critical strike chance by {1}%
 		Increases max health by {2}%, damage reduction by {3}%, and defense by {4}
-		Increases life regen by {5} while under damage over time effects
+		+{5} HP/s life regen while suffering from damage over time debuffs
 		Increases movement speed by {6}% and flight time by {7}%
 		Become more powerful as you defeat bosses ({8}% Power)
 		'''
@@ -1771,7 +1798,7 @@ TheEvolution: {
 		You reflect projectiles when they hit you
 		Reflected projectiles deal no damage to you
 		This reflect has a 90 second cooldown which is shared with all other dodges and reflects
-		If this effect triggers you get a health regeneration boost for 5 seconds
+		After reflecting something, grants +1 HP/s life regen and accelerated life regen for 5 seconds
 		If the same enemy projectile type hits you again you will resist its damage by 15%
 		'''
 }
@@ -1787,7 +1814,15 @@ TheFirstShadowflame: {
 
 TheSponge: {
 	DisplayName: The Sponge
-	Tooltip: OUT OF ORDER
+	Tooltip:
+		'''
+		Projects a quantum foam barrier that absorbs up to 180 damage
+		The barrier grants 30 defense and reduces damage taken by 30% while active
+		The barrier starts recharging 9 seconds after being hit
+		Recharging from zero to full charge takes 6 seconds
+		Being hit again while recharging restarts the charge timer
+		The barrier's color will change to match your team selection as needed
+		'''
 }
 
 TheTransformer: {
@@ -1816,7 +1851,7 @@ TrinketofChi: {
 	Tooltip:
 		'''
 		Provides 10% damage reduction after not being hit for 15 seconds, this is removed when you are hit
-		Provides 2 life regen for you and everyone on your team
+		+1 HP/s life regen for you and everyone on your team
 		'''
 }
 
@@ -1848,6 +1883,16 @@ AbandonedWulfrumHelmet: {
 		[c/83B87E:'This rather flimsy armor was commonly worn by scavengers and looters.]
 		[c/83B87E:Its versatility and common nature led it to be used as currency in trades.']
 		'''
+}
+
+HapuFruit: {
+	DisplayName: Ha-pu Fruit
+	Tooltip: "'A fruit that calms your nerves (may have unintended side effects)'"
+}
+
+RedBow: {
+	DisplayName: Red Bow
+	Tooltip: "'Pelusa's favorite bow'"
 }
 
 Popo: {

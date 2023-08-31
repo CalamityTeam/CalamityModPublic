@@ -1,10 +1,8 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
@@ -13,8 +11,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorOpen(true);
-            RegisterItemDrop(ModContent.ItemType<CosmiliteDoor>());
+            this.SetUpDoorOpen(ModContent.ItemType<CosmiliteDoor>(), true);
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<CosmiliteDoorClosed>();
         }
 

@@ -1,15 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelCandle : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandle();
+        public override void SetStaticDefaults() => this.SetUpCandle(ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelCandle>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

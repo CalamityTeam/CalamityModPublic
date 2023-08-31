@@ -1,16 +1,13 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureBotanic
 {
     public class BotanicCandelabra : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandelabra(true);
+        public override void SetStaticDefaults() => this.SetUpCandelabra(ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicCandelabra>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

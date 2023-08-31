@@ -3,17 +3,15 @@ using CalamityMod.Items.Placeables.Furniture.Fountains;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
 {
     public class AstralFountainTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpFountain(new Color(59, 50, 77));
+        public override void SetStaticDefaults() => this.SetUpFountain(ModContent.ItemType<AstralFountainItem>(), new Color(59, 50, 77));
 
         public override void NearbyEffects(int i, int j, bool closer)
         {

@@ -1,10 +1,8 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureSacrilegious;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSacrilegious
@@ -13,8 +11,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorOpen(true);
-            RegisterItemDrop(ModContent.ItemType<SacrilegiousDoor>());
+            this.SetUpDoorOpen(ModContent.ItemType<SacrilegiousDoor>(), true);
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<SacrilegiousDoorClosed>();
         }
 

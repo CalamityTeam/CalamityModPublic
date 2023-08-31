@@ -2,9 +2,7 @@
 using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -14,7 +12,7 @@ namespace CalamityMod.Tiles.Astral
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpChest();
+            this.SetUpChest(ModContent.ItemType<AstralChest>());
             AddMapEntry(new Color(174, 129, 92), this.GetLocalization("MapEntry0"), MapChestName);
             AddMapEntry(new Color(174, 129, 92), this.GetLocalization("MapEntry1"), MapChestName);
             DustType = ModContent.DustType<AstralBasic>();
@@ -28,7 +26,7 @@ namespace CalamityMod.Tiles.Astral
         public override LocalizedText DefaultContainerName(int frameX, int frameY)
         {
             int option = frameX / 36;
-			return this.GetLocalization("MapEntry" + option);
+            return this.GetLocalization("MapEntry" + option);
         }
         public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<AstralChest>(i, j);
         public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<AstralChest>(i, j);

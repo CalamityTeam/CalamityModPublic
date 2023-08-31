@@ -2,15 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousCandleTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandle(true);
+        public override void SetStaticDefaults() => this.SetUpCandle(ModContent.ItemType<SacrilegiousCandle>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

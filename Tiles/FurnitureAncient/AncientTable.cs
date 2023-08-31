@@ -1,15 +1,12 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientTable : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpTable(true);
+        public override void SetStaticDefaults() => this.SetUpTable(ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientTable>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

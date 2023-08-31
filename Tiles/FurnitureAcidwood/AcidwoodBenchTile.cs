@@ -1,17 +1,15 @@
-using CalamityMod.Items.Placeables.FurnitureAcidwood;
+﻿using CalamityMod.Items.Placeables.FurnitureAcidwood;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodBenchTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSofa(false, true);
+        public override void SetStaticDefaults() => this.SetUpSofa(ModContent.ItemType<AcidwoodBench>(), false, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

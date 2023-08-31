@@ -2,10 +2,8 @@
 using CalamityMod.Items.Placeables.FurnitureOtherworldly;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
@@ -15,8 +13,7 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorOpen(true);
-            RegisterItemDrop(ModContent.ItemType<OtherworldlyDoor>());
+            this.SetUpDoorOpen(ModContent.ItemType<OtherworldlyDoor>(), true);
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<OtherworldlyDoorClosed>();
         }
 

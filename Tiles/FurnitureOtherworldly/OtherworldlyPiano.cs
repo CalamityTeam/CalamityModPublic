@@ -1,15 +1,13 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
     [LegacyName("OccultPiano")]
     public class OtherworldlyPiano : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPiano(true);
+        public override void SetStaticDefaults() => this.SetUpPiano(ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlyPiano>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

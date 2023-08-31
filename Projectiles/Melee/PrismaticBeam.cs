@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee
         public Player Owner => Main.player[Projectile.owner];
         public override Color LaserOverlayColor => CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / ColorSet.Length % 1f, ColorSet);
         public override Color LightCastColor => LaserOverlayColor;
-        public override float Lifetime => 300f;
+        public override float Lifetime => 900f;
         public override float MaxScale => 1.5f;
         public override float MaxLaserLength => 2200f;
         public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart", AssetRequestMode.ImmediateLoad).Value;
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.hide = true;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 900;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }

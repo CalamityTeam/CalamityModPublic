@@ -1,11 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
@@ -13,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     public class AshenMonolith : ModTile
     {
         public int animationFrameWidth = 36;
-        public override void SetStaticDefaults() => this.SetUpClock(true);
+        public override void SetStaticDefaults() => this.SetUpClock(ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenMonolith>(), true);
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 

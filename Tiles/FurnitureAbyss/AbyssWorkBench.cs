@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
@@ -10,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     [LegacyName("AbyssWorkbench")]
     public class AbyssWorkBench : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench(true);
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssWorkBench>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

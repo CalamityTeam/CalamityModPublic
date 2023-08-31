@@ -1,14 +1,14 @@
-using CalamityMod.Items.Placeables.FurnitureSacrilegious;
+﻿using CalamityMod.Items.Placeables.FurnitureSacrilegious;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
+    // TODO -- why does this one piece of Otherworldly furniture still use the old naming scheme
     public class OccultPlatformTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPlatform(true);
+        public override void SetStaticDefaults() => this.SetUpPlatform(ModContent.ItemType<OccultPlatformItem>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

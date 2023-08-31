@@ -1,34 +1,33 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using CalamityMod.CalPlayer;
+using CalamityMod.Items.Armor.LunicCorps;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.Graphics.Shaders;
 using Terraria.Localization;
 using static CalamityMod.CalamityUtils;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.Items.Accessories;
-using Terraria.Audio;
-using Terraria.Graphics.Shaders;
-using System;
-using CalamityMod.Items.Armor.LunicCorps;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Cooldowns
 {
-    public class MasterChefShieldDurability : CooldownHandler
+    public class LunicCorpsShieldDurability : CooldownHandler
     {
-        private static Color ringColorLerpStart = new Color(49, 220, 221);
-        private static Color ringColorLerpEnd = new Color(99, 226, 142);
+        private static Color ringColorLerpStart = new Color(82, 203, 222);
+        private static Color ringColorLerpEnd = new Color(113, 178, 222);
 
-        private float AdjustedCompletion => (instance.timeLeft) / (float)LunicCorpsHelmet.MasterChefShieldDurabilityMax;
+        private float AdjustedCompletion => instance.timeLeft / (float)LunicCorpsHelmet.ShieldDurabilityMax;
 
         public static new string ID => "MasterChefShieldDurability";
-        public override bool CanTickDown => !instance.player.GetModPlayer<CalamityPlayer>().lunicCorpsSet || instance.timeLeft <= 0;
-        public override bool ShouldDisplay => instance.player.GetModPlayer<CalamityPlayer>().lunicCorpsSet;
-        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
-        public override string Texture => "CalamityMod/Cooldowns/MasterChefShieldDurabilityActive";
-        public override string OutlineTexture => "CalamityMod/Cooldowns/MasterChefShieldDurabilityOutline";
-        public override string OverlayTexture => "CalamityMod/Cooldowns/MasterChefShieldDurabilityOverlay";
-        public override Color OutlineColor => new Color(112, 244, 244);
+        public override bool CanTickDown => !instance.player.Calamity().lunicCorpsSet || instance.timeLeft <= 0;
+        public override bool ShouldDisplay => instance.player.Calamity().lunicCorpsSet;
+        public override LocalizedText DisplayName => GetText($"UI.Cooldowns.{ID}");
+        public override string Texture => "CalamityMod/Cooldowns/LunicCorpsShieldActive";
+        public override string OutlineTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOutline";
+        public override string OverlayTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOverlay";
+        public override Color OutlineColor => new Color(57, 195, 237);
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override bool SavedWithPlayer => false;
@@ -74,22 +73,32 @@ namespace CalamityMod.Cooldowns
         }
     }
 
-    public class MasterChefShieldRecharge : CooldownHandler
+    public class LunicCorpsShieldRecharge : CooldownHandler
     {
-        private static Color ringColorLerpStart = new Color(194, 255, 57);
-        private static Color ringColorLerpEnd = new Color(92, 187, 99);
+        private static Color ringColorLerpStart = new Color(179, 212, 242);
+        private static Color ringColorLerpEnd = new Color(113, 178, 222);
 
         public static new string ID => "MasterChefShieldRecharge";
         public override bool ShouldDisplay => true;
-        public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
-        public override string Texture => "CalamityMod/Cooldowns/MasterChefShieldDurability";
+        public override LocalizedText DisplayName => GetText($"UI.Cooldowns.{ID}");
+        public override string Texture => "CalamityMod/Cooldowns/LunicCorpsShieldRecharge";
+        public override string OutlineTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOutline";
+        public override string OverlayTexture => "CalamityMod/Cooldowns/LunicCorpsShieldOverlay";
         public override bool SavedWithPlayer => false;
         public override bool PersistsThroughDeath => false;
-        public override Color OutlineColor => new Color(194, 255, 67);
+        public override Color OutlineColor => new Color(57, 195, 237);
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
+        public override SoundStyle? EndSound => LunicCorpsHelmet.ActivationSound;
 
-        public override void OnCompleted() => instance.player.GetModPlayer<CalamityPlayer>().masterChefShieldDurability = LunicCorpsHelmet.MasterChefShieldDurabilityMax;
-        public override SoundStyle? EndSound => null;
+        public override void Tick() => instance.player.Calamity().playedLunicCorpsShieldSound = false;
+        // When the recharge period completes, grant 1 point of shielding immediately so the rest my refill normally.
+        // The shield durability cooldown is added elsewhere, in Misc Effects.
+        public override void OnCompleted()
+        {
+            CalamityPlayer modPlayer = instance.player.Calamity();
+            if (modPlayer.LunicCorpsShieldDurability <= 0)
+                modPlayer.LunicCorpsShieldDurability = 1;
+        }
     }
 }

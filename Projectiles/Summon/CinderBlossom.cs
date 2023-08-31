@@ -1,7 +1,9 @@
-﻿using CalamityMod.Buffs.Summon;
+﻿using System.Diagnostics.CodeAnalysis;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,13 +12,11 @@ namespace CalamityMod.Projectiles.Summon
     public class CinderBlossom : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+
         public Player Owner => Main.player[Projectile.owner];
-
-        public CalamityPlayer moddedOwner => Owner.Calamity();
-
+        public CalamityPlayer ModdedOwner => Owner.Calamity();
+        public NPC Target => Owner.Center.MinionHoming(1200f, Owner, CalamityPlayer.areThereAnyDamnBosses);
         public ref float DelayBetweenShooting => ref Projectile.ai[0];
-
-        public bool CheckForSpawning = false;
 
         public override void SetStaticDefaults()
         {
@@ -42,11 +42,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            NPC potentialTarget = Projectile.Center.MinionHoming(1200f, Owner);
-
             CheckMinionExistince(); // Checks if the minion can still exist.
-            EffectWhenSpawned(); // Makes a dust effect when it spawns
-            ShootTarget(potentialTarget); // Shoots at the target if there's one.
+            ShootTarget(Target); // Shoots at the target if there's one.
 
             Projectile.Center = Owner.Center - Vector2.UnitY * 60f;
             Projectile.rotation += MathHelper.ToRadians(5f * Owner.direction); // The projectile normally will spin in the direction of the player.
@@ -59,23 +56,19 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.type == ModContent.ProjectileType<CinderBlossom>())
             {
                 if (Owner.dead)
-                    moddedOwner.cinderBlossom = false;
-                if (moddedOwner.cinderBlossom)
+                    ModdedOwner.cinderBlossom = false;
+                if (ModdedOwner.cinderBlossom)
                     Projectile.timeLeft = 2;
             }
         }
 
-        public void EffectWhenSpawned()
+        public override void OnSpawn(IEntitySource source)
         {
-            if (CheckForSpawning == false)
+            for (int i = 0; i < 36; i++)
             {
-                for (int i = 0; i < 36; i++)
-                {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 6);
-                    dust.noGravity = true;
-                    dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f, 6f);
-                }
-                CheckForSpawning = true;
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 6);
+                dust.noGravity = true;
+                dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f, 6f);
             }
         }
 

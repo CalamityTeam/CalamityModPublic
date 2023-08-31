@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             player.GetDamage<GenericDamageClass>() += 0.08f;
             player.GetDamage<SummonDamageClass>() += 0.07f; //7% + 8% = 15%
             player.maxMinions += 2;
-            if (player.controlJump)
+            if (player.wingTime < player.wingTimeMax)
                 player.lifeRegen += 4;
         }
 

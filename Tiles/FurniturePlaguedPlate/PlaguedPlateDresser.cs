@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -12,7 +10,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDresser();
+            this.SetUpDresser(ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>());
             AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(), CalamityUtils.GetMapChestName);
         }
 
@@ -22,7 +20,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             return false;
         }
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
-		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
         public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
         public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();

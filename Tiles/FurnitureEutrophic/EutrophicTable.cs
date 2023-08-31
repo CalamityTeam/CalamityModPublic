@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicTable : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpTable();
+        public override void SetStaticDefaults() => this.SetUpTable(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicTable>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

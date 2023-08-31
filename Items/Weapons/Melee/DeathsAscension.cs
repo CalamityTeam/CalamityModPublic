@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.damage = 1200;
             Item.knockBack = 9f;
-            Item.useTime = Item.useAnimation = 18;
+            Item.useTime = Item.useAnimation = 24;
             Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.channel = true;
@@ -80,11 +80,11 @@ namespace CalamityMod.Items.Weapons.Melee
             int spreadfactor = 9;
             if (player.altFunctionUse == 2f)
             {
-                for (int index = 0; index < 5; ++index)
+                for (int index = 0; index < 4; ++index)
                 {
                     float SpeedX = velocity.X + Main.rand.NextFloat(-spreadfactor, spreadfactor + 1);
                     float SpeedY = velocity.Y + Main.rand.NextFloat(-spreadfactor, spreadfactor + 1);
-                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.15f), knockback, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.125f), knockback, player.whoAmI, 0f, 0f);
                 }
             }
             else

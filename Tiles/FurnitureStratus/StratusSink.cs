@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusSink : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSink(true);
+        public override void SetStaticDefaults() => this.SetUpSink(ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusSink>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

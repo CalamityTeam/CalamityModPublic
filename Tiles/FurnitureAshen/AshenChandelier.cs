@@ -2,8 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
@@ -14,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void SetStaticDefaults()
         {
-            this.SetUpChandelier(true);
+            this.SetUpChandelier(ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenChandelier>(), true);
             AnimationFrameHeight = 54;
         }
 

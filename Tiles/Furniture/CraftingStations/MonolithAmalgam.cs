@@ -2,8 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
@@ -13,7 +11,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpBookcase(true, false, false);
+            this.SetUpBookcase(ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.MonolithAmalgam>(), true, false, false);
             AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.MonolithAmalgam>());
         }
 

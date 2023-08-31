@@ -2,16 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousLampTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpLamp(true);
+        public override void SetStaticDefaults() => this.SetUpLamp(ModContent.ItemType<SacrilegiousLamp>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

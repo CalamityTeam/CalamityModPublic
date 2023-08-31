@@ -4,15 +4,13 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
     [LegacyName("OccultSofa")]
     public class OtherworldlySofa : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSofa(true);
+        public override void SetStaticDefaults() => this.SetUpSofa(ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlySofa>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

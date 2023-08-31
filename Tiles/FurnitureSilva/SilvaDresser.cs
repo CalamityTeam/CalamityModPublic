@@ -1,9 +1,7 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -13,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDresser();
+            this.SetUpDresser(ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaDresser>());
             AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.FurnitureSilva.SilvaDresser>(), CalamityUtils.GetMapChestName);
         }
 
@@ -24,7 +22,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
             return false;
         }
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
-		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
         public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<Items.Placeables.FurnitureSilva.SilvaDresser>();
         public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureSilva.SilvaDresser>();

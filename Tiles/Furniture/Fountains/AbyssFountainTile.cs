@@ -2,10 +2,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
@@ -14,7 +12,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
     {
         int mode = 0;
 
-        public override void SetStaticDefaults() => this.SetUpFountain(new Color(71, 93, 107));
+        public override void SetStaticDefaults() => this.SetUpFountain(ModContent.ItemType<AbyssFountainItem>(), new Color(71, 93, 107));
 
         public override void NearbyEffects(int i, int j, bool closer)
         {

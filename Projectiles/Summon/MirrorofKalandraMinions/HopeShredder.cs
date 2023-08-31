@@ -77,12 +77,12 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
                     spawnPosition,
                     CalamityUtils.CalculatePredictiveAimToTarget(spawnPosition, Target, MirrorofKalandra.Vile_ArrowSpeed),
                     ModContent.ProjectileType<HopeShredderArrow>(),
-                    (int)(Projectile.damage / MirrorofKalandra.Vile_SplitDMGMultiplier),
+                    Projectile.damage,
                     Projectile.knockBack,
                     Owner.whoAmI);
 
                 if (Main.projectile.IndexInRange(arrow))
-                    Main.projectile[arrow].originalDamage = (int)(Projectile.originalDamage / MirrorofKalandra.Vile_SplitDMGMultiplier);
+                    Main.projectile[arrow].originalDamage = Projectile.originalDamage;
 
                 SoundEngine.PlaySound(SoundID.Item5, Owner.Center);
 

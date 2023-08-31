@@ -61,6 +61,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.noUseGraphic = true;
             Item.DamageType = DamageClass.Summon;
             Item.rare = ModContent.RarityType<Violet>();
+            Item.sentry = true;
         }
 
         public override bool CanUseItem(Player player)

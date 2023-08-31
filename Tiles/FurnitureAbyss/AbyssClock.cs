@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
@@ -12,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpClock(true);
+            this.SetUpClock(ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssClock>(), true);
             AnimationFrameHeight = 90;
         }
 

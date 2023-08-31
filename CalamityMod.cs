@@ -138,7 +138,7 @@ namespace CalamityMod
         public static int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, BuffID.Frostburn2, ModContent.BuffType<GlacialState>() };
         public static int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
         public static int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
-        public static int[] abyssEnemyImmunities = new int[1] { ModContent.BuffType<CrushDepth>() };
+        public static int[] abyssEnemyImmunities = new int[2] { ModContent.BuffType<CrushDepth>(), ModContent.BuffType<RiptideDebuff>() };
         public static int[] cragEnemyImmunities = new int[3] { BuffID.OnFire, BuffID.OnFire3, ModContent.BuffType<BrimstoneFlames>() };
         public static int[] astralEnemyImmunities = new int[2] { BuffID.Poisoned, ModContent.BuffType<AstralInfectionDebuff>() };
         public static int[] plagueEnemyImmunities = new int[3] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<Plague>() };
@@ -361,7 +361,6 @@ namespace CalamityMod
             RipperUI.Load();
             StealthUI.Load();
             ChargeMeterUI.Load();
-            AstralArcanumUI.Load(this);
             FlightBar.Load();
 
             // TODO -- Is this not possible to place in ModNPC.Load or ModNPC.SetStaticDefaults ?
@@ -465,7 +464,6 @@ namespace CalamityMod
             RipperUI.Unload();
             StealthUI.Unload();
             ChargeMeterUI.Unload();
-            AstralArcanumUI.Unload();
             FlightBar.Unload();
 
             if (!Main.dedServ)

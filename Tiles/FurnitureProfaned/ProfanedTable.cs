@@ -1,16 +1,13 @@
 ﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedTable : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpTable(true);
+        public override void SetStaticDefaults() => this.SetUpTable(ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedTable>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

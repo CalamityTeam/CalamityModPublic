@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -15,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpChest(true, 2);
+            this.SetUpChest(ModContent.ItemType<ExoChest>(), true, 2);
             AddMapEntry(new Color(71, 95, 114), CalamityUtils.GetItemName<ExoChest>(), CalamityUtils.GetMapChestName);
         }
 
@@ -26,12 +24,12 @@ namespace CalamityMod.Tiles.FurnitureExo
             return false;
         }
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
-		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
         public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<ExoChest>();
         public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<ExoChest>(i, j);
         public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<ExoChest>(i, j);
-		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Chest.DestroyChest(i, j);
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Chest.DestroyChest(i, j);
         public override bool RightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

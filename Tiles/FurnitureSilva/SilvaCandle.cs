@@ -1,15 +1,13 @@
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaCandle : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpCandle(true);
+        public override void SetStaticDefaults() => this.SetUpCandle(ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaCandle>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

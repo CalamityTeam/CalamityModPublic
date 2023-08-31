@@ -45,12 +45,12 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
                     Projectile.Center,
                     Projectile.velocity.RotatedBy(MathHelper.ToRadians(i)),
                     ModContent.ProjectileType<HopeShredderArrowSplit>(),
-                    Projectile.damage,
+                    (int)(Projectile.damage * MirrorofKalandra.Vile_SplitDMGMultiplier),
                     Projectile.knockBack,
                     Owner.whoAmI);
 
                 if (Main.projectile.IndexInRange(shard))
-                    Main.projectile[shard].originalDamage = Projectile.originalDamage;
+                    Main.projectile[shard].originalDamage = (int)(Projectile.originalDamage * MirrorofKalandra.Vile_SplitDMGMultiplier);
 
                 Projectile.netUpdate = true;
             }

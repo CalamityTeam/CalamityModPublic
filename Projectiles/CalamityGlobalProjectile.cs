@@ -74,6 +74,9 @@ namespace CalamityMod.Projectiles
         // If true, this projectile creates impact sparks upon hitting enemies
         public bool deepcoreBullet = false;
 
+        // If true, causes all projectiles fired by this weapon to have homing. Currently used for Arterial Assault.
+        public bool allProjectilesHome = false;
+
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
 
@@ -105,6 +108,7 @@ namespace CalamityMod.Projectiles
         public bool stealthStrike = false;
         public int stealthStrikeHitCount = 0;
         public bool extorterBoost = false;
+        public bool LocketClone = false;
 
         // Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         // TODO -- uses of this variable are undocumented and unstable. Remove it from the API surface.
@@ -2452,9 +2456,10 @@ namespace CalamityMod.Projectiles
                     }
                 }
 
-                if (modPlayer.theBee && projectile.owner == Main.myPlayer && projectile.damage > 0 && player.statLife >= player.statLifeMax2)
+                if (modPlayer.theBee && projectile.owner == Main.myPlayer && projectile.damage > 0)
                 {
-                    if (Main.rand.NextBool(5))
+                    bool lifeAndShieldCondition = player.statLife >= player.statLifeMax2 && (!modPlayer.HasAnyEnergyShield || modPlayer.TotalEnergyShielding >= modPlayer.TotalMaxShieldDurability);
+                    if (lifeAndShieldCondition && Main.rand.NextBool(5))
                     {
                         Dust dust = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 91, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
                         dust.noGravity = true;
@@ -2485,6 +2490,11 @@ namespace CalamityMod.Projectiles
                         confetti.velocity.X += Main.rand.Next(-50, 51) * 0.05f;
                         confetti.velocity.Y += Main.rand.Next(-50, 51) * 0.05f;
                     }
+                }
+
+                if (allProjectilesHome)
+                {
+                    CalamityUtils.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 12f, 20f);
                 }
             }
         }
@@ -2583,7 +2593,7 @@ namespace CalamityMod.Projectiles
                 modifiers.SetCrit();
 
             if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
-                target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);
+                target.AddBuff(BuffType<Crumbling>(), RottenDogtooth.ArmorCrunchDebuffTime);
 
             if (modPlayer.flamingItemEnchant && !projectile.minion && !projectile.npcProj && !projectile.Calamity().CreatedByPlayerDash)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);

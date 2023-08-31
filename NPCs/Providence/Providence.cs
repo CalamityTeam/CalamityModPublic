@@ -2598,7 +2598,7 @@ namespace CalamityMod.NPCs.Providence
                 Target.statLife -= NegativeHealValue;
                 if (Target.statLife < 0)
                 {
-                    PlayerDeathReason CustomSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProvidenceMelt").Format(Target.name));
+                    PlayerDeathReason CustomSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProvidenceAntiHealing").Format(Target.name));
                     Target.KillMe(CustomSource, NegativeHealValue, 0);
                 }
                 NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, Target.whoAmI, NegativeHealValue);

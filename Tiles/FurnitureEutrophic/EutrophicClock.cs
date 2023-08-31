@@ -1,16 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicClock : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpClock();
+        public override void SetStaticDefaults() => this.SetUpClock(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicClock>());
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 

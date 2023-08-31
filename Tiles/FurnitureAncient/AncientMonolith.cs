@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
@@ -11,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     public class AncientMonolith : ModTile
     {
         int animationFrameWidth = 36;
-        public override void SetStaticDefaults() => this.SetUpClock(true);
+        public override void SetStaticDefaults() => this.SetUpClock(ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientMonolith>(), true);
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 

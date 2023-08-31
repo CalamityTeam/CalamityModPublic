@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlateSink : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSink(true);
+        public override void SetStaticDefaults() => this.SetUpSink(ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateSink>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

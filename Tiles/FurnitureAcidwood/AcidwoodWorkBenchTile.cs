@@ -1,9 +1,6 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureAcidwood;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAcidwood
@@ -11,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
     [LegacyName("AcidwoodWorkbenchTile")]
     public class AcidwoodWorkBenchTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench();
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<AcidwoodWorkBench>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {

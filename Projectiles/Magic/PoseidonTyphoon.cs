@@ -18,10 +18,12 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.penetrate = 10; //randomized in the item file now, penetrates 4 to 10 times
-            Projectile.timeLeft = 300;
+            Projectile.penetrate = 6;
+            Projectile.timeLeft = 270;
             Projectile.ignoreWater = true;
             Projectile.scale = 1.6f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
         }
 
         public override void AI()
@@ -31,7 +33,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Lighting.AddLight(Projectile.Center, 0, (255 - Projectile.alpha) * 0.7f / 255f, (255 - Projectile.alpha) / 255f);
 
-            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 6f, 30f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 10f, 30f);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Eutrophication>(), 180);

@@ -1,14 +1,12 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientSink : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSink(true, false, true);
+        public override void SetStaticDefaults() => this.SetUpSink(ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientSink>(), true, false, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

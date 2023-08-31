@@ -7,6 +7,7 @@ using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Particles;
 using CalamityMod.Particles.Metaballs;
+using CalamityMod.Systems;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.UI.DraedonSummoning;
@@ -521,6 +522,13 @@ namespace CalamityMod
                     return CalamityWorld.armageddon = enabled;
             }
         }
+
+        public static void AddCustomDifficulty(DifficultyMode newMode)
+        {
+            //Add the new difficulty and recalculate
+            DifficultyModeSystem.Difficulties.Add(newMode);
+            DifficultyModeSystem.CalculateDifficultyData();
+        }
         #endregion
 
         #region Rogue Class
@@ -849,7 +857,7 @@ namespace CalamityMod
                 case "godslayer_melee":
                 case "godslayer melee":
                 case "god slayer melee":
-                    return mp.godSlayerDamage; // melee helm's unique damage reducing property
+                    return mp.godSlayerDamage; // melee helm
                 case "godslayer_ranged":
                 case "godslayer ranged":
                 case "god slayer ranged":
@@ -1264,7 +1272,7 @@ namespace CalamityMod
                 case "godslayer melee":
                 case "god slayer melee":
                     mp.godSlayer = enabled;
-                    mp.godSlayerDamage = enabled; // melee helm's unique damage reducing property
+                    mp.godSlayerDamage = enabled; // melee helm
                     return true;
                 case "godslayer_ranged":
                 case "godslayer ranged":
@@ -1456,6 +1464,22 @@ namespace CalamityMod
         {
             if (p != null)
                 p.Calamity().infiniteFlight = enabled;
+        }
+
+        public static bool GetWearingRogueArmor(Player p) => p?.Calamity()?.wearingRogueArmor ?? false;
+
+        public static void SetWearingRogueArmor(Player p, bool enabled)
+        {
+            if (p != null)
+                p.Calamity().wearingRogueArmor = enabled;
+        }
+
+        public static bool GetWearingPostMLSummonerArmor(Player p) => p?.Calamity()?.WearingPostMLSummonerSet ?? false;
+
+        public static void SetWearingPostMLSummonerArmor(Player p, bool enabled)
+        {
+            if (p != null)
+                p.Calamity().WearingPostMLSummonerSet = enabled;
         }
 
         public static bool MakeColdImmune(Player p) => p is null ? false : (p.Calamity().externalColdImmunity = true);
@@ -1686,8 +1710,20 @@ namespace CalamityMod
         public static bool IsOnPersistentBuffList(int type) => CalamityLists.persistentBuffList.Contains(type);
         #endregion
 
+        #region Venerated Locket Bans
+        public static bool AddToVeneratedLocketBanlist(int type)
+        {
+            if (!CalamityLists.VeneratedLocketBanlist.Contains(type))
+            {
+                CalamityLists.VeneratedLocketBanlist.Add(type);
+                return true;
+            }
+            return false;
+        }
+        #endregion
+
         #region Summoner Cross Class Nerf Disabling
-        public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
+            public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
         {
             if (disableNerf && !CalamityLists.DisabledSummonerNerfMinions.Contains(type))
             {
@@ -1837,6 +1873,16 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The first argument to \"SetDifficulty\" must be a string.");
                     return SetDifficultyActive(args[1].ToString(), enabled);
 
+
+                case "AddDifficultyToUI":
+                    if (args.Length < 2)
+                        return new ArgumentException("ERROR: Not enough arguements provided");
+  
+                    if (args[1] is not DifficultyMode mode)
+                        return new ArgumentException("ERROR: A class inheriting from 'DifficultyMode' must be provided.");
+                    AddCustomDifficulty(mode);
+                    return null;
+
                 case "GetLight":
                 case "GetLightLevel":
                 case "GetLightStrength":
@@ -1880,6 +1926,62 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The first argument to \"InfiniteFlight\" must be a Player or an int.");
                     bool fly = (bool)args[2];
                     ToggleInfiniteFlight(castPlayer(args[1]), fly);
+                    return null;
+
+                case "GetRogueArmor":
+                case "GetWearingRogueArmor":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if(!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The argument to \"GetRogueArmor\" must be a Player or an int.");
+                    return GetWearingRogueArmor(castPlayer(args[1]));
+
+                case "SetRogueArmor":
+                case "SetWearingRogueArmor":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and if the player should be counted as wearing rogue armor as a bool.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify if a player should be counted as wearing rogue armor as a bool.");
+                    if (!(args[2] is bool))
+                        return new ArgumentException("ERROR: The second argument to \"SetRogueArmor\" must be a bool.");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"SetRogueArmor\" must be a Player or an int.");
+                    bool roguearmor = (bool)args[2];
+                    SetWearingRogueArmor(castPlayer(args[1]), roguearmor);
+                    return null;
+
+                case "GetPostMLSummonArmor":
+                case "GetWearingPostMLSummonArmor":
+                case "GetPostMoonLordSummonArmor":
+                case "GetWearingPostMoonLordSummonArmor":
+                case "GetPostMLSummonerArmor":
+                case "GetWearingPostMLSummonerArmor":
+                case "GetPostMoonLordSummonerArmor":
+                case "GetWearingPostMoonLordSummonerArmor":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if(!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The argument to \"GetPostMoonLordSummonerArmor\" must be a Player or an int.");
+                    return GetWearingPostMLSummonerArmor(castPlayer(args[1]));
+
+                case "SetPostMLSummonArmor":
+                case "SetWearingPostMLSummonArmor":
+                case "SetPostMoonLordSummonArmor":
+                case "SetWearingPostMoonLordSummonArmor":
+                case "SetPostMLSummonerArmor":
+                case "SetWearingPostMLSummonerArmor":
+                case "SetPostMoonLordSummonerArmor":
+                case "SetWearingPostMoonLordSummonerArmor":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and if the player should be counted as wearing Post-Moon Lord summoner armor as a bool.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify if a player should be counted as wearing Post-Moon Lord summoner armor as a bool.");
+                    if (!(args[2] is bool))
+                        return new ArgumentException("ERROR: The second argument to \"SetPostMoonLordSummonerArmor\" must be a bool.");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"SetPostMoonLordSummonerArmor\" must be a Player or an int.");
+                    bool summonarmor = (bool)args[2];
+                    SetWearingPostMLSummonerArmor(castPlayer(args[1]), summonarmor);
                     return null;
 
                 case "GetRogueVelocity":
@@ -2611,6 +2713,13 @@ namespace CalamityMod
                         throw new ArgumentException("ERROR: Must specify a string that determines the inquiry, a string that determines the response, and a Func<bool> that determines the condition.");
                     DraedonDialogRegistry.DialogOptions.Add(new(inquiry, response, condition));
                     return null;
+
+                case "AddToVeneratedLocketBanlist":
+                    if (args.Length < 2)
+                        return new ArgumentException("ERROR: Not enough arguments!");
+                    if (args[1] is not int itemType)
+                        return new ArgumentException("ERROR: Must specify a valid item type as an int index of the item.");
+                    return AddToVeneratedLocketBanlist(itemType);
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");

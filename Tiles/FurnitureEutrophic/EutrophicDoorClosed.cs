@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
@@ -12,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorClosed();
+            this.SetUpDoorClosed(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicDoor>());
             TileID.Sets.OpenDoorID[Type] = ModContent.TileType<EutrophicDoorOpen>();
         }
 

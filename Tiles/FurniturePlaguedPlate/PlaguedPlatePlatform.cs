@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlatePlatform : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpPlatform(true);
+        public override void SetStaticDefaults() => this.SetUpPlatform(ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlatePlatform>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

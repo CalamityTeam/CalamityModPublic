@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
@@ -12,7 +10,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorClosed(true);
+            this.SetUpDoorClosed(ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateDoor>(), true);
             TileID.Sets.OpenDoorID[Type] = ModContent.TileType<PlaguedPlateDoorOpen>();
         }
 

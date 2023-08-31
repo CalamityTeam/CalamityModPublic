@@ -45,6 +45,7 @@ UnstableMatter.DisplayName: Unstable Matter
 VoltageStream.DisplayName: Voltage Stream
 WavePounderBoom.DisplayName: Explosion
 WavePounderProjectile.DisplayName: Wave Pounder
+SnakeEyesProjectile.DisplayName: Inescapable Bolt
 // Environmental
 AcidDrop.DisplayName: Acid
 BrimstoneGeyser.DisplayName: Smoke

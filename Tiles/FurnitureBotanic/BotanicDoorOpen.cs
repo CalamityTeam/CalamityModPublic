@@ -1,11 +1,9 @@
-﻿using CalamityMod.Items.Placeables.FurnitureBotanic;
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
+using CalamityMod.Items.Placeables.FurnitureBotanic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureBotanic
@@ -14,8 +12,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorOpen(true);
-            RegisterItemDrop(ModContent.ItemType<BotanicDoor>());
+            this.SetUpDoorOpen(ModContent.ItemType<BotanicDoor>(), true);
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<BotanicDoorClosed>();
         }
 

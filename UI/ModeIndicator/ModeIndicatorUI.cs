@@ -210,7 +210,7 @@ namespace CalamityMod.UI.ModeIndicator
                 string modeToDisplay = Difficulties[1].Name.ToString();
                 bool anyActiveMode = false;
 
-                for (int i = 1; i < Difficulties.Length; i++)
+                for (int i = 1; i < Difficulties.Count; i++)
                 {
                     if (GetCurrentDifficulty == Difficulties[i])
                     {
@@ -406,7 +406,7 @@ namespace CalamityMod.UI.ModeIndicator
             // But would be super useful so other mods can let their own difficulties go there.
 
             // Disable difficulties.
-            for (int i = 0; i < Difficulties.Length; i++)
+            for (int i = 0; i < Difficulties.Count; i++)
             {
                 // Disable all difficulties at the same tier / at a tier above itself.
                 if (Difficulties[i]._difficultyTier >= mode._difficultyTier && Difficulties[i] != mode)

@@ -1,10 +1,8 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureStratus;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
@@ -13,8 +11,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpDoorOpen(true);
-            RegisterItemDrop(ModContent.ItemType<StratusDoor>());
+            this.SetUpDoorOpen(ModContent.ItemType<StratusDoor>(), true);
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<StratusDoorClosed>();
         }
 

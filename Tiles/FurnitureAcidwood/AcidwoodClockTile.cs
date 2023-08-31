@@ -1,17 +1,14 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureAcidwood;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodClockTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpClock();
+        public override void SetStaticDefaults() => this.SetUpClock(ModContent.ItemType<AcidwoodClock>());
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 

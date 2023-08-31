@@ -99,9 +99,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             if (Main.getGoodWorld)
             {
-                idealVelocity *= 1.5f;
-                accelerationX *= 2f;
-                accelerationY *= 2f;
+                idealVelocity *= 1.2f;
+                accelerationX *= 1.4f;
+                accelerationY *= 1.4f;
             }
 
             if (NPC.direction == -1 && NPC.velocity.X > -idealVelocity.X)

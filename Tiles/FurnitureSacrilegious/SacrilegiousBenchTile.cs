@@ -1,17 +1,15 @@
-using CalamityMod.Items.Placeables.FurnitureSacrilegious;
+﻿using CalamityMod.Items.Placeables.FurnitureSacrilegious;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousBenchTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSofa(true, true);
+        public override void SetStaticDefaults() => this.SetUpSofa(ModContent.ItemType<SacrilegiousBench>(), true, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

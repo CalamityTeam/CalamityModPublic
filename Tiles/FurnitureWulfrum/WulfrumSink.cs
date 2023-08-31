@@ -1,16 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumSink : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpSink();
+        public override void SetStaticDefaults() => this.SetUpSink(ModContent.ItemType<Items.Placeables.FurnitureWulfrum.WulfrumSink>());
 
         public override bool CanExplode(int i, int j) => false;
 
