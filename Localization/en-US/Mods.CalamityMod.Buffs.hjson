@@ -1311,7 +1311,7 @@ Phantom: {
 	Description: The phantom will protect you
 }
 
-PlantationBuff: {
+PlantationStaffBuff: {
 	DisplayName: Plantation
 	Description: The miniature Plantera will protect you
 }

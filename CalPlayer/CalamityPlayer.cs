@@ -949,7 +949,7 @@ namespace CalamityMod.CalPlayer
         public bool cLamp = false;
         public bool pGuy = false;
         public bool sandnado = false;
-        public bool plantera = false;
+        public bool PlantationSummon = false;
         public bool astralProbe = false;
         public bool pSoulGuardians = false;
         public bool cEnergy = false;
@@ -1970,7 +1970,7 @@ namespace CalamityMod.CalPlayer
             sCrystal = false;
             sGod = false;
             sandnado = false;
-            plantera = false;
+            PlantationSummon = false;
             astralProbe = false;
             victideSnail = false;
             cSpirit = false;
