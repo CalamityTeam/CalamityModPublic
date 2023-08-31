@@ -1818,7 +1818,7 @@ TheSponge: {
 		'''
 		Projects a quantum foam barrier that absorbs up to 180 damage
 		The barrier grants 30 defense and reduces damage taken by 30% while active
-		The barrier starts recharging 6 seconds after being hit
+		The barrier starts recharging 9 seconds after being hit
 		Recharging from zero to full charge takes 6 seconds
 		Being hit again while recharging restarts the charge timer
 		The barrier's color will change to match your team selection as needed
