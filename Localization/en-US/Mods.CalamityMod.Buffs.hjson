@@ -1495,3 +1495,8 @@ AbsorberAffliction: {
 	DisplayName: Absorber Affliction
 	Description: Damn nature, you scary!
 }
+
+YoungDukeBuff: {
+	DisplayName: Young Duke Buff
+	Description: Mods.CalamityMod.Buffs.YoungDukeBuff.Description
+}
