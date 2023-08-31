@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.extraUpdates = 1;
+            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
         }
 
@@ -43,7 +44,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
-            Projectile.damage = (int)(Projectile.damage * 0.75f);
+            Projectile.damage = (int)(Projectile.damage * 0.6f);
             Projectile.Damage();
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             for (int dustIndex = 0; dustIndex < 36; dustIndex++)
