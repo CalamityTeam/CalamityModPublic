@@ -799,7 +799,7 @@ FungalSymbiote: {
 	Tooltip:
 		'''
 		You grow mushrooms on the grass beneath you
-		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and granting 0.5 HP/s life regen
+		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and granting 1 HP/s life regen
 		All mushroom-based weapons deal 10% more damage and emit non-damaging mushrooms
 		'''
 }

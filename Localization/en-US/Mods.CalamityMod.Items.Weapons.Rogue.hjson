@@ -843,7 +843,7 @@ OrichalcumSpikedGemstone: {
 
 PalladiumJavelin: {
 	DisplayName: Palladium Javelin
-	Tooltip: Stealth strikes split into more javelins and boost life regeneration on hits
+	Tooltip: Stealth strikes split into more javelins and boost natural life regeneration on hits
 }
 
 Penumbra: {

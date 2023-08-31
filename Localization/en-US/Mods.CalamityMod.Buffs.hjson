@@ -754,7 +754,7 @@ KamiBuff: {
 
 Mushy: {
 	DisplayName: Mushy
-	Description: Increased defense by 6 and life regen by 2
+	Description: Increased defense by 6 and life regen by 1HP/s
 }
 
 PhantomicEmpowerment: {
@@ -1479,12 +1479,12 @@ WulfrumDroidBuff: {
 
 PinkJellyRegen: {
 	DisplayName: Pink Jelly Regen
-	Description: The power of goo refreshes you, life regen increased by 4
+	Description: The power of goo refreshes you, life regen increased by 2HP/s
 }
 
 GreenJellyRegen: {
 	DisplayName: Green Jelly Regen
-	Description: The regenerative goo empowers you, life regen increased by 5
+	Description: The regenerative goo empowers you, life regen increased by 2.5HP/s
 }
 
 AbsorberRegen: {
@@ -1492,7 +1492,7 @@ AbsorberRegen: {
 	Description:
 		'''
 		You are blessed by the culmimation of nature's powers
-		Life regen increased by 6, damage increased by 8%, damage reduction increased by 5%
+		Life regen increased by 3HP/s, damage increased by 8%, damage reduction increased by 5%
 		'''
 }
 
