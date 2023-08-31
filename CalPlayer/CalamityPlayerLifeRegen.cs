@@ -11,6 +11,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -411,8 +412,18 @@ namespace CalamityMod.CalPlayer
                 Player.lifeRegen += 6;
             }
 
+            // Grant life regen based on missing health for Radiant Ooze, Ambrosial Ampule, and purity
+            if (rOoze || aAmpoule || purity)
+            {
+                float missingLifeRatio = (Player.statLifeMax2 - Player.statLife) / Player.statLifeMax2;
+                //Ambrosial Ampule and ooze give between 2 and 6 hp/s, Purity gives between 3 and 7 hp/s
+                float lifeRegenToGive = MathHelper.Lerp( purity ? 6f : 4f, purity ? 14f : 12f, missingLifeRatio);
+                Player.lifeRegen += (int)lifeRegenToGive;
+            }
+
             if (purity)
             {
+                int intendedPurityDefense = 0;
                 int currentDebuffs = Player.buffType.Count(CalamityLists.debuffList.Contains);
                 if (currentDebuffs > 0)
                 {
@@ -423,7 +434,9 @@ namespace CalamityMod.CalPlayer
                     // Healing slows down after 5 seconds (300 frames) debuffed. For every 15 frames thereafter the cadence slows
                     // There is no upper limit to how slow it can get and it can take a very long time to reset to normal
                     int punishmentFrames = PurityHealSlowdownFrames - 300;
-                    healFrameCadence += (punishmentFrames < 0) ? 0 : punishmentFrames / 15;
+                    //lowest punishment is three full seconds between the one health heal
+                    if (healFrameCadence < 180)
+                        healFrameCadence += (punishmentFrames < 0) ? 0 : punishmentFrames / 15;
 
                     if (Player.miscCounter % healFrameCadence == healFrameCadence - 1)
                         Player.Heal(1);
@@ -431,12 +444,17 @@ namespace CalamityMod.CalPlayer
                     if (Player.lifeRegenTime < 1800)
                         Player.lifeRegenTime = 1800;
 
-                    jewelBonusDefense = 40 + (currentDebuffs - 1) * 10;
+                    intendedPurityDefense = 20 + (currentDebuffs - 1) * 8;
+                    if (jewelBonusDefense < intendedPurityDefense)
+                        jewelBonusDefense = intendedPurityDefense;
 
                     // Count up total frames spent healing for slowdown.
                     ++PurityHealSlowdownFrames;
                 }
-                else if (Player.miscCounter % 20 == 0 && jewelBonusDefense > 0) //TODO reduce defense and put cooldown at 60 like infected jewel
+
+                // If the defense should be ticking down to some lower value, do that.
+                // Purity loses 1 point of defense every second.
+                if (Player.miscCounter % 60 == 0 && jewelBonusDefense > intendedPurityDefense)
                     --jewelBonusDefense;
 
                 // If the player is clear of all debuffs then gradually reduce the slowdown frames
@@ -447,6 +465,7 @@ namespace CalamityMod.CalPlayer
                         PurityHealSlowdownFrames = 0;
                 }
 
+                // Actually apply defense bonus
                 Player.statDefense += jewelBonusDefense;
             }
 
@@ -457,6 +476,7 @@ namespace CalamityMod.CalPlayer
 
                 // If the player has any debuffs, give the extra life regen and defense
                 // More defense is given for each additional debuff
+                int intendedJewelDefense = 0;
                 int currentDebuffs = Player.buffType.Count(CalamityLists.debuffList.Contains);
                 if (currentDebuffs > 0)
                 {
@@ -464,13 +484,17 @@ namespace CalamityMod.CalPlayer
                     if (Player.lifeRegenTime < 1800)
                         Player.lifeRegenTime = 1800;
 
-                    jewelBonusDefense = 16 + (currentDebuffs - 1) * 4;
+                    intendedJewelDefense = 16 + (currentDebuffs - 1) * 5;
+                    if (jewelBonusDefense < intendedJewelDefense)
+                        jewelBonusDefense = intendedJewelDefense;
                 }
 
-                // Otherwise tick down the defense, one point per second
-                else if (Player.miscCounter % 60 == 0 && jewelBonusDefense > 0)
+                // If the defense should be ticking down to some lower value, do that.
+                // Infected Jewel loses 1 point of defense every 20 frames.
+                if (Player.miscCounter % 60 == 0 && jewelBonusDefense > intendedJewelDefense)
                     --jewelBonusDefense;
 
+                // Actually apply defense bonus
                 Player.statDefense += jewelBonusDefense;
             }
 
@@ -749,39 +773,39 @@ namespace CalamityMod.CalPlayer
 
             #region Standing Still Life Regen
             // Standing still healing bonuses (all are exclusive with vanilla Shiny Stone, but all function similarly)
-            if (!Player.shinyStone && Player.StandingStill() && Player.itemAnimation == 0)
+            if (!Player.shinyStone && Player.StandingStill() && Player.velocity.Y == 0 && Player.itemAnimation == 0)
             { 
-                bool honeyDewWorking = honeyTurboRegen && Player.honey;
-                bool anyStandingStillLifeRegen = shadeRegen || cFreeze || honeyDewWorking || photosynthesis;
+                bool honeyDewWorking = honeyTurboRegen && Player.honeyWet;
+                bool anyStandingStillLifeRegen = shadeRegen || cFreeze || honeyDewWorking || photosynthesis || aAmpoule || purity;
                 bool onlyPhotosynthesisAtNight = !shadeRegen && !cFreeze && !honeyDewWorking && photosynthesis && !Main.dayTime;
 
                 // Divides all negative life regen by two before applying any other effects.
                 if (anyStandingStillLifeRegen && Player.lifeRegen < 0)
                     Player.lifeRegen /= 2;
                 
-                // Spawn dust of some flavor while actually regenerating
+                // Spawn dust of some flavor while actually regenerating, aAmpule and purity have a slightly different looking style
                 if (Player.lifeRegen > 0 && Player.statLife < actualMaxLife)
                 {
-                    int dustType = shadeRegen ? 173 : cFreeze ? 67 : honeyDewWorking ? DustID.Honey2 : photosynthesis ? 244 : -1;
-                    bool dustSpawnRolled = Main.rand.Next(30000) < Player.lifeRegenTime || Main.rand.NextBool(30);
+                    int dustType = shadeRegen ? 173 : cFreeze ? 67 : honeyDewWorking ? DustID.Honey2 : photosynthesis ? 244 : aAmpoule ? 228 : purity ? 187 : -1;
+                    bool dustSpawnRolled = Main.rand.Next(30000) < Player.lifeRegenTime || purity ? Main.rand.NextBool(2) : aAmpoule ? Main.rand.NextBool(4) : Main.rand.NextBool(30);
                     if (dustType != -1 && dustSpawnRolled)
                     {
-                        int regen = Dust.NewDust(Player.position, Player.width, Player.height, dustType, 0f, 0f, 200, default, 1f);
+                        int regen = Dust.NewDust(Player.position, Player.width, Player.height, dustType, 0f, 0f, purity || aAmpoule ? 80 : 200, default, purity || aAmpoule ? 0.5f : 1f);
                         Main.dust[regen].noGravity = true;
                         Main.dust[regen].fadeIn = 1.3f;
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
                         Main.dust[regen].velocity = velocity;
                         velocity.Normalize();
-                        velocity *= 34f;
+                        velocity *= purity || aAmpoule ? 55f : 34f;
                         Main.dust[regen].position = Player.Center - velocity;
                     }
                 }
 
                 // Actually apply "standing still" regeneration (the stats are granted even at full health)
-                float regenTimeNeededForTurboRegen = shadeRegen ? 40f : cFreeze ? 60f : honeyDewWorking ? 90f : photosynthesis ? 90f : -1f;
+                float regenTimeNeededForTurboRegen = shadeRegen ? 40f : cFreeze ? 60f : honeyDewWorking ? 90f : photosynthesis ? 90f : aAmpoule ? 90f : purity ? 60f : -1f;
 
                 // 4 = vanilla Shiny Stone
-                int turboRegenPower = shadeRegen || cFreeze ? 4 : honeyDewWorking ? 3 : photosynthesis ? 1 : -1;
+                int turboRegenPower = shadeRegen || cFreeze || purity ? 4 : honeyDewWorking || aAmpoule ? 3 : photosynthesis ? 1 : -1;
 
                 if (turboRegenPower > 0)
                 {
