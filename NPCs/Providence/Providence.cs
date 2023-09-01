@@ -2391,6 +2391,8 @@ namespace CalamityMod.NPCs.Providence
                     ModContent.ProjectileType<GoldenGunProj>(),
                     ModContent.ProjectileType<MiniGuardianDefense>(),
                     ModContent.ProjectileType<MiniGuardianAttack>(),
+                    ModContent.ProjectileType<MiniGuardianRock>(),
+                    ModContent.ProjectileType<MiniGuardianSpear>(),
                     ModContent.ProjectileType<SilvaCrystalExplosion>(),
                     ModContent.ProjectileType<GhostlyMine>(),
                     ModContent.ProjectileType<EnergyOrb>(),
