@@ -7,8 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    [LegacyName("TheEmpyrean")]
-    public class GodsBellows : ModItem, ILocalizedModType
+    [LegacyName("TheEmpyrean", "GodsBellows")]
+    public class DeadSunsWind : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()

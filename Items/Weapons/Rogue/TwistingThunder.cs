@@ -9,7 +9,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DeificThunderbolt : RogueWeapon
+    [LegacyName("DeificThunderbolt")]
+    public class TwistingThunder : RogueWeapon
     {
         public override void SetDefaults()
         {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             Item.autoReuse = true;
             Item.shootSpeed = 13.69f;
-            Item.shoot = ModContent.ProjectileType<DeificThunderboltProj>();
+            Item.shoot = ModContent.ProjectileType<TwistingThunderProj>();
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

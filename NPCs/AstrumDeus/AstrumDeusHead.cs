@@ -280,7 +280,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                     ModContent.ItemType<TheMicrowave>(),
                     ModContent.ItemType<StarSputter>(),
                     ModContent.ItemType<StarShower>(),
-                    ModContent.ItemType<GodspawnHelixStaff>(),
+                    ModContent.ItemType<StarspawnHelixStaff>(),
                     ModContent.ItemType<RegulusRiot>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));

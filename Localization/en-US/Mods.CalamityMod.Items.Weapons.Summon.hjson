@@ -402,11 +402,6 @@ GlacialEmbrace: {
 		'''
 }
 
-GodspawnHelixStaff: {
-	DisplayName: Starspawn Helix Staff
-	Tooltip: Summons astral probes to protect you
-}
-
 GuidelightofOblivion: {
 	DisplayName: Guidelight of Oblivion
 	Tooltip:
@@ -480,6 +475,21 @@ Metastasis: {
 MidnightSunBeacon: {
 	DisplayName: Midnight Sun Beacon
 	Tooltip: Summons a UFO to vaporize enemies
+}
+
+MirrorofKalandra: {
+	DisplayName: Mirror of Kalandra
+	Tooltip:
+		'''
+		Summons five ancient weapons to annihilate your enemies
+		There can only be one of each individual weapon
+		[c/BD7F59:Atziri's Disfavor brutally cleaves through enemies]
+		[c/E7A7FF:Starforge rips through foes and occasionally induces cosmic explosions]
+		[c/868B8F:Paradoxica teleports to enemies and blitzes through them at high speed]
+		[c/EBC3A5:Wind Ripper unleashes a single high-speed, powerful arrow at enemies]
+		[c/9B6856:Hope Shredder shoots arrows that split into three and pierce enemies twice]
+		'Ultimate, Immeasurable, Indescribable'
+		'''
 }
 
 OrthoceraShell: {
@@ -627,18 +637,19 @@ StaffoftheMechworm: {
 	Tooltip: Summons an aerial mechworm to fight for you
 }
 
+StarspawnHelixStaff: {
+	DisplayName: Starspawn Helix Staff
+	Tooltip: Summons astral probes to protect you
+}
+
+StellarTorusStaff: {
+	DisplayName: Stellar Torus Staff
+	Tooltip: Summons a Torus Orbital that fries foes with a telescoping light beam
+}
+
 StormjawStaff: {
 	DisplayName: Stormjaw Staff
 	Tooltip: Summons a baby stormlion to fight for you
-}
-
-SunGodStaff: {
-	DisplayName: Vengeful Sun Staff
-	Tooltip:
-		'''
-		Summons a solar god spirit to protect you
-		There can only be one spirit at a time
-		'''
 }
 
 SunSpiritStaff: {
@@ -698,6 +709,15 @@ UniverseSplitter: {
 		Attempting to use this item during the cooldown will cause it to short circuit and do damage to you
 		[c/BB57FF:'An ancient artifact from a previous age, it waits for your command.]
 		[c/BB57FF:This is a terrible idea, but it isn't yours anyways... right?']
+		'''
+}
+
+VengefulSunStaff: {
+	DisplayName: Vengeful Sun Staff
+	Tooltip:
+		'''
+		Summons a solar god spirit to protect you
+		There can only be one spirit at a time
 		'''
 }
 
@@ -774,24 +794,4 @@ YharonsKindleStaff: {
 		Summons a fiery draconid to fight for you
 		Requires 5 minion slots to use
 		'''
-}
-
-MirrorofKalandra: {
-	DisplayName: Mirror of Kalandra
-	Tooltip:
-		'''
-		Summons five ancient weapons to annihilate your enemies
-		There can only be one of each individual weapon
-		[c/BD7F59:Atziri's Disfavor brutally cleaves through enemies]
-		[c/E7A7FF:Starforge rips through foes and occasionally induces cosmic explosions]
-		[c/868B8F:Paradoxica teleports to enemies and blitzes through them at high speed]
-		[c/EBC3A5:Wind Ripper unleashes a single high-speed, powerful arrow at enemies]
-		[c/9B6856:Hope Shredder shoots arrows that split into three and pierce enemies twice]
-		'Ultimate, Immeasurable, Indescribable'
-		'''
-}
-
-StellarTorusStaff: {
-	DisplayName: Stellar Torus Staff
-	Tooltip: Summons a Torus Orbital that fries foes with a telescoping light beam
 }

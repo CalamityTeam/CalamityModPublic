@@ -240,25 +240,6 @@ AsgardsValor: {
 		'''
 }
 
-Purity: {
-	DisplayName: Purity
-	Tooltip:
-		'''
-		+100 max life
-		Grants +3 to +7 HP/s life regen based on missing health
-		Provides life regeneration equivalent to standing in Honey
-		Standing still grants extremely powerful regen
-		Grants 20 defense and continuous healing while afflicted with any debuff
-		The healing eventually slows down if debuffed for an extended period of time
-		Massively boosts natural life regen while afflicted with any debuff
-		Each debuff beyond the first grants 8 additional defense
-		Granted defense fades away slowly when not afflicted with any debuffs
-		Makes weak damage over time debuffs harmless and halves the duration of all but the strongest debuffs
-		You emit shining blue light if visibility is enabled
-		'A once putrid crystal, now glimmering with immaculate purity'
-		'''
-}
-
 BadgeofBravery: {
 	DisplayName: Badge of Bravery
 	Tooltip:
@@ -356,20 +337,6 @@ Calamity: {
 		Enemies touching the blaze take immense damage and are inflicted with Vulnerability Hex
 		Equip in a vanity slot to change the cursor without dealing damage
 		These changes work in conjunction with the Rainbow Cursor
-		'''
-}
-
-InfectedJewel: {
-	DisplayName: Infected Jewel
-	Tooltip:
-		'''
-		+1 HP/s life regen
-		Grants 16 defense and +2 HP/s life regen while afflicted with any debuff
-		Massively boosts natural life regen while afflicted with any debuff
-		Granted defense fades away quickly when not afflicted with any debuffs
-		Each debuff beyond the first grants 5 additional defense
-		Makes the Astral Infection debuff harmless
-		'A beautiful gemstone tarnished by spaceborne rot'
 		'''
 }
 
@@ -497,7 +464,7 @@ DaawnlightSpiritOrigin: {
 		'''
 }
 
-DarkGodsSheath: {
+DarkMatterSheath: {
 	DisplayName: Dark Matter Sheath
 	Tooltip:
 		'''
@@ -968,6 +935,20 @@ HowlsHeart: {
 		'''
 }
 
+InfectedJewel: {
+	DisplayName: Infected Jewel
+	Tooltip:
+		'''
+		+1 HP/s life regen
+		Grants 16 defense and +2 HP/s life regen while afflicted with any debuff
+		Massively boosts natural life regen while afflicted with any debuff
+		Granted defense fades away quickly when not afflicted with any debuffs
+		Each debuff beyond the first grants 5 additional defense
+		Makes the Astral Infection debuff harmless
+		'A beautiful gemstone tarnished by spaceborne rot'
+		'''
+}
+
 InkBomb: {
 	DisplayName: Ink Bomb
 	Tooltip:
@@ -1315,6 +1296,25 @@ ProfanedSoulCrystal: {
 		Provides buffs depending on the time of day
 		Thinking back, it was a boring life
 		[c/FFBF49:And so we burn it all in the name of purity]
+		'''
+}
+
+Purity: {
+	DisplayName: Purity
+	Tooltip:
+		'''
+		+100 max life
+		Grants +3 to +7 HP/s life regen based on missing health
+		Provides life regeneration equivalent to standing in Honey
+		Standing still grants extremely powerful regen
+		Grants 20 defense and continuous healing while afflicted with any debuff
+		The healing eventually slows down if debuffed for an extended period of time
+		Massively boosts natural life regen while afflicted with any debuff
+		Each debuff beyond the first grants 8 additional defense
+		Granted defense fades away slowly when not afflicted with any debuffs
+		Makes weak damage over time debuffs harmless and halves the duration of all but the strongest debuffs
+		You emit shining blue light if visibility is enabled
+		'A once putrid crystal, now glimmering with immaculate purity'
 		'''
 }
 

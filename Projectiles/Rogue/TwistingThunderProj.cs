@@ -7,7 +7,7 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DeificThunderboltProj : ModProjectile, ILocalizedModType
+    public class TwistingThunderProj : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
         private bool playedSound = false;

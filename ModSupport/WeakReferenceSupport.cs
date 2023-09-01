@@ -1020,7 +1020,7 @@ namespace CalamityMod
             RegisterSummon(ItemType<GlacialEmbrace>(), BuffType<GlacialEmbraceBuff>(), ProjectileType<GlacialEmbracePointyThing>());
             RegisterSummon(ItemType<MountedScanner>(), BuffType<MountedScannerBuff>(), ProjectileType<MountedScannerSummon>());
             RegisterSummon(ItemType<DeepseaStaff>(), BuffType<AquaticStar>(), ProjectileType<AquaticStarMinion>());
-            RegisterSummon(ItemType<SunGodStaff>(), BuffType<SolarGodSpiritBuff>(), ProjectileType<SolarGod>());
+            RegisterSummon(ItemType<VengefulSunStaff>(), BuffType<SolarGodSpiritBuff>(), ProjectileType<SolarGod>());
             RegisterSummon(ItemType<TundraFlameBlossomsStaff>(), BuffType<TundraFlameBlossomsBuff>(), ProjectileType<TundraFlameBlossom>());
             RegisterSummon(ItemType<DormantBrimseeker>(), BuffType<BrimseekerBuff>(), ProjectileType<DormantBrimseekerBab>());
             RegisterSummon(ItemType<IgneousExaltation>(), BuffType<IgneousExaltationBuff>(), ProjectileType<IgneousBlade>());
@@ -1030,7 +1030,7 @@ namespace CalamityMod
             RegisterSummon(ItemType<GastricBelcherStaff>(), BuffType<GastricAberrationBuff>(), ProjectileType<GastricBelcher>());
             RegisterSummon(ItemType<FuelCellBundle>(), BuffType<MiniPlaguebringerBuff>(), ProjectileType<PlaguebringerMK2>());
             RegisterSummon(ItemType<WitherBlossomsStaff>(), BuffType<WitherBlossomsBuff>(), ProjectileType<WitherBlossom>());
-            RegisterSummon(ItemType<GodspawnHelixStaff>(), BuffType<AstralProbeBuff>(), ProjectileType<AstralProbeSummon>());
+            RegisterSummon(ItemType<StarspawnHelixStaff>(), BuffType<AstralProbeBuff>(), ProjectileType<AstralProbeSummon>());
             RegisterSummon(ItemType<TacticalPlagueEngine>(), BuffType<TacticalPlagueEngineBuff>(), ProjectileType<TacticalPlagueJet>());
             RegisterSummon(ItemType<ElementalAxe>(), BuffType<ElementalAxeBuff>(), ProjectileType<ElementalAxeMinion>());
             RegisterSummon(ItemType<FlowersOfMortality>(), BuffType<FlowersOfMortalityBuff>(), ProjectileType<FlowersOfMortalityPetal>());

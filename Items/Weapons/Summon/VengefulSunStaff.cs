@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class SunGodStaff : ModItem, ILocalizedModType
+    [LegacyName("SunGodStaff")]
+    public class VengefulSunStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()

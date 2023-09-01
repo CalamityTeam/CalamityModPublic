@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class DarkGodsSheath : ModItem, ILocalizedModType
+    [LegacyName("DarkGodsSheath")]
+    public class DarkMatterSheath : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()

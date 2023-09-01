@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class GodspawnHelixStaff : ModItem, ILocalizedModType
+    [LegacyName("GodspawnHelixStaff")]
+    public class StarspawnHelixStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
