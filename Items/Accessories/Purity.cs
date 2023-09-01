@@ -45,8 +45,8 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<AmbrosialAmpoule>().
                 AddIngredient<InfectedJewel>().
-                AddIngredient<AuricBar>(4).
-                AddIngredient<AscendantSpiritEssence>(5).
+                AddIngredient<AuricBar>(5).
+                AddIngredient<AscendantSpiritEssence>(4).
                 AddTile(ModContent.TileType<CosmicAnvil>()).
                 Register();
         }

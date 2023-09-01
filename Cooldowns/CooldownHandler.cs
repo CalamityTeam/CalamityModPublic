@@ -49,6 +49,11 @@ namespace CalamityMod.Cooldowns
         /// When the cooldown instance ends, this sound is played. Leave at <b>null</b> for no sound.
         /// </summary>
         public virtual SoundStyle? EndSound => null;
+
+        /// <summary>
+        /// Set this to true to have the cooldown instance end sound play upon expiration. Defaults to <b>true</b>
+        /// </summary>
+        public virtual bool ShouldPlayEndSound => true;
         #endregion
 
         #region Display & Rendering

@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient(ItemID.FrozenShield).
                 AddIngredient<DeificAmulet>().
                 AddIngredient<AuricBar>(5).
-                AddIngredient<AscendantSpiritEssence>(5).
+                AddIngredient<AscendantSpiritEssence>(4).
                 AddTile<CosmicAnvil>().
                 Register();
         }

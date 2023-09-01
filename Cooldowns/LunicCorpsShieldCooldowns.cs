@@ -90,6 +90,7 @@ namespace CalamityMod.Cooldowns
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override SoundStyle? EndSound => LunicCorpsHelmet.ActivationSound;
+        public override bool ShouldPlayEndSound => instance.player.Calamity().lunicCorpsSet;
 
         public override void Tick() => instance.player.Calamity().playedLunicCorpsShieldSound = false;
         // When the recharge period completes, grant 1 point of shielding immediately so the rest my refill normally.

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -45,23 +46,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 			}
 			else
 			{
-                int utensil = ModContent.ProjectileType<Fork>();
+                type = ModContent.ProjectileType<Fork>();
                 double dmgMult = 1D;
                 float kbMult = 1f;
-                switch (Main.rand.Next(3))
+                switch (counter)
                 {
                     case 0:
-                        utensil = ModContent.ProjectileType<Fork>();
+                        type = ModContent.ProjectileType<Fork>();
                         dmgMult = 1.1;
                         kbMult = 2f;
                         break;
                     case 1:
-                        utensil = ModContent.ProjectileType<Knife>();
+                        type = ModContent.ProjectileType<Knife>();
                         dmgMult = 1.2;
                         kbMult = 1f;
                         break;
                     case 2:
-                        utensil = ModContent.ProjectileType<CarvingFork>();
+                        type = ModContent.ProjectileType<CarvingFork>();
                         dmgMult = 1D;
                         kbMult = 1f;
                         break;
@@ -70,7 +71,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 }
 				damage = (int)(damage * dmgMult);
 				knockback = knockback * kbMult;
-			}
+                
+            }
 		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -80,9 +82,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 			int idx = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
 			if (idx.WithinBounds(Main.maxProjectiles))
 				Main.projectile[idx].Calamity().stealthStrike = mp.StealthStrikeAvailable();
-
             counter++;
-            if (counter == 3)
+            if (counter >= 3)
                 counter = 0;
             return false;
         }
