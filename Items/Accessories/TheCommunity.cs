@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Accessories
 
         // Damage stat boosts
         public const float DamageMultiplier = 0.5f; // 2.5% to 10% (x100)
-        public const float CritMultiplier = 25f; // 1.25% to 5%
+        public const float CritMultiplier = 25f; // 1.25% to 5% (end result rounded down)
 
         // Defensive stat boosts
         public const float HealthMultiplier = 50f; // 2% to 10% (rounded down)
@@ -112,11 +112,11 @@ namespace CalamityMod.Items.Accessories
             float power = CalculatePower();
             string statList = this.GetLocalization("StatsList").Format(
                 (DamageMultiplier * power * 100).ToString("N1"),
-                (CritMultiplier * power).ToString("N0"),
+                (int)(CritMultiplier * power),
                 (int)(HealthMultiplier * power),
                 (DRMultiplier * power * 100).ToString("N2"),
                 (int)(DefenseMultiplier * power),
-                1 + (int)(RegenMultiplier * power),
+                (0.5f * (1f + (int)(RegenMultiplier * power))).ToString("n1"),
                 (SpeedMultiplier * power * 100).ToString("N1"),
                 (FlightMultiplier * power * 100).ToString("N1"),
                 (CalculatePower(true) * 100).ToString("N0"));

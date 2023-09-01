@@ -74,6 +74,9 @@ namespace CalamityMod.Projectiles
         // If true, this projectile creates impact sparks upon hitting enemies
         public bool deepcoreBullet = false;
 
+        // If true, causes all projectiles fired by this weapon to have homing. Currently used for Arterial Assault.
+        public bool allProjectilesHome = false;
+
         // Amount of extra updates that are set in SetDefaults.
         public int defExtraUpdates = -1;
 
@@ -105,6 +108,7 @@ namespace CalamityMod.Projectiles
         public bool stealthStrike = false;
         public int stealthStrikeHitCount = 0;
         public bool extorterBoost = false;
+        public bool LocketClone = false;
 
         // Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         // TODO -- uses of this variable are undocumented and unstable. Remove it from the API surface.
@@ -2486,6 +2490,11 @@ namespace CalamityMod.Projectiles
                         confetti.velocity.X += Main.rand.Next(-50, 51) * 0.05f;
                         confetti.velocity.Y += Main.rand.Next(-50, 51) * 0.05f;
                     }
+                }
+
+                if (allProjectilesHome)
+                {
+                    CalamityUtils.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 12f, 20f);
                 }
             }
         }

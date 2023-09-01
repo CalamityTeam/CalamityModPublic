@@ -813,6 +813,7 @@ namespace CalamityMod
                 // Make various things cheaper (sorted by progression)
                 { Vanilla(ItemID.Leather), ChangeIngredientStack(ItemID.RottenChunk, 2) },
                 { Vanilla(ItemID.JestersArrow), JesterArrowRecipeEdit },
+                { Vanilla(ItemID.TeleportationPotion), TeleportationPotionRecipeEdit },
                 { Vanilla(ItemID.WormFood), WormFoodRecipeEdit },
                 { Vanilla(ItemID.BloodySpine), BloodySpineRecipeEdit },
                 { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
@@ -826,6 +827,7 @@ namespace CalamityMod
                 { Vanilla(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
                 { r => r.HasResult(ItemID.HorseshoeBundle) && !r.HasIngredient(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
                 { Vanilla(ItemID.NightsEdge), AddIngredient(ModContent.ItemType<PurifiedGel>(), 5) },
+                { Vanilla(ItemID.FairyBoots), AddIngredient(ItemID.SoulofLight, 5) },
                 { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
                 { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 12) },
                 { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
@@ -955,6 +957,15 @@ namespace CalamityMod
             if (r.createItem.stack < intendedStack)
                 r.createItem.stack = intendedStack;
             r.ChangeIngredientStack(ItemID.WoodenArrow, intendedStack);
+        }
+
+        // Increases Teleportation Potion's recipe to give 5 per craft and use 5 bottled waters
+        private static void TeleportationPotionRecipeEdit(Recipe r)
+        {
+            int intendedStack = 5;
+            if (r.createItem.stack < intendedStack)
+                r.createItem.stack = intendedStack;
+            r.ChangeIngredientStack(ItemID.BottledWater, intendedStack);
         }
 
         // Change True Night's Edge recipe to require far less mech boss souls

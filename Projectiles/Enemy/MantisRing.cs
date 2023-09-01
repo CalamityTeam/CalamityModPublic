@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Enemy
             if (info.Damage <= 0)
                 return;
 
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60);
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -7,6 +7,7 @@ using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Particles;
 using CalamityMod.Particles.Metaballs;
+using CalamityMod.Systems;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.UI.DraedonSummoning;
@@ -520,6 +521,13 @@ namespace CalamityMod
                 case "armageddon mode":
                     return CalamityWorld.armageddon = enabled;
             }
+        }
+
+        public static void AddCustomDifficulty(DifficultyMode newMode)
+        {
+            //Add the new difficulty and recalculate
+            DifficultyModeSystem.Difficulties.Add(newMode);
+            DifficultyModeSystem.CalculateDifficultyData();
         }
         #endregion
 
@@ -1702,8 +1710,20 @@ namespace CalamityMod
         public static bool IsOnPersistentBuffList(int type) => CalamityLists.persistentBuffList.Contains(type);
         #endregion
 
+        #region Venerated Locket Bans
+        public static bool AddToVeneratedLocketBanlist(int type)
+        {
+            if (!CalamityLists.VeneratedLocketBanlist.Contains(type))
+            {
+                CalamityLists.VeneratedLocketBanlist.Add(type);
+                return true;
+            }
+            return false;
+        }
+        #endregion
+
         #region Summoner Cross Class Nerf Disabling
-        public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
+            public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
         {
             if (disableNerf && !CalamityLists.DisabledSummonerNerfMinions.Contains(type))
             {
@@ -1852,6 +1872,16 @@ namespace CalamityMod
                     if (!(args[1] is string))
                         return new ArgumentException("ERROR: The first argument to \"SetDifficulty\" must be a string.");
                     return SetDifficultyActive(args[1].ToString(), enabled);
+
+
+                case "AddDifficultyToUI":
+                    if (args.Length < 2)
+                        return new ArgumentException("ERROR: Not enough arguements provided");
+  
+                    if (args[1] is not DifficultyMode mode)
+                        return new ArgumentException("ERROR: A class inheriting from 'DifficultyMode' must be provided.");
+                    AddCustomDifficulty(mode);
+                    return null;
 
                 case "GetLight":
                 case "GetLightLevel":
@@ -2683,6 +2713,13 @@ namespace CalamityMod
                         throw new ArgumentException("ERROR: Must specify a string that determines the inquiry, a string that determines the response, and a Func<bool> that determines the condition.");
                     DraedonDialogRegistry.DialogOptions.Add(new(inquiry, response, condition));
                     return null;
+
+                case "AddToVeneratedLocketBanlist":
+                    if (args.Length < 2)
+                        return new ArgumentException("ERROR: Not enough arguments!");
+                    if (args[1] is not int itemType)
+                        return new ArgumentException("ERROR: Must specify a valid item type as an int index of the item.");
+                    return AddToVeneratedLocketBanlist(itemType);
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");

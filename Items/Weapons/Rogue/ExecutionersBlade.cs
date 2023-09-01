@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 64;
-            Item.damage = 188;
+            Item.damage = 225;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useTime = 3;
@@ -41,19 +41,15 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow").Value);
         }
-		public override bool AdditionalStealthCheck() => counter == 0;
+        public override float StealthDamageMultiplier => 0.6f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            bool usingStealth = player.Calamity().StealthStrikeAvailable() && counter == 0;
+            bool usingStealth = player.Calamity().StealthStrikeAvailable();
 
             int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (usingStealth && stealth.WithinBounds(Main.maxProjectiles))
                 Main.projectile[stealth].Calamity().stealthStrike = true;
-
-            counter++;
-            if (counter >= Item.useAnimation / Item.useTime)
-                counter = 0;
             return false;
         }
 

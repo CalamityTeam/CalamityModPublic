@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item1;
 
-            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().donorItem = true;
 
             Item.shoot = ModContent.ProjectileType<NadirSpear>();

@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Typless
                 //Remove the players debuffs and defense damage, but only once per aura
                 if (targetDist < 232f)
                 {
-                    player.AddBuff(ModContent.BuffType<AbsorberRegen>(), 900);
+                    player.AddBuff(ModContent.BuffType<AbsorberRegen>(), 600);
                     if (cleanseList[playerIndex] == false)
                     {
                         cleanseList[playerIndex] = true;

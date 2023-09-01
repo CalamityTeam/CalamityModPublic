@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
     public class VileFeeder : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
-        public static int BaseDamage = 9;
+        public static int BaseDamage = 14;
 
         public override void SetDefaults()
         {

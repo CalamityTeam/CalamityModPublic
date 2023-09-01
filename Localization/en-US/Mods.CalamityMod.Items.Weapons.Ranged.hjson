@@ -62,7 +62,7 @@ Arbalest: {
 	DisplayName: Arbalest
 	Tooltip:
 		'''
-		Fires a volley of 10 high-speed arrows
+		Fires a volley of 6 high-speed arrows
 		Arrows start off small and grow in size with continuous fire
 		Arrow damage, spread and knockback scale with arrow size
 		'''
@@ -475,8 +475,8 @@ FlarewingBow: {
 	DisplayName: Flarewing Bow
 	Tooltip:
 		'''
-		Shoots a spread of 4 arrows
-		Wooden arrows are converted into bouncing obsidian bats
+		Shoots a spread of 3 arrows
+		Wooden arrows are converted into obsidian bats which home in after piercing once
 		'''
 }
 
@@ -519,7 +519,7 @@ Galeforce: {
 }
 
 GodsBellows: {
-	DisplayName: God's Bellows
+	DisplayName: Dead Sun's Wind
 	Tooltip: 70% chance to save ammo
 }
 

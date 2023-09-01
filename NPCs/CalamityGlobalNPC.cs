@@ -1014,7 +1014,7 @@ namespace CalamityMod.NPCs
             //Absorber Affliction
             if (absorberAffliction > 0)
             {
-                int baseAbsorberDoTValue = (int)(260 * sicknessDamageMult);
+                int baseAbsorberDoTValue = (int)(400 * sicknessDamageMult);
                 ApplyDPSDebuff(baseAbsorberDoTValue, baseAbsorberDoTValue / 65, ref npc.lifeRegen, ref damage);
             }
 
@@ -2690,7 +2690,7 @@ namespace CalamityMod.NPCs
             if (marked > 0)
                 calcDR *= 0.5f;
             if (absorberAffliction > 0)
-                calcDR *= 0.7f;
+                calcDR *= 0.8f;
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
             if (npc.Calamity().kamiFlu > 0)

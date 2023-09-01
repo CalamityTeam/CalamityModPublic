@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.height = 24;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 2;
             Projectile.timeLeft = 300;
             Projectile.light = 0.25f;
             Projectile.usesLocalNPCImmunity = true;
@@ -64,34 +64,20 @@ namespace CalamityMod.Projectiles.Ranged
             }
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) * Projectile.direction;
-        }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Projectile.penetrate--;
-            if (Projectile.penetrate <= 0)
-            {
-                Projectile.Kill();
-            }
-            else
-            {
-                if (Projectile.velocity.X != oldVelocity.X)
-                {
-                    Projectile.velocity.X = -oldVelocity.X;
-                }
-                if (Projectile.velocity.Y != oldVelocity.Y)
-                {
-                    Projectile.velocity.Y = -oldVelocity.Y;
-                }
-            }
-            return false;
+            if (Projectile.localAI[0] > 0f)
+                Projectile.localAI[0]--;
+            
+            // Makes the bat home onto enemies after piercing once
+            if (Projectile.penetrate == 1 && Projectile.localAI[0] <= 0f)
+                CalamityUtils.HomeInOnNPC(Projectile, false, 500f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 480);
-
-            Projectile.Kill();
+            Projectile.localAI[0] = 10f;
+            Projectile.damage /= 2;
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
