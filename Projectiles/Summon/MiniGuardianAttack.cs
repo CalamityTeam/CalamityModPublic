@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -43,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             // Despawn properly
             if (Owner.Calamity().pSoulGuardians)
                 Projectile.timeLeft = 2;
-            if (!Owner.Calamity().pArtifact || Owner.dead || !Owner.active)
+            if (!Owner.Calamity().pSoulArtifact || Owner.dead || !Owner.active)
             {
                 Owner.Calamity().pSoulGuardians = false;
                 Projectile.active = false;
@@ -144,18 +142,34 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Owner.Calamity().angelicAlliance)
                 target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
+            if (!Owner.Calamity().profanedCrystal)
+            {
+                if (Projectile.ai[1] == 0f)
+                    Owner.Calamity().rollBabSpears(1, target.chaseable);
+                Projectile.ai[1] -= 1f;
+                if (Projectile.ai[1] < 0f)
+                    Projectile.ai[1] = 15;
+            }
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Owner.Calamity().angelicAlliance)
                 target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
+            if (!Owner.Calamity().profanedCrystal)
+            {
+                if (Projectile.ai[1] == 0f)
+                    Owner.Calamity().rollBabSpears(1, true);
+                Projectile.ai[1] -= 1f;
+                if (Projectile.ai[1] < 0f)
+                    Projectile.ai[1] = 15;
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
             // Has afterimages if maximum empowerment
-            if (!ForcedVanity && !Owner.Calamity().endoCooper && !Owner.Calamity().magicHat)
+            if (!ForcedVanity && SpawnedFromPSC)
             {
                 CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
                 return false;

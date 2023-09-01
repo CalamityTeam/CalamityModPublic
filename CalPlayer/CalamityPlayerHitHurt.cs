@@ -25,6 +25,7 @@ using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Other;
+using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
@@ -1537,6 +1538,12 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(TheSponge.ShieldHurtSound, Player.Center);
                     hurtSoundTimer = 20;
                 }
+                else if (((pSoulArtifact && !profanedCrystal) || profanedCrystalBuffs) && pSoulShieldDurability > 0)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(ProfanedGuardianDefender.ShieldDeathSound);
+                    hurtSoundTimer = 20;
+                }
                 else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
                 {
                     modifiers.DisableSound();
@@ -1643,6 +1650,7 @@ namespace CalamityMod.CalPlayer
             // Currently implemented energy shields:
             // - Rover Drive
             // - Lunic Corps Armor set bonus
+            // - Profaned Soul Artifact/Crystal
             // - The Sponge
             //
             // If the shield(s) completely absorb the hit, iframes are granted on the spot and the hit is marked to be dodged.
@@ -1720,6 +1728,39 @@ namespace CalamityMod.CalPlayer
                     // Actually remove damage from the incoming hit, so that later shields have less damage incoming.
                     info.Damage -= masterChefDamageBlocked;
                 }
+                
+                // PSA
+                if (pSoulArtifact && pSoulShieldDurability > 0 && !shieldsFullyAbsorbedHit)
+                {
+                    // Check whether this shield can fully absorb the incoming hit (or what's left of it).
+                    bool thisShieldCanFullyAbsorb = pSoulShieldDurability >= info.Damage;
+
+                    // Tally up how much damage was blocked by this shield.
+                    int pSoulDamageBlocked = Math.Min(pSoulShieldDurability, info.Damage);
+                    totalDamageBlocked += pSoulDamageBlocked;
+
+                    // Deal all incoming damage to this shield, because it is available.
+                    pSoulShieldDurability -= info.Damage;
+                    shieldsTookHit = true;
+
+                    // Hits which break the Rover Drive shield cause a sound and slight screen shake.
+                    // Multiple shields breaking simultaneously has slightly stronger screen shake.
+                    if (pSoulShieldDurability <= 0)
+                    {
+                        pSoulShieldDurability = 0;
+                        SoundEngine.PlaySound(SoundID.Lavafall, Player.Center);
+                        Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
+                        anyShieldBroke = true;
+                    }
+
+                    // Mark the hit as being canceled if this shield has enough durability to fully absorb it.
+                    // This prevents further shields from attempting to absorb the hit.
+                    if (thisShieldCanFullyAbsorb)
+                        shieldsFullyAbsorbedHit = true;
+
+                    // Actually remove damage from the incoming hit, so that later shields have less damage incoming.
+                    info.Damage -= pSoulDamageBlocked;
+                }
 
                 // THE SPONGE
                 if (sponge && SpongeShieldDurability > 0 && !shieldsFullyAbsorbedHit)
@@ -1767,20 +1808,27 @@ namespace CalamityMod.CalPlayer
 
                     // Spawn particles when hit with the shields up, regardless of whether or not the shields broke.
                     // More particles spawn if a shield broke.
-                    int numParticles = Main.rand.Next(2, 6) + (anyShieldBroke ? 6 : 0);
-                    for (int i = 0; i < numParticles; i++)
+                    if (pSoulArtifact && !sponge)
                     {
-                        // Rover Drive has slightly higher particle velocity
-                        float maxVelocity = roverDrive ? 14f : 7f;
-                        Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3f, maxVelocity);
-                        velocity.X += 5f * info.HitDirection;
+                        //TODO
+                    }
+                    else
+                    {
+                        int numParticles = Main.rand.Next(2, 6) + (anyShieldBroke ? 6 : 0);
+                        for (int i = 0; i < numParticles; i++)
+                        {
+                            // Rover Drive has slightly higher particle velocity
+                            float maxVelocity = roverDrive ? 14f : 7f;
+                            Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3f, maxVelocity);
+                            velocity.X += 5f * info.HitDirection;
 
-                        float scale = Main.rand.NextFloat(2.5f, 3f);
-                        Color particleColor = Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247);
-                        int lifetime = 25;
+                            float scale = Main.rand.NextFloat(2.5f, 3f);
+                            Color particleColor = Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247);
+                            int lifetime = 25;
 
-                        var shieldParticle = new TechyHoloysquareParticle(Player.Center, velocity, scale, particleColor, lifetime);
-                        GeneralParticleHandler.SpawnParticle(shieldParticle);
+                            var shieldParticle = new TechyHoloysquareParticle(Player.Center, velocity, scale, particleColor, lifetime);
+                            GeneralParticleHandler.SpawnParticle(shieldParticle);
+                        }
                     }
 
                     // Update Rover Drive durability on the cooldown rack.
@@ -1790,6 +1838,10 @@ namespace CalamityMod.CalPlayer
                     // Update Lunic Corps Armor durability on the cooldown rack.
                     if (lunicCorpsSet && cooldowns.TryGetValue(Cooldowns.LunicCorpsShieldDurability.ID, out var masterChefDurabilityCD))
                         masterChefDurabilityCD.timeLeft = LunicCorpsShieldDurability;
+
+                    // Update PSA/PSC durability on the cooldown rack
+                    if ((pSoulArtifact && (!profanedCrystal || profanedCrystalBuffs)) && cooldowns.TryGetValue(Cooldowns.ProfanedSoulShield.ID, out var profanedSoulDurabilityCD))
+                        profanedSoulDurabilityCD.timeLeft = pSoulShieldDurability;
 
                     // Update Sponge durability on the cooldown rack.
                     if (sponge && cooldowns.TryGetValue(SpongeDurability.ID, out var spongeDurabilityCD))
@@ -1808,6 +1860,9 @@ namespace CalamityMod.CalPlayer
                     if (lunicCorpsSet)
                         Player.AddCooldown(LunicCorpsShieldRecharge.ID, LunicCorpsHelmet.ShieldRechargeDelay, true);
 
+                    if (pSoulArtifact && (!profanedCrystal || profanedCrystalBuffs))
+                        Player.AddCooldown(ProfanedSoulShieldRecharge.ID, profanedCrystalBuffs ? (60 * 5) : (60 * 10), true); // 5 seconds psc, 10 seconds psa 
+                    
                     // Set The Sponge's recharge delay to full. Override any existing cooldown instance.
                     if (sponge)
                         Player.AddCooldown(SpongeRecharge.ID, TheSponge.ShieldRechargeDelay, true);
@@ -2185,9 +2240,6 @@ namespace CalamityMod.CalPlayer
         #region Post Hurt
         public override void PostHurt(Player.HurtInfo hurtInfo)
         {
-            if (pArtifact && !profanedCrystal)
-                Player.AddCooldown(Cooldowns.ProfanedSoulArtifact.ID, CalamityUtils.SecondsToFrames(5));
-
             // Silver Armor medkit timer
             if (silverMedkit && hurtInfo.Damage >= SilverArmorSetChange.SetBonusMinimumDamageToHeal)
                 silverMedkitTimer = SilverArmorSetChange.SetBonusHealTime;

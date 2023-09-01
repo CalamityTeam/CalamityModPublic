@@ -52,7 +52,7 @@ namespace CalamityMod.Cooldowns
             //var permafrostConcoction = Register<PermafrostConcoction>(PermafrostConcoction.ID);
             //var plagueBlackout = Register<PlagueBlackout>(PlagueBlackout.ID);
             //var prismaticLaser = Register<PrismaticLaser>(PrismaticLaser.ID);
-            //var profanedSoulArtifact = Register<ProfanedSoulArtifact>(ProfanedSoulArtifact.ID);
+            //var profanedSoulArtifact = Register<ProfanedSoulShield>(ProfanedSoulShield.ID);
             //var relicOfResilience = Register<RelicOfResilience>(RelicOfResilience.ID);
             //var rogueBooster = Register<RogueBooster>(RogueBooster.ID);
             //var sandCloak = Register<SandCloak>(SandCloak.ID);

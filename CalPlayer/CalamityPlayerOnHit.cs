@@ -1065,7 +1065,7 @@ namespace CalamityMod.CalPlayer
             }
             if (summon)
             {
-                if (pArtifact && !profanedCrystal)
+                if (pSoulArtifact && !profanedCrystal)
                     target.AddBuff(BuffType<HolyFlames>(), 300);
 
                 if (profanedCrystalBuffs)
