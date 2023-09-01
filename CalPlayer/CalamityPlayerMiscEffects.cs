@@ -1152,7 +1152,7 @@ namespace CalamityMod.CalPlayer
                 if (instance.timeLeft < 0)
                 {
                     handler.OnCompleted();
-                    if (handler.EndSound != null)
+                    if (handler.EndSound != null && handler.ShouldPlayEndSound)
                         SoundEngine.PlaySound(handler.EndSound.GetValueOrDefault());
                     expiredCooldowns.Add(id);
                 }
@@ -3612,7 +3612,6 @@ namespace CalamityMod.CalPlayer
                 {
                     CooldownInstance durabilityCooldown = Player.AddCooldown(WulfrumRoverDriveDurability.ID, RoverDrive.ShieldDurabilityMax);
                     durabilityCooldown.timeLeft = RoverDriveShieldDurability;
-                    SoundEngine.PlaySound(RoverDrive.ActivationSound, Player.Center);
                 }
 
                 // Add light if this shield is currently active
