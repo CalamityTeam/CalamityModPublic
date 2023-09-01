@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (hurtInfo.Damage > 0)
-                target.AddBuff(BuffID.Electrified, 120, true);
+                target.AddBuff(BuffID.Electrified, 30, true);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

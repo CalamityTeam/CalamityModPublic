@@ -156,13 +156,15 @@ namespace CalamityMod.Items.Weapons.Melee
             var barFG = Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarFront").Value;
 
             float barScale = 1.5f;
-
-            Vector2 drawPos = position + Vector2.UnitY * ( frame.Height - 2f ) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
+            Vector2 barOrigin = barBG.Size() * 0.5f;
+            float xOffset = frame.Width * 0.25f - barBG.Width * 0.5f;
+            float yOffset = frame.Height * 0.8f - barBG.Height;
+            Vector2 drawPos = position + Vector2.UnitX * scale * xOffset + Vector2.UnitY * scale * yOffset;
             Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
             Color color = Main.hslToRgb((Main.GlobalTimeWrappedHourly * 0.6f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f);
 
-            spriteBatch.Draw(barBG, drawPos, null, color, 0f, origin, scale * barScale, 0f, 0f);
-            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
+            spriteBatch.Draw(barBG, drawPos, null, color, 0f, barOrigin, scale * barScale, 0f, 0f);
+            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, barOrigin, scale * barScale, 0f, 0f);
         }
 
         public override void AddRecipes()

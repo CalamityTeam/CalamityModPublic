@@ -23,15 +23,15 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            Main.projFrames[Projectile.type] = 4;
-            ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
-            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            Main.projFrames[Type] = 6;
+            ProjectileID.Sets.NeedsUUID[Type] = true;
+            ProjectileID.Sets.MinionSacrificable[Type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 16;
+            Projectile.width = Projectile.height = 22;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
@@ -159,16 +159,15 @@ namespace CalamityMod.Projectiles.Summon
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D eyeTexture = ModContent.Request<Texture2D>(Texture).Value;
-            Rectangle frame = eyeTexture.Frame(1, 4, 0, Projectile.frame);
-            Vector2 origin = frame.Size() * 0.5f;
+            Rectangle frame = eyeTexture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
             SpriteEffects spriteEffects = Owner.gravDir == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically;
-            Main.EntitySpriteDraw(eyeTexture, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(eyeTexture, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
 
             // Pupil drawing.
             Texture2D pupilTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/DeathstareEyePupil").Value;
             Vector2 pupilDrawPosition = Projectile.Center - Main.screenPosition + PupilAngle.ToRotationVector2() * PupilOutwardness;
-            pupilDrawPosition -= Vector2.UnitY * 4f;
-            Main.EntitySpriteDraw(pupilTexture, pupilDrawPosition, null, Projectile.GetAlpha(lightColor), PupilAngle, pupilTexture.Size() * 0.5f, PupilScale, SpriteEffects.None, 0);
+            pupilDrawPosition -= Vector2.UnitY * 6f;
+            Main.EntitySpriteDraw(pupilTexture, pupilDrawPosition, null, Projectile.GetAlpha(lightColor), PupilAngle, pupilTexture.Size() * 0.5f, PupilScale, SpriteEffects.None);
             return false;
         }
 

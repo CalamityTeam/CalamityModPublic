@@ -932,7 +932,7 @@ BrimstoneElementalRelic: {
 
 CalamitasCloneRelic: {
 	DisplayName: Calamitas Clone Relic
-	Tooltip: A glimpse into what could have been...
+	Tooltip: ""
 }
 
 CalamitasRelic: {
@@ -957,7 +957,7 @@ CragmawMireRelic: {
 
 CryogenRelic: {
 	DisplayName: Cryogen Relic
-	Tooltip: A glimpse into what could have been...
+	Tooltip: ""
 }
 
 DesertScourgeRelic: {
@@ -977,7 +977,7 @@ DraedonRelic: {
 
 DragonfollyRelic: {
 	DisplayName: Dragonfolly Relic
-	Tooltip: A glimpse into what could have been...
+	Tooltip: ""
 }
 
 GiantClamRelic: {
