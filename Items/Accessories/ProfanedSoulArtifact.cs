@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Accessories
 
                     // Profaned Soul shields are not team specific
                     Color shieldColor = new Color(231, 160, 56);
-                    if (psc && DownedBossSystem.downedProvidence && ProfanedSoulCrystal.testerNames.Any(name => name.Equals(localModPlayer.Player.name)))
+                    if (psc && ProfanedSoulCrystal.testerNames.Any(name => name.Equals(localModPlayer.Player.name)))
                         shieldColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f);
                     else if (psc)
                         shieldColor = new Color(255, 110, 56);

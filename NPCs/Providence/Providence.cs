@@ -1689,8 +1689,6 @@ namespace CalamityMod.NPCs.Providence
 
                     break;
             }
-
-            NPC.velocity = Vector2.Zero;
         }
 
         public void DoDeathAnimation()
