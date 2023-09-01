@@ -1809,9 +1809,15 @@ namespace CalamityMod.CalPlayer
 
                     // Spawn particles when hit with the shields up, regardless of whether or not the shields broke.
                     // More particles spawn if a shield broke.
-                    if (pSoulArtifact && !sponge)
+                    if (pSoulArtifact)
                     {
-                        //TODO
+                        for (int i = 0; i < Main.rand.Next(4, 8); i++) //very light dust
+                        {
+                            Dust dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, (int)CalamityDusts.ProfanedFire);
+                            dust.velocity = Main.rand.NextVector2Circular(3.5f, 3.5f);
+                            dust.velocity.Y -= Main.rand.NextFloat(1f, 3f);
+                            dust.scale = Main.rand.NextFloat(1.15f, 1.45f);
+                        }
                     }
                     else
                     {
