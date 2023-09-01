@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			if (idx.WithinBounds(Main.maxProjectiles))
 				Main.projectile[idx].Calamity().stealthStrike = mp.StealthStrikeAvailable();
             counter++;
-            if (counter == 3)
+            if (counter >= 3)
                 counter = 0;
             return false;
         }
