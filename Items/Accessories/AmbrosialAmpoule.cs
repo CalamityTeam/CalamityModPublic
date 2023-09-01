@@ -24,26 +24,17 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             player.statLifeMax2 += 70;
 
-            // Grant life regen based on missing health
-            if (!(modPlayer.rOoze || modPlayer.purity))
-            {
-                float missingLifeRatio = (player.statLifeMax2 - player.statLife) / player.statLifeMax2;
-                float lifeRegenToGive = MathHelper.Lerp(4f, 12f, missingLifeRatio);
-                player.lifeRegen += (int)lifeRegenToGive;
-            }
-
-            // bool left in for abyss light purposes
+            // bool left in for abyss light purposes and life regen effects
             modPlayer.aAmpoule = true;
 
-            // Inherits all effects of Honey Dew and Living Dew
+            // Inherits all effects of Honey Dew and Living Dew (except standing regen is not honey exclusive anymore)
             modPlayer.alwaysHoneyRegen = true;
-            modPlayer.honeyTurboRegen = true;
             modPlayer.honeyDewHalveDebuffs = true;
             modPlayer.livingDewHalveDebuffs = true;
 
             // Add light if the other accessories aren't equipped and visibility is turned on
             if (!(modPlayer.rOoze || modPlayer.purity) && !hideVisual)
-                Lighting.AddLight(player.Center, new Vector3(1.2f, 1.7f, 2.7f));
+                Lighting.AddLight(player.Center, new Vector3(1.2f, 1.2f, 0.72f));
         }
 
         public override void AddRecipes()

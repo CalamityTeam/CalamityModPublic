@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public new string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
-            Item.damage = 17;
+            Item.damage = 15;
             Item.knockBack = 1.25f;
             Item.mana = 10;
 

@@ -7,6 +7,7 @@ using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Particles;
 using CalamityMod.Particles.Metaballs;
+using CalamityMod.Systems;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.UI.DraedonSummoning;
@@ -520,6 +521,13 @@ namespace CalamityMod
                 case "armageddon mode":
                     return CalamityWorld.armageddon = enabled;
             }
+        }
+
+        public static void AddCustomDifficulty(DifficultyMode newMode)
+        {
+            //Add the new difficulty and recalculate
+            DifficultyModeSystem.Difficulties.Add(newMode);
+            DifficultyModeSystem.CalculateDifficultyData();
         }
         #endregion
 
@@ -1864,6 +1872,16 @@ namespace CalamityMod
                     if (!(args[1] is string))
                         return new ArgumentException("ERROR: The first argument to \"SetDifficulty\" must be a string.");
                     return SetDifficultyActive(args[1].ToString(), enabled);
+
+
+                case "AddDifficultyToUI":
+                    if (args.Length < 2)
+                        return new ArgumentException("ERROR: Not enough arguements provided");
+  
+                    if (args[1] is not DifficultyMode mode)
+                        return new ArgumentException("ERROR: A class inheriting from 'DifficultyMode' must be provided.");
+                    AddCustomDifficulty(mode);
+                    return null;
 
                 case "GetLight":
                 case "GetLightLevel":

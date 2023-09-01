@@ -1989,6 +1989,7 @@ namespace CalamityMod
                 ProjectileID.MonkStaffT3,
                 ProjectileID.LastPrismLaser,
                 ProjectileID.ChargedBlasterLaser,
+                ProjectileID.PiercingStarlight,
                 ProjectileID.FinalFractal,
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<MurasamaSlash>(),
@@ -2037,6 +2038,9 @@ namespace CalamityMod
                 ProjectileType<YharimsCrystalBeam>(),
                 ProjectileType<PrismaticBeam>(),
                 ProjectileType<SpiritCongregation>(),
+                ProjectileType<BallisticPoisonCloud>(),
+                ProjectileType<DuststormCloudHitbox>(),
+                ProjectileType<StarmageddonBinaryStarCenter>(),
             };
 
             // Lists of enemies that resist piercing to some extent (mostly worms).

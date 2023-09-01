@@ -118,7 +118,7 @@ AmbrosialAmpoule: {
 		+70 max life
 		Grants +2 to +6 HP/s life regen based on missing health
 		Provides life regeneration equivalent to standing in Honey
-		Standing still in Honey grants extremely powerful regen
+		Standing still grants extremely powerful regen
 		Halves how long you are afflicted with fire and sickness debuffs
 		You emit yellow light if visibility is enabled
 		'''
@@ -248,10 +248,10 @@ Purity: {
 		Grants +3 to +7 HP/s life regen based on missing health
 		Provides life regeneration equivalent to standing in Honey
 		Standing still grants extremely powerful regen
-		Grants 40 defense and continuous healing while afflicted with any debuff
+		Grants 20 defense and continuous healing while afflicted with any debuff
 		The healing eventually slows down if debuffed for an extended period of time
 		Massively boosts natural life regen while afflicted with any debuff
-		Each debuff beyond the first grants 10 additional defense
+		Each debuff beyond the first grants 8 additional defense
 		Granted defense fades away slowly when not afflicted with any debuffs
 		Makes weak damage over time debuffs harmless and halves the duration of all but the strongest debuffs
 		You emit shining blue light if visibility is enabled
@@ -366,8 +366,8 @@ InfectedJewel: {
 		+1 HP/s life regen
 		Grants 16 defense and +2 HP/s life regen while afflicted with any debuff
 		Massively boosts natural life regen while afflicted with any debuff
-		Each debuff beyond the first grants 4 additional defense
-		Granted defense fades away slowly when not afflicted with any debuffs
+		Granted defense fades away quickly when not afflicted with any debuffs
+		Each debuff beyond the first grants 5 additional defense
 		Makes the Astral Infection debuff harmless
 		'A beautiful gemstone tarnished by spaceborne rot'
 		'''
@@ -799,7 +799,7 @@ FungalSymbiote: {
 	Tooltip:
 		'''
 		You grow mushrooms on the grass beneath you
-		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and granting 0.5 HP/s life regen
+		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and granting 1 HP/s life regen
 		All mushroom-based weapons deal 10% more damage and emit non-damaging mushrooms
 		'''
 }
@@ -1818,7 +1818,7 @@ TheSponge: {
 		'''
 		Projects a quantum foam barrier that absorbs up to 180 damage
 		The barrier grants 30 defense and reduces damage taken by 30% while active
-		The barrier starts recharging 6 seconds after being hit
+		The barrier starts recharging 9 seconds after being hit
 		Recharging from zero to full charge takes 6 seconds
 		Being hit again while recharging restarts the charge timer
 		The barrier's color will change to match your team selection as needed
