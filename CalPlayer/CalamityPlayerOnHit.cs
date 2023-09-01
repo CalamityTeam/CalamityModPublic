@@ -143,15 +143,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Poisoned, 240);
                     break;
 
-                case ItemID.NightsEdge:
-                    target.AddBuff(BuffID.ShadowFlame, 120);
-                    break;
-
-                case ItemID.TrueNightsEdge:
-                    target.AddBuff(BuffID.CursedInferno, 60);
-                    target.AddBuff(BuffID.ShadowFlame, 120);
-                    break;
-
                 case ItemID.IceSickle:
                 case ItemID.Frostbrand:
                     target.AddBuff(BuffID.Frostburn, 300);
@@ -337,11 +328,6 @@ namespace CalamityMod.CalPlayer
                 case ProjectileID.IceBoomerang:
                     if (Main.rand.NextBool())
                         target.AddBuff(BuffID.Frostburn, 60);
-                    break;
-
-                case ProjectileID.NightBeam:
-                    target.AddBuff(BuffID.CursedInferno, 60);
-                    target.AddBuff(BuffID.ShadowFlame, 120);
                     break;
             }
 

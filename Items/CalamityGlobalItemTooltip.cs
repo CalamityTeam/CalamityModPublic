@@ -478,9 +478,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
                 EditTooltipByName("Knockback", (line) => line.Text += "\nIgnores 50% of enemy defense");
 
-            if (item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge)
-                EditTooltipByName("Knockback", (line) => line.Text += "\nInflicts Shadowflame on hit");
-
             if (item.type == ItemID.DeathSickle)
                 EditTooltipByNum(0, (line) => line.Text += "\nInflicts Whispering Death on hit");
             #endregion
