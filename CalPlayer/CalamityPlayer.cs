@@ -497,7 +497,6 @@ namespace CalamityMod.CalPlayer
         public bool tracersElysian = false;
         public bool tracersSeraph = false;
         public bool frostFlare = false;
-        public bool beeResist = false;
         public bool uberBees = false;
         public bool evolution = false;
         public int evolutionLifeRegenCounter = 0;
@@ -1589,7 +1588,6 @@ namespace CalamityMod.CalPlayer
             aBrain = false;
             amalgam = false;
             frostFlare = false;
-            beeResist = false;
             uberBees = false;
             evolution = false;
             nanotech = false;

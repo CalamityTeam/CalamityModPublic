@@ -83,8 +83,6 @@ namespace CalamityMod
         public static List<int> dungeonEnemyBuffList;
         public static List<int> dungeonProjectileBuffList;
         public static List<int> bossHPScaleList;
-        public static List<int> beeEnemyList;
-        public static List<int> beeProjectileList;
         public static List<int> friendlyBeeList;
         public static List<int> hardModeNerfList;
         public static List<int> debuffList;
@@ -1049,33 +1047,6 @@ namespace CalamityMod
                 NPCID.GolemFistLeft,
                 NPCID.MoonLordHead,
                 NPCID.MoonLordHand
-            };
-
-            beeEnemyList = new List<int>()
-            {
-                NPCID.GiantMossHornet,
-                NPCID.BigMossHornet,
-                NPCID.LittleMossHornet,
-                NPCID.TinyMossHornet,
-                NPCID.MossHornet,
-                NPCID.VortexHornetQueen,
-                NPCID.VortexHornet,
-                NPCID.Bee,
-                NPCID.BeeSmall,
-                NPCID.QueenBee,
-                NPCType<PlaguebringerGoliath>(),
-                NPCType<PlaguebringerMiniboss>(),
-                NPCType<PlagueChargerLarge>(),
-                NPCType<PlagueCharger>()
-            };
-
-            beeProjectileList = new List<int>()
-            {
-                ProjectileID.Stinger,
-                ProjectileID.HornetStinger,
-                ProjectileType<PlagueStingerGoliath>(),
-                ProjectileType<PlagueStingerGoliathV2>(),
-                ProjectileType<PlagueExplosion>()
             };
 
             friendlyBeeList = new List<int>()
@@ -2744,9 +2715,7 @@ namespace CalamityMod
             dungeonEnemyBuffList = null;
             dungeonProjectileBuffList = null;
             bossHPScaleList = null;
-            beeEnemyList = null;
             friendlyBeeList = null;
-            beeProjectileList = null;
             hardModeNerfList = null;
             debuffList = null;
             fireDebuffList = null;

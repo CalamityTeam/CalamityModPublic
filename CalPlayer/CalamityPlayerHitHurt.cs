@@ -764,12 +764,6 @@ namespace CalamityMod.CalPlayer
                 npc.Calamity().relicOfResilienceWeakness = 0;
             }
 
-            if (beeResist)
-            {
-                if (CalamityLists.beeEnemyList.Contains(npc.type))
-                    contactDamageReduction += 0.25;
-            }
-
             if (eskimoSet)
             {
                 if (npc.coldDamage)
@@ -1025,12 +1019,6 @@ namespace CalamityMod.CalPlayer
                 // Daedalus Reflect counts as a reflect but doesn't actually stop you from taking damage
                 if (daedalusReflect && !disableAllDodges && !evolution && !Player.HasCooldown(GlobalDodge.ID))
                     projectileDamageReduction += 0.5;
-            }
-
-            if (beeResist)
-            {
-                if (CalamityLists.beeProjectileList.Contains(proj.type))
-                    projectileDamageReduction += 0.25;
             }
 
             if (trinketOfChiBuff)
