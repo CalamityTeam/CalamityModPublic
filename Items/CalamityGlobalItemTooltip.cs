@@ -623,8 +623,8 @@ namespace CalamityMod.Items
 
             // Magiluminescence nerf and clear explanation of what it actually does.
             if (item.type == ItemID.Magiluminescence)
-                EditTooltipByNum(0, (line) => line.Text = "Increases movement acceleration and deceleration by 1.25x\n" +
-                "Increases movement speed by 1.05x. This bonus applies to running boot accessories");
+                EditTooltipByNum(0, (line) => line.Text = "Increases movement acceleration and deceleration by 1.75x\n" +
+                "Increases movement speed by 1.15x. This bonus applies to running boot accessories");
 
             // Soaring Insignia nerf and clear explanation of what it actually does.
             if (item.type == ItemID.EmpressFlightBooster)

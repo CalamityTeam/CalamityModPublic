@@ -101,7 +101,6 @@ namespace CalamityMod.ILEditing
             IL_Player.UpdateJumpHeight += FixJumpHeightBoosts;
             IL_Player.Update += BaseJumpHeightAdjustment;
             IL_Player.Update += RunSpeedAdjustments;
-            IL_Player.Update += NerfMagiluminescence;
             IL_Player.Update += NerfSoaringInsigniaRunAcceleration;
             IL_Player.WingMovement += RemoveSoaringInsigniaInfiniteWingTime;
 

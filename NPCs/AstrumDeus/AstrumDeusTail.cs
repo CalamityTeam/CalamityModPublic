@@ -16,6 +16,7 @@ namespace CalamityMod.NPCs.AstrumDeus
     public class AstrumDeusTail : ModNPC
     {
         public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.AstrumDeusHead.DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -97,57 +98,24 @@ namespace CalamityMod.NPCs.AstrumDeus
             bool deathModeEnragePhase = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] == 3f;
             bool doubleWormPhase = NPC.Calamity().newAI[0] != 0f && !deathModeEnragePhase;
 
-            Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
-            Color color36 = Color.White;
-            float amount9 = 0.5f;
-            int num153 = deathModeEnragePhase ? 10 : 5;
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            Vector2 vector = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
 
-            if (CalamityConfig.Instance.Afterimages)
-            {
-                for (int num155 = 1; num155 < num153; num155 += 2)
-                {
-                    Color color38 = drawColor;
-                    color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = NPC.GetAlpha(color38);
-                    color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                    vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
-                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-                }
-            }
+            Vector2 vector2 = NPC.Center - screenPos;
+            vector2 -= new Vector2(texture.Width, texture.Height) * NPC.scale / 2f;
+            vector2 += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture, vector2, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusTailGlow").Value;
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusTailGlow").Value;
             Color phaseColor = drawCyan ? Color.Cyan : Color.Orange;
             if (doubleWormPhase)
-            {
-                texture2D15 = drawCyan ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusTailGlow2").Value : texture2D15;
-            }
-            Color color37 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * (deathModeEnragePhase ? 1f : NPC.Opacity);
+                texture = drawCyan ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusTailGlow2").Value : texture;
 
-            if (CalamityConfig.Instance.Afterimages)
-            {
-                for (int num163 = 1; num163 < num153; num163++)
-                {
-                    Color color41 = color37;
-                    color41 = Color.Lerp(color41, color36, amount9);
-                    color41 *= (num153 - num163) / 15f;
-                    Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                    vector44 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
-                    vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-                }
-            }
+            Color color = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * (deathModeEnragePhase ? 1f : NPC.Opacity);
 
             int timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 2 : 1;
             for (int i = 0; i < timesToDraw; i++)
-                spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                spriteBatch.Draw(texture, vector2, NPC.frame, color, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
