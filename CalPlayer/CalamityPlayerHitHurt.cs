@@ -746,7 +746,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Can't have any cooldowns here because dodges grrrrr....
-            if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID))
+            if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && TotalEnergyShielding <= 0)
                 contactDamageReduction += 0.5;
 
             if (tarragonCloak && tarraMelee && !Player.HasCooldown(Cooldowns.TarragonCloak.ID))
@@ -1157,20 +1157,20 @@ namespace CalamityMod.CalPlayer
             // As such, to avoid cooldowns proccing from dodge hits, do it here
             if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && hurtInfo.Damage > 0)
                 Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");
+
             if (NPC.AnyNPCs(ModContent.NPCType<THELORDE>()))
-            {
                 Player.AddBuff(ModContent.BuffType<NOU>(), 15, true);
-            }
+
             if (crawCarapace)
             {
-                npc.AddBuff(ModContent.BuffType<Crumbling>(), 720);
+                npc.AddBuff(ModContent.BuffType<Crumbling>(), 900);
                 SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
             }
 
             if (baroclaw)
             {
-                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1800);
-                npc.AddBuff(ModContent.BuffType<CrushDepth>(), 1800);
+                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 900);
+                npc.AddBuff(ModContent.BuffType<CrushDepth>(), 900);
                 SoundEngine.PlaySound(BaroclawHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
@@ -1189,7 +1189,7 @@ namespace CalamityMod.CalPlayer
 
             if (absorber)
             {
-                npc.AddBuff(ModContent.BuffType<AbsorberAffliction>(), 1800);
+                npc.AddBuff(ModContent.BuffType<AbsorberAffliction>(), 900);
                 SoundEngine.PlaySound(AbsorberHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
@@ -1629,9 +1629,10 @@ namespace CalamityMod.CalPlayer
         private void ModifyHurtInfo_Calamity(ref Player.HurtInfo info)
         {
             // Boss Rush's damage floor is implemented as a dirty modifier
+            // TODO -- implementing this correctly would require fully reimplementing all of DR and ADR
             if (BossRushEvent.BossRushActive)
             {
-                int bossRushDamageFloor = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
+                int bossRushDamageFloor = (Main.expertMode ? 160 : 100) + (BossRushEvent.BossRushStage * 2);
                 if (info.Damage < bossRushDamageFloor)
                     info.Damage += (bossRushDamageFloor - info.Damage);
             }

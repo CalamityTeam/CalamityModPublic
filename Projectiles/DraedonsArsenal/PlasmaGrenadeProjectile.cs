@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -13,6 +14,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/PlasmaGrenade";
 
         private static readonly float Gravity = 0.09f;
+        private float rotate = Main.rand.Next(360);
 
         public float Time
         {
@@ -26,27 +28,28 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.height = 28;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 450;
             Projectile.MaxUpdates = 2;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(rotate);
             Vector2 projectileTop = Projectile.Center + new Vector2(0f, Projectile.height * -0.5f).RotatedBy(Projectile.rotation);
 
             if (Time > 10f)
                 Projectile.velocity.Y += Gravity;
 
-            if (!Main.dedServ)
+            if (!Main.dedServ && Main.rand.NextBool()) // 50% chance to spawn smoke
             {
-                Dust dust = Dust.NewDustPerfect(projectileTop, 107);
-                dust.velocity = Projectile.rotation.ToRotationVector2().RotatedByRandom(0.35f) * Main.rand.NextFloat(2f, 4f);
-                dust.velocity += Projectile.velocity * 0.25f;
-                dust.scale = Main.rand.NextFloat(0.95f, 1.3f);
+                Color plasmaLime = Color.Lerp(Color.Lime, Color.LimeGreen, Main.rand.NextFloat(1f));
+                Color fadeColor = Color.Lerp(Color.LightGreen, plasmaLime, Main.rand.NextFloat(0.5f,1f));
+                Particle plasma = new SmallSmokeParticle(projectileTop, Projectile.oldVelocity*0.7f, Color.LightGreen, fadeColor, Main.rand.NextFloat(0.4f,0.9f), 100f);
+                GeneralParticleHandler.SpawnParticle(plasma);
             }
             Time++;
+            rotate += 10;
         }
 
         public override void Kill(int timeLeft)

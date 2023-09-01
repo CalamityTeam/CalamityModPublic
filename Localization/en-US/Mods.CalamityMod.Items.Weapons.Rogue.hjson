@@ -283,7 +283,7 @@ DefectiveSphere: {
 }
 
 DeificThunderbolt: {
-	DisplayName: Deific Thunderbolt
+	DisplayName: Twisting Thunder
 	Tooltip:
 		'''
 		Fires a lightning bolt to electrocute enemies
@@ -843,7 +843,7 @@ OrichalcumSpikedGemstone: {
 
 PalladiumJavelin: {
 	DisplayName: Palladium Javelin
-	Tooltip: Stealth strikes split into more javelins and boost life regeneration on hits
+	Tooltip: Stealth strikes split into more javelins and boost natural life regeneration on hits
 }
 
 Penumbra: {
@@ -1337,7 +1337,7 @@ UtensilPoker: {
 	DisplayName: Utensil Poker
 	Tooltip:
 		'''
-		Fires random utensils in bursts of three
+		Fires utensils in bursts of three
 		Stealth strikes replace any utensil with a powerful butcher knife
 		'Space chickens, that is all'
 		'''

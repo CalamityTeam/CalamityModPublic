@@ -98,6 +98,7 @@ namespace CalamityMod.Cooldowns
             if (modPlayer.roverDrive)
                 modPlayer.RoverDriveShieldDurability = RoverDrive.ShieldDurabilityMax;
         }
-        public override SoundStyle? EndSound => null;
+        public override SoundStyle? EndSound => RoverDrive.ActivationSound;
+        public override bool ShouldPlayEndSound => instance.player.Calamity().roverDrive;
     }
 }

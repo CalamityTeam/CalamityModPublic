@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             else
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.5f, velocity.Y * 0.5f, type, (int)(damage * 1.3f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.5f, velocity.Y * 0.5f, type, (int)(damage * 1.1f), knockback, player.whoAmI);
             }
             return false;
         }

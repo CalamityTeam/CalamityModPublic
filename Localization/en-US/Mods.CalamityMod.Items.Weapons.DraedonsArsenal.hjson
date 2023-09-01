@@ -164,7 +164,9 @@ SnakeEyes: {
 	DisplayName: Snake Eyes
 	Tooltip:
 		'''
-		Summons a mechanical surveillance drone that flies around enemies and mercilessly zaps them with electricity
+		Summons a levitating drone which fires piercing, highly calibrated energy bolts
+		If a bolt hits, the drone will teleport into its path and reflect the bolt
+		Reflected bolts home in and explode on impact
 		[c/1FFBFF:'Equipped with high-end sensors, little can evade them. Even less are able to escape their ever watchful eyes.]
 		[c/1FFBFF:An excellent bridge between my experiments with the sight-based soul powered machines and my latest project.']
 		'''

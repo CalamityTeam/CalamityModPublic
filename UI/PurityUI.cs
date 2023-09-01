@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.UI
 {
     // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
-    public static class AstralArcanumUI
+    public static class SpecialTeleportUI
     {
         enum CircleStyle
         {
@@ -34,7 +34,7 @@ namespace CalamityMod.UI
 
         public static void Load(Mod mod)
         {
-            CircleTextures = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/AstralArcanumCircles", AssetRequestMode.ImmediateLoad).Value;
+            CircleTextures = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/SpecialTeleportCircles", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public static void Unload()

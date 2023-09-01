@@ -456,8 +456,14 @@ namespace CalamityMod.ILEditing
         private static string IncorporateEnchantmentInAffix(Terraria.On_Item.orig_AffixName orig, Item self)
         {
             string result = orig(self);
-            if (!self.IsAir && self.Calamity().AppliedEnchantment.HasValue)
-                result = $"{self.Calamity().AppliedEnchantment.Value.Name} {result}";
+
+            // This hook could occur before CalamityGlobalItem is loaded and throw an error.
+            try
+            {
+                if (!self.IsAir && self.Calamity().AppliedEnchantment.HasValue)
+                    result = $"{self.Calamity().AppliedEnchantment.Value.Name} {result}";
+            }
+            catch { }
             return result;
         }
         #endregion

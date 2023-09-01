@@ -238,7 +238,7 @@ VictideGreaves: {
 VictideHeadMagic: {
 	DisplayName: Victide Hermit Helmet
 	Tooltip: 5% increased magic damage
-	SetBonus: +3 life regen and 10% increased magic damage while submerged in liquid
+	SetBonus: +1.5 HP/s life regen and 10% increased magic damage while submerged in liquid
 }
 
 VictideHeadMelee: {
@@ -247,14 +247,14 @@ VictideHeadMelee: {
 	SetBonus:
 		'''
 		Enemies are more likely to target you
-		+3 life regen and 10% increased melee damage while submerged in liquid
+		+1.5 HP/s life regen and 10% increased melee damage while submerged in liquid
 		'''
 }
 
 VictideHeadRanged: {
 	DisplayName: Victide Coral Turban
 	Tooltip: 5% increased ranged damage
-	SetBonus: +3 life regen and 10% increased ranged damage while submerged in liquid
+	SetBonus: +1.5 HP/s life regen and 10% increased ranged damage while submerged in liquid
 }
 
 VictideHeadRogue: {
@@ -263,7 +263,7 @@ VictideHeadRogue: {
 	SetBonus:
 		'''
 		+60 maximum stealth
-		+3 life regen and 10% increased rogue damage while submerged in liquid
+		+1.5 HP/s life regen and 10% increased rogue damage while submerged in liquid
 		'''
 }
 
@@ -274,7 +274,7 @@ VictideHeadSummon: {
 		'''
 		+1 max minion
 		Summons a sea snail to protect you
-		+3 life regen and 10% increased summon damage while submerged in liquid
+		+1.5 HP/s life regen and 10% increased summon damage while submerged in liquid
 		'''
 }
 
