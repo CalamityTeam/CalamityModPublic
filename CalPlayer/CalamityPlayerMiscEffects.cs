@@ -1037,19 +1037,13 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<GenericDamageClass>() += critUp;
             }
 
-            bool profanedSoulBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs);
+            bool profanedSoulBuffs = profanedCrystalBuffs || (!profanedCrystal && pSoulArtifact) || (profanedCrystal && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs);
 
-            // Offense bonus. You always get the max minions, even during the effect of the burnout debuff
+            // Guardian bonuses
             if (profanedSoulBuffs)
-                Player.maxMinions++;
-
-            // Guardian bonuses if not burnt out
-            if (profanedSoulBuffs && !Player.HasCooldown(Cooldowns.ProfanedSoulArtifact.ID))
             {
-                // Defender bonus
-                Player.moveSpeed += 0.1f;    
-                Player.endurance += 0.05f;
-
+                // Offense bonus
+                Player.maxMinions++;
                 // Healer bonus
                 if (healCounter > 0)
                     healCounter--;
@@ -3004,15 +2998,15 @@ namespace CalamityMod.CalPlayer
             if (auricSArtifact && Player.FindBuffIndex(ModContent.BuffType<FieryDraconidBuff>()) != -1)
                 Player.maxMinions += Player.ownedProjectileCounts[ModContent.ProjectileType<FieryDraconid>()];
 
-            if (pArtifact)
+            if (pSoulArtifact)
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
-                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.ProfanedSoulArtifact>()));
-                    if (Player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1)
-                        Player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<ProfanedSoulArtifact>()));
+                    if (Player.FindBuffIndex(ModContent.BuffType<ProfanedSoulGuardians>()) == -1)
+                        Player.AddBuff(ModContent.BuffType<ProfanedSoulGuardians>(), 3600, true);
 
-                    donutBabs = true;
+                    pSoulGuardians = true;
 
                     int guardianAmt = 1;
                     float babCheck = profanedCrystal ? 1f : 0f;
@@ -3029,7 +3023,8 @@ namespace CalamityMod.CalPlayer
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
                     {
-                        var babO = Projectile.NewProjectileDirect(source, Player.Center, Vector2.UnitY * -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, babCheck);
+                        float spearCounter = profanedCrystal ? 0f : 15f;
+                        var babO = Projectile.NewProjectileDirect(source, Player.Center, Vector2.UnitY * -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, babCheck, spearCounter);
                         babO.originalDamage = babDamage;
                     }
                 }
@@ -3068,7 +3063,7 @@ namespace CalamityMod.CalPlayer
                         Lighting.AddLight(Player.Center, enrage ? 1.2f : offenseBuffs ? 1f : 0.2f, enrage ? 0.21f : offenseBuffs ? 0.2f : 0.01f, 0);
                     if (enrage)
                     {
-                        bool special = Player.name == "Amber" || Player.name == "Nincity" || Player.name == "IbanPlay" || Player.name == "Chen"; //People who either helped create the item or test it.
+                        bool special = ProfanedSoulCrystal.testerNames.Any(name => name.Equals(Player.name));
                         for (int i = 0; i < 3; i++)
                         {
                             int fire = Dust.NewDust(Player.position, Player.width, Player.height, special ? 231 : (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, special ? Color.DarkRed : default, 1f);
@@ -3533,6 +3528,66 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            // If PSA/PSC is not equipped, obliterate its durability cooldown.
+            // The recharge cooldown is intentionally left in place to prevent hot swapping to recharge the shield
+            if (!pSoulArtifact)
+            {
+                if (cooldowns.TryGetValue(Cooldowns.ProfanedSoulShield.ID, out var cdDurability))
+                    cdDurability.timeLeft = 0;
+                
+                // As PSA/PSC's shield can be left in a partially recharged state, this is for safety.
+                // If the player does not have the accessory equipped for even one frame, discharge all shields.
+                pSoulShieldDurability = 0;
+            }
+            // Stuff to do if PSA/PSC is equipped
+            else
+            {
+                //Force check if profaned crystal buffs are active
+                ProfanedSoulCrystal.DetermineTransformationEligibility(Player);
+                int maxDurability = profanedCrystalBuffs
+                    ? ProfanedSoulCrystal.ShieldDurabilityMax
+                    : ProfanedSoulArtifact.ShieldDurabilityMax;
+                
+                if (pSoulShieldDurability == 0 && !cooldowns.ContainsKey(Cooldowns.ProfanedSoulShieldRecharge.ID))
+                    Player.AddCooldown(ProfanedSoulShieldRecharge.ID, ProfanedSoulArtifact.ShieldRechargeDelay);
+                
+                // If the shield has greater than zero durability but that durability is not on the cooldown rack, add it to the cooldown rack.
+                if (pSoulShieldDurability > 0 && !cooldowns.ContainsKey(Cooldowns.ProfanedSoulShield.ID))
+                {
+                    var durabilityCooldown = Player.AddCooldown(Cooldowns.ProfanedSoulShield.ID, maxDurability);
+                    durabilityCooldown.timeLeft = pSoulShieldDurability;
+                }
+                
+                // If the shield has greater than zero durability and isn't in its recharge delay, actively replenish shield points.
+                // Play a sound on the first frame this occurs.
+                if (pSoulShieldDurability > 0 && !cooldowns.ContainsKey(ProfanedSoulShieldRecharge.ID))
+                {
+                    if (!playedProfanedSoulShieldSound)
+                        SoundEngine.PlaySound(ProvidenceBoss.BurnStartSound, Player.Center);
+                    playedProfanedSoulShieldSound = true;
+
+                    // This number is not an integer, and stores exact per-frame recharge progress.
+                    pSoulShieldPartialRechargeProgress += maxDurability / (float)ProfanedSoulArtifact.TotalShieldRechargeTime;
+
+                    // Floor the value to get whole number of shield points recharged this frame.
+                    int pointsActuallyRecharged = (int)MathF.Floor(pSoulShieldPartialRechargeProgress);
+                    
+                    // Give those points to the real shield durability, capping the result. Then remove them from recharge progress.
+                    pSoulShieldDurability = Math.Min(pSoulShieldDurability + pointsActuallyRecharged, maxDurability);
+                    pSoulShieldPartialRechargeProgress -= pointsActuallyRecharged;
+
+                    // Update the cooldown rack's durability indicator.
+                    if (cooldowns.TryGetValue(Cooldowns.ProfanedSoulShield.ID, out var cdDurability))
+                        cdDurability.timeLeft = pSoulShieldDurability;
+                }
+
+                // Add light if this shield is currently active
+                if (pSoulShieldDurability > 0 && !shieldAddedLight)
+                {
+                    Lighting.AddLight(Player.Center, Color.Orange.ToVector3() * 0.4f);
+                    shieldAddedLight = true;
+                }
+            }
             // If the Lunic Corps armor is not equipped, obliterate its durability cooldown.
             // The recharge cooldown is intentionally left in place to prevent hot swapping to recharge the shield
             if (!lunicCorpsSet)

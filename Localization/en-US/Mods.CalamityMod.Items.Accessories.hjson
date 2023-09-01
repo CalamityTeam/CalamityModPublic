@@ -1265,10 +1265,14 @@ ProfanedSoulArtifact: {
 	DisplayName: Profaned Soul Artifact
 	Tooltip:
 		'''
-		Summons a healer guardian, which heals for a certain amount of health every few seconds
-		Summons a defensive guardian, which boosts your movement speed and damage resistance
-		Summons an offensive guardian, which boosts your minion slots
-		If you get hit, most of their effects will disappear for 5 seconds
+		Summons a healer guardian, which heals for 15 health every few seconds
+		Summons a defensive guardian, which provides a weak shield reinforced by profaned rocks
+		Upon being depleted, the barrier implodes sending the profaned rocks hurtling outwards
+		The barrier starts recharging 5 seconds after being hit
+		Recharging from zero to full charge takes 2 seconds
+		Being hit again while recharging restarts the charge timer
+		Summons an offensive guardian, which boosts your minion slots by 1
+		The offensive guardian will occasionally fire spears on hit
 		Purity
 		'''
 }

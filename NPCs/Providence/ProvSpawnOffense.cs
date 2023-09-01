@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.Providence
 
             double deg = NPC.ai[1];
             double rad = deg * (Math.PI / 180);
-            double dist = 400;
+            double dist = 450;
             NPC.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - NPC.width / 2;
             NPC.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - NPC.height / 2;
             NPC.ai[1] += 1f;

@@ -1321,10 +1321,10 @@ PoleWarperBuff: {
 	Description: Sentient magnets are attracted to you
 }
 
-ProfanedBabs: {
+ProfanedSoulGuardians: {
 	DisplayName: The Profaned Soul
-	Description: The Profaned Babs will fight for and defend you!
-	VanityDescription: The Profaned Babs will accompany you!
+	Description: The Profaned Soul Guardians will fight for and defend you!
+	VanityDescription: The Profaned Soul Guardians will accompany you!
 }
 
 PuffWarriorBuff: {
