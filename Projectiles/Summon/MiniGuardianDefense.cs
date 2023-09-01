@@ -79,8 +79,6 @@ namespace CalamityMod.Projectiles.Summon
                         proj.ai[0] = 1f;
                     }
                 }
-
-                Owner.Calamity().GeneralScreenShakePower = 2.5f; //minor screenshake to sell the barrier implosion thing (maybe improve visual of it)
             }
         }
 
