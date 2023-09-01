@@ -1744,7 +1744,7 @@ namespace CalamityMod.CalPlayer
                     pSoulShieldDurability -= info.Damage;
                     shieldsTookHit = true;
 
-                    // Hits which break the Rover Drive shield cause a sound and slight screen shake.
+                    // Hits which break the PSA shield cause a sound and slight screen shake.
                     // Multiple shields breaking simultaneously has slightly stronger screen shake.
                     if (pSoulShieldDurability <= 0)
                     {
