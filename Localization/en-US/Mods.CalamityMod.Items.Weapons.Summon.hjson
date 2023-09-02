@@ -716,7 +716,7 @@ VengefulSunStaff: {
 	DisplayName: Vengeful Sun Staff
 	Tooltip:
 		'''
-		Summons a solar god spirit to protect you
+		Summons a vengeful solar spirit to protect you
 		There can only be one spirit at a time
 		'''
 }

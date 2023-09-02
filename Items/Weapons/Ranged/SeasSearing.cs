@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.width = 88;
             Item.height = 44;
             Item.useTime = 5;
-            Item.useAnimation = 15;
-            Item.reuseDelay = 20;
+            Item.useAnimation = 10;
+            Item.reuseDelay = 16;
             Item.useLimitPerAnimation = 3;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SeasSearingBubble>();
-            Item.shootSpeed = 11f;
+            Item.shootSpeed = 13f;
 
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
@@ -60,8 +60,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             else
             {
                 Item.useTime = 5;
-                Item.useAnimation = 15;
-                Item.reuseDelay = 20;
+                Item.useAnimation = 10;
+                Item.reuseDelay = 16;
             }
             return base.CanUseItem(player);
         }
