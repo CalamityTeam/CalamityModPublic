@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
             // Despawn properly
             if (Owner.Calamity().pSoulGuardians && Projectile.ai[0] == 0f)
                 Projectile.timeLeft = 4;
-            if (!Owner.Calamity().pSoulArtifact || Owner.dead || !Owner.active)
+            if (!Owner.Calamity().pSoulArtifact || Owner.dead || !Owner.active || (Owner.Calamity().profanedCrystal && !Owner.Calamity().profanedCrystalBuffs))
             {
                 Owner.Calamity().pSoulGuardians = false;
                 Projectile.active = false;
