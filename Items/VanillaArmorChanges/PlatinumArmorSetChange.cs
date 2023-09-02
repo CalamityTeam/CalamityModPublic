@@ -19,7 +19,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public const float ChestCrit = 5f;
         public const float LegsMoveSpeed = 0.1f;
         public const float SetBonusLifeRegenPerDefense = 0.1f; // 10 defense = +1 life regen
-        public const float SetBonusDamagePerDefense = 0.1f; // 10 defense = +1% damage
+        public const float SetBonusDamagePerDefense = 0.001f; // 10 defense = +1% damage
         public const float SetBonusCritPerDefense = 0.1f; // 10 defense = +1% crit chance
         public const int SetBonusDefenseCap = 40;
 

@@ -3142,34 +3142,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region TeleportMethods
-        public static Vector2? GetJunglePosition(Player player)
-        {
-            bool canSpawn = false;
-            int teleportStartX = Abyss.AtLeftSideOfWorld ? (int)(Main.maxTilesX * 0.65) : (int)(Main.maxTilesX * 0.2);
-            int teleportRangeX = (int)(Main.maxTilesX * 0.15);
-            int teleportStartY = (int)Main.worldSurface - 75;
-            int teleportRangeY = 50;
-
-            Player.RandomTeleportationAttemptSettings settings = new Player.RandomTeleportationAttemptSettings
-            {
-                mostlySolidFloor = true,
-                avoidAnyLiquid = true,
-                avoidLava = true,
-                avoidHurtTiles = true,
-                avoidWalls = true,
-                attemptsBeforeGivingUp = 1000,
-                maximumFallDistanceFromOrignalPoint = 30
-            };
-
-            Vector2 vector = player.CheckForGoodTeleportationSpot(ref canSpawn, teleportStartX, teleportRangeX, teleportStartY, teleportRangeY, settings);
-
-            if (canSpawn)
-            {
-                return (Vector2?)vector;
-            }
-            return null;
-        }
-
+        // Used for Boss Rush WoF
         public static Vector2? GetUnderworldPosition(Player player)
         {
             bool canSpawn = false;

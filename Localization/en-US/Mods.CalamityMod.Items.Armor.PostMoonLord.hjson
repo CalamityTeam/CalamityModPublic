@@ -105,7 +105,7 @@ BloodflareHeadMagic: {
 
 BloodflareHeadMelee: {
 	DisplayName: Bloodflare Ram Mask
-	Tooltip: 10% increased melee damage
+	Tooltip: 10% increased melee damage and 5% increased melee critical strike chance
 	SetBonus:
 		'''
 		18% increased melee speed

@@ -62,13 +62,6 @@ namespace CalamityMod.Systems
                     return true;
                 }, InterfaceScaleType.UI));
 
-                // Special Teleport overlay (if open)
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Special Teleport UI", delegate ()
-                {
-                    SpecialTeleportUI.UpdateAndDraw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
-
                 // Speedrun Timer
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Speedrun Timer", delegate ()
                 {
