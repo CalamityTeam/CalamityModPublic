@@ -1020,7 +1020,7 @@ LumenousAmulet: {
 	Tooltip:
 		'''
 		Attacks inflict the Crush Depth debuff
-		Grants immunity to the Crush Depth debuff
+		Grants immunity to the Riptide and Crush Depth debuffs
 		While in the abyss you gain 25% increased max life
 		Provides a moderate amount of light in the abyss
 		'''
