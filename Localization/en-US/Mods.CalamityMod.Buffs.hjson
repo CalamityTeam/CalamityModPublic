@@ -1403,8 +1403,8 @@ SnakeEyesBuff: {
 }
 
 SolarGodSpiritBuff: {
-	DisplayName: Solar God Spirit
-	Description: The solar god spirit will protect you
+	DisplayName: Vengeful Solar Spirit
+	Description: A furious Sun spirit is ready to protect you
 }
 
 SolarSpirit: {
