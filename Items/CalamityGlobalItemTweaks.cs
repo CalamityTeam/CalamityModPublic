@@ -145,7 +145,7 @@ namespace CalamityMod.Items
                 { ItemID.MagnetSphere, Do(DamageRatio(1.1f)) },
                 { ItemID.Marrow, Do(PointBlank, DamageExact(69)) },
                 { ItemID.MedusaHead, Do(ManaExact(6), DamageRatio(1.2f)) },
-                { ItemID.Meowmere, Do(UseMeleeSpeed/*, DamageRatio(1.33f) */) },
+                { ItemID.Meowmere, Do(UseMeleeSpeed, DamageExact(240)/*, DamageRatio(1.33f) */) },
                 { ItemID.MeteorStaff, Do(DamageExact(58), ManaExact(7), ShootSpeedExact(13f)) },
                 { ItemID.Minishark, Do(PointBlank, DamageExact(4)) },
                 { ItemID.MoltenFury, Do(PointBlank, UseExact(29), AutoReuse) },

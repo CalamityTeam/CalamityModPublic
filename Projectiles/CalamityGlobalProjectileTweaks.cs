@@ -145,6 +145,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.LightDisc, Do(MaxUpdatesExact(3)) },
                 { ProjectileID.LostSoulHostile, Do(TileCollide) }, // Ragged Caster
                 { ProjectileID.MeteorShot, standardBulletTweaks },
+                { ProjectileID.Meowmere, Do(PiercingExact(3), LocalIFrames(-1)) },// Meowmere Projectile
                 { ProjectileID.MonkStaffT1, Do(TrueMeleeNoSpeed, ScaleExact(3f)) }, // Sleepy Octopod
                 { ProjectileID.MonkStaffT2, Do(TrueMelee, IDStaticIFrames(18)) }, // Ghastly Glaive
                 { ProjectileID.MonkStaffT3, Do(ScaleRatio(2f)) }, // Sky Dragon's Fury
