@@ -248,8 +248,8 @@ CursedDagger: {
 	DisplayName: Cursed Dagger
 	Tooltip:
 		'''
-		Throws bouncing daggers
-		Stealth strikes are showered in cursed fireballs
+		Throws a fast cursed dagger and two inaccurate weaker daggers
+		Stealth strikes throw a single dagger that bursts into a vortex of cursed flames
 		'''
 }
 
@@ -596,8 +596,8 @@ IchorSpear: {
 	DisplayName: Ichor Spear
 	Tooltip:
 		'''
-		Throws an ichor tipped trident
-		Stealth strikes are showered in splashes of ichor
+		Throws a high-velocity ichor tipped javelin that pierces through enemies
+		Stealth strikes impale enemies and deal repeated damage
 		'''
 }
 
