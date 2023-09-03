@@ -1,7 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Particles;
+using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Mono.Cecil;
 using System;
+using System.Reflection.Metadata;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,53 +14,72 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IchorSpearProj : ModProjectile, ILocalizedModType
     {
+        public static readonly SoundStyle Hitsound = new("CalamityMod/Sounds/Item/WulfrumKnifeTileHit2") { PitchVariance = 0.3f, Volume = 0.5f };
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/IchorSpear";
-
+        public bool posthit = false;
+        public int framesInAir = 0;
         public override void SetDefaults()
         {
-            Projectile.width = 12;
-            Projectile.height = 12;
+            Projectile.width = 14;
+            Projectile.height = 14;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = 2;
-            Projectile.aiStyle = ProjAIStyleID.StickProjectile;
-            Projectile.timeLeft = 600;
-            AIType = ProjectileID.BoneJavelin;
+            Projectile.penetrate = 6;
+            Projectile.timeLeft = 900;
+            Projectile.aiStyle = 0;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 50;
         }
 
         public override void AI()
         {
-            if (Main.rand.NextBool(4))
+            framesInAir++;
+            if (framesInAir > 90 && !Projectile.Calamity().stealthStrike)
             {
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 246, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
-            }
-            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
-            if (Projectile.spriteDirection == -1)
-            {
-                Projectile.rotation -= 1.57f;
+                Projectile.velocity.X *= 0.998f;
+                Projectile.velocity.Y += 0.3f;
             }
 
+            Projectile.scale = 1.2f;
+            if (!Projectile.Calamity().stealthStrike)
+                Projectile.extraUpdates = 1;
+
+            if (Main.rand.NextBool(2) && !posthit)
+            {
+                Vector2 position = Projectile.Center + Vector2.Normalize(Projectile.velocity);
+                Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.Next(169, 170), 0f, 0f, 0, default, Projectile.Calamity().stealthStrike ? Main.rand.NextFloat(2.1f, 3.2f) : Main.rand.NextFloat(1.2f, 1.5f))];
+                dust.position = position;
+                dust.velocity = Projectile.velocity.RotatedBy(1.9707963705062866, default) * 0.1f + Projectile.velocity / 8f;
+                dust.position += Projectile.velocity.RotatedBy(0.3, default);
+                dust.fadeIn = 0.5f;
+                dust.noGravity = true;
+                dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.Next(169, 170), 0f, 0f, 0, default, Projectile.Calamity().stealthStrike ? Main.rand.NextFloat(2.1f, 3.2f) : Main.rand.NextFloat(1.2f, 1.5f))];
+                dust.position = position;
+                dust.velocity = Projectile.velocity.RotatedBy(-1.9707963705062866, default) * 0.1f + Projectile.velocity / 8f;
+                dust.position += Projectile.velocity.RotatedBy(-0.3, default);
+                dust.fadeIn = 0.5f;
+                dust.noGravity = true;
+            }
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+
+            bool defaultsonce = true;
             if (Projectile.Calamity().stealthStrike)
             {
-                if (Projectile.timeLeft % 6 == 0)
+                Projectile.tileCollide = false;
+                Projectile.aiStyle = 0;
+                Projectile.extraUpdates = 2;
+                if (Projectile.ai[0] == 0f)
                 {
-                    if (Projectile.owner == Main.myPlayer)
+                    if (defaultsonce)
                     {
-                        Vector2 velocity = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-                        int ichor = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.GoldenShowerFriendly : ProjectileID.IchorSplash, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        if (ichor.WithinBounds(Main.maxProjectiles))
-                        {
-                            Main.projectile[ichor].DamageType = RogueDamageClass.Instance;
-                            Main.projectile[ichor].usesLocalNPCImmunity = true;
-                            Main.projectile[ichor].localNPCHitCooldown = 10;
-                            Main.projectile[ichor].extraUpdates = 2;
-                        }
+                        Projectile.penetrate = 10;
+                        Projectile.localNPCHitCooldown = 60;
+                        defaultsonce = false;
                     }
                 }
+                Projectile.StickyProjAI(10);
             }
         }
 
@@ -66,16 +90,63 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            for (int i = 0; i <= 10; i++)
+            Vector2 bloodSpawnPosition = target.Center + Main.rand.NextVector2Circular(target.width, target.height) * 0.04f;
+            Vector2 splatterDirection = (Projectile.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
+            int sparkCount = Main.rand.Next(5);
+            for (int i = 0; i < sparkCount; i++)
             {
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 246, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+                Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.5f) * Main.rand.NextFloat(5f, 9f);
+                int sparkLifetime = Main.rand.Next(23, 25);
+                float sparkScale = Main.rand.NextFloat(0.8f, 1f) * 0.955f;
+                Color sparkColor = Color.Lerp(Color.Gold, Color.Goldenrod, Main.rand.NextFloat(0.7f));
+                sparkColor = Color.Lerp(sparkColor, Color.Gold, Main.rand.NextFloat());
+                SparkParticle spark = new SparkParticle(Projectile.Center, sparkVelocity * -2, true, sparkLifetime, sparkScale, sparkColor);
+                GeneralParticleHandler.SpawnParticle(spark);
+            }
+            SoundEngine.PlaySound(Hitsound, Projectile.position);
+            target.AddBuff(BuffID.Ichor, Projectile.Calamity().stealthStrike ? 900 : 180);
+            if (Projectile.Calamity().stealthStrike)
+            {
+                posthit = true;
+                for (int i = 0; i <= 17; i++)
+                {
+                    Dust dust2 = Main.dust[Dust.NewDust(target.position, Projectile.width, Projectile.height, Main.rand.Next(169, 170), 0, 0, 0, default, 3.2f)];
+                    dust2.noGravity = true;
+                    dust2.velocity.Y -= Main.rand.NextFloat(2.5f, 10.5f);
+                    dust2.velocity.X += Main.rand.NextFloat(-3f, 3f);
+                }
+                SoundEngine.PlaySound(SoundID.NPCHit18, Projectile.position);
             }
         }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (Projectile.Calamity().stealthStrike && !posthit)
+            {
+                Projectile.ModifyHitNPCSticky(2);
+                posthit = true;
+            }
+            Projectile.damage = (int)(Projectile.damage * 0.9f);
+            if (Projectile.damage < 1)
+                Projectile.damage = 1;
+        }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Ichor, Projectile.Calamity().stealthStrike ? 600 : 120);
-
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            if (targetHitbox.Width > 8 && targetHitbox.Height > 8 && Projectile.Calamity().stealthStrike)
+            {
+                targetHitbox.Inflate(-targetHitbox.Width / 8, -targetHitbox.Height / 8);
+            }
+            return null;
+        }
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 0; i <= 9; i++)
+            {
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.Next(169, 170), Projectile.oldVelocity.X * 0.3f, Projectile.oldVelocity.Y * 0.3f, 0, default, Main.rand.NextFloat(1.2f, 1.6f));
+            }
+        }
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.Ichor, Projectile.Calamity().stealthStrike ? 600 : 120);
     }
 }

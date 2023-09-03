@@ -4,16 +4,19 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using log4net.Core;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CursedDagger : RogueWeapon
     {
+        public static readonly SoundStyle ThrowSound = new("CalamityMod/Sounds/Item/CursedDaggerThrow") { Volume = 0.3f, PitchVariance = 0.4f };
         public override void SetDefaults()
         {
             Item.damage = 34;
-            Item.useAnimation = Item.useTime = 8;
-            Item.shootSpeed = 12f;
+            Item.useAnimation = Item.useTime = 17;
+            Item.shootSpeed = 19f;
             Item.knockBack = 4.5f;
 
             Item.shoot = ModContent.ProjectileType<CursedDaggerProj>();
@@ -22,16 +25,23 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 48;
             Item.DamageType = RogueDamageClass.Instance;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.UseSound = SoundID.Item1;
+            Item.UseSound = ThrowSound;
             Item.rare = ItemRarityID.Pink;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
         }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(23f)) * 0.6f;
+            Vector2 newVel2 = velocity.RotatedByRandom(MathHelper.ToRadians(23f)) * 0.8f;
+            if (!player.Calamity().StealthStrikeAvailable())
+            {
+                Projectile.NewProjectile(source, position, newVel, type, damage / 2, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, newVel2, type, damage / 2, knockback, player.whoAmI);
+            }
+
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);

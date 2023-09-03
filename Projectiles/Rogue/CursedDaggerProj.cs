@@ -1,9 +1,12 @@
 ﻿using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Humanizer.In;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -11,11 +14,12 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/CursedDagger";
-
+        public bool slowstart = true;
+        public int speedup = 0;
         public override void SetDefaults()
         {
             Projectile.localNPCHitCooldown = 10;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 2;
             Projectile.timeLeft = 600;
 
             Projectile.width = Projectile.height = 38;
@@ -28,27 +32,27 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (Main.rand.NextBool(4))
+            if (Main.rand.NextBool(Projectile.Calamity().stealthStrike ? 3 : 7))
             {
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+                Dust dust = Main.dust[Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, Projectile.velocity.X * -3f, Projectile.velocity.Y * -3f, 0, default, Projectile.Calamity().stealthStrike ? Main.rand.NextFloat(2.5f, 3.2f) : 1.5f)];
+                dust.noGravity = true;
             }
 
             if (Projectile.Calamity().stealthStrike)
             {
-                if (Projectile.timeLeft % 6 == 0)
+                if (slowstart)
                 {
-                    if (Projectile.owner == Main.myPlayer)
-                    {
-                        Vector2 velocity = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-                        int flame = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.CursedFlameFriendly : ProjectileID.CursedDartFlame, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        if (flame.WithinBounds(Main.maxProjectiles))
-                        {
-                            Main.projectile[flame].DamageType = RogueDamageClass.Instance;
-                            Main.projectile[flame].usesLocalNPCImmunity = true;
-                            Main.projectile[flame].localNPCHitCooldown = 10;
-                        }
-                    }
+                    Projectile.velocity *= 0.5f;
+                    Projectile.penetrate = 1;
+                    slowstart = false;
                 }
+                if (speedup <= 50)
+                {
+                    Projectile.velocity *= 1.03f;
+                    speedup++;
+                }
+                Projectile.aiStyle = 0;
+                Projectile.extraUpdates = 1;
             }
         }
 
@@ -58,27 +62,11 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Projectile.penetrate--;
-            if (Projectile.penetrate <= 0)
+            if (Projectile.Calamity().stealthStrike)
             {
-                Projectile.Kill();
+                SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, Projectile.position);
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CursedDaggerBlastHitbox>(), (int)(Projectile.damage), Projectile.knockBack * 2, Projectile.owner, 0, 0f);
             }
-            else
-            {
-                if (Projectile.velocity.X != oldVelocity.X)
-                {
-                    Projectile.velocity.X = -oldVelocity.X;
-                }
-                if (Projectile.velocity.Y != oldVelocity.Y)
-                {
-                    Projectile.velocity.Y = -oldVelocity.Y;
-                }
-            }
-            return false;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -90,6 +78,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.CursedInferno, Projectile.Calamity().stealthStrike ? 600 : 120);
 
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            Projectile.damage = (int)(Projectile.damage * 0.8f);
+            if (Projectile.damage < 1)
+                Projectile.damage = 1;
+        }
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.CursedInferno, Projectile.Calamity().stealthStrike ? 600 : 120);
     }
 }
