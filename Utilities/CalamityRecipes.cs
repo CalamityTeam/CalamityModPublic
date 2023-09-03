@@ -1090,7 +1090,8 @@ namespace CalamityMod
                 ItemID.StinkPotion,
                 ItemID.RecallPotion,
                 ItemID.PotionOfReturn,
-                ItemID.LuckPotionLesser
+                ItemID.LuckPotionLesser,
+                ItemID.BiomeSightPotion
             };
             Recipe r;
 

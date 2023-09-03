@@ -13,21 +13,19 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class GodsParanoia : RogueWeapon
     {
-        private static int damage = 98;
-        private static int knockBack = 5;
 
         public override void SetDefaults()
         {
-            Item.damage = damage;
+            Item.damage = 142;
             Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.width = 20;
-            Item.height = 18;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
+            Item.height = 20;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.knockBack = knockBack;
+            Item.knockBack = 5;
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.UseSound = SoundID.Item1;
@@ -52,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
         }
 
-		public override float StealthDamageMultiplier => 1f;
+		public override float StealthDamageMultiplier => 0.7f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
