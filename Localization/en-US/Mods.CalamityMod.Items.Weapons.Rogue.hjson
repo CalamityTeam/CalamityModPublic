@@ -596,7 +596,7 @@ IchorSpear: {
 	DisplayName: Ichor Spear
 	Tooltip:
 		'''
-		Throws an high-velocity ichor tipped javelin that pierces through enemies
+		Throws a high-velocity ichor tipped javelin that pierces through enemies
 		Stealth strikes impale enemies and deal repeated damage
 		'''
 }
