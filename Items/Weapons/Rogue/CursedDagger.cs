@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static readonly SoundStyle ThrowSound = new("CalamityMod/Sounds/Item/CursedDaggerThrow") { Volume = 0.3f, PitchVariance = 0.4f };
         public override void SetDefaults()
         {
-            Item.damage = 34;
-            Item.useAnimation = Item.useTime = 17;
+            Item.damage = 46;
+            Item.useAnimation = Item.useTime = 18;
             Item.shootSpeed = 19f;
             Item.knockBack = 4.5f;
 
@@ -26,12 +26,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = ThrowSound;
-            Item.rare = ItemRarityID.Pink;
-            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
         }
+        public override float StealthDamageMultiplier => 0.9f;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(23f)) * 0.6f;

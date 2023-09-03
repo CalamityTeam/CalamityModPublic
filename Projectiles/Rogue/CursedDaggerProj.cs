@@ -58,7 +58,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i <= 10; i++)
+            int numberofdusts = Projectile.Calamity().stealthStrike ? 14 : 5;
+            for (int i = 0; i <= numberofdusts; i++)
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
@@ -76,7 +77,7 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.CursedInferno, Projectile.Calamity().stealthStrike ? 600 : 120);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.CursedInferno, Projectile.Calamity().stealthStrike ? 900 : 90);
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
