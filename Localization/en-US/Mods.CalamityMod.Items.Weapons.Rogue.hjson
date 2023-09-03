@@ -1116,8 +1116,8 @@ SpearofDestiny: {
 	DisplayName: Spear of Destiny
 	Tooltip:
 		'''
-		Throws three spears with the outer two having homing capabilities
-		Stealth strikes cause all three spears to home in, ignore tiles, and pierce more
+		Cycles between throwing 3 small homing spears and throwing a single piercing lance
+		Stealth Strikes throw a high-velocity holy lance that explodes on hit
 		'''
 }
 
