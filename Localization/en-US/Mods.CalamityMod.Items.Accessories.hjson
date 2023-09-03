@@ -1328,7 +1328,7 @@ QuiverofNihility: {
 		'''
 		5% increased ranged critical strike chance
 		Summons a ring of four void fields to orbit you
-		Arrows that pass through these fields gain a 100% damage boost and double the speed
+		Arrows that pass through these fields gain a 75% damage boost and double the speed
 		'Filled with a substance darker than the night sky'
 		'''
 }
