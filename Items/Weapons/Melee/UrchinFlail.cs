@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
-            Item.damage = 33;
+            Item.damage = 20;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.width = 44;
             Item.height = 36;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.channel = true;
             Item.shoot = ModContent.ProjectileType<UrchinBall>();
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 16f;
         }
     }
 }
