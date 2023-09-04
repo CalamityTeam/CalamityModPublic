@@ -25,7 +25,7 @@ namespace CalamityMod.ILEditing
 
             if (item.type == ModContent.ItemType<PlaguedContainmentBrick>())
             {
-                return DownedBossSystem.downedPlaguebringer;
+                return NPC.downedGolemBoss ? orig(item) : false;
             }
 
             return orig(item);
