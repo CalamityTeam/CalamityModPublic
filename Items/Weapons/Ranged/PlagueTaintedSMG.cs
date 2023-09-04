@@ -24,11 +24,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 85;
+            Item.damage = 76;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 98;
             Item.height = 50;
-            Item.useTime = Item.useAnimation = 10;
+            Item.useTime = Item.useAnimation = 12;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2f;
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return base.CanUseItem(player);
         }
 
-        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? (1f / 6f) : 1f;
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? (1f / 5f) : 1f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
