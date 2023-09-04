@@ -47,6 +47,7 @@ namespace CalamityMod.Projectiles.Summon
                 Dust sporeDust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 46);
                 sporeDust.noGravity = true;
                 sporeDust.velocity = Vector2.Zero;
+                sporeDust.alpha = (int)Utils.Remap(Projectile.timeLeft, 180f, 0f, 0f, 255f);
             }
         }
 

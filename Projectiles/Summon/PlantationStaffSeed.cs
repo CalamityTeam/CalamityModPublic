@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
             Main.projFrames[Type] = 2;
             ProjectileID.Sets.MinionShot[Type] = true;
             ProjectileID.Sets.TrailingMode[Type] = 2;
-            ProjectileID.Sets.TrailCacheLength[Type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Type] = 3;
         }
 
         public override void SetDefaults()
@@ -61,7 +61,14 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 origin = frame.Size() * 0.5f;
 
             if (CalamityConfig.Instance.Afterimages)
-                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor);
+            {
+                for (int i = 0; i < Projectile.oldPos.Length; i++)
+                {
+                    Color afterimageDrawColor = ((RandomTexture == 0f) ? Color.Green : Color.Pink) with { A = 25 } * Projectile.Opacity * (1f - i / (float)Projectile.oldPos.Length);
+                    Vector2 afterimageDrawPosition = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition;
+                    Main.EntitySpriteDraw(texture, afterimageDrawPosition, frame, afterimageDrawColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+                }
+            }
 
             Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
 

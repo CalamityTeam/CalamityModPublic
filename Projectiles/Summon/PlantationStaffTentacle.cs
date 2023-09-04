@@ -105,20 +105,21 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile proj = Main.projectile[i];
-                if (proj is not null && proj.active && proj.type == ModContent.ProjectileType<PlantationStaffSummon>() && proj.owner == Owner.whoAmI && proj.ModProjectile<PlantationStaffSummon>().State != PlantationStaffSummon.AIState.Ramming)
-                {
-                    State = AIState.Seeking;
-                    AITimer = 0f;
-                    Projectile.velocity = Vector2.Zero;
-                    Projectile.penetrate = 1;
 
-                    for (int dustIndex = 0; dustIndex < 20; dustIndex++)
-                        Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 40);
+                if (proj is null || !proj.active || proj.owner != Owner.whoAmI || proj.type != ModContent.ProjectileType<PlantationStaffSummon>() || proj.ModProjectile<PlantationStaffSummon>().State == PlantationStaffSummon.AIState.Ramming)
+                    continue;
 
-                    SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.Center);
+                State = AIState.Seeking;
+                AITimer = 0f;
+                Projectile.velocity = Vector2.Zero;
+                Projectile.penetrate = 1;
 
-                    Projectile.netUpdate = true;
-                }
+                for (int dustIndex = 0; dustIndex < 20; dustIndex++)
+                    Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 40);
+
+                SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.Center);
+
+                Projectile.netUpdate = true;
             }
         }
 
@@ -189,7 +190,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (Projectile.ai[1] < 0 || Projectile.ai[1] >= Main.maxProjectiles)
+            if (MainMinionIndex < 0 || MainMinionIndex >= Main.maxProjectiles)
                 return false;
 
             // If something has gone wrong with either the tentacle or the host plant, return.

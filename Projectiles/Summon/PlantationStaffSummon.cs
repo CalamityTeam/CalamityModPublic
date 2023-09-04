@@ -35,8 +35,7 @@ namespace CalamityMod.Projectiles.Summon
         }
         public ref float AITimer => ref Projectile.ai[1];
         public ref float ShootSeedsTimer => ref Projectile.ai[2];
-        public ref float ThornballsShot => ref Projectile.localAI[0];
-        public ref float SeedBurstsShot => ref Projectile.localAI[1];
+        public ref float SeedBurstsShot => ref Projectile.localAI[0];
 
         public override void SetStaticDefaults()
         {
@@ -67,13 +66,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(ThornballsShot);
             writer.Write(SeedBurstsShot);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            ThornballsShot = reader.ReadSingle();
             SeedBurstsShot = reader.ReadSingle();
         }
 
@@ -118,7 +115,7 @@ namespace CalamityMod.Projectiles.Summon
             // If the owner starts to get far, the minion will follow straight to the owner.
             if (!Projectile.WithinRange(Owner.Center, 320f))
             {
-                Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center) * MathF.Max(PlantationStaff.ChargingSpeed, Owner.velocity.Length());
+                Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center) * MathF.Max(5f, Owner.velocity.Length());
                 Projectile.netUpdate = true;
             }
 
@@ -153,11 +150,10 @@ namespace CalamityMod.Projectiles.Summon
 
                     SoundEngine.PlaySound(SoundID.Item17, Projectile.Center);
 
-                    ThornballsShot++;
                     Projectile.netUpdate = true;
                 }
 
-                if (ThornballsShot >= PlantationStaff.ThornballAmount)
+                if (AITimer >= PlantationStaff.ThornballAmount * PlantationStaff.ThornballFireRate)
                     SwitchState(AIState.Seeds);
             }
             else
@@ -273,7 +269,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             State = state;
             AITimer = 0f;
-            ThornballsShot = 0f;
             ShootSeedsTimer = 0f;
             SeedBurstsShot = 0f;
 
