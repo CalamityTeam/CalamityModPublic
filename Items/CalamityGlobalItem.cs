@@ -625,7 +625,7 @@ namespace CalamityMod.Items
 
             if (player.HasBuff(BuffID.ParryDamageBuff))
             {
-                if (item.type != ItemID.DD2SquireDemonSword)
+                if (item.type != ItemID.DD2SquireDemonSword && item.type != ItemID.BouncingShield)
                 {
                     player.parryDamageBuff = false;
                     player.ClearBuff(BuffID.ParryDamageBuff);
