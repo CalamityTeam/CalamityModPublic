@@ -22,6 +22,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = penetrateMax;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 290;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 5;
         }
         public override void AI()
         {
@@ -58,16 +60,8 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Projectile.penetrate == penetrateMax)
-            {
-                Projectile.damage /= 15;
-            }
-            else
-            {
-                Projectile.scale += (maxScale - 1) / (float)penetrateMax;
-            }
+            Projectile.scale += (maxScale - 1) / (float)penetrateMax;
             Projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
-            target.immune[Projectile.owner] = 0; //so that all blades can hit the enemy
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
