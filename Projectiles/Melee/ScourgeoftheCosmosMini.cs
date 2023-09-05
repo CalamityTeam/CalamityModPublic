@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 300;
-            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = 375;
+            Projectile.extraUpdates = 4;
         }
 
         public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 270 && target.CanBeChasedBy(Projectile);
@@ -53,12 +53,12 @@ namespace CalamityMod.Projectiles.Melee
             for (int num369 = 0; num369 < 1; num369++)
             {
                 int dustType = Main.rand.NextBool(3) ? 56 : 242;
-                float num370 = Projectile.velocity.X / 3f * num369;
-                float num371 = Projectile.velocity.Y / 3f * num369;
+                float dustX = Projectile.velocity.X / 3f * num369;
+                float dustY = Projectile.velocity.Y / 3f * num369;
                 int num372 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
                 Dust dust = Main.dust[num372];
-                dust.position.X = Projectile.Center.X - num370;
-                dust.position.Y = Projectile.Center.Y - num371;
+                dust.position.X = Projectile.Center.X - dustX;
+                dust.position.Y = Projectile.Center.Y - dustY;
                 dust.velocity *= 0f;
                 dust.scale = 0.5f;
             }
@@ -68,41 +68,40 @@ namespace CalamityMod.Projectiles.Melee
             float num373 = Projectile.position.X;
             float num374 = Projectile.position.Y;
             float num375 = 100000f;
-            bool flag10 = false;
+            bool isHoming = false;
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] > 30f)
             {
                 Projectile.ai[0] = 30f;
-                for (int num376 = 0; num376 < Main.maxNPCs; num376++)
+                for (int enemy = 0; enemy < Main.maxNPCs; enemy++)
                 {
-                    if (Main.npc[num376].CanBeChasedBy(Projectile, false))
+                    if (Main.npc[enemy].CanBeChasedBy(Projectile, false))
                     {
-                        float num377 = Main.npc[num376].position.X + Main.npc[num376].width / 2;
-                        float num378 = Main.npc[num376].position.Y + Main.npc[num376].height / 2;
-                        float num379 = Math.Abs(Projectile.position.X + Projectile.width / 2 - num377) + Math.Abs(Projectile.position.Y + Projectile.height / 2 - num378);
-                        if (num379 < 800f && num379 < num375 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[num376].position, Main.npc[num376].width, Main.npc[num376].height))
+                        float enemyX = Main.npc[enemy].position.X + Main.npc[enemy].width / 2;
+                        float enemyY = Main.npc[enemy].position.Y + Main.npc[enemy].height / 2;
+                        float enemyDistance = Math.Abs(Projectile.position.X + Projectile.width / 2 - enemyX) + Math.Abs(Projectile.position.Y + Projectile.height / 2 - enemyY);
+                        if (enemyDistance < 800f && enemyDistance < num375 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[enemy].position, Main.npc[enemy].width, Main.npc[enemy].height))
                         {
-                            num375 = num379;
-                            num373 = num377;
-                            num374 = num378;
-                            flag10 = true;
+                            num375 = enemyDistance;
+                            num373 = enemyX;
+                            num374 = enemyY;
+                            isHoming = true;
                         }
                     }
                 }
             }
-            if (!flag10)
+            if (!isHoming)
             {
                 num373 = Projectile.position.X + Projectile.width / 2 + Projectile.velocity.X * 100f;
                 num374 = Projectile.position.Y + Projectile.height / 2 + Projectile.velocity.Y * 100f;
             }
 
-            float num380 = 10f;
             float num381 = 0.16f;
             Vector2 vector30 = new Vector2(Projectile.position.X + Projectile.width * 0.5f, Projectile.position.Y + Projectile.height * 0.5f);
             float num382 = num373 - vector30.X;
             float num383 = num374 - vector30.Y;
             float num384 = (float)Math.Sqrt(num382 * num382 + num383 * num383);
-            num384 = num380 / num384;
+            num384 = 10f / num384;
             num382 *= num384;
             num383 *= num384;
             if (Projectile.velocity.X < num382)
