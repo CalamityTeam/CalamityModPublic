@@ -839,7 +839,7 @@ Penumbra: {
 	DisplayName: Penumbra
 	Tooltip:
 		'''
-		Throws a shadow bomb that explodes into homing souls
+		Throws a shadow bomb that explodes into homing souls and flames
 		Stealth strikes make the bomb manifest on the cursor and explode into more souls
 		'''
 }
