@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = false;
-            Projectile.timeLeft = 420;
+            Projectile.timeLeft = 300;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 17;

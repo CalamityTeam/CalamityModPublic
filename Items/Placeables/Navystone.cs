@@ -36,11 +36,6 @@ namespace CalamityMod.Items.Placeables
                 Register();
 
             CreateRecipe().
-                AddIngredient<NavystoneWall>(4).
-                AddTile(TileID.WorkBenches).
-                Register();
-
-            CreateRecipe().
                 AddIngredient<EutrophicPlatform>(2).
                 AddTile<EutrophicShelf>().
                 Register();
