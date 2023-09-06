@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
+    [LegacyName("PlantationBuff")]
     public class PlantationStaffBuff : ModBuff
     {
         public override void SetStaticDefaults()
