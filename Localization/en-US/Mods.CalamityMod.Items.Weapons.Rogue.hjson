@@ -693,14 +693,12 @@ Lionfish: {
 		'''
 }
 
-LuminousStriker: {
-	DisplayName: Luminous Striker
+RealityRupture: {
+	DisplayName: Reality Rupture
 	Tooltip:
 		'''
-		Throws a stardust javelin trailed by rising stardust shards
-		Explodes into additional stardust shards upon hitting enemies
-		Stealth strikes cause the stardust shards to fly alongside the javelin instead of rising
-		'Send the stars back to where they belong'
+		Cycles between throwing 3 small homing spears and throwing a single piercing lance
+		Stealth Strikes throw a high-velocity reality shattering lance that explodes on hit
 		'''
 }
 

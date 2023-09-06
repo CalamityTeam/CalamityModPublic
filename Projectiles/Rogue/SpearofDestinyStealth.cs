@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SpearofDestinyStealth : ModProjectile, ILocalizedModType
     {
-        internal PrimitiveTrail TrailDrawer;
         public static readonly SoundStyle Hitsound = new("CalamityMod/Sounds/Item/BlazingCoreParry") { Volume = 0.7f, PitchVariance = 0.3f};
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Rogue/LanceofDestiny";
@@ -25,8 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
         public ref float Timer => ref Projectile.ai[0];
         public override void SetDefaults()
         {
-            Projectile.width = 14;
-            Projectile.height = 14;
+            Projectile.width = 23;
+            Projectile.height = 23;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
@@ -85,6 +84,20 @@ namespace CalamityMod.Projectiles.Rogue
                 dust2.velocity.X += Main.rand.NextFloat(-3f, 3f);
             }
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<SpearofDestinyStealthExplosion>(), Projectile.damage / 2, Projectile.knockBack * 2, Projectile.owner, 0f);
-        }  
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int frameY = frameHeight * Projectile.frame;
+            float scale = Projectile.scale;
+            float rotation = Projectile.rotation;
+
+            Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
+            Vector2 origin = rectangle.Size() / 2f;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rectangle, Color.White, rotation, origin, scale, SpriteEffects.None, 0);
+            return false;
+        }
     }
 }

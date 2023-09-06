@@ -172,7 +172,7 @@ LeviathanTooth.DisplayName: Leviathan Tooth
 LionfishProj.DisplayName: Lionfish
 LostSoulFriendly.DisplayName: Lost Soul
 LuminousShard.DisplayName: Stardust Shard
-LuminousStrikerProj.DisplayName: Luminous Striker
+RealityRuptureLance.DisplayName: Lance of Reality
 LunarKunaiProj.DisplayName: Kunai
 LuxorsGiftRogue.DisplayName: Gift
 MalachiteBolt.DisplayName: Malachite
@@ -328,4 +328,6 @@ WulfrumKnifeProj.DisplayName: Knife
 WaveSkipperProjectile.DisplayName: Scourge
 LanceofDestiny.DisplayName: Holy Lance
 SpearofDestinyStealth.DisplayName: Empowered Holy Lance
-SpearofDestinyStealthExplosion.DisplayName: Holy Blast
+SpearofDestinyStealthExplosion.DisplayName: Strong Burst
+RealityRuptureMini.DisplayName: Reality Shard
+RealityRuptureStealth.DisplayName: Ruptured Reality

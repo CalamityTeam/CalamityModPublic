@@ -50,7 +50,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<LuminousStriker>().
                 AddIngredient<PhantomLance>(500).
                 AddIngredient<RuinousSoul>(4).
                 AddIngredient<Polterplasm>(20).

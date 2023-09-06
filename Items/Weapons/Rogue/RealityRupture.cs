@@ -1,46 +1,47 @@
 ﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Rogue;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria.Audio;
-using CalamityMod.Items.Accessories;
+using CalamityMod.Rarities;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SpearofDestiny : RogueWeapon
+    [LegacyName("LuminousStriker")]
+    public class RealityRupture : RogueWeapon
     {
-        public static readonly SoundStyle ThrowSound = new("CalamityMod/Sounds/Item/SpearofDestiny") { Volume = 0.3f, PitchVariance = 0.3f };
-        public static readonly SoundStyle ThrowSound2 = new("CalamityMod/Sounds/Item/LanceofDestiny") { Volume = 0.4f, PitchVariance = 0.3f };
-        public static readonly SoundStyle ThrowSound3 = new("CalamityMod/Sounds/Item/LanceofDestinyStrong") { Volume = 0.5f, PitchVariance = 0.3f };
+        public static readonly SoundStyle ThrowSound = new("CalamityMod/Sounds/Item/RealityRupture") { Volume = 0.3f, PitchVariance = 0.3f };
+        public static readonly SoundStyle ThrowSound2 = new("CalamityMod/Sounds/Item/LanceofDestinyStrong") { Volume = 0.4f, PitchVariance = 0.3f };
+        public static readonly SoundStyle ThrowSound3 = new("CalamityMod/Sounds/Item/RealityRuptureStealth") { Volume = 0.5f, PitchVariance = 0.3f };
         private bool BigSpear = false;
         public override void SetDefaults()
         {
-            Item.width = 52;
-            Item.damage = 53;
+            Item.width = 86;
+            Item.height = 102;
+            Item.damage = 215;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 45;
+            Item.useAnimation = 43;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 45;
-            Item.knockBack = 2f;
-            Item.UseSound = ThrowSound;
+            Item.useTime = 43;
+            Item.knockBack = 9f;
+            Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 52;
-            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            Item.rare = ItemRarityID.LightPurple;
-            Item.shoot = ModContent.ProjectileType<SpearofDestinyProjectile>();
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.shoot = ModContent.ProjectileType<RealityRuptureMini>();
             Item.shootSpeed = 10f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
         public override float StealthDamageMultiplier => 4f;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SpearofDestinyStealth>(), damage, knockback, player.whoAmI);
+                int stealth = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<RealityRuptureStealth>(), damage, knockback, player.whoAmI);
                 SoundEngine.PlaySound(ThrowSound3, player.Center);
                 if (stealth.WithinBounds(Main.maxProjectiles))
                 {
@@ -51,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             else
             {
-                int projType = BigSpear ? ModContent.ProjectileType<LanceofDestiny>() : type;
+                int projType = BigSpear ? ModContent.ProjectileType<RealityRuptureLance>() : type;
 
                 if (!BigSpear)
                     SoundEngine.PlaySound(ThrowSound, player.Center);
@@ -60,9 +61,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 
                 if (BigSpear)
                 {
-                    Projectile.NewProjectile(source, position, velocity, projType, BigSpear ? damage * 3 : damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, position, velocity, projType, BigSpear ? damage * 4 : damage, knockback * 1.5f, player.whoAmI);
                 }
-                int index = 5;
+                int index = 4;
                 for (int i = -index; i <= index; i += index)
                 {
                     if (!BigSpear)
@@ -83,21 +84,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-            AddIngredient<CursedDagger>().
-            AddIngredient(ItemID.HallowedBar, 7).
-            AddIngredient(ItemID.SoulofFright, 5).
-            AddIngredient(ItemID.SoulofMight, 5).
-            AddIngredient(ItemID.SoulofSight, 5).
-            AddTile(TileID.MythrilAnvil).
-            Register();
-            CreateRecipe().
-            AddIngredient<IchorSpear>().
-            AddIngredient(ItemID.HallowedBar, 7).
-            AddIngredient(ItemID.SoulofFright, 5).
-            AddIngredient(ItemID.SoulofMight, 5).
-            AddIngredient(ItemID.SoulofSight, 5).
-            AddTile(TileID.MythrilAnvil).
-            Register();
+                AddIngredient<SpearofDestiny>().
+                AddIngredient<ArmoredShell>().
+                AddIngredient<TwistingNether>().
+                AddIngredient<DarkPlasma>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }
