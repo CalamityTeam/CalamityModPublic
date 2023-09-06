@@ -7,7 +7,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    [LegacyName("PlantSporeCloud")]
     public class PlantationStaffSporeCloud : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";

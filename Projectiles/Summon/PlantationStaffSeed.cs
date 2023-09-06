@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    [LegacyName("PlantSeedGreen")]
     public class PlantationStaffSeed : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";

@@ -12,7 +12,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    [LegacyName("PlantTentacle")]
     public class PlantationStaffTentacle : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
