@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetDefaults()
         {
-            Item.damage = 955;
+            Item.damage = 120;
             Item.knockBack = 8f;
 
             Item.width = 102;
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useTime = 35;
             Item.useAnimation = 35;
             Item.autoReuse = true;
-            Item.shootSpeed = 14.5f;
+            Item.shootSpeed = 12f;
             Item.shoot = ModContent.ProjectileType<PhantasmalRuinProj>();
             Item.UseSound = SoundID.Item1;
             Item.DamageType = RogueDamageClass.Instance;
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-		public override float StealthDamageMultiplier => 1.22f;
+		public override float StealthDamageMultiplier => 2.3f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -42,6 +43,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 if (stealth.WithinBounds(Main.maxProjectiles))
                     Main.projectile[stealth].Calamity().stealthStrike = true;
+                    Main.projectile[stealth].penetrate = 3;
                 return false;
             }
             return true;
@@ -50,10 +52,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PhantomLance>(500).
-                AddIngredient<RuinousSoul>(4).
-                AddIngredient<Polterplasm>(20).
-                AddTile(TileID.LunarCraftingStation).
+                AddIngredient(ItemID.SpectreBar, 15).
+                AddIngredient(ItemID.Bone, 35).
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }

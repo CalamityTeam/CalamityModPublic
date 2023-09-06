@@ -846,9 +846,8 @@ PhantasmalRuin: {
 	DisplayName: Phantasmal Ruin
 	Tooltip:
 		'''
-		Fires an enormous ghost lance that emits lost souls as it flies
-		Explodes into tormented souls on enemy hits
-		Stealth strikes continuously leave spectral clones in their wake
+		Fires a large ghost lance that explodes into spirits on enemy hits
+		Stealth strikes pierce and summon many spirits from the depths on enemy hits
 		'''
 }
 

@@ -206,10 +206,8 @@ PanSpark.DisplayName: Spark
 PartisanExplosion.DisplayName: Profaned Explosion
 PenumbraBomb.DisplayName: Penumbra Bomb
 PenumbraSoul.DisplayName: Penumbra Soul
-PhantasmalRuinGhost.DisplayName: Phantasmal Afterimage
 PhantasmalRuinProj.DisplayName: Phantasmal Ruin
 PhantasmalSoul.DisplayName: Phantasmal Soul
-PhantomLanceProj.DisplayName: Phantom Lance
 PlaguedFuelPackCloud.DisplayName: Plagued Cloud
 PlaguenadeBee.DisplayName: Plague Bee
 PlaguenadeProj.DisplayName: Plaguenade
@@ -331,3 +329,4 @@ SpearofDestinyStealth.DisplayName: Empowered Holy Lance
 SpearofDestinyStealthExplosion.DisplayName: Strong Burst
 RealityRuptureMini.DisplayName: Reality Shard
 RealityRuptureStealth.DisplayName: Ruptured Reality
+PhantasmalSoulBlue.DisplayName: Blue Spirit

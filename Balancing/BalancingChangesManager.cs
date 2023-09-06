@@ -237,8 +237,6 @@ namespace CalamityMod.Balancing
             // 10% resist to Old Reaper.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<ReaperProjectile>()))));
 
-            // 5% resist to Phantasmal Ruin.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.95f, ProjectileType<PhantasmalSoul>(), ProjectileType<PhantasmalRuinProj>(), ProjectileType<PhantasmalRuinGhost>()))));
             #endregion
 
             #region Exo Mechs: Ares

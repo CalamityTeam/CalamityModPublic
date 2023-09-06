@@ -7,12 +7,13 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PhantasmalSoul : ModProjectile, ILocalizedModType
+    public class PhantasmalSoulBlue : ModProjectile, ILocalizedModType
     {
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/PhantomSpirit") { Volume = 0.3f };
         public new string LocalizationCategory => "Projectiles.Rogue";
         private const int Lifetime = 300;
-        private const int NoHomingFrames = 35;
-        private const int NoHitFrames = 10;
+        private const int NoHomingFrames = 45;
+        private const int NoHitFrames = 20;
         private const int NoDrawFrames = 5;
 
         public override void SetStaticDefaults()
@@ -56,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
             // Occasional dust
             if (Main.rand.NextBool(4))
             {
-                int dustID = 173;
+                int dustID = 180;
                 Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, dustID);
                 d.velocity *= 0.1f;
                 d.scale = 1.3f;
@@ -64,35 +65,14 @@ namespace CalamityMod.Projectiles.Rogue
                 d.noLight = true;
             }
 
-            // Purple light
-            Lighting.AddLight(Projectile.Center, 0.5f, 0.2f, 0.9f);
+            // Blue light
+            Lighting.AddLight(Projectile.Center, 0.2f, 0.2f, 0.7f);
 
             // Make sure the soul is always facing forwards
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
-            float inertia = 40f * Projectile.ai[1]; // ranges from 20 to 60
-            float homingSpeed = 8f * Projectile.ai[1]; // ranges from 4 to 12
-            float playerHomingRange = 900f;
-
-            Player owner = Main.player[Projectile.owner];
-            if (owner.active && !owner.dead)
-            {
-                // If you are too far away from the projectiles, they home in on you.
-                if (Projectile.Distance(Main.player[Projectile.owner].Center) > playerHomingRange)
-                {
-                    Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[Projectile.owner].Center, Vector2.UnitY);
-                    Projectile.velocity = (Projectile.velocity * (inertia - 1f) + moveDirection * homingSpeed) / inertia;
-                    return;
-                }
-
-                // Otherwise, if homing on enemies is enabled, they home in on enemies.
-                if (Projectile.ai[0] == 1f)
-                    CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
-            }
-
-            // If the owner is dead these projectiles disappear rapidly.
-            else if (Projectile.timeLeft > 30)
-                Projectile.timeLeft = 30;
+            if (Projectile.ai[0] == 1f)
+                CalamityUtils.HomeInOnNPC(Projectile, true, 900f, 15f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -119,7 +99,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             int dustCount = 36;
-            int dustID = 173;
+            int dustID = 180;
             for (int i = 0; i < dustCount; i++)
             {
                 Vector2 velocity = Main.rand.NextVector2Circular(1f, 1f);
@@ -130,8 +110,7 @@ namespace CalamityMod.Projectiles.Rogue
                 d.noLight = true;
             }
 
-            // Special quieter version of this noise used by Soul Edge and similar
-            SoundEngine.PlaySound(SoulEdge.ProjectileDeathSound, Projectile.Center);
+            SoundEngine.PlaySound(HitSound with { PitchVariance = 0.4f }, Projectile.position);
         }
 
         // Cannot deal damage for the first several frames of existence.
