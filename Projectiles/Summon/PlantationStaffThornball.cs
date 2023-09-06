@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    [LegacyName("PlantThornBall")]
     public class PlantationStaffThornball : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
@@ -36,7 +35,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override void AI()
-        {            
+        {
             if (IsSticked == 0f)
             {
                 // Home towards the target, if there's one.
