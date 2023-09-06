@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = 2;
+            Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.light = 1f;
             Projectile.usesLocalNPCImmunity = true;

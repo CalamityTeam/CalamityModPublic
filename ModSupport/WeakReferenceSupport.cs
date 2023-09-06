@@ -1024,7 +1024,7 @@ namespace CalamityMod
             RegisterSummon(ItemType<TundraFlameBlossomsStaff>(), BuffType<TundraFlameBlossomsBuff>(), ProjectileType<TundraFlameBlossom>());
             RegisterSummon(ItemType<DormantBrimseeker>(), BuffType<BrimseekerBuff>(), ProjectileType<DormantBrimseekerBab>());
             RegisterSummon(ItemType<IgneousExaltation>(), BuffType<IgneousExaltationBuff>(), ProjectileType<IgneousBlade>());
-            RegisterSummon(ItemType<PlantationStaff>(), BuffType<PlantationBuff>(), ProjectileType<PlantSummon>());
+            RegisterSummon(ItemType<PlantationStaff>(), BuffType<PlantationStaffBuff>(), ProjectileType<PlantationStaffSummon>());
             RegisterSummon(ItemType<ViralSprout>(), BuffType<SageSpiritBuff>(), ProjectileType<SageSpirit>());
             RegisterSummon(ItemType<SandSharknadoStaff>(), BuffType<Sandnado>(), ProjectileType<SandnadoMinion>());
             RegisterSummon(ItemType<GastricBelcherStaff>(), BuffType<GastricAberrationBuff>(), ProjectileType<GastricBelcher>());

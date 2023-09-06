@@ -24,7 +24,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.gloveOfRecklessness = true;
             modPlayer.stealthGenStandstill += 0.15f;
             modPlayer.stealthGenMoving += 0.15f;
-            player.GetDamage<RogueDamageClass>() -= 0.13f;
+            player.GetDamage<RogueDamageClass>() -= 0.10f;
+            player.GetCritChance<RogueDamageClass>() -= 15;
             player.GetAttackSpeed<RogueDamageClass>() += 0.15f;
         }
     }

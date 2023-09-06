@@ -471,7 +471,7 @@ FlakToxicannon: {
 	Tooltip:
 		'''
 		Fires angled shots in the direction of the cursor
-		Can only be shot in a cone direction above the player
+		Can only be shot in a wide cone above the player
 		'High IQ required'
 		'''
 }

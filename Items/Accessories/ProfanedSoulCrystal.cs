@@ -72,9 +72,9 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().devItem = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot, bool modded)
+        public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
         {
-            return !player.Calamity().pSoulArtifact;
+            return incomingItem.type != ModContent.ItemType<ProfanedSoulArtifact>();
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

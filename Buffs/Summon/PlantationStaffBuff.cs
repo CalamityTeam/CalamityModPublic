@@ -1,11 +1,12 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class PlantationBuff : ModBuff
+    [LegacyName("PlantationBuff")]
+    public class PlantationStaffBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
@@ -17,11 +18,11 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<PlantSummon>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<PlantationStaffSummon>()] > 0)
             {
-                modPlayer.plantera = true;
+                modPlayer.PlantationSummon = true;
             }
-            if (!modPlayer.plantera)
+            if (!modPlayer.PlantationSummon)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

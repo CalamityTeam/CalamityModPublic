@@ -511,10 +511,8 @@ PlantationStaff: {
 	DisplayName: Plantation Staff
 	Tooltip:
 		'''
-		Summons a miniature Plantera to protect you
-		Fires seeds, spiky balls, and spore clouds from afar to poison targets
-		Enrages when you get under 75% health and begins ramming enemies
-		Occupies 3 minion slots and there can only be one Plantera at a time
+		Summons a minature Plantera to devastate enemies with floral fury
+		Occupies 3 minion slots and there can only be one Mini Plantera at a time
 		'''
 }
 
