@@ -10,14 +10,15 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class Meowthrower : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
+        private bool Fire2 = false;
         public override void SetDefaults()
         {
-            Item.damage = 48;
+            Item.damage = 37;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 74;
             Item.height = 24;
-            Item.useTime = 5;
-            Item.useAnimation = 5;
+            Item.useTime = 8;
+            Item.useAnimation = 8;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.25f;
@@ -44,24 +45,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int num6 = Main.rand.Next(1, 3);
-            for (int index = 0; index < num6; ++index)
-            {
-                float SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
-                float SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
-                switch (Main.rand.Next(3))
-                {
-                    case 1:
-                        type = ModContent.ProjectileType<MeowFire>();
-                        break;
-                    case 2:
-                        type = ModContent.ProjectileType<MeowFire2>();
-                        break;
-                    default:
-                        break;
-                }
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0.0f, 0.0f);
-            }
+            float SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
+            float SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
+            int projType = Fire2 ? ModContent.ProjectileType<MeowFire2>() : type;
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, projType, damage, knockback, player.whoAmI, 0.0f, 0.0f);
+            Fire2 = !Fire2;
             return false;
         }
     }
