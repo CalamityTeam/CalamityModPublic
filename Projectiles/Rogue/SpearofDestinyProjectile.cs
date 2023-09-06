@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Vector2 SparkVelocity1 = Projectile.velocity.RotatedBy(-3, default) * 0.1f - Projectile.velocity / 8f;
                 Vector2 SparkPosition1 = Projectile.velocity.RotatedBy(-0.8, default);
-                SparkParticle spark = new SparkParticle(Projectile.Center + SparkPosition1, SparkVelocity1, false, Main.rand.Next(12, 15), Main.rand.NextFloat(0.7f, 1f), Color.PaleGoldenrod);
+                SparkParticle spark = new SparkParticle(Projectile.Center + SparkPosition1, SparkVelocity1, false, Main.rand.Next(6, 8), Main.rand.NextFloat(0.7f, 1f), Color.PaleGoldenrod);
                 GeneralParticleHandler.SpawnParticle(spark);
 
             }
@@ -114,6 +114,20 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(Hitsound, Projectile.position);
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int frameY = frameHeight * Projectile.frame;
+            float scale = Projectile.scale;
+            float rotation = Projectile.rotation;
+
+            Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
+            Vector2 origin = rectangle.Size() / 2f;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rectangle, Color.White, rotation, origin, scale, SpriteEffects.None, 0);
+            return false;
         }
 
         //public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.Ichor, 120);
