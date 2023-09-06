@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.DamageType = RogueDamageClass.Instance;
 
-            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            Item.rare = ModContent.RarityType<PureGreen>();
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
         }
 
 		public override float StealthDamageMultiplier => 2.3f;
