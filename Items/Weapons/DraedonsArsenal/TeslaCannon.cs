@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     public class TeslaCannon : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.DraedonsArsenal";
-        private int BaseDamage = 1360;
+        private int BaseDamage = 1220;
 
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/TeslaCannonFire");
         
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.useTime = 90;
             Item.useAnimation = 90;
             Item.autoReuse = true;
-            Item.mana = 30;
+            Item.mana = 60;
 
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = FireSound;
