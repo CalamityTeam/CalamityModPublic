@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Rarities;
@@ -64,8 +65,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 // Fire drones to the left and right.
                 for (int i = 0; i < 3; i++)
                 {
-                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(-Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), damage, knockback, player.whoAmI);
-                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(-Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), player.Calamity().alchFlask ? (int)(damage * 0.6f) : damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), player.Calamity().alchFlask ? (int)(damage * 0.6f) : damage, knockback, player.whoAmI);
                 }
             }
             else
