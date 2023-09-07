@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = Lifetime;
             Projectile.extraUpdates = 2;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 30;
+            Projectile.localNPCHitCooldown = 20 * Projectile.MaxUpdates;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
