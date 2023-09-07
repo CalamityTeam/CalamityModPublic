@@ -173,7 +173,7 @@ namespace CalamityMod.Items
                 { ItemID.PearlwoodSword, Do(UseTurn, DamageRatio(1.5f)) },
                 { ItemID.PewMaticHorn, Do(DamageExact(24)) },
                 { ItemID.PhoenixBlaster, Do(AutoReuse, PointBlank, UseExact(18)) },
-                {ItemID.PiranhaGun, Do(DamageExact(30)) },
+                { ItemID.PiranhaGun, Do(DamageExact(48)) },
                 { ItemID.PlatinumBow, Do(PointBlank, DamageExact(12)) },
                 { ItemID.PlatinumShortsword, Do(AutoReuse, TrueMelee, DamageExact(18)) },
                 { ItemID.PoisonStaff, Do(DamageExact(57)) },
