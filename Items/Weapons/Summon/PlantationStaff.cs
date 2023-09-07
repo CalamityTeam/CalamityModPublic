@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 55;
+            Item.damage = 58;
             Item.DamageType = DamageClass.Summon;
             Item.shoot = ModContent.ProjectileType<PlantationStaffSummon>();
             Item.knockBack = 1f;

@@ -1993,6 +1993,7 @@ namespace CalamityMod
                 ProjectileType<OmnibladeSwing>(),
                 ProjectileType<PhaseslayerProjectile>(),
                 ProjectileType<PhotonRipperProjectile>(),
+                ProjectileType<PlantationStaffSporeCloud>(),
                 ProjectileType<PrismaticBeam>(),
                 ProjectileType<RancorLaserbeam>(),
                 ProjectileType<SacrificeProjectile>(),
