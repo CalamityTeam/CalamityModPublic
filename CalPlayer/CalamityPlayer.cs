@@ -3690,7 +3690,7 @@ namespace CalamityMod.CalPlayer
             {
                 // Apply weapon modifier stealth strike damage bonus
                 if (item.Calamity().StealthStrikePrefixBonus != 0f && StealthStrikeAvailable())
-                    damage += 1f - item.Calamity().StealthStrikePrefixBonus;
+                    damage += 1f + item.Calamity().StealthStrikePrefixBonus;
             }
         }
 
