@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.netImportant = true;
             Projectile.tileCollide = false;
+            Projectile.ignoreWater = true; //the sounds get grating otherwise
             Projectile.width = 50;
             Projectile.height = 50;
             Projectile.minion = true;
@@ -45,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
             // Despawn properly
             if (Owner.Calamity().pSoulGuardians && Projectile.ai[0] == 0f)
                 Projectile.timeLeft = 4;
-            if (!Owner.Calamity().pSoulArtifact || Owner.dead || !Owner.active)
+            if (!Owner.Calamity().pSoulArtifact || Owner.dead || !Owner.active || (Owner.Calamity().profanedCrystal && !Owner.Calamity().profanedCrystalBuffs))
             {
                 Owner.Calamity().pSoulGuardians = false;
                 Projectile.active = false;
@@ -94,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
         public override bool PreDraw(ref Color lightColor)
         {
             bool psc = Owner.Calamity().profanedCrystalBuffs;
-            int rockType = (int)Projectile.ai[2];
+            int rockType = (int)MathHelper.Clamp(Projectile.ai[2], 1f, 6f);;
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedRocks" + rockType.ToString()).Value;
             
             Vector2 drawOrigin = new Vector2(texture.Width / 2, texture.Height / 2);

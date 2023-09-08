@@ -1,6 +1,9 @@
 ﻿using System;
 using CalamityMod.Balancing;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Placeables.FurniturePlagued;
+using CalamityMod.Items.Potions;
+using CalamityMod.NPCs.DraedonLabThings;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -11,7 +14,7 @@ namespace CalamityMod.ILEditing
 {
     public partial class ILChanges
     {
-        #region Rod of Harmony Changes
+        #region Shimmer Changes
 
         private static bool AdjustShimmerRequirements(On_Item.orig_CanShimmer orig, Item item)
         {
@@ -20,6 +23,7 @@ namespace CalamityMod.ILEditing
             {
                 return DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs;
             }
+
             return orig(item);
         }
         

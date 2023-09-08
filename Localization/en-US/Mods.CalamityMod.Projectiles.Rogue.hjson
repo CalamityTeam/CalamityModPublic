@@ -65,6 +65,7 @@ Crystalline2.DisplayName: Crystalline
 CrystallineProj.DisplayName: Crystalline
 CrystalPiercerProjectile.DisplayName: Crystal Piercer
 CrystalPiercerShard.DisplayName: Crystal Shard
+CursedDaggerBlastHitbox.DisplayName: Cursed Vortex
 CursedDaggerProj.DisplayName: Cursed Dagger
 DeepSeaDumbbell1.DisplayName: Deep Sea Dumbbell
 DeepSeaDumbbell2.DisplayName: Deep Sea Dumbbell
@@ -171,7 +172,7 @@ LeviathanTooth.DisplayName: Leviathan Tooth
 LionfishProj.DisplayName: Lionfish
 LostSoulFriendly.DisplayName: Lost Soul
 LuminousShard.DisplayName: Stardust Shard
-LuminousStrikerProj.DisplayName: Luminous Striker
+RealityRuptureLance.DisplayName: Lance of Reality
 LunarKunaiProj.DisplayName: Kunai
 LuxorsGiftRogue.DisplayName: Gift
 MalachiteBolt.DisplayName: Malachite
@@ -205,10 +206,8 @@ PanSpark.DisplayName: Spark
 PartisanExplosion.DisplayName: Profaned Explosion
 PenumbraBomb.DisplayName: Penumbra Bomb
 PenumbraSoul.DisplayName: Penumbra Soul
-PhantasmalRuinGhost.DisplayName: Phantasmal Afterimage
 PhantasmalRuinProj.DisplayName: Phantasmal Ruin
 PhantasmalSoul.DisplayName: Phantasmal Soul
-PhantomLanceProj.DisplayName: Phantom Lance
 PlaguedFuelPackCloud.DisplayName: Plagued Cloud
 PlaguenadeBee.DisplayName: Plague Bee
 PlaguenadeProj.DisplayName: Plaguenade
@@ -325,3 +324,9 @@ WrathwingFireball.DisplayName: Wrathwing Fireball
 WrathwingSpear.DisplayName: Wrathwing
 WulfrumKnifeProj.DisplayName: Knife
 WaveSkipperProjectile.DisplayName: Scourge
+LanceofDestiny.DisplayName: Holy Lance
+SpearofDestinyStealth.DisplayName: Empowered Holy Lance
+SpearofDestinyStealthExplosion.DisplayName: Strong Burst
+RealityRuptureMini.DisplayName: Reality Shard
+RealityRuptureStealth.DisplayName: Ruptured Reality
+PhantasmalSoulBlue.DisplayName: Blue Spirit

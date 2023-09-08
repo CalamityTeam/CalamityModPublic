@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             float maxDamageScalingDistance = 800f;
-            float maxDamageMultiplier = 1.5f;
+            float maxDamageMultiplier = 1.4f;
             float distanceFromOwner = target.Distance(Main.player[Projectile.owner].Center);
             if (distanceFromOwner < maxDamageScalingDistance)
             {
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 60);
 
             // Spawn a drone on crit, with a cooldown...I guess.
             if (Projectile.owner == Main.myPlayer)

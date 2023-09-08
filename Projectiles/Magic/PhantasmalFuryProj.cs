@@ -43,6 +43,10 @@ namespace CalamityMod.Projectiles.Magic
                 if (Projectile.owner == Main.myPlayer)
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Phantom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
+            if (Projectile.timeLeft < 100)
+            {
+                CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 10f, 20f);
+            }
 
             Lighting.AddLight(Projectile.Center, 0.25f, 0.25f, 0.25f);
 

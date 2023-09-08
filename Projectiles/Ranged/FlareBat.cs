@@ -70,13 +70,13 @@ namespace CalamityMod.Projectiles.Ranged
             
             // Makes the bat home onto enemies after piercing once
             if (Projectile.penetrate == 1 && Projectile.localAI[0] <= 0f)
-                CalamityUtils.HomeInOnNPC(Projectile, false, 500f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, false, 550f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 480);
-            Projectile.localAI[0] = 10f;
+            Projectile.localAI[0] = 8f;
             Projectile.damage /= 2;
         }
 

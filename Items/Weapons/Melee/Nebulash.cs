@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 16;
             Item.height = 16;
-            Item.damage = 78;
+            Item.damage = 60;
             Item.rare = ItemRarityID.Lime;
             Item.noMelee = true;
             Item.noUseGraphic = true;

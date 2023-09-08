@@ -817,14 +817,14 @@ GladiatorsLocket: {
 
 GloveOfPrecision: {
 	DisplayName: Glove of Precision
-	Tooltip: Decreases rogue attack speed by 15% but increases damage by 13%, crit by 15% and velocity by 25%
+	Tooltip: Decreases rogue attack speed by 15%, but increases damage by 10%, crit by 15% and velocity by 15%
 }
 
 GloveOfRecklessness: {
 	DisplayName: Glove of Recklessness
 	Tooltip:
 		'''
-		Increases rogue attack speed by 15% but decreases damage by 13%
+		Increases rogue attack speed by 15%, but decreases damage by 10% and crit by 10%
 		15% increased stealth regeneration
 		Adds inaccuracy to rogue weapons
 		'''
@@ -1020,7 +1020,7 @@ LumenousAmulet: {
 	Tooltip:
 		'''
 		Attacks inflict the Crush Depth debuff
-		Grants immunity to the Crush Depth debuff
+		Grants immunity to the Riptide and Crush Depth debuffs
 		While in the abyss you gain 25% increased max life
 		Provides a moderate amount of light in the abyss
 		'''
@@ -1328,7 +1328,7 @@ QuiverofNihility: {
 		'''
 		5% increased ranged critical strike chance
 		Summons a ring of four void fields to orbit you
-		Arrows that pass through these fields gain a 100% damage boost and double the speed
+		Arrows that pass through these fields gain a 75% damage boost and double the speed
 		'Filled with a substance darker than the night sky'
 		'''
 }

@@ -149,7 +149,7 @@ TarragonWings: {
 		Acceleration multiplier: 2.5
 		Great vertical speed
 		Flight time: 250
-		+15 defense and +2 life regen while wearing the Tarragon Armor
+		+15 defense and +1 HP/s life regen while wearing the Tarragon Armor
 		'Born of the jungle'
 		'''
 }

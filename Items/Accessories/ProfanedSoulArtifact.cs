@@ -153,9 +153,9 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().donorItem = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot, bool modded)
+        public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
         {
-            return !player.Calamity().pSoulArtifact;
+            return incomingItem.type != ModContent.ItemType<ProfanedSoulCrystal>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Weapons.Ranged
                    }
         public override void SetDefaults()
         {
-            Item.damage = 60;
+            Item.damage = 51;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 88;
             Item.height = 28;
-            Item.useTime = Item.useAnimation = 8;
+            Item.useTime = Item.useAnimation = 11;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useTurn = false;
             Item.noMelee = true;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float angle = velocity.ToRotation() + MathHelper.PiOver2;
-            if (angle <= -MathHelper.PiOver4 || angle >= MathHelper.PiOver4)
+            if (angle <= -(MathHelper.Pi / 3) || angle >= (MathHelper.Pi / 3))
                 return false;
 
             Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ToxicannonShot>(), damage, knockback, player.whoAmI);

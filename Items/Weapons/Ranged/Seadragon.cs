@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 70;
+            Item.damage = 60;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 90;
             Item.height = 38;
@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Rockets have their own more chaotic spread than bullets.
             if (fireRocket)
             {
-                int rocketDamage = damage * 5;
+                int rocketDamage = damage * 3;
                 Projectile.NewProjectile(source, newPos, newVel * 1.2f, ModContent.ProjectileType<SeaDragonRocket>(), rocketDamage, knockback, player.whoAmI);
                 SoundEngine.PlaySound(SoundID.Item109, player.Center);
             }
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Muzzle blasts are always directly in line with the gun's muzzle.
             if (muzzleBlast)
             {
-                int muzzleBlastDamage = damage * 25; // This might be too much but it's every 18th shot...
+                int muzzleBlastDamage = damage * 12; // "This might be too much but it's every 18th shot..." Narrator: 25x was in fact too much.
                 float muzzleBlastKB = knockback + 12f;
                 Projectile.NewProjectile(source, newPos, velocity, ModContent.ProjectileType<SeaDragonMuzzleBlast>(), muzzleBlastDamage, muzzleBlastKB, player.whoAmI);
 

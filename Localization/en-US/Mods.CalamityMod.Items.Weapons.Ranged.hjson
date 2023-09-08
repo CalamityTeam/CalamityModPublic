@@ -78,7 +78,7 @@ ArterialAssault: {
 	Tooltip:
 		'''
 		Fires a chain of 5 arrows from the sky
-		Wooden arrows are converted into homing bloodfire arrows
+		All arrows will rapidly home in on nearby enemies
 		'''
 }
 
@@ -471,7 +471,7 @@ FlakToxicannon: {
 	Tooltip:
 		'''
 		Fires angled shots in the direction of the cursor
-		Can only be shot in a cone direction above the player
+		Can only be shot in a wide cone above the player
 		'High IQ required'
 		'''
 }
