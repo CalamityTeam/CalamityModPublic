@@ -824,7 +824,7 @@ GloveOfRecklessness: {
 	DisplayName: Glove of Recklessness
 	Tooltip:
 		'''
-		Increases rogue attack speed by 15%, but decreases damage by 10% and crit by 15%
+		Increases rogue attack speed by 15%, but decreases damage by 10% and crit by 10%
 		15% increased stealth regeneration
 		Adds inaccuracy to rogue weapons
 		'''

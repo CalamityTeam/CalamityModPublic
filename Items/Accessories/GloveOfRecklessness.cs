@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.stealthGenStandstill += 0.15f;
             modPlayer.stealthGenMoving += 0.15f;
             player.GetDamage<RogueDamageClass>() -= 0.10f;
-            player.GetCritChance<RogueDamageClass>() -= 15;
+            player.GetCritChance<RogueDamageClass>() -= 10;
             player.GetAttackSpeed<RogueDamageClass>() += 0.15f;
         }
     }
