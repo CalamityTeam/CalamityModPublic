@@ -1,5 +1,5 @@
 ﻿﻿using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 128;
+            Item.damage = 110;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 44;
             Item.height = 100;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ModContent.RarityType<Turquoise>();
             Item.UseSound = SoundID.Item102;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
             Item.shootSpeed = 30f;
             Item.useAmmo = AmmoID.Arrow;
         }
@@ -76,16 +76,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79;
-            if (CalamityUtils.CheckWoodenAmmo(type, player))
-            {
-                int bloodfire = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<BloodfireArrowProj>(), damage, knockback, player.whoAmI, 0f, 80f);
-                Main.projectile[bloodfire].tileCollide = false;
-            }
-            else
-            {
-                int num121 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
-                Main.projectile[num121].noDropItem = true;
-            }
+            int shotArrow = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
+            Main.projectile[shotArrow].noDropItem = true;
+            Main.projectile[shotArrow].tileCollide = false;
+            Main.projectile[shotArrow].timeLeft = (int)(Main.projectile[shotArrow].timeLeft * Main.projectile[shotArrow].MaxUpdates * 0.55f);
+            CalamityGlobalProjectile cgp = Main.projectile[shotArrow].Calamity();
+            cgp.allProjectilesHome = true;
             return false;
         }
 

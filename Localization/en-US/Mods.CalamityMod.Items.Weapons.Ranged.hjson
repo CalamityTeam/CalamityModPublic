@@ -78,7 +78,7 @@ ArterialAssault: {
 	Tooltip:
 		'''
 		Fires a chain of 5 arrows from the sky
-		Wooden arrows are converted into homing bloodfire arrows
+		All arrows will rapidly home in on nearby enemies
 		'''
 }
 
