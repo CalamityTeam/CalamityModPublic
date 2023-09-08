@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PhantasmalSoulBlue : ModProjectile, ILocalizedModType
     {
-        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/PhantomSpirit") { Volume = 0.3f };
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/PhantomSpirit") { Volume = 0.2f };
         public new string LocalizationCategory => "Projectiles.Rogue";
         private const int Lifetime = 300;
         private const int NoHomingFrames = 45;

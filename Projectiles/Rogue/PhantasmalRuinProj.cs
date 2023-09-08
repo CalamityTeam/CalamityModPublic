@@ -85,13 +85,14 @@ namespace CalamityMod.Projectiles.Rogue
                 int projID = ModContent.ProjectileType<PhantasmalSoulBlue>();
                 int soulDamage = (int)(Projectile.damage * 0.2f);
                 float soulKB = 0f;
-                float speed = 10f;
+                float speed = 4f;
                 float startAngle = Main.rand.NextFloat(-0.07f, 0.07f) + MathHelper.PiOver4;
                 Vector2 velocity = (Vector2.UnitX * speed).RotatedBy(startAngle);
                 for (int i = 0; i < numSouls; i += 2)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, soulDamage, soulKB, Projectile.owner, 0f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -velocity, projID, soulDamage, soulKB, Projectile.owner, 0f);
+                    Vector2 velocityrandom = velocity.RotatedByRandom(1.5f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity + velocityrandom, projID, soulDamage, soulKB, Projectile.owner, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -velocity - velocityrandom, projID, soulDamage, soulKB, Projectile.owner, 0f);
                     // Rotate direction for the next pair of souls.
                     velocity = velocity.RotatedBy(MathHelper.TwoPi / numSouls);
                 }

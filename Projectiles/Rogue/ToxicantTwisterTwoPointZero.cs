@@ -41,9 +41,9 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 Projectile.rotation += 0.06f * (Projectile.velocity.X > 0).ToDirectionInt();
             }
-
-            // Boomerang rotation
-            Projectile.rotation += 0.4f * Projectile.direction;
+            else
+                // Boomerang rotation
+                Projectile.rotation += 0.4f * Projectile.direction;
 
             // Boomerang sound
             if (Projectile.soundDelay == 0)

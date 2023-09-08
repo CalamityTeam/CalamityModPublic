@@ -27,10 +27,10 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
-            Projectile.extraUpdates = 3;
+            Projectile.extraUpdates = 2;
             Projectile.timeLeft = Projectile.MaxUpdates * 90;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 26; // can't hit too fast, but can hit many many times
+            Projectile.localNPCHitCooldown = 18; // can't hit too fast, but can hit many many times
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
             }
-            Projectile.rotation += 0.07f;
+            Projectile.rotation += 0.3f;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -154,14 +154,14 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+            //target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+            //target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
         }
 
