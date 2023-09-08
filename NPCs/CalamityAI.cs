@@ -3581,10 +3581,8 @@ namespace CalamityMod.NPCs
             calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = calamityGlobalNPC.newAI[1] < resistanceTime;
 
             // Flight timer
-            float aiSwitchTimer = doubleWormPhase ? 1200f : 1800f;
-            if (Main.getGoodWorld)
-                aiSwitchTimer *= 0.5f;
-
+            float aiSwitchTimer = doubleWormPhase ? (Main.getGoodWorld ? 600f : 1200f) : (Main.getGoodWorld ? 900f : 1800f);
+            
             calamityGlobalNPC.newAI[3] += 1f;
             if (calamityGlobalNPC.newAI[3] >= aiSwitchTimer)
                 calamityGlobalNPC.newAI[3] = 0f;
@@ -3594,8 +3592,8 @@ namespace CalamityMod.NPCs
 
             // Length of worms
             int phase1Length = death ? 80 : revenge ? 70 : expertMode ? 60 : 50;
-            int phase2Length = phase1Length / 2;
-            int gfbLength = phase1Length / 10;
+            int phase2Length = death ? 40 : revenge ? 35 : expertMode ? 30 : 25;
+            int gfbLength = death ? 8 : revenge ? 7 : expertMode ? 6 : 5;
             int maxLength = Main.zenithWorld && doubleWormPhase ? gfbLength : doubleWormPhase ? phase2Length : phase1Length;
 
             // Become gradually more pissed as more worms are killed
@@ -3793,7 +3791,7 @@ namespace CalamityMod.NPCs
             if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
-            // Dust and alpha effects
+            // Alpha effects
             if ((head || Main.npc[(int)npc.ai[1]].alpha < 128) && !npc.dontTakeDamage)
             {
                 // Alpha changes
@@ -3907,8 +3905,8 @@ namespace CalamityMod.NPCs
                             if (Main.tile[k, l] != null && ((Main.tile[k, l].HasUnactuatedTile && (Main.tileSolid[Main.tile[k, l].TileType] || (Main.tileSolidTop[Main.tile[k, l].TileType] && Main.tile[k, l].TileFrameY == 0))) || Main.tile[k, l].LiquidAmount > 64))
                             {
                                 Vector2 vector2;
-                                vector2.X = k * 16;
-                                vector2.Y = l * 16;
+                                vector2.X = k * 16f;
+                                vector2.Y = l * 16f;
                                 if (npc.position.X + npc.width > vector2.X && npc.position.X < vector2.X + 16f && npc.position.Y + npc.height > vector2.Y && npc.position.Y < vector2.Y + 16f)
                                 {
                                     flag2 = true;
@@ -3924,31 +3922,28 @@ namespace CalamityMod.NPCs
                 {
                     npc.localAI[1] = 1f;
 
-                    if (head)
-                    {
-                        Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                        int num16 = 200;
-                        int heightReduction = death ? 130 : (int)(130f * (1f - lifeRatio));
-                        int height = 400 - heightReduction;
-                        bool flag3 = true;
+                    Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+                    int num16 = 200;
+                    int heightReduction = death ? 130 : (int)(130f * (1f - lifeRatio));
+                    int height = 400 - heightReduction;
+                    bool flag3 = true;
 
-                        if (npc.position.Y > player.position.Y)
+                    if (npc.position.Y > player.position.Y)
+                    {
+                        for (int m = 0; m < Main.maxPlayers; m++)
                         {
-                            for (int m = 0; m < Main.maxPlayers; m++)
+                            if (Main.player[m].active)
                             {
-                                if (Main.player[m].active)
+                                Rectangle rectangle2 = new Rectangle((int)Main.player[m].position.X - num16, (int)Main.player[m].position.Y - num16, num16 * 2, height);
+                                if (rectangle.Intersects(rectangle2))
                                 {
-                                    Rectangle rectangle2 = new Rectangle((int)Main.player[m].position.X - num16, (int)Main.player[m].position.Y - num16, num16 * 2, height);
-                                    if (rectangle.Intersects(rectangle2))
-                                    {
-                                        flag3 = false;
-                                        break;
-                                    }
+                                    flag3 = false;
+                                    break;
                                 }
                             }
-                            if (flag3)
-                                flag2 = true;
                         }
+                        if (flag3)
+                            flag2 = true;
                     }
                 }
                 else
@@ -4018,7 +4013,7 @@ namespace CalamityMod.NPCs
                     turnSpeed *= 1.15f;
                 }
 
-                Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                Vector2 vector3 = npc.Center;
                 float num20 = player.position.X + (player.width / 2);
                 float num21 = player.position.Y + (player.height / 2);
                 num20 = (int)(num20 / 16f) * 16;
@@ -4195,9 +4190,10 @@ namespace CalamityMod.NPCs
                 // Shoot lasers
                 if (npc.type == ModContent.NPCType<AstrumDeusBody>())
                 {
-                    int shootTime = (doubleWormPhase && expertMode) ? 2 : 1;
                     npc.localAI[0] += 1f;
-                    float shootProjectile = 400 / shootTime;
+
+                    int shootTime = (doubleWormPhase && expertMode) ? 2 : 1;
+                    float shootProjectile = (doubleWormPhase && expertMode) ? 200 : 400;
                     float timer = npc.ai[0] + 15f;
                     float divisor = timer + shootProjectile;
                     bool shootGodRays = phase2 || deathModeEnragePhase_BodyAndTail;
@@ -4235,7 +4231,7 @@ namespace CalamityMod.NPCs
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     float num941 = (death ? 16f : revenge ? 14f : 13f) + enrageScale * 4f;
-                                    Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
+                                    Vector2 vector104 = npc.Center;
                                     float num942 = player.position.X + player.width * 0.5f - vector104.X;
                                     float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
                                     float num944 = (float)Math.Sqrt(num942 * num942 + num943 * num943);
@@ -4257,7 +4253,7 @@ namespace CalamityMod.NPCs
                                         for (int i = -1; i <= 1; i += 2)
                                         {
                                             Vector2 laserStartPos = vector104 + i * perp + Main.rand.NextVector2CircularEdge(6f, 6f);
-                                            Projectile godRay = Projectile.NewProjectileDirect(npc.GetSource_FromAI(), laserStartPos, laserVelocity * 1.1f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+                                            Projectile godRay = Projectile.NewProjectileDirect(npc.GetSource_FromAI(), laserStartPos, laserVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 
                                             // Tell this Phased God Ray exactly which way it should be waving.
                                             godRay.localAI[1] = i * 0.5f;
@@ -4290,7 +4286,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Follow the head
-                Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                Vector2 vector18 = npc.Center;
                 float num191 = player.position.X + (player.width / 2);
                 float num192 = player.position.Y + (player.height / 2);
                 num191 = (int)(num191 / 16f) * 16;
@@ -4304,7 +4300,7 @@ namespace CalamityMod.NPCs
                 {
                     try
                     {
-                        vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        vector18 = npc.Center;
                         num191 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
                         num192 = Main.npc[(int)npc.ai[1]].position.Y + (Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
                     }

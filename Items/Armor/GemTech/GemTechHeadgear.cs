@@ -138,12 +138,15 @@ namespace CalamityMod.Items.Armor.GemTech
                         tooltips.Insert(setBonusIndex, purpleGemTooltip);
 
                         setBonusIndex++;
-                        TooltipLine pinkGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus7", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("PinkGemInfo").Format(BaseGemDefenseBoost, BaseGemLifeRegenBoost));
+                        string pinkLifeRegenString = (0.5f * BaseGemLifeRegenBoost).ToString("n1");
+                        TooltipLine pinkGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus7", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("PinkGemInfo").Format(BaseGemDefenseBoost, pinkLifeRegenString));
                         pinkGemTooltip.OverrideColor = new Color(255, 115, 206);
                         tooltips.Insert(setBonusIndex, pinkGemTooltip);
 
                         setBonusIndex++;
-                        TooltipLine liferegenTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus8", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("GemBonusInfo").Format(AllGemsWeaponUseLifeRegenBoost, AllGemsLifeRegenBoostTime / 60, AllGemsMultiWeaponUseLifeRegenBoost, AllGemsMultiWeaponLifeRegenBoostTime / 60f));
+                        string baseLifeRegenString = (0.5f * AllGemsWeaponUseLifeRegenBoost).ToString("n1");
+                        string multiclassLifeRegenString = (0.5f * AllGemsMultiWeaponUseLifeRegenBoost).ToString("n1");
+                        TooltipLine liferegenTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus8", CalamityUtils.GetTextFromModItem<GemTechHeadgear>("GemBonusInfo").Format(baseLifeRegenString, AllGemsLifeRegenBoostTime / 60, multiclassLifeRegenString, AllGemsMultiWeaponLifeRegenBoostTime / 60f));
                         liferegenTooltip.OverrideColor = new Color(230, 230, 230);
                         tooltips.Insert(setBonusIndex, liferegenTooltip);
                     }

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Penumbra : RogueWeapon
     {
-        public static float ShootSpeed = 8f;
+        public static float ShootSpeed = 9f;
         public override void SetDefaults()
         {
             Item.width = 46;
@@ -24,12 +24,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item103;
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
 
-            Item.damage = 1008;
+            Item.damage = 830;
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.knockBack = 8f;
             Item.shoot = ModContent.ProjectileType<PenumbraBomb>();
-            Item.shootSpeed = ShootSpeed;
+            Item.shootSpeed = 9f;
 
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.DamageType = RogueDamageClass.Instance;

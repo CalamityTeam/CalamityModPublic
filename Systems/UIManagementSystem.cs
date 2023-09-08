@@ -62,13 +62,6 @@ namespace CalamityMod.Systems
                     return true;
                 }, InterfaceScaleType.UI));
 
-                // Astral Arcanum overlay (if open)
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Astral Arcanum UI", delegate ()
-                {
-                    AstralArcanumUI.UpdateAndDraw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
-
                 // Speedrun Timer
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Speedrun Timer", delegate ()
                 {

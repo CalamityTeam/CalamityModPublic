@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = Item.height = 28;
-            Item.damage = 150;
+            Item.damage = 128;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.rare = ModContent.RarityType<Violet>();
             Item.noMelee = true;

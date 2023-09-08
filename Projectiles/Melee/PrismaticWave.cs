@@ -52,11 +52,11 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 2;
             Projectile.timeLeft = 360;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

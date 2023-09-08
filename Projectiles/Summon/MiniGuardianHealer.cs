@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
         public override bool? CanCutTiles()
         {
             CalamityPlayer modPlayer = Main.player[Projectile.owner].Calamity();
-            bool psa = modPlayer.pArtifact && !modPlayer.profanedCrystal;
+            bool psa = modPlayer.pSoulArtifact && !modPlayer.profanedCrystal;
             if (!psa && !modPlayer.profanedCrystalBuffs)
                 return false;
             return null;
@@ -45,13 +45,13 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             
-            if (modPlayer.donutBabs)
+            if (modPlayer.pSoulGuardians)
             {
                 Projectile.timeLeft = 2;
             }
-            if (!modPlayer.pArtifact || player.dead || !player.active)
+            if (!modPlayer.pSoulArtifact || player.dead || !player.active)
             {
-                modPlayer.donutBabs = false;
+                modPlayer.pSoulGuardians = false;
                 Projectile.active = false;
                 return;
             }

@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -14,16 +15,17 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetDefaults()
         {
-            Item.damage = 564;
+            Item.damage = 500;
             Item.knockBack = 3.5f;
-            Item.useAnimation = Item.useTime = 21;
+            Item.useAnimation = Item.useTime = 22;
             Item.autoReuse = true;
             Item.DamageType = RogueDamageClass.Instance;
             Item.shootSpeed = 15f;
             Item.shoot = ModContent.ProjectileType<EclipsesFallMain>();
 
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.width = Item.height = 72;
+            Item.width = 82;
+            Item.height = 88;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
@@ -41,6 +43,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>(Texture + "Glow").Value);
 
         public override void AddRecipes()
         {

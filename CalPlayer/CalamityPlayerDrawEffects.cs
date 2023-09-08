@@ -666,7 +666,7 @@ namespace CalamityMod.CalPlayer
                     ModContent.ItemType<HalleysInferno>(),
                     ModContent.ItemType<CleansingBlaze>(),
                     ModContent.ItemType<ElementalEruption>(),
-                    ModContent.ItemType<GodsBellows>(),
+                    ModContent.ItemType<DeadSunsWind>(),
                     ModContent.ItemType<Meowthrower>(),
                     ModContent.ItemType<OverloadedBlaster>(),
                     ModContent.ItemType<TerraFlameburster>(),

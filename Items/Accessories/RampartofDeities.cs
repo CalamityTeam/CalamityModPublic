@@ -17,10 +17,10 @@ namespace CalamityMod.Items.Accessories
         {
             Item.width = 64;
             Item.height = 62;
-            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.defense = 18;
             Item.accessory = true;
-            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -57,8 +57,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.FrozenShield).
                 AddIngredient<DeificAmulet>().
-                AddIngredient<DivineGeode>(10).
-                AddIngredient<CosmiliteBar>(10).
+                AddIngredient<AuricBar>(5).
                 AddIngredient<AscendantSpiritEssence>(4).
                 AddTile<CosmicAnvil>().
                 Register();

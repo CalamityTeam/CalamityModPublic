@@ -22,23 +22,51 @@ namespace CalamityMod.Systems
     {
         internal static bool _hasCheckedItOutYet = false; //Simple variable to add a cool effect to the mode selector 
 
-        public static DifficultyMode[] Difficulties; //Difficulty modes ordered by ascending difficulty
+        public static List<DifficultyMode> Difficulties = new List<DifficultyMode>(); //Difficulty modes ordered by ascending difficulty
         public static List<DifficultyMode[]> DifficultyTiers; //Difficulty modes grouped together by difficulty
         public static int MostAlternateDifficulties; //The most alternate difficulties at any tier that exists. Used to know the widest space to take in the ui
 
         public override void Load()
         {
             MostAlternateDifficulties = 1;
-            Difficulties = new DifficultyMode[] { new NoDifficulty(), new RevengeanceDifficulty(), new DeathDifficulty()};
+            //Initialize base mod difficulties
+            Difficulties = new List<DifficultyMode>() { new NoDifficulty(), new RevengeanceDifficulty(), new DeathDifficulty()};
 
-            //All of this should happen after a hook happens which lets other mods add their own difficulties
-            Difficulties = Difficulties.OrderBy(d => d.DifficultyScale).ToArray();
+            CalculateDifficultyData();
+        }
 
+        public override void Unload()
+        {
+            Difficulties = null;
+        }
+
+        public static DifficultyMode GetCurrentDifficulty
+        {
+            get
+            {
+                DifficultyMode mode = Difficulties[0];
+
+                for (int i = 1; i < Difficulties.Count; i++)
+                {
+                    if (Difficulties[i].Enabled)
+                        mode = Difficulties[i];
+                }
+
+                return mode;
+            }
+        }
+
+        public static void CalculateDifficultyData()
+        {
+            MostAlternateDifficulties = 1;
+            Difficulties.OrderBy(d => d.DifficultyScale);
+
+            //Difficulties are arranged in "tiers". This is done so that multiple mods can add their own alternate difficulties sharing a tier with the base ones
             DifficultyTiers = new List<DifficultyMode[]>();
             float currentTier = -1;
             int tierIndex = -1;
 
-            for (int i = 0; i < Difficulties.Length; i++)
+            for (int i = 0; i < Difficulties.Count; i++)
             {
                 //if we are at a new tier, create a new list of difficulties at that tier.
                 if (currentTier != Difficulties[i].DifficultyScale)
@@ -53,32 +81,10 @@ namespace CalamityMod.Systems
                 {
                     //ugly
                     DifficultyTiers[tierIndex] = DifficultyTiers[tierIndex].Append(Difficulties[i]).ToArray();
-
                     MostAlternateDifficulties = Math.Max(DifficultyTiers[tierIndex].Length, MostAlternateDifficulties);
                 }
 
                 Difficulties[i]._difficultyTier = tierIndex;
-            }
-        }
-
-        public override void Unload()
-        {
-            Difficulties = null;
-        }
-
-        public static DifficultyMode GetCurrentDifficulty
-        {
-            get
-            {
-                DifficultyMode mode = Difficulties[0];
-
-                for (int i = 1; i < Difficulties.Length; i++)
-                {
-                    if (Difficulties[i].Enabled)
-                        mode = Difficulties[i];
-                }
-
-                return mode;
             }
         }
 

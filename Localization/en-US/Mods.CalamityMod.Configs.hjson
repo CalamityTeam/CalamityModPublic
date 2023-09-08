@@ -71,7 +71,6 @@ CalamityConfig: {
 			'''
 			Gives the player a very weak dash by default that requires no equipment or items to use.
 			This dash will be replaced by any other available dash, including those from other mods.
-			Calamity is balanced around this setting being enabled.
 			'''
 	}
 
@@ -231,7 +230,7 @@ CalamityConfig: {
 		Label: "[i:GemLockTopaz] Lock Meter Positions"
 		Tooltip:
 			'''
-			Prevents clicking on the Calamity's various Meters on the screen.
+			Prevents clicking on Calamity's various Meters on the screen.
 			This stops them from being dragged around with the mouse.
 			'''
 	}

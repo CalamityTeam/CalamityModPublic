@@ -1014,7 +1014,7 @@ namespace CalamityMod.NPCs
             //Absorber Affliction
             if (absorberAffliction > 0)
             {
-                int baseAbsorberDoTValue = (int)(260 * sicknessDamageMult);
+                int baseAbsorberDoTValue = (int)(400 * sicknessDamageMult);
                 ApplyDPSDebuff(baseAbsorberDoTValue, baseAbsorberDoTValue / 65, ref npc.lifeRegen, ref damage);
             }
 
@@ -2690,7 +2690,7 @@ namespace CalamityMod.NPCs
             if (marked > 0)
                 calcDR *= 0.5f;
             if (absorberAffliction > 0)
-                calcDR *= 0.7f;
+                calcDR *= 0.8f;
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
             if (npc.Calamity().kamiFlu > 0)
@@ -3858,6 +3858,10 @@ namespace CalamityMod.NPCs
 
             // Nothing should be immune to Enraged.
             npc.buffImmune[BuffType<Enraged>()] = false;
+            
+            // Town npcs should NOT be immune to shimmer
+            if (npc.townNPC && NPCID.Sets.ShimmerTownTransform[npc.type])
+                npc.buffImmune[BuffID.Shimmer] = false;
 
             // Extra Notes:
             // Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
@@ -5774,7 +5778,7 @@ namespace CalamityMod.NPCs
 
                     // Visual debuff
                     if (RancorBurnTime > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/RancorBurn").Value);
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/RancorBurn").Value);
 
                     // Vanilla damage over time debuffs
                     if (electrified > 0)

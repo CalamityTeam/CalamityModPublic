@@ -1,11 +1,13 @@
-﻿using CalamityMod.Buffs.Alcohol;
+﻿using System.Collections.Generic;
+using CalamityMod.Buffs;
+using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -64,7 +66,6 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.LivingFire;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -82,11 +83,11 @@ namespace CalamityMod
         public static List<int> dungeonEnemyBuffList;
         public static List<int> dungeonProjectileBuffList;
         public static List<int> bossHPScaleList;
-        public static List<int> beeEnemyList;
-        public static List<int> beeProjectileList;
         public static List<int> friendlyBeeList;
         public static List<int> hardModeNerfList;
         public static List<int> debuffList;
+        public static List<int> fireDebuffList;
+        public static List<int> sicknessDebuffList;
         public static List<int> alcoholList;
         public static List<int> spearAutoreuseList;
         public static List<int> pumpkinMoonBuffList;
@@ -159,6 +160,8 @@ namespace CalamityMod
 
         public static List<int> DisabledSummonerNerfItems;
         public static List<int> DisabledSummonerNerfMinions;
+
+        public static List<int> VeneratedLocketBanlist; //To ban projectiles from locket, mainly spikeballs altho Toasty asked me to add mod calls for adding stuff like Dreamtastic
 
         public static void LoadLists()
         {
@@ -1046,33 +1049,6 @@ namespace CalamityMod
                 NPCID.MoonLordHand
             };
 
-            beeEnemyList = new List<int>()
-            {
-                NPCID.GiantMossHornet,
-                NPCID.BigMossHornet,
-                NPCID.LittleMossHornet,
-                NPCID.TinyMossHornet,
-                NPCID.MossHornet,
-                NPCID.VortexHornetQueen,
-                NPCID.VortexHornet,
-                NPCID.Bee,
-                NPCID.BeeSmall,
-                NPCID.QueenBee,
-                NPCType<PlaguebringerGoliath>(),
-                NPCType<PlaguebringerMiniboss>(),
-                NPCType<PlagueChargerLarge>(),
-                NPCType<PlagueCharger>()
-            };
-
-            beeProjectileList = new List<int>()
-            {
-                ProjectileID.Stinger,
-                ProjectileID.HornetStinger,
-                ProjectileType<PlagueStingerGoliath>(),
-                ProjectileType<PlagueStingerGoliathV2>(),
-                ProjectileType<PlagueExplosion>()
-            };
-
             friendlyBeeList = new List<int>()
             {
                 ProjectileID.GiantBee,
@@ -1155,7 +1131,47 @@ namespace CalamityMod
                 BuffType<Dragonfire>(),
                 BuffType<Nightwither>(),
                 BuffType<VulnerabilityHex>(),
-                BuffType<MiracleBlight>()
+                BuffType<MiracleBlight>(),
+                BuffType<WhisperingDeath>(),
+                BuffType<FrozenLungs>(),
+                BuffType<FishAlert>(),
+                BuffType<HolyInferno>(),
+                BuffType<IcarusFolly>(),
+                BuffType<DoGExtremeGravity>(),
+                // BuffType<NOU>(),
+                BuffType<PopoNoselessBuff>(),
+                BuffType<SearingLava>(),
+                BuffType<WeakBrimstoneFlames>(),
+                BuffType<Withered>()
+            };
+
+            fireDebuffList = new List<int>()
+            {
+                BuffID.OnFire,
+                BuffID.OnFire3, // Hellfire
+                BuffID.Burning, // Touching meteorite ore or hellstone without obsidian skull
+                BuffID.CursedInferno,
+                BuffID.ShadowFlame, // Vanilla Shadowflame, can normally never be applied to players
+                BuffType<Shadowflame>(), // Calamity Shadowflame copy for players
+                BuffType<SearingLava>(), // Crags lava
+                BuffType<BrimstoneFlames>(),
+                BuffType<HolyFlames>(),
+                BuffType<GodSlayerInferno>(),
+                BuffType<Dragonfire>(),
+                BuffType<WeakBrimstoneFlames>(), // Aflame enchant self damage
+                BuffType<BanishingFire>(),
+            };
+
+            sicknessDebuffList = new List<int>()
+            {
+                BuffID.Poisoned,
+                BuffID.Venom,
+                BuffType<SulphuricPoisoning>(),
+                BuffType<AstralInfectionDebuff>(),
+                BuffType<Plague>(),
+                BuffType<AbsorberAffliction>(),
+                BuffType<WhisperingDeath>(),
+                BuffType<Irradiated>()
             };
 
             alcoholList = new List<int>()
@@ -1938,58 +1954,67 @@ namespace CalamityMod
 
             pierceResistExceptionList = new List<int>()
             {
-                ProjectileID.FlyingKnife,
                 ProjectileID.Arkhalis,
-                ProjectileID.Terragrim,
-                ProjectileID.MonkStaffT3,
-                ProjectileID.LastPrismLaser,
                 ProjectileID.ChargedBlasterLaser,
-                ProjectileType<FlakKrakenProj>(),
-                ProjectileType<MurasamaSlash>(),
-                ProjectileType<OmnibladeSwing>(),
-                ProjectileType<DragonRageStaff>(),
-                ProjectileType<YateveoBloomProj>(),
-                ProjectileType<UrchinBall>(),
-                ProjectileType<UrchinMaceProjectile>(),
-                ProjectileType<TyphonsGreedStaff>(),
-                ProjectileType<DevilsSunriseProj>(),
-                ProjectileType<DevilsSunriseCyclone>(),
-                ProjectileType<PhaseslayerProjectile>(),
-                ProjectileType<TaserHook>(),
-                ProjectileType<Snowflake>(),
-                ProjectileType<InsidiousHarpoon>(),
-                ProjectileType<PhotonRipperProjectile>(),
+                ProjectileID.FinalFractal,
+                ProjectileID.FlyingKnife,
+                ProjectileID.LastPrismLaser,
+                ProjectileID.MechanicalPiranha,
+                ProjectileID.MonkStaffT3,
+                ProjectileID.PiercingStarlight,
+                ProjectileID.Terragrim,
                 ProjectileType<AcidicSaxBubble>(),
-                ProjectileType<WaterLeechProj>(),
+                ProjectileType<BallisticPoisonCloud>(),
+                ProjectileType<BlushieStaffProj>(),
                 ProjectileType<BonebreakerProjectile>(),
-                ProjectileType<UrchinBallSpike>(),
-                ProjectileType<EmesisGore>(),
-                ProjectileType<ExoFlareCluster>(),
-                ProjectileType<SulphuricBlast>(),
+                ProjectileType<DarkSparkBeam>(),
+                ProjectileType<DevilsSunriseCyclone>(),
+                ProjectileType<DevilsSunriseProj>(),
+                ProjectileType<DragonRageStaff>(),
+                ProjectileType<DuststormCloudHitbox>(),
                 ProjectileType<EclipsesStealth>(),
+                ProjectileType<EidolicWailSoundwave>(),
+                ProjectileType<EmesisGore>(),
                 ProjectileType<EradicatorProjectile>(),
+                ProjectileType<ExoFlareCluster>(),
+                ProjectileType<EyeOfNightCell>(),
                 ProjectileType<FantasyTalismanProj>(),
                 ProjectileType<FantasyTalismanStealth>(),
+                ProjectileType<FlakKrakenProj>(),
                 ProjectileType<GodsParanoiaProj>(),
+                ProjectileType<InsidiousHarpoon>(),
                 ProjectileType<JawsProjectile>(),
                 ProjectileType<LeviathanTooth>(),
                 ProjectileType<LionfishProj>(),
+                ProjectileType<MechanicalBarracuda>(),
                 ProjectileType<MetalShard>(),
+                ProjectileType<MurasamaSlash>(),
                 ProjectileType<NastyChollaBol>(),
+                ProjectileType<OmnibladeSwing>(),
+                ProjectileType<PhaseslayerProjectile>(),
+                ProjectileType<PhotonRipperProjectile>(),
+                ProjectileType<PlantationStaffSporeCloud>(),
+                ProjectileType<PrismaticBeam>(),
+                ProjectileType<RancorLaserbeam>(),
                 ProjectileType<SacrificeProjectile>(),
                 ProjectileType<SnapClamProj>(),
                 ProjectileType<SnapClamStealth>(),
-                ProjectileType<StickyBol>(),
-                ProjectileType<UrchinStingerProj>(),
-                ProjectileType<EyeOfNightCell>(),
-                ProjectileType<ViolenceThrownProjectile>(),
-                ProjectileType<BlushieStaffProj>(),
-                ProjectileType<DarkSparkBeam>(),
-                ProjectileType<EidolicWailSoundwave>(),
-                ProjectileType<RancorLaserbeam>(),
+                ProjectileType<Snowflake>(),
                 ProjectileType<SparklingLaser>(),
+                ProjectileType<SpiritCongregation>(),
+                ProjectileType<StarmageddonBinaryStarCenter>(),
+                ProjectileType<StickyBol>(),
+                ProjectileType<SulphuricBlast>(),
+                ProjectileType<TaserHook>(),
+                ProjectileType<TyphonsGreedStaff>(),
+                ProjectileType<UrchinBall>(),
+                ProjectileType<UrchinBallSpike>(),
+                ProjectileType<UrchinMaceProjectile>(),
+                ProjectileType<UrchinStingerProj>(),
+                ProjectileType<ViolenceThrownProjectile>(),
+                ProjectileType<WaterLeechProj>(),
+                ProjectileType<YateveoBloomProj>(),
                 ProjectileType<YharimsCrystalBeam>(),
-                ProjectileType<PrismaticBeam>(),
             };
 
             // Lists of enemies that resist piercing to some extent (mostly worms).
@@ -2670,6 +2695,18 @@ namespace CalamityMod
 
             DisabledSummonerNerfItems = new();
             DisabledSummonerNerfMinions = new();
+
+            VeneratedLocketBanlist = new List<int>()
+            {
+                ItemType<PoisonPack>(),
+                ItemType<SkyStabber>(),
+                ItemType<Nychthemeron>(),
+                ItemType<HellsSun>(),
+                ItemType<GodsParanoia>(),
+                ItemType<SlickCane>(),
+                ItemType<Mycoroot>(),
+                ItemType<CosmicKunai>()
+            };
         }
 
         public static void UnloadLists()
@@ -2681,11 +2718,11 @@ namespace CalamityMod
             dungeonEnemyBuffList = null;
             dungeonProjectileBuffList = null;
             bossHPScaleList = null;
-            beeEnemyList = null;
             friendlyBeeList = null;
-            beeProjectileList = null;
             hardModeNerfList = null;
             debuffList = null;
+            fireDebuffList = null;
+            sicknessDebuffList = null;
             alcoholList = null;
             spearAutoreuseList = null;
             pumpkinMoonBuffList = null;
@@ -2758,6 +2795,8 @@ namespace CalamityMod
 
             DisabledSummonerNerfItems = null;
             DisabledSummonerNerfMinions = null;
+
+            VeneratedLocketBanlist = null;
         }
     }
 }

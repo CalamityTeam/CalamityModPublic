@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 106;
-            Item.damage = 122;
+            Item.damage = 143;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 22;
@@ -32,14 +32,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-		public override float StealthDamageMultiplier => 0.4f;
+		public override float StealthDamageMultiplier => 0.66f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int spread = 10;
-                for (int i = 0; i < 4; i++)
+                int spread = 15;
+                for (int i = 0; i < 3; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(velocity.X + Main.rand.Next(-3,4), velocity.Y + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(source, position, perturbedspeed, type, damage, knockback, player.whoAmI);

@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     public class AstralShot2 : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
+
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
@@ -77,7 +78,7 @@ namespace CalamityMod.Projectiles.Boss
             if (info.Damage <= 0)
                 return;
 
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60);
         }
 
         public override Color? GetAlpha(Color lightColor)

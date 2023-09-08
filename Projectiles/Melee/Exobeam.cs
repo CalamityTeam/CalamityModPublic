@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 1;
             Projectile.extraUpdates = 1;
             Projectile.alpha = 255;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 360;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 12;
         }

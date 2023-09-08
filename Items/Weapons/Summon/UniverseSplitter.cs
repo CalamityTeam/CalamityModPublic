@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public const float ItemUseDustMaxRadius = 36f;
         public override void SetStaticDefaults()
         {
-                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 14));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 14));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

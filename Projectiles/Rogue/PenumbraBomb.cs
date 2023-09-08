@@ -3,6 +3,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -23,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 32;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 150;
+            Projectile.timeLeft = 300;
             Projectile.extraUpdates = 2;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.ignoreWater = true;
@@ -72,6 +74,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         }
 
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.Daybreak, 240);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 240);
+        }
         public override void Kill(int timeLeft)
         {
             //Dark soul projectiles

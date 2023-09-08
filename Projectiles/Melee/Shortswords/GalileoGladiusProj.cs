@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
 
         public override Action<Projectile> EffectBeforePullback => (proj) =>
         {
-            int moonDamage = (int)(Projectile.damage * 0.3333f);
+            int moonDamage = (int)(Projectile.damage * 0.6f);
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 10f, ModContent.ProjectileType<GalileosMoon>(), moonDamage, Projectile.knockBack, Projectile.owner, 0f, 0f);
         };
 

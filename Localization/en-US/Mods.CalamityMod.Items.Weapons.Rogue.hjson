@@ -248,8 +248,8 @@ CursedDagger: {
 	DisplayName: Cursed Dagger
 	Tooltip:
 		'''
-		Throws bouncing daggers
-		Stealth strikes are showered in cursed fireballs
+		Throws a fast cursed dagger and two inaccurate weaker daggers
+		Stealth strikes throw a single dagger that bursts into a vortex of cursed flames
 		'''
 }
 
@@ -279,17 +279,6 @@ DefectiveSphere: {
 		Fires a variety of deadly spheres with different effects
 		Up to five spheres can be thrown at a time
 		Stealth strikes launch all 4 sphere types at once
-		'''
-}
-
-DeificThunderbolt: {
-	DisplayName: Deific Thunderbolt
-	Tooltip:
-		'''
-		Fires a lightning bolt to electrocute enemies
-		The lightning bolt travels faster while it is raining
-		Summons lightning from the sky on impact
-		Stealth strikes summon more lightning and travel faster
 		'''
 }
 
@@ -607,8 +596,8 @@ IchorSpear: {
 	DisplayName: Ichor Spear
 	Tooltip:
 		'''
-		Throws an ichor tipped trident
-		Stealth strikes are showered in splashes of ichor
+		Throws a high-velocity ichor tipped javelin that pierces through enemies
+		Stealth strikes impale enemies and deal repeated damage
 		'''
 }
 
@@ -704,14 +693,12 @@ Lionfish: {
 		'''
 }
 
-LuminousStriker: {
-	DisplayName: Luminous Striker
+RealityRupture: {
+	DisplayName: Reality Rupture
 	Tooltip:
 		'''
-		Throws a stardust javelin trailed by rising stardust shards
-		Explodes into additional stardust shards upon hitting enemies
-		Stealth strikes cause the stardust shards to fly alongside the javelin instead of rising
-		'Send the stars back to where they belong'
+		Cycles between throwing 3 small homing spears and throwing a single piercing lance
+		Stealth Strikes throw a high-velocity reality shattering lance that explodes on hit
 		'''
 }
 
@@ -843,14 +830,14 @@ OrichalcumSpikedGemstone: {
 
 PalladiumJavelin: {
 	DisplayName: Palladium Javelin
-	Tooltip: Stealth strikes split into more javelins and boost life regeneration on hits
+	Tooltip: Stealth strikes split into more javelins and boost natural life regeneration on hits
 }
 
 Penumbra: {
 	DisplayName: Penumbra
 	Tooltip:
 		'''
-		Throws a shadow bomb that explodes into homing souls
+		Throws a shadow bomb that explodes into homing souls and flames
 		Stealth strikes make the bomb manifest on the cursor and explode into more souls
 		'''
 }
@@ -859,9 +846,8 @@ PhantasmalRuin: {
 	DisplayName: Phantasmal Ruin
 	Tooltip:
 		'''
-		Fires an enormous ghost lance that emits lost souls as it flies
-		Explodes into tormented souls on enemy hits
-		Stealth strikes continuously leave spectral clones in their wake
+		Fires a large ghost lance that explodes into spirits on enemy hits
+		Stealth strikes pierce and summon many spirits from the depths on enemy hits
 		'''
 }
 
@@ -1127,8 +1113,8 @@ SpearofDestiny: {
 	DisplayName: Spear of Destiny
 	Tooltip:
 		'''
-		Throws three spears with the outer two having homing capabilities
-		Stealth strikes cause all three spears to home in, ignore tiles, and pierce more
+		Cycles between throwing 3 small homing spears and throwing a single piercing lance
+		Stealth Strikes throw a high-velocity holy lance that explodes on hit
 		'''
 }
 
@@ -1328,6 +1314,17 @@ Turbulance: {
 		'''
 }
 
+TwistingThunder: {
+	DisplayName: Twisting Thunder
+	Tooltip:
+		'''
+		Fires a lightning bolt to electrocute enemies
+		The lightning bolt travels faster while it is raining
+		Summons lightning from the sky on impact
+		Stealth strikes summon more lightning and travel faster
+		'''
+}
+
 UrchinStinger: {
 	DisplayName: Urchin Stinger
 	Tooltip: Stealth strikes stick to enemies while releasing sulphuric bubbles
@@ -1337,7 +1334,7 @@ UtensilPoker: {
 	DisplayName: Utensil Poker
 	Tooltip:
 		'''
-		Fires random utensils in bursts of three
+		Fires utensils in bursts of three
 		Stealth strikes replace any utensil with a powerful butcher knife
 		'Space chickens, that is all'
 		'''

@@ -82,7 +82,7 @@ BloodflareBodyArmor: {
 		'''
 	CommonSetBonus:
 		'''
-		Greatly increases life regen
+		Greatly increased life regen, equivalent to Crimson armor
 		Enemies below 50% life drop a heart when struck
 		This effect has a 5 second cooldown
 		'''
@@ -105,7 +105,7 @@ BloodflareHeadMagic: {
 
 BloodflareHeadMelee: {
 	DisplayName: Bloodflare Ram Mask
-	Tooltip: 10% increased melee damage
+	Tooltip: 10% increased melee damage and 5% increased melee critical strike chance
 	SetBonus:
 		'''
 		18% increased melee speed
@@ -152,7 +152,7 @@ BloodflareHeadSummon: {
 		50% increased summon damage and +3 max minions
 		Summons polterghast mines to circle you
 		At 90% life and above you gain 10% increased summon damage
-		At 50% life and below you gain 20 defense and 2 life regen
+		At 50% life and below you gain 20 defense and +1 HP/s life regen
 		'''
 }
 
@@ -163,7 +163,7 @@ DemonshadeBreastplate: {
 		25% increased melee speed, 15% increased damage and critical strike chance
 		Enemies take ungodly damage when they touch you
 		Increased max life and mana by 200
-		Standing still lets you absorb the shadows and boost your life regen
+		Standing still absorbs shadows to grant exponentially accelerating life regen
 		'''
 }
 
@@ -233,7 +233,7 @@ FearmongerGreathelm: {
 		20% increased summon damage and +2 max minions
 		Minions no longer deal less damage while wielding non-summoner weapons
 		Immunity to all forms of frost and flame
-		All minion attacks grant colossal life regeneration
+		Minion attacks grant +3.5 HP/s life regen and massively accelerate life regen
 		15% increased damage reduction during the Pumpkin and Frost Moons
 		This extra damage reduction ignores the soft cap
 		'''
@@ -288,11 +288,11 @@ GemTechHeadgear: {
 	GreenGemInfo: "[i:Emerald] The green gem provides increased ranged stats and causes flechettes to fly swiftly towards targets when they are damaged by a ranged projectile"
 	BlueGemInfo: "[i:Sapphire] The blue gem grants {0} extra maximum minions, increased summon damage, and negates the summon damage penalty while wielding non-summoner weapons"
 	PurpleGemInfo: "[i:Amethyst] The violet gem grants {0} extra maximum mana, increased magic stats, and makes mana rapidly regenerate when holding a non-magic weapon"
-	PinkGemInfo: "[i:Diamond] The pink base gem grants {0} extra defense, extra damage reduction, increased movement speed, jump speed, and +{1} life regen"
+	PinkGemInfo: "[i:Diamond] The pink base gem grants {0} extra defense, extra damage reduction, increased movement speed, jump speed, and +{1} HP/s life regen"
 	GemBonusInfo:
 		'''
-		When all gems exist simultaneously, hitting a target with any weapon grants you +{0} life regen for {1} seconds
-		This is increased to +{2} life regen if a weapon of another class is used during that {1} second period for {3} seconds
+		When all gems exist simultaneously, hitting a target with any weapon grants you +{0} HP/s life regen for {1} seconds
+		This is increased to +{2} HP/s life regen if a weapon of another class is used during that {1} second period for {3} seconds
 		'''
 }
 
@@ -332,7 +332,6 @@ GodSlayerHeadMelee: {
 		Enemies are more likely to target you
 		Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts
 		Enemies take a lot of damage when they hit you
-		An attack that would deal 80 damage or less will have its damage reduced to 1
 		'''
 }
 
@@ -492,7 +491,7 @@ TarragonBreastplate: {
 	Tooltip:
 		'''
 		10% increased damage and 5% increased critical strike chance
-		+2 life regen and +40 max life
+		+1 HP/s life regen and +40 max life
 		'''
 	CommonSetBonus:
 		'''
@@ -555,8 +554,8 @@ TarragonHeadRogue: {
 	SetBonus:
 		'''
 		+115 maximum stealth
-		After every 25 rogue critical hits you will gain 3 seconds of damage immunity
-		This effect can only occur once every 30 seconds
+		After every 50 rogue critical hits you will gain 2.5 seconds of damage immunity
+		This effect has a cooldown of 25 seconds
 		While under the effects of a debuff you gain 10% increased rogue damage
 		'''
 }

@@ -25,6 +25,7 @@ using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Other;
+using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
@@ -330,7 +331,7 @@ namespace CalamityMod.CalPlayer
                 if (vHex)
                 {
                     // Unique messages appear half the time during each individual stage of SCal's fight
-                    string vHexKeyToUse = "Status.Death.VulnerabilityHex";
+                    string vHexKeyToUse = "Status.Death.VulnerabilityHex" + Main.rand.Next(1, 3 + 1);
                     if (Main.rand.NextBool() && CalamityGlobalNPC.SCal != -1)
                     {
                         if (CalamityGlobalNPC.SCalGrief != -1)
@@ -349,26 +350,26 @@ namespace CalamityMod.CalPlayer
                 }
                 if (ZoneCalamity && Player.lavaWet)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SearingLava").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SearingLava" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (gsInferno)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.GodSlayerInferno").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.GodSlayerInferno" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (sulphurPoison)
                 {
-                    if (Main.rand.NextBool(2))
-                        damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SulphuricPoisoning").Format(Player.name));
+                    if (!Main.rand.NextBool(4)) // 75% custom
+                        damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SulphuricPoisoning" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                     else
-                        damageSource = PlayerDeathReason.ByOther(9);
+                        damageSource = PlayerDeathReason.ByOther(9); // 25% generic Poisoned death text
                 }
                 if (dragonFire)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Dragonfire").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Dragonfire" + Main.rand.Next(1, 4 + 1)).Format(Player.name));
                 }
                 if (miracleBlight)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.MiracleBlight" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.MiracleBlight" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (hInferno)
                 {
@@ -376,7 +377,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (hFlames || banishingFire)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.HolyFlames").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.HolyFlames" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (shadowflame)
                 {
@@ -384,27 +385,27 @@ namespace CalamityMod.CalPlayer
                 }
                 if (bBlood)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BurningBlood").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BurningBlood" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (cDepth)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CrushDepth" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CrushDepth" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (rTide)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Riptide").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Riptide" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
                 }
                 if (bFlames || weakBrimstoneFlames)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BrimstoneFlames").Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BrimstoneFlames" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (pFlames)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Plague" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Plague" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (astralInfection)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AstralInfection" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AstralInfection" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (nightwither)
                 {
@@ -746,7 +747,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Can't have any cooldowns here because dodges grrrrr....
-            if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID))
+            if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && TotalEnergyShielding <= 0)
                 contactDamageReduction += 0.5;
 
             if (tarragonCloak && tarraMelee && !Player.HasCooldown(Cooldowns.TarragonCloak.ID))
@@ -762,12 +763,6 @@ namespace CalamityMod.CalPlayer
             {
                 contactDamageReduction += Items.Weapons.Typeless.RelicOfResilience.WeaknessDR;
                 npc.Calamity().relicOfResilienceWeakness = 0;
-            }
-
-            if (beeResist)
-            {
-                if (CalamityLists.beeEnemyList.Contains(npc.type))
-                    contactDamageReduction += 0.25;
             }
 
             if (eskimoSet)
@@ -1027,12 +1022,6 @@ namespace CalamityMod.CalPlayer
                     projectileDamageReduction += 0.5;
             }
 
-            if (beeResist)
-            {
-                if (CalamityLists.beeProjectileList.Contains(proj.type))
-                    projectileDamageReduction += 0.25;
-            }
-
             if (trinketOfChiBuff)
                 projectileDamageReduction += 0.1;
 
@@ -1157,20 +1146,20 @@ namespace CalamityMod.CalPlayer
             // As such, to avoid cooldowns proccing from dodge hits, do it here
             if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && hurtInfo.Damage > 0)
                 Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");
+
             if (NPC.AnyNPCs(ModContent.NPCType<THELORDE>()))
-            {
                 Player.AddBuff(ModContent.BuffType<NOU>(), 15, true);
-            }
+
             if (crawCarapace)
             {
-                npc.AddBuff(ModContent.BuffType<Crumbling>(), 720);
+                npc.AddBuff(ModContent.BuffType<Crumbling>(), 900);
                 SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
             }
 
             if (baroclaw)
             {
-                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1800);
-                npc.AddBuff(ModContent.BuffType<CrushDepth>(), 1800);
+                npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 900);
+                npc.AddBuff(ModContent.BuffType<CrushDepth>(), 900);
                 SoundEngine.PlaySound(BaroclawHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
@@ -1189,7 +1178,7 @@ namespace CalamityMod.CalPlayer
 
             if (absorber)
             {
-                npc.AddBuff(ModContent.BuffType<AbsorberAffliction>(), 1800);
+                npc.AddBuff(ModContent.BuffType<AbsorberAffliction>(), 900);
                 SoundEngine.PlaySound(AbsorberHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
@@ -1407,9 +1396,9 @@ namespace CalamityMod.CalPlayer
         #region Free and Consumable Dodge Hooks
         public override bool FreeDodge(Player.HurtInfo info)
         {
-            // God Slayer Damage Resistance makes you ignore hits that came in as less than 80.
-            // Alternatively, if the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
-            if (info.Damage < 1 || (godSlayerDamage && info.Damage <= 80))
+            // 22AUG2023: Ozzatron: god slayer damage resistance removed due to it being strong enough to godmode rev yharon
+            // If the incoming damage is somehow less than 1 (TML doesn't allow this, but...), the hit is completely ignored.
+            if (info.Damage < 1 /* || (godSlayerDamage && info.Damage <= 80) */)
                 return true;
 
             // If this hit was marked to be completely ignored due to shield absorption, then ignore it.
@@ -1537,6 +1526,12 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(TheSponge.ShieldHurtSound, Player.Center);
                     hurtSoundTimer = 20;
                 }
+                else if (((pSoulArtifact && !profanedCrystal) || profanedCrystalBuffs) && pSoulShieldDurability > 0)
+                {
+                    modifiers.DisableSound();
+                    SoundEngine.PlaySound(ProfanedGuardianDefender.ShieldDeathSound);
+                    hurtSoundTimer = 20;
+                }
                 else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
                 {
                     modifiers.DisableSound();
@@ -1629,9 +1624,10 @@ namespace CalamityMod.CalPlayer
         private void ModifyHurtInfo_Calamity(ref Player.HurtInfo info)
         {
             // Boss Rush's damage floor is implemented as a dirty modifier
+            // TODO -- implementing this correctly would require fully reimplementing all of DR and ADR
             if (BossRushEvent.BossRushActive)
             {
-                int bossRushDamageFloor = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
+                int bossRushDamageFloor = (Main.expertMode ? 160 : 100) + (BossRushEvent.BossRushStage * 2);
                 if (info.Damage < bossRushDamageFloor)
                     info.Damage += (bossRushDamageFloor - info.Damage);
             }
@@ -1643,6 +1639,7 @@ namespace CalamityMod.CalPlayer
             // Currently implemented energy shields:
             // - Rover Drive
             // - Lunic Corps Armor set bonus
+            // - Profaned Soul Artifact/Crystal
             // - The Sponge
             //
             // If the shield(s) completely absorb the hit, iframes are granted on the spot and the hit is marked to be dodged.
@@ -1720,6 +1717,39 @@ namespace CalamityMod.CalPlayer
                     // Actually remove damage from the incoming hit, so that later shields have less damage incoming.
                     info.Damage -= masterChefDamageBlocked;
                 }
+                
+                // PSA
+                if (pSoulArtifact && pSoulShieldDurability > 0 && !shieldsFullyAbsorbedHit)
+                {
+                    // Check whether this shield can fully absorb the incoming hit (or what's left of it).
+                    bool thisShieldCanFullyAbsorb = pSoulShieldDurability >= info.Damage;
+
+                    // Tally up how much damage was blocked by this shield.
+                    int pSoulDamageBlocked = Math.Min(pSoulShieldDurability, info.Damage);
+                    totalDamageBlocked += pSoulDamageBlocked;
+
+                    // Deal all incoming damage to this shield, because it is available.
+                    pSoulShieldDurability -= info.Damage;
+                    shieldsTookHit = true;
+
+                    // Hits which break the PSA shield cause a sound and slight screen shake.
+                    // Multiple shields breaking simultaneously has slightly stronger screen shake.
+                    if (pSoulShieldDurability <= 0)
+                    {
+                        pSoulShieldDurability = 0;
+                        SoundEngine.PlaySound(SoundID.Lavafall, Player.Center);
+                        Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
+                        anyShieldBroke = true;
+                    }
+
+                    // Mark the hit as being canceled if this shield has enough durability to fully absorb it.
+                    // This prevents further shields from attempting to absorb the hit.
+                    if (thisShieldCanFullyAbsorb)
+                        shieldsFullyAbsorbedHit = true;
+
+                    // Actually remove damage from the incoming hit, so that later shields have less damage incoming.
+                    info.Damage -= pSoulDamageBlocked;
+                }
 
                 // THE SPONGE
                 if (sponge && SpongeShieldDurability > 0 && !shieldsFullyAbsorbedHit)
@@ -1767,20 +1797,33 @@ namespace CalamityMod.CalPlayer
 
                     // Spawn particles when hit with the shields up, regardless of whether or not the shields broke.
                     // More particles spawn if a shield broke.
-                    int numParticles = Main.rand.Next(2, 6) + (anyShieldBroke ? 6 : 0);
-                    for (int i = 0; i < numParticles; i++)
+                    if (pSoulArtifact)
                     {
-                        // Rover Drive has slightly higher particle velocity
-                        float maxVelocity = roverDrive ? 14f : 7f;
-                        Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3f, maxVelocity);
-                        velocity.X += 5f * info.HitDirection;
+                        for (int i = 0; i < Main.rand.Next(4, 8); i++) //very light dust
+                        {
+                            Dust dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, (int)CalamityDusts.ProfanedFire);
+                            dust.velocity = Main.rand.NextVector2Circular(3.5f, 3.5f);
+                            dust.velocity.Y -= Main.rand.NextFloat(1f, 3f);
+                            dust.scale = Main.rand.NextFloat(1.15f, 1.45f);
+                        }
+                    }
+                    else
+                    {
+                        int numParticles = Main.rand.Next(2, 6) + (anyShieldBroke ? 6 : 0);
+                        for (int i = 0; i < numParticles; i++)
+                        {
+                            // Rover Drive has slightly higher particle velocity
+                            float maxVelocity = roverDrive ? 14f : 7f;
+                            Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3f, maxVelocity);
+                            velocity.X += 5f * info.HitDirection;
 
-                        float scale = Main.rand.NextFloat(2.5f, 3f);
-                        Color particleColor = Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247);
-                        int lifetime = 25;
+                            float scale = Main.rand.NextFloat(2.5f, 3f);
+                            Color particleColor = Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247);
+                            int lifetime = 25;
 
-                        var shieldParticle = new TechyHoloysquareParticle(Player.Center, velocity, scale, particleColor, lifetime);
-                        GeneralParticleHandler.SpawnParticle(shieldParticle);
+                            var shieldParticle = new TechyHoloysquareParticle(Player.Center, velocity, scale, particleColor, lifetime);
+                            GeneralParticleHandler.SpawnParticle(shieldParticle);
+                        }
                     }
 
                     // Update Rover Drive durability on the cooldown rack.
@@ -1790,6 +1833,10 @@ namespace CalamityMod.CalPlayer
                     // Update Lunic Corps Armor durability on the cooldown rack.
                     if (lunicCorpsSet && cooldowns.TryGetValue(Cooldowns.LunicCorpsShieldDurability.ID, out var masterChefDurabilityCD))
                         masterChefDurabilityCD.timeLeft = LunicCorpsShieldDurability;
+
+                    // Update PSA/PSC durability on the cooldown rack
+                    if ((pSoulArtifact && (!profanedCrystal || profanedCrystalBuffs)) && cooldowns.TryGetValue(Cooldowns.ProfanedSoulShield.ID, out var profanedSoulDurabilityCD))
+                        profanedSoulDurabilityCD.timeLeft = pSoulShieldDurability;
 
                     // Update Sponge durability on the cooldown rack.
                     if (sponge && cooldowns.TryGetValue(SpongeDurability.ID, out var spongeDurabilityCD))
@@ -1808,6 +1855,9 @@ namespace CalamityMod.CalPlayer
                     if (lunicCorpsSet)
                         Player.AddCooldown(LunicCorpsShieldRecharge.ID, LunicCorpsHelmet.ShieldRechargeDelay, true);
 
+                    if (pSoulArtifact && (!profanedCrystal || profanedCrystalBuffs))
+                        Player.AddCooldown(ProfanedSoulShieldRecharge.ID, profanedCrystalBuffs ? (60 * 5) : (60 * 10), true); // 5 seconds psc, 10 seconds psa 
+                    
                     // Set The Sponge's recharge delay to full. Override any existing cooldown instance.
                     if (sponge)
                         Player.AddCooldown(SpongeRecharge.ID, TheSponge.ShieldRechargeDelay, true);
@@ -2185,9 +2235,6 @@ namespace CalamityMod.CalPlayer
         #region Post Hurt
         public override void PostHurt(Player.HurtInfo hurtInfo)
         {
-            if (pArtifact && !profanedCrystal)
-                Player.AddCooldown(Cooldowns.ProfanedSoulArtifact.ID, CalamityUtils.SecondsToFrames(5));
-
             // Silver Armor medkit timer
             if (silverMedkit && hurtInfo.Damage >= SilverArmorSetChange.SetBonusMinimumDamageToHeal)
                 silverMedkitTimer = SilverArmorSetChange.SetBonusHealTime;
@@ -2542,7 +2589,7 @@ namespace CalamityMod.CalPlayer
             if (abyssDeath)
             {
                 SoundEngine.PlaySound(DrownSound, Player.Center);
-                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AbyssDrown" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AbyssDrown" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
             }
             else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
             {

@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.EnchantedBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.ExplosiveBullet, standardBulletTweaks },
                 { ProjectileID.Flamarang, Do(ExtraUpdatesExact(2)) },
-                { ProjectileID.Flames, Do(IDStaticIFrames(6), ExtraUpdatesDelta(+1)) }, // Flamethrower + Elf Melter
+                { ProjectileID.Flames, Do(IDStaticIFrames(10)) }, // Flamethrower + Elf Melter
                 { ProjectileID.FlamingJack, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.FlowerPetal, Do(MaxUpdatesExact(4), LocalIFrames(10)) }, // Orichalcum armor
                 { ProjectileID.FlowerPow, Do(ExtraUpdatesExact(1)) },
@@ -145,6 +145,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.LightDisc, Do(MaxUpdatesExact(3)) },
                 { ProjectileID.LostSoulHostile, Do(TileCollide) }, // Ragged Caster
                 { ProjectileID.MeteorShot, standardBulletTweaks },
+                { ProjectileID.Meowmere, Do(PiercingExact(3), LocalIFrames(-1)) },
                 { ProjectileID.MonkStaffT1, Do(TrueMeleeNoSpeed, ScaleExact(3f)) }, // Sleepy Octopod
                 { ProjectileID.MonkStaffT2, Do(TrueMelee, IDStaticIFrames(18)) }, // Ghastly Glaive
                 { ProjectileID.MonkStaffT3, Do(ScaleRatio(2f)) }, // Sky Dragon's Fury
@@ -161,6 +162,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Shroomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.StarWrath, Do(NoPiercing) },
                 { ProjectileID.Sunfury, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.SwordBeam, Do(ExtraUpdatesExact(1)) }, // Beam Sword projectile
                 { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.VenomBullet, standardBulletTweaks },
                 { ProjectileID.VenomFang, Do(LocalIFrames(10)) },

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
-                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

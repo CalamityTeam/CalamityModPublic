@@ -26,12 +26,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             Item.width = 22;
             Item.height = 28;
-            Item.damage = 1378;
+            Item.damage = 900;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.consumable = false;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useAnimation = Item.useTime = 27;
+            Item.useAnimation = Item.useTime = 30;
             Item.knockBack = 3f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
@@ -40,19 +40,20 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.rare = ModContent.RarityType<DarkBlue>();
 
             Item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
-            Item.shootSpeed = 14f;
+            Item.shootSpeed = 11f;
             Item.DamageType = RogueDamageClass.Instance;
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 250f;
-            modItem.ChargePerUse = 0.2f;
+            modItem.ChargePerUse = 0.25f;
         }
+
+        public override float StealthDamageMultiplier => 0.9f;
+        public override float StealthVelocityMultiplier => 1.2f;
+        public override float StealthKnockbackMultiplier => 1.5f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.Calamity().StealthStrikeAvailable())
-                damage = (int)(damage * 1.05);
-
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();

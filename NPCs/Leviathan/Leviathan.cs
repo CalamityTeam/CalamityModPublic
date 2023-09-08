@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 SoundID.Zombie38,
                 SoundID.Zombie39,
-                SoundID.Zombie49
+                SoundID.Zombie40
             });
 
             if (soundDelay > 0)

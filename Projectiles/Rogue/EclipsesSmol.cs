@@ -1,9 +1,8 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class EclipsesSmol : ModProjectile, ILocalizedModType
@@ -11,50 +10,33 @@ namespace CalamityMod.Projectiles.Rogue
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override void SetDefaults()
         {
-            Projectile.width = 20;
-            Projectile.height = 20;
+            Projectile.width = Projectile.height = 24;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.timeLeft = 150;
-            Projectile.extraUpdates = 1;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.MaxUpdates = 2;
+            Projectile.timeLeft = 75 * Projectile.MaxUpdates;
         }
 
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.4f, 0.15f);
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
-            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
-        }
-
-        public override void Kill(int timeLeft)
-        {
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            for (int i = 0; i < 2; i++)
-            {
-                int dustInt = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 138, 0f, 0f, 100, default, 1.2f);
-                Main.dust[dustInt].velocity *= 3f;
-                if (Main.rand.NextBool(2))
-                {
-                    Main.dust[dustInt].scale = 0.5f;
-                    Main.dust[dustInt].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                }
-            }
-            for (int j = 0; j < 3; j++)
-            {
-                int moreDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 138, 0f, 0f, 100, default, 1.7f);
-                Main.dust[moreDust].noGravity = true;
-                Main.dust[moreDust].velocity *= 5f;
-                moreDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 138, 0f, 0f, 100, default, 1f);
-                Main.dust[moreDust].velocity *= 2f;
-            }
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 16f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
             return false;
+        }
+
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D glow = ModContent.Request<Texture2D>(Texture + "Glow").Value;
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, glow.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Rarities;
@@ -24,11 +25,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 85;
+            Item.damage = 76;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 98;
             Item.height = 50;
-            Item.useTime = Item.useAnimation = 10;
+            Item.useTime = Item.useAnimation = 12;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2f;
@@ -54,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return base.CanUseItem(player);
         }
 
-        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? (1f / 6f) : 1f;
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? (1f / 5f) : 1f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -64,8 +65,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 // Fire drones to the left and right.
                 for (int i = 0; i < 3; i++)
                 {
-                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(-Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), damage, knockback, player.whoAmI);
-                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(-Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), player.Calamity().alchFlask ? (int)(damage * 0.65f) : damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), player.Calamity().alchFlask ? (int)(damage * 0.65f) : damage, knockback, player.whoAmI);
                 }
             }
             else

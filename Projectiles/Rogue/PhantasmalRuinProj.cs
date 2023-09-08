@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
+using Mono.Cecil;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,9 +12,8 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/PhantasmalRuin";
-
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrowSingle") { Volume = 0.8f};
         private const int Lifetime = 600;
-        private const int FramesPerSubProjectile = 13;
 
         public override void SetStaticDefaults()
         {
@@ -28,7 +30,9 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = Lifetime;
-            Projectile.extraUpdates = 1;
+            Projectile.extraUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20 * Projectile.MaxUpdates;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
@@ -44,22 +48,14 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
             // Dust and light
-            Dust d = Dust.NewDustDirect(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 175, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 0, default, 0.85f);
+            Dust d = Dust.NewDustDirect(Projectile.position + Projectile.velocity, Projectile.width - (Projectile.Calamity().stealthStrike ? 6 : 0), Projectile.height - (Projectile.Calamity().stealthStrike ? 6 : 0), Projectile.Calamity().stealthStrike ? 132 : 180, Projectile.velocity.X * -0.8f, Projectile.velocity.Y * -0.8f, 0, default, Projectile.Calamity().stealthStrike ? 1.2f : 0.8f);
             d.noLight = true;
-            Lighting.AddLight(Projectile.Center + Projectile.velocity * 0.1f, 0.4f, 0.7f, 0.9f);
+            d.noGravity = true;
+            Lighting.AddLight(Projectile.Center + Projectile.velocity * 0.2f, 0.2f, 0.7f, 0.9f);
 
-            // Fire sub projectiles occasionally
-            bool shouldFireSubProjectile = (Lifetime - Projectile.timeLeft) % (Projectile.MaxUpdates * FramesPerSubProjectile) == 8;
-            if (Projectile.owner == Main.myPlayer && shouldFireSubProjectile)
+            if (Projectile.Calamity().stealthStrike)
             {
-                bool ss = Projectile.Calamity().stealthStrike;
-                int projID = ss ? ModContent.ProjectileType<PhantasmalRuinGhost>() : ModContent.ProjectileType<LostSoulFriendly>();
-                int damage = (int)(Projectile.damage * 0.25f);
-                float kb = Projectile.knockBack * (ss ? 1f : 0.25f);
-                Vector2 velocity = ss
-                    ? (Projectile.velocity * 0.4f).RotatedBy(Main.rand.NextFloat(-0.04f, 0.04f))
-                    : (Projectile.velocity * 0.08f) + Main.rand.NextVector2Circular(0.4f, 0.4f);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, damage, kb, Projectile.owner);
+                Projectile.extraUpdates = 3;
             }
         }
 
@@ -71,24 +67,45 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.owner != Main.myPlayer)
                 return;
 
-            int numSouls = 4;
-            int projID = ModContent.ProjectileType<PhantasmalSoul>();
-            int soulDamage = (int)(Projectile.damage * 0.1f);
-            float soulKB = 0f;
-            float speed = 5f;
-            float startAngle = Main.rand.NextFloat(-0.07f, 0.07f) + MathHelper.PiOver4;
-            Vector2 velocity = (Vector2.UnitX * speed).RotatedBy(startAngle);
-            for (int i = 0; i < numSouls; i += 2)
-            {
-                // Each pair of souls has randomized player homing strength
-                float ai1 = Main.rand.NextFloat() + 0.5f;
-                if (Main.rand.NextBool(2))
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, soulDamage, soulKB, Projectile.owner, 0f, ai1);
-                if (Main.rand.NextBool(2))
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -velocity, projID, soulDamage, soulKB, Projectile.owner, 0f, ai1);
+            SoundEngine.PlaySound(HitSound with { PitchVariance = 0.4f }, Projectile.position);
 
-                // Rotate direction for the next pair of souls.
-                velocity = velocity.RotatedBy(MathHelper.TwoPi / numSouls);
+            if (Projectile.Calamity().stealthStrike)
+            {
+                for (int i = 0; i < 5; i += 2)
+                {
+                    int soulDamage = (int)(Projectile.damage * 0.3f);
+                    Vector2 velocity = new Vector2(0f, -15f);
+                    velocity = velocity.RotatedByRandom(0.5f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + new Vector2(0, 600f), velocity, ModContent.ProjectileType<PhantasmalSoulBlue>(), soulDamage, 0f, Projectile.owner, 0f);
+                }
+            }
+            else
+            {
+                int numSouls = 4;
+                int projID = ModContent.ProjectileType<PhantasmalSoulBlue>();
+                int soulDamage = (int)(Projectile.damage * 0.2f);
+                float soulKB = 0f;
+                float speed = 4f;
+                float startAngle = Main.rand.NextFloat(-0.07f, 0.07f) + MathHelper.PiOver4;
+                Vector2 velocity = (Vector2.UnitX * speed).RotatedBy(startAngle);
+                for (int i = 0; i < numSouls; i += 2)
+                {
+                    Vector2 velocityrandom = velocity.RotatedByRandom(1.5f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity + velocityrandom, projID, soulDamage, soulKB, Projectile.owner, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -velocity - velocityrandom, projID, soulDamage, soulKB, Projectile.owner, 0f);
+                    // Rotate direction for the next pair of souls.
+                    velocity = velocity.RotatedBy(MathHelper.TwoPi / numSouls);
+                }
+                for (int i = 0; i < 8; i += 2)
+                {
+                    // d, du, dus, dust :)
+                    Dust du = Dust.NewDustPerfect(Projectile.Center, 180, velocity, 0, default, Main.rand.NextFloat(1.1f, 1.4f));
+                    Dust dus = Dust.NewDustPerfect(Projectile.Center, 180, -velocity, 0, default, Main.rand.NextFloat(1.1f, 1.4f));
+                    du.noGravity = true;
+                    dus.noGravity = true;
+                    // Rotate direction for the next dust.
+                    velocity = velocity.RotatedBy(MathHelper.TwoPi / numSouls);
+                }
             }
         }
     }

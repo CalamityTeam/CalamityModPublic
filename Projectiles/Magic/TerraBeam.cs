@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.ignoreWater = true;
             Projectile.penetrate = 10;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 8;
+            Projectile.localNPCHitCooldown = 12;
             Projectile.tileCollide = false;
             Projectile.timeLeft = (int)Lifetime;
         }
@@ -90,9 +90,9 @@ namespace CalamityMod.Projectiles.Magic
             // boxes, but that should be negligible.
             float lengthFromStart = Projectile.Distance(target.Center);
 
-            int totalShards = (int)MathHelper.Lerp(1, 4, MathHelper.Clamp(lengthFromStart / MaxLaserLength * 1.4f, 0f, 1f));
+            int totalShards = (int)MathHelper.Lerp(1, 3, MathHelper.Clamp(lengthFromStart / MaxLaserLength * 1.5f, 0f, 1f));
             int shardType = ModContent.ProjectileType<TerraShard>();
-            int shardDamage = (int)(Projectile.damage * 0.6);
+            int shardDamage = (int)(Projectile.damage * 0.5);
             for (int i = 0; i < totalShards; i++)
             {
                 int tries = 0;

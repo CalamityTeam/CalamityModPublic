@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<AbyssalMirror>().
-                AddIngredient<DarkGodsSheath>().
+                AddIngredient<DarkMatterSheath>().
                 AddIngredient<DarksunFragment>(20).
                 AddTile<CosmicAnvil>().
                 Register();

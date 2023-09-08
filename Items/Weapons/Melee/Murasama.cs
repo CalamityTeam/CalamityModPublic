@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 13));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 13));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

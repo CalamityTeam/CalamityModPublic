@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.defense = 16;
+            Item.defense = 15;
             Item.width = 20;
             Item.height = 24;
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;

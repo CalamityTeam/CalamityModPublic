@@ -143,11 +143,16 @@ namespace CalamityMod.Projectiles.Summon
 
         public void ShootTarget(NPC target)
         {
-            if (TimerForShooting == SandSharknadoStaff.FireSpeed && Main.myPlayer == Projectile.owner)
+            int randomDelay = Main.rand.Next(-5, 6);
+            Vector2 targetPos = target.Center;
+            Vector2 ProjVel = targetPos - Projectile.Center;
+            ProjVel.Normalize();
+            ProjVel *= SandSharknadoStaff.ProjSpeed;
+            if (TimerForShooting == SandSharknadoStaff.FireSpeed + randomDelay && Main.myPlayer == Projectile.owner)
             {
                 int sandSharkProj = Projectile.NewProjectile(Projectile.GetSource_FromThis(),
                     Projectile.Center,
-                    CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, target, SandSharknadoStaff.ProjVel),
+                    ProjVel,
                     ModContent.ProjectileType<MiniSandShark>(),
                     Projectile.damage,
                     Projectile.knockBack,

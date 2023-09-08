@@ -256,11 +256,11 @@ namespace CalamityMod.NPCs.DesertScourge
 
             if (expertMode)
             {
-                if (NPC.Calamity().newAI[2] < 300f)
+                if (NPC.Calamity().newAI[2] < 180f)
                     NPC.Calamity().newAI[2] += 1f;
 
                 if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f) &&
-                    NPC.Calamity().newAI[2] >= 300f && Vector2.Distance(NPC.Center, player.Center) > 320f &&
+                    NPC.Calamity().newAI[2] >= 180f && Vector2.Distance(NPC.Center, player.Center) > 320f &&
                     Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                 {
                     if (NPC.Calamity().newAI[2] % 30f == 0f)
@@ -295,7 +295,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     }
 
                     NPC.Calamity().newAI[2] += 1f;
-                    if (NPC.Calamity().newAI[2] > 360f)
+                    if (NPC.Calamity().newAI[2] > 240f)
                         NPC.Calamity().newAI[2] = 0f;
                 }
             }
@@ -439,7 +439,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 int type = ModContent.ProjectileType<GreatSandBlast>();
                 int damage = NPC.GetProjectileDamage(type);
                 Vector2 projectileVelocity = Vector2.Normalize(NPC.Center + NPC.velocity * 10f - NPC.Center) * velocity;
-                int numProj = bossRush ? 24 : death ? 20 : revenge ? 18 : expertMode ? 16 : 12;
+                int numProj = bossRush ? 30 : death ? 24 : revenge ? 20 : expertMode ? 16 : 12;
                 if (Main.getGoodWorld)
                     numProj *= 2;
 

@@ -90,6 +90,7 @@ namespace CalamityMod.Cooldowns
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override SoundStyle? EndSound => TheSponge.ActivationSound;
+        public override bool ShouldPlayEndSound => instance.player.Calamity().sponge;
 
         public override void Tick() => instance.player.Calamity().playedSpongeShieldSound = false;
         // When the recharge period completes, grant 1 point of shielding immediately so the rest my refill normally.

@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.DayBreak).
+                AddIngredient<ProfanedPartisan>().
                 AddIngredient<Lumenyl>(7).
                 AddIngredient<RuinousSoul>(4).
                 AddIngredient<ExodiumCluster>(12).

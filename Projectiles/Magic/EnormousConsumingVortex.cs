@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Magic
             // Emit light.
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 1.3f);
 
-            // If the player is no longer able to channel the vortex and it hasn't been released yet, release it.
+            // If the player has channeled the vortex for long enough and it hasn't been released yet, release it.
             if ((!Owner.Calamity().mouseRight || Owner.noItems || Owner.CCed) && !HasBeenReleased)
             {
                 if (Time >= SubsumingVortex.LargeVortexChargeupTime)
@@ -74,6 +74,16 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         Projectile.velocity = Projectile.SafeDirectionTo(Main.MouseWorld) * SubsumingVortex.ReleaseSpeed;
                         Projectile.damage = (int)(Projectile.damage * SubsumingVortex.ReleaseDamageFactor);
+                        HasBeenReleased = true;
+                        Projectile.netUpdate = true;
+                    }
+                }
+                else if (Time >= SubsumingVortex.VortexShootDelay)
+                {
+                    if (Main.myPlayer == Projectile.owner)
+                    {
+                        Projectile.velocity = Projectile.SafeDirectionTo(Main.MouseWorld) * SubsumingVortex.ReleaseSpeed;
+                        Projectile.damage = (int)(Projectile.damage * (1f + Time * 0.0152f));
                         HasBeenReleased = true;
                         Projectile.netUpdate = true;
                     }
@@ -102,9 +112,9 @@ namespace CalamityMod.Projectiles.Magic
                     GeneralParticleHandler.SpawnParticle(exoEnergy);
                 }
 
-                // Fire vortices at nearby target if not fully charged yet.
+                // Fire vortices at nearby target if not fully charged and has not been released yet.
                 NPC potentialTarget = Projectile.Center.ClosestNPCAt(SubsumingVortex.SmallVortexTargetRange - 100f);
-                if (potentialTarget != null && Time % SubsumingVortex.VortexReleaseRate == SubsumingVortex.VortexReleaseRate - 1 && Time < SubsumingVortex.LargeVortexChargeupTime)
+                if (potentialTarget != null && Time % SubsumingVortex.VortexReleaseRate == SubsumingVortex.VortexReleaseRate - 1 && Time < SubsumingVortex.LargeVortexChargeupTime && !HasBeenReleased)
                 {
                     // CheckMana returns true if the mana cost can be paid..
                     bool allowContinuedUse = Owner.CheckMana(Owner.ActiveItem(), -1, true, false);
@@ -120,8 +130,6 @@ namespace CalamityMod.Projectiles.Magic
                         }
                         Projectile.netUpdate = true;
                     }
-                    else if (!vortexStillInUse)
-                        Projectile.Kill();
                 }
             }
 

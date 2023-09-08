@@ -143,15 +143,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Poisoned, 240);
                     break;
 
-                case ItemID.NightsEdge:
-                    target.AddBuff(BuffID.ShadowFlame, 120);
-                    break;
-
-                case ItemID.TrueNightsEdge:
-                    target.AddBuff(BuffID.CursedInferno, 60);
-                    target.AddBuff(BuffID.ShadowFlame, 120);
-                    break;
-
                 case ItemID.IceSickle:
                 case ItemID.Frostbrand:
                     target.AddBuff(BuffID.Frostburn, 300);
@@ -337,11 +328,6 @@ namespace CalamityMod.CalPlayer
                 case ProjectileID.IceBoomerang:
                     if (Main.rand.NextBool())
                         target.AddBuff(BuffID.Frostburn, 60);
-                    break;
-
-                case ProjectileID.NightBeam:
-                    target.AddBuff(BuffID.CursedInferno, 60);
-                    target.AddBuff(BuffID.ShadowFlame, 120);
                     break;
             }
 
@@ -707,7 +693,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Fearmonger set's colossal life regeneration
+            // Fearmonger set gains +10 frames (max 90) of regen when any minion lands any hit
             if (fearmongerSet)
             {
                 fearmongerRegenFrames += 10;
@@ -840,7 +826,7 @@ namespace CalamityMod.CalPlayer
                     {
                         Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                         Vector2 velocity = (position - source) / 40f;
-                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(120);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(125);
                         Projectile.NewProjectile(spawnSource, source, velocity, ProjectileType<NanoFlare>(), damage, 3f, proj.owner);
                     }
                 }
@@ -1065,7 +1051,7 @@ namespace CalamityMod.CalPlayer
             }
             if (summon)
             {
-                if (pArtifact && !profanedCrystal)
+                if (pSoulArtifact && !profanedCrystal)
                     target.AddBuff(BuffType<HolyFlames>(), 300);
 
                 if (profanedCrystalBuffs)

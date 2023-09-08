@@ -62,7 +62,7 @@ Arbalest: {
 	DisplayName: Arbalest
 	Tooltip:
 		'''
-		Fires a volley of 10 high-speed arrows
+		Fires a volley of 6 high-speed arrows
 		Arrows start off small and grow in size with continuous fire
 		Arrow damage, spread and knockback scale with arrow size
 		'''
@@ -78,7 +78,7 @@ ArterialAssault: {
 	Tooltip:
 		'''
 		Fires a chain of 5 arrows from the sky
-		Wooden arrows are converted into homing bloodfire arrows
+		All arrows will rapidly home in on nearby enemies
 		'''
 }
 
@@ -347,13 +347,9 @@ DarkechoGreatbow: {
 		'''
 }
 
-DeepcoreGK2: {
-	DisplayName: Deepcore GK2
-	Tooltip:
-		'''
-		Bullets are twice as large and ignores 15 points of enemy defense
-		'For rock and stone!'
-		'''
+DeadSunsWind: {
+	DisplayName: Dead Sun's Wind
+	Tooltip: 70% chance to save ammo
 }
 
 Deathwind: {
@@ -362,6 +358,15 @@ Deathwind: {
 		'''
 		Fires a spread of 4 arrows
 		Wooden arrows are converted into nebula arrows
+		'''
+}
+
+DeepcoreGK2: {
+	DisplayName: Deepcore GK2
+	Tooltip:
+		'''
+		Bullets are twice as large and ignores 15 points of enemy defense
+		'For rock and stone!'
 		'''
 }
 
@@ -466,7 +471,7 @@ FlakToxicannon: {
 	Tooltip:
 		'''
 		Fires angled shots in the direction of the cursor
-		Can only be shot in a cone direction above the player
+		Can only be shot in a wide cone above the player
 		'High IQ required'
 		'''
 }
@@ -475,8 +480,8 @@ FlarewingBow: {
 	DisplayName: Flarewing Bow
 	Tooltip:
 		'''
-		Shoots a spread of 4 arrows
-		Wooden arrows are converted into bouncing obsidian bats
+		Shoots a spread of 3 arrows
+		Wooden arrows are converted into obsidian bats which home in after piercing once
 		'''
 }
 
@@ -516,11 +521,6 @@ Fungicide: {
 Galeforce: {
 	DisplayName: Galeforce
 	Tooltip: Fires a spread of low-damage feathers
-}
-
-GodsBellows: {
-	DisplayName: God's Bellows
-	Tooltip: 70% chance to save ammo
 }
 
 GoldenEagle: {

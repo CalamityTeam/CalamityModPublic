@@ -442,7 +442,7 @@ namespace CalamityMod.Items
 
             // Palladium
             if (item.type == ItemID.PalladiumSword || item.type == ItemID.PalladiumPike)
-                EditTooltipByName("Knockback", (line) => line.Text += "\nIncreases life regen on hit");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nIncreases natural life regen on hit");
 
             // Mythril
             if (item.type == ItemID.MythrilSword || item.type == ItemID.MythrilHalberd)
@@ -477,9 +477,6 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
                 EditTooltipByName("Knockback", (line) => line.Text += "\nIgnores 50% of enemy defense");
-
-            if (item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge)
-                EditTooltipByName("Knockback", (line) => line.Text += "\nInflicts Shadowflame on hit");
 
             if (item.type == ItemID.DeathSickle)
                 EditTooltipByNum(0, (line) => line.Text += "\nInflicts Whispering Death on hit");
@@ -588,7 +585,7 @@ namespace CalamityMod.Items
             // Fairy Boots buff.
             if (item.type == ItemID.FairyBoots)
                 EditTooltipByNum(2, (line) => line.Text += "\nFairies can spawn at any time on the surface and spawn far more frequently\n" +
-                "Nearby fairies grant increased life regen, defense and movement speed\n" +
+                "Nearby fairies grant +2 HP/s life regen, 10 defense and  10% movement speed\n" +
                 "Fairies are immune to damage and will no longer flee");
 
             // Armor Crunch immunity pre-Golem.
@@ -623,8 +620,8 @@ namespace CalamityMod.Items
 
             // Magiluminescence nerf and clear explanation of what it actually does.
             if (item.type == ItemID.Magiluminescence)
-                EditTooltipByNum(0, (line) => line.Text = "Increases movement acceleration and deceleration by 1.25x\n" +
-                "Increases movement speed by 1.05x. This bonus applies to running boot accessories");
+                EditTooltipByNum(0, (line) => line.Text = "Increases movement acceleration and deceleration by 1.75x\n" +
+                "Increases movement speed by 1.15x. This bonus applies to running boot accessories");
 
             // Soaring Insignia nerf and clear explanation of what it actually does.
             if (item.type == ItemID.EmpressFlightBooster)
@@ -729,7 +726,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.TinHelmet)
                 AddTooltip("3% increased critical strike chance");
             if (item.type == ItemID.TinChainmail)
-                AddTooltip("+1 life regen");
+                AddTooltip("+0.5 HP/s life regen");
             if (item.type == ItemID.TinGreaves)
                 AddTooltip("5% increased movement speed");
 
@@ -745,7 +742,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.SilverHelmet)
                 AddTooltip("5% increased critical strike chance");
             if (item.type == ItemID.SilverChainmail)
-                AddTooltip("+2 life regen");
+                AddTooltip("+1 HP/s life regen");
             if (item.type == ItemID.SilverGreaves)
                 AddTooltip("8% increased movement speed");
 
@@ -753,7 +750,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.TungstenHelmet)
                 AddTooltip("7% increased damage");
             if (item.type == ItemID.TungstenChainmail)
-                AddTooltip("+1 life regen");
+                AddTooltip("+0.5 HP/s life regen");
             if (item.type == ItemID.TungstenGreaves)
                 AddTooltip("8% increased movement speed");
 
@@ -782,7 +779,7 @@ namespace CalamityMod.Items
             {
                 EditTooltipByNum(0, (line) => {
                     string newTooltip = line.Text.Replace("2%", "5%");
-                    newTooltip += "\n+1 life regen";
+                    newTooltip += "\n+0.5 HP/s life regen";
                     line.Text = newTooltip;
                 });
             }
@@ -945,7 +942,7 @@ namespace CalamityMod.Items
                 AddWingStats(3f, 1f, 0, 25);
 
             if (item.type == ItemID.AngelWings)
-                AddWingStats(6.25f, 1f, 1, 100, "+20 max life, +10 defense and +2 life regen");
+                AddWingStats(6.25f, 1f, 1, 100, "+20 max life, +10 defense and +1 HP/s life regen");
 
             if (item.type == ItemID.DemonWings)
                 AddWingStats(6.25f, 1f, 1, 100, "5% increased damage and critical strike chance");

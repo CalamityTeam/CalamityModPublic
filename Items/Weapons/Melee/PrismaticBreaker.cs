@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.damage = 662;
+            Item.damage = 699;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = Item.useAnimation = 13;
             Item.useTurn = true;
@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             else
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.5f, velocity.Y * 0.5f, type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.5f, velocity.Y * 0.5f, type, (int)(damage * 1.1f), knockback, player.whoAmI);
             }
             return false;
         }

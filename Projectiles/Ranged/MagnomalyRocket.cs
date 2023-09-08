@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[exo].noGravity = true;
                 Main.dust[exo].noLight = true;
             }
-            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

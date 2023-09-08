@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

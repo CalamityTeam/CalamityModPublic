@@ -44,7 +44,7 @@ namespace CalamityMod.Items
                 { ItemID.AntlionClaw, Do(UseExact(14)) }, // Mandible Blade
                 { ItemID.Bananarang, Do(DamageExact(98), UseExact(14)) },
                 { ItemID.BatScepter, Do(DamageExact(56)) },
-                { ItemID.BeamSword, Do(UseMeleeSpeed, DamageExact(200), UseAnimationExact(60), ShootSpeedExact(23f)) },
+                { ItemID.BeamSword, Do(UseMeleeSpeed, UseTurn, DamageExact(180), UseAnimationExact(60), ShootSpeedExact(23f)) },
                 { ItemID.BeeGun, Do(DamageExact(11)) },
                 { ItemID.BeesKnees, Do(PointBlank, DamageExact(18), UseExact(38)) },
                 { ItemID.Bladetongue, Do(UseTurn, UseRatio(0.8f), DamageExact(120), ScaleRatio(1.75f)) },
@@ -105,7 +105,7 @@ namespace CalamityMod.Items
                 // { ItemID.FireworksLauncher, Do(DamageRatio(2f)) }, // Celebration
                 { ItemID.Flamarang, Do(DamageExact(43)) },
                 { ItemID.Flamelash, Do(DamageRatio(1.25f)) },
-                { ItemID.Flamethrower, Do(DamageExact(42), ShootSpeedDelta(+3f)) },
+                { ItemID.Flamethrower, Do(ShootSpeedDelta(+3f)) },
                 { ItemID.FlowerofFire, Do(AutoReuse, ManaExact(7), UseRatio(0.88f)) }, // Uses ratios due to remix seed
                 { ItemID.FlowerofFrost, Do(AutoReuse, ManaExact(7), UseExact(30), DamageExact(70), ShootSpeedExact(14)) },
                 { ItemID.FlyingKnife, Do(DamageExact(70)) },
@@ -145,7 +145,7 @@ namespace CalamityMod.Items
                 { ItemID.MagnetSphere, Do(DamageRatio(1.1f)) },
                 { ItemID.Marrow, Do(PointBlank, DamageExact(69)) },
                 { ItemID.MedusaHead, Do(ManaExact(6), DamageRatio(1.2f)) },
-                { ItemID.Meowmere, Do(UseMeleeSpeed/*, DamageRatio(1.33f) */) },
+                { ItemID.Meowmere, Do(UseMeleeSpeed, DamageExact(240)/*, DamageRatio(1.33f) */) },
                 { ItemID.MeteorStaff, Do(DamageExact(58), ManaExact(7), ShootSpeedExact(13f)) },
                 { ItemID.Minishark, Do(PointBlank, DamageExact(4)) },
                 { ItemID.MoltenFury, Do(PointBlank, UseExact(29), AutoReuse) },
@@ -173,6 +173,7 @@ namespace CalamityMod.Items
                 { ItemID.PearlwoodSword, Do(UseTurn, DamageRatio(1.5f)) },
                 { ItemID.PewMaticHorn, Do(DamageExact(24)) },
                 { ItemID.PhoenixBlaster, Do(AutoReuse, PointBlank, UseExact(18)) },
+                { ItemID.PiranhaGun, Do(DamageExact(48)) },
                 { ItemID.PlatinumBow, Do(PointBlank, DamageExact(12)) },
                 { ItemID.PlatinumShortsword, Do(AutoReuse, TrueMelee, DamageExact(18)) },
                 { ItemID.PoisonStaff, Do(DamageExact(57)) },
@@ -212,7 +213,6 @@ namespace CalamityMod.Items
                 { ItemID.StakeLauncher, Do(PointBlank, DamageRatio(2f), UseRatio(1.5f)) },
                 { ItemID.StarCannon, Do(DamageExact(25)) },
                 { ItemID.StardustDragonStaff, Do(AutoReuse, DamageExact(20), UseExact(19)) },
-                { ItemID.StarWrath, Do(DamageRatio(0.9f)) },
                 { ItemID.StormTigerStaff, Do(AutoReuse, DamageExact(49), UseExact(20)) }, // Desert Tiger Staff
                 { ItemID.StylistKilLaKillScissorsIWish, Do(AutoReuse, UseTurn, DamageExact(18)) }, // Stylish Scissors
                 { ItemID.Swordfish, Do(AutoReuse, TrueMelee, DamageExact(24)) },
@@ -221,7 +221,7 @@ namespace CalamityMod.Items
                 { ItemID.TendonBow, Do(PointBlank, DamageExact(17), AutoReuse) },
                 // Vanilla damage 190. After fixing iframes so yoyo and shots can hit simultaneously,
                 // Terrarian is extremely overpowered and requires a heavy nerf.
-                { ItemID.Terrarian, Do(AutoReuse, DamageExact(106)) },
+                { ItemID.Terrarian, Do(AutoReuse, DamageExact(86)) },
                 { ItemID.TheRottedFork, Do(AutoReuse, TrueMelee, DamageExact(20)) },
                 { ItemID.TheUndertaker, Do(PointBlank, AutoReuse, DamageExact(15)) },
                 { ItemID.ThunderSpear, Do(AutoReuse, UseMeleeSpeed) }, // Storm Spear

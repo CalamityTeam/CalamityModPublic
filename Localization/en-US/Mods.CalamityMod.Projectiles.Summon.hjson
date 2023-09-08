@@ -167,6 +167,7 @@ MidnightSunUFO.DisplayName: Midnight Sun UFO
 MiniGuardianAttack.DisplayName: Offensive Guardian
 MiniGuardianDefense.DisplayName: Defensive Guardian
 MiniGuardianHealer.DisplayName: Healer Guardian
+MiniGuardianRock.DisplayName: Rocky Road
 MiniGuardianSpear.DisplayName: Bab Spear
 MiniSandShark.DisplayName: Mini Sand Shark
 MK2FlaskSummon.DisplayName: Flask
@@ -187,12 +188,11 @@ PlagueBeeSmall.DisplayName: Plague Bee
 PlaguebringerMK2.DisplayName: Plaguebringer MK2
 PlaguebringerSummon.DisplayName: Lil' Plaguebringer
 PlaguePrincess.DisplayName: Virili
-PlantSeed.DisplayName: Seed
-PlantSeedGreen.DisplayName: Seed
-PlantSporeCloud.DisplayName: Spore Cloud
-PlantSummon.DisplayName: Plantera
-PlantTentacle.DisplayName: Tentacle
-PlantThornBall.DisplayName: Thorn Ball
+PlantationStaffSummon.DisplayName: Mini Plantera
+PlantationStaffThornball.DisplayName: Mini Plantera's Thornball
+PlantationStaffSeed.DisplayName: Mini Plantera's Seed
+PlantationStaffSporeCloud.DisplayName: Mini Plantera's Spores
+PlantationStaffTentacle.DisplayName: Mini Plantera's Tentacle
 PlateProjectile.DisplayName: Plate
 PolypLauncherProjectile.DisplayName: Polyp Chunk
 PolypLauncherSentry.DisplayName: Polyp Launcher
