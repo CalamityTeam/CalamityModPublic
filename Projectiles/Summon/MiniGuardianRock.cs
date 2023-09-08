@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.netImportant = true;
             Projectile.tileCollide = false;
+            Projectile.ignoreWater = true; //the sounds get grating otherwise
             Projectile.width = 50;
             Projectile.height = 50;
             Projectile.minion = true;
