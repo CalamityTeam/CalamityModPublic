@@ -45,11 +45,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 483;
+            Item.damage = 466;
             Item.DamageType = DamageClass.Magic;
             Item.useTime = Item.useAnimation = 20;
             Item.shootSpeed = 7f;
-            Item.mana = 12;
+            Item.mana = 25;
             Item.knockBack = 5f;
 
             Item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
