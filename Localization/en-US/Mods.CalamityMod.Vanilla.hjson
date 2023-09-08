@@ -21,32 +21,32 @@ ArmsDealerChat: {
 	MentionQuadBarrel: That old man left a cranky old gun on his deathbed. You catching my drift?
 	HasQuadBarrel: Hah! Look at that rusty old shotty. It looks straight out of the 70's!
 	DoGDefeated: Is it me or are your weapons getting bigger and bigger?
-	Eclipse: That's the biggest moth I've ever seen for sure. You'd need one big gun to take one of those down.
+	Eclipse: I thought moths went for light, what is one doing here?! You gonna need more than a boomstick if you want to kill that!
 }
 
 ClothierChat: {
-	PolterghastDefeated: Whatever that thing was, I'm glad it's gone now
+	PolterghastDefeated: The voices have ceased... I don't want to know what you did there, but thank you.
 	MoonLordDefeated1: Who you gonna call?
 	MoonLordDefeated2: Those screams... I'm not sure why, but I feel like a nameless fear has awoken in my heart.
-	MoonLordDefeated3: I can faintly hear ghostly shrieks from the dungeon... and not ones I'm familiar with at all. Just what is going on in there?
+	MoonLordDefeated3: The voices I always kept hearing while in the Dungeon are back... There must be something behind them, I know when it's just my head.
 	MoonLordPresent: Houston, we've had a problem.
 }
 
 CyborgChat: {
 	MoonLordDefeated1: Always shoot for the moon! It has clearly worked before.
-	MoonLordDefeated2: Draedon? He's... a little 'high octane' if you know what I mean.
-	MentionPlague: Those oversized bugs terrorizing the jungle... Surely you of all people could shut them down!
+	MoonLordDefeated2: Draedon? The guy who made these upgrades on me said he wanted to best him, but I never cared about that, I just wanted to shoot lasers from my eyes.
+	MentionPlague: Those big green roaches in the Jungle don't threaten me, but all of the animals it has consumed... Please, do me a favor and protect them.
 	Rain: All these moments will be lost in time. Like tears... in the rain.
 }
 
 DemolitionistChat.DoGDefeated: God Slayer Dynamite? Boy do I like the sound of that!
 
 DryadChat: {
-	DarksunEclipse: There's a dark solar energy emanating from the moths that appear during this time. Ah, as you progress further the moths get more powerful...
+	DarksunEclipse: There's a dark solar energy emanating from the moths that appear during this time. What's up with moths getting stronger as you do too?
 	Hardmode: That starborne illness sits upon this land like a blister. Do even more vile forces of corruption exist in worlds beyond?
 	DrunkPrincessShroom: "{0} put me up to this."
 	Mushroom: I'm not here for any reason! Just picking up mushrooms for uh, later use.
-	SulphurSea: My ancestor was lost here long ago. I must pay my respects to her.
+	SulphurSea: My Goddess is resting deep below this sea. If you may excuse me, I wish to pay my respects to her alone.
 }
 
 DyeTraderChat: {
@@ -60,11 +60,11 @@ GoblinTinkererChat: {
 }
 
 GuideChat: {
-	ProvidenceDefeated1: Seems like extinguishing that butterfly caused its life to seep into the hallowed areas, try taking a peek there and see what you can find!
-	ProvidenceDefeated2: I've heard there is a portal of antimatter absorbing everything it can see in the dungeon, try using the Rune of Kos there!
-	MoonLordDefeated: The dungeon seems even more restless than usual, watch out for the powerful abominations stirring up in there.
+	ProvidenceDefeated1: Killing a Goddess would obviously make her essence seep into the land, you can probably use the remnants of her power to make even more powerful gear!
+	ProvidenceDefeated2: I've heard the Dragon Cult has something locked in the Dungeon they use to power their hexes, apparently messing with it can lead you to another world...
+	MoonLordDefeated: I've seen members of the Dragon Cult outside of the Dungeon far more often than before... I think you should check what could be causing their displacement.
 	Hardmode1: Could you be so kind as to, ah... check hell for me...? I left someone I kind of care about down there.
-	Hardmode2: I have this sudden shiver up my spine, like a meteor just fell and thousands of innocent creatures turned into monsters from the stars.
+	Hardmode2: That earthquake wasn't natural, something must have caused it... Beware when exploring, whatever caused it must be a powerful entity, perhaps even otherworldly.
 }
 
 MechanicChat: {
@@ -75,7 +75,7 @@ MechanicChat: {
 }
 
 MerchantChat: {
-	MoonLordDefeated: Each night seems only more foreboding than the last. I feel unthinkable terrors are watching your every move.
+	MoonLordDefeated: Every night seems more tense than the last. I feel unspeakable horrors are watching over us.
 	Eclipse: Are you daft?! Turn off those lamps!
 	AcidRain: If this acid rain keeps up, there'll be a shortage of Dirt Blocks soon enough!
 	Bandit: I happen to have several Angel Statues at the moment, a truely rare commodity. Want one?
@@ -121,7 +121,7 @@ SkeletonMerchantChat.Normal: What'dya buyin'?
 SteampunkerChat: {
 	HasPortalGun: Just what is that contraption? It makes my Teleporters look like child's play!
 	MoonLordDefeated: Yep! I'm also considering being a space pirate now.
-	Astral: Some of my machines are starting to go haywire thanks to this Astral Infection. I probably shouldn't have built them here
+	Astral: Some of my machines are starting to go haywire thanks to this Astral Infection. I probably shouldn't have built them here.
 	Hallow: I'm sorry I really don't have any Unicorn proof tech here, you're on your own.
 }
 
@@ -141,7 +141,7 @@ TavernkeepChat: {
 
 TaxCollectorChat: {
 	DoGDefeated: Devourer of what, you said? Devourer of Funds, if its payroll is anything to go by!
-	PreBrimmy: Perhaps with all that time you've got you could check those old ruins? Certainly something of value in it for you!
+	PreBrimmy: So those punks on Azafure think they can live for free on my lands? Tell you what, do my job there and I might give you a bonus.
 	HasSlickCane: Goodness! That cane has swagger!
 	Has500Plat: Where and how are you getting all of this money?
 	Has100Plat: BAH! Doesn't seem like I'll ever be able to quarrel with the debts of the town again!
@@ -156,11 +156,11 @@ TruffleChat: {
 
 WitchDoctorChat: {
 	BloodMoon: This is as good a time as any to pick up the best ingredients for potions.
-	PrePlantera: I have unique items if you show me that you have bested the guardian of this jungle.
-	Jungle: My home here has an extensive history and a mysterious past. You'll find out quickly just how extensive it is...
+	PrePlantera: I remember hearing some rumours about some villagers that were creating a monster to defend their village, maybe their magic can be of use to you?
+	Jungle: I wonder how my relatives are doing, last time I checked on them they were too busy praising the... Sun, I think.
 }
 
 WizardChat: {
 	Hardmode: Space just got way too close for comfort.
-	MentionRoD: I wanted to sell you a special rod I found in the Hallow, but it appears I have misplaced it. Maybe a trip back there would refresh my memory.
+	MentionRoD: I saw some teleporting pink men on the Hallow, if you'd be so kind as to settle me there, I could maybe make something that will give you their same powers.
 }
