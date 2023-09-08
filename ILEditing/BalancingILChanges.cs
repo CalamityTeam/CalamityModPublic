@@ -2,6 +2,7 @@
 using CalamityMod.Balancing;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.FurniturePlagued;
+using CalamityMod.Items.Potions;
 using CalamityMod.NPCs.DraedonLabThings;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -21,11 +22,6 @@ namespace CalamityMod.ILEditing
             if (item.type == ItemID.RodofDiscord || item.type == ModContent.ItemType<ProfanedSoulCrystal>())
             {
                 return DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs;
-            }
-
-            if (item.type == ModContent.ItemType<PlaguedContainmentBrick>())
-            {
-                return NPC.downedGolemBoss ? orig(item) : false;
             }
 
             return orig(item);
