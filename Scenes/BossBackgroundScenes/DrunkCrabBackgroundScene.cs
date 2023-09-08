@@ -28,7 +28,7 @@ namespace CalamityMod.Systems
                 {
                     NPC npc = Main.npc[CalamityGlobalNPC.SCal];
                     SupremeCalamitas supremeSomeone = npc.ModNPC<SupremeCalamitas>();
-                    cirrusSpecialAttack = supremeSomeone.cirrus && supremeSomeone.gettingTired5;
+                    cirrusSpecialAttack = supremeSomeone is not null && supremeSomeone.cirrus && supremeSomeone.gettingTired5;
                 }
             }
             catch
