@@ -5778,7 +5778,7 @@ namespace CalamityMod.NPCs
 
                     // Visual debuff
                     if (RancorBurnTime > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/RancorBurn").Value);
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/RancorBurn").Value);
 
                     // Vanilla damage over time debuffs
                     if (electrified > 0)
