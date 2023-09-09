@@ -1179,6 +1179,7 @@ namespace CalamityMod.World
                     }
                 }
             }
+            AbleToUnlockChests = false; //reseting the variable in case players generate multiple worlds to prevent already unlocked chests from spawning
         }
     }
 }

@@ -249,6 +249,7 @@ namespace CalamityMod.Items
                 { ItemID.YellowPhaseblade, Do(AutoReuse, UseTurn, DamageExact(32)) },
                 { ItemID.YellowPhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.ZombieArm, Do(AutoReuse, UseTurn, ScaleRatio(1.25f), KnockbackExact(12f)) },
+                { ItemID.Zenith, Do(DamageExact(210)) },
                 #endregion
 
                 #region CATEGORY 2: Defense Balancing

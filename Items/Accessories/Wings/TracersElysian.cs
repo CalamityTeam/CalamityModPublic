@@ -18,9 +18,10 @@ namespace CalamityMod.Items.Accessories.Wings
     public class TracersElysian : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories.Wings";
+
         public override void SetStaticDefaults()
         {
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 10.5f, 2.75f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 10f, 2.7f);
         }
 
         public override void SetDefaults()
@@ -51,8 +52,8 @@ namespace CalamityMod.Items.Accessories.Wings
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
             CalamityPlayer modPlayer = player.Calamity();
-            player.accRunSpeed = 9.25f;
-            player.moveSpeed += 0.2f;
+            player.accRunSpeed = 8.5f;
+            player.moveSpeed += 0.16f;
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
@@ -66,10 +67,10 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.95f; //0.85
+            ascentWhenFalling = 0.85f;
             ascentWhenRising = 0.15f;
-            maxCanAscendMultiplier = 1.1f; //1
-            maxAscentMultiplier = 3.15f; //3
+            maxCanAscendMultiplier = 1.1f;
+            maxAscentMultiplier = 2.7f;
             constantAscend = 0.135f;
         }
 

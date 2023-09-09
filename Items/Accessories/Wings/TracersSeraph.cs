@@ -18,9 +18,10 @@ namespace CalamityMod.Items.Accessories.Wings
     public class TracersSeraph : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories.Wings";
+
         public override void SetStaticDefaults()
         {
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(250, 12f, 3f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(250, 11f, 2.8f);
         }
 
         public override void SetDefaults()
@@ -51,8 +52,8 @@ namespace CalamityMod.Items.Accessories.Wings
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
             CalamityPlayer modPlayer = player.Calamity();
-            player.accRunSpeed = 10f;
-            player.moveSpeed += 0.24f;
+            player.accRunSpeed = 9f;
+            player.moveSpeed += 0.18f;
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
@@ -66,11 +67,11 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 1f; //0.85
-            ascentWhenRising = 0.175f; //0.15
-            maxCanAscendMultiplier = 1.2f; //1
-            maxAscentMultiplier = 3.25f; //3
-            constantAscend = 0.15f; //0.135
+            ascentWhenFalling = 0.95f;
+            ascentWhenRising = 0.16f;
+            maxCanAscendMultiplier = 1.2f;
+            maxAscentMultiplier = 2.9f;
+            constantAscend = 0.145f;
         }
 
         public override void AddRecipes()
