@@ -144,7 +144,7 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 
 
-                //apparently !NPC.wet can return true even when out of water :skull:
+                //apparently NPC.wet can return true even when out of water :skull:
                 if (!Collision.DrownCollision(NPC.position, NPC.width, NPC.height) || Collision.SolidCollision(NPC.Center, NPC.width, NPC.height) || NPC.Hitbox.Intersects(player.Hitbox)) //explode when in contact with a tile or target
                     Explode();
             }
@@ -268,7 +268,7 @@ namespace CalamityMod.NPCs.Abyss
             NPC.position -= NPC.Size * 0.5f; //hitbox expansion + adjustments
             SoundEngine.PlaySound(SoundID.Item14, NPC.Center); //bomb sound
             foreach (Player player in Main.player.Where(player => player.active && !player.dead && NPC.Hitbox.Intersects(player.Hitbox)))
-                player.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), NPC.damage * 3, NPC.direction);
+                player.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), NPC.damage * 3, NPC.direction); //Due to how slow the jelly is, this might catch you unaware, but then you'll never get hit by it again
             for (int k = 0; k < 25; k++)
             {
                 int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.MoonBoulder, 0f, -1f, 0, default, 2f);
