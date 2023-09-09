@@ -910,6 +910,11 @@ AuricToilet: {
 		'''
 }
 
+BabyCannonballJellyfishBowl: {
+	DisplayName: Baby Cannonball Jellyfish Bowl
+	Tooltip: ""
+}
+
 BabyFlakCrabCage: {
 	DisplayName: Baby Flak Crab Cage
 	Tooltip: ""
