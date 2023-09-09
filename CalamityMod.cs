@@ -163,6 +163,7 @@ namespace CalamityMod
         internal Mod thorium = null;
         internal Mod varia = null;
         internal Mod wikithis = null;
+        internal Mod magicStorage = null;
 
         //hell background
         //private List<HellBGLoad> loadCache;
@@ -203,6 +204,8 @@ namespace CalamityMod
             ModLoader.TryGetMod("Varia", out varia);
             wikithis = null;
             ModLoader.TryGetMod("Wikithis", out wikithis);
+            magicStorage = null;
+            ModLoader.TryGetMod("MagicStorage", out magicStorage);
 
             // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
@@ -426,6 +429,7 @@ namespace CalamityMod
             thorium = null;
             varia = null;
             wikithis = null;
+            magicStorage = null;
 
             AstralSky = null;
 
