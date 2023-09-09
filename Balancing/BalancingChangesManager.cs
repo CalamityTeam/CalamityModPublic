@@ -344,6 +344,9 @@ namespace CalamityMod.Balancing
             // 25% resist to Luminite Bullets.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileID.MoonlordBullet))));
 
+            // 25% resist to Zenith.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileID.FinalFractal))));
+
             // 20% resist to Blood Boiler fire.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<BloodBoilerFire>()))));
 
@@ -361,9 +364,6 @@ namespace CalamityMod.Balancing
 
             // 15% resist to Gruesome Eminence.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<SpiritCongregation>()))));
-
-            // 15% resist to Zenith.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileID.FinalFractal))));
 
             #endregion
 
