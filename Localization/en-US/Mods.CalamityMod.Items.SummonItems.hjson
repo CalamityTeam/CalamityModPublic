@@ -5,7 +5,7 @@ Abombination: {
 		Summons the Plaguebringer Goliath when used in the Jungle
 		Enrages outside the Jungle
 		Not consumable
-                'Radio capable of emitting a frequency recognized by the Plague nanovirus.'
+		              'Radio capable of emitting a frequency recognized by the Plague nanovirus.'
 		'''
 }
 
@@ -16,7 +16,7 @@ AstralChunk: {
 		Summons Astrum Aureus when used in the Astral Infection
 		Enrages during the day while outside the Astral Infection
 		Not consumable
-                'The Infection’s fortress has found another target.'
+		              'The Infection’s fortress has found another target.'
 		'''
 }
 
@@ -36,7 +36,7 @@ BloodyWormFood: {
 		Summons the Perforator Hive when used in the Crimson
 		Enrages outside the Underground Crimson
 		Not consumable
-                'Do not play with your food, they won’t play with theirs.'
+		              'Do not play with your food, they won’t play with theirs.'
 		'''
 }
 
@@ -46,7 +46,7 @@ CeremonialUrn: {
 		'''
 		Use at the Altar of the Accursed to summon the Supreme Witch, Calamitas
 		Not consumable
-                'The Witch will not allow it to happen once again.'
+		              'The Witch will not allow it to happen once again.'
 		'''
 }
 
@@ -67,7 +67,7 @@ CosmicWorm: {
 		'''
 		Summons the Devourer of Gods
 		Not consumable
-                'The Nameless Serpent has set out for you.'
+		              'The Nameless Serpent has set out for you.'
 		'''
 }
 
@@ -79,7 +79,7 @@ CryoKey: {
 		[SPAWN]
 		Enrages outside the tundra
 		Not consumable
-                'A key for a glacial prison.'
+		              'A key for a glacial prison.'
 		'''
 	SpawnNormal: Summons Cryogen when used in the tundra
 	SpawnGFB: Summons Cryogen...? when used in the tundra
@@ -102,7 +102,7 @@ DecapoditaSprout: {
 		Summons Crabulon when used in the Mushroom biome
 		Enrages outside the Underground Mushroom biome
 		Not consumable
-                'Bristling with the spores of a unique, parasitic strain.'
+		              'Bristling with the spores of a unique, parasitic strain.'
 		'''
 }
 
@@ -113,7 +113,7 @@ DesertMedallion: {
 		Summons the Desert Scourge when used in the Desert
 		Enrages outside the Desert
 		Not consumable
-                'The Scourge seeks for another meal.'
+		              'The Scourge seeks for another meal.'
 		'''
 }
 
@@ -123,7 +123,7 @@ EidolonTablet: {
 		'''
 		Summons the Lunatic Cultist
 		Not consumable
-                'An aged artifact venerated by the Dragon Cult.'
+		              'An aged artifact venerated by the Dragon Cult.'
 		'''
 }
 
@@ -146,7 +146,7 @@ EyeofDesolation: {
 		Summons the Calamitas Clone when used during nighttime[GFB]
 		Enrages during the day
 		Not consumable
-                'She is here.'
+		              'She is here.'
 		'''
 	GFBInfo: Creates a square arena of blocks, with you at its center
 }
@@ -275,7 +275,7 @@ Seafood: {
 		Summons the Aquatic Scourge when used in the Sulphurous Sea
 		Enrages outside the Sulphurous Sea
 		Not consumable
-                'Large bait for a large catch. Beware the monsters of the seas.'
+		              'Large bait for a large catch. Beware the monsters of the seas.'
 		'''
 }
 
@@ -296,7 +296,7 @@ Teratoma: {
 		Summons the Hive Mind when used in the Corruption
 		Enrages outside the Underground Corruption
 		Not consumable
-                'An exquisitely hideous tumor for those diseased in the head.'
+		              'An exquisitely hideous tumor for those diseased in the head.'
 		'''
 }
 
