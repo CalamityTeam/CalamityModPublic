@@ -5,6 +5,7 @@ Abombination: {
 		Summons the Plaguebringer Goliath when used in the Jungle
 		Enrages outside the Jungle
 		Not consumable
+                'Radio capable of emitting a frequency recognized by the Plague nanovirus.'
 		'''
 }
 
@@ -15,6 +16,7 @@ AstralChunk: {
 		Summons Astrum Aureus when used in the Astral Infection
 		Enrages during the day while outside the Astral Infection
 		Not consumable
+                'The Infection’s fortress has found another target.'
 		'''
 }
 
@@ -34,6 +36,7 @@ BloodyWormFood: {
 		Summons the Perforator Hive when used in the Crimson
 		Enrages outside the Underground Crimson
 		Not consumable
+                'Do not play with your food, they won’t play with theirs.'
 		'''
 }
 
@@ -43,6 +46,7 @@ CeremonialUrn: {
 		'''
 		Use at the Altar of the Accursed to summon the Supreme Witch, Calamitas
 		Not consumable
+                'The Witch will not allow it to happen once again.'
 		'''
 }
 
@@ -53,7 +57,7 @@ CharredIdol: {
 		Summons the Brimstone Elemental when used in the Brimstone Crags
 		Enrages outside the Brimstone Crags
 		Not consumable
-		'Use at your own risk'
+		'Anything under her gaze shall be scorched beyond recognition.'
 		'''
 }
 
@@ -63,6 +67,7 @@ CosmicWorm: {
 		'''
 		Summons the Devourer of Gods
 		Not consumable
+                'The Nameless Serpent has set out for you.'
 		'''
 }
 
@@ -74,6 +79,7 @@ CryoKey: {
 		[SPAWN]
 		Enrages outside the tundra
 		Not consumable
+                'A key for a glacial prison.'
 		'''
 	SpawnNormal: Summons Cryogen when used in the tundra
 	SpawnGFB: Summons Cryogen...? when used in the tundra
@@ -85,7 +91,7 @@ DeathWhistle: {
 		'''
 		Summons the Ravager
 		Not consumable
-		A whistle soaked in blood
+		'One of the few sounds the flesh golem still recognizes.'
 		'''
 }
 
@@ -96,6 +102,7 @@ DecapoditaSprout: {
 		Summons Crabulon when used in the Mushroom biome
 		Enrages outside the Underground Mushroom biome
 		Not consumable
+                'Bristling with the spores of a unique, parasitic strain.'
 		'''
 }
 
@@ -106,6 +113,7 @@ DesertMedallion: {
 		Summons the Desert Scourge when used in the Desert
 		Enrages outside the Desert
 		Not consumable
+                'The Scourge seeks for another meal.'
 		'''
 }
 
@@ -115,6 +123,7 @@ EidolonTablet: {
 		'''
 		Summons the Lunatic Cultist
 		Not consumable
+                'An aged artifact venerated by the Dragon Cult.'
 		'''
 }
 
@@ -125,7 +134,7 @@ ExoticPheromones: {
 		Summons The Dragonfolly when used in the Jungle
 		Enrages outside the Jungle
 		Not consumable
-		Specifically formulated to attract draconic offshoots
+		'Pheromones used for hunting Draconic Offshoots.'
 		'''
 }
 
@@ -137,6 +146,7 @@ EyeofDesolation: {
 		Summons the Calamitas Clone when used during nighttime[GFB]
 		Enrages during the day
 		Not consumable
+                'She is here.'
 		'''
 	GFBInfo: Creates a square arena of blocks, with you at its center
 }
@@ -166,7 +176,7 @@ NecroplasmicBeacon: {
 		Summons Polterghast when used in the Dungeon
 		Enrages in large spaces
 		Not consumable
-		'It's spooky'
+		'The wails of the spirits disturbed something far more terrifying.'
 		'''
 }
 
@@ -191,7 +201,7 @@ OverloadedSludge: {
 		'''
 		Summons the Slime God
 		Not consumable
-		'It looks corrupted'
+		'Writhing and bloated with the pus of Gods long dead.'
 		'''
 }
 
@@ -213,7 +223,7 @@ ProfanedCore: {
 		Unique drop changes depending on the biome fought in
 		Enrages when fought during nighttime
 		Not consumable
-		The core of the profaned flame
+		'The heart of Her Guardians, Her wicked wrath shall burn upon whoever now wields it.'
 		'''
 }
 
@@ -224,7 +234,7 @@ ProfanedShard: {
 		[SPAWN]
 		Enrage when not in the Hallow or Underworld
 		Not consumable
-		A shard of the profaned flame
+		'Her Guardians seek the holder of such vast stolen power.'
 		'''
 	SpawnNormal: Summons the Profaned Guardians when used in the Hallow or Underworld during daytime
 	SpawnRemix: Summons the Profaned Guardians when used in the Hallow or Underworld
@@ -265,6 +275,7 @@ Seafood: {
 		Summons the Aquatic Scourge when used in the Sulphurous Sea
 		Enrages outside the Sulphurous Sea
 		Not consumable
+                'Large bait for a large catch. Beware the monsters of the seas.'
 		'''
 }
 
@@ -285,6 +296,7 @@ Teratoma: {
 		Summons the Hive Mind when used in the Corruption
 		Enrages outside the Underground Corruption
 		Not consumable
+                'An exquisitely hideous tumor for those diseased in the head.'
 		'''
 }
 
@@ -305,6 +317,6 @@ YharonEgg: {
 		Summons Yharon, Dragon of Rebirth
 		Enrages outside the fire walls
 		Not consumable
-		An effigy of a Phoenix Dragon egg, used in worship
+		'A symbol of the Dragon watching over and waiting for you.'
 		'''
 }
