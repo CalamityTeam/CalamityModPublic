@@ -18,14 +18,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 9;
+            Item.damage = 10;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 46;
             Item.height = 30;
-            Item.useTime = 14;
-            Item.useAnimation = 14;
-            Item.reuseDelay = 18;
-            Item.useLimitPerAnimation = 18;
+            Item.useTime = Item.useAnimation = 10;
+            Item.reuseDelay = 10;
+            Item.useAnimation = 16;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2f;
@@ -52,8 +51,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<OpalStrikerHoldout>(), damage, knockback, player.whoAmI);
             return false;
         }
-
-        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool();
 
         public override void AddRecipes()
         {

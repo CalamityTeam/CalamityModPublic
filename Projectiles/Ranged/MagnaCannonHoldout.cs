@@ -13,7 +13,7 @@ using System.Runtime.Intrinsics;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class OpalStrikerHoldout : ModProjectile, ILocalizedModType
+    public class MagnaCannonHoldout : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
         private Player Owner => Main.player[Projectile.owner];
@@ -28,11 +28,11 @@ namespace CalamityMod.Projectiles.Ranged
         public bool Extradamage;
         public int Time = 0;
 
-        public override string Texture => "CalamityMod/Items/Weapons/Ranged/OpalStriker";
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/MagnaCannon";
 
         public override void SetDefaults()
         {
-            Projectile.width = 46;
+            Projectile.width = 58;
             Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
                 SoundEngine.PlaySound(OpalStriker.Fire, Projectile.position);
                 CurrentChargingFrames = 0;
                 Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * storedVelocity;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<OpalStrike>(), newdamage, Projectile.knockBack * (Extradamage ? 3 : 1), Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<MagnaShot>(), newdamage, Projectile.knockBack * (Extradamage ? 3 : 1), Projectile.owner);
                 Projectile.Kill();
             }
             else
@@ -66,11 +66,11 @@ namespace CalamityMod.Projectiles.Ranged
                 Player player = Main.player[Projectile.owner];
                 if (CurrentChargingFrames >= 10)
                 {
-                    Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.06f + (CurrentChargingFrames / 180), 0.08f + (CurrentChargingFrames / 180)), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(0.3f * CurrentChargingFrames, 0.3f * CurrentChargingFrames), 0f, Color.Gold, Color.Orange, 7, tipPosition);
+                    Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.06f + (CurrentChargingFrames / 180), 0.08f + (CurrentChargingFrames / 180)), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(0.3f * CurrentChargingFrames, 0.3f * CurrentChargingFrames), 0f, Color.White, Color.Aqua, 7, tipPosition);
                     GeneralParticleHandler.SpawnParticle(streak);
-                    Particle orb = new GenericBloom(tipPosition, Projectile.velocity, Color.Orange, CurrentChargingFrames / 135, 2);
+                    Particle orb = new GenericBloom(tipPosition, Projectile.velocity, Color.DarkBlue, CurrentChargingFrames / 135, 2);
                     GeneralParticleHandler.SpawnParticle(orb);
-                    Particle orb2 = new GenericBloom(tipPosition, Projectile.velocity, Color.Khaki, CurrentChargingFrames / 200, 2);
+                    Particle orb2 = new GenericBloom(tipPosition, Projectile.velocity, Color.Aqua, CurrentChargingFrames / 200, 2);
                     GeneralParticleHandler.SpawnParticle(orb2);
                 }
                 if (CurrentChargingFrames == 10)
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     for (int i = 0; i < 36; i++)
                     {
-                        Dust chargefull = Dust.NewDustPerfect(tipPosition, 162);
+                        Dust chargefull = Dust.NewDustPerfect(tipPosition, 187);
                         chargefull.velocity = (MathHelper.TwoPi * i / 36f).ToRotationVector2() * 18f + Owner.velocity;
                         chargefull.scale = Main.rand.NextFloat(1f, 1.5f);
                         chargefull.noGravity = true;
