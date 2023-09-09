@@ -38,11 +38,6 @@ AerialiteBrick: {
 	Tooltip: ""
 }
 
-AstralBar: {
-	DisplayName: Astral Bar
-	Tooltip: ""
-}
-
 AstralBrick: {
 	DisplayName: Astral Brick
 	Tooltip: ""

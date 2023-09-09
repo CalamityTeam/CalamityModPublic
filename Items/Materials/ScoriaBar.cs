@@ -17,15 +17,9 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-
-
             ItemID.Sets.SortingPriorityMaterials[Type] = 95; // Stardust Fragment
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-
-            Main.RegisterItemAnimation(
-                Type,
-                new DrawAnimationVertical(6, 6) /* 6 ticks per frame, has 6 frames total */
-            );
+            Main.RegisterItemAnimation(Type, new DrawAnimationVertical(6, 6));
         }
 
         public override void SetDefaults()

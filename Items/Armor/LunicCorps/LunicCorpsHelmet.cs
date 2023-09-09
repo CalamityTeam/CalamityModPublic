@@ -1,6 +1,6 @@
 ﻿using System;
 using CalamityMod.CalPlayer;
-using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;

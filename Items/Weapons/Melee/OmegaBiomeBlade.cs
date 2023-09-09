@@ -1,6 +1,5 @@
 ﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
 using CalamityMod.DataStructures;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
