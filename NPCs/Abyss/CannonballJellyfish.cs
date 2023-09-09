@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using System.Linq;
+using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -45,8 +46,8 @@ namespace CalamityMod.NPCs.Abyss
             NPC.value = Item.buyPrice(0, 0, 1, 5);
             NPC.HitSound = SoundID.NPCHit25;
             NPC.DeathSound = SoundID.NPCDeath28;
-            //Banner = NPC.type;
-            //BannerItem = ModContent.ItemType<CannonballJellyfishBanner>(); does not yet exist
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CannonballJellyfishBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
