@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Otherworldly Stone");
             Item.width = 12;
             Item.height = 12;
             Item.maxStack = 9999;

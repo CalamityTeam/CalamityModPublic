@@ -1119,6 +1119,11 @@ DraedonsForge: {
 		'''
 }
 
+EffulgentManipulator: {
+	DisplayName: Effulgent Manipulator
+	Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+}
+
 EutrophicShelf: {
 	DisplayName: Eutrophic Shelf
 	Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
@@ -1136,11 +1141,6 @@ PlagueInfuser: {
 
 ProfanedCrucible: {
 	DisplayName: Profaned Crucible
-	Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
-}
-
-SilvaBasin: {
-	DisplayName: Silva Basin
 	Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 }
 
@@ -2344,8 +2344,8 @@ ExoToilet: {
 	Tooltip: ""
 }
 
-ExoWorkbench: {
-	DisplayName: Exo Workbench
+ExoWorkBench: {
+	DisplayName: Exo Work Bench
 	Tooltip: ""
 }
 
@@ -2754,8 +2754,8 @@ ProfanedTable: {
 	Tooltip: ""
 }
 
-ProfanedWorkbench: {
-	DisplayName: Profaned Workbench
+ProfanedWorkBench: {
+	DisplayName: Profaned Work Bench
 	Tooltip: ""
 }
 
@@ -3298,8 +3298,8 @@ VoidTable: {
 	Tooltip: ""
 }
 
-VoidWorkbench: {
-	DisplayName: Void Workbench
+VoidWorkBench: {
+	DisplayName: Void Work Bench
 	Tooltip: ""
 }
 

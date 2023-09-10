@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -20,4 +20,4 @@ namespace CalamityMod.Tiles.FurnitureStratus
             num = fail ? 1 : 3;
         }
     }
-}
+}*/

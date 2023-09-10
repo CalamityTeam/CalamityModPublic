@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Profaned Crucible");
             Item.width = 8;
             Item.height = 10;
             Item.maxStack = 9999;

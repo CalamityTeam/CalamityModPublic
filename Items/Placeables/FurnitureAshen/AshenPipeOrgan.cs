@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Ashen Pipe Organ");
             Item.width = 26;
             Item.height = 26;
             Item.maxStack = 9999;

@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Monolith Bed");
             Item.width = 28;
             Item.height = 20;
             Item.maxStack = 9999;

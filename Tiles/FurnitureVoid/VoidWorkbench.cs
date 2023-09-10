@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -19,4 +19,4 @@ namespace CalamityMod.Tiles.FurnitureVoid
             num = fail ? 1 : 3;
         }
     }
-}
+}*/

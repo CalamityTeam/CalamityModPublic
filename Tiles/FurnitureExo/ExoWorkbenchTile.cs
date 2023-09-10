@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables.FurnitureExo;
+﻿/*using CalamityMod.Items.Placeables.FurnitureExo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -38,4 +38,4 @@ namespace CalamityMod.Tiles.FurnitureExo
                 spriteBatch.Draw(glowmask, drawPosition + new Vector2(0f, 8f), new Rectangle(xFrameOffset, yFrameOffset, 18, 8), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
         }
     }
-}
+}*/

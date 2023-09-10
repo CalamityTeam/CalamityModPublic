@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Void Obelisk");
             Item.width = 26;
             Item.height = 22;
             Item.maxStack = 9999;

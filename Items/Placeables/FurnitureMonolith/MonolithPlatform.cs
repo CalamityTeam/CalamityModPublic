@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
 
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Monolith Platform");
             Item.width = 8;
             Item.height = 10;
             Item.maxStack = 9999;
