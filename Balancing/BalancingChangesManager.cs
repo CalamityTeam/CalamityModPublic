@@ -1,4 +1,5 @@
-﻿using CalamityMod.NPCs.CeaselessVoid;
+﻿using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
@@ -137,6 +138,11 @@ namespace CalamityMod.Balancing
 
             // 15% resist to Snowstorm Staff.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<Snowflake>()))));
+            #endregion
+
+            #region Astrum Aureus
+            //35% resist to The Ballista's greatarrows.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<AstrumAureus>(), Do(new ProjectileResistBalancingRule(0.65f, ProjectileType<BallistaGreatArrow>()))));
             #endregion
 
             #region Ravager
