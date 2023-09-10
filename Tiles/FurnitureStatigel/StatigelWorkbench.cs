@@ -1,4 +1,4 @@
-﻿/*using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelWorkbench : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelWorkbench>());
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelWorkBench>());
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -19,4 +19,4 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             num = fail ? 1 : 3;
         }
     }
-}*/
+}

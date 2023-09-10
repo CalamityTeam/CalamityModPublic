@@ -1,4 +1,4 @@
-﻿/*using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidWorkbench : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureVoid.VoidWorkbench>(), true);
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureVoid.VoidWorkBench>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -19,4 +19,4 @@ namespace CalamityMod.Tiles.FurnitureVoid
             num = fail ? 1 : 3;
         }
     }
-}*/
+}

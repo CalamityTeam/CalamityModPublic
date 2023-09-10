@@ -1,4 +1,4 @@
-﻿/*using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedWorkbench : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedWorkbench>(), true);
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedWorkBench>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -21,4 +21,4 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             num = fail ? 1 : 3;
         }
     }
-}*/
+}

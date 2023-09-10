@@ -3088,8 +3088,8 @@ StatigelTable: {
 	Tooltip: ""
 }
 
-StatigelWorkbench: {
-	DisplayName: Statigel Workbench
+StatigelWorkBench: {
+	DisplayName: Statigel Work Bench
 	Tooltip: ""
 }
 
@@ -3193,8 +3193,8 @@ StratusTable: {
 	Tooltip: ""
 }
 
-StratusWorkbench: {
-	DisplayName: Stratus Workbench
+StratusWorkBench: {
+	DisplayName: Stratus Work Bench
 	Tooltip: ""
 }
 
@@ -3388,8 +3388,8 @@ WulfrumToilet: {
 	Tooltip: ""
 }
 
-WulfrumWorkbench: {
-	DisplayName: Wulfrum Workbench
+WulfrumWorkBench: {
+	DisplayName: Wulfrum Work Bench
 	Tooltip: ""
 }
 
