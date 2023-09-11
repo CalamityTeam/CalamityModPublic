@@ -36,10 +36,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useAmmo = AmmoID.Rocket;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-20, 10);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-20, 10);
 
         public override bool AltFunctionUse(Player player)
         {

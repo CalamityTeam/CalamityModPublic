@@ -1,19 +1,203 @@
 AcidRainT1: {
 	EntryName: Acid Rain
-	SpawnInfo: Use a [i:CalamityMod/CausticTear] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.
+	SpawnInfo: Use a [i:CalamityMod/CausticTear] or wait for an acidic downpour to occur naturally after the Eye of Cthulhu is defeated.
 }
 
 AcidRainT2: {
 	EntryName: Acid Rain (Tier 2)
-	SpawnInfo: Use a [i:CalamityMod/CausticTear] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated
+	SpawnInfo: Use a [i:CalamityMod/CausticTear] or wait for an acidic downpour to occur naturally after the Aquatic Scourge is defeated.
 }
 
 AcidRainT3: {
 	EntryName: Acid Rain (Tier 3)
-	SpawnInfo: Use a [i:CalamityMod/CausticTear] or wait for the invasion to occur naturally after the Polterghast is defeated
+	SpawnInfo: Use a [i:CalamityMod/CausticTear] or wait for an acidic downpour to occur naturally after Polterghast is defeated.
+}
+
+AquaticScourge: {
+	EntryName: Aquatic Scourge
+	SpawnInfo: Use a [i:CalamityMod/Seafood] in the Sulphurous Sea, or wait for it to spawn naturally in the Sulphurous Sea.
+	DespawnMessage: "[c/F0E68C:The poisoned scourge swims back to the tranquil, open ocean.]"
+}
+
+AstrumAureus: {
+	SpawnInfo: Use an [i:CalamityMod/AstralChunk] at night in the Astral Infection.
+	DespawnMessage: "[c/FFD700:Aureus has neutralized all threats. Resume prior reconnaissance.]"
+}
+
+AstrumDeus: {
+	EntryName: Astrum Deus
+	SpawnInfo: Use a [i:CalamityMod/TitanHeart] or [i:CalamityMod/Starcore] as offering at an [i:CalamityMod/AstralBeaconItem].
+	DespawnMessage: "[c/FFD700:The infected deity retreats to the heavens.]"
 }
 
 BossRush: {
 	EntryName: Boss Rush
-	SpawnInfo: Use a [i:CalamityMod/Terminus] found at the bottom of the Abyss
+	SpawnInfo: Use the [i:CalamityMod/Terminus] found at the bottom of the Abyss.
+}
+
+BrimstoneElemental: {
+	SpawnInfo: Use a [i:CalamityMod/CharredIdol] in the Brimstone Crags or Azafure.
+	DespawnMessage: "[c/DC143C:The elemental ever maintains her somber vigil over Azafure…]"
+}
+
+Calamitas: {
+	EntryName: Supreme Witch, Calamitas
+	SpawnInfo: Use [i:CalamityMod/AshesofCalamity] or a [i:CalamityMod/CeremonialUrn] as offering at an [i:CalamityMod/AltarOfTheAccursedItem].
+	DespawnMessage: "[c/FFA500:The Witch vanishes, leaving nothing but stifling heat in her wake.]"
+}
+
+CalamitasClone: {
+	SpawnInfo: Use an [i:CalamityMod/EyeofDesolation] at night.
+	DespawnMessage: "[c/FFA500:The clone spits a bit of blood in disgust and vanishes.]"
+}
+
+CeaselessVoid: {
+	EntryName: Ceaseless Void
+	SpawnInfo: Use a [i:CalamityMod/RuneofKos] in the dungeon.
+	DespawnMessage: "[c/4B0082:The ancient spatial rift slips away to places unknown.]"
+}
+
+Crabulon: {
+	SpawnInfo: Use a [i:CalamityMod/DecapoditaSprout] in a Glowing Mushroom biome.
+	DespawnMessage: "[c/6495ED:The monstrous mycelial crab shuffles away…]"
+}
+
+CragmawMire: {
+	SpawnInfo:
+		'''
+		Spawns during the Acid Rain event after the Aquatic Scourge has been defeated.
+		Start an acidic downpour with a [i:CalamityMod/CausticTear] or wait for one to occur naturally.
+		'''
+	DespawnMessage: "[c/F0E68C:The Cragmaw Mire buries itself within the sand.]"
+}
+
+Cryogen: {
+	SpawnInfo: Use a [i:CalamityMod/CryoKey] in the tundra.
+	DespawnMessage: "[c/00FFFF:Cryogen disappears amidst the biting winds of the blizzard.]"
+}
+
+DesertScourge: {
+	EntryName: Desert Scourge
+	SpawnInfo: Use a [i:CalamityMod/DesertMedallion] in the desert.
+	DespawnMessage: "[c/EEE8AA:The scourge of the desert delves back into the sand.]"
+}
+
+DevourerofGods: {
+	EntryName: Devourer of Gods
+	SpawnInfo: Use a [i:CalamityMod/CosmicWorm].
+	DespawnMessage: "[c/00FFFF:The Devourer of Gods haughtily returns to the depths of the Distortion.]"
+}
+
+Dragonfolly: {
+	SpawnInfo: Use [i:CalamityMod/ExoticPheromones] in the jungle.
+	DespawnMessage: "[c/FFD700:The folly returns to its secluded roost.]"
+}
+
+ExoMechs: {
+	EntryName: The Exo Mechs
+	SpawnInfo: Use a fully-powered Codebreaker to contact Draedon…
+	DespawnMessage: "[c/7FFFD4:An imperfection after all… what a shame.]"
+}
+
+GiantClam: {
+	SpawnInfo: Spawns naturally underwater in the Sunken Sea.
+	DespawnMessage: "[c/7FFFD4:The Giant Clam returns into hiding in its grotto.]"
+}
+
+GreatSandShark: {
+	SpawnInfo: Kill 10 Sand Sharks after defeating Plantera or use a [i:CalamityMod/SandstormsCore] in the desert.
+	DespawnMessage: "[c/DAA520:The apex predator of the sands disappears between the dunes.]"
+}
+
+HiveMind: {
+	SpawnInfo: Kill a Hive Tumor in the Corruption or use a [i:CalamityMod/Teratoma] in the Corruption.
+	DespawnMessage: "[c/9400D3:The Hive Mind flits away to brood elsewhere.]"
+}
+
+Leviathan: {
+	EntryName: Anahita & The Leviathan
+	SpawnInfo: Defeat an elusive singer in the ocean…
+	DespawnMessage: "[c/7FFFD4:The aquatic outcasts return to their lonesome company.]"
+}
+
+Mauler: {
+	SpawnInfo:
+		'''
+		Spawns during the Acid Rain event after Polterghast has been defeated.
+		Start an acidic downpour with a [i:CalamityMod/CausticTear] or wait for one to occur naturally.
+		'''
+	DespawnMessage: "[c/F0E68C:The brutish shark looks elsewhere to turn its aggression.]"
+}
+
+NuclearTerror: {
+	SpawnInfo:
+		'''
+		Spawns during the Acid Rain event after Polterghast has been defeated.
+		Start an acidic downpour with a [i:CalamityMod/CausticTear] or wait for one to occur naturally.
+		'''
+	DespawnMessage: "[c/F0E68C:The radioactive aberration fades away in a sickly light.]"
+}
+
+OldDuke: {
+	EntryName: Old Duke
+	SpawnInfo: Finish the Tier 3 Acid Rain event, or fish using a [i:CalamityMod/BloodwormItem] as bait in the Sulphurous Sea.
+	DespawnMessage: "[c/F0E68C:The old duke retreats further into the acidic downpour.]"
+}
+
+Perforators: {
+	EntryName: The Perforators
+	SpawnInfo: Kill a Perforator Cyst in the Crimson or use a [i:CalamityMod/BloodyWormFood] in the Crimson.
+	DespawnMessage: "[c/DC143C:The Perforators search for more hosts to gorge themselves on.]"
+}
+
+PlaguebringerGoliath: {
+	SpawnInfo: Use an [i:CalamityMod/Abombination] in the jungle.
+	DespawnMessage: "[c/00FF00:SPECIMENS EUTHANIZED. EXITING COMBAT PROTOCOL.]"
+}
+
+Polterghast: {
+	EntryName: Polterghast
+	SpawnInfo: Kill 30 Phantom Spirits or use a [i:CalamityMod/NecroplasmicBeacon] in the dungeon.
+	DespawnMessage: "[c/B0E0E6:The volatile phantasm disperses in an echoing wail.]"
+}
+
+ProfanedGuardians: {
+	EntryName: Profaned Guardians
+	SpawnInfo: Use a [i:CalamityMod/ProfanedShard] in the hallow or in the underworld.
+	DespawnMessage: "[c/FFA500:The Guardians are recalled to their Goddess' side.]"
+}
+
+Providence: {
+	SpawnInfo: Use a [i:CalamityMod/ProfanedCore] in the hallow or in the underworld.
+	DespawnMessage: "[c/FFA500:The Profaned Goddess veils herself in purifying flame, leaving only ashes behind…]"
+}
+
+Ravager: {
+	EntryName: Ravager
+	SpawnInfo: Use a [i:CalamityMod/DeathWhistle].
+	DespawnMessage: "[c/B22222:The Ravager resumes its aimless, horrific rampage.]"
+}
+
+Signus: {
+	EntryName: Signus
+	SpawnInfo: Use a [i:CalamityMod/RuneofKos] in the underworld.
+	DespawnMessage: "[c/BA55D3:Signus inexplicably ceases to be where he once was.]"
+}
+
+SlimeGod: {
+	EntryName: The Slime God
+	SpawnInfo: Use an [i:CalamityMod/OverloadedSludge].
+	DespawnMessage: "[c/BA5533:The grimy, gelatinous God hops away, its vengeance achieved.]"
+}
+
+StormWeaver: {
+	EntryName: Storm Weaver
+	SpawnInfo: Use a [i:CalamityMod/RuneofKos] high in the sky or in space.
+	DespawnMessage: "[c/EE82EE:Storm Weaver hides itself within the fierce anvilhead clouds.]"
+}
+
+Yharon: {
+	EntryName: Yharon
+	SpawnInfo: Use a [i:CalamityMod/YharonEgg].
+	DespawnMessage: "[c/FFA500:Yharon soars out of sight, his task fulfilled.]"
 }

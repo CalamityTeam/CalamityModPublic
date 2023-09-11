@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Linq;
-using CalamityMod.Systems;
 using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
@@ -16,11 +14,9 @@ using CalamityMod.DataStructures;
 using CalamityMod.Effects;
 using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
-using CalamityMod.ILEditing;
 using CalamityMod.Items;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.VanillaArmorChanges;
-using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -38,10 +34,12 @@ using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
@@ -61,7 +59,6 @@ using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.UI.DraedonsArsenal;
 using CalamityMod.UI.Rippers;
 using CalamityMod.Waters;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -73,8 +70,6 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
-using Terraria.DataStructures;
-using CalamityMod.NPCs.NormalNPCs;
 
 [assembly: InternalsVisibleTo("CalTestHelpers")]
 [assembly: InternalsVisibleTo("InfernumMode")]
@@ -150,11 +145,13 @@ namespace CalamityMod
         internal Mod musicMod = null; // This is Calamity's official music mod, CalamityModMusic
         internal bool MusicAvailable => !(musicMod is null);
 
+        // Please keep this in alphabetical order so it's easy to read
         internal Mod ancientsAwakened = null;
         internal Mod bossChecklist = null;
         internal Mod crouchMod = null;
         internal Mod dialogueTweak = null;
         internal Mod fargos = null;
+        internal Mod magicStorage = null;
         internal Mod overhaul = null;
         internal Mod redemption = null;
         internal Mod soa = null;
@@ -187,6 +184,8 @@ namespace CalamityMod
             ModLoader.TryGetMod("DialogueTweak", out dialogueTweak);
             fargos = null;
             ModLoader.TryGetMod("Fargowiltas", out fargos);
+            magicStorage = null;
+            ModLoader.TryGetMod("MagicStorage", out magicStorage);
             overhaul = null;
             ModLoader.TryGetMod("TerrariaOverhaul", out overhaul);
             redemption = null;
@@ -418,6 +417,7 @@ namespace CalamityMod
             crouchMod = null;
             dialogueTweak = null;
             fargos = null;
+            magicStorage = null;
             overhaul = null;
             redemption = null;
             soa = null;

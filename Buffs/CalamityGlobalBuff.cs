@@ -182,7 +182,20 @@ namespace CalamityMod.Buffs
                 case BuffID.Mining:
                     tip = tip.Replace("25", "15");
                     break;
-
+                
+                case BuffID.MonsterBanner: //Vanilla's wording is unclear and nondescript
+                    var tooltipLines = tip.Split("\n");
+                    var result = "";
+                    foreach (var tooltip in tooltipLines)
+                    {
+                        if (tooltip == tooltipLines[0])
+                            result += CalamityUtils.GetText("Vanilla.BuffDescription.Banner");
+                        else
+                            result += "\n" + tooltip;
+                    }
+                    tip = result;
+                    break;
+                
                 case BuffID.NebulaUpDmg1:
                     tip = tip.Replace("15", "7.5");
                     break;

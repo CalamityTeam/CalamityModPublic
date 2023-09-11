@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 18;
             Item.height = 36;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4f;
@@ -62,7 +62,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float SpeedY = velocity.Y + (float)Main.rand.Next(-10, 11) * 0.05f;
                 type = Utils.SelectRandom(Main.rand, new int[]
                 {
-                    ProjectileID.CursedArrow,
                     ProjectileID.HellfireArrow,
                     ProjectileID.IchorArrow
                 });
