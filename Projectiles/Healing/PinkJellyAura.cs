@@ -10,7 +10,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Typless
+namespace CalamityMod.Projectiles.Healing
 {
     public class PinkJellyAura : ModProjectile, ILocalizedModType
     {
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Typless
             {
                 Player player = Main.player[playerIndex];
                 float targetDist = Vector2.Distance(player.Center, Projectile.Center);
-                if (targetDist < 155f)
+                if (targetDist < 165f)
                 {
                     player.AddBuff(ModContent.BuffType<PinkJellyRegen>(), 300);
                 }

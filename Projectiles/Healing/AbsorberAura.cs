@@ -12,7 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 
-namespace CalamityMod.Projectiles.Typless
+namespace CalamityMod.Projectiles.Healing
 {
     public class AbsorberAura : ModProjectile, ILocalizedModType
     {
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Typless
                 float targetDist = Vector2.Distance(player.Center, Projectile.Center);
 
                 //Remove the players debuffs and defense damage, but only once per aura
-                if (targetDist < 232f)
+                if (targetDist < 310f)
                 {
                     player.AddBuff(ModContent.BuffType<AbsorberRegen>(), 600);
                     if (cleanseList[playerIndex] == false)
