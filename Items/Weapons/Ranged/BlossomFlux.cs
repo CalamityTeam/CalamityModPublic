@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 14;
+            Item.damage = 20;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 38;
             Item.height = 68;
@@ -52,8 +52,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             else
             {
-                Item.useTime = 2;
-                Item.useAnimation = 16;
+                Item.useTime = 3;
+                Item.useAnimation = 15;
                 Item.UseSound = SoundID.Item5;
             }
             return base.CanUseItem(player);
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<SporeBomb>(), (int)(damage * 4D), knockback * 60f, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<SporeBomb>(), (int)(damage * 3.15f), knockback * 60f, player.whoAmI);
             }
             else
             {

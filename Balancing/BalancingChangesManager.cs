@@ -1,4 +1,5 @@
-﻿using CalamityMod.NPCs.CeaselessVoid;
+﻿using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
@@ -139,6 +140,11 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<Snowflake>()))));
             #endregion
 
+            #region Astrum Aureus
+            //35% resist to The Ballista's greatarrows.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<AstrumAureus>(), Do(new ProjectileResistBalancingRule(0.65f, ProjectileType<BallistaGreatArrow>()))));
+            #endregion
+
             #region Ravager
             // 50% resist to true melee.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<RavagerBody>(), ResistTrueMelee(0.5f)));
@@ -206,8 +212,8 @@ namespace CalamityMod.Balancing
             // 50% resist to Elemental Axes.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.StormWeaverIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<ElementalAxeMinion>()))));
 
-            // 50% resist to Pristine Fury.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.StormWeaverIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<PristineFire>()))));
+            // 50% resist to Pristine Fury's alt fire.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.StormWeaverIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<PristineSecondary>()))));
 
             // 50% resist to Tactician's Trump Card explosions.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.StormWeaverIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<TacticiansElectricBoom>()))));
@@ -314,9 +320,6 @@ namespace CalamityMod.Balancing
             // 40% resist to Rancor.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<RancorLaserbeam>()))));
 
-            // 35% resist to Zenith.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.65f, ProjectileID.FinalFractal))));
-
             // 30% resist to the Spin Throw part of the Ark of the Cosmos' combo.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.7f, AotCThrowCombo))));
 
@@ -346,6 +349,9 @@ namespace CalamityMod.Balancing
 
             // 25% resist to Luminite Bullets.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileID.MoonlordBullet))));
+
+            // 25% resist to Zenith.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileID.FinalFractal))));
 
             // 20% resist to Blood Boiler fire.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<BloodBoilerFire>()))));
@@ -379,11 +385,14 @@ namespace CalamityMod.Balancing
             // 85% resist to Chicken Cannon.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.15f, ProjectileType<ChickenExplosion>())));
 
-            // 40% resist to Subsuming Vortex.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.6f, ProjectileType<ExoVortex>(), ProjectileType<ExoVortex2>(), ProjectileType<EnormousConsumingVortex>())));
+            // 50% resist to Subsuming Vortex.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.5f, ProjectileType<ExoVortex>(), ProjectileType<ExoVortex2>(), ProjectileType<EnormousConsumingVortex>())));
 
             // 30% resist to Murasama.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.7f, ProjectileType<MurasamaSlash>())));
+
+            // 30% resist to Zenith.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.7f, ProjectileID.FinalFractal)));
 
             // 25% resist to Yharim's Crystal.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.75f, ProjectileType<YharimsCrystalBeam>())));

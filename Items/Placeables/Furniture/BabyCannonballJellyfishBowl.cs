@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-    public class BabyGhostBellJar : ModItem, ILocalizedModType
+    public class BabyCannonballJellyfishBowl : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Placeables.Furniture
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<BabyGhostBellJarTile>();
+            Item.createTile = ModContent.TileType<BabyCannonballJellyfishBowlTile>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BabyGhostBellItem>()).AddIngredient(ItemID.BottledWater).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BabyCannonballJellyfishItem>()).AddIngredient(ItemID.BottledWater).Register();
         }
     }
 }

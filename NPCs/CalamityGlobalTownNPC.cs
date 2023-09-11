@@ -1012,7 +1012,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.DyeTrader:
                     if (Main.rand.NextBool(5) && permadong != -1)
-                        chat = CalamityUtils.GetText("Vanilla.PainterChat.Archmage").Format(Main.npc[permadong].GivenName);
+                        chat = CalamityUtils.GetText("Vanilla.DyeTraderChat.Archmage").Format(Main.npc[permadong].GivenName);
                     else if (Main.rand.NextBool(5))
                         chat = CalamityUtils.GetTextValue("Vanilla.DyeTraderChat.Normal");
                     break;

@@ -1,5 +1,6 @@
 // Buff Descriptions
 BuffDescription: {
+	Banner: You have increased damage and defense against the following:
 	BeetleMight: Melee damage and speed increase by {0}% and {1}% respectively
 	ChaosState: Rod of Discord teleports are disabled
 	LeafCrystal: Emits powerful life pulses at nearby enemies
@@ -162,5 +163,5 @@ WitchDoctorChat: {
 
 WizardChat: {
 	Hardmode: Space just got way too close for comfort.
-	MentionRoD: I saw some teleporting pink men on the Hallow, if you'd be so kind as to settle me there, I could maybe make something that will give you their same powers.
+	MentionRoD: I saw some teleporting pink men on the Hallow. If you'd be so kind as to settle me there, I could maybe make something that will give you their same powers.
 }

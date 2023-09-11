@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<Baroclaw>().
                 AddIngredient<GiantTortoiseShell>().
                 AddIngredient<MolluskHusk>(5).
+                AddIngredient<MeldConstruct>(6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }
