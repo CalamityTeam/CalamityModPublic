@@ -8,6 +8,7 @@ AquaBlast.DisplayName: Aqua Blast
 AquaBlastToxic.DisplayName: Aqua Blast Toxic
 Aquashard.DisplayName: Aquashard
 AquashardSplit.DisplayName: Aquashard
+ArcherfishRing.DisplayName: Archerfish Ring
 ArcherfishShot.DisplayName: Water Round
 ArcticArrowProj.DisplayName: Arctic Arrow
 AstralCannonProjectile.DisplayName: Astral Crystal
@@ -69,6 +70,7 @@ DrizzlefishFire.DisplayName: Drizzlefish Flames
 DrizzlefishFireball.DisplayName: Drizzlefish Fireball
 DrizzlefishFireSplit.DisplayName: Drizzlefish Flames
 DWArrow.DisplayName: Death's Arrow
+ElementalFire.DisplayName: Elemental Fire
 ElysianArrowProj.DisplayName: Elysian Arrow
 EmesisGore.DisplayName: Rotten Gore
 EnhancedNanoRoundProj.DisplayName: Enhanced Nano Round
@@ -121,6 +123,8 @@ LunarBolt.DisplayName: Bolt
 LunarBolt2.DisplayName: Bolt
 LuxorsGiftRanged.DisplayName: Luxor's Ranged
 MaelstromHoldout.DisplayName: The Maelstrom
+MagnaCannonHoldout.DisplayName: Magna Cannon
+MagnaShot.DisplayName: Magna Bolt
 MagnaStrike.DisplayName: Strike
 MagnomalyAura.DisplayName: Magnomaly Aura
 MagnomalyBeam.DisplayName: Beam
@@ -145,7 +149,9 @@ Nuke.DisplayName: Nuke
 NullShot.DisplayName: Null
 NullShot2.DisplayName: Null
 OnyxSharkBomb.DisplayName: Onyx Shark
+OpalChargedStrike.DisplayName: Charged Opal Bolt
 OpalStrike.DisplayName: Opal Bolt
+OpalStrikerHoldout.DisplayName: Opal Striker
 PhangasmBow.DisplayName: Phangasm
 PiercingBullet.DisplayName: Piercing Blow
 PlagueArrow.DisplayName: Plague Arrow
@@ -182,6 +188,7 @@ SandyWaifuShark.DisplayName: Shark
 ScorchedEarthBlast.DisplayName: Earth Scorcher
 ScorchedEarthClusterBomb.DisplayName: Cluster Bomb
 ScorchedEarthRocket.DisplayName: Rocket
+SeaDragonMuzzleBlast.DisplayName: Seadragon Muzzle Blast
 SeaDragonRocket.DisplayName: Seadragon RPG
 SeasSearingBubble.DisplayName: Searing Bubble
 SeasSearingSecondary.DisplayName: Hydroshower
@@ -226,7 +233,6 @@ TerraArrowSplit.DisplayName: Terra Arrow
 TerraBulletMain.DisplayName: Terra Bullet
 TerraBulletSplit.DisplayName: Terra Bullet
 TerraFireGreen.DisplayName: Terra Fire
-ElementalFire.DisplayName: Elemental Fire
 TheMaelstromExplosion.DisplayName: Reaper Explosion
 TheMaelstromShark.DisplayName: Reaper Shark
 ThePackMinissile.DisplayName: Pack Minissile
@@ -251,9 +257,3 @@ Voidragon.DisplayName: Voidragon Blast
 VoidragonTentacle.DisplayName: Voidragon Tentacle
 WaterSpout.DisplayName: Spout
 WulfrumScrapBullet.DisplayName: High Speed Scrap
-ArcherfishRing.DisplayName: Archerfish Ring
-SeaDragonMuzzleBlast.DisplayName: Seadragon Muzzle Blast
-OpalStrikerHoldout.DisplayName: Opal Striker
-MagnaCannonHoldout.DisplayName: Magna Cannon
-MagnaShot.DisplayName: Magna Bolt
-OpalChargedStrike.DisplayName: Charged Opal Bolt
