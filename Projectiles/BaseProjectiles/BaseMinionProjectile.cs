@@ -34,6 +34,12 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public abstract ref bool AssociatedMinionBool { get; }
 
         /// <summary>
+        /// The amount of minion slots this summon consumes.<br/>
+        /// Defaults to 1f.
+        /// </summary>
+        public virtual float MinionSlots => 1f;
+
+        /// <summary>
         /// The distance in which the minion can detect an enemy, in pixels.<br/>
         /// <see cref="ProjectileID.Sets.DrawScreenCheckFluff"/> is set to this value.<br/>
         /// Defaults to 1200f (75 tiles).
@@ -79,7 +85,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
         public Player Owner => Main.player[Projectile.owner];
         public CalamityPlayer ModdedOwner => Owner.Calamity();
-        public NPC Target => Owner.Center.MinionHoming(EnemyDistanceDetection, Owner, !PreHardmodeMinionTileVision || CalamityPlayer.areThereAnyDamnBosses);
+        public NPC Target { get; set; }
 
         #endregion
 
@@ -94,7 +100,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Summon;
-            Projectile.minionSlots = 1f;
+            Projectile.minionSlots = MinionSlots;
             Projectile.localNPCHitCooldown = IFrames * Projectile.MaxUpdates;
             Projectile.penetrate = -1;
 
@@ -116,6 +122,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         {
             CheckMinionExistence();
             DoAnimation();
+            ChooseTarget();
             MinionAI();
         }
 
@@ -158,6 +165,11 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Type];
             }
         }
+
+        /// <summary>
+        /// Where the null property <see cref="Target"/> is set to a valid target, a non-null value.
+        /// </summary>
+        public virtual void ChooseTarget() => Target = Owner.Center.MinionHoming(EnemyDistanceDetection, Owner, !PreHardmodeMinionTileVision || CalamityPlayer.areThereAnyDamnBosses);
 
         #endregion
     }
