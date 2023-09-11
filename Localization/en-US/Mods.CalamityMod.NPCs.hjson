@@ -23,67 +23,19 @@ Viperfish.DisplayName: Viperfish
 AcidEel.DisplayName: Acid Eel
 BabyFlakCrab.DisplayName: Baby Flak Crab
 BloodwormNormal.DisplayName: Bloodworm
-
-CragmawMire: {
-	DisplayName: Cragmaw Mire
-
-	BossChecklistIntegration: {
-		SpawnInfo:
-			'''
-			Spawns during Acid Rain after the Aquatic Scourge has been defeated.
-			Start Acid Rain with a [i:CalamityMod/CausticTear]
-			'''
-		DespawnMessage: "[c/F0E68C:The Cragmaw Mire buries itself within the sand.]"
-	}
-}
-
+CragmawMire.DisplayName: Cragmaw Mire
 FlakCrab.DisplayName: Flak Crab
 GammaSlime.DisplayName: Gamma Slime
 IrradiatedSlime.DisplayName: Irradiated Slime
-
-Mauler: {
-	DisplayName: Mauler
-
-	BossChecklistIntegration: {
-		SpawnInfo:
-			'''
-			Spawns during Acid Rain after Polterghast has been defeated.
-			Start Acid Rain with a [i:CalamityMod/CausticTear]
-			'''
-		DespawnMessage: "[c/F0E68C:The brutish shark looks elsewhere to turn its aggression.]"
-	}
-}
-
-NuclearTerror: {
-	DisplayName: Nuclear Terror
-
-	BossChecklistIntegration: {
-		SpawnInfo:
-			'''
-			Spawns during Acid Rain after Polterghast has been defeated.
-			Start Acid Rain with a [i:CalamityMod/CausticTear]
-			'''
-		DespawnMessage: "[c/F0E68C:The radioactive aberration fades away in a sickly light.]"
-	}
-}
-
+Mauler.DisplayName: Mauler
+NuclearTerror.DisplayName: Nuclear Terror
 NuclearToad.DisplayName: Nuclear Toad
 Orthocera.DisplayName: Orthocera
 Radiator.DisplayName: Radiator
 Skyfin.DisplayName: Skyfin
 SulphurousSkater.DisplayName: Sulphurous Skater
 Trilobite.DisplayName: Trilobite
-
-AquaticScourgeHead: {
-	DisplayName: Aquatic Scourge
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use a [i:CalamityMod/Seafood] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea
-		DespawnMessage: "[c/F0E68C:The poisoned scourge swims back to the tranquil, open ocean.]"
-		EntryName: Aquatic Scourge
-	}
-}
-
+AquaticScourgeHead.DisplayName: Aquatic Scourge
 Aries.DisplayName: Aries
 AstralachneaGround.DisplayName: Astralachnea
 AstralProbe.DisplayName: Astral Probe
@@ -100,89 +52,22 @@ SightseerCollider.DisplayName: Sightseer Collider
 SightseerSpitter.DisplayName: Sightseer Spitter
 StellarCulex.DisplayName: Stellar Culex
 Twinkler.DisplayName: Twinkler
-
-AstrumAureus: {
-	DisplayName: Astrum Aureus
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use an [i:CalamityMod/AstralChunk] at Night in the Astral Biome
-		DespawnMessage: "[c/FFD700:Aureus has neutralized all threats. Resume prior reconnaissance.]"
-	}
-}
-
+AstrumAureus.DisplayName: Astrum Aureus
 AureusSpawn.DisplayName: Aureus Spawn
-
-AstrumDeusHead: {
-	DisplayName: Astrum Deus
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use a [i:CalamityMod/TitanHeart] or [i:CalamityMod/Starcore] as offering at an [i:CalamityMod/AstralBeaconItem]
-		DespawnMessage: "[c/FFD700:The infected deity retreats to the heavens.]"
-		EntryName: Astrum Deus
-	}
-}
-
+AstrumDeusHead.DisplayName: Astrum Deus
 Brimling.DisplayName: Brimling
-
-BrimstoneElemental: {
-	DisplayName: Brimstone Elemental
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use a [i:CalamityMod/CharredIdol] in the Brimstone Crag
-		DespawnMessage: "[c/DC143C:The elemental ever maintains her somber vigil over Azafure…]"
-	}
-}
-
+BrimstoneElemental.DisplayName: Brimstone Elemental
 Bumblebirb: Bumblebirb
-
-Bumblefuck: {
-	DisplayName: Dragonfolly
-
-	BossChecklistIntegration: {
-		EntryName: Dragonfolly
-		SpawnInfo: Use [i:CalamityMod/ExoticPheromones] in the Jungle Biome
-		DespawnMessage: "[c/FFD700:The folly returns to its secluded roost.]"
-	}
-}
-
+Bumblefuck.DisplayName: Dragonfolly
 Bumblefuck2.DisplayName: Draconic Swarmer
-
-CalamitasClone: {
-	DisplayName: Calamitas Clone
-
-	BossChecklistIntegration: {
-		EntryName: The Calamitas Clone
-		SpawnInfo: Use an [i:CalamityMod/EyeofDesolation] at Night
-		DespawnMessage: "[c/FFA500:The clone spits a bit of blood in disappointment and vanishes.]"
-	}
-}
-
+CalamitasClone.DisplayName: Calamitas Clone
 Cataclysm.DisplayName: Cataclysmic Construct
 Catastrophe.DisplayName: Catastrophic Construct
 SoulSeeker.DisplayName: Soul Seeker
-
-CeaselessVoid: {
-	DisplayName: Ceaseless Void
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use a [i:CalamityMod/RuneofKos] in the Dungeon
-		DespawnMessage: "[c/4B0082:The ancient spatial rift slips away to places unknown.]"
-		EntryName: Ceaseless Void
-	}
-}
-
+CeaselessVoid.DisplayName: Ceaseless Void
 DarkEnergy.DisplayName: Dark Energy
 CrabShroom.DisplayName: Crab Shroom
-
-Crabulon: {
-	DisplayName: Crabulon
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use a [i:CalamityMod/DecapoditaSprout] in the Mushroom Biome
-		DespawnMessage: "[c/6495ED:The monstrous mycelial crab shuffles away…]"
-	}
-}
-
+Crabulon.DisplayName: Crabulon
 CalamityEye.DisplayName: Calamity Eye
 RenegadeWarlock.DisplayName: Renegade Warlock
 DespairStone.DisplayName: Despair Stone
@@ -191,43 +76,14 @@ InfernalCongealment.DisplayName: Infernal Congealment
 Scryllar.DisplayName: Scryllar
 ScryllarRage.DisplayName: Scryllar
 SoulSlurper.DisplayName: Soul Slurper
-
-Cryogen: {
-	DisplayName: Cryogen
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use a [i:CalamityMod/CryoKey] in the Snow Biome
-		DespawnMessage: "[c/00FFFF:Cryogen disappears amidst the biting winds of the blizzard.]"
-	}
-}
-
+Cryogen.DisplayName: Cryogen
 Pyrogen: Pyrogen
 CryogenShield.DisplayName: Cryogen's Shield
 PyrogenShield: Pyrogen's Shield
 DesertNuisanceHead.DisplayName: Desert Nuisance
-
-DesertScourgeHead: {
-	DisplayName: Desert Scourge
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use a [i:CalamityMod/DesertMedallion] in the Desert Biome
-		DespawnMessage: "[c/EEE8AA:The scourge of the desert delves back into the sand.]"
-		EntryName: Desert Scourge
-	}
-}
-
+DesertScourgeHead.DisplayName: Desert Scourge
 CosmicGuardianHead.DisplayName: Cosmic Guardian
-
-DevourerofGodsHead: {
-	DisplayName: The Devourer of Gods
-
-	BossChecklistIntegration: {
-		EntryName: Devourer of Gods
-		SpawnInfo: Use a [i:CalamityMod/CosmicWorm]
-		DespawnMessage: "[c/00FFFF:The Devourer of Gods haughtily returns to the depths of the Distortion.]"
-	}
-}
-
+DevourerofGodsHead.DisplayName: The Devourer of Gods
 Androomba.DisplayName: Androomba
 Nanodroid.DisplayName: Nanodroid
 RepairUnitCritter.DisplayName: Repair Unit
@@ -235,12 +91,6 @@ RepairUnitCritter.DisplayName: Repair Unit
 Apollo: {
 	DisplayName: XS-03 Apollo
 	HekateName: Corrosive Eye of XB-∞ Hekate
-
-	BossChecklistIntegration: {
-		EntryName: Exo Mechs
-		SpawnInfo: By using a high-tech computer
-		DespawnMessage: "[c/7FFFD4:An imperfection after all… what a shame.]"
-	}
 }
 
 AresBody: {
@@ -280,43 +130,16 @@ ThanatosHead: {
 	HekateName: Spine of XB-∞ Hekate
 }
 
-GreatSandShark: {
-	DisplayName: Great Sand Shark
-
-	BossChecklistIntegration: {
-		SpawnInfo: Kill 10 sand sharks after defeating Plantera or use a [i:CalamityMod/SandstormsCore] in the Desert Biome
-		DespawnMessage: "[c/DAA520:The apex predator of the sands disappears between the dunes.]"
-	}
-}
-
+GreatSandShark.DisplayName: Great Sand Shark
 DankCreeper.DisplayName: Dank Creeper
 DarkHeart.DisplayName: Dark Heart
 HiveBlob.DisplayName: Hive Blob
-
-HiveMind: {
-	DisplayName: The Hive Mind
-
-	BossChecklistIntegration: {
-		SpawnInfo: Kill a Tumor in the Corruption or use a [i:CalamityMod/Teratoma] in the Corruption
-		DespawnMessage: "[c/9400D3:The Hive Mind flits away to brood elsewhere.]"
-	}
-}
-
+HiveMind.DisplayName: The Hive Mind
 HiveTumor.DisplayName: Hive Tumor
 Anahita.DisplayName: Anahita
 AnahitasIceShield.DisplayName: Ice Shield
 AquaticAberration.DisplayName: Aquatic Aberration
-
-Leviathan: {
-	DisplayName: The Leviathan
-
-	BossChecklistIntegration: {
-		EntryName: Leviathan
-		SpawnInfo: By killing an unknown entity in the Ocean Biome
-		DespawnMessage: "[c/7FFFD4:The aquatic outcasts return to their lonesome company.]"
-	}
-}
-
+Leviathan.DisplayName: The Leviathan
 LeviathanStart.DisplayName: ???
 AeroSlime.DisplayName: Aero Slime
 ArmoredDiggerHead.DisplayName: Armored Digger
@@ -366,17 +189,7 @@ WulfrumDrone.DisplayName: Wulfrum Drone
 WulfrumGyrator.DisplayName: Wulfrum Gyrator
 WulfrumHovercraft.DisplayName: Wulfrum Hovercraft
 WulfrumRover.DisplayName: Wulfrum Rover
-
-OldDuke: {
-	DisplayName: The Old Duke
-
-	BossChecklistIntegration: {
-		EntryName: Old Duke
-		SpawnInfo: Defeat the Acid Rain event post-Polterghast or fish using a [i:CalamityMod/BloodwormItem] in the Sulphurous Sea
-		DespawnMessage: "[c/F0E68C:The old duke retreats further into the acidic downpour.]"
-	}
-}
-
+OldDuke.DisplayName: The Old Duke
 BoomerDuke: The Boomer Duke
 OldDukeToothBall.DisplayName: Tooth Ball
 SulphurousSharkron.DisplayName: Sulphurous Sharkron
@@ -392,27 +205,8 @@ PerforatorHeadMedium.DisplayName: The Perforator
 PerforatorMedium: The Medium Perforator
 PerforatorHeadSmall.DisplayName: The Perforator
 PerforatorSmall: The Small Perforator
-
-PerforatorHive: {
-	DisplayName: The Perforator Hive
-
-	BossChecklistIntegration: {
-		EntryName: The Perforators
-		SpawnInfo: Kill a Cyst in the Crimson or use a [i:CalamityMod/BloodyWormFood] in the Crimson
-		DespawnMessage: "[c/DC143C:The Perforators search for more hosts to gorge themselves on.]"
-	}
-}
-
-PlaguebringerGoliath: {
-	DisplayName: The Plaguebringer Goliath
-
-	BossChecklistIntegration: {
-		EntryName: Plaguebringer Goliath
-		SpawnInfo: Use an [i:CalamityMod/Abombination] in the Jungle Biome
-		DespawnMessage: "[c/00FF00:SPECIMENS EUTHANIZED. EXITING COMBAT PROTOCOL.]"
-	}
-}
-
+PerforatorHive.DisplayName: The Perforator Hive
+PlaguebringerGoliath.DisplayName: The Plaguebringer Goliath
 PlagueHomingMissile.DisplayName: Plague Homing Missile
 PlagueMine.DisplayName: Plague Mine
 Melter.DisplayName: Melter
@@ -422,17 +216,7 @@ PlagueCharger.DisplayName: Plague Charger
 Plagueshell.DisplayName: Plagueshell
 Viruling.DisplayName: Viruling
 PhantomFuckYou.DisplayName: Phantom
-
-Polterghast: {
-	DisplayName: Polterghast
-
-	BossChecklistIntegration: {
-		SpawnInfo: Kill 30 phantom spirits or use a [i:CalamityMod/NecroplasmicBeacon] in the Dungeon
-		DespawnMessage: "[c/B0E0E6:The volatile phantasm disperses in an echoing wail.]"
-		EntryName: Polterghast
-	}
-}
-
+Polterghast.DisplayName: Polterghast
 Necroghast: Necroghast
 Necroplasm: Necroplasm
 Polterplasm: Polterplasm
@@ -440,88 +224,28 @@ PolterghastHook.DisplayName: Polterghast Hook
 PolterPhantom.DisplayName: Polterghast
 PrimordialWyrmHead.DisplayName: Primordial Wyrm
 Jared: Jared
-
-ProfanedGuardianCommander: {
-	DisplayName: Guardian Commander
-
-	BossChecklistIntegration: {
-		EntryName: Profaned Guardians
-		SpawnInfo: Use a [i:CalamityMod/ProfanedShard] in the Hallow or Underworld Biomes
-		DespawnMessage: "[c/FFA500:The Guardians are recalled to their Goddess' side.]"
-	}
-}
-
+ProfanedGuardianCommander.DisplayName: Guardian Commander
 ProfanedGuardianDefender.DisplayName: Guardian Defender
 ProfanedGuardianHealer.DisplayName: Guardian Healer
 ProfanedRocks.DisplayName: Profaned Rocks
-
-Providence: {
-	DisplayName: Providence, the Profaned Goddess
-
-	BossChecklistIntegration: {
-		EntryName: Providence
-		SpawnInfo: Use [i:CalamityMod/ProfanedCore] in the Hallow or Underworld Biomes
-		DespawnMessage: "[c/FFA500:The Profaned Goddess veils herself in purifying flame, leaving only ashes behind…]"
-	}
-}
-
+Providence.DisplayName: Providence, the Profaned Goddess
 ProvSpawnDefense.DisplayName: Providence Defender
 ProvSpawnHealer.DisplayName: Providence Healer
 ProvSpawnOffense.DisplayName: Providence Offense
 FlamePillar.DisplayName: Flame Pillar
-
-RavagerBody: {
-	DisplayName: Ravager
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use a [i:CalamityMod/DeathWhistle]
-		DespawnMessage: "[c/B22222:The Ravager resumes its aimless, horrific rampage.]"
-		EntryName: Ravager
-	}
-}
-
+RavagerBody.DisplayName: Ravager
 RockPillar.DisplayName: Rock Pillar
 CosmicLantern.DisplayName: Cosmic Lantern
 CosmicMine.DisplayName: Cosmic Mine
-
-Signus: {
-	DisplayName: Signus, Envoy of the Devourer
-
-	BossChecklistIntegration: {
-		EntryName: Signus
-		SpawnInfo: Use a [i:CalamityMod/RuneofKos] in the Underworld
-		DespawnMessage: "[c/BA55D3:Signus inexplicably ceases to be where he once was.]"
-	}
-}
-
+Signus.DisplayName: Signus, Envoy of the Devourer
 CorruptSlimeSpawn.DisplayName: Corrupt Slime Spawn
 CrimsonSlimeSpawn.DisplayName: Crimson Slime Spawn
 CrimulanPaladin.DisplayName: Crimulan Paladin
 EbonianPaladin.DisplayName: Ebonian Paladin
-
-SlimeGodCore: {
-	DisplayName: The Slime God
-
-	BossChecklistIntegration: {
-		EntryName: Slime God
-		SpawnInfo: Use an [i:CalamityMod/OverloadedSludge]
-		DespawnMessage: "[c/BA5533:The grimy, gelatinous God hops away, its vengeance achieved.]"
-	}
-}
-
+SlimeGodCore.DisplayName: The Slime God
 SplitCrimulanPaladin.DisplayName: Crimulan Paladin
 SplitEbonianPaladin.DisplayName: Ebonian Paladin
-
-StormWeaverHead: {
-	DisplayName: Storm Weaver
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use a [i:CalamityMod/RuneofKos] in Space
-		DespawnMessage: "[c/EE82EE:Storm Weaver hides itself within the fierce anvilhead clouds.]"
-		EntryName: Storm Weaver
-	}
-}
-
+StormWeaverHead.DisplayName: Storm Weaver
 AnthozoanCrab.DisplayName: Anthozoan Crab
 AquaticUrchin.DisplayName: Aquatic Urchin
 BelchingCoral.DisplayName: Belching Coral
@@ -535,16 +259,7 @@ BlindedAngler.DisplayName: Blinded Angler
 Clam.DisplayName: Clam
 EutrophicRay.DisplayName: Eutrophic Ray
 GhostBell.DisplayName: Ghost Bell
-
-GiantClam: {
-	DisplayName: Giant Clam
-
-	BossChecklistIntegration: {
-		SpawnInfo: Can spawn naturally in the Sunken Sea
-		DespawnMessage: "[c/7FFFD4:The Giant Clam returns into hiding in its grotto.]"
-	}
-}
-
+GiantClam.DisplayName: Giant Clam
 Clamitas: Clamitas
 SupremeClamitas: Supreme Clamitas
 PrismBack.DisplayName: Prism-Back
@@ -554,30 +269,11 @@ SeaSerpent1.DisplayName: Sea Serpent
 BrimstoneHeart.DisplayName: Brimstone Heart
 SepulcherHead.DisplayName: Sepulcher
 SoulSeekerSupreme.DisplayName: Soul Seeker
-
-SupremeCalamitas: {
-	DisplayName: Supreme Witch, Calamitas
-
-	BossChecklistIntegration: {
-		SpawnInfo: Use [i:CalamityMod/AshesofCalamity] or a [i:CalamityMod/CeremonialUrn] as offering at an [i:CalamityMod/AltarOfTheAccursedItem]
-		DespawnMessage: "[c/FFA500:Please don't waste my time.]"
-	}
-}
-
+SupremeCalamitas.DisplayName: Supreme Witch, Calamitas
 SupremeCirrus: Supreme Alchemist, Cirrus
 SupremeCataclysm.DisplayName: Cataclysm
 SupremeCatastrophe.DisplayName: Catastrophe
-
-Yharon: {
-	DisplayName: Yharon, Dragon of Rebirth
-
-	BossChecklistIntegration: {
-		EntryName: Yharon
-		SpawnInfo: Use a [i:CalamityMod/YharonEgg]
-		DespawnMessage: "[c/FFA500:Yharon soars out of sight, his task fulfilled.]"
-	}
-}
-
+Yharon.DisplayName: Yharon, Dragon of Rebirth
 YharonPhase2: Yharon, Resplendent Phoenix
 // Town NPCs, Pets, etc
 AndroombaFriendly.DisplayName: Androomba Pal
