@@ -218,6 +218,29 @@ namespace CalamityMod.World
         {
             WorldGen.gen = true;
 
+            // Pre-cache a list of Magic Storage tiles to avoid, for performance reasons
+            // It is plausible that only StorageComponent and StorageConnector are needed, but I aint gonna risk corrupting worlds
+            // or crashes as containers can do some serious shit as seen with the Abyss chests - Shade
+            Mod magicStorage = CalamityMod.Instance.magicStorage;
+            IList<ushort> MSTilesToAvoid = new List<ushort>(16);
+            if (magicStorage is not null)
+            {
+                string[] MSTileNames = new string[]
+                {
+                    "CraftingAccess",
+                    "CreativeStorageUnit",
+                    "EnvironmentAccess",
+                    "RemoteAccess",
+                    "StorageAccess",
+                    "StorageComponent",
+                    "StorageConnector",
+                    "StorageHeart",
+                    "StorageUnit",
+                };
+                foreach (string tileName in MSTileNames)
+                    MSTilesToAvoid.Add(magicStorage.Find<ModTile>(tileName).Type);
+            }
+
             UnifiedRandom rand = WorldGen.genRand;
             if (i < 50 || i > Main.maxTilesX - 50)
             {
@@ -418,28 +441,6 @@ namespace CalamityMod.World
                     int xOffset = GenVars.dungeonX < Main.maxTilesX / 2 ? WorldGen.genRand.Next(-80, -40) : WorldGen.genRand.Next(40, 80);
 
                     bool altarPlaced = false;
-                    // Same as the meteor was prevented from generating on AA biomes, but for magic storage
-                    // It is plausible that only StorageComponent and StorageConnector are needed, but I aint gonna risk corrupting worlds
-                    // or crashes as containers can do some serious shit as seen with the Abyss chests - Shade
-                    Mod magicStorage = CalamityMod.Instance.magicStorage;
-                    IList<ushort> MSTilesToAvoid = new List<ushort>(16);
-                    if (magicStorage is not null)
-                    {
-                        string[] MSTileNames = new string[]
-                        {
-                            "CraftingAccess",
-                            "CreativeStorageUnit",
-                            "EnvironmentAccess",
-                            "RemoteAccess",
-                            "StorageAccess",
-                            "StorageComponent",
-                            "StorageConnector",
-                            "StorageHeart",
-                            "StorageUnit",
-                        };
-                        foreach (string tileName in MSTileNames)
-                            MSTilesToAvoid.Add(magicStorage.Find<ModTile>(tileName).Type);
-                    }
                     while (!altarPlaced)
                     {
                         WorldGen.gen = true;
