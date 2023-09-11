@@ -8,6 +8,11 @@ AndroombaItem: {
 		'''
 }
 
+BabyCannonballJellyfishItem: {
+	DisplayName: "{$Mods.CalamityMod.NPCs.BabyCannonballJellyfish.DisplayName}"
+	Tooltip: ""
+}
+
 BabyFlakCrabItem: {
 	DisplayName: "{$Mods.CalamityMod.NPCs.BabyFlakCrab.DisplayName}"
 	Tooltip: ""
