@@ -95,7 +95,12 @@ CadaverousCarrion: {
 
 CalamarisLament: {
 	DisplayName: Calamari's Lament
-	Tooltip: Summons a squid that viciously inks enemies
+	Tooltip: 
+                '''
+                Summons a squid that viciously inks enemies
+                'In the Abyss, all kinds of resources are scarce.
+                Every species is solitary. There simply is not enough to share.'
+                '''
 }
 
 CausticCroakerStaff: {

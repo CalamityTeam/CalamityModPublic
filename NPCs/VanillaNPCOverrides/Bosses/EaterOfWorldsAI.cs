@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Main.rand.NextBool(Main.getGoodWorld ? 450 : 900) && phase2)
                     {
                         npc.TargetClosest();
-                        if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                        if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1) && Vector2.Distance(npc.Center, Main.player[npc.target].Center) > 320f)
                             NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2) + npc.velocity.X), (int)(npc.position.Y + (npc.height / 2) + npc.velocity.Y), NPCID.VileSpitEaterOfWorlds, 0, 0f, 1f, 0f, 0f, 255);
                     }
                 }
@@ -98,9 +98,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (calamityGlobalNPC.newAI[0] >= timer && phase3)
                     {
-                        calamityGlobalNPC.newAI[0] = 0f;
-                        if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                        if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1) &&
+                            npc.SafeDirectionTo(Main.player[npc.target].Center).AngleBetween((npc.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f) &&
+                            Vector2.Distance(npc.Center, Main.player[npc.target].Center) > 320f)
                         {
+                            calamityGlobalNPC.newAI[0] = 0f;
                             Vector2 vector34 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                             float num349 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector34.X;
                             float num350 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector34.Y;
@@ -115,7 +117,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             vector34.Y -= num350;
 
                             int type = ProjectileID.CursedFlameHostile;
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector34.X, vector34.Y, num349, num350, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector34.X, vector34.Y, num349, num350, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer);
                         }
                     }
                 }

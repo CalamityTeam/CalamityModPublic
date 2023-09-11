@@ -502,11 +502,6 @@ MadAlchemistsCocktailGlove: {
 		'''
 }
 
-MagnaCannon: {
-	DisplayName: Magna Cannon
-	Tooltip: Fires a concentrated blast of energy
-}
-
 MagneticMeltdown: {
 	DisplayName: Magnetic Meltdown
 	Tooltip: Launches a diamond cross of supercharged magnet spheres
