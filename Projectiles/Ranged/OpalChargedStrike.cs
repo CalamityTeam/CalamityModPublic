@@ -55,6 +55,10 @@ namespace CalamityMod.Projectiles.Ranged
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.OnFire, 300);
+        }
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i <= 8; i++)
