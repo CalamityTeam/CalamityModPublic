@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (Aftershot == 30)
                 {
-                    int newdamage = Projectile.damage * (Extradamage ? 5 : 1);
+                    int newdamage = Projectile.damage * (Extradamage ? 6 : 1);
                     OpalChargeShotSlot = SoundEngine.PlaySound(Extradamage ? OpalStriker.ChargedFire : OpalStriker.Fire, Projectile.position);
                     CurrentChargingFrames = 0;
                     Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * storedVelocity;

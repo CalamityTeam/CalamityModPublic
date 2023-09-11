@@ -794,7 +794,7 @@ OpalStriker: {
 	Tooltip:
 		'''
 		Fires a chargeable energy shot that pierces
-Charged shots deal high damage and move faster
+		Charged shots deal high damage and move faster
 		'''
 }
 
@@ -1290,9 +1290,9 @@ WulfrumBlunderbuss: {
 MagnaCannon: {
 	DisplayName: Magna Cannon
 	Tooltip:
-    	'''
+		'''
 		Charges up energy to be released in a barrage of crystal shots
-The amount of shots depends on how long you charge the weapon
-If fully charged it fires more crystal shots at a faster rate
+		The amount of shots depends on how long you charge the weapon
+		If fully charged it fires more crystal shots at a faster rate
 		'''
 }

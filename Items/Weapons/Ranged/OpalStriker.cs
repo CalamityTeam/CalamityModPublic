@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 23;
+            Item.damage = 34;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 46;
             Item.height = 30;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = null;
-            Item.autoReuse = true;
+            Item.autoReuse = false;
             Item.channel = true;
             Item.shoot = ModContent.ProjectileType<OpalStrike>();
             Item.shootSpeed = 12f;
@@ -56,9 +56,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.Marble, 25).
-                AddRecipeGroup("AnyCopperBar", 10).
+                AddIngredient(ItemID.MeteoriteBar, 10).
                 AddIngredient(ItemID.Diamond, 2).
-                AddIngredient(ItemID.Amber, 2).
+                AddIngredient(ItemID.Amber, 3).
                 AddTile(TileID.Anvils).
                 Register();
         }

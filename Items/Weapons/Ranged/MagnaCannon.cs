@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 15;
+            Item.damage = 29;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 56;
             Item.height = 34;
@@ -27,13 +27,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.channel = true;
-            Item.knockBack = 3.5f;
+            Item.knockBack = 1.2f;
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = null;
-            Item.autoReuse = true;
+            Item.autoReuse = false;
             Item.shootSpeed = 10f;
             Item.shoot = ModContent.ProjectileType<MagnaShot>();
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
@@ -53,9 +54,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.Granite, 25).
-                AddRecipeGroup("AnyCopperBar", 12).
+                AddIngredient(ItemID.MeteoriteBar, 12).
                 AddIngredient(ItemID.Diamond, 3).
-                AddIngredient(ItemID.Sapphire, 8).
+                AddIngredient(ItemID.Sapphire, 5).
                 AddTile(TileID.Anvils).
                 Register();
         }
