@@ -4,7 +4,9 @@ using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using Microsoft.Xna.Framework;
+using System.Reflection;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.World
@@ -25,7 +27,18 @@ namespace CalamityMod.World
         public static bool revenge = false; // Revengeance Mode
         public static bool death = false; // Death Mode
         public static bool armageddon = false; // Armageddon Mode
-        public static bool LegendaryMode => Main.getGoodWorld && Main.masterMode; // Evaluates to whether vanilla's "Legendary Mode" is enabled (Master Mode on For the Worthy)
+        
+        // Evaluates to whether vanilla's "Legendary Mode" is enabled (Master Mode on For the Worthy)
+        public static bool LegendaryMode => Main.getGoodWorld && ReflectMasterMode();
+
+        // FTW automatically bumps difficulties up and has no proper check for Master since a world generated in Expert Mode will be classified as Master
+        // Therefore gotta reflect!
+        public static bool ReflectMasterMode()
+        {
+            FieldInfo findInfo = typeof(Main).GetField("_currentGameModeInfo", BindingFlags.Static | BindingFlags.NonPublic);            
+            GameModeData data = (GameModeData)findInfo.GetValue(null);
+            return data.IsMasterMode;
+        }
 
         // Sunken Sea
         public static Rectangle SunkenSeaLocation = Rectangle.Empty;
