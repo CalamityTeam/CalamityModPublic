@@ -793,8 +793,8 @@ OpalStriker: {
 	DisplayName: Opal Striker
 	Tooltip:
 		'''
-		Fires a chargeable energy shot that pierces
-		Charged shots deal high damage and move faster
+		Fires a chargeable energy bolt that pierces
+		Fully charged shots deal extra damage and move faster
 		'''
 }
 
@@ -1291,8 +1291,8 @@ MagnaCannon: {
 	DisplayName: Magna Cannon
 	Tooltip:
 		'''
-		Charges up energy to be released in a barrage of crystal shots
-		The amount of shots depends on how long you charge the weapon
-		If fully charged it fires more crystal shots at a faster rate
+		Charges up a rapid fire burst of crystal bolts
+		Charging for longer increases the number of bolts fired
+		Fully charged shots fire an even longer and more rapid burst
 		'''
 }

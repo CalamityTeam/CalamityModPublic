@@ -145,7 +145,7 @@ Nuke.DisplayName: Nuke
 NullShot.DisplayName: Null
 NullShot2.DisplayName: Null
 OnyxSharkBomb.DisplayName: Shark
-OpalStrike.DisplayName: Energy Shot
+OpalStrike.DisplayName: Opal Bolt
 PhangasmBow.DisplayName: Phangasm
 PiercingBullet.DisplayName: Piercing Blow
 PlagueArrow.DisplayName: Arrow
@@ -255,5 +255,5 @@ ArcherfishRing.DisplayName: Archerfish Ring
 SeaDragonMuzzleBlast.DisplayName: Seadragon Muzzle Blast
 OpalStrikerHoldout.DisplayName: Opal Striker
 MagnaCannonHoldout.DisplayName: Magna Cannon
-MagnaShot.DisplayName: Energy Crystal
-OpalChargedStrike.DisplayName: Charged Beam
+MagnaShot.DisplayName: Magna Bolt
+OpalChargedStrike.DisplayName: Charged Opal Bolt
