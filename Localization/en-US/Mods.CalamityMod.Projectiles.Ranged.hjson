@@ -14,24 +14,24 @@ AstralCannonProjectile.DisplayName: Astral Crystal
 AstralRound.DisplayName: Astral Round
 AstralSandgun.DisplayName: Astral Sandgun
 AstrealArrow.DisplayName: Astreal Arrow
-AstrealFlame.DisplayName: Flame
-AuralisBullet.DisplayName: Bullet
-AuroraFire.DisplayName: Aurora
+AstrealFlame.DisplayName: Astreal Flame
+AuralisBullet.DisplayName: Auralis Bullet
+AuroraFire.DisplayName: Aurora Blaze
 BallistaGreatArrow.DisplayName: Ballista Great Arrow
 BeeRPG.DisplayName: Bee RPG
 BigCoral.DisplayName: Big Coral
 BigNuke.DisplayName: Big Nuke
 BlissfulBombardierDustProjectile.DisplayName: Holy Flare Dust
-BloodBoilerFire.DisplayName: Blood
+BloodBoilerFire.DisplayName: Blood Fire
 BloodClotFriendly.DisplayName: Blood Clot
 BloodfireArrowProj.DisplayName: Bloodfire Arrow
 BloodfireBulletProj.DisplayName: Bloodfire Bullet
 BloodflareSoul.DisplayName: Blood Soul
-Bolt.DisplayName: Bolt
+Bolt.DisplayName: Storm Bolt
 BoltArrow.DisplayName: Bolt Arrow
 BouncingShotgunPellet.DisplayName: Shotgun Pellet
-BrimstoneBolt.DisplayName: Bolt
-BrimstoneFireFriendly.DisplayName: Fire
+BrimstoneBolt.DisplayName: Brimstone Bolt
+BrimstoneFireFriendly.DisplayName: Brimstone Fire
 BubonicRoundProj.DisplayName: Bubonic Round
 ButcherGun.DisplayName: Butcher
 CardClub.DisplayName: Club
@@ -44,8 +44,8 @@ ChargedBlast2.DisplayName: Blast
 ChickenCannonHeld.DisplayName: Chicken Cannon
 ChickenExplosion.DisplayName: Kentucky Fried Explosion
 ChickenRocket.DisplayName: Chicken Rocket
-ClamorRifleProj.DisplayName: Energy Bolt
-ClamorRifleProjSplit.DisplayName: Energy Bolt
+ClamorRifleProj.DisplayName: Clamor Bolt
+ClamorRifleProjSplit.DisplayName: Clamor Bolt
 ClaretCannonProj.DisplayName: Claret Cannon
 ClockworkBowHoldout.DisplayName: ClockworkBow
 CondemnationArrow.DisplayName: Condemning Arrow
@@ -56,10 +56,10 @@ ContagionBall.DisplayName: Contagion Ball
 ContagionBow.DisplayName: Contagion
 CorinthPrimeAirburst.DisplayName: Airburst
 CorinthPrimeAirburstGrenade.DisplayName: Corinth Prime Airburst Shot
-CorossiveFlames.DisplayName: Flames
-CorrodedShell.DisplayName: Shell
-CosmicFire.DisplayName: Fire
-DaemonsFlameArrow.DisplayName: Arrow
+CorossiveFlames.DisplayName: Plagued Flames
+CorrodedShell.DisplayName: Corroded Shell
+CosmicFire.DisplayName: Dead Sun's Fire
+DaemonsFlameArrow.DisplayName: Daemon's Arrow
 DaemonsFlameBow.DisplayName: Daemon's Flame
 DragonsBreathRound.DisplayName: Dragon's Breath Round
 DrataliornusBow.DisplayName: Drataliornus
@@ -69,10 +69,10 @@ DrizzlefishFire.DisplayName: Drizzlefish Flames
 DrizzlefishFireball.DisplayName: Drizzlefish Fireball
 DrizzlefishFireSplit.DisplayName: Drizzlefish Flames
 DWArrow.DisplayName: Death's Arrow
-ElysianArrowProj.DisplayName: Arrow
+ElysianArrowProj.DisplayName: Elysian Arrow
 EmesisGore.DisplayName: Rotten Gore
 EnhancedNanoRoundProj.DisplayName: Enhanced Nano Round
-EssenceFire.DisplayName: Fire
+EssenceFire.DisplayName: God Slayer Fire
 ExoCrystalArrow.DisplayName: Exo Crystal
 ExoFire.DisplayName: Exo Flames
 ExoFlare.DisplayName: Exo Flare
@@ -84,8 +84,8 @@ FallenStarProj.DisplayName: Fallen Star
 FeatherLarge.DisplayName: Feather
 FishronRPG.DisplayName: RPG
 FlakKrakenGun.DisplayName: Flak Kraken
-FlakKrakenProj.DisplayName: Kraken
-FlareBat.DisplayName: Bat
+FlakKrakenProj.DisplayName: Kraken Reticle
+FlareBat.DisplayName: Flare Bat
 Flash.DisplayName: Flash
 FlashRoundProj.DisplayName: Flash Round
 FlurrystormCannonShooting.DisplayName: Flurrystorm Cannon
@@ -94,17 +94,17 @@ FlurrystormIceShard.DisplayName: Ice Shard
 FossilShard.DisplayName: Shard
 FreedomStarBeam.DisplayName: Freedom Star Beam
 FreedomStarHoldout.DisplayName: Freedom Star
-FungiOrb.DisplayName: Orb
-FungiOrb2.DisplayName: Orb
+FungiOrb.DisplayName: Fungi Orb
+FungiOrb2.DisplayName: Fungi Orb
 GemTechGreenFlechette.DisplayName: Gem Tech Flechette
 GodSlayerSlugProj.DisplayName: God Slayer Slug
-GoliathRocket.DisplayName: Rocket
+GoliathRocket.DisplayName: Goliath Rocket
 HalleysComet.DisplayName: Halley's Comet
 HandheldTankShell.DisplayName: Tank Shell
 HeavenlyGaleProj.DisplayName: Heavenly Gale
 HighExplosivePeanutShell.DisplayName: High Explosive Peanut Shell
-HiveBomb.DisplayName: Bomb
-HiveMissile.DisplayName: Bomb
+HiveBomb.DisplayName: Hive Bomb
+HiveMissile.DisplayName: Hive Missile
 HolyFireBulletProj.DisplayName: Holy Fire Bullet
 HydraHead.DisplayName: Hydra Head
 HydraHeadLaunch.DisplayName: Hydra Head
@@ -116,10 +116,10 @@ IcyBulletProj.DisplayName: Icy Bullet
 IlluminatedBullet.DisplayName: Illuminated Bullet
 ImpactRound.DisplayName: Impact Round
 KarasawaShot.DisplayName: Karasawa Shot
-LeafArrow.DisplayName: Arrow
+LeafArrow.DisplayName: Leaf Arrow
 LunarBolt.DisplayName: Bolt
 LunarBolt2.DisplayName: Bolt
-LuxorsGiftRanged.DisplayName: Gift
+LuxorsGiftRanged.DisplayName: Luxor's Ranged
 MaelstromHoldout.DisplayName: The Maelstrom
 MagnaStrike.DisplayName: Strike
 MagnomalyAura.DisplayName: Magnomaly Aura
@@ -128,15 +128,15 @@ MagnomalyExplosion.DisplayName: Explosion
 MagnomalyRocket.DisplayName: Nuke
 MarksmanShot.DisplayName: Marksman Shot
 MechanicalBarracuda.DisplayName: Barracuda
-MeowFire.DisplayName: Fire
-MeowFire2.DisplayName: Fire
+MeowFire.DisplayName: Purr Fire
+MeowFire2.DisplayName: Purr Fire
 MiniatureFolly.DisplayName: Miniature Folly
 MiniRocket.DisplayName: Rocket
 MiniSharkron.DisplayName: Mini Sharkron
-MistArrow.DisplayName: Arrow
+MistArrow.DisplayName: Mist Arrow
 MortarRoundProj.DisplayName: Mortar
-Nanomachine.DisplayName: Bullet
-NapalmArrowProj.DisplayName: Arrow
+Nanomachine.DisplayName: Nanomachine
+NapalmArrowProj.DisplayName: Napalm Arrow
 NeedlerProj.DisplayName: Needle
 NorfleetCannon.DisplayName: Norfleet
 NorfleetComet.DisplayName: Comet
@@ -144,19 +144,19 @@ NorfleetExplosion.DisplayName: Explosion
 Nuke.DisplayName: Nuke
 NullShot.DisplayName: Null
 NullShot2.DisplayName: Null
-OnyxSharkBomb.DisplayName: Shark
+OnyxSharkBomb.DisplayName: Onyx Shark
 OpalStrike.DisplayName: Opal Bolt
 PhangasmBow.DisplayName: Phangasm
 PiercingBullet.DisplayName: Piercing Blow
-PlagueArrow.DisplayName: Arrow
+PlagueArrow.DisplayName: Plague Arrow
 PlagueExplosionFriendly.DisplayName: Explosion
 PlagueTaintedProjectile.DisplayName: Plague Tainted Projectile
 PlagueTaintedDrone.DisplayName: Plague Tainted Drone
-PlanarRipperBolt.DisplayName: Bolt
-PlanarRipperExplosion.DisplayName: Explosion
-PlanetaryAnnihilationProj.DisplayName: Ball
-PlasmaBlast.DisplayName: Blast
-PlasmaExplosion.DisplayName: Explosion
+PlanarRipperBolt.DisplayName: Planar Bolt
+PlanarRipperExplosion.DisplayName: Planar Explosion
+PlanetaryAnnihilationProj.DisplayName: Planetary Ball
+PlasmaBlast.DisplayName: Plasma Blast
+PlasmaExplosion.DisplayName: Plasma Explosion
 PolarStar.DisplayName: Polar Star
 PrecisionBolt.DisplayName: Precision Bolt
 PressurizedBubbleStream.DisplayName: Pressurized Bubble Stream
@@ -166,8 +166,8 @@ PrismEnergyBullet.DisplayName: Prism Rocket
 PrismExplosionLarge.DisplayName: Explosion
 PrismExplosionSmall.DisplayName: Explosion
 PrismMine.DisplayName: Mine
-PristineFire.DisplayName: Fire
-PristineSecondary.DisplayName: Fire
+PristineFire.DisplayName: Pristine Fire
+PristineSecondary.DisplayName: Pristine Lingering Fire
 PumplerGrenade.DisplayName: Squash Shell
 PumplerHoldout.DisplayName: Pumpler
 RainbowBlast.DisplayName: Blast
@@ -176,13 +176,13 @@ RainbowTrail.DisplayName: Rainbow
 RealmRavagerBullet.DisplayName: Explosive Bullet
 RicoshotCoin.DisplayName: Ricoshot Coin
 RocketFire.DisplayName: Fire
-RubberMortarRoundProj.DisplayName: Round
+RubberMortarRoundProj.DisplayName: Rubber Mortar
 SandstormBullet.DisplayName: Sandstorm
 SandyWaifuShark.DisplayName: Shark
 ScorchedEarthBlast.DisplayName: Earth Scorcher
 ScorchedEarthClusterBomb.DisplayName: Cluster Bomb
 ScorchedEarthRocket.DisplayName: Rocket
-SeaDragonRocket.DisplayName: RPG
+SeaDragonRocket.DisplayName: Seadragon RPG
 SeasSearingBubble.DisplayName: Searing Bubble
 SeasSearingSecondary.DisplayName: Hydroshower
 SeasSearingSpout.DisplayName: Spout
@@ -195,7 +195,7 @@ SevensStrikerGrape.DisplayName: Grapes
 SevensStrikerHoldout.DisplayName: Sevens Striker
 SevensStrikerOrange.DisplayName: Orange
 SevensStrikerPlatinumCoin.DisplayName: Platinum Coin
-ShadeFire.DisplayName: Fire
+ShadeFire.DisplayName: Shady Fire
 Shell.DisplayName: Shell
 Shockblast.DisplayName: Blast
 ShockblastRound.DisplayName: Round
@@ -203,13 +203,13 @@ Shroom.DisplayName: Shroom
 Sickness.DisplayName: Sickness
 SicknessRound.DisplayName: Round
 SicknessRound2.DisplayName: Round
-SlagRound.DisplayName: Round
-SlimeBolt.DisplayName: Bolt
+SlagRound.DisplayName: Slag Round
+SlimeBolt.DisplayName: Slime Bolt
 SmallCoral.DisplayName: Small Coral
 SparkSpreaderFire.DisplayName: Sparked Flames
-SporeBomb.DisplayName: Bomb
-SputterComet.DisplayName: Comet
-SputterCometBig.DisplayName: Comet
+SporeBomb.DisplayName: Spore Bomb
+SputterComet.DisplayName: Sputter Comet
+SputterCometBig.DisplayName: Sputter Comet
 SpykerProj.DisplayName: Spyker
 StarfleetMK2Gun.DisplayName: Starmada
 StarmageddonBinaryStarCenter.DisplayName: Starmageddon Binary Star Center
@@ -221,33 +221,33 @@ SulphuricBlast.DisplayName: Sulphuric Blast
 SuperballBulletProj.DisplayName: Superball Bullet
 SurgeDriverHoldout.DisplayName: Surge Driver
 TelluricGlareArrow.DisplayName: Radiant Arrow
-TerraArrowMain.DisplayName: Arrow
-TerraArrowSplit.DisplayName: Arrow
+TerraArrowMain.DisplayName: Terra Arrow
+TerraArrowSplit.DisplayName: Terra Arrow
 TerraBulletMain.DisplayName: Terra Bullet
-TerraBulletSplit.DisplayName: Bullet
-TerraFireGreen.DisplayName: Fire
-TerraFireGreen2.DisplayName: Fire
-TheMaelstromExplosion.DisplayName: Explosion
+TerraBulletSplit.DisplayName: Terra Bullet
+TerraFireGreen.DisplayName: Terra Fire
+TerraFireGreen2.DisplayName: Terra Fire
+TheMaelstromExplosion.DisplayName: Reaper Explosion
 TheMaelstromShark.DisplayName: Reaper Shark
 ThePackMinissile.DisplayName: Pack Minissile
 ThePackMissile.DisplayName: Pack Missile
 TitaniumRailgunScope.DisplayName: Titanium Scope
 TitaniumRailgunShot.DisplayName: Titanium Decimator
-TorrentialArrow.DisplayName: Arrow
-ToxicannonDrop.DisplayName: Acid
-ToxicannonShot.DisplayName: Cannon Shot
+TorrentialArrow.DisplayName: Torrential Arrow
+ToxicannonDrop.DisplayName: Toxic Acid
+ToxicannonShot.DisplayName: Toxic Shot
 ToxicArrow.DisplayName: Toxic Arrow
-TyphoonArrow.DisplayName: Arrow
-TyphoonBubble.DisplayName: Bubble
+TyphoonArrow.DisplayName: Typhoon Arrow
+TyphoonBubble.DisplayName: Typhoon
 UltimaBolt.DisplayName: Ultima Bolt
 UltimaBowProjectile.DisplayName: Ultima
 UltimaRay.DisplayName: Ultima Ray
 UltimaSpark.DisplayName: Ultima Spark
-UniversalGenesisStar.DisplayName: Star
+UniversalGenesisStar.DisplayName: Genesis Star
 UniversalGenesisStarcaller.DisplayName: Starcaller Shot
-VanquisherArrowMain.DisplayName: Arrow
+VanquisherArrowMain.DisplayName: Vanquisher Arrow
 VeriumBulletProj.DisplayName: Verium Bullet
-Voidragon.DisplayName: Blast
+Voidragon.DisplayName: Voidragon Blast
 VoidragonTentacle.DisplayName: Voidragon Tentacle
 WaterSpout.DisplayName: Spout
 WulfrumScrapBullet.DisplayName: High Speed Scrap
