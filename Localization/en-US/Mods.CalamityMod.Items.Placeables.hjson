@@ -158,6 +158,11 @@ AtlasBanner: {
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Atlas"
 }
 
+BabyCannonballJellyfishBanner: {
+	DisplayName: Baby Cannonball Jellyfish Banner
+	Tooltip: "{$CommonItemTooltip.BannerBonus}Baby Cannonball Jellyfish"
+}
+
 BabyFlakCrabBanner: {
 	DisplayName: Baby Flak Crab Banner
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Baby Flak Crab"
@@ -211,6 +216,11 @@ BoxJellyfishBanner: {
 CalamityEyeBanner: {
 	DisplayName: Calamity Eye Banner
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Calamity Eye"
+}
+
+CannonballJellyfishBanner: {
+	DisplayName: Cannonball Jellyfish Banner
+	Tooltip: "{$CommonItemTooltip.BannerBonus}Cannonball Jellyfish"
 }
 
 ChaoticPufferBanner: {
@@ -898,6 +908,11 @@ AuricToilet: {
 		This was used by the gods 
 		Sitting on such a throne would be a disgrace to all
 		'''
+}
+
+BabyCannonballJellyfishBowl: {
+	DisplayName: Baby Cannonball Jellyfish Bowl
+	Tooltip: ""
 }
 
 BabyFlakCrabCage: {

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 24;
+            Item.damage = 35;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 34;
             Item.height = 50;
@@ -56,12 +56,11 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num80 = num72 / num80;
             }
 
-            int num107 = 3;
-            for (int num108 = 0; num108 < num107; num108++)
+            for (int j = 0; j < 3; j++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num108);
+                vector2.Y -= (float)(100 * j);
                 num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
                 num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
                 if (num79 < 0f)
@@ -82,16 +81,13 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, knockback, i);
                     Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, knockback, i);
-                    Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, ModContent.ProjectileType<Bolt>(), damage, knockback, i);
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, type, damage, knockback, i);
-                    Main.projectile[num121].noDropItem = true;
-                    int num122 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, type, damage, knockback, i);
-                    Main.projectile[num122].noDropItem = true;
-                    int num123 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, type, damage, knockback, i);
-                    Main.projectile[num123].noDropItem = true;
+                    int arrow1 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, type, damage, knockback, i);
+                    Main.projectile[arrow1].noDropItem = true;
+                    int arrow2 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, type, damage, knockback, i);
+                    Main.projectile[arrow2].noDropItem = true;
                 }
             }
             return false;

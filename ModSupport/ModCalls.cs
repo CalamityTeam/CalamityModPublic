@@ -405,6 +405,18 @@ namespace CalamityMod
                 case "layer_1":
                 case "abysslayer1":
                 case "abyss layer 1":
+                case "sulfur depths":
+                case "sulfurdepths":
+                case "sulphur depths":
+                case "sulphurdepths":
+                case "sulfurous depths":
+                case "sulfurousdepths":
+                case "sulphurous depths":
+                case "sulphurousdepths":
+                case "sulfuric depths":
+                case "sulfuricdepths":
+                case "sulphuric depths":
+                case "sulphuricdepths":
                     return mp.ZoneAbyssLayer1;
 
                 case "abyss2":
@@ -415,6 +427,10 @@ namespace CalamityMod
                 case "layer_2":
                 case "abysslayer2":
                 case "abyss layer 2":
+                case "murky water":
+                case "murkywater":
+                case "murky waters":
+                case "murkywaters":
                     return mp.ZoneAbyssLayer2;
 
                 case "abyss3":
@@ -425,6 +441,9 @@ namespace CalamityMod
                 case "layer_3":
                 case "abysslayer3":
                 case "abyss layer 3":
+                case "thermalvents":
+                case "thermal vents":
+                case "vents":
                     return mp.ZoneAbyssLayer3;
 
                 case "abyss4":
@@ -435,6 +454,9 @@ namespace CalamityMod
                 case "layer_4":
                 case "abysslayer4":
                 case "abyss layer 4":
+                case "void":
+                case "the void":
+                case "thevoid":
                     return mp.ZoneAbyssLayer4;
             }
         }
