@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 2.25f;
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
-            Item.UseSound = OpalStriker.FireSound;
+            Item.UseSound = null;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<OpalStrike>();
             Item.shootSpeed = 15f;
