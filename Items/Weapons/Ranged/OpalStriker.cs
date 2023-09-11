@@ -15,15 +15,15 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly SoundStyle Charge = new("CalamityMod/Sounds/Item/OpalCharge") { Volume = 0.2f};
         public static readonly SoundStyle ChargeLoop = new("CalamityMod/Sounds/Item/OpalChargeLoop") { Volume = 0.2f};
         public static readonly SoundStyle Fire = new("CalamityMod/Sounds/Item/OpalFire") { PitchVariance = 0.3f, Volume = 0.3f };
+        public static readonly SoundStyle ChargedFire = new("CalamityMod/Sounds/Item/OpalChargedFire") { PitchVariance = 0.3f, Volume = 0.3f };
 
         public override void SetDefaults()
         {
-            Item.damage = 10;
+            Item.damage = 23;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 46;
             Item.height = 30;
-            Item.useTime = Item.useAnimation = 10;
-            Item.reuseDelay = 10;
+            Item.useTime = Item.useAnimation = 18;
             Item.useAnimation = 16;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
@@ -55,9 +55,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Marble, 20).
-                AddIngredient(ItemID.Amber, 5).
-                AddIngredient(ItemID.Diamond, 3).
+                AddIngredient(ItemID.Marble, 25).
+                AddRecipeGroup("AnyCopperBar", 10).
+                AddIngredient(ItemID.Diamond, 2).
+                AddIngredient(ItemID.Amber, 2).
                 AddTile(TileID.Anvils).
                 Register();
         }

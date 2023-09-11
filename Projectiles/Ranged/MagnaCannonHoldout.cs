@@ -17,16 +17,24 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
         private Player Owner => Main.player[Projectile.owner];
-        public SlotId OpalChargeSlot;
-        public SlotId OpalChargeLoopSlot;
+        public SlotId MagnaChargeSlot;
+        public SlotId MagnaChargeLoopSlot;
+        public SlotId MagnaChargeFirstLoopSlot;
 
         private float CurrentChargingFrames = 0f;
+        public int Fullchargesoundframes = 41;
+
+        private ref float ShotsLoaded => ref Projectile.ai[1]; //arrowsloaded
 
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
         private float storedVelocity = 12f;
         public const float velocityMultiplier = 1.2f;
         public bool Extradamage;
         public int Time = 0;
+        public int SoundSpamFix = 0;
+        public bool FirstLoop = true;
+        public bool FullCharge = false;
+        public int Aftershot = 30;
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/MagnaCannon";
 
@@ -49,25 +57,59 @@ namespace CalamityMod.Projectiles.Ranged
                 Extradamage = false;
 
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.5f;
+            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.9f;
 
             // Fire if the owner stops channeling or otherwise cannot use the weapon.
             if (!OwnerCanShoot)
             {
-                int newdamage =  Projectile.damage * (Extradamage ? 9 : 1);
-                SoundEngine.PlaySound(OpalStriker.Fire, Projectile.position);
-                CurrentChargingFrames = 0;
-                Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * storedVelocity;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<MagnaShot>(), newdamage, Projectile.knockBack * (Extradamage ? 3 : 1), Projectile.owner);
-                Projectile.Kill();
+                if (Aftershot == 30)
+                {
+                    if (SoundSpamFix >= (FullCharge ? 4 : 6)) //Shoot faster if fully charged
+                        SoundSpamFix = 0;
+
+                    if (ShotsLoaded <= 0f)
+                    {
+                        --Aftershot;
+                    }
+                    Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * storedVelocity;
+                    if (SoundSpamFix == 0)
+                    {
+                        for (int i = 0; i <= 3; i++)
+                        {
+                            Dust dust = Dust.NewDustPerfect(tipPosition, 187, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.9f, 1.2f), 0, default, Main.rand.NextFloat(1.5f, 2.3f));
+                            dust.noGravity = true;
+                        }
+                        SoundEngine.PlaySound(MagnaCannon.Fire, Projectile.position);
+                        --ShotsLoaded;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity.RotatedByRandom(MathHelper.ToRadians(9f)), ModContent.ProjectileType<MagnaShot>(), Projectile.damage, Projectile.knockBack * (Extradamage ? 3 : 1), Projectile.owner);
+                    }
+
+                    SoundSpamFix++;
+
+                    CurrentChargingFrames = 0;
+                }
+                else
+                    --Aftershot;
+                
+                if (Aftershot == 0)
+                    Projectile.Kill();
             }
             else
             {
+                if (CurrentChargingFrames == 0)
+                    CurrentChargingFrames++;
+
+                if (CurrentChargingFrames % 10 == 0)
+                    ShotsLoaded++;
+
                 Player player = Main.player[Projectile.owner];
                 if (CurrentChargingFrames >= 10)
                 {
-                    Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.06f + (CurrentChargingFrames / 180), 0.08f + (CurrentChargingFrames / 180)), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(0.3f * CurrentChargingFrames, 0.3f * CurrentChargingFrames), 0f, Color.White, Color.Aqua, 7, tipPosition);
-                    GeneralParticleHandler.SpawnParticle(streak);
+                    if (CurrentChargingFrames < 136)
+                    {
+                        Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.06f + (CurrentChargingFrames / 180), 0.08f + (CurrentChargingFrames / 180)), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(0.3f * CurrentChargingFrames, 0.3f * CurrentChargingFrames), 0f, Color.White, Color.Aqua, 7, tipPosition);
+                        GeneralParticleHandler.SpawnParticle(streak);
+                    }
                     Particle orb = new GenericBloom(tipPosition, Projectile.velocity, Color.DarkBlue, CurrentChargingFrames / 135, 2);
                     GeneralParticleHandler.SpawnParticle(orb);
                     Particle orb2 = new GenericBloom(tipPosition, Projectile.velocity, Color.Aqua, CurrentChargingFrames / 200, 2);
@@ -75,39 +117,55 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 if (CurrentChargingFrames == 10)
                 {
-                    OpalChargeSlot = SoundEngine.PlaySound(OpalStriker.Charge, Projectile.position);
+                    MagnaChargeSlot = SoundEngine.PlaySound(MagnaCannon.ChargeStart, Projectile.position);
                 }
                 // Start Charging.
-                if (CurrentChargingFrames < 90)
-                    ++CurrentChargingFrames;
-
-                if (CurrentChargingFrames >= 88f) //78 frames is durration of charge sound
+                if (CurrentChargingFrames < 138)
                 {
-                    Time++;
-                    if (CurrentChargingFrames == 88f)
-                        OpalChargeLoopSlot = SoundEngine.PlaySound(OpalStriker.ChargeLoop, Projectile.position);
-                    if (Time % 120 == 0)
-                    {
-                        OpalChargeLoopSlot = SoundEngine.PlaySound(OpalStriker.ChargeLoop, Projectile.position);
-                    }
-                    Item heldItem = Owner.ActiveItem();
+                    ++CurrentChargingFrames;
                 }
 
-                if (CurrentChargingFrames == 88f)
+                if (CurrentChargingFrames >= 136f) //126 frames is durration of charge sound
+                {
+                    Fullchargesoundframes--;
+                    Time++;
+                    if (CurrentChargingFrames == 136f)
+                    {
+                        SoundEngine.PlaySound(MagnaCannon.ChargeFull, Projectile.position);
+                        ShotsLoaded = 20;
+                        FullCharge = true;
+                    }
+                    if (Fullchargesoundframes <= 0)
+                    {
+                        if (FirstLoop)
+                        {
+                            MagnaChargeFirstLoopSlot = MagnaChargeLoopSlot = SoundEngine.PlaySound(MagnaCannon.ChargeLoop, Projectile.position);
+                            FirstLoop = false;
+                        }
+                        if (Time % 154 == 0)
+                        {
+                            MagnaChargeLoopSlot = SoundEngine.PlaySound(MagnaCannon.ChargeLoop, Projectile.position);
+                        }
+                    }
+                }
+
+                if (CurrentChargingFrames == 136f)
                 {
                     for (int i = 0; i < 36; i++)
                     {
-                        Dust chargefull = Dust.NewDustPerfect(tipPosition, 187);
+                        Dust chargefull = Dust.NewDustPerfect(tipPosition, 160);
                         chargefull.velocity = (MathHelper.TwoPi * i / 36f).ToRotationVector2() * 18f + Owner.velocity;
                         chargefull.scale = Main.rand.NextFloat(1f, 1.5f);
                         chargefull.noGravity = true;
                     }
                 }
             }
-            if (SoundEngine.TryGetActiveSound(OpalChargeLoopSlot, out var OpalChargeLoop) && OpalChargeLoop.IsPlaying)
-                OpalChargeLoop.Position = Projectile.Center;
-            if (SoundEngine.TryGetActiveSound(OpalChargeSlot, out var OpalCharge) && OpalCharge.IsPlaying)
-                OpalCharge.Position = Projectile.Center;
+            if (SoundEngine.TryGetActiveSound(MagnaChargeLoopSlot, out var MagnaChargeLoop) && MagnaChargeLoop.IsPlaying)
+                MagnaChargeLoop.Position = Projectile.Center;
+            if (SoundEngine.TryGetActiveSound(MagnaChargeFirstLoopSlot, out var MagnaChargeFirstLoop) && MagnaChargeFirstLoop.IsPlaying)
+                MagnaChargeFirstLoop.Position = Projectile.Center;
+            if (SoundEngine.TryGetActiveSound(MagnaChargeSlot, out var MagnaCharge) && MagnaCharge.IsPlaying)
+                MagnaCharge.Position = Projectile.Center;
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
         }
@@ -121,7 +179,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
             }
             Player player = Main.player[Projectile.owner];
-            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
+            Projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + Projectile.velocity * 20;
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f);
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;
@@ -144,10 +202,12 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void Kill(int timeLeft)
         {
-            if (SoundEngine.TryGetActiveSound(OpalChargeSlot, out var OpalCharge))
-                OpalCharge.Stop();
-            if (SoundEngine.TryGetActiveSound(OpalChargeLoopSlot, out var OpalChargeLoop))
-                OpalChargeLoop.Stop();
+            if (SoundEngine.TryGetActiveSound(MagnaChargeSlot, out var MagnaCharge))
+                MagnaCharge.Stop();
+            if (SoundEngine.TryGetActiveSound(MagnaChargeLoopSlot, out var MagnaChargeLoop))
+                MagnaChargeLoop.Stop();
+            if (SoundEngine.TryGetActiveSound(MagnaChargeLoopSlot, out var MagnaChargeFirstLoop))
+                MagnaChargeFirstLoop.Stop();
             CurrentChargingFrames = 0;
         }
 

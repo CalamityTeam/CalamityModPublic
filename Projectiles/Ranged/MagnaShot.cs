@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -10,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
@@ -18,7 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Projectile.width = Projectile.height = 5;
             Projectile.friendly = true;
-            Projectile.alpha = 55;
+            Projectile.alpha = 25;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
             Projectile.DamageType = DamageClass.Ranged;
@@ -31,7 +32,9 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Dust.NewDustPerfect(Projectile.Center, 187);
+            Dust dust = Dust.NewDustPerfect(Projectile.Center, 187);
+            dust.noGravity = true;
+            dust.scale = 0.5f;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -43,9 +46,9 @@ namespace CalamityMod.Projectiles.Ranged
         {
             for (int i = 0; i <= 3; i++)
             {
-                Dust dust = Dust.NewDustPerfect(Projectile.position, 187, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30f)) / 2, 0, default, Main.rand.NextFloat(1.6f, 2.3f));
+                Dust dust = Dust.NewDustPerfect(Projectile.position, 187, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30f)) / 2, 0, default, Main.rand.NextFloat(1.1f, 1.3f));
                 dust.noGravity = false;
-                SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact with { Volume = 0.9f, PitchVariance = 0.3f }, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact with { Volume = 0.8f, PitchVariance = 0.3f }, Projectile.Center);
             }
         }
         public override bool? CanDamage() => base.CanDamage();
