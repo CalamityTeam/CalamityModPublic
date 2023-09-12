@@ -1,3 +1,6 @@
+FormattedBannerName: "{0} Banner"
+FormattedBannerTooltip: "{$CommonItemTooltip.BannerBonus}{0}"
+
 AstralPylon: {
 	DisplayName: Astral Pylon
 	Tooltip: "{$CommonItemTooltip.TeleportationPylon}"
@@ -91,6 +94,8 @@ AstralStone: {
 AcidEelBanner: {
 	DisplayName: Acid Eel Banner
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Acid Eel"
+	FormattedBannerName: Mods.CalamityMod.Items.Placeables.AcidEelBanner.FormattedBannerName
+	FormattedBannerTooltip: Mods.CalamityMod.Items.Placeables.AcidEelBanner.FormattedBannerTooltip
 }
 
 AeroSlimeBanner: {
