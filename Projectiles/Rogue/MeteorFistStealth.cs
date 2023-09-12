@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,15 +8,16 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class MeteorFistProj : ModProjectile, ILocalizedModType
+    public class MeteorFistStealth : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
+        public override string Texture => "CalamityMod/Projectiles/Rogue/MeteorFistProj";
         public override void SetDefaults()
         {
             Projectile.width = 20;
             Projectile.height = 20;
             Projectile.friendly = true;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 4;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 360;
             Projectile.DamageType = RogueDamageClass.Instance;
@@ -74,7 +76,6 @@ namespace CalamityMod.Projectiles.Rogue
                         Projectile.netUpdate = true;
                     }
                 }
-                Projectile.velocity.Y += 0.1f;
             }
         }
 
@@ -150,7 +151,42 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.OnFire, 120);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.OnFire, 120);
+            Projectile.damage /= 2;
+            float minDist = 999f;
+            int index = 0;
+            // Get the closest enemy to the fist
+            if (Projectile.penetrate != -1)
+            {
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    NPC npc = Main.npc[i];
+                    if (npc.CanBeChasedBy(Projectile, false) && npc != target)
+                    {
+                        float dist = (Projectile.Center - npc.Center).Length();
+                        if (dist < minDist)
+                        {
+                            minDist = dist;
+                            index = i;
+                        }
+                    }
+                }
+                Vector2 newFistVelocity;
+                if (minDist < 999f)
+                {
+                    newFistVelocity = Main.npc[index].Center - Projectile.Center;
+                }
+                else
+                {
+                    newFistVelocity = -Projectile.velocity;
+                }
+                newFistVelocity.Normalize();
+                newFistVelocity *= 10f;
+                Projectile.velocity = newFistVelocity;
+            }
+        }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.OnFire, 120);
     }
