@@ -1,28 +1,13 @@
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.Tiles;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class CuttlefishBanner : ModItem, ILocalizedModType
+    public class CuttlefishBanner : BaseBanner
     {
-        public new string LocalizationCategory => "Items.Placeables";
-        public override void SetDefaults()
-        {
-            Item.width = 12;
-            Item.height = 30;
-            Item.maxStack = 9999;
-            Item.useTurn = true;
-            Item.autoReuse = true;
-            Item.useAnimation = 15;
-            Item.useTime = 10;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.consumable = true;
-            Item.rare = ItemRarityID.Blue;
-            Item.value = Item.buyPrice(0, 0, 10, 0);
-            Item.createTile = ModContent.TileType<MonsterBanner>();
-            Item.placeStyle = 16;
-        }
+        public override int BannerTileID => TileType<MonsterBanner>();
+        public override int BannerTileStyle => 16;
+        public override int BonusNPCID => NPCType<Cuttlefish>();
     }
 }

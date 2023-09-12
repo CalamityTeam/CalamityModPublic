@@ -1,28 +1,13 @@
+using CalamityMod.NPCs.Astral;
 using CalamityMod.Tiles;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class AstralSlimeBanner : ModItem, ILocalizedModType
+    public class AstralSlimeBanner : BaseBanner
     {
-        public new string LocalizationCategory => "Items.Placeables";
-        public override void SetDefaults()
-        {
-            Item.width = 10;
-            Item.height = 24;
-            Item.maxStack = 9999;
-            Item.useTurn = true;
-            Item.autoReuse = true;
-            Item.useAnimation = 15;
-            Item.useTime = 10;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.consumable = true;
-            Item.rare = ItemRarityID.Blue;
-            Item.value = Item.buyPrice(0, 0, 10, 0);
-            Item.createTile = ModContent.TileType<MonsterBanner>();
-            Item.placeStyle = 35;
-        }
+        public override int BannerTileID => TileType<MonsterBanner>();
+        public override int BannerTileStyle => 35;
+        public override int BonusNPCID => NPCType<AstralSlime>();
     }
 }

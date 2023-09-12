@@ -1,28 +1,15 @@
-﻿using CalamityMod.Tiles;
-using Terraria;
-using Terraria.ID;
+﻿using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.Tiles;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
+
 namespace CalamityMod.Items.Placeables.Banners
 {
     [LegacyName("PitbullBanner")]
-    public class RotdogBanner : ModItem, ILocalizedModType
+    public class RotdogBanner : BaseBanner
     {
-        public new string LocalizationCategory => "Items.Placeables";
-        public override void SetDefaults()
-        {
-            Item.width = 10;
-            Item.height = 24;
-            Item.maxStack = 9999;
-            Item.useTurn = true;
-            Item.autoReuse = true;
-            Item.useAnimation = 15;
-            Item.useTime = 10;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.consumable = true;
-            Item.rare = ItemRarityID.Blue;
-            Item.value = Item.buyPrice(0, 0, 10, 0);
-            Item.createTile = ModContent.TileType<MonsterBanner>();
-            Item.placeStyle = 53;
-        }
+        public override int BannerTileID => TileType<MonsterBanner>();
+        public override int BannerTileStyle => 53;
+        public override int BonusNPCID => NPCType<Rotdog>();
     }
 }
