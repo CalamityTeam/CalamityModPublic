@@ -793,7 +793,7 @@ OpalStriker: {
 	DisplayName: Opal Striker
 	Tooltip:
 		'''
-		Fires a chargeable energy bolt that pierces
+		Fires a chargeable heated energy bolt that pierces
 		Fully charged shots deal extra damage and move faster
 		'''
 }

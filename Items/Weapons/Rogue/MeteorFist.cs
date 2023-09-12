@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noMelee = true;
             Item.useTurn = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 30;
+            Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.useTime = 30;
+            Item.useTime = 15;
             Item.knockBack = 5.75f;
             Item.UseSound = SoundID.Item20;
             Item.autoReuse = true;
@@ -30,16 +30,21 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
+        public override float StealthDamageMultiplier => 3.8f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MeteorFistProj>(), damage, knockback, player.whoAmI, 0f, 4f);
+                int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MeteorFistStealth>(), damage, knockback, player.whoAmI, 0f, 4f);
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().stealthStrike = true;
-                return false;
             }
-            return true;
+            else
+            {
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MeteorFistProj>(), damage, knockback, player.whoAmI, 0f, 4f);
+            }
+            return false;
         }
 
         public override void AddRecipes()

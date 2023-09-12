@@ -1,10 +1,10 @@
 AndromedaDeathRay.DisplayName: Beam
 AndromedaRegislash.DisplayName: Regislash
 AndromedaUI_Background.DisplayName: UI
-AngelBolt.DisplayName: Bolt
+AngelBolt.DisplayName: Angelic Bolt
 AngelicAllianceArchangel.DisplayName: Archangel
-AngelOrb.DisplayName: Orb
-AngelRay.DisplayName: Ray
+AngelOrb.DisplayName: Angelic Orb
+AngelRay.DisplayName: Angelic Ray
 ApexShark.DisplayName: Ancient Mineral Shark
 ApparatusExplosion.DisplayName: Explosion
 AquasScepterCloud.DisplayName: Storm Cloud
@@ -32,10 +32,10 @@ BlackDragonHead.DisplayName: Black Celestial Dragon
 BlackDragonTail.DisplayName: Black Celestial Dragon
 BlackHawkBullet.DisplayName: Black Hawk Bullet
 BlackHawkSummon.DisplayName: Black Hawk
-BloodBreath.DisplayName: Fire
+BloodBreath.DisplayName: Blood Dragon Fire
 BloodClotMinion.DisplayName: Blood Clot
 BloodRain.DisplayName: Blood Rain
-BloodSpit.DisplayName: Spit
+BloodSpit.DisplayName: Blood Spit
 BoneMatter.DisplayName: Bone Matter
 BoneMatter2.DisplayName: Bone Matter
 BrimseekerAuraBall.DisplayName: Seeker
@@ -43,11 +43,11 @@ BrimstoneDartMinion.DisplayName: Brimfire
 BrimstoneDartSummon.DisplayName: Brimstone Dart
 BrimstoneElementalMinion.DisplayName: Brimstone Elemental
 BrimstoneExplosionMinion.DisplayName: Explosion
-BrimstoneFireballMinion.DisplayName: Brimfire
-BrimstoneFireSummon.DisplayName: Fire
-BrimstoneLaserSummon.DisplayName: Laser
+BrimstoneFireballMinion.DisplayName: Brimstone Fireball
+BrimstoneFireSummon.DisplayName: Brimstone Fire
+BrimstoneLaserSummon.DisplayName: Brimstone Laser
 BrittleStarMinion.DisplayName: Brittle Star
-CalamariInk.DisplayName: Ink
+CalamariInk.DisplayName: Calamari Ink
 CalamariMinion.DisplayName: Calamari
 Calamitamini.DisplayName: Calamitamini
 Cataclymini.DisplayName: Cataclymini
@@ -60,12 +60,12 @@ Cinder.DisplayName: Cinder
 CinderBlossom.DisplayName: Cinder Blossom
 CloudElementalMinion.DisplayName: Cloudy Waifu
 CnidarianJellyfishOnTheString.DisplayName: Cnidarian
-CnidarianSpark.DisplayName: Spark
+CnidarianSpark.DisplayName: Cnidarian Spark
 GlacialEmbracePointyThing.DisplayName: Ice Castle Shard
 CorroslimeMinion.DisplayName: Corroslime
 CorruptionSlimeGodMinion.DisplayName: Slime God
-CosmicBlast.DisplayName: Blast
-CosmicBlastBig.DisplayName: Blast
+CosmicBlast.DisplayName: Cosmic Blast
+CosmicBlastBig.DisplayName: Cosmic Blast
 CosmicEnergySpiral.DisplayName: Cosmic Energy
 CosmicViperConcussionMissile.DisplayName: Concussion Missile
 CosmicViperHomingRocket.DisplayName: Homing Rocket
@@ -80,34 +80,34 @@ DaedalusCrystal.DisplayName: Daedalus Crystal
 DaedalusCrystalShot.DisplayName: Crystal Shot
 DaedalusGolem.DisplayName: Daedalus Golem
 DaedalusLightning.DisplayName: Daedalus Lightning
-DaedalusPellet.DisplayName: Pellet
+DaedalusPellet.DisplayName: Daedalus Pellet
 DankCreeperMinion.DisplayName: Dank Creeper
 DazzlingStabber.DisplayName: Dazzling Stabber
-DeathstareBeam.DisplayName: Beam
-DeathstareEyeball.DisplayName: Eyeball
+DeathstareBeam.DisplayName: Deathstare Beam
+DeathstareEyeball.DisplayName: Deathstare
 DormantBrimseekerAura.DisplayName: Dormant Brimseeker Aura Projecter
 DormantBrimseekerBab.DisplayName: Dormant Brimseeker
 DormantBrimseekerSummoner.DisplayName: Dormant Brimseeker
-Dreadmine.DisplayName: Mine
+Dreadmine.DisplayName: Dreadmine
 DreadmineTurret.DisplayName: Dreadmine Turret
-ElementalAxeMinion.DisplayName: Axe
-EndoBeam.DisplayName: Ray
+ElementalAxeMinion.DisplayName: Elemental Axe
+EndoBeam.DisplayName: Endo Beam
 EndoCooperBody.DisplayName: Ascened Cooper
 EndoCooperLimbs.DisplayName: Ascened Cooper
 EndoFire.DisplayName: Endo Fire
 EndoHydraBody.DisplayName: Hydra Body
 EndoHydraHead.DisplayName: Hydra Head
 EndoIceShard.DisplayName: Endo Ice Shard
-EndoRay.DisplayName: Ray
+EndoRay.DisplayName: Endo Ray
 EnergyOrb.DisplayName: Energy Orb
 EXPLODINGFROG.DisplayName: A not frog of the explosive variety
-EyeOfNightCell.DisplayName: Cell
+EyeOfNightCell.DisplayName: Night Cell
 EyeOfNightSummon.DisplayName: Eye of Night
 FieryDraconid.DisplayName: Fiery Draconid
-FlameBlast.DisplayName: Blast
-FlameBurst.DisplayName: Burst
+FlameBlast.DisplayName: Flame Blast
+FlameBurst.DisplayName: Flame Burst
 FleshBallMinion.DisplayName: Flesh Ball
-FleshBlood.DisplayName: Blood
+FleshBlood.DisplayName: Flesh Blood
 FlowersOfMortalityPetal.DisplayName: Elemental Petal
 FlyingOrthocera.DisplayName: Flying Orthocera
 FlyingOrthoceraStream.DisplayName: Acid Stream
@@ -117,9 +117,9 @@ FrogGore2.DisplayName: Gore from a not frog of the explosive variety
 FrogGore3.DisplayName: Gore from a not frog of the explosive variety
 FrogGore4.DisplayName: Gore from a not frog of the explosive variety
 FrogGore5.DisplayName: Gore from a not frog of the explosive variety
-FrostBeam.DisplayName: Beam
+FrostBeam.DisplayName: Frost Beam
 FrostBlossom.DisplayName: Frost Blossom
-FrostMistFriendly.DisplayName: Mist
+FrostMistFriendly.DisplayName: Frost Mist
 GammaCanister.DisplayName: Gamma Canister
 GammaHead.DisplayName: Gamma Head
 GastricBelcher.DisplayName: Gastric Belcher
@@ -128,8 +128,8 @@ GastricBelcherVomit.DisplayName: Gastric Vomit
 GhostFire.DisplayName: Ghastly Particle
 GhostlyMine.DisplayName: Mine
 GiantIbanRobotOfDoom.DisplayName: Andromeda
-HallowedStarSummon.DisplayName: Star
-HauntedDishes.DisplayName: HauntedDishes
+HallowedStarSummon.DisplayName: Hallowed Star
+HauntedDishes.DisplayName: Haunted Dishes
 HermitCrabMinion.DisplayName: Hermit Crab
 HerringAI.DisplayName: Herring School
 HerringMinion.DisplayName: Herring
@@ -146,22 +146,22 @@ IceSentry.DisplayName: Ice Sentry
 IceSentryFrostBolt.DisplayName: Ball
 IceSentryShard.DisplayName: Frost Shard
 IgneousBlade.DisplayName: Igneous Blade
-IgneousBladeStrike.DisplayName: Blade
+IgneousBladeStrike.DisplayName: Igneous Blade
 IrradiatedAura.DisplayName: Irradiated Aura
-LanternFlame.DisplayName: Flame
+LanternFlame.DisplayName: Lantern Flame
 LanternSoul.DisplayName: Lantern
 LostSoulGiant.DisplayName: Soul
 LostSoulGold.DisplayName: Gold Soul
 LostSoulLarge.DisplayName: Soul
 LostSoulSmall.DisplayName: Soul
-LuxorsGiftSummon.DisplayName: Gift
+LuxorsGiftSummon.DisplayName: Luxor's Summon
 MechwormBody.DisplayName: Mechworm
 MechwormHead.DisplayName: Mechworm
-MechwormLaser.DisplayName: Laser
+MechwormLaser.DisplayName: Mechworm Laser
 MechwormTail.DisplayName: Mechworm
 MechwormTeleportRift.DisplayName: Rift
 MidnightSunBeaconProj.DisplayName: Midnight Sun Beacon
-MidnightSunBeam.DisplayName: Beam
+MidnightSunBeam.DisplayName: Midnight Beam
 MidnightSunShot.DisplayName: Midnight Shot
 MidnightSunUFO.DisplayName: Midnight Sun UFO
 MiniGuardianAttack.DisplayName: Offensive Guardian
@@ -170,9 +170,9 @@ MiniGuardianHealer.DisplayName: Healer Guardian
 MiniGuardianRock.DisplayName: Rocky Road
 MiniGuardianSpear.DisplayName: Bab Spear
 MiniSandShark.DisplayName: Mini Sand Shark
-MK2FlaskSummon.DisplayName: Flask
-MK2RocketHoming.DisplayName: Rocket
-MK2RocketNormal.DisplayName: Rocket
+MK2FlaskSummon.DisplayName: Fuel Cell Flask
+MK2RocketHoming.DisplayName: Plague Rocket
+MK2RocketNormal.DisplayName: Plague Rocket
 MoonFist.DisplayName: Cosmic Fist
 MoonFistTeleportVisual.DisplayName: Light
 MortalityBeam.DisplayName: Beam
@@ -205,7 +205,7 @@ ProfanedCrystalRangedHuges.DisplayName: Holy Bab Boomer
 ProfanedCrystalRangedSmalls.DisplayName: Holy Bab Boomer Orb
 ProfanedCrystalRogueShard.DisplayName: Holy Bab Crystal Shard
 ProfanedEnergy.DisplayName: Profaned Energy
-PuffCloud.DisplayName: Cloud
+PuffCloud.DisplayName: Puff Cloud
 PuffWarrior.DisplayName: Puff Warrior
 PurpleButterfly.DisplayName: Purple Butterfly
 RustyBeaconPulse.DisplayName: Irradiated Pulse
@@ -215,7 +215,7 @@ SageSpirit.DisplayName: Sage Spirit
 SakuraBullet.DisplayName: Sakura Bullet
 SandBolt.DisplayName: Bolt
 SandElementalHealer.DisplayName: Sand Healer
-SandElementalMinion.DisplayName: Waifu
+SandElementalMinion.DisplayName: Sand Elemental
 SandMark.DisplayName: Mark
 SandnadoMinion.DisplayName: Sandnado
 SandTornado.DisplayName: Tornado
@@ -227,11 +227,11 @@ SepulcherMinion.DisplayName: Sepulcher
 Shellfish.DisplayName: Shellfish
 SilvaCrystal.DisplayName: Silva Crystal
 SilvaCrystalExplosion.DisplayName: Explosion
-SiriusBeam.DisplayName: Beam
-SiriusExplosion.DisplayName: Explosion
+SiriusBeam.DisplayName: Sirius Beam
+SiriusExplosion.DisplayName: Sirius Explosion
 SiriusMinion.DisplayName: Sirius
-SkeletalDragonChild.DisplayName: Child
-SkeletalDragonMother.DisplayName: Mother
+SkeletalDragonChild.DisplayName: Skeletal Child
+SkeletalDragonMother.DisplayName: Skeletal Mother
 SlimePuppet.DisplayName: Slime Puppet
 CannonLaserbeam.DisplayName: Exothermal Deathray
 ExoskeletonGaussNukeCannon.DisplayName: Gauss Nuke
@@ -251,12 +251,12 @@ MinionPlasmaBlast.DisplayName: Volatile Plasma Blast
 MinionPlasmaGas.DisplayName: Superheated Plasma Cloud
 MinionTeslaOrb.DisplayName: Tesla Sphere
 SmallSkeletonMinion.DisplayName: Small Skeleton
-SolarBeam.DisplayName: Beam
-SolarGod.DisplayName: Solar God
+SolarBeam.DisplayName: Solar Beam
+SolarGod.DisplayName: Vengeful Solar Spirit
 SolarPixie.DisplayName: Solar Pixie
 Spikecrag.DisplayName: Spikecrag
 SpikecragSpike.DisplayName: Spikecrag Spike
-SquirrelSquireAcorn.DisplayName: Acorn
+SquirrelSquireAcorn.DisplayName: Squirrel Acorn
 SquirrelSquireMinion.DisplayName: Squirrel Squire
 StormjawBaby.DisplayName: Stormjaw Baby
 SummonAstralExplosion.DisplayName: Explosion
@@ -267,14 +267,14 @@ TundraFlameBlossom.DisplayName: Tundra Flame Blossoms
 TundraFlameBlossomsOrb.DisplayName: Tundra Flame Blossoms Orb
 MagicArrow.DisplayName: Vermillion Arrow
 MagicAxe.DisplayName: Jade Axe
-MagicBird.DisplayName: Bird
-MagicBullet.DisplayName: Bullet
-MagicBulletBig.DisplayName: Bullet
-MagicBunny.DisplayName: Bunny
+MagicBird.DisplayName: Magic Bird
+MagicBullet.DisplayName: Magic Bullet
+MagicBulletBig.DisplayName: Magic Bullet
+MagicBunny.DisplayName: Magic Bunny
 MagicHammer.DisplayName: Marmalade Hammer
 MagicHat.DisplayName: Magic Hat
 MagicRifle.DisplayName: Lavender Rifle
-MagicTree.DisplayName: Tree
+MagicTree.DisplayName: Magic Tree
 MagicUmbrella.DisplayName: Cyan Umbrella
 UniverseSplitterField.DisplayName: Field
 UniverseSplitterHugeBeam.DisplayName: Universe Splitter Ray
@@ -291,14 +291,14 @@ VoidConcentrationOrb.DisplayName: Void Orb
 VolcanicFireballSummon.DisplayName: Volcanic Fireball
 WaterElementalMinion.DisplayName: Anahita
 WaterElementalSong.DisplayName: Siren Song
-WaterSpearFriendly.DisplayName: Spear
+WaterSpearFriendly.DisplayName: Water Spear
 WhiteDragonBody.DisplayName: White Celestial Dragon
 WhiteDragonHead.DisplayName: White Celestial Dragon
 WhiteDragonTail.DisplayName: White Celestial Dragon
 WitherBlossom.DisplayName: Wither Blossom
 WitherBolt.DisplayName: Wither Bolt
 WulfrumDroid.DisplayName: Wulfrum Droid
-WulfrumEnergyBurst.DisplayName: Bolt
+WulfrumEnergyBurst.DisplayName: Wulfrum Bolt
 WulfrumFusionBolt.DisplayName: Fusion Bolt
 YharonMinionFireball.DisplayName: Dragon Fireball
 YoungDuke.DisplayName: Young Old Duke

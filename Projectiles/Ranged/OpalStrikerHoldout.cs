@@ -92,9 +92,9 @@ namespace CalamityMod.Projectiles.Ranged
                         Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.06f + (CurrentChargingFrames / 180), 0.08f + (CurrentChargingFrames / 180)), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(0.3f * CurrentChargingFrames, 0.3f * CurrentChargingFrames), 0f, Color.Gold, Color.Orange, 7, tipPosition);
                         GeneralParticleHandler.SpawnParticle(streak);
                     }
-                    Particle orb = new GenericBloom(tipPosition, Projectile.velocity, Color.Orange, CurrentChargingFrames / 135, 2);
+                    Particle orb = new GenericBloom(tipPosition, Projectile.velocity, Color.OrangeRed, CurrentChargingFrames / 135, 2);
                     GeneralParticleHandler.SpawnParticle(orb);
-                    Particle orb2 = new GenericBloom(tipPosition, Projectile.velocity, Color.Khaki, CurrentChargingFrames / 200, 2);
+                    Particle orb2 = new GenericBloom(tipPosition, Projectile.velocity, Color.Coral, CurrentChargingFrames / 200, 2);
                     GeneralParticleHandler.SpawnParticle(orb2);
                 }
                 if (CurrentChargingFrames == 10)
