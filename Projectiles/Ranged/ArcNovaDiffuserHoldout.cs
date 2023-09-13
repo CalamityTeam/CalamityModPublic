@@ -92,10 +92,10 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     else //Rapid Fire Mode
                     {
-                        if (SoundSpamFix >= (ChargeLV1 ? 8 : 9)) //Shoot faster if fully charged
+                        if (SoundSpamFix >= (ChargeLV1 ? 7 : 8)) //Shoot faster if fully charged
                             SoundSpamFix = 0;
                         
-                        if (SoundSpamFix == (ChargeLV1 ? 7 : 8))//Recoil should be 1 frame lower than above frames
+                        if (SoundSpamFix == (ChargeLV1 ? 6 : 7))//Recoil should be 1 frame lower than above frames
                             ThrowItBack = false;
 
                         if (ShotsLoaded <= 0f)

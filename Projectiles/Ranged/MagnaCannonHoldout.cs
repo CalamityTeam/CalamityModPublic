@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Ranged
         public SlotId MagnaChargeFirstLoopSlot;
 
         private float CurrentChargingFrames = 0f;
-        public int Fullchargesoundframes = 41;
+        public int Fullchargesoundframes = 42;
 
         private ref float ShotsLoaded => ref Projectile.ai[1]; //arrowsloaded
 
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Ranged
                     ++CurrentChargingFrames;
                 }
 
-                if (CurrentChargingFrames >= MagnaCannon.FullChargeFrames) //126 frames is durration of charge sound
+                if (CurrentChargingFrames >= MagnaCannon.FullChargeFrames) //128 frames is durration of charge sound
                 {
                     Fullchargesoundframes--;
                     Time++;

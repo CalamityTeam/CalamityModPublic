@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public static readonly SoundStyle ChargeFull = new("CalamityMod/Sounds/Item/MagnaCannonChargeFull") { Volume = 0.5f };
         public static readonly SoundStyle ChargeLoop = new("CalamityMod/Sounds/Item/MagnaCannonChargeLoop") { Volume = 0.5f };
-        internal static readonly int ChargeLoopSoundFrames = 154;
+        internal static readonly int ChargeLoopSoundFrames = 153;
         public static readonly SoundStyle ChargeStart = new("CalamityMod/Sounds/Item/MagnaCannonChargeStart") { Volume = 0.5f };
         public static readonly SoundStyle Fire = new("CalamityMod/Sounds/Item/MagnaCannonShot") { PitchVariance = 0.3f, Volume = 0.4f };
 
         public static int AftershotCooldownFrames = 30;
-        public static int FullChargeFrames = 136;
+        public static int FullChargeFrames = 138; //126 frames is durration of charge sound
 
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
