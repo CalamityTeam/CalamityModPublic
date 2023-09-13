@@ -262,7 +262,7 @@ namespace CalamityMod.Projectiles.Ranged
             player.itemTime = 2;
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * Projectile.direction, Projectile.velocity.X * Projectile.direction);
-            Projectile.position += Main.rand.NextVector2Circular(CurrentChargingFrames / 30f, CurrentChargingFrames / 30f); //rumble features
+            Projectile.position += Main.rand.NextVector2Circular(CurrentChargingFrames / 70f, CurrentChargingFrames / 70f); //rumble features
             
         }
 
