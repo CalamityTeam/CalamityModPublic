@@ -12,14 +12,14 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
 
-        public static readonly SoundStyle Charge = new("CalamityMod/Sounds/Item/OpalCharge") { Volume = 0.2f};
-        public static readonly SoundStyle ChargeLoop = new("CalamityMod/Sounds/Item/OpalChargeLoop") { Volume = 0.2f};
-        public static readonly SoundStyle Fire = new("CalamityMod/Sounds/Item/OpalFire") { PitchVariance = 0.3f, Volume = 0.3f };
-        public static readonly SoundStyle ChargedFire = new("CalamityMod/Sounds/Item/OpalChargedFire") { PitchVariance = 0.3f, Volume = 0.3f };
+        public static readonly SoundStyle Charge = new("CalamityMod/Sounds/Item/OpalCharge") { Volume = 0.5f};
+        public static readonly SoundStyle ChargeLoop = new("CalamityMod/Sounds/Item/OpalChargeLoop") { Volume = 0.5f};
+        public static readonly SoundStyle Fire = new("CalamityMod/Sounds/Item/OpalFire") { PitchVariance = 0.4f, Volume = 0.3f };
+        public static readonly SoundStyle ChargedFire = new("CalamityMod/Sounds/Item/OpalChargedFire") { PitchVariance = 0.3f, Volume = 0.6f };
 
         public override void SetDefaults()
         {
-            Item.damage = 34;
+            Item.damage = 30;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 46;
             Item.height = 30;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.UseSound = null;
             Item.autoReuse = false;
             Item.channel = true;
-            Item.shoot = ModContent.ProjectileType<OpalStrike>();
+            Item.shoot = ModContent.ProjectileType<OpalStrikerHoldout>();
             Item.shootSpeed = 12f;
             Item.Calamity().canFirePointBlankShots = true;
         }

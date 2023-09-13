@@ -647,9 +647,9 @@ LunarianBow: {
 		'''
 }
 
-MagnaStriker: {
-	DisplayName: Magna Striker
-	Tooltip: Fires a string of opal and magna strikes
+ArcNovaDiffuser: {
+	DisplayName: Arc Nova Diffuser
+	Tooltip: Fucks shit up
 }
 
 MagnomalyCannon: {

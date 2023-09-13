@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class MagnaCannon : ModItem, ILocalizedModType
     {
-        public static readonly SoundStyle ChargeFull = new("CalamityMod/Sounds/Item/MagnaCannonChargeFull") { Volume = 0.2f };
-        public static readonly SoundStyle ChargeLoop = new("CalamityMod/Sounds/Item/MagnaCannonChargeLoop") { Volume = 0.2f };
-        public static readonly SoundStyle ChargeStart = new("CalamityMod/Sounds/Item/MagnaCannonChargeStart") { Volume = 0.2f };
-        public static readonly SoundStyle Fire = new("CalamityMod/Sounds/Item/MagnaCannonShot") { PitchVariance = 0.3f, Volume = 0.3f };
+        public static readonly SoundStyle ChargeFull = new("CalamityMod/Sounds/Item/MagnaCannonChargeFull") { Volume = 0.5f };
+        public static readonly SoundStyle ChargeLoop = new("CalamityMod/Sounds/Item/MagnaCannonChargeLoop") { Volume = 0.5f };
+        public static readonly SoundStyle ChargeStart = new("CalamityMod/Sounds/Item/MagnaCannonChargeStart") { Volume = 0.5f };
+        public static readonly SoundStyle Fire = new("CalamityMod/Sounds/Item/MagnaCannonShot") { PitchVariance = 0.3f, Volume = 0.4f };
 
         public static int MaxLoadedShots = 20;
         public new string LocalizationCategory => "Items.Weapons.Ranged";
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.UseSound = null;
             Item.autoReuse = false;
             Item.shootSpeed = 10f;
-            Item.shoot = ModContent.ProjectileType<MagnaShot>();
+            Item.shoot = ModContent.ProjectileType<MagnaCannonHoldout>();
             Item.Calamity().canFirePointBlankShots = true;
         }
 

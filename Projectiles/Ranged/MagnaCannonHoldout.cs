@@ -51,6 +51,13 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            Player player = Main.player[Projectile.owner];
+            if (player.dead) // destroy the holdout if the player dies
+            {
+                Projectile.Kill();
+                return;
+            }
+
             if (CurrentChargingFrames >= 88)
                 Extradamage = true;
             else
@@ -64,7 +71,14 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (Aftershot == 30)
                 {
-                    if (SoundSpamFix >= (FullCharge ? 4 : 6)) //Shoot faster if fully charged
+                    if (SoundEngine.TryGetActiveSound(MagnaChargeSlot, out var MagnaCharge2))
+                        MagnaCharge2.Stop();
+                    if (SoundEngine.TryGetActiveSound(MagnaChargeLoopSlot, out var MagnaChargeLoop2))
+                        MagnaChargeLoop2.Stop();
+                    if (SoundEngine.TryGetActiveSound(MagnaChargeLoopSlot, out var MagnaChargeFirstLoop2))
+                        MagnaChargeFirstLoop2.Stop();
+
+                    if (SoundSpamFix >= (FullCharge ? 4 : 5)) //Shoot faster if fully charged
                         SoundSpamFix = 0;
 
                     if (ShotsLoaded <= 0f)
@@ -99,10 +113,9 @@ namespace CalamityMod.Projectiles.Ranged
                 if (CurrentChargingFrames == 0)
                     CurrentChargingFrames++;
 
-                if (CurrentChargingFrames % 10 == 0)
+                if (CurrentChargingFrames % 9 == 0)
                     ShotsLoaded++;
 
-                Player player = Main.player[Projectile.owner];
                 if (CurrentChargingFrames >= 10)
                 {
                     if (CurrentChargingFrames < 136)

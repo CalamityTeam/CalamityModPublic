@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
         public const float velocityMultiplier = 1.2f;
         public bool Extradamage = false;
         public int Time = 0;
-        public int Aftershot = 30;
+        public int Aftershot = 17;
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/OpalStriker";
 
@@ -45,6 +45,13 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            Player player = Main.player[Projectile.owner];
+            if (player.dead) // destroy the holdout if the player dies
+            {
+                Projectile.Kill();
+                return;
+            }
+
             if (CurrentChargingFrames >= 88)
                 Extradamage = true;
             else
@@ -56,8 +63,13 @@ namespace CalamityMod.Projectiles.Ranged
             // Fire if the owner stops channeling or otherwise cannot use the weapon.
             if (!OwnerCanShoot)
             {
-                if (Aftershot == 30)
+                if (Aftershot == 17)
                 {
+                    if (SoundEngine.TryGetActiveSound(OpalChargeSlot, out var OpalCharge2))
+                        OpalCharge2.Stop();
+                    if (SoundEngine.TryGetActiveSound(OpalChargeLoopSlot, out var OpalChargeLoop2))
+                        OpalChargeLoop2.Stop();
+
                     int newdamage = Projectile.damage * (Extradamage ? 6 : 1);
                     OpalChargeShotSlot = SoundEngine.PlaySound(Extradamage ? OpalStriker.ChargedFire : OpalStriker.Fire, Projectile.position);
                     CurrentChargingFrames = 0;
@@ -84,7 +96,6 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else
             {
-                Player player = Main.player[Projectile.owner];
                 if (CurrentChargingFrames >= 10)
                 {
                     if (CurrentChargingFrames < 88)
@@ -146,7 +157,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
             }
             Player player = Main.player[Projectile.owner];
-            Projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + Projectile.velocity * 15;
+            Projectile.Center = (player.RotatedRelativePoint(player.MountedCenter, true) + Projectile.velocity * 15) + new Vector2(0, 3);
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f);
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;
