@@ -352,15 +352,6 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<TrapperBulb>(), 2, 1));
                     break;
 
-                // Derpling, Cochineal Beetle, Cyan Beetle, Lac Beetle
-                // Beetle Juice @ 33.33% Normal, 50% Expert+
-                case NPCID.Derpling:
-                case NPCID.CochinealBeetle:
-                case NPCID.CyanBeetle:
-                case NPCID.LacBeetle:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BeetleJuice>(), 3, 2));
-                    break;
-
                 // Moth
                 // Butterfly Dust @ 100% INSTEAD OF 50%
                 case NPCID.Moth:
