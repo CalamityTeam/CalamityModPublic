@@ -1629,13 +1629,9 @@ namespace CalamityMod.NPCs
             #region Enemy Lists
 
             // All Moss Hornets
-            // Stinger @ 50% Normal, 100% Expert+
             // Needler @ 4% Normal, 6.67% Expert+
             if (CalamityLists.mossHornetList.Contains(npc.type))
-            {
-                npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.Stinger, 2, 1));
                 npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<Needler>(), 25, 15));
-            }
 
             // All Skeletons
             // Ancient Bone Dust @ 20% Normal, 33.33% Expert+
@@ -1713,9 +1709,9 @@ namespace CalamityMod.NPCs
                 // Block anything except the Rock from dropping
                 DropHelper.BlockEverything(ModContent.ItemType<Rock>());
             }
-			return true;
-		}
-		#endregion
+            return true;
+        }
+        #endregion
 
         #region On Kill Main Hook
         public override void OnKill(NPC npc)
