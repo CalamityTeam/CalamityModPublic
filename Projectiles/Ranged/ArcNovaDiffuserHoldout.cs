@@ -1,15 +1,11 @@
-﻿using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Sounds;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Audio;
-using ReLogic.Utilities;
-using CalamityMod.Items.Accessories;
+﻿using System;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
-using System;
-using System.Runtime.Intrinsics;
+using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -27,13 +23,12 @@ namespace CalamityMod.Projectiles.Ranged
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
         private float storedVelocity = 12f;
         public const float velocityMultiplier = 1.2f;
-        public bool Extradamage;
         public int Time = 0;
         public int SoundSpamFix = 0;
         public bool FirstLoop = true;
         public bool ChargeLV1 = false;
         public bool ChargeLV2 = false;
-        public float Aftershot = 15;
+        public float Aftershot = ArcNovaDiffuser.AftershotCooldownFrames;
         public int SoundVariable = 5;
         public bool NovaRing = false;
         public bool ThrowItBack = false;
@@ -62,11 +57,6 @@ namespace CalamityMod.Projectiles.Ranged
                 return;
             }
 
-            if (CurrentChargingFrames >= 88)
-                Extradamage = true;
-            else
-                Extradamage = false;
-
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
             Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.95f;
 
@@ -74,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (!OwnerCanShoot)
             {
 
-                if (Aftershot == 15f)
+                if (Aftershot == ArcNovaDiffuser.AftershotCooldownFrames)
                 {
                     if (SoundEngine.TryGetActiveSound(NovaChargeStartSlot, out var NovaCharge2))
                         NovaCharge2.Stop();
@@ -87,7 +77,9 @@ namespace CalamityMod.Projectiles.Ranged
                         CurrentChargingFrames = 0;
                         ShotsLoaded = 0;
                         Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * storedVelocity;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<NovaChargeShot>(), Projectile.damage * 40, Projectile.knockBack * 3, Projectile.owner);
+                        int charge2Damage = Projectile.damage * 25;
+                        float charge2KB = Projectile.knockBack * 3f;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<NovaChargeShot>(), charge2Damage, charge2KB, Projectile.owner);
                         Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 5;
                         for (int i = 0; i <= 20; i++)
                         {
@@ -100,16 +92,16 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     else //Rapid Fire Mode
                     {
-                        if (SoundSpamFix >= (ChargeLV1 ? 9 : 10)) //Shoot faster if fully charged
+                        if (SoundSpamFix >= (ChargeLV1 ? 8 : 9)) //Shoot faster if fully charged
                             SoundSpamFix = 0;
                         
-                        if (SoundSpamFix == (ChargeLV1 ? 8 : 9))//Recoil should be 1 frame lower than above frames
+                        if (SoundSpamFix == (ChargeLV1 ? 7 : 8))//Recoil should be 1 frame lower than above frames
                             ThrowItBack = false;
 
-                            if (ShotsLoaded <= 0f)
-                            {
-                                --Aftershot;
-                            }
+                        if (ShotsLoaded <= 0f)
+                        {
+                            --Aftershot;
+                        }
                         Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * storedVelocity;
                         if (SoundSpamFix == 0)
                         {
@@ -118,12 +110,10 @@ namespace CalamityMod.Projectiles.Ranged
                                 Dust dust = Dust.NewDustPerfect(tipPosition, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.9f, 1.2f), 0, default, Main.rand.NextFloat(1.3f, 1.7f));
                                 dust.noGravity = true;
                             }
-                            for (int i = 0; i < 2; i++)
-                            {
-                                ThrowItBack = true;
-                                Recoil = 20;
-                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity.RotatedByRandom(MathHelper.ToRadians(5f)), ModContent.ProjectileType<NovaShot>(), Projectile.damage, Projectile.knockBack * (Extradamage ? 3 : 1), Projectile.owner);
-                            }
+                            ThrowItBack = true;
+                            Recoil = 16;
+                            Vector2 fireVec = shootVelocity.RotatedByRandom(MathHelper.ToRadians(2f));
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, fireVec, ModContent.ProjectileType<NovaShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                             SoundEngine.PlaySound(ArcNovaDiffuser.SmallShot, Projectile.position);
                             --ShotsLoaded;
                         }
@@ -173,7 +163,7 @@ namespace CalamityMod.Projectiles.Ranged
 
                 if (CurrentChargingFrames >= 10)
                 {
-                    for (int i = 0; i < (ChargeLV1 ? 3 : ChargeLV2 ? 4 : 2); i++)
+                    for (int i = 0; i < (ChargeLV2 ? 4 : ChargeLV1 ? 3 : 2); i++)
                     {
                         SparkParticle spark2 = new SparkParticle((tipPosition -Projectile.velocity * 4) + Main.rand.NextVector2Circular(12, 12), -Projectile.velocity * Main.rand.NextFloat(16.1f, 30.8f), false, Main.rand.Next(2, 7), Main.rand.NextFloat(CurrentChargingFrames / 350, CurrentChargingFrames / 270), Main.rand.NextBool(4) ? Color.Chartreuse : Color.Lime);
                         GeneralParticleHandler.SpawnParticle(spark2);
@@ -188,7 +178,7 @@ namespace CalamityMod.Projectiles.Ranged
                     NovaChargeStartSlot = SoundEngine.PlaySound(ArcNovaDiffuser.ChargeStart, Projectile.position);
                 }
                 // Start Charging.
-                if (CurrentChargingFrames < 310) //308 is when you reach LV2 charge
+                if (CurrentChargingFrames < ArcNovaDiffuser.Charge2Frames + 2) //308 is when you reach LV2 charge
                 {
                     if (ChargeLV1)
                         CurrentChargingFrames += 2;
@@ -196,10 +186,10 @@ namespace CalamityMod.Projectiles.Ranged
                         CurrentChargingFrames++;
                 }
 
-                if (CurrentChargingFrames >= 156f) //146 frames is durration of charge sound
+                if (CurrentChargingFrames >= ArcNovaDiffuser.Charge1Frames) //146 frames is durration of charge sound
                 {
                     Time++;
-                    if (CurrentChargingFrames == 156f)
+                    if (CurrentChargingFrames == ArcNovaDiffuser.Charge1Frames)
                     {
                         SoundEngine.PlaySound(ArcNovaDiffuser.ChargeLV1, Projectile.position);
                         ShotsLoaded = 15;
@@ -210,22 +200,22 @@ namespace CalamityMod.Projectiles.Ranged
                         NovaChargeLoopSlot = SoundEngine.PlaySound(ArcNovaDiffuser.ChargeLoop, Projectile.position);
                         FirstLoop = false;
                     }
-                    if (Time % 151 == 0) //Loop sound is 151 frames long
+                    if (Time % ArcNovaDiffuser.ChargeLoopSoundFrames == 0) //Loop sound is 151 frames long
                     {
                         NovaChargeLoopSlot = SoundEngine.PlaySound(ArcNovaDiffuser.ChargeLoop, Projectile.position);
                     }
                 }
                 
-                if (CurrentChargingFrames >= 308f) //Stuff for reaching charge LV2
+                if (CurrentChargingFrames >= ArcNovaDiffuser.Charge2Frames) //Stuff for reaching charge LV2
                 {
-                    if (CurrentChargingFrames == 308f)
+                    if (CurrentChargingFrames == ArcNovaDiffuser.Charge2Frames)
                     {
                         SoundEngine.PlaySound(ArcNovaDiffuser.ChargeLV2, Projectile.position);
                         ChargeLV2 = true;
                     }
                 }
 
-                if (CurrentChargingFrames == 156f)
+                if (CurrentChargingFrames == ArcNovaDiffuser.Charge1Frames)
                 {
                     for (int i = 0; i < 36; i++)
                     {
@@ -235,7 +225,7 @@ namespace CalamityMod.Projectiles.Ranged
                         chargefull.noGravity = true;
                     }
                 }
-                if (CurrentChargingFrames == 308f)
+                if (CurrentChargingFrames == ArcNovaDiffuser.Charge2Frames)
                 {
                     for (int i = 0; i < 45; i++)
                     {

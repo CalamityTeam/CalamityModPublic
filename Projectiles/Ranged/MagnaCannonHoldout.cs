@@ -1,15 +1,11 @@
-﻿using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Sounds;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Audio;
-using ReLogic.Utilities;
-using CalamityMod.Items.Accessories;
+﻿using System;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
-using System;
-using System.Runtime.Intrinsics;
+using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -34,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
         public int SoundSpamFix = 0;
         public bool FirstLoop = true;
         public bool FullCharge = false;
-        public int Aftershot = 30;
+        public int Aftershot = MagnaCannon.AftershotCooldownFrames;
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/MagnaCannon";
 
@@ -69,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
             // Fire if the owner stops channeling or otherwise cannot use the weapon.
             if (!OwnerCanShoot)
             {
-                if (Aftershot == 30)
+                if (Aftershot == MagnaCannon.AftershotCooldownFrames)
                 {
                     if (SoundEngine.TryGetActiveSound(MagnaChargeSlot, out var MagnaCharge2))
                         MagnaCharge2.Stop();
@@ -113,12 +109,12 @@ namespace CalamityMod.Projectiles.Ranged
                 if (CurrentChargingFrames == 0)
                     CurrentChargingFrames++;
 
-                if (CurrentChargingFrames % 9 == 0)
+                if (CurrentChargingFrames % 9 == 0) //every 9 frames get another shot
                     ShotsLoaded++;
 
                 if (CurrentChargingFrames >= 10)
                 {
-                    if (CurrentChargingFrames < 136)
+                    if (CurrentChargingFrames < MagnaCannon.FullChargeFrames)
                     {
                         Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.06f + (CurrentChargingFrames / 180), 0.08f + (CurrentChargingFrames / 180)), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(0.3f * CurrentChargingFrames, 0.3f * CurrentChargingFrames), 0f, Color.White, Color.Aqua, 7, tipPosition);
                         GeneralParticleHandler.SpawnParticle(streak);
@@ -133,16 +129,16 @@ namespace CalamityMod.Projectiles.Ranged
                     MagnaChargeSlot = SoundEngine.PlaySound(MagnaCannon.ChargeStart, Projectile.position);
                 }
                 // Start Charging.
-                if (CurrentChargingFrames < 138)
+                if (CurrentChargingFrames < MagnaCannon.FullChargeFrames + 2)
                 {
                     ++CurrentChargingFrames;
                 }
 
-                if (CurrentChargingFrames >= 136f) //126 frames is durration of charge sound
+                if (CurrentChargingFrames >= MagnaCannon.FullChargeFrames) //126 frames is durration of charge sound
                 {
                     Fullchargesoundframes--;
                     Time++;
-                    if (CurrentChargingFrames == 136f)
+                    if (CurrentChargingFrames == MagnaCannon.FullChargeFrames)
                     {
                         SoundEngine.PlaySound(MagnaCannon.ChargeFull, Projectile.position);
                         ShotsLoaded = 20;
@@ -155,14 +151,14 @@ namespace CalamityMod.Projectiles.Ranged
                             MagnaChargeFirstLoopSlot = MagnaChargeLoopSlot = SoundEngine.PlaySound(MagnaCannon.ChargeLoop, Projectile.position);
                             FirstLoop = false;
                         }
-                        if (Time % 154 == 0)
+                        if (Time % MagnaCannon.ChargeLoopSoundFrames == 0)
                         {
                             MagnaChargeLoopSlot = SoundEngine.PlaySound(MagnaCannon.ChargeLoop, Projectile.position);
                         }
                     }
                 }
 
-                if (CurrentChargingFrames == 136f)
+                if (CurrentChargingFrames == MagnaCannon.FullChargeFrames)
                 {
                     for (int i = 0; i < 36; i++)
                     {

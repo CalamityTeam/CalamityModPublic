@@ -1,8 +1,5 @@
-﻿using System;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Particles;
+﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -22,7 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 40;
+            Projectile.width = Projectile.height = 36;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.alpha = 20;

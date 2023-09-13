@@ -1,15 +1,11 @@
-﻿using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Sounds;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Audio;
-using ReLogic.Utilities;
-using CalamityMod.Items.Accessories;
+﻿using System;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
-using System;
-using System.Runtime.Intrinsics;
+using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -28,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
         public const float velocityMultiplier = 1.2f;
         public bool Extradamage = false;
         public int Time = 0;
-        public int Aftershot = 17;
+        public int Aftershot = OpalStriker.AftershotCooldownFrames;
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/OpalStriker";
 
@@ -52,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
                 return;
             }
 
-            if (CurrentChargingFrames >= 88)
+            if (CurrentChargingFrames >= OpalStriker.FullChargeFrames)
                 Extradamage = true;
             else
                 Extradamage = false;
@@ -63,7 +59,7 @@ namespace CalamityMod.Projectiles.Ranged
             // Fire if the owner stops channeling or otherwise cannot use the weapon.
             if (!OwnerCanShoot)
             {
-                if (Aftershot == 17)
+                if (Aftershot == OpalStriker.AftershotCooldownFrames)
                 {
                     if (SoundEngine.TryGetActiveSound(OpalChargeSlot, out var OpalCharge2))
                         OpalCharge2.Stop();
@@ -98,7 +94,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (CurrentChargingFrames >= 10)
                 {
-                    if (CurrentChargingFrames < 88)
+                    if (CurrentChargingFrames < OpalStriker.FullChargeFrames)
                     {
                         Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.06f + (CurrentChargingFrames / 180), 0.08f + (CurrentChargingFrames / 180)), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(0.3f * CurrentChargingFrames, 0.3f * CurrentChargingFrames), 0f, Color.Gold, Color.Orange, 7, tipPosition);
                         GeneralParticleHandler.SpawnParticle(streak);
@@ -113,21 +109,21 @@ namespace CalamityMod.Projectiles.Ranged
                     OpalChargeSlot = SoundEngine.PlaySound(OpalStriker.Charge, Projectile.position);
                 }
                 // Start Charging.
-                if (CurrentChargingFrames < 90)
+                if (CurrentChargingFrames < OpalStriker.FullChargeFrames + 2)
                     ++CurrentChargingFrames;
 
-                if (CurrentChargingFrames >= 88f) //78 frames is durration of charge sound
+                if (CurrentChargingFrames >= OpalStriker.FullChargeFrames) //78 frames is durration of charge sound
                 {
                     Time++;
-                    if (CurrentChargingFrames == 88f)
+                    if (CurrentChargingFrames == OpalStriker.FullChargeFrames)
                         OpalChargeLoopSlot = SoundEngine.PlaySound(OpalStriker.ChargeLoop, Projectile.position);
-                    if (Time % 120 == 0)
+                    if (Time % OpalStriker.ChargeLoopSoundFrames == 0)
                     {
                         OpalChargeLoopSlot = SoundEngine.PlaySound(OpalStriker.ChargeLoop, Projectile.position);
                     }
                 }
 
-                if (CurrentChargingFrames == 88f)
+                if (CurrentChargingFrames == OpalStriker.FullChargeFrames)
                 {
                     for (int i = 0; i < 36; i++)
                     {
