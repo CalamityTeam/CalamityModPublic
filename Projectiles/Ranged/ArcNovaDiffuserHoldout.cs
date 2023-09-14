@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Ranged
                         CurrentChargingFrames = 0;
                         ShotsLoaded = 0;
                         Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * storedVelocity;
-                        int charge2Damage = Projectile.damage * 25;
+                        int charge2Damage = Projectile.damage * 20;
                         float charge2KB = Projectile.knockBack * 3f;
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<NovaChargeShot>(), charge2Damage, charge2KB, Projectile.owner);
                         Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 5;
