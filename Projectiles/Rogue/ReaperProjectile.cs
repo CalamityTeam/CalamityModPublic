@@ -5,6 +5,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Particles;
+using Terraria.Graphics.Shaders;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -15,27 +18,28 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 60;
-            Projectile.height = 60;
+            Projectile.width = 100;
+            Projectile.height = 100;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 2;
-            Projectile.timeLeft = Projectile.MaxUpdates * 90;
+            Projectile.timeLeft = Projectile.MaxUpdates * 120;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 18; // can't hit too fast, but can hit many many times
+            Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 9; // can't hit too fast, but can hit many many times
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
+            Projectile.rotation += 0.4f;
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = 8;
@@ -51,11 +55,12 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.localAI[0] = 1f;
                     Projectile.ai[1] = 0f;
                     Projectile.netUpdate = true;
+                    //Projectile.velocity *= 1.1f;
                 }
 
                 // Initial homing before landing a hit.
                 else
-                    CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 12f, 14f);
+                    CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 14f, 14f);
             }
 
             // Homing after landing a hit. This homing repeatedly turns on and off.
@@ -97,57 +102,47 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
 
+
                 if (foundTarget && Projectile.ai[0] == 0f)
                 {
-                    Vector2 delta = homingTarget - Projectile.Center;
-                    float distance = delta.Length();
-                    delta /= distance;
-
-                    if (distance > 200f)
-                    {
-                        float homingScalar = 11f;
-                        delta *= homingScalar;
-                        Projectile.velocity = (Projectile.velocity * 40f + delta) / 41f;
-                    }
-                    else
-                    {
-                        float homingScalar = 3.6f;
-                        delta *= -homingScalar; // yes this is intentionally backwards
-                        Projectile.velocity = (Projectile.velocity * 40f + delta) / 41f;
-                    }
+                    float angularTurnSpeed = 0.35f;
+                    float angleToTargetCoords = Projectile.AngleTo(homingTarget);
+                    Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(angleToTargetCoords, angularTurnSpeed).ToRotationVector2() * Main.rand.NextFloat(14f, 18f);
                 }
 
                 if (Projectile.ai[1] > 0f)
-                {
-                    Projectile.ai[1] += (float)Main.rand.Next(1, 4);
-                }
-                if (Projectile.ai[1] > 40f)
+                    Projectile.ai[1] += (float)Main.rand.Next(1, 5);
+                if (Projectile.ai[1] > 30f)
                 {
                     Projectile.ai[1] = 0f;
                     Projectile.netUpdate = true;
                 }
+
                 if (Projectile.ai[0] == 0f)
                 {
                     if (Projectile.ai[1] == 0f && foundTarget && homingRange < 500f)
                     {
                         Projectile.ai[1] += 1f;
                         if (Main.myPlayer == Projectile.owner)
-                        {
                             Projectile.ai[0] = 1f;
-                            Vector2 value20 = homingTarget - Projectile.Center;
-                            value20.Normalize();
-                            Projectile.velocity = value20 * 8f;
-                            Projectile.netUpdate = true;
-                        }
                     }
                 }
             }
-            Projectile.rotation += 0.3f;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+
+            //Outline WIP
+            Main.spriteBatch.EnterShaderRegion();
+            GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(82f, 1f, 0.50f)); //Using RGB directly fails, gotta use HSL
+            GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(Main.rand.NextFloat(0.3f, 0.7f));
+            GameShaders.Misc["CalamityMod:BasicTint"].Apply();
+            var texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/TheOldReaper").Value;
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.LimeGreen, Projectile.rotation, Projectile.Size / 2f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            Main.spriteBatch.ExitShaderRegion();
+
             return false;
         }
 
