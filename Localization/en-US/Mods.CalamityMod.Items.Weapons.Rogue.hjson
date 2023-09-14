@@ -1238,7 +1238,7 @@ TheOldReaper: {
 	Tooltip:
 		'''
 		Throws a homing reaper scythe that shreds enemies
-		Stealth strikes throw four at once
+		Stealth strikes throw three at once
 		'Slice 'n dice'
 		'''
 }

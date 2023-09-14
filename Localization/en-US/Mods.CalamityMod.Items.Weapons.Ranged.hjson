@@ -647,9 +647,14 @@ LunarianBow: {
 		'''
 }
 
-MagnaStriker: {
-	DisplayName: Magna Striker
-	Tooltip: Fires a string of opal and magna strikes
+ArcNovaDiffuser: {
+	DisplayName: Arc Nova Diffuser
+	Tooltip:
+		'''
+		Charges and fires a rapid burst of nova bolts
+		The first charging stage increases the fire rate of the burst
+		The second charging stage replaces the rapid burst with a devastating nova blast
+		'''
 }
 
 MagnomalyCannon: {
@@ -793,8 +798,8 @@ OpalStriker: {
 	DisplayName: Opal Striker
 	Tooltip:
 		'''
-		Fires a string of opal strikes
-		50% chance to save ammo
+		Fires a chargeable heated energy bolt that pierces
+		Fully charged shots deal extra damage and move faster
 		'''
 }
 
@@ -1284,5 +1289,15 @@ WulfrumBlunderbuss: {
 		Ignores 3 points of enemy Defense
 		[c/83B87E:'The good thing about Wulfrum is that while it breaks fast, it can be reused even faster.]
 		[c/83B87E:In fact, it is quite common for a robot to be turned into ammo right after it stops functioning.']
+		'''
+}
+
+MagnaCannon: {
+	DisplayName: Magna Cannon
+	Tooltip:
+		'''
+		Charges up a rapid fire burst of crystal bolts
+		Charging for longer increases the number of bolts fired
+		Fully charged shots fire an even longer and more rapid burst
 		'''
 }

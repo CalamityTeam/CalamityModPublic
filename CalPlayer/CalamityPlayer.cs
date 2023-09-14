@@ -41,7 +41,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Typless;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
