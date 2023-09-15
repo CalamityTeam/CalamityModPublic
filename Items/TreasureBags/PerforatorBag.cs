@@ -74,7 +74,7 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<VeinBurster>(),
                 ModContent.ItemType<Eviscerator>(),
                 ModContent.ItemType<BloodBath>(),
-                ModContent.ItemType<BloodClotStaff>(),
+                ModContent.ItemType<FleshOfInfidelity>(),
                 new WeightedItemStack(ModContent.ItemType<ToothBall>(), 1f, 50, 75),
             }));
 
