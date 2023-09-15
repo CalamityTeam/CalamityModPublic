@@ -21,16 +21,16 @@ namespace CalamityMod.Items.Accessories
         {
             Item.width = 40;
             Item.height = 50;
-            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            Item.rare = ItemRarityID.Green;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().aeroStone = true;
-            player.moveSpeed += 0.1f;
-            player.jumpSpeedBoost += 0.5f;
+            player.wingTimeMax += 45;
+            
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)

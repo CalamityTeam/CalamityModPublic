@@ -1557,8 +1557,8 @@ namespace CalamityMod.CalPlayer
             // Absorber bonus
             if (absorber)
             {
-                Player.moveSpeed += 0.1f;
-                Player.jumpSpeedBoost += 0.5f;
+                Player.moveSpeed += 0.12f;
+                Player.jumpSpeedBoost += 0.6f;
                 Player.thorns += 3.5f;
             }
 
@@ -2370,6 +2370,11 @@ namespace CalamityMod.CalPlayer
             if (baroclaw)
                 Player.GetDamage<GenericDamageClass>() += 0.1f;
 
+            if (aeroStone)
+            {
+                Player.moveSpeed += (Player.equippedWings != null && Player.wingTime == 0f ? 0.25f : 0f);
+            }
+
             if (gShell)
             {
                 if (giantShellPostHit == 1)
@@ -2413,7 +2418,6 @@ namespace CalamityMod.CalPlayer
             if (eGauntlet)
             {
                 Player.kbGlove = true;
-                Player.magmaStone = true;
                 Player.GetDamage<MeleeDamageClass>() += 0.15f;
                 Player.GetCritChance<MeleeDamageClass>() += 5;
             }
@@ -2572,16 +2576,12 @@ namespace CalamityMod.CalPlayer
                 (ZoneAstral ? 0.05 : 0D) +
                 (harpyRing ? 0.2 : 0D) +
                 (reaverSpeed ? 0.1 : 0D) +
-                (aeroStone ? 0.1 : 0D) +
                 (angelTreads ? 0.1 : 0D) +
                 (blueCandle ? 0.1 : 0D) +
                 (soaring ? 0.1 : 0D) +
                 (prismaticGreaves ? 0.1 : 0D) +
                 (plagueReaper ? 0.05 : 0D) +
                 (Player.empressBrooch ? 0.25 : 0D);
-
-            if (harpyRing)
-                Player.moveSpeed += 0.1f;
 
             if (blueCandle)
                 Player.moveSpeed += 0.1f;
