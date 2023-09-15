@@ -4720,6 +4720,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Misc Stuff
+        private static int musicModDisplayDelay = -1;
 
         // Triggers effects that must occur when the player enters the world. This sends a bunch of packets in multiplayer.
         // It also starts the speedrun timer if applicable.
@@ -4737,6 +4738,12 @@ namespace CalamityMod.CalPlayer
             {
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus1");
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus2");
+            }
+
+            // Set a random delay between 12 and 20 seconds. When this delay hits zero, the music mod reminder message displays
+            if (CalamityMod.Instance.musicMod is null && CalamityConfig.Instance.MusicModReminderMessage)
+            {
+                musicModDisplayDelay = Main.rand.Next(CalamityUtils.SecondsToFrames(12), CalamityUtils.SecondsToFrames(20) + 1);
             }
         }
 

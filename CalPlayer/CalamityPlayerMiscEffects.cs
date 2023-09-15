@@ -139,6 +139,9 @@ namespace CalamityMod.CalPlayer
             // Potions (Quick Buff && Potion Sickness)
             HandlePotions();
 
+            // Display the Music Mod Reminder text in chat.
+            HandleTextChatMessages();
+
             // Check if schematics are present on the mouse, for the sake of registering their recipes.
             CheckIfMouseItemIsSchematic();
 
@@ -3952,6 +3955,22 @@ namespace CalamityMod.CalPlayer
             {
                 jumpAgainSulfur = true;
                 jumpAgainStatigel = true;
+            }
+        }
+        #endregion
+
+        #region Text Chat Messages
+        private void HandleTextChatMessages()
+        {
+            if (Player.whoAmI != Main.myPlayer || Main.netMode == NetmodeID.Server)
+                return;
+
+            if (musicModDisplayDelay >= 0)
+            {
+                if (musicModDisplayDelay == 0)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.MusicModReminder");
+
+                --musicModDisplayDelay;
             }
         }
         #endregion
