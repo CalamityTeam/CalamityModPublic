@@ -347,6 +347,28 @@ namespace CalamityMod.Projectiles
             void ApplyTweak(Projectile proj);
         }
 
+        #region Built-In Armor Penetration
+        internal class ArmorPenetrationDeltaRule : IProjectileTweak
+        {
+            internal readonly int delta = 0;
+
+            public ArmorPenetrationDeltaRule(int d) => delta = d;
+            public bool AppliesTo(Projectile proj) => true;
+            public void ApplyTweak(Projectile proj) => proj.ArmorPenetration += delta;
+        }
+        internal static IProjectileTweak ArmorPenetrationDelta(int d) => new ArmorPenetrationDeltaRule(d);
+
+        internal class ArmorPenetrationExactRule : IProjectileTweak
+        {
+            internal readonly int armorPen = 0;
+
+            public ArmorPenetrationExactRule(int a) => armorPen = a;
+            public bool AppliesTo(Projectile proj) => true;
+            public void ApplyTweak(Projectile proj) => proj.ArmorPenetration = armorPen;
+        }
+        internal static IProjectileTweak ArmorPenetrationExact(int a) => new ArmorPenetrationExactRule(a);
+        #endregion
+
         #region Defense Damage
         internal class DefenseDamageRule : IProjectileTweak
         {
