@@ -66,7 +66,7 @@ AeroStone: {
 	Tooltip:
 		'''
 		Provides an additional 45 flight time 
-Movement speed and acceleration are greatly increased when you are out of flight time
+		Movement speed and acceleration are greatly increased when you are out of flight time
 		'One of the ancient relics'
 		'''
 }
@@ -444,7 +444,7 @@ CryoStone: {
 		'''
 		Multiplies all cold-based debuff damage by 1.5
 		Creates a rotating ice shield around you that damages and slows down enemies on contact
-'One of the ancient relics'
+		'One of the ancient relics'
 		'''
 }
 
