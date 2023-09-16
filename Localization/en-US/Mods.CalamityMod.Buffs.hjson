@@ -1051,7 +1051,7 @@ BrittleStar: {
 	Description: The brittle star will protect you
 }
 
-Calamari: {
+CalamarisLamentBuff: {
 	DisplayName: Calamari
 	Description: The squid will protect you
 }
