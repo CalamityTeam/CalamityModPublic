@@ -1,7 +1,9 @@
-﻿using CalamityMod.Projectiles.Summon;
+﻿using System.Collections.Generic;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CalamarisLament : ModItem, ILocalizedModType
     {
+        public static readonly SoundStyle GFB = new("CalamityMod/Sounds/Item/Inkling", 5);
         public new string LocalizationCategory => "Items.Weapons.Summon";
 
         #region Minion Stats
@@ -59,5 +62,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Projectile.NewProjectile(source, Main.MouseWorld, velocity, type, damage, knockback, player.whoAmI);
             return false;
         }
+
+        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[GFB]", this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipNormal"));
     }
 }

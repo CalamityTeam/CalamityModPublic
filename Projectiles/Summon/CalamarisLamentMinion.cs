@@ -44,13 +44,23 @@ namespace CalamityMod.Projectiles.Summon
         public override void MinionAI()
         {
             // Ambient idle sounds.
-            if (Main.rand.NextBool(600))
+            if (Main.zenithWorld)
             {
-                SoundStyle glubNoise = Main.rand.NextBool() ? SoundID.Zombie35 : SoundID.Zombie34;
-                SoundStyle trollBirdChirpingSound = SoundID.Zombie16;
+                if (Main.rand.NextBool(750))
+                {
+                    SoundEngine.PlaySound(CalamarisLament.GFB, Projectile.Center);
+                }
+            }
+            else
+            {
+                if (Main.rand.NextBool(600))
+                {
+                    SoundStyle glubNoise = Main.rand.NextBool() ? SoundID.Zombie35 : SoundID.Zombie34;
+                    SoundStyle trollBirdChirpingSound = SoundID.Zombie16;
 
-                // 1/100th chance to do a bird chirping sound.
-                SoundEngine.PlaySound(Main.rand.NextBool(100) ? trollBirdChirpingSound : glubNoise, Projectile.Center);
+                    // 1/200th chance to do a bird chirping sound.
+                    SoundEngine.PlaySound(Main.rand.NextBool(200) ? trollBirdChirpingSound : glubNoise, Projectile.Center);
+                }
             }
 
             switch (State)
