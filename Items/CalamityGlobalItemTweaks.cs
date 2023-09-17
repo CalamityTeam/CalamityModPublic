@@ -319,7 +319,7 @@ namespace CalamityMod.Items
                 { ItemID.IronAxe, Do(AxePower(60), UseTimeExact(15), TileBoostExact(+0)) },
                 { ItemID.IronHammer, Do(HammerPower(45), UseTimeExact(11), TileBoostExact(+0)) },
                 { ItemID.IronPickaxe, Do(PickPower(40), UseTimeExact(8)) },
-                { ItemID.LaserDrill, Do(PickPower(220), AxePower(120), UseTimeExact(4)) },
+                { ItemID.LaserDrill, Do(PickPower(220), AxePower(120), UseTimeExact(4), DamageExact(54)) },
                 { ItemID.LeadAxe, Do(AxePower(60), UseTimeExact(15), TileBoostExact(+0)) },
                 { ItemID.LeadHammer, Do(HammerPower(45), UseTimeExact(11), TileBoostExact(+0)) },
                 { ItemID.LeadPickaxe, Do(PickPower(40), UseTimeExact(8)) },

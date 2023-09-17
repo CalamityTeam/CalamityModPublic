@@ -145,6 +145,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.IceBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.IchorBullet, standardBulletTweaks },
                 { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.LaserDrill, Do(ArmorPenetrationDelta(+25), LocalIFrames(5)) },
                 { ProjectileID.LightDisc, Do(MaxUpdatesExact(3)) },
                 { ProjectileID.LostSoulHostile, Do(TileCollide) }, // Ragged Caster
                 { ProjectileID.MeteorShot, standardBulletTweaks },
