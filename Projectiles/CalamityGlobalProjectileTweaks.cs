@@ -156,10 +156,12 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.MonkStaffT2, Do(TrueMelee, IDStaticIFrames(18)) }, // Ghastly Glaive
                 { ProjectileID.MonkStaffT3, Do(ScaleRatio(2f)) }, // Sky Dragon's Fury
                 { ProjectileID.MoonlordBullet, standardBulletTweaks }, // Luminite Bullet
+                { ProjectileID.MythrilChainsaw, standardChainsawTweaks },
                 { ProjectileID.MythrilDrill, standardDrillTweaks },
                 { ProjectileID.NanoBullet, standardBulletTweaks },
                 { ProjectileID.NebulaDrill, standardDrillTweaks },
                 { ProjectileID.NebulaLaser, Do(ExtraUpdatesDelta(+1)) },
+                { ProjectileID.OrichalcumChainsaw, standardChainsawTweaks },
                 { ProjectileID.OrichalcumDrill, standardDrillTweaks },
                 { ProjectileID.PalladiumChainsaw, standardChainsawTweaks },
                 { ProjectileID.PalladiumDrill, standardDrillTweaks },
@@ -203,11 +205,9 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.JoustingLance, trueMelee },
                 { ProjectileID.LeadShortswordStab, trueMelee },
                 { ProjectileID.MushroomSpear, trueMelee },
-                { ProjectileID.MythrilChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.MythrilHalberd, trueMelee },
                 { ProjectileID.NebulaChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.ObsidianSwordfish, trueMelee },
-                { ProjectileID.OrichalcumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.OrichalcumHalberd, trueMelee },
                 { ProjectileID.PalladiumPike, trueMelee },
                 { ProjectileID.PiercingStarlight, trueMelee },
