@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         /// Multiplied by <see cref="Projectile.MaxUpdates"/> so changing <see cref="Projectile.extraUpdates"/> won't affect this.<br/>
         /// Defaults to 10.
         /// </summary>
-        public int IFrames { get; set; } = 10;
+        public int IFrames { get => Projectile.localNPCHitCooldown / Projectile.MaxUpdates; set => Projectile.localNPCHitCooldown = value * Projectile.MaxUpdates; }
 
         /// <summary>
         /// If <see langword="true"/>, makes the minion only be able to detect and attack enemies through tiles only when there are any bosses alive.<br/>
@@ -101,7 +101,6 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         {
             Projectile.DamageType = DamageClass.Summon;
             Projectile.minionSlots = MinionSlots;
-            Projectile.localNPCHitCooldown = IFrames * Projectile.MaxUpdates;
             Projectile.penetrate = -1;
 
             Projectile.friendly = true;

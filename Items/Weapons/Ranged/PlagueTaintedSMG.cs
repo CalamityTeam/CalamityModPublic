@@ -65,8 +65,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 // Fire drones to the left and right.
                 for (int i = 0; i < 3; i++)
                 {
-                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(-Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), player.Calamity().alchFlask ? (int)(damage * 0.65f) : damage, knockback, player.whoAmI);
-                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), player.Calamity().alchFlask ? (int)(damage * 0.65f) : damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(-Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), damage, knockback, player.whoAmI, 0f, player.Calamity().alchFlask || player.Calamity().spiritOrigin ? 1f : 0f);
+                    Projectile.NewProjectile(source, barrelPosition, velocity.RotatedBy(Spread * (i + 1)), ModContent.ProjectileType<PlagueTaintedDrone>(), damage, knockback, player.whoAmI, 0f, player.Calamity().alchFlask || player.Calamity().spiritOrigin ? 1f : 0f);
                 }
             }
             else

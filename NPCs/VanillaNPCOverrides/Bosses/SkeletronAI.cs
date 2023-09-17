@@ -281,10 +281,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float num158 = bossRush ? 10f : phase2 ? (60f - (death ? 30f * (1f - lifeRatio) : 0f)) : 75f;
                 if (Main.getGoodWorld)
                     num158 *= 0.8f;
+                num158 = (float)Math.Ceiling(num158);
 
-                if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[1] >= num158)
+                if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[1] % num158 == 0f && calamityGlobalNPC.newAI[1] > 45f)
                 {
-                    calamityGlobalNPC.newAI[1] = 0f;
                     Vector2 vector18 = npc.Center;
                     float num159 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector18.X;
                     float num160 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector18.Y;
@@ -292,8 +292,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Collision.CanHit(vector18, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         float num162 = phase2 ? (5f + (death ? 3f * (1f - lifeRatio) : 0f)) : 4f;
-                        float num163 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector18.X + Main.rand.Next(-20, 21);
-                        float num164 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector18.Y + Main.rand.Next(-20, 21);
+                        float num163 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector18.X;
+                        float num164 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector18.Y;
                         float num165 = (float)Math.Sqrt(num163 * num163 + num164 * num164);
                         num165 = num162 / num165;
                         num163 *= num165;

@@ -52,12 +52,6 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
-            CreateRecipe().
-                AddIngredient<CarnageRay>().
-                AddIngredient<ValkyrieRay>().
-                AddIngredient<LivingShard>(12).
-                AddTile(TileID.MythrilAnvil).
-                Register();
         }
     }
 }

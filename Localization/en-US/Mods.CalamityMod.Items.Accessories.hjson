@@ -65,8 +65,9 @@ AeroStone: {
 	DisplayName: Aero Stone
 	Tooltip:
 		'''
-		Increases flight time, movement speed and jump speed by 10%
-		One of the ancient relics
+		Provides an additional 45 flight time 
+		Movement speed and acceleration are greatly increased when you are out of flight time
+		'One of the ancient relics'
 		'''
 }
 
@@ -313,7 +314,7 @@ BloomStone: {
 		Both of these effects are maximized from noon to sunset
 		Flowers grow if you are standing on grass
 		Random dye plants will grow while standing on grassless dirt
-		One of the ancient relics
+		'One of the ancient relics'
 		'''
 }
 
@@ -347,7 +348,7 @@ ChaosStone: {
 		Mana Sickness from drinking mana potions is replaced by Mana Burn
 		Mana Burn deals damage over time relative to the intensity of the debuff
 		This debuff does not reduce your magic damage
-		One of the ancient relics
+		'One of the ancient relics'
 		'''
 }
 
@@ -441,9 +442,9 @@ CryoStone: {
 	DisplayName: Cryo Stone
 	Tooltip:
 		'''
-		One of the ancient relics
 		Multiplies all cold-based debuff damage by 1.5
 		Creates a rotating ice shield around you that damages and slows down enemies on contact
+		'One of the ancient relics'
 		'''
 }
 
@@ -843,7 +844,7 @@ GrandGelatin: {
 	DisplayName: Grand Gelatin
 	Tooltip:
 		'''
-		10% increased movement speed and jump speed
+		12% increased movement speed and jump speed
 		Using a healing potion will spawn a cleansing aura
 		Walking into the aura removes all debuffs and defense damage one time
 		The aura grants +2.5 HP/s life regen for all players inside for 8 seconds
@@ -1393,7 +1394,7 @@ RoseStone: {
 	Tooltip:
 		'''
 		Summons a Brimstone Elemental to fight for you
-		One of the ancient relics
+		'One of the ancient relics'
 		'''
 }
 
@@ -1730,7 +1731,7 @@ TheAbsorber: {
 	DisplayName: The Absorber
 	Tooltip:
 		'''
-		10% increased movement and jump speed
+		12% increased movement and jump speed
 		Enemies take immense damage when they touch you and are afflicted with a damaging sickeness debuff that reduces damage reduction significantly
 		Using a healing potion will spawn a cleansing aura
 		Walking into the aura removes all debuffs and defense damage one time
@@ -1821,7 +1822,7 @@ TheSponge: {
 	Tooltip:
 		'''
 		Projects a quantum foam barrier that absorbs up to 180 damage
-		The barrier grants 30 defense and reduces damage taken by 30% while active
+		The barrier grants 30 defense and reduces damage taken by 10% while active
 		The barrier starts recharging 9 seconds after being hit
 		Recharging from zero to full charge takes 6 seconds
 		Being hit again while recharging restarts the charge timer
@@ -1921,7 +1922,7 @@ VeneratedLocket: {
 
 VitalJelly: {
 	DisplayName: Vital Jelly
-	Tooltip: 10% increased movement and jump speed
+	Tooltip: 12% increased movement and jump speed
 }
 
 VoidofCalamity: {

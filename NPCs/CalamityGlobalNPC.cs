@@ -4567,7 +4567,7 @@ namespace CalamityMod.NPCs
                 // Hitbox criteria were changed to allow long one dimensional projectiles so that Condemnation would work.
                 bool hitBullseye = false;
                 bool acceptableVelocity = projectile.velocity != Vector2.Zero;
-                bool acceptableHitbox = (projectile.width < 36) || (projectile.height < 36);
+                bool acceptableHitbox = (projectile.width <= 36) || (projectile.height <= 36);
                 if (bullseye != null && acceptableVelocity && acceptableHitbox)
                 {
                     // Bullseyes are visually different on bosses and thus have larger hitboxes.

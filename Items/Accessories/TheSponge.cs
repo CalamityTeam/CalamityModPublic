@@ -33,9 +33,9 @@ namespace CalamityMod.Items.Accessories
         public static int ShieldRechargeDelay = CalamityUtils.SecondsToFrames(9); // was 6
         public static int TotalShieldRechargeTime = CalamityUtils.SecondsToFrames(6);
 
-        // While active, The Sponge gives 30 defense and 30% DR
+        // While active, The Sponge gives 30 defense and 10% DR
         public static int ShieldActiveDefense = 30;
-        public static float ShieldActiveDamageReduction = 0.3f;
+        public static float ShieldActiveDamageReduction = 0.1f;
 
 
         public override void SetStaticDefaults()
