@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles
             IProjectileTweak[] trueMeleeNoSpeed = Do(TrueMeleeNoSpeed);
             IProjectileTweak[] pointBlank = Do(PointBlank);
             IProjectileTweak[] standardBulletTweaks = Do(PointBlank, ExtraUpdatesDelta(+2));
+            IProjectileTweak[] standardDrillTweaks = Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5));
             IProjectileTweak[] counterweightTweaks = Do(MaxUpdatesExact(2), IDStaticIFrames(10));
 
             // Shorthand for changing all the stats of a yoyo at once. This handles extra update related math for you.
@@ -111,6 +112,7 @@ namespace CalamityMod.Projectiles
                 #endregion
 
                 #region CATEGORY 2: Weapon/Enemy Balancing
+                { ProjectileID.AdamantiteDrill, standardDrillTweaks },
                 { ProjectileID.Anchor, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Bee, Do(PiercingExact(2)) },
                 { ProjectileID.BlackCounterweight, counterweightTweaks },
@@ -119,7 +121,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Bullet, standardBulletTweaks },
                 { ProjectileID.BulletHighVelocity, Do(PointBlank, LocalIFrames(-1)) },
                 { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
-                { ProjectileID.CobaltDrill, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5)) },
+                { ProjectileID.CobaltDrill, standardDrillTweaks },
                 { ProjectileID.CrystalBullet, standardBulletTweaks },
                 { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(10)) },
                 { ProjectileID.CrystalVileShardShaft, Do(LocalIFrames(10)) },
@@ -150,11 +152,11 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.MonkStaffT2, Do(TrueMelee, IDStaticIFrames(18)) }, // Ghastly Glaive
                 { ProjectileID.MonkStaffT3, Do(ScaleRatio(2f)) }, // Sky Dragon's Fury
                 { ProjectileID.MoonlordBullet, standardBulletTweaks }, // Luminite Bullet
-                { ProjectileID.MythrilDrill, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5)) },
+                { ProjectileID.MythrilDrill, standardDrillTweaks },
                 { ProjectileID.NanoBullet, standardBulletTweaks },
                 { ProjectileID.NebulaLaser, Do(ExtraUpdatesDelta(+1)) },
-                { ProjectileID.OrichalcumDrill, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5)) },
-                { ProjectileID.PalladiumDrill, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5)) },
+                { ProjectileID.OrichalcumDrill, standardDrillTweaks },
+                { ProjectileID.PalladiumDrill, standardDrillTweaks },
                 { ProjectileID.PartyBullet, standardBulletTweaks },
                 { ProjectileID.PoisonFang, Do(LocalIFrames(10)) },
                 { ProjectileID.PurpleCounterweight, counterweightTweaks },
@@ -167,6 +169,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.StarWrath, Do(NoPiercing) },
                 { ProjectileID.Sunfury, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.SwordBeam, Do(ExtraUpdatesExact(1)) }, // Beam Sword projectile
+                { ProjectileID.TitaniumDrill, standardDrillTweaks },
                 { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.VenomBullet, standardBulletTweaks },
                 { ProjectileID.VenomFang, Do(LocalIFrames(10)) },
@@ -175,7 +178,6 @@ namespace CalamityMod.Projectiles
 
                 #region CATEGORY 3: True Melee support
                 { ProjectileID.AdamantiteChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.AdamantiteDrill, trueMeleeNoSpeed },
                 { ProjectileID.AdamantiteGlaive, trueMelee },
                 { ProjectileID.Arkhalis, trueMeleeNoSpeed },
                 { ProjectileID.ChlorophyteChainsaw, trueMeleeNoSpeed },
@@ -218,7 +220,6 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.TheRottedFork, trueMelee },
                 { ProjectileID.TinShortswordStab, trueMelee },
                 { ProjectileID.TitaniumChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.TitaniumDrill, trueMeleeNoSpeed },
                 { ProjectileID.TitaniumTrident, trueMelee },
                 { ProjectileID.Trident, trueMelee },
                 { ProjectileID.TungstenShortswordStab, trueMelee },

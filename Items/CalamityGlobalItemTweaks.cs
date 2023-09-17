@@ -286,7 +286,7 @@ namespace CalamityMod.Items
                 #region CATEGORY 3: Tool Balancing
                 { ItemID.AcornAxe, Do(AxePower(125)) }, // Axe of Regrowth
                 { ItemID.AdamantiteChainsaw, Do(TrueMeleeNoSpeed, AxePower(90), UseTimeExact(4), TileBoostExact(+0)) },
-                { ItemID.AdamantiteDrill, Do(TrueMeleeNoSpeed, PickPower(180), UseTimeExact(4), TileBoostExact(+1)) },
+                { ItemID.AdamantiteDrill, Do(TrueMeleeNoSpeed, PickPower(180), UseTimeExact(4), TileBoostExact(+1), DamageExact(32)) },
                 { ItemID.AdamantitePickaxe, Do(PickPower(180), UseTimeExact(8), TileBoostExact(+1)) },
                 { ItemID.AdamantiteWaraxe, Do(AxePower(160), UseTimeExact(10), TileBoostExact(+1)) },
                 { ItemID.BloodLustCluster, Do(AxePower(100), UseTimeExact(13), TileBoostExact(+0)) },
@@ -376,7 +376,7 @@ namespace CalamityMod.Items
                 { ItemID.TinHammer, Do(HammerPower(35), UseTimeExact(12), TileBoostExact(+0)) },
                 { ItemID.TinPickaxe, Do(PickPower(35), UseTimeExact(10), TileBoostExact(+0)) },
                 { ItemID.TitaniumChainsaw, Do(TrueMeleeNoSpeed, AxePower(90), UseTimeExact(4), TileBoostExact(+0)) },
-                { ItemID.TitaniumDrill, Do(TrueMeleeNoSpeed, PickPower(180), UseTimeExact(4), TileBoostExact(+1)) },
+                { ItemID.TitaniumDrill, Do(TrueMeleeNoSpeed, PickPower(180), UseTimeExact(4), TileBoostExact(+1), DamageExact(32)) },
                 { ItemID.TitaniumPickaxe, Do(PickPower(180), UseTimeExact(8), TileBoostExact(+1)) },
                 { ItemID.TitaniumWaraxe, Do(AxePower(160), UseTimeExact(10), TileBoostExact(+1)) },
                 { ItemID.TungstenAxe, Do(AxePower(70), UseTimeExact(14), TileBoostExact(+0)) },
