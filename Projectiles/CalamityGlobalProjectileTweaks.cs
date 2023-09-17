@@ -113,6 +113,7 @@ namespace CalamityMod.Projectiles
                 #endregion
 
                 #region CATEGORY 2: Weapon/Enemy Balancing
+                { ProjectileID.AdamantiteChainsaw, standardChainsawTweaks },
                 { ProjectileID.AdamantiteDrill, standardDrillTweaks },
                 { ProjectileID.Anchor, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Bee, Do(PiercingExact(2)) },
@@ -179,6 +180,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.StarWrath, Do(NoPiercing) },
                 { ProjectileID.Sunfury, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.SwordBeam, Do(ExtraUpdatesExact(1)) }, // Beam Sword projectile
+                { ProjectileID.TitaniumChainsaw, standardChainsawTweaks },
                 { ProjectileID.TitaniumDrill, standardDrillTweaks },
                 { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.VenomBullet, standardBulletTweaks },
@@ -188,7 +190,6 @@ namespace CalamityMod.Projectiles
                 #endregion
 
                 #region CATEGORY 3: True Melee support
-                { ProjectileID.AdamantiteChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.AdamantiteGlaive, trueMelee },
                 { ProjectileID.Arkhalis, trueMeleeNoSpeed },
                 { ProjectileID.ChlorophyteChainsaw, trueMeleeNoSpeed },
@@ -222,7 +223,6 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Terragrim, trueMeleeNoSpeed },
                 { ProjectileID.TheRottedFork, trueMelee },
                 { ProjectileID.TinShortswordStab, trueMelee },
-                { ProjectileID.TitaniumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.TitaniumTrident, trueMelee },
                 { ProjectileID.Trident, trueMelee },
                 { ProjectileID.TungstenShortswordStab, trueMelee },
