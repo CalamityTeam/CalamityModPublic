@@ -123,6 +123,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Bullet, standardBulletTweaks },
                 { ProjectileID.BulletHighVelocity, Do(PointBlank, LocalIFrames(-1)) },
                 { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
+                { ProjectileID.ChlorophyteChainsaw, standardChainsawTweaks },
                 { ProjectileID.ChlorophyteDrill, standardDrillTweaks },
                 { ProjectileID.CobaltChainsaw, standardChainsawTweaks },
                 { ProjectileID.CobaltDrill, standardDrillTweaks },
@@ -193,7 +194,6 @@ namespace CalamityMod.Projectiles
                 #region CATEGORY 3: True Melee support
                 { ProjectileID.AdamantiteGlaive, trueMelee },
                 { ProjectileID.Arkhalis, trueMeleeNoSpeed },
-                { ProjectileID.ChlorophyteChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.ChlorophyteJackhammer, trueMeleeNoSpeed },
                 { ProjectileID.CobaltNaginata, trueMelee },
                 { ProjectileID.CopperShortswordStab, trueMelee },
