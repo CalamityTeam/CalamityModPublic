@@ -292,7 +292,7 @@ namespace CalamityMod.Items
                 { ItemID.BloodLustCluster, Do(AxePower(100), UseTimeExact(13), TileBoostExact(+0)) },
                 { ItemID.BonePickaxe, Do(PickPower(55), UseTimeExact(6)) },
                 { ItemID.BorealWoodHammer, Do(HammerPower(25), UseTimeExact(11), TileBoostExact(+0)) },
-                { ItemID.ButchersChainsaw, Do(TrueMeleeNoSpeed, AxePower(150), UseTimeExact(3), TileBoostExact(+0)) },
+                { ItemID.ButchersChainsaw, Do(TrueMeleeNoSpeed, AxePower(150), UseTimeExact(3), TileBoostExact(+0), DamageExact(194)) },
                 { ItemID.CactusPickaxe, Do(PickPower(34), UseTimeExact(9)) },
                 { ItemID.CnadyCanePickaxe, Do(PickPower(55), UseTimeExact(9), TileBoostExact(+1)) }, // Candy Cane Pickaxe
                 { ItemID.ChlorophyteChainsaw, Do(TrueMeleeNoSpeed, AxePower(120), UseTimeExact(3), TileBoostExact(+0), DamageExact(112)) },
