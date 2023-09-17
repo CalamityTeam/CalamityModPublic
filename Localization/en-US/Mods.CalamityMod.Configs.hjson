@@ -235,6 +235,15 @@ CalamityConfig: {
 			'''
 	}
 
+	MusicModReminderMessage: {
+		Label: "[i:MusicBoxMartians] Music Mod Reminder Message"
+		Tooltip:
+			'''
+			Enable or disable the status message which reminds users to install the Calamity Music Mod.
+			This message plays on world entry.
+			'''
+	}
+
 	NerfExpertDebuffs: {
 		Label: "[i:AnkhCharm] Remove Increased Debuff Duration"
 		Tooltip:

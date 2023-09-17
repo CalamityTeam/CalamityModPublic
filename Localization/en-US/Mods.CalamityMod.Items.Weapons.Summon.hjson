@@ -44,16 +44,16 @@ AtlasMunitionsBeacon: {
 	DisplayName: Atlas Munitions Beacon
 	Tooltip:
 		'''
-		[c/F2B629:Drops down a crate from the sky that houses a mounted, stationary cannon]
-		[c/F2B629:The cannon will fire at any enemies within its range]
-		[c/F27049:If an enemy is in close proximity, it will enter Overdrive mode]
-		[c/F27049:When in Overdrive mode the cannon uses three barrels that each collectively fire]
-		[c/F27049:The cannon also heats up the more it fires in overdrive mode]
-		[c/69F0DC:Press right click while holding this item to pick up the cannon and use it for yourself]
-		[c/69F0DC:When held, the cannon will always be in Overdrive mode]
-		[c/69F0DC:If the held cannon overheats due to Overdrive mode, you are forced to drop it]
-		[c/9AA4AE:Pressing right click allows you to drop it manually]
-		[c/9AA4AE:If the held cannon is dropped near the mount, it will re-attach automatically]
+		[c/F2B629:Brings forth an exo-powered, stationary cannon]
+		[c/F2B629:The cannon will fire at enemies within its range]
+		[c/F27049:If an enemy is in close proximity, it will enter Overdrive]
+		[c/F27049:When in Overdrive the cannon uses its full power to bring down any foe]
+		[c/F27049:The cannon heats up the more it fires during Overdrive]
+		[c/69F0DC:Press right click while holding this item to pick up the cannon and use it yourself]
+		[c/69F0DC:When held, the cannon will always be in Overdrive]
+		[c/69F0DC:If the cannon overheats while you hold it, you will be forced to drop it]
+		[c/9AA4AE:Pressing <right> allows you to drop it manually]
+		[c/9AA4AE:If dropped near the base, it will re-attach automatically]
 		'It's surprisingly easy to pick up'
 		'''
 }
@@ -95,12 +95,14 @@ CadaverousCarrion: {
 
 CalamarisLament: {
 	DisplayName: Calamari's Lament
-	Tooltip:
+	Tooltip: "[GFB]"
+	TooltipNormal:
 		'''
 		Summons a squid that viciously inks enemies
 		'In the Abyss, all kinds of resources are scarce.
 		Every species is solitary. There simply is not enough to share.'
 		'''
+	TooltipGFB: "'Woomy!'"
 }
 
 CausticCroakerStaff: {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,6 +20,8 @@ namespace CalamityMod.Projectiles
             IProjectileTweak[] trueMeleeNoSpeed = Do(TrueMeleeNoSpeed);
             IProjectileTweak[] pointBlank = Do(PointBlank);
             IProjectileTweak[] standardBulletTweaks = Do(PointBlank, ExtraUpdatesDelta(+2));
+            IProjectileTweak[] standardChainsawTweaks = Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+15), LocalIFrames(5));
+            IProjectileTweak[] standardDrillTweaks = Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5));
             IProjectileTweak[] counterweightTweaks = Do(MaxUpdatesExact(2), IDStaticIFrames(10));
 
             // Shorthand for changing all the stats of a yoyo at once. This handles extra update related math for you.
@@ -112,6 +113,8 @@ namespace CalamityMod.Projectiles
                 #endregion
 
                 #region CATEGORY 2: Weapon/Enemy Balancing
+                { ProjectileID.AdamantiteChainsaw, standardChainsawTweaks },
+                { ProjectileID.AdamantiteDrill, standardDrillTweaks },
                 { ProjectileID.Anchor, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Bee, Do(PiercingExact(2)) },
                 { ProjectileID.BlackCounterweight, counterweightTweaks },
@@ -119,7 +122,11 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.BlueMoon, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Bullet, standardBulletTweaks },
                 { ProjectileID.BulletHighVelocity, Do(PointBlank, LocalIFrames(-1)) },
-                { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
+                { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+15), LocalIFrames(5), ScaleExact(1.5f)) },
+                { ProjectileID.ChlorophyteChainsaw, standardChainsawTweaks },
+                { ProjectileID.ChlorophyteDrill, standardDrillTweaks },
+                { ProjectileID.CobaltChainsaw, standardChainsawTweaks },
+                { ProjectileID.CobaltDrill, standardDrillTweaks },
                 { ProjectileID.CrystalBullet, standardBulletTweaks },
                 { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(10)) },
                 { ProjectileID.CrystalVileShardShaft, Do(LocalIFrames(10)) },
@@ -139,9 +146,11 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.GiantBee, Do(PiercingExact(2)) },
                 { ProjectileID.GoldenBullet, standardBulletTweaks },
                 { ProjectileID.GreenCounterweight, counterweightTweaks },
+                { ProjectileID.Hamdrax, standardDrillTweaks }, // Drax (never internally renamed since 1.1)
                 { ProjectileID.IceBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.IchorBullet, standardBulletTweaks },
                 { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.LaserDrill, Do(ArmorPenetrationDelta(+25), LocalIFrames(5)) },
                 { ProjectileID.LightDisc, Do(MaxUpdatesExact(3)) },
                 { ProjectileID.LostSoulHostile, Do(TileCollide) }, // Ragged Caster
                 { ProjectileID.MeteorShot, standardBulletTweaks },
@@ -150,35 +159,42 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.MonkStaffT2, Do(TrueMelee, IDStaticIFrames(18)) }, // Ghastly Glaive
                 { ProjectileID.MonkStaffT3, Do(ScaleRatio(2f)) }, // Sky Dragon's Fury
                 { ProjectileID.MoonlordBullet, standardBulletTweaks }, // Luminite Bullet
+                { ProjectileID.MythrilChainsaw, standardChainsawTweaks },
+                { ProjectileID.MythrilDrill, standardDrillTweaks },
                 { ProjectileID.NanoBullet, standardBulletTweaks },
+                { ProjectileID.NebulaDrill, standardDrillTweaks },
                 { ProjectileID.NebulaLaser, Do(ExtraUpdatesDelta(+1)) },
+                { ProjectileID.OrichalcumChainsaw, standardChainsawTweaks },
+                { ProjectileID.OrichalcumDrill, standardDrillTweaks },
+                { ProjectileID.PalladiumChainsaw, standardChainsawTweaks },
+                { ProjectileID.PalladiumDrill, standardDrillTweaks },
                 { ProjectileID.PartyBullet, standardBulletTweaks },
                 { ProjectileID.PoisonFang, Do(LocalIFrames(10)) },
                 { ProjectileID.PurpleCounterweight, counterweightTweaks },
                 { ProjectileID.QueenSlimeGelAttack, Do(NoPiercing) },
                 { ProjectileID.QueenSlimeMinionPinkBall, Do(NoPiercing) },
                 { ProjectileID.RedCounterweight, counterweightTweaks },
+                { ProjectileID.SawtoothShark, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+15), LocalIFrames(6)) },
                 { ProjectileID.ShadowBeamHostile, Do(TimeLeftExact(60)) },
                 { ProjectileID.Shroomerang, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.SolarFlareDrill, standardDrillTweaks },
+                { ProjectileID.StardustDrill, standardDrillTweaks },
                 { ProjectileID.StarWrath, Do(NoPiercing) },
                 { ProjectileID.Sunfury, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.SwordBeam, Do(ExtraUpdatesExact(1)) }, // Beam Sword projectile
+                { ProjectileID.TitaniumChainsaw, standardChainsawTweaks },
+                { ProjectileID.TitaniumDrill, standardDrillTweaks },
                 { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.VenomBullet, standardBulletTweaks },
                 { ProjectileID.VenomFang, Do(LocalIFrames(10)) },
+                { ProjectileID.VortexDrill, standardDrillTweaks },
                 { ProjectileID.YellowCounterweight, counterweightTweaks },
                 #endregion
 
                 #region CATEGORY 3: True Melee support
-                { ProjectileID.AdamantiteChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.AdamantiteDrill, trueMeleeNoSpeed },
                 { ProjectileID.AdamantiteGlaive, trueMelee },
                 { ProjectileID.Arkhalis, trueMeleeNoSpeed },
-                { ProjectileID.ChlorophyteChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.ChlorophyteDrill, trueMeleeNoSpeed },
                 { ProjectileID.ChlorophyteJackhammer, trueMeleeNoSpeed },
-                { ProjectileID.CobaltChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.CobaltDrill, trueMeleeNoSpeed },
                 { ProjectileID.CobaltNaginata, trueMelee },
                 { ProjectileID.CopperShortswordStab, trueMelee },
                 { ProjectileID.DarkLance, trueMelee },
@@ -186,45 +202,31 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.GoldShortswordStab, trueMelee },
                 { ProjectileID.Gungnir, trueMelee },
                 { ProjectileID.HallowJoustingLance, trueMelee },
-                { ProjectileID.Hamdrax, trueMeleeNoSpeed }, // Drax (never internally renamed since 1.1)
                 { ProjectileID.IronShortswordStab, trueMelee },
                 { ProjectileID.JoustingLance, trueMelee },
                 { ProjectileID.LeadShortswordStab, trueMelee },
                 { ProjectileID.MushroomSpear, trueMelee },
-                { ProjectileID.MythrilChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.MythrilDrill, trueMeleeNoSpeed },
                 { ProjectileID.MythrilHalberd, trueMelee },
                 { ProjectileID.NebulaChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.NebulaDrill, trueMeleeNoSpeed },
                 { ProjectileID.ObsidianSwordfish, trueMelee },
-                { ProjectileID.OrichalcumChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.OrichalcumDrill, trueMeleeNoSpeed },
                 { ProjectileID.OrichalcumHalberd, trueMelee },
-                { ProjectileID.PalladiumChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.PalladiumDrill, trueMeleeNoSpeed },
                 { ProjectileID.PalladiumPike, trueMelee },
                 { ProjectileID.PiercingStarlight, trueMelee },
                 { ProjectileID.PlatinumShortswordStab, trueMelee },
                 { ProjectileID.RulerStab, trueMelee },
-                { ProjectileID.SawtoothShark, trueMeleeNoSpeed },
                 { ProjectileID.ShadowJoustingLance, trueMelee },
                 { ProjectileID.SilverShortswordStab, trueMelee },
                 { ProjectileID.SolarFlareChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.SolarFlareDrill, trueMeleeNoSpeed },
                 { ProjectileID.Spear, trueMelee },
                 { ProjectileID.StardustChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.StardustDrill, trueMeleeNoSpeed },
                 { ProjectileID.Swordfish, trueMelee },
                 { ProjectileID.Terragrim, trueMeleeNoSpeed },
                 { ProjectileID.TheRottedFork, trueMelee },
                 { ProjectileID.TinShortswordStab, trueMelee },
-                { ProjectileID.TitaniumChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.TitaniumDrill, trueMeleeNoSpeed },
                 { ProjectileID.TitaniumTrident, trueMelee },
                 { ProjectileID.Trident, trueMelee },
                 { ProjectileID.TungstenShortswordStab, trueMelee },
                 { ProjectileID.VortexChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.VortexDrill, trueMeleeNoSpeed },
                 #endregion
 
                 #region CATEGORY 4: Point Blank support
@@ -346,6 +348,28 @@ namespace CalamityMod.Projectiles
             bool AppliesTo(Projectile proj);
             void ApplyTweak(Projectile proj);
         }
+
+        #region Built-In Armor Penetration
+        internal class ArmorPenetrationDeltaRule : IProjectileTweak
+        {
+            internal readonly int delta = 0;
+
+            public ArmorPenetrationDeltaRule(int d) => delta = d;
+            public bool AppliesTo(Projectile proj) => true;
+            public void ApplyTweak(Projectile proj) => proj.ArmorPenetration += delta;
+        }
+        internal static IProjectileTweak ArmorPenetrationDelta(int d) => new ArmorPenetrationDeltaRule(d);
+
+        internal class ArmorPenetrationExactRule : IProjectileTweak
+        {
+            internal readonly int armorPen = 0;
+
+            public ArmorPenetrationExactRule(int a) => armorPen = a;
+            public bool AppliesTo(Projectile proj) => true;
+            public void ApplyTweak(Projectile proj) => proj.ArmorPenetration = armorPen;
+        }
+        internal static IProjectileTweak ArmorPenetrationExact(int a) => new ArmorPenetrationExactRule(a);
+        #endregion
 
         #region Defense Damage
         internal class DefenseDamageRule : IProjectileTweak
