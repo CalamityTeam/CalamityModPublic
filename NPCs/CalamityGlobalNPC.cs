@@ -6191,7 +6191,7 @@ namespace CalamityMod.NPCs
                                 segmentDrawColor = Color.Black;
                         }
                     }
-
+                    
                     // Draw segments
                     spriteBatch.Draw(npcTexture, npc.Center - screenPos + new Vector2(0, npc.gfxOffY),
                         npc.frame, segmentDrawColor, npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
@@ -6203,6 +6203,12 @@ namespace CalamityMod.NPCs
                         if (npc.realLife >= 0)
                             destroyerLifeRatio = Main.npc[npc.realLife].life / (float)Main.npc[npc.realLife].lifeMax;
 
+                        float shootProjectile = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 180 : 300;
+                        float timer = npc.ai[0] * 30f;
+                        float shootProjectileGateValue = timer + shootProjectile;
+                        float glowDuration = 120f;
+                        float startGlowingGateValue = shootProjectileGateValue - glowDuration;
+
                         if ((newAI[3] >= 900f && destroyerLifeRatio < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f))
                         {
                             Color drawColor2 = new Color(50, 50, 255, 0) * (1f - npc.alpha / 255f);
@@ -6211,12 +6217,38 @@ namespace CalamityMod.NPCs
                                 spriteBatch.Draw(TextureAssets.Dest[npc.type - NPCID.TheDestroyer].Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame,
                                     drawColor2, npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
                             }
+
+                            // Glow telegraph for lasers
+                            /*if (newAI[0] > startGlowingGateValue)
+                            {
+                                Texture2D bloomTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
+                                Color bloom = drawColor2;
+                                bloom = Main.hslToRgb((Main.rgbToHsl(bloom).X + 0.02f) % 1, Main.rgbToHsl(bloom).Y, Main.rgbToHsl(bloom).Z);
+                                float scalingFactor = (newAI[0] - startGlowingGateValue) / glowDuration;
+                                float opacity = (float)Math.Sin(MathHelper.PiOver2 + scalingFactor * MathHelper.PiOver2);
+                                float properBloomSize = (float)npc.height / (float)bloomTexture.Height;
+                                float scale = scalingFactor;
+                                spriteBatch.Draw(bloomTexture, npc.Center - Main.screenPosition, null, bloom * opacity * 0.5f, 0, bloomTexture.Size() / 2f, scale * 1f * properBloomSize, SpriteEffects.None, 0);
+                            }*/
                         }
                         else
                         {
                             Color drawColor2 = new Color(255, 255, 255, 0) * (1f - npc.alpha / 255f);
                             spriteBatch.Draw(TextureAssets.Dest[npc.type - NPCID.TheDestroyer].Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame,
                                 drawColor2, npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+
+                            // Glow telegraph for lasers
+                            /*if (newAI[0] > startGlowingGateValue)
+                            {
+                                Texture2D bloomTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
+                                Color bloom = drawColor2;
+                                bloom = Main.hslToRgb((Main.rgbToHsl(bloom).X + 0.02f) % 1, Main.rgbToHsl(bloom).Y, Main.rgbToHsl(bloom).Z);
+                                float scalingFactor = (newAI[0] - startGlowingGateValue) / glowDuration;
+                                float opacity = (float)Math.Sin(MathHelper.PiOver2 + scalingFactor * MathHelper.PiOver2);
+                                float properBloomSize = (float)npc.height / (float)bloomTexture.Height;
+                                float scale = scalingFactor;
+                                spriteBatch.Draw(bloomTexture, npc.Center - Main.screenPosition, null, bloom * opacity * 0.5f, 0, bloomTexture.Size() / 2f, scale * 1f * properBloomSize, SpriteEffects.None, 0);
+                            }*/
                         }
                     }
                 }

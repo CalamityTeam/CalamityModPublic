@@ -306,6 +306,10 @@ namespace CalamityMod.NPCs.Providence
                 calamityGlobalNPC.newAI[2] = 0f;
                 calamityGlobalNPC.newAI[3] = 0f;
                 NPC.netUpdate = true;
+
+                // Prevent netUpdate from being blocked by the spam counter.
+                if (NPC.netSpam >= 10)
+                    NPC.netSpam = 9;
             }
 
             // Increase all projectile damage at night, but reduce to 0 for Zenith
@@ -538,6 +542,11 @@ namespace CalamityMod.NPCs.Providence
                 Dying = true;
                 NPC.dontTakeDamage = true;
                 NPC.netUpdate = true;
+
+                // Prevent netUpdate from being blocked by the spam counter.
+                if (NPC.netSpam >= 10)
+                    NPC.netSpam = 9;
+
                 return;
             }
 
@@ -622,6 +631,11 @@ namespace CalamityMod.NPCs.Providence
                             {
                                 NPC.life += healAmt;
                                 NPC.HealEffect(healAmt, true);
+
+                                // Prevent netUpdate from being blocked by the spam counter.
+                                if (NPC.netSpam >= 10)
+                                    NPC.netSpam = 9;
+
                                 NPC.netUpdate = true;
                             }
                         }
@@ -938,7 +952,13 @@ namespace CalamityMod.NPCs.Providence
                     NPC.ai[3] = 0f;
                     calamityGlobalNPC.newAI[1] = 0f;
                     calamityGlobalNPC.newAI[2] = 0f;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (NPC.netSpam >= 10)
+                        NPC.netSpam = 9;
+
                     NPC.netUpdate = true;
+
                     break;
 
                 case (int)Phase.HolyBlast:
@@ -1173,7 +1193,12 @@ namespace CalamityMod.NPCs.Providence
                             // Radial offset
                             NPC.ai[2] += 10f;
                         }
+
                         NPC.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (NPC.netSpam >= 10)
+                            NPC.netSpam = 9;
                     }
                     else
                     {
@@ -1676,6 +1701,10 @@ namespace CalamityMod.NPCs.Providence
                                 }
 
                                 NPC.netUpdate = true;
+
+                                // Prevent netUpdate from being blocked by the spam counter.
+                                if (NPC.netSpam >= 10)
+                                    NPC.netSpam = 9;
                             }
                         }
                     }
@@ -1756,7 +1785,13 @@ namespace CalamityMod.NPCs.Providence
 
             // Do periodic syncs.
             if (Main.netMode == NetmodeID.Server && DeathAnimationTimer % 45f == 44f)
+            {
                 NPC.netUpdate = true;
+
+                // Prevent netUpdate from being blocked by the spam counter.
+                if (NPC.netSpam >= 10)
+                    NPC.netSpam = 9;
+            }
 
             // Die and create drops after the star is gone.
             if (DeathAnimationTimer >= 345f)
@@ -1764,7 +1799,12 @@ namespace CalamityMod.NPCs.Providence
                 NPC.active = false;
                 NPC.HitEffect();
                 NPC.NPCLoot();
+
                 NPC.netUpdate = true;
+
+                // Prevent netUpdate from being blocked by the spam counter.
+                if (NPC.netSpam >= 10)
+                    NPC.netSpam = 9;
             }
         }
 
@@ -1844,7 +1884,13 @@ namespace CalamityMod.NPCs.Providence
             Dying = true;
             NPC.active = true;
             NPC.dontTakeDamage = true;
+
             NPC.netUpdate = true;
+
+            // Prevent netUpdate from being blocked by the spam counter.
+            if (NPC.netSpam >= 10)
+                NPC.netSpam = 9;
+
             return false;
         }
 
