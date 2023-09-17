@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles
             IProjectileTweak[] trueMeleeNoSpeed = Do(TrueMeleeNoSpeed);
             IProjectileTweak[] pointBlank = Do(PointBlank);
             IProjectileTweak[] standardBulletTweaks = Do(PointBlank, ExtraUpdatesDelta(+2));
+            IProjectileTweak[] standardChainsawTweaks = Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+15), LocalIFrames(5));
             IProjectileTweak[] standardDrillTweaks = Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5));
             IProjectileTweak[] counterweightTweaks = Do(MaxUpdatesExact(2), IDStaticIFrames(10));
 
@@ -122,6 +123,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.BulletHighVelocity, Do(PointBlank, LocalIFrames(-1)) },
                 { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
                 { ProjectileID.ChlorophyteDrill, standardDrillTweaks },
+                { ProjectileID.CobaltChainsaw, standardChainsawTweaks },
                 { ProjectileID.CobaltDrill, standardDrillTweaks },
                 { ProjectileID.CrystalBullet, standardBulletTweaks },
                 { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(10)) },
@@ -159,6 +161,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.NebulaDrill, standardDrillTweaks },
                 { ProjectileID.NebulaLaser, Do(ExtraUpdatesDelta(+1)) },
                 { ProjectileID.OrichalcumDrill, standardDrillTweaks },
+                { ProjectileID.PalladiumChainsaw, standardChainsawTweaks },
                 { ProjectileID.PalladiumDrill, standardDrillTweaks },
                 { ProjectileID.PartyBullet, standardBulletTweaks },
                 { ProjectileID.PoisonFang, Do(LocalIFrames(10)) },
@@ -188,7 +191,6 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Arkhalis, trueMeleeNoSpeed },
                 { ProjectileID.ChlorophyteChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.ChlorophyteJackhammer, trueMeleeNoSpeed },
-                { ProjectileID.CobaltChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.CobaltNaginata, trueMelee },
                 { ProjectileID.CopperShortswordStab, trueMelee },
                 { ProjectileID.DarkLance, trueMelee },
@@ -207,7 +209,6 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.ObsidianSwordfish, trueMelee },
                 { ProjectileID.OrichalcumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.OrichalcumHalberd, trueMelee },
-                { ProjectileID.PalladiumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.PalladiumPike, trueMelee },
                 { ProjectileID.PiercingStarlight, trueMelee },
                 { ProjectileID.PlatinumShortswordStab, trueMelee },
