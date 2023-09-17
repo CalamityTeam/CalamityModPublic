@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -120,6 +119,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Bullet, standardBulletTweaks },
                 { ProjectileID.BulletHighVelocity, Do(PointBlank, LocalIFrames(-1)) },
                 { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
+                { ProjectileID.CobaltDrill, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5)) },
                 { ProjectileID.CrystalBullet, standardBulletTweaks },
                 { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(10)) },
                 { ProjectileID.CrystalVileShardShaft, Do(LocalIFrames(10)) },
@@ -152,12 +152,14 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.MoonlordBullet, standardBulletTweaks }, // Luminite Bullet
                 { ProjectileID.NanoBullet, standardBulletTweaks },
                 { ProjectileID.NebulaLaser, Do(ExtraUpdatesDelta(+1)) },
+                { ProjectileID.PalladiumDrill, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5)) },
                 { ProjectileID.PartyBullet, standardBulletTweaks },
                 { ProjectileID.PoisonFang, Do(LocalIFrames(10)) },
                 { ProjectileID.PurpleCounterweight, counterweightTweaks },
                 { ProjectileID.QueenSlimeGelAttack, Do(NoPiercing) },
                 { ProjectileID.QueenSlimeMinionPinkBall, Do(NoPiercing) },
                 { ProjectileID.RedCounterweight, counterweightTweaks },
+                { ProjectileID.SawtoothShark, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+15), LocalIFrames(6)) },
                 { ProjectileID.ShadowBeamHostile, Do(TimeLeftExact(60)) },
                 { ProjectileID.Shroomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.StarWrath, Do(NoPiercing) },
@@ -178,7 +180,6 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.ChlorophyteDrill, trueMeleeNoSpeed },
                 { ProjectileID.ChlorophyteJackhammer, trueMeleeNoSpeed },
                 { ProjectileID.CobaltChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.CobaltDrill, trueMeleeNoSpeed },
                 { ProjectileID.CobaltNaginata, trueMelee },
                 { ProjectileID.CopperShortswordStab, trueMelee },
                 { ProjectileID.DarkLance, trueMelee },
@@ -201,12 +202,10 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.OrichalcumDrill, trueMeleeNoSpeed },
                 { ProjectileID.OrichalcumHalberd, trueMelee },
                 { ProjectileID.PalladiumChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.PalladiumDrill, trueMeleeNoSpeed },
                 { ProjectileID.PalladiumPike, trueMelee },
                 { ProjectileID.PiercingStarlight, trueMelee },
                 { ProjectileID.PlatinumShortswordStab, trueMelee },
                 { ProjectileID.RulerStab, trueMelee },
-                { ProjectileID.SawtoothShark, trueMeleeNoSpeed },
                 { ProjectileID.ShadowJoustingLance, trueMelee },
                 { ProjectileID.SilverShortswordStab, trueMelee },
                 { ProjectileID.SolarFlareChainsaw, trueMeleeNoSpeed },
