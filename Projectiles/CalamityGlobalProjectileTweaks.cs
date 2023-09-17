@@ -145,6 +145,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.GiantBee, Do(PiercingExact(2)) },
                 { ProjectileID.GoldenBullet, standardBulletTweaks },
                 { ProjectileID.GreenCounterweight, counterweightTweaks },
+                { ProjectileID.Hamdrax, standardDrillTweaks }, // Drax (never internally renamed since 1.1)
                 { ProjectileID.IceBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.IchorBullet, standardBulletTweaks },
                 { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
@@ -201,7 +202,6 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.GoldShortswordStab, trueMelee },
                 { ProjectileID.Gungnir, trueMelee },
                 { ProjectileID.HallowJoustingLance, trueMelee },
-                { ProjectileID.Hamdrax, trueMeleeNoSpeed }, // Drax (never internally renamed since 1.1)
                 { ProjectileID.IronShortswordStab, trueMelee },
                 { ProjectileID.JoustingLance, trueMelee },
                 { ProjectileID.LeadShortswordStab, trueMelee },
