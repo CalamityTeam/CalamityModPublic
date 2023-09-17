@@ -150,8 +150,10 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.MonkStaffT2, Do(TrueMelee, IDStaticIFrames(18)) }, // Ghastly Glaive
                 { ProjectileID.MonkStaffT3, Do(ScaleRatio(2f)) }, // Sky Dragon's Fury
                 { ProjectileID.MoonlordBullet, standardBulletTweaks }, // Luminite Bullet
+                { ProjectileID.MythrilDrill, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5)) },
                 { ProjectileID.NanoBullet, standardBulletTweaks },
                 { ProjectileID.NebulaLaser, Do(ExtraUpdatesDelta(+1)) },
+                { ProjectileID.OrichalcumDrill, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5)) },
                 { ProjectileID.PalladiumDrill, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+25), LocalIFrames(5)) },
                 { ProjectileID.PartyBullet, standardBulletTweaks },
                 { ProjectileID.PoisonFang, Do(LocalIFrames(10)) },
@@ -193,13 +195,11 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.LeadShortswordStab, trueMelee },
                 { ProjectileID.MushroomSpear, trueMelee },
                 { ProjectileID.MythrilChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.MythrilDrill, trueMeleeNoSpeed },
                 { ProjectileID.MythrilHalberd, trueMelee },
                 { ProjectileID.NebulaChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.NebulaDrill, trueMeleeNoSpeed },
                 { ProjectileID.ObsidianSwordfish, trueMelee },
                 { ProjectileID.OrichalcumChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.OrichalcumDrill, trueMeleeNoSpeed },
                 { ProjectileID.OrichalcumHalberd, trueMelee },
                 { ProjectileID.PalladiumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.PalladiumPike, trueMelee },
