@@ -45,7 +45,7 @@ AtlasMunitionsBeacon: {
 	Tooltip:
 		'''
 		[c/F2B629:Brings forth an exo-powered, stationary cannon]
-		[c/F2B629:The cannon will fire at any enemies within its range]
+		[c/F2B629:The cannon will fire at enemies within its range]
 		[c/F27049:If an enemy is in close proximity, it will enter Overdrive]
 		[c/F27049:When in Overdrive the cannon uses its full power to bring down any foe]
 		[c/F27049:The cannon heats up the more it fires during Overdrive]
