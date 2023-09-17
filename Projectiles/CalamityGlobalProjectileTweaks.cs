@@ -155,6 +155,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.MoonlordBullet, standardBulletTweaks }, // Luminite Bullet
                 { ProjectileID.MythrilDrill, standardDrillTweaks },
                 { ProjectileID.NanoBullet, standardBulletTweaks },
+                { ProjectileID.NebulaDrill, standardDrillTweaks },
                 { ProjectileID.NebulaLaser, Do(ExtraUpdatesDelta(+1)) },
                 { ProjectileID.OrichalcumDrill, standardDrillTweaks },
                 { ProjectileID.PalladiumDrill, standardDrillTweaks },
@@ -167,6 +168,8 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.SawtoothShark, Do(TrueMeleeNoSpeed, ArmorPenetrationDelta(+15), LocalIFrames(6)) },
                 { ProjectileID.ShadowBeamHostile, Do(TimeLeftExact(60)) },
                 { ProjectileID.Shroomerang, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.SolarFlareDrill, standardDrillTweaks },
+                { ProjectileID.StardustDrill, standardDrillTweaks },
                 { ProjectileID.StarWrath, Do(NoPiercing) },
                 { ProjectileID.Sunfury, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.SwordBeam, Do(ExtraUpdatesExact(1)) }, // Beam Sword projectile
@@ -174,6 +177,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.VenomBullet, standardBulletTweaks },
                 { ProjectileID.VenomFang, Do(LocalIFrames(10)) },
+                { ProjectileID.VortexDrill, standardDrillTweaks },
                 { ProjectileID.YellowCounterweight, counterweightTweaks },
                 #endregion
 
@@ -199,7 +203,6 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.MythrilChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.MythrilHalberd, trueMelee },
                 { ProjectileID.NebulaChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.NebulaDrill, trueMeleeNoSpeed },
                 { ProjectileID.ObsidianSwordfish, trueMelee },
                 { ProjectileID.OrichalcumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.OrichalcumHalberd, trueMelee },
@@ -211,10 +214,8 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.ShadowJoustingLance, trueMelee },
                 { ProjectileID.SilverShortswordStab, trueMelee },
                 { ProjectileID.SolarFlareChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.SolarFlareDrill, trueMeleeNoSpeed },
                 { ProjectileID.Spear, trueMelee },
                 { ProjectileID.StardustChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.StardustDrill, trueMeleeNoSpeed },
                 { ProjectileID.Swordfish, trueMelee },
                 { ProjectileID.Terragrim, trueMeleeNoSpeed },
                 { ProjectileID.TheRottedFork, trueMelee },
@@ -224,7 +225,6 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Trident, trueMelee },
                 { ProjectileID.TungstenShortswordStab, trueMelee },
                 { ProjectileID.VortexChainsaw, trueMeleeNoSpeed },
-                { ProjectileID.VortexDrill, trueMeleeNoSpeed },
                 #endregion
 
                 #region CATEGORY 4: Point Blank support
