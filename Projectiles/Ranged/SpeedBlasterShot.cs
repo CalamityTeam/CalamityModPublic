@@ -100,8 +100,20 @@ namespace CalamityMod.Projectiles.Ranged
                     Dust dust = Dust.NewDustPerfect(Projectile.Center, 192, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30f)) * Main.rand.NextFloat(0.4f, 1.2f));
                     dust.noGravity = true;
                     dust.color = ColorUsed;
-                    dust.alpha = 60;
+                    dust.alpha = Main.rand.Next(40, 90);
                     dust.scale = Main.rand.NextFloat(1.2f, 2.3f);
+                    dust.noLight = true;
+                }
+            }
+            if (Projectile.timeLeft == 300 && Projectile.ai[1] != DashShot)
+            {
+                for (int i = 0; i <= 7; i++)
+                {
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 192, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(Projectile.ai[1] == PostDashShot ? 13f : 23f)) * Main.rand.NextFloat(0.4f, 1.2f));
+                    dust.noGravity = true;
+                    dust.color = ColorUsed;
+                    dust.alpha = Main.rand.Next(40, 90);
+                    dust.scale = Main.rand.NextFloat(0.7f, 1.6f);
                     dust.noLight = true;
                 }
             }

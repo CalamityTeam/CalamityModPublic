@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class SpeedBlaster : ModItem, ILocalizedModType
     {
         public static readonly SoundStyle Shot = new("CalamityMod/Sounds/Item/Splatshot") { PitchVariance = 0.3f, Volume = 3.5f };
-        public static readonly SoundStyle Dash = new("CalamityMod/Sounds/Item/SplatshotDash") { PitchVariance = 0.3f, Volume = 4f };
-        public static readonly SoundStyle ShotBig = new("CalamityMod/Sounds/Item/SplatshotBig") { PitchVariance = 0.3f, Volume = 3f };
+        public static readonly SoundStyle Dash = new("CalamityMod/Sounds/Item/SplatshotDash") { PitchVariance = 0.3f, Volume = 5f };
+        public static readonly SoundStyle ShotBig = new("CalamityMod/Sounds/Item/SplatshotBig") { PitchVariance = 0.3f, Volume = 2f };
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public int ColorValue = 0;
         public int UseTime = 10;
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // Reposition to the gun's tip + add some inaccuracy
             Vector2 newPos = position + new Vector2(38f, player.direction * (Math.Abs(velocity.SafeNormalize(Vector2.Zero).X) < 0.02f ? -2f : -8f)).RotatedBy(velocity.ToRotation());
-            Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(ShotBigMode == 3 ? 0f : 4f));
+            Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(ShotBigMode == 3 ? 0f : ShotBigMode == 2 ? 3f : 17f));
             Projectile.NewProjectile(source, newPos, newVel, ModContent.ProjectileType<SpeedBlasterShot>(), damage * (ShotBigMode == 3 ? 5 : 1), knockback, player.whoAmI, ColorValue, ShotBigMode);
             if (player.Calamity().SpeedBlasterDashDelayCooldown > 0)
             {
