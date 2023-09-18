@@ -951,7 +951,7 @@ namespace CalamityMod.CalPlayer
             if (npcCheck)
             {
                 // Umbraphile cannot trigger off of itself. It is guaranteed on stealth strikes and 25% chance otherwise.
-                if (umbraphileSet && ((modProj.stealthStrike && modProj.stealthStrikeHitCount < 5) || Main.rand.NextBool(4)))
+                if (umbraphileSet && ((modProj.stealthStrike && modProj.stealthStrikeHitCount < 3) || Main.rand.NextBool(4)))
                 {
                     // Umbraphile Rogue Blasts: 25%, softcap starts at 200 base damage
                     int umbraBlastDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50);
