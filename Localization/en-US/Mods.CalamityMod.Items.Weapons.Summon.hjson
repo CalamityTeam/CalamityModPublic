@@ -48,7 +48,7 @@ AtlasMunitionsBeacon: {
 		[c/F2B629:The cannon will fire at enemies within its range]
 		[c/F27049:If an enemy is in close proximity, it will enter Overdrive]
 		[c/F27049:When in Overdrive the cannon uses its full power to bring down any foe]
-		[c/F27049:The cannon heats up the more it fires during Overdrive]
+		[c/F27049:While in Overdrive, the cannon will build up heat, eventually overheating]
 		[c/69F0DC:Press right click while holding this item to pick up the cannon and use it yourself]
 		[c/69F0DC:When held, the cannon will always be in Overdrive]
 		[c/69F0DC:If the cannon overheats while you hold it, you will be forced to drop it]
