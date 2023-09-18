@@ -957,7 +957,7 @@ namespace CalamityMod.CalPlayer
                     int umbraBlastDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50);
                     Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<UmbraphileBoom>(), umbraBlastDamage, 0f, Player.whoAmI);
                 }
-                if (electricianGlove && modProj.stealthStrike && modProj.stealthStrikeHitCount < 5)
+                if (electricianGlove && modProj.stealthStrike && modProj.stealthStrikeHitCount < 3)
                 {
                     for (int s = 0; s < 3; s++)
                     {
