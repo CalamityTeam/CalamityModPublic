@@ -135,7 +135,7 @@ namespace CalamityMod.Items
                 { ItemID.Keybrand, Do(UseTurn, ScaleRatio(1.5f)) }, // Uses ratios due to remix seed
                 { ItemID.KOCannon, Do(DamageRatio(2.65f)) }, // Uses ratios due to remix seed
                 { ItemID.LaserRifle, Do(DamageExact(46), UseExact(10), ManaExact(4)) },
-                { ItemID.LastPrism, Do(DamageRatio(0.75f)) },
+                { ItemID.LastPrism, Do(DamageRatio(0.75f), DamageExact(63), ManaExact(9)) },
                 { ItemID.LeadShortsword, Do(AutoReuse, TrueMelee, DamageExact(11)) },
                 { ItemID.LightDisc, Do(DamageExact(128), ShootSpeedExact(18)) },
                 { ItemID.LunarFlareBook, Do(DamageRatio(1.2f)) },
