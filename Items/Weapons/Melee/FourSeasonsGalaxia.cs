@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int PolarisAttunement_SlashBoltsDamage = 1300;
         public static int PolarisAttunement_SlashIFrames = 20;
         public static float PolarisAttunement_ShotDamageBoost = 0.8f; //The shots fired if the dash connects
-        public static float PolarisAttunement_ShredChargeupGain = 1.1f; //How much charge is gainted per second.
+        public static float PolarisAttunement_ShredChargeupGain = 1f; //How much charge is gainted per second.
 
         public static int AndromedaAttunement_BaseDamage = 2800;
         public static int AndromedaAttunement_DashHitIFrames = 20;
