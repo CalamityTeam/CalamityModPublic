@@ -14,18 +14,18 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 106;
-            Item.damage = 157;
+            Item.damage = 160;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 22;
-            Item.useTime = 22;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 104;
             Item.shoot = ModContent.ProjectileType<ReaperProjectile>();
-            Item.shootSpeed = 14f;
+            Item.shootSpeed = 16f;
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
