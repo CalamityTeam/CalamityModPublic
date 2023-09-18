@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly SoundStyle Shot = new("CalamityMod/Sounds/Item/Splatshot") { PitchVariance = 0.3f, Volume = 3.5f };
         public static readonly SoundStyle Dash = new("CalamityMod/Sounds/Item/SplatshotDash") { PitchVariance = 0.3f, Volume = 5f };
         public static readonly SoundStyle ShotBig = new("CalamityMod/Sounds/Item/SplatshotBig") { PitchVariance = 0.3f, Volume = 2f };
+        public static readonly SoundStyle Empty = new("CalamityMod/Sounds/Item/DudFire") { PitchVariance = 0.3f, Volume = 0.7f };
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public int ColorValue = 0;
         public int UseTime = 10;
@@ -44,6 +45,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool AltFunctionUse(Player player) => true;
         public override bool CanUseItem(Player player)
         {
+            if (player.Calamity().SpeedBlasterDashDelayCooldown > 0 && player.altFunctionUse == 2)
+            {
+                SoundEngine.PlaySound(Empty, player.Center);
+                return false;
+            }
             Item.UseSound = player.altFunctionUse == 2 && player.Calamity().SpeedBlasterDashDelayCooldown == 0 ? ShotBig : Shot;
             return base.CanUseItem(player);
         }
@@ -55,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.Calamity().SpeedBlasterDashDelayCooldown == 0)
             {
-                Item.useTime = Item.useAnimation = 10;
+                Item.useTime = Item.useAnimation = 9;
                 ShotBigMode = 0;
             }
 

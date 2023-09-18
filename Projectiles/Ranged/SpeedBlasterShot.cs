@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (FirstFrameSettings)
                 {
-                    Projectile.penetrate = 3;
+                    Projectile.penetrate = 4;
                     Projectile.extraUpdates = 28;
                     Projectile.timeLeft = 1500;
                     Projectile.Size *= 2f;
