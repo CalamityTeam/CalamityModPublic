@@ -208,8 +208,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
                         npc.direction = playerLocation < 0 ? 1 : -1;
                         npc.spriteDirection = npc.direction;
-
-                        SoundEngine.PlaySound(SoundID.Roar, npc.position);
+                        
+                        SoundEngine.PlaySound(SoundID.Zombie125, npc.Center);
                         return false;
                     }
 

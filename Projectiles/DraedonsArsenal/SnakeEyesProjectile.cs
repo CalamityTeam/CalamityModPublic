@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.DamageType = DamageClass.Summon;
             Projectile.localNPCHitCooldown = 10;
             Projectile.width = Projectile.height = 16;
-            Projectile.timeLeft = 120;
+            Projectile.timeLeft = 300;
             Projectile.penetrate = -1;
 
             Projectile.friendly = true;
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
             if (TimerToRedirect >= SnakeEyes.TimeToRedirect && !HasRedirected)
             {
-                if (TargetShot is not null)
+                if (TargetShot is not null && TargetShot.active)
                     TargetEnemy(TargetShot);
                 else if (Target is not null)
                     TargetEnemy(Target);
@@ -83,14 +83,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
             if (HasRedirected)
             {
-                if (TargetShot is not null)
+                if (TargetShot is not null && TargetShot.active)
                     FollowEnemy(TargetShot);
                 else if (Target is not null)
                     FollowEnemy(Target);
-                else
-                    Projectile.Kill();
-
-                Projectile.timeLeft = 2;
             }
 
             for (int i = 0; i < 2; i++)

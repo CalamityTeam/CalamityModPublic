@@ -65,8 +65,9 @@ AeroStone: {
 	DisplayName: Aero Stone
 	Tooltip:
 		'''
-		Increases flight time, movement speed and jump speed by 10%
-		One of the ancient relics
+		Provides an additional 45 flight time 
+		Movement speed and acceleration are greatly increased when you are out of flight time
+		'One of the ancient relics'
 		'''
 }
 
@@ -240,25 +241,6 @@ AsgardsValor: {
 		'''
 }
 
-Purity: {
-	DisplayName: Purity
-	Tooltip:
-		'''
-		+100 max life
-		Grants +3 to +7 HP/s life regen based on missing health
-		Provides life regeneration equivalent to standing in Honey
-		Standing still grants extremely powerful regen
-		Grants 20 defense and continuous healing while afflicted with any debuff
-		The healing eventually slows down if debuffed for an extended period of time
-		Massively boosts natural life regen while afflicted with any debuff
-		Each debuff beyond the first grants 8 additional defense
-		Granted defense fades away slowly when not afflicted with any debuffs
-		Makes weak damage over time debuffs harmless and halves the duration of all but the strongest debuffs
-		You emit shining blue light if visibility is enabled
-		'A once putrid crystal, now glimmering with immaculate purity'
-		'''
-}
-
 BadgeofBravery: {
 	DisplayName: Badge of Bravery
 	Tooltip:
@@ -332,7 +314,7 @@ BloomStone: {
 		Both of these effects are maximized from noon to sunset
 		Flowers grow if you are standing on grass
 		Random dye plants will grow while standing on grassless dirt
-		One of the ancient relics
+		'One of the ancient relics'
 		'''
 }
 
@@ -359,20 +341,6 @@ Calamity: {
 		'''
 }
 
-InfectedJewel: {
-	DisplayName: Infected Jewel
-	Tooltip:
-		'''
-		+1 HP/s life regen
-		Grants 16 defense and +2 HP/s life regen while afflicted with any debuff
-		Massively boosts natural life regen while afflicted with any debuff
-		Granted defense fades away quickly when not afflicted with any debuffs
-		Each debuff beyond the first grants 5 additional defense
-		Makes the Astral Infection debuff harmless
-		'A beautiful gemstone tarnished by spaceborne rot'
-		'''
-}
-
 ChaosStone: {
 	DisplayName: Chaos Stone
 	Tooltip:
@@ -380,7 +348,7 @@ ChaosStone: {
 		Mana Sickness from drinking mana potions is replaced by Mana Burn
 		Mana Burn deals damage over time relative to the intensity of the debuff
 		This debuff does not reduce your magic damage
-		One of the ancient relics
+		'One of the ancient relics'
 		'''
 }
 
@@ -474,9 +442,9 @@ CryoStone: {
 	DisplayName: Cryo Stone
 	Tooltip:
 		'''
-		One of the ancient relics
 		Multiplies all cold-based debuff damage by 1.5
 		Creates a rotating ice shield around you that damages and slows down enemies on contact
+		'One of the ancient relics'
 		'''
 }
 
@@ -497,7 +465,7 @@ DaawnlightSpiritOrigin: {
 		'''
 }
 
-DarkGodsSheath: {
+DarkMatterSheath: {
 	DisplayName: Dark Matter Sheath
 	Tooltip:
 		'''
@@ -799,7 +767,7 @@ FungalSymbiote: {
 	Tooltip:
 		'''
 		You grow mushrooms on the grass beneath you
-		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and granting 0.5 HP/s life regen
+		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and granting 1 HP/s life regen
 		All mushroom-based weapons deal 10% more damage and emit non-damaging mushrooms
 		'''
 }
@@ -850,14 +818,14 @@ GladiatorsLocket: {
 
 GloveOfPrecision: {
 	DisplayName: Glove of Precision
-	Tooltip: Decreases rogue attack speed by 15% but increases damage by 13%, crit by 15% and velocity by 25%
+	Tooltip: Decreases rogue attack speed by 15%, but increases damage by 10%, crit by 15% and velocity by 15%
 }
 
 GloveOfRecklessness: {
 	DisplayName: Glove of Recklessness
 	Tooltip:
 		'''
-		Increases rogue attack speed by 15% but decreases damage by 13%
+		Increases rogue attack speed by 15%, but decreases damage by 10% and crit by 10%
 		15% increased stealth regeneration
 		Adds inaccuracy to rogue weapons
 		'''
@@ -876,7 +844,7 @@ GrandGelatin: {
 	DisplayName: Grand Gelatin
 	Tooltip:
 		'''
-		10% increased movement speed and jump speed
+		12% increased movement speed and jump speed
 		Using a healing potion will spawn a cleansing aura
 		Walking into the aura removes all debuffs and defense damage one time
 		The aura grants +2.5 HP/s life regen for all players inside for 8 seconds
@@ -968,6 +936,20 @@ HowlsHeart: {
 		'''
 }
 
+InfectedJewel: {
+	DisplayName: Infected Jewel
+	Tooltip:
+		'''
+		+1 HP/s life regen
+		Grants 16 defense and +2 HP/s life regen while afflicted with any debuff
+		Massively boosts natural life regen while afflicted with any debuff
+		Granted defense fades away quickly when not afflicted with any debuffs
+		Each debuff beyond the first grants 5 additional defense
+		Makes the Astral Infection debuff harmless
+		'A beautiful gemstone tarnished by spaceborne rot'
+		'''
+}
+
 InkBomb: {
 	DisplayName: Ink Bomb
 	Tooltip:
@@ -1039,7 +1021,7 @@ LumenousAmulet: {
 	Tooltip:
 		'''
 		Attacks inflict the Crush Depth debuff
-		Grants immunity to the Crush Depth debuff
+		Grants immunity to the Riptide and Crush Depth debuffs
 		While in the abyss you gain 25% increased max life
 		Provides a moderate amount of light in the abyss
 		'''
@@ -1284,10 +1266,14 @@ ProfanedSoulArtifact: {
 	DisplayName: Profaned Soul Artifact
 	Tooltip:
 		'''
-		Summons a healer guardian, which heals for a certain amount of health every few seconds
-		Summons a defensive guardian, which boosts your movement speed and damage resistance
-		Summons an offensive guardian, which boosts your minion slots
-		If you get hit, most of their effects will disappear for 5 seconds
+		Summons a healer guardian, which heals for 15 health every few seconds
+		Summons a defensive guardian, which provides a weak shield reinforced by profaned rocks
+		Upon being depleted, the barrier implodes sending the profaned rocks hurtling outwards
+		The barrier starts recharging 5 seconds after being hit
+		Recharging from zero to full charge takes 2 seconds
+		Being hit again while recharging restarts the charge timer
+		Summons an offensive guardian, which boosts your minion slots by 1
+		The offensive guardian will occasionally fire spears on hit
 		Purity
 		'''
 }
@@ -1318,13 +1304,32 @@ ProfanedSoulCrystal: {
 		'''
 }
 
+Purity: {
+	DisplayName: Purity
+	Tooltip:
+		'''
+		+100 max life
+		Grants +3 to +7 HP/s life regen based on missing health
+		Provides life regeneration equivalent to standing in Honey
+		Standing still grants extremely powerful regen
+		Grants 20 defense and continuous healing while afflicted with any debuff
+		The healing eventually slows down if debuffed for an extended period of time
+		Massively boosts natural life regen while afflicted with any debuff
+		Each debuff beyond the first grants 8 additional defense
+		Granted defense fades away slowly when not afflicted with any debuffs
+		Makes weak damage over time debuffs harmless and halves the duration of all but the strongest debuffs
+		You emit shining blue light if visibility is enabled
+		'A once putrid crystal, now glimmering with immaculate purity'
+		'''
+}
+
 QuiverofNihility: {
 	DisplayName: Quiver of Nihility
 	Tooltip:
 		'''
 		5% increased ranged critical strike chance
 		Summons a ring of four void fields to orbit you
-		Arrows that pass through these fields gain a 100% damage boost and double the speed
+		Arrows that pass through these fields gain a 75% damage boost and double the speed
 		'Filled with a substance darker than the night sky'
 		'''
 }
@@ -1389,7 +1394,7 @@ RoseStone: {
 	Tooltip:
 		'''
 		Summons a Brimstone Elemental to fight for you
-		One of the ancient relics
+		'One of the ancient relics'
 		'''
 }
 
@@ -1726,7 +1731,7 @@ TheAbsorber: {
 	DisplayName: The Absorber
 	Tooltip:
 		'''
-		10% increased movement and jump speed
+		12% increased movement and jump speed
 		Enemies take immense damage when they touch you and are afflicted with a damaging sickeness debuff that reduces damage reduction significantly
 		Using a healing potion will spawn a cleansing aura
 		Walking into the aura removes all debuffs and defense damage one time
@@ -1817,7 +1822,7 @@ TheSponge: {
 	Tooltip:
 		'''
 		Projects a quantum foam barrier that absorbs up to 180 damage
-		The barrier grants 30 defense and reduces damage taken by 30% while active
+		The barrier grants 30 defense and reduces damage taken by 10% while active
 		The barrier starts recharging 9 seconds after being hit
 		Recharging from zero to full charge takes 6 seconds
 		Being hit again while recharging restarts the charge timer
@@ -1917,7 +1922,7 @@ VeneratedLocket: {
 
 VitalJelly: {
 	DisplayName: Vital Jelly
-	Tooltip: 10% increased movement and jump speed
+	Tooltip: 12% increased movement and jump speed
 }
 
 VoidofCalamity: {

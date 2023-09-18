@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.width = 20;
-            Item.height = 24;
+            Item.width = 34;
+            Item.height = 52;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.accessory = true;
@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.GrandGelatin = true;
-            player.moveSpeed += 0.1f;
-            player.jumpSpeedBoost += 0.5f;
+            player.moveSpeed += 0.12f;
+            player.jumpSpeedBoost += 0.6f;
         }
 
         public override void AddRecipes()

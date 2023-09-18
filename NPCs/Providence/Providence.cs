@@ -37,9 +37,11 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Filters = Terraria.Graphics.Effects.Filters;
 
 namespace CalamityMod.NPCs.Providence
 {
@@ -304,6 +306,10 @@ namespace CalamityMod.NPCs.Providence
                 calamityGlobalNPC.newAI[2] = 0f;
                 calamityGlobalNPC.newAI[3] = 0f;
                 NPC.netUpdate = true;
+
+                // Prevent netUpdate from being blocked by the spam counter.
+                if (NPC.netSpam >= 10)
+                    NPC.netSpam = 9;
             }
 
             // Increase all projectile damage at night, but reduce to 0 for Zenith
@@ -536,6 +542,11 @@ namespace CalamityMod.NPCs.Providence
                 Dying = true;
                 NPC.dontTakeDamage = true;
                 NPC.netUpdate = true;
+
+                // Prevent netUpdate from being blocked by the spam counter.
+                if (NPC.netSpam >= 10)
+                    NPC.netSpam = 9;
+
                 return;
             }
 
@@ -620,6 +631,11 @@ namespace CalamityMod.NPCs.Providence
                             {
                                 NPC.life += healAmt;
                                 NPC.HealEffect(healAmt, true);
+
+                                // Prevent netUpdate from being blocked by the spam counter.
+                                if (NPC.netSpam >= 10)
+                                    NPC.netSpam = 9;
+
                                 NPC.netUpdate = true;
                             }
                         }
@@ -936,7 +952,13 @@ namespace CalamityMod.NPCs.Providence
                     NPC.ai[3] = 0f;
                     calamityGlobalNPC.newAI[1] = 0f;
                     calamityGlobalNPC.newAI[2] = 0f;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (NPC.netSpam >= 10)
+                        NPC.netSpam = 9;
+
                     NPC.netUpdate = true;
+
                     break;
 
                 case (int)Phase.HolyBlast:
@@ -1171,7 +1193,12 @@ namespace CalamityMod.NPCs.Providence
                             // Radial offset
                             NPC.ai[2] += 10f;
                         }
+
                         NPC.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (NPC.netSpam >= 10)
+                            NPC.netSpam = 9;
                     }
                     else
                     {
@@ -1674,6 +1701,10 @@ namespace CalamityMod.NPCs.Providence
                                 }
 
                                 NPC.netUpdate = true;
+
+                                // Prevent netUpdate from being blocked by the spam counter.
+                                if (NPC.netSpam >= 10)
+                                    NPC.netSpam = 9;
                             }
                         }
                     }
@@ -1754,7 +1785,13 @@ namespace CalamityMod.NPCs.Providence
 
             // Do periodic syncs.
             if (Main.netMode == NetmodeID.Server && DeathAnimationTimer % 45f == 44f)
+            {
                 NPC.netUpdate = true;
+
+                // Prevent netUpdate from being blocked by the spam counter.
+                if (NPC.netSpam >= 10)
+                    NPC.netSpam = 9;
+            }
 
             // Die and create drops after the star is gone.
             if (DeathAnimationTimer >= 345f)
@@ -1762,7 +1799,12 @@ namespace CalamityMod.NPCs.Providence
                 NPC.active = false;
                 NPC.HitEffect();
                 NPC.NPCLoot();
+
                 NPC.netUpdate = true;
+
+                // Prevent netUpdate from being blocked by the spam counter.
+                if (NPC.netSpam >= 10)
+                    NPC.netSpam = 9;
             }
         }
 
@@ -1842,7 +1884,13 @@ namespace CalamityMod.NPCs.Providence
             Dying = true;
             NPC.active = true;
             NPC.dontTakeDamage = true;
+
             NPC.netUpdate = true;
+
+            // Prevent netUpdate from being blocked by the spam counter.
+            if (NPC.netSpam >= 10)
+                NPC.netSpam = 9;
+
             return false;
         }
 
@@ -2235,7 +2283,7 @@ namespace CalamityMod.NPCs.Providence
                 float invertedSmallerOscillationRatio = 1f - (1f - smallerRemappedOscillation) * (1f - smallerRemappedOscillation);
                 float smallerOscillationScale = 1f - (1f - invertedSmallerOscillationRatio) * (1f - invertedSmallerOscillationRatio);
                 float shieldScale2 = (minScale + maxPulseScale * smallerOscillationScale) * invertedOscillationUsedForScale;
-                Texture2D shieldTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleOpenCircle").Value;
+                Texture2D shieldTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleOpenCircleButBigger").Value;
                 Rectangle shieldFrame = shieldTexture.Frame();
                 Vector2 origin = shieldFrame.Size() * 0.5f;
                 Vector2 shieldDrawPos = NPC.Center - screenPos;
@@ -2252,11 +2300,40 @@ namespace CalamityMod.NPCs.Providence
                 color2.A = 0;
                 color *= 0.6f;
                 color2 *= 0.6f;
-                float scaleMult = 2.2f + scaleDuringShieldDespawn;
-                spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale2 * scaleMult, SpriteEffects.None, 0f);
-                spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.95f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale * scaleMult, SpriteEffects.None, 0f);
-                spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale * scaleMult * 0.95f, SpriteEffects.None, 0f);
+                float scaleMult = 2.75f + scaleDuringShieldDespawn;
+                spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.45f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.5f, SpriteEffects.None, 0f);
+                
+                // The shield for the border MUST be drawn before the main shield, it becomes incredibly visually obnoxious otherwise.
+                
+                // The scale used for the noise overlay polygons also grows and shrinks
+                // This is intentionally out of sync with the shield, and intentionally desynced per player
+                // Don't put this anywhere less than 0.25f or higher than 1f. The higher it is, the denser / more zoomed out the noise overlay is.
+                float noiseScale = MathHelper.Lerp(0.4f, 0.8f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.3f) * 0.5f + 0.5f);
+
+                // Define shader parameters
+                Effect shieldEffect = Filters.Scene["CalamityMod:RoverDriveShield"].GetShader().Shader;
+                shieldEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.058f); // Scrolling speed of polygonal overlay
+                shieldEffect.Parameters["blowUpPower"].SetValue(2.8f);
+                shieldEffect.Parameters["blowUpSize"].SetValue(0.4f);
+                shieldEffect.Parameters["noiseScale"].SetValue(noiseScale);
+                
+                shieldEffect.Parameters["shieldOpacity"].SetValue(opacityScaleDuringShieldDespawn);
+                shieldEffect.Parameters["shieldEdgeBlendStrenght"].SetValue(4f);
+                
+                Color edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, color, color2);
+                
+                // Define shader parameters for shield color
+                shieldEffect.Parameters["shieldColor"].SetValue(color.ToVector3());
+                shieldEffect.Parameters["shieldEdgeColor"].SetValue(edgeColor.ToVector3());
+                
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, shieldEffect, Main.GameViewMatrix.TransformationMatrix);
+                
+                // Fetch shield heat overlay texture (this is the neutrons fed to the shader)
+                Texture2D heatTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons2").Value;
+                Vector2 pos = NPC.Center + NPC.gfxOffY * Vector2.UnitY - Main.screenPosition;
+                Main.spriteBatch.Draw(heatTex, shieldDrawPos, null, Color.White, 0, heatTex.Size() / 2f, shieldScale * scaleMult * 0.5f, 0, 0);
             }
 
             return false;
@@ -2360,6 +2437,8 @@ namespace CalamityMod.NPCs.Providence
                     ModContent.ProjectileType<GoldenGunProj>(),
                     ModContent.ProjectileType<MiniGuardianDefense>(),
                     ModContent.ProjectileType<MiniGuardianAttack>(),
+                    ModContent.ProjectileType<MiniGuardianRock>(),
+                    ModContent.ProjectileType<MiniGuardianSpear>(),
                     ModContent.ProjectileType<SilvaCrystalExplosion>(),
                     ModContent.ProjectileType<GhostlyMine>(),
                     ModContent.ProjectileType<EnergyOrb>(),
@@ -2373,7 +2452,7 @@ namespace CalamityMod.NPCs.Providence
                     !projectile.CountsAsClass<MagicDamageClass>() && !projectile.CountsAsClass<ThrowingDamageClass>() && !projectile.CountsAsClass<SummonMeleeSpeedDamageClass>());
                 bool allowedDamage = allowedClass && hit.Damage <= 75; //Flat 75 regardless of difficulty.
                 //Absorber on-hit effects likely won't proc this but Deific Amulet and Astral Bulwark stars will proc this.
-                bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;
+                bool allowedBabs = Main.player[projectile.owner].Calamity().pSoulArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;
 
                 if ((exceptionList.TrueForAll(x => projectile.type != x) && !allowedDamage) || !allowedBabs)
                 {

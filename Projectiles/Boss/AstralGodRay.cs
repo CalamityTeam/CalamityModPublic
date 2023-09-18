@@ -18,6 +18,7 @@ namespace CalamityMod.Projectiles.Boss
         // They are extremely carefully chosen and barely work as is!
         private const float WaveTheta = 0.09f;
         private const int WaveTwistFrames = 9;
+
         private ref float WaveFrameState => ref Projectile.localAI[1];
 
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
@@ -80,12 +81,6 @@ namespace CalamityMod.Projectiles.Boss
             // Apply a constant, rapid wave to the laser's motion.
             Projectile.velocity = Projectile.velocity.RotatedBy(waveSign * WaveTheta);
             Projectile.rotation = Projectile.velocity.ToRotation();
-
-            // Emit light.
-            if (WaveFrameState < 0f)
-                Lighting.AddLight(Projectile.Center, 0.87f, 0.65f, 0.1725f);
-            else
-                Lighting.AddLight(Projectile.Center, 0.1725f, 0.87f, 0.65f);
 
             // Laser length shenanigans. If the laser is still growing, increase localAI 0 to indicate it is getting longer.
             Projectile.localAI[0] += 10f; // LaserLengthChangeRate;

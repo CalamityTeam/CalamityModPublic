@@ -83,8 +83,6 @@ namespace CalamityMod
         public static List<int> dungeonEnemyBuffList;
         public static List<int> dungeonProjectileBuffList;
         public static List<int> bossHPScaleList;
-        public static List<int> beeEnemyList;
-        public static List<int> beeProjectileList;
         public static List<int> friendlyBeeList;
         public static List<int> hardModeNerfList;
         public static List<int> debuffList;
@@ -1051,33 +1049,6 @@ namespace CalamityMod
                 NPCID.MoonLordHand
             };
 
-            beeEnemyList = new List<int>()
-            {
-                NPCID.GiantMossHornet,
-                NPCID.BigMossHornet,
-                NPCID.LittleMossHornet,
-                NPCID.TinyMossHornet,
-                NPCID.MossHornet,
-                NPCID.VortexHornetQueen,
-                NPCID.VortexHornet,
-                NPCID.Bee,
-                NPCID.BeeSmall,
-                NPCID.QueenBee,
-                NPCType<PlaguebringerGoliath>(),
-                NPCType<PlaguebringerMiniboss>(),
-                NPCType<PlagueChargerLarge>(),
-                NPCType<PlagueCharger>()
-            };
-
-            beeProjectileList = new List<int>()
-            {
-                ProjectileID.Stinger,
-                ProjectileID.HornetStinger,
-                ProjectileType<PlagueStingerGoliath>(),
-                ProjectileType<PlagueStingerGoliathV2>(),
-                ProjectileType<PlagueExplosion>()
-            };
-
             friendlyBeeList = new List<int>()
             {
                 ProjectileID.GiantBee,
@@ -1983,64 +1954,68 @@ namespace CalamityMod
 
             pierceResistExceptionList = new List<int>()
             {
-                ProjectileID.FlyingKnife,
                 ProjectileID.Arkhalis,
-                ProjectileID.Terragrim,
-                ProjectileID.MonkStaffT3,
-                ProjectileID.LastPrismLaser,
                 ProjectileID.ChargedBlasterLaser,
-                ProjectileID.PiercingStarlight,
                 ProjectileID.FinalFractal,
-                ProjectileType<FlakKrakenProj>(),
-                ProjectileType<MurasamaSlash>(),
-                ProjectileType<OmnibladeSwing>(),
-                ProjectileType<DragonRageStaff>(),
-                ProjectileType<YateveoBloomProj>(),
-                ProjectileType<UrchinBall>(),
-                ProjectileType<UrchinMaceProjectile>(),
-                ProjectileType<TyphonsGreedStaff>(),
-                ProjectileType<DevilsSunriseProj>(),
-                ProjectileType<DevilsSunriseCyclone>(),
-                ProjectileType<PhaseslayerProjectile>(),
-                ProjectileType<TaserHook>(),
-                ProjectileType<Snowflake>(),
-                ProjectileType<InsidiousHarpoon>(),
-                ProjectileType<PhotonRipperProjectile>(),
+                ProjectileID.FlyingKnife,
+                ProjectileID.LastPrismLaser,
+                ProjectileID.MechanicalPiranha,
+                ProjectileID.MonkStaffT3,
+                ProjectileID.PiercingStarlight,
+                ProjectileID.Terragrim,
                 ProjectileType<AcidicSaxBubble>(),
-                ProjectileType<WaterLeechProj>(),
+                ProjectileType<BallisticPoisonCloud>(),
+                ProjectileType<BlushieStaffProj>(),
                 ProjectileType<BonebreakerProjectile>(),
-                ProjectileType<UrchinBallSpike>(),
-                ProjectileType<EmesisGore>(),
-                ProjectileType<ExoFlareCluster>(),
-                ProjectileType<SulphuricBlast>(),
+                ProjectileType<DarkSparkBeam>(),
+                ProjectileType<DevilsSunriseCyclone>(),
+                ProjectileType<DevilsSunriseProj>(),
+                ProjectileType<DragonRageStaff>(),
+                ProjectileType<DuststormCloudHitbox>(),
                 ProjectileType<EclipsesStealth>(),
+                ProjectileType<EidolicWailSoundwave>(),
+                ProjectileType<EmesisGore>(),
                 ProjectileType<EradicatorProjectile>(),
+                ProjectileType<ExoFlareCluster>(),
+                ProjectileType<EyeOfNightCell>(),
                 ProjectileType<FantasyTalismanProj>(),
                 ProjectileType<FantasyTalismanStealth>(),
+                ProjectileType<FlakKrakenProj>(),
                 ProjectileType<GodsParanoiaProj>(),
+                ProjectileType<InsidiousHarpoon>(),
                 ProjectileType<JawsProjectile>(),
                 ProjectileType<LeviathanTooth>(),
                 ProjectileType<LionfishProj>(),
+                ProjectileType<MechanicalBarracuda>(),
                 ProjectileType<MetalShard>(),
+                ProjectileType<MurasamaSlash>(),
                 ProjectileType<NastyChollaBol>(),
+                ProjectileType<OmnibladeSwing>(),
+                ProjectileType<PhaseslayerProjectile>(),
+                ProjectileType<PhotonRipperProjectile>(),
+                ProjectileType<PlantationStaffSporeCloud>(),
+                ProjectileType<PrismaticBeam>(),
+                ProjectileType<RancorLaserbeam>(),
+                ProjectileType<ReaperProjectile>(),
                 ProjectileType<SacrificeProjectile>(),
                 ProjectileType<SnapClamProj>(),
                 ProjectileType<SnapClamStealth>(),
-                ProjectileType<StickyBol>(),
-                ProjectileType<UrchinStingerProj>(),
-                ProjectileType<EyeOfNightCell>(),
-                ProjectileType<ViolenceThrownProjectile>(),
-                ProjectileType<BlushieStaffProj>(),
-                ProjectileType<DarkSparkBeam>(),
-                ProjectileType<EidolicWailSoundwave>(),
-                ProjectileType<RancorLaserbeam>(),
+                ProjectileType<Snowflake>(),
                 ProjectileType<SparklingLaser>(),
-                ProjectileType<YharimsCrystalBeam>(),
-                ProjectileType<PrismaticBeam>(),
                 ProjectileType<SpiritCongregation>(),
-                ProjectileType<BallisticPoisonCloud>(),
-                ProjectileType<DuststormCloudHitbox>(),
                 ProjectileType<StarmageddonBinaryStarCenter>(),
+                ProjectileType<StickyBol>(),
+                ProjectileType<SulphuricBlast>(),
+                ProjectileType<TaserHook>(),
+                ProjectileType<TyphonsGreedStaff>(),
+                ProjectileType<UrchinBall>(),
+                ProjectileType<UrchinBallSpike>(),
+                ProjectileType<UrchinMaceProjectile>(),
+                ProjectileType<UrchinStingerProj>(),
+                ProjectileType<ViolenceThrownProjectile>(),
+                ProjectileType<WaterLeechProj>(),
+                ProjectileType<YateveoBloomProj>(),
+                ProjectileType<YharimsCrystalBeam>(),
             };
 
             // Lists of enemies that resist piercing to some extent (mostly worms).
@@ -2744,9 +2719,7 @@ namespace CalamityMod
             dungeonEnemyBuffList = null;
             dungeonProjectileBuffList = null;
             bossHPScaleList = null;
-            beeEnemyList = null;
             friendlyBeeList = null;
-            beeProjectileList = null;
             hardModeNerfList = null;
             debuffList = null;
             fireDebuffList = null;

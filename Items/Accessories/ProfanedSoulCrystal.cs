@@ -18,7 +18,12 @@ namespace CalamityMod.Items.Accessories
     //Developer item, dedicatee: Mishiro Usui/Amber Sienna
     public class ProfanedSoulCrystal : ModItem, ILocalizedModType
     {
+        public static string[] testerNames = new[] { "IbanPlay", "Chen", "Nincity", "Amber", "Mishiro" };
+        public static int ShieldDurabilityMax = 125;
         public new string LocalizationCategory => "Items.Accessories";
+        
+        internal const int maxMinionRequirement = 10;
+        
         /**
          * Notes: Drops from providence if the only damage source during the fight is from typeless damage or the profaned soul and the owners of those babs do not have profaned crystal.
          * All projectiles are in ProfanedSoulCrystalProjectiles.cs in the summon projectile directory
@@ -67,9 +72,9 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().devItem = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot, bool modded)
+        public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
         {
-            return !player.Calamity().pArtifact;
+            return incomingItem.type != ModContent.ItemType<ProfanedSoulArtifact>();
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -97,22 +102,26 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
 
-            modPlayer.pArtifact = true;
+            modPlayer.pSoulArtifact = true;
             modPlayer.profanedCrystal = true;
 
-            if (hideVisual)
-                modPlayer.profanedCrystalHide = true;
+            modPlayer.profanedCrystalHide = hideVisual;
+            modPlayer.pSoulShieldVisible = !hideVisual;
+            
+            DetermineTransformationEligibility(player);
         }
 
         public override void UpdateVanity(Player player)
         {
             player.Calamity().profanedCrystalHide = false;
             player.Calamity().profanedCrystalForce = true;
+            player.Calamity().pSoulShieldVisible = true;
         }
 
         internal static void DetermineTransformationEligibility(Player player)
         {
-            if (DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())
+            //short circuit immediately if profanedcrystalbuffs has already been set
+            if (!player.Calamity().profanedCrystalBuffs && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())
             {
                 player.Calamity().profanedCrystalBuffs = true;
             }

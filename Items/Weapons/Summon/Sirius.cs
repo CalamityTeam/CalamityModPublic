@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SunGodStaff>().
+                AddIngredient<VengefulSunStaff>().
                 AddIngredient<Lumenyl>(5).
                 AddIngredient<RuinousSoul>(2).
                 AddIngredient<ExodiumCluster>(12).

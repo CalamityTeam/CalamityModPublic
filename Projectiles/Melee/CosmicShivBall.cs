@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
         public bool initialized = false;
         public float startingVelocityY = 0f;
         public float randomAngleDelta = 0f;
-        public const float explosionDamageMultiplier = 1.8f;
+        public const float explosionDamageMultiplier = 1.5f;
         public override void SetDefaults()
         {
             Projectile.width = 12;
@@ -47,7 +47,6 @@ namespace CalamityMod.Projectiles.Melee
                     Main.dust[dustID].noGravity = true;
                     Main.dust[dustID].velocity *= 0f;
                 }
-                Projectile.velocity.Y *= 0.965f;
             }
             if (Projectile.localAI[0] % 30 == 0) // every 0.5 seconds
             {
@@ -60,21 +59,16 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 idealVelocity = Projectile.SafeDirectionTo(target.Center, Vector2.UnitX) * homingSpeed;
                 Projectile.velocity = (Projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
             }
-            else
-            {
-                Projectile.ai[0]++;
-                Projectile.velocity.Y = startingVelocityY + (float)(Math.Cos(Projectile.ai[0] / 12D + randomAngleDelta) * 7D);
-            }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // for spawning the side beams
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 int directionSign = Main.rand.NextBool(2).ToDirectionInt();
                 Vector2 spawnPos = new Vector2(target.Center.X + directionSign * 650, Projectile.Center.Y + Main.rand.Next(-500, 501));
                 Vector2 velocity = Vector2.Normalize(target.Center - spawnPos) * 30f;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos.X, spawnPos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CosmicShivBlade>(), Projectile.damage, Projectile.knockBack * 0.1f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos.X, spawnPos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CosmicShivBlade>(), (int)(Projectile.damage * 0.8f), Projectile.knockBack * 0.1f, Projectile.owner);
             }
             int starMax = Main.rand.Next(6, 11); // 6 to 10 stars
             for (int i = -starMax / 2; i < starMax / 2; i++)
@@ -82,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
                 int ySpawnAdditive = Main.rand.Next(-40, 41);
                 Vector2 toSpawn = target.Center - new Vector2(0f, 800f + ySpawnAdditive).RotatedBy(MathHelper.ToRadians(i * 11f / starMax));
                 Vector2 toTarget = Vector2.Normalize(target.Center - toSpawn) * 35f;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), toSpawn, toTarget, ModContent.ProjectileType<GalaxyStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), toSpawn, toTarget, ModContent.ProjectileType<GalaxyStar>(), Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner);
             }
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 60);
         }

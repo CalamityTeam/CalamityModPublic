@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/EclipsesFall";
 
         // these also affect KB
-        public const float RainDamageMult = 0.25f;
+        public const float RainDamageMult = 0.2f;
         public const float ExplosionDamageMult = 0.5f;
 
         // For more consistent DPS, always alternates between spawning 1 and 2 spears instead of picking randomly
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
                     if (Projectile.localAI[1] <= 0f)
                     {
                         // Set up the spear counter for next time. Used to be every 5 frames there was a 50% chance; now it's more reliable but slower.
-                        Projectile.localAI[1] = Main.rand.Next(8, 13); // 8 to 12 frames between each spearfall
+                        Projectile.localAI[1] = Main.rand.Next(10, 13); // 10 to 12 frames between each spearfall
 
                         int type = ModContent.ProjectileType<EclipsesSmol>();
                         // Used to be a 50% chance each spearfall for 1 or 2. Now is consistent.
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostDraw(Color lightColor)
         {
             Texture2D glow = ModContent.Request<Texture2D>(Texture + "Glow").Value;
-            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, glow.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, glow.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
         }
 
         public override bool? CanHitNPC(NPC target) => Projectile.ai[0] == 1f ? false : base.CanHitNPC(target);

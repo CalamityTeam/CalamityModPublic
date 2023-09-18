@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     public class AstralShot2 : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
+
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;

@@ -37,11 +37,10 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Projectile.timeLeft % 20 == 0 && Main.myPlayer == Projectile.owner)
                 {
                     for (int i = 0; i < 2; i++)
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(0.1f) * -0.6f, ModContent.ProjectileType<ToxicantTwisterDust>(), (int)(Projectile.damage * 0.35), 0f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(0.1f) * -0.6f, ModContent.ProjectileType<ToxicantTwisterDust>(), (int)(Projectile.damage * 0.25), 0f, Projectile.owner);
                 }
                 Projectile.rotation += 0.06f * (Projectile.velocity.X > 0).ToDirectionInt();
             }
-
             // Boomerang rotation
             Projectile.rotation += 0.4f * Projectile.direction;
 

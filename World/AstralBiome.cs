@@ -21,7 +21,7 @@ namespace CalamityMod.World
     public class AstralBiome
     {
         public static int YStart { get; set; } = (int)Main.worldSurface;
-        
+
         public static readonly SoundStyle MeteorSound = new("CalamityMod/Sounds/Custom/AstralStarFall");
         public static bool CanAstralMeteorSpawn()
         {
@@ -131,7 +131,7 @@ namespace CalamityMod.World
 
                 //clamp so it doesnt crash hopefully
                 int x = Utils.Clamp(realX, SulphurousSea.BiomeWidth + 400, Main.maxTilesX - SulphurousSea.BiomeWidth - 400);
-                
+
                 //world surface = 920 large 740 medium 560 small
                 int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
                 while (y < Main.maxTilesY)
@@ -217,6 +217,29 @@ namespace CalamityMod.World
         public static bool GenerateAstralMeteor(int i, int j)
         {
             WorldGen.gen = true;
+
+            // Pre-cache a list of Magic Storage tiles to avoid, for performance reasons
+            // It is plausible that only StorageComponent and StorageConnector are needed, but I aint gonna risk corrupting worlds
+            // or crashes as containers can do some serious shit as seen with the Abyss chests - Shade
+            Mod magicStorage = CalamityMod.Instance.magicStorage;
+            IList<ushort> MSTilesToAvoid = new List<ushort>(16);
+            if (magicStorage is not null)
+            {
+                string[] MSTileNames = new string[]
+                {
+                    "CraftingAccess",
+                    "CreativeStorageUnit",
+                    "EnvironmentAccess",
+                    "RemoteAccess",
+                    "StorageAccess",
+                    "StorageComponent",
+                    "StorageConnector",
+                    "StorageHeart",
+                    "StorageUnit",
+                };
+                foreach (string tileName in MSTileNames)
+                    MSTilesToAvoid.Add(magicStorage.Find<ModTile>(tileName).Type);
+            }
 
             UnifiedRandom rand = WorldGen.genRand;
             if (i < 50 || i > Main.maxTilesX - 50)
@@ -430,7 +453,9 @@ namespace CalamityMod.World
                             y += 5;
                         }
 
-                        if (Main.tile[x, y].HasTile || Main.tile[x, y].WallType > 0)
+                        if (Main.tile[x, y].HasTile || Main.tile[x, y].WallType > 0 && (!CalamityUtils.TileActiveAndOfType(x, y, TileID.Torches) ||
+                            !CalamityUtils.TileActiveAndOfType(x, y, TileID.Containers) || !CalamityUtils.TileActiveAndOfType(x, y, TileID.Containers2)
+                            || (magicStorage is not null && MSTilesToAvoid.Contains(Main.tile[x, y].TileType)))) //AVOID HOUSES
                         {
                             bool place = true;
                             SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(x, y - 5), SchematicAnchor.Center, ref place);

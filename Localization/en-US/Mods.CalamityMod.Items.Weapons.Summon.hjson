@@ -44,16 +44,16 @@ AtlasMunitionsBeacon: {
 	DisplayName: Atlas Munitions Beacon
 	Tooltip:
 		'''
-		[c/F2B629:Drops down a crate from the sky that houses a mounted, stationary cannon]
-		[c/F2B629:The cannon will fire at any enemies within its range]
-		[c/F27049:If an enemy is in close proximity, it will enter Overdrive mode]
-		[c/F27049:When in Overdrive mode the cannon uses three barrels that each collectively fire]
-		[c/F27049:The cannon also heats up the more it fires in overdrive mode]
-		[c/69F0DC:Press right click while holding this item to pick up the cannon and use it for yourself]
-		[c/69F0DC:When held, the cannon will always be in Overdrive mode]
-		[c/69F0DC:If the held cannon overheats due to Overdrive mode, you are forced to drop it]
-		[c/9AA4AE:Pressing right click allows you to drop it manually]
-		[c/9AA4AE:If the held cannon is dropped near the mount, it will re-attach automatically]
+		[c/F2B629:Brings forth an exo-powered, stationary cannon]
+		[c/F2B629:The cannon will fire at enemies within its range]
+		[c/F27049:If an enemy is in close proximity, it will enter Overdrive]
+		[c/F27049:When in Overdrive the cannon uses its full power to bring down any foe]
+		[c/F27049:The cannon heats up the more it fires during Overdrive]
+		[c/69F0DC:Press right click while holding this item to pick up the cannon and use it yourself]
+		[c/69F0DC:When held, the cannon will always be in Overdrive]
+		[c/69F0DC:If the cannon overheats while you hold it, you will be forced to drop it]
+		[c/9AA4AE:Pressing <right> allows you to drop it manually]
+		[c/9AA4AE:If dropped near the base, it will re-attach automatically]
 		'It's surprisingly easy to pick up'
 		'''
 }
@@ -95,7 +95,14 @@ CadaverousCarrion: {
 
 CalamarisLament: {
 	DisplayName: Calamari's Lament
-	Tooltip: Summons a squid that viciously inks enemies
+	Tooltip: "[GFB]"
+	TooltipNormal:
+		'''
+		Summons a squid that viciously inks enemies
+		'In the Abyss, all kinds of resources are scarce.
+		Every species is solitary. There simply is not enough to share.'
+		'''
+	TooltipGFB: "'Woomy!'"
 }
 
 CausticCroakerStaff: {
@@ -402,11 +409,6 @@ GlacialEmbrace: {
 		'''
 }
 
-GodspawnHelixStaff: {
-	DisplayName: Starspawn Helix Staff
-	Tooltip: Summons astral probes to protect you
-}
-
 GuidelightofOblivion: {
 	DisplayName: Guidelight of Oblivion
 	Tooltip:
@@ -482,6 +484,21 @@ MidnightSunBeacon: {
 	Tooltip: Summons a UFO to vaporize enemies
 }
 
+MirrorofKalandra: {
+	DisplayName: Mirror of Kalandra
+	Tooltip:
+		'''
+		Summons five ancient weapons to annihilate your enemies
+		There can only be one of each individual weapon
+		[c/BD7F59:Atziri's Disfavor brutally cleaves through enemies]
+		[c/E7A7FF:Starforge rips through foes and occasionally induces cosmic explosions]
+		[c/868B8F:Paradoxica teleports to enemies and blitzes through them at high speed]
+		[c/EBC3A5:Wind Ripper unleashes a single high-speed, powerful arrow at enemies]
+		[c/9B6856:Hope Shredder shoots arrows that split into three and pierce enemies twice]
+		'Ultimate, Immeasurable, Indescribable'
+		'''
+}
+
 OrthoceraShell: {
 	DisplayName: Orthocera Shell
 	Tooltip: Summons a flying orthocera sentry at the mouse position
@@ -501,10 +518,8 @@ PlantationStaff: {
 	DisplayName: Plantation Staff
 	Tooltip:
 		'''
-		Summons a miniature Plantera to protect you
-		Fires seeds, spiky balls, and spore clouds from afar to poison targets
-		Enrages when you get under 75% health and begins ramming enemies
-		Occupies 3 minion slots and there can only be one Plantera at a time
+		Summons a minature Plantera to devastate enemies with floral fury
+		Occupies 3 minion slots and there can only be one Mini Plantera at a time
 		'''
 }
 
@@ -627,18 +642,19 @@ StaffoftheMechworm: {
 	Tooltip: Summons an aerial mechworm to fight for you
 }
 
+StarspawnHelixStaff: {
+	DisplayName: Starspawn Helix Staff
+	Tooltip: Summons astral probes to protect you
+}
+
+StellarTorusStaff: {
+	DisplayName: Stellar Torus Staff
+	Tooltip: Summons a Torus Orbital that fries foes with a telescoping light beam
+}
+
 StormjawStaff: {
 	DisplayName: Stormjaw Staff
 	Tooltip: Summons a baby stormlion to fight for you
-}
-
-SunGodStaff: {
-	DisplayName: Vengeful Sun Staff
-	Tooltip:
-		'''
-		Summons a solar god spirit to protect you
-		There can only be one spirit at a time
-		'''
 }
 
 SunSpiritStaff: {
@@ -698,6 +714,15 @@ UniverseSplitter: {
 		Attempting to use this item during the cooldown will cause it to short circuit and do damage to you
 		[c/BB57FF:'An ancient artifact from a previous age, it waits for your command.]
 		[c/BB57FF:This is a terrible idea, but it isn't yours anyways... right?']
+		'''
+}
+
+VengefulSunStaff: {
+	DisplayName: Vengeful Sun Staff
+	Tooltip:
+		'''
+		Summons a vengeful solar spirit to protect you
+		There can only be one spirit at a time
 		'''
 }
 
@@ -774,24 +799,4 @@ YharonsKindleStaff: {
 		Summons a fiery draconid to fight for you
 		Requires 5 minion slots to use
 		'''
-}
-
-MirrorofKalandra: {
-	DisplayName: Mirror of Kalandra
-	Tooltip:
-		'''
-		Summons five ancient weapons to annihilate your enemies
-		There can only be one of each individual weapon
-		[c/BD7F59:Atziri's Disfavor brutally cleaves through enemies]
-		[c/E7A7FF:Starforge rips through foes and occasionally induces cosmic explosions]
-		[c/868B8F:Paradoxica teleports to enemies and blitzes through them at high speed]
-		[c/EBC3A5:Wind Ripper unleashes a single high-speed, powerful arrow at enemies]
-		[c/9B6856:Hope Shredder shoots arrows that split into three and pierce enemies twice]
-		'Ultimate, Immeasurable, Indescribable'
-		'''
-}
-
-StellarTorusStaff: {
-	DisplayName: Stellar Torus Staff
-	Tooltip: Summons a Torus Orbital that fries foes with a telescoping light beam
 }

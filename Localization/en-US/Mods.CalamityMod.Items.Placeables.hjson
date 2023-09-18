@@ -158,6 +158,11 @@ AtlasBanner: {
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Atlas"
 }
 
+BabyCannonballJellyfishBanner: {
+	DisplayName: Baby Cannonball Jellyfish Banner
+	Tooltip: "{$CommonItemTooltip.BannerBonus}Baby Cannonball Jellyfish"
+}
+
 BabyFlakCrabBanner: {
 	DisplayName: Baby Flak Crab Banner
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Baby Flak Crab"
@@ -211,6 +216,11 @@ BoxJellyfishBanner: {
 CalamityEyeBanner: {
 	DisplayName: Calamity Eye Banner
 	Tooltip: "{$CommonItemTooltip.BannerBonus}Calamity Eye"
+}
+
+CannonballJellyfishBanner: {
+	DisplayName: Cannonball Jellyfish Banner
+	Tooltip: "{$CommonItemTooltip.BannerBonus}Cannonball Jellyfish"
 }
 
 ChaoticPufferBanner: {
@@ -900,6 +910,11 @@ AuricToilet: {
 		'''
 }
 
+BabyCannonballJellyfishBowl: {
+	DisplayName: Baby Cannonball Jellyfish Bowl
+	Tooltip: ""
+}
+
 BabyFlakCrabCage: {
 	DisplayName: Baby Flak Crab Cage
 	Tooltip: ""
@@ -932,7 +947,7 @@ BrimstoneElementalRelic: {
 
 CalamitasCloneRelic: {
 	DisplayName: Calamitas Clone Relic
-	Tooltip: A glimpse into what could have been...
+	Tooltip: ""
 }
 
 CalamitasRelic: {
@@ -957,7 +972,7 @@ CragmawMireRelic: {
 
 CryogenRelic: {
 	DisplayName: Cryogen Relic
-	Tooltip: A glimpse into what could have been...
+	Tooltip: ""
 }
 
 DesertScourgeRelic: {
@@ -977,7 +992,7 @@ DraedonRelic: {
 
 DragonfollyRelic: {
 	DisplayName: Dragonfolly Relic
-	Tooltip: A glimpse into what could have been...
+	Tooltip: ""
 }
 
 GiantClamRelic: {
@@ -3930,70 +3945,98 @@ HardenedEutrophicSand: {
 
 FireTurret: {
 	DisplayName: Fire Turret
-	Tooltip: ""
+	Tooltip:
+		'''
+		Roasts nearby enemies with a flamethrower at full blast
+		Cannot attack while a boss is alive
+		'''
 }
 
 HostileFireTurret: {
 	DisplayName: Hostile Fire Turret
-	Tooltip: ""
+	Tooltip: Roasts nearby players with a flamethrower at full blast
 }
 
 HostileIceTurret: {
 	DisplayName: Hostile Ice Turret
-	Tooltip: ""
+	Tooltip: Lobs fragile ice mist bombs at nearby players
 }
 
 HostileLabTurret: {
 	DisplayName: Hostile Lab Turret
-	Tooltip: ""
+	Tooltip: Shoots laser beams at nearby players
 }
 
 HostileLaserTurret: {
 	DisplayName: Hostile Laser Turret
-	Tooltip: ""
+	Tooltip: Blasts nearby players with lightning-fast laser beams
 }
 
 HostileOnyxTurret: {
 	DisplayName: Hostile Onyx Turret
-	Tooltip: ""
+	Tooltip: Shoots a shotgun spread of bullets at nearby players
 }
 
 HostilePlagueTurret: {
 	DisplayName: Hostile Plague Turret
-	Tooltip: ""
+	Tooltip: Ejects homing plague missiles towards nearby players
 }
 
 HostileWaterTurret: {
 	DisplayName: Hostile Water Turret
-	Tooltip: ""
+	Tooltip: Shoots high-speed water blasts at nearby players
 }
 
 IceTurret: {
 	DisplayName: Ice Turret
-	Tooltip: ""
+	Tooltip:
+		'''
+		Lobs fragile ice mist bombs at nearby enemies
+		Cannot attack while a boss is alive
+		'''
 }
 
 LabTurret: {
 	DisplayName: Lab Turret
-	Tooltip: ""
+	Tooltip:
+		'''
+		Shoots laser beams at nearby enemies
+		Cannot attack while a boss is alive
+		'''
 }
 
 LaserTurret: {
 	DisplayName: Laser Turret
-	Tooltip: ""
+	Tooltip:
+		'''
+		Blasts nearby enemies with lightning-fast laser beams
+		Cannot attack while a boss is alive
+		'''
 }
 
 OnyxTurret: {
 	DisplayName: Onyx Turret
-	Tooltip: ""
+	Tooltip:
+		'''
+		Shoots a shotgun spread of bullets at nearby enemies
+		Cannot attack while a boss is alive
+		'''
 }
 
 PlagueTurret: {
 	DisplayName: Plague Turret
-	Tooltip: ""
+	Tooltip:
+		'''
+		Ejects homing plague missiles towards nearby enemies
+		Cannot attack while a boss is alive
+		'''
 }
 
 WaterTurret: {
 	DisplayName: Water Turret
-	Tooltip: ""
+	Tooltip:
+		'''
+		Shoots high-speed water blasts at nearby enemies
+		Cannot attack while a boss is alive
+		'''
 }

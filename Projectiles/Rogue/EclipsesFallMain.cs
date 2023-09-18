@@ -13,8 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/EclipsesFall";
 
         // these also affect KB
-        public const float RainDamageMultMin = 0.4f;
-        public const float RainDamageMultMax = 0.5f;
+        public static float RainDamageMult = 0.4f;
 
         public override void SetStaticDefaults()
         {
@@ -56,12 +55,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void SpawnSpears(Vector2 targetPos)
         {
-            int spearAmt = Main.rand.Next(3, 5 + 1); // 3 to 5 spears
+            int spearAmt = Main.rand.Next(3, 4 + 1); // 3 or 4 spears
             var source = Projectile.GetSource_FromThis();
             for (int n = 0; n < spearAmt; n++)
-            {
-                float dmgMult = Main.rand.NextFloat(RainDamageMultMin, RainDamageMultMax);
-                CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<EclipsesSmol>(), (int)(Projectile.damage * dmgMult), Projectile.knockBack * dmgMult, Projectile.owner);
+            {;
+                CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<EclipsesSmol>(), (int)(Projectile.damage * RainDamageMult), Projectile.knockBack * RainDamageMult, Projectile.owner);
             }
         }
 
@@ -74,7 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostDraw(Color lightColor)
         {
             Texture2D glow = ModContent.Request<Texture2D>(Texture + "Glow").Value;
-            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, glow.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, glow.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
         }
     }
 }

@@ -78,7 +78,7 @@ ArterialAssault: {
 	Tooltip:
 		'''
 		Fires a chain of 5 arrows from the sky
-		Wooden arrows are converted into homing bloodfire arrows
+		All arrows will rapidly home in on nearby enemies
 		'''
 }
 
@@ -347,13 +347,9 @@ DarkechoGreatbow: {
 		'''
 }
 
-DeepcoreGK2: {
-	DisplayName: Deepcore GK2
-	Tooltip:
-		'''
-		Bullets are twice as large and ignores 15 points of enemy defense
-		'For rock and stone!'
-		'''
+DeadSunsWind: {
+	DisplayName: Dead Sun's Wind
+	Tooltip: 70% chance to save ammo
 }
 
 Deathwind: {
@@ -362,6 +358,15 @@ Deathwind: {
 		'''
 		Fires a spread of 4 arrows
 		Wooden arrows are converted into nebula arrows
+		'''
+}
+
+DeepcoreGK2: {
+	DisplayName: Deepcore GK2
+	Tooltip:
+		'''
+		Bullets are twice as large and ignores 15 points of enemy defense
+		'For rock and stone!'
 		'''
 }
 
@@ -466,7 +471,7 @@ FlakToxicannon: {
 	Tooltip:
 		'''
 		Fires angled shots in the direction of the cursor
-		Can only be shot in a cone direction above the player
+		Can only be shot in a wide cone above the player
 		'High IQ required'
 		'''
 }
@@ -516,11 +521,6 @@ Fungicide: {
 Galeforce: {
 	DisplayName: Galeforce
 	Tooltip: Fires a spread of low-damage feathers
-}
-
-GodsBellows: {
-	DisplayName: Dead Sun's Wind
-	Tooltip: 70% chance to save ammo
 }
 
 GoldenEagle: {
@@ -647,9 +647,14 @@ LunarianBow: {
 		'''
 }
 
-MagnaStriker: {
-	DisplayName: Magna Striker
-	Tooltip: Fires a string of opal and magna strikes
+ArcNovaDiffuser: {
+	DisplayName: Arc Nova Diffuser
+	Tooltip:
+		'''
+		Charges and fires a rapid burst of nova bolts
+		The first charging stage increases the fire rate of the burst
+		The second charging stage replaces the rapid burst with a devastating nova blast
+		'''
 }
 
 MagnomalyCannon: {
@@ -793,8 +798,8 @@ OpalStriker: {
 	DisplayName: Opal Striker
 	Tooltip:
 		'''
-		Fires a string of opal strikes
-		50% chance to save ammo
+		Fires a chargeable heated energy bolt that pierces
+		Fully charged shots deal extra damage and move faster
 		'''
 }
 
@@ -1284,5 +1289,15 @@ WulfrumBlunderbuss: {
 		Ignores 3 points of enemy Defense
 		[c/83B87E:'The good thing about Wulfrum is that while it breaks fast, it can be reused even faster.]
 		[c/83B87E:In fact, it is quite common for a robot to be turned into ammo right after it stops functioning.']
+		'''
+}
+
+MagnaCannon: {
+	DisplayName: Magna Cannon
+	Tooltip:
+		'''
+		Charges up a rapid fire burst of crystal bolts
+		Charging for longer increases the number of bolts fired
+		Fully charged shots fire an even longer and more rapid burst
 		'''
 }

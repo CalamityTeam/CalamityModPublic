@@ -180,7 +180,7 @@ BloodyMary: {
 	Tooltip:
 		'''
 		10% increased damage and movement speed during a Blood Moon
-		Reduces life regen by 4 and defense by 4%
+		Reduces life regen by 2 HP/s and defense by 4%
 		[c/B00BA5:'Extra spicy... and bloody!']
 		'''
 }
@@ -189,7 +189,7 @@ CaribbeanRum: {
 	DisplayName: Caribbean Rum
 	Tooltip:
 		'''
-		Increases life regen by 2, movement speed by 10% and wing flight time by 20%
+		Increases life regen by 1 HP/s, movement speed by 10% and wing flight time by 20%
 		Makes you floaty and reduces defense by 10%
 		[c/B00BA5:'Why is the rum gone?']
 		'''
@@ -210,7 +210,7 @@ Everclear: {
 	Tooltip:
 		'''
 		25% increased damage
-		Reduces life regen by 10 and defense by 30%
+		Reduces life regen by 5 HP/s and defense by 30%
 		[c/B00BA5:'This is the most potent booze I have, be careful with it.']
 		'''
 }
@@ -220,7 +220,7 @@ EvergreenGin: {
 	Tooltip:
 		'''
 		Multiplies all sickness and water-related debuff damage by 1.25x
-		Reduces life regen by 1
+		Reduces life regen by 0.5 HP/s
 		[c/B00BA5:'It tastes like a Christmas tree, if you can imagine that.']
 		'''
 }
@@ -240,7 +240,7 @@ Fireball: {
 	Tooltip:
 		'''
 		Multiplies all fire-based debuff damage by 1.25x
-		Reduces life regen by 1
+		Reduces life regen by 0.5 HP/s
 		[c/B00BA5:'A great-tasting cinnamon whiskey.']
 		'''
 }
@@ -259,7 +259,7 @@ Margarita: {
 	Tooltip:
 		'''
 		Halves the duration of most harmful debuffs
-		Reduces defense by 6% and life regen by 1
+		Reduces defense by 6% and life regen by 0.5 HP/s
 		3 minute duration
 		[c/B00BA5:'One of the best drinks ever created, enjoy it while it lasts.']
 		'''
@@ -270,7 +270,7 @@ Moonshine: {
 	Tooltip:
 		'''
 		Increases defense by 10 and damage reduction by 3%
-		Reduces life regen by 1
+		Reduces life regen by 0.5 HP/s
 		[c/B00BA5:'This stuff is pretty strong, but I'm sure you can handle it.']
 		'''
 }
@@ -280,7 +280,7 @@ MoscowMule: {
 	Tooltip:
 		'''
 		Increases damage by 9%, knockback by 50% and critical strike chance by 3%
-		Reduces life regen by 4
+		Reduces life regen by 2 HP/s
 		[c/B00BA5:'I once heard the copper mug can be toxic and I told 'em, 'listen dummy, I'm already poisoning myself!'']
 		'''
 }
@@ -299,7 +299,7 @@ RedWine: {
 	DisplayName: Red Wine
 	Tooltip:
 		'''
-		Reduces life regen by 1 for 15 seconds
+		Reduces life regen by 0.5 HP/s for 15 seconds
 		[c/B00BA5:'Too dry for my taste.']
 		'''
 }
@@ -308,7 +308,7 @@ Rum: {
 	DisplayName: Rum
 	Tooltip:
 		'''
-		Increases life regen by 2 and movement speed by 10%
+		Increases life regen by 1 HP/s and movement speed by 10%
 		Reduces defense by 5%
 		[c/B00BA5:'Sweet and potent, just how I like it.']
 		'''
@@ -319,7 +319,7 @@ Screwdriver: {
 	Tooltip:
 		'''
 		Multiplies piercing projectile damage by 1.05x
-		Reduces life regen by 1
+		Reduces life regen by 0.5 HP/s
 		[c/B00BA5:'Do you have a screw loose?']
 		'''
 }
@@ -330,7 +330,7 @@ StarBeamRye: {
 		'''
 		Increases max mana by 50, magic damage by 8%,
 		and reduces mana usage by 10%
-		Reduces defense by 6% and life regen by 2
+		Reduces defense by 6% and life regen by 1 HP/s
 		[c/B00BA5:'Made from some stuff I found near the Astral Meteor crash site. Don't worry, it's safe, trust me...']
 		'''
 }
@@ -340,7 +340,7 @@ Tequila: {
 	Tooltip:
 		'''
 		Increases knockback by 10%, crit chance by 4% and defense by 5 during daytime
-		Reduces life regen by 1
+		Reduces life regen by 0.5 HP/s
 		[c/B00BA5:'Great for mixing up daytime drinks.']
 		'''
 }
@@ -350,7 +350,7 @@ TequilaSunrise: {
 	Tooltip:
 		'''
 		Increases knockback by 20%, crit chance by 8% and defense by 10 during daytime
-		Reduces life regen by 2
+		Reduces life regen by 1 HP/s
 		[c/B00BA5:'The greatest daytime drink I've ever had.']
 		'''
 }
@@ -360,7 +360,7 @@ Vodka: {
 	Tooltip:
 		'''
 		Increases damage by 6% and critical strike chance by 2%
-		Reduces life regen by 1 and defense by 5%
+		Reduces life regen by 0.5 HP/s and defense by 5%
 		[c/B00BA5:'The number one alcohol for creating great mixed drinks.']
 		'''
 }
@@ -380,7 +380,7 @@ WhiteWine: {
 	Tooltip:
 		'''
 		Increases magic damage by 8%
-		Reduces defense by 6% and life regen by 1
+		Reduces defense by 6% and life regen by 0.5 HP/s
 		[c/B00BA5:'I drank a full barrel of this stuff once in one night, I couldn't remember who I was the next day.']
 		'''
 }

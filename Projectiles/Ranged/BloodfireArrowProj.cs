@@ -59,9 +59,6 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
                 }
             }
-
-            if (Projectile.ai[1] == 80f) //means it's from Arterial Assault's wooden arrow conversion
-                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

@@ -16,9 +16,10 @@ namespace CalamityMod.Items.Accessories.Wings
     public class SilvaWings : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories.Wings";
+
         public override void SetStaticDefaults()
         {
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(270, 11f, 2.8f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(270, 10.5f, 2.8f);
         }
 
         public override void SetDefaults()
@@ -59,11 +60,11 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 1f; //0.85
-            ascentWhenRising = 0.16f; //0.15
-            maxCanAscendMultiplier = 1.2f; //1
-            maxAscentMultiplier = 3.25f; //3
-            constantAscend = 0.14f; //0.135
+            ascentWhenFalling = 0.95f;
+            ascentWhenRising = 0.16f;
+            maxCanAscendMultiplier = 1.1f;
+            maxAscentMultiplier = 3.2f;
+            constantAscend = 0.145f;
         }
 
         public override void AddRecipes()

@@ -4,6 +4,8 @@ using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -12,6 +14,12 @@ namespace CalamityMod.Items.Accessories
     public class Purity : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public override void SetStaticDefaults()
+        {
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+        }
+
         public override void SetDefaults()
         {
             Item.defense = 8;
@@ -45,8 +53,8 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<AmbrosialAmpoule>().
                 AddIngredient<InfectedJewel>().
-                AddIngredient<AuricBar>(4).
-                AddIngredient<AscendantSpiritEssence>(5).
+                AddIngredient<AuricBar>(5).
+                AddIngredient<AscendantSpiritEssence>(4).
                 AddTile(ModContent.TileType<CosmicAnvil>()).
                 Register();
         }

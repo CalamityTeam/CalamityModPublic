@@ -28,11 +28,6 @@ namespace CalamityMod.Items.Placeables
                 AddIngredient<EutrophicSandWallSafe>(4).
                 AddTile(TileID.WorkBenches).
                 Register();
-
-            CreateRecipe().
-                AddIngredient<EutrophicSandWall>(4).
-                AddTile(TileID.WorkBenches).
-                Register();
         }
     }
 }

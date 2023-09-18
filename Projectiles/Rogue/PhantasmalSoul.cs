@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
         private const int Lifetime = 300;
-        private const int NoHomingFrames = 40;
+        private const int NoHomingFrames = 35;
         private const int NoHitFrames = 10;
         private const int NoDrawFrames = 5;
 

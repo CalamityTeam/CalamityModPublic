@@ -43,7 +43,8 @@ namespace CalamityMod.Projectiles.Boss
                 else if (Projectile.ai[0] >= 55f)
                 {
                     Projectile.ai[0] = 90f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, storedVelocity, ModContent.ProjectileType<RavagerBlast>(), Projectile.damage, 0f, Projectile.owner, Projectile.ai[1], Projectile.whoAmI);
+                    if (Projectile.owner == Main.myPlayer)
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, storedVelocity, ModContent.ProjectileType<RavagerBlast>(), Projectile.damage, 0f, Projectile.owner, Projectile.ai[1], Projectile.whoAmI);
 
                     SoundEngine.PlaySound(SANSFire, Projectile.Center); //Funny Gaster Blaster sounds #2
                 }

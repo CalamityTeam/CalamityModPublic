@@ -12,13 +12,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class StormfrontRazor : RogueWeapon
     {
-
         public static readonly SoundStyle LightningStrikeSound = new("CalamityMod/Sounds/Custom/LightningStrike");
         public const float LightningDamageFactor = 1.5f;
 
         public override void SetStaticDefaults()
         {
-                       Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 

@@ -14,8 +14,8 @@ DrewsWings: {
 	DisplayName: Drew's Wings
 	Tooltip:
 		'''
-		Horizontal speed: 12.00
-		Acceleration multiplier: 3.0
+		Horizontal speed: 11.50
+		Acceleration multiplier: 2.9
 		Excellent vertical speed
 		Flight time: 361
 		'Absolutely Fabulous'
@@ -93,7 +93,7 @@ SilvaWings: {
 	DisplayName: Silva Wings
 	Tooltip:
 		'''
-		Horizontal speed: 11.00
+		Horizontal speed: 10.50
 		Acceleration multiplier: 2.8
 		Excellent vertical speed
 		Flight time: 270
@@ -149,7 +149,7 @@ TarragonWings: {
 		Acceleration multiplier: 2.5
 		Great vertical speed
 		Flight time: 250
-		+15 defense and +2 life regen while wearing the Tarragon Armor
+		+15 defense and +1 HP/s life regen while wearing the Tarragon Armor
 		'Born of the jungle'
 		'''
 }
@@ -160,7 +160,7 @@ TracersCelestial: {
 		'''
 		Counts as wings
 		Horizontal speed: 9.00
-		Acceleration multiplier: 2.5
+		Acceleration multiplier: 2.6
 		Good vertical speed
 		Flight time: 140
 		24% increased running acceleration and greater mobility on ice
@@ -175,8 +175,8 @@ TracersElysian: {
 	Tooltip:
 		'''
 		Counts as wings
-		Horizontal speed: 10.50
-		Acceleration multiplier: 2.75
+		Horizontal speed: 10.00
+		Acceleration multiplier: 2.7
 		Great vertical speed
 		Flight time: 180
 		36% increased running acceleration and greater mobility on ice
@@ -191,8 +191,8 @@ TracersSeraph: {
 	Tooltip:
 		'''
 		Counts as wings
-		Horizontal speed: 12.00
-		Acceleration multiplier: 3.0
+		Horizontal speed: 11.00
+		Acceleration multiplier: 2.8
 		Excellent vertical speed
 		Flight time: 250
 		50% increased running acceleration and greater mobility on ice

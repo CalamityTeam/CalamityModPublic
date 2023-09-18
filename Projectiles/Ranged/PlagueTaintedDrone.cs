@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (target.Calamity().pFlames > 0)
+            if (target.Calamity().pFlames > 0 && Projectile.ai[1] != 1)
                 modifiers.SetCrit();
         }
 
@@ -131,6 +131,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+            Projectile.damage = (int)(Projectile.damage * 0.4f);
             Projectile.Damage();
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int num621 = 0; num621 < 20; num621++)

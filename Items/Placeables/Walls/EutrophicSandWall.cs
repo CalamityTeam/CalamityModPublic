@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Placeables.Walls
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 400;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<EutrophicSandWallSafe>();
         }
 
         public override void SetDefaults()
@@ -24,11 +25,6 @@ namespace CalamityMod.Items.Placeables.Walls
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createWall = ModContent.WallType<WallTiles.EutrophicSandWall>();
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<EutrophicSand>()).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

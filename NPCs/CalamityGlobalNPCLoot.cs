@@ -352,15 +352,6 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<TrapperBulb>(), 2, 1));
                     break;
 
-                // Derpling, Cochineal Beetle, Cyan Beetle, Lac Beetle
-                // Beetle Juice @ 33.33% Normal, 50% Expert+
-                case NPCID.Derpling:
-                case NPCID.CochinealBeetle:
-                case NPCID.CyanBeetle:
-                case NPCID.LacBeetle:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BeetleJuice>(), 3, 2));
-                    break;
-
                 // Moth
                 // Butterfly Dust @ 100% INSTEAD OF 50%
                 case NPCID.Moth:
@@ -1629,13 +1620,9 @@ namespace CalamityMod.NPCs
             #region Enemy Lists
 
             // All Moss Hornets
-            // Stinger @ 50% Normal, 100% Expert+
             // Needler @ 4% Normal, 6.67% Expert+
             if (CalamityLists.mossHornetList.Contains(npc.type))
-            {
-                npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.Stinger, 2, 1));
                 npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<Needler>(), 25, 15));
-            }
 
             // All Skeletons
             // Ancient Bone Dust @ 20% Normal, 33.33% Expert+
@@ -1713,9 +1700,9 @@ namespace CalamityMod.NPCs
                 // Block anything except the Rock from dropping
                 DropHelper.BlockEverything(ModContent.ItemType<Rock>());
             }
-			return true;
-		}
-		#endregion
+            return true;
+        }
+        #endregion
 
         #region On Kill Main Hook
         public override void OnKill(NPC npc)
@@ -1781,8 +1768,11 @@ namespace CalamityMod.NPCs
                     // First kill: Notify of Abyss chests being unlocked.
                     if (!NPC.downedBoss3)
                     {
-                        World.Abyss.AbleToUnlockChests = true;
-                        World.Abyss.UnlockAllAbyssChests();
+                        if (Main.netMode != NetmodeID.MultiplayerClient) //Only the server should do this to prevent already unlocked chests from attempting to be unlocked
+                        {
+                            World.Abyss.AbleToUnlockChests = true;
+                            World.Abyss.UnlockAllAbyssChests();
+                        }
 
                         string keysk = "Mods.CalamityMod.Status.Progression.SkeletronAbyssChestNotification";
                         CalamityUtils.DisplayLocalizedText(keysk, new Color(76, 181, 76));

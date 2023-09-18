@@ -36,7 +36,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Utilities;
-using CalamityMod.Projectiles.Typless;
 
 namespace CalamityMod.Items
 {
@@ -625,7 +624,7 @@ namespace CalamityMod.Items
 
             if (player.HasBuff(BuffID.ParryDamageBuff))
             {
-                if (item.type != ItemID.DD2SquireDemonSword)
+                if (item.type != ItemID.DD2SquireDemonSword && item.type != ItemID.BouncingShield)
                 {
                     player.parryDamageBuff = false;
                     player.ClearBuff(BuffID.ParryDamageBuff);
@@ -653,6 +652,9 @@ namespace CalamityMod.Items
                 NPC closest = Main.MouseWorld.ClosestNPCAt(1000f, true);
                 if (closest != null)
                 {
+                    //TODO look into this, it does not work as expected!
+                    //Does not draw the ring, mostly, which leads to uncertainty of it's functionality
+                    //Maybe just move it to a whip transform :wires:
                     player.MinionAttackTargetNPC = closest.whoAmI;
                     player.UpdateMinionTarget();
                 }
@@ -788,7 +790,8 @@ namespace CalamityMod.Items
             }
 
             // Conversion for Profaned Soul Crystal
-            ProfanedSoulCrystal.DetermineTransformationEligibility(player);
+            // DO NOT CHECK TRANSFORM ELIGIBILITY HERE
+            // It causes issues with actually restricting the transformed attacks when the player fails the ~~vibe check~~ minion requirement check
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>()))
                 return player.altFunctionUse == 0 ? ProfanedSoulCrystal.TransformItemUsage(item, player) : AltFunctionUse(item, player);
 

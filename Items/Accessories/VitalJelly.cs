@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.width = 20;
-            Item.height = 24;
+            Item.width = 18;
+            Item.height = 40;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
             Item.accessory = true;
@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.moveSpeed += 0.1f;
-            player.jumpSpeedBoost += 0.5f;
+            player.moveSpeed += 0.12f;
+            player.jumpSpeedBoost += 0.6f;
         }
     }
 }

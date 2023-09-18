@@ -724,6 +724,12 @@ namespace CalamityMod
                 case 126:
                     npc = ModContent.NPCType<WulfrumAmplifier>();
                     break;
+                case 127:
+                    npc = ModContent.NPCType<CannonballJellyfish>();
+                    break;
+                case 128:
+                    npc = ModContent.NPCType<BabyCannonballJellyfish>();
+                    break;
                 default:
                     break;
             }

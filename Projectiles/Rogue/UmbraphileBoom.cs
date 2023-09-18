@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Texture2D glow = ModContent.Request<Texture2D>(Texture + "Glow").Value;
             Rectangle frame = glow.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
-            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, frame.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
         }
     }
 }

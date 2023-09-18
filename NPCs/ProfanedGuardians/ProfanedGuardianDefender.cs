@@ -8,12 +8,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalamityMod.Items.Accessories;
+using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Filters = Terraria.Graphics.Effects.Filters;
 
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
@@ -79,7 +82,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.ProfanedGuardianDefender")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.ProfanedGuardianDefender")
             });
         }
 
@@ -280,9 +283,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float goLowDurationPhase1 = totalGoLowDurationPhase1 * 0.5f;
             float roundedGoLowPhase1Check = (float)Math.Round(goLowDurationPhase1 * 0.5);
             bool commanderGoingLowOrHighInPhase1 = (Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] > (moveToOtherSideInPhase1GateValue - goLowDurationPhase1) &&
-                Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] <= (moveToOtherSideInPhase1GateValue + roundedGoLowPhase1Check)) ||
-                Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] > (timeBeforeMoveToOtherSideInPhase1Reset - goLowDurationPhase1) ||
-                Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] <= (-roundedGoLowPhase1Check);
+                                                    Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] <= (moveToOtherSideInPhase1GateValue + roundedGoLowPhase1Check)) ||
+                                                   Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] > (timeBeforeMoveToOtherSideInPhase1Reset - goLowDurationPhase1) ||
+                                                   Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] <= (-roundedGoLowPhase1Check);
 
             float moveToOtherSideInPhase2GateValue = commanderGuardPhase2Duration - 120f;
             float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
@@ -290,9 +293,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float goLowDurationPhase2 = totalGoLowDurationPhase2 * 0.5f;
             float roundedGoLowPhase2Check = (float)Math.Round(goLowDurationPhase2 * 0.5);
             bool commanderGoingLowOrHighInPhase2 = (Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) &&
-                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + roundedGoLowPhase2Check)) ||
-                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) ||
-                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-roundedGoLowPhase2Check);
+                                                    Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + roundedGoLowPhase2Check)) ||
+                                                   Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) ||
+                                                   Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-roundedGoLowPhase2Check);
 
             // Tell rocks to fade out and shrink
             if (commanderGoingLowOrHighInPhase1 || commanderGoingLowOrHighInPhase2)
@@ -853,10 +856,41 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 color *= 0.6f;
                 color2 *= 0.6f;
                 float scaleMult = 1.2f + scaleDuringShieldDespawn;
+                
+                // The scale used for the noise overlay polygons also grows and shrinks
+                // This is intentionally out of sync with the shield, and intentionally desynced per player
+                // Don't put this anywhere less than 0.25f or higher than 1f. The higher it is, the denser / more zoomed out the noise overlay is.
+                float noiseScale = MathHelper.Lerp(0.4f, 0.8f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.3f) * 0.5f + 0.5f);
+
+                // Define shader parameters
+                Effect shieldEffect = Filters.Scene["CalamityMod:RoverDriveShield"].GetShader().Shader;
+                shieldEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.058f); // Scrolling speed of polygonal overlay
+                shieldEffect.Parameters["blowUpPower"].SetValue(2.8f);
+                shieldEffect.Parameters["blowUpSize"].SetValue(0.4f);
+                shieldEffect.Parameters["noiseScale"].SetValue(noiseScale);
+                
+                shieldEffect.Parameters["shieldOpacity"].SetValue(opacityScaleDuringShieldDespawn);
+                shieldEffect.Parameters["shieldEdgeBlendStrenght"].SetValue(4f);
+                
+                Color edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, color, color2);
+                
+                // Define shader parameters for shield color
+                shieldEffect.Parameters["shieldColor"].SetValue(color.ToVector3());
+                shieldEffect.Parameters["shieldEdgeColor"].SetValue(edgeColor.ToVector3());
+                
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale2 * scaleMult, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.95f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale * scaleMult, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale * scaleMult * 0.95f, SpriteEffects.None, 0f);
+                
+                // The shield for the border MUST be drawn before the main shield, it becomes incredibly visually obnoxious otherwise.
+                
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, shieldEffect, Main.GameViewMatrix.TransformationMatrix);
+                // Fetch shield heat overlay texture (this is the neutrons fed to the shader)
+                Texture2D heatTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons2").Value;
+                Vector2 pos = NPC.Center + NPC.gfxOffY * Vector2.UnitY - Main.screenPosition;
+                Main.spriteBatch.Draw(heatTex, shieldDrawPos, null, Color.White, 0, heatTex.Size() / 2f, shieldScale * scaleMult * 0.5f, 0, 0);
             }
 
             return false;

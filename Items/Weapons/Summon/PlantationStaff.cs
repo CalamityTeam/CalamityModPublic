@@ -1,8 +1,8 @@
-﻿using Terraria.DataStructures;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,62 +11,50 @@ namespace CalamityMod.Items.Weapons.Summon
     public class PlantationStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
+
+        public static float EnemyDistanceDetection = 1600f;
+        public static float ChargingSpeed = 35f;
+
+        public static int ThornballAmount = 2;
+        public static float ThornballFireRate = 90f; // In frames.
+        public static float ThornballSpeed = 20f;
+
+        public static float SeedBurstDelay = 30f; // In frames.
+        public static float SeedBetweenBurstDelay = 10f; // In frames.
+        public static float SeedSpeed = 25f;
+        public static int SeedAmountPerBurst = 3;
+        public static int SeedBurstAmount = 3;
+
+        public static float SporeStartVelocity = 3f;
+
+        public static float TimeBeforeRamming = 15f; // In frames.
+        public static float RamTime = 240f; // In frames.
+
+        public static float TentacleSpeed = 25f;
+
         public override void SetDefaults()
         {
-            Item.damage = 55;
-            Item.mana = 10;
-            Item.width = 66;
-            Item.height = 70;
-            Item.useTime = Item.useAnimation = 20;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.noMelee = true;
+            Item.damage = 58;
+            Item.DamageType = DamageClass.Summon;
+            Item.shoot = ModContent.ProjectileType<PlantationStaffSummon>();
             Item.knockBack = 1f;
+
+            Item.mana = 10;
+            Item.useTime = Item.useAnimation = 20;
+            Item.width = 46;
+            Item.height = 48;
+            Item.noMelee = true;
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item76;
-            Item.shoot = ModContent.ProjectileType<PlantSummon>();
-            Item.shootSpeed = 10f;
-            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 3;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.altFunctionUse != 2)
-            {
-                CalamityUtils.KillShootProjectileMany(player, new int[] { type, ModContent.ProjectileType<PlantTentacle>() });
-
-                float speed = Item.shootSpeed;
-                player.itemTime = Item.useTime;
-                Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-                float directionX = (float)Main.mouseX + Main.screenPosition.X - playerPos.X;
-                float directionY = (float)Main.mouseY + Main.screenPosition.Y - playerPos.Y;
-                if (player.gravDir == -1f)
-                {
-                    directionY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - playerPos.Y;
-                }
-                Vector2 spinningpoint = new Vector2(directionX, directionY);
-                float vectorDist = spinningpoint.Length();
-                if ((float.IsNaN(spinningpoint.X) && float.IsNaN(spinningpoint.Y)) || (spinningpoint.X == 0f && spinningpoint.Y == 0f))
-                {
-                    spinningpoint.X = (float)player.direction;
-                    spinningpoint.Y = 0f;
-                    vectorDist = speed;
-                }
-                else
-                {
-                    vectorDist = speed / vectorDist;
-                }
-                spinningpoint.X *= vectorDist;
-                spinningpoint.Y *= vectorDist;
-                playerPos.X = (float)Main.mouseX + Main.screenPosition.X;
-                playerPos.Y = (float)Main.mouseY + Main.screenPosition.Y;
-                spinningpoint = spinningpoint.RotatedBy(MathHelper.PiOver2, default);
-                int p = Projectile.NewProjectile(source, playerPos + spinningpoint, spinningpoint, type, damage, knockback, player.whoAmI, 0f, 0f);
-                if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Item.damage;
-            }
+            Projectile.NewProjectile(source, Main.MouseWorld, Main.rand.NextVector2Circular(2f, 2f), type, damage, knockback, player.whoAmI);
             return false;
         }
 
@@ -74,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<EyeOfNight>().
-                AddIngredient(ItemID.Smolstar). //Blade Staff
+                AddIngredient(ItemID.Smolstar). // Blade Staff.
                 AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();

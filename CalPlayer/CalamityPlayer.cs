@@ -41,7 +41,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Typless;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -370,13 +370,13 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Energy Shields
-        public bool HasAnyEnergyShield => roverDrive || lunicCorpsSet || sponge;
+        public bool HasAnyEnergyShield => roverDrive || lunicCorpsSet || ((pSoulArtifact && !profanedCrystal) || profanedCrystalBuffs) || sponge;
         public bool freeDodgeFromShieldAbsorption = false;
         public bool drawnAnyShieldThisFrame = false;
 
         // TODO -- Some way to show the player their total shield points.
-        public int TotalEnergyShielding => RoverDriveShieldDurability + LunicCorpsShieldDurability + SpongeShieldDurability;
-        public int TotalMaxShieldDurability => (roverDrive ? RoverDrive.ShieldDurabilityMax : 0) + (lunicCorpsSet ? LunicCorpsHelmet.ShieldDurabilityMax : 0) + (sponge ? TheSponge.ShieldDurabilityMax : 0);
+        public int TotalEnergyShielding => RoverDriveShieldDurability + LunicCorpsShieldDurability + pSoulShieldDurability + SpongeShieldDurability;
+        public int TotalMaxShieldDurability => (roverDrive ? RoverDrive.ShieldDurabilityMax : 0) + (lunicCorpsSet ? LunicCorpsHelmet.ShieldDurabilityMax : 0) + (profanedCrystalBuffs ? ProfanedSoulCrystal.ShieldDurabilityMax : ((pSoulArtifact && !profanedCrystal) ? ProfanedSoulArtifact.ShieldDurabilityMax : 0)) + (sponge ? TheSponge.ShieldDurabilityMax : 0);
 
         public int RoverDriveShieldDurability = 0;
         public int LunicCorpsShieldDurability = 0;
@@ -389,6 +389,12 @@ namespace CalamityMod.CalPlayer
         // Lunic Corps shield comes from an armor set and its visibility is non optional
         internal float lunicCorpsShieldPartialRechargeProgress = 0f;
         internal bool playedLunicCorpsShieldSound = false;
+        
+        //Profaned soul shield applies to psa and psc, with differing max hps for each
+        public int pSoulShieldDurability = 0;
+        public bool pSoulShieldVisible = false;
+        internal bool playedProfanedSoulShieldSound = false;
+        internal float pSoulShieldPartialRechargeProgress = 0f;
 
         public bool sponge = false;
         public bool spongeShieldVisible = false;
@@ -497,7 +503,6 @@ namespace CalamityMod.CalPlayer
         public bool tracersElysian = false;
         public bool tracersSeraph = false;
         public bool frostFlare = false;
-        public bool beeResist = false;
         public bool uberBees = false;
         public bool evolution = false;
         public int evolutionLifeRegenCounter = 0;
@@ -550,7 +555,7 @@ namespace CalamityMod.CalPlayer
         public bool eArtifact = false;
         public bool dArtifact = false;
         public bool auricSArtifact = false;
-        public bool pArtifact = false;
+        public bool pSoulArtifact = false;
         public bool giantPearl = false;
         public bool normalityRelocator = false;
         public bool flameLickedShell = false;
@@ -926,7 +931,7 @@ namespace CalamityMod.CalPlayer
         public bool herring = false;
         public bool blackhawk = false;
         public bool cosmicViper = false;
-        public bool calamari = false;
+        public bool CalamarisLament = false;
         public bool cEyes = false;
         public bool cSlime = false;
         public bool cSlime2 = false;
@@ -944,9 +949,9 @@ namespace CalamityMod.CalPlayer
         public bool cLamp = false;
         public bool pGuy = false;
         public bool sandnado = false;
-        public bool plantera = false;
+        public bool PlantationSummon = false;
         public bool astralProbe = false;
-        public bool donutBabs = false;
+        public bool pSoulGuardians = false;
         public bool cEnergy = false;
         public int healCounter = 300;
         public bool shellfish = false;
@@ -1453,6 +1458,9 @@ namespace CalamityMod.CalPlayer
                 LunicCorpsShieldDurability = 0;
             if (!sponge)
                 SpongeShieldDurability = 0;
+            if (!pSoulArtifact)
+                pSoulShieldDurability = 0;
+            pSoulShieldVisible = false;
             roverDrive = false;
             roverDriveShieldVisible = false;
             sponge = false;
@@ -1589,7 +1597,6 @@ namespace CalamityMod.CalPlayer
             aBrain = false;
             amalgam = false;
             frostFlare = false;
-            beeResist = false;
             uberBees = false;
             evolution = false;
             nanotech = false;
@@ -1636,7 +1643,7 @@ namespace CalamityMod.CalPlayer
             eArtifact = false;
             dArtifact = false;
             auricSArtifact = false;
-            pArtifact = false;
+            pSoulArtifact = false;
             giantPearl = false;
             normalityRelocator = false;
             flameLickedShell = false;
@@ -1929,7 +1936,7 @@ namespace CalamityMod.CalPlayer
             herring = false;
             blackhawk = false;
             cosmicViper = false;
-            calamari = false;
+            CalamarisLament = false;
             cEyes = false;
             cSlime = false;
             cSlime2 = false;
@@ -1951,7 +1958,7 @@ namespace CalamityMod.CalPlayer
             cLamp = false;
             pGuy = false;
             cEnergy = false;
-            donutBabs = false;
+            pSoulGuardians = false;
             sWaifu = false;
             dWaifu = false;
             cWaifu = false;
@@ -1963,7 +1970,7 @@ namespace CalamityMod.CalPlayer
             sCrystal = false;
             sGod = false;
             sandnado = false;
-            plantera = false;
+            PlantationSummon = false;
             astralProbe = false;
             victideSnail = false;
             cSpirit = false;
@@ -2501,6 +2508,7 @@ namespace CalamityMod.CalPlayer
             RoverDriveShieldDurability = 0;
             LunicCorpsShieldDurability = 0;
             SpongeShieldDurability = 0;
+            pSoulShieldDurability = 0;
             #endregion
 
             #region UI
@@ -3134,34 +3142,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region TeleportMethods
-        public static Vector2? GetJunglePosition(Player player)
-        {
-            bool canSpawn = false;
-            int teleportStartX = Abyss.AtLeftSideOfWorld ? (int)(Main.maxTilesX * 0.65) : (int)(Main.maxTilesX * 0.2);
-            int teleportRangeX = (int)(Main.maxTilesX * 0.15);
-            int teleportStartY = (int)Main.worldSurface - 75;
-            int teleportRangeY = 50;
-
-            Player.RandomTeleportationAttemptSettings settings = new Player.RandomTeleportationAttemptSettings
-            {
-                mostlySolidFloor = true,
-                avoidAnyLiquid = true,
-                avoidLava = true,
-                avoidHurtTiles = true,
-                avoidWalls = true,
-                attemptsBeforeGivingUp = 1000,
-                maximumFallDistanceFromOrignalPoint = 30
-            };
-
-            Vector2 vector = player.CheckForGoodTeleportationSpot(ref canSpawn, teleportStartX, teleportRangeX, teleportStartY, teleportRangeY, settings);
-
-            if (canSpawn)
-            {
-                return (Vector2?)vector;
-            }
-            return null;
-        }
-
+        // Used for Boss Rush WoF
         public static Vector2? GetUnderworldPosition(Player player)
         {
             bool canSpawn = false;
@@ -3598,7 +3579,7 @@ namespace CalamityMod.CalPlayer
         public override bool CanSellItem(NPC vendor, Item[] shopInventory, Item item)
         {
             if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
-                return DownedBossSystem.downedCalamitas; //no easy moneycoins for post doggo/yhar
+                return DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs; //no easy moneycoins for post doggo/yhar
             return base.CanSellItem(vendor, shopInventory, item);
         }
 
@@ -3613,6 +3594,7 @@ namespace CalamityMod.CalPlayer
                     (lunicCorpsLegs ? 0.1f : 0f) +
                     (shadowSpeed ? 0.5f : 0f) +
                     (stressPills ? 0.05f : 0f) +
+                    (aeroStone && Player.equippedWings != null && Player.wingTime == 0f ? 0.5f : 0f) +
                     ((abyssalDivingSuit && Player.IsUnderwater()) ? 0.05f : 0f) +
                     (aquaticHeartWaterBuff ? 0.15f : 0f) +
                     ((frostFlare && Player.statLife < (int)(Player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
@@ -3709,7 +3691,7 @@ namespace CalamityMod.CalPlayer
             {
                 // Apply weapon modifier stealth strike damage bonus
                 if (item.Calamity().StealthStrikePrefixBonus != 0f && StealthStrikeAvailable())
-                    damage += 1f - item.Calamity().StealthStrikePrefixBonus;
+                    damage += 1f + item.Calamity().StealthStrikePrefixBonus;
             }
         }
 
@@ -4657,31 +4639,23 @@ namespace CalamityMod.CalPlayer
             if (Player.whoAmI == Main.myPlayer && !endoCooper && randAmt > 0 && Main.rand.NextBool(randAmt) && chaseable)
             {
                 int spearsFired = 0;
+                
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     if (spearsFired == 2)
                         break;
                     if (Main.projectile[i].owner == Player.whoAmI && Main.projectile[i].friendly)
                     {
-                        bool attack = Main.projectile[i].owner == Player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<MiniGuardianAttack>();
-                        bool defense = Main.projectile[i].owner == Player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<MiniGuardianDefense>();
-                        if (attack || defense)
+                        bool attack =  Main.projectile[i].owner == Player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<MiniGuardianAttack>();
+                        if (attack)
                         {
-                            int numSpears = attack ? 12 : 6;
-                            int dam = Main.projectile[i].originalDamage;
-                            if (!attack)
-                                dam = (int)(dam * 0.5f);
-                            float angleVariance = MathHelper.TwoPi / (float)numSpears;
-                            float spinOffsetAngle = MathHelper.Pi / (2f * numSpears);
+                            int numSpears = profanedCrystalBuffs ? 12 : 6;
+                            int dam = (int)(Main.projectile[i].originalDamage * (profanedCrystalBuffs ? 1f : 0.25f));
 
                             for (int x = 0; x < numSpears; x++)
                             {
-                                Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
-                                posVec = posVec.RotatedBy(angleVariance);
-                                Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
-                                velocity.Normalize();
-                                velocity *= 8f;
-                                int proj = Projectile.NewProjectile(source, Main.projectile[i].Center + posVec, velocity, ModContent.ProjectileType<MiniGuardianSpear>(), dam, 0f, Player.whoAmI, 0f, 0f);
+                                float angle = MathHelper.TwoPi / numSpears * x;
+                                int proj = Projectile.NewProjectile(source, Main.projectile[i].Center, angle.ToRotationVector2().RotatedBy(Math.Atan(-45f)) * 8f, ModContent.ProjectileType<MiniGuardianSpear>(), dam, 0f, Player.whoAmI, 0f, 0f);
                                 Main.projectile[proj].originalDamage = dam;
                             }
                             spearsFired++;
@@ -4730,7 +4704,6 @@ namespace CalamityMod.CalPlayer
 
         public override void PostUpdate() //needs to be here else it doesn't work properly, otherwise i'd have stuck it with the wing anim stuffs
         {
-            ProfanedSoulCrystal.DetermineTransformationEligibility(Player);
             if (!profanedCrystalHide && (profanedCrystal || profanedCrystalForce) && Player.legs == EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Legs))
             {
                 bool usingCarpet = Player.carpetTime > 0 && Player.controlJump; //doesn't make sense for carpet to use jump frame since you have solid ground
@@ -4747,6 +4720,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Misc Stuff
+        private static int musicModDisplayDelay = -1;
 
         // Triggers effects that must occur when the player enters the world. This sends a bunch of packets in multiplayer.
         // It also starts the speedrun timer if applicable.
@@ -4764,6 +4738,12 @@ namespace CalamityMod.CalPlayer
             {
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus1");
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus2");
+            }
+
+            // Set a random delay between 12 and 20 seconds. When this delay hits zero, the music mod reminder message displays
+            if (CalamityMod.Instance.musicMod is null && CalamityConfig.Instance.MusicModReminderMessage)
+            {
+                musicModDisplayDelay = Main.rand.Next(CalamityUtils.SecondsToFrames(12), CalamityUtils.SecondsToFrames(20) + 1);
             }
         }
 

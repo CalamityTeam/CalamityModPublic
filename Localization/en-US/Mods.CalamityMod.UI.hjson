@@ -100,7 +100,8 @@ Cooldowns: {
 	PlagueBlackout: Plague Blackout Cooldown
 	PotionSickness: Healing Cooldown
 	PrismaticLaser: Prismatic Laser Barrage Cooldown
-	ProfanedSoulArtifact: Profaned Soul Artifact Burnout
+	ProfanedSoulShieldDurability: Profaned Soul Shield Durability
+	ProfanedSoulShieldRecharge: Profaned Soul Shield Recharge
 	RelicOfResilience: Relic of Resilience Cooldown
 	RogueBooster: Rogue Booster Cooldown
 	SandCloak: Sand Cloak Cooldown

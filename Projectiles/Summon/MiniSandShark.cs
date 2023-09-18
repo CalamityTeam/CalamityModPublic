@@ -22,6 +22,8 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
         }
 

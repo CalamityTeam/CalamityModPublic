@@ -827,6 +827,7 @@ namespace CalamityMod
                 { Vanilla(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
                 { r => r.HasResult(ItemID.HorseshoeBundle) && !r.HasIngredient(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
                 { Vanilla(ItemID.NightsEdge), AddIngredient(ModContent.ItemType<PurifiedGel>(), 5) },
+                { Vanilla(ItemID.FairyBoots), AddIngredient(ItemID.SoulofLight, 5) },
                 { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
                 { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 12) },
                 { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
@@ -992,7 +993,7 @@ namespace CalamityMod
         #region Astral Clay
         private static void AddAstralClayRecipes()
         {
-			// Intentionally excluding Red Brick and Red Stucco recipes
+            // Intentionally excluding Red Brick and Red Stucco recipes
 
             // Bowl
             Recipe r = Recipe.Create(ItemID.Bowl);
@@ -1089,7 +1090,8 @@ namespace CalamityMod
                 ItemID.StinkPotion,
                 ItemID.RecallPotion,
                 ItemID.PotionOfReturn,
-                ItemID.LuckPotionLesser
+                ItemID.LuckPotionLesser,
+                ItemID.BiomeSightPotion
             };
             Recipe r;
 
@@ -1785,8 +1787,8 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Waterleaf, 5);
             r.AddIngredient(ItemID.Blinkroot, 5);
             r.AddIngredient(ItemID.Daybloom, 5);
-            r.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
-            r.AddTile(TileID.Anvils);
+            r.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
+            r.AddTile(TileID.AlchemyTable);
             r.Register();
             r.DisableDecraft();
 

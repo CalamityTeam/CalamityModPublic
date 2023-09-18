@@ -24,7 +24,6 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Items.Placeables.Walls;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.NPCs
@@ -128,6 +127,7 @@ namespace CalamityMod.NPCs
             "Outlaw", // <@!918311619480657922> (TheChosenOutlaw#8746)
             "Alfred Rend", // <@!606301806481375255> (Deadsqurp300#0907)
             "Leeman", // <@!281999243168841728> (Tweee#5831)
+            "Mihai", // <@!373941893467209730> (cmihaii.)
         };
         private static readonly string[] MechanicNames =
         {
@@ -324,18 +324,22 @@ namespace CalamityMod.NPCs
         // Annoyingly, because npc.GivenName is a property, it can't be passed as a ref parameter.
         private string ChooseName(ref bool alreadySet, string currentName, int numVanillaNames, string[] patreonNames, string[] globalNames)
         {
-            if (alreadySet || patreonNames is null || patreonNames.Length == 0)
+            if (alreadySet)
             {
                 alreadySet = true;
                 return currentName;
             }
             alreadySet = true;
-            int index = Main.rand.Next(numVanillaNames + patreonNames.Length + globalNames.Length);
-
+            // PatreonNames can be null, so can global names, it short circuits in the next step if so
+            int combinedLength = (patreonNames?.Length ?? 0) + (globalNames?.Length ?? 0);
+            int index = Main.rand.Next(numVanillaNames + combinedLength);
+            
             // If the roll isn't low enough, then a "vanilla name" was picked, meaning we change nothing.
-            if (index >= patreonNames.Length + globalNames.Length)
+            if (index >= combinedLength)
                 return currentName;
 
+            
+            
             // Change the name to be a randomly selected Patreon name if the roll is low enough.
             if (index >= globalNames.Length)
                 return patreonNames[index - globalNames.Length];
@@ -378,22 +382,22 @@ namespace CalamityMod.NPCs
                         switch (npc.townNpcVariationIndex)
                         {
                             case 0:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogLabradorVanillaNames, TownDogLabradorNames, TownDogNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.dogName, npc.GivenName, TownDogLabradorVanillaNames, TownDogLabradorNames, TownDogNames);
                                 break;
                             case 1:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogPitBullVanillaNames, TownDogPitBullNames, TownDogNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.dogName, npc.GivenName, TownDogPitBullVanillaNames, TownDogPitBullNames, TownDogNames);
                                 break;
                             case 2:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogBeagleVanillaNames, TownDogBeagleNames, TownDogNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.dogName, npc.GivenName, TownDogBeagleVanillaNames, TownDogBeagleNames, TownDogNames);
                                 break;
                             case 3:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogCorgiVanillaNames, TownDogCorgiNames, TownDogNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.dogName, npc.GivenName, TownDogCorgiVanillaNames, TownDogCorgiNames, TownDogNames);
                                 break;
                             case 4:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogDalmatianVanillaNames, TownDogDalmatianNames, TownDogNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.dogName, npc.GivenName, TownDogDalmatianVanillaNames, TownDogDalmatianNames, TownDogNames);
                                 break;
                             case 5:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogHuskyVanillaNames, TownDogHuskyNames, TownDogNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.dogName, npc.GivenName, TownDogHuskyVanillaNames, TownDogHuskyNames, TownDogNames);
                                 break;
                             default:
                                 break;
@@ -403,22 +407,22 @@ namespace CalamityMod.NPCs
                         switch (npc.townNpcVariationIndex)
                         {
                             case 0:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnyWhiteVanillaNames, TownBunnyWhiteNames, TownBunnyNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.bunnyName, npc.GivenName, TownBunnyWhiteVanillaNames, TownBunnyWhiteNames, TownBunnyNames);
                                 break;
                             case 1:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnyAngoraVanillaNames, TownBunnyAngoraNames, TownBunnyNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.bunnyName, npc.GivenName, TownBunnyAngoraVanillaNames, TownBunnyAngoraNames, TownBunnyNames);
                                 break;
                             case 2:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnyDutchVanillaNames, TownBunnyDutchNames, TownBunnyNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.bunnyName, npc.GivenName, TownBunnyDutchVanillaNames, TownBunnyDutchNames, TownBunnyNames);
                                 break;
                             case 3:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnyFlemishVanillaNames, TownBunnyFlemishNames, TownBunnyNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.bunnyName, npc.GivenName, TownBunnyFlemishVanillaNames, TownBunnyFlemishNames, TownBunnyNames);
                                 break;
                             case 4:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnyLopVanillaNames, TownBunnyLopNames, TownBunnyNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.bunnyName, npc.GivenName, TownBunnyLopVanillaNames, TownBunnyLopNames, TownBunnyNames);
                                 break;
                             case 5:
-                                npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnySilverVanillaNames, TownBunnySilverNames, TownBunnyNames);
+                                npc.GivenName = ChooseName(ref CalamityWorld.bunnyName, npc.GivenName, TownBunnySilverVanillaNames, TownBunnySilverNames, TownBunnyNames);
                                 break;
                             default:
                                 break;
@@ -530,7 +534,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 // This function doesn't work with Town Pets currently
-                /*case NPCID.TownCat:
+                case NPCID.TownCat:
                     AddNewNames(nameList, TownCatNames);
                     switch (npc.townNpcVariationIndex)
                     {
@@ -607,7 +611,7 @@ namespace CalamityMod.NPCs
                         default:
                             break;
                     }
-                    break;*/
+                    break;
 
                 default:
                     break;
@@ -1012,7 +1016,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.DyeTrader:
                     if (Main.rand.NextBool(5) && permadong != -1)
-                        chat = CalamityUtils.GetText("Vanilla.PainterChat.Archmage").Format(Main.npc[permadong].GivenName);
+                        chat = CalamityUtils.GetText("Vanilla.DyeTraderChat.Archmage").Format(Main.npc[permadong].GivenName);
                     else if (Main.rand.NextBool(5))
                         chat = CalamityUtils.GetTextValue("Vanilla.DyeTraderChat.Normal");
                     break;
@@ -1131,11 +1135,11 @@ namespace CalamityMod.NPCs
                         chat = CalamityUtils.GetText("Vanilla.StylistChat.Hardmode").Format(worldEvil);
                     if (Main.rand.NextBool(15) && fapsol != -1)
                         chat = CalamityUtils.GetText("Vanilla.StylistChat.DrunkPrincess" + (ChildSafety.Disabled ? Main.rand.Next(1, 2 + 1) : 1)).Format(Main.npc[fapsol].GivenName);
-                    if ((Main.rand.NextBool(npc.GivenName == "Amber" ? 10 : 15)) && Main.LocalPlayer.Calamity().pArtifact)
+                    if ((Main.rand.NextBool(npc.GivenName == "Amber" ? 10 : 15)) && Main.LocalPlayer.Calamity().pSoulArtifact)
                     {
                         if (Main.LocalPlayer.Calamity().profanedCrystalBuffs)
                             chat = CalamityUtils.GetTextValue("Vanilla.StylistChat.ProfanedSoulCrystal" + Main.rand.Next(1, 2 + 1));
-                        else if (Main.LocalPlayer.Calamity().donutBabs)
+                        else if (Main.LocalPlayer.Calamity().pSoulGuardians)
                             chat = CalamityUtils.GetTextValue("Vanilla.StylistChat.ProfanedDonuts");
                     }
                     break;

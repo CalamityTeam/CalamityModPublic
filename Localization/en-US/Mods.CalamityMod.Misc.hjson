@@ -19,8 +19,9 @@ RecipeGroup: {
 }
 
 // Status
-WikiStatus1: "[i:Book][c/EE4939:Note: The Fandom wiki is no longer supported by Calamity.] [i:Book]"
-WikiStatus2: "[i:Book][c/EE4939:Check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] [i:Book]"
+WikiStatus1: "[i:Book] [c/EE4939:Note: The Fandom wiki is no longer supported by Calamity.] [i:Book]"
+WikiStatus2: "[i:Book] [c/EE4939:Check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] [i:Book]"
+MusicModReminder: "[i:MusicBoxMartians] [c/71DFF5:Remember to also install the Calamity Music Mod to experience our soundtrack!] [i:MusicBoxMartians]"
 // Recipe Conditions
 Tier1ArsenalRecipeCondition: View an unencrypted schematic from the lab near the Sunken Sea
 Tier2ArsenalRecipeCondition: Decrypt a schematic from the lab in the large planetoid in the sky
@@ -49,12 +50,12 @@ StylishHammerHit: Stylish!
 ThirdSageBlessingText: You have been blessed by the Third Sage!
 ThirdSageBlessingText2: The Third Sage has rescinded its blessing...
 GenericConsumedText: "[c/8A8A8A:You have already consumed this item]"
-BloodOrangeText: You have already consumed a Blood Orange. Eating any more would not be good for you.
-MiracleFruitText: You have already consumed a Miracle Fruit. Having another would make you sick.
-ElderberryText: You have already consumed an Elderberry. It is probably not wise to eat more than one.
-DragonfruitText: You have already consumed a Dragonfruit. Your stomach cannot take any more.
-CometShardText: You have already used a Comet Shard. Using more would make you nauseous.
-EtherealCoreText: You have already used an Ethereal Core. It's best to not use more than you are able to.
-PhantomHeartText: You have already used a Phantom Heart. It's probably good that you can't use another.
+BloodOrangeText: You have already consumed a Blood Orange. Eating any more would make your blood too thick to flow.
+MiracleFruitText: You have already consumed a Miracle Fruit. It would take a miracle to put you back together if you ate another.
+ElderberryText: You have already consumed an Elderberry. Your body would become dust if you ate more than one.
+DragonfruitText: You have already consumed a Dragonfruit. Any more draconic power and you'd be rejected.
+CometShardText: You have already used a Comet Shard. Your neurons would die if you used another.
+EtherealCoreText: You have already used an Ethereal Core. Your brain would escape your head if you dared to use it a second time.
+PhantomHeartText: You have already used a Phantom Heart. The voices are telling you it's a bad idea to use it again.
 SulphurSwitchLeft: The Sulphurous Sea is now on the left side of the world.
 SulphurSwitchRight: The Sulphurous Sea is now on the right side of the world.
