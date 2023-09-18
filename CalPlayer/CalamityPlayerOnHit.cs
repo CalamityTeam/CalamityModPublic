@@ -817,7 +817,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (modProj.stealthStrike && rogueCrownCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
+            if (modProj.stealthStrike && rogueCrownCooldown <= 0 && modProj.stealthStrikeHitCount < 3)
             {
                 bool spawnedFeathers = false;
                 if (nanotech)
@@ -826,7 +826,7 @@ namespace CalamityMod.CalPlayer
                     {
                         Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                         Vector2 velocity = (position - source) / 40f;
-                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(125);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(120);
                         Projectile.NewProjectile(spawnSource, source, velocity, ProjectileType<NanoFlare>(), damage, 3f, proj.owner);
                     }
                 }
@@ -851,7 +851,7 @@ namespace CalamityMod.CalPlayer
                         float speedX = (position.X - source.X) / 30f;
                         float speedY = (position.Y - source.Y) * 8;
                         Vector2 velocity = new Vector2(speedX, speedY);
-                        int featherDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
+                        int featherDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(25);
                         int feather = Projectile.NewProjectile(spawnSource, source, velocity, ProjectileType<StickyFeather>(), featherDamage, 3f, proj.owner);
                         if (feather.WithinBounds(Main.maxProjectiles))
 						{
@@ -864,7 +864,7 @@ namespace CalamityMod.CalPlayer
                 rogueCrownCooldown = spawnedFeathers ? 15 : 60;
             }
 
-            if (forbiddenCirclet && modProj.stealthStrike && forbiddenCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
+            if (forbiddenCirclet && modProj.stealthStrike && forbiddenCooldown <= 0 && modProj.stealthStrikeHitCount < 3)
             {
                 for (int index2 = 0; index2 < 6; index2++)
                 {
@@ -880,7 +880,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (titanHeartSet && modProj.stealthStrike && titanCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
+            if (titanHeartSet && modProj.stealthStrike && titanCooldown <= 0 && modProj.stealthStrikeHitCount < 3)
             {
                 int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(50);
                 Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), damage, proj.knockBack, proj.owner, 1f, 0f);
@@ -896,7 +896,7 @@ namespace CalamityMod.CalPlayer
                 titanCooldown = 15;
             }
 
-            if (corrosiveSpine && modProj.stealthStrikeHitCount < 5)
+            if (corrosiveSpine && modProj.stealthStrikeHitCount < 3)
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -928,7 +928,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (shadow && shadowPotCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
+            if (shadow && shadowPotCooldown <= 0 && modProj.stealthStrikeHitCount < 3)
             {
 				int randrot = Main.rand.Next(-30, 391);
 				Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
