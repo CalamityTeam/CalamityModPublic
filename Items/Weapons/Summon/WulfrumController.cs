@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
     public class WulfrumController : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
+
         public override void SetDefaults()
         {
             Item.damage = 16;
@@ -67,6 +68,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void ResetEffects()
         {
         }
+
         public override void UpdateDead()
         {
             buffingDrones = 0;
@@ -76,7 +78,10 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (buffingDrones > 0)
             {
-                Player.lifeRegen += (int)(buffingDrones * 3);
+                // 1 life regen per drone.
+                Player.lifeRegen += (int)(buffingDrones);
+
+                // 3 defense per drone.
                 Player.statDefense += buffingDrones * 3;
 
                 buffingDrones = 0;
