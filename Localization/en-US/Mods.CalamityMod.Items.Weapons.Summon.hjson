@@ -800,3 +800,8 @@ YharonsKindleStaff: {
 		Requires 5 minion slots to use
 		'''
 }
+
+MutatedTruffle: {
+	DisplayName: Mutated Truffle
+	Tooltip: ""
+}

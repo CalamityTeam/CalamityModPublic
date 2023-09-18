@@ -987,7 +987,7 @@ namespace CalamityMod.CalPlayer
         public bool voidAura = false;
         public bool voidAuraDamage = false;
         public bool voidConcentrationAura = false;
-        public bool youngDuke = false;
+        public bool MutatedTruffleBool = false;
         public bool virili = false;
         public bool frostBlossom = false;
         public bool cinderBlossom = false;
@@ -1976,7 +1976,7 @@ namespace CalamityMod.CalPlayer
             cSpirit = false;
             rOrb = false;
             dCrystal = false;
-            youngDuke = false;
+            MutatedTruffleBool = false;
             sandWaifu = false;
             sandWaifuVanity = false;
             sandBoobWaifu = false;

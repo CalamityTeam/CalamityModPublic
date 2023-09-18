@@ -301,7 +301,10 @@ WulfrumDroid.DisplayName: Wulfrum Droid
 WulfrumEnergyBurst.DisplayName: Wulfrum Bolt
 WulfrumFusionBolt.DisplayName: Fusion Bolt
 YharonMinionFireball.DisplayName: Dragon Fireball
-YoungDuke.DisplayName: Young Old Duke
+MutatedTruffleSummon.DisplayName: Mini Old Duke
+MutatedTruffleVortex.DisplayName: Mini Old Duke's Vortex
+MutatedTruffleToothball.DisplayName: Mini Old Duke's Toothball
+MutatedTruffleToothballSpike.DisplayName: Mini Old Duke's Toothball Spike
 IceClasperSummonProjectile.DisplayName: Ice Shard
 AtzirisDisfavor.DisplayName: Atziri's Disfavor
 Starforge.DisplayName: Starforge

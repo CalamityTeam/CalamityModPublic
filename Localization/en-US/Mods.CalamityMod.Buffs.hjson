@@ -1276,7 +1276,7 @@ MiniatureEyeofCthulhu: {
 	Description: It's watching you
 }
 
-MiniOldDukeBuff: {
+MutatedTruffleBuff: {
 	DisplayName: Mini Old Duke
 	Description: The young duke will protect you
 }

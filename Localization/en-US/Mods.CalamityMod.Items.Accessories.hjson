@@ -1086,15 +1086,6 @@ MoonstoneCrown: {
 		'''
 }
 
-MutatedTruffle: {
-	DisplayName: Mutated Truffle
-	Tooltip:
-		'''
-		Summons a small Old Duke to fight for you
-		When below 50% life, it moves much faster
-		'''
-}
-
 Nanotech: {
 	DisplayName: Nanotech
 	Tooltip:

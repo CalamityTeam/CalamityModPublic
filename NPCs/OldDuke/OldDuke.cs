@@ -437,6 +437,7 @@ namespace CalamityMod.NPCs.OldDuke
                     ModContent.ItemType<FetidEmesis>(),
                     ModContent.ItemType<SepticSkewer>(),
                     ModContent.ItemType<VitriolicViper>(),
+                    ModContent.ItemType<MutatedTruffle>(),
                     ModContent.ItemType<CadaverousCarrion>(),
                     ModContent.ItemType<ToxicantTwister>()
                 };
@@ -444,8 +445,7 @@ namespace CalamityMod.NPCs.OldDuke
                 normalOnly.Add(ModContent.ItemType<TheOldReaper>(), 10);
 
                 // Equipment
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<MutatedTruffle>()));
-                normalOnly.Add(ModContent.ItemType<OldDukeScales>(), DropHelper.NormalWeaponDropRateFraction);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<OldDukeScales>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<OldDukeMask>(), 7);
