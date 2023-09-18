@@ -127,6 +127,7 @@ namespace CalamityMod.NPCs
             "Outlaw", // <@!918311619480657922> (TheChosenOutlaw#8746)
             "Alfred Rend", // <@!606301806481375255> (Deadsqurp300#0907)
             "Leeman", // <@!281999243168841728> (Tweee#5831)
+            "Mihai", // <@!373941893467209730> (cmihaii.)
         };
         private static readonly string[] MechanicNames =
         {

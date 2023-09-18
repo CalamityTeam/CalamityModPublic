@@ -1,10 +1,11 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Buffs.Summon
 {
-    public class Calamari : ModBuff
+    public class CalamarisLamentBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
@@ -16,11 +17,11 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<CalamariMinion>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<CalamarisLamentMinion>()] > 0)
             {
-                modPlayer.calamari = true;
+                modPlayer.CalamarisLament = true;
             }
-            if (!modPlayer.calamari)
+            if (!modPlayer.CalamarisLament)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;
