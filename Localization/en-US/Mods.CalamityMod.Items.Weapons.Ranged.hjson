@@ -1072,7 +1072,14 @@ SpectralstormCannon: {
 
 SpeedBlaster: {
 	DisplayName: Speed Blaster
-	Tooltip: Shoots a string of paint blasts
+	Tooltip:
+		'''
+		Fires gravity affected paint shots
+Right click while holding down the movement keys to dash omnidirectionally and fire a powerful straight shot
+After right clicking your shots have increased velocity for a while
+Right clicks only work while your shots aren't velocity boosted
+		'''
+
 }
 
 Spyker: {

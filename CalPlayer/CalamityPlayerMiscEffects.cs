@@ -43,6 +43,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
@@ -1178,6 +1179,8 @@ namespace CalamityMod.CalPlayer
                 phantomicBulwarkCooldown--;
             if (KameiBladeUseDelay > 0)
                 KameiBladeUseDelay--;
+            if (SpeedBlasterDashDelayCooldown > 0)
+                SpeedBlasterDashDelayCooldown--;
             if (galileoCooldown > 0)
                 galileoCooldown--;
             if (dragonRageCooldown > 0)

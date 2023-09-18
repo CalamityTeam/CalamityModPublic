@@ -78,6 +78,7 @@ namespace CalamityMod.CalPlayer
         public bool killSpikyBalls = false;
         public float KameiTrailXScale = 0.1f;
         public int KameiBladeUseDelay = 0;
+        public int SpeedBlasterDashDelayCooldown = 0;
         public Vector2[] OldPositions = new Vector2[4];
         public double contactDamageReduction = 0D;
         public double projectileDamageReduction = 0D;
@@ -174,6 +175,9 @@ namespace CalamityMod.CalPlayer
 
         #region Timer and Counter
         public int gaelSwipes = 0;
+        public float ColorValue = 0; //used for Speed Blaster's colors
+        public bool sBlasterDashActivated = false;
+        public int SpeedBlasterDashVisual = 1;
         public int Holyhammer = 0;
         public int PHAThammer = 0;
         public int StellarHammer = 0;
@@ -693,6 +697,7 @@ namespace CalamityMod.CalPlayer
         public bool godSlayerRanged = false;
         public bool godSlayerThrowing = false;
         public bool godSlayerDashHotKeyPressed = false;
+        public bool SpeedBlasterDashStarted = false;
         public bool ataxiaBolt = false;
         public bool ataxiaFire = false;
         public bool ataxiaVolley = false;
@@ -2396,6 +2401,7 @@ namespace CalamityMod.CalPlayer
             godSlayerRanged = false;
             godSlayerThrowing = false;
             godSlayerDashHotKeyPressed = false;
+            SpeedBlasterDashStarted = false;
             auricBoost = false;
             silvaSet = false;
             silvaMage = false;
@@ -2931,6 +2937,21 @@ namespace CalamityMod.CalPlayer
                 {
                     godSlayerDashHotKeyPressed = true;
                 }
+            }
+
+            //Right click dash on Speed Blaster
+            if (sBlasterDashActivated == true)
+            {
+                if ((Player.controlUp || Player.controlDown || Player.controlLeft || Player.controlRight) && !Player.pulley && Player.grappling[0] == -1 && !Player.tongued && !Player.mount.Active && SpeedBlasterDashDelayCooldown == 300 && Player.dashDelay == 0)
+                {
+                    SpeedBlasterDashStarted = true;
+                }
+            }
+
+            if (Player.Calamity().SpeedBlasterDashStarted || (Player.dashDelay != 0 && Player.Calamity().LastUsedDashID == SpeedBlasterDash.ID))
+            {
+                Player.Calamity().DeferredDashID = SpeedBlasterDash.ID;
+                Player.dash = 0;
             }
 
             // Trigger for pressing the Rage hotkey.
@@ -4157,6 +4178,18 @@ namespace CalamityMod.CalPlayer
 
             // Disable vanilla dashes during god slayer dash
             if (godSlayerDashHotKeyPressed)
+            {
+                // Set the player to have no registered vanilla dashes.
+                Player.dashType = 0;
+
+                // Prevent the possibility of Shield of Cthulhu invulnerability exploits.
+                Player.eocHit = -1;
+                if (Player.eocDash != 0)
+                    Player.eocDash = 0;
+            }
+
+            // Disable vanilla dashes during god slayer dash
+            if (SpeedBlasterDashStarted)
             {
                 // Set the player to have no registered vanilla dashes.
                 Player.dashType = 0;
