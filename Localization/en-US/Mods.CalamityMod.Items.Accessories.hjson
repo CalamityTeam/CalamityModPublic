@@ -716,10 +716,9 @@ FlameLickedShell: {
 	DisplayName: Flame-Licked Shell
 	Tooltip:
 		'''
-		35% decreased movement speed
-		Enemies take damage when they hit you
-		You move faster and lose 18 defense for 3 seconds if you take damage
-		Grants immunity to lava and Armor Crunch
+		25% decreased dash velocity
+		Your dashes are empowered by fire, shredding enemies near you with violent explosions
+		Grants immunity to lava
 		'''
 }
 
@@ -989,10 +988,9 @@ LeviathanAmbergris: {
 	DisplayName: Leviathan Ambergris
 	Tooltip:
 		'''
-		You leave behind poisonous seawater as you move
-		30% increased movement speed, 10% increase to all damage and plus 10 defense while submerged in liquid
-		If you are damaged while submerged in liquid you will gain a damaging aura for a short time
-		Being outside of liquid increases all damage by 5% and increases damage reduction by 5%
+		15% increased dash velocity
+		You gain 5% damage reduction while dashing
+		Your dashes are empowered by water, knocking back and damaging nearby enemies with viscous currents
 		'''
 }
 

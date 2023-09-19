@@ -14,6 +14,7 @@ namespace CalamityMod.CalPlayer
     public partial class CalamityPlayer : ModPlayer
     {
         public int VerticalGodslayerDashTimer;
+        public int VerticalSpeedBlasterDashTimer;
 
         private string dashID; //private backing variable
 
@@ -100,6 +101,13 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            if (Player.dashDelay > 0) //Speed Blaster
+            {
+                VerticalSpeedBlasterDashTimer = 0;
+                LastUsedDashID = string.Empty;
+                return;
+            }
+
             if (Player.dashDelay > 0)
             {
                 VerticalGodslayerDashTimer = 0;
@@ -128,6 +136,17 @@ namespace CalamityMod.CalPlayer
                 {
                     VerticalGodslayerDashTimer++;
                     if (VerticalGodslayerDashTimer >= 25)
+                    {
+                        Player.dashDelay = dashDelayToApply;
+                        // Stop the player from going flying
+                        Player.velocity *= 0.2f;
+                    }
+                }
+
+                if (UsedDash.IsOmnidirectional && VerticalSpeedBlasterDashTimer < 25)
+                {
+                    VerticalSpeedBlasterDashTimer++;
+                    if (VerticalSpeedBlasterDashTimer >= 25)
                     {
                         Player.dashDelay = dashDelayToApply;
                         // Stop the player from going flying

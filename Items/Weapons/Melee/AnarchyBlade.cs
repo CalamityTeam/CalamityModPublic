@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), Item.damage, Item.knockBack, Main.myPlayer);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
 
-            if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.NextBool(5))
+            if (player.statLife <= (player.statLifeMax2 * 0.5f) && Main.rand.NextBool(5))
             {
                 if (!CalamityPlayer.areThereAnyDamnBosses && CalamityGlobalNPC.ShouldAffectNPC(target))
                 {
