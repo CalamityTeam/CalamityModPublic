@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 5;
             Projectile.extraUpdates = 3;
             Projectile.timeLeft = 95;
             Projectile.usesIDStaticNPCImmunity = true;
