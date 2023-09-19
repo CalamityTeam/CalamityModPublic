@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
-            Item.defense = 36;
+            Item.defense = 18;
             Item.width = 36;
             Item.height = 42;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
@@ -24,13 +24,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.flameLickedShell = true;
-            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
             player.lavaImmune = true;
-            float moveSpeedDecrease = modPlayer.shellBoost ? 0.15f : 0.35f;
-            player.moveSpeed -= moveSpeedDecrease;
-            player.thorns += 0.25f;
-            if (modPlayer.shellBoost)
-                player.statDefense -= 18;
         }
     }
 }

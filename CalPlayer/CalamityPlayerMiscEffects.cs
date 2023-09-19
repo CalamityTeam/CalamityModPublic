@@ -236,6 +236,7 @@ namespace CalamityMod.CalPlayer
                     if (!HasIncreasedDashFirstFrame)
                     {
                         Player.velocity.X *= 1.15f;
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 75, 20f, Player.whoAmI);
                         HasIncreasedDashFirstFrame = true;
                     }
                     float numberOfDusts = 10f;
@@ -261,11 +262,50 @@ namespace CalamityMod.CalPlayer
                         SparkParticle spark2 = new SparkParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.DodgerBlue);
                         GeneralParticleHandler.SpawnParticle(spark2);
                     }
-                    if (Player.miscCounter % 2 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
-                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 75, 20f, Player.whoAmI);
+                    if (Player.miscCounter % 4 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 115, 0f, Player.whoAmI);
                 }
                 else
                     HasIncreasedDashFirstFrame = false;
+            }
+
+            if (flameLickedShell)
+            {
+                if (Player.dashDelay == -1)// TODO: prevent working with special dashes, this was inconsitent with my old solution so I didn't keep it. not huge deal)
+                {
+                    if (!HasReducedDashFirstFrame)
+                    {
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { Volume = 0.4f , PitchVariance = 0.4f }, Player.Center);
+                        Player.velocity.X *= 0.75f; //25% reduced dash velocity
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<FlameLickedShellBurst>(), 67, 16f, Player.whoAmI);
+                        HasReducedDashFirstFrame = true;
+                    }
+                    float numberOfDusts = 10f;
+                    float rotFactor = 180f / numberOfDusts;
+                    for (int i = 0; i < numberOfDusts; i++)
+                    {
+                        float rot = MathHelper.ToRadians(i * rotFactor);
+                        Vector2 offset = new Vector2(Player.velocity.X * Player.direction * 0.7f + 8f, 0).RotatedBy(rot * Main.rand.NextFloat(4f, 5f));
+                        Vector2 velOffset = Vector2.Zero;
+                        Dust dust = Dust.NewDustPerfect(Player.Center + offset + Player.velocity, Main.rand.NextBool(2) ? 35 : 127, new Vector2(velOffset.X, velOffset.Y));
+                        dust.noGravity = true;
+                        dust.velocity = velOffset;
+                        dust.alpha = 100;
+                        dust.scale = (Player.velocity.X * Player.direction * 0.08f);
+                    }
+                    float sparkscale = (Player.velocity.X * Player.direction * 0.08f);
+                    Vector2 SparkVelocity1 = Player.velocity.RotatedBy(Player.direction * -3, default) * 0.1f - Player.velocity / 2f;
+                    SparkParticle spark = new SparkParticle(Player.Center + Player.velocity.RotatedBy(2f * Player.direction) * 1.5f, SparkVelocity1, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkOrange : Color.OrangeRed);
+                    GeneralParticleHandler.SpawnParticle(spark);
+                    Vector2 SparkVelocity2 = Player.velocity.RotatedBy(Player.direction * 3, default) * 0.1f - Player.velocity / 2f;
+                    SparkParticle spark2 = new SparkParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkOrange : Color.OrangeRed);
+                    GeneralParticleHandler.SpawnParticle(spark2);
+
+                    if (Player.miscCounter % 5 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<FlameLickedShellBurst>(), 220, 16f, Player.whoAmI);
+                }
+                else
+                    HasReducedDashFirstFrame = false;
             }
 
             if (tortShell)
