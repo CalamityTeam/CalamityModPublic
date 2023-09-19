@@ -33,6 +33,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Main.projFrames[Type] = 4;
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 12000;
+            ProjectileID.Sets.MinionSacrificable[Type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Type] = true;
         }
 
@@ -43,6 +44,7 @@ namespace CalamityMod.Projectiles.Summon
 
             Projectile.width = Projectile.height = 52;
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.minion = true;
             Projectile.tileCollide = false;
@@ -204,8 +206,16 @@ namespace CalamityMod.Projectiles.Summon
 
         public void FollowPlayer()
         {
+            // Teleport to the owner if sufficiently far away.
+            if (!Projectile.WithinRange(Owner.Center, StellarTorusStaff.EnemyDetectionDistance))
+            {
+                Projectile.Center = Owner.Center;
+                Projectile.velocity *= 0.3f;
+                Projectile.netUpdate = true;
+            }
+
             // If the minion starts to get far, force the minion to go to you.
-            if (Projectile.WithinRange(Owner.Center, StellarTorusStaff.EnemyDetectionDistance) && !Projectile.WithinRange(Owner.Center, StellarTorusStaff.EnemyDetectionDistance / 4))
+            else if (!Projectile.WithinRange(Owner.Center, StellarTorusStaff.EnemyDetectionDistance / 3))
             {
                 Projectile.velocity = (Owner.Center - Projectile.Center) / 30f;
                 Projectile.netUpdate = true;
@@ -215,14 +225,6 @@ namespace CalamityMod.Projectiles.Summon
             else if (!Projectile.WithinRange(Owner.Center, StellarTorusStaff.EnemyDetectionDistance / 8))
             {
                 Projectile.velocity = (Projectile.velocity * 37f + Projectile.SafeDirectionTo(Owner.Center) * 17f) / 40f;
-                Projectile.netUpdate = true;
-            }
-
-            // Teleport to the owner if sufficiently far away.
-            if (!Projectile.WithinRange(Owner.Center, StellarTorusStaff.EnemyDetectionDistance))
-            {
-                Projectile.Center = Owner.Center;
-                Projectile.velocity *= 0.3f;
                 Projectile.netUpdate = true;
             }
         }
