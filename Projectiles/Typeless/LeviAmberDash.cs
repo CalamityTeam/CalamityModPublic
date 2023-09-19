@@ -36,8 +36,8 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (!target.boss)
             {
-                target.velocity.Y += -9f;
-                target.velocity.X += 10f * Owner.direction;
+                target.velocity.Y += -3f;
+                target.velocity.X += 5f * Owner.direction;
             }
             target.AddBuff(BuffID.Wet, 300);
             target.AddBuff(ModContent.BuffType<Buffs.DamageOverTime.RiptideDebuff>(), 60);
