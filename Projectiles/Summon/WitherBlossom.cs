@@ -1,69 +1,55 @@
 ﻿using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
-    public class WitherBlossom : ModProjectile, ILocalizedModType
+    public class WitherBlossom : BaseMinionProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Summon";
-        public Player Owner => Main.player[Projectile.owner];
+        public override int AssociatedProjectileTypeID => ModContent.ProjectileType<WitherBlossom>();
+        public override int AssociatedBuffTypeID => ModContent.BuffType<WitherBlossomsBuff>();
+        public override ref bool AssociatedMinionBool => ref ModdedOwner.witherBlossom;
+        public override float MinionSlots => 0.5f;
+
         public ref float OffsetAngle => ref Projectile.ai[0];
         public ref float Time => ref Projectile.ai[1];
+
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Type] = true;
         }
 
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Projectile.width = Projectile.height = 30;
-            Projectile.netImportant = true;
-            Projectile.friendly = true;
-            Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0.5f;
-            Projectile.timeLeft = 90000;
-            Projectile.penetrate = -1;
-            Projectile.tileCollide = false;
-            Projectile.minion = true;
-            Projectile.DamageType = DamageClass.Summon;
         }
 
-        public override void AI()
+        public override void MinionAI()
         {
-            bool isCorrectMinion = Projectile.type == ModContent.ProjectileType<WitherBlossom>();
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<WitherBlossomsBuff>(), 3600);
-            if (isCorrectMinion)
-            {
-                if (player.dead)
-                    modPlayer.witherBlossom = false;
-                if (modPlayer.witherBlossom)
-                    Projectile.timeLeft = 2;
-            }
-
-            Initialize();
+            Projectile.Center = Owner.Center + OffsetAngle.ToRotationVector2() * 150f;
 
             Time++;
-            NPC potentialTarget = Projectile.Center.MinionHoming(950f, Owner);
-            if (Time % 50 == 49 && Main.myPlayer == Projectile.owner && potentialTarget != null)
+            if (Time % 50 == 49 && Main.myPlayer == Projectile.owner && Target != null)
             {
-                Vector2 shootVelocity = Projectile.SafeDirectionTo(potentialTarget.Center).RotatedByRandom(0.25f) * 8f;
-                int bolt = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<WitherBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Main.projectile[bolt].originalDamage = Projectile.originalDamage;
+                Vector2 shootVelocity = Projectile.SafeDirectionTo(Target.Center).RotatedByRandom(0.25f) * 8f;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<WitherBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
-            Projectile.Center = player.Center + OffsetAngle.ToRotationVector2() * 150f;
-            Projectile.rotation += MathHelper.ToRadians(5f);
-            OffsetAngle += MathHelper.ToRadians(4f);
+
+            if (!Main.dedServ)
+            {
+                Projectile.rotation += MathHelper.ToRadians(5f);
+                OffsetAngle += MathHelper.ToRadians(4f);
+            }
         }
 
-        public void Initialize()
+        public override void OnSpawn(IEntitySource source)
         {
-            if (Projectile.localAI[0] == 0f)
+            if (!Main.dedServ)
             {
                 for (int i = 0; i < 36; i++)
                 {
@@ -71,7 +57,6 @@ namespace CalamityMod.Projectiles.Summon
                     dust.noGravity = true;
                     dust.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 7f);
                 }
-                Projectile.localAI[0] += 1f;
             }
         }
 

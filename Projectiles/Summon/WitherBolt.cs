@@ -1,40 +1,39 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class WitherBolt : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 25;
-            ProjectileID.Sets.MinionShot[Projectile.type] = true;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Type] = 25;
+            ProjectileID.Sets.MinionShot[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.scale = 0.8f;
+            Projectile.DamageType = DamageClass.Summon;
+            Projectile.localNPCHitCooldown = -1;
             Projectile.width = Projectile.height = (int)(72 * Projectile.scale);
-            Projectile.friendly = true;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
+            Projectile.scale = 0.8f;
             Projectile.timeLeft = 180;
+            Projectile.penetrate = -1;
+
+            Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = 2;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 15;
-            Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, Color.DarkGreen.ToVector3() * 1.25f);
             float oldSpeed = Projectile.velocity.Length();
 
             NPC potentialTarget = Projectile.Center.MinionHoming(800f, Main.player[Projectile.owner]);
@@ -48,6 +47,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
+            Projectile.timeLeft = 10;
             Projectile.Opacity = MathHelper.Lerp(Projectile.Opacity, 0f, 0.25f);
         }
 
@@ -80,17 +80,6 @@ namespace CalamityMod.Projectiles.Summon
                         plague.color = Color.Olive;
                         plague.noGravity = true;
                     }
-                }
-            }
-
-            if (Main.myPlayer == Projectile.owner)
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2CircularEdge(8f, 8f);
-                    int seeker = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, Main.rand.NextVector2Circular(12f, 12f), ModContent.ProjectileType<PlagueSeeker>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
-                    Main.projectile[seeker].originalDamage = Projectile.originalDamage / 2;
-                    Main.projectile[seeker].DamageType = DamageClass.Summon;
                 }
             }
         }
