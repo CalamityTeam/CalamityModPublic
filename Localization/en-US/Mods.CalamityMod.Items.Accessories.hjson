@@ -989,10 +989,8 @@ LeviathanAmbergris: {
 	DisplayName: Leviathan Ambergris
 	Tooltip:
 		'''
-		You leave behind poisonous seawater as you move
-		30% increased movement speed, 10% increase to all damage and plus 10 defense while submerged in liquid
-		If you are damaged while submerged in liquid you will gain a damaging aura for a short time
-		Being outside of liquid increases all damage by 5% and increases damage reduction by 5%
+		Dash velocity is increased by 15% and you gain 5% damage reduction while dashing
+		Dashing surrounds you with the power of water, knocking back nearby enemies 
 		'''
 }
 

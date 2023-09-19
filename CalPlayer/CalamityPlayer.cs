@@ -478,6 +478,7 @@ namespace CalamityMod.CalPlayer
         public bool hideOfDeus = false;
         public bool dAmulet = false;
         public bool gShell = false;
+        public bool lAmbergris = false;
         public bool tortShell = false;
         public bool absorber = false;
         public bool alwaysHoneyRegen = false;
@@ -554,6 +555,7 @@ namespace CalamityMod.CalPlayer
         public bool crawCarapace = false;
         public bool baroclaw = false;
         public bool HasReducedDashFirstFrame = false;
+        public bool HasIncreasedDashFirstFrame = false;
         public bool voidOfCalamity = false;
         public bool voidOfExtinction = false;
         public bool eArtifact = false;
@@ -1590,6 +1592,7 @@ namespace CalamityMod.CalPlayer
             hideOfDeus = false;
             dAmulet = false;
             gShell = false;
+            lAmbergris = false;
             tortShell = false;
             absorber = false;
             alwaysHoneyRegen = false;
@@ -1642,6 +1645,7 @@ namespace CalamityMod.CalPlayer
             crawCarapace = false;
             baroclaw = false;
             gShell = false;
+            lAmbergris = false;
             tortShell = false;
             voidOfCalamity = false;
             voidOfExtinction = false;

@@ -44,6 +44,7 @@ using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Particles;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
@@ -225,6 +226,46 @@ namespace CalamityMod.CalPlayer
                 }
                 else
                     HasReducedDashFirstFrame = false;
+            }
+
+            if (lAmbergris)
+            {
+                if (Player.dashDelay == -1)// TODO: prevent working with special dashes, this was inconsitent with my old solution so I didn't keep it. not huge deal)
+                {
+                    Player.endurance += 0.05f;
+                    if (!HasIncreasedDashFirstFrame)
+                    {
+                        Player.velocity.X *= 1.15f;
+                        HasIncreasedDashFirstFrame = true;
+                    }
+                    float numberOfDusts = 10f;
+                    float rotFactor = 180f / numberOfDusts;
+                    for (int i = 0; i < numberOfDusts; i++)
+                    {
+                        float rot = MathHelper.ToRadians(i * rotFactor);
+                        Vector2 offset = new Vector2(Player.velocity.X * Player.direction * 0.7f + 6f, 0).RotatedBy(rot * Main.rand.NextFloat(4f, 5f));
+                        Vector2 velOffset = Vector2.Zero;
+                        Dust dust = Dust.NewDustPerfect(Player.Center + offset + Player.velocity, Main.rand.NextBool(2) ? 160 : 307, new Vector2(velOffset.X, velOffset.Y));
+                        dust.noGravity = true;
+                        dust.velocity = velOffset;
+                        dust.alpha = 100;
+                        dust.scale = (Player.velocity.X * Player.direction * 0.08f);
+                    }
+                    if (Player.miscCounter % 4 == 0)
+                    {
+                        float sparkscale = (Player.velocity.X * Player.direction * 0.07f);
+                        Vector2 SparkVelocity1 = Player.velocity.RotatedBy(Player.direction * 2, default) * 0.1f - Player.velocity / 2f;
+                        SparkParticle spark = new SparkParticle(Player.Center + Player.velocity.RotatedBy(2f * Player.direction) * 1.5f, SparkVelocity1, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.DodgerBlue);
+                        GeneralParticleHandler.SpawnParticle(spark);
+                        Vector2 SparkVelocity2 = Player.velocity.RotatedBy(Player.direction * -2, default) * 0.1f - Player.velocity / 2f;
+                        SparkParticle spark2 = new SparkParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.DodgerBlue);
+                        GeneralParticleHandler.SpawnParticle(spark2);
+                    }
+                    if (Player.miscCounter % 2 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 75, 20f, Player.whoAmI);
+                }
+                else
+                    HasIncreasedDashFirstFrame = false;
             }
 
             if (tortShell)
