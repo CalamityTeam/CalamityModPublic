@@ -1260,7 +1260,7 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 6:
-                            Player.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+                            Player.AddBuff(ModContent.BuffType<HolyFlames>(), 200);
                             break;
 
                         case 7:
