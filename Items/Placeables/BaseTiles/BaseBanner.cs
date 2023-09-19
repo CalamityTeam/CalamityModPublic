@@ -1,8 +1,8 @@
 using CalamityMod.Tiles;
 using Terraria;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables
 {
