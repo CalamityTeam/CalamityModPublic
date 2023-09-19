@@ -245,7 +245,7 @@ namespace CalamityMod.Projectiles.Boss
             if (info.Damage <= 0 || TelegraphDelay <= TelegraphTotalTime)
                 return;
 
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
