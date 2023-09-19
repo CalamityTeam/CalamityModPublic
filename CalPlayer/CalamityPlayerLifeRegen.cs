@@ -25,8 +25,8 @@ namespace CalamityMod.CalPlayer
             if (Player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
                 noLifeRegen = true;
 
-            // Universal +50% increase to DoT debuff damage in Death Mode
-            float deathNegativeRegenBonus = 0.5f;
+            // Universal +25% increase to DoT debuff damage in Death Mode
+            float deathNegativeRegenBonus = 0.25f;
             float calamityDebuffMultiplier = 1f + (CalamityWorld.death ? deathNegativeRegenBonus : 0f);
 
             // Cumulative amount of DoT debuff negative life regen from Calamity debuffs (or changes to vanilla debuffs)
@@ -34,7 +34,7 @@ namespace CalamityMod.CalPlayer
 
             #region Damage over Time Debuffs (Negative Life Regen)
 
-            // Vanilla debuffs (+50% damage over time in Death Mode is applied here)
+            // Vanilla debuffs (+25% damage over time in Death Mode is applied here)
             if (CalamityWorld.death)
             {
                 int totalVanillaDoT = 0;
@@ -99,19 +99,19 @@ namespace CalamityMod.CalPlayer
             ApplyDoTDebuff(weakBrimstoneFlames, 7);
             ApplyDoTDebuff(bBlood, 8, purity);
             ApplyDoTDebuff(vaporfied, 8, purity);
-            ApplyDoTDebuff(bFlames, 16, purity);
-            ApplyDoTDebuff(nightwither, 16, purity);
-            ApplyDoTDebuff(hFlames, 16, purity);
-            ApplyDoTDebuff(vHex, 16);
+            ApplyDoTDebuff(bFlames, 30, purity);
+            ApplyDoTDebuff(nightwither, 40, purity);
+            ApplyDoTDebuff(hFlames, 40, purity);
+            ApplyDoTDebuff(vHex, 30);
             ApplyDoTDebuff(cDepth, 18, purity);
-            ApplyDoTDebuff(astralInfection, 20, infectedJewel || purity);
-            ApplyDoTDebuff(pFlames, 20, purity);
+            ApplyDoTDebuff(astralInfection, 24, infectedJewel || purity);
+            ApplyDoTDebuff(pFlames, 30, purity);
             ApplyDoTDebuff(cragsLava, 30);
             ApplyDoTDebuff(shadowflame, 30, purity);
             // Profaned Soul Crystal turns you into Providence, a God, and you take more damage from God Slayer Inferno
-            ApplyDoTDebuff(gsInferno, profanedCrystalBuffs ? 35 : 30);
-            ApplyDoTDebuff(dragonFire, 36);
-            ApplyDoTDebuff(miracleBlight, 40);
+            ApplyDoTDebuff(gsInferno, profanedCrystalBuffs ? 60 : 50);
+            ApplyDoTDebuff(dragonFire, 60);
+            ApplyDoTDebuff(miracleBlight, 80);
             ApplyDoTDebuff(banishingFire, 60);
 
             // Slowly increase the sulphuric water poisoning effect. Once it's high enough, the player starts taking damage over time.

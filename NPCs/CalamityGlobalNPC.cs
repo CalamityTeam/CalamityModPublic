@@ -835,7 +835,7 @@ namespace CalamityMod.NPCs
             // On Fire
             if (npc.onFire)
             {
-                int baseOnFireDoTValue = (int)(8 * vanillaHeatDamageMult);
+                int baseOnFireDoTValue = (int)(12 * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseOnFireDoTValue;
                 if (damage < baseOnFireDoTValue / 4)
                     damage = baseOnFireDoTValue / 4;
@@ -881,7 +881,7 @@ namespace CalamityMod.NPCs
             // Shadowflame
             if (npc.shadowFlame)
             {
-                int baseShadowFlameDoTValue = (int)(30 * vanillaHeatDamageMult);
+                int baseShadowFlameDoTValue = (int)(60 * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseShadowFlameDoTValue;
                 if (damage < baseShadowFlameDoTValue / 4)
                     damage = baseShadowFlameDoTValue / 4;
