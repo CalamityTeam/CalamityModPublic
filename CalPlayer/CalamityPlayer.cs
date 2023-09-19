@@ -78,6 +78,7 @@ namespace CalamityMod.CalPlayer
         public bool killSpikyBalls = false;
         public float KameiTrailXScale = 0.1f;
         public int KameiBladeUseDelay = 0;
+        public int SpeedBlasterDashDelayCooldown = 0;
         public Vector2[] OldPositions = new Vector2[4];
         public double contactDamageReduction = 0D;
         public double projectileDamageReduction = 0D;
@@ -174,6 +175,9 @@ namespace CalamityMod.CalPlayer
 
         #region Timer and Counter
         public int gaelSwipes = 0;
+        public float ColorValue = 0; //used for Speed Blaster's colors
+        public bool sBlasterDashActivated = false;
+        public int SpeedBlasterDashVisual = 1;
         public int Holyhammer = 0;
         public int PHAThammer = 0;
         public int StellarHammer = 0;
@@ -474,6 +478,7 @@ namespace CalamityMod.CalPlayer
         public bool hideOfDeus = false;
         public bool dAmulet = false;
         public bool gShell = false;
+        public bool lAmbergris = false;
         public bool tortShell = false;
         public bool absorber = false;
         public bool alwaysHoneyRegen = false;
@@ -550,6 +555,7 @@ namespace CalamityMod.CalPlayer
         public bool crawCarapace = false;
         public bool baroclaw = false;
         public bool HasReducedDashFirstFrame = false;
+        public bool HasIncreasedDashFirstFrame = false;
         public bool voidOfCalamity = false;
         public bool voidOfExtinction = false;
         public bool eArtifact = false;
@@ -693,6 +699,7 @@ namespace CalamityMod.CalPlayer
         public bool godSlayerRanged = false;
         public bool godSlayerThrowing = false;
         public bool godSlayerDashHotKeyPressed = false;
+        public bool SpeedBlasterDashStarted = false;
         public bool ataxiaBolt = false;
         public bool ataxiaFire = false;
         public bool ataxiaVolley = false;
@@ -931,7 +938,7 @@ namespace CalamityMod.CalPlayer
         public bool herring = false;
         public bool blackhawk = false;
         public bool cosmicViper = false;
-        public bool calamari = false;
+        public bool CalamarisLament = false;
         public bool cEyes = false;
         public bool cSlime = false;
         public bool cSlime2 = false;
@@ -1585,6 +1592,7 @@ namespace CalamityMod.CalPlayer
             hideOfDeus = false;
             dAmulet = false;
             gShell = false;
+            lAmbergris = false;
             tortShell = false;
             absorber = false;
             alwaysHoneyRegen = false;
@@ -1637,6 +1645,7 @@ namespace CalamityMod.CalPlayer
             crawCarapace = false;
             baroclaw = false;
             gShell = false;
+            lAmbergris = false;
             tortShell = false;
             voidOfCalamity = false;
             voidOfExtinction = false;
@@ -1936,7 +1945,7 @@ namespace CalamityMod.CalPlayer
             herring = false;
             blackhawk = false;
             cosmicViper = false;
-            calamari = false;
+            CalamarisLament = false;
             cEyes = false;
             cSlime = false;
             cSlime2 = false;
@@ -2396,6 +2405,7 @@ namespace CalamityMod.CalPlayer
             godSlayerRanged = false;
             godSlayerThrowing = false;
             godSlayerDashHotKeyPressed = false;
+            SpeedBlasterDashStarted = false;
             auricBoost = false;
             silvaSet = false;
             silvaMage = false;
@@ -2931,6 +2941,21 @@ namespace CalamityMod.CalPlayer
                 {
                     godSlayerDashHotKeyPressed = true;
                 }
+            }
+
+            //Right click dash on Speed Blaster
+            if (sBlasterDashActivated == true)
+            {
+                if ((Player.controlUp || Player.controlDown || Player.controlLeft || Player.controlRight) && !Player.pulley && Player.grappling[0] == -1 && !Player.tongued && !Player.mount.Active && SpeedBlasterDashDelayCooldown == 300 && Player.dashDelay == 0)
+                {
+                    SpeedBlasterDashStarted = true;
+                }
+            }
+
+            if (Player.Calamity().SpeedBlasterDashStarted || (Player.dashDelay != 0 && Player.Calamity().LastUsedDashID == SpeedBlasterDash.ID))
+            {
+                Player.Calamity().DeferredDashID = SpeedBlasterDash.ID;
+                Player.dash = 0;
             }
 
             // Trigger for pressing the Rage hotkey.
@@ -3594,6 +3619,7 @@ namespace CalamityMod.CalPlayer
                     (lunicCorpsLegs ? 0.1f : 0f) +
                     (shadowSpeed ? 0.5f : 0f) +
                     (stressPills ? 0.05f : 0f) +
+                    (aeroStone && Player.equippedWings != null && Player.wingTime == 0f ? 0.5f : 0f) +
                     ((abyssalDivingSuit && Player.IsUnderwater()) ? 0.05f : 0f) +
                     (aquaticHeartWaterBuff ? 0.15f : 0f) +
                     ((frostFlare && Player.statLife < (int)(Player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
@@ -4166,6 +4192,18 @@ namespace CalamityMod.CalPlayer
                     Player.eocDash = 0;
             }
 
+            // Disable vanilla dashes during god slayer dash
+            if (SpeedBlasterDashStarted)
+            {
+                // Set the player to have no registered vanilla dashes.
+                Player.dashType = 0;
+
+                // Prevent the possibility of Shield of Cthulhu invulnerability exploits.
+                Player.eocHit = -1;
+                if (Player.eocDash != 0)
+                    Player.eocDash = 0;
+            }
+
             if ((silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (DashID == GodslayerArmorDash.ID && Player.dashDelay < 0))
             {
                 if (Player.lifeRegen < 0)
@@ -4719,6 +4757,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Misc Stuff
+        private static int musicModDisplayDelay = -1;
 
         // Triggers effects that must occur when the player enters the world. This sends a bunch of packets in multiplayer.
         // It also starts the speedrun timer if applicable.
@@ -4736,6 +4775,12 @@ namespace CalamityMod.CalPlayer
             {
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus1");
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus2");
+            }
+
+            // Set a random delay between 12 and 20 seconds. When this delay hits zero, the music mod reminder message displays
+            if (CalamityMod.Instance.musicMod is null && CalamityConfig.Instance.MusicModReminderMessage)
+            {
+                musicModDisplayDelay = Main.rand.Next(CalamityUtils.SecondsToFrames(12), CalamityUtils.SecondsToFrames(20) + 1);
             }
         }
 

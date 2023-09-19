@@ -2015,9 +2015,6 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(SoundID.Item96, Player.Center);
                 }
 
-                if ((flameLickedShell) && !Player.panic)
-                    Player.AddBuff(ModContent.BuffType<ShellBoost>(), 180);
-
                 if (gShell) //5 seconds of no dash reduction and reduced defense
                     giantShellPostHit = 300;
 

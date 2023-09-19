@@ -993,7 +993,7 @@ namespace CalamityMod
         #region Astral Clay
         private static void AddAstralClayRecipes()
         {
-			// Intentionally excluding Red Brick and Red Stucco recipes
+            // Intentionally excluding Red Brick and Red Stucco recipes
 
             // Bowl
             Recipe r = Recipe.Create(ItemID.Bowl);
@@ -1787,8 +1787,8 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Waterleaf, 5);
             r.AddIngredient(ItemID.Blinkroot, 5);
             r.AddIngredient(ItemID.Daybloom, 5);
-            r.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
-            r.AddTile(TileID.Anvils);
+            r.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
+            r.AddTile(TileID.AlchemyTable);
             r.Register();
             r.DisableDecraft();
 

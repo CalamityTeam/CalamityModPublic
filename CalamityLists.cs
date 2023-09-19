@@ -1996,6 +1996,7 @@ namespace CalamityMod
                 ProjectileType<PlantationStaffSporeCloud>(),
                 ProjectileType<PrismaticBeam>(),
                 ProjectileType<RancorLaserbeam>(),
+                ProjectileType<ReaperProjectile>(),
                 ProjectileType<SacrificeProjectile>(),
                 ProjectileType<SnapClamProj>(),
                 ProjectileType<SnapClamStealth>(),

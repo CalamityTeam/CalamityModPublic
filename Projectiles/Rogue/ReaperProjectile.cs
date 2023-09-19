@@ -5,6 +5,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Particles;
+using Terraria.Graphics.Shaders;
+using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.Dusts;
+using Microsoft.CodeAnalysis;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -15,27 +20,27 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 60;
-            Projectile.height = 60;
+            Projectile.width = 100;
+            Projectile.height = 100;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 2;
-            Projectile.timeLeft = Projectile.MaxUpdates * 90;
+            Projectile.timeLeft = Projectile.MaxUpdates * 120;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 18; // can't hit too fast, but can hit many many times
+            Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 9; // can't hit too fast, but can hit many many times
             Projectile.DamageType = RogueDamageClass.Instance;
         }
-
         public override void AI()
         {
+            Projectile.rotation += 0.4f;
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = 8;
@@ -55,20 +60,20 @@ namespace CalamityMod.Projectiles.Rogue
 
                 // Initial homing before landing a hit.
                 else
-                    CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 12f, 14f);
+                    CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 14f, 14f);
             }
 
             // Homing after landing a hit. This homing repeatedly turns on and off.
             else
             {
-                float homingRange = 700f;
+                float homingRange = 1100f; //tbh 700 works for fat targets but then we'll get so many bug reports cuz it doesnt work on dummies
                 bool noHomingThisFrame = false;
                 if (Projectile.ai[0] == 1f)
                 {
                     Projectile.ai[1] += 1f;
-                    if (Projectile.ai[1] > 40f)
+                    if (Projectile.ai[1] > 30f)
                     {
-                        Projectile.ai[1] = 1f;
+                        Projectile.ai[1] = 0f;
                         Projectile.ai[0] = 0f;
                         Projectile.netUpdate = true;
                     }
@@ -81,87 +86,86 @@ namespace CalamityMod.Projectiles.Rogue
 
                 Vector2 homingTarget = Projectile.Center;
                 bool foundTarget = false;
+                Vector2 targetVelocity = new Vector2(0f);
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    NPC nPC2 = Main.npc[i];
-                    if (nPC2.CanBeChasedBy(Projectile, false))
+                    NPC potentialTarget = Main.npc[i];
+                    if (potentialTarget.CanBeChasedBy(Projectile, false) && Projectile.WithinRange(Main.npc[i].Center, homingRange))
                     {
-                        float npcDist = Vector2.Distance(nPC2.Center, Projectile.Center);
                         if (!foundTarget)
                         {
-                            homingRange = npcDist;
-                            homingTarget = nPC2.Center;
+                            homingRange = Vector2.Distance(Projectile.Center, potentialTarget.Center);
+                            homingTarget = potentialTarget.Center;
+                            targetVelocity = potentialTarget.velocity;
                             foundTarget = true;
                             break;
                         }
                     }
                 }
 
+
                 if (foundTarget && Projectile.ai[0] == 0f)
                 {
-                    Vector2 delta = homingTarget - Projectile.Center;
-                    float distance = delta.Length();
-                    delta /= distance;
-
-                    if (distance > 200f)
-                    {
-                        float homingScalar = 11f;
-                        delta *= homingScalar;
-                        Projectile.velocity = (Projectile.velocity * 40f + delta) / 41f;
-                    }
+                    bool perfectAim = Main.rand.NextBool(3);
+                    if (perfectAim)
+                        Projectile.velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, homingTarget, targetVelocity, Main.rand.NextFloat(18f, 20f));
                     else
                     {
-                        float homingScalar = 3.6f;
-                        delta *= -homingScalar; // yes this is intentionally backwards
-                        Projectile.velocity = (Projectile.velocity * 40f + delta) / 41f;
+                        float angularTurnSpeed = 0.35f;
+                        float angleToTargetCoords = Projectile.AngleTo(homingTarget);
+                        Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(angleToTargetCoords, angularTurnSpeed).ToRotationVector2() * Main.rand.NextFloat(18f, 20f);
                     }
                 }
 
                 if (Projectile.ai[1] > 0f)
-                {
-                    Projectile.ai[1] += (float)Main.rand.Next(1, 4);
-                }
-                if (Projectile.ai[1] > 40f)
+                    Projectile.ai[1] += (float)Main.rand.Next(1, 5);
+                if (Projectile.ai[1] > 30f)
                 {
                     Projectile.ai[1] = 0f;
                     Projectile.netUpdate = true;
                 }
+
                 if (Projectile.ai[0] == 0f)
                 {
                     if (Projectile.ai[1] == 0f && foundTarget && homingRange < 500f)
                     {
                         Projectile.ai[1] += 1f;
                         if (Main.myPlayer == Projectile.owner)
-                        {
                             Projectile.ai[0] = 1f;
-                            Vector2 value20 = homingTarget - Projectile.Center;
-                            value20.Normalize();
-                            Projectile.velocity = value20 * 8f;
-                            Projectile.netUpdate = true;
-                        }
                     }
                 }
             }
-            Projectile.rotation += 0.3f;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            if (Projectile.ai[0] == 1)
+            {
+                //Glowing
+                Main.spriteBatch.EnterShaderRegion();
+                GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1.64f, 0.8f, 0.5f)); //Using RGB directly fails, gotta use HSL
+                float opacityFactor = Projectile.ai[1] - 5;
+                if (opacityFactor < 0f)
+                    opacityFactor = 0f;
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(opacityFactor / 40f);
+                GameShaders.Misc["CalamityMod:BasicTint"].Apply();
+                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+                Main.spriteBatch.ExitShaderRegion();
+            }
+            else
+                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
-            //target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
-            //target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
         }
 
@@ -176,7 +180,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num621 = 0; num621 < 5; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -186,10 +190,10 @@ namespace CalamityMod.Projectiles.Rogue
             }
             for (int num623 = 0; num623 < 8; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
         }

@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Vector2 SparkVelocity1 = Projectile.velocity.RotatedBy(-3, default) * 0.1f - Projectile.velocity / 2f;
                 Vector2 SparkPosition1 = Projectile.velocity.RotatedBy(-0.8, default);
-                SparkParticle spark = new SparkParticle(Projectile.Center + SparkPosition1, SparkVelocity1, false, Main.rand.Next(12, 15), Main.rand.NextFloat(0.6f, 0.8f), Color.Plum);
+                SparkParticle spark = new SparkParticle(Projectile.Center + SparkPosition1, SparkVelocity1, false, Main.rand.Next(6, 8), Main.rand.NextFloat(0.6f, 0.8f), Color.Plum);
                 GeneralParticleHandler.SpawnParticle(spark);
 
             }

@@ -268,7 +268,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
 
                             bool scrap = false;
-                            if (probeLaunched && Main.rand.NextBool())
+                            if (probeLaunched)
                             {
                                 scrap = true;
                                 projectileType = ProjectileID.SaucerScrap;

@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
         public Player Owner => Main.player[Projectile.owner];
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
 
-        public const float maxShred = 750; //How much shred you get
+        public const float maxShred = 650; //How much shred you get
 
         public Projectile Wheel;
         public bool Dashing;

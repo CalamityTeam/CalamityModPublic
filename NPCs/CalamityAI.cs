@@ -3699,6 +3699,7 @@ namespace CalamityMod.NPCs
                                 Main.npc[headOneID].Calamity().newAI[0] = 1f;
                                 Main.npc[headOneID].velocity = Vector2.Normalize(player.Center - Main.npc[headOneID].Center) * 16f;
                                 Main.npc[headOneID].timeLeft *= 20;
+                                Main.npc[headOneID].netSpam = 0;
                                 Main.npc[headOneID].netUpdate = true;
 
                                 // On server, immediately send the correct extra AI of this head to clients.
@@ -3721,6 +3722,7 @@ namespace CalamityMod.NPCs
                                 Main.npc[headTwoID].Calamity().newAI[3] = Main.getGoodWorld ? 300f : 600f;
                                 Main.npc[headTwoID].velocity = Vector2.Normalize(player.Center - Main.npc[headTwoID].Center) * 16f;
                                 Main.npc[headTwoID].timeLeft *= 20;
+                                Main.npc[headTwoID].netSpam = 0;
                                 Main.npc[headTwoID].netUpdate = true;
 
                                 // On server, immediately send the correct extra AI of this head to clients.
@@ -3823,7 +3825,12 @@ namespace CalamityMod.NPCs
                     npc.HitEffect(0, 10.0);
                     npc.checkDead();
                     npc.active = false;
+
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
                 }
             }
 
@@ -3972,7 +3979,12 @@ namespace CalamityMod.NPCs
                             if (Main.npc[num957].type == headType || Main.npc[num957].type == bodyType || Main.npc[num957].type == tailType)
                             {
                                 Main.npc[num957].active = false;
+
                                 Main.npc[num957].netUpdate = true;
+
+                                // Prevent netUpdate from being blocked by the spam counter.
+                                if (Main.npc[num957].netSpam >= 10)
+                                    Main.npc[num957].netSpam = 9;
                             }
                         }
                     }
@@ -4166,20 +4178,38 @@ namespace CalamityMod.NPCs
                 if (flag2)
                 {
                     if (npc.localAI[0] != 1f)
+                    {
                         npc.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (npc.netSpam >= 10)
+                            npc.netSpam = 9;
+                    }
 
                     npc.localAI[0] = 1f;
                 }
                 else
                 {
                     if (npc.localAI[0] != 0f)
+                    {
                         npc.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (npc.netSpam >= 10)
+                            npc.netSpam = 9;
+                    }
 
                     npc.localAI[0] = 0f;
                 }
 
                 if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
+                {
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
+                }
 
                 npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
             }

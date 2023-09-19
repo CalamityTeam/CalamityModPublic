@@ -1,15 +1,11 @@
-﻿using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Sounds;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Audio;
-using ReLogic.Utilities;
-using CalamityMod.Items.Accessories;
+﻿using System;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
-using System;
-using System.Runtime.Intrinsics;
+using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -22,7 +18,7 @@ namespace CalamityMod.Projectiles.Ranged
         public SlotId MagnaChargeFirstLoopSlot;
 
         private float CurrentChargingFrames = 0f;
-        public int Fullchargesoundframes = 41;
+        public int Fullchargesoundframes = 42;
 
         private ref float ShotsLoaded => ref Projectile.ai[1]; //arrowsloaded
 
@@ -34,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
         public int SoundSpamFix = 0;
         public bool FirstLoop = true;
         public bool FullCharge = false;
-        public int Aftershot = 30;
+        public int Aftershot = MagnaCannon.AftershotCooldownFrames;
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/MagnaCannon";
 
@@ -51,6 +47,13 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            Player player = Main.player[Projectile.owner];
+            if (player.dead) // destroy the holdout if the player dies
+            {
+                Projectile.Kill();
+                return;
+            }
+
             if (CurrentChargingFrames >= 88)
                 Extradamage = true;
             else
@@ -62,9 +65,16 @@ namespace CalamityMod.Projectiles.Ranged
             // Fire if the owner stops channeling or otherwise cannot use the weapon.
             if (!OwnerCanShoot)
             {
-                if (Aftershot == 30)
+                if (Aftershot == MagnaCannon.AftershotCooldownFrames)
                 {
-                    if (SoundSpamFix >= (FullCharge ? 4 : 6)) //Shoot faster if fully charged
+                    if (SoundEngine.TryGetActiveSound(MagnaChargeSlot, out var MagnaCharge2))
+                        MagnaCharge2.Stop();
+                    if (SoundEngine.TryGetActiveSound(MagnaChargeLoopSlot, out var MagnaChargeLoop2))
+                        MagnaChargeLoop2.Stop();
+                    if (SoundEngine.TryGetActiveSound(MagnaChargeLoopSlot, out var MagnaChargeFirstLoop2))
+                        MagnaChargeFirstLoop2.Stop();
+
+                    if (SoundSpamFix >= (FullCharge ? 4 : 5)) //Shoot faster if fully charged
                         SoundSpamFix = 0;
 
                     if (ShotsLoaded <= 0f)
@@ -99,13 +109,12 @@ namespace CalamityMod.Projectiles.Ranged
                 if (CurrentChargingFrames == 0)
                     CurrentChargingFrames++;
 
-                if (CurrentChargingFrames % 10 == 0)
+                if (CurrentChargingFrames % 9 == 0) //every 9 frames get another shot
                     ShotsLoaded++;
 
-                Player player = Main.player[Projectile.owner];
                 if (CurrentChargingFrames >= 10)
                 {
-                    if (CurrentChargingFrames < 136)
+                    if (CurrentChargingFrames < MagnaCannon.FullChargeFrames)
                     {
                         Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.06f + (CurrentChargingFrames / 180), 0.08f + (CurrentChargingFrames / 180)), Main.rand.NextVector2CircularEdge(2f, 2f) * Main.rand.NextFloat(0.3f * CurrentChargingFrames, 0.3f * CurrentChargingFrames), 0f, Color.White, Color.Aqua, 7, tipPosition);
                         GeneralParticleHandler.SpawnParticle(streak);
@@ -120,16 +129,16 @@ namespace CalamityMod.Projectiles.Ranged
                     MagnaChargeSlot = SoundEngine.PlaySound(MagnaCannon.ChargeStart, Projectile.position);
                 }
                 // Start Charging.
-                if (CurrentChargingFrames < 138)
+                if (CurrentChargingFrames < MagnaCannon.FullChargeFrames + 2)
                 {
                     ++CurrentChargingFrames;
                 }
 
-                if (CurrentChargingFrames >= 136f) //126 frames is durration of charge sound
+                if (CurrentChargingFrames >= MagnaCannon.FullChargeFrames) //128 frames is durration of charge sound
                 {
                     Fullchargesoundframes--;
                     Time++;
-                    if (CurrentChargingFrames == 136f)
+                    if (CurrentChargingFrames == MagnaCannon.FullChargeFrames)
                     {
                         SoundEngine.PlaySound(MagnaCannon.ChargeFull, Projectile.position);
                         ShotsLoaded = 20;
@@ -142,14 +151,14 @@ namespace CalamityMod.Projectiles.Ranged
                             MagnaChargeFirstLoopSlot = MagnaChargeLoopSlot = SoundEngine.PlaySound(MagnaCannon.ChargeLoop, Projectile.position);
                             FirstLoop = false;
                         }
-                        if (Time % 154 == 0)
+                        if (Time % MagnaCannon.ChargeLoopSoundFrames == 0)
                         {
                             MagnaChargeLoopSlot = SoundEngine.PlaySound(MagnaCannon.ChargeLoop, Projectile.position);
                         }
                     }
                 }
 
-                if (CurrentChargingFrames == 136f)
+                if (CurrentChargingFrames == MagnaCannon.FullChargeFrames)
                 {
                     for (int i = 0; i < 36; i++)
                     {
@@ -188,7 +197,7 @@ namespace CalamityMod.Projectiles.Ranged
             player.itemTime = 2;
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * Projectile.direction, Projectile.velocity.X * Projectile.direction);
-            Projectile.position += Main.rand.NextVector2Circular(CurrentChargingFrames / 30f, CurrentChargingFrames / 30f); //rumble features
+            Projectile.position += Main.rand.NextVector2Circular(CurrentChargingFrames / 43f, CurrentChargingFrames / 43f); //rumble features
             
         }
 

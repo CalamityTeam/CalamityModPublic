@@ -988,12 +988,12 @@ WitherDebuff: {
 
 AbandonedSlimeBuff: {
 	DisplayName: Astral Jelly
-	Description: The mini astrageldon slime will protect you
+	Description: Back from the heavens just to protect you!
 }
 
 AncientMineralSharkBuff: {
 	DisplayName: Ancient Mineral Shark
-	Description: Ancient yet so dangerous
+	Description: So ancient yet just as powerful
 }
 
 AquaticStar: {
@@ -1051,7 +1051,7 @@ BrittleStar: {
 	Description: The brittle star will protect you
 }
 
-Calamari: {
+CalamarisLamentBuff: {
 	DisplayName: Calamari
 	Description: The squid will protect you
 }
@@ -1273,7 +1273,7 @@ MidnightSunBuff: {
 
 MiniatureEyeofCthulhu: {
 	DisplayName: Miniature Eye of Cthulhu
-	Description: It's watching you
+	Description: It's giving you the death stare
 }
 
 MiniOldDukeBuff: {

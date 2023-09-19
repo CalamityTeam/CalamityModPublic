@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.moveSpeed += 0.1f;
-            player.jumpSpeedBoost += 0.5f;
+            player.moveSpeed += 0.12f;
+            player.jumpSpeedBoost += 0.6f;
         }
     }
 }

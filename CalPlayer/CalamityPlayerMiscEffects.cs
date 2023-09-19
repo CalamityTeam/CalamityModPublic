@@ -43,6 +43,8 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.Particles;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
@@ -139,6 +141,9 @@ namespace CalamityMod.CalPlayer
             // Potions (Quick Buff && Potion Sickness)
             HandlePotions();
 
+            // Display the Music Mod Reminder text in chat.
+            HandleTextChatMessages();
+
             // Check if schematics are present on the mouse, for the sake of registering their recipes.
             CheckIfMouseItemIsSchematic();
 
@@ -218,6 +223,86 @@ namespace CalamityMod.CalPlayer
                         Player.velocity.X *= 0.9f;
                         HasReducedDashFirstFrame = true;
                     }
+                }
+                else
+                    HasReducedDashFirstFrame = false;
+            }
+
+            if (lAmbergris)
+            {
+                if (Player.dashDelay == -1)// TODO: prevent working with special dashes, this was inconsitent with my old solution so I didn't keep it. not huge deal)
+                {
+                    Player.endurance += 0.05f;
+                    if (!HasIncreasedDashFirstFrame)
+                    {
+                        Player.velocity.X *= 1.15f;
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 75, 20f, Player.whoAmI);
+                        HasIncreasedDashFirstFrame = true;
+                    }
+                    float numberOfDusts = 10f;
+                    float rotFactor = 180f / numberOfDusts;
+                    for (int i = 0; i < numberOfDusts; i++)
+                    {
+                        float rot = MathHelper.ToRadians(i * rotFactor);
+                        Vector2 offset = new Vector2(Player.velocity.X * Player.direction * 0.7f + 6f, 0).RotatedBy(rot * Main.rand.NextFloat(4f, 5f));
+                        Vector2 velOffset = Vector2.Zero;
+                        Dust dust = Dust.NewDustPerfect(Player.Center + offset + Player.velocity, Main.rand.NextBool(2) ? 160 : 307, new Vector2(velOffset.X, velOffset.Y));
+                        dust.noGravity = true;
+                        dust.velocity = velOffset;
+                        dust.alpha = 100;
+                        dust.scale = (Player.velocity.X * Player.direction * 0.08f);
+                    }
+                    if (Player.miscCounter % 4 == 0)
+                    {
+                        float sparkscale = (Player.velocity.X * Player.direction * 0.07f);
+                        Vector2 SparkVelocity1 = Player.velocity.RotatedBy(Player.direction * 2, default) * 0.1f - Player.velocity / 2f;
+                        SparkParticle spark = new SparkParticle(Player.Center + Player.velocity.RotatedBy(2f * Player.direction) * 1.5f, SparkVelocity1, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.DodgerBlue);
+                        GeneralParticleHandler.SpawnParticle(spark);
+                        Vector2 SparkVelocity2 = Player.velocity.RotatedBy(Player.direction * -2, default) * 0.1f - Player.velocity / 2f;
+                        SparkParticle spark2 = new SparkParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.DodgerBlue);
+                        GeneralParticleHandler.SpawnParticle(spark2);
+                    }
+                    if (Player.miscCounter % 4 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 90, 0f, Player.whoAmI);
+                }
+                else
+                    HasIncreasedDashFirstFrame = false;
+            }
+
+            if (flameLickedShell)
+            {
+                if (Player.dashDelay == -1)// TODO: prevent working with special dashes, this was inconsitent with my old solution so I didn't keep it. not huge deal)
+                {
+                    if (!HasReducedDashFirstFrame)
+                    {
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { Volume = 0.4f , PitchVariance = 0.4f }, Player.Center);
+                        Player.velocity.X *= 0.75f; //25% reduced dash velocity
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<FlameLickedShellBurst>(), 67, 16f, Player.whoAmI);
+                        HasReducedDashFirstFrame = true;
+                    }
+                    float numberOfDusts = 10f;
+                    float rotFactor = 180f / numberOfDusts;
+                    for (int i = 0; i < numberOfDusts; i++)
+                    {
+                        float rot = MathHelper.ToRadians(i * rotFactor);
+                        Vector2 offset = new Vector2(Player.velocity.X * Player.direction * 0.7f + 8f, 0).RotatedBy(rot * Main.rand.NextFloat(4f, 5f));
+                        Vector2 velOffset = Vector2.Zero;
+                        Dust dust = Dust.NewDustPerfect(Player.Center + offset + Player.velocity, Main.rand.NextBool(2) ? 35 : 127, new Vector2(velOffset.X, velOffset.Y));
+                        dust.noGravity = true;
+                        dust.velocity = velOffset;
+                        dust.alpha = 100;
+                        dust.scale = (Player.velocity.X * Player.direction * 0.08f);
+                    }
+                    float sparkscale = (Player.velocity.X * Player.direction * 0.08f);
+                    Vector2 SparkVelocity1 = Player.velocity.RotatedBy(Player.direction * -3, default) * 0.1f - Player.velocity / 2f;
+                    SparkParticle spark = new SparkParticle(Player.Center + Player.velocity.RotatedBy(2f * Player.direction) * 1.5f, SparkVelocity1, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkOrange : Color.OrangeRed);
+                    GeneralParticleHandler.SpawnParticle(spark);
+                    Vector2 SparkVelocity2 = Player.velocity.RotatedBy(Player.direction * 3, default) * 0.1f - Player.velocity / 2f;
+                    SparkParticle spark2 = new SparkParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkOrange : Color.OrangeRed);
+                    GeneralParticleHandler.SpawnParticle(spark2);
+
+                    if (Player.miscCounter % 5 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<FlameLickedShellBurst>(), 220, 16f, Player.whoAmI);
                 }
                 else
                     HasReducedDashFirstFrame = false;
@@ -1175,6 +1260,8 @@ namespace CalamityMod.CalPlayer
                 phantomicBulwarkCooldown--;
             if (KameiBladeUseDelay > 0)
                 KameiBladeUseDelay--;
+            if (SpeedBlasterDashDelayCooldown > 0)
+                SpeedBlasterDashDelayCooldown--;
             if (galileoCooldown > 0)
                 galileoCooldown--;
             if (dragonRageCooldown > 0)
@@ -1557,8 +1644,8 @@ namespace CalamityMod.CalPlayer
             // Absorber bonus
             if (absorber)
             {
-                Player.moveSpeed += 0.1f;
-                Player.jumpSpeedBoost += 0.5f;
+                Player.moveSpeed += 0.12f;
+                Player.jumpSpeedBoost += 0.6f;
                 Player.thorns += 3.5f;
             }
 
@@ -2370,6 +2457,11 @@ namespace CalamityMod.CalPlayer
             if (baroclaw)
                 Player.GetDamage<GenericDamageClass>() += 0.1f;
 
+            if (aeroStone)
+            {
+                Player.moveSpeed += (Player.equippedWings != null && Player.wingTime == 0f ? 0.25f : 0f);
+            }
+
             if (gShell)
             {
                 if (giantShellPostHit == 1)
@@ -2413,7 +2505,6 @@ namespace CalamityMod.CalPlayer
             if (eGauntlet)
             {
                 Player.kbGlove = true;
-                Player.magmaStone = true;
                 Player.GetDamage<MeleeDamageClass>() += 0.15f;
                 Player.GetCritChance<MeleeDamageClass>() += 5;
             }
@@ -2572,16 +2663,12 @@ namespace CalamityMod.CalPlayer
                 (ZoneAstral ? 0.05 : 0D) +
                 (harpyRing ? 0.2 : 0D) +
                 (reaverSpeed ? 0.1 : 0D) +
-                (aeroStone ? 0.1 : 0D) +
                 (angelTreads ? 0.1 : 0D) +
                 (blueCandle ? 0.1 : 0D) +
                 (soaring ? 0.1 : 0D) +
                 (prismaticGreaves ? 0.1 : 0D) +
                 (plagueReaper ? 0.05 : 0D) +
                 (Player.empressBrooch ? 0.25 : 0D);
-
-            if (harpyRing)
-                Player.moveSpeed += 0.1f;
 
             if (blueCandle)
                 Player.moveSpeed += 0.1f;
@@ -2778,7 +2865,7 @@ namespace CalamityMod.CalPlayer
 
             if (vexation)
             {
-                if (Player.statLife < (int)(Player.statLifeMax2 * 0.5))
+                if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
                     Player.GetDamage<GenericDamageClass>() += 0.2f;
             }
 
@@ -3952,6 +4039,22 @@ namespace CalamityMod.CalPlayer
             {
                 jumpAgainSulfur = true;
                 jumpAgainStatigel = true;
+            }
+        }
+        #endregion
+
+        #region Text Chat Messages
+        private void HandleTextChatMessages()
+        {
+            if (Player.whoAmI != Main.myPlayer || Main.netMode == NetmodeID.Server)
+                return;
+
+            if (musicModDisplayDelay >= 0)
+            {
+                if (musicModDisplayDelay == 0)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.MusicModReminder");
+
+                --musicModDisplayDelay;
             }
         }
         #endregion
