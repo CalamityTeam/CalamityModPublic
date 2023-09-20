@@ -592,25 +592,25 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ArmorPolish || item.type == ItemID.ArmorBracing)
                 EditTooltipByNum(0, (line) => line.Text += " and Armor Crunch");
 
-            // Nightwither immunity pre-Moon Lord and Holy Flames immunity pre-Profaned Guardians and melee speed removal.
+            // Reduced Nightwither and Holy Flames damage, and melee speed removal.
             if (item.type == ItemID.MoonStone)
             {
-                EditTooltipByNum(2, (line) => line.Text += "\nGrants immunity to Nightwither");
+                EditTooltipByNum(2, (line) => line.Text += "\nReduces the damage of the Nightwither debuff");
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("melee speed, ", ""));
             }
             if (item.type == ItemID.SunStone)
             {
-                EditTooltipByNum(2, (line) => line.Text += "\nGrants immunity to Holy Flames");
+                EditTooltipByNum(2, (line) => line.Text += "\nReduces the damage of the Holy Flames debuff");
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("melee speed, ", ""));
             }
             if (item.type == ItemID.CelestialStone)
             {
-                EditTooltipByNum(2, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
+                EditTooltipByNum(2, (line) => line.Text += "\nReduces the damage of the Nightwither and Holy Flames debuffs");
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace(" melee speed,", ""));
             }
             if (item.type == ItemID.CelestialShell)
             {
-                EditTooltipByNum(4, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
+                EditTooltipByNum(4, (line) => line.Text += "\nReduces the damage of the Nightwither and Holy Flames debuffs");
                 EditTooltipByNum(2, (line) => line.Text = line.Text.Replace(" melee speed,", ""));
             }
 
