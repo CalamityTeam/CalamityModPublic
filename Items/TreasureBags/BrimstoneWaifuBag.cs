@@ -76,7 +76,6 @@ namespace CalamityMod.Items.TreasureBags
             {
                 ModContent.ItemType<RoseStone>(),
                 ModContent.ItemType<Abaddon>(),
-                ModContent.ItemType<Gehenna>()
             }));
             itemLoot.Add(ModContent.ItemType<FlameLickedShell>(), 10);
             itemLoot.AddRevBagAccessories();

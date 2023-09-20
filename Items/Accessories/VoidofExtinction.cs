@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.MoltenSkullRose).
-                AddIngredient<Gehenna>().
                 AddIngredient<Abaddon>().
                 AddIngredient<VoidofCalamity>().
                 AddIngredient<CoreofHavoc>().

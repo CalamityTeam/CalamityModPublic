@@ -565,6 +565,7 @@ namespace CalamityMod.CalPlayer
         public bool giantPearl = false;
         public bool normalityRelocator = false;
         public bool flameLickedShell = false;
+        public bool Pauldron = false;
         public bool manaOverloader = false;
         public bool royalGel = false;
         public bool handWarmer = false;
@@ -1656,6 +1657,7 @@ namespace CalamityMod.CalPlayer
             giantPearl = false;
             normalityRelocator = false;
             flameLickedShell = false;
+            Pauldron = false;
             manaOverloader = false;
             royalGel = false;
             handWarmer = false;

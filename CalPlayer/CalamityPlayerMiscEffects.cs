@@ -236,7 +236,7 @@ namespace CalamityMod.CalPlayer
                     if (!HasIncreasedDashFirstFrame)
                     {
                         Player.velocity.X *= 1.15f;
-                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 75, 20f, Player.whoAmI);
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 75, 20f, Player.whoAmI);
                         HasIncreasedDashFirstFrame = true;
                     }
                     float numberOfDusts = 10f;
@@ -263,21 +263,21 @@ namespace CalamityMod.CalPlayer
                         GeneralParticleHandler.SpawnParticle(spark2);
                     }
                     if (Player.miscCounter % 4 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
-                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 90, 0f, Player.whoAmI);
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 90, 0f, Player.whoAmI);
                 }
                 else
                     HasIncreasedDashFirstFrame = false;
             }
 
-            if (flameLickedShell)
+            if (Pauldron)
             {
                 if (Player.dashDelay == -1)// TODO: prevent working with special dashes, this was inconsitent with my old solution so I didn't keep it. not huge deal)
                 {
-                    if (!HasReducedDashFirstFrame)
+                    Player.endurance += 0.05f;
+                    if (!HasReducedDashFirstFrame) // Dash isn't reduced, this is used to determine the first frame of dashing
                     {
                         SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { Volume = 0.4f , PitchVariance = 0.4f }, Player.Center);
-                        Player.velocity.X *= 0.75f; //25% reduced dash velocity
-                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<FlameLickedShellBurst>(), 67, 16f, Player.whoAmI);
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<PauldronDash>(), 67, 16f, Player.whoAmI);
                         HasReducedDashFirstFrame = true;
                     }
                     float numberOfDusts = 10f;
@@ -302,7 +302,7 @@ namespace CalamityMod.CalPlayer
                     GeneralParticleHandler.SpawnParticle(spark2);
 
                     if (Player.miscCounter % 5 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
-                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<FlameLickedShellBurst>(), 220, 16f, Player.whoAmI);
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<PauldronDash>(), 175, 10f, Player.whoAmI);
                 }
                 else
                     HasReducedDashFirstFrame = false;

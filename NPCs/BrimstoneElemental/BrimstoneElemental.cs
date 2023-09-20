@@ -207,7 +207,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 // Equipment
                 int[] accs = new int[]
                 {
-                    ModContent.ItemType<Gehenna>(),
                     ModContent.ItemType<RoseStone>(),
                     ModContent.ItemType<Abaddon>()
                 };
