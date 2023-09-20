@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     target.AddBuff(BuffID.Poisoned, 240, true);
                     target.AddBuff(BuffID.Venom, 240, true);
                 }
-                target.AddBuff(ModContent.BuffType<Plague>(), 240, true);
+                target.AddBuff(ModContent.BuffType<Plague>(), 120, true);
             }
         }
 

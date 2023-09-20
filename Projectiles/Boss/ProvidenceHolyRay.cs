@@ -221,7 +221,7 @@ namespace CalamityMod.Projectiles.Boss
             if ((info.Damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red) || target.creativeGodMode)
                 return;
 
-            ProvUtils.ApplyHitEffects(target, Projectile.maxPenetrate, 600, 20);
+            ProvUtils.ApplyHitEffects(target, Projectile.maxPenetrate, 400, 20);
         }
 
         public override bool CanHitPlayer(Player target) => Projectile.scale >= 0.5f;

@@ -166,7 +166,7 @@ namespace CalamityMod.NPCs.Crags
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (hurtInfo.Damage > 0)
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 60, true);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

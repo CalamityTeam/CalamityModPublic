@@ -333,7 +333,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (hurtInfo.Damage > 0)
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 80, true);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

@@ -4395,11 +4395,11 @@ namespace CalamityMod.NPCs
                     target.AddBuff(BuffType<Shadowflame>(), 180);
                     break;
                 case NPCID.AncientLight:
-                    target.AddBuff(BuffType<HolyFlames>(), 180);
+                    target.AddBuff(BuffType<HolyFlames>(), 120);
                     break;
 
                 case NPCID.HallowBoss:
-                    target.AddBuff(BuffType<HolyFlames>(), 480);
+                    target.AddBuff(BuffType<HolyFlames>(), 320);
                     break;
 
                 case NPCID.BloodNautilus:

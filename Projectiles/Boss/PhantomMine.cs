@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Projectile.velocity.Length() >= Projectile.ai[0])
             {
-                target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
+                target.AddBuff(ModContent.BuffType<Nightwither>(), 120);
                 target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
             }
         }

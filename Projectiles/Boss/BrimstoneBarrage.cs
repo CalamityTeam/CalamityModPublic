@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[0] == 0f || Main.zenithWorld)
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
             else
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
         }
 
         public override bool PreDraw(ref Color lightColor)

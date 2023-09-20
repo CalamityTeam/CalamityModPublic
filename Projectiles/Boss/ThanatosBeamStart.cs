@@ -242,7 +242,7 @@ namespace CalamityMod.Projectiles.Boss
             if (info.Damage <= 0)
                 return;
 
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }
 
         public override bool CanHitPlayer(Player target) => OwnerIsValid && Projectile.scale >= 0.5f;

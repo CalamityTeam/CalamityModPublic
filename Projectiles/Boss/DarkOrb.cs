@@ -551,7 +551,7 @@ namespace CalamityMod.Projectiles.Boss
             if (info.Damage <= 0)
                 return;
 
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 200);
             //target.AddBuff(ModContent.BuffType<Delirium>(), 300, true);
         }
 

@@ -244,7 +244,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (hurtInfo.Damage > 0)
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
 
             if (puffedUp)
             {

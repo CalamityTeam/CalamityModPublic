@@ -2840,7 +2840,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (hurtInfo.Damage <= 0)
 				return;
 
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 200, true);
             target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 600, true);
 
             if (target.Calamity().dogTextCooldown <= 0)

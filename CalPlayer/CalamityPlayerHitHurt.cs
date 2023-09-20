@@ -1248,7 +1248,7 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 3:
-                            Player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+                            Player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
                             break;
 
                         case 4:
@@ -1256,11 +1256,11 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 5:
-                            Player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 150);
+                            Player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 100);
                             break;
 
                         case 6:
-                            Player.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+                            Player.AddBuff(ModContent.BuffType<HolyFlames>(), 200);
                             break;
 
                         case 7:
@@ -1268,7 +1268,7 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 8:
-                            Player.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
+                            Player.AddBuff(ModContent.BuffType<Dragonfire>(), 150);
                             break;
 
                         case 9:
@@ -1319,27 +1319,27 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (proj.type == ProjectileID.PhantasmalBolt || proj.type == ProjectileID.PhantasmalEye)
                 {
-                    Player.AddBuff(ModContent.BuffType<Nightwither>(), 180);
+                    Player.AddBuff(ModContent.BuffType<Nightwither>(), 120);
                 }
                 else if (proj.type == ProjectileID.PhantasmalSphere)
                 {
-                    Player.AddBuff(ModContent.BuffType<Nightwither>(), 360);
+                    Player.AddBuff(ModContent.BuffType<Nightwither>(), 240);
                 }
                 else if (proj.type == ProjectileID.PhantasmalDeathray)
                 {
-                    Player.AddBuff(ModContent.BuffType<Nightwither>(), 600);
+                    Player.AddBuff(ModContent.BuffType<Nightwither>(), 400);
                 }
                 else if (proj.type == ProjectileID.FairyQueenLance || proj.type == ProjectileID.HallowBossRainbowStreak || proj.type == ProjectileID.HallowBossSplitShotCore)
                 {
-                    Player.AddBuff(Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>(), 180);
+                    Player.AddBuff(Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>(), 120);
                 }
                 else if (proj.type == ProjectileID.HallowBossLastingRainbow)
                 {
-                    Player.AddBuff(Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>(), 240);
+                    Player.AddBuff(Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>(), 160);
                 }
                 else if (proj.type == ProjectileID.FairyQueenSunDance)
                 {
-                    Player.AddBuff(Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>(), 300);
+                    Player.AddBuff(Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>(), 200);
                 }
                 else if (proj.type == ProjectileID.BloodNautilusShot)
                 {

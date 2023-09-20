@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Boss
             if ((info.Damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red) || target.creativeGodMode)
                 return;
 
-            ProvUtils.ApplyHitEffects(target, Projectile.maxPenetrate, 180, 50);
+            ProvUtils.ApplyHitEffects(target, Projectile.maxPenetrate, 120, 50);
         }
     }
 }
