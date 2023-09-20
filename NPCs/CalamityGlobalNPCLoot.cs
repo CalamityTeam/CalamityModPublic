@@ -444,10 +444,12 @@ namespace CalamityMod.NPCs
                 // Red Devil
                 // Fire Feather @ 10% INSTEAD OF 1.33%
                 // Demonic Bone Ash @ 33.33% Normal, 50% Expert+
+                // Abbadon @ 8.33% Normal, 14.29% Expert+
                 // Essence of Chaos @ 50%
                 case NPCID.RedDevil:
                     npcLoot.ChangeDropRate(ItemID.FireFeather, 1, 10);
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DemonicBoneAsh>(), 3, 2));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<Abaddon>(), 12, 7));
                     npcLoot.Add(ModContent.ItemType<EssenceofHavoc>(), 2);
                     break;
                 #endregion

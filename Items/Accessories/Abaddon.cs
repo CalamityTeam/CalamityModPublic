@@ -22,17 +22,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().abaddon = true;
-            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-                AddRecipeGroup("AnyGoldCrown").
-                AddIngredient<UnholyCore>(5).
-                AddIngredient<EssenceofHavoc>(10).
-                AddTile(TileID.MythrilAnvil).
-                Register();
+            player.GetCritChance<GenericDamageClass>() += 10;
         }
     }
 }

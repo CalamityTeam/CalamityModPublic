@@ -737,6 +737,7 @@ namespace CalamityMod.CalPlayer
         public int tailFrame = 0;
         public bool astralStarRain = false;
         public int astralStarRainCooldown = 0;
+        public int AbaddonCooldown = 0;
         public bool plagueReaper = false;
         public bool plaguebringerPatronSet = false;
         public bool plaguebringerCarapace = false;
@@ -2207,6 +2208,7 @@ namespace CalamityMod.CalPlayer
             gSabatonFalling = false;
             gSabatonTempJumpSpeed = 0;
             astralStarRainCooldown = 0;
+            AbaddonCooldown = 0;
             silvaMageCooldown = 0;
             bloodflareMageCooldown = 0;
             tarraRangedCooldown = 0;

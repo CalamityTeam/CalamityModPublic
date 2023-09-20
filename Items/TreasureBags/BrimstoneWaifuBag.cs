@@ -75,7 +75,6 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
             {
                 ModContent.ItemType<RoseStone>(),
-                ModContent.ItemType<Abaddon>(),
             }));
             itemLoot.Add(ModContent.ItemType<FlameLickedShell>(), 10);
             itemLoot.AddRevBagAccessories();

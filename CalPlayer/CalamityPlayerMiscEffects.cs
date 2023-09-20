@@ -951,10 +951,10 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Extra DoT in the lava of the crags. Negated by Abaddon.
+            // Extra DoT in the lava of the crags. Negated by Flame-licked Shell.
             if (Player.lavaWet)
             {
-                if (ZoneCalamity && !abaddon)
+                if (ZoneCalamity && !flameLickedShell)
                     Player.AddBuff(ModContent.BuffType<SearingLava>(), 2, false);
             }
             else
@@ -1276,6 +1276,8 @@ namespace CalamityMod.CalPlayer
                 raiderSoundCooldown--;
             if (astralStarRainCooldown > 0)
                 astralStarRainCooldown--;
+            if (AbaddonCooldown > 0)
+                AbaddonCooldown--;
             if (tarraRangedCooldown > 0)
                 tarraRangedCooldown--;
             if (bloodflareMageCooldown > 0)

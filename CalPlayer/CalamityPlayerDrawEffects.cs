@@ -235,9 +235,9 @@ namespace CalamityMod.CalPlayer
 			}
             if (calamityPlayer.bFlames)
             {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
+                if (Main.rand.NextBool(abaddon ? 6 : 4) && drawInfo.shadow == 0f) //looks weaker if you have Abaddon equipped
                 {
-                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, ModContent.DustType<BrimstoneFlame>(), Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, ModContent.DustType<BrimstoneFlame>(), Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, abaddon ? 1.3f : 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;

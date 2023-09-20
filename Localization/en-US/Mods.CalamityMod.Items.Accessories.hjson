@@ -1,6 +1,11 @@
 Abaddon: {
 	DisplayName: Abaddon
-	Tooltip: Grants immunity to Brimstone Flames and Searing Lava
+	Tooltip:
+		'''
+		10% increased critical strike chance
+		Critical strikes explode, causing nearby enemies to ignite with Brimstone Flames
+		Greatly reduces the damage taken by the Brimstone Flames debuff
+		'''
 }
 
 AbyssalAmulet: {

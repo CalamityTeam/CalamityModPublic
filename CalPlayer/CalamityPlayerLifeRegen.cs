@@ -99,7 +99,7 @@ namespace CalamityMod.CalPlayer
             ApplyDoTDebuff(weakBrimstoneFlames, 7);
             ApplyDoTDebuff(bBlood, 8, purity);
             ApplyDoTDebuff(vaporfied, 8, purity);
-            ApplyDoTDebuff(bFlames, 30, purity);
+            ApplyDoTDebuff(bFlames, abaddon ? 10 : 30, purity);
             ApplyDoTDebuff(nightwither, 40, purity);
             ApplyDoTDebuff(hFlames, 40, purity);
             ApplyDoTDebuff(vHex, 30);
