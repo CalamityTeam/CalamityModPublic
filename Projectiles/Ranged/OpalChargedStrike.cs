@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.width = Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.alpha = 55;
-            Projectile.penetrate = 2;
+            Projectile.penetrate = 3;
             Projectile.timeLeft = 300;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
@@ -58,6 +58,12 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 300);
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            Projectile.damage = (int)(Projectile.damage * 0.80f);
+            if (Projectile.damage < 1)
+                Projectile.damage = 1;
         }
         public override void Kill(int timeLeft)
         {

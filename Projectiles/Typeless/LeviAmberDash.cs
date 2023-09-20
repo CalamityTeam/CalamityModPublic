@@ -14,14 +14,14 @@ namespace CalamityMod.Projectiles.Typeless
         public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public Player Owner => Main.player[Projectile.owner];
-        private static float ExplosionRadius = 75f;
+        private static float ExplosionRadius = 85f;
         public static readonly SoundStyle Slap = new("CalamityMod/Sounds/Custom/WetSlap", 4) { Volume = 0.8f, PitchVariance = 0.3f};
 
         public override void SetDefaults()
         {
             //These shouldn't matter because its circular
-            Projectile.width = 75;
-            Projectile.height = 75;
+            Projectile.width = 85;
+            Projectile.height = 85;
             Projectile.friendly = true;
             Projectile.DamageType = AverageDamageClass.Instance;
             Projectile.ignoreWater = true;

@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 138;
+            Item.damage = 172;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 72;
             Item.height = 38;
@@ -53,7 +53,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Item.noUseGraphic = true;
         }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ArcNovaDiffuserHoldout>()] <= 0;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 shootVelocity = velocity;
