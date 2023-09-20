@@ -98,7 +98,9 @@ CalamarisLament: {
 	Tooltip: "[GFB]"
 	TooltipNormal:
 		'''
-		Summons a squid that viciously inks enemies
+		Summons a miniature squid that viciously inks enemies
+		At long distance, the squid will fire aggressively homing ink volleys
+		At close range, the squid will latch onto enemies and deal increased damage
 		'In the Abyss, all kinds of resources are scarce.
 		Every species is solitary. There simply is not enough to share.'
 		'''
