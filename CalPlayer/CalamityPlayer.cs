@@ -93,6 +93,8 @@ namespace CalamityMod.CalPlayer
         public bool blockAllDashes = false;
         public bool resetHeightandWidth = false;
         public bool noLifeRegen = false;
+        public bool reducedHolyFlamesDamage = false;
+        public bool reducedNightwitherDamage = false;
         public float rangedAmmoCost = 1f;
         public float healingPotBonus = 1f;
         public bool heldGaelsLastFrame = false;
@@ -1699,6 +1701,8 @@ namespace CalamityMod.CalPlayer
             CryoStoneVanity = false;
             voidField = false;
             copyrightInfringementShield = false;
+            reducedHolyFlamesDamage = false;
+            reducedNightwitherDamage = false;
 
             daedalusReflect = false;
             daedalusSplit = false;

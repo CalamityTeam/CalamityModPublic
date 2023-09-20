@@ -1126,15 +1126,15 @@ namespace CalamityMod.Items
                 player.buffImmune[BuffID.OnFire] = true;
             }
 
-            // Nightwither immunity pre-Moon Lord and Holy Flames immunity pre-Profaned Guardians.
+            // Reduced Nightwither and Holy Flames damage.
             if (item.type == ItemID.MoonStone)
-                player.buffImmune[ModContent.BuffType<Nightwither>()] = true;
+                modPlayer.reducedNightwitherDamage = true;
             if (item.type == ItemID.SunStone)
-                player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
+                modPlayer.reducedHolyFlamesDamage = true;
             if (item.type == ItemID.CelestialStone || item.type == ItemID.CelestialShell)
             {
-                player.buffImmune[ModContent.BuffType<Nightwither>()] = true;
-                player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
+                modPlayer.reducedHolyFlamesDamage = true;
+                modPlayer.reducedNightwitherDamage = true;
             }
 
             if (item.type == ItemID.FairyBoots)
