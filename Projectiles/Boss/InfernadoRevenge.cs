@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Boss
             if (info.Damage <= 0)
                 return;
 
-            target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 150);
         }
     }
 }

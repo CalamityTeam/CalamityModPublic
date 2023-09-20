@@ -1268,7 +1268,7 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 8:
-                            Player.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
+                            Player.AddBuff(ModContent.BuffType<Dragonfire>(), 150);
                             break;
 
                         case 9:

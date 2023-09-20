@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[0] == 3f)
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 160);
             else
-                target.AddBuff(ModContent.BuffType<Dragonfire>(), 120);
+                target.AddBuff(ModContent.BuffType<Dragonfire>(), 60);
         }
     }
 }
