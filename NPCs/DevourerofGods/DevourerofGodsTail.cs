@@ -473,7 +473,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             if (hurtInfo.Damage > 0)
             {
-                target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
+                target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, true);
                 target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360, true);
             }
         }

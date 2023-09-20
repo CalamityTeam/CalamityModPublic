@@ -1256,7 +1256,7 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 5:
-                            Player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 150);
+                            Player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 100);
                             break;
 
                         case 6:

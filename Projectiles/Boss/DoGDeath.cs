@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             if (TelegraphDelay > TelegraphTotalTime && Projectile.Opacity == 1f)
-                target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
+                target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 0) * Projectile.Opacity;
