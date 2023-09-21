@@ -1,6 +1,6 @@
-﻿using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 32;
+            Item.damage = 36;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 66;
             Item.height = 26;
@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 return false;
 
             Vector2 vector2;
-            int extraBulletDamage = (int)(damage * 0.7);
+            int extraBulletDamage = (int)(damage * 0.8);
 
             for (int j = 0; j < targetArrayIndex; j++)
             {
@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
                 vector2.Y -= 100 * j;
 
-                Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * Item.shootSpeed;
+                Vector2 velocity2 = CalamityUtils.CalculatePredictiveAimToTarget(vector2, Main.npc[targets[j]], Item.shootSpeed);
 
                 int proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
