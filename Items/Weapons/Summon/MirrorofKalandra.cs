@@ -35,12 +35,10 @@ namespace CalamityMod.Items.Weapons.Summon
         public static int Scimitar_IFrames = 15;
 
         public static int Wind_BowChargeTime = 5; // Therefore, the higher the time, the slower the fire rate will be, and viceversa.
-        public static float Wind_ArrowSpeed = 5f;
-        public static int Wind_ArrowSpeedMult = 10;
+        public static float Wind_ArrowSpeed = 35f;
 
         public static int Vile_BowChargeTime = 8;
-        public static float Vile_ArrowSpeed = 5f;
-        public static int Vile_ArrowSpeedMult = 10;
+        public static float Vile_ArrowSpeed = 35f;
         public static float Vile_SplitDMGMultiplier = .33f;
         public static int Vile_SplitIFrames = 30;
         public static int Vile_SplitSpreadAngle = 8; // In degrees.
