@@ -211,7 +211,6 @@ namespace CalamityMod.Items
                 { ItemID.SpectreStaff, Do(DamageRatio(1.2f)) },
                 { ItemID.SpiritFlame, Do(UseExact(20), ManaExact(11), ShootSpeedExact(2f)) },
                 { ItemID.StaffofEarth, Do(DamageRatio(1.2f)) },
-                { ItemID.StakeLauncher, Do(PointBlank, DamageRatio(2f), UseRatio(1.5f)) },
                 { ItemID.StarCannon, Do(DamageExact(25)) },
                 { ItemID.StardustDragonStaff, Do(AutoReuse, DamageExact(20), UseExact(19)) },
                 { ItemID.StormTigerStaff, Do(AutoReuse, DamageExact(49), UseExact(20)) }, // Desert Tiger Staff
@@ -437,6 +436,7 @@ namespace CalamityMod.Items
                 { ItemID.SilverBow, pointBlank },
                 { ItemID.SniperRifle, pointBlank },
                 { ItemID.SnowballCannon, pointBlank },
+                { ItemID.StakeLauncher, pointBlank },
                 { ItemID.TinBow, pointBlank },
                 { ItemID.TungstenBow, pointBlank },
                 { ItemID.Uzi, pointBlank },
