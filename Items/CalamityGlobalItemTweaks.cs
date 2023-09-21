@@ -234,7 +234,7 @@ namespace CalamityMod.Items
                 { ItemID.Trimarang, Do(DamageExact(24)) },
                 { ItemID.TrueExcalibur, Do(TrueMelee, DamageExact(82)) },
                 { ItemID.TrueNightsEdge, Do(DamageExact(80), ScaleRatio(1.2f)) },
-                { ItemID.Tsunami, Do(PointBlank, DamageRatio(1.25f)) },
+                { ItemID.Tsunami, Do(PointBlank, DamageExact(49)) },
                 { ItemID.TungstenShortsword, Do(AutoReuse, TrueMelee, DamageExact(15)) },
                 { ItemID.UnholyArrow, Do(DamageExact(11)) },
                 { ItemID.UnholyTrident, Do(ManaRatio(0.78f), DamageRatio(1.25f)) },  // Uses ratios due to remix seed
