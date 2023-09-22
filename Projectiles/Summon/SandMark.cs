@@ -18,14 +18,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 14;
-            Projectile.height = 14;
+            Projectile.width = Projectile.height = 14;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 900;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
-            Projectile.minion = true;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 30;
@@ -132,8 +130,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localAI[1] += 1f;
             if (Projectile.localAI[1] == 60f && Projectile.owner == Main.myPlayer)
             {
-                var p = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandTornado>(), Projectile.damage, 2f, Projectile.owner, 0f, 0f);
-                p.originalDamage = Projectile.originalDamage;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandTornado>(), Projectile.damage, 2f, Projectile.owner);
             }
             if (Projectile.localAI[1] >= 120f)
             {

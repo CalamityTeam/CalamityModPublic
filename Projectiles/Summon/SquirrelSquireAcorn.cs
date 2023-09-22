@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = 10;
             Projectile.height = 16;
             Projectile.friendly = true;
-            Projectile.minion = true;
             Projectile.penetrate = 2;
             Projectile.timeLeft = 180;
             Projectile.MaxUpdates = 2;

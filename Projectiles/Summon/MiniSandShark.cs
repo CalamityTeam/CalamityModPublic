@@ -19,7 +19,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = Projectile.height = 32;
 
             Projectile.netImportant = true;
-            Projectile.minion = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.extraUpdates = 1;

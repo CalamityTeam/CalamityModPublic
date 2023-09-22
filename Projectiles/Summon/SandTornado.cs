@@ -18,11 +18,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 10;
-            Projectile.height = 10;
+            Projectile.width = Projectile.height = 10;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
-            Projectile.minion = true;
             Projectile.penetrate = 3;
             Projectile.timeLeft = 1200;
             Projectile.usesLocalNPCImmunity = true;

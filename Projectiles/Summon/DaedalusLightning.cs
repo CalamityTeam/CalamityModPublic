@@ -31,10 +31,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 14;
-            Projectile.height = 14;
+            Projectile.width = Projectile.height = 14;
             Projectile.friendly = true;
-            Projectile.minion = true;
             Projectile.alpha = 255;
             Projectile.penetrate = 2;
             Projectile.ignoreWater = true;

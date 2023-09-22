@@ -137,9 +137,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Vector2 velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, target, 35f);
                     
-                    int laser = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AstralProbeRound>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    if (Main.projectile.IndexInRange(laser))
-                        Main.projectile[laser].originalDamage = Projectile.originalDamage;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AstralProbeRound>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
                     SoundEngine.PlaySound(SoundID.Item12 with { Volume = SoundID.Item12.Volume * 0.5f, PitchVariance = 1f }, Projectile.position);
 

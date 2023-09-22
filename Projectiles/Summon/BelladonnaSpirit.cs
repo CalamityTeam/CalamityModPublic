@@ -164,7 +164,6 @@ namespace CalamityMod.Projectiles.Summon
 
                 if (Main.projectile.IndexInRange(petal))
                 {
-                    Main.projectile[petal].originalDamage = Projectile.originalDamage;
                     Main.projectile[petal].rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
                 }
 

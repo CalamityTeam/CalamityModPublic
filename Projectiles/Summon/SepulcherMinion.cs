@@ -407,9 +407,7 @@ namespace CalamityMod.Projectiles.Summon
                 int segmentToFireFrom = 60 - AttackTimer % 60;
                 Vector2 spawnPosition = Segments[segmentToFireFrom].CurrentPosition;
                 Vector2 shootVelocity = (target.Center - spawnPosition).SafeNormalize(Vector2.UnitY) * 8f;
-                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<BrimstoneDartMinion>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
-                if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Projectile.originalDamage;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<BrimstoneDartMinion>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
             }
 
             if (Main.myPlayer == Projectile.owner && AttackTimer > 430)

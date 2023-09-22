@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetDefaults()
         {
             Projectile.timeLeft = 600;
-            Projectile.penetrate = 1;
 
             Projectile.width = 62;
             Projectile.height = 20;
@@ -36,7 +35,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.minion = true;
         }
 
         public override void AI()

@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.DamageType = DamageClass.Summon;
             Projectile.netImportant = true;
             Projectile.friendly = true;
-            Projectile.minion = true;
             Projectile.tileCollide = false;
         }
 

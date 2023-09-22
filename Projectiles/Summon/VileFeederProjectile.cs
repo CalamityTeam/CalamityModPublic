@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
@@ -11,18 +12,16 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            Main.projFrames[Projectile.type] = 4;
+            Main.projFrames[Type] = 4;
+            ProjectileID.Sets.MinionShot[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 16;
-            Projectile.height = 16;
+            Projectile.width = Projectile.height = 16;
             Projectile.friendly = true;
             Projectile.alpha = 255;
-            Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
-            Projectile.minion = true;
             Projectile.extraUpdates = 3;
             Projectile.DamageType = DamageClass.Summon;
         }

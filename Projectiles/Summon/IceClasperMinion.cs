@@ -174,9 +174,6 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.knockBack, 
                 Projectile.owner);
 
-                if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * AncientIceChunk.ProjectileDMGMultiplier);
-
                 // Flavor recoil effect.
                 Projectile.velocity -= velocity * .1f;
 
