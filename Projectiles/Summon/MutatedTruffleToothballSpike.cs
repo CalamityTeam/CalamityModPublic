@@ -14,6 +14,8 @@ namespace CalamityMod.Projectiles.Summon
         public ref float TimerForHitbox => ref Projectile.ai[1];
         public NPC TargetShot => Main.npc[(int)TargetShotID];
 
+        public const int TimeForHitbox = 15;
+
         public override void SetStaticDefaults() => ProjectileID.Sets.MinionShot[Type] = true;
 
         public override void SetDefaults()
@@ -36,7 +38,7 @@ namespace CalamityMod.Projectiles.Summon
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (TargetShot is not null && TargetShot.active && TimerForHitbox >= 15f)
+            if (TargetShot is not null && TargetShot.active && TimerForHitbox >= TimeForHitbox)
             {
                 float inertia = 25f;
                 Projectile.velocity = (Projectile.velocity * inertia + Projectile.SafeDirectionTo(TargetShot.Center) * Utils.Remap(Projectile.timeLeft, 600f, 540f, MutatedTruffle.ToothballSpikeSpeed - 15f, MutatedTruffle.ToothballSpikeSpeed)) / (inertia + 1f);
@@ -45,6 +47,6 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool? CanDamage() => (TimerForHitbox >= 15f && Projectile.getRect().Intersects(TargetShot.getRect())) ? null : false;
+        public override bool? CanDamage() => (TimerForHitbox >= TimeForHitbox && Projectile.getRect().Intersects(TargetShot.getRect())) ? null : false;
     }
 }
