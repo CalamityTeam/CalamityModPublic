@@ -29,18 +29,16 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 32;
-            Projectile.height = 32;
+            Projectile.width = Projectile.height = 32;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
             Projectile.timeLeft = 420;
             Projectile.Opacity = 0f;
             Projectile.usesLocalNPCImmunity = true;

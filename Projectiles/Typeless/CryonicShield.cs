@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.width = 222;
             Projectile.height = 216;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0f;
             Projectile.timeLeft = 90000;
             Projectile.tileCollide = false;
             Projectile.friendly = true;

@@ -86,9 +86,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         float velocityX = Main.rand.NextFloat(-10f, 10f);
                         float velocityY = Main.rand.NextFloat(-15f, -8f);
-                        int spike = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (Projectile.width / 2), Projectile.oldPosition.Y + (Projectile.height / 2), velocityX, velocityY, ModContent.ProjectileType<SpikecragSpike>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                        if (Main.projectile.IndexInRange(spike))
-                            Main.projectile[spike].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (Projectile.width / 2), Projectile.oldPosition.Y + (Projectile.height / 2), velocityX, velocityY, ModContent.ProjectileType<SpikecragSpike>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
             }

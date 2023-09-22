@@ -58,9 +58,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Time % 50f == 49f && Main.myPlayer == Projectile.owner && potentialTarget != null)
             {
                 Vector2 shootVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 10f;
-                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<MortalityBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Projectile.originalDamage;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<MortalityBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             Projectile.Center = player.Center + OffsetAngle.ToRotationVector2() * (150f + (float)Math.Sin(Time * 0.08f) * 15f);
             Projectile.rotation += MathHelper.ToRadians(7f);

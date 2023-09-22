@@ -42,32 +42,22 @@ namespace CalamityMod.Projectiles.Summon
         internal PrimitiveTrail TrailDrawer;
         internal Color PrimColorMult = Color.White;
 
-
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
-
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 8;
-            Projectile.height = 8;
+            Projectile.width = Projectile.height = 8;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = 1;
-            Projectile.minionSlots = 0f;
-            Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
 
             Projectile.timeLeft = 140;
-            Projectile.extraUpdates = 2;
-
-
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            Projectile.MaxUpdates = 3;
         }
 
         public NPC FindTarget()

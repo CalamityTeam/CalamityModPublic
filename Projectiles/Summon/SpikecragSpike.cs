@@ -16,12 +16,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 6;
-            Projectile.height = 6;
+            Projectile.width = Projectile.height = 6;
             Projectile.friendly = true;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
-            Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.DamageType = DamageClass.Summon;

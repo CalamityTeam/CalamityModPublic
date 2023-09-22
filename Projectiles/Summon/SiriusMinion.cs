@@ -112,9 +112,7 @@ namespace CalamityMod.Projectiles.Summon
 
                     // Shoots the beam.
                     Vector2 velocity = (target.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * 3f;
-                    int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SiriusBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    if (Main.projectile.IndexInRange(beam))
-                        Main.projectile[beam].originalDamage = Projectile.originalDamage;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SiriusBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }

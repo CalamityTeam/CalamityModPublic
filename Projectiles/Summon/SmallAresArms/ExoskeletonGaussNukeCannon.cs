@@ -42,9 +42,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
             int nukeID = ModContent.ProjectileType<MinionGaussNuke>();
             Vector2 laserVelocity = shootDirection * ShootSpeed;
-            int laser = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, laserVelocity, nukeID, (int)(Projectile.damage * AresExoskeleton.NukeDamageFactor), 0f, Projectile.owner);
-            if (Main.projectile.IndexInRange(laser))
-                Main.projectile[laser].originalDamage = (int)(Projectile.originalDamage * AresExoskeleton.NukeDamageFactor);
+            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, laserVelocity, nukeID, (int)(Projectile.damage * AresExoskeleton.NukeDamageFactor), 0f, Projectile.owner);
         }
 
         public override void PostAI()

@@ -51,8 +51,6 @@ namespace CalamityMod.Projectiles.Summon
                         new Vector2(0f, -Main.rand.NextFloat(21f, 30.5f)).RotatedBy(angle),
                         ModContent.ProjectileType<OldDukeSharkVomit>(), Projectile.damage, 5f,
                         Projectile.owner);
-                    if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
             }
             Projectile.velocity.Y += 0.5f;

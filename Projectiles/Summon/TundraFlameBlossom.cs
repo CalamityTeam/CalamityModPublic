@@ -86,8 +86,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             SoundEngine.PlaySound(SoundID.Item20, Owner.Center);
             Vector2 velocity = -Projectile.SafeDirectionTo(Owner.Center) * 10f + Projectile.velocity;
-            int tundraOrb = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TundraFlameBlossomsOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-            Main.projectile[tundraOrb].originalDamage = Projectile.originalDamage;
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TundraFlameBlossomsOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             Projectile.netUpdate = true;
         }
 

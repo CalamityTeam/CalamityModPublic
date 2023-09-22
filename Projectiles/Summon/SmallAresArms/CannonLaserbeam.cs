@@ -39,8 +39,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         {
             Projectile.width = Projectile.height = 38;
             Projectile.friendly = true;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             Projectile.localNPCHitCooldown = 10;

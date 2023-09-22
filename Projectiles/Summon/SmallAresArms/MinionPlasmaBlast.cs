@@ -16,18 +16,15 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Main.projFrames[Type] = 6;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 36;
-            Projectile.height = 36;
+            Projectile.width = Projectile.height = 36;
             Projectile.friendly = true;
-            Projectile.penetrate = 1;
             Projectile.tileCollide = true;
             Projectile.netImportant = true;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
             Projectile.timeLeft = 420;
             Projectile.Opacity = 0f;
             Projectile.DamageType = DamageClass.Summon;
@@ -64,9 +61,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 for (int i = 0; i < 15; i++)
                 {
                     Vector2 plasmaVelocity = Main.rand.NextVector2Circular(5f, 5f);
-                    int gas = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, plasmaVelocity, type, Projectile.damage, 0f, Main.myPlayer);
-                    if (Main.projectile.IndexInRange(gas))
-                        Main.projectile[gas].originalDamage = Projectile.originalDamage;
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, plasmaVelocity, type, Projectile.damage, 0f, Main.myPlayer);
                 }
             }
         }

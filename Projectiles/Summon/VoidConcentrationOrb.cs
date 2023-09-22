@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
@@ -22,12 +23,10 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0f;
             Projectile.timeLeft = 300;
             Projectile.penetrate = 1;
 
             Projectile.tileCollide = false;
-            Projectile.minion = true;
             Projectile.scale = 0.01f;
             Projectile.DamageType = DamageClass.Summon;
         }

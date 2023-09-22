@@ -285,9 +285,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < 3; i++)
                     {
                         Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-0.15f, 0.15f, i / 3f)) * 0.3f;
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<MechwormLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                        if (Main.projectile.IndexInRange(p))
-                            Main.projectile[p].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<MechwormLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
 

@@ -109,9 +109,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (Main.myPlayer == Projectile.owner)
                     {
                         int type = ModContent.ProjectileType<AngelRay>();
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, direction * 0.5f, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        if (Main.projectile.IndexInRange(p))
-                            Main.projectile[p].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, direction * 0.5f, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                     Projectile.ai[0] = 0f;
                     Projectile.netUpdate = true;

@@ -122,12 +122,8 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = targetPos - source;
                     velocity.Normalize();
                     velocity *= shootSpeed;
-                    int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ProjectileID.HeatRay, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    if (beam.WithinBounds(Main.maxProjectiles))
-                    {
-                        Main.projectile[beam].DamageType = DamageClass.Summon;
-                        Main.projectile[beam].originalDamage = Projectile.originalDamage;
-                    }
+                    Projectile beam = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), source, velocity, ProjectileID.HeatRay, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    beam.DamageType = DamageClass.Summon;
                     Projectile.ai[0] = 50f;
                 }
             }

@@ -37,8 +37,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             Projectile.width = Projectile.height = 17;
             Projectile.friendly = true;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             Projectile.localNPCHitCooldown = 15;

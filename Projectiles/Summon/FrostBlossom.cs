@@ -83,9 +83,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Projectile.ai[1]++ % 35f == 34f && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Target.position, Target.width, Target.height))
                     {
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(Target.Center) * 20f, ModContent.ProjectileType<FrostBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        if (Main.projectile.IndexInRange(p))
-                            Main.projectile[p].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(Target.Center) * 20f, ModContent.ProjectileType<FrostBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
             }

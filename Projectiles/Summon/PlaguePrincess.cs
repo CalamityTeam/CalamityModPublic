@@ -337,7 +337,6 @@ namespace CalamityMod.Projectiles.Summon
                             {
                                 if (projType == bigBee)
                                     Main.projectile[bee].frame = 2;
-                                Main.projectile[bee].originalDamage = (int)(Projectile.originalDamage * InfectedRemote.BeeDamageFactor);
                             }
                             Projectile.netUpdate = true;
                         }

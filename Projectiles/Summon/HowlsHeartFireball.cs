@@ -21,10 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.netImportant = true;
-            Projectile.penetrate = 1;
             Projectile.timeLeft = 180;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
             Projectile.DamageType = DamageClass.Summon;
         }
 

@@ -25,14 +25,13 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 12000;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 14;
-            Projectile.height = 14;
+            Projectile.width = Projectile.height = 14;
             Projectile.friendly = true;
-            Projectile.minion = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = TimeLeft;

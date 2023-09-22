@@ -78,9 +78,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 return;
 
             Vector2 fireballVelocity = shootDirection * ShootSpeed;
-            int fireball = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, fireballVelocity, ModContent.ProjectileType<MinionPlasmaBlast>(), (int)(Projectile.damage * AresExoskeleton.PlasmaCannonBlastFactor), 0f, Projectile.owner);
-            if (Main.projectile.IndexInRange(fireball))
-                Main.projectile[fireball].originalDamage = (int)(Projectile.originalDamage * AresExoskeleton.PlasmaCannonBlastFactor);
+            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, fireballVelocity, ModContent.ProjectileType<MinionPlasmaBlast>(), (int)(Projectile.damage * AresExoskeleton.PlasmaCannonBlastFactor), 0f, Projectile.owner);
         }
 
         public override bool PreDraw(ref Color lightColor)

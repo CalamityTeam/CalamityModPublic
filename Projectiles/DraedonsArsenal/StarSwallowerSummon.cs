@@ -231,14 +231,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Projectile.spriteDirection = (potentialTarget.Center.X - Projectile.Center.X > 0).ToDirectionInt();
                     Vector2 fireVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(spawnPosition, potentialTarget.Center, StarSwallowerAcid.Gravity, 14f);
 
-                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition,
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition,
                                              fireVelocity,
                                              ModContent.ProjectileType<StarSwallowerAcid>(),
                                              Projectile.damage,
                                              Projectile.knockBack,
                                              Projectile.owner);
-                    if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                     SoundEngine.PlaySound(SoundID.Item13, spawnPosition);
                 }
                 if (AcidShootTimer > 48)

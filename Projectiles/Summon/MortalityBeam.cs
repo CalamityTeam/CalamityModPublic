@@ -25,9 +25,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.minionSlots = 0f;
-            Projectile.minion = true;
-            Projectile.penetrate = 1;
             Projectile.timeLeft = 180;
             Projectile.DamageType = DamageClass.Summon;
         }
@@ -65,7 +62,6 @@ namespace CalamityMod.Projectiles.Summon
                 float blueHue = Main.rgbToHsl(Color.Blue).X;
                 Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2CircularEdge(10f, 10f);
                 Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), spawnPosition, Main.rand.NextVector2CircularEdge(9f, 9f), ModContent.ProjectileType<MortalityBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                bolt.originalDamage = Projectile.originalDamage;
                 bolt.localAI[0] = Utils.SelectRandom(Main.rand, redHue, greenHue, blueHue);
             }
         }

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
@@ -15,6 +16,8 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         public override float GetScreenshakePower(float pulseCompletionRatio) => 0f;
         public override Color GetCurrentExplosionColor(float pulseCompletionRatio) => Color.Lerp(Color.Yellow * 1.6f, Color.White, MathHelper.Clamp(pulseCompletionRatio * 2.2f, 0f, 1f));
 
+        public override void SetStaticDefaults() => ProjectileID.Sets.MinionShot[Projectile.type] = true;
+
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 2;
@@ -22,8 +25,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.timeLeft = Lifetime;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
             Projectile.DamageType = DamageClass.Summon;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 12;

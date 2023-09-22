@@ -22,10 +22,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            Projectile.width = 218;
-            Projectile.height = 218;
+            Projectile.width = Projectile.height = 218;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0f;
             Projectile.timeLeft = 18000;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
