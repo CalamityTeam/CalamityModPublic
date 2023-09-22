@@ -244,7 +244,7 @@ namespace CalamityMod.Projectiles.Summon
             float drawRotation = Projectile.rotation + (Projectile.spriteDirection == -1 && State != AIState.Idle ? MathHelper.Pi : 0f);
             SpriteEffects effects = (Projectile.spriteDirection == 1) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-            if (CalamityConfig.Instance.Afterimages && State == AIState.Dashing)
+            if (CalamityConfig.Instance.Afterimages && (State == AIState.Dashing || State == AIState.Vortex))
             {
                 for (int i = 0; i < Projectile.oldPos.Length; i++)
                 {

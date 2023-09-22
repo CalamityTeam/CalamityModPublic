@@ -803,5 +803,11 @@ YharonsKindleStaff: {
 
 MutatedTruffle: {
 	DisplayName: Mutated Truffle
-	Tooltip: ""
+	Tooltip:
+		'''
+		Summons a younger fishron to irradiate your foes
+		The fishron will cycle between charging, projectiles, and a typhoon
+		Requires 3 minion slots to be used
+		There can only be one minion
+		'''
 }

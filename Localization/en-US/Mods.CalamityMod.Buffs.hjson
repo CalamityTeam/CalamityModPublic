@@ -1277,8 +1277,8 @@ MiniatureEyeofCthulhu: {
 }
 
 MutatedTruffleBuff: {
-	DisplayName: Mini Old Duke
-	Description: The Mini Old Duke will protect you
+	DisplayName: Baby Boomer
+	Description: The mutated fishron will intoxicate your foes
 }
 
 MiniPlaguebringerBuff: {

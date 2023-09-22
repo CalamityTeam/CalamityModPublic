@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Summon;
-            Projectile.localNPCHitCooldown = 30;
+            Projectile.localNPCHitCooldown = 15;
             Projectile.timeLeft = MutatedTruffle.VortexTimeUntilNextState + TimeFullScale + FadeoutTime;
             Projectile.width = Projectile.height = 408;
             Projectile.penetrate = -1;
