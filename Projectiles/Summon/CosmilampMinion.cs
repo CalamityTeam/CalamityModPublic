@@ -47,8 +47,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 20;
-            Projectile.height = 20;
+            Projectile.width = Projectile.height = 20;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = false;
@@ -86,9 +85,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (Main.myPlayer == Projectile.owner)
                     {
                         Vector2 beamVelocity = Projectile.SafeDirectionTo(potentialTarget.Center).RotatedByRandom(0.32f) * Main.rand.NextFloat(9.4f, 11f);
-                        int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, beamVelocity, ModContent.ProjectileType<CosmilampBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        if (Main.projectile.IndexInRange(beam))
-                            Main.projectile[beam].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, beamVelocity, ModContent.ProjectileType<CosmilampBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
             }

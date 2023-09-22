@@ -358,13 +358,11 @@ namespace CalamityMod.Projectiles.Summon
                             float SpeedY = num15 * num17;
                             int damage = Projectile.damage;
                             int Type = ModContent.ProjectileType<PlateProjectile>();
-                            int index = Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector2.X, vector2.Y, SpeedX * 2f, SpeedY * 2f, Type, damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector2.X, vector2.Y, SpeedX * 2f, SpeedY * 2f, Type, damage, Projectile.knockBack, Projectile.owner);
                             if (SpeedX < 0f)
                                 Projectile.direction = -1;
                             if (SpeedX > 0f)
                                 Projectile.direction = 1;
-                            if (Main.projectile.IndexInRange(index))
-                                Main.projectile[index].originalDamage = Projectile.originalDamage;
                             Projectile.netUpdate = true;
                         }
                     }

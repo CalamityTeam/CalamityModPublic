@@ -16,13 +16,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 10;
-            Projectile.height = 10;
+            Projectile.width = Projectile.height = 10;
             Projectile.friendly = true;
-            Projectile.penetrate = 1;
             Projectile.light = 1f;
             Projectile.timeLeft = 300;
-            Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
         }
 
@@ -35,8 +32,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                var p = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandMark>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                p.originalDamage = Projectile.originalDamage;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandMark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
     }

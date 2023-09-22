@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 150;
+            Item.damage = 200;
             Item.mana = 10;
             Item.width = 40;
             Item.height = 38;
@@ -86,9 +86,7 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 position = Main.MouseWorld - Vector2.UnitY * 1020f;
                 velocity = (Main.MouseWorld - position).SafeNormalize(Vector2.UnitY) * Main.rand.NextFloat(9f, 10f);
-                int p = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, Main.MouseWorld.Y - 40f);
-                if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Item.damage;
+                Projectile.NewProjectile(source, position, velocity, type, Item.damage, knockback, player.whoAmI, Main.MouseWorld.Y - 40f);
             }
             return false;
         }

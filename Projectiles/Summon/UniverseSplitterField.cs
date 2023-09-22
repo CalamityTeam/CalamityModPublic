@@ -28,10 +28,6 @@ namespace CalamityMod.Projectiles.Summon
         public const int TimeLeft = 720;
 
         public const float SmallBeamAngleMax = MathHelper.TwoPi / 15f;
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.MinionShot[Projectile.type] = true;
-        }
 
         public override void SetDefaults()
         {
@@ -135,7 +131,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 offset = new(Main.rand.NextFloat(-800f, 800f), -1460f);
-                    int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                                              Projectile.Center + offset,
                                              -Vector2.Normalize(offset),
                                              ModContent.ProjectileType<UniverseSplitterSmallBeam>(),
@@ -143,14 +139,13 @@ namespace CalamityMod.Projectiles.Summon
                                              Projectile.knockBack,
                                              Projectile.owner,
                                              (-Vector2.Normalize(offset)).ToRotation());
-                    Main.projectile[beam].originalDamage = Projectile.originalDamage;
                 }
             }
             // Summon a giant beam
             if (Timer == TimeLeft - UniverseSplitterHugeBeam.TimeLeft && Main.myPlayer == Projectile.owner)
             {
                 SoundEngine.PlaySound(SoundID.Zombie104, Projectile.Center);
-                int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                                          Projectile.Center + Vector2.UnitY * -UniverseSplitterHugeBeam.MaximumLength / 2f,
                                          Vector2.UnitY,
                                          ModContent.ProjectileType<UniverseSplitterHugeBeam>(),
@@ -158,7 +153,6 @@ namespace CalamityMod.Projectiles.Summon
                                          Projectile.knockBack,
                                          Projectile.owner,
                                          0f);
-                Main.projectile[beam].originalDamage = Projectile.originalDamage;
             }
         }
 

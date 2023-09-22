@@ -73,9 +73,7 @@ namespace CalamityMod.Projectiles.Summon
                         float startOffsetY = Main.rand.NextFloat(15f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
                         Vector2 startPos = new Vector2(Projectile.position.X + startOffsetX, Projectile.position.Y + startOffsetY);
                         Vector2 speed = new Vector2(0f, 0f);
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPos, speed, ModContent.ProjectileType<LanternFlame>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                        if (Main.projectile.IndexInRange(p))
-                            Main.projectile[p].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPos, speed, ModContent.ProjectileType<LanternFlame>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
             }

@@ -20,14 +20,12 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.width = Projectile.height = 4;
 
-            Projectile.minionSlots = 0f;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 220; // Random number to make it go fast.
             Projectile.localNPCHitCooldown = 110; // Random number so it doesn't multi-hit.
             Projectile.timeLeft = 1000; // Random number so it doesn't die too fast.
 
             Projectile.friendly = true;
-            Projectile.minion = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
@@ -52,9 +50,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
             float x4 = Main.rgbToHsl(new Color(103, 203, Main.DiscoB)).X;
-            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SiriusExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, x4, Projectile.whoAmI);
-            if (Main.projectile.IndexInRange(p))
-                Main.projectile[p].originalDamage = Projectile.originalDamage;
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SiriusExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, x4, Projectile.whoAmI);
         }
     }
 }

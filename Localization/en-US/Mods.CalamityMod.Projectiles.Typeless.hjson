@@ -132,3 +132,6 @@ BlazingStarThatDoesNotHeal.DisplayName: Blazing Star That Does Not Heal
 LeviAmberDash.DisplayName: Riptide Slam
 FlameLickedShellBurst.DisplayName: Flame Slam
 FlameLickedShellExplosion.DisplayName: Fire Blast
+PauldronDash.DisplayName: Pauldron Dash
+PauldronExplosion.DisplayName: Pauldron Explosion
+AbaddonCrit.DisplayName: Brimstone Blast

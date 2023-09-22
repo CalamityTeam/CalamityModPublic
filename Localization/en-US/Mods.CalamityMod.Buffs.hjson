@@ -1053,7 +1053,7 @@ BrittleStar: {
 
 CalamarisLamentBuff: {
 	DisplayName: Calamari
-	Description: The squid will protect you
+	Description: Time to transport all of your foes to stupid squid jail!
 }
 
 CausticStaffBuff: {

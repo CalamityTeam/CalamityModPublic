@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = Projectile.height = 160;
             Projectile.friendly = true;
             Projectile.hostile = true;
-            Projectile.minion = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = Main.projFrames[Projectile.type] * 5;
             Projectile.usesLocalNPCImmunity = true;

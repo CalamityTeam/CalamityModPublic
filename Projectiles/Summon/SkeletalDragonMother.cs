@@ -100,9 +100,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Projectile.owner == player.whoAmI && Projectile.spriteDirection == (Projectile.SafeDirectionTo(target.Center).X > 0).ToDirectionInt())
                     {
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 11.5f, ModContent.ProjectileType<BloodBreath>(), Projectile.damage, 0f, Projectile.owner);
-                        if (Main.projectile.IndexInRange(p))
-                            Main.projectile[p].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 11.5f, ModContent.ProjectileType<BloodBreath>(), Projectile.damage, 0f, Projectile.owner);
                     }
                 }
             }

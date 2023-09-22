@@ -22,14 +22,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 12;
-            Projectile.height = 12;
+            Projectile.width = Projectile.height = 12;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 200;
             Projectile.penetrate = 2;
             Projectile.extraUpdates = 1;
-            Projectile.minion = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.alpha = 255;
@@ -77,9 +75,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                int explosion = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneExplosionMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                if (Main.projectile.IndexInRange(explosion))
-                    Main.projectile[explosion].originalDamage = Projectile.originalDamage;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneExplosionMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
 

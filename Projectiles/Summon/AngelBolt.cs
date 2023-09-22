@@ -18,13 +18,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 4;
-            Projectile.height = 4;
+            Projectile.width = Projectile.height = 4;
             Projectile.extraUpdates = 200;
             Projectile.friendly = true;
             Projectile.timeLeft = 45;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Summon;
         }

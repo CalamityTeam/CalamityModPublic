@@ -30,8 +30,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.width = Projectile.height = 30;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
@@ -113,7 +112,6 @@ namespace CalamityMod.Projectiles.Summon
             //Go back, in the shell
             if (player.velocity.Length() > 0 && CanComePeekOut)
             {
-
                 Projectile.frameCounter++;
                 if (Projectile.frameCounter > frameTime)
                 {
@@ -125,7 +123,6 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     PlayerStandStillTimer = 0f;
                 }
-
             }
 
             if (!CanComePeekOut)
@@ -177,10 +174,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         Vector2 source = new Vector2(Projectile.Center.X - 4f, Projectile.Center.Y);
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int spore = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ModContent.ProjectileType<UrchinSpike>(), Projectile.damage, 1f, Projectile.owner, 0f, 0f);
-                        Main.projectile[spore].minion = true;
-                        Main.projectile[spore].minionSlots = 0f;
-                        Main.projectile[spore].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ModContent.ProjectileType<UrchinSpike>(), Projectile.damage, 1f, Projectile.owner);
                     }
 
                     SoundEngine.PlaySound(SoundID.Item42, Projectile.position);

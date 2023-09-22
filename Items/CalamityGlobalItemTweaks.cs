@@ -67,7 +67,7 @@ namespace CalamityMod.Items
                 { ItemID.ChlorophytePartisan, Do(AutoReuse, UseMeleeSpeed, UseRatio(0.8f), DamageExact(70)) },
                 { ItemID.ChlorophyteSaber, Do(UseMeleeSpeed, DamageExact(80), UseExact(10)) },
                 { ItemID.ChlorophyteShotbow, Do(PointBlank, DamageExact(80), UseExact(50)) },
-                { ItemID.ChristmasTreeSword, Do(AutoReuse, UseTurn, UseMeleeSpeed) },
+                { ItemID.ChristmasTreeSword, Do(AutoReuse, UseTurn, UseMeleeSpeed, DamageExact(80), UseExact(30)) },
                 { ItemID.ClingerStaff, Do(DamageExact(118)) },
                 { ItemID.ClockworkAssaultRifle, Do(PointBlank, DamageExact(21)) },
                 { ItemID.CobaltNaginata, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(90)) },
@@ -86,7 +86,7 @@ namespace CalamityMod.Items
                 { ItemID.DarkLance, Do(AutoReuse, TrueMelee, DamageExact(45)) },
                 { ItemID.DartRifle, Do(PointBlank, DamageExact(58)) },
                 { ItemID.DD2BetsyBow, Do(DamageRatio(1.1f)) }, // Aerial Bane's ridiculous multiplier is removed, so this compensates for that
-                { ItemID.DD2SquireBetsySword, Do(UseMeleeSpeed) }, // Flying Dragon
+                { ItemID.DD2SquireBetsySword, Do(UseMeleeSpeed, DamageExact(150)) }, // Flying Dragon
                 { ItemID.DD2SquireDemonSword, Do(DamageExact(110), UseExact(25)) }, // Brand of the Inferno
                 { ItemID.DeathSickle, Do(UseMeleeSpeed, DamageExact(82), ShootSpeedExact(15f)) },
                 { ItemID.DemonBow, Do(PointBlank, DamageExact(12), AutoReuse) },
@@ -129,7 +129,7 @@ namespace CalamityMod.Items
                 { ItemID.IceRod, Do(UseExact(6), DamageExact(30), ShootSpeedExact(20)) },
                 { ItemID.IceSickle, Do(AutoReuse, UseMeleeSpeed, DamageExact(75), ShootSpeedExact(20f)) },
                 { ItemID.InfernoFork, Do(DamageRatio(1.2f)) },
-                { ItemID.InfluxWaver, Do(UseMeleeSpeed, DamageExact(82)) },
+                { ItemID.InfluxWaver, Do(UseMeleeSpeed, DamageExact(80), UseExact(25)) },
                 { ItemID.IronShortsword, Do(AutoReuse, TrueMelee, DamageExact(10)) },
                 { ItemID.JestersArrow, Do(DamageExact(6)) },
                 { ItemID.Keybrand, Do(UseTurn, ScaleRatio(1.5f)) }, // Uses ratios due to remix seed
@@ -177,13 +177,14 @@ namespace CalamityMod.Items
                 { ItemID.PlatinumBow, Do(PointBlank, DamageExact(12)) },
                 { ItemID.PlatinumShortsword, Do(AutoReuse, TrueMelee, DamageExact(18)) },
                 { ItemID.PoisonStaff, Do(DamageExact(57)) },
+                { ItemID.PossessedHatchet, Do(DamageExact(135)) },
                 { ItemID.PsychoKnife, Do(UseTurn, UseExact(11), DamageRatio(3f)) },
                 { ItemID.PurpleClubberfish, Do(UseTurn, ScaleRatio(1.2f), KnockbackExact(10f)) },
                 { ItemID.PurplePhaseblade, Do(AutoReuse, UseTurn, DamageExact(32)) },
                 { ItemID.PurplePhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.RainbowRod, Do(DamageExact(35), ManaExact(15)) },
                 { ItemID.Rally, Do(AutoReuse, DamageExact(18)) },
-                { ItemID.Razorpine, Do(DamageRatio(0.75f)) },
+                { ItemID.Razorpine, Do(DamageExact(40)) },
                 { ItemID.RedPhaseblade, Do(AutoReuse, UseTurn, DamageExact(32)) },
                 { ItemID.RedPhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.RedRyder, Do(PointBlank, DamageExact(24)) },
@@ -196,6 +197,7 @@ namespace CalamityMod.Items
                 { ItemID.ShadowFlameBow, Do(PointBlank, DamageExact(55)) },
                 { ItemID.ShadowFlameHexDoll, Do(DamageExact(40), ShootSpeedExact(30)) },
                 { ItemID.ShadowFlameKnife, Do(DamageExact(70)) },
+                { ItemID.SharpTears, Do(DamageExact(49)) },
                 { ItemID.Shotgun, Do(PointBlank, DamageExact(36), AutoReuse) },
                 { ItemID.Shroomerang, Do(ShootSpeedExact(11)) },
                 { ItemID.SilverBullet, Do(DamageExact(8)) },
@@ -211,7 +213,6 @@ namespace CalamityMod.Items
                 { ItemID.SpectreStaff, Do(DamageRatio(1.2f)) },
                 { ItemID.SpiritFlame, Do(UseExact(20), ManaExact(11), ShootSpeedExact(2f)) },
                 { ItemID.StaffofEarth, Do(DamageRatio(1.2f)) },
-                { ItemID.StakeLauncher, Do(PointBlank, DamageRatio(2f), UseRatio(1.5f)) },
                 { ItemID.StarCannon, Do(DamageExact(25)) },
                 { ItemID.StardustDragonStaff, Do(AutoReuse, DamageExact(20), UseExact(19)) },
                 { ItemID.StormTigerStaff, Do(AutoReuse, DamageExact(49), UseExact(20)) }, // Desert Tiger Staff
@@ -220,6 +221,7 @@ namespace CalamityMod.Items
                 { ItemID.TacticalShotgun, Do(PointBlank, DamageRatio(1.2f)) },
                 { ItemID.TaxCollectorsStickOfDoom, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(70)) },
                 { ItemID.TendonBow, Do(PointBlank, DamageExact(17), AutoReuse) },
+                { ItemID.TerraBlade, Do(DamageExact(122)) },
                 // Vanilla damage 190. After fixing iframes so yoyo and shots can hit simultaneously,
                 // Terrarian is extremely overpowered and requires a heavy nerf.
                 { ItemID.Terrarian, Do(AutoReuse, DamageExact(86)) },
@@ -233,9 +235,9 @@ namespace CalamityMod.Items
                 { ItemID.Toxikarp, Do(UseTimeExact(7), UseAnimationExact(14)) },
                 { ItemID.Trident, Do(AutoReuse, TrueMelee, DamageExact(20)) },
                 { ItemID.Trimarang, Do(DamageExact(24)) },
-                { ItemID.TrueExcalibur, Do(TrueMelee, DamageExact(82)) },
-                { ItemID.TrueNightsEdge, Do(DamageExact(80), ScaleRatio(1.2f)) },
-                { ItemID.Tsunami, Do(PointBlank, DamageRatio(1.25f)) },
+                { ItemID.TrueExcalibur, Do(TrueMelee, DamageExact(107)) },
+                { ItemID.TrueNightsEdge, Do(DamageExact(105), ScaleRatio(1.2f)) },
+                { ItemID.Tsunami, Do(PointBlank, DamageExact(49)) },
                 { ItemID.TungstenShortsword, Do(AutoReuse, TrueMelee, DamageExact(15)) },
                 { ItemID.UnholyArrow, Do(DamageExact(11)) },
                 { ItemID.UnholyTrident, Do(ManaRatio(0.78f), DamageRatio(1.25f)) },  // Uses ratios due to remix seed
@@ -437,6 +439,7 @@ namespace CalamityMod.Items
                 { ItemID.SilverBow, pointBlank },
                 { ItemID.SniperRifle, pointBlank },
                 { ItemID.SnowballCannon, pointBlank },
+                { ItemID.StakeLauncher, pointBlank },
                 { ItemID.TinBow, pointBlank },
                 { ItemID.TungstenBow, pointBlank },
                 { ItemID.Uzi, pointBlank },

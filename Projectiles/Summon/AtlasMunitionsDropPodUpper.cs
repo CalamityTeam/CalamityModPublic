@@ -24,11 +24,9 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.height = 80;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0f;
             Projectile.timeLeft = 240;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
         }
 

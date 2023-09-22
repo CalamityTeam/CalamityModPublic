@@ -47,18 +47,19 @@ namespace CalamityMod.Projectiles.Ranged
             }
             float x2 = Projectile.position.X - Projectile.velocity.X / 10f;
             float y2 = Projectile.position.Y - Projectile.velocity.Y / 10f;
-            int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 74, 0f, 0f, 0, default, 0.8f);
-            Main.dust[num137].alpha = Projectile.alpha;
-            Main.dust[num137].position.X = x2;
-            Main.dust[num137].position.Y = y2;
-            Main.dust[num137].velocity *= 0f;
-            Main.dust[num137].noGravity = true;
+            int terraDust = Dust.NewDust(new Vector2(x2, y2), 1, 1, 74, 0f, 0f, 0, default, 0.8f);
+            Main.dust[terraDust].alpha = Projectile.alpha;
+            Main.dust[terraDust].position.X = x2;
+            Main.dust[terraDust].position.Y = y2;
+            Main.dust[terraDust].velocity *= 0f;
+            Main.dust[terraDust].noGravity = true;
 
             if (speed == 0f)
                 speed = Projectile.velocity.Length();
 
-            if (Projectile.timeLeft < 90)
+            if (Projectile.timeLeft < 90) {
                 CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, speed, 12f);
+            }
         }
     }
 }

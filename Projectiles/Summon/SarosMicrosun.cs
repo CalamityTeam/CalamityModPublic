@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
-            Projectile.minion = true;
             Projectile.ignoreWater = true;
         }
 

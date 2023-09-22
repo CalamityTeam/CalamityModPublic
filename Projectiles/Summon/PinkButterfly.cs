@@ -21,8 +21,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.width = Projectile.height = 30;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
@@ -231,9 +230,7 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < numProj + 1; i++)
                         {
                             Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, projectileType, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, targetIndex, 0f);
-                            if (Main.projectile.IndexInRange(p))
-                                Main.projectile[p].originalDamage = Projectile.originalDamage;
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, projectileType, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, targetIndex, 0f);
                         }
                         Projectile.netUpdate = true;
                     }

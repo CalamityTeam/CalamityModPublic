@@ -19,14 +19,12 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = 20;
             Projectile.height = 28;
             Projectile.friendly = true;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
             Projectile.alpha = 255;
             Projectile.timeLeft = 300;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Summon;
-            Projectile.extraUpdates = 1;
+            Projectile.MaxUpdates = 2;
         }
         public override void AI()
         {
@@ -51,8 +49,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = 0; i < 6; i++)
             {
                 Vector2 shootVelocity = (MathHelper.TwoPi * i / 12f).ToRotationVector2() * Main.rand.NextFloat(6f, 17f);
-                int bullet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + shootVelocity * 2f, shootVelocity, ModContent.ProjectileType<HomingGammaBullet>(), Projectile.damage, Projectile.knockBack * 0.4f, Projectile.owner);
-                Main.projectile[bullet].originalDamage = Projectile.originalDamage;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + shootVelocity * 2f, shootVelocity, ModContent.ProjectileType<HomingGammaBullet>(), Projectile.damage, Projectile.knockBack * 0.4f, Projectile.owner);
             }
         }
     }

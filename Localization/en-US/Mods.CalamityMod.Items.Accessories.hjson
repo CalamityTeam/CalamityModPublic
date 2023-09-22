@@ -1,6 +1,11 @@
 Abaddon: {
 	DisplayName: Abaddon
-	Tooltip: Grants immunity to Brimstone Flames and Searing Lava
+	Tooltip:
+		'''
+		10% increased critical strike chance
+		Critical strikes explode, causing nearby enemies to ignite with Brimstone Flames
+		Greatly reduces the damage taken by the Brimstone Flames debuff
+		'''
 }
 
 AbyssalAmulet: {
@@ -716,9 +721,8 @@ FlameLickedShell: {
 	DisplayName: Flame-Licked Shell
 	Tooltip:
 		'''
-		25% decreased dash velocity
-		Your dashes are empowered by fire, shredding enemies near you with violent explosions
-		Grants immunity to lava
+		Could it be?
+		OUT OF ORDER 2
 		'''
 }
 
@@ -769,11 +773,6 @@ FungalSymbiote: {
 		Consuming mushrooms provides the Mushy buff, increasing defense by 6 and granting 1 HP/s life regen
 		All mushroom-based weapons deal 10% more damage and emit non-damaging mushrooms
 		'''
-}
-
-Gehenna: {
-	DisplayName: Gehenna
-	Tooltip: Drops brimstone fireballs from the sky occasionally
 }
 
 GiantPearl: {
@@ -2018,5 +2017,14 @@ YharimsInsignia: {
 		15% increased melee and true melee damage
 		All melee attacks inflict Holy Flames
 		Increased melee knockback
+		'''
+}
+
+SlagsplitterPauldron: {
+	DisplayName: Slagsplitter Pauldron
+	Tooltip:
+		'''
+		You gain 5% damage reduction while dashing
+		Your dashes are empowered by fire, shredding enemies near you with violent explosions
 		'''
 }

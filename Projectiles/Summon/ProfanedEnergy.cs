@@ -23,8 +23,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 60;
-            Projectile.height = 60;
+            Projectile.width = Projectile.height = 60;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.sentry = true;
@@ -148,8 +147,7 @@ namespace CalamityMod.Projectiles.Summon
                     num406 = speed / num406;
                     num404 *= num406;
                     num405 *= num406;
-                    int fire = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, num404, num405, projectileType, Projectile.damage, Projectile.knockBack, Projectile.owner, (float)target, 0f);
-                    Main.projectile[fire].originalDamage = Projectile.originalDamage;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, num404, num405, projectileType, Projectile.damage, Projectile.knockBack, Projectile.owner, (float)target, 0f);
 
                     Projectile.ai[0] = 16f;
                 }

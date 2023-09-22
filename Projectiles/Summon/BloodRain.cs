@@ -16,16 +16,13 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 2;
-            Projectile.height = 2;
+            Projectile.width = Projectile.height = 2;
             Projectile.aiStyle = ProjAIStyleID.RainCloud;
             Projectile.friendly = true;
-            Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 300;
             Projectile.alpha = 255;
             Projectile.scale = 1.1f;
-            Projectile.minion = true;
             AIType = ProjectileID.RainFriendly;
             Projectile.DamageType = DamageClass.Summon;
         }

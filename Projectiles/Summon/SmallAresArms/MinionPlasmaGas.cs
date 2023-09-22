@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
@@ -15,6 +16,8 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public ref float Time => ref Projectile.ai[1];
 
+        public override void SetStaticDefaults() => ProjectileID.Sets.MinionShot[Projectile.type] = true;
+
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 50;
@@ -25,8 +28,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.hide = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
             Projectile.DamageType = DamageClass.Summon;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 12;

@@ -184,8 +184,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         Vector2 shootPosition = Projectile.Center + Vector2.UnitX * Projectile.spriteDirection * 10f;
                         Vector2 shootVelocity = (target.Center - shootPosition).SafeNormalize(Vector2.UnitX * Projectile.spriteDirection) * shootSpeed;
-                        int fireball = Projectile.NewProjectile(Projectile.GetSource_FromThis(), shootPosition, shootVelocity, ModContent.ProjectileType<YharonMinionFireball>(), Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner);
-                        Main.projectile[fireball].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), shootPosition, shootVelocity, ModContent.ProjectileType<YharonMinionFireball>(), Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner);
                     }
                 }
             }

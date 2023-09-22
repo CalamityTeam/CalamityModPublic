@@ -147,7 +147,11 @@ namespace CalamityMod.Balancing
 
             #region Ravager
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<RavagerBody>(), ResistTrueMelee(0.5f)));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.RavagerIDs, Do(ResistTrueMelee(0.5f))));
+
+            // 40% resist to Flying Dragon.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.RavagerIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileID.DD2SquireSonicBoom))));
+
             #endregion
 
             #region Duke Fishron

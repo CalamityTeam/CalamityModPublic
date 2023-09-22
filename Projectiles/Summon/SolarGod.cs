@@ -122,10 +122,8 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = targetPos - source;
                     velocity.Normalize();
                     velocity *= shootSpeed;
-                    int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ModContent.ProjectileType<SolarBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ModContent.ProjectileType<SolarBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Projectile.ai[0] = 20f;
-                    if (Main.projectile.IndexInRange(beam))
-                        Main.projectile[beam].originalDamage = Projectile.originalDamage;
                 }
             }
         }

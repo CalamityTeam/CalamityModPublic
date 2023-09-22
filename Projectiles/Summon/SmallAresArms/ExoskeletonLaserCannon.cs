@@ -69,7 +69,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             int laser = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, laserVelocity, laserID, (int)(Projectile.damage * AresExoskeleton.LaserDamageFactor), 0f, Projectile.owner);
             if (Main.projectile.IndexInRange(laser))
             {
-                Main.projectile[laser].originalDamage = (int)(Projectile.originalDamage * AresExoskeleton.LaserDamageFactor);
                 if (fireLaser)
                     Main.projectile[laser].ai[1] = Projectile.identity;
             }

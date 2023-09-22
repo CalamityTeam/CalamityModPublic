@@ -17,9 +17,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = 26;
             Projectile.height = 28;
             Projectile.friendly = true;
-            Projectile.minion = true;
             Projectile.tileCollide = true;
-            Projectile.penetrate = 1;
             Projectile.DamageType = DamageClass.Summon;
         }
 

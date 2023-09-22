@@ -32,7 +32,7 @@ namespace CalamityMod.UI
         public const float ExpandedXScaling = 46f;
         public static Vector2 Spacing => CompactIcons ? Vector2.UnitX * CompactXSpacing : Vector2.UnitX * ExpandedXScaling;
 
-        public static Vector2 BaseDrawPosition => new Vector2(32, 100) + Spacing / 2f + (Main.LocalPlayer.CountBuffs() > 0 ? Vector2.UnitY * 50 : Vector2.Zero) + (Main.LocalPlayer.CountBuffs() > 11 ? Vector2.UnitY * 50  : Vector2.Zero);
+        public static Vector2 BaseDrawPosition => new Vector2(32, 100) + Spacing / 2f + Vector2.UnitY * 50 * MathF.Ceiling(Main.LocalPlayer.CountBuffs() / 11f);
 
         public static bool DebugFullDisplay = false;
         public static float DebugForceCompletion = 0f;

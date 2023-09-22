@@ -148,9 +148,7 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.spriteDirection = (shootVelocity.X > 0f).ToDirectionInt();
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int dart = Projectile.NewProjectile(Projectile.GetSource_FromThis(), eyePosition, shootVelocity, ModContent.ProjectileType<BrimstoneDartSummon>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        if (Main.projectile.IndexInRange(dart))
-                            Main.projectile[dart].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), eyePosition, shootVelocity, ModContent.ProjectileType<BrimstoneDartSummon>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
                 return;

@@ -110,9 +110,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Time % 40f == 24f)
                     {
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 6f, ModContent.ProjectileType<EndoRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        if (Main.projectile.IndexInRange(p))
-                            Main.projectile[p].originalDamage = Projectile.originalDamage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 6f, ModContent.ProjectileType<EndoRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
 
                     if (Time % 40f >= 33f)

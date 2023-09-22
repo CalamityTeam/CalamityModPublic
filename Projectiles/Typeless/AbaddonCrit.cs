@@ -1,27 +1,27 @@
 ﻿using System;
 using CalamityMod.Dusts;
-using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class FlameLickedShellExplosion : ModProjectile, ILocalizedModType
+    public class AbaddonCrit : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public Player Owner => Main.player[Projectile.owner];
-        private static float ExplosionRadius = 150f;
+        private static float ExplosionRadius = 300f;
 
         public override void SetDefaults()
         {
             //These shouldn't matter because its circular
-            Projectile.width = 150;
-            Projectile.height = 150;
+            Projectile.width = 300;
+            Projectile.height = 300;
             Projectile.friendly = true;
             Projectile.DamageType = AverageDamageClass.Instance;
             Projectile.ignoreWater = true;
@@ -30,26 +30,26 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.timeLeft = 2;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-
+        }
+        public override void AI()
+        {
+            Player player = Main.player[Projectile.owner];
+            for (int i = 0; i <= 30; i++)
+            {
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(4) ? 218 : ModContent.DustType<BrimstoneFlame>(), new Vector2(5, 5).RotatedByRandom(MathHelper.ToRadians(360)) * Main.rand.NextFloat(1.1f, 2.2f), 0, default, Main.rand.NextFloat(2.8f, 3.4f));
+                dust.shader = GameShaders.Armor.GetSecondaryShader(player.cFace, player);
+                dust.noGravity = true;
+            }
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.OnFire3, 180);
-
-            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.OrangeRed, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0f, Main.rand.NextFloat(0.8f, 1.1f), 20);
-            GeneralParticleHandler.SpawnParticle(pulse);
-            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.DarkOrange, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0f, Main.rand.NextFloat(0.6f, 0.9f), 20);
-            GeneralParticleHandler.SpawnParticle(pulse2);
+            target.AddBuff(ModContent.BuffType<Buffs.DamageOverTime.BrimstoneFlames>(), 360);
+            SoundEngine.PlaySound(SoundID.Item89 with { Volume = 0.5f, PitchVariance = 0.4f }, Projectile.Center);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, ExplosionRadius, targetHitbox);
         public override bool? CanDamage() => base.CanDamage();
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            modifiers.HitDirectionOverride = Math.Sign(Owner.direction);
-        }
-
         public override bool? CanCutTiles() => false;
     }
 }

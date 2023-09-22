@@ -150,16 +150,13 @@ namespace CalamityMod.Projectiles.Summon
             ProjVel *= SandSharknadoStaff.ProjSpeed;
             if (TimerForShooting == SandSharknadoStaff.FireSpeed + randomDelay && Main.myPlayer == Projectile.owner)
             {
-                int sandSharkProj = Projectile.NewProjectile(Projectile.GetSource_FromThis(),
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(),
                     Projectile.Center,
                     ProjVel,
                     ModContent.ProjectileType<MiniSandShark>(),
                     Projectile.damage,
                     Projectile.knockBack,
                     Projectile.owner);
-
-                if (Main.projectile.IndexInRange(sandSharkProj))
-                    Main.projectile[sandSharkProj].originalDamage = Projectile.originalDamage;
                 
                 TimerForShooting = 0f;
             }

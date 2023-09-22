@@ -487,6 +487,13 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            if (abaddon && crit && AbaddonCooldown <= 0)
+            {
+                AbaddonCooldown = 15;
+                int AbaddonExploDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.1, 35);
+                Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<AbaddonCrit>(), AbaddonExploDamage, 0f, Player.whoAmI);
+            }
+
             if (proj.CountsAsClass<MeleeDamageClass>())
                 MeleeOnHit(proj, modProj, position, crit, npcCheck);
             if (proj.CountsAsClass<RangedDamageClass>())

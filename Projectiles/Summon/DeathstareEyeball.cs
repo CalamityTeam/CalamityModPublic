@@ -120,7 +120,6 @@ namespace CalamityMod.Projectiles.Summon
                     int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<DeathstareBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(beam))
                     {
-                        Main.projectile[beam].originalDamage = Projectile.originalDamage;
                         Main.projectile[beam].ai[0] = Projectile.identity;
                         Main.projectile[beam].Damage();
                     }

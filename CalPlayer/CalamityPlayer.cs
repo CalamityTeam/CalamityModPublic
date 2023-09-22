@@ -93,6 +93,8 @@ namespace CalamityMod.CalPlayer
         public bool blockAllDashes = false;
         public bool resetHeightandWidth = false;
         public bool noLifeRegen = false;
+        public bool reducedHolyFlamesDamage = false;
+        public bool reducedNightwitherDamage = false;
         public float rangedAmmoCost = 1f;
         public float healingPotBonus = 1f;
         public bool heldGaelsLastFrame = false;
@@ -565,6 +567,7 @@ namespace CalamityMod.CalPlayer
         public bool giantPearl = false;
         public bool normalityRelocator = false;
         public bool flameLickedShell = false;
+        public bool Pauldron = false;
         public bool manaOverloader = false;
         public bool royalGel = false;
         public bool handWarmer = false;
@@ -736,6 +739,7 @@ namespace CalamityMod.CalPlayer
         public int tailFrame = 0;
         public bool astralStarRain = false;
         public int astralStarRainCooldown = 0;
+        public int AbaddonCooldown = 0;
         public bool plagueReaper = false;
         public bool plaguebringerPatronSet = false;
         public bool plaguebringerCarapace = false;
@@ -1656,6 +1660,7 @@ namespace CalamityMod.CalPlayer
             giantPearl = false;
             normalityRelocator = false;
             flameLickedShell = false;
+            Pauldron = false;
             manaOverloader = false;
             royalGel = false;
             handWarmer = false;
@@ -1696,6 +1701,8 @@ namespace CalamityMod.CalPlayer
             CryoStoneVanity = false;
             voidField = false;
             copyrightInfringementShield = false;
+            reducedHolyFlamesDamage = false;
+            reducedNightwitherDamage = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -2205,6 +2212,7 @@ namespace CalamityMod.CalPlayer
             gSabatonFalling = false;
             gSabatonTempJumpSpeed = 0;
             astralStarRainCooldown = 0;
+            AbaddonCooldown = 0;
             silvaMageCooldown = 0;
             bloodflareMageCooldown = 0;
             tarraRangedCooldown = 0;

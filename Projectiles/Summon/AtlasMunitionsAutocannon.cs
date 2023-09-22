@@ -190,9 +190,9 @@ namespace CalamityMod.Projectiles.Summon
             bool rightClick = Main.mouseRight && Main.mouseRightRelease;
             if (Main.LocalPlayer.WithinRange(Projectile.Center, AtlasMunitionsBeacon.PickupRange) && rightClick && Main.LocalPlayer.ActiveItem().type == ModContent.ItemType<AtlasMunitionsBeacon>() && CannonIsMounted)
             {
-                int heldCannon = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.LocalPlayer.Center, Vector2.UnitX, ModContent.ProjectileType<AtlasMunitionsAutocannonHeld>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
-                if (Main.projectile.IndexInRange(heldCannon))
-                    Main.projectile[heldCannon].ModProjectile<AtlasMunitionsAutocannonHeld>().HeatInterpolant = HeatInterpolant * 0.65f;
+                Projectile heldCannon = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Main.LocalPlayer.Center, Vector2.UnitX, ModContent.ProjectileType<AtlasMunitionsAutocannonHeld>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
+                heldCannon.ModProjectile<AtlasMunitionsAutocannonHeld>().HeatInterpolant = HeatInterpolant * 0.65f;
+                heldCannon.originalDamage = Projectile.originalDamage;
                 
                 CannonIsMounted = false;
                 Projectile.netUpdate = true;

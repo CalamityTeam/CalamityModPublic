@@ -256,7 +256,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.myPlayer == Projectile.owner)
                 {
                     int laserCount = 3;
-                    int laserDamage = Projectile.damage;
+                    int laserDamage = (int)(Projectile.damage * AtlasMunitionsBeacon.OverdriveProjectileDamageFactor);
                     int laserID = ModContent.ProjectileType<AtlasMunitionsLaserOverdrive>();
                     for (int i = 0; i < laserCount; i++)
                     {

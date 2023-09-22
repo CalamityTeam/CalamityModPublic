@@ -23,18 +23,19 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
 
         public override void SetDefaults()
         {
-            Projectile.MaxUpdates = MirrorofKalandra.Vile_ArrowSpeedMult;
-
             Projectile.DamageType = DamageClass.Summon;
-            Projectile.width = Projectile.height = 22;
+            Projectile.width = 20;
+            Projectile.height = 100;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
         }
 
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Projectile.RotatingHitboxCollision(targetHitbox.TopLeft(), targetHitbox.Size());
+
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public override void Kill(int timeLeft)

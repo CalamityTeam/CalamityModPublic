@@ -13,20 +13,17 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 12;
-            Projectile.height = 12;
+            Projectile.width = Projectile.height = 12;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 300;
-            Projectile.penetrate = 1;
-            Projectile.minionSlots = 0f;
-            Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
         }
 

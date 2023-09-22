@@ -17,14 +17,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 2;
-            Projectile.height = 2;
+            Projectile.width = Projectile.height = 2;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
-            Projectile.penetrate = 1;
             Projectile.alpha = 120;
             Projectile.timeLeft = 300;
             AIType = ProjectileID.DeathLaser;

@@ -110,9 +110,7 @@ namespace CalamityMod.Projectiles.Summon
                     float angle = (target.Center - Projectile.Center).ToRotation() + (MathHelper.PiOver2 * i) + Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.PiOver4);
                     Vector2 velocity = angle.ToRotationVector2() * 30f;
 
-                    int fire = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SarosSunfire>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    if (Main.projectile.IndexInRange(fire))
-                        Main.projectile[fire].originalDamage = Projectile.originalDamage;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SarosSunfire>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
                     Projectile.netUpdate = true;
                 }
@@ -124,9 +122,7 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 velocity = angle.ToRotationVector2() * 25f;
                 SoundEngine.PlaySound(SarosDiskThrow, Projectile.Center);
 
-                int disk = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SarosMicrosun>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
-                if (Main.projectile.IndexInRange(disk))
-                    Main.projectile[disk].originalDamage = Projectile.originalDamage * 2;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SarosMicrosun>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
 
                 Projectile.netUpdate = true;
             }
