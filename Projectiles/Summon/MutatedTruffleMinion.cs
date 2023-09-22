@@ -12,9 +12,9 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
     [LegacyName("YoungDuke")]
-    public class MutatedTruffleSummon : BaseMinionProjectile
+    public class MutatedTruffleMinion : BaseMinionProjectile
     {
-        public override int AssociatedProjectileTypeID => ModContent.ProjectileType<MutatedTruffleSummon>();
+        public override int AssociatedProjectileTypeID => ModContent.ProjectileType<MutatedTruffleMinion>();
         public override int AssociatedBuffTypeID => ModContent.BuffType<MutatedTruffleBuff>();
         public override ref bool AssociatedMinionBool => ref ModdedOwner.MutatedTruffleBool;
         public override float MinionSlots => 3f;
@@ -73,7 +73,6 @@ namespace CalamityMod.Projectiles.Summon
                 SyncVariables();
             }
 
-            Projectile.rotation = 0f;
             Projectile.spriteDirection = MathF.Sign(Projectile.velocity.X);
 
             if (Target is not null)
@@ -84,6 +83,10 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Target is not null)
             {
+                // If the minion is not withing dashing range, go towards it.
+                // When the minion's inside the range, it'll just move forward
+                // until it hits the outside bounds of the range, changing it's directions back.
+                // Hence giving the effect of a dash.
                 if (!Projectile.WithinRange(Target.Center, 480f))
                 {
                     float inertia = 4f;
@@ -94,6 +97,9 @@ namespace CalamityMod.Projectiles.Summon
 
                     SyncVariables();
                 }
+
+                // But if there was the case where the minion was already inside the range,
+                // if the velocity's not around the dash speed, make it dash.
                 else if (Projectile.velocity.Length() < MutatedTruffle.DashSpeed - 15f)
                 {
                     Projectile.velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, Target, MutatedTruffle.DashSpeed - 10f);
@@ -121,18 +127,19 @@ namespace CalamityMod.Projectiles.Summon
                 float targettingSpeed = 30f;
                 float inertia = 18f;
 
+                // The minion will stay between these range values.
                 if (!Projectile.WithinRange(Target.Center, 480f))
                 {
                     Projectile.velocity = (Projectile.velocity * inertia + targetDirection * targettingSpeed) / (inertia + 1f);
                     SyncVariables();
                 }
-
-                if (Projectile.WithinRange(Target.Center, 400f))
+                else if (Projectile.WithinRange(Target.Center, 400f))
                 {
                     Projectile.velocity = (Projectile.velocity * inertia + -targetDirection * targettingSpeed) / (inertia + 1f);
                     SyncVariables();
                 }
 
+                // Shoot the projectile.
                 if (AITimer % MutatedTruffle.ToothballFireRate == 0f)
                 {
                     if (Main.myPlayer == Projectile.owner)
@@ -148,10 +155,9 @@ namespace CalamityMod.Projectiles.Summon
                     SyncVariables();
                 }
 
+                AITimer++;
                 Projectile.rotation = Projectile.SafeDirectionTo(Target.Center).ToRotation();
                 Projectile.spriteDirection = MathF.Sign(Target.Center.X - Projectile.Center.X);
-
-                AITimer++;
 
                 if (AITimer > MutatedTruffle.ToothballsUntilNextState * MutatedTruffle.ToothballFireRate)
                     SwitchState(AIState.Vortex);
@@ -164,19 +170,20 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Target is not null)
             {
+                // Find the vortex that it shot.
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     Projectile proj = Main.projectile[i];
                     if (proj is null || !proj.active || proj.type != ModContent.ProjectileType<MutatedTruffleVortex>() || proj.owner != Owner.whoAmI || proj.timeLeft < MutatedTruffle.VortexTimeUntilNextState)
                         continue;
 
+                    // Spin around the vortex.
                     Vector2 spinPosition = proj.Center + -Vector2.UnitY.RotatedBy(Main.GlobalTimeWrappedHourly * 6f) * 400f;
-                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(spinPosition) * 30f, .4f);
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(spinPosition) * 50f, .2f);
                 }
 
-                Projectile.rotation = Projectile.velocity.ToRotation();
-
                 AITimer++;
+                Projectile.rotation = Projectile.velocity.ToRotation();
 
                 if (AITimer >= MutatedTruffle.VortexTimeUntilNextState)
                     SwitchState(AIState.Dashing);
@@ -192,8 +199,13 @@ namespace CalamityMod.Projectiles.Summon
 
             Projectile.spriteDirection = 1;
 
-            if (state == AIState.Idle && !Main.dedServ)
-                SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/OldDukeHuff") with { Volume = .5f, Pitch = .1f }, Projectile.Center);
+            if (state == AIState.Idle)
+            {
+                Projectile.rotation = 0f;
+
+                if (!Main.dedServ)
+                    SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/OldDukeHuff") with { Volume = .5f, Pitch = .1f }, Projectile.Center);
+            }
 
             if ((state == AIState.Dashing || state == AIState.Toothball) && !Main.dedServ)
                 SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/OldDukeRoar") with { Volume = .3f, Pitch = .1f }, Projectile.Center);
@@ -201,7 +213,7 @@ namespace CalamityMod.Projectiles.Summon
             if (state == AIState.Vortex)
             {
                 if (Main.myPlayer == Projectile.owner)
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Target.Center, Vector2.Zero, ModContent.ProjectileType<MutatedTruffleVortex>(), (int)(Projectile.damage * 1.25f), Projectile.knockBack, Owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Target.Center, Vector2.Zero, ModContent.ProjectileType<MutatedTruffleVortex>(), (int)Projectile.damage, Projectile.knockBack, Owner.whoAmI);
 
                 if (!Main.dedServ)
                     SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/OldDukeVomit") with { Volume = .4f, Pitch = .1f }, Projectile.Center);
@@ -219,6 +231,9 @@ namespace CalamityMod.Projectiles.Summon
         #endregion
 
         public override bool? CanDamage() => (State == AIState.Dashing) ? null : false;
+
+        // The minion while dashing does 1.25x more damge.
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => modifiers.SourceDamage *= 1.25f;
 
         public override bool PreDraw(ref Color lightColor)
         {

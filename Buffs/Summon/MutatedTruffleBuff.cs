@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<MutatedTruffleSummon>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<MutatedTruffleMinion>()] > 0)
             {
                 modPlayer.MutatedTruffleBool = true;
             }

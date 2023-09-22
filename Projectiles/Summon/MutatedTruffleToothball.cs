@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.localNPCHitCooldown = -1;
             Projectile.timeLeft = 120;
-            Projectile.localNPCHitCooldown = 30;
             Projectile.width = Projectile.height = 40;
             Projectile.penetrate = -1;
 
@@ -32,9 +32,13 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            // Deacceleration.
             Projectile.velocity *= Utils.Remap(Projectile.timeLeft, 120f, 0f, 1f, 0.9f);
+
             Projectile.rotation += Projectile.velocity.Length() * .02f;
         }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => modifiers.SourceDamage *= 1.25f;
 
         public override void Kill(int timeLeft)
         {

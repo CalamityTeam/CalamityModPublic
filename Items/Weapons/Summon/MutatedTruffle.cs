@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         #region Minion Stats
 
+        // In tiles; 1 tile = 16 units.
         public static float EnemyDistanceDetection = 8000f;
 
         public static int ToothballFireRate = 60; // In frames.
@@ -30,9 +31,9 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 1000;
+            Item.damage = 250;
             Item.DamageType = DamageClass.Summon;
-            Item.shoot = ModContent.ProjectileType<MutatedTruffleSummon>();
+            Item.shoot = ModContent.ProjectileType<MutatedTruffleMinion>();
             Item.knockBack = 5f;
 
             Item.useTime = Item.useAnimation = 10;
@@ -48,7 +49,8 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.ownedProjectileCounts[type] == 0)
+            // Only one can be summoned.
+            if (player.ownedProjectileCounts[type] < 1 && player.maxMinions >= 3)
                 Projectile.NewProjectile(source, Main.MouseWorld, Main.rand.NextVector2Circular(2f, 2f), type, damage, knockback, player.whoAmI);
 
             return false;

@@ -41,11 +41,11 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             if (Target is not null)
-                Projectile.Center = Projectile.Center.MoveTowards(Target.Center, Utils.Remap(Projectile.timeLeft, FadeoutTime, 0f, 8f, 0f));
-            
+                Projectile.Center = Projectile.Center.MoveTowards(Target.Center, Utils.Remap(Projectile.timeLeft, FadeoutTime, 0f, Target.velocity.Length() + 10f, 0f));
+
             Projectile.scale = (Projectile.timeLeft > FadeoutTime) ? Utils.Remap(Projectile.timeLeft, MutatedTruffle.VortexTimeUntilNextState + TimeFullScale + FadeoutTime, MutatedTruffle.VortexTimeUntilNextState, 0f, 1f) : Utils.Remap(Projectile.timeLeft, FadeoutTime, 0f, 1f, 0f);
             Projectile.rotation += Utils.Remap(Projectile.timeLeft, FadeoutTime, 0f, MathHelper.PiOver4 / 6f, 0f);
-            
+
             if (!Main.dedServ)
             {
                 Projectile.alpha = (int)Utils.Remap(Projectile.timeLeft, FadeoutTime, 0f, 0f, 255f);
@@ -70,7 +70,13 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netSpam = 0;
         }
 
-        public override bool? CanDamage() => Projectile.getRect().Intersects(Target.getRect()) ? null : false;
+        public override bool? CanDamage()
+        {
+            if (Target is not null)
+                return Projectile.getRect().Intersects(Target.getRect()) ? null : false;
+            else
+                return false;
+        }
 
         public override void Kill(int timeLeft)
         {
