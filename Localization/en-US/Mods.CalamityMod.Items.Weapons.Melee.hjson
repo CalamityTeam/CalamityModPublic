@@ -1285,7 +1285,7 @@ TrueCausticEdge: {
 	Tooltip:
 		'''
 		Fires a bouncing caustic beam
-		Inflicts poison and venom
+		Inflicts venom on enemy hits
 		'''
 }
 

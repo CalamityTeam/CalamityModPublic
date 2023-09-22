@@ -40,17 +40,9 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(BuffID.Poisoned, 300);
-            target.AddBuff(BuffID.Venom, 150);
-        }
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Venom, 150);
 
-        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
-        {
-            target.AddBuff(BuffID.Poisoned, 300);
-            target.AddBuff(BuffID.Venom, 150);
-        }
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo) => target.AddBuff(BuffID.Venom, 150);
 
         public override void AddRecipes()
         {

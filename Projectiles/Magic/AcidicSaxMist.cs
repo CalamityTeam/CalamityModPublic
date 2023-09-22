@@ -1,8 +1,9 @@
+using CalamityMod.Buffs.StatDebuffs;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -23,9 +24,9 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
-            Projectile.extraUpdates = 2;
+            Projectile.MaxUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 10 * Projectile.MaxUpdates;
         }
 
         public override void AI()
@@ -80,7 +81,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Venom, 180);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
     }
 }
