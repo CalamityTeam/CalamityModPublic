@@ -186,6 +186,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.TitaniumChainsaw, standardChainsawTweaks },
                 { ProjectileID.TitaniumDrill, standardDrillTweaks },
                 { ProjectileID.Trimarang, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.TrueNightsEdge, Do(PiercingExact(4)) },
                 { ProjectileID.VenomBullet, standardBulletTweaks },
                 { ProjectileID.VenomFang, Do(LocalIFrames(10)) },
                 { ProjectileID.VortexDrill, standardDrillTweaks },

@@ -221,6 +221,7 @@ namespace CalamityMod.Items
                 { ItemID.TacticalShotgun, Do(PointBlank, DamageRatio(1.2f)) },
                 { ItemID.TaxCollectorsStickOfDoom, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(70)) },
                 { ItemID.TendonBow, Do(PointBlank, DamageExact(17), AutoReuse) },
+                { ItemID.TerraBlade, Do(DamageExact(122)) },
                 // Vanilla damage 190. After fixing iframes so yoyo and shots can hit simultaneously,
                 // Terrarian is extremely overpowered and requires a heavy nerf.
                 { ItemID.Terrarian, Do(AutoReuse, DamageExact(86)) },
@@ -234,8 +235,8 @@ namespace CalamityMod.Items
                 { ItemID.Toxikarp, Do(UseTimeExact(7), UseAnimationExact(14)) },
                 { ItemID.Trident, Do(AutoReuse, TrueMelee, DamageExact(20)) },
                 { ItemID.Trimarang, Do(DamageExact(24)) },
-                { ItemID.TrueExcalibur, Do(TrueMelee, DamageExact(82)) },
-                { ItemID.TrueNightsEdge, Do(DamageExact(80), ScaleRatio(1.2f)) },
+                { ItemID.TrueExcalibur, Do(TrueMelee, DamageExact(107)) },
+                { ItemID.TrueNightsEdge, Do(DamageExact(105), ScaleRatio(1.2f)) },
                 { ItemID.Tsunami, Do(PointBlank, DamageExact(49)) },
                 { ItemID.TungstenShortsword, Do(AutoReuse, TrueMelee, DamageExact(15)) },
                 { ItemID.UnholyArrow, Do(DamageExact(11)) },
