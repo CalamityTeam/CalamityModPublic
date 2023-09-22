@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         }
 
         // Laser velocity
-        private const float laserVelocity = 3.5f;
+        private const float laserVelocity = 2.333f;
 
         // Phase 1 variables
 
@@ -822,7 +822,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     // Laser walls
                     if (!spawnedGuardians3 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                     {
-                        float spawnOffset = 1440f;
+                        float spawnOffset = 1200f;
                         float divisor = bossRush ? 100f : 150f;
 
                         if (calamityGlobalNPC.newAI[1] % divisor == 0f)
@@ -1647,7 +1647,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 if (phase2)
                 {
-                    float spawnOffset = 1440f;
+                    float spawnOffset = 1200f;
 
                     calamityGlobalNPC.newAI[1] += 1f;
                     if (calamityGlobalNPC.newAI[1] >= laserBarragePhaseGateValue)
