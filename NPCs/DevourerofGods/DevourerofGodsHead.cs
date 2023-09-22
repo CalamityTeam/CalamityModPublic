@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         }
 
         // Laser velocity
-        private const float laserVelocity = 5f;
+        private const float laserVelocity = 3.5f;
 
         // Phase 1 variables
 
@@ -365,7 +365,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Phase 1 phases
             bool phase2 = lifeRatio < 0.9f;
             bool phase3 = lifeRatio < 0.75f;
-            bool summonSentinels = lifeRatio < 0.6f;
+            bool bigDaddyPhase2 = lifeRatio < 0.6f;
 
             // Phase 2 phases
             bool phase4 = lifeRatio < 0.5f;
@@ -381,7 +381,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (NPC.localAI[3] < SkyColorTransitionTime)
                         NPC.localAI[3] += 1f;
                 }
-                else if (summonSentinels)
+                else if (bigDaddyPhase2)
                 {
                     if (NPC.localAI[3] > 0f)
                         NPC.localAI[3] -= 1f;
@@ -482,7 +482,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             else
                 NPC.takenDamageMultiplier = 1.1f;
 
-            // Close DoG's HP bar if busy with sentinels or a P2 transition and decrement the countdown.
+            // Close DoG's HP bar during P2 transition and decrement the countdown.
             if (NPC.localAI[2] > 0f)
             {
                 NPC.localAI[2] -= 1f;
@@ -509,8 +509,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.dontTakeDamage = true;
             }
 
-            // Start sentinel phases, only run things that have to happen once in here
-            if (summonSentinels)
+            // Start phase 2, only run things that have to happen once in here
+            if (bigDaddyPhase2)
             {
                 if (!Phase2Started)
                 {
@@ -559,7 +559,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
 
-            // Begin phase 2 once all sentinels are down
+            // Begin phase 2
             if (Phase2Started)
             {
                 // Go immune and invisible
@@ -822,7 +822,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     // Laser walls
                     if (!spawnedGuardians3 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                     {
-                        float spawnOffset = 2100f;
+                        float spawnOffset = 1440f;
                         float divisor = bossRush ? 100f : 150f;
 
                         if (calamityGlobalNPC.newAI[1] % divisor == 0f)
@@ -1647,7 +1647,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 if (phase2)
                 {
-                    float spawnOffset = 2100f;
+                    float spawnOffset = 1440f;
 
                     calamityGlobalNPC.newAI[1] += 1f;
                     if (calamityGlobalNPC.newAI[1] >= laserBarragePhaseGateValue)
