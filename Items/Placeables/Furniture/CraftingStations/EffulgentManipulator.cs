@@ -4,12 +4,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
-    public class SilvaBasin : ModItem, ILocalizedModType
+    [LegacyName("SilvaBasin")]
+    public class EffulgentManipulator : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Effulgent Manipulator");
             Item.width = 28;
             Item.height = 20;
             Item.maxStack = 9999;

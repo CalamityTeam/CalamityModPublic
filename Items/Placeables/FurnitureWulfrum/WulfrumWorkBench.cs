@@ -3,12 +3,12 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureWulfrum
 {
-    public class WulfrumWorkbench : ModItem, ILocalizedModType
+    [LegacyName("WulfrumWorkbench")]
+    public class WulfrumWorkBench : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Wulfrum Work Bench");
             Item.width = 32;
             Item.height = 18;
             Item.maxStack = 9999;

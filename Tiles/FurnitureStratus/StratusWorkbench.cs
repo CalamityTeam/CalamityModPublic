@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusWorkbench : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusWorkbench>(), true);
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusWorkBench>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

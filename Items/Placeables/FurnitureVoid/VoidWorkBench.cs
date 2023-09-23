@@ -1,15 +1,14 @@
 ﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Items.Placeables.FurnitureProfaned
+namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
-    // TODO -- ProfanedWorkBench. I do not want to deal with capitalization issues
-    public class ProfanedWorkbench : ModItem, ILocalizedModType
+    [LegacyName("VoidWorkbench")]
+    public class VoidWorkBench : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Profaned Work Bench");
             Item.width = 28;
             Item.height = 14;
             Item.maxStack = 9999;
@@ -19,12 +18,12 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedWorkbench>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureVoid.VoidWorkbench>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedRock>(), 10).AddTile(ModContent.TileType<ProfanedCrucible>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 10).AddTile(ModContent.TileType<VoidCondenser>()).Register();
         }
     }
 }

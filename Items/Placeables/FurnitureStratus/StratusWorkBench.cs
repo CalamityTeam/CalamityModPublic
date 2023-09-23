@@ -2,13 +2,12 @@
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
-    // TODO -- StratusWorkBench. I do not want to deal with capitaliztion issues.
-    public class StratusWorkbench : ModItem, ILocalizedModType
+    [LegacyName("StratusWorkbench")]
+    public class StratusWorkBench : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Stratus Work Bench");
             Item.width = 26;
             Item.height = 26;
             Item.maxStack = 9999;

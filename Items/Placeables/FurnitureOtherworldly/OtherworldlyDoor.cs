@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Otherworldly Door");
             Item.width = 28;
             Item.height = 20;
             Item.maxStack = 9999;

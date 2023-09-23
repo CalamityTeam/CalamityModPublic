@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoWorkbenchTile : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<ExoWorkbench>(), true);
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<ExoWorkBench>(), true);
 
         public override bool CanExplode(int i, int j) => false;
 

@@ -3,13 +3,12 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
-    // TODO -- StatigelWorkBench. I do not want to deal with capitalization issues.
-    public class StatigelWorkbench : ModItem, ILocalizedModType
+    [LegacyName("StatigelWorkbench")]
+    public class StatigelWorkBench : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Statigel Work Bench");
             Item.width = 28;
             Item.height = 14;
             Item.maxStack = 9999;

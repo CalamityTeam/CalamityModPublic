@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Eutrophic Shelf");
             Item.width = 28;
             Item.height = 20;
             Item.maxStack = 9999;

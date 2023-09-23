@@ -29,16 +29,10 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-
-
 			ItemID.Sets.SortingPriorityMaterials[Type] = 120;
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
-
-            Main.RegisterItemAnimation(
-                Type,
-                new DrawAnimationVertical(5, 12) /* 5 ticks per frame, has 12 frames total */
-            );
+            Main.RegisterItemAnimation(Type, new DrawAnimationVertical(5, 12));
         }
 
         public override void Unload()

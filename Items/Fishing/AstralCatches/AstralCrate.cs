@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;

@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Otherworldly Stone Wall");
             Item.width = 12;
             Item.height = 12;
             Item.maxStack = 9999;

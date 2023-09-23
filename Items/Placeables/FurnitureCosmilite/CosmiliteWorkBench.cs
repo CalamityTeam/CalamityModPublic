@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Cosmilite Work Bench");
             Item.width = 28;
             Item.height = 14;
             Item.maxStack = 9999;

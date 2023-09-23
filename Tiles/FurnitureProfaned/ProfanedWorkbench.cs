@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedWorkbench : ModTile
     {
-        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedWorkbench>(), true);
+        public override void SetStaticDefaults() => this.SetUpWorkBench(ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedWorkBench>(), true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

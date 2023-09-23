@@ -3,7 +3,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureExo
 {
-    public class ExoWorkbench : ModItem, ILocalizedModType
+    [LegacyName("ExoWorkbench")]
+    public class ExoWorkBench : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
