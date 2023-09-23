@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (InPulse == 0)
                 {
                     SoundEngine.PlaySound(RedHamSound, Projectile.Center);
-                    Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Aqua, new Vector2(1f, 1f), Main.rand.NextFloat(12f, 25f), 0.1f, 1.95f, 120, false);
+                    Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Aqua, new Vector2(1f, 1f), Main.rand.NextFloat(12f, 25f), 0.1f, 1.95f, 120);
                     GeneralParticleHandler.SpawnParticle(pulse);
                     InPulse = 1;
                 }
@@ -244,7 +244,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (PulseCooldown >= 15);
             { 
-                Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Violet, new Vector2(0.5f, 0.5f), Main.rand.NextFloat(12f, 25f), 0.2f, 1.4f + (EmpoweredHammer * 0.1f), 14, false);
+                Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Violet, new Vector2(0.5f, 0.5f), Main.rand.NextFloat(12f, 25f), 0.2f, 1.4f + (EmpoweredHammer * 0.1f), 14);
                 GeneralParticleHandler.SpawnParticle(pulse);
                 PulseCooldown = 0;
             }   

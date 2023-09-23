@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 int step = 10;
                 while (step < LaserLength)
                 {
-                    Particle pulse = new DirectionalPulseRing(Projectile.Center + MathHelper.WrapAngle(Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * step, Vector2.Zero, Color.Red, new Vector2(0.5f, 1f), MathHelper.WrapAngle(Projectile.rotation + MathHelper.PiOver2), 0.1f, 1f, 12, false);
+                    Particle pulse = new DirectionalPulseRing(Projectile.Center + MathHelper.WrapAngle(Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * step, Vector2.Zero, Color.Red, new Vector2(0.5f, 1f), MathHelper.WrapAngle(Projectile.rotation + MathHelper.PiOver2), 0.1f, 1f, 12);
                     GeneralParticleHandler.SpawnParticle(pulse);
                     step += 100;
                 }

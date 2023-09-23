@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Ranged
             SoundEngine.PlaySound(SoundID.Item92, NuzzlePosition);
             SoundEngine.PlaySound(SoundID.Item60, NuzzlePosition);
 
-            Particle pulse = new DirectionalPulseRing(NuzzlePosition + Projectile.rotation.ToRotationVector2() * 5f, Vector2.Zero, color, new Vector2(0.5f, 1f), Projectile.rotation, 0.05f, 0.34f + Main.rand.NextFloat(0.3f), 30, false);
+            Particle pulse = new DirectionalPulseRing(NuzzlePosition + Projectile.rotation.ToRotationVector2() * 5f, Vector2.Zero, color, new Vector2(0.5f, 1f), Projectile.rotation, 0.05f, 0.34f + Main.rand.NextFloat(0.3f), 30);
             GeneralParticleHandler.SpawnParticle(pulse);
 
             if (Owner == Main.LocalPlayer && Owner.Calamity().GeneralScreenShakePower < 5)

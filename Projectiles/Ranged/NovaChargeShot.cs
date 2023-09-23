@@ -74,9 +74,9 @@ namespace CalamityMod.Projectiles.Ranged
                 dust2.scale = Main.rand.NextFloat(0.8f, 1.5f);
             }
             SoundEngine.PlaySound(ChargeImpact, Projectile.position);
-            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Lime, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 0.6f, 20, false);
+            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Lime, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 0.6f, 20);
             GeneralParticleHandler.SpawnParticle(pulse);
-            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Chartreuse, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 0.5f, 16, false);
+            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Chartreuse, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 0.5f, 16);
             GeneralParticleHandler.SpawnParticle(pulse2);
 
             for (int i = 0; i < 25; ++i)

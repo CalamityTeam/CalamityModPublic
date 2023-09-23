@@ -7,22 +7,24 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Particles
 {
-    public class DirectionalPulseRing : Particle
+    public class PlayerCenteredPulseRing : Particle
     {
         public override string Texture => "CalamityMod/Particles/HollowCircleHardEdge";
         public override bool UseAdditiveBlend => true;
         public override bool SetLifetime => true;
         public override bool UseCustomDraw => true;
 
+        public Player player = Main.player[Main.myPlayer];
         private float OriginalScale;
         private float FinalScale;
         private float opacity;
         private Vector2 Squish;
         private Color BaseColor;
 
-        public DirectionalPulseRing(Vector2 position, Vector2 velocity, Color color, Vector2 squish, float rotation, float originalScale, float finalScale, int lifeTime)
+        public PlayerCenteredPulseRing(Player p, Vector2 velocity, Color color, Vector2 squish, float rotation, float originalScale, float finalScale, int lifeTime)
         {
-            Position = position;
+            player = p;
+            Position = p.MountedCenter;
             Velocity = velocity;
             BaseColor = color;
             OriginalScale = originalScale;
@@ -43,6 +45,7 @@ namespace CalamityMod.Particles
             Color = BaseColor * opacity;
             Lighting.AddLight(Position, Color.R / 255f, Color.G / 255f, Color.B / 255f);
             Velocity *= 0.95f;
+            Position = player.MountedCenter;
         }
 
         public override void CustomDraw(SpriteBatch spriteBatch)

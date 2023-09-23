@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             // Random flavor pulse.
             if (Main.rand.NextBool(100))
             {
-                Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.DarkCyan, Vector2.One, 0f, 0.05f, 0.4f + Main.rand.NextFloat(0.2f), 30, false);
+                Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.DarkCyan, Vector2.One, 0f, 0.05f, 0.4f + Main.rand.NextFloat(0.2f), 30);
                 GeneralParticleHandler.SpawnParticle(pulse);
             }
 
@@ -229,7 +229,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 pulseDust.noGravity = true;
             }
 
-            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, empowered ? Color.White : Color.DarkCyan * 1.2f, Vector2.One, 0f, 0.05f, 0.5f + Main.rand.NextFloat(0.2f), 20, false);
+            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, empowered ? Color.White : Color.DarkCyan * 1.2f, Vector2.One, 0f, 0.05f, 0.5f + Main.rand.NextFloat(0.2f), 20);
             GeneralParticleHandler.SpawnParticle(pulse);
         }
 

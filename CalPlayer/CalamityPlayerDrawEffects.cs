@@ -287,7 +287,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (Main.rand.NextBool(5))
                     {
-                        DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f)), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-3f, -4f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f, 0f, 45, false);
+                        DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f)), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-3f, -4f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f, 0f, 45);
                         GeneralParticleHandler.SpawnParticle(pulse);
                     }
                 }
@@ -315,7 +315,7 @@ namespace CalamityMod.CalPlayer
 
                     if (ragePulseTimer == 60)
                     {
-                        DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Center, Vector2.Zero, Color.Red, new Vector2(1, 1), 0, 0f, 0.23f, 40, true);
+                        PlayerCenteredPulseRing pulse = new PlayerCenteredPulseRing(Player, Vector2.Zero, Color.Red, new Vector2(1, 1), 0, 0f, 0.23f, 40);
                         GeneralParticleHandler.SpawnParticle(pulse);
                         ragePulse = true;
                     }
@@ -325,7 +325,7 @@ namespace CalamityMod.CalPlayer
                         ragePulseVisualTimer++;
                         if (ragePulseVisualTimer >= 30)
                         {
-                            DirectionalPulseRing pulse = new DirectionalPulseRing(Player.MountedCenter, Vector2.Zero, (shatteredCommunity ? Color.MediumPurple : Color.Red), new Vector2(1, 1), 0, 0f, 0.18f, 30, true);
+                            PlayerCenteredPulseRing pulse = new PlayerCenteredPulseRing(Player, Vector2.Zero, (shatteredCommunity ? Color.MediumPurple : Color.Red), new Vector2(1, 1), 0, 0f, 0.18f, 30);
                             GeneralParticleHandler.SpawnParticle(pulse);
                             ragePulseVisualTimer = 0;
                             ragePulse = false;
@@ -384,7 +384,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
-                    DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f)), Vector2.Zero, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.Coral, new Vector2(1, 1), 0, 0.08f, 0f, 20, false);
+                    DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f)), Vector2.Zero, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.Coral, new Vector2(1, 1), 0, 0.08f, 0f, 20);
                     GeneralParticleHandler.SpawnParticle(pulse);
                     Particle orb = new GenericBloom(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f)), Vector2.Zero, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.Coral, 0.055f, 8);
                     GeneralParticleHandler.SpawnParticle(orb);
@@ -462,7 +462,7 @@ namespace CalamityMod.CalPlayer
                         break;
                 }
 
-                DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f)), new Vector2(5, 5).RotatedByRandom(360), sparkColor, new Vector2(Main.rand.NextFloat(1f, 5f), Main.rand.NextFloat(1f, 5f)), 0, Main.rand.NextFloat(0.07f, 0.1f), 0f, 18, false);
+                DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f)), new Vector2(5, 5).RotatedByRandom(360), sparkColor, new Vector2(Main.rand.NextFloat(1f, 5f), Main.rand.NextFloat(1f, 5f)), 0, Main.rand.NextFloat(0.07f, 0.1f), 0f, 18);
                 GeneralParticleHandler.SpawnParticle(pulse);
                 
                 float numberOfDusts = 3f;
@@ -509,7 +509,7 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f)), Vector2.Zero, Main.rand.NextBool(3) ? Color.LimeGreen : Color.Green, new Vector2(1, 1), 0, Main.rand.NextFloat(0.07f, 0.18f), 0f, 35, false);
+                        DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f)), Vector2.Zero, Main.rand.NextBool(3) ? Color.LimeGreen : Color.Green, new Vector2(1, 1), 0, Main.rand.NextFloat(0.07f, 0.18f), 0f, 35);
                         GeneralParticleHandler.SpawnParticle(pulse);
                     }
 

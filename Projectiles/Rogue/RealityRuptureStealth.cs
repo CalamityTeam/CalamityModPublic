@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 272, Projectile.oldVelocity.X * 0.3f, Projectile.oldVelocity.Y * 0.3f, 0, default, Main.rand.NextFloat(1.7f, 2.1f));
             }
-            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Plum, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 1f, 13, false);
+            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Plum, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 1f, 13);
             GeneralParticleHandler.SpawnParticle(pulse);
         }
     }

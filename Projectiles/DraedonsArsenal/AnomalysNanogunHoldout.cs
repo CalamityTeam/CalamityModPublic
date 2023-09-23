@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 TargetRecoil = recoil;
 
                 // Shooty ring
-                Particle pulse = new DirectionalPulseRing(Owner.MountedCenter + direction * GunLength, Vector2.Zero, Color.DeepSkyBlue, new Vector2(0.5f, 1f), direction.ToRotation(), 0.2f, 1f, 30, false);
+                Particle pulse = new DirectionalPulseRing(Owner.MountedCenter + direction * GunLength, Vector2.Zero, Color.DeepSkyBlue, new Vector2(0.5f, 1f), direction.ToRotation(), 0.2f, 1f, 30);
                 GeneralParticleHandler.SpawnParticle(pulse);
                 return;
             }

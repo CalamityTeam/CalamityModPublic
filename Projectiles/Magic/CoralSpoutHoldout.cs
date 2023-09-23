@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
 
                     Color pulseColor = Main.rand.NextBool() ? Color.Coral : Color.DeepSkyBlue;
-                    Particle pulse = new DirectionalPulseRing(Owner.MountedCenter + direction * 44f, Vector2.Zero, pulseColor, new Vector2(0.5f, 1f), direction.ToRotation(), 0.04f, 0.2f, 30, false);
+                    Particle pulse = new DirectionalPulseRing(Owner.MountedCenter + direction * 44f, Vector2.Zero, pulseColor, new Vector2(0.5f, 1f), direction.ToRotation(), 0.04f, 0.2f, 30);
                     GeneralParticleHandler.SpawnParticle(pulse);
                 }
 
@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
 
                 Color pulseColor = Main.rand.NextBool() ? Color.Coral : Color.DeepSkyBlue;
-                Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, pulseColor, new Vector2(0.5f, 1f), direction.ToRotation(), 0.05f, 0.34f + Main.rand.NextFloat(0.3f), 30, false);
+                Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, pulseColor, new Vector2(0.5f, 1f), direction.ToRotation(), 0.05f, 0.34f + Main.rand.NextFloat(0.3f), 30);
                 GeneralParticleHandler.SpawnParticle(pulse);
             }
         }

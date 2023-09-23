@@ -5413,7 +5413,7 @@ namespace CalamityMod.NPCs
                 Vector2 npcSize = npc.Center + new Vector2(Main.rand.NextFloat(-npc.width / 2, npc.width / 2), Main.rand.NextFloat(-npc.height / 2, npc.height / 2));
                 if (Main.rand.NextBool(3))
                 {
-                    DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, Main.rand.NextBool(3) ? Color.LimeGreen : Color.Green, new Vector2(1, 1), 0, Main.rand.NextFloat(0.07f, 0.18f), 0f, 35, false);
+                    DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, Main.rand.NextBool(3) ? Color.LimeGreen : Color.Green, new Vector2(1, 1), 0, Main.rand.NextFloat(0.07f, 0.18f), 0f, 35);
                     GeneralParticleHandler.SpawnParticle(pulse);
 
                     for (int i = 0; i < 4; i++)
@@ -5443,7 +5443,7 @@ namespace CalamityMod.NPCs
             {
                 Vector2 npcSize = npc.Center + new Vector2(Main.rand.NextFloat(-npc.width / 2, npc.width / 2), Main.rand.NextFloat(-npc.height / 2, npc.height / 2));
 
-                DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, Main.rand.NextBool(3) ? Color.PaleGreen : Color.DarkSeaGreen, new Vector2(Main.rand.NextFloat(0.5f, 1.5f), Main.rand.NextFloat(0.5f, 1.5f)), 0, Main.rand.NextFloat(0.03f, 0.17f), 0f, 35, false);
+                DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, Main.rand.NextBool(3) ? Color.PaleGreen : Color.DarkSeaGreen, new Vector2(Main.rand.NextFloat(0.5f, 1.5f), Main.rand.NextFloat(0.5f, 1.5f)), 0, Main.rand.NextFloat(0.03f, 0.17f), 0f, 35);
                 GeneralParticleHandler.SpawnParticle(pulse);
 
                 if (Main.rand.Next(5) >= 0)
@@ -5493,7 +5493,7 @@ namespace CalamityMod.NPCs
                         break;
                 }
 
-                DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, sparkColor, new Vector2(1, 1), 0, 0.1f + (0.000004f * npc.width * npc.height), 0f, 25, false);
+                DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, sparkColor, new Vector2(1, 1), 0, 0.1f + (0.000004f * npc.width * npc.height), 0f, 25);
                 GeneralParticleHandler.SpawnParticle(pulse);
 
                 float numberOfDusts = 2f;
@@ -5538,7 +5538,7 @@ namespace CalamityMod.NPCs
                 {
                     Vector2 npcSize = npc.Center + new Vector2(Main.rand.NextFloat(-npc.width / 2, npc.width / 2), Main.rand.NextFloat(-npc.height / 2, npc.height / 2));
                     Vector2 npcSize2 = npc.Center + new Vector2(Main.rand.NextFloat(-npc.width / 2, npc.width / 2), Main.rand.NextFloat(-npc.height / 2, npc.height / 2));
-                    DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.Coral, new Vector2(1, 1), 0, 0.08f + (0.000003f * npc.width * npc.height), 0f, 20, false);
+                    DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.Coral, new Vector2(1, 1), 0, 0.08f + (0.000003f * npc.width * npc.height), 0f, 20);
                     GeneralParticleHandler.SpawnParticle(pulse);
                     Particle orb = new GenericBloom(npcSize2, Vector2.Zero, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.Coral, 0.055f + (0.000003f * npc.width * npc.height), 8);
                     GeneralParticleHandler.SpawnParticle(orb);
@@ -5643,7 +5643,7 @@ namespace CalamityMod.NPCs
                     }
                     if (Main.rand.NextBool(2))
                     {
-                        DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-4.5f, -6f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f + (0.000003f * npc.width * npc.height), 0f, 45, false);
+                        PlayerCenteredPulseRing pulse = new DirectionalPulseRing(npcSize, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-4.5f, -6f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f + (0.000003f * npc.width * npc.height), 0f, 45);
                         GeneralParticleHandler.SpawnParticle(pulse);
                     }
                 }
