@@ -119,10 +119,16 @@ namespace CalamityMod.Particles
 
             sb.End();
 
+            Rectangle screenRect = new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
             //Batch the particles to avoid constant restarting of the spritebatch
             foreach (Particle particle in particles)
             {
                 if (particle == null)
+                    continue;
+
+                Texture2D texture = ModContent.Request<Texture2D>(particle.Texture).Value;
+                Rectangle particleRect = new Rectangle((int)particle.Position.X, (int)particle.Position.Y, (int)(texture.Width * particle.Scale), (int)(texture.Height * particle.Scale));
+                if (!particleRect.Intersects(screenRect))
                     continue;
 
                 if (particle.UseAdditiveBlend)
