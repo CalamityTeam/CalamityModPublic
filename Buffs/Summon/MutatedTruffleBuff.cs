@@ -1,11 +1,12 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class MiniOldDukeBuff : ModBuff
+    [LegacyName("MiniOldDukeBuff")]
+    public class MutatedTruffleBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
@@ -17,11 +18,11 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<MutatedTruffleMinion>()] > 0)
             {
-                modPlayer.youngDuke = true;
+                modPlayer.MutatedTruffleBool = true;
             }
-            if (!modPlayer.youngDuke)
+            if (!modPlayer.MutatedTruffleBool)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

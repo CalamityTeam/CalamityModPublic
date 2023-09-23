@@ -1276,9 +1276,9 @@ MiniatureEyeofCthulhu: {
 	Description: It's giving you the death stare
 }
 
-MiniOldDukeBuff: {
-	DisplayName: Mini Old Duke
-	Description: The young duke will protect you
+MutatedTruffleBuff: {
+	DisplayName: Baby Boomer
+	Description: The mutated fishron will intoxicate your foes
 }
 
 MiniPlaguebringerBuff: {
@@ -1499,4 +1499,9 @@ AbsorberRegen: {
 AbsorberAffliction: {
 	DisplayName: Absorber Affliction
 	Description: Damn nature, you scary!
+}
+
+YoungDukeBuff: {
+	DisplayName: Young Duke Buff
+	Description: Mods.CalamityMod.Buffs.YoungDukeBuff.Description
 }
