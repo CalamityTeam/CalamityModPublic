@@ -1,3 +1,5 @@
+﻿using CalamityMod.Particles;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,6 +27,34 @@ namespace CalamityMod.Buffs.DamageOverTime
                 npc.Calamity().sulphurPoison = npc.buffTime[buffIndex];
             npc.DelBuff(buffIndex);
             buffIndex--;
+        }
+
+        internal static void DrawEffects(Player player)
+        {
+
+        }
+
+        internal static void DrawEffects(NPC npc, ref Color drawColor)
+        {
+            if (Main.rand.NextBool(2))
+            {
+                Vector2 npcSize = npc.Center + new Vector2(Main.rand.NextFloat(-npc.width / 2, npc.width / 2), Main.rand.NextFloat(-npc.height / 2, npc.height / 2));
+                int dust = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, 298, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.2f + +(0.000003f * npc.width * npc.height));
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0.75f;
+                Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
+                Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1f;
+                if (Main.rand.NextBool(4))
+                {
+                    Main.dust[dust].noGravity = false;
+                    Main.dust[dust].scale *= 0.4f;
+                }
+                if (Main.rand.NextBool(2))
+                {
+                    DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-4.5f, -6f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f + (0.000003f * npc.width * npc.height), 0f, 45);
+                    GeneralParticleHandler.SpawnParticle(pulse);
+                }
+            }
         }
     }
 }

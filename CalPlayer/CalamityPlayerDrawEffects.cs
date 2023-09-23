@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using CalamityMod.CalPlayer.DrawLayers;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -19,7 +17,6 @@ namespace CalamityMod.CalPlayer
     public partial class CalamityPlayer : ModPlayer
     {
         #region Draw Hooks
-        
         public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
             if (Player is null)

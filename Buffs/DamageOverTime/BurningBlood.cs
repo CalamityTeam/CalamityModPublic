@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,6 +26,23 @@ namespace CalamityMod.Buffs.DamageOverTime
                 npc.Calamity().bBlood = npc.buffTime[buffIndex];
             npc.DelBuff(buffIndex);
             buffIndex--;
+        }
+
+        internal static void DrawEffects(Player player)
+        {
+
+        }
+
+        internal static void DrawEffects(NPC npc, ref Color drawColor)
+        {
+            if (Main.rand.NextBool(3))
+            {
+                int dust = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, Main.rand.NextBool(8) ? 296 : 5, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.25f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 1.3f;
+                Main.dust[dust].velocity.Y -= 0.5f;
+            }
+            Lighting.AddLight(npc.Center, 0.08f, 0f, 0f);
         }
     }
 }
