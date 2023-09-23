@@ -605,7 +605,7 @@ namespace CalamityMod.CalPlayer
                     BloodParticle blood = new BloodParticle(Player.Center, bloodVelocity, bloodLifetime, bloodScale, bloodColor);
                     GeneralParticleHandler.SpawnParticle(blood);
                 }
-                int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 186, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 0.6f);
+                int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? 104 : 186, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.4f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity *= 0.75f;
                 Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
