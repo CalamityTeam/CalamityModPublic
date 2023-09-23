@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            Projectile.width = 24;
+            Projectile.width = 22;
             Projectile.height = 24;
             Projectile.friendly = true;
             Projectile.alpha = 50;
@@ -52,11 +52,11 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             Projectile.alpha -= 15;
-            int num58 = 150;
+            int alphaControl = 150;
             if (Projectile.Center.Y >= Projectile.ai[1])
-                num58 = 0;
-            if (Projectile.alpha < num58)
-                Projectile.alpha = num58;
+                alphaControl = 0;
+            if (Projectile.alpha < alphaControl)
+                Projectile.alpha = alphaControl;
 
             Projectile.localAI[0] += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
             Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
@@ -71,9 +71,9 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (Main.rand.NextBool(48) && Main.netMode != NetmodeID.Server)
             {
-                int num60 = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
-                Main.gore[num60].velocity *= 0.66f;
-                Main.gore[num60].velocity += Projectile.velocity * 0.3f;
+                int starry = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
+                Main.gore[starry].velocity *= 0.66f;
+                Main.gore[starry].velocity += Projectile.velocity * 0.3f;
             }
 
             if (Projectile.ai[1] == 1f)
@@ -111,27 +111,27 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.height = 36;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int num621 = 0; num621 < 5; num621++)
+            for (int i = 0; i < 5; i++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.2f);
-                Main.dust[num622].velocity *= 3f;
+                int starryDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.2f);
+                Main.dust[starryDust].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[starryDust].scale = 0.5f;
+                    Main.dust[starryDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 5; num623++)
+            for (int j = 0; j < 5; j++)
             {
-                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.7f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
-                Main.dust[num624].velocity *= 2f;
+                int starryDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.7f);
+                Main.dust[starryDust2].noGravity = true;
+                Main.dust[starryDust2].velocity *= 5f;
+                starryDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
+                Main.dust[starryDust2].velocity *= 2f;
             }
             if (Main.netMode != NetmodeID.Server)
             {
-                for (int num480 = 0; num480 < 3; num480++)
+                for (int k = 0; k < 3; k++)
                     Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
             }
         }
