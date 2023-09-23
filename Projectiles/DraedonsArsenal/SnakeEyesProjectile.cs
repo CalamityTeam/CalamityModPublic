@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 boomDust.noGravity = true;
             }
 
-            Particle boom = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.White, Vector2.One, 0f, 0.05f, 1f + Main.rand.NextFloat(0.2f), 20);
+            Particle boom = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.White, Vector2.One, 0f, 0.05f, 1f + Main.rand.NextFloat(0.2f), 20, false);
             GeneralParticleHandler.SpawnParticle(boom);
 
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);

@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Ranged
                 PulseTimer = PrevPulseTimer * 2f;
 
                 Color pulseColor = Main.rand.NextBool() ? (Main.rand.NextBool() ? Color.SkyBlue : Color.LightSkyBlue) : (Main.rand.NextBool() ? Color.LightBlue : Color.DeepSkyBlue);
-                Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, pulseColor, new Vector2(0.5f, 1f), Projectile.velocity.ToRotation(), 0.05f, 0.2f + 0.3f * (1 - Progress), 30);
+                Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, pulseColor, new Vector2(0.5f, 1f), Projectile.velocity.ToRotation(), 0.05f, 0.2f + 0.3f * (1 - Progress), 30, false);
                 GeneralParticleHandler.SpawnParticle(pulse);
 
                 int numDust = 18;

@@ -4,6 +4,8 @@ using System;
 using static CalamityMod.CalamityUtils;
 using Terraria;
 using Terraria.ModLoader;
+using rail;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Particles
 {
@@ -14,13 +16,16 @@ namespace CalamityMod.Particles
         public override bool SetLifetime => true;
         public override bool UseCustomDraw => true;
 
+        public Player player = Main.player[Main.myPlayer];
+
         private float OriginalScale;
         private float FinalScale;
         private float opacity;
         private Vector2 Squish;
         private Color BaseColor;
+        private bool LockToPlayerPosition;
 
-        public DirectionalPulseRing(Vector2 position, Vector2 velocity, Color color, Vector2 squish, float rotation, float originalScale, float finalScale, int lifeTime)
+        public DirectionalPulseRing(Vector2 position, Vector2 velocity, Color color, Vector2 squish, float rotation, float originalScale, float finalScale, int lifeTime, bool lockToPlayerPosition)
         {
             Position = position;
             Velocity = velocity;
@@ -31,6 +36,7 @@ namespace CalamityMod.Particles
             Lifetime = lifeTime;
             Squish = squish;
             Rotation = rotation;
+            LockToPlayerPosition = lockToPlayerPosition;
         }
 
         public override void Update()
@@ -43,6 +49,9 @@ namespace CalamityMod.Particles
             Color = BaseColor * opacity;
             Lighting.AddLight(Position, Color.R / 255f, Color.G / 255f, Color.B / 255f);
             Velocity *= 0.95f;
+
+            if (LockToPlayerPosition)
+                Position = player.MountedCenter;
         }
 
         public override void CustomDraw(SpriteBatch spriteBatch)

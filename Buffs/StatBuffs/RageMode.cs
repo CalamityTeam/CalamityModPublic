@@ -36,6 +36,7 @@ namespace CalamityMod.Buffs.StatBuffs
                 player.DelBuff(buffIndex--); // TML documentation requires you to decrement buffIndex if deleting the buff during Update.
                 mp.rageModeActive = false;
                 mp.rage = 0f;
+                player.Calamity().ragePulseTimer = 0;
             }
         }
     }

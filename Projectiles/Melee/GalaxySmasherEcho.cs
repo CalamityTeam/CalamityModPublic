@@ -131,9 +131,9 @@ namespace CalamityMod.Projectiles.Melee
             else
                 SoundEngine.PlaySound(SlamHamSound, Projectile.Center);
 
-            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Violet, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.2f, 4f, 12);
+            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Violet, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.2f, 4f, 12, false);
             GeneralParticleHandler.SpawnParticle(pulse);
-            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Aqua, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 1.5f, 11);
+            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Aqua, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 1.5f, 11, false);
             GeneralParticleHandler.SpawnParticle(pulse2);
 
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<GalaxySmasherBlast>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, 0f);

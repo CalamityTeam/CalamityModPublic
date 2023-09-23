@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Ranged
                     // Spawn a ring particle based off charge percent to emphasize the impact
                     float originalScale = 0.2f * ChargePercent;
                     float maxScale = 1f * ChargePercent;
-                    Particle pulse = new DirectionalPulseRing(Owner.MountedCenter + direction * WeaponLength, Vector2.Zero, Color.White, new Vector2(0.5f, 1f), direction.ToRotation(), originalScale, maxScale, 30);
+                    Particle pulse = new DirectionalPulseRing(Owner.MountedCenter + direction * WeaponLength, Vector2.Zero, Color.White, new Vector2(0.5f, 1f), direction.ToRotation(), originalScale, maxScale, 30, false);
                     GeneralParticleHandler.SpawnParticle(pulse);
 
                     // Play a sound with volume scaling with charge percent
