@@ -25,8 +25,8 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void SetDefaults()
         {
-            Item.width = 20;
-            Item.height = 20;
+            Item.width = 24;
+            Item.height = 46;
             Item.useAnimation = 30;
             Item.rare = ItemRarityID.LightRed;
             Item.useTime = 30;
