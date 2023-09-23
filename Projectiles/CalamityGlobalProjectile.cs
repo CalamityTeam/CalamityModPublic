@@ -2126,9 +2126,10 @@ namespace CalamityMod.Projectiles
                     {
                         if (projectile.type != ProjectileType<RicoshotCoin>())
                             projectile.extraUpdates += 1;
-                        if (projectile.type == ProjectileID.MechanicalPiranha)
+                        if (projectile.type == ProjectileID.MechanicalPiranha) {
                             projectile.localNPCHitCooldown *= 2;
                             projectile.timeLeft *= 2;
+                        }
                     }
 
                     if (modPlayer.camper && !player.StandingStill())
