@@ -5643,7 +5643,7 @@ namespace CalamityMod.NPCs
                     }
                     if (Main.rand.NextBool(2))
                     {
-                        PlayerCenteredPulseRing pulse = new DirectionalPulseRing(npcSize, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-4.5f, -6f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f + (0.000003f * npc.width * npc.height), 0f, 45);
+                        DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-4.5f, -6f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f + (0.000003f * npc.width * npc.height), 0f, 45);
                         GeneralParticleHandler.SpawnParticle(pulse);
                     }
                 }
