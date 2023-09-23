@@ -20,7 +20,8 @@ namespace CalamityMod.Dusts
             dust.position += dust.velocity;
             dust.scale *= 0.94f;
             dust.velocity *= 0.90f;
-            Lighting.AddLight(dust.position, 0.255f, 0.185f, 0.094f);
+            // 23SEP2023: Ozzatron: Adrenaline emits light directly; there is a LOT of shortlived dust
+            // Lighting.AddLight(dust.position, 0.255f, 0.185f, 0.094f);
             if (dust.scale < 0.4f)
             {
                 dust.active = false;

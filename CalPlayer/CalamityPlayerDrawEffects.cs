@@ -345,9 +345,13 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Dust while Adrenaline Mode is active
+            // Light and dust while Adrenaline Mode is active
             if (calamityPlayer.adrenalineModeActive)
             {
+                // 23SEP2023: Ozzatron: Adrenaline emits light directly. Color lifted from AdrenDust
+                Vector3 adrenDustLight = new Vector3(0.255f, 0.185f, 0.094f);
+                Lighting.AddLight(Player.Center, adrenDustLight * 2);
+                
                 for (int i = 0; i < 4; i++)
                 {
                     int dustID = ModContent.DustType<AdrenDust>();
