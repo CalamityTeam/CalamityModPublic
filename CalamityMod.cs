@@ -217,6 +217,9 @@ namespace CalamityMod
             Mount.mounts[MountID.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.Unicorn].runSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
 
+            // Buff DCU's pickaxe power to equal PML pickaxe capabilities
+            Mount.drillPickPower = 225;
+
             // Make Graveyard biomes require more Gravestones
             SceneMetrics.GraveyardTileMax = 88;
             SceneMetrics.GraveyardTileMin = 68;
@@ -474,6 +477,8 @@ namespace CalamityMod
 
             Mount.mounts[MountID.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
+
+            Mount.drillPickPower = 210;
 
             SceneMetrics.GraveyardTileMax = 36;
             SceneMetrics.GraveyardTileMin = 16;
