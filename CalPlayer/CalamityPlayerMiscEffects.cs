@@ -527,7 +527,6 @@ namespace CalamityMod.CalPlayer
             // If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
             if (adrenalineModeActive)
             {
-                
                 adrenalineDiff = -adrenalineMax / AdrenalineDuration;
 
                 // If using Draedon's Heart, you get healing instead of damage.

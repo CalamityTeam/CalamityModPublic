@@ -322,12 +322,12 @@ namespace CalamityMod.CalPlayer
 
                     if (ragePulse)
                     {
-                        rageBuffTimer++;
-                        if (rageBuffTimer >= 30)
+                        ragePulseVisualTimer++;
+                        if (ragePulseVisualTimer >= 30)
                         {
                             DirectionalPulseRing pulse = new DirectionalPulseRing(Player.MountedCenter, Vector2.Zero, (shatteredCommunity ? Color.MediumPurple : Color.Red), new Vector2(1, 1), 0, 0f, 0.18f, 30, true);
                             GeneralParticleHandler.SpawnParticle(pulse);
-                            rageBuffTimer = 0;
+                            ragePulseVisualTimer = 0;
                             ragePulse = false;
                             ragePulseTimer = 0;
                         }

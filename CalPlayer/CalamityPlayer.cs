@@ -226,7 +226,7 @@ namespace CalamityMod.CalPlayer
         public NPC unstableSelectedTarget;
         public int zapActivity = 0;
         public bool ragePulse = false;
-        public int rageBuffTimer = 0;
+        public int ragePulseVisualTimer = 0;
         public int ragePulseTimer = 0;
 
         private const int DashDisableCooldown = 12;
