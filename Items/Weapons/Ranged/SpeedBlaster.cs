@@ -53,15 +53,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.UseSound = player.altFunctionUse == 2 && player.Calamity().SpeedBlasterDashDelayCooldown == 0 ? ShotBig : Shot;
             return base.CanUseItem(player);
         }
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-1, -6);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-1, -6);
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? 1.15f : 1f;
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             if (player.Calamity().SpeedBlasterDashDelayCooldown == 0)
             {
-                Item.useTime = Item.useAnimation = 9;
                 ShotBigMode = 0;
             }
 
@@ -73,7 +70,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 else
                     ColorValue++;
 
-                Item.useTime = Item.useAnimation = 8;
                 player.Calamity().SpeedBlasterDashDelayCooldown = 300;
 
                 player.Calamity().sBlasterDashActivated = true;
@@ -106,7 +102,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.PainterPaintballGun).
-                AddIngredient(ItemID.MythrilBar, 5).
+                AddRecipeGroup("AnyMythrilBar", 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
