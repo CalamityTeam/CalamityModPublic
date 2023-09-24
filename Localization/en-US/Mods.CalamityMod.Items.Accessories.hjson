@@ -1277,14 +1277,15 @@ ProfanedSoulCrystal: {
 	Reject: Merchants will reject a defiled soul such as this.
 	FullTooltip:
 		'''
-		Requires 10 minion slots to use in order to grant the following effects
+		Requires {0} minion slots to use in order to grant the following effects
 		All non-summon weapons are converted into powerful summon variations
-		Falling below 50% life will empower these attacks
+		Having no other minions will empower these attacks
 		[c/F05A5A:Transforms Melee attacks into a barrage of spears]
-		[c/3A83E4:Transforms Magic attacks into a powerful splitting fireball for {0} mana per cast]
+		[c/3A83E4:Transforms Magic attacks into a powerful splitting fireball for {1} mana per cast]
 		[c/85E092:Transforms Ranged attacks into a flurry of fireballs and meteors]
 		[c/E94571:Transforms Rogue attacks into a deadly crystalline spiral]
-		Summons and empowers the profaned babs to fight alongside you
+		[c/E299FF:Transforms Whip attacks into an empowering profaned crystal whip]
+		Summons and empowers the profaned soul guardians to fight alongside you
 		Provides buffs depending on the time of day
 		Thinking back, it was a boring life
 		[c/FFBF49:And so we burn it all in the name of purity]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CalamityMod.CalPlayer;
+using static CalamityMod.Items.Accessories.ProfanedSoulCrystal;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
@@ -51,8 +52,9 @@ namespace CalamityMod.Items.Accessories
                 
                 // Do not render the shield if its visibility is off (or it does not exist)
                 bool isVanityOnly = modPlayer.pSoulShieldVisible && !modPlayer.pSoulArtifact;
+                bool shouldNotDraw = modPlayer.andromedaState >= AndromedaPlayerState.LargeRobot; //I am not dealing with drawing that :taxevasion:
                 bool shieldExists = isVanityOnly || modPlayer.pSoulShieldDurability > 0;
-                if (!modPlayer.pSoulShieldVisible || modPlayer.drawnAnyShieldThisFrame || !shieldExists)
+                if (!modPlayer.pSoulShieldVisible || modPlayer.drawnAnyShieldThisFrame || shouldNotDraw || !shieldExists)
                     continue;
 
                 // Scale the shield is drawn at.
@@ -62,8 +64,9 @@ namespace CalamityMod.Items.Accessories
                 if (!alreadyDrawnShieldForPlayer)
                 {
                     CalamityPlayer localModPlayer = Main.LocalPlayer.Calamity();
+                    DetermineTransformationEligibility(localModPlayer.Player);
                     var psc = localModPlayer.profanedCrystalBuffs;
-                    scale += psc ? 0.025f : 0f;
+                    scale += ((ProfanedSoulCrystalState)localModPlayer.pscState) == ProfanedSoulCrystalState.Empowered ? 0.05f : psc ? 0.025f : 0f;
                     float visualShieldStrength = 1f;
                     if (!isVanityOnly)
                     {
@@ -92,11 +95,13 @@ namespace CalamityMod.Items.Accessories
                     shieldEffect.Parameters["shieldEdgeBlendStrenght"].SetValue(4f);
 
                     // Profaned Soul shields are not team specific
-                    Color shieldColor = new Color(231, 160, 56);
-                    if (psc && ProfanedSoulCrystal.testerNames.Any(name => name.Equals(localModPlayer.Player.name)))
-                        shieldColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f);
-                    else if (psc)
-                        shieldColor = new Color(255, 110, 56);
+                    Color shieldColor = GetColorForPsc(localModPlayer.pscState, Main.dayTime);
+                    if (modPlayer.pscState >= (int)(ProfanedSoulCrystalState.Buffs))
+                    {
+                        bool tester = testerNames.Any(name => name.Equals(localModPlayer.Player.name));
+                        shieldColor = tester ? CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25) * 0.8f, 6f) :
+                        GetLerpedColorForPsc(modPlayer);
+                    }
                     
                     Color primaryEdgeColor = new Color(230, 199, 102) * 0.8f;
                     Color secondaryEdgeColor = new Color(249, 231, 217) * 0.8f;

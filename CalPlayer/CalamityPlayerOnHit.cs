@@ -1062,7 +1062,13 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<HolyFlames>(), 300);
 
                 if (profanedCrystalBuffs)
-                    target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
+                {
+                    bool empowered = pscState == (int)ProfanedSoulCrystal.ProfanedSoulCrystalState.Empowered;
+                    if (empowered || Main.dayTime)
+                        target.AddBuff(BuffType<HolyFlames>(), 600);
+                    if (empowered || !Main.dayTime)
+                        target.AddBuff(BuffType<Nightwither>(), 600);
+                }
 
                 if (divineBless)
                     target.AddBuff(BuffType<BanishingFire>(), 60);
