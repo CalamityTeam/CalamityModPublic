@@ -57,6 +57,7 @@ namespace CalamityMod.Items
                 { ItemID.BookStaff, Do(ManaExact(14)) }, // Tome of Infinite Wisdom
                 { ItemID.Boomstick, Do(PointBlank, DamageExact(11)) },
                 { ItemID.BreakerBlade, Do(AutoReuse, UseTurn, ScaleRatio(1.4f), DamageExact(97)) },
+                { ItemID.CandyCornRifle, Do(PointBlank, DamageExact(66)) },
                 { ItemID.Cascade, Do(AutoReuse, DamageExact(30)) },
                 { ItemID.ChainGuillotines, Do(DamageExact(100)) },
                 { ItemID.ChainKnife, Do(AutoReuse, DamageRatio(1.34f)) },  // Uses ratios due to remix seed
@@ -249,7 +250,7 @@ namespace CalamityMod.Items
                 { ItemID.WhitePhaseblade, Do(AutoReuse, UseTurn, DamageExact(32)) },
                 { ItemID.WhitePhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.WoodenBoomerang, Do(DamageRatio(2f), Value(Item.sellPrice(copper: 20))) },
-                { ItemID.Xenopopper, Do(DamageRatio(0.75f)) },
+                { ItemID.Xenopopper, Do(DamageExact(48)) },
                 { ItemID.YellowPhaseblade, Do(AutoReuse, UseTurn, DamageExact(32)) },
                 { ItemID.YellowPhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.Zenith, Do(DamageExact(210)) },
@@ -414,7 +415,6 @@ namespace CalamityMod.Items
                 #region CATEGORY 5: Point Blank support
                 { ItemID.Blowpipe, pointBlank },
                 { ItemID.BorealWoodBow, pointBlank },
-                { ItemID.CandyCornRifle, pointBlank },
                 { ItemID.ChainGun, pointBlank },
                 { ItemID.CopperBow, pointBlank },
                 { ItemID.DartPistol, pointBlank },
