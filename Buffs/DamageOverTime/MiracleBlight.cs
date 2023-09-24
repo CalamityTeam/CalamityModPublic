@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,9 +30,44 @@ namespace CalamityMod.Buffs.DamageOverTime
             buffIndex--;
         }
 
-        internal static void DrawEffects(Player player)
+        internal static void DrawEffects(PlayerDrawSet drawInfo)
         {
+            Player Player = drawInfo.drawPlayer;
 
+            var sparkColor = Main.rand.Next(4) switch
+            {
+                0 => Color.DarkRed,
+                1 => Color.MediumTurquoise,
+                2 => Color.Orange,
+                _ => Color.LawnGreen,
+            };
+            DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Calamity().RandomDebuffVisualSpot, new Vector2(5, 5).RotatedByRandom(360), sparkColor, new Vector2(Main.rand.NextFloat(1f, 5f), Main.rand.NextFloat(1f, 5f)), 0, Main.rand.NextFloat(0.07f, 0.1f), 0f, 18);
+            GeneralParticleHandler.SpawnParticle(pulse);
+
+            float numberOfDusts = 3f;
+            float rotFactor = 360f / numberOfDusts;
+            if (Player.miscCounter % 4 == 0)
+            {
+                for (int i = 0; i < numberOfDusts; i++)
+                {
+                    var DustType = Main.rand.Next(4) switch
+                    {
+                        0 => 219,
+                        1 => 220,
+                        2 => 226,
+                        _ => 222,
+                    };
+                    float rot = MathHelper.ToRadians(i * rotFactor);
+                    Vector2 offset = new Vector2(0.3f, 0).RotatedBy(rot * Main.rand.NextFloat(0.2f, 0.3f));
+                    Vector2 velOffset = CalamityUtils.RandomVelocity(100f, 70f, 150f, 0.04f);
+                    Dust dust = Dust.NewDustPerfect(Player.Calamity().RandomDebuffVisualSpot + offset, DustType, new Vector2(velOffset.X, velOffset.Y));
+                    dust.noGravity = true;
+                    dust.velocity = velOffset;
+                    velOffset *= 10;
+                    dust.position = Player.Center - velOffset;
+                    dust.scale = Main.rand.NextFloat(0.7f, 0.8f);
+                }
+            }
         }
 
         internal static void DrawEffects(NPC npc, ref Color drawColor)

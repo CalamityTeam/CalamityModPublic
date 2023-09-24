@@ -1,6 +1,7 @@
 ﻿using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -31,9 +32,33 @@ namespace CalamityMod.Buffs.DamageOverTime
             buffIndex--;
         }
 
-        internal static void DrawEffects(Player player)
+        internal static void DrawEffects(PlayerDrawSet drawInfo)
         {
+            Player Player = drawInfo.drawPlayer;
 
+            int dustType = Utils.SelectRandom(Main.rand, new int[]
+            {
+                246,
+                242,
+                229,
+                226,
+                247,
+                187,
+                234
+            });
+            if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
+            {
+                int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, dustType, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 1.8f;
+                Main.dust[dust].velocity.Y -= 0.5f;
+                if (Main.rand.NextBool(4))
+                {
+                    Main.dust[dust].noGravity = false;
+                    Main.dust[dust].scale *= 0.5f;
+                }
+                drawInfo.DustCache.Add(dust);
+            }
         }
 
         internal static void DrawEffects(NPC npc, ref Color drawColor)

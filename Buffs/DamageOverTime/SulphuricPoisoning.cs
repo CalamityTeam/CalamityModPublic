@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,9 +30,28 @@ namespace CalamityMod.Buffs.DamageOverTime
             buffIndex--;
         }
 
-        internal static void DrawEffects(Player player)
+        internal static void DrawEffects(PlayerDrawSet drawInfo)
         {
+            Player Player = drawInfo.drawPlayer;
 
+            if (Main.rand.Next(5) < 4 && drawInfo.shadow == 0f)
+            {
+                int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 298, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 0.6f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0.75f;
+                Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
+                Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1f;
+                if (Main.rand.NextBool(4))
+                {
+                    Main.dust[dust].noGravity = false;
+                    Main.dust[dust].scale *= 0.2f;
+                }
+                if (Main.rand.NextBool(5))
+                {
+                    DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Calamity().RandomDebuffVisualSpot, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-3f, -4f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f, 0f, 45);
+                    GeneralParticleHandler.SpawnParticle(pulse);
+                }
+            }
         }
 
         internal static void DrawEffects(NPC npc, ref Color drawColor)

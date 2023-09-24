@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Text;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer.DrawLayers;
-using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
@@ -18,6 +18,8 @@ namespace CalamityMod.CalPlayer
 {
     public partial class CalamityPlayer : ModPlayer
     {
+        internal Vector2 RandomDebuffVisualSpot => Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f));
+
         #region Draw Hooks
         public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
@@ -47,8 +49,6 @@ namespace CalamityMod.CalPlayer
 
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-            Vector2 randomSpotOnPlayer() => Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f));
-
             if (Player.Calamity().andromedaState != AndromedaPlayerState.Inactive)
                 AndromedaMechLayer.DrawTheStupidFuckingRobot(ref drawInfo);
 
@@ -106,8 +106,6 @@ namespace CalamityMod.CalPlayer
             }
 
             // TODO -- rogue stealth visuals are an utter catastrophe and should be fully destroyed on next stealth rework
-            // furthermore, it is not meaningfully possible to break any of this into subfunctions
-            bool noRogueStealth = calamityPlayer.rogueStealth == 0f || Player.townNPCs > 2f || !CalamityConfig.Instance.StealthInvisibility;
             if (calamityPlayer.rogueStealth > 0f && calamityPlayer.rogueStealthMax > 0f && Player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisibility)
             {
                 // A translucent orchid color, the rogue class color
@@ -121,18 +119,8 @@ namespace CalamityMod.CalPlayer
                 Player.armorEffectDrawShadowSubtle = false;
             }
 
-            if (calamityPlayer.tRegen)
-            {
-                if (Main.rand.NextBool(10) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 107, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 0.75f;
-                    Main.dust[dust].velocity.Y -= 0.35f;
-                    drawInfo.DustCache.Add(dust);
-                }
-            }
-
+            #region Flight Visuals
+            // Celestial Tracers, Elysian Tracers, Seraph Tracers
             if (calamityPlayer.tracersDust)
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
@@ -146,6 +134,8 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+
+            // Elysian Wings, Elysian TRACERS?! and SERAPH TRACERS?!
             if (calamityPlayer.elysianWingsDust)
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
@@ -159,6 +149,10 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+            #endregion
+
+            #region Armor Visuals
+            // Demonshade Armor
             if (calamityPlayer.dsSetBonus)
             {
                 if (Player != null && !Player.dead)
@@ -176,7 +170,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (calamityPlayer.auricSet)
+
+            // Auric Armor
+            else if (calamityPlayer.auricSet)
             {
                 if (Player != null && !Player.dead)
                 {
@@ -203,398 +199,95 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+            #endregion
+
+            #region Ripper Visuals
+            if (calamityPlayer.rageModeActive)
+                RageMode.DrawEffects(drawInfo);
+
+            if (calamityPlayer.adrenalineModeActive)
+                AdrenalineMode.DrawEffects(drawInfo);
+            #endregion
+
+            #region Buff and Debuff Visuals
+            // Buff and debuff visuals. Alphabetical order as per usual, please
+
+            if (calamityPlayer.astralInfection)
+                AstralInfectionDebuff.DrawEffects(drawInfo);
+
+            if (calamityPlayer.bBlood)
+                BurningBlood.DrawEffects(drawInfo);
+
             if (calamityPlayer.bFlames)
             {
-                Vector3 brimstoneDustLight = new Vector3(0.255f, 0.079f, 0.082f);
-                Lighting.AddLight(Player.Center, brimstoneDustLight * 2);
-
-                if (Main.rand.NextBool(abaddon ? 4 : 2) && drawInfo.shadow == 0f) //looks weaker if you have Abaddon equipped
-                {
-                    Dust dust = Dust.NewDustPerfect(randomSpotOnPlayer(), Main.rand.NextBool(3) ? 114 : ModContent.DustType<BrimstoneFlame>(), new Vector2(0, Main.rand.NextFloat(-3f, -5f)) + Player.velocity, 0, default, abaddon ? 1.1f : 1.6f);
-                    dust.noGravity = true;
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Dust dust2 = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), 19), Main.rand.NextBool(2) ? 90 : ModContent.DustType<BrimstoneFlame>(), new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-1f, -3f)) + Player.velocity, 0, default, abaddon ? 0.4f : 1.4f);
-                        dust2.noGravity = true;
-                    }
-                }
-            }
-            if (calamityPlayer.shadowflame)
-            {
-                if (Main.rand.Next(5) < 4 && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 27, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.1f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 0.75f;
-                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
-                    Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 3f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.3f;
-                    }
-                }
-            }
-            if (calamityPlayer.sulphurPoison)
-            {
-                if (Main.rand.Next(5) < 4 && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 298, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 0.6f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 0.75f;
-                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
-                    Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.2f;
-                    }
-                    if (Main.rand.NextBool(5))
-                    {
-                        DirectionalPulseRing pulse = new DirectionalPulseRing(randomSpotOnPlayer(), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-3f, -4f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f, 0f, 45);
-                        GeneralParticleHandler.SpawnParticle(pulse);
-                    }
-                }
+                bool resistsBrimstoneFlames = abaddon; // Looks weaker if you have Abaddon equipped
+                BrimstoneFlames.DrawEffects(drawInfo, resistsBrimstoneFlames);
             }
 
-            // Dust while Rage Mode is active
-            if (calamityPlayer.rageModeActive)
+            if (calamityPlayer.cDepth)
+                CrushDepth.DrawEffects(drawInfo);
+
+            if (calamityPlayer.dragonFire)
+                Dragonfire.DrawEffects(drawInfo);
+
+            if (calamityPlayer.eutrophication)
+                Eutrophication.DrawEffects(drawInfo);
+
+            if (calamityPlayer.gState)
             {
-                if (drawInfo.shadow == 0f)
-                {
-                    ragePulseTimer++;
-                    int dustID = heartOfDarkness ? 240 : 114;
+                // These lines cannot be moved to Glacial State's own file
+                r *= 0.13f;
+                g *= 0.66f;
 
-                    if (shatteredCommunity && Main.rand.NextBool(2))
-                        dustID = 112; //special dust visual for Shattered Community
-
-                    if (heartOfDarkness && !shatteredCommunity && Main.rand.NextBool(2))
-                        dustID = 90; //special dust visual for Heart of Darkness
-
-                    if (ragePulseTimer == 60)
-                    {
-                        PlayerCenteredPulseRing pulse = new PlayerCenteredPulseRing(Player, Vector2.Zero, Color.Red, new Vector2(1, 1), 0, 0f, 0.23f, 40);
-                        GeneralParticleHandler.SpawnParticle(pulse);
-                        ragePulse = true;
-                    }
-
-                    if (ragePulse)
-                    {
-                        ragePulseVisualTimer++;
-                        if (ragePulseVisualTimer >= 30)
-                        {
-                            PlayerCenteredPulseRing pulse = new PlayerCenteredPulseRing(Player, Vector2.Zero, (shatteredCommunity ? Color.MediumPurple : Color.Red), new Vector2(1, 1), 0, 0f, 0.18f, 30);
-                            GeneralParticleHandler.SpawnParticle(pulse);
-                            ragePulseVisualTimer = 0;
-                            ragePulse = false;
-                            ragePulseTimer = 0;
-                        }
-                    }
-
-                    Dust dust = Dust.NewDustPerfect(randomSpotOnPlayer(), dustID);
-                    dust.scale = Main.rand.NextFloat(0.3f, 0.45f);
-                    if (dustID == 112)
-                        dust.scale = Main.rand.NextFloat(0.7f, 0.8f);
-                    if (dustID == 240)
-                        dust.scale = Main.rand.NextFloat(0.8f, 0.95f);
-                    dust.velocity = -Player.velocity / 3;
-                    dust.noGravity = true;
-
-                }
-            }
-
-            // Light and dust while Adrenaline Mode is active
-            if (calamityPlayer.adrenalineModeActive)
-            {
-                // 23SEP2023: Ozzatron: Adrenaline emits light directly. Color lifted from AdrenDust
-                Vector3 adrenDustLight = new Vector3(0.094f, 0.255f, 0.185f);
-                Lighting.AddLight(Player.Center, adrenDustLight * 3);
-                
-                for (int i = 0; i < 4; i++)
-                {
-                    int dustID = ModContent.DustType<AdrenDust>();
-                    Vector2 dustVel = Player.velocity * 0.5f;
-                    int idx = Dust.NewDust(Main.rand.NextBool(5) ? drawInfo.Position : drawInfo.Position -Player.velocity * 1.5f, Player.width, Player.height, dustID, dustVel.X, dustVel.Y);
-                    Dust d = Main.dust[idx];
-                    d.scale = Main.rand.NextFloat(0.4f, 1.2f);
-                    d.noGravity = true;
-                    d.noLight = false;
-                    drawInfo.DustCache.Add(idx);
-                }
+                GlacialState.DrawEffects(drawInfo);
             }
 
             if (calamityPlayer.gsInferno)
-            {
-                if (Main.rand.NextBool(1) && drawInfo.shadow == 0f)
-                {
-                    SparkParticle spark = new SparkParticle(randomSpotOnPlayer(), new Vector2(0, Main.rand.NextFloat(-5f, 5f)), false, Main.rand.Next(11, 13), Main.rand.NextFloat(0.2f, 0.5f), Main.rand.NextBool(7) ? Color.Aqua : Color.Fuchsia);
-                    GeneralParticleHandler.SpawnParticle(spark);
-                }
-            }
-            if (calamityPlayer.astralInfection)
-            {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    DirectionalPulseRing pulse = new DirectionalPulseRing(randomSpotOnPlayer(), Vector2.Zero, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.Coral, new Vector2(1, 1), 0, 0.08f, 0f, 20);
-                    GeneralParticleHandler.SpawnParticle(pulse);
-                    Particle orb = new GenericBloom(randomSpotOnPlayer(), Vector2.Zero, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.Coral, 0.055f, 8);
-                    GeneralParticleHandler.SpawnParticle(orb);
-                }
-            }
-            if (calamityPlayer.hFlames || calamityPlayer.hInferno || calamityPlayer.banishingFire) //Sun stone makes it look weaker
-            {
-                if (Main.rand.NextBool(reducedHolyFlamesDamage && !calamityPlayer.hInferno ? 4 : 2) && drawInfo.shadow == 0f)
-                {
-                    Vector2 Vect = new Vector2(0f, Main.rand.NextBool(4) ? -5f : -9f).RotatedByRandom(MathHelper.ToRadians(25f)) * Main.rand.NextFloat(0.1f, 1.9f);
-                    CritSpark spark = new CritSpark(randomSpotOnPlayer(), Vect, Main.rand.NextBool(2) ? Color.Coral : Color.OrangeRed, Color.Orange, (reducedHolyFlamesDamage && !calamityPlayer.hInferno ? 0.4f : 0.8f), 15, 2f, 1.9f);
-                    GeneralParticleHandler.SpawnParticle(spark);
-                }
+                GodSlayerInferno.DrawEffects(drawInfo);
 
-                if (Main.rand.NextBool(reducedHolyFlamesDamage && !calamityPlayer.hInferno ? 4 : 2) && drawInfo.shadow == 0f)
-                {
-                    Vector2 dustCorner = Player.position - 2f * Vector2.One;
-                    Vector2 dustVel = Player.velocity + new Vector2(0f, Main.rand.NextFloat(-5f, -1f));
-                    int d = Dust.NewDust(dustCorner, Player.width + 4, Player.height + 4, 87, dustVel.X, dustVel.Y);
-                    Main.dust[d].noGravity = true;
-                    Main.dust[d].scale = reducedHolyFlamesDamage && !calamityPlayer.hInferno ? Main.rand.NextFloat(0.3f, 0.5f) : Main.rand.NextFloat(0.7f, 1.2f);
-                    Main.dust[d].alpha = 235;
-                }
+            // Holy Flames, Holy Inferno and Banishing Fire share the same visual effects
+            if (calamityPlayer.hFlames || calamityPlayer.hInferno || calamityPlayer.banishingFire)
+            {
+                // You cannot "resist" Holy Inferno or Banishing Fire, so if you have either of those the visuals are always full strength
+                bool resistsHolyFlames = !calamityPlayer.hInferno && !calamityPlayer.banishingFire && reducedHolyFlamesDamage;
+                HolyFlames.DrawEffects(drawInfo, resistsHolyFlames);
             }
+
+            // Icarus' Folly has visual effects but they are mutually exclusive with all Holy Flames variations to prevent visual clutter
             else if (calamityPlayer.icarusFolly)
-            {
-                if (Main.rand.NextBool(12) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, (int)CalamityDusts.ProfanedFire, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    drawInfo.DustCache.Add(dust);
-                }
-            }
-            if (calamityPlayer.dragonFire)
-            {
-                for (int i = 0; i < 2; ++i)
-                {
-                    Vector2 Vect2 = new Vector2(0f, Main.rand.NextBool(4) ? -2f : -8f).RotatedByRandom(MathHelper.ToRadians(Main.rand.NextBool(3) ? 10 : 35f)) * Main.rand.NextFloat(0.1f, 1.9f);
-                    SparkParticle spark = new SparkParticle(randomSpotOnPlayer(), new Vector2(Vect2.X - Player.velocity.X * 0.3f, Vect2.Y), false, 10, Main.rand.NextFloat(0.4f, 0.5f), Main.rand.NextBool(2) ? Color.OrangeRed : Color.Orange);
-                    GeneralParticleHandler.SpawnParticle(spark);
+                IcarusFolly.DrawEffects(drawInfo);
 
-                    if (Main.rand.NextBool(3))
-                    {
-                        Vector2 Vect = new Vector2(0f, Main.rand.NextBool(2) ? -3f : -14f).RotatedByRandom(MathHelper.ToRadians(25f)) * Main.rand.NextFloat(0.1f, 1.9f);
-                        SmallSmokeParticle smoke = new SmallSmokeParticle(randomSpotOnPlayer(), Vect, Color.DimGray, Main.rand.NextBool(2) ? Color.Black : Color.DimGray, Main.rand.NextFloat(0.2f, 1.2f), 100);
-                        GeneralParticleHandler.SpawnParticle(smoke);
-                    }
-                }
-            }
             if (calamityPlayer.miracleBlight)
-            {
-                Color sparkColor;
-                switch (Main.rand.Next(4))
-                {
-                    case 0:
-                        sparkColor = Color.DarkRed;
-                        break;
-                    case 1:
-                        sparkColor = Color.MediumTurquoise;
-                        break;
-                    case 2:
-                        sparkColor = Color.Orange;
-                        break;
-                    default:
-                        sparkColor = Color.LawnGreen;
-                        break;
-                }
+                MiracleBlight.DrawEffects(drawInfo);
 
-                DirectionalPulseRing pulse = new DirectionalPulseRing(randomSpotOnPlayer(), new Vector2(5, 5).RotatedByRandom(360), sparkColor, new Vector2(Main.rand.NextFloat(1f, 5f), Main.rand.NextFloat(1f, 5f)), 0, Main.rand.NextFloat(0.07f, 0.1f), 0f, 18);
-                GeneralParticleHandler.SpawnParticle(pulse);
-                
-                float numberOfDusts = 3f;
-                float rotFactor = 360f / numberOfDusts;
-                if (Player.miscCounter % 4 == 0)
-                {
-                    for (int i = 0; i < numberOfDusts; i++)
-                    {
-                        int DustType;
-                        switch (Main.rand.Next(4))
-                        {
-                            case 0:
-                                DustType = 219;
-                                break;
-                            case 1:
-                                DustType = 220;
-                                break;
-                            case 2:
-                                DustType = 226;
-                                break;
-                            default:
-                                DustType = 222;
-                                break;
-                        }
-
-                        float rot = MathHelper.ToRadians(i * rotFactor);
-                        Vector2 offset = new Vector2(0.3f, 0).RotatedBy(rot * Main.rand.NextFloat(0.2f, 0.3f));
-                        Vector2 velOffset = CalamityUtils.RandomVelocity(100f, 70f, 150f, 0.04f);
-                        Dust dust = Dust.NewDustPerfect(randomSpotOnPlayer() + offset, DustType, new Vector2(velOffset.X, velOffset.Y));
-                        dust.noGravity = true;
-                        dust.velocity = velOffset;
-                        velOffset *= 10;
-                        dust.position = Player.Center - velOffset;
-                        dust.scale = Main.rand.NextFloat(0.7f, 0.8f);
-                    }
-                }
-
-            }
-            if (calamityPlayer.pFlames) //Plague debuff
-            {
-                float numberOfDusts = 2f;
-                float rotFactor = 360f / numberOfDusts;
-                if (Player.miscCounter % 4 == 0)
-                {
-                    for (int i = 0; i < 2; i++)
-                    {
-                        DirectionalPulseRing pulse = new DirectionalPulseRing(randomSpotOnPlayer(), Vector2.Zero, Main.rand.NextBool(3) ? Color.LimeGreen : Color.Green, new Vector2(1, 1), 0, Main.rand.NextFloat(0.07f, 0.18f), 0f, 35);
-                        GeneralParticleHandler.SpawnParticle(pulse);
-                    }
-
-                    for (int i = 0; i < 7; i++)
-                    {
-                        int DustID = Main.rand.NextBool(30) ? 220 : 89;
-                        float rot = MathHelper.ToRadians(i * rotFactor);
-                        Vector2 offset = new Vector2(0.3f, 0).RotatedBy(rot * Main.rand.NextFloat(0.2f, 0.3f));
-                        Dust dust2 = Dust.NewDustPerfect(randomSpotOnPlayer() + offset, DustID);
-                        dust2.scale = Main.rand.NextFloat(0.3f, 0.4f);
-                        if (DustID == 220)
-                            dust2.scale = Main.rand.NextFloat(1f, 1.2f);
-                    }
-                }
-            }
-            if (calamityPlayer.nightwither) //Moon stone makes it look weaker
-            {
-                if (Main.rand.NextBool(reducedNightwitherDamage ? 4 : 2) && drawInfo.shadow == 0f)
-                {
-                    Vector2 Vect = new Vector2(0f, Main.rand.NextBool(4) ? -5f : -9f).RotatedByRandom(MathHelper.ToRadians(25f)) * Main.rand.NextFloat(0.1f, 1.9f);
-                    CritSpark spark = new CritSpark(randomSpotOnPlayer(), Vect, Main.rand.NextBool(2) ? Color.Cyan : Color.DarkBlue, Color.DodgerBlue, (reducedNightwitherDamage ? 0.4f : 0.8f), 15, 2f, 1.9f);
-                    GeneralParticleHandler.SpawnParticle(spark);
-                }
-                for (int i = 0; i < (reducedNightwitherDamage ? 1 : 2); i++)
-                {
-                    Vector2 dustCorner = Player.position - 2f * Vector2.One;
-                    Vector2 dustVel = Player.velocity + new Vector2(0f, Main.rand.NextFloat(-11f, -2f));
-                    int d = Dust.NewDust(dustCorner, Player.width + 4, Player.height + 4, Main.rand.NextBool(4) ? 160 : 206, dustVel.X, dustVel.Y);
-                    Main.dust[d].noGravity = true;
-                    Main.dust[d].scale = reducedNightwitherDamage ? Main.rand.NextFloat(0.3f, 0.4f) : Main.rand.NextFloat(0.5f, 0.7f);
-                    Main.dust[d].alpha = 235;
-                }
-            }
-            if (calamityPlayer.vaporfied)
-            {
-                int dustType = Utils.SelectRandom(Main.rand, new int[]
-                {
-                246,
-                242,
-                229,
-                226,
-                247,
-                187,
-                234
-                });
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, dustType, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                    drawInfo.DustCache.Add(dust);
-                }
-            }
-            if (calamityPlayer.gState || calamityPlayer.cDepth || calamityPlayer.eutrophication)
-            {
-                if (Main.rand.NextBool(30) && cDepth)
-                {
-                    int bloodLifetime = Main.rand.Next(22, 36);
-                    float bloodScale = Main.rand.NextFloat(0.6f, 0.8f);
-                    Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat());
-                    bloodColor = Color.Lerp(bloodColor, new Color(51, 22, 94), Main.rand.NextFloat(0.65f));
-
-                    if (Main.rand.NextBool(15))
-                        bloodScale *= 1.3f;
-
-                    float randomSpeedMultiplier = Main.rand.NextFloat(1.25f, 1.5f);
-                    Vector2 bloodVelocity = Main.rand.NextVector2Unit() * 2 * randomSpeedMultiplier;
-                    bloodVelocity.Y -= 5f;
-                    BloodParticle blood = new BloodParticle(Player.Center, bloodVelocity, bloodLifetime, bloodScale, bloodColor);
-                    GeneralParticleHandler.SpawnParticle(blood);
-                }
-                int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(3) ? 104 : 186, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.4f);
-                Main.dust[dust].noGravity = true;
-                Main.dust[dust].velocity *= 0.75f;
-                Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
-                Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1f;
-                if (Main.rand.NextBool(4) & cDepth)
-                {
-                    Main.dust[dust].noGravity = false;
-                    Main.dust[dust].scale *= 0.2f;
-                }
-            }
-            if (calamityPlayer.rTide)
-            {
-                if (Main.rand.NextBool(7) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 165, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
-                    Main.dust[dust].noGravity = false;
-                    Main.dust[dust].velocity *= 1.2f;
-                    Main.dust[dust].velocity.Y += 0.8f;
-                    drawInfo.DustCache.Add(dust);
-                }
-            }
-            if (calamityPlayer.bBlood)
-            {
-                if (Main.rand.NextBool(11))
-                {
-                    int bloodLifetime = Main.rand.Next(22, 36);
-                    float bloodScale = Main.rand.NextFloat(0.6f, 0.8f);
-                    Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat());
-                    bloodColor = Color.Lerp(bloodColor, new Color(51, 22, 94), Main.rand.NextFloat(0.65f));
-
-                    if (Main.rand.NextBool(15))
-                        bloodScale *= 1.3f;
-
-                    float randomSpeedMultiplier = Main.rand.NextFloat(1.25f, 1.5f);
-                    Vector2 bloodVelocity = Main.rand.NextVector2Unit() * 2 * randomSpeedMultiplier;
-                    bloodVelocity.Y -= 5f;
-                    BloodParticle blood = new BloodParticle(Player.Center, bloodVelocity, bloodLifetime, bloodScale, bloodColor);
-                    GeneralParticleHandler.SpawnParticle(blood);
-                }
-                for (int i = 0; i < 2; i++)
-                {
-                    float rot = MathHelper.ToRadians(i * 280);
-                    Vector2 offset = new Vector2(0.1f, 0).RotatedBy(rot * Main.rand.NextFloat(0.08f, 0.05f));
-                    Dust dust2 = Dust.NewDustPerfect(randomSpotOnPlayer() + offset, 5);
-                    dust2.scale = Main.rand.NextFloat(0.6f, 0.7f);
-                }
-            }
+            // Mushy buff from Crabulon and Crabulon accessories
             if (calamityPlayer.mushy)
-            {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    Dust dust = Dust.NewDustPerfect(randomSpotOnPlayer(), 56, Vector2.Zero, 100, default, 0.9f);
-                    dust.noGravity = true;
-                    dust.velocity *= 0.5f;
-                    dust.velocity.Y -= 0.1f;
-                    dust.alpha = 200;
-                }
-                if (Main.rand.NextBool(15))
-                {
-                    Dust dust2 = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), 19), Main.rand.NextBool(3) ? 41 : 56, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, -2f)) + Player.velocity / 3, 0, default, 0.9f);
-                    dust2.alpha = 145;
-                }
-            }
+                Mushy.DrawEffects(drawInfo);
+
+            if (calamityPlayer.nightwither) // Looks weaker if you have Moon Stone equipped
+                Nightwither.DrawEffects(drawInfo, reducedNightwitherDamage);
+
+            if (calamityPlayer.pFlames)
+                Plague.DrawEffects(drawInfo);
+
+            if (calamityPlayer.rTide)
+                RiptideDebuff.DrawEffects(drawInfo);
+
+            if (calamityPlayer.shadowflame)
+                Shadowflame.DrawEffects(drawInfo);
+
+            if (calamityPlayer.sulphurPoison)
+                SulphuricPoisoning.DrawEffects(drawInfo);
+
+            // Tarragon life regen
+            if (calamityPlayer.tRegen)
+                TarraLifeRegen.DrawEffects(drawInfo);
+
+            if (calamityPlayer.vaporfied)
+                Vaporfied.DrawEffects(drawInfo);
+            #endregion
+
+            // TODO -- xyk's next round of code tennis
             if (calamityPlayer.PinkJellyRegen)
             {
                 if (Main.rand.NextBool(24) && drawInfo.shadow == 0f)
@@ -630,11 +323,13 @@ namespace CalamityMod.CalPlayer
                     drawInfo.DustCache.Add(dust);
                 }
                 if (Main.rand.NextBool(16) && drawInfo.shadow == 0f)
-                { 
+                {
                     Particle Plus = new HealingPlus(Player.Center - new Vector2(4, 0), Main.rand.NextFloat(0.4f, 0.8f), Color.Red, Color.DarkRed, Main.rand.Next(10, 15));
-                    GeneralParticleHandler.SpawnParticle(Plus);    
-                }    
+                    GeneralParticleHandler.SpawnParticle(Plus);
+                }
             }
+
+            // Some extraneous and probably undocumented visual effect caused by the heart lad pet thing
             if ((calamityPlayer.ladHearts > 0) && !Player.loveStruck && Main.netMode != NetmodeID.Server)
             {
                 if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
@@ -649,12 +344,6 @@ namespace CalamityMod.CalPlayer
                     Main.gore[heart].velocity.Y -= 0.6f;
                     drawInfo.GoreCache.Add(heart);
                 }
-            }
-            if (calamityPlayer.shadow && CalamityConfig.Instance.StealthInvisibility)
-            {
-                r *= 0f;
-                g *= 0f;
-                b *= 0f;
             }
         }
         #endregion

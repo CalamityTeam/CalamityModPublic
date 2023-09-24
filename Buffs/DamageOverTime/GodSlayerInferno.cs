@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,9 +30,15 @@ namespace CalamityMod.Buffs.DamageOverTime
             buffIndex--;
         }
 
-        internal static void DrawEffects(Player player)
+        internal static void DrawEffects(PlayerDrawSet drawInfo)
         {
+            Player Player = drawInfo.drawPlayer;
 
+            if (drawInfo.shadow == 0f)
+            {
+                SparkParticle spark = new SparkParticle(Player.Calamity().RandomDebuffVisualSpot, new Vector2(0, Main.rand.NextFloat(-5f, 5f)), false, Main.rand.Next(11, 13), Main.rand.NextFloat(0.2f, 0.5f), Main.rand.NextBool(7) ? Color.Aqua : Color.Fuchsia);
+                GeneralParticleHandler.SpawnParticle(spark);
+            }
         }
 
         internal static void DrawEffects(NPC npc, ref Color drawColor)

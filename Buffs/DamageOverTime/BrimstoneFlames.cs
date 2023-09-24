@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,9 +30,22 @@ namespace CalamityMod.Buffs.DamageOverTime
             buffIndex--;
         }
 
-        internal static void DrawEffects(Player player)
+        internal static void DrawEffects(PlayerDrawSet drawInfo, bool hasDebuffResistance = false)
         {
+            Player Player = drawInfo.drawPlayer;
+            Vector3 brimstoneDustLight = new Vector3(0.255f, 0.079f, 0.082f);
+            Lighting.AddLight(Player.Center, brimstoneDustLight * 2);
 
+            if (Main.rand.NextBool(hasDebuffResistance ? 4 : 2) && drawInfo.shadow == 0f)
+            {
+                Dust dust = Dust.NewDustPerfect(Player.Calamity().RandomDebuffVisualSpot, Main.rand.NextBool(3) ? 114 : ModContent.DustType<BrimstoneFlame>(), new Vector2(0, Main.rand.NextFloat(-3f, -5f)) + Player.velocity, 0, default, hasDebuffResistance ? 1.1f : 1.6f);
+                dust.noGravity = true;
+                for (int i = 0; i < 3; i++)
+                {
+                    Dust dust2 = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), 19), Main.rand.NextBool(2) ? 90 : ModContent.DustType<BrimstoneFlame>(), new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-1f, -3f)) + Player.velocity, 0, default, hasDebuffResistance ? 0.4f : 1.4f);
+                    dust2.noGravity = true;
+                }
+            }
         }
 
         internal static void DrawEffects(NPC npc, ref Color drawColor)
