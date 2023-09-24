@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.CalPlayer.DrawLayers;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Ranged;
@@ -101,6 +102,8 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            // TODO -- rogue stealth visuals are an utter catastrophe and should be fully destroyed on next stealth rework
+            // furthermore, it is not meaningfully possible to break any of this into subfunctions
             bool noRogueStealth = calamityPlayer.rogueStealth == 0f || Player.townNPCs > 2f || !CalamityConfig.Instance.StealthInvisibility;
             if (calamityPlayer.rogueStealth > 0f && calamityPlayer.rogueStealthMax > 0f && Player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisibility)
             {
@@ -133,6 +136,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
+
             if (calamityPlayer.tracersDust)
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
