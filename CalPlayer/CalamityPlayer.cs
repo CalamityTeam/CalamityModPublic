@@ -225,6 +225,9 @@ namespace CalamityMod.CalPlayer
         public float SulphWaterPoisoningLevel;
         public NPC unstableSelectedTarget;
         public int zapActivity = 0;
+        public bool ragePulse = false;
+        public int ragePulseVisualTimer = 0;
+        public int ragePulseTimer = 0;
 
         private const int DashDisableCooldown = 12;
 
@@ -344,6 +347,7 @@ namespace CalamityMod.CalPlayer
         #region Adrenaline
         public bool AdrenalineEnabled => CalamityWorld.revenge || draedonsHeart;
         public bool adrenalineModeActive = false;
+        public bool AdrenalineTrail = false;
         public float adrenaline = 0f;
         public float adrenalineMax = 100f; // 0 to 100% by default
         public int AdrenalineDuration = CalamityUtils.SecondsToFrames(5);
@@ -825,6 +829,7 @@ namespace CalamityMod.CalPlayer
         public bool hInferno = false;
         public bool gState = false;
         public bool bBlood = false;
+        public bool brainRot = false;
         public bool icarusFolly = false;
         public bool weakPetrification = false;
         public bool vHex = false;
@@ -1846,6 +1851,7 @@ namespace CalamityMod.CalPlayer
             hInferno = false;
             gState = false;
             bBlood = false;
+            brainRot = false;
             icarusFolly = false;
             vHex = false;
             DoGExtremeGravity = false;
@@ -2092,6 +2098,7 @@ namespace CalamityMod.CalPlayer
 
             rageModeActive = false;
             adrenalineModeActive = false;
+            AdrenalineTrail = false;
             RageDuration = BalancingConstants.DefaultRageDuration;
             RageDamageBoost = BalancingConstants.DefaultRageDamageBoost;
 
@@ -2259,6 +2266,7 @@ namespace CalamityMod.CalPlayer
             hInferno = false;
             gState = false;
             bBlood = false;
+            brainRot = false;
             icarusFolly = false;
             vHex = false;
             DoGExtremeGravity = false;
@@ -2360,6 +2368,7 @@ namespace CalamityMod.CalPlayer
             tRegen = false;
             rageModeActive = false;
             adrenalineModeActive = false;
+            AdrenalineTrail = false;
             vodka = false;
             redWine = false;
             grapeBeer = false;
@@ -3053,7 +3062,6 @@ namespace CalamityMod.CalPlayer
                     if (Player.whoAmI == Main.myPlayer)
                         SoundEngine.PlaySound(ActivationSound);
 
-                    // TODO -- Adrenaline should provide bright green vibrating afterimages on the player for the duration.
                     int dustPerSegment = 96;
 
                     // Parametric segment 1: y = 3x + 120
@@ -3075,7 +3083,7 @@ namespace CalamityMod.CalPlayer
                     for (int i = 0; i < dustPerSegment; ++i)
                     {
                         bool electricity = Main.rand.NextBool(4);
-                        int dustID = electricity ? 132 : DustID.TerraBlade;
+                        int dustID = electricity ? (Main.rand.NextBool(2) ? 132 : 131) : ModContent.DustType<AdrenDust>();
 
                         float interpolant = i + 0.5f;
                         float spreadSpeed = Main.rand.NextFloat(0.5f, maxDustVelSpread);
@@ -3086,19 +3094,19 @@ namespace CalamityMod.CalPlayer
                         Dust d = Dust.NewDustPerfect(segmentOnePos, dustID, Vector2.Zero);
                         if (electricity)
                             d.noGravity = false;
-                        d.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                        d.scale = Main.rand.NextFloat(1.2f, 1.8f);
                         d.velocity = Main.rand.NextVector2Unit() * spreadSpeed;
 
                         Vector2 segmentTwoPos = Player.Center + segmentTwoStart + segmentTwoIncrement * interpolant;
                         d = Dust.CloneDust(d);
                         d.position = segmentTwoPos;
-                        d.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                        d.scale = Main.rand.NextFloat(1.2f, 1.8f);
                         d.velocity = Main.rand.NextVector2Unit() * spreadSpeed;
 
                         Vector2 segmentThreePos = Player.Center + segmentThreeStart + segmentThreeIncrement * interpolant;
                         d = Dust.CloneDust(d);
                         d.position = segmentThreePos;
-                        d.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                        d.scale = Main.rand.NextFloat(1.2f, 1.8f);
                         d.velocity = Main.rand.NextVector2Unit() * spreadSpeed;
                     }
                 }
@@ -3882,14 +3890,14 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(3))
                     {
-                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, ModContent.DustType<BrimstoneFlame>(), Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, default, 1f);
+                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, Main.rand.NextBool(3) ? 114 : ModContent.DustType<BrimstoneFlame>(), Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, default, Main.rand.NextFloat(0.3f, 1f));
                     }
                 }
                 if (flaskCrumbling)
                 {
                     if (Main.rand.NextBool(3))
                     {
-                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Stone, Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, default, 0.75f);
+                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, Main.rand.NextBool() ? 121 : DustID.Stone, Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, default, Main.rand.NextFloat(0.2f, 0.7f));
                     }
                 }
                 if (eGauntlet)

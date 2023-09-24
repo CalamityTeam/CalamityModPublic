@@ -57,6 +57,7 @@ namespace CalamityMod.Items
                 { ItemID.BookStaff, Do(ManaExact(14)) }, // Tome of Infinite Wisdom
                 { ItemID.Boomstick, Do(PointBlank, DamageExact(11)) },
                 { ItemID.BreakerBlade, Do(AutoReuse, UseTurn, ScaleRatio(1.4f), DamageExact(97)) },
+                { ItemID.CandyCornRifle, Do(PointBlank, DamageExact(66)) },
                 { ItemID.Cascade, Do(AutoReuse, DamageExact(30)) },
                 { ItemID.ChainGuillotines, Do(DamageExact(100)) },
                 { ItemID.ChainKnife, Do(AutoReuse, DamageRatio(1.34f)) },  // Uses ratios due to remix seed
@@ -93,7 +94,7 @@ namespace CalamityMod.Items
                 { ItemID.DemonScythe, Do(AutoReuse, DamageExact(33)) },
                 { ItemID.DyeTradersScimitar, Do(AutoReuse, UseTurn, DamageExact(24)) }, // Exotic Scimitar
                 { ItemID.ElectrosphereLauncher, Do(DamageRatio(1.1f)) },
-                { ItemID.ElfMelter, Do(DamageExact(102), ShootSpeedDelta(+3f)) },
+                { ItemID.ElfMelter, Do(DamageExact(94), ShootSpeedDelta(+3f)) },
                 { ItemID.EmeraldStaff, Do(DamageExact(27)) },
                 { ItemID.EmpressBlade, Do(AutoReuse, DamageExact(60), UseExact(20)) }, // Terraprisma
                 { ItemID.EnchantedBoomerang, Do(DamageExact(24)) },
@@ -249,7 +250,7 @@ namespace CalamityMod.Items
                 { ItemID.WhitePhaseblade, Do(AutoReuse, UseTurn, DamageExact(32)) },
                 { ItemID.WhitePhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.WoodenBoomerang, Do(DamageRatio(2f), Value(Item.sellPrice(copper: 20))) },
-                { ItemID.Xenopopper, Do(DamageRatio(0.75f)) },
+                { ItemID.Xenopopper, Do(DamageExact(48)) },
                 { ItemID.YellowPhaseblade, Do(AutoReuse, UseTurn, DamageExact(32)) },
                 { ItemID.YellowPhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.Zenith, Do(DamageExact(210)) },
@@ -414,7 +415,6 @@ namespace CalamityMod.Items
                 #region CATEGORY 5: Point Blank support
                 { ItemID.Blowpipe, pointBlank },
                 { ItemID.BorealWoodBow, pointBlank },
-                { ItemID.CandyCornRifle, pointBlank },
                 { ItemID.ChainGun, pointBlank },
                 { ItemID.CopperBow, pointBlank },
                 { ItemID.DartPistol, pointBlank },

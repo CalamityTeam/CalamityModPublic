@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Magic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -58,7 +59,7 @@ namespace CalamityMod.Projectiles.Magic
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0, 0, 0, default, 0.5f);
             }
 
-            // TODO: Make the projectile inflict the future counterpart of Burning Blood.
+            target.AddBuff(ModContent.BuffType<BrainRot>(), 90);
         }
     }
 }
