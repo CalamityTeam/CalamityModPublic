@@ -41,7 +41,7 @@ namespace CalamityMod.Buffs.DamageOverTime
                 2 => Color.Orange,
                 _ => Color.LawnGreen,
             };
-            DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Calamity().RandomDebuffVisualSpot, new Vector2(5, 5).RotatedByRandom(360), sparkColor, new Vector2(Main.rand.NextFloat(1f, 5f), Main.rand.NextFloat(1f, 5f)), 0, Main.rand.NextFloat(0.07f, 0.1f), 0f, 18);
+            DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Calamity().RandomDebuffVisualSpot, Vector2.Zero, sparkColor, new Vector2(1, 1), 0, Main.rand.NextFloat(0.07f, 0.1f), 0f, 25);
             GeneralParticleHandler.SpawnParticle(pulse);
 
             float numberOfDusts = 3f;

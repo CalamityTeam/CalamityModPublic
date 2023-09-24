@@ -292,7 +292,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(24) && drawInfo.shadow == 0f)
                 {
-                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.5f, 1.2f), Color.HotPink, Color.LightPink, Main.rand.Next(10, 15));
+                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.5f, 1.2f), new Vector2(0, Main.rand.NextFloat(-2f, -3.5f)) + Player.velocity, Color.HotPink, Color.LightPink, Main.rand.Next(10, 15));
                     GeneralParticleHandler.SpawnParticle(Plus);
                 }
             }
@@ -300,7 +300,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(16) && drawInfo.shadow == 0f)
                 {
-                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.6f, 1.3f), Color.Lime, Color.LimeGreen, Main.rand.Next(10, 15));
+                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.6f, 1.3f), new Vector2(0, Main.rand.NextFloat(-2f, -3.5f)) + Player.velocity, Color.Lime, Color.LimeGreen, Main.rand.Next(10, 15));
                     GeneralParticleHandler.SpawnParticle(Plus);
                 }
             }
@@ -308,7 +308,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(11) && drawInfo.shadow == 0f)
                 {
-                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.7f, 1.4f), Color.DarkSeaGreen, Color.DarkSeaGreen, Main.rand.Next(10, 15));
+                    Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.7f, 1.4f), new Vector2(0, Main.rand.NextFloat(-2f, -3.5f)) + Player.velocity, Color.DarkSeaGreen, Color.DarkSeaGreen, Main.rand.Next(10, 15));
                     GeneralParticleHandler.SpawnParticle(Plus);
                 }
             }
@@ -324,7 +324,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (Main.rand.NextBool(16) && drawInfo.shadow == 0f)
                 {
-                    Particle Plus = new HealingPlus(Player.Center - new Vector2(4, 0), Main.rand.NextFloat(0.4f, 0.8f), Color.Red, Color.DarkRed, Main.rand.Next(10, 15));
+                    Particle Plus = new HealingPlus(Player.Center - new Vector2(4, 0), Main.rand.NextFloat(0.4f, 0.8f), new Vector2(0, Main.rand.NextFloat(-2f, -3.5f)) + Player.velocity, Color.Red, Color.DarkRed, Main.rand.Next(10, 15));
                     GeneralParticleHandler.SpawnParticle(Plus);
                 }
             }
