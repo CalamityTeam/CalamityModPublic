@@ -233,6 +233,9 @@ namespace CalamityMod.CalPlayer
             }
             if (calamityPlayer.bFlames)
             {
+                Vector3 brimstoneDustLight = new Vector3(0.255f, 0.079f, 0.082f);
+                Lighting.AddLight(Player.Center, brimstoneDustLight * 2);
+
                 if (Main.rand.NextBool(abaddon ? 4 : 2) && drawInfo.shadow == 0f) //looks weaker if you have Abaddon equipped
                 {
                     Dust dust = Dust.NewDustPerfect(Player.Center + new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-20f, 20f)), Main.rand.NextBool(3) ? 114 : ModContent.DustType<BrimstoneFlame>(), new Vector2(0, Main.rand.NextFloat(-3f, -5f)) + Player.velocity, 0, default, abaddon ? 1.1f : 1.6f);
