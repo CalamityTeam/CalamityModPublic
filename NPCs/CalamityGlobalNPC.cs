@@ -5731,7 +5731,7 @@ namespace CalamityMod.NPCs
 
                     MiscShaderData msd = GameShaders.Misc["CalamityMod:MiracleBlight"];
                     msd.SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons"), 1);
-                    msd.UseOpacity(0.48f);
+                    msd.UseOpacity(0.7f);
                     DrawData dd = new()
                     {
                         texture = TextureAssets.Npc[npc.type].Value,
