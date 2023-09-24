@@ -800,7 +800,7 @@ GiantTortoiseShell: {
 	Tooltip:
 		'''
 		5% increased damage reduction
-		15% reduced dash velocity
+		10% reduced dash velocity
 		Taking a hit will remove the dash penalty and reduce defense and damage reduction for 5 seconds
 		'''
 }

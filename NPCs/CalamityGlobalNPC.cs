@@ -1,4 +1,9 @@
-﻿using CalamityMod.Buffs;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using CalamityMod.Balancing;
+using CalamityMod.Buffs;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
@@ -9,7 +14,6 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs.Abyss;
-using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
@@ -17,14 +21,14 @@ using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.CeaselessVoid;
-using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.DraedonLabThings;
+using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.ExoMechs.Apollo;
-using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -32,12 +36,15 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.VanillaNPCOverrides.Bosses;
+using CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Magic;
@@ -45,34 +52,25 @@ using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Systems;
 using CalamityMod.UI;
 using CalamityMod.Walls.DraedonStructures;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.GameContent;
 using Terraria.GameContent.Achievements;
 using Terraria.GameContent.Events;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.NPCs.ExoMechs;
-using CalamityMod.NPCs.VanillaNPCOverrides.Bosses;
-using CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies;
-using CalamityMod.Balancing;
-using Terraria.GameContent;
-using CalamityMod.Systems;
-using Terraria.ModLoader.Utilities;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs
 {
@@ -216,6 +214,7 @@ namespace CalamityMod.NPCs
         public int yellowCandle = 0;
         public int pearlAura = 0;
         public int bBlood = 0;
+        public int brainRot = 0;
         public int marked = 0;
         public int absorberAffliction = 0;
         public int irradiated = 0;
@@ -426,6 +425,7 @@ namespace CalamityMod.NPCs
             myClone.yellowCandle = yellowCandle;
             myClone.pearlAura = pearlAura;
             myClone.bBlood = bBlood;
+            myClone.brainRot = brainRot;
             myClone.marked = marked;
             myClone.absorberAffliction = absorberAffliction;
             myClone.irradiated = irradiated;
@@ -1063,6 +1063,8 @@ namespace CalamityMod.NPCs
             if (somaShredStacks > 0)
                 Shred.TickDebuff(npc, this);
             if (bBlood > 0)
+                ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
+            if (brainRot > 0)
                 ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
             if (miracleBlight > 0)
                 ApplyDPSDebuff(2500, 500, ref npc.lifeRegen, ref damage);
@@ -4220,6 +4222,8 @@ namespace CalamityMod.NPCs
                 pearlAura--;
             if (bBlood > 0)
                 bBlood--;
+            if (brainRot > 0)
+                brainRot--;
             if (vulnerabilityHex > 0)
                 vulnerabilityHex--;
             if (marked > 0)
@@ -5286,295 +5290,78 @@ namespace CalamityMod.NPCs
             }
         }
 
+        // Debuff visuals. Alphabetical order as per usual, please
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
-            if (vaporfied > 0)
-            {
-                int dustType = Utils.SelectRandom(Main.rand, new int[]
-                {
-                    246,
-                    242,
-                    229,
-                    226,
-                    247,
-                    187,
-                    234
-                });
-
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, dustType, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-            }
-
-            if (bBlood > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 5, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-                Lighting.AddLight(npc.position, 0.08f, 0f, 0f);
-            }
-
-            if (bFlames > 0 || enraged > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, DustType<BrimstoneFlame>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-                Lighting.AddLight(npc.position, 0.05f, 0.01f, 0.01f);
-            }
-
-            // Enemies suffering from Soma Prime's Shred spray blood like Violence
-            if (somaShredStacks > 0 && Main.netMode != NetmodeID.Server)
-            {
-                // The amount of blood particles spawned by Soma Prime's Shred scales loosely with the number of stacks.
-                float roughBloodCount = (float)Math.Sqrt(0.8f * somaShredStacks);
-                int exactBloodCount = (int)roughBloodCount;
-                // Chance for the final blood particle
-                if (Main.rand.NextFloat() < roughBloodCount - exactBloodCount)
-                    ++exactBloodCount;
-
-                // Velocity of the spurting blood also slightly increases with stacks.
-                float velStackMult = 1f + (float)Math.Log(somaShredStacks);
-
-                // Code copied from Violence.
-                for (int i = 0; i < exactBloodCount; ++i)
-                {
-                    int bloodLifetime = Main.rand.Next(22, 36);
-                    float bloodScale = Main.rand.NextFloat(0.6f, 0.8f);
-                    Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat());
-                    bloodColor = Color.Lerp(bloodColor, new Color(51, 22, 94), Main.rand.NextFloat(0.65f));
-
-                    if (Main.rand.NextBool(20))
-                        bloodScale *= 2f;
-
-                    float randomSpeedMultiplier = Main.rand.NextFloat(1.25f, 2.25f);
-                    Vector2 bloodVelocity = Main.rand.NextVector2Unit() * velStackMult * randomSpeedMultiplier;
-                    bloodVelocity.Y -= 5f;
-                    BloodParticle blood = new BloodParticle(npc.Center, bloodVelocity, bloodLifetime, bloodScale, bloodColor);
-                    GeneralParticleHandler.SpawnParticle(blood);
-                }
-                for (int i = 0; i < exactBloodCount / 3; ++i)
-                {
-                    float bloodScale = Main.rand.NextFloat(0.2f, 0.33f);
-                    Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat(0.5f, 1f));
-                    Vector2 bloodVelocity = Main.rand.NextVector2Unit() * velStackMult * Main.rand.NextFloat(1f, 2f);
-                    bloodVelocity.Y -= 2.3f;
-                    BloodParticle2 blood = new BloodParticle2(npc.Center, bloodVelocity, 20, bloodScale, bloodColor);
-                    GeneralParticleHandler.SpawnParticle(blood);
-                }
-            }
-
-            if (hFlames > 0 || banishingFire > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, DustType<HolyFireDust>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-                Lighting.AddLight(npc.position, 0.25f, 0.25f, 0.1f);
-            }
-
-            if (pFlames > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 89, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.2f;
-                    Main.dust[dust].velocity.Y -= 0.15f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-                Lighting.AddLight(npc.position, 0.07f, 0.15f, 0.01f);
-            }
-
-            if (gsInferno > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, (int)CalamityDusts.PurpleCosmilite, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.2f;
-                    Main.dust[dust].velocity.Y -= 0.15f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-                Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
-            }
-
             if (absorberAffliction > 0)
-            {
-                if (Main.rand.Next(5) >= 0)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, ModContent.DustType<AbsorberDust>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 2.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity.Y -= 1.8f;
-                    Main.dust[dust].velocity.Y *= 2.5f;
-                    Main.dust[dust].noGravity = true;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Vector2 offCenter = Main.rand.NextVector2Unit();
-                        offCenter *= Main.rand.NextFloat(3f, 5f);
-                        Main.dust[dust].position = npc.Center + offCenter;
-                        Main.dust[dust].velocity.X *= 1.5f;
-                        Main.dust[dust].velocity.Y *= 2.8f;
-                        Main.dust[dust].scale *= 0.9f;
-                    }
-                    else
-                        Main.dust[dust].velocity.X *= 0.9f;
-                }
-            }
-
-            if (dragonFire > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, (int)CalamityDusts.ProfanedFire, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.2f;
-                    Main.dust[dust].velocity.Y -= 0.15f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-                Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
-            }
-
-            if (miracleBlight > 0)
-            {
-                void spawnMiracleBlightDust()
-                {
-                    Vector2 dustCorner = npc.position - 2f * Vector2.One;
-                    Vector2 dustVel = npc.velocity + new Vector2(0f, Main.rand.NextFloat(-15f, -12f));
-                    Dust d = Dust.NewDustDirect(dustCorner, npc.width + 4, npc.height + 4, (int)CalamityDusts.MiracleBlight, dustVel.X, dustVel.Y);
-                    d.noGravity = true;
-                }
-                
-                // Miracle Blight spawned dust scales with the NPC's size
-                float blightDustFactor = 0.0005f;
-                float dustToCreate = blightDustFactor * npc.width * npc.height;
-                if (dustToCreate > 5f)
-                    dustToCreate = 5f;
-                for (int i = 0; i < (int)dustToCreate; ++i)
-                    spawnMiracleBlightDust();
-
-                if (dustToCreate < 1f && Main.rand.NextFloat() < dustToCreate)
-                    spawnMiracleBlightDust();
-            }
+                AbsorberAffliction.DrawEffects(npc, ref drawColor);
 
             if (astralInfection > 0)
-            {
-                if (Main.rand.Next(5) < 3)
-                {
-                    int dustType = Main.rand.NextBool(2) ? DustType<AstralOrange>() : DustType<AstralBlue>();
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, dustType, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 0.6f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.2f;
-                    Main.dust[dust].velocity.Y -= 0.15f;
-                    Main.dust[dust].color = new Color(255, 255, 255, 0);
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-            }
+                AstralInfectionDebuff.DrawEffects(npc, ref drawColor);
+
+            // Brimstone Flames and Demonshade Enrage set bonus share the same visual effects
+            // TODO -- change this when Demonshade is reworked
+            if (bFlames > 0 || enraged > 0)
+                BrimstoneFlames.DrawEffects(npc, ref drawColor);
+
+            if (bBlood > 0)
+                BurningBlood.DrawEffects(npc, ref drawColor);
+
+            if (brainRot > 0)
+                BrainRot.DrawEffects(npc, ref drawColor);
+
+            if (cDepth > 0)
+                CrushDepth.DrawEffects(npc, ref drawColor);
+
+            if (dragonFire > 0)
+                Dragonfire.DrawEffects(npc, ref drawColor);
+
+            // Eutrophication and Temporal Sadness share the same visual effects
+            if (eutrophication > 0 || tSad > 0)
+                Eutrophication.DrawEffects(npc, ref drawColor);
+
+            if (gsInferno > 0)
+                GodSlayerInferno.DrawEffects(npc, ref drawColor);
+
+            // Holy Flames and Banishing Fire share the same visual effects
+            if (hFlames > 0 || banishingFire > 0)
+                HolyFlames.DrawEffects(npc, ref drawColor);
+
+            // These draw effects do not include Miracle Blight's shader
+            if (miracleBlight > 0)
+                MiracleBlight.DrawEffects(npc, ref drawColor);
 
             if (nightwither > 0)
-            {
-                Rectangle hitbox = npc.Hitbox;
-                if (Main.rand.Next(5) < 4)
-                {
-                    int num3 = Utils.SelectRandom(Main.rand, new int[]
-                    {
-                        (int)CalamityDusts.PurpleCosmilite,
-                        27,
-                        234
-                    });
+                Nightwither.DrawEffects(npc, ref drawColor);
 
-                    int num4 = Dust.NewDust(hitbox.TopLeft(), npc.width, npc.height, num3, 0f, -2.5f, 0, default, 1f);
-                    Dust dust = Main.dust[num4];
-                    dust.noGravity = true;
-                    dust.alpha = 200;
-                    dust.velocity.Y -= 0.2f;
-                    dust.velocity *= 1.2f;
-                    dust.scale += Main.rand.NextFloat();
-                }
-            }
-
-            if (tSad > 0 || cDepth > 0 || eutrophication > 0)
-            {
-                if (Main.rand.Next(6) < 3)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 33, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
-                    Main.dust[dust].noGravity = false;
-                    Main.dust[dust].velocity *= 1.2f;
-                    Main.dust[dust].velocity.Y += 0.15f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-            }
+            if (pFlames > 0) // Plague debuff
+                Plague.DrawEffects(npc, ref drawColor);
 
             if (rTide > 0)
-            {
-                if (Main.rand.Next(7) < 3)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 165, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1f);
-                    Main.dust[dust].noGravity = false;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y += 0.5f;
-                }
-            }
+                RiptideDebuff.DrawEffects(npc, ref drawColor);
+
+            if (somaShredStacks > 0 && Main.netMode != NetmodeID.Server)
+                Shred.DrawEffects(npc, this, ref drawColor);
 
             if (sulphurPoison > 0)
+                SulphuricPoisoning.DrawEffects(npc, ref drawColor);
+
+            if (vaporfied > 0)
+                Vaporfied.DrawEffects(npc, ref drawColor);
+
+            // TODO -- These debuff visuals cannot be moved because they correspond to vanilla debuffs
+            if (electrified > 0)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    Dust.NewDustDirect(npc.position, npc.width, npc.height, 226, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), 0, default, 0.35f);
+                }
+            }
+            if (slowed > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 171, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 191, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 225, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.1f;
                     Main.dust[dust].velocity.Y += 0.25f;
@@ -5600,36 +5387,8 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (slowed > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 191, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 225, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.1f;
-                    Main.dust[dust].velocity.Y += 0.25f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-            }
-            if (electrified > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 132, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 0, default, 1f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.1f;
-                    Main.dust[dust].velocity.Y += 0.25f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-            }
+
+            // Some extraneous and probably undocumented visual effect caused by the heart lad pet thing
             if (ladHearts > 0 && !npc.loveStruck && Main.netMode != NetmodeID.Server)
             {
                 if (Main.rand.NextBool(5))
@@ -5646,19 +5405,23 @@ namespace CalamityMod.NPCs
             drawColor = npc.GetNPCColorTintedByBuffs(drawColor);
 
             // Calamity debuff coloring effects
+            // These are in order of precedence because they override each other.
             if (gState > 0)
                 drawColor = Color.Cyan;
 
-            if (marked > 0 || sulphurPoison > 0 || vaporfied > 0)
-                drawColor = Color.Fuchsia;
+            else if (electrified > 0)
+                drawColor = Main.rand.NextBool(5) ? Color.White : Color.SlateGray;
 
-            if (absorberAffliction > 0)
+            else if (absorberAffliction > 0)
                 drawColor = Color.DarkSeaGreen;
 
-            if (pearlAura > 0)
+            else if (marked > 0 || vaporfied > 0)
+                drawColor = Color.Fuchsia;
+
+            else if (pearlAura > 0)
                 drawColor = Color.White;
 
-            if (timeSlow > 0 || tesla > 0)
+            else if (timeSlow > 0 || tesla > 0)
                 drawColor = Color.Aquamarine;
         }
 
@@ -5711,6 +5474,8 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BrimstoneFlames").Value);
                     if (bBlood > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BurningBlood").Value);
+                    if (brainRot > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BrainRot").Value);
                     if (cDepth > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/CrushDepth").Value);
                     if (rTide > 0)
@@ -5977,7 +5742,7 @@ namespace CalamityMod.NPCs
 
                     MiscShaderData msd = GameShaders.Misc["CalamityMod:MiracleBlight"];
                     msd.SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons"), 1);
-                    msd.UseOpacity(0.48f);
+                    msd.UseOpacity(0.7f);
                     DrawData dd = new()
                     {
                         texture = TextureAssets.Npc[npc.type].Value,

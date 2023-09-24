@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            int buffType = Projectile.ai[0] == 0f ? BuffID.CursedInferno : ModContent.BuffType<BurningBlood>();
+            int buffType = Projectile.ai[0] == 0f ? ModContent.BuffType<BrainRot>() : ModContent.BuffType<BurningBlood>();
             target.AddBuff(buffType, 90);
         }
     }

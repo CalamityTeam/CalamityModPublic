@@ -133,6 +133,11 @@ BurningBlood: {
 	Description: Your blood is on fire
 }
 
+BrainRot: {
+	DisplayName: Brain Rot
+	Description: Your neurons are popping like corn kernels
+}
+
 CrushDepth: {
 	DisplayName: Crush Depth
 	Description: Crushed by aquatic pressure

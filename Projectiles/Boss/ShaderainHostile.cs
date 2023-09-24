@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Boss
             if (info.Damage <= 0)
                 return;
 
-            target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+            target.AddBuff(ModContent.BuffType<BrainRot>(), 360);
         }
     }
 }
