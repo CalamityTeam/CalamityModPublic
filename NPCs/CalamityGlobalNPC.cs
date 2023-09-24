@@ -214,6 +214,7 @@ namespace CalamityMod.NPCs
         public int yellowCandle = 0;
         public int pearlAura = 0;
         public int bBlood = 0;
+        public int brainRot = 0;
         public int marked = 0;
         public int absorberAffliction = 0;
         public int irradiated = 0;
@@ -424,6 +425,7 @@ namespace CalamityMod.NPCs
             myClone.yellowCandle = yellowCandle;
             myClone.pearlAura = pearlAura;
             myClone.bBlood = bBlood;
+            myClone.brainRot = brainRot;
             myClone.marked = marked;
             myClone.absorberAffliction = absorberAffliction;
             myClone.irradiated = irradiated;
@@ -1061,6 +1063,8 @@ namespace CalamityMod.NPCs
             if (somaShredStacks > 0)
                 Shred.TickDebuff(npc, this);
             if (bBlood > 0)
+                ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
+            if (brainRot > 0)
                 ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
             if (miracleBlight > 0)
                 ApplyDPSDebuff(2500, 500, ref npc.lifeRegen, ref damage);
@@ -4218,6 +4222,8 @@ namespace CalamityMod.NPCs
                 pearlAura--;
             if (bBlood > 0)
                 bBlood--;
+            if (brainRot > 0)
+                brainRot--;
             if (vulnerabilityHex > 0)
                 vulnerabilityHex--;
             if (marked > 0)
@@ -5301,6 +5307,9 @@ namespace CalamityMod.NPCs
             if (bBlood > 0)
                 BurningBlood.DrawEffects(npc, ref drawColor);
 
+            if (brainRot > 0)
+                BrainRot.DrawEffects(npc, ref drawColor);
+
             if (cDepth > 0)
                 CrushDepth.DrawEffects(npc, ref drawColor);
 
@@ -5465,6 +5474,8 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BrimstoneFlames").Value);
                     if (bBlood > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BurningBlood").Value);
+                    if (brainRot > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BrainRot").Value);
                     if (cDepth > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/CrushDepth").Value);
                     if (rTide > 0)

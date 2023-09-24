@@ -224,6 +224,9 @@ namespace CalamityMod.CalPlayer
                 BrimstoneFlames.DrawEffects(drawInfo, resistsBrimstoneFlames);
             }
 
+            if (calamityPlayer.brainRot)
+                BrainRot.DrawEffects(drawInfo);
+
             if (calamityPlayer.cDepth)
                 CrushDepth.DrawEffects(drawInfo);
 

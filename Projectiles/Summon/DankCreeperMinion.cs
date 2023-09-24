@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -214,6 +215,8 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.ai[1] = -1f;
                 Projectile.netUpdate = true;
             }
+
+            target.AddBuff(ModContent.BuffType<BrainRot>(), 90);
         }
 
         public override bool PreDraw(ref Color lightColor)

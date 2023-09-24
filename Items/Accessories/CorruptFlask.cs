@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.buffImmune[BuffID.CursedInferno] = true;
+            player.buffImmune[ModContent.BuffType<BrainRot>()] = true;
             if (player.ZoneCorrupt)
             {
                 player.statDefense += 6;

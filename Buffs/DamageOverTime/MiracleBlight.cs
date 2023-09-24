@@ -41,7 +41,7 @@ namespace CalamityMod.Buffs.DamageOverTime
                 2 => Color.Orange,
                 _ => Color.LawnGreen,
             };
-            DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Calamity().RandomDebuffVisualSpot, Vector2.Zero, sparkColor, new Vector2(1, 1), 0, Main.rand.NextFloat(0.07f, 0.1f), 0f, 25);
+            DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Calamity().RandomDebuffVisualSpot, Vector2.Zero, sparkColor, new Vector2(1, 1), 0, Main.rand.NextFloat(0.09f, 0.17f), 0f, 25);
             GeneralParticleHandler.SpawnParticle(pulse);
 
             float numberOfDusts = 3f;
@@ -80,7 +80,7 @@ namespace CalamityMod.Buffs.DamageOverTime
                 2 => Color.Orange,
                 _ => Color.LawnGreen,
             };
-            DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, sparkColor, new Vector2(1, 1), 0, 0.1f + (0.000004f * npc.width * npc.height), 0f, 25);
+            DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, sparkColor, new Vector2(1, 1), 0, 0.18f + (0.0000007f * npc.width * npc.height), 0f, 25);
             GeneralParticleHandler.SpawnParticle(pulse);
 
             float numberOfDusts = 2f;
@@ -102,7 +102,7 @@ namespace CalamityMod.Buffs.DamageOverTime
                     Dust dust = Dust.NewDustPerfect(npc.Center + offset, DustType, new Vector2(velOffset.X, velOffset.Y));
                     dust.noGravity = true;
                     dust.velocity = velOffset;
-                    velOffset *= 10 + (0.0005f * npc.width * npc.height);
+                    velOffset *= 10 + (0.0003f * npc.width * npc.height);
                     dust.position = npc.Center - velOffset;
                     dust.scale = Main.rand.NextFloat(0.7f, 0.8f);
                 }
