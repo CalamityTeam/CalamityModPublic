@@ -2020,10 +2020,44 @@ namespace CalamityMod.CalPlayer
                 }
 
                 if (gShell) //5 seconds of no dash reduction and reduced defense
+                {
+                    if (giantShellPostHit == 0)
+                    {
+                        float numberOfDusts = 35f;
+                        float rotFactor = 360f / numberOfDusts;
+                        for (int i = 0; i < numberOfDusts; i++)
+                        {
+                            float rot = MathHelper.ToRadians(i * rotFactor);
+                            Vector2 offset = new Vector2(Main.rand.NextFloat(0.5f, 2.5f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                            Vector2 velOffset = new Vector2(Main.rand.NextFloat(0.5f, 2.5f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                            Dust dust = Dust.NewDustPerfect(Player.Center + offset, Main.rand.NextBool() ? 249 : 118, new Vector2(velOffset.X, velOffset.Y));
+                            dust.noGravity = false;
+                            dust.velocity = velOffset;
+                            dust.scale = Main.rand.NextFloat(1.5f, 1.2f);
+                        }
+                    }
                     giantShellPostHit = 300;
+                }
 
                 if (tortShell) //5 seconds of no dash reduction and reduced defense
+                {
+                    if (tortShellPostHit == 0)
+                    {
+                        float numberOfDusts = 43f;
+                        float rotFactor = 360f / numberOfDusts;
+                        for (int i = 0; i < numberOfDusts; i++)
+                        {
+                            float rot = MathHelper.ToRadians(i * rotFactor);
+                            Vector2 offset = new Vector2(Main.rand.NextFloat(0.5f, 3.1f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                            Vector2 velOffset = new Vector2(Main.rand.NextFloat(0.5f, 3.1f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                            Dust dust = Dust.NewDustPerfect(Player.Center + offset, Main.rand.NextBool() ? 215 : 22, new Vector2(velOffset.X, velOffset.Y));
+                            dust.noGravity = false;
+                            dust.velocity = velOffset;
+                            dust.scale = Main.rand.NextFloat(1.6f, 2.2f);
+                        }
+                    }
                     tortShellPostHit = 300;
+                }
 
                 if (abyssalDivingSuitPlates && hurtInfo.Damage > 50)
                 {
