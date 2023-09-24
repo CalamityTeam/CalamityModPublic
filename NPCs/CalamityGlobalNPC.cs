@@ -5340,19 +5340,12 @@ namespace CalamityMod.NPCs
             if (vaporfied > 0)
                 Vaporfied.DrawEffects(npc, ref drawColor);
 
-            if (webbed > 0)
+            // TODO -- These debuff visuals cannot be moved because they correspond to vanilla debuffs
+            if (electrified > 0)
             {
-                if (Main.rand.Next(5) < 4)
+                if (Main.rand.NextBool(2))
                 {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 30, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.1f;
-                    Main.dust[dust].velocity.Y += 0.25f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
+                    Dust.NewDustDirect(npc.position, npc.width, npc.height, 226, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), 0, default, 0.35f);
                 }
             }
             if (slowed > 0)
@@ -5370,13 +5363,23 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (electrified > 0)
+            if (webbed > 0)
             {
-                if (Main.rand.NextBool(2))
+                if (Main.rand.Next(5) < 4)
                 {
-                    Dust.NewDustDirect(npc.position, npc.width, npc.height, 226, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), 0, default, 0.35f);
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 30, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.1f;
+                    Main.dust[dust].velocity.Y += 0.25f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.5f;
+                    }
                 }
             }
+
+            // Some extraneous and probably undocumented visual effect caused by the heart lad pet thing
             if (ladHearts > 0 && !npc.loveStruck && Main.netMode != NetmodeID.Server)
             {
                 if (Main.rand.NextBool(5))
@@ -5393,22 +5396,23 @@ namespace CalamityMod.NPCs
             drawColor = npc.GetNPCColorTintedByBuffs(drawColor);
 
             // Calamity debuff coloring effects
+            // These are in order of precedence because they override each other.
             if (gState > 0)
                 drawColor = Color.Cyan;
 
-            if (electrified > 0)
+            else if (electrified > 0)
                 drawColor = Main.rand.NextBool(5) ? Color.White : Color.SlateGray;
 
-            if (marked > 0 || vaporfied > 0)
-                drawColor = Color.Fuchsia;
-
-            if (absorberAffliction > 0)
+            else if (absorberAffliction > 0)
                 drawColor = Color.DarkSeaGreen;
 
-            if (pearlAura > 0)
+            else if (marked > 0 || vaporfied > 0)
+                drawColor = Color.Fuchsia;
+
+            else if (pearlAura > 0)
                 drawColor = Color.White;
 
-            if (timeSlow > 0 || tesla > 0)
+            else if (timeSlow > 0 || tesla > 0)
                 drawColor = Color.Aquamarine;
         }
 
