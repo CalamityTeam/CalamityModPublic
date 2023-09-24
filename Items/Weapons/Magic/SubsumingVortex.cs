@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.DamageType = DamageClass.Magic;
             Item.useTime = Item.useAnimation = 20;
             Item.shootSpeed = 7f;
-            Item.mana = 25;
+            Item.mana = 22;
             Item.knockBack = 5f;
 
             Item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
