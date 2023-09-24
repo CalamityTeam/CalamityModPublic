@@ -29,14 +29,17 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void AI()
         {
+            Projectile.ai[0] += 1f;
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 4)
             {
                 Projectile.frame++;
                 Projectile.frameCounter = 0;
             }
-            if (Projectile.frame > 9)
-                Projectile.frame = 0;
+            if (Projectile.frame > 5 && Projectile.ai[0] < 480f)
+                Projectile.frame = 3;
+            else if (Projectile.frame > 7)
+                Projectile.frame = 4;
 
             if (Projectile.ai[1] == 0f)
             {
@@ -55,7 +58,6 @@ namespace CalamityMod.Projectiles.Enemy
                 Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
             }
 
-            Projectile.ai[0] += 1f;
             if (Projectile.ai[0] >= 480f)
             {
                 if (Projectile.Opacity > 0f)
