@@ -98,7 +98,7 @@ namespace CalamityMod.Items.Accessories
                     Color shieldColor = GetColorForPsc(localModPlayer.pscState, Main.dayTime);
                     if (modPlayer.pscState >= (int)(ProfanedSoulCrystalState.Buffs))
                     {
-                        bool tester = testerNames.Any(name => name.Equals(localModPlayer.Player.name));
+                        bool tester = contributorNames.Any(name => name.Equals(localModPlayer.Player.name));
                         shieldColor = tester ? CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25) * 0.8f, 6f) :
                         GetLerpedColorForPsc(modPlayer);
                     }

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
     //Developer item, dedicatee: Mishiro Usui/Amber Sienna
     public class ProfanedSoulCrystal : ModItem, ILocalizedModType
     {
-        public static string[] testerNames = new[] { "IbanPlay", "Chen", "Nincity", "Amber", "Mishiro" };
+        public static string[] contributorNames = new[] { "IbanPlay", "Chen", "Nincity", "Amber", "Mishiro", "LordMetarex" };
         public static int ShieldDurabilityMax = 125;
         public new string LocalizationCategory => "Items.Accessories";
         
