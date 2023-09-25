@@ -8,13 +8,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
     public class PhantomHeart : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Misc";
-
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PhantomHeartUse");
         public const int ManaBoost = 50;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaBoost);
 
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useAnimation = 30;
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
-            Item.UseSound = SoundID.Item29;
             Item.consumable = true;
             Item.rare = ModContent.RarityType<PureGreen>();
         }
@@ -40,6 +40,7 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override bool? UseItem(Player player)
         {
+            SoundEngine.PlaySound(UseSound, player.Center);
             CalamityPlayer modPlayer = player.Calamity();
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
