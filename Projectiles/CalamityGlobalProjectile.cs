@@ -2224,6 +2224,18 @@ namespace CalamityMod.Projectiles
                     break;
             }
 
+            // Jack O Lantern Launcher projectile tweak
+            if (projectile.type == ProjectileID.JackOLantern)
+            {
+                if (projectile.ai[0] >= 20f)
+                {
+                    // Offset the gravity until 30 frames later
+                    projectile.ai[2]++;
+                    if (projectile.ai[2] < 30f)
+                        projectile.velocity.Y -= 0.5f;
+                }
+            }
+
             // Random velocities for Bouncy Boulders in GFB
             if (projectile.type == ProjectileID.BouncyBoulder && Main.zenithWorld)
             {
