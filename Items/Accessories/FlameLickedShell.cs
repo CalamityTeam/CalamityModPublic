@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Accessories
         
         public override void SetDefaults()
         {
-            Item.defense = 20;
             Item.width = 36;
             Item.height = 42;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
