@@ -791,17 +791,31 @@ ProfanedCrystalBuff: {
 	Description: You are an emissary of the profaned goddess now!
 	Offense: The {0} empowers your offensive capabilities
 	Lava: heat of the lava
-	Day: light of the sun
+	Day: light of day
 	Defense: The {0} your flames, empowering your defensive capabilities
 	Water: water douses
 	Honey: honey cools
 	Night: darkness of night cools
-	Enrage: Your weakened life force fuels your desperate attacks
-	NerfedEndo: An ascended ice construct is suppressing your true potential...
-	NerfedHat: A magical hat overwhelms your senses, squandering your true potential...
+	Enrage: In the absence of the day's warmth, your flames burn brighter
+	Empowered:
+		'''
+		By forgoing any additional minion support, your full potential has been unleashed
+		[c/F05A5A:You are the last ace, in the lost hand of this campaign.]
+		'''
 	LockedSlots: Your profaned soul is constrained by your insufficient summoning powers
 	LockedExos: The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations
 	LockedSCal: The profaned soul within has been defiled by the powerful magic of a supreme witch
+}
+
+ProfanedCrystalWhipDebuff: {
+	DisplayName: Profaned Crystal Whip Debuff
+	Description: Your flesh has been torn asunder by a profaned crystalline whip!
+}
+
+ProfanedCrystalWhipBuff: {
+	DisplayName: Profaned Crystal Whip Empowerment
+	Description: The guardians have been empowered by the profaned crystal whip!
+	Empowered: Their full potential has been unleashed, and nobody is safe from their wrath
 }
 
 RageMode: {

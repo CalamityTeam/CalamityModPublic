@@ -1758,7 +1758,7 @@ namespace CalamityMod.CalPlayer
                     if (pSoulShieldDurability <= 0)
                     {
                         pSoulShieldDurability = 0;
-                        SoundEngine.PlaySound(SoundID.Lavafall, Player.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyFlameBreath, Player.Center);
                         Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
                         anyShieldBroke = true;
                     }
