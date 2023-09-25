@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Localization;
 
 namespace CalamityMod.Cooldowns
@@ -7,11 +8,37 @@ namespace CalamityMod.Cooldowns
     {
         public static new string ID => "ParryCooldown";
         public override bool ShouldDisplay => true;
-        public override bool SavedWithPlayer => false;
         public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
-        public override string Texture => "CalamityMod/Cooldowns/ParryCooldown";
-        public override Color OutlineColor => new Color(255, 191, 73);
-        public override Color CooldownStartColor => new Color(181, 136, 177);
-        public override Color CooldownEndColor => new Color(255, 194, 161);
+        public override string Texture => "CalamityMod/Cooldowns/" + skinTexture;
+        public override Color OutlineColor => outlineColor;
+        public override Color CooldownStartColor => cooldownColorStart;
+        public override Color CooldownEndColor => cooldownColorEnd;
+        
+        //It's the same cooldown with different skins each time, basically.
+        public string skinTexture;
+        public Color outlineColor;
+        public Color cooldownColorStart;
+        public Color cooldownColorEnd;
+        
+        public ParryCooldown() : this("") { }
+        public ParryCooldown(string skin)
+        {
+            switch (skin)
+            {
+                case "blazingcore":
+                    skinTexture = "BlazingCoreParry";
+                    outlineColor = new Color(255, 191, 73);
+                    cooldownColorStart = new Color(181, 136, 177);
+                    cooldownColorEnd = new Color(255, 194, 161);
+                    break;
+
+                case "flamelickedshell":
+                    skinTexture = "FlameLickedShellParry";
+                    outlineColor = new Color(211, 124, 93);
+                    cooldownColorStart = Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - (instance?.Completion ?? 0));
+                    cooldownColorEnd = Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - (instance?.Completion ?? 0));
+                    break;
+            }
+        }
     }
 }

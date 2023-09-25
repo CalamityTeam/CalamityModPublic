@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Accessories
                     {
                         float radians = j - (totalProjectiles - 1f) / 2f;
                         Vector2 offset = velocity.RotatedBy(offsetAngle * radians);
-                        int proj = Projectile.NewProjectile(player.GetSource_FromThis(), player.Center + offset, projectileVelocity * 1.05f, type, damage, 2f, Main.myPlayer);
+                        Projectile.NewProjectile(player.GetSource_FromThis(), player.Center + offset, projectileVelocity * 1.5f, type, damage, 2f, Main.myPlayer);
                     }
                 }
                 totalProjectiles = 12;

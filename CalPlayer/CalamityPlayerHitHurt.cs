@@ -1617,7 +1617,7 @@ namespace CalamityMod.CalPlayer
 
                     SoundEngine.PlaySound(BlazingCore.ParrySuccessSound, Player.Center);
                     blazingCoreSuccessfulParry = 60;
-                    Player.AddCooldown(ParryCooldown.ID, 60 * 30, false); //cooldown is frames in seconds multiplied by the desired amount of seconds
+                    Player.AddCooldown(ParryCooldown.ID, 60 * 30, false, "blazingcore"); //cooldown is frames in seconds multiplied by the desired amount of seconds
                 }
 
                 if (blazingCoreParry > 1)
@@ -1631,12 +1631,12 @@ namespace CalamityMod.CalPlayer
                     {
                         Player.GiveIFrames(60, true);
                         flameLickedShellEmpoweredParry = true;
-                        modifiers.SourceDamage *= 0.1f; //90% dr
+                        modifiers.SourceDamage.Flat *= 0.1f; //90% dr
                         modifiers.DisableSound();
                     }
 
                     SoundEngine.PlaySound(ProfanedGuardianDefender.ShieldDeathSound, Player.Center);
-                    Player.AddCooldown(ParryCooldown.ID, 60 * 20, false);
+                    Player.AddCooldown(ParryCooldown.ID, 60 * 20, false, "flamelickedshell");
                     FlameLickedShell.handleParry(Player);
                 }
             }
