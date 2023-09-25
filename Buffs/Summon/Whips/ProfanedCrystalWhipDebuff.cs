@@ -7,6 +7,8 @@ namespace CalamityMod.Buffs.Summon.Whips
 {
     public class ProfanedCrystalWhipDebuff : ModBuff
     {
+        public override string Texture => "CalamityMod/Buffs/Summon/Whips/SentinalLash";
+
         public override void SetStaticDefaults()
         {
             BuffID.Sets.IsAnNPCWhipDebuff[Type] = true;

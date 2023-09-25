@@ -7,6 +7,7 @@ namespace CalamityMod.Buffs.Summon.Whips
 {
     public class ProfanedCrystalWhipBuff : ModBuff
     {
+        public override string Texture => "CalamityMod/Buffs/Summon/Whips/SentinalLash";
         public override void SetStaticDefaults()
         {
             Main.debuff[Type] = false;
