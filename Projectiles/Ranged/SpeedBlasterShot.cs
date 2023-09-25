@@ -150,11 +150,10 @@ namespace CalamityMod.Projectiles.Ranged
                 dust.alpha = 75;
             }
 
-            Vector2 paintPos = Projectile.Center + Main.rand.NextVector2Circular(12f, 12f) + (Projectile.velocity.SafeNormalize(Vector2.UnitY)).RotatedByRandom(MathHelper.ToRadians(30f)) * Main.rand.NextFloat(4f, 20f);
-            float paintSize = Main.rand.NextFloat(60f, 100f);
-
             for (int i = 0; i < 3; i++)
             {
+                Vector2 paintPos = Projectile.Center + Main.rand.NextVector2Circular(12f, 12f) + (Projectile.velocity.SafeNormalize(Vector2.UnitY)).RotatedByRandom(MathHelper.ToRadians(30f)) * Main.rand.NextFloat(4f, 20f);
+                float paintSize = Main.rand.NextFloat(60f, 100f);
                 switch(Projectile.ai[0])
                 {
                     case 0:
