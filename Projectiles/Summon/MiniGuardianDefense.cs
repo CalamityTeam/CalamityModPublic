@@ -100,7 +100,15 @@ namespace CalamityMod.Projectiles.Summon
             var psc = Owner.Calamity().profanedCrystal;
             if (psc && !SpawnedFromPSC || !psc && SpawnedFromPSC)
             {
-                Projectile.ai[0] = psc ? 1f : 0f;
+                int rock = ModContent.ProjectileType<MiniGuardianRock>();
+                foreach (var proj in Main.projectile)
+                {
+                    if (proj.active && proj.owner == Owner.whoAmI && proj.type == rock)
+                    {
+                        proj.active = false;
+                    }
+                }
+                Projectile.active = false;
             }
 
             var shieldIsActive = shieldActive; //avoid checkiing cooldowns multiple times per frame

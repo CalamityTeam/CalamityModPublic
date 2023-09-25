@@ -355,7 +355,7 @@ namespace CalamityMod.Projectiles.Summon
             var psc = owner.Calamity().profanedCrystal;
             if (psc && !SpawnedFromPSC || !psc && SpawnedFromPSC)
             {
-                Projectile.ai[0] = psc ? 1f : 0f;
+                Projectile.active = false;
             }
             
             // Dynamically update stats here, originalDamage can be found in MiscEffects
