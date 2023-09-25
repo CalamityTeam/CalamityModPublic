@@ -150,6 +150,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.GreenCounterweight, counterweightTweaks },
                 { ProjectileID.Hamdrax, standardDrillTweaks }, // Drax (never internally renamed since 1.1)
                 { ProjectileID.IceBoomerang, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.IceSickle, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.IchorBullet, standardBulletTweaks },
                 { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.LaserDrill, Do(ArmorPenetrationDelta(+25), LocalIFrames(5)) },

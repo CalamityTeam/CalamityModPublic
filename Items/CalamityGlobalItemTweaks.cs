@@ -104,14 +104,14 @@ namespace CalamityMod.Items
                 { ItemID.FalconBlade, Do(UseTurn, UseExact(15)) },
                 // Unsure what to do with Celebration. Should it be treated as a serious weapon or not? Currently not changing it from vanilla.
                 // { ItemID.FireworksLauncher, Do(DamageRatio(2f)) }, // Celebration
-                { ItemID.Flairon, Do(DamageExact(82)) },
+                { ItemID.Flairon, Do(DamageExact(73)) },
                 { ItemID.Flamarang, Do(DamageExact(43)) },
                 { ItemID.Flamelash, Do(DamageRatio(1.25f)) },
                 { ItemID.Flamethrower, Do(ShootSpeedDelta(+3f)) },
                 { ItemID.FlowerofFire, Do(AutoReuse, ManaExact(7), UseRatio(0.88f)) }, // Uses ratios due to remix seed
                 { ItemID.FlowerofFrost, Do(AutoReuse, ManaExact(7), UseExact(30), DamageExact(70), ShootSpeedExact(14)) },
                 { ItemID.FlyingKnife, Do(DamageExact(70)) },
-                { ItemID.Frostbrand, Do(UseMeleeSpeed, DamageExact(66)) },
+                { ItemID.Frostbrand, Do(UseMeleeSpeed, DamageExact(110)) },
                 { ItemID.FrostStaff, Do(DamageExact(160), UseExact(37), ShootSpeedExact(20f)) }, // has 1 extra update
                 { ItemID.Gatligator, Do(PointBlank, UseExact(6)) },
                 { ItemID.GoldenShower, Do(DamageExact(44)) },
@@ -129,7 +129,7 @@ namespace CalamityMod.Items
                 { ItemID.IceBoomerang, Do(DamageExact(25), UseExact(25), ShootSpeedExact(9)) },
                 { ItemID.IceBow, Do(PointBlank, AutoReuse, DamageRatio(3f), UseRatio(2.5f)) }, // Uses ratios due to remix seed
                 { ItemID.IceRod, Do(UseExact(6), DamageExact(30), ShootSpeedExact(20)) },
-                { ItemID.IceSickle, Do(AutoReuse, UseMeleeSpeed, DamageExact(75), ShootSpeedExact(20f)) },
+                { ItemID.IceSickle, Do(AutoReuse, UseMeleeSpeed, DamageExact(90), ShootSpeedExact(20f)) },
                 { ItemID.InfernoFork, Do(DamageRatio(1.2f)) },
                 { ItemID.InfluxWaver, Do(UseMeleeSpeed, DamageExact(80), UseExact(25)) },
                 { ItemID.IronShortsword, Do(AutoReuse, TrueMelee, DamageExact(10)) },
@@ -219,6 +219,7 @@ namespace CalamityMod.Items
                 { ItemID.StardustDragonStaff, Do(AutoReuse, DamageExact(20), UseExact(19)) },
                 { ItemID.StormTigerStaff, Do(AutoReuse, DamageExact(49), UseExact(20)) }, // Desert Tiger Staff
                 { ItemID.StylistKilLaKillScissorsIWish, Do(AutoReuse, UseTurn, DamageExact(18)) }, // Stylish Scissors
+                { ItemID.Stynger, Do(DamageExact(75)) },
                 { ItemID.Swordfish, Do(AutoReuse, TrueMelee, DamageExact(24)) },
                 { ItemID.TacticalShotgun, Do(PointBlank, DamageRatio(1.2f)) },
                 { ItemID.TaxCollectorsStickOfDoom, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(70)) },
