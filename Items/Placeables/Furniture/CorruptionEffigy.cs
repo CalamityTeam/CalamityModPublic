@@ -22,5 +22,15 @@ namespace CalamityMod.Items.Placeables.Furniture
             Item.rare = ItemRarityID.Orange;
             Item.createTile = ModContent.TileType<Tiles.Furniture.CorruptionEffigy>();
         }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ModContent.ItemType<CrimsonEffigy>()).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Condition.InGraveyard).
+                Register()
+                .DisableDecraft();
+        }
     }
 }
