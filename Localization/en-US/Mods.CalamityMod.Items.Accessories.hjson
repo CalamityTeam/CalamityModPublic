@@ -537,8 +537,7 @@ DimensionalSoulArtifact: {
 	Tooltip:
 		'''
 		Power
-		Boosts all damage by 25%, but at what cost?
-		Increases all damage taken by 15%
+		Boosts all damage by 25%, but at the cost of increasing damage taken by 15%
 		'''
 }
 
@@ -1890,6 +1889,11 @@ HapuFruit: {
 RedBow: {
 	DisplayName: Red Bow
 	Tooltip: "'Pelusa's favorite bow'"
+}
+
+OracleHeadphones: {
+	DisplayName: Oracle Headphones
+	Tooltip: "'Hey game's over!'"
 }
 
 Popo: {
