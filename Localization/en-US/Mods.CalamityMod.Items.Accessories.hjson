@@ -392,7 +392,7 @@ CorruptFlask: {
 	Tooltip:
 		'''
 		4% increased damage reduction and +6 defense while in the corruption
-		Grants immunity to the Cursed Inferno debuff
+		Grants immunity to the Brain Rot debuff
 		'''
 }
 
