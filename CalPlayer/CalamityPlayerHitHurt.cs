@@ -1631,7 +1631,7 @@ namespace CalamityMod.CalPlayer
                     {
                         Player.GiveIFrames(60, true);
                         flameLickedShellEmpoweredParry = true;
-                        modifiers.SourceDamage.Flat *= 0.1f; //90% dr
+                        modifiers.FinalDamage *= 0.1f; //90% dr
                         modifiers.DisableSound();
                     }
 
