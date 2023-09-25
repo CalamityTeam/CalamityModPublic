@@ -278,7 +278,7 @@ namespace CalamityMod.Items
 
             // Rod of Discord cannot be used multiple times to hurt yourself
             if (item.type == ItemID.RodofDiscord)
-                EditTooltipByNum(0, (line) => line.Text += "\nTeleportation is disabled while Chaos State is active");
+                EditTooltipByNum(1, (line) => line.Text += "\nTeleportation is disabled while Chaos State is active");
 
             // Indicate that the Ankh Shield provides sandstorm wind push immunity
             if (item.type == ItemID.AnkhShield)
