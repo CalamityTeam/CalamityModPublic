@@ -260,7 +260,7 @@ BlazingCore: {
 	Tooltip:
 		'''
 		The searing core of the Profaned Goddess
-		Pressing [KEY] will activate Elysian Guard, encasing you in luminous profaned crystal
+		Pressing [KEY] will activate a parry, encasing you in luminous profaned crystal
 		Being hit shortly after encasement will shatter the crystal
 		Upon shattering, waves of holy stars spiral outwards and the damage you would have taken is reduced to 1
 		After shattering, this damage reduction effect goes on cooldown
@@ -721,8 +721,12 @@ FlameLickedShell: {
 	DisplayName: Flame-Licked Shell
 	Tooltip:
 		'''
-		Could it be?
-		OUT OF ORDER 2
+		Pressing [KEY] will activate a parry, encasing you in rocks
+		Being hit shortly after encasement will implode the rocks
+		Upon implosion, a spread of brimstone hellfire is launched outwards and you receive 90% DR for that hit
+		After imploding, this damage reduction effect goes on cooldown
+		If another encasement is shattered whilst on cooldown, a weaker spread of brimstone hellfire is launched
+		The damage of a hit is not reduced whilst on cooldown
 		'''
 }
 

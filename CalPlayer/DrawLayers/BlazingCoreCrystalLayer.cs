@@ -14,7 +14,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
         {
             Player drawPlayer = drawInfo.drawPlayer;
             CalamityPlayer modPlayer = drawPlayer.Calamity();
-            return drawInfo.shadow == 0f && !drawPlayer.dead && modPlayer.blazingCore && modPlayer.blazingCoreParry > 0;
+            return drawInfo.shadow == 0f && !drawPlayer.dead && ((modPlayer.blazingCore && modPlayer.blazingCoreParry > 0) || (modPlayer.flameLickedShell && modPlayer.flameLickedShellParry > 0)) ;
         }
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
@@ -24,7 +24,8 @@ namespace CalamityMod.CalPlayer.DrawLayers
             Vector2 drawPos = drawInfo.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
             drawPos.Y += 15f;
             drawPos.X += 15f;
-            int currentParry = drawPlayer.Calamity().blazingCoreParry;
+            var calPlayer = drawPlayer.Calamity();
+            int currentParry = calPlayer.blazingCore ? calPlayer.blazingCoreParry : calPlayer.flameLickedShellParry;
             int maxParry = 30;
             float colorIntensity = currentParry >= 18 ? 0.725f : 1f - Utils.GetLerpValue(maxParry, 0f, currentParry, true);
             SpriteEffects spriteEffects = drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
