@@ -1887,6 +1887,11 @@ RedBow: {
 	Tooltip: "'Pelusa's favorite bow'"
 }
 
+OracleHeadphones: {
+	DisplayName: Oracle Headphones
+	Tooltip: "'Hey game's over!'"
+}
+
 Popo: {
 	DisplayName: Magic Scarf and Hat
 	Tooltip:
