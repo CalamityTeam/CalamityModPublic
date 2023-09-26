@@ -1251,6 +1251,11 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.newTile.LavaPlacement = lavaImmune ? LiquidPlacement.Allowed : LiquidPlacement.NotAllowed;
             TileObjectData.newTile.StyleLineSkip = 2;
+            TileObjectData.newTile.DrawYOffset = -2;
+            TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
+    		TileObjectData.newAlternate.AnchorTop = new AnchorData(AnchorType.Platform, TileObjectData.newTile.Width, 0);
+	    	TileObjectData.newAlternate.DrawYOffset = -10;
+		    TileObjectData.addAlternate(0);
             TileObjectData.addTile(mt.Type);
 
             // All hanging lanterns count as light sources.
@@ -1259,6 +1264,19 @@ namespace CalamityMod
                 mt.AddMapEntry(new Color(251, 235, 127), Language.GetText("MapObject.Lantern"));
 
             mt.AdjTiles = new int[] { TileID.HangingLanterns };
+        }
+
+        // Allow hanging lanterns to move up when hung on platforms
+        internal static void PlatformHangOffset(int i, int j, ref int offsetY)
+        {
+            Tile tile = Main.tile[i, j];
+            TileObjectData data = TileObjectData.GetTileData(tile);
+            int topLeftX = i - tile.TileFrameX / 18 % data.Width;
+            int topLeftY = j - tile.TileFrameY / 18 % data.Height;
+            if (WorldGen.IsBelowANonHammeredPlatform(topLeftX, topLeftY))
+            {
+                offsetY -= 8;
+            }
         }
 
         /// <summary>
