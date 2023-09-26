@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.Localization;
 
 namespace CalamityMod.Cooldowns
@@ -37,6 +36,12 @@ namespace CalamityMod.Cooldowns
                     outlineColor = new Color(211, 124, 93);
                     cooldownColorStart = Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - (instance?.Completion ?? 0));
                     cooldownColorEnd = Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - (instance?.Completion ?? 0));
+                    break;
+                default:
+                    skinTexture = "ParryCooldown";
+                    outlineColor = Color.White;
+                    cooldownColorStart = Color.CornflowerBlue;
+                    cooldownColorEnd = Color.White;
                     break;
             }
         }
