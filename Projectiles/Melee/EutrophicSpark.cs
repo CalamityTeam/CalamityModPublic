@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num199].noGravity = true;
             Dust expr_89E7_cp_0 = Main.dust[num199];
             expr_89E7_cp_0.velocity.Y -= 2f;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 206, 0f, 0f, 100, default, 1f);
                 Dust expr_8A4E_cp_0 = Main.dust[num200];

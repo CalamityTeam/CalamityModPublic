@@ -1,68 +1,70 @@
-﻿using CalamityMod.Particles;
-using CalamityMod.Items.Weapons.Ranged;
+﻿using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
+using CalamityMod.Particles.Metaballs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class SpeedBlasterShot : ModProjectile, ILocalizedModType
     {
-        public bool FirstFrameSettings = true;
         public new string LocalizationCategory => "Projectiles.Ranged";
-        public override string Texture => "CalamityMod/Projectiles/Ranged/SpeedBlasterShot";
-        public ref float ColorValue => ref Main.player[Projectile.owner].Calamity().ColorValue;
+
+        public bool DashShot => Projectile.ai[1] == 3f; // the big shot
+        public bool PostDashShot => Projectile.ai[1] == 2f; // the higher velocity post dash shots
 
         public static readonly SoundStyle ShotImpact = new("CalamityMod/Sounds/Item/SplatshotImpact") { PitchVariance = 0.3f, Volume = 2.5f };
         public static readonly SoundStyle ShotImpactBig = new("CalamityMod/Sounds/Item/SplatshotBigImpact") { PitchVariance = 0.3f, Volume = 4f };
+        internal PrimitiveTrail TrailDrawer;
+
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
-        public static int DashShot = 3; //used with projectile.ai[1] to fire the big shot
-        public static int PostDashShot = 2; //used with projectile.ai[1] to fire the higher velocity post dash shots
-        public bool FirstHit = true;
+
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 10;
+            Projectile.width = Projectile.height = 14;
             Projectile.friendly = true;
-            Projectile.alpha = 0;
             Projectile.penetrate = 1;
-            Projectile.extraUpdates = 1;
-            Projectile.timeLeft = 300;
+            Projectile.MaxUpdates = 2;
+            Projectile.timeLeft = 150 * Projectile.MaxUpdates;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 50;
         }
 
         public override void AI()
         {
-            ColorValue = Projectile.ai[0];
-            if (Projectile.ai[1] == DashShot)
+            if (Projectile.ai[2] != 1f)
             {
-                if (FirstFrameSettings)
+                if (DashShot)
                 {
+                    Projectile.scale = 2f;
                     Projectile.penetrate = 4;
-                    Projectile.extraUpdates = 28;
-                    Projectile.timeLeft = 1500;
-                    Projectile.Size *= 2f;
-                    FirstFrameSettings = false;
+                    Projectile.MaxUpdates = 30;
+                    Projectile.usesLocalNPCImmunity = true;
+                    Projectile.localNPCHitCooldown = -1;
+                    Projectile.timeLeft = 60 * Projectile.MaxUpdates;
                 }
-            }
-            else if (Projectile.ai[1] == PostDashShot)
-                Projectile.extraUpdates = 2;
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Projectile.velocity *= (Projectile.ai[1] == DashShot ? 1f : Projectile.ai[1] == PostDashShot ? 0.985f : 0.97f);
-            Projectile.velocity.Y += (Projectile.ai[1] == DashShot ? 0f : Projectile.ai[1] == PostDashShot ? 0.19f : 0.28f);
-            Color ColorUsed = (Projectile.ai[0] == 0 ? Color.Aqua : Projectile.ai[0] == 1 ? Color.Blue : Projectile.ai[0] == 2 ? Color.Fuchsia : Projectile.ai[0] == 3 ? Color.Lime : Projectile.ai[0] == 4 ? Color.Yellow : Color.White);
+                else if (PostDashShot)
+                    Projectile.MaxUpdates = 3;
 
-            if (Main.rand.NextBool(20) && Projectile.ai[1] != DashShot)
+                Projectile.ai[2] = 1f;
+            }
+
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.velocity *= (DashShot ? 1f : PostDashShot ? 0.985f : 0.97f);
+            Projectile.velocity.Y += (DashShot ? 0f : PostDashShot ? 0.15f : 0.25f);
+            Color ColorUsed = GetColor(Projectile.ai[0]);
+
+            if (Main.rand.NextBool(20) && !DashShot)
             {
                 Dust dust = Dust.NewDustPerfect(Projectile.Center, 192);
                 dust.noLight = true;
@@ -72,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
                 dust.color = ColorUsed;
                 dust.alpha = 75;
             }
-            if (Projectile.ai[1] == DashShot)
+            if (DashShot)
             {
                 Dust dust2 = Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.Next(-5, 5), Main.rand.Next(-5, 5)), 279);
                 dust2.noLightEmittence = true;
@@ -93,7 +95,7 @@ namespace CalamityMod.Projectiles.Ranged
                     dust.alpha = Main.rand.Next(145, 240);
                 }
             }
-            if (Projectile.timeLeft == 300 && Projectile.ai[1] == DashShot)
+            if (Projectile.timeLeft == 300 && DashShot)
             {
                 for (int i = 0; i <= 10; i++)
                 {
@@ -105,11 +107,11 @@ namespace CalamityMod.Projectiles.Ranged
                     dust.noLight = true;
                 }
             }
-            if (Projectile.timeLeft == 300 && Projectile.ai[1] != DashShot)
+            if (Projectile.timeLeft == 300 && !DashShot)
             {
                 for (int i = 0; i <= 7; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 192, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(Projectile.ai[1] == PostDashShot ? 13f : 23f)) * Main.rand.NextFloat(0.4f, 1.2f));
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 192, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(PostDashShot ? 13f : 23f)) * Main.rand.NextFloat(0.4f, 1.2f));
                     dust.noGravity = true;
                     dust.color = ColorUsed;
                     dust.alpha = Main.rand.Next(40, 90);
@@ -121,14 +123,11 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Color ColorUsed = (Projectile.ai[0] == 0 ? Color.Aqua : Projectile.ai[0] == 1 ? Color.Blue : Projectile.ai[0] == 2 ? Color.Fuchsia : Projectile.ai[0] == 3 ? Color.Lime : Projectile.ai[0] == 4 ? Color.Yellow : Color.White);
-            if (Projectile.ai[1] == DashShot)
+            Color ColorUsed = GetColor(Projectile.ai[0]);
+            if (DashShot)
             {
-                if (FirstHit)
-                {
-                    FirstHit = false;
+                if (Projectile.numHits == 0)
                     SoundEngine.PlaySound(ShotImpactBig, Projectile.position);
-                }
 
                 for (int i = 0; i < 2; i++)
                 {
@@ -139,29 +138,56 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void Kill(int timeLeft)
         {
-            if (Projectile.ai[1] != DashShot)
+            if (!DashShot)
                 SoundEngine.PlaySound(ShotImpact, Projectile.position);
             
             for (int i = 0; i <= 8; i++)
             {
-                Color ColorUsed = (Projectile.ai[0] == 0 ? Color.Aqua : Projectile.ai[0] == 1 ? Color.Blue : Projectile.ai[0] == 2 ? Color.Fuchsia : Projectile.ai[0] == 3 ? Color.Lime : Projectile.ai[0] == 4 ? Color.Yellow : Color.White);
                 Dust dust = Dust.NewDustPerfect(Projectile.position, 192, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(20f)) * Main.rand.NextFloat(0.05f, 0.3f), 0, default, Main.rand.NextFloat(0.6f, 1.2f));
                 dust.noLight = true;
                 dust.noGravity = false;
-                dust.color = ColorUsed;
+                dust.color = GetColor(Projectile.ai[0]);
                 dust.alpha = 75;
             }
+
+            for (int i = 0; i < 3; i++)
+            {
+                Vector2 paintPos = Projectile.Center + Main.rand.NextVector2Circular(12f, 12f) + (Projectile.velocity.SafeNormalize(Vector2.UnitY)).RotatedByRandom(MathHelper.ToRadians(30f)) * Main.rand.NextFloat(4f, 20f);
+                float paintSize = Main.rand.NextFloat(60f, 100f);
+                switch(Projectile.ai[0])
+                {
+                    case 0:
+                    default:
+                        FusableParticleManager.GetParticleSetByType<CyanPaint>()?.SpawnParticle(paintPos, paintSize);
+                        break;
+                    case 1:
+                        FusableParticleManager.GetParticleSetByType<BluePaint>()?.SpawnParticle(paintPos, paintSize);
+                        break;
+                    case 2:
+                        FusableParticleManager.GetParticleSetByType<MagentaPaint>()?.SpawnParticle(paintPos, paintSize);
+                        break;
+                    case 3:
+                        FusableParticleManager.GetParticleSetByType<LimePaint>()?.SpawnParticle(paintPos, paintSize);
+                        break;
+                    case 4:
+                        FusableParticleManager.GetParticleSetByType<YellowPaint>()?.SpawnParticle(paintPos, paintSize);
+                        break;
+                }
+            }
         }
-        public override Color? GetAlpha(Color drawColor)
-        {
-            Color ColorUsed = (Projectile.ai[0] == 0 ? Color.Aqua : Projectile.ai[0] == 1 ? Color.Blue : Projectile.ai[0] == 2 ? Color.Fuchsia : Projectile.ai[0] == 3 ? Color.Lime : Projectile.ai[0] == 4 ? Color.Yellow : Color.White);
-            Color lightColor = ColorUsed * drawColor.A;
-            return lightColor * Projectile.Opacity;
-        }
+
+        public static Color GetColor(float type) => type == 0 ? Color.Aqua : type == 1 ? Color.Blue : type == 2 ? Color.Fuchsia : type == 3 ? Color.Lime : Color.Yellow;
+
+        public override Color? GetAlpha(Color drawColor) => GetColor(Projectile.ai[0]) * drawColor.A * Projectile.Opacity;
+        internal float WidthFunction(float completionRatio) => (1f - completionRatio) * Projectile.scale * 6f;
+        internal Color ColorFunction(float completionRatio) => GetColor(Projectile.ai[0]) * Projectile.Opacity;
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
-            return false;
+            if (TrailDrawer is null)
+                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction);
+
+            TrailDrawer.Draw(Projectile.oldPos.Where(oldPos => oldPos != Vector2.Zero), Projectile.Size * 0.5f - Main.screenPosition, 20);
+            return true;
         }
     }
 }

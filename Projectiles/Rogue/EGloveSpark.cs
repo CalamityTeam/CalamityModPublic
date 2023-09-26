@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
             Main.dust[num199].noGravity = true;
             Dust expr_89E7_cp_0 = Main.dust[num199];
             expr_89E7_cp_0.velocity.Y -= 2f;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 206, 0f, 0f, 100, new Color(Main.rand.Next(20, 100), 204, 250), 1f);
                 Dust expr_8A4E_cp_0 = Main.dust[num200];

@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Accessories
                     // On grass, grow flowers.
                     if (groundTile.TileType == TileID.Grass)
                     {
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             walkTile.Get<TileWallWireStateData>().HasTile = true;
                             walkTile.TileType = TileID.Plants;
@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Accessories
                     // On hallowed grass, grow hallowed flowers.
                     else if (groundTile.TileType == TileID.HallowedGrass)
                     {
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             walkTile.Get<TileWallWireStateData>().HasTile = true;
                             walkTile.TileType = TileID.HallowedPlants;

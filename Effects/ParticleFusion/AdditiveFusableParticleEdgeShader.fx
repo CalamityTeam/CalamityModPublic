@@ -39,7 +39,9 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float4 topColor = tex2D(uImage0, coords + float2(0, -offset.y));
     float4 bottomColor = tex2D(uImage0, coords + float2(0, offset.y));
     float4 avergeColor = (color + leftColor + rightColor + topColor + bottomColor) / 4.7;
-    avergeColor = lerp(avergeColor, float4(1, 1, 1, 1), pow(avergeColor.b, 0.5)) * avergeColor.a;
+    float lowestColorValue = min(avergeColor.r, avergeColor.g);
+    lowestColorValue = min(lowestColorValue, avergeColor.b);
+    avergeColor = lerp(avergeColor, float4(1, 1, 1, 1), pow(lowestColorValue, 0.5)) * avergeColor.a;
     return avergeColor;
 }
 technique Technique1

@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 Vector2 offset = new Vector2(7, 0).RotatedByRandom(MathHelper.ToRadians(360f));
                 Vector2 velOffset = new Vector2(3, 0).RotatedBy(offset.ToRotation());

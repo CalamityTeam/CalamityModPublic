@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 vector2 = num12.ToRotationVector2();
             Vector2 value4 = vector2.RotatedBy(MathHelper.PiOver2 * Projectile.spriteDirection);
 
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 Dust dust = Dust.NewDustDirect(value3 - new Vector2(5f), 10, 10, 244, player.velocity.X, player.velocity.Y, 150, default, 1f);
                 dust.velocity = Projectile.SafeDirectionTo(dust.position) * 0.1f + dust.velocity * 0.1f;

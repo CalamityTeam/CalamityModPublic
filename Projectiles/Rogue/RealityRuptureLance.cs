@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
                 float radius = (20f + (float)Math.Cos(Time / 3f) * 12f) * radiusFactor;
                 Vector2 dustPosition = Projectile.Center;
                 dustPosition += offsetRotationAngle.ToRotationVector2().RotatedBy(i / 5f * MathHelper.TwoPi) * radius;
-                Dust dust = Dust.NewDustPerfect(dustPosition, Main.rand.NextBool(2) ? 234 : 310);
+                Dust dust = Dust.NewDustPerfect(dustPosition, Main.rand.NextBool() ? 234 : 310);
                 dust.noGravity = true;
                 dust.velocity = Projectile.velocity * 0.8f;
                 dust.scale = Main.rand.NextFloat(1.1f, 1.7f);

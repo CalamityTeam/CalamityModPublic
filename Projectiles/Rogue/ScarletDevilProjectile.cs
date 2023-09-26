@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (!Main.dedServ)
             {
-                for (int i = 0; i < (Projectile.Calamity().stealthStrike && Main.rand.NextBool(2) ? 2 : 1); i++)
+                for (int i = 0; i < (Projectile.Calamity().stealthStrike && Main.rand.NextBool() ? 2 : 1); i++)
                     Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 130, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 0, new Color(255, 255, 255), 0.85f);
             }
 

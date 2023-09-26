@@ -88,6 +88,7 @@ namespace CalamityMod.Items.Accessories.Wings
             player.autoJump = true;
             player.noFallDmg = true;
             player.jumpSpeedBoost += 0.5f;
+            player.luck += 0.05f;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)

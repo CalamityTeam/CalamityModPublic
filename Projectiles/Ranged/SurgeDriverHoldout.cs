@@ -26,9 +26,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            if (!OwnerCanShoot)
-                Projectile.Kill();
-
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
             armPosition += Projectile.velocity.SafeNormalize(Owner.direction * Vector2.UnitX) * 32f;
             armPosition.Y -= 12f;
@@ -36,8 +33,14 @@ namespace CalamityMod.Projectiles.Ranged
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
 
+            if (!OwnerCanShoot)
+            {
+                // Prevent spam clicking by letting the animation run if the player just stops holding
+                if (Owner.noItems || Owner.CCed || Owner.dead || ShootCountdown < 0f)
+                    Projectile.Kill();
+            }
             // Can't shoot on frame 1 as it can't use ammo yet
-            if (ShootCountdown < 0f && Owner.HasAmmo(Owner.ActiveItem()))
+            else if (ShootCountdown < 0f && Owner.HasAmmo(Owner.ActiveItem()))
             {
                 if (Main.myPlayer == Projectile.owner)
                 {

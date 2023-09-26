@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Projectile.alpha = 0;
             }
-            int num298 = Main.rand.NextBool(2) ? 107 : 234;
+            int num298 = Main.rand.NextBool() ? 107 : 234;
             if (Main.rand.NextBool(4))
             {
                 num298 = 269;
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = Projectile.height = 32;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            int num298 = Main.rand.NextBool(2) ? 107 : 234;
+            int num298 = Main.rand.NextBool() ? 107 : 234;
             if (Main.rand.NextBool(4))
             {
                 num298 = 269;
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num298, 0f, 0f, 100, default, 1.2f);
                 Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[num622].scale = 0.5f;
                     Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

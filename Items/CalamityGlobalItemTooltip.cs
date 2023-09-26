@@ -104,7 +104,7 @@ namespace CalamityMod.Items
             if (item.type == ModContent.ItemType<ShatteredCommunity>())
                 nameLine.OverrideColor = ShatteredCommunity.GetRarityColor();
             if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
-                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
+                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 6f); //alternates between emerald green and amber (BanditHueh)
             if (item.type == ModContent.ItemType<TemporalUmbrella>())
                 nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 4f);
             if (item.type == ModContent.ItemType<Endogenesis>())
@@ -278,7 +278,7 @@ namespace CalamityMod.Items
 
             // Rod of Discord cannot be used multiple times to hurt yourself
             if (item.type == ItemID.RodofDiscord)
-                EditTooltipByNum(0, (line) => line.Text += "\nTeleportation is disabled while Chaos State is active");
+                EditTooltipByNum(1, (line) => line.Text += "\nTeleportation is disabled while Chaos State is active");
 
             // Indicate that the Ankh Shield provides sandstorm wind push immunity
             if (item.type == ItemID.AnkhShield)

@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Acidwood Lantern");
             Item.width = 28;
             Item.height = 20;
             Item.maxStack = 9999;

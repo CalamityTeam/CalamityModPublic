@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpBar(ModContent.ItemType<Items.Placeables.AstralBar>(), new Color(47, 66, 90));
+            this.SetUpBar(ModContent.ItemType<Items.Materials.AstralBar>(), new Color(47, 66, 90));
             DustType = ModContent.DustType<AstralBlue>();
         }
 

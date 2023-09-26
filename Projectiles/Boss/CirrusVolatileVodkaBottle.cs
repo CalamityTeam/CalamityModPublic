@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 0, default, 1.2f);
                 Main.dust[dust].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[dust].scale = 0.5f;
                     Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

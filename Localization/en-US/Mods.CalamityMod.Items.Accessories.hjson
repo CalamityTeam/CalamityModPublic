@@ -392,7 +392,7 @@ CorruptFlask: {
 	Tooltip:
 		'''
 		4% increased damage reduction and +6 defense while in the corruption
-		Grants immunity to the Cursed Inferno debuff
+		Grants immunity to the Brain Rot debuff
 		'''
 }
 
@@ -537,8 +537,7 @@ DimensionalSoulArtifact: {
 	Tooltip:
 		'''
 		Power
-		Boosts all damage by 25%, but at what cost?
-		Increases all damage taken by 15%
+		Boosts all damage by 25%, but at the cost of increasing damage taken by 15%
 		'''
 }
 
@@ -800,7 +799,7 @@ GiantTortoiseShell: {
 	Tooltip:
 		'''
 		5% increased damage reduction
-		15% reduced dash velocity
+		10% reduced dash velocity
 		Taking a hit will remove the dash penalty and reduce defense and damage reduction for 5 seconds
 		'''
 }
@@ -1083,15 +1082,6 @@ MoonstoneCrown: {
 		'''
 }
 
-MutatedTruffle: {
-	DisplayName: Mutated Truffle
-	Tooltip:
-		'''
-		Summons a small Old Duke to fight for you
-		When below 50% life, it moves much faster
-		'''
-}
-
 Nanotech: {
 	DisplayName: Nanotech
 	Tooltip:
@@ -1287,14 +1277,15 @@ ProfanedSoulCrystal: {
 	Reject: Merchants will reject a defiled soul such as this.
 	FullTooltip:
 		'''
-		Requires 10 minion slots to use in order to grant the following effects
+		Requires {0} minion slots to use in order to grant the following effects
 		All non-summon weapons are converted into powerful summon variations
-		Falling below 50% life will empower these attacks
+		Having no other minions will empower these attacks
 		[c/F05A5A:Transforms Melee attacks into a barrage of spears]
-		[c/3A83E4:Transforms Magic attacks into a powerful splitting fireball for {0} mana per cast]
+		[c/3A83E4:Transforms Magic attacks into a powerful splitting fireball for {1} mana per cast]
 		[c/85E092:Transforms Ranged attacks into a flurry of fireballs and meteors]
 		[c/E94571:Transforms Rogue attacks into a deadly crystalline spiral]
-		Summons and empowers the profaned babs to fight alongside you
+		[c/E299FF:Transforms Whip attacks into an empowering profaned crystal whip]
+		Summons and empowers the profaned soul guardians to fight alongside you
 		Provides buffs depending on the time of day
 		Thinking back, it was a boring life
 		[c/FFBF49:And so we burn it all in the name of purity]
@@ -1729,7 +1720,7 @@ TheAbsorber: {
 	Tooltip:
 		'''
 		12% increased movement and jump speed
-		Enemies take immense damage when they touch you and are afflicted with a damaging sickeness debuff that reduces damage reduction significantly
+		Enemies take immense damage when they touch you and are afflicted with a damaging sickness debuff that reduces damage reduction significantly
 		Using a healing potion will spawn a cleansing aura
 		Walking into the aura removes all debuffs and defense damage one time
 		The aura grants +3 HP/s life regen, +8% damage, and +5% damage reduction for all players inside for 10 seconds
@@ -1895,6 +1886,11 @@ HapuFruit: {
 RedBow: {
 	DisplayName: Red Bow
 	Tooltip: "'Pelusa's favorite bow'"
+}
+
+OracleHeadphones: {
+	DisplayName: Oracle Headphones
+	Tooltip: "'Hey game's over!'"
 }
 
 Popo: {

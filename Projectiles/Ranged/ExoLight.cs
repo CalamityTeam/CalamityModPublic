@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Destination = Main.MouseWorld;
                     Projectile.netUpdate = true;
                 }
-                DustType = Main.rand.NextBool(2) ? 107 : 234;
+                DustType = Main.rand.NextBool() ? 107 : 234;
                 if (Main.rand.NextBool(4))
                 {
                     DustType = 269;

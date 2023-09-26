@@ -10,6 +10,7 @@ Aquashard.DisplayName: Aquashard
 AquashardSplit.DisplayName: Aquashard
 ArcherfishRing.DisplayName: Archerfish Ring
 ArcherfishShot.DisplayName: Water Round
+ArcNovaDiffuserHoldout.DisplayName: Arc Nova Diffuser
 ArcticArrowProj.DisplayName: Arctic Arrow
 AstralCannonProjectile.DisplayName: Astral Crystal
 AstralRound.DisplayName: Astral Round
@@ -145,6 +146,8 @@ NeedlerProj.DisplayName: Needle
 NorfleetCannon.DisplayName: Norfleet
 NorfleetComet.DisplayName: Comet
 NorfleetExplosion.DisplayName: Explosion
+NovaChargeShot.DisplayName: Charged Nova Blast
+NovaShot.DisplayName: Nova Bolt
 Nuke.DisplayName: Nuke
 NullShot.DisplayName: Null
 NullShot2.DisplayName: Null
@@ -214,6 +217,7 @@ SlagRound.DisplayName: Slag Round
 SlimeBolt.DisplayName: Slime Bolt
 SmallCoral.DisplayName: Small Coral
 SparkSpreaderFire.DisplayName: Sparked Flames
+SpeedBlasterShot.DisplayName: Splatter Shot
 SporeBomb.DisplayName: Spore Bomb
 SputterComet.DisplayName: Sputter Comet
 SputterCometBig.DisplayName: Sputter Comet
@@ -257,7 +261,3 @@ Voidragon.DisplayName: Voidragon Blast
 VoidragonTentacle.DisplayName: Voidragon Tentacle
 WaterSpout.DisplayName: Spout
 WulfrumScrapBullet.DisplayName: High Speed Scrap
-ArcNovaDiffuserHoldout.DisplayName: Arc Nova Diffuser Holdout
-NovaShot.DisplayName: Nova Bolt
-NovaChargeShot.DisplayName: Charged Nova Blast
-SpeedBlasterShot.DisplayName: Splatter Shot

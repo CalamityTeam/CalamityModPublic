@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    float theta = Projectile.velocity.ToRotation() + Main.rand.NextBool(2).ToDirectionInt() * MathHelper.PiOver2;
+                    float theta = Projectile.velocity.ToRotation() + Main.rand.NextBool().ToDirectionInt() * MathHelper.PiOver2;
                     float speed = (float)Main.rand.NextDouble() * 2f + 2f;
                     Vector2 velocity = theta.ToRotationVector2() * speed;
                     Dust dust = Dust.NewDustDirect(beamEndPosiiton, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, velocity.X, velocity.Y, 0, default, 1f);

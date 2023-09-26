@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Boss
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 Main.dust[num622].noGravity = true;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[num622].scale = 0.5f;
                     Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

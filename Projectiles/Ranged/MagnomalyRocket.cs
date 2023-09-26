@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * Projectile.direction;
 
-            int dustType = Main.rand.NextBool(2) ? 107 : 234;
+            int dustType = Main.rand.NextBool() ? 107 : 234;
             if (Main.rand.NextBool(4))
             {
                 dustType = 269;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             float dustOffsetX = Projectile.velocity.X * 0.5f;
             float dustOffsetY = Projectile.velocity.Y * 0.5f;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int exo = Dust.NewDust(new Vector2(Projectile.position.X + 3f + dustOffsetX, Projectile.position.Y + 3f + dustOffsetY) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, dustType, 0f, 0f, 100, default, 0.5f);
                 Main.dust[exo].scale *= (float)Main.rand.Next(10) * 0.1f;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Ranged
                 //DO NOT REMOVE THIS PROJECTILE
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagnomalyExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
 
-                int dustType = Main.rand.NextBool(2) ? 107 : 234;
+                int dustType = Main.rand.NextBool() ? 107 : 234;
                 if (Main.rand.NextBool(4))
                 {
                     dustType = 269;
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[exo].velocity *= 3f;
                     Main.dust[exo].noGravity = true;
                     Main.dust[exo].noLight = true;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[exo].scale = 0.5f;
                         Main.dust[exo].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

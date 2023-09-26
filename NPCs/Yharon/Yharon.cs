@@ -2398,7 +2398,7 @@ namespace CalamityMod.NPCs.Yharon
                     if (NPC.ai[1] == 0f)
                         NPC.ai[1] = 450 * Math.Sign((NPC.Center - targetData.Center).X);
 
-                    teleportLocation = Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600);
+                    teleportLocation = Main.rand.NextBool() ? (revenge ? 500 : 600) : (revenge ? -500 : -600);
                     Vector2 center = targetData.Center + new Vector2(-NPC.ai[1], teleportLocation);
                     NPC.Center = center;
                 }
@@ -3125,7 +3125,7 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 244, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[num622].scale = 0.5f;
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

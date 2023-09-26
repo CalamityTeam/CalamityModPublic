@@ -8,7 +8,6 @@ AngelRay.DisplayName: Angelic Ray
 ApexShark.DisplayName: Ancient Mineral Shark
 ApparatusExplosion.DisplayName: Explosion
 AquasScepterCloud.DisplayName: Storm Cloud
-AquasScepterCloudFlash.DisplayName: Storm Cloud Flash
 AquasScepterRaindrop.DisplayName: Rain Droplet
 AquasScepterTeslaAura.DisplayName: Tesla Aura
 AquaticStarMinion.DisplayName: Aquatic Star
@@ -167,8 +166,10 @@ MidnightSunUFO.DisplayName: Midnight Sun UFO
 MiniGuardianAttack.DisplayName: Offensive Guardian
 MiniGuardianDefense.DisplayName: Defensive Guardian
 MiniGuardianHealer.DisplayName: Healer Guardian
+MiniGuardianHolyRay.DisplayName: Bab Holy Ray
 MiniGuardianRock.DisplayName: Rocky Road
 MiniGuardianSpear.DisplayName: Bab Spear
+MiniGuardianStars.DisplayName: Bab Star
 MiniSandShark.DisplayName: Mini Sand Shark
 MK2FlaskSummon.DisplayName: Fuel Cell Flask
 MK2RocketHoming.DisplayName: Plague Rocket
@@ -301,7 +302,10 @@ WulfrumDroid.DisplayName: Wulfrum Droid
 WulfrumEnergyBurst.DisplayName: Wulfrum Bolt
 WulfrumFusionBolt.DisplayName: Fusion Bolt
 YharonMinionFireball.DisplayName: Dragon Fireball
-YoungDuke.DisplayName: Young Old Duke
+MutatedTruffleMinion.DisplayName: Baby Boomer
+MutatedTruffleVortex.DisplayName: Baby Boomer's Vortex
+MutatedTruffleToothball.DisplayName: Baby Boomer's Toothball
+MutatedTruffleToothballSpike.DisplayName: Baby Boomer's Toothball Spike
 IceClasperSummonProjectile.DisplayName: Ice Shard
 AtzirisDisfavor.DisplayName: Atziri's Disfavor
 Starforge.DisplayName: Starforge
@@ -314,3 +318,6 @@ HopeShredderArrow.DisplayName: Hope Shredder Arrow
 HopeShredderArrowSplit.DisplayName: Hope Shredder Split Arrow
 StellarTorusSummon.DisplayName: Stellar Torus Summon
 StellarTorusBeam.DisplayName: Stellar Torus Beam
+MiniGuardianFireball.DisplayName: Mini Guardian Fireball
+MiniGuardianFireballSplit.DisplayName: Mini Guardian Fireball Split
+ProfanedCrystalWhip.DisplayName: Profaned Crystal Whip

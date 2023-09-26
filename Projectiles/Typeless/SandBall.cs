@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public static void FallingSandAI(this Projectile proj, int DustID, bool fired = true)
         {
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int i = Dust.NewDust(proj.position, proj.width, proj.height, DustID);
                 Main.dust[i].velocity.X *= 0.4f;

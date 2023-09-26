@@ -92,7 +92,7 @@ namespace CalamityMod.CalPlayer
                 dust.velocity *= 0.4f;
                 dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 dust.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                     dust.noGravity = true;
@@ -126,7 +126,7 @@ namespace CalamityMod.CalPlayer
                 dust.velocity *= 0.4f;
                 dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cNeck, Player);
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                     dust.noGravity = true;
@@ -241,7 +241,7 @@ namespace CalamityMod.CalPlayer
                     dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                     // Change this accordingly if we have a proper equipped sprite.
                     dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                         dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 }
 
@@ -386,6 +386,10 @@ namespace CalamityMod.CalPlayer
                 if (bBlood)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BurningBlood" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
+                }
+                if (brainRot)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BrainRot" + Main.rand.Next(1, 3 + 1)).Format(Player.name));
                 }
                 if (cDepth)
                 {
@@ -1737,7 +1741,7 @@ namespace CalamityMod.CalPlayer
                     if (pSoulShieldDurability <= 0)
                     {
                         pSoulShieldDurability = 0;
-                        SoundEngine.PlaySound(SoundID.Lavafall, Player.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyFlameBreath, Player.Center);
                         Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
                         anyShieldBroke = true;
                     }
@@ -2016,10 +2020,44 @@ namespace CalamityMod.CalPlayer
                 }
 
                 if (gShell) //5 seconds of no dash reduction and reduced defense
+                {
+                    if (giantShellPostHit == 0)
+                    {
+                        float numberOfDusts = 35f;
+                        float rotFactor = 360f / numberOfDusts;
+                        for (int i = 0; i < numberOfDusts; i++)
+                        {
+                            float rot = MathHelper.ToRadians(i * rotFactor);
+                            Vector2 offset = new Vector2(Main.rand.NextFloat(0.5f, 2.5f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                            Vector2 velOffset = new Vector2(Main.rand.NextFloat(0.5f, 2.5f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                            Dust dust = Dust.NewDustPerfect(Player.Center + offset, Main.rand.NextBool() ? 249 : 118, new Vector2(velOffset.X, velOffset.Y));
+                            dust.noGravity = false;
+                            dust.velocity = velOffset;
+                            dust.scale = Main.rand.NextFloat(1.5f, 1.2f);
+                        }
+                    }
                     giantShellPostHit = 300;
+                }
 
                 if (tortShell) //5 seconds of no dash reduction and reduced defense
+                {
+                    if (tortShellPostHit == 0)
+                    {
+                        float numberOfDusts = 43f;
+                        float rotFactor = 360f / numberOfDusts;
+                        for (int i = 0; i < numberOfDusts; i++)
+                        {
+                            float rot = MathHelper.ToRadians(i * rotFactor);
+                            Vector2 offset = new Vector2(Main.rand.NextFloat(0.5f, 3.1f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                            Vector2 velOffset = new Vector2(Main.rand.NextFloat(0.5f, 3.1f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                            Dust dust = Dust.NewDustPerfect(Player.Center + offset, Main.rand.NextBool() ? 215 : 22, new Vector2(velOffset.X, velOffset.Y));
+                            dust.noGravity = false;
+                            dust.velocity = velOffset;
+                            dust.scale = Main.rand.NextFloat(1.6f, 2.2f);
+                        }
+                    }
                     tortShellPostHit = 300;
+                }
 
                 if (abyssalDivingSuitPlates && hurtInfo.Damage > 50)
                 {
@@ -2043,7 +2081,7 @@ namespace CalamityMod.CalPlayer
                         {
                             int dust = Dust.NewDust(Player.position, Player.width, Player.height, 31, 0f, 0f, 100, default, 2f);
                             Main.dust[dust].velocity *= 3f;
-                            if (Main.rand.NextBool(2))
+                            if (Main.rand.NextBool())
                             {
                                 Main.dust[dust].scale = 0.5f;
                                 Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -2070,7 +2108,7 @@ namespace CalamityMod.CalPlayer
                     {
                         int ice = Dust.NewDust(Player.position, Player.width, Player.height, 67, 0f, 0f, 100, default, 2f);
                         Main.dust[ice].velocity *= 3f;
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             Main.dust[ice].scale = 0.5f;
                             Main.dust[ice].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

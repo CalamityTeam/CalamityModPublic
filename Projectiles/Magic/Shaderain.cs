@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -32,6 +33,10 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
             Projectile.netUpdate = true;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<BrainRot>(), 120);
         }
     }
 }

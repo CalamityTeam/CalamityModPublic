@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Accessories;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,21 +31,18 @@ namespace CalamityMod.Buffs.StatBuffs
             Player player = Main.player[Main.myPlayer];
             if (player.Calamity().profanedCrystalBuffs)
             {
-                if (player.Calamity().endoCooper)
+                bool empowered = player.Calamity().pscState == (int)ProfanedSoulCrystal.ProfanedSoulCrystalState.Empowered;
+                if (empowered)
                 {
-                    tip = this.GetLocalizedValue("NerfedEndo");
-                }
-                else if (player.Calamity().magicHat)
-                {
-                    tip = this.GetLocalizedValue("NerfedHat");
+                    tip += "\n" + this.GetLocalizedValue("Empowered");
                 }
                 else
                 {
                     bool offense = (Main.dayTime && !player.wet) || player.lavaWet;
                     tip += "\n" + (offense ? this.GetLocalization("Offense").Format(this.GetLocalizedValue(player.lavaWet ? "Lava" : "Day"))
-                    : this.GetLocalization("Defense").Format(this.GetLocalizedValue(player.honeyWet ? "Honey" : (player.wet ? "Water" : "Night"))));
+                        : this.GetLocalization("Defense").Format(this.GetLocalizedValue(player.honeyWet ? "Honey" : (player.wet ? "Water" : "Night"))));
 
-                    if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
+                    if (!Main.dayTime)
                         tip += "\n" + this.GetLocalizedValue("Enrage");
                 }
             }

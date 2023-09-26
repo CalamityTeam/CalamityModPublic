@@ -1114,6 +1114,7 @@ namespace CalamityMod
                 BuffType<Shadowflame>(),
                 BuffType<BrimstoneFlames>(),
                 BuffType<BurningBlood>(),
+                BuffType<BrainRot>(),
                 BuffType<GlacialState>(),
                 BuffType<GodSlayerInferno>(),
                 BuffType<AstralInfectionDebuff>(),

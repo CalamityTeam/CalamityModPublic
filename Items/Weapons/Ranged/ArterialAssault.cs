@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             int shotArrow = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
             Main.projectile[shotArrow].noDropItem = true;
             Main.projectile[shotArrow].tileCollide = false;
-            Main.projectile[shotArrow].timeLeft = (int)(Main.projectile[shotArrow].timeLeft * Main.projectile[shotArrow].MaxUpdates * 0.55f);
+            Main.projectile[shotArrow].timeLeft = (int)(Main.projectile[shotArrow].timeLeft * Main.projectile[shotArrow].MaxUpdates * 0.75f);
             CalamityGlobalProjectile cgp = Main.projectile[shotArrow].Calamity();
             cgp.allProjectilesHome = true;
             return false;

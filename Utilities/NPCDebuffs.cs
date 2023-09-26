@@ -56,15 +56,21 @@ namespace CalamityMod
             // Safety check: If for some reason the debuff array is not initialized yet, return and do nothing.
             // If the npc is not in the dictionary, return and do nothing.
             // Also, can I just say that I hate Sorted Dictionaries and Tuples and want to make something explode? -Ben
+            // I mean you can but sorted dicts and dicts in general are pre great -Amber
             bool exists = EnemyStats.DebuffImmunities.TryGetValue(npc.type, out var stupidTupleThing);
             if (npc.ModNPC is null || !exists)
                 return;
 
-            // If the npc is immune to everything, make it immune to everything
+            // If the npc is immune to everything, make it immune to everything, except whips
             if (stupidTupleThing.Item1)
             {
                 for (int k = 0; k < npc.buffImmune.Length; k++)
-                    npc.buffImmune[k] = true;
+                {
+                    if (!BuffID.Sets.IsAnNPCWhipDebuff[k])
+                        npc.buffImmune[k] = true;
+                }
+                NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData { ImmuneToAllBuffsThatAreNotWhips = true };
+                NPCID.Sets.DebuffImmunitySets[npc.type] = debuffData;
             }
 
             // Then set debuff vulnerabilities, or immunities if not immune to everything

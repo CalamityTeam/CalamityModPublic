@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Magic
                 int dustType = 22;
                 int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
                 Dust dust = Main.dust[idx];
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dust.noGravity = true;
                     dust.scale *= 2f;

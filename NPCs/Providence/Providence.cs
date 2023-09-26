@@ -1325,7 +1325,7 @@ namespace CalamityMod.NPCs.Providence
                                         player2.width, player2.height, dustType, 0f, 0f, 100, default, 2f);
                                     Main.dust[num622].velocity *= 3f;
                                     Main.dust[num622].noGravity = true;
-                                    if (Main.rand.NextBool(2))
+                                    if (Main.rand.NextBool())
                                     {
                                         Main.dust[num622].scale = 0.5f;
                                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -2541,7 +2541,7 @@ namespace CalamityMod.NPCs.Providence
                     int fire = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, 0f, 0f, 100, default, 2f);
                     Main.dust[fire].velocity *= 3f;
                     Main.dust[fire].noGravity = true;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[fire].scale = 0.5f;
                         Main.dust[fire].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

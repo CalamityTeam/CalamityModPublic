@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.Pets
             {
                 if (Main.rand.NextBool(3))
                 {
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         SoundEngine.PlaySound(SoundID.Meowmere with { Volume = SoundID.Meowmere.Volume * 4f}, Projectile.position); //nya
                     }
@@ -208,7 +208,7 @@ namespace CalamityMod.Projectiles.Pets
                 {
                     notlocalai1 = (float)(Main.rand.Next(30) * -10 - 300);
                     SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         player.Hurt(PlayerDeathReason.ByOther(6), 500, 0);
                     }

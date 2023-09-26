@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Abyss Work Bench");
             Item.width = 28;
             Item.height = 14;
             Item.maxStack = 9999;
@@ -22,9 +21,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             Item.consumable = true;
             Item.value = 0;
             Item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssWorkBench>();
-
-            // This is Ozz's item of choice for placing inactive Power Cell Factories for lab schematics. It should not do this normally.
-            // item.createTile = ModContent.TileType<Tiles.DraedonStructures.InactivePowerCellFactory>();
         }
 
         public override void AddRecipes()

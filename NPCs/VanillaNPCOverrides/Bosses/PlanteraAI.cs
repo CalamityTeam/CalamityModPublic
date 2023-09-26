@@ -207,7 +207,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), spawnOffset, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
-                            if (projectileType == ProjectileID.ThornBall && (Main.rand.NextBool(2) || !Main.zenithWorld))
+                            if (projectileType == ProjectileID.ThornBall && (Main.rand.NextBool() || !Main.zenithWorld))
                                 Main.projectile[proj].tileCollide = false;
                         }
                     }

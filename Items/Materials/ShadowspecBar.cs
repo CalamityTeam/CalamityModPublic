@@ -17,15 +17,9 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 25;
-
-
             ItemID.Sets.SortingPriorityMaterials[Type] = 124;
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-
-            Main.RegisterItemAnimation(
-                Type,
-                new DrawAnimationVertical(8, 8) /* 8 ticks per frame, has 8 frames total */
-            );
+            Main.RegisterItemAnimation(Type, new DrawAnimationVertical(8, 8));
         }
 
         public override void SetDefaults()

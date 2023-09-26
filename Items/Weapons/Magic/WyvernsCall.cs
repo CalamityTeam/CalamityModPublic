@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 {
                     type = ModContent.ProjectileType<WyvernFeatherGreen>();
                 }
-                else if (Main.rand.NextBool(2))
+                else if (Main.rand.NextBool())
                 {
                     type = ModContent.ProjectileType<WyvernFeatherPink>();
                 }

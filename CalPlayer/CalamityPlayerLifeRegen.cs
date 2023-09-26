@@ -98,6 +98,7 @@ namespace CalamityMod.CalPlayer
             ApplyDoTDebuff(rTide, 6, purity);
             ApplyDoTDebuff(weakBrimstoneFlames, 7);
             ApplyDoTDebuff(bBlood, 8, purity);
+            ApplyDoTDebuff(brainRot, 8, purity);
             ApplyDoTDebuff(vaporfied, 8, purity);
             ApplyDoTDebuff(bFlames, abaddon ? 10 : 30, purity);
             ApplyDoTDebuff(nightwither, reducedNightwitherDamage ? 20 : 40, purity);
@@ -678,7 +679,7 @@ namespace CalamityMod.CalPlayer
             if (phantomicHeartRegen <= 720 && phantomicHeartRegen >= 600)
             {
                 Player.lifeRegen += 2;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     int regen = Dust.NewDust(Player.position, Player.width, Player.height, 5, 0f, 0f, 200, new Color(99, 54, 84), 2f);
                     Main.dust[regen].noGravity = true;
@@ -787,7 +788,7 @@ namespace CalamityMod.CalPlayer
                 if (Player.lifeRegen > 0 && Player.statLife < actualMaxLife)
                 {
                     int dustType = shadeRegen ? 173 : cFreeze ? 67 : honeyDewWorking ? DustID.Honey2 : photosynthesis ? 244 : aAmpoule ? 228 : purity ? 187 : -1;
-                    bool dustSpawnRolled = Main.rand.Next(30000) < Player.lifeRegenTime || purity ? Main.rand.NextBool(2) : aAmpoule ? Main.rand.NextBool(4) : Main.rand.NextBool(30);
+                    bool dustSpawnRolled = Main.rand.Next(30000) < Player.lifeRegenTime || purity ? Main.rand.NextBool() : aAmpoule ? Main.rand.NextBool(4) : Main.rand.NextBool(30);
                     if (dustType != -1 && dustSpawnRolled)
                     {
                         int regen = Dust.NewDust(Player.position, Player.width, Player.height, dustType, 0f, 0f, purity || aAmpoule ? 80 : 200, default, purity || aAmpoule ? 0.5f : 1f);
@@ -831,7 +832,7 @@ namespace CalamityMod.CalPlayer
                 // Normally 1.25 while resting and 0.5 while not
                 Player.lifeRegen += (int)(baseRegenRate * 0.75f);
 
-                if (Main.rand.Next(30000) < Player.lifeRegenTime || Main.rand.NextBool(2))
+                if (Main.rand.Next(30000) < Player.lifeRegenTime || Main.rand.NextBool())
                 {
                     int regen = Dust.NewDust(Player.position, Player.width, Player.height, 12, 0f, 0f, 200, Color.OrangeRed, 1f);
                     Main.dust[regen].noGravity = true;

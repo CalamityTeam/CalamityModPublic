@@ -16,6 +16,8 @@ namespace CalamityMod.Tiles.Furniture
             AdjTiles = new int[] { TileID.HangingLanterns, TileID.FireflyinaBottle, TileID.LightningBuginaBottle };
         }
 
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => CalamityUtils.PlatformHangOffset(i, j, ref offsetY);
+
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             int frameAmt = 15;

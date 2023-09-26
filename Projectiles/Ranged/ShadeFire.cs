@@ -1,5 +1,7 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -44,7 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 Projectile.ai[0] += 1f;
                 int num297 = 14;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     for (int num298 = 0; num298 < 3; num298++)
                     {
@@ -77,6 +79,10 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.ai[0] += 1f;
             }
             Projectile.rotation += 0.3f * (float)Projectile.direction;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<BrainRot>(), 300);
         }
     }
 }

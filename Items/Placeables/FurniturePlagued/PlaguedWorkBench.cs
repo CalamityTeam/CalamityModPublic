@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Tiles.FurniturePlaguedPlate;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurniturePlagued
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlateWorkbench>();
+            Item.createTile = ModContent.TileType<PlaguedPlateWorkBenchTile>();
         }
 
         public override void AddRecipes()

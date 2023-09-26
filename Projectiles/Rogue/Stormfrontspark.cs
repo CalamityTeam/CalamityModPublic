@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             dust.scale += (float)Main.rand.Next(50) * 0.01f;
             dust.noGravity = true;
             dust.velocity.Y += 1f;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 226, 0f, 0f, 100, new Color(Main.rand.Next(20, 100), 204, 250), 1f);
                 Dust dust2 = Main.dust[num200];

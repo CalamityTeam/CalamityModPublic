@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Summon
                         for (int j = 0; j < 22; j++)
                         {
                             Dust dust = Dust.NewDustDirect(Main.projectile[i].position, Main.projectile[i].width, Main.projectile[i].height, 6);
-                            dust.velocity = Vector2.UnitY * Main.rand.NextFloat(3f, 5.5f) * Main.rand.NextBool(2).ToDirectionInt();
+                            dust.velocity = Vector2.UnitY * Main.rand.NextFloat(3f, 5.5f) * Main.rand.NextBool().ToDirectionInt();
                             dust.noGravity = true;
                         }
                     }
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Summon
                         for (int j = 0; j < 22; j++)
                         {
                             Dust dust = Dust.NewDustDirect(Main.projectile[i].position, Main.projectile[i].width, Main.projectile[i].height, 6);
-                            dust.velocity = Vector2.UnitY * Main.rand.NextFloat(3f, 5.5f) * Main.rand.NextBool(2).ToDirectionInt();
+                            dust.velocity = Vector2.UnitY * Main.rand.NextFloat(3f, 5.5f) * Main.rand.NextBool().ToDirectionInt();
                             dust.noGravity = true;
                         }
                     }

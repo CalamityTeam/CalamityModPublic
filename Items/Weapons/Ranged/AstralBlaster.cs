@@ -1,5 +1,5 @@
 ﻿using Terraria.DataStructures;
-using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;

@@ -31,11 +31,11 @@ namespace CalamityMod.Projectiles.Enemy
         {
             Lighting.AddLight(Projectile.Center, 0.1f * Projectile.Opacity, 1f * Projectile.Opacity, 0f);
 
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
                 Projectile.velocity *= 0.95f;
-            else if (Main.rand.NextBool(2))
+            else if (Main.rand.NextBool())
                 Projectile.velocity *= 0.9f;
-            else if (Main.rand.NextBool(2))
+            else if (Main.rand.NextBool())
                 Projectile.velocity *= 0.85f;
             else
                 Projectile.velocity *= 0.8f;

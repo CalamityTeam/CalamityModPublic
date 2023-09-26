@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Void Bathtub");
             Item.width = 28;
             Item.height = 20;
             Item.maxStack = 9999;

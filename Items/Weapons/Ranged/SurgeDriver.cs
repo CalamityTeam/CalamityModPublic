@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (Main.myPlayer == player.whoAmI)
                 player.Calamity().rightClickListener = true;
 
-            Item.noUseGraphic = !player.Calamity().mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] > 0;
+            Item.noUseGraphic = !player.Calamity().mouseRight || player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] > 0;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] <= 0;

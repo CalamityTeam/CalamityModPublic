@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using static CalamityMod.CalamityUtils;
 using Terraria;
 using Terraria.ModLoader;
+using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Particles
 {

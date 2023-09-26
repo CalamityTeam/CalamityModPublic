@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Typeless
                 int num46 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 107, 0f, 0f, 155, default, 0.8f);
                 Main.dust[num46].velocity *= 0.3f;
                 Main.dust[num46].position = Projectile.Center + value10 * (float)Projectile.width / 2f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[num46].fadeIn = 1.4f;
                 }
@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Main.dust[num48].velocity *= 0.3f;
                 Main.dust[num48].noGravity = true;
                 Main.dust[num48].position = Projectile.Center + value11 * (float)Projectile.width / 2f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[num48].fadeIn = 1.4f;
                 }

@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (!Projectile.Calamity().stealthStrike)
                 Projectile.extraUpdates = 1;
 
-            if (Main.rand.NextBool(2) && !posthit)
+            if (Main.rand.NextBool() && !posthit)
             {
                 Vector2 position = Projectile.Center + Vector2.Normalize(Projectile.velocity);
                 Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.Next(169, 170), 0f, 0f, 0, default, Projectile.Calamity().stealthStrike ? Main.rand.NextFloat(2.1f, 3.2f) : Main.rand.NextFloat(1.2f, 1.5f))];
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Vector2 bloodSpawnPosition = target.Center + Main.rand.NextVector2Circular(target.width, target.height) * 0.04f;
             Vector2 splatterDirection = (Projectile.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
-            int sparkCount = Main.rand.Next(5);
+            int sparkCount = Main.rand.Next(4, 6);
             for (int i = 0; i < sparkCount; i++)
             {
                 Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.5f) * Main.rand.NextFloat(5f, 9f);

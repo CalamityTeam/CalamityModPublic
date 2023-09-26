@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.SunkenSea
                         }
                         else if (NPC.ai[2] == 2f)
                         {
-                            if (Main.rand.NextBool(2))
+                            if (Main.rand.NextBool())
                             {
                                 int num5 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 226, 0f, 0f, 200, default, 1.5f);
                                 Main.dust[num5].noGravity = true;

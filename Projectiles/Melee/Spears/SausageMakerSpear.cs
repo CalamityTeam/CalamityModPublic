@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,6 +30,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 240);
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < 2; i++)

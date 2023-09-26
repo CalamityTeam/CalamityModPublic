@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
             {
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     int idx = Dust.NewDust(Projectile.position, 1, 1, 173, 0f, 0f, 0, default, 0.5f);
                     Main.dust[idx].alpha = Projectile.alpha;

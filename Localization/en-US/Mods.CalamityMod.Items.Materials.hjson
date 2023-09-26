@@ -28,6 +28,11 @@ AshesofCalamity: {
 	Tooltip: ""
 }
 
+AstralBar: {
+	DisplayName: Astral Bar
+	Tooltip: ""
+}
+
 AuricBar: {
 	DisplayName: Auric Bar
 	Tooltip: Boundless power emanates from the metal

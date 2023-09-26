@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
             {
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     int randomDust = Utils.SelectRandom(Main.rand, new int[]
                     {

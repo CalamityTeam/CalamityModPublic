@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Summon
                         if (Main.myPlayer == Projectile.owner)
                         {
                             Vector2 initialVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 2f;
-                            if (Main.rand.NextBool(2))
+                            if (Main.rand.NextBool())
                                 initialVelocity = initialVelocity.RotatedByRandom(0.4f);
                             float initialAngle = initialVelocity.ToRotation();
                             Projectile.NewProjectile(Projectile.GetSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner, initialAngle, Main.rand.Next(100));

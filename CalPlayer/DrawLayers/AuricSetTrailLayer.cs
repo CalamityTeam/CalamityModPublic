@@ -14,7 +14,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;
-            if (drawInfo.shadow != 0f || drawPlayer.dead)
+            if (drawInfo.shadow != 0f || drawPlayer.dead || drawPlayer.Calamity().AdrenalineTrail)
                 return false;
 
             return drawPlayer.Calamity().auricSet;

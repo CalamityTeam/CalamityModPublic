@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee
             Utils.PlotTileLine(StartingPosition, Projectile.Center, 8f, DelegateMethods.CastLight);
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.direction = Main.rand.NextBool(2).ToDirectionInt();
+                Projectile.direction = Main.rand.NextBool().ToDirectionInt();
                 Projectile.localAI[0] = 1f;
             }
             Projectile.rotation = Time / 20f * MathHelper.TwoPi * Projectile.direction;

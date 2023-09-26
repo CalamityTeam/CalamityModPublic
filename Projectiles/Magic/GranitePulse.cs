@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     int ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, 0.5f);
                     Main.dust[ecto].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[ecto].scale = 0.5f;
                         Main.dust[ecto].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     int ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, 0.5f);
                     Main.dust[ecto].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[ecto].scale = 0.5f;
                         Main.dust[ecto].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

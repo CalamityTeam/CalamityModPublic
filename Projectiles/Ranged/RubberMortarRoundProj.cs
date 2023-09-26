@@ -214,7 +214,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 int smoke = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default, 2f);
                 Main.dust[smoke].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[smoke].scale = 0.5f;
                     Main.dust[smoke].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

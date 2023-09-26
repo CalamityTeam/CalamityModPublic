@@ -136,6 +136,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.EmpressBlade, Do(LocalIFrames(30)) }, // Terraprisma
                 { ProjectileID.EnchantedBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.ExplosiveBullet, standardBulletTweaks },
+                { ProjectileID.FlaironBubble, Do(ExtraUpdatesExact(1), TimeLeftExact(400)) },
                 { ProjectileID.Flamarang, Do(ExtraUpdatesExact(2)) },
                 { ProjectileID.Flames, Do(IDStaticIFrames(10)) }, // Flamethrower + Elf Melter
                 { ProjectileID.FlamingJack, Do(ExtraUpdatesExact(1)) },
@@ -149,6 +150,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.GreenCounterweight, counterweightTweaks },
                 { ProjectileID.Hamdrax, standardDrillTweaks }, // Drax (never internally renamed since 1.1)
                 { ProjectileID.IceBoomerang, Do(ExtraUpdatesExact(1)) },
+                { ProjectileID.IceSickle, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.IchorBullet, standardBulletTweaks },
                 { ProjectileID.InfluxWaver, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.LaserDrill, Do(ArmorPenetrationDelta(+25), LocalIFrames(5)) },

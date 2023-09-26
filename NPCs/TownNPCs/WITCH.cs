@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 {
                     int brimstone = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[brimstone].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[brimstone].scale = 0.5f;
                         Main.dust[brimstone].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

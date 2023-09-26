@@ -20,12 +20,11 @@ namespace CalamityMod.Particles
         public Vector2 OverridePosition;
         public float Opacity;
 
-        public HealingPlus(Vector2 position, float scale, Color colorStart, Color colorEnd, int lifetime)
+        public HealingPlus(Vector2 position, float scale, Vector2 velocity, Color colorStart, Color colorEnd, int lifetime)
         {
             Position = position;
             Scale = scale;
-            Velocity.X = 0;
-            Velocity.Y = Main.rand.NextFloat(-2f, -5f);
+            Velocity = velocity;
             Rotation = 0;
             StartColor = colorStart;
             EndColor = colorEnd;
@@ -37,7 +36,7 @@ namespace CalamityMod.Particles
         {
             Color = Color.Lerp(StartColor, EndColor, LifetimeCompletion);
             Lighting.AddLight(Position, Color.ToVector3() * 0.2f);
-            Opacity -= 0.05f;
+            Opacity -= 0.5f;
         }
 
         public override void CustomDraw(SpriteBatch spriteBatch)

@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
                     {
                         if (NPC.ai[1] == 0)
                         {
-                            NPC.ai[2] = Main.rand.NextBool(2) ? -1 : 1;
+                            NPC.ai[2] = Main.rand.NextBool() ? -1 : 1;
                         }
                         NPC.ai[1]++;
                         NPC.velocity.X = NPC.ai[2] * 2;

@@ -1347,10 +1347,10 @@ namespace CalamityMod.Projectiles
 
                             for (int i = 0; i < 8; i++)
                             {
-                                int randomDustType = Main.rand.NextBool(2) ? 125 : 148;
+                                int randomDustType = Main.rand.NextBool() ? 125 : 148;
                                 Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, randomDustType, 0f, 0f, 0, default, 2f);
                                 dust.velocity *= 3f;
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                 {
                                     dust.scale = 0.5f;
                                     dust.fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -1358,7 +1358,7 @@ namespace CalamityMod.Projectiles
                             }
                             for (int i = 0; i < 10; i++)
                             {
-                                int randomDustType = Main.rand.NextBool(2) ? 125 : 148;
+                                int randomDustType = Main.rand.NextBool() ? 125 : 148;
                                 Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, randomDustType, 0f, 0f, 0, default, 3f);
                                 dust.noGravity = true;
                                 dust.velocity *= 5f;
@@ -2126,9 +2126,10 @@ namespace CalamityMod.Projectiles
                     {
                         if (projectile.type != ProjectileType<RicoshotCoin>())
                             projectile.extraUpdates += 1;
-                        if (projectile.type == ProjectileID.MechanicalPiranha)
+                        if (projectile.type == ProjectileID.MechanicalPiranha) {
                             projectile.localNPCHitCooldown *= 2;
                             projectile.timeLeft *= 2;
+                        }
                     }
 
                     if (modPlayer.camper && !player.StandingStill())
@@ -2221,6 +2222,18 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.Bat:
                     projectile.extraUpdates = 1;
                     break;
+            }
+
+            // Jack O Lantern Launcher projectile tweak
+            if (projectile.type == ProjectileID.JackOLantern)
+            {
+                if (projectile.ai[0] >= 20f)
+                {
+                    // Offset the gravity until 30 frames later
+                    projectile.ai[2]++;
+                    if (projectile.ai[2] < 30f)
+                        projectile.velocity.Y -= 0.5f;
+                }
             }
 
             // Random velocities for Bouncy Boulders in GFB
@@ -2376,7 +2389,7 @@ namespace CalamityMod.Projectiles
                                 }
                                 break;
                             case 2:
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                 {
                                     Dust cflame = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 75, projectile.velocity.X * 0.2f + (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 2.5f);
                                     cflame.noGravity = true;
@@ -2385,7 +2398,7 @@ namespace CalamityMod.Projectiles
                                 }
                                 break;
                             case 3:
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                 {
                                     Dust fire = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X * 0.2f + (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 2.5f);
                                     fire.noGravity = true;
@@ -2394,7 +2407,7 @@ namespace CalamityMod.Projectiles
                                 }
                                 break;
                             case 4:
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                 {
                                     Dust gold = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 57, projectile.velocity.X * 0.2f + (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 1.1f);
                                     gold.noGravity = true;
@@ -2402,7 +2415,7 @@ namespace CalamityMod.Projectiles
                                 }
                                 break;
                             case 5:
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                 {
                                     Dust ichor = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 169, 0f, 0f, 100);
                                     ichor.velocity.X += projectile.direction;
@@ -2411,7 +2424,7 @@ namespace CalamityMod.Projectiles
                                 }
                                 break;
                             case 6:
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                 {
                                     Dust nanite = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 135, 0f, 0f, 100);
                                     nanite.velocity.X += projectile.direction;
@@ -2429,13 +2442,14 @@ namespace CalamityMod.Projectiles
                                 }
                                 break;
                             case CalamityGlobalBuff.ModdedFlaskEnchant:
-                                int dustType = player.Calamity().flaskHoly ? (int)CalamityDusts.ProfanedFire : player.Calamity().flaskBrimstone ? ModContent.DustType<BrimstoneFlame>() : DustID.Stone;
+                                int dustType = player.Calamity().flaskHoly ? (Main.rand.NextBool() ? 87 : (int)CalamityDusts.ProfanedFire) : player.Calamity().flaskBrimstone ? (Main.rand.NextBool() ? 114 : ModContent.DustType<BrimstoneFlame>()) : (Main.rand.NextBool() ? 121 : DustID.Stone);
                                 if (Main.rand.NextBool(4))
                                 {
-                                    Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100);
-                                    dust.noGravity = true;
-                                    dust.fadeIn = 1.5f;
-                                    dust.velocity *= 0.25f;
+                                    Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, Main.rand.NextFloat(0.6f, 0.9f));
+                                    dust.noGravity = dust.type == 121 ? false : true;
+                                    if (!player.Calamity().flaskHoly)
+                                        dust.fadeIn = 1f;
+                                    dust.velocity = player.Calamity().flaskHoly && Main.rand.NextBool(3) ? new Vector2(Main.rand.NextFloat(-0.9f, 0.9f), Main.rand.NextFloat(-6.6f, -9.8f)) : dust.type == 121 ? new Vector2(Main.rand.NextFloat(-0.7f, 0.7f), Main.rand.NextFloat(0.6f, 1.8f)) : -projectile.velocity * 0.2f;
                                 }
                                 break;
                             default:
@@ -2448,13 +2462,14 @@ namespace CalamityMod.Projectiles
                 {
                     if ((player.Calamity().flaskBrimstone || player.Calamity().flaskCrumbling || player.Calamity().flaskHoly) && !projectile.noEnchantments && !projectile.noEnchantmentVisuals)
                     {
-                        int dustType = player.Calamity().flaskHoly ? (int)CalamityDusts.ProfanedFire : player.Calamity().flaskBrimstone ? ModContent.DustType<BrimstoneFlame>() : DustID.Stone;
+                        int dustType = player.Calamity().flaskHoly ? (Main.rand.NextBool() ? 87 : (int)CalamityDusts.ProfanedFire) : player.Calamity().flaskBrimstone ? (Main.rand.NextBool() ? 114 : ModContent.DustType<BrimstoneFlame>()) : (Main.rand.NextBool() ? 121 : DustID.Stone);
                         if (Main.rand.NextBool(4))
                         {
-                            Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100);
-                            dust.noGravity = true;
-                            dust.fadeIn = 1.5f;
-                            dust.velocity *= 0.25f;
+                            Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, Main.rand.NextFloat(0.6f, 0.9f));
+                            dust.noGravity = dust.type == 121 ? false : true;
+                            if (!player.Calamity().flaskHoly)
+                                dust.fadeIn = 1f;
+                            dust.velocity = player.Calamity().flaskHoly && Main.rand.NextBool(3) ? new Vector2(Main.rand.NextFloat(-0.9f, 0.9f), Main.rand.NextFloat(-6.6f, -9.8f)) : dust.type == 121 ? new Vector2 (Main.rand.NextFloat(-0.7f, 0.7f), Main.rand.NextFloat(0.6f, 1.8f)) : -projectile.velocity * 0.2f;
                         }
                     }
                 }
