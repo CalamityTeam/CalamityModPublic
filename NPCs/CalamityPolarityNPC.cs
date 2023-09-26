@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs
                 curPolarity--;
 
             //Polarity particles
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 Color sparkColor = AdamantiteParticleAccelerator.LightColors[CurPolarity < 0 ? 1 : 0];
                 Particle spark = new ElectricSpark(npc.Center + Main.rand.NextVector2Circular(npc.width / 2f, npc.height / 2f), Main.rand.NextVector2CircularEdge(20f, 20f) * 0.4f, Color.Lerp(Color.White, sparkColor, 0.4f), sparkColor, Main.rand.NextFloat(0.5f, 1.2f), Main.rand.Next(20, 40), bloomScale: 2.5f);

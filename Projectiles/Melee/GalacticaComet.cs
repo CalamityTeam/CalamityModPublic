@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
                     Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
                     vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * MathHelper.Pi / 6f), default) * new Vector2(8f, 16f);
                     vector3 = vector3.RotatedBy((double)(Projectile.rotation - MathHelper.PiOver2), default);
-                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, Main.rand.NextBool(2) ? 164 : 229, 0f, 0f, 160, default, 1f);
+                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, Main.rand.NextBool() ? 164 : 229, 0f, 0f, 160, default, 1f);
                     Main.dust[num9].noGravity = true;
                     Main.dust[num9].position = Projectile.Center + vector3;
                     Main.dust[num9].velocity = Projectile.velocity * 0.1f;

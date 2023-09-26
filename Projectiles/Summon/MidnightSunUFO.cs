@@ -47,8 +47,8 @@ namespace CalamityMod.Projectiles.Summon
 
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.velocity.Y = Main.rand.NextFloat(8f, 11f) * Main.rand.NextBool(2).ToDirectionInt();
-                Projectile.velocity.Y = Main.rand.NextFloat(3f, 5f) * Main.rand.NextBool(2).ToDirectionInt();
+                Projectile.velocity.Y = Main.rand.NextFloat(8f, 11f) * Main.rand.NextBool().ToDirectionInt();
+                Projectile.velocity.Y = Main.rand.NextFloat(3f, 5f) * Main.rand.NextBool().ToDirectionInt();
 
                 // This AI variable doubles as the random frame on which this UFO chooses to shoot its machine gun.
                 Projectile.localAI[0] = Main.rand.Next(1, (int)MidnightSunBeacon.MachineGunRate);

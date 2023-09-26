@@ -304,12 +304,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 min += teleportDistanceIncrease;
                                 max += teleportDistanceIncrease;
 
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                     num801 += Main.rand.Next(min, max);
                                 else
                                     num801 -= Main.rand.Next(min, max);
 
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                     num802 += Main.rand.Next(min, max);
                                 else
                                     num802 -= Main.rand.Next(min, max);
@@ -466,12 +466,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 int min = 18 + teleportDistanceIncrease;
                                 int max = 26 + teleportDistanceIncrease;
 
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                     num810 += Main.rand.Next(min, max);
                                 else
                                     num810 -= Main.rand.Next(min, max);
 
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                     num811 += Main.rand.Next(min, max);
                                 else
                                     num811 -= Main.rand.Next(min, max);

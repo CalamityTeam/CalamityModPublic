@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
-            CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 10f, 144f, 5, Main.rand.NextBool(2) ? ModContent.ProjectileType<YinYoDark>() : ModContent.ProjectileType<YinYoLight>(), 0.5);
+            CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 10f, 144f, 5, Main.rand.NextBool() ? ModContent.ProjectileType<YinYoDark>() : ModContent.ProjectileType<YinYoLight>(), 0.5);
             if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
                 Projectile.Kill();
         }

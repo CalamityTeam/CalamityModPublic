@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.ToRadians(90);
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, 0.6f);
 
             if (Projectile.timeLeft < 60)

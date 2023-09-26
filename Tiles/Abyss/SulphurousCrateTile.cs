@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Abyss
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
                 type = 44;
             else
                 type = 33;

@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (Projectile.localAI[1] == breakThreshold && Main.zenithWorld)
             {
-                Projectile.velocity.X = Main.rand.NextBool(2) ? -tornadoSpeed : tornadoSpeed;
+                Projectile.velocity.X = Main.rand.NextBool() ? -tornadoSpeed : tornadoSpeed;
 
                 if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                     Projectile.velocity.X *= 1.5f;

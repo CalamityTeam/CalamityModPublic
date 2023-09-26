@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Magic
                         Projectile.velocity *= 6f / Projectile.velocity.Length();
                     }
                 }
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     int num1028 = Dust.NewDust(Projectile.Center, 8, 8, 60, 0f, 0f, 0, default, 1f);
                     Main.dust[num1028].position = Projectile.Center;

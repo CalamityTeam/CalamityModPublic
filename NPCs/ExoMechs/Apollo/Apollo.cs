@@ -1187,7 +1187,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             if (i < 50)
                                 dustVelocity = 4f;
 
-                            int dust1 = Dust.NewDust(NPC.Center, 6, 6, Main.rand.NextBool(2) ? 107 : 110, 0f, 0f, 100, default, 1f);
+                            int dust1 = Dust.NewDust(NPC.Center, 6, 6, Main.rand.NextBool() ? 107 : 110, 0f, 0f, 100, default, 1f);
                             float dustVelX = Main.dust[dust1].velocity.X;
                             float dustVelY = Main.dust[dust1].velocity.Y;
 

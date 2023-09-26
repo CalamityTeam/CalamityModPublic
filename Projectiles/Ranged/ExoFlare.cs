@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.localAI[0] == 0f)
             {
                 OffsetRotation = Main.rand.NextFloat(MathHelper.TwoPi);
-                OffsetSpeed = Main.rand.NextFloat(MathHelper.ToRadians(2.5f), MathHelper.ToRadians(4f)) * Main.rand.NextBool(2).ToDirectionInt();
+                OffsetSpeed = Main.rand.NextFloat(MathHelper.ToRadians(2.5f), MathHelper.ToRadians(4f)) * Main.rand.NextBool().ToDirectionInt();
                 Projectile.localAI[0] = 1f;
             }
 

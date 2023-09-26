@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
 
                 int num564 = 8;
-                int num565 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num564, Projectile.position.Y + (float)num564), Projectile.width - num564 * 2, Projectile.height - num564 * 2, Main.rand.NextBool(2) ? 5 : 6, 0f, 0f, 0, default, 1f);
+                int num565 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num564, Projectile.position.Y + (float)num564), Projectile.width - num564 * 2, Projectile.height - num564 * 2, Main.rand.NextBool() ? 5 : 6, 0f, 0f, 0, default, 1f);
                 Dust dust = Main.dust[num565];
                 dust.velocity *= 0.5f;
                 dust = Main.dust[num565];
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[num622].scale = 0.5f;
                     Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

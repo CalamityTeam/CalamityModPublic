@@ -46,7 +46,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 holyFireDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
                 holyFireDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cShield, player);
                 holyFireDashDust.noGravity = true;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                     holyFireDashDust.fadeIn = 0.5f;
             }
         }

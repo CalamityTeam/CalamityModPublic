@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.velocity.X *= 0.9511f;
             Projectile.velocity.Y += 0.502f;
 
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 Vector2 offset = new Vector2(12, 0).RotatedByRandom(MathHelper.ToRadians(360f));
                 Vector2 velOffset = new Vector2(4, 0).RotatedBy(offset.ToRotation());

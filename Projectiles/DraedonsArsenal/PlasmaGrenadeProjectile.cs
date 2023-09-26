@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     for (int i = 0; i < 220; i++)
                     {
-                        int type = Main.rand.NextBool(2) ? 261 : 107;
+                        int type = Main.rand.NextBool() ? 261 : 107;
                         Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10f, 10f), type);
                         dust.scale = Main.rand.NextFloat(1.6f, 2.2f);
                         dust.velocity = Main.rand.NextVector2CircularEdge(75f, 75f);

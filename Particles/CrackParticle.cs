@@ -18,6 +18,7 @@ namespace CalamityMod.Particles
         private float FinalScale;
         private Vector2 Squish;
         private Color BaseColor;
+        public float opacity;
         public int Stop = 0;
 
         public CrackParticle(Vector2 position, Vector2 velocity, Color color, Vector2 squish, float rotation, float originalScale, float finalScale, int lifeTime)
@@ -43,12 +44,14 @@ namespace CalamityMod.Particles
             if (Stop > 1)
                 Velocity *= 0;
             Color = BaseColor;
+
+            opacity = (float)Math.Sin(MathHelper.PiOver2 + LifetimeCompletion * MathHelper.PiOver2);
         }
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-            spriteBatch.Draw(tex, Position - Main.screenPosition, null, Color, Rotation, tex.Size() / 2f, Scale * Squish, SpriteEffects.None, 0);
+            spriteBatch.Draw(tex, Position - Main.screenPosition, null, Color * opacity, Rotation, tex.Size() / 2f, Scale * Squish, SpriteEffects.None, 0);
         }
 
     }

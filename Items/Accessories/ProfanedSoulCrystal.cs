@@ -280,7 +280,7 @@ namespace CalamityMod.Items.Accessories
                 }
                 else if (item.CountsAsClass<RangedDamageClass>())
                 {
-                    if (enraged || Main.rand.NextBool(2)) //100% chance if 50% or lower, else 1 in 2 chance
+                    if (enraged || Main.rand.NextBool()) //100% chance if 50% or lower, else 1 in 2 chance
                     {
                         correctedVelocity *= 20f;
                         Vector2 perturbedspeed = new Vector2(correctedVelocity.X + Main.rand.Next(-3, 4), correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(3));

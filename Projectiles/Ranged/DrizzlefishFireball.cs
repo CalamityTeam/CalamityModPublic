@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
             int dustType = 235;
             if (Projectile.ai[1] == 1f)
             {
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dustType = 35;
                 }

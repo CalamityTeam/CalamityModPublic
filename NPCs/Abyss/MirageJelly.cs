@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.Abyss
                             int min = 6;
                             int max = 9;
 
-                            if (Main.rand.NextBool(2))
+                            if (Main.rand.NextBool())
                                 num1250 += Main.rand.Next(min, max);
                             else
                                 num1250 -= Main.rand.Next(min, max);

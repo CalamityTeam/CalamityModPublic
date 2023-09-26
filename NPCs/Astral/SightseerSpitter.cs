@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.Astral
                 }
                 else if (NPC.ai[1] >= 140f) //oozin dust at the "mouth"
                 {
-                    int dustType = Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
+                    int dustType = Main.rand.NextBool() ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
                     int d = Dust.NewDust(spawnPoint - new Vector2(5), 10, 10, dustType);
                     Main.dust[d].velocity = NPC.velocity * 0.3f;
                     Main.dust[d].customData = true;
@@ -284,7 +284,7 @@ namespace CalamityMod.NPCs.Astral
             for (int i = 0; i < numDust; i++)
             {
                 Vector2 vel = (angle + Main.rand.NextFloat(-0.04f, 0.04f)).ToRotationVector2();
-                int dustType = Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
+                int dustType = Main.rand.NextBool() ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
                 Dust d = Dust.NewDustPerfect(NPC.Center, dustType, vel * Main.rand.NextFloat(1.8f, 2.2f));
                 d.customData = NPC;
 

@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 for (int i = 0; i < 60; i++)
                 {
-                    Dust brimstoneMagic = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(2) ? (int)CalamityDusts.Brimstone : 27);
+                    Dust brimstoneMagic = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool() ? (int)CalamityDusts.Brimstone : 27);
                     brimstoneMagic.velocity = Main.rand.NextVector2Circular(18f, 18f);
                     brimstoneMagic.scale = 1.7f;
                     brimstoneMagic.noGravity = true;

@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             //dust and lighting
-            int num298 = Main.rand.NextBool(2) ? 107 : 234;
+            int num298 = Main.rand.NextBool() ? 107 : 234;
             if (Main.rand.NextBool(4))
             {
                 num298 = 269;
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             //dust effects
-            int dustType = Main.rand.NextBool(2) ? 107 : 234;
+            int dustType = Main.rand.NextBool() ? 107 : 234;
             if (Main.rand.NextBool(4))
             {
                 dustType = 269;
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int exo = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
                 Main.dust[exo].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[exo].scale = 0.5f;
                     Main.dust[exo].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

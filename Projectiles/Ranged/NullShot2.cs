@@ -1,4 +1,4 @@
-using CalamityMod.NPCs.NormalNPCs;
+﻿using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -85,11 +85,11 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 else if (nullBuff == 8)
                 {
-                    target.velocity.Y = Main.rand.NextBool(2) ? 30f : -30f;
+                    target.velocity.Y = Main.rand.NextBool() ? 30f : -30f;
                 }
                 else
                 {
-                    target.velocity.X = Main.rand.NextBool(2) ? 30f : -30f;
+                    target.velocity.X = Main.rand.NextBool() ? 30f : -30f;
                 }
             }
         }

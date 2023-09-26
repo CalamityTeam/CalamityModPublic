@@ -189,7 +189,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     targetVec.X *= targetDist;
                     targetVec.Y *= targetDist;
                     int damage = adultWyrmAlive ? (Main.expertMode ? 150 : 200) : (Main.expertMode ? 30 : 40);
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetVec, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
                     }

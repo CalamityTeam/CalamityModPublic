@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.ai[0] += 4f;
             int num462 = 0;
             float scale = 0.7f;
-            int dustType = Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
+            int dustType = Main.rand.NextBool() ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
             if (Projectile.ai[1] == 0f)
             {
                 scale = 1.5f;

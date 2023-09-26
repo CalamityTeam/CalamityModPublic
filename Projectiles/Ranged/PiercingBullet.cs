@@ -53,13 +53,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             OnHitEffects(target.Center, hit.Crit);
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 300);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             OnHitEffects(target.Center, true);
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 300);
         }
 
         private void OnHitEffects(Vector2 targetPos, bool crit)
@@ -67,12 +67,12 @@ namespace CalamityMod.Projectiles.Ranged
             if (crit)
             {
                 var source = Projectile.GetSource_FromThis();
-                int bulletCount = 10;
+                int bulletCount = 5;
                 for (int x = 0; x < bulletCount; x++)
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.2), Projectile.knockBack, Projectile.owner);
+                        CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.14), Projectile.knockBack, Projectile.owner);
                     }
                 }
             }
