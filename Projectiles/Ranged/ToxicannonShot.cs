@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < count; i++)
             {
                 float angle = MathHelper.TwoPi * i / count;
-                angle += Main.rand.NextFloat(0.1f, 0.35f) * Main.rand.NextBool(2).ToDirectionInt();
+                angle += Main.rand.NextFloat(0.1f, 0.35f) * Main.rand.NextBool().ToDirectionInt();
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, angle.ToRotationVector2() * Main.rand.NextFloat(4f, 16f),
                         ModContent.ProjectileType<ToxicannonDrop>(), Projectile.damage, 2.5f, Projectile.owner);
             }

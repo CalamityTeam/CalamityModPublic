@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int i = 0; i < 20; i++)
             {
-                int dustType = Main.rand.NextBool(2) ? 68 : 67;
+                int dustType = Main.rand.NextBool() ? 68 : 67;
                 if (Main.rand.NextBool(4))
                 {
                     dustType = 80;

@@ -99,7 +99,7 @@ namespace CalamityMod.NPCs.SlimeGod
             int damage = NPC.GetProjectileDamage(type);
             if (Main.zenithWorld)
             {
-                type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
+                type = Main.rand.NextBool() ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
             }
             if (!NPC.wet)
             {

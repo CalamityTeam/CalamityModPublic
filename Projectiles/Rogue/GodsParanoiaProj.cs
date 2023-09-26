@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0.35f, 0f, 0.25f);
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 Dust flame = Dust.NewDustDirect(Projectile.position, 1, 1, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 0, default, 0.5f);
                 flame.alpha = Projectile.alpha;

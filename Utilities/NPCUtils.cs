@@ -391,7 +391,7 @@ namespace CalamityMod
             {
                 target.AddBuff(buff, SecondsToFrames(timeBase * 3f), false);
             }
-            else if (Main.rand.NextBool(2))
+            else if (Main.rand.NextBool())
             {
                 target.AddBuff(buff, SecondsToFrames(timeBase * 2f), false);
             }

@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Typeless
                     Main.dust[num622].velocity *= 3f;
                     if (Projectile.ai[0] == 1)
                         Main.dust[num622].shader = GameShaders.Armor.GetSecondaryShader(Owner.cShield, Owner);
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[num622].scale = 0.5f;
                         Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Typeless
                     int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 181, 0f, 0f, 100, default, Main.rand.NextFloat(1.2f, 1.8f));
                     Main.dust[num622].velocity *= 3f;
                     Main.dust[num622].shader = GameShaders.Armor.GetSecondaryShader(Owner.cShield, Owner);
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[num622].scale = 0.5f;
                         Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

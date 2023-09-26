@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Boss
                     Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
-                    int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
+                    int randomDustType = Main.rand.NextBool() ? 107 : 110;
 
                     int num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default, 1.7f);
                     Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Boss
                     Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
-                    int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
+                    int randomDustType = Main.rand.NextBool() ? 107 : 110;
 
                     int num56 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default, 2f);
                     Main.dust[num56].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 3f;
@@ -190,7 +190,7 @@ namespace CalamityMod.Projectiles.Boss
                 if (num640 < 50)
                     num641 = 4f;
 
-                int num643 = Dust.NewDust(Projectile.Center, 6, 6, Main.rand.NextBool(2) ? 107 : 110, 0f, 0f, 100, default, 1f);
+                int num643 = Dust.NewDust(Projectile.Center, 6, 6, Main.rand.NextBool() ? 107 : 110, 0f, 0f, 100, default, 1f);
                 float num644 = Main.dust[num643].velocity.X;
                 float num645 = Main.dust[num643].velocity.Y;
 

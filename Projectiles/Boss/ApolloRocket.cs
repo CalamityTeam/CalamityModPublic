@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Boss
                     Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
-                    int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
+                    int randomDustType = Main.rand.NextBool() ? 107 : 110;
 
                     int num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default, 1.7f);
                     Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
                     Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
-                    int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
+                    int randomDustType = Main.rand.NextBool() ? 107 : 110;
 
                     int num56 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default, 2f);
                     Main.dust[num56].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 3f;
@@ -216,10 +216,10 @@ namespace CalamityMod.Projectiles.Boss
 
             for (int num621 = 0; num621 < 12; num621++)
             {
-                int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
+                int randomDustType = Main.rand.NextBool() ? 107 : 110;
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, randomDustType, 0f, 0f, 100, default, 2f);
                 Main.dust[dust].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[dust].scale = 0.5f;
                     Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -227,7 +227,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             for (int num623 = 0; num623 < 15; num623++)
             {
-                int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
+                int randomDustType = Main.rand.NextBool() ? 107 : 110;
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, randomDustType, 0f, 0f, 100, default, 3f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity *= 5f;

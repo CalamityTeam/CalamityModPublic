@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Magic
                     // Emit pretty as fuck dust.
                     if (Main.rand.NextBool(3))
                     {
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             Vector2 vector93 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
                             Dust dust45 = Main.dust[Dust.NewDust(Projectile.Center - vector93 * 45f, 0, 0, Utils.SelectRandom<int>(Main.rand, 86, 90))];

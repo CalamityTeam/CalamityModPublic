@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
                 projectile.velocity += new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
 
             // Flavor fire dust effect.
-            int dustEffect = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, Main.rand.NextBool(2) ? 1f : -1f, Main.rand.NextBool(2) ? 1f : -1f);
+            int dustEffect = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, Main.rand.NextBool() ? 1f : -1f, Main.rand.NextBool() ? 1f : -1f);
             Main.dust[dustEffect].noGravity = true;
 
             return false;

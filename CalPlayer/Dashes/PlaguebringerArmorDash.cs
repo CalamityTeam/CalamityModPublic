@@ -44,7 +44,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 plagueDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
                 plagueDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                 plagueDashDust.noGravity = true;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                     plagueDashDust.fadeIn = 0.5f;
             }
 

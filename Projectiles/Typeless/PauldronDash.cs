@@ -39,12 +39,12 @@ namespace CalamityMod.Projectiles.Typeless
 
             for (int i = 0; i <= 8; i++)
             {
-                Dust dust = Dust.NewDustPerfect(target.Center, Main.rand.NextBool(2) ? 174 : 127, new Vector2(0, -2).RotatedByRandom(MathHelper.ToRadians(30f)) * Main.rand.NextFloat(2f, 4.5f), 0, default, Main.rand.NextFloat(2.8f, 3.4f));
+                Dust dust = Dust.NewDustPerfect(target.Center, Main.rand.NextBool() ? 174 : 127, new Vector2(0, -2).RotatedByRandom(MathHelper.ToRadians(30f)) * Main.rand.NextFloat(2f, 4.5f), 0, default, Main.rand.NextFloat(2.8f, 3.4f));
                 dust.noGravity = false;
             }
             for (int i = 0; i <= 5; i++)
             {
-                Dust dust2 = Dust.NewDustPerfect(target.Center, Main.rand.NextBool(2) ? 174 : 127, new Vector2(0, -3).RotatedByRandom(MathHelper.ToRadians(8f)) * Main.rand.NextFloat(1f, 5f), 0, default, Main.rand.NextFloat(2.8f, 3.4f));
+                Dust dust2 = Dust.NewDustPerfect(target.Center, Main.rand.NextBool() ? 174 : 127, new Vector2(0, -3).RotatedByRandom(MathHelper.ToRadians(8f)) * Main.rand.NextFloat(1f, 5f), 0, default, Main.rand.NextFloat(2.8f, 3.4f));
                 dust2.noGravity = false;
             }
 

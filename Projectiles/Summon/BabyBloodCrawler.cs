@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon
 
         private void OnHitEffects(Vector2 targetPos)
         {
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int projAmt = Main.rand.Next(1, 3);
                 var source = Projectile.GetSource_FromThis();

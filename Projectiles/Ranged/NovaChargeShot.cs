@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Ranged
             Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(-3, 3), 107);
             dust.noGravity = true;
             dust.scale = 1.2f;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 Vector2 trailPos = Projectile.Center + Main.rand.NextVector2Circular(10, 10);
                 float trailScale = Main.rand.NextFloat(0.8f, 1.2f);

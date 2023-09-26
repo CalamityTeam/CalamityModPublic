@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
-                    int randomDustType = Main.rand.NextBool(2) ? dust1 : dust2;
+                    int randomDustType = Main.rand.NextBool() ? dust1 : dust2;
 
                     int num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default, 1.7f);
                     Dust dust = Main.dust[num54];
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
-                    int randomDustType = Main.rand.NextBool(2) ? dust1 : dust2;
+                    int randomDustType = Main.rand.NextBool() ? dust1 : dust2;
 
                     int num56 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default, 2f);
                     Dust dust = Main.dust[num56];
@@ -145,13 +145,13 @@ namespace CalamityMod.Projectiles.Ranged
                 vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
                 Vector2 vector7 = vector6 - Projectile.Center;
 
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, Main.rand.NextBool(2) ? dust1 : dust2, vector7.X * 0.3f, vector7.Y * 0.3f, 100, default, 2f);
+                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, Main.rand.NextBool() ? dust1 : dust2, vector7.X * 0.3f, vector7.Y * 0.3f, 100, default, 2f);
                 Main.dust[num228].noGravity = true;
 
-                int num229 = Dust.NewDust(vector6 + vector7, 0, 0, Main.rand.NextBool(2) ? dust1 : dust2, vector7.X * 0.2f, vector7.Y * 0.2f, 100, default, 2f);
+                int num229 = Dust.NewDust(vector6 + vector7, 0, 0, Main.rand.NextBool() ? dust1 : dust2, vector7.X * 0.2f, vector7.Y * 0.2f, 100, default, 2f);
                 Main.dust[num229].noGravity = true;
 
-                int num230 = Dust.NewDust(vector6 + vector7, 0, 0, Main.rand.NextBool(2) ? dust1 : dust2, vector7.X * 0.1f, vector7.Y * 0.1f, 100, default, 2f);
+                int num230 = Dust.NewDust(vector6 + vector7, 0, 0, Main.rand.NextBool() ? dust1 : dust2, vector7.X * 0.1f, vector7.Y * 0.1f, 100, default, 2f);
                 Main.dust[num230].noGravity = true;
             }
 

@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
             xDist *= speedMult;
             yDist *= speedMult;
             int knifeAmt = 3;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 knifeAmt++;
             }

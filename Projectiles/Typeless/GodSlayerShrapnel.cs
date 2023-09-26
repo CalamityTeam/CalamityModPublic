@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Typeless
             dust.scale += (float)Main.rand.Next(50) * 0.01f;
             dust.noGravity = true;
             dust.velocity.Y -= 2f;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 0.5f);
                 Dust dust2 = Main.dust[num200];

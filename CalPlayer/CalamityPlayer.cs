@@ -3086,7 +3086,7 @@ namespace CalamityMod.CalPlayer
                     for (int i = 0; i < dustPerSegment; ++i)
                     {
                         bool electricity = Main.rand.NextBool(4);
-                        int dustID = electricity ? (Main.rand.NextBool(2) ? 132 : 131) : ModContent.DustType<AdrenDust>();
+                        int dustID = electricity ? (Main.rand.NextBool() ? 132 : 131) : ModContent.DustType<AdrenDust>();
 
                         float interpolant = i + 0.5f;
                         float spreadSpeed = Main.rand.NextFloat(0.5f, maxDustVelSpread);
@@ -3269,7 +3269,7 @@ namespace CalamityMod.CalPlayer
                     Main.dust[idx].velocity *= 2f;
                     Main.dust[idx].scale *= 1.2f;
                 }
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[idx].fadeIn = Main.rand.NextFloat(0.75f, 1f);
                     Main.dust[idx].scale = Main.rand.NextFloat(0.25f, 0.75f);
@@ -4842,7 +4842,7 @@ namespace CalamityMod.CalPlayer
         public override void OnConsumeMana(Item item, int manaConsumed)
         {
             CalamityPlayer modPlayer = Player.Calamity();
-            if (Main.rand.NextBool(2) && modPlayer.lifeManaEnchant)
+            if (Main.rand.NextBool() && modPlayer.lifeManaEnchant)
             {
                 if (Main.myPlayer == Player.whoAmI)
                 {

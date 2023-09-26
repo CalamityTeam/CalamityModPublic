@@ -37,7 +37,7 @@ namespace CalamityMod.Buffs.DamageOverTime
             if (Main.rand.NextBool(hasDebuffResistance ? 4 : 2) && drawInfo.shadow == 0f)
             {
                 Vector2 Vect = new Vector2(0f, Main.rand.NextBool(4) ? -5f : -9f).RotatedByRandom(MathHelper.ToRadians(25f)) * Main.rand.NextFloat(0.1f, 1.9f);
-                CritSpark spark = new CritSpark(Player.Calamity().RandomDebuffVisualSpot, Vect, Main.rand.NextBool(2) ? Color.Cyan : Color.DarkBlue, Color.DodgerBlue, (hasDebuffResistance ? 0.4f : 0.8f), 15, 2f, 1.9f);
+                CritSpark spark = new CritSpark(Player.Calamity().RandomDebuffVisualSpot, Vect, Main.rand.NextBool() ? Color.Cyan : Color.DarkBlue, Color.DodgerBlue, (hasDebuffResistance ? 0.4f : 0.8f), 15, 2f, 1.9f);
                 GeneralParticleHandler.SpawnParticle(spark);
             }
             for (int i = 0; i < (hasDebuffResistance ? 1 : 2); i++)
@@ -57,7 +57,7 @@ namespace CalamityMod.Buffs.DamageOverTime
             if (Main.rand.NextBool(3))
             {
                 Vector2 Vect = new Vector2(0f, Main.rand.NextBool(4) ? -5f : -9f).RotatedByRandom(MathHelper.ToRadians(25f)) * Main.rand.NextFloat(0.1f, 1.9f);
-                CritSpark spark = new CritSpark(npcSize, Vect, Main.rand.NextBool(2) ? Color.Cyan : Color.DarkBlue, Color.DodgerBlue, 0.8f, 15, 2f, 1.9f);
+                CritSpark spark = new CritSpark(npcSize, Vect, Main.rand.NextBool() ? Color.Cyan : Color.DarkBlue, Color.DodgerBlue, 0.8f, 15, 2f, 1.9f);
                 GeneralParticleHandler.SpawnParticle(spark);
             }
             for (int i = 0; i < 2; i++)

@@ -720,7 +720,7 @@ namespace CalamityMod.NPCs
                                 int dustIdx = Dust.NewDust(spawnPosiion, 1, 1, 27, 0f, 0f, 0, default, 1f);
                                 Main.dust[dustIdx].velocity = -dustVelocity * 0.3f;
                                 Main.dust[dustIdx].alpha = 100;
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                 {
                                     Main.dust[dustIdx].noGravity = true;
                                     Main.dust[dustIdx].scale += 0.3f;
@@ -5497,7 +5497,7 @@ namespace CalamityMod.NPCs
                 }
                 if (npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored)
                 {
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         int num121 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f);
                         Dust dust = Main.dust[num121];
@@ -5507,7 +5507,7 @@ namespace CalamityMod.NPCs
                 }
                 else if (npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite)
                 {
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         int num122 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 174, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 1f);
                         Dust dust = Main.dust[num122];
@@ -5519,7 +5519,7 @@ namespace CalamityMod.NPCs
                 }
                 else if (npc.type == NPCID.RaggedCaster || npc.type == NPCID.RaggedCasterOpenCoat)
                 {
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         int num123 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 175, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 0.1f);
                         Dust dust = Main.dust[num123];
@@ -5535,7 +5535,7 @@ namespace CalamityMod.NPCs
                         Lighting.AddLight(npc.Top, 0.6f, 0.6f, 0.3f);
                         return false;
                     }
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         int num124 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 2f);
                         Dust dust = Main.dust[num124];
@@ -6627,13 +6627,13 @@ namespace CalamityMod.NPCs
                 {
                     npc.noGravity = false;
                     npc.noTileCollide = false;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         int sand = Dust.NewDust(new Vector2(npc.position.X - 4f, npc.position.Y + (float)npc.height - 8f), npc.width + 8, 24, 32, 0f, npc.velocity.Y / 2f, 0, default(Color), 1f);
                         Dust dust = Main.dust[sand];
                         dust.velocity.X *= 0.4f;
                         dust.velocity.Y *= -1f;
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             dust.noGravity = true;
                             dust.scale += 0.2f;

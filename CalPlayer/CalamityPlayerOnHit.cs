@@ -162,7 +162,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4))
                     target.AddBuff(BuffID.OnFire3, 360);
-                else if (Main.rand.NextBool(2))
+                else if (Main.rand.NextBool())
                     target.AddBuff(BuffID.OnFire3, 240);
                 else
                     target.AddBuff(BuffID.OnFire3, 120);
@@ -335,7 +335,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4))
                     target.AddBuff(BuffID.OnFire3, 360);
-                else if (Main.rand.NextBool(2))
+                else if (Main.rand.NextBool())
                     target.AddBuff(BuffID.OnFire3, 240);
                 else
                     target.AddBuff(BuffID.OnFire3, 120);
@@ -895,7 +895,7 @@ namespace CalamityMod.CalPlayer
                 for (int dustexplode = 0; dustexplode < 360; dustexplode++)
                 {
                     Vector2 dustd = new Vector2(17f, 17f).RotatedBy(MathHelper.ToRadians(dustexplode));
-                    int d = Dust.NewDust(proj.Center, proj.width, proj.height, Main.rand.NextBool(2) ? DustType<AstralBlue>() : DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 1f);
+                    int d = Dust.NewDust(proj.Center, proj.width, proj.height, Main.rand.NextBool() ? DustType<AstralBlue>() : DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 1f);
                     Main.dust[d].noGravity = true;
                     Main.dust[d].position = proj.Center;
                     Main.dust[d].velocity *= 0.1f;
@@ -907,7 +907,7 @@ namespace CalamityMod.CalPlayer
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         int type = -1;
                         switch (Main.rand.Next(15))
@@ -1216,7 +1216,7 @@ namespace CalamityMod.CalPlayer
 
                 if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
                 {
-                    if (bloodflareThrowing && proj.CountsAsClass<ThrowingDamageClass>() && crit && Main.rand.NextBool(2))
+                    if (bloodflareThrowing && proj.CountsAsClass<ThrowingDamageClass>() && crit && Main.rand.NextBool())
                     {
                         float projHitMult = 0.03f;
                         projHitMult -= proj.numHits * 0.015f;
@@ -1249,7 +1249,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (manaOverloader && otherHealTypes)
                     {
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             float healMult = 0.2f;
                             healMult -= proj.numHits * 0.05f;

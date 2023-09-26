@@ -1003,7 +1003,7 @@ namespace CalamityMod.NPCs
                         chat = CalamityUtils.GetTextValue("Vanilla.DryadChat.DarksunEclipse");
                     else if (Main.rand.NextBool(5) && Main.LocalPlayer.ZoneGlowshroom)
                     {
-                        if (Main.rand.NextBool(2) && fapsol != -1)
+                        if (Main.rand.NextBool() && fapsol != -1)
                             chat = CalamityUtils.GetText("Vanilla.DryadChat.DrunkPrincessShroom").Format(Main.npc[fapsol].GivenName);
                         else
                             chat = CalamityUtils.GetTextValue("Vanilla.DryadChat.Mushroom");
@@ -1066,7 +1066,7 @@ namespace CalamityMod.NPCs
                         chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Crimson");
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneSnow)
                     {
-                        if (Main.rand.NextBool(2) && permadong != -1)
+                        if (Main.rand.NextBool() && permadong != -1)
                             chat = CalamityUtils.GetText("Vanilla.PainterChat.Archmage").Format(Main.npc[permadong].GivenName);
                         else
                             chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Tundra");
