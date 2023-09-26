@@ -49,7 +49,7 @@ AntiMaterielRifle: {
 	Tooltip:
 		'''
 		Converts musket balls into .50 caliber sniper rounds that rip apart enemy defense and DR
-		Critical hits unleash a second swarm of bullets
+		Critical hits unleash a second swarm of 4 bullets
 		'''
 }
 
@@ -1244,7 +1244,7 @@ TyrannysEnd: {
 		'''
 		Converts musket balls into .70 caliber sniper rounds that bypass enemy Defense and DR
 		Inflicts Marked for Death on enemy hits
-		Critical hits summon a swarm of 10 additional bullets
+		Critical hits summon a swarm of 5 additional bullets
 		'Pierce the heart of even the most heavily-armored foe'
 		'''
 }
