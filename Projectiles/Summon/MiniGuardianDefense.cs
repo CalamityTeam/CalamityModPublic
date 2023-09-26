@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using CalamityMod.Dusts;
+using CalamityMod.NPCs.Providence;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -97,6 +97,20 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.frameCounter++;
             Projectile.frame = Projectile.frameCounter / 6 % Main.projFrames[Projectile.type];
 
+            var psc = Owner.Calamity().profanedCrystal;
+            if (psc && !SpawnedFromPSC || !psc && SpawnedFromPSC)
+            {
+                int rock = ModContent.ProjectileType<MiniGuardianRock>();
+                foreach (var proj in Main.projectile)
+                {
+                    if (proj.active && proj.owner == Owner.whoAmI && proj.type == rock)
+                    {
+                        proj.active = false;
+                    }
+                }
+                Projectile.active = false;
+            }
+
             var shieldIsActive = shieldActive; //avoid checkiing cooldowns multiple times per frame
             
             bool shouldSpawnRocks = !shieldActiveBefore && shieldIsActive;
@@ -111,15 +125,15 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Vector2 dustPos = new Vector2(Owner.Center.X + Main.rand.NextFloat(-10, 10), Owner.Center.Y + Main.rand.NextFloat(-10, 10));
                     Vector2 velocity = (Owner.Center - dustPos).SafeNormalize(Vector2.Zero);
-                    velocity *= 3f;
-                    Dust.NewDustPerfect(Owner.Center, (int)CalamityDusts.ProfanedFire, velocity, 0, default(Color), 2f);
+                    velocity *= (Main.dayTime || !SpawnedFromPSC) ? 3f : 6.9f;
+                    var dust = Dust.NewDustPerfect(Owner.Center, ProvUtils.GetDustID((float)((Main.dayTime || !SpawnedFromPSC) ? Providence.BossMode.Day : Providence.BossMode.Night)), velocity, 0, default(Color), 2f);
+                    if (!Main.dayTime && SpawnedFromPSC)
+                        dust.noGravity = true;
                 }
             }
             
-
-            // Dynamically update stats here, originalDamage can be found in MiscEffects
+            
             // Doesn't deal damage directly, damage used for rocks
-            Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             NPC potentialTarget = Projectile.Center.MinionHoming(1500f, Owner);
             Vector2 playerDestination = Owner.Center - Projectile.Center;
             switch (AIState)
@@ -133,7 +147,7 @@ namespace CalamityMod.Projectiles.Summon
                             if (!Main.rand.NextBool(3))
                                 continue;
 
-                            Dust dust = Dust.NewDustDirect(Owner.position, Owner.width, Owner.height, (int)CalamityDusts.ProfanedFire);
+                            Dust dust = Dust.NewDustDirect(Owner.position, Owner.width, Owner.height, ProvUtils.GetDustID((float)((Main.dayTime || !SpawnedFromPSC) ? Providence.BossMode.Day : Providence.BossMode.Night)));
                             dust.velocity = Main.rand.NextVector2Circular(3.5f, 3.5f);
                             dust.velocity.Y -= Main.rand.NextFloat(1f, 3f);
                             dust.scale = Main.rand.NextFloat(1.15f, 1.45f);
@@ -180,7 +194,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity.X = (Projectile.velocity.X * 14f + num551) / 13.5f;
                 Projectile.velocity.Y = (Projectile.velocity.Y * 14f + num552) / 13.5f;
 
-                Projectile.velocity *= dist > 10 ? 0.9f : 0.5f;
+                Projectile.velocity *= dist > 10 ? 0.9f : 0.3f;
                 Projectile.spriteDirection = Projectile.DirectionTo(potentialTarget.Center).X > 0 ? 1 : -1;
             }
             else 

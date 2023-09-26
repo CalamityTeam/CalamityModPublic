@@ -2,11 +2,18 @@
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.NPCs.SupremeCalamitas;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using CalamityMod.Buffs.Summon.Whips;
+using CalamityMod.Items.Accessories;
+using static CalamityMod.Items.Accessories.ProfanedSoulCrystal;
+using CalamityMod.NPCs.Providence;
+using CalamityMod.Projectiles.Boss;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -16,6 +23,8 @@ namespace CalamityMod.Projectiles.Summon
     public class ProfanedCrystalMageFireball : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+        public override string Texture => "CalamityMod/Projectiles/Boss/HolyBlast";
+
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;
@@ -27,15 +36,15 @@ namespace CalamityMod.Projectiles.Summon
         private void Split(bool hit, bool chaseable)
         {
             Player player = Main.player[Projectile.owner];
-            bool enrage = player.statLife <= (int)((double)player.statLifeMax2 * 0.5);
+            bool enrage = player.Calamity().pscState >= (int)ProfanedSoulCrystalState.Empowered;
             player.Calamity().rollBabSpears(hit ? 1 : 0, chaseable);
-            int outerSplits = enrage ? 20 : 10;
-            int innerSplits = enrage ? 16 : 8;
-            float mult = enrage ? 0.4f : 0.6f;
+            int outerSplits = enrage ? 16 : 10;
+            int innerSplits = enrage ? 12 : 8;
+            float mult = enrage ? 0.3f : 0.6f;
             if (!hit)
                 mult = enrage ? 0.2f : 0.1f; //punishing to miss
             int damage = (int)((Projectile.damage * 0.2f) * mult);
-			int origDmg = (int)((Projectile.originalDamage * 0.2f) * mult);
+            int origDmg = (int)((Projectile.originalDamage * 0.2f) * mult);
 
             float outerAngleVariance = MathHelper.TwoPi / (float)outerSplits;
             float outerOffsetAngle = MathHelper.Pi / (2f * outerSplits);
@@ -124,18 +133,27 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            int num469 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            int dustID = ProvUtils.GetDustID(pscState);
+            int num469 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, dustID, 0f, 0f, 100, default, 1f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
+        }
+        
+        public override Color? GetAlpha(Color lightColor)
+        {
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            return ProvUtils.GetProjectileColor(pscState, Projectile.alpha);
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            Texture2D texture = Main.dayTime ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyBlastNight").Value;
+            int num214 = texture.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
-            Main.EntitySpriteDraw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 3, texture2D13);
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            Projectile.DrawBackglow(ProvUtils.GetProjectileColor(pscState, Projectile.alpha, true), 4f, texture);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -162,21 +180,23 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            if (Main.myPlayer == Projectile.owner)
+            if (Main.myPlayer == Projectile.owner && Projectile.ai[1] == 0f)
             {
                 Split(false, false);
             }
             SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            int dustID = ProvUtils.GetDustID(pscState);
             for (int num193 = 0; num193 < 6; num193++)
             {
-                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 50, default, 1.5f);
+                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustID, 0f, 0f, 50, default, 1.5f);
             }
             for (int num194 = 0; num194 < 60; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 0, default, 2.5f);
+                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustID, 0f, 0f, 0, default, 2.5f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 50, default, 1.5f);
+                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustID, 0f, 0f, 50, default, 1.5f);
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }
@@ -188,6 +208,7 @@ namespace CalamityMod.Projectiles.Summon
     public class ProfanedCrystalMageFireballSplit : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+        public override string Texture => "CalamityMod/Projectiles/Boss/HolyFire2";
         private int damage;
         private int hits = 0;
         private NPC target = null;
@@ -196,6 +217,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.SummonTagDamageMultiplier[Type] = 0.3f;
         }
 
         public override void SetDefaults()
@@ -232,7 +254,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Projectile.timeLeft > 550)
                 Projectile.velocity *= 0.95f;
-            int num469 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
+            int num469 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, ProvUtils.GetDustID((float)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night)), 0f, 0f, 100, default, Main.dayTime ? 1f : 0.75f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
@@ -307,6 +329,23 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
         }
+        
+        public override Color? GetAlpha(Color lightColor)
+        {
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            return ProvUtils.GetProjectileColor(pscState, Projectile.alpha);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            Texture2D texture = Main.dayTime ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyFire2Night").Value;
+            int num214 = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Projectile.DrawBackglow(ProvUtils.GetProjectileColor(pscState, Projectile.alpha, true), 4f, texture);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            return false;
+        }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -326,8 +365,9 @@ namespace CalamityMod.Projectiles.Summon
                 if (Projectile.getRect().Intersects(target.getRect()))
                 {
                     hits++;
-                    if (hits >= 100)
+                    if (hits >= 25)
                         Projectile.Kill();
+                    
                 }
                 return false;
             }
@@ -343,9 +383,11 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = Projectile.height = 200;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            int dust = ProvUtils.GetDustID(pscState);
             for (int num621 = 0; num621 < 4; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 2f : 0.5f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -355,10 +397,10 @@ namespace CalamityMod.Projectiles.Summon
             }
             for (int num623 = 0; num623 < 12; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 3f : 0.75f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 2f : 0.5f);
                 Main.dust[num624].velocity *= 2f;
 
             }
@@ -372,10 +414,14 @@ namespace CalamityMod.Projectiles.Summon
     public class ProfanedCrystalMeleeSpear : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+
+        public override string Texture => "CalamityMod/Projectiles/Boss/HolySpear";
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.SummonTagDamageMultiplier[Type] = 0.6f;
         }
 
         public override void SetDefaults()
@@ -461,20 +507,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            Projectile.DrawBackglow(ProvUtils.GetProjectileColor(pscState, Projectile.alpha, true), 4f, ModContent.Request<Texture2D>(Texture).Value);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], ProvUtils.GetProjectileColor(pscState, Projectile.alpha), 1);
             return false;
-        }
-
-        public override Color? GetAlpha(Color lightColor)
-        {
-            if (Projectile.timeLeft > 133)
-            {
-                Projectile.localAI[0] += 5f;
-                byte b2 = (byte)(((int)Projectile.localAI[0]) * 3);
-                byte a2 = (byte)((float)Projectile.alpha * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
-            }
-            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         private void onHit()
@@ -488,9 +524,11 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.width = Projectile.height = 200;
                 Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
                 Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+                int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+                int dust = ProvUtils.GetDustID(pscState);
                 for (int num621 = 0; num621 < 4; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 2f : 0.5f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -500,10 +538,10 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 for (int num623 = 0; num623 < 12; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 3f : 0.75f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 2f : 0.5f);
                     Main.dust[num624].velocity *= 2f;
 
                 }
@@ -635,6 +673,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.SummonTagDamageMultiplier[Type] = 0.4f;
         }
 
         public override void SetDefaults()
@@ -693,17 +732,29 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
 
             Projectile.velocity *= boomerSwarm ? 1.03f : 1.02f;
-
-            int num469 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            int dust = ProvUtils.GetDustID(pscState);
+            int num469 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, 1f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
             if (boomerSwarm)
                 swarmAI();
         }
 
+        public override Color? GetAlpha(Color lightColor)
+        {
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            return ProvUtils.GetProjectileColor(pscState, Projectile.alpha);
+        }
+
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
+            Texture2D texture = Main.dayTime ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/ProfanedCrystalRangedHugesNight").Value;
+            int num214 = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            Projectile.DrawBackglow(ProvUtils.GetProjectileColor(pscState, Projectile.alpha, true), 4f, texture);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -737,9 +788,11 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = Projectile.height = 200;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            int dust = ProvUtils.GetDustID(pscState);
             for (int num621 = 0; num621 < 4; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 2f : 0.5f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -749,10 +802,10 @@ namespace CalamityMod.Projectiles.Summon
             }
             for (int num623 = 0; num623 < 12; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 3f : 0.75f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 2f : 0.5f);
                 Main.dust[num624].velocity *= 2f;
             }
 
@@ -774,7 +827,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     for (int i = 0; i < 4; i++)
                     {
-                        int num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+                        int num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 0.75f);
                         Gore gore = Main.gore[num626];
                         gore.velocity *= scaleFactor10;
                         if (i == 0 || i == 2)
@@ -860,9 +913,11 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.height = 50;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            int dust = ProvUtils.GetDustID(pscState);
             for (int num621 = 0; num621 < 10; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 2f : 0.5f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -872,10 +927,10 @@ namespace CalamityMod.Projectiles.Summon
             }
             for (int num623 = 0; num623 < 15; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 247, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 3f : 0.75f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 2f : 0.5f);
                 Main.dust[num624].velocity *= 2f;
             }
         }
@@ -889,6 +944,22 @@ namespace CalamityMod.Projectiles.Summon
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(50, true);
         }
+        
+        public override Color? GetAlpha(Color lightColor)
+        {
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            return ProvUtils.GetProjectileColor(pscState, Projectile.alpha);
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            int num214 = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            Projectile.DrawBackglow(ProvUtils.GetProjectileColor(pscState, Projectile.alpha, true), 4f, texture);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            return false;
+        }
     }
 
     #endregion
@@ -900,6 +971,11 @@ namespace CalamityMod.Projectiles.Summon
     public class ProfanedCrystalRogueShard : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+        
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.SummonTagDamageMultiplier[Type] = 0.25f;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 34;
@@ -919,7 +995,7 @@ namespace CalamityMod.Projectiles.Summon
 
         private void ai()
         {
-            if (Projectile.timeLeft > 90)
+            if (Projectile.timeLeft > 120)
             {
                 Projectile.rotation += 1f;
                 Projectile.velocity.X *= 0.985f;
@@ -932,6 +1008,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Projectile.rotation -= 1.57f;
                 }
+                
                 float num535 = Projectile.position.X;
                 float num536 = Projectile.position.Y;
                 float num537 = 2000f;
@@ -990,7 +1067,7 @@ namespace CalamityMod.Projectiles.Summon
                     num552 *= num553;
                     Projectile.velocity.X = (Projectile.velocity.X * 14f + num551) / 15f;
                     Projectile.velocity.Y = (Projectile.velocity.Y * 14f + num552) / 15f;
-
+                    Projectile.velocity *= 1.05f;
                 }
                 else
                 {
@@ -1041,7 +1118,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.rand.NextBool(10))
                 {
                     Vector2 value55 = Vector2.UnitY.RotatedBy((double)((float)num979 * 3.14159274f), default).RotatedBy((double)Projectile.rotation, default);
-                    Dust dust24 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
+                    Dust dust24 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1f)];
                     dust24.noGravity = true;
                     dust24.noLight = true;
                     dust24.scale = Projectile.Opacity * Projectile.localAI[0];
@@ -1055,7 +1132,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.rand.NextBool(10))
                 {
                     Vector2 value56 = Vector2.UnitY.RotatedBy((double)((float)num980 * 3.14159274f), default);
-                    Dust dust25 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
+                    Dust dust25 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1f)];
                     dust25.noGravity = true;
                     dust25.noLight = true;
                     dust25.scale = Projectile.Opacity * Projectile.localAI[0];
@@ -1107,19 +1184,21 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (Projectile.timeLeft > 90)
+            if (Projectile.timeLeft > 120)
                 return false;
             return null;
         }
 
         public override bool CanHitPvp(Player target)
         {
-            return Projectile.timeLeft <= 90;
+            return Projectile.timeLeft <= 120;
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Main.player[Projectile.owner].Calamity().rollBabSpears(Projectile.ai[0] == 0f ? 0 : 10, target.chaseable);
+            var calPlayer = Main.player[Projectile.owner].Calamity();
+            var empowered = calPlayer.pscState == (int)ProfanedSoulCrystalState.Empowered;
+            calPlayer.rollBabSpears(Projectile.ai[0] == 0f ? 0 : empowered ? 30 : 10, target.chaseable); //empowered fires three times as many projectiles, keeps things consistent and easier to balance
         }
 
         public override void Kill(int timeLeft)
@@ -1166,7 +1245,6 @@ namespace CalamityMod.Projectiles.Summon
                 num72 = num73;
             }
         }
-
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
@@ -1174,16 +1252,190 @@ namespace CalamityMod.Projectiles.Summon
     }
 
     #endregion
+    
+    #region Whip
+
+    public class ProfanedCrystalWhip : ModProjectile, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Projectiles.Summon";
+        private Color specialColor = Color.Orange;
+        public Color SpecialDrawColor => specialColor;
+
+        public override void SetStaticDefaults() {
+            ProjectileID.Sets.IsAWhip[Type] = true;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.DefaultToWhip();
+            Projectile.WhipSettings.Segments = 20;
+            Projectile.WhipSettings.RangeMultiplier = 2.25f;
+        }
+
+        public override bool PreAI()
+        {
+            ExtraBehavior();
+            return true;
+        }
+
+        public void ExtraBehavior()
+        {
+            var player = Main.player[Projectile.owner];
+            specialColor = GetColorForPsc(Main.dayTime ? (int)ProfanedSoulCrystalState.Vanity : player.Calamity().pscState, Main.dayTime);
+        }
+        
+        private float Timer {
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
+
+        public override void AI()
+        {
+            Player owner = Main.player[Projectile.owner];
+            if (Projectile.ai[1] == 0f)
+            {
+                owner.itemAnimation = owner.itemAnimationMax;
+                owner.ApplyItemAnimation(owner.HeldItem);
+                Projectile.ai[1] = 1f;
+            }
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+
+            Projectile.Center = Main.GetPlayerArmPosition(Projectile) + Projectile.velocity * Timer;
+            Projectile.spriteDirection = Projectile.velocity.X >= 0f ? 1 : -1;
+
+            float swingTime = owner.itemAnimationMax * Projectile.MaxUpdates;
+            if (Timer >= swingTime) {
+                Projectile.Kill();
+                return;
+            }
+
+            owner.heldProj = Projectile.whoAmI;
+            if (Timer == swingTime / 2) {
+                List<Vector2> points = Projectile.WhipPointsForCollision;
+                Projectile.FillWhipControlPoints(Projectile, points);
+                SoundEngine.PlaySound(SoundID.Item153, points[points.Count - 1]);
+            }
+            
+            float swingProgress = Timer / swingTime;
+            if (Utils.GetLerpValue(0.1f, 0.7f, swingProgress, clamped: true) * Utils.GetLerpValue(0.9f, 0.7f, swingProgress, clamped: true) > 0.5f && !Main.rand.NextBool(3)) {
+                List<Vector2> points = Projectile.WhipPointsForCollision;
+                points.Clear();
+                Projectile.FillWhipControlPoints(Projectile, points);
+                int pointIndex = points.Count - 1;
+                Rectangle spawnArea = Utils.CenteredRectangle(points[pointIndex], new Vector2(30f, 30f));
+                int dustType = DustID.VenomStaff;
+                for (int i = 0; i < 2; i++)
+                {
+                    Dust dust = Dust.NewDustDirect(spawnArea.TopLeft(), spawnArea.Width, spawnArea.Height, dustType, 0f, 0f, 100, Color.White);
+                    dust.position = points[pointIndex];
+                    dust.fadeIn = 0.3f;
+                    dust.scale = 2f;
+                    Vector2 spinningpoint = points[pointIndex] - points[pointIndex - 1];
+                    dust.noGravity = true;
+                    dust.velocity *= 0.5f;
+                    dust.velocity += spinningpoint.RotatedBy(owner.direction * ((float)Math.PI / 2f));
+                    dust.velocity *= 0.5f;
+                }
+            }
+        }
+        
+        private void DrawLine(List<Vector2> list) {
+            Texture2D texture = TextureAssets.FishingLine.Value;
+            Rectangle frame = texture.Frame();
+            Vector2 origin = new Vector2(frame.Width / 2, 0);
+
+            Vector2 pos = list[0];
+            for (int i = 0; i < list.Count - 2; i++) {
+                Vector2 element = list[i];
+                Vector2 diff = list[i + 1] - element;
+
+                float rotation = diff.ToRotation() - MathHelper.PiOver2;
+                Vector2 scale = new Vector2(1, (diff.Length()) / frame.Height);
+
+                Main.EntitySpriteDraw(texture, pos - Main.screenPosition, frame, SpecialDrawColor, rotation, origin, scale, SpriteEffects.None, 0);
+
+                pos += diff;
+            }
+        }
+        public override bool PreDraw(ref Color lightColor) {
+            List<Vector2> list = new List<Vector2>();
+            Projectile.FillWhipControlPoints(Projectile, list);
+
+            DrawLine(list);
+
+            SpriteEffects flip = SpriteEffects.FlipHorizontally;
+
+            Main.instance.LoadProjectile(Type);
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
+
+            Vector2 pos = list[0];
+
+            for (int i = 0; i < list.Count - 1; i++) {
+                Rectangle frame = new Rectangle(0, 0, 16, 22); // The size of the Handle (measured in pixels)
+                Vector2 origin = new Vector2(5, 8); // Offset for where the player's hand will start measured from the top left of the image.
+                float scale = 1;
+                
+                if (i == list.Count - 2) {
+                    frame.Y = 126; // Distance from the top of the sprite to the start of the frame.
+                    frame.Height = 34; // Height of the frame.
+                    
+                    Projectile.GetWhipSettings(Projectile, out float timeToFlyOut, out int _, out float _);
+                    float t = Timer / timeToFlyOut;
+                    scale = MathHelper.Lerp(0.5f, 1.5f, Utils.GetLerpValue(0.1f, 0.7f, t, true) * Utils.GetLerpValue(0.9f, 0.7f, t, true));
+                }
+                else if (i > 6) {
+                    // Third segment
+                    frame.Y = 102;
+                    frame.Height = 18;
+                }
+                else if (i > 3) {
+                    // Second Segment
+                    frame.Y = 70;
+                    frame.Height = 18;
+                }
+                else if (i > 0) {
+                    // First Segment
+                    frame.Y = 38;
+                    frame.Height = 18;
+                }
+
+                Vector2 element = list[i];
+                Vector2 diff = list[i + 1] - element;
+
+                float rotation = diff.ToRotation() - MathHelper.PiOver2;
+
+                Main.EntitySpriteDraw(texture, pos - Main.screenPosition, frame, Color.White, rotation, origin, scale, flip, 0);
+
+                pos += diff;
+            }
+            return false;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            int buffTime = CalamityUtils.SecondsToFrames(30); //30 second debuff to allow for time to swap and use other weapons
+            target.AddBuff(ModContent.BuffType<ProfanedCrystalWhipDebuff>(), buffTime); 
+            Main.player[Projectile.owner].AddBuff(ModContent.BuffType<ProfanedCrystalWhipBuff>(), buffTime);
+            Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI;
+            Projectile.damage = (int)(Projectile.damage * 0.7f); // multihit penalty
+        }
+    }
+    
+    #endregion
+
+    #region Bab Projectiles
 
     #region Bab Spears
-
     public class MiniGuardianSpear : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+        public override string Texture => "CalamityMod/Projectiles/Boss/HolySpear";
+
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Type] = 2;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+            ProjectileID.Sets.SummonTagDamageMultiplier[Type] = 0.5f;
         }
 
         public override void SetDefaults()
@@ -1202,96 +1454,110 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.DamageType = DamageClass.Summon;
         }
 
-        public override void AI()
+        private void handleAI(bool miniGuardianPscAttack)
         {
-            int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
-            Main.dust[num469].noGravity = true;
-            Main.dust[num469].velocity *= 0f;
-            if (Projectile.timeLeft == 300)
+            if (!miniGuardianPscAttack)
             {
-                Projectile.velocity *= 0.01f;
-            }
-            else if (Projectile.timeLeft > 250)
-            {
-                Projectile.velocity *= 1.1f;
-            }
-            else if (Projectile.timeLeft == 250)
-            {
-                Projectile.velocity *= 5f;
-            }
-            if (Projectile.timeLeft <= 250)
-            {
-                float num535 = Projectile.position.X;
-                float num536 = Projectile.position.Y;
-                float num537 = 3000f;
-                bool flag19 = false;
-                NPC ownerMinionAttackTargetNPC2 = Projectile.OwnerMinionAttackTargetNPC;
-                if (ownerMinionAttackTargetNPC2 != null && ownerMinionAttackTargetNPC2.CanBeChasedBy(Projectile, false))
+                if (Projectile.timeLeft == 300)
                 {
-                    float num539 = ownerMinionAttackTargetNPC2.position.X + (float)(ownerMinionAttackTargetNPC2.width / 2);
-                    float num540 = ownerMinionAttackTargetNPC2.position.Y + (float)(ownerMinionAttackTargetNPC2.height / 2);
-                    float num541 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num539) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num540);
-                    if (num541 < num537)
-                    {
-                        num537 = num541;
-                        num535 = num539;
-                        num536 = num540;
-                        flag19 = true;
-                    }
+                    Projectile.velocity *= 0.01f;
                 }
-                if (!flag19)
+                else if (Projectile.timeLeft > 250)
                 {
-                    for (int num542 = 0; num542 < Main.npc.Length; num542++)
+                    Projectile.velocity *= 1.1f;
+                }
+                else if (Projectile.timeLeft == 250)
+                {
+                    Projectile.velocity *= 5f;
+                }
+                if (Projectile.timeLeft <= 250)
+                {
+                    float num535 = Projectile.position.X;
+                    float num536 = Projectile.position.Y;
+                    float num537 = 3000f;
+                    bool flag19 = false;
+                    NPC ownerMinionAttackTargetNPC2 = Projectile.OwnerMinionAttackTargetNPC;
+                    if (ownerMinionAttackTargetNPC2 != null && ownerMinionAttackTargetNPC2.CanBeChasedBy(Projectile, false))
                     {
-                        if (Main.npc[num542].CanBeChasedBy(Projectile, false))
+                        float num539 = ownerMinionAttackTargetNPC2.position.X + (float)(ownerMinionAttackTargetNPC2.width / 2);
+                        float num540 = ownerMinionAttackTargetNPC2.position.Y + (float)(ownerMinionAttackTargetNPC2.height / 2);
+                        float num541 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num539) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num540);
+                        if (num541 < num537)
                         {
-                            float num543 = Main.npc[num542].position.X + (float)(Main.npc[num542].width / 2);
-                            float num544 = Main.npc[num542].position.Y + (float)(Main.npc[num542].height / 2);
-                            float num545 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num543) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num544);
-                            if (num545 < num537)
+                            num537 = num541;
+                            num535 = num539;
+                            num536 = num540;
+                            flag19 = true;
+                        }
+                    }
+                    if (!flag19)
+                    {
+                        for (int num542 = 0; num542 < Main.npc.Length; num542++)
+                        {
+                            if (Main.npc[num542].CanBeChasedBy(Projectile, false))
                             {
-                                num537 = num545;
-                                num535 = num543;
-                                num536 = num544;
-                                flag19 = true;
+                                float num543 = Main.npc[num542].position.X + (float)(Main.npc[num542].width / 2);
+                                float num544 = Main.npc[num542].position.Y + (float)(Main.npc[num542].height / 2);
+                                float num545 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num543) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num544);
+                                if (num545 < num537)
+                                {
+                                    num537 = num545;
+                                    num535 = num543;
+                                    num536 = num544;
+                                    flag19 = true;
+                                }
                             }
                         }
                     }
-                }
-                if (flag19)
-                {
-                    if (Projectile.ai[1] == 0f)
+                    if (flag19)
                     {
-                        float num550 = 24f; //12
-                        Vector2 vector43 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                        float num551 = num535 - vector43.X;
-                        float num552 = num536 - vector43.Y;
-                        float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
-                        if (num553 < 100f)
+                        if (Projectile.ai[1] == 0f)
                         {
-                            num550 = 28f; //14
+                            float num550 = 24f; //12
+                            Vector2 vector43 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                            float num551 = num535 - vector43.X;
+                            float num552 = num536 - vector43.Y;
+                            float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
+                            if (num553 < 100f)
+                            {
+                                num550 = 28f; //14
+                            }
+                            num553 = num550 / num553;
+                            num551 *= num553;
+                            num552 *= num553;
+                            Projectile.velocity.X = (Projectile.velocity.X * 14f + num551) / 15f;
+                            Projectile.velocity.Y = (Projectile.velocity.Y * 14f + num552) / 15f;
                         }
-                        num553 = num550 / num553;
-                        num551 *= num553;
-                        num552 *= num553;
-                        Projectile.velocity.X = (Projectile.velocity.X * 14f + num551) / 15f;
-                        Projectile.velocity.Y = (Projectile.velocity.Y * 14f + num552) / 15f;
                     }
                 }
             }
+        }
+
+        public override void AI()
+        {
+            var psc = Projectile.ai[0] > 0f;
+            //Ensure that psa's spears are not coloured by night
+            int pscState = (int)((!Main.dayTime && psc) ? Providence.BossMode.Night : Providence.BossMode.Day);
+            int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ProvUtils.GetDustID(pscState), 0f, 0f, 100, default, !Main.dayTime && psc ? 0.5f : 1f);
+            Main.dust[num469].noGravity = true;
+            Main.dust[num469].velocity *= 0f;
+            handleAI(psc && Projectile.ai[1] > 0f);
             Projectile.rotation = Projectile.velocity.ToRotation() + 1.57079637f;
         }
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (Projectile.timeLeft > 250)
+            if (Projectile.ai[1] == 0f && Projectile.timeLeft > 250)
                 return false;
             return null;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            var psc = Projectile.ai[0] > 0f;
+            int pscState = (int)((!Main.dayTime && psc) ? Providence.BossMode.Night : Providence.BossMode.Day);
+            Projectile.DrawBackglow(ProvUtils.GetProjectileColor(pscState, Projectile.alpha, true), 4f, ModContent.Request<Texture2D>(Texture).Value);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], ProvUtils.GetProjectileColor(pscState, Projectile.alpha), 1);
             return false;
         }
 
@@ -1305,28 +1571,308 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.width = Projectile.height = 200;
                 Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
                 Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+                var psc = Projectile.ai[0] > 0f;
+                var shouldAdjust = !Main.dayTime && psc;
+                int pscState = (int)(shouldAdjust ? Providence.BossMode.Night : Providence.BossMode.Day);
+                int dustID = ProvUtils.GetDustID(pscState);
                 for (int num621 = 0; num621 < 4; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustID, 0f, 0f, 100, default, !Main.dayTime && psc ? 0.5f : 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = shouldAdjust ? 0.9f : 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 12; num623++)
+                for (int num623 = 0; num623 < (shouldAdjust ? 8 : 12); num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustID, 0f, 0f, 100, default, !Main.dayTime && psc ? 1.25f : 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                    Main.dust[num624].fadeIn = shouldAdjust ? 0.9f : Main.dust[num624].fadeIn;
+                    num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustID, 0f, 0f, 100, default, !Main.dayTime && psc ? 1f : 2f);
                     Main.dust[num624].velocity *= 2f;
-
+                    Main.dust[num624].fadeIn = shouldAdjust ? 0.9f : Main.dust[num624].fadeIn;
                 }
             }
         }
     }
+    #endregion
 
+    #region Bab Fireball
+
+    public class MiniGuardianFireball : ModProjectile, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Projectiles.Summon";
+        public override string Texture => "CalamityMod/Projectiles/Boss/HolyBlast";
+
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
+
+        private void Split()
+        {
+            int totalProjectiles = Projectile.ai[0] == 0f ? 8 : 4;
+
+            float radians = MathHelper.TwoPi / totalProjectiles;
+            int type = ModContent.ProjectileType<MiniGuardianFireballSplit>();
+            float velocity = 5f;
+            Vector2 spinningPoint = new Vector2(0f, -velocity);
+            for (int k = 0; k < totalProjectiles; k++)
+            {
+                Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity2 + Projectile.velocity * 0.25f, type, (int)Math.Round(Projectile.originalDamage * 0.75), 0f, Projectile.owner, 1f);
+            }
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 180;
+            Projectile.height = 180;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 75;
+            Projectile.minion = true;
+            Projectile.scale = 0.4f;
+        }
+
+        public override bool PreAI()
+        {
+            Projectile.Calamity().overridesMinionDamagePrevention = true;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame > 3)
+            {
+                Projectile.frame = 0;
+            }
+            if (Projectile.timeLeft == 50)
+            {
+                Projectile.tileCollide = true;
+            }
+            if ((double)Math.Abs(Projectile.velocity.X) > 0.2)
+            {
+                Projectile.rotation = Projectile.direction;
+            }
+            if (Projectile.velocity.X < 0f)
+            {
+                Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
+            }
+            else
+            {
+                Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
+            }
+            return false;
+        }
+
+        public override void AI()
+        {
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            int num469 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, ProvUtils.GetDustID(pscState), 0f, 0f, 100, default, 1f);
+            Main.dust[num469].noGravity = true;
+            Main.dust[num469].velocity *= 0f;
+        }
+        
+        public override Color? GetAlpha(Color lightColor)
+        {
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            return ProvUtils.GetProjectileColor(pscState, Projectile.alpha);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = Main.dayTime ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyBlastNight").Value;
+            int num214 = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            Projectile.DrawBackglow(ProvUtils.GetProjectileColor(pscState, Projectile.alpha, true), 4f, texture);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            return false;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Main.myPlayer == Projectile.owner)
+            {
+                Split();
+            }
+            SoundEngine.PlaySound(HolyBlast.ImpactSound, Projectile.Center);
+            Projectile.active = false;
+        }
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            if (info.Damage <= 0)
+                return;
+
+            if (Main.myPlayer == Projectile.owner)
+            {
+                Split();
+            }
+            SoundEngine.PlaySound(HolyBlast.ImpactSound, Projectile.Center);
+            Projectile.active = false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            if (Main.myPlayer == Projectile.owner)
+            {
+                Split();
+            }
+            SoundEngine.PlaySound(HolyBlast.ImpactSound, Projectile.Center);
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            int dustID = ProvUtils.GetDustID(pscState);
+            for (int num193 = 0; num193 < 6; num193++)
+            {
+                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustID, 0f, 0f, 50, default, Main.dayTime ? 1.5f : 0.5f);
+            }
+            for (int num194 = 0; num194 < 60; num194++)
+            {
+                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustID, 0f, 0f, 0, default, Main.dayTime ? 2.5f : 0.5f);
+                Main.dust[num195].noGravity = true;
+                Main.dust[num195].velocity *= 3f;
+                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustID, 0f, 0f, 50, default, Main.dayTime ? 1.5f : 0.5f);
+                Main.dust[num195].velocity *= 2f;
+                Main.dust[num195].noGravity = true;
+            }
+        }
+    }
+    
+    #endregion
+
+    #region Bab Fireball Split
+    
+    
+    public class MiniGuardianFireballSplit : ModProjectile, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Projectiles.Summon";
+        public override string Texture => "CalamityMod/Projectiles/Boss/HolyFire2";
+
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.SummonTagDamageMultiplier[Type] = 0.3f;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = 300;
+            Projectile.minion = true;
+            Projectile.gfxOffY = -25f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
+            Projectile.DamageType = DamageClass.Summon;
+        }
+
+        public override bool PreAI()
+        {
+            Projectile.Calamity().overridesMinionDamagePrevention = true;
+            return true;
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, 0.3f, 0.225f, 0f);
+
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame > 3)
+                Projectile.frame = 0;
+
+            if (Math.Abs(Projectile.velocity.X) < 8f)
+                Projectile.velocity.X *= 1.05f;
+
+            NPC target = Projectile.Center.MinionHoming(2000f, Main.player[Projectile.owner], true);
+            
+            if (target != null)
+            {
+                float scaleFactor2 = Projectile.velocity.Length();
+                Vector2 vector11 = target.Center - Projectile.Center;
+                vector11.Normalize();
+                vector11 *= scaleFactor2;
+                float inertia = 15f;
+                Projectile.velocity = (Projectile.velocity * (inertia - 1f) + vector11) / inertia;
+                Projectile.velocity.Normalize();
+                Projectile.velocity *= scaleFactor2;
+            }
+
+            Projectile.rotation = Projectile.velocity.X * 0.025f;
+        }
+        
+        public override Color? GetAlpha(Color lightColor)
+        {
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            return ProvUtils.GetProjectileColor(pscState, Projectile.alpha);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            Texture2D texture = Main.dayTime ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyFire2Night").Value;
+            int num214 = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Projectile.DrawBackglow(ProvUtils.GetProjectileColor(pscState, Projectile.alpha, true), 4f, texture);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            return false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = Projectile.height = 200;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            
+            int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+            int dust = ProvUtils.GetDustID(pscState);
+            
+            for (int num621 = 0; num621 < 4; num621++)
+            {
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 2f : 0.5f);
+                Main.dust[num622].velocity *= 3f;
+                if (Main.rand.NextBool(2))
+                {
+                    Main.dust[num622].scale = 0.5f;
+                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                }
+            }
+            for (int num623 = 0; num623 < 12; num623++)
+            {
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 3f : 0.5f);
+                Main.dust[num624].noGravity = true;
+                Main.dust[num624].velocity *= 5f;
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust, 0f, 0f, 100, default, Main.dayTime ? 2f : 0.5f);
+                Main.dust[num624].velocity *= 2f;
+
+            }
+        }
+    }
+    
+    #endregion
+    
     #endregion
 }

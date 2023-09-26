@@ -7,6 +7,7 @@ using CalamityMod.Buffs;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.Summon.Whips;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
@@ -59,6 +60,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent;
@@ -3841,8 +3843,11 @@ namespace CalamityMod.NPCs
             {
                 for (int k = 0; k < npc.buffImmune.Length; k++)
                 {
-                    npc.buffImmune[k] = true;
+                    if (!BuffID.Sets.IsAnNPCWhipDebuff[k])
+                        npc.buffImmune[k] = true;
                 }
+                NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData { ImmuneToAllBuffsThatAreNotWhips = true };
+                NPCID.Sets.DebuffImmunitySets[npc.type] = debuffData;
 
                 if (npc.townNPC || NPCID.Sets.ActsLikeTownNPC[npc.type])
                 {
@@ -4728,6 +4733,23 @@ namespace CalamityMod.NPCs
 							break;
 					}
 				}
+            }
+            //BuffType cannot be used in switch case, so that has to be handled outside of it
+            //Verify that the owner of the proj has psc state higher or equal to psc buffs
+            if (npc.HasBuff<ProfanedCrystalWhipDebuff>() && Main.player[proj.owner].Calamity().pscState >= (int)ProfanedSoulCrystal.ProfanedSoulCrystalState.Buffs)
+            {
+                var empowered = Main.player[proj.owner].Calamity().pscState == (int)ProfanedSoulCrystal.ProfanedSoulCrystalState.Empowered;
+                //20% is balanced for non empowered, while 40% helps ensure psc remains balanced at empowered tier
+                //Some PSC projectiles receive a reduced amount of benefit from this, for balancing purposes
+                modifiers.ScalingBonusDamage += (empowered ? 0.4f : 0.2f) * TagDamageMult;
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    var color = ProvUtils.GetProjectileColor((int)(Main.dayTime ? Providence.Providence.BossMode.Day : Providence.Providence.BossMode.Night), 0);
+                    float power = Math.Min(npc.height / 100f, 3f);
+                    var position = new Vector2(Main.rand.NextFloat(npc.Left.X, npc.Right.X), Main.rand.NextFloat(npc.Top.Y, npc.Bottom.Y));
+                    var particle = new FlameParticle(position, 50, 0.25f, power, color * (Main.dayTime ? 1f : 1.25f), color * (Main.dayTime ? 1.25f : 1f));
+                    GeneralParticleHandler.SpawnParticle(particle);
+                }
             }
         }
         #endregion
