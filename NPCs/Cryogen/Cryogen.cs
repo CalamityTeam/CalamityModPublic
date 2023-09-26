@@ -816,12 +816,12 @@ namespace CalamityMod.NPCs.Cryogen
                                 int min = 16;
                                 int max = 20;
 
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                     num1250 += Main.rand.Next(min, max);
                                 else
                                     num1250 -= Main.rand.Next(min, max);
 
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                     num1251 += Main.rand.Next(min, max);
                                 else
                                     num1251 -= Main.rand.Next(min, max);
@@ -1254,7 +1254,7 @@ namespace CalamityMod.NPCs.Cryogen
                 {
                     int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[num622].scale = 0.5f;
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

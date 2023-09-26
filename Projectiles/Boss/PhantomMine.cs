@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Boss
                             for (int i = 0; i < totalProjectiles; i++)
                             {
                                 Vector2 vector = new Vector2(0f, -8f).RotatedBy(radians * i);
-                                int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<PhantomShot2>() : ModContent.ProjectileType<PhantomShot>();
+                                int type = Main.rand.NextBool() ? ModContent.ProjectileType<PhantomShot2>() : ModContent.ProjectileType<PhantomShot>();
                                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vector, type, Projectile.damage, 0f, Main.myPlayer);
                             }
                         }
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 180, 0f, 0f, 100, default, 1.2f);
                 Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[num622].scale = 0.5f;
                     Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

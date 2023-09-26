@@ -246,7 +246,7 @@ namespace CalamityMod.CalPlayer
                         float rot = MathHelper.ToRadians(i * rotFactor);
                         Vector2 offset = new Vector2(Player.velocity.X * Player.direction * 0.7f + 6f, 0).RotatedBy(rot * Main.rand.NextFloat(4f, 5f));
                         Vector2 velOffset = Vector2.Zero;
-                        Dust dust = Dust.NewDustPerfect(Player.Center + offset + Player.velocity, Main.rand.NextBool(2) ? 160 : 307, new Vector2(velOffset.X, velOffset.Y));
+                        Dust dust = Dust.NewDustPerfect(Player.Center + offset + Player.velocity, Main.rand.NextBool() ? 160 : 307, new Vector2(velOffset.X, velOffset.Y));
                         dust.noGravity = true;
                         dust.velocity = velOffset;
                         dust.alpha = 100;
@@ -256,10 +256,10 @@ namespace CalamityMod.CalPlayer
                     {
                         float sparkscale = (Player.velocity.X * Player.direction * 0.07f);
                         Vector2 SparkVelocity1 = Player.velocity.RotatedBy(Player.direction * 2, default) * 0.1f - Player.velocity / 2f;
-                        SparkParticle spark = new SparkParticle(Player.Center + Player.velocity.RotatedBy(2f * Player.direction) * 1.5f, SparkVelocity1, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.DodgerBlue);
+                        SparkParticle spark = new SparkParticle(Player.Center + Player.velocity.RotatedBy(2f * Player.direction) * 1.5f, SparkVelocity1, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool() ? Color.DarkTurquoise : Color.DodgerBlue);
                         GeneralParticleHandler.SpawnParticle(spark);
                         Vector2 SparkVelocity2 = Player.velocity.RotatedBy(Player.direction * -2, default) * 0.1f - Player.velocity / 2f;
-                        SparkParticle spark2 = new SparkParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkTurquoise : Color.DodgerBlue);
+                        SparkParticle spark2 = new SparkParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool() ? Color.DarkTurquoise : Color.DodgerBlue);
                         GeneralParticleHandler.SpawnParticle(spark2);
                     }
                     if (Player.miscCounter % 4 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
@@ -287,7 +287,7 @@ namespace CalamityMod.CalPlayer
                         float rot = MathHelper.ToRadians(i * rotFactor);
                         Vector2 offset = new Vector2(Player.velocity.X * Player.direction * 0.7f + 8f, 0).RotatedBy(rot * Main.rand.NextFloat(4f, 5f));
                         Vector2 velOffset = Vector2.Zero;
-                        Dust dust = Dust.NewDustPerfect(Player.Center + offset + Player.velocity, Main.rand.NextBool(2) ? 35 : 127, new Vector2(velOffset.X, velOffset.Y));
+                        Dust dust = Dust.NewDustPerfect(Player.Center + offset + Player.velocity, Main.rand.NextBool() ? 35 : 127, new Vector2(velOffset.X, velOffset.Y));
                         dust.noGravity = true;
                         dust.velocity = velOffset;
                         dust.alpha = 100;
@@ -295,10 +295,10 @@ namespace CalamityMod.CalPlayer
                     }
                     float sparkscale = (Player.velocity.X * Player.direction * 0.08f);
                     Vector2 SparkVelocity1 = Player.velocity.RotatedBy(Player.direction * -3, default) * 0.1f - Player.velocity / 2f;
-                    SparkParticle spark = new SparkParticle(Player.Center + Player.velocity.RotatedBy(2f * Player.direction) * 1.5f, SparkVelocity1, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkOrange : Color.OrangeRed);
+                    SparkParticle spark = new SparkParticle(Player.Center + Player.velocity.RotatedBy(2f * Player.direction) * 1.5f, SparkVelocity1, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool() ? Color.DarkOrange : Color.OrangeRed);
                     GeneralParticleHandler.SpawnParticle(spark);
                     Vector2 SparkVelocity2 = Player.velocity.RotatedBy(Player.direction * 3, default) * 0.1f - Player.velocity / 2f;
-                    SparkParticle spark2 = new SparkParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool(2) ? Color.DarkOrange : Color.OrangeRed);
+                    SparkParticle spark2 = new SparkParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool() ? Color.DarkOrange : Color.OrangeRed);
                     GeneralParticleHandler.SpawnParticle(spark2);
 
                     if (Player.miscCounter % 5 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
@@ -1135,14 +1135,54 @@ namespace CalamityMod.CalPlayer
 
                 if (healCounter <= 0)
                 {
-                    bool enrage = Player.statLife < (int)(Player.statLifeMax2 * 0.5);
-
-                    healCounter = (!enrage && profanedCrystalBuffs) ? 360 : 300;
+                    healCounter = 300;
 
                     if (Player.whoAmI == Main.myPlayer)
                     {
                         Player.statLife += 15;
                         Player.HealEffect(15);
+
+                        if (profanedCrystal)
+                        {
+                            var healerID = ModContent.ProjectileType<MiniGuardianHealer>();
+                            var healer = Main.projectile.FirstOrDefault(proj => proj.active && proj.owner == Main.myPlayer && proj.type == healerID, null);
+                            if (healer != null)
+                            {
+                                float distanceFromHealer = Vector2.Distance(healer.Center, Player.Center);
+                                int maxHealDustIterations = (int)distanceFromHealer;
+                                int maxDust = 40;
+                                int dustDivisor = maxHealDustIterations / maxDust;
+                                if (dustDivisor < 2)
+                                    dustDivisor = 2;
+
+                                Vector2 dustLineStart = healer.Center;
+                                Vector2 dustLineEnd = Player.Center;
+                                Vector2 currentDustPos = default;
+                                Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
+                                Vector2 value5 = new Vector2(2.1f, 2f);
+                                Color dustColor = Main.hslToRgb(Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X, 1f, 0.5f);
+                                dustColor.A = 255;
+                                for (int i = 0; i < maxHealDustIterations; i++)
+                                {
+                                    if (i % dustDivisor == 0)
+                                    {
+                                        currentDustPos = Vector2.Lerp(dustLineStart, dustLineEnd, i / (float)maxHealDustIterations);
+                                        int dust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                        Main.dust[dust].position = currentDustPos;
+                                        Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f) + Player.velocity;
+                                        Main.dust[dust].noGravity = true;
+                                        Main.dust[dust].scale = 1f;
+                                        Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
+                                        Dust dust2 = Dust.CloneDust(dust);
+                                        Dust dust3 = dust2;
+                                        dust3.scale /= 2f;
+                                        dust3 = dust2;
+                                        dust3.fadeIn /= 2f;
+                                        dust2.color = new Color(255, 255, 255, 255);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1512,7 +1552,7 @@ namespace CalamityMod.CalPlayer
                     Main.dust[green].noGravity = true;
                     Main.dust[green].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     Main.dust[green].shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                         Main.dust[green].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                 }
             }
@@ -1543,7 +1583,7 @@ namespace CalamityMod.CalPlayer
                     dust.noGravity = true;
                     dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     dust.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                         dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                 }
             }
@@ -1614,7 +1654,7 @@ namespace CalamityMod.CalPlayer
                         dust.noGravity = true;
                         dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                         dust.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                             dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     }
                 }
@@ -2691,7 +2731,7 @@ namespace CalamityMod.CalPlayer
 
             if (profanedCrystalBuffs)
             {
-                bool offenseBuffs = (Main.dayTime && !Player.wet) || Player.lavaWet;
+                bool offenseBuffs = pscState == (int)ProfanedSoulCrystal.ProfanedSoulCrystalState.Buffs || (Main.dayTime && !Player.wet) || Player.lavaWet;
                 if (offenseBuffs)
                     flightTimeMult += 0.1;
             }
@@ -3102,7 +3142,11 @@ namespace CalamityMod.CalPlayer
                     int babDamage = profanedCrystal ? 346 : 52;
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
-                        Projectile.NewProjectile(source, Player.Center, Vector2.UnitY * -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer);
+                    {
+                        var babH = Projectile.NewProjectileDirect(source, Player.Center, Vector2.UnitY * -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, babCheck);
+                        babH.originalDamage = babDamage;
+                    }
+                        
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < guardianAmt)
                     {
@@ -3112,7 +3156,7 @@ namespace CalamityMod.CalPlayer
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
                     {
-                        float spearCounter = profanedCrystal ? 0f : 15f;
+                        float spearCounter = profanedCrystal ? 60 * 8 : 15f;
                         var babO = Projectile.NewProjectileDirect(source, Player.Center, Vector2.UnitY * -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, babCheck, spearCounter);
                         babO.originalDamage = babDamage;
                     }
@@ -3123,7 +3167,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
-                    Player.scope = false; //this is so it doesn't mess with the balance of ranged transform attacks over the others
+                    bool empowered = pscState == (int)ProfanedSoulCrystal.ProfanedSoulCrystalState.Empowered;
                     Player.lavaImmune = true;
                     Player.fireWalk = true;
                     Player.buffImmune[ModContent.BuffType<HolyFlames>()] = Main.dayTime;
@@ -3131,36 +3175,27 @@ namespace CalamityMod.CalPlayer
                     Player.buffImmune[BuffID.OnFire] = true;
                     Player.buffImmune[BuffID.Burning] = true;
                     Player.buffImmune[BuffID.Daybreak] = true;
-                    bool offenseBuffs = (Main.dayTime && !Player.wet) || Player.lavaWet;
+                    bool offenseBuffs = (Main.dayTime && !Player.wet) || Player.lavaWet || empowered;
                     if (offenseBuffs)
                     {
                         Player.GetDamage<SummonDamageClass>() += 0.15f;
                         Player.GetKnockback<SummonDamageClass>() += 0.15f;
                         Player.moveSpeed += 0.1f;
-                        Player.statDefense -= 15;
+                        if (!empowered)
+                            Player.statDefense -= 15;
                         Player.ignoreWater = true;
+                        Player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += 1f; //this only ever affects psc whip and should not be problematic
                     }
-                    else
+                    else if (empowered || !offenseBuffs)
                     {
-                        Player.moveSpeed -= 0.1f;
                         Player.endurance += 0.05f;
                         Player.statDefense += 15;
                         Player.lifeRegen += 5;
                     }
-                    bool enrage = Player.statLife <= (int)(Player.statLifeMax2 * 0.5);
+                    bool enrage = pscState >= (int)ProfanedSoulCrystal.ProfanedSoulCrystalState.Enraged;
                     if (!ZoneAbyss) //No abyss memes.
                         Lighting.AddLight(Player.Center, enrage ? 1.2f : offenseBuffs ? 1f : 0.2f, enrage ? 0.21f : offenseBuffs ? 0.2f : 0.01f, 0);
-                    if (enrage)
-                    {
-                        bool special = ProfanedSoulCrystal.testerNames.Any(name => name.Equals(Player.name));
-                        for (int i = 0; i < 3; i++)
-                        {
-                            int fire = Dust.NewDust(Player.position, Player.width, Player.height, special ? 231 : (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, special ? Color.DarkRed : default, 1f);
-                            Main.dust[fire].scale = special ? 1.169f : 2f;
-                            Main.dust[fire].noGravity = true;
-                            Main.dust[fire].velocity *= special ? 10f : 6.9f;
-                        }
-                    }
+                    
                 }
             }
 
@@ -3636,9 +3671,15 @@ namespace CalamityMod.CalPlayer
                 int maxDurability = profanedCrystalBuffs
                     ? ProfanedSoulCrystal.ShieldDurabilityMax
                     : ProfanedSoulArtifact.ShieldDurabilityMax;
+                int delay = profanedCrystalBuffs
+                    ? ProfanedSoulCrystal.ShieldRechargeDelay
+                    : ProfanedSoulArtifact.ShieldRechargeDelay;
+                int totalRecharge = profanedCrystalBuffs
+                    ? ProfanedSoulCrystal.TotalShieldRechargeTime
+                    : ProfanedSoulArtifact.TotalShieldRechargeTime;
                 
                 if (pSoulShieldDurability == 0 && !cooldowns.ContainsKey(Cooldowns.ProfanedSoulShieldRecharge.ID))
-                    Player.AddCooldown(ProfanedSoulShieldRecharge.ID, ProfanedSoulArtifact.ShieldRechargeDelay);
+                    Player.AddCooldown(ProfanedSoulShieldRecharge.ID, delay);
                 
                 // If the shield has greater than zero durability but that durability is not on the cooldown rack, add it to the cooldown rack.
                 if (pSoulShieldDurability > 0 && !cooldowns.ContainsKey(Cooldowns.ProfanedSoulShield.ID))
@@ -3656,7 +3697,7 @@ namespace CalamityMod.CalPlayer
                     playedProfanedSoulShieldSound = true;
 
                     // This number is not an integer, and stores exact per-frame recharge progress.
-                    pSoulShieldPartialRechargeProgress += maxDurability / (float)ProfanedSoulArtifact.TotalShieldRechargeTime;
+                    pSoulShieldPartialRechargeProgress += maxDurability / (float)totalRecharge;
 
                     // Floor the value to get whole number of shield points recharged this frame.
                     int pointsActuallyRecharged = (int)MathF.Floor(pSoulShieldPartialRechargeProgress);

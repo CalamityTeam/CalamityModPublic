@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 Projectile.ai[0] += 1f;
                 int dustType = Main.rand.NextBool(4) ? 61 : 62;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
                     Dust dust = Main.dust[fire];

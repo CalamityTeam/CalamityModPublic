@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.SunkenSea
                 Main.dust[dust].velocity *= 1.1f;
                 Main.dust[dust].velocity.Y += 0.25f;
                 Main.dust[dust].noLight = true;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[dust].noGravity = false;
                     Main.dust[dust].scale *= 0.5f;

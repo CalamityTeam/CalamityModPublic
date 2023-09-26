@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 destination = Owner.Top - Vector2.UnitY * 45f + (Projectile.identity * 0.9f).ToRotationVector2() * 16f;
             Vector2 idealVelocity = Projectile.SafeDirectionTo(destination) * MathHelper.Lerp(2.3f, 8f, Utils.GetLerpValue(16f, 160f, Projectile.Distance(destination)));
             if (Projectile.velocity.Length() < 0.4f)
-                Projectile.velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(0.5f, 1.1f) * Main.rand.NextBool(2).ToDirectionInt()) * -3.6f;
+                Projectile.velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(0.5f, 1.1f) * Main.rand.NextBool().ToDirectionInt()) * -3.6f;
             else if (!Projectile.WithinRange(destination, 20f))
                 Projectile.velocity = Projectile.velocity * 0.9f + idealVelocity * 0.1f;
 

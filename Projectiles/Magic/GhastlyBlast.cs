@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Magic
                 // Dust, randomly
                 if (Main.rand.NextBool(3))
                 {
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Vector2 vector140 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
                         Dust dust28 = Main.dust[Dust.NewDust(Projectile.Center - vector140 * 30f, 0, 0, 60, 0f, 0f, 0, default, 1f)];
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Magic
                 int num3;
                 for (int num1014 = 0; num1014 < 1; num1014 = num3 + 1)
                 {
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Vector2 vector142 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
                         Dust dust30 = Main.dust[Dust.NewDust(Projectile.Center - vector142 * 30f, 0, 0, 60, 0f, 0f, 0, default, 1f)];

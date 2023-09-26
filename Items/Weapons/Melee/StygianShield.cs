@@ -15,12 +15,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         
         // Held stats
-        public const int HeldDefense = 12;
-        public const int DisableDashDuration = 120;
+        public const int HeldDefense = 16;
+        public const int DisableDashDuration = 90;
 
         public int ThrownShieldID = ModContent.ProjectileType<StygianShieldThrown>();
 
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(HeldDefense, DisableDashDuration / 60);
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(HeldDefense, (DisableDashDuration / 60D).ToString("N1"));
 
         public override void SetDefaults()
         {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
-            Item.damage = 200;
+            Item.damage = 250;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.useAnimation = Item.useTime = 40; // This is only for the "Very slow" tooltip. The real use time should be faster
             Item.shoot = ModContent.ProjectileType<StygianShieldAttack>();

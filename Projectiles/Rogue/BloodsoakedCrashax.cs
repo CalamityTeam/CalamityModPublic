@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
 
-            if (cannotLifesteal || Main.rand.NextBool(2)) //canGhostHeal be like lol
+            if (cannotLifesteal || Main.rand.NextBool()) //canGhostHeal be like lol
                 return;
 
             Player player = Main.player[Projectile.owner];

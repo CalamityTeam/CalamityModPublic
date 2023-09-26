@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 Projectile.ai[0] += 1f;
                 int dustType = (int)CalamityDusts.PurpleCosmilite;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     for (int num298 = 0; num298 < 1; num298++)
                     {

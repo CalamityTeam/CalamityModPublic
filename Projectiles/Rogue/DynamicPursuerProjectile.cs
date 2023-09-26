@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (potentialTarget != null)
             {
                 Vector2 initialVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 2f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                     initialVelocity = initialVelocity.RotatedByRandom(0.4f);
                 float initialAngle = initialVelocity.ToRotation();
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + blueGem, Projectile.SafeDirectionTo(potentialTarget.Center) * 3f, ModContent.ProjectileType<DynamicPursuerElectricity>(), damage, Projectile.knockBack, Projectile.owner, initialAngle, Main.rand.Next(100));
@@ -216,7 +216,7 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         for (int i = 0; i < 220; i++)
                         {
-                            int type = Main.rand.NextBool(2) ? 261 : 107;
+                            int type = Main.rand.NextBool() ? 261 : 107;
                             Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10f, 10f), type);
                             dust.scale = Main.rand.NextFloat(1.6f, 2.2f);
                             dust.velocity = Main.rand.NextVector2CircularEdge(75f, 75f);

@@ -837,12 +837,12 @@ namespace CalamityMod.NPCs
                             int min = 12;
                             int max = 16;
 
-                            if (Main.rand.NextBool(2))
+                            if (Main.rand.NextBool())
                                 playerPosX += Main.rand.Next(min, max);
                             else
                                 playerPosX -= Main.rand.Next(min, max);
 
-                            if (Main.rand.NextBool(2))
+                            if (Main.rand.NextBool())
                                 playerPosY += Main.rand.Next(min, max);
                             else
                                 playerPosY -= Main.rand.Next(min, max);
@@ -3169,7 +3169,7 @@ namespace CalamityMod.NPCs
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AstralLaser>() : ModContent.ProjectileType<AstralFlame>();
+                            int type = Main.rand.NextBool() ? ModContent.ProjectileType<AstralLaser>() : ModContent.ProjectileType<AstralFlame>();
                             int damage = npc.GetProjectileDamage(type);
                             int totalProjectiles = bossRush ? 14 : death ? 12 : revenge ? 10 : expertMode ? 8 : 6;
                             float radians = MathHelper.TwoPi / totalProjectiles;

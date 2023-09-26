@@ -467,7 +467,7 @@ namespace CalamityMod.NPCs.PrimordialWyrm
                     {
                         int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 185, 0f, 0f, 100, default, 2f);
                         Main.dust[dust].velocity *= 0.6f;
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             Main.dust[dust].scale = 0.5f;
                             Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

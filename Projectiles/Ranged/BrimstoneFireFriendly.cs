@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 Projectile.ai[0] += 1f;
                 int num297 = 235;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     for (int num298 = 0; num298 < 1; num298++)
                     {

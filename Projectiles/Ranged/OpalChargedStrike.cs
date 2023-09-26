@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 Vector2 position = Projectile.Center + Vector2.Normalize(Projectile.velocity);
                 Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 162, 0f, 0f, 0, default, Main.rand.NextFloat(1.2f, 1.5f))];

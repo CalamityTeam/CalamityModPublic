@@ -92,7 +92,7 @@ namespace CalamityMod.CalPlayer
                 dust.velocity *= 0.4f;
                 dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 dust.shader = GameShaders.Armor.GetSecondaryShader(Player.ArmorSetDye(), Player);
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                     dust.noGravity = true;
@@ -126,7 +126,7 @@ namespace CalamityMod.CalPlayer
                 dust.velocity *= 0.4f;
                 dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cNeck, Player);
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                     dust.noGravity = true;
@@ -241,7 +241,7 @@ namespace CalamityMod.CalPlayer
                     dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                     // Change this accordingly if we have a proper equipped sprite.
                     dust.shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                         dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 }
 
@@ -1741,7 +1741,7 @@ namespace CalamityMod.CalPlayer
                     if (pSoulShieldDurability <= 0)
                     {
                         pSoulShieldDurability = 0;
-                        SoundEngine.PlaySound(SoundID.Lavafall, Player.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyFlameBreath, Player.Center);
                         Player.Calamity().GeneralScreenShakePower += anyShieldBroke ? 0.5f : 2f;
                         anyShieldBroke = true;
                     }
@@ -2081,7 +2081,7 @@ namespace CalamityMod.CalPlayer
                         {
                             int dust = Dust.NewDust(Player.position, Player.width, Player.height, 31, 0f, 0f, 100, default, 2f);
                             Main.dust[dust].velocity *= 3f;
-                            if (Main.rand.NextBool(2))
+                            if (Main.rand.NextBool())
                             {
                                 Main.dust[dust].scale = 0.5f;
                                 Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -2108,7 +2108,7 @@ namespace CalamityMod.CalPlayer
                     {
                         int ice = Dust.NewDust(Player.position, Player.width, Player.height, 67, 0f, 0f, 100, default, 2f);
                         Main.dust[ice].velocity *= 3f;
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             Main.dust[ice].scale = 0.5f;
                             Main.dust[ice].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

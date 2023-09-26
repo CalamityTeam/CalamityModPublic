@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             for (int i = 0; i < 50; i++)
             {
-                int dusttype = Main.rand.NextBool(2) ? 68 : 67;
+                int dusttype = Main.rand.NextBool() ? 68 : 67;
                 if (Main.rand.NextBool(4))
                 {
                     dusttype = 80;

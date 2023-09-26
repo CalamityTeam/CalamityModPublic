@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             if (!Initialized)
             {
-                NPC.velocity = Vector2.UnitX * Main.rand.NextBool(2).ToDirectionInt() * 1.5f;
+                NPC.velocity = Vector2.UnitX * Main.rand.NextBool().ToDirectionInt() * 1.5f;
                 Initialized = true;
             }
 
@@ -321,7 +321,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             if (CalamityUtils.ParanoidTileRetrieval((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16)).WallType == WallID.None || ClimbTime > 620f)
             {
                 CurrentState = BehaviorState.WalkAround;
-                NPC.velocity = new Vector2(Main.rand.NextBool(2).ToDirectionInt() * 1.2f, 3f);
+                NPC.velocity = new Vector2(Main.rand.NextBool().ToDirectionInt() * 1.2f, 3f);
                 NPC.rotation = 0f;
                 NPC.netUpdate = true;
             }

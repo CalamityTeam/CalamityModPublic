@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
             num78 *= num80;
             num79 *= num80;
             int num146 = 4;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 num146++;
             }

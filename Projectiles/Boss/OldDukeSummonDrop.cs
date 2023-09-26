@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Boss
             if (info.Damage <= 0)
                 return;
 
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 // 1 to 3 seconds of poisoned
                 target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(1, 4));

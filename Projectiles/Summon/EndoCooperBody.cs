@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
             //dust
             if (Main.rand.NextBool(15))
             {
-                int dusttype = Main.rand.NextBool(2) ? 68 : 67;
+                int dusttype = Main.rand.NextBool() ? 68 : 67;
                 if (Main.rand.NextBool(4))
                 {
                     dusttype = 80;
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.localAI[0] += 1f;
                 for (int i = 0; i < 60; i++)
                 {
-                    int dusttype = Main.rand.NextBool(2) ? 68 : 67;
+                    int dusttype = Main.rand.NextBool() ? 68 : 67;
                     if (Main.rand.NextBool(4))
                     {
                         dusttype = 80;

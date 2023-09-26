@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 Projectile.ai[0] += 1f;
                 int num297 = 5;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     for (int num298 = 0; num298 < 1; num298++)
                     {
@@ -167,7 +167,7 @@ namespace CalamityMod.Projectiles.Ranged
                 return;
 
             Player player = Main.player[Projectile.owner];
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int healAmt = Main.rand.Next(1, 4);
                 player.statLife += healAmt;

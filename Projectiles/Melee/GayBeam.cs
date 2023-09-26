@@ -233,7 +233,7 @@ namespace CalamityMod.Projectiles.Melee
                     break;
             }
 
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 267, 0f, 0f, alpha, color, 1.5f);
                 Main.dust[dust].noGravity = true;
@@ -377,7 +377,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         bool fromRight = x == 1;
                         if (x == 2)
-                            fromRight = Main.rand.NextBool(2);
+                            fromRight = Main.rand.NextBool();
                         if (Projectile.owner == Main.myPlayer)
                         {
                             var source = Projectile.GetSource_FromThis();

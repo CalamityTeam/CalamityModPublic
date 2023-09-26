@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 endOfLaser = Projectile.Center + Projectile.velocity * (LaserLength - Main.rand.NextFloat(12f, 72f));
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), endOfLaser, Main.rand.NextVector2Circular(4f, 8f), ModContent.ProjectileType<RancorFog>(), 0, 0f, Projectile.owner);
 
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int type = ModContent.ProjectileType<RancorSmallCinder>();
                 int damage = 0;

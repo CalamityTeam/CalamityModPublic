@@ -125,7 +125,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
                 {
-                    if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
+                    if (Main.rand.NextBool() && drawInfo.shadow == 0f)
                     {
                         int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 229, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
                         Main.dust[dust].noGravity = true;
@@ -140,7 +140,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
                 {
-                    if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
+                    if (Main.rand.NextBool() && drawInfo.shadow == 0f)
                     {
                         int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 246, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
                         Main.dust[dust].noGravity = true;
@@ -160,7 +160,7 @@ namespace CalamityMod.CalPlayer
                     Lighting.AddLight((int)Player.Center.X / 16, (int)Player.Center.Y / 16, 100 / 235f, 1 / 235f, 250 / 235f);
                     if (!Player.StandingStill() && !Player.mount.Active)
                     {
-                        if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
+                        if (Main.rand.NextBool() && drawInfo.shadow == 0f)
                         {
                             int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 27, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
                             Main.dust[dust].noGravity = true;
@@ -191,7 +191,7 @@ namespace CalamityMod.CalPlayer
                     {
                         if (Main.rand.NextBool(8) && drawInfo.shadow == 0f)
                         {
-                            int de_dust2 = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(2) ? 204 : 213, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
+                            int de_dust2 = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool() ? 204 : 213, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
                             Main.dust[de_dust2].noGravity = true;
                             Main.dust[de_dust2].velocity *= 0.5f;
                             drawInfo.DustCache.Add(de_dust2);

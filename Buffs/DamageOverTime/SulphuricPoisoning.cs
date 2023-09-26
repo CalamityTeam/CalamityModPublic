@@ -48,7 +48,7 @@ namespace CalamityMod.Buffs.DamageOverTime
                 }
                 if (Main.rand.NextBool(5))
                 {
-                    DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Calamity().RandomDebuffVisualSpot, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-3f, -4f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f, 0f, 45);
+                    DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Calamity().RandomDebuffVisualSpot, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-3f, -4f)), Main.rand.NextBool() ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.09f, 0f, 45);
                     GeneralParticleHandler.SpawnParticle(pulse);
                 }
             }
@@ -56,7 +56,7 @@ namespace CalamityMod.Buffs.DamageOverTime
 
         internal static void DrawEffects(NPC npc, ref Color drawColor)
         {
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 Vector2 npcSize = npc.Center + new Vector2(Main.rand.NextFloat(-npc.width / 2, npc.width / 2), Main.rand.NextFloat(-npc.height / 2, npc.height / 2));
                 int dust = Dust.NewDust(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, 298, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.2f + +(0.000003f * npc.width * npc.height));
@@ -69,9 +69,9 @@ namespace CalamityMod.Buffs.DamageOverTime
                     Main.dust[dust].noGravity = false;
                     Main.dust[dust].scale *= 0.4f;
                 }
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
-                    DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-4.5f, -6f)), Main.rand.NextBool(2) ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.12f + (0.0000007f * npc.width * npc.height), 0f, 45);
+                    DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-4.5f, -6f)), Main.rand.NextBool() ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.12f + (0.0000007f * npc.width * npc.height), 0f, 45);
                     GeneralParticleHandler.SpawnParticle(pulse);
                 }
             }

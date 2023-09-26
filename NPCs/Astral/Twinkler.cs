@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Astral
                 for (int i = 0; i < 6; i++)
                 {
                     int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 2 * hit.HitDirection, -2f);
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[dust].noGravity = true;
                         Main.dust[dust].scale = 1.2f * NPC.scale;

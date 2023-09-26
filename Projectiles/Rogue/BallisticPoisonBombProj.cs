@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int boom = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0f, 0f, 100, default, 2f);
                 Main.dust[boom].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[boom].scale = 0.5f;
                     Main.dust[boom].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

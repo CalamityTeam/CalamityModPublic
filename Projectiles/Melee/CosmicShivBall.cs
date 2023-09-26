@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
             // for spawning the side beams
             for (int i = 0; i < 2; i++)
             {
-                int directionSign = Main.rand.NextBool(2).ToDirectionInt();
+                int directionSign = Main.rand.NextBool().ToDirectionInt();
                 Vector2 spawnPos = new Vector2(target.Center.X + directionSign * 650, Projectile.Center.Y + Main.rand.Next(-500, 501));
                 Vector2 velocity = Vector2.Normalize(target.Center - spawnPos) * 30f;
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos.X, spawnPos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CosmicShivBlade>(), (int)(Projectile.damage * 0.8f), Projectile.knockBack * 0.1f, Projectile.owner);

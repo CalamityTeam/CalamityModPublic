@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             counter++;
 
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 Vector2 speed = velocity.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-15, 16)));
                 speed.Normalize();
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Magic
             velocity.Y += Main.rand.Next(-40, 41) * 0.05f;
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, counter % 2 == 0 ? 1f : 0f);
 
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int noteProj = Utils.SelectRandom(Main.rand, new int[]
                 {

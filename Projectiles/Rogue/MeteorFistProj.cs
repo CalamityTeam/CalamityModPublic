@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Projectile.velocity *= 1.25f;
             }
-            else if (Main.rand.NextBool(2))
+            else if (Main.rand.NextBool())
             {
                 int fieryDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 0.5f);
                 Main.dust[fieryDust].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int boomDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
                 Main.dust[boomDust].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[boomDust].scale = 0.5f;
                     Main.dust[boomDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

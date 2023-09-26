@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.Buffs.Summon.Whips;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -61,19 +62,28 @@ namespace CalamityMod.Projectiles.Summon
                 rotationVelocityIncrease += rotationVelocityIncrease * (Projectile.ai[1] * 0.5f);
 
                 // Rotate around Player
-                var psc = Owner.Calamity().profanedCrystalBuffs;
-                float angle = MathHelper.TwoPi / (psc ? 10 : 5) * Projectile.ai[1];
-                float distance = psc ? 90f : 50f;
+                var psc = Owner.Calamity().pscState;
+                float angle = MathHelper.TwoPi / (psc > 0 ? 10 : 5) * Projectile.ai[1];
+                float distance = 50f + (psc > 0 ? 30f : 0f);
                 Projectile.Center = Owner.Center + Projectile.ai[1].ToRotationVector2() * distance;
                 Projectile.rotation = Projectile.ai[1] + (float)Math.Atan(90);
-                Projectile.ai[1] -= MathHelper.ToRadians(2f);
+                Projectile.ai[1] += MathHelper.ToRadians(psc > 0 ? 2f : -2f);
             }
             else if (Projectile.ai[0] == 1f) //rock yeetage begins
             {
-                Projectile.velocity = Projectile.Center - Owner.Center;
-                Projectile.velocity.Normalize();
-                Projectile.velocity *= Owner.Calamity().profanedCrystalBuffs ? 25f : 20f;
-                Projectile.ai[0] = 2f;
+                NPC target = Projectile.Center.MinionHoming(2000f, Owner);
+                if (Owner.HasBuff<ProfanedCrystalWhipBuff>() && target != null)
+                {
+                    Projectile.velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, target, 32f);
+                    Projectile.ai[0] = 3f; //prevent slowdown if yeeted due to the ai buff from whips
+                }
+                else
+                {
+                    Projectile.velocity = Projectile.Center - Owner.Center;
+                    Projectile.velocity.Normalize();
+                    Projectile.velocity *= Owner.Calamity().profanedCrystalBuffs ? 25f : 20f;
+                    Projectile.ai[0] = 2f;
+                }
                 Projectile.timeLeft = 300;
             }
             else if (Projectile.ai[0] == 2f) //rocks have been yeeted, handle the aftermath

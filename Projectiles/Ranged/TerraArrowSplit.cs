@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < 2; i++)
             {
                 int terraDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 100, default, 2f);
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[terraDust].scale = 0.5f;
                     Main.dust[terraDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,15 +39,15 @@ namespace CalamityMod.Projectiles.Typeless
                     int num590 = 6;
                     int num591 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num590, Projectile.position.Y + (float)num590), Projectile.width - num590 * 2, Projectile.height - num590 * 2, 170, 0f, 0f, 75, default, 1.2f);
                     Dust dust = Main.dust[num591];
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         dust.alpha += 25;
                     }
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         dust.alpha += 25;
                     }
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         dust.alpha += 25;
                     }
@@ -80,19 +80,19 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 int num363 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 170, 0f, 0f, 75, default, 1.2f);
                 Dust dust = Main.dust[num363];
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dust.alpha += 25;
                 }
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dust.alpha += 25;
                 }
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dust.alpha += 25;
                 }
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dust.scale = 0.6f;
                 }

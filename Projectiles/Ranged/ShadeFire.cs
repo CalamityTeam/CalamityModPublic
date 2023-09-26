@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 Projectile.ai[0] += 1f;
                 int num297 = 14;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     for (int num298 = 0; num298 < 3; num298++)
                     {

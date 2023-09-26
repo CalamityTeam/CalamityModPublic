@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 50;
+            Item.damage = 40;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 54;
             Item.height = 26;

@@ -116,7 +116,7 @@ namespace CalamityMod.Tiles.Crags.Tree
 
                 //chance to place a branch segment
                 //also dont place branches below a certain threshold
-                if (Main.rand.NextBool(2) && branchSegmentDelay == 0 && k > 5)
+                if (Main.rand.NextBool() && branchSegmentDelay == 0 && k > 5)
                 {
                     if (k > 1 && k < 10)
                     {

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            type = Main.rand.NextBool(2) ? type : ModContent.ProjectileType<LightBeam>();
+            type = Main.rand.NextBool() ? type : ModContent.ProjectileType<LightBeam>();
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, (int)(damage * 0.8), knockback, player.whoAmI);
             return false;
         }
