@@ -42,7 +42,7 @@ namespace CalamityMod.Items
                 { ItemID.AmethystStaff, Do(ManaExact(2)) },
                 { ItemID.Anchor, Do(DamageExact(107), UseExact(30)) },
                 { ItemID.AntlionClaw, Do(UseExact(14)) }, // Mandible Blade
-                { ItemID.Bananarang, Do(DamageExact(98), UseExact(14)) },
+                { ItemID.Bananarang, Do(DamageExact(76), UseExact(14)) },
                 { ItemID.BatScepter, Do(DamageExact(56)) },
                 { ItemID.BeamSword, Do(UseMeleeSpeed, UseTurn, DamageExact(180), UseAnimationExact(60), ShootSpeedExact(23f)) },
                 { ItemID.BeeGun, Do(DamageExact(11)) },
