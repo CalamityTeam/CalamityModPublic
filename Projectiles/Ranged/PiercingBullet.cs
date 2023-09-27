@@ -30,6 +30,16 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            //Avoid touching things that you probably aren't meant to damage
+            if (modifiers.SuperArmor || target.defense > 999 || target.Calamity().DR >= 0.95f || target.Calamity().unbreakableDR)
+                return;
+
+            //Bypass defense
+            modifiers.DefenseEffectiveness *= 0f;
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
@@ -54,12 +64,12 @@ namespace CalamityMod.Projectiles.Ranged
             if (crit)
             {
                 var source = Projectile.GetSource_FromThis();
-                int bulletCount = 8;
+                int bulletCount = 6;
                 for (int x = 0; x < bulletCount; x++)
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.13), Projectile.knockBack, Projectile.owner);
+                        CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.125), Projectile.knockBack, Projectile.owner);
                     }
                 }
             }

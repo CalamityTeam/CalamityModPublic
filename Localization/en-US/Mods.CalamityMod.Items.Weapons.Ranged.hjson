@@ -1242,9 +1242,9 @@ TyrannysEnd: {
 	DisplayName: Tyranny's End
 	Tooltip:
 		'''
-		Converts musket balls into .70 caliber sniper rounds that deal devestating damage
-		Inflicts Marked for Death on enemy hits
-		Critical hits summon a swarm of 8 additional bullets
+		Converts musket balls into .70 caliber sniper rounds that deal devastating damage
+		Inflicts Marked for Death on enemy hits and bypasses defense
+		Critical hits summon a swarm of 6 additional bullets
 		'Pierce the heart of even the most heavily-armored foe'
 		'''
 }
