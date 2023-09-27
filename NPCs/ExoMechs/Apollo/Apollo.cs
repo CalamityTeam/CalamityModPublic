@@ -1,24 +1,25 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Skies;
+using CalamityMod.Sounds;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using System.Collections.Generic;
-using CalamityMod.Skies;
-using Terraria.Audio;
-using CalamityMod.Items.Weapons.DraedonsArsenal;
-using CalamityMod.Sounds;
+
 using ArtemisBoss = CalamityMod.NPCs.ExoMechs.Artemis.Artemis;
 
 namespace CalamityMod.NPCs.ExoMechs.Apollo
@@ -162,7 +163,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             NPC.value = Item.buyPrice(15, 0, 0, 0);
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = CommonCalamitySounds.ExoDeathSound;
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.BossBar = Main.BigBossProgressBar.NeverValid;
