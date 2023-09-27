@@ -829,14 +829,6 @@ namespace CalamityMod.NPCs.Leviathan
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<LeviathanAmbergris>()));
                 normalOnly.Add(ModContent.ItemType<PearlofEnthrallment>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<TheCommunity>(), 10);
-
-                // Fishing
-                normalOnly.Add(ItemID.HotlineFishingHook, 10);
-                normalOnly.Add(ItemID.BottomlessBucket, 10);
-                normalOnly.Add(ItemID.SuperAbsorbantSponge, 10);
-                normalOnly.Add(ItemID.FishingPotion, 5, 5, 8);
-                normalOnly.Add(ItemID.SonarPotion, 5, 5, 8);
-                normalOnly.Add(ItemID.CratePotion, 5, 5, 8);
             }
 
             // Relic

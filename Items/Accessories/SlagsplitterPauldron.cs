@@ -1,17 +1,13 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Tiles.Furniture.CraftingStations;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("Gehenna")]
     public class SlagsplitterPauldron : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
@@ -39,7 +35,6 @@ namespace CalamityMod.Items.Accessories
             AddIngredient<EssenceofHavoc>(8).
             AddTile(TileID.Anvils).
             Register();
-
         }
     }
 }

@@ -5170,6 +5170,7 @@ namespace CalamityMod.NPCs
             }
 
             // 12JUL2023: Ozzatron: what does this do
+            // 27SEP2023: Fabsol: disables vanilla spawns "a pool of [0] indicates vanilla spawning"
             if (calamityBiomeZone)
             {
                 pool[0] = 0f;
