@@ -1931,11 +1931,9 @@ VoidofExtinction: {
 	DisplayName: Void of Extinction
 	Tooltip:
 		'''
-		Drops brimstone fireballs from the sky occasionally
-		12% increase to all damage
-		All attacks inflict Brimstone Flames
-		Brimstone fire rains down after getting hit
-		Grants immunity to lava, Burning, On Fire!, Brimstone Flames and Searing Lava
+		16% increased critical strike chance
+		Critical strikes explode, causing nearby enemies to ignite with Brimstone Flames
+		Greatly reduces the damage taken by the Brimstone Flames debuff
 		'''
 }
 
