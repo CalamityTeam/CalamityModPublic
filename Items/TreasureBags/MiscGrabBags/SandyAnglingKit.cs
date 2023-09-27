@@ -8,9 +8,10 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
     public class SandyAnglingKit : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.TreasureBags";
+
         public override void SetStaticDefaults()
         {
-                       Item.ResearchUnlockCount = 10;
+            Item.ResearchUnlockCount = 10;
         }
 
         public override void SetDefaults()
