@@ -27,7 +27,8 @@ namespace CalamityMod.Items.Accessories
         public static int ShieldRechargeDelay = CalamityUtils.SecondsToFrames(5);
         public static int TotalShieldRechargeTime = CalamityUtils.SecondsToFrames(4);
         
-        internal const int maxMinionRequirement = 10;
+        public const int maxMinionRequirement = 10;
+        public const int maxPscAnimTime = 120;
 
         public enum ProfanedSoulCrystalState
         {
@@ -37,10 +38,19 @@ namespace CalamityMod.Items.Accessories
             Empowered //psc but no other minions, healer guardian functionality, inherits all other functionality (except vanity) and goes even further beyond, any remaining attack changes are here
         }
 
-        private static ProfanedSoulCrystalState GetPscStateFor(Player player)
+        internal static ProfanedSoulCrystalState GetPscStateFor(Player player, bool ignoreNoBuffs = false)
         {
-            if (!player.Calamity().profanedCrystalBuffs)
+            if (!player.Calamity().profanedCrystalBuffs && !ignoreNoBuffs)
                 return ProfanedSoulCrystalState.Vanity; //vanity if no buffs
+            
+            //vanity check during animation
+            if (ignoreNoBuffs &&
+                (!DownedBossSystem.downedCalamitas || !DownedBossSystem.downedExoMechs ||
+                 (player.maxMinions - player.slotsMinions) < maxMinionRequirement) ||
+                player.Calamity().profanedCrystalForce || !player.HasBuff<ProfanedCrystalBuff>())
+            {
+                return ProfanedSoulCrystalState.Vanity; //failsafe for vanity
+            }
             
             var noMinions = player.slotsMinions == 0;
             var noSentries = !Main.projectile.Any(proj => proj.active && proj.owner == player.whoAmI && proj.sentry);
@@ -188,8 +198,15 @@ namespace CalamityMod.Items.Accessories
 
             modPlayer.pSoulArtifact = true;
             modPlayer.profanedCrystal = true;
+            if (!modPlayer.profanedCrystalPrevious && player.ownedProjectileCounts[ModContent.ProjectileType<PscTransformAnimation>()] == 0)
+            {
+                modPlayer.pSoulShieldDurability = 1;
+                modPlayer.profanedCrystalAnim = maxPscAnimTime;
+                Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<PscTransformAnimation>(), 0, 0f, player.whoAmI);
+            }
+                
 
-            modPlayer.profanedCrystalHide = hideVisual;
+            modPlayer.profanedCrystalHide = hideVisual || modPlayer.profanedCrystalAnim > 0;
             modPlayer.pSoulShieldVisible = !hideVisual;
             
             DetermineTransformationEligibility(player);
@@ -204,7 +221,8 @@ namespace CalamityMod.Items.Accessories
         internal static void DetermineTransformationEligibility(Player player)
         {
             //short circuit immediately if profanedcrystalbuffs has already been set
-            if (!player.Calamity().profanedCrystalBuffs && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= maxMinionRequirement && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())
+            
+            if (!player.Calamity().profanedCrystalBuffs && player.Calamity().profanedCrystalAnim == -1 && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= maxMinionRequirement && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())
             {
                 player.Calamity().profanedCrystalBuffs = true;
                 player.Calamity().pscState = (int)GetPscStateFor(player); //update psc state, default is 0 which is the same as the int value of vanity

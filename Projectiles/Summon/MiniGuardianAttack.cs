@@ -3,7 +3,6 @@ using System.IO;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon.Whips;
 using CalamityMod.NPCs.Providence;
-using Humanizer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -363,6 +362,9 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localNPCHitCooldown = (SpawnedFromPSC ? 6 : 9);
 
             var currentAIState = getAiState;
+
+            if (owner.Calamity().profanedCrystalAnim != -1)
+                currentAIState = MiniOffenseAIState.Vanity;
             
             var newAIState = updateAiState(owner, currentAIState);
 
@@ -374,7 +376,7 @@ namespace CalamityMod.Projectiles.Summon
             // Find minion and charge if possible, make sure vanity minions are not chasing
             NPC potentialTarget = Projectile.Center.MinionHoming(3000f, owner);
 
-            switch (getAiState)
+            switch (currentAIState)
             {
                 case MiniOffenseAIState.Vanity:
                 case MiniOffenseAIState.Psa:
