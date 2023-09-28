@@ -50,7 +50,7 @@ namespace CalamityMod.Items.PermanentBoosters
                 if (modPlayer.dFruit)
                 {
                     string key = "Mods.CalamityMod.Misc.DragonfruitText";
-                    Color messageColor = Color.Cyan;
+                    Color messageColor = Color.SpringGreen;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                     return false;
                 }
