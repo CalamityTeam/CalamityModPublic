@@ -73,7 +73,6 @@ DeepSeaDumbbell3.DisplayName: Deep Sea Dumbbell
 DeepSeaDumbbellWeight.DisplayName: Deep Sea Dumbbell
 DeepWounderProjectile.DisplayName: Deep Wounder Projectile
 DeepWounderWater.DisplayName: Water Droplet
-TwistingThunderProj.DisplayName: Deific Thunderbolt
 DesecratedBubble.DisplayName: Desecrated Bubble
 DesecratedWaterProj.DisplayName: Desecrated Water
 DestructionBolt.DisplayName: Destruction Bolt
@@ -312,6 +311,7 @@ ToxicantTwisterDust.DisplayName: Toxicant Dust
 ToxicantTwisterTwoPointZero.DisplayName: Toxicant Twister
 TurbulanceProjectile.DisplayName: Turbulance
 TurbulanceWindSlash.DisplayName: Wind Slash
+TwistingThunderProj.DisplayName: Twisting Thunder
 UmbraphileBoom.DisplayName: Umbra Blast
 UrchinStingerProj.DisplayName: Urchin Stinger
 ValariBoomerang.DisplayName: Frostcrush Valari
