@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Accessories
                 for (int k = 0; k < totalProjectiles; k++)
                 {
                     Vector2 vector255 = spinningPoint.RotatedBy(radians2 * k);
-                    int proj = Projectile.NewProjectile(player.GetSource_FromAI(), player.Center + Vector2.Normalize(vector255) * 5f, vector255 * (empowered ? 0.99f : 1.15f), type, damage, 1f, Main.myPlayer);
+                    int proj = Projectile.NewProjectile(player.GetSource_FromAI(), player.Center + Vector2.Normalize(vector255) * 5f, vector255 * (empowered ? 0.99f : 1.15f), type, damage, 1f, Main.myPlayer, empowered ? 0f : 1f);
                     if (empowered && proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].extraUpdates += 1;
                 }

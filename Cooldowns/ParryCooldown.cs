@@ -30,13 +30,14 @@ namespace CalamityMod.Cooldowns
                     cooldownColorStart = new Color(181, 136, 177);
                     cooldownColorEnd = new Color(255, 194, 161);
                     break;
-
-                case "flamelickedshell":
+                
+                //readd if spritework for cooldowns gets done
+                /*case "flamelickedshell":
                     skinTexture = "FlameLickedShellParry";
                     outlineColor = new Color(211, 124, 93);
                     cooldownColorStart = Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - (instance?.Completion ?? 0));
                     cooldownColorEnd = Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - (instance?.Completion ?? 0));
-                    break;
+                    break;*/
                 default:
                     skinTexture = "ParryCooldown";
                     outlineColor = Color.White;

@@ -33,6 +33,8 @@ public class FlameLickedBarrage : ModProjectile, ILocalizedModType
 
         public override void AI()
         {
+            if (Projectile.ai[0] == 1f && Projectile.timeLeft > 200)
+                Projectile.timeLeft = 200;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             Projectile.frameCounter++;
