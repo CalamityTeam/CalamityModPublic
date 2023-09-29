@@ -29,7 +29,7 @@ namespace CalamityMod.World
 
             // Add the Vernal Pass as a protected structure.
             Rectangle protectionArea = CalamityUtils.GetSchematicProtectionArea(schematic, placementPoint, anchorType);
-            structures.AddProtectedStructure(protectionArea, 30);
+            CalamityUtils.AddProtectedStructure(protectionArea, 30);
         }
 
         public static void FillVernalPassChests(Chest chest, int Type, bool firstItem)

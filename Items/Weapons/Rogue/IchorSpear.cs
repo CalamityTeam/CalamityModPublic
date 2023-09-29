@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static readonly SoundStyle ThrowSound = new("CalamityMod/Sounds/Item/IchorSpearThrow") { Volume = 0.2f, PitchVariance = 0.4f };
         public override void SetDefaults()
         {
-            Item.width = 52;
+            Item.width = Item.height = 52;
             Item.damage = 132;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 7f;
             Item.UseSound = ThrowSound;
             Item.autoReuse = true;
-            Item.height = 52;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<IchorSpearProj>();

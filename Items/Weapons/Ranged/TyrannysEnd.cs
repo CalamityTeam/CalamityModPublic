@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.damage = 2000;
             Item.knockBack = 9.5f;
             Item.DamageType = DamageClass.Ranged;
-            Item.useTime = 70;
-            Item.useAnimation = 70;
+            Item.useTime = 65;
+            Item.useAnimation = 65;
             Item.shoot = ProjectileID.BulletHighVelocity;
             Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Bullet;

@@ -649,6 +649,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MagicPowerPotion)
                 EditTooltipByNum(0, (line) => line.Text = "10% increased magic damage");
 
+            // Featherfall Potion being stupid broken with Aero Stone
+            if (item.type == ItemID.FeatherfallPotion)
+                EditTooltipByNum(0, (line) => line.Text = "Slows falling speed\n" + "Disables all airborne flight recovery");
+
             // Magic Hat nerf
             if (item.type == ItemID.MagicHat)
                 EditTooltipByNum(0, (line) => line.Text = "5% increased magic damage and critical strike chance");
