@@ -44,7 +44,7 @@ namespace CalamityMod.World
             PlaceSchematic(mapKey, placementPoint, anchorType, ref place, new Action<Chest, int, bool>(FillMechanicChest));
 
             Rectangle protectionArea = CalamityUtils.GetSchematicProtectionArea(schematic, placementPoint, anchorType);
-            structures.AddProtectedStructure(protectionArea, 30);
+            CalamityUtils.AddProtectedStructure(protectionArea, 30);
         }
 
         public static void FillMechanicChest(Chest chest, int Type, bool place)

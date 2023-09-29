@@ -49,7 +49,7 @@ namespace CalamityMod.Items.PermanentBoosters
                 if (modPlayer.eBerry)
                 {
                     string key = "Mods.CalamityMod.Misc.ElderberryText";
-                    Color messageColor = Color.RoyalBlue;
+                    Color messageColor = Color.Turquoise;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                     return false;
                 }

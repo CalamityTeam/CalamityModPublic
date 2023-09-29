@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod
 {
@@ -141,6 +143,19 @@ namespace CalamityMod
             }
 
             return new Rectangle(cornerX, cornerY, width, height);
+        }
+
+        public static void AddProtectedStructure(Rectangle area, int padding = 0)
+        {
+            // Always add to the vanilla protected structures list.
+            GenVars.structures.AddProtectedStructure(area, padding);
+
+            Rectangle paddedArea = new Rectangle(area.X, area.Y, area.Width, area.Height);
+            paddedArea.Inflate(padding, padding);
+
+            // If Fargo's Mutant Mod is loaded, add to their Indestructible Rectangle list, which prevents structures from being trashed by Fargo's terrain tools.
+            Mod fargos = CalamityMod.Instance.fargos;
+            fargos?.Call("AddIndestructibleRectangle", paddedArea);
         }
     }
 
