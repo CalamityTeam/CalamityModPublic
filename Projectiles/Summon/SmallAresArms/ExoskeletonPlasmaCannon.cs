@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 Vector2 dustVel = shootDirection * dustSpeed;
                 dustVel = dustVel.RotatedBy(-0.35f);
                 dustVel = dustVel.RotatedByRandom(2.0f * 0.35f);
-                int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
+                int randomDustType = Main.rand.NextBool() ? 107 : 110;
 
                 Dust plasma = Dust.NewDustDirect(Projectile.TopLeft, Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default, 1.7f);
                 plasma.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 4f;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 Vector2 dustVel = shootDirection * dustSpeed;
                 dustVel = dustVel.RotatedBy(-0.35f);
                 dustVel = dustVel.RotatedByRandom(2.0f * 0.35f);
-                int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
+                int randomDustType = Main.rand.NextBool() ? 107 : 110;
 
                 Dust plasma = Dust.NewDustDirect(Projectile.TopLeft, Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default, 2f);
                 plasma.position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(shootDirection.ToRotation()) * Projectile.width / 5f;

@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Melee
                 dust.noGravity = true;
                 dust.fadeIn = 1f;
                 dust.velocity += player.velocity;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     dust.position += Utils.RandomVector2(Main.rand, -4f, 4f);
                     dust.scale += Main.rand.NextFloat();

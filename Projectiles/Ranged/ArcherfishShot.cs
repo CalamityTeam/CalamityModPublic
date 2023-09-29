@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             // Bubbles
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 Gore bubble = Gore.NewGorePerfect(Projectile.GetSource_FromAI(), Projectile.position, Projectile.velocity * 0.2f + Main.rand.NextVector2Circular(1f, 1f), 411);
                 bubble.timeLeft = 9 + Main.rand.Next(7);

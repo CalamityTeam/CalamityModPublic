@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Dust holyFire = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
                 holyFire.velocity *= 3f;
 
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     holyFire.scale = 0.5f;
                     holyFire.fadeIn = Main.rand.NextFloat(1f, 2f);

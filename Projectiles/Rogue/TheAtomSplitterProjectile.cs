@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Main.myPlayer != Projectile.owner)
                 return;
 
-            Vector2 spawnPosition = target.Center + Vector2.UnitY * Main.rand.NextBool(2).ToDirectionInt() * Main.rand.NextFloat(200f, 270f);
+            Vector2 spawnPosition = target.Center + Vector2.UnitY * Main.rand.NextBool().ToDirectionInt() * Main.rand.NextFloat(200f, 270f);
             spawnPosition.X += Main.rand.NextFloatDirection() * target.width * 0.45f;
             int damage = (int)(Projectile.damage * StealthSplitMultiplier);
             Vector2 shootVelocity = Vector2.UnitY * (target.Center.Y - spawnPosition.Y > 0f).ToDirectionInt() * Main.rand.NextFloat(14f, 16.5f);

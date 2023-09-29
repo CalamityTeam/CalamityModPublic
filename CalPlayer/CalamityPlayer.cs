@@ -1070,6 +1070,8 @@ namespace CalamityMod.CalPlayer
         public bool abyssalDivingSuitPower;
         public bool profanedCrystal;
         public int profanedCrystalStatePrevious;
+        public bool profanedCrystalPrevious;
+        public int profanedCrystalAnim;
         public bool profanedCrystalForce;
         public bool profanedCrystalBuffs;
         public bool profanedCrystalHide;
@@ -2087,6 +2089,7 @@ namespace CalamityMod.CalPlayer
             aquaticHeart = aquaticHeartHide = aquaticHeartForce = aquaticHeartPower = false;
 
             profanedCrystalStatePrevious = pscState;
+            profanedCrystalPrevious = profanedCrystal;
             profanedCrystal = profanedCrystalBuffs = profanedCrystalForce = profanedCrystalHide = false;
             pscState = 0;
             pscLerpColor = Color.White;
@@ -2537,6 +2540,7 @@ namespace CalamityMod.CalPlayer
             blazingCoreSuccessfulParry = 0;
             flameLickedShellParry = 0;
             flameLickedShellEmpoweredParry = false;
+            profanedCrystalAnim = -1;
             #endregion
 
             #region Shields
@@ -3101,7 +3105,7 @@ namespace CalamityMod.CalPlayer
                     for (int i = 0; i < dustPerSegment; ++i)
                     {
                         bool electricity = Main.rand.NextBool(4);
-                        int dustID = electricity ? (Main.rand.NextBool(2) ? 132 : 131) : ModContent.DustType<AdrenDust>();
+                        int dustID = electricity ? (Main.rand.NextBool() ? 132 : 131) : ModContent.DustType<AdrenDust>();
 
                         float interpolant = i + 0.5f;
                         float spreadSpeed = Main.rand.NextFloat(0.5f, maxDustVelSpread);
@@ -3284,7 +3288,7 @@ namespace CalamityMod.CalPlayer
                     Main.dust[idx].velocity *= 2f;
                     Main.dust[idx].scale *= 1.2f;
                 }
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[idx].fadeIn = Main.rand.NextFloat(0.75f, 1f);
                     Main.dust[idx].scale = Main.rand.NextFloat(0.25f, 0.75f);
@@ -3653,7 +3657,6 @@ namespace CalamityMod.CalPlayer
                     (lunicCorpsLegs ? 0.1f : 0f) +
                     (shadowSpeed ? 0.5f : 0f) +
                     (stressPills ? 0.05f : 0f) +
-                    (aeroStone && Player.equippedWings != null && Player.wingTime == 0f ? 0.5f : 0f) +
                     ((abyssalDivingSuit && Player.IsUnderwater()) ? 0.05f : 0f) +
                     (aquaticHeartWaterBuff ? 0.15f : 0f) +
                     ((frostFlare && Player.statLife < (int)(Player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
@@ -4793,7 +4796,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Misc Stuff
-        private static int musicModDisplayDelay = -1;
+        private static int startMessageDisplayDelay = -1;
 
         // Triggers effects that must occur when the player enters the world. This sends a bunch of packets in multiplayer.
         // It also starts the speedrun timer if applicable.
@@ -4807,16 +4810,10 @@ namespace CalamityMod.CalPlayer
             if (CalamityConfig.Instance.SpeedrunTimer)
                 CalamityMod.SpeedrunTimer.Restart();
 
-            if (CalamityConfig.Instance.WikiStatusMessage)
+            // Set a random delay between 12 and 20 seconds. When this delay hits zero, the music mod and wiki reminder messages display
+            if ((CalamityMod.Instance.musicMod is null && CalamityConfig.Instance.MusicModReminderMessage) || CalamityConfig.Instance.WikiStatusMessage)
             {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus1");
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus2");
-            }
-
-            // Set a random delay between 12 and 20 seconds. When this delay hits zero, the music mod reminder message displays
-            if (CalamityMod.Instance.musicMod is null && CalamityConfig.Instance.MusicModReminderMessage)
-            {
-                musicModDisplayDelay = Main.rand.Next(CalamityUtils.SecondsToFrames(12), CalamityUtils.SecondsToFrames(20) + 1);
+                startMessageDisplayDelay = Main.rand.Next(CalamityUtils.SecondsToFrames(12), CalamityUtils.SecondsToFrames(20) + 1);
             }
         }
 
@@ -4857,7 +4854,7 @@ namespace CalamityMod.CalPlayer
         public override void OnConsumeMana(Item item, int manaConsumed)
         {
             CalamityPlayer modPlayer = Player.Calamity();
-            if (Main.rand.NextBool(2) && modPlayer.lifeManaEnchant)
+            if (Main.rand.NextBool() && modPlayer.lifeManaEnchant)
             {
                 if (Main.myPlayer == Player.whoAmI)
                 {

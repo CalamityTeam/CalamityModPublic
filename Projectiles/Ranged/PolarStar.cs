@@ -174,13 +174,13 @@ namespace CalamityMod.Projectiles.Ranged
                     source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
                     Vector2 dustVel = source - Projectile.Center;
 
-                    int i = Dust.NewDust(source + dustVel, 0, 0, Main.rand.NextBool(2) ? dust1 : dust2, dustVel.X * 0.3f, dustVel.Y * 0.3f, 100, default, 2f);
+                    int i = Dust.NewDust(source + dustVel, 0, 0, Main.rand.NextBool() ? dust1 : dust2, dustVel.X * 0.3f, dustVel.Y * 0.3f, 100, default, 2f);
                     Main.dust[i].noGravity = true;
 
-                    int j = Dust.NewDust(source + dustVel, 0, 0, Main.rand.NextBool(2) ? dust1 : dust2, dustVel.X * 0.2f, dustVel.Y * 0.2f, 100, default, 2f);
+                    int j = Dust.NewDust(source + dustVel, 0, 0, Main.rand.NextBool() ? dust1 : dust2, dustVel.X * 0.2f, dustVel.Y * 0.2f, 100, default, 2f);
                     Main.dust[j].noGravity = true;
 
-                    int k = Dust.NewDust(source + dustVel, 0, 0, Main.rand.NextBool(2) ? dust1 : dust2, dustVel.X * 0.1f, dustVel.Y * 0.1f, 100, default, 2f);
+                    int k = Dust.NewDust(source + dustVel, 0, 0, Main.rand.NextBool() ? dust1 : dust2, dustVel.X * 0.1f, dustVel.Y * 0.1f, 100, default, 2f);
                     Main.dust[k].noGravity = true;
                 }
 

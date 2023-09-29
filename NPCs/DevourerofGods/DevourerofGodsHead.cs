@@ -933,7 +933,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[3], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                                         }
 
-                                        shotSpacing_Phase2[3] -= Main.rand.NextBool(2) ? 180 : 200;
+                                        shotSpacing_Phase2[3] -= Main.rand.NextBool() ? 180 : 200;
                                     }
 
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2813,7 +2813,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[num622].scale = 0.5f;
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

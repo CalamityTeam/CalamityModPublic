@@ -62,17 +62,7 @@ namespace CalamityMod.Tiles
             }
         }
 
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
-        {
-            Tile tile = Main.tile[i, j];
-            TileObjectData data = TileObjectData.GetTileData(tile);
-            int topLeftX = i - tile.TileFrameX / 18 % data.Width;
-            int topLeftY = j - tile.TileFrameY / 18 % data.Height;
-            if (WorldGen.IsBelowANonHammeredPlatform(topLeftX, topLeftY))
-            {
-                offsetY -= 8;
-            }
-        }
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => CalamityUtils.PlatformHangOffset(i, j, ref offsetY);
 
         public static int GetBannerNPC(int style)
         {

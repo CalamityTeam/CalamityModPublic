@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 //particles
 
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(15f, 15f), 45, Vector2.UnitY * -7f, Alpha: Main.rand.Next(100) + 120, Scale: Main.rand.NextFloat(1f, 2f));
                     dust.noGravity = true; 
@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y, 0,  Math.Max(18f, fallSpeed));
 
                 //Sharticles
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(15f, 15f), 15, Projectile.velocity * 0.3f, Alpha: Main.rand.Next(100) + 120, Scale: Main.rand.NextFloat(1f, 2f));
                     dust.noGravity = true;

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
@@ -6,16 +7,15 @@ using CalamityMod.Sounds;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using CalamityMod.Items.Weapons.DraedonsArsenal;
-using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.canGhostHeal = false;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = CommonCalamitySounds.ExoDeathSound;
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.hide = true;

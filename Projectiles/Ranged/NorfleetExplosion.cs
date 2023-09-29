@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.75f / 255f, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.01f / 255f);
             Vector2 dustVel = CalamityUtils.RandomVelocity(120f, 36f, 108f, 1f);
-            int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextBool(2) ? 221 : 244, 0f, 0f, 100, default, 2f);
+            int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextBool() ? 221 : 244, 0f, 0f, 100, default, 2f);
             Dust dust = Main.dust[idx];
             dust.noGravity = true;
             dust.position.X = Projectile.Center.X;

@@ -82,14 +82,6 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<AnahitaMask>(), 7);
             itemLoot.Add(ModContent.ItemType<LeviathanMask>(), 7);
             itemLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
-
-            // Fishing
-            itemLoot.Add(ItemID.HotlineFishingHook, 10);
-            itemLoot.Add(ItemID.BottomlessBucket, 10);
-            itemLoot.Add(ItemID.SuperAbsorbantSponge, 10);
-            itemLoot.Add(ItemID.FishingPotion, 5, 5, 8);
-            itemLoot.Add(ItemID.SonarPotion, 5, 5, 8);
-            itemLoot.Add(ItemID.CratePotion, 5, 5, 8);
         }
     }
 }

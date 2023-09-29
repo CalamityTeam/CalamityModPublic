@@ -752,7 +752,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     Vector2 dustSpawnPosition = NPC.Bottom;
                     float horizontalSpawnOffset = bodyWidth * Main.rand.NextFloat(0.42f, 0.5f);
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                         horizontalSpawnOffset *= -1f;
                     dustSpawnPosition.X += horizontalSpawnOffset;
 
@@ -2084,7 +2084,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             }
                         }
 
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             Dust brimstoneMagic = Dust.NewDustPerfect(handPosition, 264);
                             brimstoneMagic.velocity = Vector2.UnitY.RotatedByRandom(0.14f) * Main.rand.NextFloat(-3.5f, -3f) + NPC.velocity;
@@ -2621,7 +2621,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             }
                         }
 
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             Dust brimstoneMagic = Dust.NewDustPerfect(handPosition, 264);
                             brimstoneMagic.velocity = Vector2.UnitY.RotatedByRandom(0.14f) * Main.rand.NextFloat(-3.5f, -3f) + NPC.velocity;
@@ -2965,9 +2965,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     heart.ModNPC<BrimstoneHeart>().ChainEndpoints.Add(endpoint);
                 }
 
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
-                    endpoint.X = heart.Center.X + Main.rand.NextBool(2).ToDirectionInt() * Main.rand.NextFloat(45f, 360f);
+                    endpoint.X = heart.Center.X + Main.rand.NextBool().ToDirectionInt() * Main.rand.NextFloat(45f, 360f);
                     endpoint.X = MathHelper.Clamp(endpoint.X, safeBox.Left, safeBox.Right);
                     heart.ModNPC<BrimstoneHeart>().ChainEndpoints.Add(endpoint);
                 }
@@ -3373,7 +3373,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     int num622 = Dust.NewDust(NPC.position, NPC.width, NPC.height, cirrus ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[num622].scale = 0.5f;
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

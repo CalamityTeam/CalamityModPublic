@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Typeless
 
                     if (tries < 500)
                     {
-                        int npcToSpawn = Main.rand.NextBool(2) ? ModContent.NPCType<WulfrumDrone>() : Main.rand.NextBool() ? ModContent.NPCType<WulfrumHovercraft>() : ModContent.NPCType<WulfrumGyrator>() ;
+                        int npcToSpawn = Main.rand.NextBool() ? ModContent.NPCType<WulfrumDrone>() : Main.rand.NextBool() ? ModContent.NPCType<WulfrumHovercraft>() : ModContent.NPCType<WulfrumGyrator>() ;
                         int index = NPC.NewNPC(Projectile.GetSource_FromAI(), (int)spawnPosition.X, (int)spawnPosition.Y, npcToSpawn, Target:player.whoAmI);
 
                         for (int iy = 0; iy < 16; iy++)

@@ -5,6 +5,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,13 +16,14 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
-            //subject to change to be "cooler"
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 10));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            Item.width = 28;
-            Item.height = 32;
+            Item.width = 50;
+            Item.height = 52;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.accessory = true;
             Item.rare = ModContent.RarityType<DarkBlue>();

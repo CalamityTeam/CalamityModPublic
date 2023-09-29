@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (Projectile.ai[0] == breakThreshold && Main.zenithWorld)
             {
-                Projectile.velocity.X = Main.rand.NextBool(2) ? -tornadoSpeed : tornadoSpeed;
+                Projectile.velocity.X = Main.rand.NextBool() ? -tornadoSpeed : tornadoSpeed;
             }
 
             if (Projectile.timeLeft == 720)

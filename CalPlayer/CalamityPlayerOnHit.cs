@@ -129,23 +129,13 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<WhisperingDeath>(), 120);
                     break;
 
-                case ItemID.FieryGreatsword:
-                case ItemID.MoltenPickaxe:
-                case ItemID.MoltenHamaxe:
-                    target.AddBuff(BuffID.OnFire, 120);
-                    break;
-
-                case ItemID.BladeofGrass:
-                    target.AddBuff(BuffID.Poisoned, 210);
-                    break;
-
                 case ItemID.BeeKeeper:
                     target.AddBuff(BuffID.Poisoned, 240);
                     break;
 
                 case ItemID.IceSickle:
                 case ItemID.Frostbrand:
-                    target.AddBuff(BuffID.Frostburn, 300);
+                    target.AddBuff(BuffID.Frostburn2, 300);
                     break;
 
                 case ItemID.IceBlade:
@@ -162,7 +152,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4))
                     target.AddBuff(BuffID.OnFire3, 360);
-                else if (Main.rand.NextBool(2))
+                else if (Main.rand.NextBool())
                     target.AddBuff(BuffID.OnFire3, 240);
                 else
                     target.AddBuff(BuffID.OnFire3, 120);
@@ -255,21 +245,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.OnFire3, 180);
                     break;
 
-                case ProjectileID.Flamelash:
-                    target.AddBuff(BuffID.OnFire, 300);
-                    break;
-
-                case ProjectileID.BallofFire:
-                    target.AddBuff(BuffID.OnFire, 180);
-                    break;
-
-                case ProjectileID.Cascade:
-                case ProjectileID.Sunfury:
-                case ProjectileID.Flamarang:
-                case ProjectileID.FireArrow:
-                    target.AddBuff(BuffID.OnFire, 120);
-                    break;
-
                 case ProjectileID.GolemFist:
                     target.AddBuff(BuffType<ArmorCrunch>(), 180);
                     break;
@@ -278,21 +253,12 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<WhisperingDeath>(), 60);
                     break;
 
-                case ProjectileID.PoisonedKnife:
-                    target.AddBuff(BuffID.Poisoned, 300);
-                    break;
-
-                case ProjectileID.ThornChakram:
-                    target.AddBuff(BuffID.Poisoned, 210);
-                    break;
-
                 case ProjectileID.Bee:
                 case ProjectileID.GiantBee:
                     target.AddBuff(BuffID.Poisoned, 120);
                     break;
 
                 case ProjectileID.Wasp:
-                    target.AddBuff(BuffID.Poisoned, 120);
                     target.AddBuff(BuffID.Venom, 60);
                     break;
 
@@ -300,34 +266,24 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<Crumbling>(), 300);
                     break;
 
-                case ProjectileID.FrostBlastFriendly:
                 case ProjectileID.NorthPoleWeapon:
                     target.AddBuff(BuffID.Frostburn, 300);
                     break;
 
-                case ProjectileID.FrostBoltStaff:
                 case ProjectileID.IceSickle:
-                case ProjectileID.FrostBoltSword:
-                case ProjectileID.FrostArrow:
+                case ProjectileID.FrostArrow: // Ice Bow
                 case ProjectileID.NorthPoleSpear:
-                case ProjectileID.Amarok:
-                    target.AddBuff(BuffID.Frostburn, 180);
+                    target.AddBuff(BuffID.Frostburn2, 180);
                     break;
 
-                case ProjectileID.Blizzard:
+                case ProjectileID.Blizzard: // Blizzard Staff
                 case ProjectileID.NorthPoleSnowflake:
-                    target.AddBuff(BuffID.Frostburn, 120);
+                    target.AddBuff(BuffID.Frostburn2, 120);
                     break;
 
-                case ProjectileID.IceBolt:
+                case ProjectileID.IceBolt: // Ice Blade
                 case ProjectileID.FrostDaggerfish:
-                case ProjectileID.FrostburnArrow:
                     target.AddBuff(BuffID.Frostburn, 60);
-                    break;
-
-                case ProjectileID.IceBoomerang:
-                    if (Main.rand.NextBool())
-                        target.AddBuff(BuffID.Frostburn, 60);
                     break;
             }
 
@@ -335,7 +291,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4))
                     target.AddBuff(BuffID.OnFire3, 360);
-                else if (Main.rand.NextBool(2))
+                else if (Main.rand.NextBool())
                     target.AddBuff(BuffID.OnFire3, 240);
                 else
                     target.AddBuff(BuffID.OnFire3, 120);
@@ -895,7 +851,7 @@ namespace CalamityMod.CalPlayer
                 for (int dustexplode = 0; dustexplode < 360; dustexplode++)
                 {
                     Vector2 dustd = new Vector2(17f, 17f).RotatedBy(MathHelper.ToRadians(dustexplode));
-                    int d = Dust.NewDust(proj.Center, proj.width, proj.height, Main.rand.NextBool(2) ? DustType<AstralBlue>() : DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 1f);
+                    int d = Dust.NewDust(proj.Center, proj.width, proj.height, Main.rand.NextBool() ? DustType<AstralBlue>() : DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 1f);
                     Main.dust[d].noGravity = true;
                     Main.dust[d].position = proj.Center;
                     Main.dust[d].velocity *= 0.1f;
@@ -907,7 +863,7 @@ namespace CalamityMod.CalPlayer
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         int type = -1;
                         switch (Main.rand.Next(15))
@@ -1096,7 +1052,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
             if (voidOfExtinction)
-                CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
+                //CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
             if (frostFlare)
                 CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn2);
             if (omegaBlueChestplate)
@@ -1216,7 +1172,7 @@ namespace CalamityMod.CalPlayer
 
                 if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
                 {
-                    if (bloodflareThrowing && proj.CountsAsClass<ThrowingDamageClass>() && crit && Main.rand.NextBool(2))
+                    if (bloodflareThrowing && proj.CountsAsClass<ThrowingDamageClass>() && crit && Main.rand.NextBool())
                     {
                         float projHitMult = 0.03f;
                         projHitMult -= proj.numHits * 0.015f;
@@ -1249,7 +1205,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (manaOverloader && otherHealTypes)
                     {
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             float healMult = 0.2f;
                             healMult -= proj.numHits * 0.05f;

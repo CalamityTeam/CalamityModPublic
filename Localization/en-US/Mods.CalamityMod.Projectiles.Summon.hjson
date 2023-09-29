@@ -60,7 +60,6 @@ CinderBlossom.DisplayName: Cinder Blossom
 CloudElementalMinion.DisplayName: Cloudy Waifu
 CnidarianJellyfishOnTheString.DisplayName: Cnidarian
 CnidarianSpark.DisplayName: Cnidarian Spark
-GlacialEmbracePointyThing.DisplayName: Ice Castle Shard
 CorroslimeMinion.DisplayName: Corroslime
 CorruptionSlimeGodMinion.DisplayName: Slime God
 CosmicBlast.DisplayName: Cosmic Blast
@@ -127,6 +126,7 @@ GastricBelcherVomit.DisplayName: Gastric Vomit
 GhostFire.DisplayName: Ghastly Particle
 GhostlyMine.DisplayName: Mine
 GiantIbanRobotOfDoom.DisplayName: Andromeda
+GlacialEmbracePointyThing.DisplayName: Ice Castle Shard
 HallowedStarSummon.DisplayName: Hallowed Star
 HauntedDishes.DisplayName: Haunted Dishes
 HermitCrabMinion.DisplayName: Hermit Crab
@@ -141,6 +141,7 @@ HowlsHeartHowl.DisplayName: Howl
 HowlsHeartTurnipHead.DisplayName: Turnip-Head
 HydrothermicVent.DisplayName: Hydrothermic Vent
 IceClasperMinion.DisplayName: Ice Clasper
+IceClasperSummonProjectile.DisplayName: Ice Shard
 IceSentry.DisplayName: Ice Sentry
 IceSentryFrostBolt.DisplayName: Ball
 IceSentryShard.DisplayName: Frost Shard
@@ -165,6 +166,8 @@ MidnightSunShot.DisplayName: Midnight Shot
 MidnightSunUFO.DisplayName: Midnight Sun UFO
 MiniGuardianAttack.DisplayName: Offensive Guardian
 MiniGuardianDefense.DisplayName: Defensive Guardian
+MiniGuardianFireball.DisplayName: Mini Guardian Fireball
+MiniGuardianFireballSplit.DisplayName: Mini Guardian Fireball Split
 MiniGuardianHealer.DisplayName: Healer Guardian
 MiniGuardianHolyRay.DisplayName: Bab Holy Ray
 MiniGuardianRock.DisplayName: Rocky Road
@@ -178,6 +181,10 @@ MoonFist.DisplayName: Cosmic Fist
 MoonFistTeleportVisual.DisplayName: Light
 MortalityBeam.DisplayName: Beam
 MortalityBolt.DisplayName: Bolt
+MutatedTruffleMinion.DisplayName: Baby Boomer
+MutatedTruffleToothball.DisplayName: Baby Boomer's Toothball
+MutatedTruffleToothballSpike.DisplayName: Baby Boomer's Toothball Spike
+MutatedTruffleVortex.DisplayName: Baby Boomer's Vortex
 OldDukeHeadCorpse.DisplayName: Absolutely Disgusting Shark Puker
 OldDukeSharkVomit.DisplayName: Puke
 PerditionBeacon.DisplayName: Perdition Beacon
@@ -189,11 +196,11 @@ PlagueBeeSmall.DisplayName: Plague Bee
 PlaguebringerMK2.DisplayName: Plaguebringer MK2
 PlaguebringerSummon.DisplayName: Lil' Plaguebringer
 PlaguePrincess.DisplayName: Virili
-PlantationStaffSummon.DisplayName: Mini Plantera
-PlantationStaffThornball.DisplayName: Mini Plantera's Thornball
 PlantationStaffSeed.DisplayName: Mini Plantera's Seed
 PlantationStaffSporeCloud.DisplayName: Mini Plantera's Spores
+PlantationStaffSummon.DisplayName: Mini Plantera
 PlantationStaffTentacle.DisplayName: Mini Plantera's Tentacle
+PlantationStaffThornball.DisplayName: Mini Plantera's Thornball
 PlateProjectile.DisplayName: Plate
 PolypLauncherProjectile.DisplayName: Polyp Chunk
 PolypLauncherSentry.DisplayName: Polyp Launcher
@@ -205,6 +212,7 @@ ProfanedCrystalMeleeSpear.DisplayName: Holy Friendly Spear
 ProfanedCrystalRangedHuges.DisplayName: Holy Bab Boomer
 ProfanedCrystalRangedSmalls.DisplayName: Holy Bab Boomer Orb
 ProfanedCrystalRogueShard.DisplayName: Holy Bab Crystal Shard
+ProfanedCrystalWhip.DisplayName: Profaned Crystal Whip
 ProfanedEnergy.DisplayName: Profaned Energy
 PuffCloud.DisplayName: Puff Cloud
 PuffWarrior.DisplayName: Puff Warrior
@@ -259,6 +267,8 @@ Spikecrag.DisplayName: Spikecrag
 SpikecragSpike.DisplayName: Spikecrag Spike
 SquirrelSquireAcorn.DisplayName: Squirrel Acorn
 SquirrelSquireMinion.DisplayName: Squirrel Squire
+StellarTorusBeam.DisplayName: Stellar Torus Beam
+StellarTorusSummon.DisplayName: Stellar Torus Summon
 StormjawBaby.DisplayName: Stormjaw Baby
 SummonAstralExplosion.DisplayName: Explosion
 SummonBrimstoneExplosion.DisplayName: Explosion
@@ -302,11 +312,6 @@ WulfrumDroid.DisplayName: Wulfrum Droid
 WulfrumEnergyBurst.DisplayName: Wulfrum Bolt
 WulfrumFusionBolt.DisplayName: Fusion Bolt
 YharonMinionFireball.DisplayName: Dragon Fireball
-MutatedTruffleMinion.DisplayName: Baby Boomer
-MutatedTruffleVortex.DisplayName: Baby Boomer's Vortex
-MutatedTruffleToothball.DisplayName: Baby Boomer's Toothball
-MutatedTruffleToothballSpike.DisplayName: Baby Boomer's Toothball Spike
-IceClasperSummonProjectile.DisplayName: Ice Shard
 AtzirisDisfavor.DisplayName: Atziri's Disfavor
 Starforge.DisplayName: Starforge
 Paradoxica.DisplayName: Paradoxica
@@ -316,8 +321,3 @@ WindRipperArrow.DisplayName: Wind Ripper Arrow
 HopeShredder.DisplayName: Hope Shredder
 HopeShredderArrow.DisplayName: Hope Shredder Arrow
 HopeShredderArrowSplit.DisplayName: Hope Shredder Split Arrow
-StellarTorusSummon.DisplayName: Stellar Torus Summon
-StellarTorusBeam.DisplayName: Stellar Torus Beam
-MiniGuardianFireball.DisplayName: Mini Guardian Fireball
-MiniGuardianFireballSplit.DisplayName: Mini Guardian Fireball Split
-ProfanedCrystalWhip.DisplayName: Profaned Crystal Whip

@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (Projectile.timeLeft % 10 == 0)
                 {
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         int spiritDamage = Projectile.damage / 2;
                         Projectile ghost = CalamityUtils.SpawnOrb(Projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);

@@ -46,12 +46,12 @@ namespace CalamityMod.Items.Weapons.Magic
             value2.Normalize();
             value2 *= Item.shootSpeed;
             float num91 = (float)Main.rand.Next(10, 50) * 0.001f;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 num91 *= -1f;
             }
             float num92 = (float)Main.rand.Next(10, 50) * 0.001f;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 num92 *= -1f;
             }

@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int dusty = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.2f);
                 Main.dust[dusty].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[dusty].scale = 0.5f;
                     Main.dust[dusty].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

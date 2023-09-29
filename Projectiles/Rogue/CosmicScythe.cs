@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int shadow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 27, 0f, 0f, 100, default, 2f);
                 Main.dust[shadow].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[shadow].scale = 0.5f;
                     Main.dust[shadow].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

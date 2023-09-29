@@ -3,21 +3,21 @@ using CalamityMod.Items.Potions;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Skies;
+using CalamityMod.Sounds;
 using CalamityMod.UI.VanillaBossBars;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Skies;
-using Terraria.Audio;
-using CalamityMod.Sounds;
-using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
@@ -162,7 +162,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = CommonCalamitySounds.ExoDeathSound;
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.BossBar = ModContent.GetInstance<ExoMechsBossBar>();

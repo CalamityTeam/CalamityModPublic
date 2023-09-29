@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.Perforator
             if (NPC.localAI[1] >= 6f)
             {
                 //Leak projectiles everywhere and start healing
-                int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
+                int type = Main.rand.NextBool() ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
                 int damage = NPC.GetProjectileDamage(type);
                 int spread = Main.rand.Next(-45, 46);
                 Vector2 baseVelocity = Vector2.UnitY * Main.rand.NextFloat(-12.5f, -5f);
@@ -280,7 +280,7 @@ namespace CalamityMod.NPCs.Perforator
                         {
                             int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 170, 0f, 0f, 100, default, 1f);
                             Main.dust[num622].velocity *= 2f;
-                            if (Main.rand.NextBool(2))
+                            if (Main.rand.NextBool())
                             {
                                 Main.dust[num622].scale = 0.25f;
                                 Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -335,7 +335,7 @@ namespace CalamityMod.NPCs.Perforator
                                 float dustVelocityYAdd = Math.Abs(Main.dust[num622].velocity.Y) * 0.5f;
                                 if (Main.dust[num622].velocity.Y < 0f)
                                     Main.dust[num622].velocity.Y = 2f + dustVelocityYAdd;
-                                if (Main.rand.NextBool(2))
+                                if (Main.rand.NextBool())
                                 {
                                     Main.dust[num622].scale = 0.25f;
                                     Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -397,7 +397,7 @@ namespace CalamityMod.NPCs.Perforator
                     {
                         int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 170, 0f, 0f, 100, default, 1f);
                         Main.dust[num622].velocity *= 3f;
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             Main.dust[num622].scale = 0.25f;
                             Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -413,7 +413,7 @@ namespace CalamityMod.NPCs.Perforator
                         Main.dust[num624].velocity *= 2f;
                     }
 
-                    int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
+                    int type = Main.rand.NextBool() ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
                     int damage = NPC.GetProjectileDamage(type);
                     int numProj = death ? 16 : revenge ? 14 : expertMode ? 12 : 10;
                     if (Main.getGoodWorld)
@@ -613,7 +613,7 @@ namespace CalamityMod.NPCs.Perforator
                 {
                     int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[num622].scale = 0.5f;
                         Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

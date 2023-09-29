@@ -1003,7 +1003,7 @@ namespace CalamityMod.NPCs
                         chat = CalamityUtils.GetTextValue("Vanilla.DryadChat.DarksunEclipse");
                     else if (Main.rand.NextBool(5) && Main.LocalPlayer.ZoneGlowshroom)
                     {
-                        if (Main.rand.NextBool(2) && fapsol != -1)
+                        if (Main.rand.NextBool() && fapsol != -1)
                             chat = CalamityUtils.GetText("Vanilla.DryadChat.DrunkPrincessShroom").Format(Main.npc[fapsol].GivenName);
                         else
                             chat = CalamityUtils.GetTextValue("Vanilla.DryadChat.Mushroom");
@@ -1066,7 +1066,7 @@ namespace CalamityMod.NPCs
                         chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Crimson");
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneSnow)
                     {
-                        if (Main.rand.NextBool(2) && permadong != -1)
+                        if (Main.rand.NextBool() && permadong != -1)
                             chat = CalamityUtils.GetText("Vanilla.PainterChat.Archmage").Format(Main.npc[permadong].GivenName);
                         else
                             chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Tundra");
@@ -1292,9 +1292,6 @@ namespace CalamityMod.NPCs
                 .Add(ItemID.ManaPotion, potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc)
                 .Add(ItemID.Flare, hasFlareGunUpgrade)
                 .Add(ItemID.BlueFlare, hasFlareGunUpgrade)
-                .Add(ItemID.ApprenticeBait, Condition.DownedEyeOfCthulhu)
-                .Add(ItemID.JourneymanBait, Condition.DownedEowOrBoc)
-                .Add(ItemID.MasterBait, Condition.DownedSkeletron)
                 .AddWithCustomValue(ItemID.AngelStatue, Item.buyPrice(gold: 5), Condition.NpcIsPresent(NPCType<THIEF>()))
                 .AddWithCustomValue(ItemID.Burger, Item.buyPrice(gold: 5), Condition.HappyEnough, Condition.DownedSkeletron)
                 .AddWithCustomValue(ItemID.Hotdog, Item.buyPrice(gold: 5), Condition.HappyEnough, Condition.DownedSkeletron)

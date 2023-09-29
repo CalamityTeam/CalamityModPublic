@@ -1,18 +1,18 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Sounds;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = CommonCalamitySounds.ExoDeathSound;
             NPC.netAlways = true;
             NPC.dontCountMe = true;
             NPC.chaseable = false;

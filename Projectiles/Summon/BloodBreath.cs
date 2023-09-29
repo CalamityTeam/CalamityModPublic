@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Summon
                         break;
                 }
                 Time++;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 5, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100);
                     if (Main.rand.NextBool(3))

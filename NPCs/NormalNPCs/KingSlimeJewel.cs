@@ -135,7 +135,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int ruby = Dust.NewDust(NPC.Center, NPC.width, NPC.height, 90, dustVel.X, dustVel.Y, 100, default, 2f);
                     Main.dust[ruby].velocity *= 1.5f;
                     Main.dust[ruby].noGravity = true;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[ruby].scale = 0.5f;
                         Main.dust[ruby].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 90, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[num622].scale = 0.5f;
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

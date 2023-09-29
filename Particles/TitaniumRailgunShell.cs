@@ -69,7 +69,7 @@ namespace CalamityMod.Particles
             if (Opacity <= 0.01f)
                 GeneralParticleHandler.RemoveParticle(this);
 
-            if (LifetimeCompletion < 0.2f && Main.rand.NextBool(2))
+            if (LifetimeCompletion < 0.2f && Main.rand.NextBool())
             {
                 Vector2 dustPosition = Position + Main.rand.NextVector2Circular(8f, 8f);
 

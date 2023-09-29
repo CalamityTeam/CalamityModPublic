@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.ai[1]++;
             for (int j = 0; j < 3; j++)
             {
-                int dustType = Main.rand.NextBool(2) ? 68 : 67;
+                int dustType = Main.rand.NextBool() ? 68 : 67;
                 if (Main.rand.NextBool(4))
                 {
                     dustType = 80;
@@ -53,12 +53,12 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 else
                 {
-                    int direct = Main.rand.NextBool(2) ? 1 : -1;
+                    int direct = Main.rand.NextBool() ? 1 : -1;
                     Vector2 dir1 = new Vector2(0f, 10f) * direct;
                     int dust1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, dir1.X, dir1.Y, 50, default, 1.3f);
                     Main.dust[dust1].noGravity = true;
                     Main.dust[dust1].velocity = dir1;
-                    int direct2 = Main.rand.NextBool(2) ? 1 : -1;
+                    int direct2 = Main.rand.NextBool() ? 1 : -1;
                     Vector2 dir2 = new Vector2(10f, 0f) * direct2;
                     int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, dir2.X, dir2.Y, 50, default, 1.3f);
                     Main.dust[dust2].noGravity = true;
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    int dtype1 = Main.rand.NextBool(2) ? 68 : 67;
+                    int dtype1 = Main.rand.NextBool() ? 68 : 67;
                     if (Main.rand.NextBool(4))
                     {
                         dtype1 = 80;
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int i = 0; i < 270; i++)
                 {
-                    int dtype2 = Main.rand.NextBool(2) ? 68 : 67;
+                    int dtype2 = Main.rand.NextBool() ? 68 : 67;
                     if (Main.rand.NextBool(4))
                     {
                         dtype2 = 80;
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.Damage();
                 for (int i = 0; i < 180; i++)
                 {
-                    int dtype3 = Main.rand.NextBool(2) ? 68 : 67;
+                    int dtype3 = Main.rand.NextBool() ? 68 : 67;
                     if (Main.rand.NextBool(4))
                     {
                         dtype3 = 80;

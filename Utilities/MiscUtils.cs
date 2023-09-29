@@ -225,7 +225,7 @@ namespace CalamityMod
                 Main.rainTime += Main.rand.Next(0, num2 * 5);
             }
             float num3 = 1f;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 num3 += 0.05f;
             }

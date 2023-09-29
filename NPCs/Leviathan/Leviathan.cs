@@ -748,7 +748,7 @@ namespace CalamityMod.NPCs.Leviathan
                 {
                     int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[num622].scale = 0.5f;
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -829,14 +829,6 @@ namespace CalamityMod.NPCs.Leviathan
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<LeviathanAmbergris>()));
                 normalOnly.Add(ModContent.ItemType<PearlofEnthrallment>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<TheCommunity>(), 10);
-
-                // Fishing
-                normalOnly.Add(ItemID.HotlineFishingHook, 10);
-                normalOnly.Add(ItemID.BottomlessBucket, 10);
-                normalOnly.Add(ItemID.SuperAbsorbantSponge, 10);
-                normalOnly.Add(ItemID.FishingPotion, 5, 5, 8);
-                normalOnly.Add(ItemID.SonarPotion, 5, 5, 8);
-                normalOnly.Add(ItemID.CratePotion, 5, 5, 8);
             }
 
             // Relic

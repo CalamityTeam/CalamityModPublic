@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 if (NPC.ai[0] == 0f)
                 {
-                    NPC.ai[0] = Main.rand.NextBool(2).ToDirectionInt();
+                    NPC.ai[0] = Main.rand.NextBool().ToDirectionInt();
                     NPC.netUpdate = true;
                 }
                 if (NPC.collideX)

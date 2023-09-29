@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class RealityRuptureStealth : ModProjectile, ILocalizedModType
     {
-        public static readonly SoundStyle Hitsound = new("CalamityMod/Sounds/Item/RealityRuptureStealthHit") { Volume = 0.7f, PitchVariance = 0.3f};
+        public static readonly SoundStyle Hitsound = new("CalamityMod/Sounds/Item/RealityRuptureStealthHit") { Volume = 1.2f, PitchVariance = 0.3f};
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/RealityRupture";
         public bool posthit = false;
@@ -43,7 +43,11 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.velocity *= 1.003f;
             Projectile.scale = 1.3f;
 
-            if (Main.rand.NextBool(2))
+            Vector3 DustLight = new Vector3(0.209f, 0.140f, 0.202f);
+            Lighting.AddLight(Projectile.Center, DustLight * 8);
+            //Lighting.AddLight(Projectile.Center + Projectile.velocity * 0.6f, 0.6f, 0.2f, 0.5f);
+
+            if (Time % 2 == 0)
             {
                 Vector2 SparkVelocity1 = Projectile.velocity.RotatedBy(-2.5f, default) * 0.1f - Projectile.velocity / 2f;
                 Vector2 SparkPosition1 = Projectile.velocity.RotatedBy(-0.8, default);
@@ -51,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
                 GeneralParticleHandler.SpawnParticle(spark);
 
             }
-            if (Main.rand.NextBool(2))
+            if (Time % 2 == 0)
             {
                 Vector2 SparkVelocity2 = Projectile.velocity.RotatedBy(2.5f, default) * 0.1f - Projectile.velocity / 2f;
                 Vector2 SparkPosition2 = Projectile.velocity.RotatedBy(0.8, default);
@@ -65,13 +69,17 @@ namespace CalamityMod.Projectiles.Rogue
         {
             SoundEngine.PlaySound(Hitsound, Projectile.position);
             posthit = true;
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 6; i++)
             {
                 Vector2 vel = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(20f));
-                float Scale = Main.rand.NextFloat(0.8f, 3.8f);
-                CrackParticle crack = new CrackParticle(Projectile.Center, vel, Color.Plum, new Vector2(1f, 1f), 0, Scale, Scale - 0.5f, Main.rand.Next(18, 23));
+                float Scale = Main.rand.NextFloat(1.8f, 2.3f);
+                CrackParticle crack = new CrackParticle(Projectile.Center, vel, Color.Orchid, new Vector2(1f, 1f), 0, Scale, Scale - 0.5f, Main.rand.Next(18, 23));
                 GeneralParticleHandler.SpawnParticle(crack);
             }
+            Vector2 vel2 = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(3f));
+            float Scale2 = Main.rand.NextFloat(2.9f, 3.2f);
+            CrackParticle crack2 = new CrackParticle(Projectile.Center, vel2, Color.Plum, new Vector2(1f, 1f), 0, Scale2, Scale2 - 0.5f, Main.rand.Next(27, 32));
+            GeneralParticleHandler.SpawnParticle(crack2);
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<SpearofDestinyStealthExplosion>(), Projectile.damage / 2, Projectile.knockBack * 2, Projectile.owner, 0f);
             Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 8;
         }

@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                     type = ModContent.ProjectileType<CatastropheSummon>();
                 int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 if (Main.projectile.IndexInRange(p))

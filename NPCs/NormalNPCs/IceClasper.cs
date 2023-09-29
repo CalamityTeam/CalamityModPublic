@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             // Randomly chooses to go clockwise or anti-clockwise around the player.
             if (!checkedRotationDir)
             {
-                rotationDir = (Main.rand.NextBool(2)).ToDirectionInt();
+                rotationDir = (Main.rand.NextBool()).ToDirectionInt();
                 checkedRotationDir = true;
                 NPC.netUpdate = true;
             }

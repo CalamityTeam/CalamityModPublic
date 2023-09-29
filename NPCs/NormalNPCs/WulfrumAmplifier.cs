@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
                         if (tries < 500)
                         {
-                            int npcToSpawn = Main.rand.NextBool(2) ? ModContent.NPCType<WulfrumDrone>() : ModContent.NPCType<WulfrumHovercraft>();
+                            int npcToSpawn = Main.rand.NextBool() ? ModContent.NPCType<WulfrumDrone>() : ModContent.NPCType<WulfrumHovercraft>();
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnPosition.X, (int)spawnPosition.Y, npcToSpawn);
                         }
                     }

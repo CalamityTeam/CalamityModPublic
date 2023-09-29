@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0f / 255f);
             Projectile.rotation -= (MathHelper.ToRadians(90) * Projectile.direction);
             Projectile.spriteDirection = Projectile.direction;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int num137 = Dust.NewDust(Projectile.position, 1, 1, 30, 0f, 0f, 0, default, 0.5f);
                 Main.dust[num137].velocity *= 0f;
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 int paper = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 30, 0f, 0f, 100, default, 2f);
                 Main.dust[paper].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[paper].scale = 0.5f;
                     Main.dust[paper].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

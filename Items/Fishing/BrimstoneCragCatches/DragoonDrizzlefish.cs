@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         {
             velocity = velocity.RotatedByRandom(MathHelper.ToRadians(10f));
             int shotType = ModContent.ProjectileType<DrizzlefishFireball>();
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 shotType = ModContent.ProjectileType<DrizzlefishFire>();
             }

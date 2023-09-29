@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Typeless
                 int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 234, 0f, 0f, 155, default, 0.8f);
                 Main.dust[idx].velocity *= 0.3f;
                 Main.dust[idx].position = Projectile.Center + offset * (float)Projectile.width / 2f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[idx].fadeIn = 1.4f;
                 }
@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Typeless
                     Main.dust[idx].velocity *= 0.3f;
                     Main.dust[idx].noGravity = true;
                     Main.dust[idx].position = Projectile.Center + offset * (float)Projectile.width / 2f;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[idx].fadeIn = 1.4f;
                     }

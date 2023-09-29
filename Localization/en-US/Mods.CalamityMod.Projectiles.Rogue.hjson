@@ -73,7 +73,6 @@ DeepSeaDumbbell3.DisplayName: Deep Sea Dumbbell
 DeepSeaDumbbellWeight.DisplayName: Deep Sea Dumbbell
 DeepWounderProjectile.DisplayName: Deep Wounder Projectile
 DeepWounderWater.DisplayName: Water Droplet
-TwistingThunderProj.DisplayName: Deific Thunderbolt
 DesecratedBubble.DisplayName: Desecrated Bubble
 DesecratedWaterProj.DisplayName: Desecrated Water
 DestructionBolt.DisplayName: Destruction Bolt
@@ -163,6 +162,7 @@ JawsShockwave.DisplayName: Reaper Tooth Shockwave
 KelvinCatalystBoomerang.DisplayName: Kelvin Catalyst
 Knife.DisplayName: Knife
 KylieBoomerang.DisplayName: Kylie
+LanceofDestiny.DisplayName: Holy Lance
 LeadTomahawkProj.DisplayName: Lead Tomahawk
 LeonidCometBig.DisplayName: Leonid Comet
 LeonidCometSmall.DisplayName: Leonid Comet
@@ -172,7 +172,6 @@ LeviathanTooth.DisplayName: Leviathan Tooth
 LionfishProj.DisplayName: Lionfish
 LostSoulFriendly.DisplayName: Lost Soul
 LuminousShard.DisplayName: Stardust Shard
-RealityRuptureLance.DisplayName: Lance of Reality
 LunarKunaiProj.DisplayName: Lunar Kunai
 LuxorsGiftRogue.DisplayName: Luxor's Rogue
 MalachiteBolt.DisplayName: Malachite
@@ -209,6 +208,7 @@ PenumbraBomb.DisplayName: Penumbra Bomb
 PenumbraSoul.DisplayName: Penumbra Soul
 PhantasmalRuinProj.DisplayName: Phantasmal Ruin
 PhantasmalSoul.DisplayName: Phantasmal Soul
+PhantasmalSoulBlue.DisplayName: Blue Spirit
 PlaguedFuelPackCloud.DisplayName: Plagued Cloud
 PlaguenadeBee.DisplayName: Plague Bee
 PlaguenadeProj.DisplayName: Plaguenade
@@ -223,6 +223,9 @@ ProfanedPartisanSpear.DisplayName: Profaned Spear
 RadiantExplosion.DisplayName: Radiant Explosion
 RadiantStar2.DisplayName: Radiant Star
 RadiantStarKnife.DisplayName: Radiant Star
+RealityRuptureLance.DisplayName: Lance of Reality
+RealityRuptureMini.DisplayName: Reality Shard
+RealityRuptureStealth.DisplayName: Ruptured Reality
 ReaperProjectile.DisplayName: The Old Reaper
 RefractionRotorProjectile.DisplayName: Prism Shuriken
 RegulusEnergy.DisplayName: Regulus Energy
@@ -260,13 +263,15 @@ ShockTeslaAura.DisplayName: Electrifying Aura
 ShroomerangSpore.DisplayName: Infested Spore
 SkyBomberGas.DisplayName: Irradiated Cloud
 SkyfinNuke.DisplayName: Skyfin Nuke
-SkyStabberProj.DisplayName: SkyStabberProj
+SkyStabberProj.DisplayName: Sky Stabber
 SlickCaneProjectile.DisplayName: Slick Cane
 SludgeSplotchProj1.DisplayName: Sludge Splotch
 SludgeSplotchProj2.DisplayName: Sludge Splotch
 SnapClamProj.DisplayName: Snap Clam
 SnapClamStealth.DisplayName: Snap Clam
 SpearofDestinyProjectile.DisplayName: Destiny Spear
+SpearofDestinyStealth.DisplayName: Empowered Holy Lance
+SpearofDestinyStealthExplosion.DisplayName: Strong Burst
 SpearofPaleolithProj.DisplayName: Paleolith Spear
 SpentFuelContainerProjectile.DisplayName: Spent Fuel Container
 SphereBladed.DisplayName: Bladed Sphere
@@ -312,6 +317,7 @@ ToxicantTwisterDust.DisplayName: Toxicant Dust
 ToxicantTwisterTwoPointZero.DisplayName: Toxicant Twister
 TurbulanceProjectile.DisplayName: Turbulance
 TurbulanceWindSlash.DisplayName: Wind Slash
+TwistingThunderProj.DisplayName: Twisting Thunder
 UmbraphileBoom.DisplayName: Umbra Blast
 UrchinStingerProj.DisplayName: Urchin Stinger
 ValariBoomerang.DisplayName: Frostcrush Valari
@@ -319,15 +325,9 @@ Valaricicle.DisplayName: Valaricicle
 Valaricicle2.DisplayName: Valaricicle
 ValedictionBoomerang.DisplayName: Valediction
 VeneratedKnife.DisplayName: Venerated Knife
+WaveSkipperProjectile.DisplayName: Wave Skipper
 WebBallBol.DisplayName: Web Ball
 WrathwingCinder.DisplayName: Wrathwing Eruption
 WrathwingFireball.DisplayName: Wrathwing Fireball
 WrathwingSpear.DisplayName: Wrathwing
 WulfrumKnifeProj.DisplayName: Wulfrum Knife
-WaveSkipperProjectile.DisplayName: Wave Skipper
-LanceofDestiny.DisplayName: Holy Lance
-SpearofDestinyStealth.DisplayName: Empowered Holy Lance
-SpearofDestinyStealthExplosion.DisplayName: Strong Burst
-RealityRuptureMini.DisplayName: Reality Shard
-RealityRuptureStealth.DisplayName: Ruptured Reality
-PhantasmalSoulBlue.DisplayName: Blue Spirit

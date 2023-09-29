@@ -39,7 +39,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 iceDashDust.scale *= Main.rand.NextFloat(1f, 1.2f);
                 iceDashDust.shader = GameShaders.Armor.GetSecondaryShader(player.cShield, player);
                 iceDashDust.noGravity = true;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                     iceDashDust.fadeIn = 0.5f;
             }
 

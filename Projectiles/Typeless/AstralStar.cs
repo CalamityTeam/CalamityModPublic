@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 int starryDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.2f);
                 Main.dust[starryDust].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[starryDust].scale = 0.5f;
                     Main.dust[starryDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

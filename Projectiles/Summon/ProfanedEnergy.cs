@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
                     int holy = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
                     Main.dust[holy].velocity *= 3f;
                     Main.dust[holy].position = Projectile.Center;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool())
                     {
                         Main.dust[holy].scale = 0.5f;
                         Main.dust[holy].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

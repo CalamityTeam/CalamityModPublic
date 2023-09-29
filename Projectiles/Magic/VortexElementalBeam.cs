@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 dustSpawnPosition = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i + 1], j / 8f);
                     dustSpawnPosition += Projectile.Size * 0.5f;
 
-                    Dust electricity = Dust.NewDustPerfect(dustSpawnPosition, Main.rand.NextBool(2) ? 226 : 229);
+                    Dust electricity = Dust.NewDustPerfect(dustSpawnPosition, Main.rand.NextBool() ? 226 : 229);
                     electricity.velocity = Vector2.Zero;
                     electricity.scale = Main.rand.NextFloat(1.1f, 1.18f);
                     electricity.noGravity = true;

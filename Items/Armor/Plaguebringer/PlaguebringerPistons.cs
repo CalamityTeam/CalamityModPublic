@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
                     //On grass, grow flowers
                     if (Main.tile[x, y + 1].TileType == TileID.Grass)
                     {
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             tile.Get<TileWallWireStateData>().HasTile = true;
                             tile.TileType = TileID.Plants;
@@ -90,7 +90,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
                     //On hallowed grass, grow hallowed flowers
                     else if (Main.tile[x, y + 1].TileType == TileID.HallowedGrass)
                     {
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool())
                         {
                             tile.Get<TileWallWireStateData>().HasTile = true;
                             tile.TileType = TileID.HallowedPlants;

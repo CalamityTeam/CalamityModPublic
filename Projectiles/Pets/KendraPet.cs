@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Pets
                             idleTimer = 0;
                         }
                         idleBarkTimer++;
-                        if (idleBarkTimer > 1080 && Main.rand.NextBool(2))
+                        if (idleBarkTimer > 1080 && Main.rand.NextBool())
                         {
                             SoundEngine.PlaySound(BarkSound, Projectile.position);
                             chosenIdle = 3;

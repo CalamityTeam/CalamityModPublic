@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 int index = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, 0f, 0f, 100, default, 1.5f);
                 Main.dust[index].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Main.dust[index].scale = 0.5f;
                     Main.dust[index].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

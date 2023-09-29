@@ -131,7 +131,7 @@ namespace CalamityMod.World
                 {
                     bool _ = true;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillCorruptionShrineChest));
-                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X * 2, (int)schematicSize.Y), 4);
+                    CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X * 2, (int)schematicSize.Y), 4);
                     break;
                 }
                 //FUCK YOU FUCK YOU FUCK YOU
@@ -224,7 +224,7 @@ namespace CalamityMod.World
                 {
                     bool _ = true;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillCrimsonShrineChest));
-                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
                 //FUCK YOU TOO
@@ -305,7 +305,7 @@ namespace CalamityMod.World
                 {
                     bool _ = true;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillDesertShrineChest));
-                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
 
@@ -328,7 +328,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(Main.zenithWorld ? 1 : 10, (Main.zenithWorld ? 2 : 12) + 1)),
-                new ChestItem((Main.rand.NextBool(2) && Main.zenithWorld) ? ItemID.GasTrap : ItemID.Granite, Main.zenithWorld ? 1 : WorldGen.genRand.Next(7,15+1)),
+                new ChestItem((Main.rand.NextBool() && Main.zenithWorld) ? ItemID.GasTrap : ItemID.Granite, Main.zenithWorld ? 1 : WorldGen.genRand.Next(7,15+1)),
             };
 
             for (int i = 0; i < contents.Count; i++)
@@ -376,7 +376,7 @@ namespace CalamityMod.World
                 {
                     bool _ = true;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillGraniteShrineChest));
-                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
 
@@ -410,7 +410,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.Eggnog, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(ModContent.ItemType<DeliciousMeat>(), WorldGen.genRand.Next(200, 349 + 1)),
-                new ChestItem(Main.rand.NextBool(2) ? ItemID.GasTrap : ItemID.Marshmallow, 1)
+                new ChestItem(Main.rand.NextBool() ? ItemID.GasTrap : ItemID.Marshmallow, 1)
             };
             }
 
@@ -459,7 +459,7 @@ namespace CalamityMod.World
                 {
                     bool _ = true;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillIceShrineChest));
-                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
 
@@ -481,7 +481,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(Main.zenithWorld ? 1 : 10, (Main.zenithWorld ? 2 : 12) + 1)),
-                new ChestItem((Main.rand.NextBool(2) && Main.zenithWorld) ? ItemID.GasTrap : ItemID.Marble, Main.zenithWorld ? 1 : WorldGen.genRand.Next(7,15+1)),
+                new ChestItem((Main.rand.NextBool() && Main.zenithWorld) ? ItemID.GasTrap : ItemID.Marble, Main.zenithWorld ? 1 : WorldGen.genRand.Next(7,15+1)),
             };
 
             for (int i = 0; i < contents.Count; i++)
@@ -538,7 +538,7 @@ namespace CalamityMod.World
                 {
                     bool _ = true;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillMarbleShrineChest));
-                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
 
@@ -644,7 +644,7 @@ namespace CalamityMod.World
                 {
                     bool _ = true;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillMushroomShrineChest));
-                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
             } while (tries <= 20000);
@@ -763,7 +763,7 @@ namespace CalamityMod.World
                             {
                                 bool _ = true;
                                 PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillSurfaceShrineChest));
-                                structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                                CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
 
                                 // Generate entrance tunnel
                                 ShapeData data = new ShapeData();
@@ -777,7 +777,7 @@ namespace CalamityMod.World
                     {
                         bool _ = true;
                         PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillSurfaceShrineChest));
-                        structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                        CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                         break;
                     }
 

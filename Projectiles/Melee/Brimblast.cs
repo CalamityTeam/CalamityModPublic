@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee
             dust.scale += (float)Main.rand.Next(50) * 0.01f;
             dust.noGravity = true;
             dust.velocity.Y -= 4f;
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
                 int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
                 Dust dust2 = Main.dust[num200];

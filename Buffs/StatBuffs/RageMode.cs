@@ -54,10 +54,10 @@ namespace CalamityMod.Buffs.StatBuffs
                 modPlayer.ragePulseTimer++;
                 int dustID = modPlayer.heartOfDarkness ? 240 : 114;
 
-                if (modPlayer.shatteredCommunity && Main.rand.NextBool(2))
+                if (modPlayer.shatteredCommunity && Main.rand.NextBool())
                     dustID = 112; //special dust visual for Shattered Community
 
-                if (modPlayer.heartOfDarkness && !modPlayer.shatteredCommunity && Main.rand.NextBool(2))
+                if (modPlayer.heartOfDarkness && !modPlayer.shatteredCommunity && Main.rand.NextBool())
                     dustID = 90; //special dust visual for Heart of Darkness
 
                 if (modPlayer.ragePulseTimer == 60)
