@@ -4095,12 +4095,22 @@ namespace CalamityMod.CalPlayer
             if (Player.whoAmI != Main.myPlayer || Main.netMode == NetmodeID.Server)
                 return;
 
-            if (musicModDisplayDelay >= 0)
+            if (startMessageDisplayDelay >= 0)
             {
-                if (musicModDisplayDelay == 0)
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.MusicModReminder");
+                if (startMessageDisplayDelay == 0)
+                {
+                    if (CalamityConfig.Instance.WikiStatusMessage)
+                    {
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus1");
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus2");
+                    }
+                    if (CalamityMod.Instance.musicMod is null && CalamityConfig.Instance.MusicModReminderMessage)
+                    {
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.MusicModReminder");
+                    }
+                }
 
-                --musicModDisplayDelay;
+                --startMessageDisplayDelay;
             }
         }
         #endregion
