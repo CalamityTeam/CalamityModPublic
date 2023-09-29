@@ -31,7 +31,7 @@ namespace CalamityMod.Cooldowns
                     cooldownColorEnd = new Color(255, 194, 161);
                     break;
                 
-                //readd if spritework for cooldowns gets done
+                //readd if spritework for the cooldown is done at a later point
                 /*case "flamelickedshell":
                     skinTexture = "FlameLickedShellParry";
                     outlineColor = new Color(211, 124, 93);
