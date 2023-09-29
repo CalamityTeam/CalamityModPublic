@@ -65,13 +65,18 @@ namespace CalamityMod.Items.Accessories
                 {
                     CalamityPlayer localModPlayer = Main.LocalPlayer.Calamity();
                     DetermineTransformationEligibility(localModPlayer.Player);
-                    var psc = localModPlayer.profanedCrystalBuffs;
-                    scale += ((ProfanedSoulCrystalState)localModPlayer.pscState) == ProfanedSoulCrystalState.Empowered ? 0.05f : psc ? 0.025f : 0f;
+                    var psState = (int)GetPscStateFor(localModPlayer.Player, localModPlayer.profanedCrystalAnim >= 0);
+                    var psc = localModPlayer.profanedCrystalBuffs || (localModPlayer.profanedCrystalAnim >= 0 && psState >= (int)ProfanedSoulCrystalState.Buffs);
+                    
+                    scale += ((ProfanedSoulCrystalState)psState) == ProfanedSoulCrystalState.Empowered ? 0.05f : psc ? 0.025f : 0f;
+                    if (localModPlayer.profanedCrystalAnim >= 0)
+                        scale = MathHelper.Lerp(0f, scale, ((float)maxPscAnimTime - (float)localModPlayer.profanedCrystalAnim) / (float)maxPscAnimTime); //i don't like casting this many times, i'm not a fucking wizard
+                    
                     float visualShieldStrength = 1f;
                     if (!isVanityOnly)
                     {
                         float max = psc ? ProfanedSoulCrystal.ShieldDurabilityMax : ShieldDurabilityMax;
-                        float shieldDurabilityRatio = localModPlayer.pSoulShieldDurability / (float)ShieldDurabilityMax;
+                        float shieldDurabilityRatio = localModPlayer.pSoulShieldDurability / max;
                         visualShieldStrength = MathF.Pow(shieldDurabilityRatio, 0.5f);
                     }
 
@@ -95,8 +100,9 @@ namespace CalamityMod.Items.Accessories
                     shieldEffect.Parameters["shieldEdgeBlendStrenght"].SetValue(4f);
 
                     // Profaned Soul shields are not team specific
-                    Color shieldColor = GetColorForPsc(localModPlayer.pscState, Main.dayTime);
-                    if (modPlayer.pscState >= (int)(ProfanedSoulCrystalState.Buffs))
+                    
+                    Color shieldColor = GetColorForPsc(psState, Main.dayTime);
+                    if (psState >= (int)(ProfanedSoulCrystalState.Buffs))
                     {
                         bool tester = contributorNames.Any(name => name.Equals(localModPlayer.Player.name));
                         shieldColor = tester ? CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25) * 0.8f, 6f) :

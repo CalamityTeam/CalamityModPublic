@@ -1067,6 +1067,8 @@ namespace CalamityMod.CalPlayer
         public bool abyssalDivingSuitPower;
         public bool profanedCrystal;
         public int profanedCrystalStatePrevious;
+        public bool profanedCrystalPrevious;
+        public int profanedCrystalAnim;
         public bool profanedCrystalForce;
         public bool profanedCrystalBuffs;
         public bool profanedCrystalHide;
@@ -2084,6 +2086,7 @@ namespace CalamityMod.CalPlayer
             aquaticHeart = aquaticHeartHide = aquaticHeartForce = aquaticHeartPower = false;
 
             profanedCrystalStatePrevious = pscState;
+            profanedCrystalPrevious = profanedCrystal;
             profanedCrystal = profanedCrystalBuffs = profanedCrystalForce = profanedCrystalHide = false;
             pscState = 0;
             pscLerpColor = Color.White;
@@ -2532,6 +2535,7 @@ namespace CalamityMod.CalPlayer
             blazingCoreParry = 0;
             blazingCoreEmpoweredParry = false;
             blazingCoreSuccessfulParry = 0;
+            profanedCrystalAnim = -1;
             #endregion
 
             #region Shields
