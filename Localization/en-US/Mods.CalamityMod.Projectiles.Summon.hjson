@@ -60,7 +60,6 @@ CinderBlossom.DisplayName: Cinder Blossom
 CloudElementalMinion.DisplayName: Cloudy Waifu
 CnidarianJellyfishOnTheString.DisplayName: Cnidarian
 CnidarianSpark.DisplayName: Cnidarian Spark
-GlacialEmbracePointyThing.DisplayName: Ice Castle Shard
 CorroslimeMinion.DisplayName: Corroslime
 CorruptionSlimeGodMinion.DisplayName: Slime God
 CosmicBlast.DisplayName: Cosmic Blast
@@ -127,6 +126,7 @@ GastricBelcherVomit.DisplayName: Gastric Vomit
 GhostFire.DisplayName: Ghastly Particle
 GhostlyMine.DisplayName: Mine
 GiantIbanRobotOfDoom.DisplayName: Andromeda
+GlacialEmbracePointyThing.DisplayName: Ice Castle Shard
 HallowedStarSummon.DisplayName: Hallowed Star
 HauntedDishes.DisplayName: Haunted Dishes
 HermitCrabMinion.DisplayName: Hermit Crab
@@ -141,6 +141,7 @@ HowlsHeartHowl.DisplayName: Howl
 HowlsHeartTurnipHead.DisplayName: Turnip-Head
 HydrothermicVent.DisplayName: Hydrothermic Vent
 IceClasperMinion.DisplayName: Ice Clasper
+IceClasperSummonProjectile.DisplayName: Ice Shard
 IceSentry.DisplayName: Ice Sentry
 IceSentryFrostBolt.DisplayName: Ball
 IceSentryShard.DisplayName: Frost Shard
@@ -178,6 +179,10 @@ MoonFist.DisplayName: Cosmic Fist
 MoonFistTeleportVisual.DisplayName: Light
 MortalityBeam.DisplayName: Beam
 MortalityBolt.DisplayName: Bolt
+MutatedTruffleMinion.DisplayName: Baby Boomer
+MutatedTruffleToothball.DisplayName: Baby Boomer's Toothball
+MutatedTruffleToothballSpike.DisplayName: Baby Boomer's Toothball Spike
+MutatedTruffleVortex.DisplayName: Baby Boomer's Vortex
 OldDukeHeadCorpse.DisplayName: Absolutely Disgusting Shark Puker
 OldDukeSharkVomit.DisplayName: Puke
 PerditionBeacon.DisplayName: Perdition Beacon
@@ -302,11 +307,6 @@ WulfrumDroid.DisplayName: Wulfrum Droid
 WulfrumEnergyBurst.DisplayName: Wulfrum Bolt
 WulfrumFusionBolt.DisplayName: Fusion Bolt
 YharonMinionFireball.DisplayName: Dragon Fireball
-MutatedTruffleMinion.DisplayName: Baby Boomer
-MutatedTruffleVortex.DisplayName: Baby Boomer's Vortex
-MutatedTruffleToothball.DisplayName: Baby Boomer's Toothball
-MutatedTruffleToothballSpike.DisplayName: Baby Boomer's Toothball Spike
-IceClasperSummonProjectile.DisplayName: Ice Shard
 AtzirisDisfavor.DisplayName: Atziri's Disfavor
 Starforge.DisplayName: Starforge
 Paradoxica.DisplayName: Paradoxica
