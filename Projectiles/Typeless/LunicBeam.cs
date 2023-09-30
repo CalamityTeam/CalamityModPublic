@@ -208,7 +208,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 480);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int num47 = Utils.SelectRandom(Main.rand, new int[]
             {

@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.ExtraJumps;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Armor.Statigel
             player.setBonus = this.GetLocalizedValue("SetBonus") + "\n" + CalamityUtils.GetTextValueFromModItem<StatigelArmor>("CommonSetBonus");
             var modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
-            modPlayer.statigelJump = true;
+            player.GetJumpState<StatigelJump>().Enable();
             modPlayer.rogueStealthMax += 0.9f;
             modPlayer.wearingRogueArmor = true;
             Player.jumpHeight += 5;

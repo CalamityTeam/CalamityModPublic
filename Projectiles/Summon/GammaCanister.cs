@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = Utils.Clamp(Projectile.alpha - 22, 0, 255);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer != Projectile.owner)
                 return;

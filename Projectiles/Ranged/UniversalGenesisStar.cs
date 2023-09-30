@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.position += Projectile.Size;
             Projectile.width = 50;

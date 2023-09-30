@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Healing
             return new Color(Main.DiscoR, 203, 103, Projectile.alpha);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int num407 = 0; num407 < 5; num407++)
             {

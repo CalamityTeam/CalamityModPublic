@@ -624,7 +624,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Owner.fullRotation = 0f;
             Owner.Calamity().LungingDown = false;

@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Enemy
             Projectile.tileCollide = Projectile.ai[0] > 70f;
             Projectile.rotation += Math.Sign(Projectile.velocity.X) * 0.08f;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Utils.PoofOfSmoke(Projectile.Center);
         }

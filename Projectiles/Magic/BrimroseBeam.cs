@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.idStaticNPCHitCooldown = 10;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int numProj = 2;
             float rotation = MathHelper.ToRadians(Projectile.ai[0] >= 3f ? 20 : 10);

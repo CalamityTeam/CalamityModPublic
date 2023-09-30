@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 192;

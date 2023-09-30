@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool CanHitPvp(Player target) => Projectile.alpha < 128;
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int num47 = Utils.SelectRandom(Main.rand, new int[]
             {

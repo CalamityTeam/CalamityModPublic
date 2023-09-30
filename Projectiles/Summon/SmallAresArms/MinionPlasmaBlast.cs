@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 Projectile.velocity = Projectile.SuperhomeTowardsTarget(potentialTarget, 23f, 10f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.Center);
 

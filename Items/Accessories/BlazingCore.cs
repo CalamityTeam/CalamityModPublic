@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.BlazingCoreHotKey);
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.AccessoryParryHotKey);
         public override void SetDefaults()
         {
             Item.width = 42;

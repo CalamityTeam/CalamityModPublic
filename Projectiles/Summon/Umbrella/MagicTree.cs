@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			}
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 			SoundEngine.PlaySound(TreeCrashSound with { Volume = 0.5f }, Projectile.Center);
 

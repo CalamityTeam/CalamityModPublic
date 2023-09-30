@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Melee
             base.OnHitNPC(target, hit, damageDone);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.numHits == 0)
             {

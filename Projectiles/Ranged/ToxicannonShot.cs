@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<Irradiated>(), 240);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ExpandHitboxBy(180);
             Projectile.usesLocalNPCImmunity = true;

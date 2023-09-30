@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(BuffID.OnFire, 240);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int num105 = 0; num105 < 20; num105++)
             {

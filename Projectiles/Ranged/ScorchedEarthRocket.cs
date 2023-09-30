@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.dust[d].velocity *= 0.05f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
             {

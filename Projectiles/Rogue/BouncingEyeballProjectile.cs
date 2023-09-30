@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.velocity.Y += 0.15f;
             Projectile.rotation += MathHelper.ToRadians(5f) * Sign(Projectile.velocity.X);
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCHit19 with { Volume = SoundID.NPCHit19.Volume * 0.7f}, Projectile.Center);
             int dustCount = Main.rand.Next(8, 16);

@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int num3;
             for (int num611 = 0; num611 < 10; num611 = num3 + 1)

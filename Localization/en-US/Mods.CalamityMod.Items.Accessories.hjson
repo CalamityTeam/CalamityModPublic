@@ -70,8 +70,8 @@ AeroStone: {
 	DisplayName: Aero Stone
 	Tooltip:
 		'''
-		Provides an additional 45 flight time 
-		Movement speed and acceleration are greatly increased when you are out of flight time
+		Provides an additional 35 flight time
+		You slowly recover flight time while in the air if you are not flying or gliding
 		'One of the ancient relics'
 		'''
 }
@@ -260,7 +260,7 @@ BlazingCore: {
 	Tooltip:
 		'''
 		The searing core of the Profaned Goddess
-		Pressing [KEY] will activate Elysian Guard, encasing you in luminous profaned crystal
+		Pressing [KEY] will activate a parry, encasing you in luminous profaned crystal
 		Being hit shortly after encasement will shatter the crystal
 		Upon shattering, waves of holy stars spiral outwards and the damage you would have taken is reduced to 1
 		After shattering, this damage reduction effect goes on cooldown
@@ -720,8 +720,12 @@ FlameLickedShell: {
 	DisplayName: Flame-Licked Shell
 	Tooltip:
 		'''
-		Could it be?
-		OUT OF ORDER 2
+		Pressing [KEY] will activate a parry, encasing you in rocks
+		Being hit shortly after encasement will implode the rocks
+		Upon implosion, a spread of brimstone hellfire is launched outwards and you receive 90% DR for that hit
+		After imploding, this damage reduction effect goes on cooldown
+		If another encasement is shattered whilst on cooldown, a weaker spread of brimstone hellfire is launched
+		The damage of a hit is not reduced whilst on cooldown
 		'''
 }
 
@@ -1524,6 +1528,15 @@ SilencingSheath: {
 	Tooltip: +10 maximum stealth
 }
 
+SlagsplitterPauldron: {
+	DisplayName: Slagsplitter Pauldron
+	Tooltip:
+		'''
+		You gain 5% damage reduction while dashing
+		Your dashes are empowered by fire, shredding enemies near you with violent explosions
+		'''
+}
+
 SpectralVeil: {
 	DisplayName: Spectral Veil
 	Tooltip:
@@ -1866,42 +1879,6 @@ VampiricTalisman: {
 		'''
 }
 
-AbandonedWulfrumHelmet: {
-	DisplayName: Abandoned Wulfrum Helmet
-	Tooltip:
-		'''
-		A worn and rusty helmet resembling older models of wulfrum armor
-		Transforms the holder into a wulfrum robot
-		Can also be worn in the helmet slot as a regular helm
-		[c/83B87E:'This rather flimsy armor was commonly worn by scavengers and looters.]
-		[c/83B87E:Its versatility and common nature led it to be used as currency in trades.']
-		'''
-}
-
-HapuFruit: {
-	DisplayName: Ha-pu Fruit
-	Tooltip: "'A fruit that calms your nerves (may have unintended side effects)'"
-}
-
-RedBow: {
-	DisplayName: Red Bow
-	Tooltip: "'Pelusa's favorite bow'"
-}
-
-OracleHeadphones: {
-	DisplayName: Oracle Headphones
-	Tooltip: "'Hey game's over!'"
-}
-
-Popo: {
-	DisplayName: Magic Scarf and Hat
-	Tooltip:
-		'''
-		Transforms the holder into a snowman
-		'Don't let the demons steal your nose'
-		'''
-}
-
 VeneratedLocket: {
 	DisplayName: Venerated Locket
 	Tooltip:
@@ -1931,11 +1908,9 @@ VoidofExtinction: {
 	DisplayName: Void of Extinction
 	Tooltip:
 		'''
-		Drops brimstone fireballs from the sky occasionally
-		12% increase to all damage
-		All attacks inflict Brimstone Flames
-		Brimstone fire rains down after getting hit
-		Grants immunity to lava, Burning, On Fire!, Brimstone Flames and Searing Lava
+		16% increased critical strike chance
+		Critical strikes explode, causing nearby enemies to ignite with Brimstone Flames
+		Greatly reduces the damage taken by the Brimstone Flames debuff
 		'''
 }
 
@@ -2016,11 +1991,39 @@ YharimsInsignia: {
 		'''
 }
 
-SlagsplitterPauldron: {
-	DisplayName: Slagsplitter Pauldron
+// Vanity Accessories
+AbandonedWulfrumHelmet: {
+	DisplayName: Abandoned Wulfrum Helmet
 	Tooltip:
 		'''
-		You gain 5% damage reduction while dashing
-		Your dashes are empowered by fire, shredding enemies near you with violent explosions
+		A worn and rusty helmet resembling older models of wulfrum armor
+		Transforms the holder into a wulfrum robot
+		Can also be worn in the helmet slot as a regular helm
+		[c/83B87E:'This rather flimsy armor was commonly worn by scavengers and looters.]
+		[c/83B87E:Its versatility and common nature led it to be used as currency in trades.']
 		'''
+}
+
+HapuFruit: {
+	DisplayName: Ha-pu Fruit
+	Tooltip: "'A fruit that calms your nerves (may have unintended side effects)'"
+}
+
+OracleHeadphones: {
+	DisplayName: Oracle Headphones
+	Tooltip: "'Hey game's over!'"
+}
+
+Popo: {
+	DisplayName: Magic Scarf and Hat
+	Tooltip:
+		'''
+		Transforms the holder into a snowman
+		'Don't let the demons steal your nose'
+		'''
+}
+
+RedBow: {
+	DisplayName: Red Bow
+	Tooltip: "'Pelusa's favorite bow'"
 }

@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(BuffID.Daybreak, 180);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.owner != Main.myPlayer)
                 return;

@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int proj;
             SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);

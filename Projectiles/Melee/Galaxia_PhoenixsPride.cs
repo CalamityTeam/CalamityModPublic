@@ -270,7 +270,7 @@ namespace CalamityMod.Projectiles.Melee
                 modifiers.SourceDamage *= FourSeasonsGalaxia.PhoenixAttunement_BaseDamageReduction + (FourSeasonsGalaxia.PhoenixAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (smear != null)
                 smear.Kill();

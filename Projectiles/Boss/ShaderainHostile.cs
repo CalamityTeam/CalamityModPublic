@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 50;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int num310 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + (float)Projectile.height - 2f), 2, 2, 14, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num310];

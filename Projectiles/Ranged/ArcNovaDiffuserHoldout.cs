@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
                         int charge2Damage = Projectile.damage * 20;
                         float charge2KB = Projectile.knockBack * 3f;
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<NovaChargeShot>(), charge2Damage, charge2KB, Projectile.owner);
-                        Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 5;
+                        Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 6.5f;
                         for (int i = 0; i <= 20; i++)
                         {
                             Dust dust = Dust.NewDustPerfect(tipPosition, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.2f, 1.2f), 0, default, Main.rand.NextFloat(1.5f, 2.3f));
@@ -274,7 +274,7 @@ namespace CalamityMod.Projectiles.Ranged
             Owner.itemAnimation = 2;
             Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (SoundEngine.TryGetActiveSound(NovaChargeStartSlot, out var NovaCharge))
                 NovaCharge.Stop();

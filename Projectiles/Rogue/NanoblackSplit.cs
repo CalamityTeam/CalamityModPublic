@@ -189,7 +189,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         // Spawns a tiny bit of dust when the energy blade vanishes.
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SpawnDust();
         }

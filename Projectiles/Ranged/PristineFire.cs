@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int dustType = Utils.SelectRandom(Main.rand, new int[]
             {

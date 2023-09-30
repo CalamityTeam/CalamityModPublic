@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Grenade Launcher + Lunar Flare sounds for maximum meaty explosion
             SoundEngine.PlaySound(SoundID.Item62, Projectile.Center);

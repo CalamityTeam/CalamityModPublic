@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
+using CalamityMod.ExtraJumps;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Armor.Statigel
             var modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             modPlayer.slimeGod = true;
-            modPlayer.statigelJump = true;
+            player.GetJumpState<StatigelJump>().Enable();
             Player.jumpHeight += 5;
             player.jumpSpeedBoost += 0.6f;
             player.GetDamage<SummonDamageClass>() += 0.18f;

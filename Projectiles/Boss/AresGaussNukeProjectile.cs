@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 45f, targetHitbox);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Nuke explosion sound.
             SoundEngine.PlaySound(AresGaussNuke.NukeExplosionSound, Projectile.Center);

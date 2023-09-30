@@ -135,9 +135,6 @@ namespace CalamityMod.CalPlayer
             // This is used to increase horizontal velocity based on the player's movement speed stat.
             moveSpeedBonus = Player.moveSpeed - 1f;
 
-            // Double Jumps
-            DoubleJumps();
-
             // Potions (Quick Buff && Potion Sickness)
             HandlePotions();
 
@@ -1426,6 +1423,10 @@ namespace CalamityMod.CalPlayer
                 else if (blazingCoreParry > 0)
                     BlazingCore.HandleParryCountdown(Player);
             }
+            else if (flameLickedShell && flameLickedShellParry > 0)
+            {
+                FlameLickedShell.HandleParryCountdown(Player);
+            }
             
             // Silver Armor "Medkit" effect
             if (silverMedkitTimer > 0)
@@ -2499,9 +2500,12 @@ namespace CalamityMod.CalPlayer
             if (baroclaw)
                 Player.GetDamage<GenericDamageClass>() += 0.1f;
 
-            if (aeroStone)
+            if (aeroStone && !Player.slowFall)
             {
-                Player.moveSpeed += (Player.equippedWings != null && Player.wingTime == 0f ? 0.25f : 0f);
+                if (!Player.controlJump && Player.miscCounter % 5 == 0)
+                {
+                    Player.wingTime += 1;
+                }
             }
 
             if (gShell)
@@ -4059,45 +4063,28 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Double Jumps
-        private void DoubleJumps()
-        {
-            if (CalamityUtils.CountHookProj() > 0 || Player.sliding || Player.autoJump && Player.justJumped)
-            {
-                jumpAgainSulfur = true;
-                jumpAgainStatigel = true;
-                return;
-            }
-
-            bool mountCheck = true;
-            if (Player.mount != null && Player.mount.Active)
-                mountCheck = Player.mount.BlockExtraJumps;
-            bool carpetCheck = true;
-            if (Player.carpet)
-                carpetCheck = Player.carpetTime <= 0 && Player.canCarpet;
-            bool wingCheck = Player.wingTime == Player.wingTimeMax || Player.autoJump;
-            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(Player.Bottom.X / 16f), (int)(Player.Bottom.Y / 16f));
-
-            if (Player.position.Y == Player.oldPosition.Y && wingCheck && mountCheck && carpetCheck && tileBelow.IsTileSolidGround())
-            {
-                jumpAgainSulfur = true;
-                jumpAgainStatigel = true;
-            }
-        }
-        #endregion
-
         #region Text Chat Messages
         private void HandleTextChatMessages()
         {
             if (Player.whoAmI != Main.myPlayer || Main.netMode == NetmodeID.Server)
                 return;
 
-            if (musicModDisplayDelay >= 0)
+            if (startMessageDisplayDelay >= 0)
             {
-                if (musicModDisplayDelay == 0)
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.MusicModReminder");
+                if (startMessageDisplayDelay == 0)
+                {
+                    if (CalamityConfig.Instance.WikiStatusMessage)
+                    {
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus1");
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus2");
+                    }
+                    if (CalamityMod.Instance.musicMod is null && CalamityConfig.Instance.MusicModReminderMessage)
+                    {
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.MusicModReminder");
+                    }
+                }
 
-                --musicModDisplayDelay;
+                --startMessageDisplayDelay;
             }
         }
         #endregion

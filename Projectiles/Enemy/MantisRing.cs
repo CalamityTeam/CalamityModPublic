@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Enemy
             Projectile.penetrate = 8;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
 

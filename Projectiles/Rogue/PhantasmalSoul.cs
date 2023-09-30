@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Rogue
             return new Color(255, 255, 255, 100);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int dustCount = 36;
             int dustID = 173;

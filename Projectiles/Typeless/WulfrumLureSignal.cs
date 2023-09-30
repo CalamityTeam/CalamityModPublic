@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(WulfrumTreasurePinger.RechargeBeepSound, Projectile.Center);
         }

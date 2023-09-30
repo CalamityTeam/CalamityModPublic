@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Enemy
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath14, Projectile.position);
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);

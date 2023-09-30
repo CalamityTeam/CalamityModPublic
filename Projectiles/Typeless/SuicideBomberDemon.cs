@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.frameCounter++;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.DD2_KoboldExplosion, Projectile.Center);
             for (int i = 0; i < 40; i++)

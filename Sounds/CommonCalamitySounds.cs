@@ -6,6 +6,8 @@ namespace CalamityMod.Sounds
 	{
         public static readonly SoundStyle ExoHitSound = new("CalamityMod/Sounds/NPCHit/ExoHit", 4) { Volume = 0.4f };
 
+        public static readonly SoundStyle ExoDeathSound = new("CalamityMod/Sounds/NPCKilled/ExoDeath") { MaxInstances = 1 };
+
         public static readonly SoundStyle OtherwordlyHitSound = new("CalamityMod/Sounds/NPCHit/OtherworldlyHit");
 
         public static readonly SoundStyle AstralNPCHitSound = new("CalamityMod/Sounds/NPCHit/AstralEnemyHit", 3);

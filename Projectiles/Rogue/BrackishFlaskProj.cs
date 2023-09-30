@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ignoreWater = true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
             int randomDust = Utils.SelectRandom(Main.rand, new int[]

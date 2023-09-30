@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Typeless
             Time++;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             BossRushEvent.SyncStartTimer(BossRushEvent.StartEffectTotalTime);
             for (int doom = 0; doom < Main.maxNPCs; doom++)

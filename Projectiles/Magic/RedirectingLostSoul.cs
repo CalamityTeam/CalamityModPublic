@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Play a wraith death sound at max intensity and a dungeon spirit hit sound otherwise.
             SoundEngine.PlaySound(BurstIntensity >= 1f ? SoundID.NPCDeath52 : SoundID.NPCHit35, Projectile.Center);

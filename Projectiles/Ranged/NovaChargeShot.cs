@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(BuffID.CursedInferno, 900);
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i <= 19; i++)
             {

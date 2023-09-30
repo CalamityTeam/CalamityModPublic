@@ -38,9 +38,6 @@ namespace CalamityMod.Projectiles.Ranged
 
             //Bypass defense
             modifiers.DefenseEffectiveness *= 0f;
-
-            //Bypass DR
-            modifiers.FinalDamage /= 1f - target.Calamity().DR;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -67,12 +64,12 @@ namespace CalamityMod.Projectiles.Ranged
             if (crit)
             {
                 var source = Projectile.GetSource_FromThis();
-                int bulletCount = 5;
+                int bulletCount = 6;
                 for (int x = 0; x < bulletCount; x++)
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.14), Projectile.knockBack, Projectile.owner);
+                        CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.125), Projectile.knockBack, Projectile.owner);
                     }
                 }
             }

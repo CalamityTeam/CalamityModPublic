@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Boss
             Main.dust[acid].velocity *= 0f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath12, Projectile.Center);
 

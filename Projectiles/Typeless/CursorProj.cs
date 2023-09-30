@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<Vaporfied>(), 120);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Vector2 velocity = Projectile.velocity;
             velocity.Normalize();

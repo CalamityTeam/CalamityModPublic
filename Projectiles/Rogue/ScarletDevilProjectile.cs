@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Rogue
             return new Color(250, 250, 250);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item122, Projectile.position);
         }

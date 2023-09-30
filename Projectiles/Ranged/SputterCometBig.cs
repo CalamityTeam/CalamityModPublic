@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
             if (Projectile.owner == Main.myPlayer)

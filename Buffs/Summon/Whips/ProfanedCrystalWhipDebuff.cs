@@ -1,4 +1,4 @@
-﻿using CalamityMod.NPCs;
+﻿using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,24 +11,26 @@ namespace CalamityMod.Buffs.Summon.Whips
 
         public override void SetStaticDefaults()
         {
-            BuffID.Sets.IsAnNPCWhipDebuff[Type] = true;
+            BuffID.Sets.IsATagBuff[Type] = true;
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
         }
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            // var whipBuffs = new int[]
-            // {
-            //     BuffID.BlandWhipEnemyDebuff, BuffID.FlameWhipEnemyDebuff, BuffID.BoneWhipNPCDebuff,
-            //     BuffID.ScytheWhipEnemyDebuff, BuffID.CoolWhipNPCDebuff, BuffID.MaceWhipNPCDebuff,
-            //     BuffID.RainbowWhipNPCDebuff, BuffID.SwordWhipNPCDebuff, BuffID.ThornWhipNPCDebuff
-            // };
+            var whipBuffs = new int[]
+            {
+                BuffID.BlandWhipEnemyDebuff, BuffID.FlameWhipEnemyDebuff, BuffID.BoneWhipNPCDebuff,
+                BuffID.ScytheWhipEnemyDebuff, BuffID.CoolWhipNPCDebuff, BuffID.MaceWhipNPCDebuff,
+                BuffID.RainbowWhipNPCDebuff, BuffID.SwordWhipNPCDebuff, BuffID.ThornWhipNPCDebuff
+            };
             
             //kill whip stacking for psc purposes
+            // 29SEP2023: Ozzatron: this won't kill stacking with other mod whips. need a generalized system for this
             for (int buff = 0; buff < NPC.maxBuffs; buff++)
             {
-                if(npc.buffTime[buff] > 0 && BuffID.Sets.IsAnNPCWhipDebuff[npc.buffType[buff]] && npc.buffType[buff] != Type)
+                int buffID = npc.buffType[buff];
+                if(npc.buffTime[buff] > 0 && whipBuffs.Contains(buffID) && npc.buffType[buff] != Type)
                     npc.RequestBuffRemoval(npc.buffType[buff]);
             }
         }

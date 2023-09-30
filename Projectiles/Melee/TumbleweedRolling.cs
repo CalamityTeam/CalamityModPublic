@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
             target.immune[Projectile.owner] = 5;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath15, Projectile.position);
             for (int num621 = 0; num621 < 20; num621++)

@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Rogue
             OnHitEffect(target.Center, target.width);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
             for (int d = 0; d < 2; d++)

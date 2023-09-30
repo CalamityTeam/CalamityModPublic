@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             rotate += 10;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(PlasmaGrenade.ExplosionSound, Projectile.position);
             if (Projectile.Calamity().stealthStrike)

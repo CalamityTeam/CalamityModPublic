@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? CanDamage() => (State == AIState.Seeking) ? null : false;
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 40);

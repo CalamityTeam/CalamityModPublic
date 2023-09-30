@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation += Projectile.velocity.X * 0.1f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ExpandHitboxBy(128);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);

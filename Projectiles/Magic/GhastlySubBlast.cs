@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ai[0] = 60f;
             for (int num114 = 0; num114 < 10; num114++)

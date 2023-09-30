@@ -1,8 +1,9 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using System.Collections.Generic;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
-using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
@@ -21,6 +22,7 @@ using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
@@ -31,11 +33,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -43,49 +41,110 @@ namespace CalamityMod
 {
     public static partial class NPCStats
     {
-        #region Boss Stats Container Struct
         internal partial struct EnemyStats
         {
-            public static SortedDictionary<int, Tuple<bool, int[]>> DebuffImmunities;
+            public static SortedDictionary<int, Tuple<GeneralImmunityStatus, int[]>> DebuffImmunities;
         };
-        #endregion
+
+        internal enum GeneralImmunityStatus : int
+        {
+            None = 0,
+            ImmuneToRegularBuffs = 1,
+            ImmuneToAllBuffs = 2, // This case is rather extreme and it is unlikely Calamity will ever use it.
+        };
 
         #region Stat Retrieval Methods
-        public static void SetNPCDebuffImmunities(this NPC npc)
+        // PORTING APOCRYPHA: 29SEP2023: Ozzatron: yeah okay this WHOLE SYSTEM has to go. NOW.
+        public static void SetDebuffImmunities(this NPC npc)
         {
             // Safety check: If for some reason the debuff array is not initialized yet, return and do nothing.
-            // If the npc is not in the dictionary, return and do nothing.
-            // Also, can I just say that I hate Sorted Dictionaries and Tuples and want to make something explode? -Ben
-            // I mean you can but sorted dicts and dicts in general are pre great -Amber
-            bool exists = EnemyStats.DebuffImmunities.TryGetValue(npc.type, out var stupidTupleThing);
-            if (npc.ModNPC is null || !exists)
+            if (npc is null || EnemyStats.DebuffImmunities is null)
                 return;
 
-            // If the npc is immune to everything, make it immune to everything, except whips
-            if (stupidTupleThing.Item1)
+            //
+            // PART 1: General Immunity Status and applying all data contained in EnemyStats.DebuffImmunities
+            //
+            
+            // Also, can I just say that I hate Sorted Dictionaries and Tuples and want to make something explode? -Ben
+            // I mean you can but sorted dicts and dicts in general are pre great -Amber
+            // Neither of you are free of sin. In porting, we are all brothers in damnation. -Ozzatron
+            bool hasEntry = EnemyStats.DebuffImmunities.TryGetValue(npc.type, out var buffSetTuple);
+
+            if (hasEntry)
             {
-                for (int k = 0; k < npc.buffImmune.Length; k++)
+                // Apply the NPC's General Immunity Status first.
+                // General Immunity Status is used to make an NPC "immune to everything" by default.
+                GeneralImmunityStatus gis = buffSetTuple.Item1;
+                if (gis == GeneralImmunityStatus.ImmuneToRegularBuffs)
+                    NPCID.Sets.ImmuneToRegularBuffs[npc.type] = true;
+                else if (gis == GeneralImmunityStatus.ImmuneToAllBuffs)
+                    NPCID.Sets.ImmuneToAllBuffs[npc.type] = true;
+
+                // From here on out, all listed buff IDs are treated differently depending on what the General Immunity Status was.
+                // If it was None, then the listed buffs are buffs that the NPC should be immune to.
+                // If it was anything else, then the listed buffs are buffs that the NPC should be STILL VULNERABLE to (despite their General Immunity Status).
+                bool providingExceptions = gis != GeneralImmunityStatus.None;
+                for (int i = 0; i < buffSetTuple.Item2.Length; ++i)
                 {
-                    if (!BuffID.Sets.IsAnNPCWhipDebuff[k])
-                        npc.buffImmune[k] = true;
+                    int buffID = buffSetTuple.Item2[i];
+                    NPCID.Sets.SpecificDebuffImmunity[npc.type][buffID] = !providingExceptions;
                 }
-                NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData { ImmuneToAllBuffsThatAreNotWhips = true };
-                NPCID.Sets.DebuffImmunitySets[npc.type] = debuffData;
             }
 
-            // Then set debuff vulnerabilities, or immunities if not immune to everything
-            for (int i = 0; i < stupidTupleThing.Item2.Length; ++i)
-                npc.buffImmune[stupidTupleThing.Item2[i]] = !stupidTupleThing.Item1;
 
-            // Declare the immunity sets in 1.4's new registry.
-            if (!NPCID.Sets.DebuffImmunitySets.ContainsKey(npc.type) && !stupidTupleThing.Item1)
+            //
+            // PART 2: Specific other cases that can't be neatly fit into the database
+            //
+
+            // All bosses and several enemies are automatically immune to Pearl Aura.
+            if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
+                NPCID.Sets.SpecificDebuffImmunity[npc.type][ModContent.BuffType<PearlAura>()] = true;
+
+            // Make all Cal NPCs immune to confused unless otherwise specified
+            // Extra note: Clams are not in this list as they initially immune to Confused, but are no longer immune once aggro'd. This is set in their AI().
+            bool cal = npc.ModNPC != null && npc.ModNPC.Mod.Name.Equals(ModContent.GetInstance<CalamityMod>().Name);
+            if (!CalamityLists.confusionEnemyList.Contains(npc.type) && cal)
+                NPCID.Sets.SpecificDebuffImmunity[npc.type][BuffID.Confused] = true;
+
+            // Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
+            bool isConsideredSpecialTarget = npc.type == NPCID.SkeletronHead || npc.type == NPCID.DD2EterniaCrystal;
+            bool isTownNPC = npc.townNPC || NPCID.Sets.ActsLikeTownNPC[npc.type];
+            bool applyRegularBuffImmunitySpecialCases = isConsideredSpecialTarget || isTownNPC;
+            if (applyRegularBuffImmunitySpecialCases)
             {
-                NPCID.Sets.DebuffImmunitySets[npc.type] = new NPCDebuffImmunityData()
+                NPCID.Sets.ImmuneToRegularBuffs[npc.type] = true;
+
+                // Town NPCs are kept vulnerable to cosmetic debuffs that are meant to affect them.
+                if (isTownNPC)
                 {
-                    SpecificallyImmuneTo = stupidTupleThing.Item2
-                };
+                    NPCID.Sets.SpecificDebuffImmunity[npc.type][BuffID.Wet] = false;
+                    NPCID.Sets.SpecificDebuffImmunity[npc.type][BuffID.Slimed] = false;
+                    NPCID.Sets.SpecificDebuffImmunity[npc.type][BuffID.Lovestruck] = false;
+                    NPCID.Sets.SpecificDebuffImmunity[npc.type][BuffID.Stinky] = false;
+                    NPCID.Sets.SpecificDebuffImmunity[npc.type][BuffID.GelBalloonBuff] = false;
+
+                    // Additionally, "real" Town NPCs which transform in Shimmer are kept vulnerable to Shimmering.
+                    if (npc.townNPC && NPCID.Sets.ShimmerTownTransform[npc.type])
+                        NPCID.Sets.SpecificDebuffImmunity[npc.type][BuffID.Shimmer] = false;
+                }
             }
+
+            // Extra Notes:
+            // Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
+            // The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
         }
+        #endregion
+
+        #region Standard Enemy Immunity Sets
+        private static readonly int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
+        private static readonly int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, BuffID.Frostburn2, ModContent.BuffType<GlacialState>() };
+        private static readonly int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
+        private static readonly int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
+        private static readonly int[] abyssEnemyImmunities = new int[2] { ModContent.BuffType<CrushDepth>(), ModContent.BuffType<RiptideDebuff>() };
+        private static readonly int[] cragEnemyImmunities = new int[3] { BuffID.OnFire, BuffID.OnFire3, ModContent.BuffType<BrimstoneFlames>() };
+        private static readonly int[] astralEnemyImmunities = new int[2] { BuffID.Poisoned, ModContent.BuffType<AstralInfectionDebuff>() };
+        private static readonly int[] plagueEnemyImmunities = new int[3] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<Plague>() };
+        private static readonly int[] holyEnemyImmunities = new int[4] { BuffID.OnFire, BuffID.OnFire3, ModContent.BuffType<HolyFlames>(), ModContent.BuffType<Nightwither>() };
         #endregion
 
         #region Load/Unload
@@ -94,253 +153,267 @@ namespace CalamityMod
         // Any boss not listed in here is only immune to Confusion and Pearl Aura.
         internal static void LoadDebuffs()
         {
-            EnemyStats.DebuffImmunities = new SortedDictionary<int, Tuple<bool, int[]>>
+            // Various shorthands for NPCs which have very simple and common buff immunity sets.
+            Tuple<GeneralImmunityStatus, int[]> immuneToEverything = new(GeneralImmunityStatus.ImmuneToRegularBuffs, Array.Empty<int>());
+            Tuple<GeneralImmunityStatus, int[]> immuneToEverythingIncludingTags = new(GeneralImmunityStatus.ImmuneToAllBuffs, Array.Empty<int>());
+            Tuple<GeneralImmunityStatus, int[]> slime = new(GeneralImmunityStatus.None, slimeEnemyImmunities);
+            Tuple<GeneralImmunityStatus, int[]> ice = new(GeneralImmunityStatus.None, iceEnemyImmunities);
+            Tuple<GeneralImmunityStatus, int[]> sulphur = new(GeneralImmunityStatus.None, sulphurEnemyImmunities);
+            Tuple<GeneralImmunityStatus, int[]> sunkenSea = new(GeneralImmunityStatus.None, sunkenSeaEnemyImmunities);
+            Tuple<GeneralImmunityStatus, int[]> abyss = new(GeneralImmunityStatus.None, abyssEnemyImmunities);
+            Tuple<GeneralImmunityStatus, int[]> crags = new(GeneralImmunityStatus.None, cragEnemyImmunities);
+            Tuple<GeneralImmunityStatus, int[]> astral = new(GeneralImmunityStatus.None, astralEnemyImmunities);
+            Tuple<GeneralImmunityStatus, int[]> plague = new(GeneralImmunityStatus.None, plagueEnemyImmunities);
+            Tuple<GeneralImmunityStatus, int[]> holy = new(GeneralImmunityStatus.None, holyEnemyImmunities);
+
+            // Is this sorted... like... at all??
+            EnemyStats.DebuffImmunities = new SortedDictionary<int, Tuple<GeneralImmunityStatus, int[]>>
             {
-                { ModContent.NPCType<KingSlimeJewel>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<KingSlimeJewel>(), immuneToEverything },
 
-                { NPCID.Deerclops, new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
+                { NPCID.Deerclops, ice },
 
-                { ModContent.NPCType<SlimeGodCore>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<EbonianPaladin>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<SplitEbonianPaladin>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<CrimulanPaladin>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<SplitCrimulanPaladin>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<CorruptSlimeSpawn>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<CorruptSlimeSpawn2>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<CrimsonSlimeSpawn>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<CrimsonSlimeSpawn2>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
+                { ModContent.NPCType<SlimeGodCore>(), slime },
+                { ModContent.NPCType<EbonianPaladin>(), slime },
+                { ModContent.NPCType<SplitEbonianPaladin>(), slime },
+                { ModContent.NPCType<CrimulanPaladin>(), slime },
+                { ModContent.NPCType<SplitCrimulanPaladin>(), slime },
+                { ModContent.NPCType<CorruptSlimeSpawn>(), slime },
+                { ModContent.NPCType<CorruptSlimeSpawn2>(), slime },
+                { ModContent.NPCType<CrimsonSlimeSpawn>(), slime },
+                { ModContent.NPCType<CrimsonSlimeSpawn2>(), slime },
 
-                { ModContent.NPCType<Cryogen>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<CryogenShield>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
+                { ModContent.NPCType<Cryogen>(), ice },
+                { ModContent.NPCType<CryogenShield>(), ice },
 
-                { ModContent.NPCType<AquaticScourgeHead>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<AquaticScourgeBody>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<AquaticScourgeBodyAlt>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<AquaticScourgeTail>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
+                { ModContent.NPCType<AquaticScourgeHead>(), sulphur },
+                { ModContent.NPCType<AquaticScourgeBody>(), sulphur },
+                { ModContent.NPCType<AquaticScourgeBodyAlt>(), sulphur },
+                { ModContent.NPCType<AquaticScourgeTail>(), sulphur },
 
-                { ModContent.NPCType<BrimstoneElemental>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<Brimling>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
+                { ModContent.NPCType<BrimstoneElemental>(), crags },
+                { ModContent.NPCType<Brimling>(), crags },
 
-                { ModContent.NPCType<CalamitasClone>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<Cataclysm>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<Catastrophe>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<SoulSeeker>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
+                { ModContent.NPCType<CalamitasClone>(), crags },
+                { ModContent.NPCType<Cataclysm>(), crags },
+                { ModContent.NPCType<Catastrophe>(), crags },
+                { ModContent.NPCType<SoulSeeker>(), crags },
 
-                { NPCID.Plantera, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
-                { NPCID.PlanterasTentacle, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
-                { ModContent.NPCType<PlanterasFreeTentacle>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
+                { NPCID.Plantera, new(GeneralImmunityStatus.None, new int[] { BuffID.Venom }) },
+                { NPCID.PlanterasTentacle, new(GeneralImmunityStatus.None, new int[] { BuffID.Venom }) },
+                { ModContent.NPCType<PlanterasFreeTentacle>(), new(GeneralImmunityStatus.None, new int[] { BuffID.Venom }) },
 
-                { NPCID.HallowBoss, new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { NPCID.HallowBoss, holy },
 
                 // She resists the cold because of her ice-related abilities.
-                { ModContent.NPCType<Anahita>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<AnahitasIceShield>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
+                { ModContent.NPCType<Anahita>(), ice },
+                { ModContent.NPCType<AnahitasIceShield>(), ice },
 
-                { ModContent.NPCType<AstrumAureus>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<AureusSpawn>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
+                { ModContent.NPCType<AstrumAureus>(), astral },
+                { ModContent.NPCType<AureusSpawn>(), astral },
 
-                { ModContent.NPCType<PlaguebringerGoliath>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlagueMine>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlagueHomingMissile>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
+                { ModContent.NPCType<PlaguebringerGoliath>(), plague },
+                { ModContent.NPCType<PlagueMine>(), plague },
+                { ModContent.NPCType<PlagueHomingMissile>(), plague },
 
-                { ModContent.NPCType<RavagerHead2>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<FlamePillar>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<RavagerHead2>(), immuneToEverything },
+                { ModContent.NPCType<FlamePillar>(), immuneToEverything },
 
-                { ModContent.NPCType<AstrumDeusHead>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<AstrumDeusBody>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<AstrumDeusTail>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
+                { ModContent.NPCType<AstrumDeusHead>(), astral },
+                { ModContent.NPCType<AstrumDeusBody>(), astral },
+                { ModContent.NPCType<AstrumDeusTail>(), astral },
 
-                { NPCID.MoonLordCore, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
-                { NPCID.MoonLordHand, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
-                { NPCID.MoonLordHead, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
-                { NPCID.MoonLordLeechBlob, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
+                { NPCID.MoonLordCore, new(GeneralImmunityStatus.None, new int[] { ModContent.BuffType<Nightwither>() }) },
+                { NPCID.MoonLordHand, new(GeneralImmunityStatus.None, new int[] { ModContent.BuffType<Nightwither>() }) },
+                { NPCID.MoonLordHead, new(GeneralImmunityStatus.None, new int[] { ModContent.BuffType<Nightwither>() }) },
+                { NPCID.MoonLordLeechBlob, new(GeneralImmunityStatus.None, new int[] { ModContent.BuffType<Nightwither>() }) },
 
-                { ModContent.NPCType<ProfanedGuardianCommander>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProfanedGuardianDefender>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProfanedGuardianHealer>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProfanedRocks>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<ProfanedGuardianCommander>(), holy },
+                { ModContent.NPCType<ProfanedGuardianDefender>(), holy },
+                { ModContent.NPCType<ProfanedGuardianHealer>(), holy },
+                { ModContent.NPCType<ProfanedRocks>(), holy },
 
-                { ModContent.NPCType<Providence>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProvSpawnOffense>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProvSpawnDefense>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProvSpawnHealer>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<Providence>(), holy },
+                { ModContent.NPCType<ProvSpawnOffense>(), holy },
+                { ModContent.NPCType<ProvSpawnDefense>(), holy },
+                { ModContent.NPCType<ProvSpawnHealer>(), holy },
 
-                { ModContent.NPCType<CeaselessVoid>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<DarkEnergy>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<CeaselessVoid>(), immuneToEverything },
+                { ModContent.NPCType<DarkEnergy>(), immuneToEverything },
 
-                { ModContent.NPCType<StormWeaverHead>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Electrified }) },
-                { ModContent.NPCType<StormWeaverBody>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Electrified }) },
-                { ModContent.NPCType<StormWeaverTail>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Electrified }) },
+                { ModContent.NPCType<StormWeaverHead>(), new(GeneralImmunityStatus.None, new int[] { BuffID.Electrified }) },
+                { ModContent.NPCType<StormWeaverBody>(), new(GeneralImmunityStatus.None, new int[] { BuffID.Electrified }) },
+                { ModContent.NPCType<StormWeaverTail>(), new(GeneralImmunityStatus.None, new int[] { BuffID.Electrified }) },
 
-                { ModContent.NPCType<Signus>(), new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<WhisperingDeath>() }) },
-                { ModContent.NPCType<CosmicLantern>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<CosmicMine>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<Signus>(), new(GeneralImmunityStatus.None, new int[] { ModContent.BuffType<WhisperingDeath>() }) },
+                { ModContent.NPCType<CosmicLantern>(), immuneToEverything },
+                { ModContent.NPCType<CosmicMine>(), immuneToEverything },
 
-                { ModContent.NPCType<Polterghast>(), new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>(), ModContent.BuffType<WhisperingDeath>() }) },
-                { ModContent.NPCType<PolterPhantom>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<PhantomFuckYou>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<PolterghastHook>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<Polterghast>(), new(GeneralImmunityStatus.None, new int[] { ModContent.BuffType<Nightwither>(), ModContent.BuffType<WhisperingDeath>() }) },
+                { ModContent.NPCType<PolterPhantom>(), immuneToEverything },
+                { ModContent.NPCType<PhantomFuckYou>(), immuneToEverything },
+                { ModContent.NPCType<PolterghastHook>(), immuneToEverything },
 
-                { ModContent.NPCType<OldDuke>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<OldDukeToothBall>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<SulphurousSharkron>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
+                { ModContent.NPCType<OldDuke>(), sulphur },
+                { ModContent.NPCType<OldDukeToothBall>(), sulphur },
+                { ModContent.NPCType<SulphurousSharkron>(), sulphur },
 
-                { ModContent.NPCType<DevourerofGodsHead>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<DevourerofGodsBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<DevourerofGodsTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<CosmicGuardianHead>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<CosmicGuardianBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<CosmicGuardianTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<DevourerofGodsHead>(), immuneToEverything },
+                { ModContent.NPCType<DevourerofGodsBody>(), immuneToEverything },
+                { ModContent.NPCType<DevourerofGodsTail>(), immuneToEverything },
+                { ModContent.NPCType<CosmicGuardianHead>(), immuneToEverything },
+                { ModContent.NPCType<CosmicGuardianBody>(), immuneToEverything },
+                { ModContent.NPCType<CosmicGuardianTail>(), immuneToEverything },
 
-                { ModContent.NPCType<Yharon>(), new Tuple<bool, int[]>(false, new int[] { BuffID.OnFire }) },
+                { ModContent.NPCType<Yharon>(), new(GeneralImmunityStatus.None, new int[] { BuffID.OnFire }) },
 
-                { ModContent.NPCType<ThanatosHead>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<ThanatosBody1>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<ThanatosBody2>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<ThanatosTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<ThanatosHead>(), immuneToEverything },
+                { ModContent.NPCType<ThanatosBody1>(), immuneToEverything },
+                { ModContent.NPCType<ThanatosBody2>(), immuneToEverything },
+                { ModContent.NPCType<ThanatosTail>(), immuneToEverything },
 
                 // 20FEB2023: Ozzatron: made Ares immune to Miracle Blight, because otherwise he vanishes when affected by it
                 // The "correct" way to fix this involves a colossal amount of work and will be handled at a later date
-                { ModContent.NPCType<AresBody>(), new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<MiracleBlight>() }) },
+                { ModContent.NPCType<AresBody>(), new(GeneralImmunityStatus.None, new int[] { ModContent.BuffType<MiracleBlight>() }) },
 
-                { ModContent.NPCType<SupremeCalamitas>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<SupremeCatastrophe>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<SupremeCataclysm>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<SoulSeekerSupreme>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<BrimstoneHeart>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<SepulcherHead>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<SepulcherBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<SepulcherBodyEnergyBall>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<SepulcherTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<SupremeCalamitas>(), crags },
+                { ModContent.NPCType<SupremeCatastrophe>(), crags },
+                { ModContent.NPCType<SupremeCataclysm>(), crags },
+                { ModContent.NPCType<SoulSeekerSupreme>(), crags },
+                { ModContent.NPCType<BrimstoneHeart>(), crags },
+                { ModContent.NPCType<SepulcherHead>(), immuneToEverything },
+                { ModContent.NPCType<SepulcherBody>(), immuneToEverything },
+                { ModContent.NPCType<SepulcherBodyEnergyBall>(), immuneToEverything },
+                { ModContent.NPCType<SepulcherTail>(), immuneToEverything },
 
-                { ModContent.NPCType<PrimordialWyrmHead>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<PrimordialWyrmBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<PrimordialWyrmBodyAlt>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<PrimordialWyrmTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<PrimordialWyrmHead>(), abyss },
+                { ModContent.NPCType<PrimordialWyrmBody>(), immuneToEverything },
+                { ModContent.NPCType<PrimordialWyrmBodyAlt>(), immuneToEverything },
+                { ModContent.NPCType<PrimordialWyrmTail>(), immuneToEverything },
 
-                { ModContent.NPCType<AcidEel>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<BloodwormFleeing>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<BloodwormNormal>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<CragmawMire>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<BabyFlakCrab>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<FlakCrab>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<GammaSlime>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<IrradiatedSlime>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<NuclearTerror>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<NuclearToad>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Orthocera>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Radiator>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Skyfin>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<SulphurousSkater>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Trilobite>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<AquaticUrchin>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<AnthozoanCrab>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<BelchingCoral>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Toxicatfish>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Sulflounder>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Gnasher>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Mauler>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<MicrobialCluster>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Trasher>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
+                { ModContent.NPCType<AcidEel>(), sulphur },
+                { ModContent.NPCType<BloodwormFleeing>(), sulphur },
+                { ModContent.NPCType<BloodwormNormal>(), sulphur },
+                { ModContent.NPCType<CragmawMire>(), sulphur },
+                { ModContent.NPCType<BabyFlakCrab>(), sulphur },
+                { ModContent.NPCType<FlakCrab>(), sulphur },
+                { ModContent.NPCType<GammaSlime>(), sulphur },
+                { ModContent.NPCType<IrradiatedSlime>(), sulphur },
+                { ModContent.NPCType<NuclearTerror>(), sulphur },
+                { ModContent.NPCType<NuclearToad>(), sulphur },
+                { ModContent.NPCType<Orthocera>(), sulphur },
+                { ModContent.NPCType<Radiator>(), sulphur },
+                { ModContent.NPCType<Skyfin>(), sulphur },
+                { ModContent.NPCType<SulphurousSkater>(), sulphur },
+                { ModContent.NPCType<Trilobite>(), sulphur },
+                { ModContent.NPCType<AquaticUrchin>(), sulphur },
+                { ModContent.NPCType<AnthozoanCrab>(), sulphur },
+                { ModContent.NPCType<BelchingCoral>(), sulphur },
+                { ModContent.NPCType<Toxicatfish>(), sulphur },
+                { ModContent.NPCType<Sulflounder>(), sulphur },
+                { ModContent.NPCType<Gnasher>(), sulphur },
+                { ModContent.NPCType<Mauler>(), sulphur },
+                { ModContent.NPCType<MicrobialCluster>(), sulphur },
+                { ModContent.NPCType<Trasher>(), sulphur },
 
-                { ModContent.NPCType<BlindedAngler>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
-                { ModContent.NPCType<Clam>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
-                { ModContent.NPCType<EutrophicRay>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
-                { ModContent.NPCType<GhostBell>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
-                { ModContent.NPCType<GiantClam>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
-                { ModContent.NPCType<PrismBack>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
-                { ModContent.NPCType<SeaSerpent1>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
-                { ModContent.NPCType<SeaSerpent2>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
-                { ModContent.NPCType<SeaSerpent3>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
-                { ModContent.NPCType<SeaSerpent4>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
-                { ModContent.NPCType<SeaSerpent5>(), new Tuple<bool, int[]>(false, CalamityMod.sunkenSeaEnemyImmunities) },
+                { ModContent.NPCType<BlindedAngler>(), sunkenSea },
+                { ModContent.NPCType<Clam>(), sunkenSea },
+                { ModContent.NPCType<EutrophicRay>(), sunkenSea },
+                { ModContent.NPCType<GhostBell>(), sunkenSea },
+                { ModContent.NPCType<GiantClam>(), sunkenSea },
+                { ModContent.NPCType<PrismBack>(), sunkenSea },
+                { ModContent.NPCType<SeaSerpent1>(), sunkenSea },
+                { ModContent.NPCType<SeaSerpent2>(), sunkenSea },
+                { ModContent.NPCType<SeaSerpent3>(), sunkenSea },
+                { ModContent.NPCType<SeaSerpent4>(), sunkenSea },
+                { ModContent.NPCType<SeaSerpent5>(), sunkenSea },
 
-                { ModContent.NPCType<BabyCannonballJellyfish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<CannonballJellyfish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<Bloatfish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<BobbitWormHead>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<BoxJellyfish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<ChaoticPuffer>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<Cuttlefish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<DevilFish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<DevilFishAlt>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<GiantSquid>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<GulperEelHead>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<GulperEelBody>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<GulperEelBodyAlt>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<GulperEelTail>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<Laserfish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<LuminousCorvina>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<MirageJelly>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<MorayEel>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<OarfishHead>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<OarfishBody>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<OarfishTail>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<ToxicMinnow>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<Viperfish>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<EidolonWyrmHead>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<EidolonWyrmBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<EidolonWyrmBodyAlt>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<EidolonWyrmTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<ColossalSquid>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<ReaperShark>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
+                { ModContent.NPCType<BabyCannonballJellyfish>(), abyss },
+                { ModContent.NPCType<CannonballJellyfish>(), abyss },
+                { ModContent.NPCType<Bloatfish>(), abyss },
+                { ModContent.NPCType<BobbitWormHead>(), abyss },
+                { ModContent.NPCType<BoxJellyfish>(), abyss },
+                { ModContent.NPCType<ChaoticPuffer>(), abyss },
+                { ModContent.NPCType<Cuttlefish>(), abyss },
+                { ModContent.NPCType<DevilFish>(), abyss },
+                { ModContent.NPCType<DevilFishAlt>(), abyss },
+                { ModContent.NPCType<GiantSquid>(), abyss },
+                { ModContent.NPCType<GulperEelHead>(), abyss },
+                { ModContent.NPCType<GulperEelBody>(), abyss },
+                { ModContent.NPCType<GulperEelBodyAlt>(), abyss },
+                { ModContent.NPCType<GulperEelTail>(), abyss },
+                { ModContent.NPCType<Laserfish>(), abyss },
+                { ModContent.NPCType<LuminousCorvina>(), abyss },
+                { ModContent.NPCType<MirageJelly>(), abyss },
+                { ModContent.NPCType<MorayEel>(), abyss },
+                { ModContent.NPCType<OarfishHead>(), abyss },
+                { ModContent.NPCType<OarfishBody>(), abyss },
+                { ModContent.NPCType<OarfishTail>(), abyss },
+                { ModContent.NPCType<ToxicMinnow>(), abyss },
+                { ModContent.NPCType<Viperfish>(), abyss },
+                { ModContent.NPCType<EidolonWyrmHead>(), abyss },
+                { ModContent.NPCType<EidolonWyrmBody>(), immuneToEverything },
+                { ModContent.NPCType<EidolonWyrmBodyAlt>(), immuneToEverything },
+                { ModContent.NPCType<EidolonWyrmTail>(), immuneToEverything },
+                { ModContent.NPCType<ColossalSquid>(), abyss },
+                { ModContent.NPCType<ReaperShark>(), abyss },
 
-                { ModContent.NPCType<HeatSpirit>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<Scryllar>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<ScryllarRage>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<DespairStone>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<InfernalCongealment>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<RenegadeWarlock>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<CalamityEye>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<SoulSlurper>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
+                { ModContent.NPCType<HeatSpirit>(), crags },
+                { ModContent.NPCType<Scryllar>(), crags },
+                { ModContent.NPCType<ScryllarRage>(), crags },
+                { ModContent.NPCType<DespairStone>(), crags },
+                { ModContent.NPCType<InfernalCongealment>(), crags },
+                { ModContent.NPCType<RenegadeWarlock>(), crags },
+                { ModContent.NPCType<CalamityEye>(), crags },
+                { ModContent.NPCType<SoulSlurper>(), crags },
 
-                { ModContent.NPCType<Aries>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<AstralachneaGround>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<AstralachneaWall>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<AstralProbe>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<AstralSlime>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<Atlas>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<SightseerSpitter>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<FusionFeeder>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<Hadarian>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<HiveEnemy>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<Hiveling>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<Mantis>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<Nova>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<SightseerCollider>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<StellarCulex>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
+                { ModContent.NPCType<Aries>(), astral },
+                { ModContent.NPCType<AstralachneaGround>(), astral },
+                { ModContent.NPCType<AstralachneaWall>(), astral },
+                { ModContent.NPCType<AstralProbe>(), astral },
+                { ModContent.NPCType<AstralSlime>(), astral },
+                { ModContent.NPCType<Atlas>(), astral },
+                { ModContent.NPCType<SightseerSpitter>(), astral },
+                { ModContent.NPCType<FusionFeeder>(), astral },
+                { ModContent.NPCType<Hadarian>(), astral },
+                { ModContent.NPCType<HiveEnemy>(), astral },
+                { ModContent.NPCType<Hiveling>(), astral },
+                { ModContent.NPCType<Mantis>(), astral },
+                { ModContent.NPCType<Nova>(), astral },
+                { ModContent.NPCType<SightseerCollider>(), astral },
+                { ModContent.NPCType<StellarCulex>(), astral },
 
-                { ModContent.NPCType<Plagueshell>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<Viruling>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<Melter>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PestilentSlime>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlagueChargerLarge>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlagueCharger>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlaguebringerMiniboss>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
+                { ModContent.NPCType<Plagueshell>(), plague },
+                { ModContent.NPCType<Viruling>(), plague },
+                { ModContent.NPCType<Melter>(), plague },
+                { ModContent.NPCType<PestilentSlime>(), plague },
+                { ModContent.NPCType<PlagueChargerLarge>(), plague },
+                { ModContent.NPCType<PlagueCharger>(), plague },
+                { ModContent.NPCType<PlaguebringerMiniboss>(), plague },
 
-                { ModContent.NPCType<ScornEater>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ImpiousImmolator>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProfanedEnergyBody>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<Sunskater>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<ScornEater>(), holy },
+                { ModContent.NPCType<ImpiousImmolator>(), holy },
+                { ModContent.NPCType<ProfanedEnergyBody>(), holy },
+                { ModContent.NPCType<Sunskater>(), holy },
 
-                { ModContent.NPCType<ArmoredDiggerHead>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<ArmoredDiggerBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<ArmoredDiggerTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<Eidolist>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<ArmoredDiggerHead>(), immuneToEverything },
+                { ModContent.NPCType<ArmoredDiggerBody>(), immuneToEverything },
+                { ModContent.NPCType<ArmoredDiggerTail>(), immuneToEverything },
+                { ModContent.NPCType<Eidolist>(), immuneToEverything },
 
-                { ModContent.NPCType<SeaUrchin>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Poisoned, BuffID.Venom }) },
-                { ModContent.NPCType<Frogfish>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Poisoned, BuffID.Venom }) },
+                { ModContent.NPCType<SeaUrchin>(), new(GeneralImmunityStatus.None, new int[] { BuffID.Poisoned, BuffID.Venom }) },
+                { ModContent.NPCType<Frogfish>(), new(GeneralImmunityStatus.None, new int[] { BuffID.Poisoned, BuffID.Venom }) },
 
-                { ModContent.NPCType<ThiccWaifu>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Electrified }) },
+                { ModContent.NPCType<ThiccWaifu>(), new(GeneralImmunityStatus.None, new int[] { BuffID.Electrified }) },
 
-                { ModContent.NPCType<CrimulanBlightSlime>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<EbonianBlightSlime>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
+                { ModContent.NPCType<CrimulanBlightSlime>(), slime },
+                { ModContent.NPCType<EbonianBlightSlime>(), slime },
 
-                { ModContent.NPCType<Rimehound>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<Cryon>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<CryoSlime>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<IceClasper>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<AuroraSpirit>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) }
+                { ModContent.NPCType<Rimehound>(), ice },
+                { ModContent.NPCType<Cryon>(), ice },
+                { ModContent.NPCType<CryoSlime>(), ice },
+                { ModContent.NPCType<IceClasper>(), ice },
+                { ModContent.NPCType<AuroraSpirit>(), ice }
             };
         }
 

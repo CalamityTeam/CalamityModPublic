@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
                 CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             for (int k = 0; k < 5; k++)

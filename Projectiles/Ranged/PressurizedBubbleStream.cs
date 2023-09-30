@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
             int bubbleCount = 25 + Main.rand.Next(15);

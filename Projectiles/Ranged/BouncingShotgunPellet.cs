@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ExpandHitboxBy(32);
             for (int d = 0; d < 2; d++)

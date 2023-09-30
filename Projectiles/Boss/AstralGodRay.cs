@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(LaserLength, 2f, lightColor, curve: true);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int dustID = WaveFrameState < 0f ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
             int dustAmt = 4;

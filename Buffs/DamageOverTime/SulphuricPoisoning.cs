@@ -15,6 +15,15 @@ namespace CalamityMod.Buffs.DamageOverTime
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
             BuffID.Sets.LongerExpertDebuff[Type] = true;
+
+            // Acid Venom immunity is granted automatically if you are immune to Sulphuric Poisoning.
+            BuffID.Sets.GrantImmunityWith[BuffID.Venom].Add(Type);
+
+            // The same but backwards: Sulphuric Poisoning immunity is granted automatically if you are immune to Acid Venom.
+            BuffID.Sets.GrantImmunityWith[Type].Add(BuffID.Venom);
+
+            // Sulphuric Poisoning is a STRONGER poison-type debuff. Anything immune to it is surely immune to regular Poisoned.
+            BuffID.Sets.GrantImmunityWith[BuffID.Poisoned].Add(Type);
         }
 
         public override void Update(Player player, ref int buffIndex)

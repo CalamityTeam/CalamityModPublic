@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(100f, 3f, lightColor);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int dustAmt = Main.rand.Next(3, 7);
             for (int d = 0; d < dustAmt; d++)

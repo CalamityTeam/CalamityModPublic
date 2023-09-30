@@ -258,7 +258,7 @@ namespace CalamityMod.World
                 }
             }
 
-            structures.AddProtectedStructure(new Rectangle(origin.X - 50, origin.Y - 50, 100, 100), 5);
+            CalamityUtils.AddProtectedStructure(new Rectangle(origin.X - 50, origin.Y - 50, 100, 100), 5);
             return true;
         }
 

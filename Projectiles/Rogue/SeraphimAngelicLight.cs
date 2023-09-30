@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.frame = Main.projFrames[Projectile.type] - Projectile.timeLeft;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Release a puff of golden light dust.
             for (int i = 0; i < 15; i++)

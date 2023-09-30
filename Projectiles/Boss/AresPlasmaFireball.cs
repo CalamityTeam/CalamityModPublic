@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int height = 90;
             Projectile.position = Projectile.Center;

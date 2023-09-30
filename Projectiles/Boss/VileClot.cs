@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(BuffID.CursedInferno, 60);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             for (int num584 = 0; num584 < 6; num584++)

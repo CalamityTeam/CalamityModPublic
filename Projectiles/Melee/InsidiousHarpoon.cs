@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int num297 = 171;
             if (Main.rand.Next(3) == 0)

@@ -408,7 +408,7 @@ namespace CalamityMod.Projectiles.Summon
         public override bool PreDraw(ref Color lightColor) => false; // Drawing is done completely by the player.
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override bool? CanDamage() => false;
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
             player.width = 20;

@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.damage < 1)
                 Projectile.damage = 1;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(Hitsound, Projectile.position);
         }

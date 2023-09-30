@@ -1,39 +1,17 @@
-﻿using CalamityMod.Buffs.StatBuffs;
+﻿using System;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Events;
-using CalamityMod.NPCs.AstrumDeus;
-using CalamityMod.NPCs.CeaselessVoid;
-using CalamityMod.NPCs.DevourerofGods;
-using CalamityMod.NPCs.ExoMechs.Thanatos;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.Audio;
 using CalamityMod.Items.Weapons.Typeless;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
     public class YanmeisKnifeSlash : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
-        // This is a rather weird thing, but it's what the patron asked for.
-        public static readonly Func<NPC, bool> CanRecieveCoolEffectsFrom = (npc) =>
-        {
-            bool validBoss = npc.boss && npc.type != ModContent.NPCType<DevourerofGodsBody>()
-                && npc.type != ModContent.NPCType<AstrumDeusBody>()
-                && npc.type != ModContent.NPCType<ThanatosHead>()
-                && npc.type != ModContent.NPCType<ThanatosBody1>()
-                && npc.type != ModContent.NPCType<ThanatosBody2>()
-                && npc.type != ModContent.NPCType<ThanatosTail>();
-            if (validBoss)
-                return true;
-            bool bossMinion = CalamityLists.bossMinionList.Contains(npc.type);
-            if (bossMinion)
-                return true;
-            bool miniboss = CalamityLists.minibossList.Contains(npc.type) || AcidRainEvent.AllMinibosses.Contains(npc.type);
-            return miniboss;
-        };
 
         public override void SetStaticDefaults()
         {
@@ -111,8 +89,6 @@ namespace CalamityMod.Projectiles.Typeless
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!CanRecieveCoolEffectsFrom(target))
-                return;
             target.AddBuff(ModContent.BuffType<KamiFlu>(), 600);
             if (!Main.dedServ)
             {
