@@ -135,9 +135,6 @@ namespace CalamityMod.CalPlayer
             // This is used to increase horizontal velocity based on the player's movement speed stat.
             moveSpeedBonus = Player.moveSpeed - 1f;
 
-            // Double Jumps
-            DoubleJumps();
-
             // Potions (Quick Buff && Potion Sickness)
             HandlePotions();
 
@@ -4063,33 +4060,6 @@ namespace CalamityMod.CalPlayer
 
             if (corrEffigy)
                 Player.endurance -= 0.05f;
-        }
-        #endregion
-
-        #region Double Jumps
-        private void DoubleJumps()
-        {
-            if (CalamityUtils.CountHookProj() > 0 || Player.sliding || Player.autoJump && Player.justJumped)
-            {
-                jumpAgainSulfur = true;
-                jumpAgainStatigel = true;
-                return;
-            }
-
-            bool mountCheck = true;
-            if (Player.mount != null && Player.mount.Active)
-                mountCheck = Player.mount.BlockExtraJumps;
-            bool carpetCheck = true;
-            if (Player.carpet)
-                carpetCheck = Player.carpetTime <= 0 && Player.canCarpet;
-            bool wingCheck = Player.wingTime == Player.wingTimeMax || Player.autoJump;
-            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(Player.Bottom.X / 16f), (int)(Player.Bottom.Y / 16f));
-
-            if (Player.position.Y == Player.oldPosition.Y && wingCheck && mountCheck && carpetCheck && tileBelow.IsTileSolidGround())
-            {
-                jumpAgainSulfur = true;
-                jumpAgainStatigel = true;
-            }
         }
         #endregion
 

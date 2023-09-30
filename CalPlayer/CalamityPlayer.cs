@@ -38,13 +38,12 @@ using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Healing;
-using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -674,12 +673,9 @@ namespace CalamityMod.CalPlayer
         public bool victideSummoner = false;
         public bool sulfurSet = false;
         public bool sulfurJump = false;
-        public bool jumpAgainSulfur = false;
         public int sulphurBubbleCooldown = 0;
         public bool aeroSet = false;
         public bool statigelSet = false;
-        public bool statigelJump = false;
-        public bool jumpAgainStatigel = false;
         public bool tarraSet = false;
         public bool tarraMelee = false;
         public bool tarragonCloak = false;
@@ -1772,12 +1768,10 @@ namespace CalamityMod.CalPlayer
             victideSummoner = false;
 
             sulfurSet = false;
-            sulfurJump = false;
 
             aeroSet = false;
 
             statigelSet = false;
-            statigelJump = false;
 
             titanHeartSet = false;
             titanHeartMask = false;
@@ -2505,11 +2499,7 @@ namespace CalamityMod.CalPlayer
             victideSet = false;
             aeroSet = false;
             sulfurSet = false;
-            sulfurJump = false;
-            jumpAgainSulfur = false;
             statigelSet = false;
-            statigelJump = false;
-            jumpAgainStatigel = false;
             tarraSet = false;
             tarraMelee = false;
             tarragonCloak = false;
