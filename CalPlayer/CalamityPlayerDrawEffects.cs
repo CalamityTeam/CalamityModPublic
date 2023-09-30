@@ -121,11 +121,11 @@ namespace CalamityMod.CalPlayer
 
             #region Flight Visuals
             // Celestial Tracers, Elysian Tracers, Seraph Tracers
-            if (calamityPlayer.tracersDust)
+            if (calamityPlayer.tracersDust && drawInfo.shadow == 0f)
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
                 {
-                    if (Main.rand.NextBool() && drawInfo.shadow == 0f)
+                    if (Main.rand.NextBool())
                     {
                         int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 229, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
                         Main.dust[dust].noGravity = true;
@@ -136,11 +136,11 @@ namespace CalamityMod.CalPlayer
             }
 
             // Elysian Wings, Elysian TRACERS?! and SERAPH TRACERS?!
-            if (calamityPlayer.elysianWingsDust)
+            if (calamityPlayer.elysianWingsDust && drawInfo.shadow == 0f)
             {
                 if (!Player.StandingStill() && !Player.mount.Active)
                 {
-                    if (Main.rand.NextBool() && drawInfo.shadow == 0f)
+                    if (Main.rand.NextBool())
                     {
                         int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 246, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
                         Main.dust[dust].noGravity = true;
@@ -153,14 +153,14 @@ namespace CalamityMod.CalPlayer
 
             #region Armor Visuals
             // Demonshade Armor
-            if (calamityPlayer.dsSetBonus)
+            if (calamityPlayer.dsSetBonus && drawInfo.shadow == 0f)
             {
                 if (Player != null && !Player.dead)
                 {
                     Lighting.AddLight((int)Player.Center.X / 16, (int)Player.Center.Y / 16, 100 / 235f, 1 / 235f, 250 / 235f);
                     if (!Player.StandingStill() && !Player.mount.Active)
                     {
-                        if (Main.rand.NextBool() && drawInfo.shadow == 0f)
+                        if (Main.rand.NextBool())
                         {
                             int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 27, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
                             Main.dust[dust].noGravity = true;
@@ -172,14 +172,14 @@ namespace CalamityMod.CalPlayer
             }
 
             // Auric Armor
-            else if (calamityPlayer.auricSet)
+            else if (calamityPlayer.auricSet && drawInfo.shadow == 0f)
             {
                 if (Player != null && !Player.dead)
                 {
                     Lighting.AddLight((int)Player.Center.X / 16, (int)Player.Center.Y / 16, 31 / 235f, 170 / 235f, 222 / 235f);
                     if (!Player.mount.Active)
                     {
-                        if (Main.rand.NextBool(14) && drawInfo.shadow == 0f)
+                        if (Main.rand.NextBool(14))
                         {
                             int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 8, Player.height + 8, 206, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
                             Main.dust[dust].noGravity = true;
@@ -189,7 +189,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (!Player.StandingStill() && !Player.mount.Active)
                     {
-                        if (Main.rand.NextBool(8) && drawInfo.shadow == 0f)
+                        if (Main.rand.NextBool(8))
                         {
                             int de_dust2 = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool() ? 204 : 213, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
                             Main.dust[de_dust2].noGravity = true;
@@ -202,41 +202,41 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region Ripper Visuals
-            if (calamityPlayer.rageModeActive)
+            if (calamityPlayer.rageModeActive && drawInfo.shadow == 0f)
                 RageMode.DrawEffects(drawInfo);
 
-            if (calamityPlayer.adrenalineModeActive)
+            if (calamityPlayer.adrenalineModeActive && drawInfo.shadow == 0f)
                 AdrenalineMode.DrawEffects(drawInfo);
             #endregion
 
             #region Buff and Debuff Visuals
             // Buff and debuff visuals. Alphabetical order as per usual, please
 
-            if (calamityPlayer.astralInfection)
+            if (calamityPlayer.astralInfection && drawInfo.shadow == 0f)
                 AstralInfectionDebuff.DrawEffects(drawInfo);
 
-            if (calamityPlayer.bBlood)
+            if (calamityPlayer.bBlood && drawInfo.shadow == 0f)
                 BurningBlood.DrawEffects(drawInfo);
 
-            if (calamityPlayer.bFlames)
+            if (calamityPlayer.bFlames && drawInfo.shadow == 0f)
             {
                 bool resistsBrimstoneFlames = abaddon; // Looks weaker if you have Abaddon equipped
                 BrimstoneFlames.DrawEffects(drawInfo, resistsBrimstoneFlames);
             }
 
-            if (calamityPlayer.brainRot)
+            if (calamityPlayer.brainRot && drawInfo.shadow == 0f)
                 BrainRot.DrawEffects(drawInfo);
 
-            if (calamityPlayer.cDepth)
+            if (calamityPlayer.cDepth && drawInfo.shadow == 0f)
                 CrushDepth.DrawEffects(drawInfo);
 
-            if (calamityPlayer.dragonFire)
+            if (calamityPlayer.dragonFire && drawInfo.shadow == 0f)
                 Dragonfire.DrawEffects(drawInfo);
 
-            if (calamityPlayer.eutrophication)
+            if (calamityPlayer.eutrophication && drawInfo.shadow == 0f)
                 Eutrophication.DrawEffects(drawInfo);
 
-            if (calamityPlayer.gState)
+            if (calamityPlayer.gState && drawInfo.shadow == 0f)
             {
                 // These lines cannot be moved to Glacial State's own file
                 r *= 0.13f;
@@ -245,11 +245,11 @@ namespace CalamityMod.CalPlayer
                 GlacialState.DrawEffects(drawInfo);
             }
 
-            if (calamityPlayer.gsInferno)
+            if (calamityPlayer.gsInferno && drawInfo.shadow == 0f)
                 GodSlayerInferno.DrawEffects(drawInfo);
 
             // Holy Flames, Holy Inferno and Banishing Fire share the same visual effects
-            if (calamityPlayer.hFlames || calamityPlayer.hInferno || calamityPlayer.banishingFire)
+            if (drawInfo.shadow == 0f && (calamityPlayer.hFlames || calamityPlayer.hInferno || calamityPlayer.banishingFire))
             {
                 // You cannot "resist" Holy Inferno or Banishing Fire, so if you have either of those the visuals are always full strength
                 bool resistsHolyFlames = !calamityPlayer.hInferno && !calamityPlayer.banishingFire && reducedHolyFlamesDamage;
@@ -257,67 +257,66 @@ namespace CalamityMod.CalPlayer
             }
 
             // Icarus' Folly has visual effects but they are mutually exclusive with all Holy Flames variations to prevent visual clutter
-            else if (calamityPlayer.icarusFolly)
+            else if (calamityPlayer.icarusFolly && drawInfo.shadow == 0f)
                 IcarusFolly.DrawEffects(drawInfo);
 
-            if (calamityPlayer.miracleBlight)
+            if (calamityPlayer.miracleBlight && drawInfo.shadow == 0f)
                 MiracleBlight.DrawEffects(drawInfo);
 
             // Mushy buff from Crabulon and Crabulon accessories
-            if (calamityPlayer.mushy)
+            if (calamityPlayer.mushy && drawInfo.shadow == 0f)
                 Mushy.DrawEffects(drawInfo);
 
-            if (calamityPlayer.nightwither) // Looks weaker if you have Moon Stone equipped
+            if (calamityPlayer.nightwither && drawInfo.shadow == 0f) // Looks weaker if you have Moon Stone equipped
                 Nightwither.DrawEffects(drawInfo, reducedNightwitherDamage);
 
-            if (calamityPlayer.pFlames)
+            if (calamityPlayer.pFlames && drawInfo.shadow == 0f)
                 Plague.DrawEffects(drawInfo);
 
-            if (calamityPlayer.rTide)
+            if (calamityPlayer.rTide && drawInfo.shadow == 0f)
                 RiptideDebuff.DrawEffects(drawInfo);
 
-            if (calamityPlayer.shadowflame)
+            if (calamityPlayer.shadowflame && drawInfo.shadow == 0f)
                 Shadowflame.DrawEffects(drawInfo);
 
-            if (calamityPlayer.sulphurPoison)
+            if (calamityPlayer.sulphurPoison && drawInfo.shadow == 0f)
                 SulphuricPoisoning.DrawEffects(drawInfo);
 
             // Tarragon life regen
-            if (calamityPlayer.tRegen)
+            if (calamityPlayer.tRegen && drawInfo.shadow == 0f)
                 TarraLifeRegen.DrawEffects(drawInfo);
 
-            if (calamityPlayer.vaporfied)
+            if (calamityPlayer.vaporfied && drawInfo.shadow == 0f)
                 Vaporfied.DrawEffects(drawInfo);
             #endregion
 
-            // TODO -- xyk's next round of code tennis
-            if (calamityPlayer.PinkJellyRegen)
+            if (calamityPlayer.PinkJellyRegen && drawInfo.shadow == 0f)
             {
-                if (Main.rand.NextBool(24) && drawInfo.shadow == 0f)
+                if (Main.rand.NextBool(24))
                 {
                     Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.5f, 1.2f), new Vector2(0, Main.rand.NextFloat(-2f, -3.5f)) + Player.velocity, Color.HotPink, Color.LightPink, Main.rand.Next(10, 15));
                     GeneralParticleHandler.SpawnParticle(Plus);
                 }
             }
-            if (calamityPlayer.GreenJellyRegen)
+            if (calamityPlayer.GreenJellyRegen && drawInfo.shadow == 0f)
             {
-                if (Main.rand.NextBool(16) && drawInfo.shadow == 0f)
+                if (Main.rand.NextBool(16))
                 {
                     Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.6f, 1.3f), new Vector2(0, Main.rand.NextFloat(-2f, -3.5f)) + Player.velocity, Color.Lime, Color.LimeGreen, Main.rand.Next(10, 15));
                     GeneralParticleHandler.SpawnParticle(Plus);
                 }
             }
-            if (calamityPlayer.AbsorberRegen)
+            if (calamityPlayer.AbsorberRegen && drawInfo.shadow == 0f)
             {
-                if (Main.rand.NextBool(11) && drawInfo.shadow == 0f)
+                if (Main.rand.NextBool(11))
                 {
                     Particle Plus = new HealingPlus(Player.Center, Main.rand.NextFloat(0.7f, 1.4f), new Vector2(0, Main.rand.NextFloat(-2f, -3.5f)) + Player.velocity, Color.DarkSeaGreen, Color.DarkSeaGreen, Main.rand.Next(10, 15));
                     GeneralParticleHandler.SpawnParticle(Plus);
                 }
             }
-            if (calamityPlayer.bloodfinBoost)
+            if (calamityPlayer.bloodfinBoost && drawInfo.shadow == 0f)
             {
-                if (Main.rand.NextBool(3) && drawInfo.shadow == 0f)
+                if (Main.rand.NextBool(3))
                 {
                     int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(8) ? 296 : 5, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.25f);
                     Main.dust[dust].noGravity = true;
@@ -325,7 +324,7 @@ namespace CalamityMod.CalPlayer
                     Main.dust[dust].velocity.Y -= 0.5f;
                     drawInfo.DustCache.Add(dust);
                 }
-                if (Main.rand.NextBool(16) && drawInfo.shadow == 0f)
+                if (Main.rand.NextBool(16))
                 {
                     Particle Plus = new HealingPlus(Player.Center - new Vector2(4, 0), Main.rand.NextFloat(0.4f, 0.8f), new Vector2(0, Main.rand.NextFloat(-2f, -3.5f)) + Player.velocity, Color.Red, Color.DarkRed, Main.rand.Next(10, 15));
                     GeneralParticleHandler.SpawnParticle(Plus);
@@ -333,9 +332,9 @@ namespace CalamityMod.CalPlayer
             }
 
             // Some extraneous and probably undocumented visual effect caused by the heart lad pet thing
-            if ((calamityPlayer.ladHearts > 0) && !Player.loveStruck && Main.netMode != NetmodeID.Server)
+            if ((calamityPlayer.ladHearts > 0) && !Player.loveStruck && Main.netMode != NetmodeID.Server && drawInfo.shadow == 0f)
             {
-                if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
+                if (Main.rand.NextBool(5))
                 {
                     Vector2 velocity = Main.rand.NextVector2Unit();
                     velocity.X *= 0.66f;

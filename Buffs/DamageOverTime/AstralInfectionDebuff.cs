@@ -34,7 +34,7 @@ namespace CalamityMod.Buffs.DamageOverTime
         {
             Player Player = drawInfo.drawPlayer;
 
-            if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
+            if (Main.rand.NextBool(4))
             {
                 DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Calamity().RandomDebuffVisualSpot, Vector2.Zero, Main.rand.NextBool() ? Color.DarkTurquoise : Color.Coral, new Vector2(1, 1), 0, 0.08f, 0f, 20);
                 GeneralParticleHandler.SpawnParticle(pulse);

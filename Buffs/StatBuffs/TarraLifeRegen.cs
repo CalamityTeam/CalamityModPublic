@@ -23,7 +23,7 @@ namespace CalamityMod.Buffs.StatBuffs
         {
             Player Player = drawInfo.drawPlayer;
 
-            if (Main.rand.NextBool(10) && drawInfo.shadow == 0f)
+            if (Main.rand.NextBool(10))
             {
                 int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 107, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
                 Main.dust[dust].noGravity = true;

@@ -46,7 +46,7 @@ namespace CalamityMod.Buffs.DamageOverTime
                 187,
                 234
             });
-            if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
+            if (Main.rand.NextBool(4))
             {
                 int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, dustType, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                 Main.dust[dust].noGravity = true;
