@@ -70,23 +70,27 @@ namespace CalamityMod
             // Neither of you are free of sin. In porting, we are all brothers in damnation. -Ozzatron
             bool hasEntry = EnemyStats.DebuffImmunities.TryGetValue(npc.type, out var buffSetTuple);
 
-            // Apply the NPC's General Immunity Status first.
-            // General Immunity Status is used to make an NPC "immune to everything" by default.
-            GeneralImmunityStatus gis = buffSetTuple.Item1;
-            if (gis == GeneralImmunityStatus.ImmuneToRegularBuffs)
-                NPCID.Sets.ImmuneToRegularBuffs[npc.type] = true;
-            else if (gis == GeneralImmunityStatus.ImmuneToAllBuffs)
-                NPCID.Sets.ImmuneToAllBuffs[npc.type] = true;
-
-            // From here on out, all listed buff IDs are treated differently depending on what the General Immunity Status was.
-            // If it was None, then the listed buffs are buffs that the NPC should be immune to.
-            // If it was anything else, then the listed buffs are buffs that the NPC should be STILL VULNERABLE to (despite their General Immunity Status).
-            bool providingExceptions = gis != GeneralImmunityStatus.None;
-            for (int i = 0; i < buffSetTuple.Item2.Length; ++i)
+            if (hasEntry)
             {
-                int buffID = buffSetTuple.Item2[i];
-                NPCID.Sets.SpecificDebuffImmunity[npc.type][buffID] = !providingExceptions;
+                // Apply the NPC's General Immunity Status first.
+                // General Immunity Status is used to make an NPC "immune to everything" by default.
+                GeneralImmunityStatus gis = buffSetTuple.Item1;
+                if (gis == GeneralImmunityStatus.ImmuneToRegularBuffs)
+                    NPCID.Sets.ImmuneToRegularBuffs[npc.type] = true;
+                else if (gis == GeneralImmunityStatus.ImmuneToAllBuffs)
+                    NPCID.Sets.ImmuneToAllBuffs[npc.type] = true;
+
+                // From here on out, all listed buff IDs are treated differently depending on what the General Immunity Status was.
+                // If it was None, then the listed buffs are buffs that the NPC should be immune to.
+                // If it was anything else, then the listed buffs are buffs that the NPC should be STILL VULNERABLE to (despite their General Immunity Status).
+                bool providingExceptions = gis != GeneralImmunityStatus.None;
+                for (int i = 0; i < buffSetTuple.Item2.Length; ++i)
+                {
+                    int buffID = buffSetTuple.Item2[i];
+                    NPCID.Sets.SpecificDebuffImmunity[npc.type][buffID] = !providingExceptions;
+                }
             }
+
 
             //
             // PART 2: Specific other cases that can't be neatly fit into the database
