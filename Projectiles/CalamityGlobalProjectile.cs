@@ -114,9 +114,6 @@ namespace CalamityMod.Projectiles
         // TODO -- uses of this variable are undocumented and unstable. Remove it from the API surface.
         public int lineColor = 0;
 
-        // Dogshit, hacky workarounds for the summon respawning system
-        public bool RequiresManualResurrection = false;
-
         // This flag is set to true on summon-classed attacks that are NOT minions, and thus should ALWAYS be able to hit enemies ALL the time.
         // There are several enemies/NPCs in Calamity which do not take damage from minions in certain circumstances.
         public bool overridesMinionDamagePrevention = false;
@@ -280,15 +277,6 @@ namespace CalamityMod.Projectiles
                         projectile.Kill();
                     }
                 }
-            }
-
-            if (RequiresManualResurrection)
-            {
-                // Reactivate the projectile the instant it's created. This is dirty as fuck, but
-                // I can't find the offending Kill call in the frankly enormous codebase that causes this unusual instant-death behavior.
-                projectile.active = true;
-                projectile.timeLeft = 90000;
-                RequiresManualResurrection = false;
             }
 
             if (projectile.type == ProjectileID.Skull && (projectile.ai[0] == 0f || projectile.ai[0] == -2f))
