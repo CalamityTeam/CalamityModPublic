@@ -5,6 +5,7 @@ using System.Reflection;
 using CalamityMod.Balancing;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Placeables;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon.Whips;
@@ -211,7 +212,6 @@ namespace CalamityMod.NPCs
         public int webbed = 0;
         public int slowed = 0;
         public int electrified = 0;
-        public int yellowCandle = 0;
         public int pearlAura = 0;
         public int bBlood = 0;
         public int brainRot = 0;
@@ -422,7 +422,6 @@ namespace CalamityMod.NPCs
             myClone.webbed = webbed;
             myClone.slowed = slowed;
             myClone.electrified = electrified;
-            myClone.yellowCandle = yellowCandle;
             myClone.pearlAura = pearlAura;
             myClone.bBlood = bBlood;
             myClone.brainRot = brainRot;
@@ -2653,7 +2652,7 @@ namespace CalamityMod.NPCs
             // Yellow Candle provides +5% damage which ignores both DR and defense.
             // This means Yellow Candle is buffing armor penetration and technically not ignoring defense,
             // but it's small enough to let it slide.
-            if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
+            if (npc.HasBuff<CirrusYellowCandleBuff>() && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
                 finalMultiplier += 0.05f;
 
             // Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
@@ -4167,8 +4166,6 @@ namespace CalamityMod.NPCs
 
             if (electrified > 0)
                 electrified--;
-            if (yellowCandle > 0)
-                yellowCandle--;
             if (pearlAura > 0)
                 pearlAura--;
             if (bBlood > 0)
