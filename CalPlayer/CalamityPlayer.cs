@@ -34,6 +34,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Boss;
@@ -570,6 +571,8 @@ namespace CalamityMod.CalPlayer
         public bool giantPearl = false;
         public bool normalityRelocator = false;
         public bool flameLickedShell = false;
+        public int flameLickedShellParry = 0;
+        public bool flameLickedShellEmpoweredParry = false;
         public bool Pauldron = false;
         public bool manaOverloader = false;
         public bool royalGel = false;
@@ -2535,6 +2538,8 @@ namespace CalamityMod.CalPlayer
             blazingCoreParry = 0;
             blazingCoreEmpoweredParry = false;
             blazingCoreSuccessfulParry = 0;
+            flameLickedShellParry = 0;
+            flameLickedShellEmpoweredParry = false;
             profanedCrystalAnim = -1;
             #endregion
 
@@ -2937,14 +2942,14 @@ namespace CalamityMod.CalPlayer
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
 
-            if (CalamityKeybinds.BlazingCoreHotKey.JustPressed)
+            if (CalamityKeybinds.AccessoryParryHotKey.JustPressed)
             {
                 if (blazingCore && blazingCoreParry == 0 && blazingCoreSuccessfulParry == 0)
                 {
                     //minor cheese prevention with standing on a spike with later game gear spamming parry :skull:
                     //because of ordering, if they do not have the cooldown, it will not check the projectile array. Likewise if there are no bosses alive.
                     //Furthermore, Enumerable#Any is lightweight and returns immediately if a single object matches it's predicate
-                    if (!Player.HasCooldown(ElysianGuard.ID) || Player.ownedProjectileCounts[ModContent.ProjectileType<BlazingStarHeal>()] == 0)
+                    if (!Player.HasCooldown(ParryCooldown.ID) || Player.ownedProjectileCounts[ModContent.ProjectileType<BlazingStarHeal>()] == 0)
                     {
                         GeneralScreenShakePower = 3.5f;
                         blazingCoreParry = 30;
@@ -2955,6 +2960,16 @@ namespace CalamityMod.CalPlayer
                         int blazingSun2 = Projectile.NewProjectile(mySourceIsIMadeItUp, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun2>(), 0, 0f, Player.whoAmI, 0f, 0f);
                         Main.projectile[blazingSun2].Center = Player.Center;
                     }
+                }
+                else if (flameLickedShell && flameLickedShellParry == 0)
+                {
+                    if (!Player.HasCooldown(ParryCooldown.ID) || Player.ownedProjectileCounts[ModContent.ProjectileType<FlameLickedBarrage>()] == 0)
+                    {
+                        GeneralScreenShakePower = 2.5f;
+                        SoundEngine.PlaySound(ProfanedGuardianDefender.RockShieldSpawnSound, Player.Center);
+                        flameLickedShellParry = FlameLickedShell.flameLickedParry;
+                    }
+                    
                 }
             }
 

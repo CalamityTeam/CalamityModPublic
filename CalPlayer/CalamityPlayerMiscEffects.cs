@@ -1426,6 +1426,10 @@ namespace CalamityMod.CalPlayer
                 else if (blazingCoreParry > 0)
                     BlazingCore.HandleParryCountdown(Player);
             }
+            else if (flameLickedShell && flameLickedShellParry > 0)
+            {
+                FlameLickedShell.HandleParryCountdown(Player);
+            }
             
             // Silver Armor "Medkit" effect
             if (silverMedkitTimer > 0)
