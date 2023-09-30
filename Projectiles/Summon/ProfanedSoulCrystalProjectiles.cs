@@ -1522,7 +1522,7 @@ namespace CalamityMod.Projectiles.Summon
                     Particle wtfIsAParticle = new DirectionalPulseRing(owner.Center, Vector2.Zero, color, Vector2.One, 0f, 0f, 2.5f, 75);
                     GeneralParticleHandler.SpawnParticle(wtfIsAParticle);
                 }
-                Kill(1);
+                OnKill(1);
             }
         }
 

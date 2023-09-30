@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
                 else
                 {
                     Projectile.timeLeft = 0;
-                    Kill(Projectile.timeLeft);
+                    OnKill(Projectile.timeLeft);
                 }
                 return;
             }
