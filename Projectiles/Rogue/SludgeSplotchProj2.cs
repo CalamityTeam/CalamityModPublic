@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.Slimed, 60);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int numDust = 10;
             int dustType = 191;

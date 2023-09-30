@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = -MirrorofKalandra.Vile_SplitSpreadAngle; i < MirrorofKalandra.Vile_SplitSpreadAngle * 2; i += MirrorofKalandra.Vile_SplitSpreadAngle)
             {

@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Enemy
             target.AddBuff(BuffID.Darkness, 90);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Color dustColor = Color.Crimson;
             dustColor.A = 150;

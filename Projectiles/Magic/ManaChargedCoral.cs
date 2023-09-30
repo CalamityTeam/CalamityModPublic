@@ -166,7 +166,7 @@ namespace CalamityMod.Projectiles.Magic
             rotationFromStuckNPC = Projectile.rotation - target.rotation;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if ((Owner.Center - Projectile.Center).Length() < 10f && HasStuck)
             {

@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
             return null;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
             int needleAmt = Main.rand.Next(2, 4);

@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Rogue
             return Projectile.alpha < 128 ? null : false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 50;

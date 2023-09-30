@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.rotation = Projectile.velocity.ToRotation() + 0.7853982f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);

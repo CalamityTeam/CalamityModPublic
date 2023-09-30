@@ -201,7 +201,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         // Coins are occasionally refunded when these projectiles are destroyed. The exact refund rules are described below.
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Do nothing except on the client who owns this Ricoshot Coin.
             if (Projectile.owner != Main.myPlayer)

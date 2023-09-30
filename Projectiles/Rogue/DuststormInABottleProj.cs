@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             bool stealth = Projectile.Calamity().stealthStrike;
             SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);

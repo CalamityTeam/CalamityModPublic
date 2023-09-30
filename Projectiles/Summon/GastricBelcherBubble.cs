@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.DamageType = DamageClass.Summon;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item54, Projectile.position);
             Vector2 center = Projectile.Center;

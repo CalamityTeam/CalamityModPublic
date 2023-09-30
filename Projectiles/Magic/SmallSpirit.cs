@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 6; i++)
             {

@@ -240,7 +240,7 @@ namespace CalamityMod.Projectiles.Magic
             return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 238;

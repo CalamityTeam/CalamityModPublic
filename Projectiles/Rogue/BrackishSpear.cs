@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Venom, 90);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int numProj = 2;
             float rotation = MathHelper.ToRadians(20);

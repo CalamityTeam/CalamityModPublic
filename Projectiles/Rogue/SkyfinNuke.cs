@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.extraUpdates = 0;
             //Dust

@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
             CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ExpandHitboxBy(192);
             Projectile.maxPenetrate = -1;

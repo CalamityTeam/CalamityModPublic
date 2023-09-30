@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int k = 0; k < 6; k++)
             {

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             if (Projectile.owner == Main.myPlayer)

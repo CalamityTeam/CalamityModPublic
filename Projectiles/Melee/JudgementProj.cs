@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
             CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 9f, 20f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item122, Projectile.position);
             if (Projectile.owner == Main.myPlayer)

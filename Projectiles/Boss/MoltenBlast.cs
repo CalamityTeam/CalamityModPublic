@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int blobAmt = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 9 : 6;
             if (Projectile.owner == Main.myPlayer)

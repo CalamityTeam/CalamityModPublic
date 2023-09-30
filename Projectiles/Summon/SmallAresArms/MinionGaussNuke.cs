@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Projectile.Kill();
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(TeslaCannon.FireSound, Projectile.Center);
             if (Main.myPlayer == Projectile.owner)

@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int num795 = 4; num795 < 12; num795++)
             {

@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void Kill(int timeLeft) => PulseLoopSound?.Stop();
+        public override void OnKill(int timeLeft) => PulseLoopSound?.Stop();
 
         public override bool ShouldUpdatePosition() => false;
 

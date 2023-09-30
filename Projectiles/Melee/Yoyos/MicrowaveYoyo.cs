@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Projectile.Kill();
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             ActiveSound MMMMMMMMMMMMMMM;
             if (SoundEngine.TryGetActiveSound(mmmmmm, out MMMMMMMMMMMMMMM))

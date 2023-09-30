@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Enemy
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)
             {

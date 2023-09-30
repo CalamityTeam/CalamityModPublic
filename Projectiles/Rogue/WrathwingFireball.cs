@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         // Expand hitbox and explode on hit.
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ExpandHitboxBy(144);
 

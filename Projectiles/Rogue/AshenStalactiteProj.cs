@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)
             {

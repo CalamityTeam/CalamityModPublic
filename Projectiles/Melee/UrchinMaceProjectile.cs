@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             //Spawn a whirlpool typhoon after sending it out
             if (WindupProgress >= 1f && Projectile.owner == Main.myPlayer)

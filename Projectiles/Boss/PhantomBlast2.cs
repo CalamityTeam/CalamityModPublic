@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(250, 100, 100, Projectile.alpha);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item125, Projectile.Center);
             Projectile.position.X = Projectile.position.X + (Projectile.width / 2);

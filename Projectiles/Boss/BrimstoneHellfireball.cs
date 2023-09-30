@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(250, 50, 50, Projectile.alpha);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);

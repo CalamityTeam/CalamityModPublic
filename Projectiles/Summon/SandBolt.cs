@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 32, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
             {

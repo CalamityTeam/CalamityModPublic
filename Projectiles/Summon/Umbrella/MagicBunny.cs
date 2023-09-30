@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 			SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.position);
 			int idx = Gore.NewGore(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f)), 76);

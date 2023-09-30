@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(BuffType<GlacialState>(), debuffTime);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item105, Projectile.Center);
             for (int i = 0; i < 10; i++)

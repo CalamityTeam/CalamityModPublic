@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Ranged
             return true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item62 with { Volume = SoundID.Item62.Volume * 0.5f}, Projectile.position);
             if (Projectile.ai[1] == 1f) //Boost two

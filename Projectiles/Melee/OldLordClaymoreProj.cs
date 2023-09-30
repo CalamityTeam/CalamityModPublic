@@ -319,6 +319,6 @@ namespace CalamityMod.Projectiles.Melee
             PlayerLoader.OnHitNPC(Owner, target, hit, damageDone);
         }
 
-        public override void Kill(int timeLeft) => Owner.fullRotation = 0f;
+        public override void OnKill(int timeLeft) => Owner.fullRotation = 0f;
     }
 }

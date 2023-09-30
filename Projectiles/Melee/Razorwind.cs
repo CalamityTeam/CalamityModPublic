@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int k = 0; k < 10; k++)
             {

@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Magic
 
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCHit3, Projectile.position);
             int numDust = Main.rand.Next(4, 10);

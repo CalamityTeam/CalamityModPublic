@@ -210,7 +210,7 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Owner.grappling[0] == Projectile.whoAmI)
             {

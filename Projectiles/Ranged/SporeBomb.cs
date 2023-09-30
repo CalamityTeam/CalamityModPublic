@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Ranged
             return new Color(Main.DiscoR, 203, 103, Projectile.alpha);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             for (int d = 0; d < 25; d++)

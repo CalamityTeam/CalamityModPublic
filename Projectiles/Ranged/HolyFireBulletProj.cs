@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Spawn an on-hit explosion which deals 75% of the projectile's damage.
             if (Projectile.owner == Main.myPlayer)

@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 6, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
 

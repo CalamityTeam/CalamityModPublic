@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int k = 0; k < 5; k++)

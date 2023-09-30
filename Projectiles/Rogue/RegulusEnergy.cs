@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Rogue
             return Projectile.ai[0] >= 90 ? null : false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 24;

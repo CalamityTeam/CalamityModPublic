@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
             return true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = -8; i <= 8; i += 8)
             {

@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.velocity *= 0.95f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
             for (int k = 0; k < 5; k++)

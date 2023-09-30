@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Typeless
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ExpandHitboxBy(200);
             Projectile.maxPenetrate = Projectile.penetrate = -1;

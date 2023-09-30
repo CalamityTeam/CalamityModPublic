@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[rainbow].velocity = Vector2.Zero;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int rainbow = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
             Main.dust[rainbow].noGravity = true;

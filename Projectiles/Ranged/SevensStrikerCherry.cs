@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.rotation += 0.1f * Projectile.direction;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
             {

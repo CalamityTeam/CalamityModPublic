@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
             return true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ExpandHitboxBy(56);
             int num226 = 36;

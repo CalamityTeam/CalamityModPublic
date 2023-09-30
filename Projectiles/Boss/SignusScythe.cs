@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
             for (int num621 = 0; num621 < 5; num621++)

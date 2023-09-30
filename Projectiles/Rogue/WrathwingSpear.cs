@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Stealth strikes create an eruption on hit.
             if (Projectile.owner == Main.myPlayer && Projectile.Calamity().stealthStrike)

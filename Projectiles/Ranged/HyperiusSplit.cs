@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             const int killDust = 3;
             int[] dustTypes = new int[] { 60, 61, 59 };

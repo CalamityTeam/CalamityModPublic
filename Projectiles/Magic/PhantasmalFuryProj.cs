@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item43, Projectile.position);
             for (int j = 0; j <= 10; j++)

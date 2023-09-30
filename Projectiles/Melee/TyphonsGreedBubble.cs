@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
             Projectile.position = Projectile.Center;

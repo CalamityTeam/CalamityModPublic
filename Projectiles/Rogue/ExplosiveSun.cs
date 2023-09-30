@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 192;

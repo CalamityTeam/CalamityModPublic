@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 180, true);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(ImpactSound, Projectile.Center);
 

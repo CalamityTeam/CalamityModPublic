@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 			Projectile.ExpandHitboxBy(50);
             for (int i = 0; i < 3; i++)

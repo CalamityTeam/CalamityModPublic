@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
             SoundEngine.PlaySound(SoundID.NPCHit19 with { Volume = SoundID.NPCHit19.Volume * 0.7f}, Projectile.Center);
             return false;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Explode into a large display of blood.
             SoundEngine.PlaySound(SoundID.NPCHit19 with { Volume = SoundID.NPCHit19.Volume * 0.7f}, Projectile.Center);

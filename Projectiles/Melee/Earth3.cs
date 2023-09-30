@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(Projectile.Center, 1.5f, 0f, 0f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);

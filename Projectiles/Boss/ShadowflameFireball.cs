@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<Shadowflame>(), 180, true);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             int killDust = 20;

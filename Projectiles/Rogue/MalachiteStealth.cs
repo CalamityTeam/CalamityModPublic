@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override Color? GetAlpha(Color lightColor) => new Color(Main.DiscoR, 203, 103, Projectile.alpha);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ai[0] = 2f;
             Projectile.ExpandHitboxBy(112);

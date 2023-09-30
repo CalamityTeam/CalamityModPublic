@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Accessories.Wings
             player.noFallDmg = true;
             if (modPlayer.icicleCooldown <= 0)
             {
-                if (player.controlJump && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
+                if (player.controlJump && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
                 {
                     var source = player.GetSource_Accessory(Item);
                     int damage = (int)player.GetBestClassDamage().ApplyTo(25);

@@ -309,7 +309,7 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (DashTime <= 0f)
                 return;

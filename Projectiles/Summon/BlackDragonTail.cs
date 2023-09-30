@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<BlackDragonHead>()] > 0)
             {

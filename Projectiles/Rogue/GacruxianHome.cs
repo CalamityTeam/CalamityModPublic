@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.Electrified, 120);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i <= 10; i++)
             {

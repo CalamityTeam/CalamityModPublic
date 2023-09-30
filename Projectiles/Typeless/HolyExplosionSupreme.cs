@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.localNPCHitCooldown = 4;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.ai[0] < 2)
             {

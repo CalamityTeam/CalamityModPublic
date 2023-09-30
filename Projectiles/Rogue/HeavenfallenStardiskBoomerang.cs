@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int i = 0; i < 10; i++)

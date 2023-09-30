@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int timesSplit = (int)Projectile.ai[1];
 

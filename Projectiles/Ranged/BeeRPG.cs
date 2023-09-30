@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Ranged
             return true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ExpandHitboxBy(32);
             Projectile.maxPenetrate = -1;

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Healing
             return;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             var source = Projectile.GetSource_FromThis();
             SoundEngine.PlaySound(SoundID.Item125, Projectile.Center);

@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool? CanHitNPC(NPC target) => RealPenetrate > MaxPenetrate - 1f ? false : (bool?)null;
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
             {

@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Venom, 120);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             //Dust effect
