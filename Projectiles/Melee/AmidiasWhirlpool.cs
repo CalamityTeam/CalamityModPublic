@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Melee
             return new Color(30, 255, 253);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int k = 0; k < 20; k++)

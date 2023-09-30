@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.Length());
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             //Dust
             for (int i = 0; i < 30; i++)

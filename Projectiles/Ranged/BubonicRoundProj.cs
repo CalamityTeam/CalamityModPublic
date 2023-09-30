@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
         // Inflicts Plague for 3 seconds
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Plague>(), 180);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)
             {

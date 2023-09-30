@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.timeLeft = 300;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y - 80f, 0f, 0f, ModContent.ProjectileType<KeelhaulGeyserBottom>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y - 80f, 0f, 0f, ModContent.ProjectileType<KeelhaulGeyserTop>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);

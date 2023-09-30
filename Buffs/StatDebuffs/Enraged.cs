@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,19 +12,11 @@ namespace CalamityMod.Buffs.StatDebuffs
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
             BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
+
+            // Demonshade Enrage is a tag buff. Nothing is immune to it.
+            BuffID.Sets.IsATagBuff[Type] = true;
         }
 
-        public override void Update(Player player, ref int buffIndex)
-        {
-            player.Calamity().enraged = true;
-        }
-
-        public override void Update(NPC npc, ref int buffIndex)
-        {
-            if (npc.Calamity().enraged < npc.buffTime[buffIndex])
-                npc.Calamity().enraged = npc.buffTime[buffIndex];
-            npc.DelBuff(buffIndex);
-            buffIndex--;
-        }
+        public override void Update(Player player, ref int buffIndex) => player.Calamity().enraged = true;
     }
 }

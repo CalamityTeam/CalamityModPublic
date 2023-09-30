@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 			Projectile.ExpandHitboxBy(50);
             for (int i = 0; i < 5; i++)

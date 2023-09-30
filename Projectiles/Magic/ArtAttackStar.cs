@@ -197,7 +197,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void Kill(int timeLeft) => CreateDustExplosionEffect(Projectile.Center);
+        public override void OnKill(int timeLeft) => CreateDustExplosionEffect(Projectile.Center);
 
         public Color TrailColor(float completionRatio)
         {

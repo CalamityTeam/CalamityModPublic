@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         // Spawns 6 smaller projectiles that slowly glide outward and ignore iframes
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item89, Projectile.Center);
 

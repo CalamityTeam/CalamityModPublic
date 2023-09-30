@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Melee
             return new Color(Main.DiscoR, 100, 255, Projectile.alpha);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.ai[0] == 1f)
                 return;

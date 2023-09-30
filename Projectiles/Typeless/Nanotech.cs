@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Typeless
             modifiers.SourceDamage *= MathHelper.Clamp(1f - (capDamageFactor * excessCount), 0f, 1f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int num3;
             for (int num191 = 0; num191 < 2; num191 = num3 + 1)

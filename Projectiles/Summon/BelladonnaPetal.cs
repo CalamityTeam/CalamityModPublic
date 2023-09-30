@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int dustIndex = 0; dustIndex < 5; dustIndex++)
                 Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Grass);

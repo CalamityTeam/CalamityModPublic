@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             return true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int dustType = Projectile.ai[0] == 0f ? 14 : 114;
 

@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Diggging = false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer == Owner.whoAmI)
             {

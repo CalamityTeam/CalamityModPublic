@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Summon
             OldVelocities[0] = Projectile.velocity;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.dedServ)
                 return;

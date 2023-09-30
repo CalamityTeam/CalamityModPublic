@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 ElectricalBurst(5f, 9f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             bool notArcingProjectile = Projectile.ai[1] >= 0f;
 

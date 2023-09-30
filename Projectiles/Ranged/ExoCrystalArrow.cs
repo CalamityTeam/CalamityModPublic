@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Play a loud impact sound.
             SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound with { Volume = 0.2f }, Projectile.Center);

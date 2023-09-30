@@ -210,7 +210,7 @@ namespace CalamityMod.Projectiles.Typeless
             player.ManaEffect(25);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int dustType1 = 263;
             int dustType2 = 263;

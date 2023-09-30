@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.ai[1] < 2) //Do not shoot more spikes if two rounds have already been shot
             Shards();

@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
             return;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item50, Projectile.position);
             int num3;

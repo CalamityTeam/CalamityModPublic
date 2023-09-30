@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(ExplosionSound, Projectile.Center);
             Projectile.position = Projectile.Center;

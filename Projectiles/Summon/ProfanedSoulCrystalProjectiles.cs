@@ -5,15 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using CalamityMod.Buffs.Summon.Whips;
-using CalamityMod.Items.Accessories;
 using static CalamityMod.Items.Accessories.ProfanedSoulCrystal;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -178,7 +179,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.active = false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer == Projectile.owner && Projectile.ai[1] == 0f)
             {
@@ -374,7 +375,7 @@ namespace CalamityMod.Projectiles.Summon
             return null;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
@@ -780,7 +781,7 @@ namespace CalamityMod.Projectiles.Summon
                 swarm(target.Center);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
@@ -902,7 +903,7 @@ namespace CalamityMod.Projectiles.Summon
             return null;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             if (!Main.rand.NextBool(3)) //1 in 3 chance for dust
@@ -1201,7 +1202,7 @@ namespace CalamityMod.Projectiles.Summon
             calPlayer.rollBabSpears(Projectile.ai[0] == 0f ? 0 : empowered ? 30 : 10, target.chaseable); //empowered fires three times as many projectiles, keeps things consistent and easier to balance
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(3.1415927410125732);
@@ -1422,6 +1423,230 @@ namespace CalamityMod.Projectiles.Summon
     }
     
     #endregion
+    
+    #region Animation Projectiles
+    
+    public class PscTransformAnimation : ModProjectile, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Projectiles.Typeless";
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.NoLiquidDistortion[Type] = true;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = maxPscAnimTime;
+            Projectile.alpha = 255;
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, 0.3f, 0.225f, 0f);
+
+            var owner = Main.player[Projectile.owner];
+            owner.Calamity().profanedCrystalAnim = Projectile.timeLeft;
+            
+            Projectile.Center = owner.Center;
+
+            if (!owner.Calamity().profanedCrystal)
+            {
+
+                owner.Calamity().profanedCrystalAnim = -1;
+                Projectile.active = false;
+                return;
+            }
+            
+            if (Projectile.timeLeft > 1)
+            {
+                int dustCount = (int)Math.Round(MathHelper.SmoothStep(1f, 3f, ((float)maxPscAnimTime - (float)owner.Calamity().profanedCrystalAnim) / (float)maxPscAnimTime));
+                float outwardness = MathHelper.SmoothStep(40f, 75f, ((float)maxPscAnimTime - (float)owner.Calamity().profanedCrystalAnim) / (float)maxPscAnimTime);
+                float dustScale = MathHelper.Lerp(0.45f, 1f, ((float)maxPscAnimTime - (float)owner.Calamity().profanedCrystalAnim) / (float)maxPscAnimTime);
+                int[] validRockTypes = new int[] { 1, 3, 4, 5, 6 };
+                int projectileCount = owner.ownedProjectileCounts[ModContent.ProjectileType<PscTransformRocks>()];
+                bool shouldStickAround = projectileCount <= 20;
+                for (int i = 0; i < dustCount; i++)
+                {
+                    Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2Unit() * outwardness * Main.rand.NextFloat(0.75f, 1.1f);
+                    Vector2 dustVelocity = (Projectile.Center - spawnPosition) * 0.085f + owner.velocity;
+                    
+                    int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
+                    
+                    Dust dust = Dust.NewDustPerfect(spawnPosition, ProvUtils.GetDustID(pscState));
+                    dust.velocity = dustVelocity;
+                    dust.scale = dustScale * Main.rand.NextFloat(0.75f, 1.15f);
+                    dust.noGravity = true;
+                    dust.noLight = true;
+
+                    if (Projectile.timeLeft % 3 == 0)
+                    {
+                        if (!Main.dedServ)
+                        {
+                            var startVec = Main.rand.NextVector2CircularEdge(250f, 250f);
+                            var finalDist = Main.rand.NextFloat(50f, 50f);
+                            var startColor = Main.dayTime ? Color.Orange : Color.Aquamarine;
+                            Particle wtfIsAParticle = new ManaDrainStreak(owner, Main.rand.NextFloat(0.3f, 0.6f), startVec, finalDist, startColor, startColor * 1.5f, Main.rand.Next(20, 31), owner.Center);
+                            GeneralParticleHandler.SpawnParticle(wtfIsAParticle);
+                        }
+
+                        if (owner.whoAmI == Main.myPlayer)
+                        {
+                            spawnPosition = owner.Center;
+                            spawnPosition.X += Main.rand.NextFloat(-500f, 500f);
+                            spawnPosition.Y += Main.rand.NextFloat(-500f, 500f);
+                            dustVelocity = (Projectile.Center - spawnPosition) * 0.085f + owner.velocity;
+                            dustVelocity.Normalize();
+                            dustVelocity *= 16f;
+                            int rockType = validRockTypes[Main.rand.Next(0, validRockTypes.Length)];
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, dustVelocity, ModContent.ProjectileType<PscTransformRocks>(), 0, 0f, Projectile.owner, shouldStickAround ? 1f : 0f, rockType);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                owner.Calamity().profanedCrystalAnim = -1;
+                owner.Calamity().GeneralScreenShakePower = 5f;
+                DetermineTransformationEligibility(owner);
+                if (!Main.dedServ)
+                {
+                    var color = GetColorForPsc(owner.Calamity().pscState, Main.dayTime) with {A = 255}; //WHY THE FUCK IS THE ALPHA INVERTED FOR THIS
+                    Particle wtfIsAParticle = new DirectionalPulseRing(owner.Center, Vector2.Zero, color, Vector2.One, 0f, 0f, 2.5f, 75);
+                    GeneralParticleHandler.SpawnParticle(wtfIsAParticle);
+                }
+                OnKill(1);
+            }
+        }
+
+        public override bool? CanDamage() => false;
+        
+
+        public override void OnKill(int timeLeft)
+        {
+            SoundEngine.PlaySound(Providence.SpawnSound, Projectile.position);
+            var Owner = Main.player[Projectile.owner];
+            for (int i = 0; i < 20; i++)
+            {
+                Vector2 dustPos = new Vector2(Owner.Center.X + Main.rand.NextFloat(-10, 10), Owner.Center.Y + Main.rand.NextFloat(-10, 10));
+                Vector2 velocity = (Owner.Center - dustPos).SafeNormalize(Vector2.Zero);
+                velocity *= Main.dayTime ? 3f : 6.9f;
+                var dust = Dust.NewDustPerfect(Owner.Center, ProvUtils.GetDustID((float)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night)), velocity, 0, default(Color), 2f);
+                if (!Main.dayTime)
+                    dust.noGravity = true;
+            }
+
+            Projectile.active = false;
+        }
+    }
+        
+    public class PscTransformRocks : ModProjectile, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Projectiles.Typeless";
+        public override string Texture => "CalamityMod/Projectiles/Typeless/ArtifactOfResilienceShard1";
+
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.NoLiquidDistortion[Type] = true;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = maxPscAnimTime;
+            Projectile.alpha = 0;
+            Projectile.hide = true;
+            Projectile.scale = 0.1f;
+        }
+
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            //Ah yes, overriding drawbehind, to draw in front of the player, flawless logic
+            overPlayers.Add(index);
+        }
+
+        public override void AI()
+        {
+            var owner = Main.player[Projectile.owner];
+
+            if (!owner.Calamity().profanedCrystal)
+            {
+                Projectile.active = false;
+                return;
+            }
+            //scale up the proj
+            if (Projectile.scale < 1.25f)
+                Projectile.scale += 0.1f;
+            
+            //if it's not allowed to stick around, fade into oblivion
+            if ((Projectile.velocity.Length() <= 3f && Projectile.ai[0] == 0f) || Projectile.timeLeft <= 25)
+                Projectile.alpha += Projectile.ai[0] == 0f ? 20 : 10;
+
+            //if the anim has finished, fade, regardless of where the projectile is
+            if (owner.Calamity().profanedCrystalAnim == -1)
+                Projectile.alpha += 15;
+            
+            //kill any projectiles that are fully faded
+            if (Projectile.alpha >= 255)
+                Projectile.active = false;
+            
+            //slow down upon reaching the player
+            if (Projectile.Hitbox.Intersects(owner.Hitbox))
+                Projectile.velocity *= 0.1f;
+            else
+            {
+                var target = owner.Center - Projectile.Center;
+                target.Normalize();
+                Projectile.velocity = target * 18f;
+            }
+
+        }
+
+        public override bool? CanDamage() => false;
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            int rockType = (int)MathHelper.Clamp(Projectile.ai[1], 1f, 6f);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture[..^1] + rockType.ToString()).Value;
+            
+            Vector2 drawOrigin = new Vector2(texture.Width / 2, texture.Height / 2);
+            Vector2 drawPos = Projectile.Center - Main.screenPosition;
+            drawPos -= new Vector2(texture.Width, texture.Height) * Projectile.scale / 2f;
+            drawPos += drawOrigin * Projectile.scale + new Vector2(0f, Projectile.gfxOffY);
+            Rectangle frame = new Rectangle(0, 0, texture.Width, texture.Height);
+            if (CalamityConfig.Instance.Afterimages)  //handle afterimages manually since the utility broke it and didn't render correctly
+            {
+                for (int i = 0; i < Projectile.oldPos.Length; ++i)
+                {
+                    drawPos = Projectile.oldPos[i] + (Projectile.Size / 2f) - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+                    // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
+                    Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                    Main.EntitySpriteDraw(texture, drawPos, frame, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+                }
+            }
+            else
+            {
+                Main.EntitySpriteDraw(texture, drawPos, frame, Color.White, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+            }
+            return false;
+        }
+    }
+        
+    
+    #endregion
 
     #region Bab Projectiles
 
@@ -1561,7 +1786,7 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             if (Main.rand.NextBool(3))
@@ -1722,7 +1947,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.active = false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer == Projectile.owner)
             {
@@ -1837,7 +2062,7 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);

@@ -274,7 +274,7 @@ namespace CalamityMod.Projectiles.Ranged
             Owner.itemAnimation = 2;
             Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (SoundEngine.TryGetActiveSound(NovaChargeStartSlot, out var NovaCharge))
                 NovaCharge.Stop();

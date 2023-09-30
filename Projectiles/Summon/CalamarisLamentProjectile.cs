@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
         // and hit DoG's head and/or tail reliably and without penetration.
         public override bool? CanDamage() => Projectile.getRect().Intersects(TargetShot.getRect()) ? null : false;
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 15; i++)
             {

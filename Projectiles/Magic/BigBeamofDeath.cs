@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.timeLeft = 80;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int numProj = 2;
             float rotation = MathHelper.ToRadians(20);

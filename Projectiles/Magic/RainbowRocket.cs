@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Magic
         #endregion
 
         #region Kill Effects
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
             {

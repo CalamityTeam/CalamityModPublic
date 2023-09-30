@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(WulfrumProsthesis.HitSound with { Volume = WulfrumProsthesis.HitSound.Volume * 0.6f }, Projectile.Center);
         }

@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.timeLeft = 90;
             Projectile.DamageType = DamageClass.Melee;
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int damage = (int)Main.player[Projectile.owner].GetTotalDamage<MeleeDamageClass>().ApplyTo(GaelsGreatsword.BaseDamage);
             for (int i = 0; i < 3; i++)

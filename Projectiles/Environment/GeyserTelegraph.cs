@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Environment
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer != Projectile.owner)
                 return;

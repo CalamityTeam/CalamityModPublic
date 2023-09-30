@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver2;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int dustIndex = 0; dustIndex < 3; ++dustIndex)
             {

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Frostburn2, 180);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (timeLeft > 0)
                 SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);

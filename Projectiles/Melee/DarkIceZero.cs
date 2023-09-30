@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
             return new Color(198, 197, 246);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (timeLeft > 0)
             {

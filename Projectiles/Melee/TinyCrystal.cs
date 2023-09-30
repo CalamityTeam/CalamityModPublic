@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
                 CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 9f, 20f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int dustType = Projectile.ai[0] == 0f ? 56 : 73;
             for (int k = 0; k < 5; k++)

@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int dustType = (ProjectileType == 2f ? 57 : ProjectileType == 1f ? 56 : 73); // Frostbite, Ichor, Hellfire respectively
             float effectiveVelocity = Projectile.velocity.Length() * Projectile.MaxUpdates;

@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             SoundEngine.PlaySound(FlareSound, Projectile.Center);

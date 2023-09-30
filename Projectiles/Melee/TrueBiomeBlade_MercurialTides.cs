@@ -286,7 +286,7 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             //Cut the velocity short if dashing
             if (State == 1f)

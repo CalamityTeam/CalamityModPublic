@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // If no on-hit explosion was ever generated, spawn it for free when the beam expires.
             if (Projectile.localAI[0] == 0f)

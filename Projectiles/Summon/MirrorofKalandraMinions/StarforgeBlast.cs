@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
             GeneralParticleHandler.SpawnParticle(boom);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int dustAmount = 100;
             for (int dustIndex = 0; dustIndex < dustAmount; dustIndex++)

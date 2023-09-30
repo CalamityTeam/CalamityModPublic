@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Pets
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Owner.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) != -1)
                 Owner.ClearBuff(ModContent.BuffType<ArcherofLunamoon>());

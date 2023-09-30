@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netUpdate = true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int dustIndex = 0; dustIndex < 10; dustIndex++)
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 40, newColor: Color.Pink);

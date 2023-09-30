@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 100, 250, Projectile.alpha);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.ai[0] == 1f)
                 return;

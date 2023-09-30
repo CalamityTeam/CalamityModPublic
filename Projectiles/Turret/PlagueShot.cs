@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Turret
             GeneralParticleHandler.SpawnParticle(blood);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(TeslaCannon.FireSound with { Volume = 0.18f }, Projectile.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)

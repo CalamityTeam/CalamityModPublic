@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Summon
 
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SpawnDust();
             SoundEngine.PlaySound(SoundID.NPCHit5, Projectile.Center);

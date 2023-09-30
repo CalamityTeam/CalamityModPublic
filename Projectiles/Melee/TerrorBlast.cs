@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
         // Terror Blasts do nothing until they explode.
         public override bool? CanDamage() => Projectile.localAI[0] > 0f;
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Explode on death, becoming an enormous hitbox and spawning a ton of dust.
             SoundEngine.PlaySound(SoundID.Item60, Projectile.position);

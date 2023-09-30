@@ -5,11 +5,11 @@ using System.Reflection;
 using CalamityMod.Balancing;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Placeables;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon.Whips;
 using CalamityMod.CalPlayer;
-using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Tools;
@@ -60,7 +60,6 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent;
@@ -213,7 +212,6 @@ namespace CalamityMod.NPCs
         public int webbed = 0;
         public int slowed = 0;
         public int electrified = 0;
-        public int yellowCandle = 0;
         public int pearlAura = 0;
         public int bBlood = 0;
         public int brainRot = 0;
@@ -241,7 +239,6 @@ namespace CalamityMod.NPCs
         public int astralInfection = 0;
         public int wDeath = 0;
         public int nightwither = 0;
-        public int enraged = 0;
         public int shellfishVore = 0;
         public int clamDebuff = 0;
         public int sulphurPoison = 0;
@@ -424,7 +421,6 @@ namespace CalamityMod.NPCs
             myClone.webbed = webbed;
             myClone.slowed = slowed;
             myClone.electrified = electrified;
-            myClone.yellowCandle = yellowCandle;
             myClone.pearlAura = pearlAura;
             myClone.bBlood = bBlood;
             myClone.brainRot = brainRot;
@@ -449,7 +445,6 @@ namespace CalamityMod.NPCs
             myClone.astralInfection = astralInfection;
             myClone.wDeath = wDeath;
             myClone.nightwither = nightwither;
-            myClone.enraged = enraged;
             myClone.shellfishVore = shellfishVore;
             myClone.clamDebuff = clamDebuff;
             myClone.sulphurPoison = sulphurPoison;
@@ -1143,6 +1138,16 @@ namespace CalamityMod.NPCs
                 RevDeathStatChanges(npc, Mod);
 
             OtherStatChanges(npc);
+
+            // Function lives in NPCDebuffs.cs
+            // This applies to ALL NPCs, vanilla AND Calamity.
+            // Calamity NPC debuff immunity definitions live here.
+            // Changes to vanilla debuff immunities are applied holistically in the function.
+            // Sweeping debuff vulnerabilities for special effects are also applied in this function.
+            //
+            // NO CALAMITY NPC DEFINES THEIR DEBUFF VULNERABILITIES IN THEIR OWN FILE.
+            // THEY ALL RELY ON THIS SINGLE DATABASE.
+            npc.SetDebuffImmunities();
 
             VulnerabilitiesAndResistances(npc);
 
@@ -2645,7 +2650,7 @@ namespace CalamityMod.NPCs
             // Yellow Candle provides +5% damage which ignores both DR and defense.
             // This means Yellow Candle is buffing armor penetration and technically not ignoring defense,
             // but it's small enough to let it slide.
-            if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
+            if (npc.HasBuff<CirrusYellowCandleBuff>() && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
                 finalMultiplier += 0.05f;
 
             // Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
@@ -2780,9 +2785,6 @@ namespace CalamityMod.NPCs
         #region Pre AI
         public override bool PreAI(NPC npc)
         {
-            // Set debuff immunities.
-            DebuffImmunities(npc);
-
             // Change Spaz and Ret weaknesses and resistances when phase 2 starts.
             if (npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
             {
@@ -3817,65 +3819,6 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Debuff Immunities
-        private void DebuffImmunities(NPC npc)
-        {
-            // Check out NPCDebuffs.cs as this function sets the debuff immunities for all enemies in Cal bar the ones described below.
-            npc.SetNPCDebuffImmunities();
-
-            // All bosses and several enemies are automatically immune to Pearl Aura.
-            if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
-                npc.buffImmune[BuffType<PearlAura>()] = true;
-
-            // Make all Cal NPCs immune to confused unless otherwise specified
-            // Extra note: Clams are not in this list as they initially immune to Confused, but are no longer immune once aggro'd. This is set in their AI().
-            bool cal = npc.ModNPC != null && npc.ModNPC.Mod.Name.Equals(ModContent.GetInstance<CalamityMod>().Name);
-            if (!CalamityLists.confusionEnemyList.Contains(npc.type) && cal)
-                npc.buffImmune[BuffID.Confused] = true;
-
-            // Any enemy not immune to Venom shouldn't be immune to Sulphuric Poisoning as it is an upgrade.
-            if (!npc.buffImmune[BuffID.Venom])
-                npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
-
-            // Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
-            if (CalamityLists.DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel ||
-                (CalamityLists.EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || NPCID.Sets.ActsLikeTownNPC[npc.type])
-            {
-                for (int k = 0; k < npc.buffImmune.Length; k++)
-                {
-                    if (!BuffID.Sets.IsAnNPCWhipDebuff[k])
-                        npc.buffImmune[k] = true;
-                }
-                NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData { ImmuneToAllBuffsThatAreNotWhips = true };
-                NPCID.Sets.DebuffImmunitySets[npc.type] = debuffData;
-
-                if (npc.townNPC || NPCID.Sets.ActsLikeTownNPC[npc.type])
-                {
-                    npc.buffImmune[BuffID.Wet] = false;
-                    npc.buffImmune[BuffID.Slimed] = false;
-                    npc.buffImmune[BuffID.Lovestruck] = false;
-                    npc.buffImmune[BuffID.Stinky] = false;
-                    npc.buffImmune[BuffID.GelBalloonBuff] = false;
-                }
-            }
-
-            // Most bosses and boss servants are not immune to Kami Flu.
-            if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
-                npc.buffImmune[BuffType<KamiFlu>()] = false;
-
-            // Nothing should be immune to Enraged.
-            npc.buffImmune[BuffType<Enraged>()] = false;
-            
-            // Town npcs should NOT be immune to shimmer
-            if (npc.townNPC && NPCID.Sets.ShimmerTownTransform[npc.type])
-                npc.buffImmune[BuffID.Shimmer] = false;
-
-            // Extra Notes:
-            // Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
-            // The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
-        }
-        #endregion
-
         #region Boss Rush Force Despawn Other NPCs
         private void BossRushForceDespawnOtherNPCs(NPC npc, Mod mod)
         {
@@ -4221,8 +4164,6 @@ namespace CalamityMod.NPCs
 
             if (electrified > 0)
                 electrified--;
-            if (yellowCandle > 0)
-                yellowCandle--;
             if (pearlAura > 0)
                 pearlAura--;
             if (bBlood > 0)
@@ -4264,8 +4205,6 @@ namespace CalamityMod.NPCs
                 wDeath--;
             if (nightwither > 0)
                 nightwither--;
-            if (enraged > 0)
-                enraged--;
             if (shellfishVore > 0)
                 shellfishVore--;
             if (clamDebuff > 0)
@@ -4692,47 +4631,47 @@ namespace CalamityMod.NPCs
 
             float TagDamageMult = ProjectileID.Sets.SummonTagDamageMultiplier[proj.type];
             for (int i = 0; i < NPC.maxBuffs; i++)
-			{
-				if (npc.buffTime[i] >= 1)
-				{
-					switch (npc.buffType[i])
-					{
-						case BuffID.BlandWhipEnemyDebuff: // Leather Whip
-							modifiers.FlatBonusDamage += -4f * TagDamageMult;
+            {
+                if (npc.buffTime[i] >= 1)
+                {
+                    switch (npc.buffType[i])
+                    {
+                        case BuffID.BlandWhipEnemyDebuff: // Leather Whip
+                            modifiers.FlatBonusDamage += -4f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.DurendalTagDamageMultiplier - 1f) * TagDamageMult;
-							break;
+                            break;
                         case BuffID.ThornWhipNPCDebuff: // Snapthorn
-							modifiers.FlatBonusDamage += -6f * TagDamageMult;
+                            modifiers.FlatBonusDamage += -6f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.SnapthornTagDamageMultiplier - 1f) * TagDamageMult;
-							break;
-						case BuffID.BoneWhipNPCDebuff: // Spinal Tap
-							modifiers.FlatBonusDamage += -7f * TagDamageMult;
+                            break;
+                        case BuffID.BoneWhipNPCDebuff: // Spinal Tap
+                            modifiers.FlatBonusDamage += -7f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.SpinalTapTagDamageMultiplier - 1f) * TagDamageMult;
-							break;
+                            break;
                         case BuffID.FlameWhipEnemyDebuff: // Firecracker
-							modifiers.ScalingBonusDamage += (BalancingConstants.FirecrackerExplosionDamageMultiplier - 2.75f) * TagDamageMult;
-							break;
+                            modifiers.ScalingBonusDamage += (BalancingConstants.FirecrackerExplosionDamageMultiplier - 2.75f) * TagDamageMult;
+                            break;
                         case BuffID.CoolWhipNPCDebuff: // Cool Whip
-							modifiers.FlatBonusDamage += -6f * TagDamageMult;
+                            modifiers.FlatBonusDamage += -6f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.CoolWhipTagDamageMultiplier - 1f) * TagDamageMult;
-		    				break;
-						case BuffID.SwordWhipNPCDebuff: // Durendal
-							modifiers.FlatBonusDamage += -9f * TagDamageMult;
+                            break;
+                        case BuffID.SwordWhipNPCDebuff: // Durendal
+                            modifiers.FlatBonusDamage += -9f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.DurendalTagDamageMultiplier - 1f) * TagDamageMult;
-							break;
-						case BuffID.ScytheWhipEnemyDebuff: // Dark Harvest
-							modifiers.FlatBonusDamage += -10f * TagDamageMult;
-							break;
-						case BuffID.MaceWhipNPCDebuff: // Morning Star
-							modifiers.FlatBonusDamage += -8f * TagDamageMult;
+                            break;
+                        case BuffID.ScytheWhipEnemyDebuff: // Dark Harvest
+                            modifiers.FlatBonusDamage += -10f * TagDamageMult;
+                            break;
+                        case BuffID.MaceWhipNPCDebuff: // Morning Star
+                            modifiers.FlatBonusDamage += -8f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.MorningStarTagDamageMultiplier - 1f) * TagDamageMult;
-							break;
-						case BuffID.RainbowWhipNPCDebuff: // Kaleidoscope
-				    		modifiers.FlatBonusDamage += -20f * TagDamageMult;
+                            break;
+                        case BuffID.RainbowWhipNPCDebuff: // Kaleidoscope
+                            modifiers.FlatBonusDamage += -20f * TagDamageMult;
                             modifiers.ScalingBonusDamage += (BalancingConstants.KaleidoscopeTagDamageMultiplier - 1f) * TagDamageMult;
-							break;
-					}
-				}
+                            break;
+                    }
+                }
             }
             //BuffType cannot be used in switch case, so that has to be handled outside of it
             //Verify that the owner of the proj has psc state higher or equal to psc buffs
@@ -5324,7 +5263,7 @@ namespace CalamityMod.NPCs
 
             // Brimstone Flames and Demonshade Enrage set bonus share the same visual effects
             // TODO -- change this when Demonshade is reworked
-            if (bFlames > 0 || enraged > 0)
+            if (bFlames > 0 || npc.HasBuff<Enraged>())
                 BrimstoneFlames.DrawEffects(npc, ref drawColor);
 
             if (bBlood > 0)
@@ -5465,7 +5404,7 @@ namespace CalamityMod.NPCs
                     return new Color(255, 0, 0, npc.alpha);
             }
 
-            if (enraged > 0)
+            if (npc.HasBuff<Enraged>())
                 return new Color(200, 50, 50, npc.alpha);
 
             if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
@@ -5535,8 +5474,6 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/ArmorCrunch").Value);
                     if (crumble > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Crumbling").Value);
-                    if (enraged > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Enraged").Value);
                     if (eutrophication > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Eutrophication").Value);
                     if (gState > 0)

@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Magic
                 CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 12f, 20f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int num3;
             for (int num114 = 0; num114 < 10; num114 = num3 + 1)

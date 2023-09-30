@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Typeless
             Time++;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             BossRushEvent.End();
 			for (int i = Main.maxPlayers - 1; i >= 0; i--)

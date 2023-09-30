@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int num3;
             for (int num611 = 0; num611 < 10; num611 = num3 + 1)

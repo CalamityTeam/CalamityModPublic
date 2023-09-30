@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int numberofdusts = Projectile.Calamity().stealthStrike ? 14 : 5;
             for (int i = 0; i <= numberofdusts; i++)

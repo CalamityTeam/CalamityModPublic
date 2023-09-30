@@ -4,6 +4,7 @@ using System.Linq;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.Events;
+using CalamityMod.ExtraJumps;
 using CalamityMod.Items;
 using CalamityMod.Particles;
 using CalamityMod.Particles.Metaballs;
@@ -974,7 +975,8 @@ namespace CalamityMod
             if (setBonus == "sulfur" || setBonus == "sulphur" || setBonus == "sulfurous" || setBonus == "sulphurous")
             {
                 mp.sulfurSet = enabled;
-                mp.sulfurJump = enabled;
+                if (enabled)
+                    p.GetJumpState<SulphurJump>().Enable();
                 return true;
             }
 
@@ -1008,12 +1010,16 @@ namespace CalamityMod
             if (setBonus == "statigel_summon" || setBonus == "statigel summon")
             {
                 mp.statigelSet = enabled;
+                if (enabled)
+                    p.GetJumpState<StatigelJump>().Enable();
                 mp.slimeGod = enabled; // LATER -- remove this when player.slimeGod actually controls statigel summoner
                 return true;
             }
             else if (setBonus == "statigel" || setBonus.StartsWith("statigel_") || setBonus.StartsWith("statigel "))
             {
                 mp.statigelSet = enabled;
+                if (enabled)
+                    p.GetJumpState<StatigelJump>().Enable();
                 return true;
             }
 

@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Melee
             return new Color(0, 255, 255, Projectile.alpha);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Zombie103, Projectile.position);
             Projectile.position = Projectile.Center;

@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Typeless
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             Projectile.ExpandHitboxBy(50);
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             // If the player is dodging, don't apply debuffs
-            if ((info.Damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red) || target.creativeGodMode)
+            if (target.creativeGodMode)
                 return;
 
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 60 * 5, false);

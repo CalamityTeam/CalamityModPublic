@@ -239,7 +239,7 @@ namespace CalamityMod.Projectiles.Melee
             modifiers.SourceDamage *= (float)Math.Pow(1 - ArkoftheCosmos.blastFalloffStrenght, Projectile.numHits * ArkoftheCosmos.blastFalloffSpeed);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Dashing)
             {

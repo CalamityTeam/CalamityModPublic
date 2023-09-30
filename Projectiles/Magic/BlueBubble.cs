@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Magic
                 CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 400f, 8f, 20f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item54, Projectile.Center);
             int num190 = Main.rand.Next(5, 9);

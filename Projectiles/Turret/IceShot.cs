@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Turret
             GeneralParticleHandler.SpawnParticle(blood);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/NPCHit/CryogenHit", 3) with { Volume = 0.55f }, Projectile.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)

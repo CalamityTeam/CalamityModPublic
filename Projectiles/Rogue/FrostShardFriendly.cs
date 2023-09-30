@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
                 SoundEngine.PlaySound(SoundID.Item27 with { Volume = SoundID.Item12.Volume * 0.7f }, Projectile.position);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int index1 = 0; index1 < 3; ++index1)
             {

@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.velocity.X = Projectile.velocity.X * 0.99f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 5; i++)
             {

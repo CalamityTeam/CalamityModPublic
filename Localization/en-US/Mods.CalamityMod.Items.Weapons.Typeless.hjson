@@ -76,8 +76,8 @@ YanmeisKnife: {
 	DisplayName: Yanmei's Knife
 	Tooltip:
 		'''
-		When hitting a boss, miniboss, or their minions, you cripple the enemy
-		You will also gain enhanced movement speed and damage for 10 seconds
+		Enemies you hit are crippled
+		Hits will also give you enhanced movement speed and damage for 10 seconds
 		'A knife from an unknown world
 		An owner whose heart is pure and free of taint
 		A heart of iron and valor'

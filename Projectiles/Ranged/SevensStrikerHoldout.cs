@@ -336,7 +336,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         // When the gun disappears, stop any in-progress slots sounds and set a cooldown of 12 frames.
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (SoundEngine.TryGetActiveSound(RouletteSoundSlot, out var dringdring))
                 dringdring.Stop();

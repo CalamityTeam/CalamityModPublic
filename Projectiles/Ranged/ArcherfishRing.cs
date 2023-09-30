@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             float totalDusts = 18f;
             for (float i = 0f; i < totalDusts; i++)

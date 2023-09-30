@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             bool weakExplosion = Projectile.localAI[0] < 90f;
 

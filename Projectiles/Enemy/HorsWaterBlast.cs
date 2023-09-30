@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Enemy
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
             for (int dust = 0; dust <= 40; dust++)
