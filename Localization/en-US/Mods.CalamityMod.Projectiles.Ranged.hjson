@@ -10,7 +10,6 @@ Aquashard.DisplayName: Aquashard
 AquashardSplit.DisplayName: Aquashard
 ArcherfishRing.DisplayName: Archerfish Ring
 ArcherfishShot.DisplayName: Water Round
-ArcNovaDiffuserHoldout.DisplayName: Arc Nova Diffuser
 ArcticArrowProj.DisplayName: Arctic Arrow
 AstralCannonProjectile.DisplayName: Astral Crystal
 AstralRound.DisplayName: Astral Round
@@ -124,9 +123,7 @@ LunarBolt.DisplayName: Bolt
 LunarBolt2.DisplayName: Bolt
 LuxorsGiftRanged.DisplayName: Luxor's Ranged
 MaelstromHoldout.DisplayName: The Maelstrom
-MagnaCannonHoldout.DisplayName: Magna Cannon
 MagnaShot.DisplayName: Magna Bolt
-MagnaStrike.DisplayName: Strike
 MagnomalyAura.DisplayName: Magnomaly Aura
 MagnomalyBeam.DisplayName: Beam
 MagnomalyExplosion.DisplayName: Explosion
@@ -146,7 +143,7 @@ NeedlerProj.DisplayName: Needle
 NorfleetCannon.DisplayName: Norfleet
 NorfleetComet.DisplayName: Comet
 NorfleetExplosion.DisplayName: Explosion
-NovaChargeShot.DisplayName: Charged Nova Blast
+NovaChargedShot.DisplayName: Charged Nova Blast
 NovaShot.DisplayName: Nova Bolt
 Nuke.DisplayName: Nuke
 NullShot.DisplayName: Null
@@ -154,7 +151,6 @@ NullShot2.DisplayName: Null
 OnyxSharkBomb.DisplayName: Onyx Shark
 OpalChargedStrike.DisplayName: Charged Plasma Bolt
 OpalStrike.DisplayName: Heated Bolt
-OpalStrikerHoldout.DisplayName: Opal Striker
 PhangasmBow.DisplayName: Phangasm
 PiercingBullet.DisplayName: Piercing Blow
 PlagueArrow.DisplayName: Plague Arrow
