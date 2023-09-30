@@ -4263,13 +4263,10 @@ namespace CalamityMod.CalPlayer
         private void WeakPetrification()
         {
             weakPetrification = true;
-            Player.GetJumpState(ExtraJump.CloudInABottle).Enabled = false/* tModPorter Suggestion: Call Enable() if setting this to true, otherwise call Disable(). */;
-            Player.GetJumpState(ExtraJump.SandstormInABottle).Enabled = false/* tModPorter Suggestion: Call Enable() if setting this to true, otherwise call Disable(). */;
-            Player.GetJumpState(ExtraJump.BlizzardInABottle).Enabled = false/* tModPorter Suggestion: Call Enable() if setting this to true, otherwise call Disable(). */;
-            Player.GetJumpState(ExtraJump.TsunamiInABottle).Enabled = false/* tModPorter Suggestion: Call Enable() if setting this to true, otherwise call Disable(). */;
-            Player.GetJumpState(ExtraJump.FartInAJar).Enabled = false/* tModPorter Suggestion: Call Enable() if setting this to true, otherwise call Disable(). */;
-            statigelJump = false;
-            sulfurJump = false;
+
+            // All double jumps, vanilla and modded, cannot be used as long as the player has this debuff.
+            Player.blockExtraJumps = true;
+
             Player.rocketBoots = 0;
             Player.jumpBoost = false;
             Player.slowFall = false;
