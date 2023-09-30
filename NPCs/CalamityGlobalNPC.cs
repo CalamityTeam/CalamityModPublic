@@ -239,7 +239,6 @@ namespace CalamityMod.NPCs
         public int astralInfection = 0;
         public int wDeath = 0;
         public int nightwither = 0;
-        public int enraged = 0;
         public int shellfishVore = 0;
         public int clamDebuff = 0;
         public int sulphurPoison = 0;
@@ -446,7 +445,6 @@ namespace CalamityMod.NPCs
             myClone.astralInfection = astralInfection;
             myClone.wDeath = wDeath;
             myClone.nightwither = nightwither;
-            myClone.enraged = enraged;
             myClone.shellfishVore = shellfishVore;
             myClone.clamDebuff = clamDebuff;
             myClone.sulphurPoison = sulphurPoison;
@@ -4207,8 +4205,6 @@ namespace CalamityMod.NPCs
                 wDeath--;
             if (nightwither > 0)
                 nightwither--;
-            if (enraged > 0)
-                enraged--;
             if (shellfishVore > 0)
                 shellfishVore--;
             if (clamDebuff > 0)
@@ -5267,7 +5263,7 @@ namespace CalamityMod.NPCs
 
             // Brimstone Flames and Demonshade Enrage set bonus share the same visual effects
             // TODO -- change this when Demonshade is reworked
-            if (bFlames > 0 || enraged > 0)
+            if (bFlames > 0 || npc.HasBuff<Enraged>())
                 BrimstoneFlames.DrawEffects(npc, ref drawColor);
 
             if (bBlood > 0)
@@ -5408,7 +5404,7 @@ namespace CalamityMod.NPCs
                     return new Color(255, 0, 0, npc.alpha);
             }
 
-            if (enraged > 0)
+            if (npc.HasBuff<Enraged>())
                 return new Color(200, 50, 50, npc.alpha);
 
             if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
@@ -5478,8 +5474,6 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/ArmorCrunch").Value);
                     if (crumble > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Crumbling").Value);
-                    if (enraged > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Enraged").Value);
                     if (eutrophication > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Eutrophication").Value);
                     if (gState > 0)
