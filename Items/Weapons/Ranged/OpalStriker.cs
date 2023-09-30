@@ -30,30 +30,19 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useTime = Item.useAnimation = AftershotCooldownFrames;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
+            Item.noUseGraphic = true;
             Item.knockBack = 4f;
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = null;
             Item.autoReuse = false;
             Item.channel = true;
-            Item.shoot = ModContent.ProjectileType<OpalStrike>();
+            Item.shoot = ModContent.ProjectileType<OpalStrikerHoldout>();
             Item.shootSpeed = 12f;
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
-        public override void HoldItem(Player player)
-        {
-            Item.noUseGraphic = true;
-        }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<OpalStrikerHoldout>()] <= 0;
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            Vector2 shootVelocity = velocity;
-            Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
-            Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<OpalStrikerHoldout>(), damage, knockback, player.whoAmI);
-            return false;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {

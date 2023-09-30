@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class NovaChargeShot : ModProjectile, ILocalizedModType
+    public class NovaChargedShot : ModProjectile, ILocalizedModType
     {
         public static readonly SoundStyle ChargeImpact = new("CalamityMod/Sounds/Item/ArcNovaDiffuserChargeImpact") { Volume = 0.3f };
         public int Time = 0;

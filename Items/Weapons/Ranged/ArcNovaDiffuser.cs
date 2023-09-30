@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.height = 38;
             Item.useTime = Item.useAnimation = AftershotCooldownFrames;
             Item.noMelee = true;
+            Item.noUseGraphic = true;
             Item.channel = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 4f;
@@ -40,27 +41,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = null;
             Item.autoReuse = false;
-            Item.shoot = ModContent.ProjectileType<NovaShot>();
+            Item.shoot = ModContent.ProjectileType<ArcNovaDiffuserHoldout>();
             Item.shootSpeed = 12f;
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
-        public override void HoldItem(Player player)
-        {
-            Item.noUseGraphic = true;
-        }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ArcNovaDiffuserHoldout>()] <= 0;
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            Vector2 shootVelocity = velocity;
-            Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
-            Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<ArcNovaDiffuserHoldout>(), damage, knockback, player.whoAmI);
-            return false;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
         public override void AddRecipes()
         {
             CreateRecipe().
