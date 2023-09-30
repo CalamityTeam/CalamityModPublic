@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num458].velocity += Projectile.velocity * 0.1f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 64;

@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Summon
             Main.dust[blueT].velocity += Projectile.velocity * 0.1f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item45, Projectile.position);
             int blue = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 59, 0f, 0f, 100, default, 1f);

@@ -207,7 +207,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.frame = (Projectile.frame + 1) % 3;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Splash with { PitchVariance = 2f}, Projectile.Center);
 

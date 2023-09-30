@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Daybreak, 240);
             target.AddBuff(ModContent.BuffType<Nightwither>(), 240);
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             //Dark soul projectiles
             int ad = Projectile.Calamity().stealthStrike ? 40 : 60;

@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Typeless
         public bool Connected(Point pos, int displaceX, int displaceY) => SelectedTiles.ContainsKey(new Point(pos.X + displaceX, pos.Y + displaceY));
 
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (SelectedTiles.Keys.Count > 0)
                 SoundEngine.PlaySound(SoundID.Item101 with { Volume = SoundID.Item101.Volume * 0.6f}, Owner.Center);

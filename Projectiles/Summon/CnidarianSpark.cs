@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Summon
             GeneralParticleHandler.SpawnParticle(particle);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(CnidarianJellyfishOnTheString.ZapSound, Projectile.Center);
 

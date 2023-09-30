@@ -159,7 +159,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         // God Slayer Slugs explode on death, even if they never visually turned blue.
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Turn blue to set stats correctly, if not already done.
             if (!BlueMode)

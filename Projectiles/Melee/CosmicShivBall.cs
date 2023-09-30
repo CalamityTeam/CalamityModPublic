@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // mostly from AstralCrystal kill code
             float rand2PI = Main.rand.NextFloat(MathHelper.TwoPi);

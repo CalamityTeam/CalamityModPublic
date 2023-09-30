@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Play a wraith death sound.
             SoundEngine.PlaySound(SoundID.NPCDeath52, Projectile.Center);

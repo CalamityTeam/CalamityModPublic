@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
                 else
                 {
                     Projectile.timeLeft = 0;
-                    Kill(Projectile.timeLeft);
+                    OnKill(Projectile.timeLeft);
                 }
 
                 if (summonAxe)
@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (Projectile.position == Main.player[Projectile.owner].position)
             {
-                Kill(Projectile.timeLeft);
+                OnKill(Projectile.timeLeft);
             }
             return;
         }

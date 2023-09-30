@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.ExtraJumps;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Armor.Sulphurous
             player.setBonus = this.GetLocalizedValue("SetBonus");
             var modPlayer = player.Calamity();
             modPlayer.sulfurSet = true;
-            modPlayer.sulfurJump = true;
+            player.GetJumpState<SulphurJump>().Enable();
             modPlayer.rogueStealthMax += 0.7f;
             modPlayer.wearingRogueArmor = true;
             player.ignoreWater = true;

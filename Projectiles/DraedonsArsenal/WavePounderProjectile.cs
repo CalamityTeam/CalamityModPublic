@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(TeslaCannon.FireSound, Projectile.Center);
             if (Main.myPlayer == Projectile.owner)

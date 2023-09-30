@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.active = false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer == Projectile.owner && Projectile.ai[1] == 0f)
             {
@@ -375,7 +375,7 @@ namespace CalamityMod.Projectiles.Summon
             return null;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
@@ -781,7 +781,7 @@ namespace CalamityMod.Projectiles.Summon
                 swarm(target.Center);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
@@ -903,7 +903,7 @@ namespace CalamityMod.Projectiles.Summon
             return null;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             if (!Main.rand.NextBool(3)) //1 in 3 chance for dust
@@ -1202,7 +1202,7 @@ namespace CalamityMod.Projectiles.Summon
             calPlayer.rollBabSpears(Projectile.ai[0] == 0f ? 0 : empowered ? 30 : 10, target.chaseable); //empowered fires three times as many projectiles, keeps things consistent and easier to balance
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(3.1415927410125732);
@@ -1522,14 +1522,14 @@ namespace CalamityMod.Projectiles.Summon
                     Particle wtfIsAParticle = new DirectionalPulseRing(owner.Center, Vector2.Zero, color, Vector2.One, 0f, 0f, 2.5f, 75);
                     GeneralParticleHandler.SpawnParticle(wtfIsAParticle);
                 }
-                Kill(1);
+                OnKill(1);
             }
         }
 
         public override bool? CanDamage() => false;
         
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(Providence.SpawnSound, Projectile.position);
             var Owner = Main.player[Projectile.owner];
@@ -1786,7 +1786,7 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             if (Main.rand.NextBool(3))
@@ -1947,7 +1947,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.active = false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer == Projectile.owner)
             {
@@ -2062,7 +2062,7 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);

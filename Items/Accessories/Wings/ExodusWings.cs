@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.GetCritChance<ThrowingDamageClass>() += 5;
             }
 
-            if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 float xOffset = 4f;
                 if (player.direction == 1)

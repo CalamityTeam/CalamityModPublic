@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void Kill(int timeLeft) // Makes a dust explosion effect on death.
+        public override void OnKill(int timeLeft) // Makes a dust explosion effect on death.
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int i = 0; i < 60; i++)

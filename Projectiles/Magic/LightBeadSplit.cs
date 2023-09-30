@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.velocity *= 0.985f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int k = 0; k < 3; k++)
             {

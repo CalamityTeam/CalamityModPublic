@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 PlasmaBurst(1f, 1.6f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.ExpandHitboxBy(240);
             Projectile.maxPenetrate = -1;

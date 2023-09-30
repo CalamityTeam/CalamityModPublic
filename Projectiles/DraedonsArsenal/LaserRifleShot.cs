@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 LaserBurst(1.8f, 3f);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int height = 60;
             Projectile.position = Projectile.Center;

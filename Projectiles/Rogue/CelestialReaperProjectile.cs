@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.velocity *= -0.75f; // Bounce off of the enemy.
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             bool ss = Projectile.Calamity().stealthStrike;
             int numSplits = 4;

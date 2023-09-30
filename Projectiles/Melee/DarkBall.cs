@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.rotation += Projectile.velocity.X * 0.1f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath21, Projectile.position);
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);

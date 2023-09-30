@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Typeless
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             Projectile.ExpandHitboxBy(24);

@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Rogue
             return true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             //Crystal smash sound
             SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);

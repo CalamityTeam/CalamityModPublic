@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(BuffID.Ichor, 60);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);

@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
             dust.noGravity = true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (timeLeft != 0)
                 SoundEngine.PlaySound(SoundID.Dig with { Volume = SoundID.Dig.Volume * 0.4f}, Projectile.Center);

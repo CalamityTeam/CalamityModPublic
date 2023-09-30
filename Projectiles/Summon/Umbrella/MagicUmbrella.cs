@@ -314,7 +314,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, Projectile.alpha);
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
 		{
             for (int i = 0; i < 10; i++)
 			{

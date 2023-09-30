@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.velocity.X = Projectile.velocity.X * 0.99f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = Projectile.Calamity().stealthStrike ? 256 : 128;

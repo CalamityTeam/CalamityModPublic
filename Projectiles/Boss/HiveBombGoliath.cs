@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(50, 250, 50, Projectile.alpha);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 64;

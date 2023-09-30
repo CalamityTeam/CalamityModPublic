@@ -283,7 +283,7 @@ namespace CalamityMod.Projectiles.Melee
             sigil.timeLeft = OmegaBiomeBlade.WhirlwindAttunement_SigilTime;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (smear != null)
                 smear.Kill();

@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Ranged
             return (int)(regenDamageRatio * regenTimeForCalc);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             int dustID = 90;
             int dustCount = 3;

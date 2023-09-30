@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Melee
                 modifiers.SourceDamage *= TrueBiomeBlade.HolyAttunement_BaseDamageReduction + (TrueBiomeBlade.HolyAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (smear != null)
                 smear.Kill();

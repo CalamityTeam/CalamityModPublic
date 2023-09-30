@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.Length());
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item107, Projectile.Bottom);
 

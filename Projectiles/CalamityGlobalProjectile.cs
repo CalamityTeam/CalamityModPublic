@@ -2834,7 +2834,7 @@ namespace CalamityMod.Projectiles
         #endregion
 
         #region Kill
-        public override void Kill(Projectile projectile, int timeLeft)
+        public override void OnKill(Projectile projectile, int timeLeft)
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();

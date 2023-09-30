@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Damageable
         {
             Utils.PoofOfSmoke(Projectile.Center);
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 1; i <= 6; i++)
             {

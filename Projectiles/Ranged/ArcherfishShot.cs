@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Bubbles
             for (int i = 0; i < 10; i++)

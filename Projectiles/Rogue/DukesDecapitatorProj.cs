@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
             rotationAmount -= 0.05f;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 20; i++)
             {

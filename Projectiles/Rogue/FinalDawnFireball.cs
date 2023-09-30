@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.frame = 0;
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer == Projectile.owner)
             {

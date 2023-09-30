@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Projectile.velocity = Projectile.oldVelocity * 0.2f;
             int num3;

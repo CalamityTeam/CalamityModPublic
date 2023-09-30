@@ -38,13 +38,12 @@ using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Healing;
-using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -674,12 +673,9 @@ namespace CalamityMod.CalPlayer
         public bool victideSummoner = false;
         public bool sulfurSet = false;
         public bool sulfurJump = false;
-        public bool jumpAgainSulfur = false;
         public int sulphurBubbleCooldown = 0;
         public bool aeroSet = false;
         public bool statigelSet = false;
-        public bool statigelJump = false;
-        public bool jumpAgainStatigel = false;
         public bool tarraSet = false;
         public bool tarraMelee = false;
         public bool tarragonCloak = false;
@@ -1772,12 +1768,10 @@ namespace CalamityMod.CalPlayer
             victideSummoner = false;
 
             sulfurSet = false;
-            sulfurJump = false;
 
             aeroSet = false;
 
             statigelSet = false;
-            statigelJump = false;
 
             titanHeartSet = false;
             titanHeartMask = false;
@@ -2505,11 +2499,7 @@ namespace CalamityMod.CalPlayer
             victideSet = false;
             aeroSet = false;
             sulfurSet = false;
-            sulfurJump = false;
-            jumpAgainSulfur = false;
             statigelSet = false;
-            statigelJump = false;
-            jumpAgainStatigel = false;
             tarraSet = false;
             tarraMelee = false;
             tarragonCloak = false;
@@ -3130,74 +3120,6 @@ namespace CalamityMod.CalPlayer
                         d.position = segmentThreePos;
                         d.scale = Main.rand.NextFloat(1.2f, 1.8f);
                         d.velocity = Main.rand.NextVector2Unit() * spreadSpeed;
-                    }
-                }
-            }
-
-
-            bool mountCheck = true;
-            if (Player.mount != null && Player.mount.Active)
-                mountCheck = !Player.mount.BlockExtraJumps;
-            bool canJump = (!Player.hasJumpOption_Cloud || !Player.canJumpAgain_Cloud) &&
-            (!Player.hasJumpOption_Sandstorm || !Player.canJumpAgain_Sandstorm) &&
-            (!Player.hasJumpOption_Blizzard || !Player.canJumpAgain_Blizzard) &&
-            (!Player.hasJumpOption_Fart || !Player.canJumpAgain_Fart) &&
-            (!Player.hasJumpOption_Sail || !Player.canJumpAgain_Sail) &&
-            (!Player.hasJumpOption_Unicorn || !Player.canJumpAgain_Unicorn) &&
-            CalamityUtils.CountHookProj() <= 0 && (Player.rocketTime == 0 || Player.wings > 0) && mountCheck;
-            if (PlayerInput.Triggers.JustPressed.Jump && Player.position.Y != Player.oldPosition.Y && canJump)
-            {
-                if (statigelJump && jumpAgainStatigel)
-                {
-                    jumpAgainStatigel = false;
-                    int offset = Player.height;
-                    if (Player.gravDir == -1f)
-                        offset = 0;
-                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.Center);
-                    Player.velocity.Y = -Player.jumpSpeed * Player.gravDir;
-                    Player.jump = (int)(Player.jumpHeight * 1.25);
-                    for (int d = 0; d < 30; ++d)
-                    {
-                        int goo = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + offset), Player.width, 12, 4, Player.velocity.X * 0.3f, Player.velocity.Y * 0.3f, 100, new Color(0, 80, 255, 100), 1.5f);
-                        if (d % 2 == 0)
-                            Main.dust[goo].velocity.X += (float)Main.rand.Next(30, 71) * 0.1f;
-                        else
-                            Main.dust[goo].velocity.X -= (float)Main.rand.Next(30, 71) * 0.1f;
-                        Main.dust[goo].velocity.Y += (float)Main.rand.Next(-10, 31) * 0.1f;
-                        Main.dust[goo].noGravity = true;
-                        Main.dust[goo].scale += (float)Main.rand.Next(-10, 41) * 0.01f;
-                        Main.dust[goo].velocity *= Main.dust[goo].scale * 0.7f;
-                    }
-                }
-                else if (sulfurJump && jumpAgainSulfur)
-                {
-                    jumpAgainSulfur = false;
-                    int offset = Player.height;
-                    if (Player.gravDir == -1f)
-                        offset = 0;
-                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.Center);
-                    Player.velocity.Y = -Player.jumpSpeed * Player.gravDir;
-                    Player.jump = (int)(Player.jumpHeight * 1.5);
-                    for (int d = 0; d < 30; ++d)
-                    {
-                        int sulfur = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + offset), Player.width, 12, 31, Player.velocity.X * 0.3f, Player.velocity.Y * 0.3f, 100, default, 1.5f);
-                        if (d % 2 == 0)
-                            Main.dust[sulfur].velocity.X += (float)Main.rand.Next(30, 71) * 0.1f;
-                        else
-                            Main.dust[sulfur].velocity.X -= (float)Main.rand.Next(30, 71) * 0.1f;
-                        Main.dust[sulfur].velocity.Y += (float)Main.rand.Next(-10, 31) * 0.1f;
-                        Main.dust[sulfur].noGravity = true;
-                        Main.dust[sulfur].scale += (float)Main.rand.Next(-10, 41) * 0.01f;
-                        Main.dust[sulfur].velocity *= Main.dust[sulfur].scale * 0.7f;
-                    }
-                    if (sulphurBubbleCooldown <= 0)
-                    {
-                        var source = Player.GetSource_Misc("0");
-                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
-                        int bubble = Projectile.NewProjectile(source, new Vector2(Player.position.X, Player.position.Y + (Player.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), damage, 0f, Player.whoAmI, 1f, 0f);
-                        if (bubble.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[bubble].DamageType = DamageClass.Generic;
-                        sulphurBubbleCooldown = 20;
                     }
                 }
             }
@@ -4331,13 +4253,10 @@ namespace CalamityMod.CalPlayer
         private void WeakPetrification()
         {
             weakPetrification = true;
-            Player.hasJumpOption_Cloud = false;
-            Player.hasJumpOption_Sandstorm = false;
-            Player.hasJumpOption_Blizzard = false;
-            Player.hasJumpOption_Sail = false;
-            Player.hasJumpOption_Fart = false;
-            statigelJump = false;
-            sulfurJump = false;
+
+            // All double jumps, vanilla and modded, cannot be used as long as the player has this debuff.
+            Player.blockExtraJumps = true;
+
             Player.rocketBoots = 0;
             Player.jumpBoost = false;
             Player.slowFall = false;

@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
             return MathHelper.Lerp(0f, 12f * Projectile.Opacity, expansionCompletion);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Create death effects for the shark, including a death sound, gore, and some blood.
             SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.Center);

@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.frame = (int)(Utils.GetLerpValue(Lifetime, 0f, Projectile.timeLeft, true) * Main.projFrames[Projectile.type]);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Release a puff of golden light dust.
             for (int i = 0; i < 16; i++)

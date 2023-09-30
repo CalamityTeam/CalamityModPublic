@@ -211,7 +211,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(WulfrumProsthesis.HitSound, Projectile.Center);
         }

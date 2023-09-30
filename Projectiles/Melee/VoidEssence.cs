@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Create a burst of dust
             int killDust = Main.rand.Next(30, 41);

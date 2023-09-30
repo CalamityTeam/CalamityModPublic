@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         // If any of the streams are destroyed, kill the accompanying acid streams
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.penetrate > 1)
                 return;

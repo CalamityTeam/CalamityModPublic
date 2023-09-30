@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.timeLeft = 20;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             // Release a puff of rainbow dust and some blades.
             // If this projectile is a stealth strike, don't create the blades as a gore-- create them as a projectile instead.

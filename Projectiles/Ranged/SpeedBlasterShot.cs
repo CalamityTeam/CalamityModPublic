@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (!DashShot)
                 SoundEngine.PlaySound(ShotImpact, Projectile.position);

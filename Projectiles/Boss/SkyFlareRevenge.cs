@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(255, Main.DiscoG, 53, Projectile.alpha);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(FlareSound, Projectile.Center);
             int dustAmt = 36;

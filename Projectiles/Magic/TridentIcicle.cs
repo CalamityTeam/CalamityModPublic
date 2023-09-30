@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Magic
             return new Color(200, 200, 200, Projectile.alpha);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             for (int i = 0; i < 10; i++)
