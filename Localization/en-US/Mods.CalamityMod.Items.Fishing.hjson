@@ -316,3 +316,9 @@ WulfrumRod: {
 	DisplayName: Wulfrum Fishing Pole
 	Tooltip: "'This barely works, but it's better than nothing...'"
 }
+
+// Bait
+GrandMarquisBait: {
+	DisplayName: Grand Marquis Bait
+	Tooltip: ""
+}

@@ -372,9 +372,9 @@ namespace CalamityMod.ILEditing
                     break;
 
                 default:
-                    //item = new Item();
-                    //item.SetDefaults(ModContent.ItemType<GrandMarquisBait>());
-                    //item.stack = Main.rand.Next(2, 6);
+                    item = new Item();
+                    item.SetDefaults(ModContent.ItemType<GrandMarquisBait>());
+                    item.stack = Main.rand.Next(2, 6);
                     break;
             }
 
