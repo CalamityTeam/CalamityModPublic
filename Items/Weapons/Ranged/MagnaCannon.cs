@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class MagnaCannon : ModItem, ILocalizedModType
     {
         public static readonly SoundStyle ChargeFull = new("CalamityMod/Sounds/Item/MagnaCannonChargeFull") { Volume = 0.5f };
+        internal static readonly int ChargeFullSoundFrames = 42;
         public static readonly SoundStyle ChargeLoop = new("CalamityMod/Sounds/Item/MagnaCannonChargeLoop") { Volume = 0.5f };
         internal static readonly int ChargeLoopSoundFrames = 153;
         public static readonly SoundStyle ChargeStart = new("CalamityMod/Sounds/Item/MagnaCannonChargeStart") { Volume = 0.5f };
@@ -29,30 +30,20 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useTime = Item.useAnimation = AftershotCooldownFrames;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
+            Item.noUseGraphic = true;
             Item.channel = true;
             Item.knockBack = 2.5f;
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = null;
             Item.autoReuse = false;
-            Item.shootSpeed = 10f;
-            Item.shoot = ModContent.ProjectileType<MagnaShot>();
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<MagnaCannonHoldout>();
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
-        public override void HoldItem(Player player)
-        {
-            Item.noUseGraphic = true;
-        }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<MagnaCannonHoldout>()] <= 0;
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            Vector2 shootVelocity = velocity;
-            Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
-            Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<MagnaCannonHoldout>(), damage, knockback, player.whoAmI);
-            return false;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
         public override void AddRecipes()
         {
             CreateRecipe().

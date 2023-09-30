@@ -481,6 +481,11 @@ namespace CalamityMod.ILEditing
                 if (Main.gameMenu || !player.active)
                     return proj;
 
+                // Do not apply Hellbound effects to minions not spawned by the item itself, if it came out of an item
+                // This prevent minions like Luxor's Gift getting it, but minions spawned out of minions such as Temporal Umbrella will work fine
+                if (spawnSource is EntitySource_ItemUse && player.ActiveItem().shoot != projectile.type)
+                    return proj;
+
                 CalamityPlayer.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
                 if (player.Calamity().explosiveMinionsEnchant)
                     projectile.Calamity().ExplosiveEnchantCountdown = CalamityGlobalProjectile.ExplosiveEnchantTime;
