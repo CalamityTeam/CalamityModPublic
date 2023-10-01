@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<EutrophicSand>(1).
-                AddIngredient(ItemID.DirtBlock, 1).
+                AddIngredient<EutrophicSand>().
+                AddIngredient(ItemID.DirtBlock).
                 AddTile(TileID.Solidifier).
                 Register();
         }

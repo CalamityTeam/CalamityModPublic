@@ -379,9 +379,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<BrokenBiomeBlade>().
-                AddIngredient(ItemID.SoulofFright, 1).
-                AddIngredient(ItemID.SoulofMight, 1).
-                AddIngredient(ItemID.SoulofSight, 1).
+                AddIngredient(ItemID.SoulofFright).
+                AddIngredient(ItemID.SoulofMight).
+                AddIngredient(ItemID.SoulofSight).
                 AddIngredient(ItemID.PixieDust, 2).
                 AddIngredient<Stardust>(10).
                 AddTile(TileID.MythrilAnvil).
