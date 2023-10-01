@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             Main.npcFrameCount[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 PortraitPositionXOverride = 0,
                 PortraitScale = 0.75f,

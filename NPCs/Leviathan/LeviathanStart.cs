@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Leviathan
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.CantTakeLunchMoney[Type] = true;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 PortraitPositionYOverride = -6f,
                 Scale = 0.65f,

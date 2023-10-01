@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
             value.Position.X += 10f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }

@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Scale = 0.7f,
                 PortraitScale = 0.8f,

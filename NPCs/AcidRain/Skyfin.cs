@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 5;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Rotation = MathHelper.Pi
             };

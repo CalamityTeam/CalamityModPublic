@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Scale = 0.425f,
                 PortraitScale = 0.9f,

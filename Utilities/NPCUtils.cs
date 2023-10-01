@@ -55,7 +55,7 @@ namespace CalamityMod
         /// <param name="n"></param>
         public static void HideFromBestiary(this ModNPC n)
         {
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Hide = true
             };

@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 .SetNPCAffection(NPCID.TaxCollector, AffectionLevel.Dislike)
                 .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Hate)
                 .SetNPCAffection(NPCID.Angler, AffectionLevel.Hate);
-			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers() {
 				Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
 			};
 			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);

@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 6;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Scale = 0.75f,
                 PortraitPositionXOverride = 0f,

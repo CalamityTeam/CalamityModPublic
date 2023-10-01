@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 8;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Position = new Vector2(28f, 20f),
                 Scale = 0.65f,

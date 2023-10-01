@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.Crags
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 SpriteDirection = -1,
                 PortraitPositionYOverride = -32f

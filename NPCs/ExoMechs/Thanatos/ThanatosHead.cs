@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             // Ensure that the reticle is not culled due to the player being very far from Thanatos.
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Scale = 0.65f,
                 PortraitScale = 0.6f,

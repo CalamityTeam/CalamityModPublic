@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs.Yharon
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Scale = 0.3f,
                 PortraitScale = 0.4f,

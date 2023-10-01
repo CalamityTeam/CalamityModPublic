@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             Main.npcFrameCount[NPC.type] = 5;
             Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 SpriteDirection = 1
             };

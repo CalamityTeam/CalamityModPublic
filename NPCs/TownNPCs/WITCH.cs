@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 .SetBiomeAffection<BrimstoneCragsBiome>(AffectionLevel.Dislike)
                 .SetNPCAffection(NPCID.Clothier, AffectionLevel.Like)
                 .SetNPCAffection(NPCID.PartyGirl, AffectionLevel.Dislike);
-			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers() {
 				Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
 			};
 			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);

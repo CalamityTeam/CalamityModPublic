@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
             Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.NormalGoldCritterBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
             value.Position.Y += 18;
             value.PortraitPositionYOverride = 38f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;

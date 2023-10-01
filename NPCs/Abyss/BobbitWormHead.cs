@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 //Preferably would have its head animated, but this will do for now
                 CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/BobbitWorm_Bestiary"

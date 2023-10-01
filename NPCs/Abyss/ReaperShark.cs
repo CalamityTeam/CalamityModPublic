@@ -637,7 +637,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void FindFrame(int frameHeight)
         {
             int newFrameHeight = (int)(frameHeight * (Main.zenithWorld ? 1.5f : 1f));
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Scale = 0.3f,
                 PortraitPositionXOverride = 54f,

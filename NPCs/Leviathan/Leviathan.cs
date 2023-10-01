@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.Leviathan
         {
             Main.npcFrameCount[NPC.type] = 3;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
             if (!Main.dedServ)
                 AttackTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanAttack", AssetRequestMode.ImmediateLoad).Value;
         }
@@ -892,7 +892,7 @@ namespace CalamityMod.NPCs.Leviathan
         {
             int width = 1011;
             int height = 486;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Scale = 0.2f,
                 PortraitScale = 0.3f,

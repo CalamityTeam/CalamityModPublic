@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.Ravager
         {
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Scale = 0.5f,
                 PortraitPositionYOverride = -40f,

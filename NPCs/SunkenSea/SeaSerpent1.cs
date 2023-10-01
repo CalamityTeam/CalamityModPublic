@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void SetStaticDefaults()
         {
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/SeaSerpent_Bestiary",
                 PortraitPositionXOverride = 40,
