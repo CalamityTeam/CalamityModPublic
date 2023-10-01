@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.Ores
 
         public override void SetStaticDefaults()
         {
-            Main.tileOreFinderPriority[Type] = 445;
             Main.tileBlockLight[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileLighted[Type] = true;
