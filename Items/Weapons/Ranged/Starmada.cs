@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<ExodiumCluster>(15).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<DarksunFragment>(8).
-                AddTile(ModContent.TileType<CosmicAnvil>()).
+                AddTile<CosmicAnvil>().
                 Register();
         }
     }

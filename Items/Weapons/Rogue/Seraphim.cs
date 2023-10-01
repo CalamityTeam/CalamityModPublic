@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient(ModContent.ItemType<ShatteredSun>()).
                 AddIngredient(ModContent.ItemType<AuricBar>(), 5).
-                AddTile(ModContent.TileType<CosmicAnvil>()).
+                AddTile<CosmicAnvil>().
                 Register();
         }
     }

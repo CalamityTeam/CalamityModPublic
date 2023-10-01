@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<CoreofSunlight>(3).
                 AddIngredient<CoreofEleum>(3).
                 AddIngredient(ItemID.FragmentSolar, 10).
-                AddTile(ModContent.TileType<DraedonsForge>()).
+                AddTile<DraedonsForge>().
                 Register();
         }
     }
