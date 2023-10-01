@@ -44,6 +44,11 @@ namespace CalamityMod.ExtraJumps
                 Vector2 pulseVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f) - player.velocity.X * 0.5f, Main.rand.NextFloat(4f, 7f)) * Main.rand.NextFloat(0.2f, 1f);
                 Particle orb = new GenericBloom(pulsePosition, pulseVelocity, Main.rand.NextBool() ? Color.DarkTurquoise : Color.Orchid, 0.055f, 8);
                 GeneralParticleHandler.SpawnParticle(orb);
+                Dust dust = Dust.NewDustPerfect(pulsePosition, Main.rand.NextBool() ? 243 : 56, pulseVelocity, 100, default, Main.rand.NextFloat(0.6f, 0.9f));
+                dust.noGravity = false;
+                dust.alpha = 190;
+                Dust dust2 = Dust.NewDustPerfect(pulsePosition, Main.rand.NextBool() ? 242 : 135, pulseVelocity * 0.9f , 100, default, Main.rand.NextFloat(1.2f, 1.9f));
+                dust2.noGravity = true;
             }
         }
     }
