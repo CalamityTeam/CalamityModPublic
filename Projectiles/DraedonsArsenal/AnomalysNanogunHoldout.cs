@@ -38,8 +38,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float MaxMPFBPropellableSpeed = 14f;
 
         public const int PlasmaChargeupTimer = 40;
-        public const int PlasmaCooldownTimer = 20;
-        public const int PlasmaShotCooldown = 16;
+        public const int PlasmaCooldownTimer = 24;
+        public const int PlasmaShotCooldown = 20;
         public const int PlasmaShotCount = 5;
         public static int PlasmaFireTimer
         {

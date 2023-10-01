@@ -77,9 +77,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             SoundEngine.PlaySound(AnomalysNanogunMPFBBoom.MPFBExplosion, Projectile.Center);
             if (Main.myPlayer == Projectile.owner)
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 4; i++)
                 {
-                    Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AnomalysNanogunMPFBBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AnomalysNanogunMPFBBoom>(), (int)(Projectile.damage * 0.2f), Projectile.knockBack, Projectile.owner);
                     explosion.ai[1] = Main.rand.NextFloat(110f, 200f) + i * 20f; // Randomize the maximum radius.
                     explosion.localAI[1] = Main.rand.NextFloat(0.18f, 0.3f); // And the interpolation step.
                     explosion.netUpdate = true;

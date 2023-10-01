@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
-            Item.damage = 2000;
+            Item.damage = 1850;
             Item.knockBack = 4.5f;
             Item.useTime = Item.useAnimation = AnomalysNanogunHoldout.PlasmaFireTimer;
             Item.shootSpeed = 5f;
@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             // Right click is the MPBF Devastator
             if (player.altFunctionUse == 2)
             {
-                damage = (int)(damage * 0.16f);
+                damage = (int)(damage * 0.5f);
                 knockback *= 0.8f;
                 velocity = rotationVector * 13f;
             }
