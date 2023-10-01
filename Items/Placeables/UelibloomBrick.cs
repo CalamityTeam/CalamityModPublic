@@ -37,11 +37,10 @@ namespace CalamityMod.Items.Placeables
                 Register();
             CreateRecipe().
                 AddIngredient<UelibloomBrickWall>(4).
-                AddTile<BotanicPlanter>().
+                AddTile(TileID.WorkBenches).
                 Register();
             CreateRecipe().
                 AddIngredient<BotanicPlatform>(2).
-                AddTile<BotanicPlanter>().
                 Register();
         }
     }

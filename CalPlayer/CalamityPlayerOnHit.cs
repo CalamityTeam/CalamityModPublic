@@ -113,18 +113,6 @@ namespace CalamityMod.CalPlayer
                     Player.HealEffect(2);
                     break;
 
-                case ItemID.TheHorsemansBlade:
-                    if (target.SpawnedFromStatue)
-                    {
-                        for (int i = 0; i < Main.maxProjectiles; i++)
-                        {
-                            Projectile proj = Main.projectile[i];
-                            if (proj.type == ProjectileID.FlamingJack && proj.owner == Main.myPlayer)
-                                proj.Kill();
-                        }
-                    }
-                    break;
-
                 case ItemID.DeathSickle:
                     target.AddBuff(BuffType<WhisperingDeath>(), 120);
                     break;
@@ -159,7 +147,7 @@ namespace CalamityMod.CalPlayer
             }
 
             ItemLifesteal(target, item, damageDone);
-            ItemOnHit(item, damageDone, target.Center, hit.Crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
+            ItemOnHit(item, damageDone, target.Center, hit.Crit, target.IsAnEnemy(false, true));
             NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>());
 
             // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
@@ -312,7 +300,7 @@ namespace CalamityMod.CalPlayer
                 }
 
                 ProjLifesteal(target, proj, damageDone, hit.Crit);
-                ProjOnHit(proj, target.Center, hit.Crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
+                ProjOnHit(proj, target.Center, hit.Crit, target.IsAnEnemy(false));
                 NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), true, proj.noEnchantments);
 
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
@@ -1112,7 +1100,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (bloodflareSet && !target.SpawnedFromStatue && (target.damage > 0 || target.boss) && !Player.moonLeech)
+            if (bloodflareSet && !target.IsAnEnemy(false) && !Player.moonLeech)
             {
                 if ((target.life < target.lifeMax * 0.5) && bloodflareHeartTimer <= 0)
                 {
@@ -1121,7 +1109,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (gladiatorSword && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe && target.aiStyle != 9 && target.Calamity().gladiatorOnKill)
+            if (gladiatorSword && !target.IsAnEnemy(false) && target.life <= 0 && target.Calamity().gladiatorOnKill)
             {
                 target.Calamity().gladiatorOnKill = false;
                 Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center.X, target.Center.Y, target.velocity.X / 2, target.velocity.Y / 2, ModContent.ProjectileType<GladiatorHealOrb>(), 0, 0f);
@@ -1170,7 +1158,7 @@ namespace CalamityMod.CalPlayer
                     Main.player[Main.myPlayer].lifeSteal -= cooldown;
                 }
 
-                if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
+                if (target.IsAnEnemy(false))
                 {
                     if (bloodflareThrowing && proj.CountsAsClass<ThrowingDamageClass>() && crit && Main.rand.NextBool())
                     {
@@ -1334,7 +1322,7 @@ namespace CalamityMod.CalPlayer
 
         public void ItemLifesteal(NPC target, Item item, int damage)
         {
-            if (bloodflareSet && !target.SpawnedFromStatue && (target.damage > 0 || target.boss))
+            if (bloodflareSet && target.IsAnEnemy(false))
             {
                 if ((target.life < target.lifeMax * 0.5) && bloodflareHeartTimer <= 0)
                 {
@@ -1343,7 +1331,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue && target.canGhostHeal && !Player.moonLeech)
+            if (target.IsAnEnemy(false) && target.canGhostHeal && !Player.moonLeech)
             {
                 if (bloodflareMelee && item.CountsAsClass<MeleeDamageClass>())
                 {
@@ -1353,7 +1341,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (gladiatorSword && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe && target.aiStyle != 9 && target.Calamity().gladiatorOnKill)
+            if (gladiatorSword && target.IsAnEnemy(false) && target.life <= 0 && target.Calamity().gladiatorOnKill)
             {
                 target.Calamity().gladiatorOnKill = false;
                 Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center.X, target.Center.Y, target.velocity.X / 2, target.velocity.Y / 2, ModContent.ProjectileType<GladiatorHealOrb>(), 0, 0f);

@@ -487,12 +487,8 @@ namespace CalamityMod
 
         public static IItemDropRuleCondition GoldSetBonusGoldCondition = If((info) =>
         {
-            // Gold coins "from normal enemies" do not drop from the following:
-            // 1 - NPCs spawned from statues
-            // 2 - NPCs with no contact damage (bosses are NOT excepted, since they hit the other rule)
-            // 3 - Very weak NPCs: those with 5 or less max health.
             NPC npc = info.npc;
-            if (npc.SpawnedFromStatue || npc.damage <= 5 || npc.lifeMax <= 5)
+            if (npc.IsAnEnemy(false))
                 return false;
 
             // If the drop info doesn't have a player, then find the closest player to the NPC and use that player instead.
@@ -522,12 +518,8 @@ namespace CalamityMod
 
         public static IItemDropRuleCondition TarragonSetBonusHeartCondition = If((info) =>
         {
-            // Tarragon hearts do not drop from the following:
-            // 1 - NPCs spawned from statues
-            // 2 - NPCs with no contact damage, unless they are bosses.
-            // 3 - Very weak NPCs (for postML), i.e. those with less than 100 max health.
             NPC npc = info.npc;
-            if (npc.SpawnedFromStatue || (npc.damage <= 5 && !npc.boss) || npc.lifeMax <= 100)
+            if (npc.IsAnEnemy(false))
                 return false;
 
             // If the drop info doesn't have a player, then find the closest player to the NPC and use that player instead.

@@ -28,7 +28,10 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes() 
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<BrimstoneSlab>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).
+                AddIngredient<BrimstoneSlab>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

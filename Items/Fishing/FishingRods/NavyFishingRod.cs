@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PearlShard>(1).
+                AddIngredient<PearlShard>().
                 AddIngredient<SeaPrism>(5).
                 AddIngredient<Navystone>(8).
                 AddTile(TileID.Anvils).

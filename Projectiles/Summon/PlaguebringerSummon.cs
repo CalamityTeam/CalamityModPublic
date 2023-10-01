@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Summon
                 for (int l = 0; l < Main.maxNPCs; l++)
                 {
                     NPC npc = Main.npc[l];
-                    if (npc.active && !npc.friendly && npc.damage > 0 && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(Projectile.Center, npc.Center) <= range)
+                    if (npc.IsAnEnemy() && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(Projectile.Center, npc.Center) <= range)
                     {
                         if (npc.FindBuffIndex(buffType) == -1)
                         {

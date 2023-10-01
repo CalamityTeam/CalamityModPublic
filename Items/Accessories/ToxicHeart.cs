@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
                     for (int l = 0; l < Main.maxNPCs; l++)
                     {
                         NPC nPC = Main.npc[l];
-                        if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && !nPC.buffImmune[num] && Vector2.Distance(player.Center, nPC.Center) <= num2)
+                        if (nPC.IsAnEnemy() && !nPC.dontTakeDamage && !nPC.buffImmune[num] && Vector2.Distance(player.Center, nPC.Center) <= num2)
                         {
                             if (nPC.FindBuffIndex(num) == -1)
                             {

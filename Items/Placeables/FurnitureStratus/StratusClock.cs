@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-                AddIngredient(ModContent.ItemType<StratusBricks>(), 10).
+            CreateRecipe().
+                AddIngredient<StratusBricks>(10).
                 AddRecipeGroup("IronBar", 3).
                 AddIngredient(ItemID.Glass, 6).
                 AddTile(TileID.LunarCraftingStation).

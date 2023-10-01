@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             CreateRecipe(3).
                 AddIngredient(ItemID.Torch, 3).
-                AddIngredient(ModContent.ItemType<PrismShard>()).
+                AddIngredient<PrismShard>().
                 Register();
         }
     }

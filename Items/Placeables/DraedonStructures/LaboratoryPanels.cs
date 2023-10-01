@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
                 Register();
 
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<LaboratoryPanelWall>(), 4).
+                AddIngredient<LaboratoryPanelWall>(4).
                 AddTile(TileID.WorkBenches).
                 Register();
         }

@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Sickle, 1).
+                AddIngredient(ItemID.Sickle).
                 AddRecipeGroup("AnyTombstone").
                 AddIngredient(ItemID.Bone, 50).
                 AddIngredient(ItemID.CursedFlame, 5).

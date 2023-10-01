@@ -46,27 +46,27 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-            AddIngredient(ModContent.ItemType<AbyssChair>()).
-            AddIngredient(ModContent.ItemType<AcidwoodChair>()).
-            AddIngredient(ModContent.ItemType<AncientChair>()).
-            AddIngredient(ModContent.ItemType<AshenChair>()).
-            AddIngredient(ModContent.ItemType<BotanicChair>()).
-            AddIngredient(ModContent.ItemType<CosmiliteChair>()).
-            AddIngredient(ModContent.ItemType<EutrophicChair>()).
-            AddIngredient(ModContent.ItemType<ExoChair>()).
-            AddIngredient(ModContent.ItemType<MonolithChair>()).
-            AddIngredient(ModContent.ItemType<SacrilegiousChair>()).
-            AddIngredient(ModContent.ItemType<OtherworldlyChair>()).
-            AddIngredient(ModContent.ItemType<PlaguedPlateChair>()).
-            AddIngredient(ModContent.ItemType<ProfanedChair>()).
-            AddIngredient(ModContent.ItemType<SilvaChair>()).
-            AddIngredient(ModContent.ItemType<StatigelChair>()).
-            AddIngredient(ModContent.ItemType<StratusChair>()).
-            AddIngredient(ModContent.ItemType<VoidChair>()).
-            AddIngredient(ModContent.ItemType<WulfrumChair>()).
-            AddIngredient(ModContent.ItemType<AuricBar>()).
-            AddTile(ModContent.TileType<CosmicAnvil>()).
+            CreateRecipe().
+            AddIngredient<AbyssChair>().
+            AddIngredient<AcidwoodChair>().
+            AddIngredient<AncientChair>().
+            AddIngredient<AshenChair>().
+            AddIngredient<BotanicChair>().
+            AddIngredient<CosmiliteChair>().
+            AddIngredient<EutrophicChair>().
+            AddIngredient<ExoChair>().
+            AddIngredient<MonolithChair>().
+            AddIngredient<SacrilegiousChair>().
+            AddIngredient<OtherworldlyChair>().
+            AddIngredient<PlaguedPlateChair>().
+            AddIngredient<ProfanedChair>().
+            AddIngredient<SilvaChair>().
+            AddIngredient<StatigelChair>().
+            AddIngredient<StratusChair>().
+            AddIngredient<VoidChair>().
+            AddIngredient<WulfrumChair>().
+            AddIngredient<AuricBar>().
+            AddTile<CosmicAnvil>().
             Register();
         }
     }

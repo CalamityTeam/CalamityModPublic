@@ -121,7 +121,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PlasmaDriveCore>(1).
+                AddIngredient<PlasmaDriveCore>().
                 AddIngredient<SuspiciousScrap>(4).
                 AddRecipeGroup("AnyMythrilBar", 10).
                 AddTile(TileID.MythrilAnvil).

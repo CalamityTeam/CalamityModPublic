@@ -42,11 +42,9 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
                 Register();
             CreateRecipe().
                 AddIngredient<StratusPlatform>(2).
-                AddTile(TileID.LunarCraftingStation).
                 Register();
             CreateRecipe().
                 AddIngredient<StratusStarPlatformItem>(2).
-                AddTile(TileID.LunarCraftingStation).
                 Register();
         }
     }

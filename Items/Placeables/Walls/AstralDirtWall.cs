@@ -28,7 +28,10 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddTile(TileID.WorkBenches).AddIngredient(ModContent.ItemType<AstralDirt>()).Register();
+            CreateRecipe(4).
+                AddIngredient<AstralDirt>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

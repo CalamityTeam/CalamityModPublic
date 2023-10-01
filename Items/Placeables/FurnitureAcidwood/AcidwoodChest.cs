@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-                AddIngredient(ModContent.ItemType<Acidwood>(), 8).
+            CreateRecipe().
+                AddIngredient<Acidwood>(8).
                 AddRecipeGroup("IronBar", 2).
                 AddTile(TileID.WorkBenches).
                 Register();

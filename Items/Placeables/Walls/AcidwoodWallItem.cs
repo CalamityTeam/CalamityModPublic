@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.Walls
         public override void AddRecipes()
         {
             CreateRecipe(4).
-            AddIngredient(ModContent.ItemType<Acidwood>()).
+            AddIngredient<Acidwood>().
             AddTile(TileID.WorkBenches).
             Register();
         }

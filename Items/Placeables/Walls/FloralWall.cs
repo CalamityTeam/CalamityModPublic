@@ -27,8 +27,14 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<PerennialBrick>()).AddTile(TileID.WorkBenches).Register();
-            //CreateRecipe(4).AddIngredient(ModContent.ItemType<PerennialPillar>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).
+                AddIngredient<PerennialBrick>().
+                AddTile(TileID.WorkBenches).
+                Register();
+            /*CreateRecipe(4).
+                AddIngredient<PerennialPillar>().
+                AddTile(TileID.WorkBenches).
+                Register();*/
         }
     }
 }

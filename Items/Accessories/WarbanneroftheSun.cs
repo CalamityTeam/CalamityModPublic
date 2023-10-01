@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Accessories
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC nPC = Main.npc[i];
-                if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
+                if (nPC.IsAnEnemy() && !nPC.dontTakeDamage)
                 {
                     closestNPC = i;
                     break;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Accessories
             for (int j = 0; j < Main.maxNPCs; j++)
             {
                 NPC nPC = Main.npc[j];
-                if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
+                if (nPC.IsAnEnemy() && !nPC.dontTakeDamage)
                 {
                     float distance2 = Math.Abs(nPC.position.X + (float)(nPC.width / 2) - (player.position.X + (float)(player.width / 2))) + Math.Abs(nPC.position.Y + (float)(nPC.height / 2) - (player.position.Y + (float)(player.height / 2)));
                     if (distance == -1f || distance2 < distance)

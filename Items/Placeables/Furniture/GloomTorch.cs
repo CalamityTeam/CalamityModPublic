@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             CreateRecipe(3).
             AddIngredient(ItemID.Torch, 3).
-            AddIngredient(ModContent.ItemType<Items.Placeables.ScorchedBone>()).
+            AddIngredient<Items.Placeables.ScorchedBone>().
             Register();
         }
     }

@@ -34,26 +34,26 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
                 Register();
 
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<RustedPlating>()).
+                AddIngredient<RustedPlating>().
                 AddTile(TileID.Anvils).
                 Register();
 
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<LaboratoryShelf>(), 2).
+                AddIngredient<LaboratoryShelf>(2).
                 Register();
 
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<LaboratoryPlatingWall>(), 4).
+                AddIngredient<LaboratoryPlatingWall>(4).
                 AddTile(TileID.WorkBenches).
                 Register();
 
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<LaboratoryPlateBeam>(), 4).
+                AddIngredient<LaboratoryPlateBeam>(4).
                 AddTile(TileID.WorkBenches).
                 Register();
 
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<LaboratoryPlatePillar>(), 4).
+                AddIngredient<LaboratoryPlatePillar>(4).
                 AddTile(TileID.WorkBenches).
                 Register();
         }

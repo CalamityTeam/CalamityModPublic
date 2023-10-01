@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             CreateRecipe(3).
                 AddIngredient(ItemID.Torch, 3).
-                AddIngredient(ModContent.ItemType<Stardust>()).
+                AddIngredient<Stardust>().
                 Register();
         }
     }

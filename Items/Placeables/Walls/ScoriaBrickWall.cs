@@ -28,7 +28,10 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<ScoriaBrick>(), 1).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).
+                AddIngredient<ScoriaBrick>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

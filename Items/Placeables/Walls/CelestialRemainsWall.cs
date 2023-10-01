@@ -29,7 +29,10 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddTile(TileID.WorkBenches).AddIngredient(ModContent.ItemType<CelestialRemains>()).Register();
+            CreateRecipe(4).
+                AddIngredient<CelestialRemains>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

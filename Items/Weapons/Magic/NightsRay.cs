@@ -45,6 +45,14 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient<PurifiedGel>(10).
                 AddTile(TileID.DemonAltar).
                 Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CrimsonRod).
+                AddIngredient(ItemID.MagicMissile).
+                AddIngredient(ItemID.WandofSparking).
+                AddIngredient(ItemID.AmberStaff).
+                AddIngredient<PurifiedGel>(10).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

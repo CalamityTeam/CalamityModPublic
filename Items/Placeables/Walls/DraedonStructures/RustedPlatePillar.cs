@@ -29,7 +29,10 @@ namespace CalamityMod.Items.Placeables.Walls.DraedonStructures
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<TileItems.RustedPlating>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).
+                AddIngredient<TileItems.RustedPlating>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

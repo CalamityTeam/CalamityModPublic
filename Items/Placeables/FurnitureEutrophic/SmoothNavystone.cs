@@ -28,8 +28,14 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Navystone>(), 1).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothNavystoneWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe().
+                AddIngredient<Navystone>().
+                AddTile(TileID.WorkBenches).
+                Register();
+            CreateRecipe().
+                AddIngredient<SmoothNavystoneWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

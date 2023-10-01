@@ -22,7 +22,11 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 4).AddIngredient(ItemID.Torch).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<CosmiliteBrick>(4).
+                AddIngredient(ItemID.Torch).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

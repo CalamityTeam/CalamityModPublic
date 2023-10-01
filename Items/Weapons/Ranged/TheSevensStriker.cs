@@ -164,7 +164,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.CoinGun).
-                AddIngredient<ClockGatlignum>(1).
+                AddIngredient<ClockGatlignum>().
                 AddIngredient(ItemID.PlatinumCoin, 7).
                 AddIngredient(ItemID.GoldCoin, 77).
                 AddIngredient<TwistingNether>(2).

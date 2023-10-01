@@ -28,8 +28,10 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<AbyssGravel>()).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(this, 4).AddTile(TileID.WorkBenches).ReplaceResult(ModContent.ItemType<AbyssGravel>());
+            CreateRecipe(4).
+                AddIngredient<AbyssGravel>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

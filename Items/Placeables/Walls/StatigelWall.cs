@@ -1,5 +1,4 @@
 using CalamityMod.Items.Placeables.FurnitureStatigel;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
@@ -29,7 +28,10 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<StatigelBlock>()).AddTile(ModContent.TileType<StaticRefiner>()).Register();
+            CreateRecipe(4).
+                AddIngredient<StatigelBlock>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

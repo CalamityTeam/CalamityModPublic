@@ -23,12 +23,12 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-				AddIngredient(ModContent.ItemType<OccultBrickItem>(), 6).
+            CreateRecipe().
+				AddIngredient<OccultBrickItem>(6).
 				AddIngredient(ItemID.WaterBucket).
 				AddIngredient(ItemID.HoneyBucket).
 				AddIngredient(ItemID.LavaBucket).
-				AddTile(ModContent.TileType<SCalAltar>()).
+				AddTile<SCalAltar>().
 				Register();
         }
     }

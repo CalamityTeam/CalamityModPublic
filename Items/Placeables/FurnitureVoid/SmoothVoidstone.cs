@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Items.Placeables.Walls;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureVoid
@@ -28,9 +27,17 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Voidstone>(), 1).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothVoidstoneWall>(), 4).AddTile(ModContent.TileType<VoidCondenser>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothVoidstonePlatform>(), 2).AddTile(ModContent.TileType<VoidCondenser>()).Register();
+            CreateRecipe().
+                AddIngredient<Voidstone>().
+                AddTile(TileID.WorkBenches).
+                Register();
+            CreateRecipe().
+                AddIngredient<SmoothVoidstoneWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
+            CreateRecipe().
+                AddIngredient<SmoothVoidstonePlatform>(2).
+                Register();
         }
     }
 }

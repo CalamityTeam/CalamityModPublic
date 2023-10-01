@@ -30,9 +30,9 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-            AddIngredient(ModContent.ItemType<WulfrumMetalScrap>(), 5).
-            AddIngredient(ModContent.ItemType<WulfrumBattery>(), 1).
+            CreateRecipe().
+            AddIngredient<WulfrumMetalScrap>(5).
+            AddIngredient<WulfrumBattery>().
             AddTile(TileID.Anvils).
             Register();
         }

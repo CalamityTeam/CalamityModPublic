@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStratus
@@ -22,7 +21,12 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<StratusBricks>(), 4).AddIngredient(ModContent.ItemType<Lumenyl>(), 4).AddIngredient(ItemID.Chain).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<StratusBricks>(4).
+                AddIngredient(ItemID.Torch, 4).
+                AddIngredient(ItemID.Chain).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -29,7 +29,10 @@ namespace CalamityMod.Items.Placeables.Walls.DraedonStructures
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<TileItems.LaboratoryPlating>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).
+                AddIngredient<TileItems.LaboratoryPlating>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

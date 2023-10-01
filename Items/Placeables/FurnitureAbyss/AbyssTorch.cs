@@ -53,7 +53,10 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 
         public override void AddRecipes()
         {
-            CreateRecipe(3).AddIngredient(ItemID.Torch, 3).AddIngredient(ModContent.ItemType<AbyssGravel>()).Register();
+            CreateRecipe(3).
+                AddIngredient(ItemID.Torch, 3).
+                AddIngredient<AbyssGravel>().
+                Register();
         }
     }
 }

@@ -87,7 +87,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
+            CreateRecipe().
                 AddIngredient<Monsoon>().
                 AddIngredient<Lumenyl>(20).
                 AddIngredient<CosmiliteBar>(8).

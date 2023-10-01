@@ -30,13 +30,5 @@ namespace CalamityMod.Items.Placeables.Ores
             Item.value = Item.sellPrice(gold: 1, silver: 60);
             Item.rare = ItemRarityID.Red;
         }
-
-        // removed recipe for exodium because it shouldn't be necessary
-        /*
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.LunarOre, 3).AddIngredient(ItemID.FragmentStardust).AddIngredient(ItemID.FragmentSolar).AddIngredient(ItemID.FragmentVortex).AddIngredient(ItemID.FragmentNebula).AddTile(TileID.LunarCraftingStation).Register();
-        }
-        */
     }
 }

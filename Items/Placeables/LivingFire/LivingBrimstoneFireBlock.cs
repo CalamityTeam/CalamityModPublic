@@ -34,7 +34,10 @@ namespace CalamityMod.Items.Placeables.LivingFire
 
         public override void AddRecipes()
         {
-            CreateRecipe(20).AddIngredient(ItemID.LivingFireBlock, 20).AddIngredient(ModContent.ItemType<BrimstoneSlag>()).Register();
+            CreateRecipe(20).
+                AddIngredient(ItemID.LivingFireBlock, 20).
+                AddIngredient<BrimstoneSlag>().
+                Register();
         }
     }
 }

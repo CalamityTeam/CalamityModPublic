@@ -29,7 +29,10 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<ExoPrismPanel>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).
+                AddIngredient<ExoPrismPanel>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

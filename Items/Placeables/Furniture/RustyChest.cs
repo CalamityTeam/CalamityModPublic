@@ -23,7 +23,11 @@ namespace CalamityMod.Items.Placeables.Furniture
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Chest).AddIngredient(ModContent.ItemType<SulphuricScale>(), 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<HardenedSulphurousSandstone>(8).
+                AddRecipeGroup("IronBar", 2).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

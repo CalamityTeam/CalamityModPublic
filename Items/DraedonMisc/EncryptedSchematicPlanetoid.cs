@@ -98,8 +98,8 @@ namespace CalamityMod.Items.DraedonMisc
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).
-                AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).
+                AddIngredient<MysteriousCircuitry>(10).
+                AddIngredient<DubiousPlating>(10).
                 AddIngredient(ItemID.Glass, 50).
                 AddCondition(SchematicRecipe.ConstructRecipeCondition("Planetoid", out Func<bool> condition), condition).
                 AddTile(TileID.Anvils).

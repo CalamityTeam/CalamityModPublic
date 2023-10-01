@@ -27,8 +27,16 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).AddIngredient(ModContent.ItemType<LaboratoryPanels>(), 10).AddIngredient(ItemID.YellowPaint).AddIngredient(ItemID.BlackPaint).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<HazardChevronWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(10).
+                AddIngredient<LaboratoryPanels>(10).
+                AddIngredient(ItemID.YellowPaint).
+                AddIngredient(ItemID.BlackPaint).
+                AddTile(TileID.WorkBenches).
+                Register();
+            CreateRecipe().
+                AddIngredient<HazardChevronWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

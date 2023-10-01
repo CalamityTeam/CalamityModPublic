@@ -35,7 +35,10 @@ namespace CalamityMod.Items.Placeables.LivingFire
 
         public override void AddRecipes()
         {
-            CreateRecipe(20).AddIngredient(ItemID.LivingFireBlock, 20).AddIngredient(ModContent.ItemType<UnholyEssence>()).Register();
+            CreateRecipe(20).
+                AddIngredient(ItemID.LivingFireBlock, 20).
+                AddIngredient<UnholyEssence>().
+                Register();
         }
     }
 }

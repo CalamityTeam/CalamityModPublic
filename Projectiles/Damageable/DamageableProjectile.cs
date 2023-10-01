@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Damageable
             Player player = Main.player[Projectile.owner];
             for (int i = 0; i < Main.npc.Length; i++)
             {
-                if (Main.npc[i].active && !Main.npc[i].friendly && Main.npc[i].damage > 0 && DamageSources.HasFlag(DamageSourceType.HostileNPCs))
+                if (Main.npc[i].IsAnEnemy() && DamageSources.HasFlag(DamageSourceType.HostileNPCs))
                 {
                     if (Main.npc[i].Hitbox.Intersects(Projectile.Hitbox) && !NPCsToIgnore.Contains(Main.npc[i].type))
                     {
