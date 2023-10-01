@@ -39,10 +39,10 @@ namespace CalamityMod.Items.Placeables
             CreateRecipe().
                 AddIngredient<AcidwoodPlatform>(2).
                 Register();
-
-            CreateRecipe(1).
-            AddIngredient(ModContent.ItemType<AcidwoodWallItem>(), 4).
-            AddTile(TileID.WorkBenches).Register();
+            CreateRecipe().
+                AddIngredient<AcidwoodWallItem>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

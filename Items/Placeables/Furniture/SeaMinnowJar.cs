@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SeaMinnowItem>()).AddIngredient(ItemID.Bottle).Register();
+            CreateRecipe().AddIngredient(ModContent.ItemType<SeaMinnowItem>()).AddIngredient(ItemID.Bottle).Register();
         }
     }
 }

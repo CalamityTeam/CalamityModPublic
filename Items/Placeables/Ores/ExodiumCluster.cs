@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Placeables.Ores
         /*
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.LunarOre, 3).AddIngredient(ItemID.FragmentStardust).AddIngredient(ItemID.FragmentSolar).AddIngredient(ItemID.FragmentVortex).AddIngredient(ItemID.FragmentNebula).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().AddIngredient(ItemID.LunarOre, 3).AddIngredient(ItemID.FragmentStardust).AddIngredient(ItemID.FragmentSolar).AddIngredient(ItemID.FragmentVortex).AddIngredient(ItemID.FragmentNebula).AddTile(TileID.LunarCraftingStation).Register();
         }
         */
     }

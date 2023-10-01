@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
+            CreateRecipe().
             AddIngredient(ModContent.ItemType<AbyssChair>()).
             AddIngredient(ModContent.ItemType<AcidwoodChair>()).
             AddIngredient(ModContent.ItemType<AncientChair>()).

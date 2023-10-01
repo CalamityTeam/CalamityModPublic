@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
         public override void AddRecipes()
         {
             CreateRecipe(2).AddIngredient(ModContent.ItemType<LaboratoryPlating>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<RustedShelf>()).Register();
+            CreateRecipe().AddIngredient(ModContent.ItemType<RustedShelf>()).Register();
         }
     }
 }

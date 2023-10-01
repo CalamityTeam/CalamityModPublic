@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
+            CreateRecipe().
                 AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 8).
                 AddRecipeGroup("IronBar", 2).
                 AddTile(ModContent.TileType<AshenAltar>()).
