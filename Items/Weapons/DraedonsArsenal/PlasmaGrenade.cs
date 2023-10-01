@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             modItem.ChargePerUse = 0.25f;
         }
 
-        public override float StealthDamageMultiplier => 0.9f;
+        public override float StealthDamageMultiplier => 1f;
         public override float StealthVelocityMultiplier => 1.2f;
         public override float StealthKnockbackMultiplier => 1.5f;
 
