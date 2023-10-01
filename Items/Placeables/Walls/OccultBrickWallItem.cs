@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.Walls
         public override void AddRecipes()
         {
             CreateRecipe(4).
-            AddIngredient(ModContent.ItemType<OccultBrickItem>()).
+            AddIngredient<OccultBrickItem>().
             AddTile(TileID.WorkBenches).
             Register();
         }

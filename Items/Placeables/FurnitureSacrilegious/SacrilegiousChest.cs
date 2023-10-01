@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<OccultBrickItem>(), 8).
+                AddIngredient<OccultBrickItem>(8).
                 AddRecipeGroup("IronBar", 2).
                 AddTile<SCalAltar>().
                 Register();

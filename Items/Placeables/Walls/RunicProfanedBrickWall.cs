@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<RunicProfanedBrick>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).AddIngredient<RunicProfanedBrick>().AddTile(TileID.WorkBenches).Register();
         }
     }
 }

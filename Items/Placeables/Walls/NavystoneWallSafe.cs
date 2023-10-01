@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<Navystone>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).AddIngredient<Navystone>().AddTile(TileID.WorkBenches).Register();
         }
     }
 }

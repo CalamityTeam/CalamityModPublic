@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<AstralMonolith>(), 10).
+                AddIngredient<AstralMonolith>(10).
                 AddRecipeGroup("IronBar", 3).
                 AddIngredient(ItemID.Glass, 6).
                 AddTile<MonolithAmalgam>().

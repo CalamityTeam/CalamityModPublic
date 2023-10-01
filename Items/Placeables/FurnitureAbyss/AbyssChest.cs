@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<SmoothAbyssGravel>(), 8).
+                AddIngredient<SmoothAbyssGravel>(8).
                 AddRecipeGroup("IronBar", 2).
                 AddTile<VoidCondenser>().
                 Register();

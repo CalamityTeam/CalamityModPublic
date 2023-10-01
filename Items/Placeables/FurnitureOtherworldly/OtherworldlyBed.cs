@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<OtherworldlyStone>(), 15).AddIngredient(ItemID.Silk, 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().AddIngredient<OtherworldlyStone>(15).AddIngredient(ItemID.Silk, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<Navystone>(), 15).AddIngredient(ItemID.Bone, 4).AddIngredient(ItemID.Book).AddTile<EutrophicShelf>().Register();
+            CreateRecipe().AddIngredient<Navystone>(15).AddIngredient(ItemID.Bone, 4).AddIngredient(ItemID.Book).AddTile<EutrophicShelf>().Register();
         }
     }
 }

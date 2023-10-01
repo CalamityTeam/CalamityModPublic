@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<AstralMonolith>(), 20).AddIngredient(ItemID.Book, 10).AddTile<MonolithAmalgam>().Register();
+            CreateRecipe().AddIngredient<AstralMonolith>(20).AddIngredient(ItemID.Book, 10).AddTile<MonolithAmalgam>().Register();
         }
     }
 }

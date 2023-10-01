@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<BabyCannonballJellyfishItem>()).AddIngredient(ItemID.BottledWater).Register();
+            CreateRecipe().AddIngredient<BabyCannonballJellyfishItem>().AddIngredient(ItemID.BottledWater).Register();
         }
     }
 }

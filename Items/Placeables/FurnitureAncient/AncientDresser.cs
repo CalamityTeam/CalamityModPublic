@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 16).AddTile<AncientAltar>().Register();
+            CreateRecipe().AddIngredient<BrimstoneSlag>(16).AddTile<AncientAltar>().Register();
         }
     }
 }

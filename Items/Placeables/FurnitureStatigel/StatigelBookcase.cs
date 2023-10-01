@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<StatigelBlock>(), 20).AddIngredient(ItemID.Book, 10).AddTile<StaticRefiner>().Register();
+            CreateRecipe().AddIngredient<StatigelBlock>(20).AddIngredient(ItemID.Book, 10).AddTile<StaticRefiner>().Register();
         }
     }
 }

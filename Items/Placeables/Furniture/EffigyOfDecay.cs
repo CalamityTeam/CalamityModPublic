@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Placeables.Furniture
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<SulphuricScale>(), 20).
-                AddIngredient(ModContent.ItemType<Acidwood>(), 10).
+                AddIngredient<SulphuricScale>(20).
+                AddIngredient<Acidwood>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).AddIngredient<SmoothBrimstoneSlag>().AddTile(TileID.WorkBenches).Register();
         }
     }
 }

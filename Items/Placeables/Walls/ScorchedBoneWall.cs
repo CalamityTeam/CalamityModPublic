@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.Walls
         public override void AddRecipes()
         {
             CreateRecipe(4).
-            AddIngredient(ModContent.ItemType<ScorchedBone>()).
+            AddIngredient<ScorchedBone>().
             AddTile(TileID.WorkBenches).
             Register();
         }

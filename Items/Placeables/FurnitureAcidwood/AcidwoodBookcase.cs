@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<Acidwood>(), 20).AddIngredient(ItemID.Book, 10).AddTile(TileID.Sawmill).Register();
+            CreateRecipe().AddIngredient<Acidwood>(20).AddIngredient(ItemID.Book, 10).AddTile(TileID.Sawmill).Register();
         }
     }
 }

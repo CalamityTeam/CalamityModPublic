@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
         public override void AddRecipes()
         {
             CreateRecipe().
-				AddIngredient(ModContent.ItemType<OccultBrickItem>(), 6).
+				AddIngredient<OccultBrickItem>(6).
 				AddIngredient(ItemID.WaterBucket).
 				AddIngredient(ItemID.HoneyBucket).
 				AddIngredient(ItemID.LavaBucket).

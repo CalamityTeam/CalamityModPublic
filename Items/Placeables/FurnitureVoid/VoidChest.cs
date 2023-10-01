@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 8).
+                AddIngredient<SmoothVoidstone>(8).
                 AddRecipeGroup("IronBar", 2).
                 AddTile<VoidCondenser>().
                 Register();

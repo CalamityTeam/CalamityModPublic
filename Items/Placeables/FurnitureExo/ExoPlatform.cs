@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).AddIngredient(ModContent.ItemType<ExoPlating>()).Register();
+            CreateRecipe(2).AddIngredient<ExoPlating>().Register();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddTile(TileID.WorkBenches).AddIngredient(ModContent.ItemType<AstralStone>()).Register();
+            CreateRecipe(4).AddTile(TileID.WorkBenches).AddIngredient<AstralStone>().Register();
         }
     }
 }

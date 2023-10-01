@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<ProfanedRock>(), 8).
+                AddIngredient<ProfanedRock>(8).
                 AddRecipeGroup("IronBar", 2).
                 AddTile<ProfanedCrucible>().
                 Register();

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<Plates.Havocplate>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).AddIngredient<Plates.Havocplate>().AddTile(TileID.WorkBenches).Register();
         }
     }
 }

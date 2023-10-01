@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<CrimsonEffigy>()).
+                AddIngredient<CrimsonEffigy>().
                 AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Condition.InGraveyard).
                 Register()

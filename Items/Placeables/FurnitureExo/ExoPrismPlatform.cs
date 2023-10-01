@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).AddIngredient(ModContent.ItemType<ExoPrismPanel>()).Register();
+            CreateRecipe(2).AddIngredient<ExoPrismPanel>().Register();
         }
     }
 }
