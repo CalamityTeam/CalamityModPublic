@@ -97,12 +97,12 @@ namespace CalamityMod.Projectiles.Rogue
             int sparkCount = Main.rand.Next(4, 6);
             for (int i = 0; i < sparkCount; i++)
             {
-                Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.5f) * Main.rand.NextFloat(5f, 9f);
+                Vector2 sparkVelocity = Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.6f, 1.1f);
                 int sparkLifetime = Main.rand.Next(23, 25);
                 float sparkScale = Main.rand.NextFloat(0.8f, 1f) * 0.955f;
                 Color sparkColor = Color.Lerp(Color.Gold, Color.Goldenrod, Main.rand.NextFloat(0.7f));
                 sparkColor = Color.Lerp(sparkColor, Color.Gold, Main.rand.NextFloat());
-                SparkParticle spark = new SparkParticle(Projectile.Center, sparkVelocity * -2, true, sparkLifetime, sparkScale, sparkColor);
+                SparkParticle spark = new SparkParticle(Projectile.Center, sparkVelocity, true, sparkLifetime, sparkScale, sparkColor);
                 GeneralParticleHandler.SpawnParticle(spark);
             }
             SoundEngine.PlaySound(Hitsound, Projectile.position);

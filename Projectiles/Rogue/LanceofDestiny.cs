@@ -19,6 +19,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Projectiles/Rogue/LanceofDestiny";
         public bool posthit = false;
         public int Time = 0;
+        public int hitsDust = 7;
         public override void SetDefaults()
         {
             Projectile.width = 20;
@@ -84,9 +85,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            for (int i = 0; i <= 3; i++)
+            if (hitsDust > 1)
             {
-                Dust dust2 = Main.dust[Dust.NewDust(target.position, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 130 : 133, Projectile.oldVelocity.X * Main.rand.NextFloat(1.1f, 1.3f), Projectile.oldVelocity.Y * Main.rand.NextFloat(1.1f, 1.3f), 0, default, 1.1f)];
+                hitsDust--;
+            }
+            for (int i = 0; i <= hitsDust; i++)
+            {
+                Dust dust2 = Main.dust[Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 130 : 133, Projectile.oldVelocity.X * Main.rand.NextFloat(1.1f, 1.3f), Projectile.oldVelocity.Y * Main.rand.NextFloat(1.1f, 1.3f), 0, default, 1.1f)];
             }
             SoundEngine.PlaySound(Hitsound, Projectile.position);
         }
