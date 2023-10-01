@@ -75,7 +75,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
                 spriteBatch.Draw(glowmask, drawPosition + new Vector2(0f, 8f), new Rectangle(xFrameOffset, yFrameOffset, 18, 8), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
         }
 
-        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.ChairSitInfo(i, j, ref info, NextStyleHeight, true);
+        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.ChairSitInfo(i, j, ref info, NextStyleHeight, true, shitter: true);
 
         public override bool RightClick(int i, int j) => CalamityUtils.ChairRightClick(i, j);
 

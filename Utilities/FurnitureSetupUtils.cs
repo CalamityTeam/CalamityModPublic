@@ -68,7 +68,7 @@ namespace CalamityMod
 
         #region Sitting in Chairs
         // fat is for 2 tile chairs like Exo Chair and Exo Toilet
-        public static void ChairSitInfo(int i, int j, ref TileRestingInfo info, int nextStyleHeight = 40, bool fat = false, bool hasOffset = false)
+        public static void ChairSitInfo(int i, int j, ref TileRestingInfo info, int nextStyleHeight = 40, bool fat = false, bool hasOffset = false, bool shitter = false)
         {
             if (hasOffset)
             {
@@ -78,6 +78,9 @@ namespace CalamityMod
 
             Tile tile = Framing.GetTileSafely(i, j);
             bool frameCheck = fat ? tile.TileFrameX >= 35 : tile.TileFrameX != 0;
+
+            if (shitter)
+                info.ExtraInfo.IsAToilet = true;
 
             info.TargetDirection = -1;
             if (frameCheck)
