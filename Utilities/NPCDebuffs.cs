@@ -265,7 +265,7 @@ namespace CalamityMod
                 { ModContent.NPCType<CosmicGuardianBody>(), immuneToEverything },
                 { ModContent.NPCType<CosmicGuardianTail>(), immuneToEverything },
 
-                { ModContent.NPCType<Yharon>(), new(GeneralImmunityStatus.None, new int[] { BuffID.OnFire }) },
+                { ModContent.NPCType<Yharon>(), new(GeneralImmunityStatus.None, new int[] { BuffID.OnFire, ModContent.BuffType<Dragonfire>() }) },
 
                 { ModContent.NPCType<ThanatosHead>(), immuneToEverything },
                 { ModContent.NPCType<ThanatosBody1>(), immuneToEverything },
