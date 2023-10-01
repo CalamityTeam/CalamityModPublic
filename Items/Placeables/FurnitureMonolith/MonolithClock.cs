@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
                 AddIngredient(ModContent.ItemType<AstralMonolith>(), 10).
                 AddRecipeGroup("IronBar", 3).
                 AddIngredient(ItemID.Glass, 6).
-                AddTile(ModContent.TileType<MonolithAmalgam>()).
+                AddTile<MonolithAmalgam>().
                 Register();
         }
     }

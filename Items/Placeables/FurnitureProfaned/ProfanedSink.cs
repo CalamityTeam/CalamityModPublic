@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<ProfanedRock>(), 6).AddIngredient(ItemID.LavaBucket).AddTile(ModContent.TileType<ProfanedCrucible>()).Register();
+            CreateRecipe().AddIngredient(ModContent.ItemType<ProfanedRock>(), 6).AddIngredient(ItemID.LavaBucket).AddTile<ProfanedCrucible>().Register();
         }
     }
 }

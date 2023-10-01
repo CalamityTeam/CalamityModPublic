@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             CreateRecipe().
                 AddIngredient(ModContent.ItemType<ProfanedRock>(), 8).
                 AddRecipeGroup("IronBar", 2).
-                AddTile(ModContent.TileType<ProfanedCrucible>()).
+                AddTile<ProfanedCrucible>().
                 Register();
         }
     }

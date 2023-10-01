@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             CreateRecipe().
                 AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 8).
                 AddRecipeGroup("IronBar", 2).
-                AddTile(ModContent.TileType<VoidCondenser>()).
+                AddTile<VoidCondenser>().
                 Register();
         }
     }

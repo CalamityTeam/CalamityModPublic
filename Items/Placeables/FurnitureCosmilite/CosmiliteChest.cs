@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             CreateRecipe().
                 AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 8).
                 AddRecipeGroup("IronBar", 2).
-                AddTile(ModContent.TileType<CosmicAnvil>()).
+                AddTile<CosmicAnvil>().
                 Register();
         }
     }

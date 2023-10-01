@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             CreateRecipe().
                 AddIngredient(ModContent.ItemType<StatigelBlock>(), 8).
                 AddRecipeGroup("IronBar", 2).
-                AddTile(ModContent.TileType<StaticRefiner>()).
+                AddTile<StaticRefiner>().
                 Register();
         }
     }

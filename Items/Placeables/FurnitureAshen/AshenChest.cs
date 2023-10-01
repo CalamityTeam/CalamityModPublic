@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             CreateRecipe().
                 AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 8).
                 AddRecipeGroup("IronBar", 2).
-                AddTile(ModContent.TileType<AshenAltar>()).
+                AddTile<AshenAltar>().
                 Register();
         }
     }

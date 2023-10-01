@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             AddIngredient(ModContent.ItemType<VoidChair>()).
             AddIngredient(ModContent.ItemType<WulfrumChair>()).
             AddIngredient(ModContent.ItemType<AuricBar>()).
-            AddTile(ModContent.TileType<CosmicAnvil>()).
+            AddTile<CosmicAnvil>().
             Register();
         }
     }

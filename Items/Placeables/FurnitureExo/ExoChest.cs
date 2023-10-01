@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
             CreateRecipe().
                 AddIngredient(ModContent.ItemType<ExoPlating>(), 8).
                 AddRecipeGroup("IronBar", 2).
-                AddTile(ModContent.TileType<DraedonsForge>()).
+                AddTile<DraedonsForge>().
                 Register();
         }
     }
