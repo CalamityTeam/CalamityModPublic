@@ -149,7 +149,9 @@ namespace CalamityMod.Prefixes
 
         public override void ModifyValue(ref float valueMult)
         {
-            float extraValue = 1f + (1f * (stealthDmgMult - 1f));
+            float extraStealthDamage = stealthDmgMult - 1f;
+            float stealthDamageValueMultiplier = 1f;
+            float extraValue = 1f + stealthDamageValueMultiplier * extraStealthDamage;
             valueMult *= extraValue;
         }
 
