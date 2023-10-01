@@ -44,7 +44,6 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
                 Register();
             CreateRecipe().
                 AddIngredient<OtherworldlyPlatform>(2).
-                AddTile(TileID.LunarCraftingStation).
                 Register();
         }
     }

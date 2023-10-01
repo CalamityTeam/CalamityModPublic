@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureMonolith;
 using CalamityMod.Items.Placeables.Walls;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Placeables
         {
             CreateRecipe().
                 AddIngredient<AstralMonolithWall>(4).
-                AddTile<MonolithAmalgam>().
+                AddTile(TileID.WorkBenches).
                 Register();
 
             CreateRecipe().

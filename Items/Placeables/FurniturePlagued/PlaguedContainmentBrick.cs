@@ -39,11 +39,10 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
                 Register();
             CreateRecipe().
                 AddIngredient<PlaguedPlateWall>(4).
-                AddTile<PlagueInfuser>().
+                AddTile(TileID.WorkBenches).
                 Register();
             CreateRecipe().
                 AddIngredient<PlaguedPlatePlatform>(2).
-                AddTile<PlagueInfuser>().
                 Register();
         }
     }

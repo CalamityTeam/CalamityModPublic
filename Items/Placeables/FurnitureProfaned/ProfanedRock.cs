@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
                 Register();
             CreateRecipe().
                 AddIngredient<ProfanedPlatform>(2).
-                AddTile(TileID.LunarCraftingStation).
                 Register();
         }
     }

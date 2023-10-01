@@ -51,6 +51,14 @@ namespace CalamityMod.Items.Weapons.Summon
                 AddIngredient<PurifiedGel>(10).
                 AddTile(TileID.DemonAltar).
                 Register();
+            CreateRecipe().
+                AddIngredient<ScabRipper>().
+                AddIngredient<StaffOfNecrosteocytes>().
+                AddIngredient<BelladonnaSpiritStaff>().
+                AddIngredient(ItemID.ImpStaff).
+                AddIngredient<PurifiedGel>(10).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

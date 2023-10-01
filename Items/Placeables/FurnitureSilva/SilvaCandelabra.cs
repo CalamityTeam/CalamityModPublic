@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +22,11 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaCrystal>(), 5).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 3).AddTile(ModContent.TileType<SilvaBasin>()).Register();
+            CreateRecipe().
+                AddIngredient<SilvaCrystal>(5).
+                AddIngredient(ItemID.Torch, 3).
+                AddTile<SilvaBasin>().
+                Register();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Placeables.FurnitureCosmilite;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
@@ -23,7 +22,11 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<OtherworldlyStone>(), 8).AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 2).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<OtherworldlyStone>(8).
+                AddRecipeGroup("IronBar", 2).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿using Terraria.ModLoader;
+﻿using CalamityMod.Items.Placeables.Walls;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
@@ -23,6 +24,14 @@ namespace CalamityMod.Items.Placeables
             Item.width = 16;
             Item.height = 16;
             Item.maxStack = 9999;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<AbyssGravelWallItem>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

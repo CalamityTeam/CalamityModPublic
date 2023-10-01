@@ -37,11 +37,10 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
                 Register();
             CreateRecipe().
                 AddIngredient<SilvaWall>(4).
-                AddTile<SilvaBasin>().
+                AddTile(TileID.WorkBenches).
                 Register();
             CreateRecipe().
                 AddIngredient<SilvaPlatform>(2).
-                AddTile<SilvaBasin>().
                 Register();
         }
     }
