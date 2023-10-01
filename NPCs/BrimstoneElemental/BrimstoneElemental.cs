@@ -208,7 +208,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 int[] accs = new int[]
                 {
                     ModContent.ItemType<RoseStone>(),
-                    ModContent.ItemType<Abaddon>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, accs));
                 normalOnly.Add(ModContent.ItemType<FlameLickedShell>(), 10);
