@@ -115,20 +115,18 @@ namespace CalamityMod.Particles
         public static void DrawAllParticles(SpriteBatch sb)
         {
             if (particles.Count == 0)
-                return; 
-
+                return;
+            
             sb.End();
-
-            Rectangle screenRect = new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
+            var rasterizer = Main.Rasterizer;
+            rasterizer.ScissorTestEnable = true;
+            Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
+            Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
+            
             //Batch the particles to avoid constant restarting of the spritebatch
             foreach (Particle particle in particles)
             {
                 if (particle == null)
-                    continue;
-
-                Texture2D texture = ModContent.Request<Texture2D>(particle.Texture).Value;
-                Rectangle particleRect = new Rectangle((int)particle.Position.X, (int)particle.Position.Y, (int)(texture.Width * particle.Scale), (int)(texture.Height * particle.Scale));
-                if (!particleRect.Intersects(screenRect))
                     continue;
 
                 if (particle.UseAdditiveBlend)
@@ -138,10 +136,9 @@ namespace CalamityMod.Particles
                 else
                     batchedAlphaBlendParticles.Add(particle);
             }
-
             if (batchedAlphaBlendParticles.Count > 0)
             {
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
                 foreach (Particle particle in batchedAlphaBlendParticles)
                 {
@@ -150,7 +147,8 @@ namespace CalamityMod.Particles
                     else
                     {
                         Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
-                        sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+                        sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, 
+                            particle.Scale, SpriteEffects.None, 0f);
                     }
                 }
                 sb.End();
@@ -159,7 +157,11 @@ namespace CalamityMod.Particles
 
             if (batchedNonPremultipliedParticles.Count > 0)
             {
-                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                rasterizer = Main.Rasterizer;
+                rasterizer.ScissorTestEnable = true;
+                Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
+                Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
                 foreach (Particle particle in batchedNonPremultipliedParticles)
                 {
@@ -176,7 +178,11 @@ namespace CalamityMod.Particles
 
             if (batchedAdditiveBlendParticles.Count > 0)
             {
-                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                rasterizer = Main.Rasterizer;
+                rasterizer.ScissorTestEnable = true;
+                Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
+                Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
                 foreach (Particle particle in batchedAdditiveBlendParticles)
                 {

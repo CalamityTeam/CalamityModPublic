@@ -239,7 +239,6 @@ namespace CalamityMod
 
         public void Draw(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null)
         {
-            Main.instance.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             List<Vector2> trailPoints = TrailPointFunction(originalPositions, generalOffset, totalTrailPoints, originalRotations);
 
             // A trail with only one point or less has nothing to connect to, and therefore, can't make a trail.
@@ -263,6 +262,10 @@ namespace CalamityMod
             // If they are, the graphics engine, along with the entire game, will crash.
             if (triangleIndices.Length % 6 != 0 || vertices.Length % 2 != 0)
                 return;
+
+            Main.instance.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
+            Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight); //offscreen culling
 
             if (SpecialShader != null)
             {
