@@ -40,7 +40,6 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
                 Register();
             CreateRecipe().
                 AddIngredient<CosmilitePlatform>(2).
-                AddTile<CosmicAnvil>().
                 Register();
         }
     }

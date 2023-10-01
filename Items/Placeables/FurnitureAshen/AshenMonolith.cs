@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -25,7 +24,12 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 10).AddIngredient(ModContent.ItemType<UnholyCore>(), 9).AddTile(ModContent.TileType<AshenAltar>()).Register();
+            CreateRecipe().
+                AddIngredient<SmoothBrimstoneSlag>(10).
+                AddRecipeGroup("IronBar", 3).
+                AddIngredient(ItemID.Glass, 6).
+                AddTile<AshenAltar>().
+                Register();
         }
     }
 }

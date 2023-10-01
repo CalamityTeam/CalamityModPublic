@@ -110,8 +110,8 @@ namespace CalamityMod.Items.Weapons.Melee
             AddIngredient(ItemID.TitaniumSword).
             AddIngredient<NightmareFuel>(12).
             AddTile<CosmicAnvil>().
-            Register().
-            DisableDecraft();
+            AddDecraftCondition(Condition.ZenithWorld).
+            Register();
 
             CreateRecipe().
             AddCondition(Condition.NotZenithWorld).

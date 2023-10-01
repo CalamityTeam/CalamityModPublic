@@ -1,4 +1,3 @@
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -25,7 +24,12 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 10).AddIngredient(ModContent.ItemType<InfernalSuevite>(), 9).AddTile(ModContent.TileType<AncientAltar>()).Register();
+            CreateRecipe().
+                AddIngredient<BrimstoneSlag>(10).
+                AddRecipeGroup("IronBar", 3).
+                AddIngredient(ItemID.Glass, 6).
+                AddTile<AncientAltar>().
+                Register();
         }
     }
 }

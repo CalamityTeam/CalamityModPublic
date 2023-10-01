@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +22,10 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedContainmentBrick>(), 14).AddIngredient(ModContent.ItemType<PlagueCellCanister>(), 2).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
+            CreateRecipe().
+                AddIngredient<PlaguedContainmentBrick>(14).
+                AddTile<PlagueInfuser>().
+                Register();
         }
     }
 }

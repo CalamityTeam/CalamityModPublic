@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -25,7 +24,11 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UnholyCore>(), 1).AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 3).AddTile(ModContent.TileType<AncientAltar>()).Register();
+            CreateRecipe().
+                AddIngredient<BrimstoneSlag>(3).
+                AddIngredient(ItemID.Torch).
+                AddTile<AncientAltar>().
+                Register();
         }
     }
 }

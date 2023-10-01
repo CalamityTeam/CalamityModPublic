@@ -1,5 +1,4 @@
 using CalamityMod.Items.Placeables.FurniturePlagued;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
@@ -29,7 +28,10 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<PlaguedContainmentBrick>()).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
+            CreateRecipe(4).
+                AddIngredient<PlaguedContainmentBrick>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }
