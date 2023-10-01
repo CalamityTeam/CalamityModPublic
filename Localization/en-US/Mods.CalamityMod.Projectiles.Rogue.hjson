@@ -27,7 +27,6 @@ BouncingEyeballProjectileStealthStrike.DisplayName: Bouncy Eyeball
 BouncyBol.DisplayName: Bouncy Ball
 BrackishFlaskProj.DisplayName: Brackish Flask
 BrackishSpear.DisplayName: Not Atlantis Spear
-BrackishSpear2.DisplayName: Not Atlantis Spear
 BrackishWater.DisplayName: Brackish Water
 BrackishWaterBlast.DisplayName: Brackish Water
 Brick.DisplayName: Brick
@@ -297,7 +296,6 @@ TalonLargeProj.DisplayName: Huge Terror Talon
 TalonSmallProj.DisplayName: Terror Talon
 TarragonThrowingDartProjectile.DisplayName: Tarragon Throwing Dart
 TarraThornRight.DisplayName: Tarragon Thorn
-TarraThornTip.DisplayName: Tarragon Thorn
 TerraDiskProjectile.DisplayName: Terra Disk
 TerraDiskProjectile2.DisplayName: Terra Disk
 TheAtomSplitterDuplicate.DisplayName: Atom Splitter

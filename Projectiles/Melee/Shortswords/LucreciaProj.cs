@@ -14,16 +14,17 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
 
         public override void SetDefaults()
         {
-            Projectile.Size = new Vector2(31);
+            Projectile.width = Projectile.height = 28;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.scale = 1f;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.ownerHitCheck = true;
             Projectile.timeLeft = 360;
             Projectile.hide = true;
             Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override Action<Projectile> EffectBeforePullback => (proj) =>

@@ -46,11 +46,9 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             for (int index = 0; index < 3; ++index)
             {
-                float SpeedX = velocity.X + Main.rand.Next(-120, 121) * 0.05f;
-                float SpeedY = velocity.Y + Main.rand.Next(-120, 121) * 0.05f;
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX * 1.5f, SpeedY * 1.5f, ModContent.ProjectileType<NettleRight>(), (int)(damage * 1.5), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(30f)) * 1.5f, ModContent.ProjectileType<NettleRight>(), (int)(damage * 1.5), knockback, player.whoAmI);
             }
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.66f, velocity.Y * 0.66f, type, damage, knockback, player.whoAmI, 1f, 0f);
+            Projectile.NewProjectile(source, position, velocity * 0.66f, type, damage, knockback, player.whoAmI, 1f);
             return false;
         }
 

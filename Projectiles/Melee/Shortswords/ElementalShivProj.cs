@@ -25,6 +25,8 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             Projectile.extraUpdates = 1;
             Projectile.hide = true;
             Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override Action<Projectile> EffectBeforePullback => (proj) =>

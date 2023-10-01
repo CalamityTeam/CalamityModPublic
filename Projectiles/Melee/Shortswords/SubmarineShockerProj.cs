@@ -23,6 +23,8 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             Projectile.timeLeft = 360;
             Projectile.hide = true;
             Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override void SetVisualOffsets()

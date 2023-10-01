@@ -14,24 +14,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.Rapier;
-            Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 10;
-            Item.useTime = 10;
             Item.width = 44;
             Item.height = 44;
-            Item.damage = 92;
-            Item.knockBack = 10f;
-            Item.UseSound = SoundID.Item1;
-            Item.autoReuse = true;
-            Item.noUseGraphic = true;
             Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Rapier;
+            Item.damage = 92;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 10;
             Item.shoot = ModContent.ProjectileType<GalileoGladiusProj>();
             Item.shootSpeed = 0.9f;
-
+            Item.knockBack = 10f;
+            Item.UseSound = SoundID.Item1;
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();
         }
+
+        public override bool MeleePrefix() => true;
 
         public override void AddRecipes()
         {

@@ -1,9 +1,6 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Shortswords;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,23 +13,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.Rapier;
-            Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 13;
-            Item.useTime = 13;
             Item.width = 44;
             Item.height = 44;
-            Item.damage = 190;
-            Item.knockBack = 8.5f;
-            Item.UseSound = SoundID.Item1;
-            Item.autoReuse = true;
-            Item.noUseGraphic = true;
             Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Rapier;
+            Item.damage = 190;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 13;
             Item.shoot = ModContent.ProjectileType<ElementalShivProj>();
             Item.shootSpeed = 2.4f;
+            Item.knockBack = 8.5f;
+            Item.UseSound = SoundID.Item1;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
         }
+
+        public override bool MeleePrefix() => true;
 
         public override void AddRecipes()
         {

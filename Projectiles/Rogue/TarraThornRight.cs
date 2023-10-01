@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class TarraThornRight : ModProjectile, ILocalizedModType
@@ -10,62 +11,79 @@ namespace CalamityMod.Projectiles.Rogue
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/Magic/NettleRight";
 
+        public static int TotalSegments = 10;
+
         public override void SetDefaults()
         {
-            Projectile.width = 28;
-            Projectile.height = 28;
+            Projectile.width = Projectile.height = 28;
             Projectile.friendly = true;
-            Projectile.penetrate = 5;
-            Projectile.tileCollide = false;
             Projectile.alpha = 255;
+            Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.penetrate = -1;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
-            Projectile.aiStyle = ProjAIStyleID.Vilethorn;
         }
 
         public override void AI()
         {
-            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver2;
-            if (Projectile.ai[0] == 0f)
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            if (Projectile.ai[1] == 0f)
             {
-                Projectile.alpha -= 50;
-                if (Projectile.alpha > 0)
-                    return;
-                Projectile.alpha = 0;
-                Projectile.ai[0] = 1f;
-                if (Projectile.ai[1] == 0f)
+                Projectile.alpha -= 100;
+                if (Projectile.alpha <= 0)
                 {
-                    Projectile.ai[1] += 1f;
-                    Projectile.position += Projectile.velocity * 1f;
-                }
-                if (Main.myPlayer == Projectile.owner)
-                {
-                    int type = Projectile.type;
-                    if (Projectile.ai[1] >= 10f)
-                        type = ModContent.ProjectileType<TarraThornTip>();
-                    int number = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, type, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                    Main.projectile[number].ai[1] = Projectile.ai[1] + 1f;
-                }
-            }
-            else
-            {
-                if (Projectile.alpha < 170 && Projectile.alpha + 5 >= 170)
-                {
-                    for (int index1 = 0; index1 < 8; ++index1)
+                    Projectile.alpha = 0;
+                    Projectile.ai[1] = 1f;
+
+                    // This projectile normally does not move by itself, so this will manually move it one time only
+                    // This is only for the first segment
+                    if (Projectile.ai[0] == 0f)
                     {
-                        int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 7, Projectile.velocity.X * 0.025f, Projectile.velocity.Y * 0.025f, 200, new Color(), 1.3f);
-                        Dust dust = Main.dust[index2];
-                        dust.noGravity = true;
-                        dust.velocity *= 0.5f;
+                        Projectile.ai[0]++;
+                        Projectile.position += Projectile.velocity;
+                    }
+
+                    // Spawn the next segment
+                    if (Main.myPlayer == Projectile.owner && Projectile.ai[0] < TotalSegments)
+                    {
+                        int nextSegment = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 1f);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, nextSegment);
                     }
                 }
-                Projectile.alpha += 3;
-                if (Projectile.alpha < 255)
-                    return;
-                Projectile.Kill();
             }
+            else // Begin fading out
+            {
+                int AlphaPerFrame = 8;
+                Projectile.alpha += AlphaPerFrame;
+                if (Projectile.alpha == AlphaPerFrame * 21)
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Dust thorn = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 7, Projectile.velocity.X * 0.025f, Projectile.velocity.Y * 0.025f, 200, default, 1.3f);
+                        thorn.noGravity = true;
+                        thorn.velocity *= 0.5f;
+                    }
+                }
+
+                if (Projectile.alpha >= 255)
+                    Projectile.Kill();
+            }
+        }
+
+        // This is essential for Vilethorn-type projectiles, as velocity is a stored parameter and isn't supposed to actually move the projectile
+        public override bool ShouldUpdatePosition() => false;
+
+        // Draw the tip for the final thorn
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            if (Projectile.ai[0] == TotalSegments)
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/NettleTip").Value;
+
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
+            return false;
         }
     }
 }

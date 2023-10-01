@@ -14,25 +14,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.Rapier;
-            Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 18;
-            Item.useTime = 18;
             Item.width = 44;
             Item.height = 44;
-            Item.damage = 109;
-            Item.knockBack = 9f;
-            Item.UseSound = SoundID.Item1;
-            Item.autoReuse = true;
-            Item.noUseGraphic = true;
             Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Rapier;
+            Item.damage = 109;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 18;
             Item.shoot = ModContent.ProjectileType<CosmicShivProj>();
             Item.shootSpeed = 2.4f;
-
+            Item.knockBack = 9f;
+            Item.UseSound = SoundID.Item1;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().donorItem = true; //Yatagarasu#0001
         }
+
+        public override bool MeleePrefix() => true;
 
         public override void AddRecipes()
         {
