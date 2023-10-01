@@ -1,15 +1,13 @@
+ActivateAccessoryParry.DisplayName: Activate Accessory Parry
+AdrenalineMode.DisplayName: Adrenaline Mode
+AngelicAllianceBlessing.DisplayName: Angelic Alliance Blessing
+ArmorSetBonus.DisplayName: Armor Set Bonus
+BoosterDash.DisplayName: Booster Dash
 DashDoubleTapOverride.DisplayName: Dash Double Tap Override
 ExoChairSlowDown.DisplayName: Exo Chair Slow Down
 GodSlayerDash.DisplayName: God Slayer Dash
-AngelicAllianceBlessing.DisplayName: Angelic Alliance Blessing
-BoosterDash.DisplayName: Booster Dash
-SpectralVeilTeleport.DisplayName: Spectral Veil Teleport
-SandCloakEffect.DisplayName: Sand Cloak Effect
-ArmorSetBonus.DisplayName: Armor Set Bonus
-AdrenalineMode.DisplayName: Adrenaline Mode
-RageMode.DisplayName: Rage Mode
-NormalityRelocator.DisplayName: Normality Relocator
-BlazingCoreParry.DisplayName: Blazing Core Parry
 GravistarSabatonHotkey.DisplayName: Gravistar Sabaton Hotkey
-AccessoryParry.DisplayName: Accessory Parry
-ActivateAccessoryParry.DisplayName: Activate Accessory Parry
+NormalityRelocator.DisplayName: Normality Relocator
+RageMode.DisplayName: Rage Mode
+SandCloakEffect.DisplayName: Sand Cloak Effect
+SpectralVeilTeleport.DisplayName: Spectral Veil Teleport
