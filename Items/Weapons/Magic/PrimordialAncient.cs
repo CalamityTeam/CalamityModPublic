@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<PrimordialEarth>()).
+                AddIngredient<PrimordialEarth>().
                 AddIngredient(ItemID.AncientBattleArmorMaterial, 5).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<EndothermicEnergy>(20).

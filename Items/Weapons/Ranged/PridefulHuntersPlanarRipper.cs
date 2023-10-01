@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.FragmentVortex, 10).
                 AddIngredient<GalacticaSingularity>(6). //This should be removed
                 AddIngredient<CoreofCalamity>(). // This should be removed
-                AddIngredient(ModContent.ItemType<Stardust>(), 25). // This should be removed
+                AddIngredient<Stardust>(25). // This should be removed
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

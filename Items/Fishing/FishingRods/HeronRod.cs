@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<AerialiteBar>(), 6).
+                AddIngredient<AerialiteBar>(6).
                 AddIngredient(ItemID.SunplateBlock, 3).
                 AddTile(TileID.SkyMill).
                 Register();
