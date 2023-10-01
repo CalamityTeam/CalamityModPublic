@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
         // Carnage's on-hits only occur on valid enemies. Specifically won't trigger on statues.
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (target.life > 0 || !target.IsAnEnemy(allowStatues: false))
+            if (target.life > 0 || !target.IsAnEnemy(false, true))
                 return;
             OnHitEffects(player, target, hit.Knockback);
         }
