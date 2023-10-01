@@ -134,7 +134,7 @@ namespace CalamityMod
         //
         // TODO -- Use this function EVERYWHERE that target validity is checked, not just for Proximity Rage.
         // The easiest way to find locations this should be used is checks for whether something is statue spawned.
-        public static bool IsAnEnemy(this NPC npc, bool allowStatues = true, bool checkDead = false)
+        public static bool IsAnEnemy(this NPC npc, bool allowStatues = true, bool checkDead = true)
         {
             // Null, inactive, town NPCs, and friendlies are right out.
             if (npc is null || (!npc.active && (!checkDead || npc.life > 0)) || npc.townNPC || npc.friendly)
