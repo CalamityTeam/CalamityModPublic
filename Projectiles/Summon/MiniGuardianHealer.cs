@@ -205,7 +205,7 @@ namespace CalamityMod.Projectiles.Summon
                 
                 float playerDist = playerDestination.Length();
                 float acceleration = 0.5f;
-                float returnSpeed = 18f;
+                float returnSpeed = 28f;
 
                 // Teleport if too far
                 if (playerDist > 2000f)
@@ -304,7 +304,7 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.velocity *= dist > 10 ? 0.9f : 0.3f;
             }
 
-            if (Projectile.ai[2] <= 120f)
+            if (Projectile.ai[2] <= 120f && owner.HasBuff<ProfanedCrystalWhipBuff>())
             {
                 int dustCount = (int)Math.Round(MathHelper.SmoothStep(1f, 5f, Projectile.ai[2] / 120));
                 float outwardness = MathHelper.SmoothStep(40f, 60f, Projectile.ai[2] / 120);

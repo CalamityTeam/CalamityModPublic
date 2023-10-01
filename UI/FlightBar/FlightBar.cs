@@ -222,8 +222,8 @@ namespace CalamityMod.UI
                 barRectangle.Height = (int)(correctHeight * flightRatio);
                 Vector2 origin = correctBorder.Size() * 0.5f;
                 origin.Y += 0.1f;
-                Vector2 drawPos = screenPos - new Vector2(offset * uiScale, 14);
-                spriteBatch.Draw(barTexture, drawPos, barRectangle, Color.White, MathHelper.ToRadians(180), origin, uiScale * 1.06f, SpriteEffects.None, 0);
+                Vector2 drawPos = screenPos - new Vector2(offset * uiScale, 12 * uiScale);
+                spriteBatch.Draw(barTexture, drawPos, barRectangle, Color.White, MathHelper.ToRadians(180), origin, uiScale, SpriteEffects.None, 0);
             }
             if (!completedAnimation && FlightAnimFrame >= 0)
             {
@@ -234,7 +234,7 @@ namespace CalamityMod.UI
                 float yOffset = FlightAnimFrame == 0 ? 0 : ((correctBorder.Height / FlightAnimFrame) - frameHeight) / 2f ;
                 Vector2 sizeDiffOffset = new Vector2(xOffset, yOffset);
                 Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * FlightAnimFrame, flightBarAnimTexture.Width, frameHeight);
-                spriteBatch.Draw(flightBarAnimTexture, screenPos + sizeDiffOffset, animCropRect, Color.White, 0f, origin, uiScale, SpriteEffects.None, 0);
+                spriteBatch.Draw(flightBarAnimTexture, screenPos + sizeDiffOffset, animCropRect, Color.White, 0f, origin * Main.UIScale, uiScale, SpriteEffects.None, 0);
             }
         }
     }
