@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -20,24 +21,23 @@ namespace CalamityMod.ExtraJumps
 
         public override void OnStarted(Player player, ref bool playSound)
         {
-            playSound = true;
             CalamityPlayer modPlayer = player.Calamity();
+            playSound = true;
 
-            // Vanilla dust code
             int offset = player.height;
             if (player.gravDir == -1f)
                 offset = 0;
-            for (int d = 0; d < 30; ++d)
+            for (int i = 0; i < 25; ++i)
             {
-                int sulfur = Dust.NewDust(new Vector2(player.position.X, player.position.Y + offset), player.width, 12, 31, player.velocity.X * 0.3f, player.velocity.Y * 0.3f, 100, default, 1.5f);
-                if (d % 2 == 0)
-                    Main.dust[sulfur].velocity.X += (float)Main.rand.Next(30, 71) * 0.1f;
-                else
-                    Main.dust[sulfur].velocity.X -= (float)Main.rand.Next(30, 71) * 0.1f;
-                Main.dust[sulfur].velocity.Y += (float)Main.rand.Next(-10, 31) * 0.1f;
-                Main.dust[sulfur].noGravity = true;
-                Main.dust[sulfur].scale += (float)Main.rand.Next(-10, 41) * 0.01f;
-                Main.dust[sulfur].velocity *= Main.dust[sulfur].scale * 0.7f;
+                Dust dust = Dust.NewDustPerfect(new Vector2(player.Center.X, player.Center.Y + offset), Main.rand.NextBool(3) ? 75 : 161, new Vector2(-player.velocity.X, 6).RotatedByRandom(MathHelper.ToRadians(50f)) * Main.rand.NextFloat(0.1f, 0.8f), 100, default, Main.rand.NextFloat(1.7f, 2.2f));
+                dust.noGravity = true;
+                if (dust.type == 161)
+                {
+                    dust.scale = 1.5f;
+                    dust.velocity = new Vector2(Main.rand.NextFloat(-4, 4) + -player.velocity.X * 0.3f, Main.rand.NextFloat(2, 4));
+                    dust.noGravity = false;
+                    dust.alpha = 190;
+                }
             }
 
             // Spawn a sulphur bubble projectile on a short cooldown when using this jump.
@@ -49,6 +49,17 @@ namespace CalamityMod.ExtraJumps
                 if (bubble.WithinBounds(Main.maxProjectiles))
                     Main.projectile[bubble].DamageType = DamageClass.Generic;
                 modPlayer.sulphurBubbleCooldown = 20;
+            }
+        }
+        public override void ShowVisuals(Player player)
+        {
+            for (int i = 0; i < 2; ++i)
+            {
+                //debuff spot is used here to spawn the visuals on the player correctly
+                Vector2 pulsePosition = player.Calamity().RandomDebuffVisualSpot + new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3)) - player.velocity * 2;
+                Vector2 pulseVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f) - player.velocity.X * 0.5f, Main.rand.NextFloat(4f, 7f));
+                DirectionalPulseRing pulse = new DirectionalPulseRing(pulsePosition, pulseVelocity * Main.rand.NextFloat(0.2f, 1f), Main.rand.NextBool() ? Color.OliveDrab : Color.GreenYellow, new Vector2(0.8f, 1), 0, 0.1f, 0f, 60);
+                GeneralParticleHandler.SpawnParticle(pulse);
             }
         }
     }

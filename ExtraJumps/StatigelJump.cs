@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using CalamityMod.Particles;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -20,21 +21,29 @@ namespace CalamityMod.ExtraJumps
         {
             playSound = true;
 
-            // Vanilla dust code
             int offset = player.height;
             if (player.gravDir == -1f)
                 offset = 0;
-            for (int d = 0; d < 30; ++d)
+            for (int i = 0; i < 35; ++i)
             {
-                int goo = Dust.NewDust(new Vector2(player.position.X, player.position.Y + offset), player.width, 12, 4, player.velocity.X * 0.3f, player.velocity.Y * 0.3f, 100, new Color(0, 80, 255, 100), 1.5f);
-                if (d % 2 == 0)
-                    Main.dust[goo].velocity.X += (float)Main.rand.Next(30, 71) * 0.1f;
-                else
-                    Main.dust[goo].velocity.X -= (float)Main.rand.Next(30, 71) * 0.1f;
-                Main.dust[goo].velocity.Y += (float)Main.rand.Next(-10, 31) * 0.1f;
-                Main.dust[goo].noGravity = true;
-                Main.dust[goo].scale += (float)Main.rand.Next(-10, 41) * 0.01f;
-                Main.dust[goo].velocity *= Main.dust[goo].scale * 0.7f;
+                Dust dust = Dust.NewDustPerfect(new Vector2(player.Center.X, player.Center.Y + offset), Main.rand.NextBool() ? 243 : 56, new Vector2(-player.velocity.X, 15).RotatedByRandom(MathHelper.ToRadians(50f)) * Main.rand.NextFloat(0.1f, 0.8f), 100, default, Main.rand.NextFloat(1.2f, 1.9f));
+                dust.noGravity = true;
+            }
+            for (int i = 0; i < 20; ++i)
+            {
+                Dust dust = Dust.NewDustPerfect(new Vector2(player.Center.X, player.Center.Y + offset), Main.rand.NextBool() ? 242 : 135, new Vector2(-player.velocity.X, 15).RotatedByRandom(MathHelper.ToRadians(50f)) * Main.rand.NextFloat(0.1f, 0.8f), 100, default, Main.rand.NextFloat(1.2f, 1.9f));
+                dust.noGravity = true;
+            }
+        }
+        public override void ShowVisuals(Player player)
+        {
+            for (int i = 0; i < 3; ++i)
+            {
+                //debuff spot is used here to spawn the visuals on the player correctly
+                Vector2 pulsePosition = player.Calamity().RandomDebuffVisualSpot + new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3));
+                Vector2 pulseVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f) - player.velocity.X * 0.5f, Main.rand.NextFloat(4f, 7f)) * Main.rand.NextFloat(0.2f, 1f);
+                Particle orb = new GenericBloom(pulsePosition, pulseVelocity, Main.rand.NextBool() ? Color.DarkTurquoise : Color.Orchid, 0.055f, 8);
+                GeneralParticleHandler.SpawnParticle(orb);
             }
         }
     }
