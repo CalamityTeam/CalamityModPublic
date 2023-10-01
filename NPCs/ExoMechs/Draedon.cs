@@ -788,7 +788,7 @@ namespace CalamityMod.NPCs.ExoMechs
             if (NPC.life > 0)
                 return;
 
-            if (Main.netMode != NetmodeID.Server)
+            if (Main.netMode != NetmodeID.Server && !HasBeenKilled)
             {
                 for (int i = 1; i <= 4; i++)
                 {

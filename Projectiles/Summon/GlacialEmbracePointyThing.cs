@@ -149,6 +149,12 @@ namespace CalamityMod.Projectiles.Summon
             {
                 modPlayer.GlacialEmbrace = false;
             }
+
+            if (!modPlayer.GlacialEmbrace)
+            {
+                Projectile.active = false;
+                return;
+            }
             if (circlingPlayer)
             {
                 Projectile.minionSlots = 1f;

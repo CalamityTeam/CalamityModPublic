@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Summon
                 playerDestination.Y += Main.rand.NextFloat(-10f, 20f) - 60f;
                 float playerDist = playerDestination.Length();
                 float acceleration = 0.5f;
-                float returnSpeed = 18f;
+                float returnSpeed = 28f;
 
                 // Teleport if too far
                 if (playerDist > 2000f)
@@ -180,6 +180,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (acceleration > 0.05f && Projectile.velocity.Y > 0f)
                         Projectile.velocity.Y -= acceleration * 2f;
                 }
+                
             }
         }
 
