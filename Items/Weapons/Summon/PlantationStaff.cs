@@ -66,13 +66,6 @@ namespace CalamityMod.Items.Weapons.Summon
                 AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
-
-            CreateRecipe().
-                AddIngredient<FleshOfInfidelity>().
-                AddIngredient(ItemID.Smolstar).
-                AddIngredient<LivingShard>(12).
-                AddTile(TileID.MythrilAnvil).
-                Register();
         }
     }
 }
