@@ -48,12 +48,14 @@ LoreAstralInfection: {
 	DisplayName: Astral Infection
 	Lore:
 		'''
-		On our world, this being is revered as the God of the night sky. It is said to devour dying stars and birth new ones in turn.
-		Unlike the many Gods you or I know, it is guiltless. An important distinction, for it was equally as diseased as they.
-		The infection that tainted its body is from beyond Terraria. Neither I nor Draedon recognize it fully still. 
-		With its will subsumed, it hurled a chunk of infested astral matter at our world. Then came to fiercely guard it.
-		Thankfully, such a grandiose being that walks amongst the stars is likely not truly dead.
-		While the land has paid a terrible price, the price of a wrongful conviction is higher still.
+		This twisted dreamscape is a starborne equivalent of the mundane rot you see in your lands.
+		I do not claim to understand the process in detail, but even the stars above can die.
+		Left unchecked, their corpses bloat and fester.
+		Typically, some semblance of order is maintained. It is not unlike the circle of life.
+		Cosmic beings patrol the fathomless void and pick at the carrion, leaving nothing but clean bones.
+		The infection itself is a disturbance from deep space. It has a mind of its own, projecting its will upon life and land.
+		Those whose minds can grasp the true form of the universe are largely immune.
+		They cannot be starstruck by a supposed higher truth, let alone one preached by a pustule.
 		'''
 }
 
@@ -265,7 +267,7 @@ LoreDevourerofGods: {
 		'''
 		The infamous, otherworldly glutton, in the flesh. His imposing title was self-granted, but undeniable truth made it stick.
 		He is a formidable foe: Capable of swallowing Gods whole, absorbing their essence in its entirety.
-		I ordered Draedon to armor his gargantuan form, so he could safely best even the Greater Gods in single combat.
+		I ordered Draedon to armor his gargantuan form, so he could safely best even the greater Gods in single combat.
 		Fittingly, he possessed a serpent's tongue. He manipulated me incessantly, driving me to awful acts.
 		I recruited him out of desperation. My war had dragged on for decades, and I would do anything to have it end.
 		It was then my negligence was born. My descent began the moment recruiting this scoundrel crossed my mind.
@@ -444,7 +446,7 @@ LorePlaguebringerGoliath: {
 		When he revealed his finished project, I was enraged. He had ended up enslaving them, it was despicable. Vile even.
 		Draedon cared little for my outrage and returned to his other work without further incident.
 		From that point on, I stopped making requests of Draedon. He had shown me his true colors….
-		In my later days I was far from virtuous, though I would never shackle a creature to fight in my name.
+		In my later days I was far from virtuous. But I would never shackle a creature to fight in my name.
 		That would make me no better than the divine scoundrels I pursued.
 		'''
 }
@@ -664,7 +666,7 @@ LoreUnderworld: {
 	Lore:
 		'''
 		The hellish reputation the underworld gets is rather a recent development. 
-		The layers of ash choking the formerly fantastic cities is still warm. 
+		The layers of ash choking the formerly great cities is still warm. 
 		The more domineering of Gods wished for me to champion their causes, asking to rule their society from here. 
 		Yet despite being surrounded by magma, Azafure simply burned when their wishes were not met.
 		Such is the unfortunate price of war, though I have no regrets fighting for my people.
