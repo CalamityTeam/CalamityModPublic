@@ -2740,7 +2740,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (CalamityKeybinds.PlaguePackHotKey.JustPressed && hasJetpack && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
+            if (CalamityKeybinds.BoosterDashHotKey.JustPressed && hasJetpack && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0 && !Player.HasCooldown(RogueBooster.ID) && !Player.mount.Active)
             {
                 jetPackDash = blunderBooster ? 15 : 10;
@@ -2752,7 +2752,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // TODO -- It would be nice if triggerable set bonuses used interfaces instead of having to go through this large if chain.
-            if (CalamityKeybinds.SetBonusHotKey.JustPressed)
+            if (CalamityKeybinds.ArmorSetBonusHotKey.JustPressed)
             {
                 if (brimflameSet && !Player.HasCooldown(BrimflameFrenzy.ID))
                 {

@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor.Prismatic
             player.statManaMax2 += 40;
             player.manaCost *= 0.85f;
             player.manaRegenBonus += 8;
-            var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
+            var hotkey = CalamityKeybinds.ArmorSetBonusHotKey.TooltipHotkeyString();
             player.setBonus = this.GetLocalization("SetBonus").Format(hotkey);
         }
 

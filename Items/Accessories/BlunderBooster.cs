@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
             player.Calamity().stealthGenMoving += 0.1f;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.PlaguePackHotKey);
+        public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.BoosterDashHotKey);
 
         public override void AddRecipes()
         {

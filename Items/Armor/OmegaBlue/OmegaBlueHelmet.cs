@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Armor.OmegaBlue
 
         public override void UpdateArmorSet(Player player)
         {
-            var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
+            var hotkey = CalamityKeybinds.ArmorSetBonusHotKey.TooltipHotkeyString();
             player.setBonus = this.GetLocalization("SetBonus").Format(hotkey);
 
             var mp = player.Calamity();

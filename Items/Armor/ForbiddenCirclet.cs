@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             int stormMana = (int)(manaCost * player.manaCost);
-            string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.ArmorSetBonusHotKey.TooltipHotkeyString();
             player.setBonus = this.GetLocalization("SetBonus").Format(hotkey, stormMana);
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.forbiddenCirclet = true;
