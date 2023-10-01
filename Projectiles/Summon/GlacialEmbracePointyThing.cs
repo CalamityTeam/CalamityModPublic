@@ -153,6 +153,7 @@ namespace CalamityMod.Projectiles.Summon
             if (!modPlayer.GlacialEmbrace)
             {
                 Projectile.active = false;
+                return;
             }
             if (circlingPlayer)
             {
