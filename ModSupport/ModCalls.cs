@@ -577,6 +577,14 @@ namespace CalamityMod
         public static float AddMaxStealth(Player p, float add) => p is null ? 0f : (p.Calamity().rogueStealthMax += add);
 
         public static bool CanStealthStrike(Player p) => p?.Calamity()?.StealthStrikeAvailable() ?? false;
+        
+        public static void SetStealthProjectile(Projectile projectile, bool enabled)
+        {
+            if (projectile != null)
+                projectile.Calamity().stealthStrike = enabled;
+        }
+        
+        public static bool GetStealthProjectile(Projectile projectile) => projectile?.Calamity()?.stealthStrike ?? false;
         #endregion
 
         #region Rippers
@@ -2067,6 +2075,37 @@ namespace CalamityMod
                     if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"CanStealthStrike\" must be a Player or an int.");
                     return CanStealthStrike(castPlayer(args[1]));
+
+                case "SetStealthProjectile":
+                case "SetStealthStrikeProjectile":
+                case "SetProjectileStealth":
+                case "SetProjectileStealthStrike":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both a Projectile and if the Projectile should be counted as a stealth strike as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify whether or not the projectile was created from a stealth strike as a bool.");
+                        if (!(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetStealthProjectile\" must be a bool.");
+                        if (!isValidProjectileArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetStealthProjectile\" must be a Projectile.");
+
+                        bool ssEnabled = (bool)args[2];
+                        SetStealthProjectile(castProjectile(args[1]), ssEnabled);
+                        return null;
+                    }
+
+                case "GetStealthProjectile":
+                case "GetStealthStrikeProjectile":
+                case "GetProjectileStealth":
+                case "GetProjectileStealthStrike":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify a Projectile.");
+                        if (!isValidProjectileArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetStealthProjectile\" must be a Projectile.");
+                        return GetStealthProjectile(castProjectile(args[1]));
+                    }
 
                 case "GetRage":
                 case "GetRageCurrent":
