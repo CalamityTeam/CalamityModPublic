@@ -46,7 +46,13 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.PeaceCandle, 3).AddIngredient(ItemID.SoulofLight, 3).AddIngredient<CoreofEleum>(2).AddIngredient<ZenPotion>().AddTile(TileID.WorkBenches).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PeaceCandle, 3).
+                AddIngredient(ItemID.SoulofLight, 3).
+                AddIngredient<CoreofEleum>(2).
+                AddIngredient<ZenPotion>().
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

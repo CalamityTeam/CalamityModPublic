@@ -24,7 +24,10 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient<BabyGhostBellItem>().AddIngredient(ItemID.BottledWater).Register();
+            CreateRecipe().
+                AddIngredient<BabyGhostBellItem>().
+                AddIngredient(ItemID.BottledWater).
+                Register();
         }
     }
 }

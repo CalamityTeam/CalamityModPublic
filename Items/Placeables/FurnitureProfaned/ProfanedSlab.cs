@@ -27,8 +27,14 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 
         public override void AddRecipes()
         {
-            CreateRecipe(5).AddIngredient<ProfanedRock>(5).AddTile(TileID.LunarCraftingStation).Register();
-            CreateRecipe().AddIngredient<ProfanedSlabWall>(4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(5).
+                AddIngredient<ProfanedRock>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+            CreateRecipe().
+                AddIngredient<ProfanedSlabWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

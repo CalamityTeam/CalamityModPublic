@@ -26,7 +26,11 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).AddIngredient<LaboratoryPlating>().AddIngredient<RustedPipes>().AddTile(TileID.Anvils).Register();
+            CreateRecipe(2).
+                AddIngredient<LaboratoryPlating>().
+                AddIngredient<RustedPipes>().
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

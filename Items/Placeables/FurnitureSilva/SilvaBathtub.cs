@@ -22,7 +22,10 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient<SilvaCrystal>(14).AddTile<SilvaBasin>().Register();
+            CreateRecipe().
+                AddIngredient<SilvaCrystal>(14).
+                AddTile<SilvaBasin>().
+                Register();
         }
     }
 }

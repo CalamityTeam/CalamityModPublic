@@ -51,7 +51,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 AddIngredient<AstralBar>(10).
                 AddIngredient<Stardust>(15).
                 AddIngredient(ItemID.FallenStar, 10).
-                AddTile(TileID.LunarCraftingStation).Register();
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

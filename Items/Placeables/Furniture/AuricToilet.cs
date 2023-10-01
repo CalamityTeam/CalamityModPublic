@@ -29,7 +29,13 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient<BotanicChair>().AddIngredient<CosmiliteChair>().AddIngredient<SilvaChair>().AddIngredient<AuricBar>(5).AddTile<CosmicAnvil>().Register();
+            CreateRecipe().
+                AddIngredient<BotanicChair>().
+                AddIngredient<CosmiliteChair>().
+                AddIngredient<SilvaChair>().
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

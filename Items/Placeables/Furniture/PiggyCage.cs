@@ -26,7 +26,10 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.Terrarium).AddIngredient<PiggyItem>().Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Terrarium).
+                AddIngredient<PiggyItem>().
+                Register();
         }
     }
 }

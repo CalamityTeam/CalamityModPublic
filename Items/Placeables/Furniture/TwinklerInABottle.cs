@@ -24,7 +24,10 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.Bottle).AddIngredient<TwinklerItem>().Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Bottle).
+                AddIngredient<TwinklerItem>().
+                Register();
         }
     }
 }

@@ -23,7 +23,11 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient<UelibloomBrick>(6).AddIngredient(ItemID.HoneyBucket).AddTile<BotanicPlanter>().Register();
+            CreateRecipe().
+                AddIngredient<UelibloomBrick>(6).
+                AddIngredient(ItemID.HoneyBucket).
+                AddTile<BotanicPlanter>().
+                Register();
         }
     }
 }

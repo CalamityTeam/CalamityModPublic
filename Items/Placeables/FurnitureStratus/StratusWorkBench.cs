@@ -23,7 +23,10 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient<StratusBricks>(10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<StratusBricks>(10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }
