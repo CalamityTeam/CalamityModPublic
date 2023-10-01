@@ -59,17 +59,7 @@
         // Rogue stealth
         // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
         // This value is intentionally not readonly.
-        public static double UniversalStealthStrikeDamageFactor = 0.41;
-        // Shade - 07/09/2023
-        // Universal Stealth dmg factor was nerfed to 0.41 from 0.5
-        // Stealth damage prefixes were bugged, causing that stealth strikes with the Mighty, Hefty and most importantly Flawless
-        // dealt less damage than intended; idk how long this thing has been for but looking at #bug-reports and #known-bugs its 
-        // likely at least 7 months old, buried deep beneath a lot other bugs due to being in the port and forgotten about.
-        // Due to how impactful the fix was, the change had to happen and thus the nerf was made.
-        //
-        // This nerf should be reversed once the stealth -> focus rogue rework or rogue/stealth III or however you want to call it occurs,
-        // as of today summoner is the priority class now but once we're done with the Summoner minion culling and its Whip Hell we should
-        // probably start working on rogue afterwards.
+        public static double UniversalStealthStrikeDamageFactor = 0.5;
 
         internal static readonly float BaseStealthGenTime = 4f; // 4 seconds
         internal static readonly float MovingStealthGenRatio = 0.5f;
