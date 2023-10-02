@@ -72,6 +72,7 @@ namespace CalamityMod.Projectiles.Ranged
         private void OnHitEffects(Vector2 targetPos, bool crit)
         {
             int extraProjectileAmt;
+            bool fromRight;
             if (crit)
             {
                 var source = Projectile.GetSource_FromThis();
@@ -80,7 +81,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        bool fromRight = x > 3;
+                        fromRight = x > 3;
                         CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, fromRight, 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.14), Projectile.knockBack * 0.1f, Projectile.owner);
                     }
                 }
@@ -93,7 +94,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        bool fromRight = x > 3;
+                        fromRight = x > 0;
                         CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, fromRight, 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.14), Projectile.knockBack * 0.1f, Projectile.owner);
                     }
                 }
