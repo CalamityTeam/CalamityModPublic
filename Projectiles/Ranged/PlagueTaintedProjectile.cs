@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<Plague>(), 60);
+            target.AddBuff(ModContent.BuffType<Plague>(), 75);
 
             // Spawn a drone on crit, with a cooldown...I guess.
             if (Projectile.owner == Main.myPlayer)
