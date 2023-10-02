@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
     public class VeneratedKnife : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
-        int lifetime = 150;
+        int lifetime = 120;
 
         public override void SetStaticDefaults()
         {
@@ -58,10 +58,10 @@ namespace CalamityMod.Projectiles.Rogue
                     velocityNew.Normalize();
                     velocityNew *= 5f;
                     Projectile.velocity += velocityNew;
-                    if (Projectile.velocity.Length() > 15f)
+                    if (Projectile.velocity.Length() > 14f)
                     {
                         Projectile.velocity.Normalize();
-                        Projectile.velocity *= 15f;
+                        Projectile.velocity *= 14f;
                     }
                 }
             }
