@@ -120,8 +120,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (target.Calamity().pFlames > 0 && Projectile.ai[1] != 1)
-                modifiers.SetCrit();
+            if (target.Calamity().pFlames > 0) {
+                if (Projectile.ai[1] == 1)
+                    return;
+                else if (Main.rand.Next(4) < 3)
+                    modifiers.SetCrit();
+            }
         }
 
         public override void OnKill(int timeLeft)
