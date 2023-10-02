@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static readonly SoundStyle ThrowSound = new("CalamityMod/Sounds/Item/CursedDaggerThrow") { Volume = 0.3f, PitchVariance = 0.4f };
         public override void SetDefaults()
         {
-            Item.damage = 46;
+            Item.damage = 45;
             Item.useAnimation = Item.useTime = 18;
             Item.shootSpeed = 19f;
             Item.knockBack = 4.5f;

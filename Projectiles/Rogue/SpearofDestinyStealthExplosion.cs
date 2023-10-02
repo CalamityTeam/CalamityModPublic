@@ -13,13 +13,13 @@ namespace CalamityMod.Projectiles.Melee
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public Player Owner => Main.player[Projectile.owner];
-        private static float ExplosionRadius = 148f;
+        private static float ExplosionRadius = 200f;
 
         public override void SetDefaults()
         {
             //These shouldn't matter because its circular
-            Projectile.width = 148;
-            Projectile.height = 148;
+            Projectile.width = 200;
+            Projectile.height = 200;
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.ignoreWater = true;

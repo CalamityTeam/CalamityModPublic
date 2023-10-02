@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
         public int hitsDust = 7;
         public override void SetDefaults()
         {
-            Projectile.width = 20;
-            Projectile.height = 20;
+            Projectile.width = 25;
+            Projectile.height = 25;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 6;
@@ -39,18 +39,19 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             Time++;
-            Projectile.scale = 1.5f;
+            Vector3 DustLight = new Vector3(0.255f, 0.252f, 0.100f);
+            Lighting.AddLight(Projectile.Center, DustLight * 3);
             Projectile.velocity *= 1.02f;
             if (!Projectile.Calamity().stealthStrike)
                 Projectile.extraUpdates = 1;
 
             if (Projectile.timeLeft % 5 == 0)
             {
-                float radiusFactor = MathHelper.Lerp(0f, 1f, Utils.GetLerpValue(10f, 50f, Time, true));
+                float radiusFactor = MathHelper.Lerp(0f, 1f, Utils.GetLerpValue(10f, 30f, Time, true));
                 for (int i = 0; i < 4; i++)
                 {
                     float offsetRotationAngle = Projectile.velocity.ToRotation() + Time / 20f;
-                    float radius = (30f + (float)Math.Cos(Time / 13f) * 6f) * radiusFactor;
+                    float radius = (20f + (float)Math.Cos(Time / 13f) * 6f) * radiusFactor;
                     Vector2 dustPosition = Projectile.Center;
                     dustPosition += offsetRotationAngle.ToRotationVector2().RotatedBy(i / 5f * MathHelper.TwoPi) * radius;
                     CritSpark spark = new CritSpark(dustPosition, -Projectile.velocity, Color.PaleGoldenrod, Color.Goldenrod, Main.rand.NextFloat(1.1f, 1.5f), Main.rand.Next(5, 8), 5f);
