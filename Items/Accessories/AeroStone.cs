@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().aeroStone = true;
-            player.wingTimeMax += 35;
+            player.wingTimeMax += 25;
 
         }
 

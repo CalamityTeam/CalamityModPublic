@@ -70,7 +70,7 @@ AeroStone: {
 	DisplayName: Aero Stone
 	Tooltip:
 		'''
-		Provides an additional 35 flight time
+		Provides an additional 25 flight time
 		You slowly recover flight time while in the air if you are not flying or gliding
 		'One of the ancient relics'
 		'''

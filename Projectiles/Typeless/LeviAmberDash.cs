@@ -34,10 +34,10 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!target.boss)
+            if (!target.boss && target.IsAnEnemy(true, true))
             {
                 target.velocity.Y += -1.8f;
-                target.velocity.X += 5.5f * Owner.direction;
+                target.velocity.X += 4.2f * Owner.direction;
             }
             target.AddBuff(BuffID.Wet, 300);
             target.AddBuff(ModContent.BuffType<Buffs.DamageOverTime.RiptideDebuff>(), 60);
