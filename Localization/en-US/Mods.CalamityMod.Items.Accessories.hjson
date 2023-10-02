@@ -2,7 +2,7 @@ Abaddon: {
 	DisplayName: Abaddon
 	Tooltip:
 		'''
-		10% increased critical strike chance
+		8% increased critical strike chance
 		Critical strikes explode, causing nearby enemies to ignite with Brimstone Flames
 		Greatly reduces the damage taken by the Brimstone Flames debuff
 		'''
@@ -1908,7 +1908,7 @@ VoidofExtinction: {
 	DisplayName: Void of Extinction
 	Tooltip:
 		'''
-		16% increased critical strike chance
+		13% increased critical strike chance
 		Critical strikes explode, causing nearby enemies to ignite with Brimstone Flames
 		Greatly reduces the damage taken by the Brimstone Flames debuff
 		'''

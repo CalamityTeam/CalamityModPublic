@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().abaddon = true;
-            player.GetCritChance<GenericDamageClass>() += 10;
+            player.GetCritChance<GenericDamageClass>() += 8;
         }
     }
 }

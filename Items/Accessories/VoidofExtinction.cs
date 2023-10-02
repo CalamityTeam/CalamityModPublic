@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.voidOfExtinction = true;
             modPlayer.abaddon = true;
-            player.GetCritChance<GenericDamageClass>() += 16;
+            player.GetCritChance<GenericDamageClass>() += 13;
 
         }
     }

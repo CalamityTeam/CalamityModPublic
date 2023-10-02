@@ -434,7 +434,7 @@ namespace CalamityMod.CalPlayer
             if (abaddon && crit && AbaddonCooldown <= 0)
             {
                 AbaddonCooldown = 15;
-                int AbaddonExploDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.1, 35);
+                int AbaddonExploDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.03f, 25);
                 Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<AbaddonCrit>(), AbaddonExploDamage, 0f, Player.whoAmI);
             }
 
