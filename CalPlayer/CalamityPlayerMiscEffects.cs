@@ -2500,7 +2500,7 @@ namespace CalamityMod.CalPlayer
             if (baroclaw)
                 Player.GetDamage<GenericDamageClass>() += 0.1f;
 
-            if (aeroStone && !Player.slowFall)
+            if (aeroStone && !Player.slowFall && Player.wingTime < Player.wingTimeMax)
             {
                 if (!Player.controlJump && Player.miscCounter % 5 == 0)
                 {
