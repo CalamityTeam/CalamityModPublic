@@ -1938,6 +1938,9 @@ namespace CalamityMod
         /// </summary>
         internal static void DrawUniversalMergeFrames(int x, int y, byte[,] adjacencyData, string blendSheetPath, int frameOffsetX = 0, int frameOffsetY = 0)
         {
+            // 29SEP2023: MishiroUsui: The below code resulted in 30 fps drops in sulph sea, and general performance issues across the board in cal biomes
+            // DO NOT RE-ENABLE UNTIL THE ISSUE IS RESOLVED AND VERIFIED.
+            return;
             Texture2D blendLayer = ModContent.Request<Texture2D>(blendSheetPath).Value;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(x * 16 - Main.screenPosition.X, y * 16 - Main.screenPosition.Y) + zero;
