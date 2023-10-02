@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Prevent recursion: the segments that are being spawned here will deliberately be set higher than total segments
-            if (Projectile.ai[0] > TotalSegments)
+            if (Projectile.ai[0] > TotalSegments || Main.myPlayer != Projectile.owner)
                 return;
 
             // Spawn two ungrowing segments to either side on death
