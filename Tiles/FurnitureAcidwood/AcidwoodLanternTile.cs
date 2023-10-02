@@ -1,7 +1,9 @@
-﻿using CalamityMod.Items.Placeables.FurnitureAcidwood;
+﻿using CalamityMod.Dusts;
+using CalamityMod.Items.Placeables.FurnitureAcidwood;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAcidwood
@@ -45,7 +47,16 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAcidwood/AcidwoodLanternTileFlame").Value, i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAcidwood/AcidwoodLanternTileFlame").Value, i, j, 0, -8);
+        }
+        
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
+        {
+            Tile tile = Main.tile[i, j];
+            if (tile.TileFrameY == 0 && tile.TileFrameX < 18)
+            {
+                CalamityUtils.DrawFlameSparks((int)CalamityDusts.SulfurousSeaAcid, 18, i, j);
+            }
         }
     }
 }
