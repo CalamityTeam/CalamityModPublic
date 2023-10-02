@@ -200,9 +200,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             float barScale = 3f;
             Vector2 barOrigin = barBG.Size() * 0.5f;
-            float xOffset = frame.Width * 0.25f - barBG.Width * 0.5f;
-            float yOffset = frame.Height * 0.7f - barBG.Height;
-            Vector2 drawPos = position + Vector2.UnitX * scale * xOffset + Vector2.UnitY * scale * yOffset;
+            float yOffset = 50f;
+            Vector2 drawPos = position + Vector2.UnitY * scale * (frame.Height - yOffset);
             Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
             Color color = Main.hslToRgb((Main.GlobalTimeWrappedHourly * 0.6f) % 1, 1, 0.75f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f);
 
