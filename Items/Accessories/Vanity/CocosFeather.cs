@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories.Vanity
             {
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Birds_Head", EquipType.Head, this);
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Birds_Torso", EquipType.Body, this);
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Heart_Legs", EquipType.Legs, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Birds_Legs", EquipType.Legs, this);
             }
         }
 
