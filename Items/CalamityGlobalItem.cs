@@ -422,8 +422,8 @@ namespace CalamityMod.Items
                     modPlayer.canFireAtaxiaRogueProjectile = false;
                     int flareID = ModContent.ProjectileType<HydrothermicFlareRogue>();
 
-                    // Ataxia Rogue Flares: 8 x 50%, soft cap starts at 200 base damage
-                    int flareDamage = CalamityUtils.DamageSoftCap(damage * 0.5, 100);
+                    // Ataxia Rogue Flares: 8 x 50%, soft cap starts at 120 base damage
+                    int flareDamage = CalamityUtils.DamageSoftCap(damage * 0.5, 120);
                     if (player.whoAmI == Main.myPlayer)
                     {
                         SoundEngine.PlaySound(SoundID.Item20, player.Center);
@@ -448,7 +448,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        // Victide All-class Seashells: 200%, soft cap starts at 23 base damage
+                        // Victide All-class Seashells: 200%, soft cap starts at 46 base damage
                         int seashellDamage = CalamityUtils.DamageSoftCap(damage * 2, 46);
                         Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<Seashell>(), seashellDamage, 1f, player.whoAmI);
                     }

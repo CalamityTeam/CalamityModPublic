@@ -1401,7 +1401,7 @@ namespace CalamityMod.CalPlayer
                 canFireAtaxiaRangedProjectile = true;
             if (Player.miscCounter % 100 == 0)
                 canFireBloodflareMageProjectile = true;
-            if (Player.miscCounter % 150 == 0)
+            if (Player.miscCounter % 120 == 0)
             {
                 canFireGodSlayerRangedProjectile = true;
                 canFireBloodflareRangedProjectile = true;

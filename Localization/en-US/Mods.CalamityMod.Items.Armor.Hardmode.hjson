@@ -277,7 +277,7 @@ HydrothermicHeadRogue: {
 		'''
 		5% increased rogue damage
 		+110 maximum stealth
-		Rogue weapons unleash a volley of homing chaos flames around the player every 2.5 seconds
+		Rogue weapons unleash a volley of homing chaos flames around the player every 2 seconds
 		'''
 }
 
