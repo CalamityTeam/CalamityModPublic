@@ -2004,6 +2004,11 @@ AbandonedWulfrumHelmet: {
 		'''
 }
 
+CocosFeather: {
+	DisplayName: Coco's Feather
+	Tooltip: ""
+}
+
 HapuFruit: {
 	DisplayName: Ha-pu Fruit
 	Tooltip: "'A fruit that calms your nerves (may have unintended side effects)'"
