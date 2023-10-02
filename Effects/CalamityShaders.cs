@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Skies;
+using Iced.Intel;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
@@ -176,6 +177,16 @@ namespace CalamityMod.Effects
         #region Aqua's Shaders
         internal static Effect CircularGradientWithEdge;
         #endregion
+        
+        //
+        // All below shaders were added by Amber
+        // Authorship goes to Toasty
+        //
+
+        #region Amber's Shaders
+        internal static Effect PrimitiveClearShader;
+        #endregion
+        
         // Shorthand to register a loaded shader in Terraria's graphics engine
         // All shaders registered this way are accessible under GameShaders.Misc
         // They will use the prefix described above
@@ -372,6 +383,11 @@ namespace CalamityMod.Effects
             #region Loading Aqua's Shaders
             CircularGradientWithEdge = LoadShader("CircularGradientWithEdge");
             RegisterMiscShader(CircularGradientWithEdge, "CircularGradientWithEdgePass", "CircularGradientWithEdge");
+            #endregion
+            
+            #region Loading Amber's Shaders
+            PrimitiveClearShader = LoadShader("PrimitiveClearShader");
+            RegisterScreenShader(PrimitiveClearShader, "SightLinePass", "PrimitiveClearShader");
             #endregion
         }
     }

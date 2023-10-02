@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.Localization;
@@ -177,30 +178,6 @@ namespace CalamityMod.Projectiles.Melee
 
                 CurrentState = SwingState.Default;
             }
-        }
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            Main.spriteBatch.EnterShaderRegion();
-
-            CalamityUtils.CalculatePerspectiveMatricies(out Matrix viewMatrix, out Matrix projectionMatrix);
-
-            GameShaders.Misc["CalamityMod:LinearTransformation"].UseColor(Main.hslToRgb(0.95f, 0.85f, 0.5f));
-            GameShaders.Misc["CalamityMod:LinearTransformation"].UseOpacity(0f);
-            GameShaders.Misc["CalamityMod:LinearTransformation"].Shader.Parameters["uWorldViewProjection"].SetValue(viewMatrix * projectionMatrix);
-            GameShaders.Misc["CalamityMod:LinearTransformation"].Shader.Parameters["localMatrix"].SetValue(new Matrix()
-            {
-                M11 = BladeHorizontalFactor,
-                M12 = 0f,
-                M21 = 0f,
-                M22 = 1f,
-            });
-            GameShaders.Misc["CalamityMod:LinearTransformation"].Apply();
-
-            CalamityUtils.DrawAfterimagesCentered(Projectile, 2, lightColor);
-            Main.spriteBatch.ExitShaderRegion();
-
-            return false;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
