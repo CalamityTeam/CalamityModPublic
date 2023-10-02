@@ -1,25 +1,25 @@
 ﻿using CalamityMod.Dusts;
 using CalamityMod.Items;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Sounds;
-
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class PhaseslayerProjectile : ModProjectile, ILocalizedModType
+    public class PhaseslayerProjectile : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Misc";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Phaseslayer>();
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/Phaseslayer";
 
         // The "average" or "expected" swing speed which the sword's damage balance is based off of.

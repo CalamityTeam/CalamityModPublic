@@ -1,20 +1,21 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using System.IO;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Items.Weapons.Melee;
-using ReLogic.Utilities;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class MicrowaveYoyo : ModProjectile, ILocalizedModType
+    public class MicrowaveYoyo : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<TheMicrowave>();
         public const int MaxUpdates = 3;
         private const float Radius = 100f;
         private SlotId mmmmmm;

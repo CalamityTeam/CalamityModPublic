@@ -1,12 +1,15 @@
-﻿using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class YateveoBloomSpear : BaseSpearProjectile
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<YateveoBloom>();
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 40;

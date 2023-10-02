@@ -1,12 +1,16 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class DiseasedPikeSpear : BaseSpearProjectile
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<DiseasedPike>();
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 40;

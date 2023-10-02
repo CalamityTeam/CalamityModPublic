@@ -1,6 +1,5 @@
 AccelerationRoundProj.DisplayName: Acceleration Round
 AdamAcceleratorBeam.DisplayName: Adamantite Particle Beam
-AdamantiteAcceleratorHoldout.DisplayName: Adamantite Particle Accelerator
 AMR2.DisplayName: AMR
 AMRShot.DisplayName: AMR
 AngelicBeam.DisplayName: Angelic Beam
@@ -34,7 +33,6 @@ BouncingShotgunPellet.DisplayName: Shotgun Pellet
 BrimstoneBolt.DisplayName: Brimstone Bolt
 BrimstoneFireFriendly.DisplayName: Brimstone Fire
 BubonicRoundProj.DisplayName: Bubonic Round
-ButcherGun.DisplayName: Butcher
 CardClub.DisplayName: Club
 CardClubSplit.DisplayName: Club
 CardDiamond.DisplayName: Diamond
@@ -42,28 +40,22 @@ CardHeart.DisplayName: Heart
 CardSpade.DisplayName: Spade
 ChargedBlast.DisplayName: Blast
 ChargedBlast2.DisplayName: Blast
-ChickenCannonHeld.DisplayName: Chicken Cannon
 ChickenExplosion.DisplayName: Kentucky Fried Explosion
 ChickenRocket.DisplayName: Chicken Rocket
 ClamorRifleProj.DisplayName: Clamor Bolt
 ClamorRifleProjSplit.DisplayName: Clamor Bolt
 ClaretCannonProj.DisplayName: Claret Cannon
-ClockworkBowHoldout.DisplayName: ClockworkBow
 CondemnationArrow.DisplayName: Condemning Arrow
 CondemnationArrowHoming.DisplayName: Condemning Echo
-CondemnationHoldout.DisplayName: Condemnation
 ContagionArrow.DisplayName: Contagion Arrow
 ContagionBall.DisplayName: Contagion Ball
-ContagionBow.DisplayName: Contagion
 CorinthPrimeAirburst.DisplayName: Airburst
 CorinthPrimeAirburstGrenade.DisplayName: Corinth Prime Airburst Shot
 CorossiveFlames.DisplayName: Plagued Flames
 CorrodedShell.DisplayName: Corroded Shell
 CosmicFire.DisplayName: Dead Sun's Fire
 DaemonsFlameArrow.DisplayName: Daemon's Arrow
-DaemonsFlameBow.DisplayName: Daemon's Flame
 DragonsBreathRound.DisplayName: Dragon's Breath Round
-DrataliornusBow.DisplayName: Drataliornus
 DrataliornusExoArrow.DisplayName: Drataliornus Arrow
 DrataliornusFlame.DisplayName: Drataliornus Arrow
 DrizzlefishFire.DisplayName: Drizzlefish Flames
@@ -85,17 +77,14 @@ ExoSpark.DisplayName: Exo Spark
 FallenStarProj.DisplayName: Fallen Star
 FeatherLarge.DisplayName: Feather
 FishronRPG.DisplayName: RPG
-FlakKrakenGun.DisplayName: Flak Kraken
 FlakKrakenProj.DisplayName: Kraken Reticle
 FlareBat.DisplayName: Flare Bat
 Flash.DisplayName: Flash
 FlashRoundProj.DisplayName: Flash Round
-FlurrystormCannonShooting.DisplayName: Flurrystorm Cannon
 FlurrystormIceChunk.DisplayName: Ice Chunk
 FlurrystormIceShard.DisplayName: Ice Shard
 FossilShard.DisplayName: Shard
 FreedomStarBeam.DisplayName: Freedom Star Beam
-FreedomStarHoldout.DisplayName: Freedom Star
 FungiOrb.DisplayName: Fungi Orb
 FungiOrb2.DisplayName: Fungi Orb
 GemTechGreenFlechette.DisplayName: Gem Tech Flechette
@@ -122,7 +111,6 @@ LeafArrow.DisplayName: Leaf Arrow
 LunarBolt.DisplayName: Bolt
 LunarBolt2.DisplayName: Bolt
 LuxorsGiftRanged.DisplayName: Luxor's Ranged
-MaelstromHoldout.DisplayName: The Maelstrom
 MagnaShot.DisplayName: Magna Bolt
 MagnomalyAura.DisplayName: Magnomaly Aura
 MagnomalyBeam.DisplayName: Beam
@@ -140,7 +128,6 @@ MortarRoundProj.DisplayName: Mortar
 Nanomachine.DisplayName: Nanomachine
 NapalmArrowProj.DisplayName: Napalm Arrow
 NeedlerProj.DisplayName: Needle
-NorfleetCannon.DisplayName: Norfleet
 NorfleetComet.DisplayName: Comet
 NorfleetExplosion.DisplayName: Explosion
 NovaChargedShot.DisplayName: Charged Nova Blast
@@ -151,7 +138,6 @@ NullShot2.DisplayName: Null
 OnyxSharkBomb.DisplayName: Onyx Shark
 OpalChargedStrike.DisplayName: Charged Plasma Bolt
 OpalStrike.DisplayName: Heated Bolt
-PhangasmBow.DisplayName: Phangasm
 PiercingBullet.DisplayName: Piercing Blow
 PlagueArrow.DisplayName: Plague Arrow
 PlagueExplosionFriendly.DisplayName: Explosion
@@ -174,7 +160,6 @@ PrismMine.DisplayName: Mine
 PristineFire.DisplayName: Pristine Fire
 PristineSecondary.DisplayName: Pristine Lingering Fire
 PumplerGrenade.DisplayName: Squash Shell
-PumplerHoldout.DisplayName: Pumpler
 RainbowBlast.DisplayName: Blast
 RainbowFront.DisplayName: Rainbow
 RainbowTrail.DisplayName: Rainbow
@@ -198,7 +183,6 @@ SevensStrikerBrick.DisplayName: Brick
 SevensStrikerCherry.DisplayName: Cherry
 SevensStrikerCherrySplit.DisplayName: Cherry
 SevensStrikerGrape.DisplayName: Grapes
-SevensStrikerHoldout.DisplayName: Sevens Striker
 SevensStrikerOrange.DisplayName: Orange
 SevensStrikerPlatinumCoin.DisplayName: Platinum Coin
 ShadeFire.DisplayName: Shady Fire
@@ -218,15 +202,12 @@ SporeBomb.DisplayName: Spore Bomb
 SputterComet.DisplayName: Sputter Comet
 SputterCometBig.DisplayName: Sputter Comet
 SpykerProj.DisplayName: Spyker
-StarfleetMK2Gun.DisplayName: Starmada
 StarmageddonBinaryStarCenter.DisplayName: Starmageddon Binary Star Center
-StarmageddonHeld.DisplayName: Starmageddon
 StarmageddonStar.DisplayName: Starmageddon Star
 StarmageddonStar2.DisplayName: Starmageddon Star
 StormSurgeTornado.DisplayName: Surge
 SulphuricBlast.DisplayName: Sulphuric Blast
 SuperballBulletProj.DisplayName: Superball Bullet
-SurgeDriverHoldout.DisplayName: Surge Driver
 TelluricGlareArrow.DisplayName: Radiant Arrow
 TerraArrowMain.DisplayName: Terra Arrow
 TerraArrowSplit.DisplayName: Terra Arrow
@@ -246,7 +227,6 @@ ToxicArrow.DisplayName: Toxic Arrow
 TyphoonArrow.DisplayName: Typhoon Arrow
 TyphoonBubble.DisplayName: Typhoon
 UltimaBolt.DisplayName: Ultima Bolt
-UltimaBowProjectile.DisplayName: Ultima
 UltimaRay.DisplayName: Ultima Ray
 UltimaSpark.DisplayName: Ultima Spark
 UniversalGenesisStar.DisplayName: Genesis Star

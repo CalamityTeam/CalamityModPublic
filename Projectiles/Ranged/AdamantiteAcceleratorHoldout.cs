@@ -1,21 +1,22 @@
-﻿using System;
-using CalamityMod.Items.Weapons.Ranged;
+﻿using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
-using static CalamityMod.CalamityUtils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using static CalamityMod.CalamityUtils;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class AdamantiteAcceleratorHoldout : ModProjectile, ILocalizedModType
+    public class AdamantiteAcceleratorHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<AdamantiteParticleAccelerator>();
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/AdamantiteParticleAccelerator";
         const float maxTimeAnim = 35;
         public Player Owner => Main.player[Projectile.owner];
@@ -27,8 +28,6 @@ namespace CalamityMod.Projectiles.Ranged
         public Vector2 NuzzlePosition => Owner.MountedCenter + Projectile.rotation.ToRotationVector2() * 70f + (Vector2.UnitY * -12f * Owner.direction).RotatedBy(Projectile.rotation);
 
         private SlotId ChargeupSoundSlot;
-
-
 
         public override void SetDefaults()
         {

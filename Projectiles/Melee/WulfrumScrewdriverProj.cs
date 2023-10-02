@@ -1,24 +1,25 @@
-﻿using CalamityMod.Particles;
-using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
-using static CalamityMod.CalamityUtils;
-using ReLogic.Content;
-using Terraria.Graphics.Shaders;
 using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using static CalamityMod.CalamityUtils;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class WulfrumScrewdriverProj : ModProjectile, ILocalizedModType
+    public class WulfrumScrewdriverProj : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<WulfrumScrewdriver>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/WulfrumScrewdriver";
         public float Timer => MaxTime - Projectile.timeLeft;
         public float LifetimeCompletion => Timer / (float)MaxTime;
@@ -30,9 +31,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public static Asset<Texture2D> SmearTex;
 
-        public override void SetStaticDefaults()
-        {
-        }
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Melee;

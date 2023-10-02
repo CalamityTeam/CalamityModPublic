@@ -2,13 +2,14 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class VehemenceHoldout : ModProjectile, ILocalizedModType
+    public class VehemenceHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Items.Weapons.Magic.Vehemence>();
         public Player Owner => Main.player[Projectile.owner];
         public ref float Time => ref Projectile.ai[0];
         public ref float ChargeTime => ref Projectile.ai[1];

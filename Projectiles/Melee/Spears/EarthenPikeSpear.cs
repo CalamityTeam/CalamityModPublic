@@ -1,13 +1,17 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class EarthenPikeSpear : BaseSpearProjectile
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<EarthenPike>();
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 40;

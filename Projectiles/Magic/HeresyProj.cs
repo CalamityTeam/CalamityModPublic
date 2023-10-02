@@ -1,17 +1,19 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Magic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class HeresyProj : ModProjectile, ILocalizedModType
+    public class HeresyProj : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Heresy>();
         public Player Owner => Main.player[Projectile.owner];
         public float ShootIntensity => MathHelper.SmoothStep(0f, 1f, Utils.GetLerpValue(0f, 275f, Time, true));
         public ref float Time => ref Projectile.ai[0];

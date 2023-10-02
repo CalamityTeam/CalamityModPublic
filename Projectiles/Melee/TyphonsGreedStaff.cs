@@ -1,15 +1,17 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.Enums;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TyphonsGreedStaff : ModProjectile, ILocalizedModType
+    public class TyphonsGreedStaff : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<TyphonsGreed>();
         public override void SetDefaults()
         {
             Projectile.width = 110;

@@ -1,14 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Ranged;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ContagionBow : ModProjectile, ILocalizedModType
+    public class ContagionBow : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Contagion>();
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Contagion";
 
         public override void SetDefaults()

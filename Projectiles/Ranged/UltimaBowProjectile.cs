@@ -2,15 +2,16 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class UltimaBowProjectile : ModProjectile, ILocalizedModType
+    public class UltimaBowProjectile : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Ultima>();
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Ultima";
 
         public float Time

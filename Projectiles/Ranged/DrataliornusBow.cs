@@ -1,15 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Ranged;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class DrataliornusBow : ModProjectile, ILocalizedModType
+    public class DrataliornusBow : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Drataliornus>();
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Drataliornus";
 
         public override void SetDefaults()

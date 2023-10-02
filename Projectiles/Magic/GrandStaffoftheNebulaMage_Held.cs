@@ -1,16 +1,18 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Magic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class GrandStaffoftheNebulaMage_Held : ModProjectile, ILocalizedModType
+    public class GrandStaffoftheNebulaMage_Held : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<GrandStaffoftheNebulaMage>();
         private const int TotalXFrames = 2;
         private const int TotalYFrames = 8;
         private const int FrameTimer = 6;

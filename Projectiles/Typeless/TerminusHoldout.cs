@@ -1,5 +1,6 @@
 ﻿using System;
 using CalamityMod.Events;
+using CalamityMod.Items.SummonItems;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,13 +8,14 @@ using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Events;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class TerminusHoldout : ModProjectile, ILocalizedModType
+    public class TerminusHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Typeless";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Terminus>();
         public SlotId ActivationSoundSlot;
 
         public Player Owner => Main.player[Projectile.owner];

@@ -8,13 +8,14 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-    public class StreamGougeProj : ModProjectile, ILocalizedModType
+    public class StreamGougeProj : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<StreamGouge>();
         public int Time;
 
         public Player Owner => Main.player[Projectile.owner];

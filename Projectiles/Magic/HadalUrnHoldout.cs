@@ -1,15 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Magic;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class HadalUrnHoldout : ModProjectile, ILocalizedModType
     {
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<HadalUrn>();
         public static readonly SoundStyle UrnSound = new("CalamityMod/Sounds/Item/HadalUrnClose");
 
         public int manatimer = 0;

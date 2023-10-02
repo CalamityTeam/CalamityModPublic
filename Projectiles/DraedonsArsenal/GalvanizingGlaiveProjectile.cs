@@ -1,17 +1,19 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Projectiles.BaseProjectiles;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
-using Terraria.ID;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class GalvanizingGlaiveProjectile : BaseSpearProjectile, ILocalizedModType
+    public class GalvanizingGlaiveProjectile : BaseSpearProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Misc"; // In misc rather than melee
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<GalvanizingGlaive>();
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

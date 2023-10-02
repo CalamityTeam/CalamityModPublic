@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Melee;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -6,13 +7,14 @@ using System.Linq;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ViolenceSlashProjectile : ModProjectile, ILocalizedModType
+    public class ViolenceSlashProjectile : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Violence>();
         internal PrimitiveTrail SliceAfterimageDrawer = null;
         internal Player Owner => Main.player[Projectile.owner];
         internal ref float Time => ref Projectile.ai[0];

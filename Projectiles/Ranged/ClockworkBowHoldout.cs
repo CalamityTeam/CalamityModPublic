@@ -1,24 +1,19 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Ranged;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework.Graphics;
-using CalamityMod.Items.Weapons.Ranged;
 using Terraria.Audio;
-
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ClockworkBowHoldout : ModProjectile, ILocalizedModType
+    public class ClockworkBowHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
-
-        public override void SetStaticDefaults()
-        {
-            //Main.projFrames[projectile.type] = 9;    might animate the bow's string getting drawn but not rn
-        }
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<ClockworkBow>();
 
         private Player Owner => Main.player[Projectile.owner];
 
@@ -30,10 +25,8 @@ namespace CalamityMod.Projectiles.Ranged
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
         private float storedVelocity = 1f;
 
-        //private ref float Overfilled => ref projectile.localAI[1]; Until i implement the bow animation there is no need for that
         private float angularSpread = MathHelper.ToRadians(16);
 
-        //public override string Texture => "CalamityMod/Projectiles/Ranged/ClockworkBowHoldout";
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/ClockworkBow";
 
         public override void SetDefaults()

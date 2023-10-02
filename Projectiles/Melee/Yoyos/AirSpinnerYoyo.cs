@@ -1,13 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Melee;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class AirSpinnerYoyo : ModProjectile, ILocalizedModType
+    public class AirSpinnerYoyo : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<AirSpinner>();
         public const int MaxUpdates = 2;
 
         public override void SetStaticDefaults()

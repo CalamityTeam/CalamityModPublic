@@ -1,20 +1,21 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria.ModLoader;
-using System;
+﻿using CalamityMod.Items.Tools;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
 using Terraria.GameContent;
-using ReLogic.Content;
 using Terraria.Graphics.Shaders;
-using CalamityMod.Items.Tools;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class MarniteDeconstructorProj : ModProjectile, ILocalizedModType
+    public class MarniteDeconstructorProj : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<MarniteDeconstructor>();
         public override string Texture => "CalamityMod/Items/Tools/MarniteDeconstructor";
         public static Asset<Texture2D> GlowmaskTex;
         public static Asset<Texture2D> BloomTex;

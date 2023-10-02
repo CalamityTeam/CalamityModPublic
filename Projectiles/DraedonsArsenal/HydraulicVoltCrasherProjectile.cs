@@ -1,18 +1,19 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class HydraulicVoltCrasherProjectile : ModProjectile, ILocalizedModType
+    public class HydraulicVoltCrasherProjectile : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Misc";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<HydraulicVoltCrasher>();
         public Player Owner => Main.player[Projectile.owner];
         private int chargeCooldown = 0;
 

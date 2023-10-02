@@ -1,19 +1,20 @@
-﻿using CalamityMod.Sounds;
+﻿using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Items.Weapons.Ranged;
-using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SevensStrikerHoldout : ModProjectile, ILocalizedModType
+    public class SevensStrikerHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<TheSevensStriker>();
         public bool rolling = true; // If the slot machine is currently rolling
         public bool shotonce = false; // So that the first shot doesn't consume two ammo
         public int shottimer = 0; // Solely exists so that the Platinum shots aren't instantaneous

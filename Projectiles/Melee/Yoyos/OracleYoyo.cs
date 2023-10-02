@@ -3,15 +3,16 @@ using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class OracleYoyo : ModProjectile, ILocalizedModType
+    public class OracleYoyo : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Oracle>();
         public int AuraFrame;
 
         // projectile.localAI[1] is the Aura Charge of the red lightning aura

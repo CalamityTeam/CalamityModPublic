@@ -1,15 +1,17 @@
-﻿using CalamityMod.Particles;
+﻿using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class MaelstromHoldout : ModProjectile, ILocalizedModType
+    public class MaelstromHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<TheMaelstrom>();
         private Player Owner => Main.player[Projectile.owner];
         private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem()) && !Owner.noItems && !Owner.CCed;
         private ref float CurrentChargingFrames => ref Projectile.ai[0];

@@ -1,18 +1,20 @@
-﻿using CalamityMod.Particles;
+﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ViolenceThrownProjectile : ModProjectile, ILocalizedModType
+    public class ViolenceThrownProjectile : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Violence>();
         internal PrimitiveTrail StreakDrawer = null;
         internal Player Owner => Main.player[Projectile.owner];
         internal ref float Time => ref Projectile.ai[0];

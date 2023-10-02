@@ -6,13 +6,14 @@ using System.IO;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class BladecrestOathswordProj : BaseIdleHoldoutProjectile, ILocalizedModType
+    public class BladecrestOathswordProj : BaseIdleHoldoutProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<BladecrestOathsword>();
         public enum SwingState
         {
             Default,

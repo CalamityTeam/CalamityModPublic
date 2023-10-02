@@ -1,16 +1,18 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Magic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class GhastlyVisageProj : ModProjectile, ILocalizedModType
+    public class GhastlyVisageProj : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<GhastlyVisage>();
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 4;

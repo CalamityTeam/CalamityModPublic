@@ -1,16 +1,18 @@
 ﻿using CalamityMod.Dusts;
+using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class RelicOfConvergenceCrystal : ModProjectile, ILocalizedModType
+    public class RelicOfConvergenceCrystal : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Typeless";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<RelicOfConvergence>();
         public const int SoundInterval = 15;
         public const int TotalCrystalsToDraw = 3;
         public const int CrystalsDrawTime = 90;

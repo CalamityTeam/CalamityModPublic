@@ -1,15 +1,17 @@
-﻿using System;
+﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.BaseProjectiles;
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-
-using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Shortswords
 {
     public class AquaticDischargeProj: BaseShortswordProjectile
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<AquaticDischarge>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/AquaticDischarge";
 
         public override void SetDefaults()

@@ -1,15 +1,17 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.Audio;
+﻿using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.NPCs.Providence;
+using Microsoft.Xna.Framework;
 using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class EternityBook : ModProjectile, ILocalizedModType
+    public class EternityBook : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Eternity>();
         public float Time
         {
             get => Projectile.ai[0];

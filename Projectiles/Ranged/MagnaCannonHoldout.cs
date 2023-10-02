@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class MagnaCannonHoldout : ModProjectile, ILocalizedModType
+    public class MagnaCannonHoldout : ModProjectile
     {
         // Take the name and texture from the weapon
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<MagnaCannon>();

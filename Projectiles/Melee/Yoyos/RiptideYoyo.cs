@@ -1,15 +1,17 @@
-﻿using System.IO;
+﻿using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class RiptideYoyo : ModProjectile, ILocalizedModType
+    public class RiptideYoyo : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Riptide>();
 
         public override void SetStaticDefaults()
         {

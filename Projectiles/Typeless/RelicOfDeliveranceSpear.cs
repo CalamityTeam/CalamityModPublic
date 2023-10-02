@@ -5,15 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class RelicOfDeliveranceSpear : ModProjectile, ILocalizedModType
+    public class RelicOfDeliveranceSpear : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Typeless";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<RelicOfDeliverance>();
         public Vector2 IdealVelocity = -Vector2.UnitY * MinChargeSpeed;
         public const int MaxCharges = 3;
         public const float DustSpawnInterval = 3f;

@@ -1,14 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Magic;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class RainbowPartyCannonProjectile : ModProjectile, ILocalizedModType
+    public class RainbowPartyCannonProjectile : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<RainbowPartyCannon>();
         public Player Owner => Main.player[Projectile.owner];
         public ref float Time => ref Projectile.ai[0];
         public const float ChargeDelay = 60f;

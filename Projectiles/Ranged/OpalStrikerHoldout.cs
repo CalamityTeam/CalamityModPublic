@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class OpalStrikerHoldout : ModProjectile, ILocalizedModType
+    public class OpalStrikerHoldout : ModProjectile
     {
         // Take the name and texture from the weapon
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<OpalStriker>();

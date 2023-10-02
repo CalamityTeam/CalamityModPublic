@@ -1,15 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Ranged;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class FlurrystormCannonShooting : ModProjectile, ILocalizedModType
+    public class FlurrystormCannonShooting : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<FlurrystormCannon>();
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 2;

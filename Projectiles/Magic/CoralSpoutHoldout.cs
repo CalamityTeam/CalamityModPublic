@@ -1,22 +1,22 @@
-﻿using System;
-using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
-
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
     //Holdout, but invisible. It may as well be named "CoralSpoutHandler"
-    public class CoralSpoutHoldout : ModProjectile, ILocalizedModType
+    public class CoralSpoutHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<CoralSpout>();
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public static float MaxCharge = 50;
@@ -28,8 +28,6 @@ namespace CalamityMod.Projectiles.Magic
         public float Spread => MathHelper.PiOver2 * (1 - (float)Math.Pow(ChargeProgress, 1.5) * 0.95f);
 
         public Player Owner => Main.player[Projectile.owner];
-
-
 
         public override void SetDefaults()
         {

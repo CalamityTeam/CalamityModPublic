@@ -2,13 +2,14 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ArtAttackHoldout : ModProjectile, ILocalizedModType
+    public class ArtAttackHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Magic";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<ArtAttack>();
         public Player Owner => Main.player[Projectile.owner];
         public const float AimResponsiveness = 0.72f;
 

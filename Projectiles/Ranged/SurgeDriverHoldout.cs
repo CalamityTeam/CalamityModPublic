@@ -1,14 +1,16 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.Audio;
+﻿using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Sounds;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SurgeDriverHoldout : ModProjectile, ILocalizedModType
+    public class SurgeDriverHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<SurgeDriver>();
         public Player Owner => Main.player[Projectile.owner];
         public bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
         public ref float ShootCountdown => ref Projectile.ai[0];

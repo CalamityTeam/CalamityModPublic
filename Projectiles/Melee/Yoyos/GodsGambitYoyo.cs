@@ -1,15 +1,17 @@
-﻿using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class GodsGambitYoyo : ModProjectile, ILocalizedModType
+    public class GodsGambitYoyo : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<TheGodsGambit>();
         public const int MaxUpdates = 2;
 
         public override void SetStaticDefaults()

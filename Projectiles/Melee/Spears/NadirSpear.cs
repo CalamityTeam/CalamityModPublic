@@ -1,14 +1,18 @@
-﻿using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class NadirSpear : BaseSpearProjectile
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Nadir>();
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 56;

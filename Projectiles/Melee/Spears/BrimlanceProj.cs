@@ -1,13 +1,17 @@
 ﻿using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class BrimlanceProj : BaseSpearProjectile
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Brimlance>();
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 40;

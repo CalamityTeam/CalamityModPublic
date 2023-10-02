@@ -2,15 +2,16 @@
 using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class CondemnationHoldout : ModProjectile, ILocalizedModType
+    public class CondemnationHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Condemnation>();
         private Player Owner => Main.player[Projectile.owner];
 
         private ref float CurrentChargingFrames => ref Projectile.ai[0];

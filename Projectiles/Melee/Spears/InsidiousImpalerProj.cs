@@ -1,13 +1,16 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class InsidiousImpalerProj : BaseSpearProjectile
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<InsidiousImpaler>();
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 40;

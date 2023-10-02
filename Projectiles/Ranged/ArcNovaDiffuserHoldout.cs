@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ArcNovaDiffuserHoldout : ModProjectile, ILocalizedModType
+    public class ArcNovaDiffuserHoldout : ModProjectile
     {
         // Take the name and texture from the weapon
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<ArcNovaDiffuser>();

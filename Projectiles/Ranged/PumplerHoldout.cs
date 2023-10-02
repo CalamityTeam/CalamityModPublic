@@ -5,18 +5,19 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 //TY dom for coding condemnation, great reference, would steal code from again :)
 //                  - Iban
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PumplerHoldout : ModProjectile, ILocalizedModType
+    public class PumplerHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Pumpler>();
 
         public override void SetStaticDefaults()
         {
@@ -31,8 +32,6 @@ namespace CalamityMod.Projectiles.Ranged
         private ref float FramesToLoadNextPumpkin => ref Projectile.localAI[0];
         private ref float Overfilled => ref Projectile.localAI[1]; //This functionally is a "IsPlayingShootAnim" variable
         private float angularSpread = MathHelper.ToRadians(15);
-
-        public override string Texture => "CalamityMod/Projectiles/Ranged/PumplerHoldout";
 
         public override void SetDefaults()
         {

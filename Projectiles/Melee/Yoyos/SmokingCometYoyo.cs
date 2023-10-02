@@ -1,16 +1,18 @@
-﻿using System;
-using System.IO;
+﻿using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class SmokingCometYoyo : ModProjectile, ILocalizedModType
+    public class SmokingCometYoyo : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<SmokingComet>();
 
         public override void SetStaticDefaults()
         {

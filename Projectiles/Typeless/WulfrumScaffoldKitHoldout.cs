@@ -9,13 +9,14 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class WulfrumScaffoldKitHoldout : ModProjectile, ILocalizedModType
+    public class WulfrumScaffoldKitHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Typeless";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<WulfrumScaffoldKit>();
         public override void Load()
         {
             PipeCleanupManager = new WulfrumPipeManager();

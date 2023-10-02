@@ -97,8 +97,6 @@ PscTransformRocks.DisplayName: Psc Transform Rocks
 ReaverOrb.DisplayName: Reaver Orb
 ReaverThornBase.DisplayName: Thorn
 RedLabSeeker.DisplayName: Seeking Mechanism
-RelicOfConvergenceCrystal.DisplayName: Relic of Convergence
-RelicOfDeliveranceSpear.DisplayName: Relic of Deliverance
 RiftReelerBobber.DisplayName: Chaotic Bobber
 SabatonBoom.DisplayName: Sabaton Boom
 SabatonSlam.DisplayName: Sabaton Slam
@@ -121,7 +119,6 @@ SulphuricAcidBubbleFriendly.DisplayName: Acid Bubble
 SulphurousSandBallGun.DisplayName: Sulphurous Sand
 TarraEnergy.DisplayName: Tarra Energy
 TarragonAura.DisplayName: Tarragon Aura
-TerminusHoldout.DisplayName: Terminus Holdout
 TeslaAura.DisplayName: Tesla's Electricity
 VanquisherArrowSplit.DisplayName: Arrow
 VerstaltiteBobber.DisplayName: Verstaltite Bobber
@@ -130,9 +127,7 @@ WaterConvertor.DisplayName: Water Convertor
 WhiteLabSeeker.DisplayName: Seeking Mechanism
 WulfrumBobber.DisplayName: Wulfrum Bobber
 WulfrumDiggingTurtleProjectile.DisplayName: Digging Turtle
-WulfrumDrillProj.DisplayName: Drill
 WulfrumHook.DisplayName: Wulfrum Slingshot
 WulfrumLureSignal.DisplayName: Signal
-WulfrumScaffoldKitHoldout.DisplayName: Wulfrum Scaffold Kit
 YanmeisKnifeSlash.DisplayName: Yanmei's Knife
 YellowLabSeeker.DisplayName: Seeking Mechanism

@@ -1,21 +1,23 @@
-﻿using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.IO;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class StarmageddonHeld : ModProjectile, ILocalizedModType
+    public class StarmageddonHeld : ModProjectile
     {
         private bool starHasBeenFired = false;
 
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Starmageddon>();
 
         public override void SetStaticDefaults()
         {

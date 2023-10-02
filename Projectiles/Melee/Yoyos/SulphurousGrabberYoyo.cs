@@ -1,16 +1,18 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class SulphurousGrabberYoyo : ModProjectile, ILocalizedModType
+    public class SulphurousGrabberYoyo : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<SulphurousGrabber>();
         private int bubbleCounter = 0;
         private bool bubbleStronk = false;
         private int bubbleStronkCounter = 0;

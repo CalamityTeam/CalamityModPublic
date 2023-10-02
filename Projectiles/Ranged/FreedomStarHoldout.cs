@@ -1,17 +1,18 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items;
+using CalamityMod.Items.Weapons.Ranged;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class FreedomStarHoldout : ModProjectile, ILocalizedModType
+    public class FreedomStarHoldout : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Ranged";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<FreedomStar>();
         private const float OrbLargeGateValue = 80f;
         private const float LaserGateValue = 180f;
         private const float LaserLargeGateValue = 660f;

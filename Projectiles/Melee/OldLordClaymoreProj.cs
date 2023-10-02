@@ -5,16 +5,17 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class OldLordClaymoreProj : BaseIdleHoldoutProjectile, ILocalizedModType
+    public class OldLordClaymoreProj : BaseIdleHoldoutProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Melee";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<OldLordClaymore>();
         public enum SwingState
         {
             Default,

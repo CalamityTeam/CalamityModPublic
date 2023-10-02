@@ -1,17 +1,18 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.Audio;
-using ReLogic.Utilities;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class GatlingLaserProj : ModProjectile, ILocalizedModType
+    public class GatlingLaserProj : ModProjectile
     {
-        public new string LocalizationCategory => "Projectiles.Misc";
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<GatlingLaser>();
         private SlotId gatlingLaserLoopID;
         private bool fireLasers = false;
 

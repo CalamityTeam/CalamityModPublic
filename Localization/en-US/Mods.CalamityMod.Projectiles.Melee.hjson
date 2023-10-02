@@ -33,7 +33,6 @@ BansheeHookScythe.DisplayName: Banshee Scythe
 BiomeBladeHoldout.DisplayName: Mended Biome Blade
 BitingEmbrace.DisplayName: Biting Embrace
 BitingEmbraceMist.DisplayName: Glacial Mist
-BladecrestOathswordProj.DisplayName: Bladecrest Oathsword
 BlazingPhantomBlade.DisplayName: Blazing Phantom Blade
 Blood.DisplayName: Carnage Blood
 Blood2.DisplayName: Blood
@@ -76,14 +75,12 @@ DarkBall.DisplayName: Dark Ball
 DarkBeam.DisplayName: Dark Beam
 DarkIceZero.DisplayName: Dark Ice
 DeathsAscensionProjectile.DisplayName: Ascended Scythe
-DeathsAscensionSwing.DisplayName: Death's Ascension
 DecaysRetort.DisplayName: Decay's Retort
 DecaysRetortDash.DisplayName: Evisceration Lunge
 DemonBlast.DisplayName: Devil Fork
 DepthOrb.DisplayName: Depth Trident
 DepthOrb2.DisplayName: Neptune's Trident
 DevilsSunriseCyclone.DisplayName: Devil's Sunrise
-DevilsSunriseProj.DisplayName: Devil's Sunrise
 DivineHatchetBoomerang.DisplayName: Scorching Seeker
 DNA.DisplayName: DNA
 DracoBeam.DisplayName: Draconic Beam
@@ -91,7 +88,6 @@ DracoBeam2.DisplayName: Draconic Beam
 DraconicSpark.DisplayName: Draconic Spark
 DragonPowFlail.DisplayName: Dragon Pow
 DragonRageFireball.DisplayName: Dragon Rage Fireball
-DragonRageStaff.DisplayName: Dragon Rage
 Earth2.DisplayName: Earth
 Earth3.DisplayName: Earth
 Earth4.DisplayName: Earth
@@ -114,7 +110,6 @@ ExcelsusPink.DisplayName: Excelsus
 Exobeam.DisplayName: Exobeam
 ExobeamSlash.DisplayName: Exobeam Slash
 ExobeamSlashCreator.DisplayName: Anime Sword Effect
-ExobladeProj.DisplayName: Exoblade
 Exoboom.DisplayName: Exoplasma Explosion
 Exocomet.DisplayName: Comet
 ExtantAbhorrence.DisplayName: Extant Abhorrence
@@ -168,8 +163,6 @@ LifeScythe.DisplayName: Lifehunt Scythe
 LightBeam.DisplayName: Light Beam
 LightningThing.DisplayName: Lightning
 LuxorsGiftMelee.DisplayName: Luxor's Melee
-MarniteDeconstructorProj.DisplayName: Marnite Deconstructor
-MarniteObliteratorProj.DisplayName: Marnite Obliterator
 MercurialTides.DisplayName: Mercurial Tides
 MercurialTidesBlast.DisplayName: Mercurial Blast
 MercurialTidesMonolith.DisplayName: Mercurial Monolith
@@ -178,15 +171,12 @@ MirrorBlast.DisplayName: Mirror Blade
 MonstrousKnife.DisplayName: Monstrous Knife
 MourningSkull.DisplayName: Mourning Skull
 MourningstarFlail.DisplayName: Mourningstar
-MurasamaSlash.DisplayName: Murasama
 Nebudust.DisplayName: Nebulash Dust
 NebulashFlail.DisplayName: Nebulash
 NebulaShot.DisplayName: Nebula Shot
 NeptuneOrb.DisplayName: Neptune's Trident
 Oathblade.DisplayName: Oathblade
 OathswordFlame.DisplayName: Oathsword Flame
-OldLordClaymoreProj.DisplayName: Old Lord Claymore
-OmnibladeSwing.DisplayName: Omniblade
 Orbacle.DisplayName: Auric Orb
 OrderbringerAura.DisplayName: Aura
 OrderbringerBeam.DisplayName: Orderbringer Beam
@@ -229,12 +219,6 @@ ScourgeoftheCosmosMini.DisplayName: Miniature Cosmic Scourge
 ScourgeoftheCosmosProj.DisplayName: Cosmic Scourge
 SeashineSwordProj.DisplayName: Seashine Beam
 SHIV.DisplayName: Shiv
-AquaticDischargeProj.DisplayName: Aquatic Discharge
-CosmicShivProj.DisplayName: Cosmic Shiv
-ElementalShivProj.DisplayName: Elemental Shiv
-GalileoGladiusProj.DisplayName: Galileo Gladius
-LucreciaProj.DisplayName: Lucrecia
-SubmarineShockerProj.DisplayName: Submarine Shocker
 SolarNeedle.DisplayName: Solar Needle
 SolsticeBeam.DisplayName: Solstice Beam
 SoulScythe.DisplayName: Soul Scythe
@@ -244,26 +228,6 @@ SpatialSpear.DisplayName: Elemental Spear
 SpatialSpear2.DisplayName: Elemental Spear
 SpatialSpear3.DisplayName: Elemental Spear
 SpatialSpear4.DisplayName: Elemental Spear
-AmidiasTridentProj.DisplayName: Amidias' Trident
-AstralPikeProj.DisplayName: Astral Pike
-BansheeHookProj.DisplayName: Banshee Hook
-BrimlanceProj.DisplayName: Brimlance
-DiseasedPikeSpear.DisplayName: Diseased Pike
-EarthenPikeSpear.DisplayName: Earthen Pike
-ElementalLanceProjectile.DisplayName: Elemental Lance
-GildedProboscisProj.DisplayName: Gilded Proboscis
-GoldplumeSpearProjectile.DisplayName: Goldplume Spear
-HellionFlowerSpearProjectile.DisplayName: Hellion Flower Spear
-InsidiousImpalerProj.DisplayName: Insidious Impaler
-NadirSpear.DisplayName: Nadir
-RedtideSpearProjectile.DisplayName: Redtide Spear
-SausageMakerSpear.DisplayName: Sausage Maker
-StarnightLanceProjectile.DisplayName: Starnight Lance
-StreamGougeProj.DisplayName: Stream Gouge
-TenebreusTidesProjectile.DisplayName: Tenebreus Tides
-TerraLanceProjectile.DisplayName: Terra Lance
-VulcaniteLanceProj.DisplayName: Vulcanite Lance
-YateveoBloomSpear.DisplayName: Yateveo Bloom
 SpineOfThanatosProjectile.DisplayName: Spine of Thanatos
 StarnightBeam.DisplayName: Starnight Beam
 StellarContemptBlast.DisplayName: Stellar Blast
@@ -318,14 +282,11 @@ TruePurityProjection.DisplayName: Purity Projection
 TumbleweedFlail.DisplayName: Tumbleweed
 TumbleweedRolling.DisplayName: Tumbleweed
 TyphonsGreedBubble.DisplayName: Typhon's Greed
-TyphonsGreedStaff.DisplayName: Typhon's Greed
 UltimusCleaverDust.DisplayName: Ultimus Flame
 UrchinBall.DisplayName: Urchin Ball
 UrchinBallSpike.DisplayName: Urchin Ball Spike
 UrchinMaceProjectile.DisplayName: Urchin Mace
 UrchinSpikeFugu.DisplayName: Urchin Spike
-ViolenceSlashProjectile.DisplayName: Violence
-ViolenceThrownProjectile.DisplayName: Violence
 VirulentBeeWave.DisplayName: Virulent Bee Wave
 VirulentWave.DisplayName: Virulent Wave
 VoidEssence.DisplayName: Void Essence
@@ -341,21 +302,3 @@ WulfrumScrewdriverProj.DisplayName: Wulfrum Screwdriver
 YateveoBloomProj.DisplayName: Yateveo Bloom
 YinYoDark.DisplayName: Dark Shard
 YinYoLight.DisplayName: Light Shard
-AirSpinnerYoyo.DisplayName: Air Spinner
-AortaYoyo.DisplayName: Aorta
-AzathothYoyo.DisplayName: Azathoth
-FaultLineYoyo.DisplayName: Fault Line
-GodsGambitYoyo.DisplayName: The God's Gambit
-LaceratorYoyo.DisplayName: Lacerator
-MicrowaveYoyo.DisplayName: The Microwave
-ObliteratorYoyo.DisplayName: The Obliterator
-OblivionYoyo.DisplayName: Oblivion
-OracleYoyo.DisplayName: The Oracle
-PandemicYoyo.DisplayName: Pandemic
-QuagmireYoyo.DisplayName: Quagmire
-RiptideYoyo.DisplayName: Riptide
-ShimmersparkYoyo.DisplayName: Shimmerspark
-SmokingCometYoyo.DisplayName: Smoking Comet
-SolarFlareYoyo.DisplayName: Solar Flare
-SulphurousGrabberYoyo.DisplayName: Sulphurous Grabber
-YinYoyo.DisplayName: Yin-Yo

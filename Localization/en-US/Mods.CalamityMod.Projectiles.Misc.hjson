@@ -8,21 +8,17 @@ AnomalysNanogunMPFBDevastator.DisplayName: MPFB Devastator
 AnomalysNanogunPlasmaBeam.DisplayName: Plasma Beam
 FrequencyManipulatorEnergy.DisplayName: Pulse Energy
 FrequencyManipulatorProjectile.DisplayName: Frequency Manipulator
-GalvanizingGlaiveProjectile.DisplayName: Galvanizing Glaive
-GatlingLaserProj.DisplayName: Gatling Laser
 GatlingLaserShot.DisplayName: Gatling Laser
 GaussEnergy.DisplayName: Gauss Energy
 GaussFlux.DisplayName: Gauss Flux
 GaussPistolShot.DisplayName: Gauss Shot
 GaussRifleBlast.DisplayName: Gauss Blast
 GaussRifleExplosion.DisplayName: Gauss Explosion
-HydraulicVoltCrasherProjectile.DisplayName: Hydraulic Volt Crasher
 LaserRifleShot.DisplayName: Laser Rifle
 MassivePlasmaExplosion.DisplayName: Plasma Explosion
 MountedScannerLaser.DisplayName: Deathray
 MountedScannerSummon.DisplayName: Mounted Scanner
 PhaseslayerBeam.DisplayName: Light Blade
-PhaseslayerProjectile.DisplayName: Phaseslayer
 PlasmaCasterShot.DisplayName: Plasma Bolt
 PlasmaGrenadeProjectile.DisplayName: Plasma Grenade
 PlasmaGrenadeSmallExplosion.DisplayName: Plasma Explosion
@@ -33,6 +29,7 @@ PulseRifleShot.DisplayName: Pulse Bolt
 PulseTurret.DisplayName: Pulse Turret
 PulseTurretShot.DisplayName: Pulse Bolt
 SnakeEyesSummon.DisplayName: Snake Eyes
+SnakeEyesProjectile.DisplayName: Inescapable Bolt
 StarSwallowerAcid.DisplayName: Acid
 StarSwallowerSummon.DisplayName: Pet Froge
 SystemBaneLightning.DisplayName: Lightning
@@ -45,7 +42,6 @@ UnstableMatter.DisplayName: Unstable Matter
 VoltageStream.DisplayName: Voltage Stream
 WavePounderBoom.DisplayName: Explosion
 WavePounderProjectile.DisplayName: Wave Pounder
-SnakeEyesProjectile.DisplayName: Inescapable Bolt
 // Environmental
 AcidDrop.DisplayName: Acid
 BrimstoneGeyser.DisplayName: Smoke

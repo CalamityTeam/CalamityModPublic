@@ -1,14 +1,16 @@
-﻿using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-
+﻿using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Shortswords
 {
     public class SubmarineShockerProj: BaseShortswordProjectile
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<SubmarineShocker>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/SubmarineShocker";
 
         public override void SetDefaults()

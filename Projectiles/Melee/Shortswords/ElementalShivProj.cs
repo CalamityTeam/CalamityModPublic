@@ -1,15 +1,17 @@
-﻿using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using System;
-
-using CalamityMod.Projectiles.BaseProjectiles;
+using Terraria;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Shortswords
 {
     public class ElementalShivProj: BaseShortswordProjectile
     {
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<ElementalShiv>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/ElementalShiv";
 
         public override void SetDefaults()
