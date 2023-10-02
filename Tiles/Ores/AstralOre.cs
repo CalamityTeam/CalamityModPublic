@@ -1,13 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Ores
@@ -77,8 +74,6 @@ namespace CalamityMod.Tiles.Ores
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             float brightness = 0.9f;
-            brightness += 0.5f;
-            brightness = MathHelper.Clamp(brightness, 0.5f, 0.9f);
             Color orange = new Color(237, 93, 83);
             Color cyan = new Color(66, 189, 181);
             Color value = Color.Lerp(orange, cyan, (MathF.Sin(-j / 30f + Main.GameUpdateCount * 0.017f + i / 40f) + 1f) / 2f);
