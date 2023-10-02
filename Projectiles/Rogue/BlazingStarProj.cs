@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Buffs.DamageOverTime;
+using System;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -13,8 +14,9 @@ namespace CalamityMod.Projectiles.Rogue
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/BlazingStar";
 
-        public const int Lifetime = 1540;
-        public const int ReboundTime = 40;
+        public static int Lifetime = 1540;
+        public static int ReboundTime = 60;
+        public static float Speed = 13f;
 
         public override void SetStaticDefaults()
         {
@@ -56,8 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.ai[0] != 0f)
             {
                 Projectile.tileCollide = false;
-
-                float returnSpeed = BlazingStar.Speed * 2.5f;
+                float returnSpeed = 32.5f;
                 float acceleration = 2f;
                 Player owner = Main.player[Projectile.owner];
 

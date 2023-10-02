@@ -42,19 +42,19 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Main.dayTime || Main.rand.NextBool(3)) //100% during day, 33.33% chance at night
-                target.AddBuff(BuffID.Daybreak, 45);
+                target.AddBuff(BuffID.Daybreak, 30);
 
             if (!Main.dayTime || Main.rand.NextBool(3)) //100% at night, 33.33% chance during day
-                target.AddBuff(ModContent.BuffType<Nightwither>(), 45);
+                target.AddBuff(ModContent.BuffType<Nightwither>(), 30);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.dayTime || Main.rand.NextBool(3)) //100% during day, 33.33% chance at night
-                target.AddBuff(BuffID.Daybreak, 45);
+                target.AddBuff(BuffID.Daybreak, 30);
 
             if (!Main.dayTime || Main.rand.NextBool(3)) //100% at night, 33.33% chance during day
-                target.AddBuff(ModContent.BuffType<Nightwither>(), 45);
+                target.AddBuff(ModContent.BuffType<Nightwither>(), 30);
         }
 
         public override void PostDraw(Color lightColor)

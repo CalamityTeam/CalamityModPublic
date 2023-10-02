@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -66,6 +67,16 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.CursedInferno, 180);
+        }
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.CursedInferno, 180);
+        }
 
         public override bool PreDraw(ref Color lightColor)
         {

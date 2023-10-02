@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 80;
+            Projectile.timeLeft = 100;
             Projectile.extraUpdates = 4;
             Projectile.ignoreWater = true;
             Projectile.DamageType = RogueDamageClass.Instance;

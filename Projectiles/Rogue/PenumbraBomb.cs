@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 32;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 250;
             Projectile.extraUpdates = 2;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.ignoreWater = true;
@@ -76,8 +76,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Daybreak, 240);
-            target.AddBuff(ModContent.BuffType<Nightwither>(), 240);
+            target.AddBuff(BuffID.Daybreak, 180);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
         }
         public override void OnKill(int timeLeft)
         {

@@ -3949,9 +3949,9 @@ namespace CalamityMod.CalPlayer
                     if (StealthStrikeAvailable())
                     {
                         int knifeCount = 12;
-                        int knifeDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(70);
+                        int knifeDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(55);
                         float angleStep = MathHelper.TwoPi / knifeCount;
-                        float speed = 15f;
+                        float speed = 14f;
 
                         for (int i = 0; i < knifeCount; i++)
                         {

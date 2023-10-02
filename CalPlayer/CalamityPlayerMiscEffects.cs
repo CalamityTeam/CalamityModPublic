@@ -1401,7 +1401,7 @@ namespace CalamityMod.CalPlayer
                 canFireAtaxiaRangedProjectile = true;
             if (Player.miscCounter % 100 == 0)
                 canFireBloodflareMageProjectile = true;
-            if (Player.miscCounter % 150 == 0)
+            if (Player.miscCounter % 120 == 0)
             {
                 canFireGodSlayerRangedProjectile = true;
                 canFireBloodflareRangedProjectile = true;
@@ -1878,7 +1878,7 @@ namespace CalamityMod.CalPlayer
 
                 if (blunderBooster)
                 {
-                    int lightningCount = Main.rand.Next(2, 7);
+                    int lightningCount = Main.rand.Next(5,7);
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
                     for (int i = 0; i < lightningCount; i++)
                     {
@@ -1902,7 +1902,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (plaguedFuelPack)
                 {
-                    int numClouds = Main.rand.Next(2, 10);
+                    int numClouds = Main.rand.Next(8, 10);
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<PlaguedFuelPack>()));
                     for (int i = 0; i < numClouds; i++)
                     {

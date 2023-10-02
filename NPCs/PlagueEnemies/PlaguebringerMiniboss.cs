@@ -659,7 +659,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<PlagueCellCanister>(), 1, 8, 12);
-            npcLoot.Add(ModContent.ItemType<PlaguedFuelPack>(), 10);
+            npcLoot.Add(ModContent.ItemType<PlaguedFuelPack>(), 25);
             npcLoot.Add(ModContent.ItemType<PlagueCaller>(), 50);
             npcLoot.Add(ItemID.Stinger);
         }
