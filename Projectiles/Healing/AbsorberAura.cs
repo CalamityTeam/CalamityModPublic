@@ -37,13 +37,12 @@ namespace CalamityMod.Projectiles.Healing
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 2710;
+            Projectile.timeLeft = 1810;
         }
 
         public override void AI()
         {
             Framecounter++;
-
             for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
             {
                 Player player = Main.player[playerIndex];

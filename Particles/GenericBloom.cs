@@ -14,8 +14,9 @@ namespace CalamityMod.Particles
 
         private float opacity;
         private Color BaseColor;
+        private bool ProduceLight;
 
-        public GenericBloom(Vector2 position, Vector2 velocity, Color color, float scale, int lifeTime)
+        public GenericBloom(Vector2 position, Vector2 velocity, Color color, float scale, int lifeTime, bool produceLight = true)
         {
             Position = position;
             Velocity = velocity;
@@ -23,13 +24,17 @@ namespace CalamityMod.Particles
             Scale = scale;
             Lifetime = lifeTime;
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
+            ProduceLight = produceLight;
         }
 
         public override void Update()
         {
             opacity = (float)Math.Sin(LifetimeCompletion * MathHelper.Pi);
             Color = BaseColor * opacity;
-            Lighting.AddLight(Position, Color.R / 255f, Color.G / 255f, Color.B / 255f);
+            if (ProduceLight)
+            {
+                Lighting.AddLight(Position, Color.R / 255f, Color.G / 255f, Color.B / 255f);
+            }
             Velocity *= 0.95f;
         }
 
