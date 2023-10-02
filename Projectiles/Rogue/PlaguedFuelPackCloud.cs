@@ -16,10 +16,11 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
-            Projectile.timeLeft = 100;
+            Projectile.timeLeft = 120;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 6;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.ArmorPenetration = 5;
         }
 
         public override void AI()
