@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.FireGauntlet).
-                AddIngredient<YharimsInsignia>().
+                AddIngredient<BadgeofBravery>().
                 AddIngredient(ItemID.LunarBar, 8).
                 AddIngredient<GalacticaSingularity>(4).
                 AddIngredient<AscendantSpiritEssence>(4).

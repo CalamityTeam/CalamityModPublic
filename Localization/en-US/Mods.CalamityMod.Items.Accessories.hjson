@@ -66,6 +66,17 @@ AbyssalMirror: {
 		'''
 }
 
+AscendantInsignia: {
+	DisplayName: Ascendant Insignia
+	Tooltip:
+		'''
+		Increases wing flight time by 30%
+		Increases movement and jump speed by 10% and acceleration by 1.1x
+		Pressing [KEY] will give you the power of ascension, providing infinite flight time for 5 seconds
+		Ascension has a 40 second cooldown
+		'''
+}
+
 AeroStone: {
 	DisplayName: Aero Stone
 	Tooltip:
@@ -1977,17 +1988,6 @@ YharimsGift: {
 		Exploding dragon dust is left behind as you move
 		Damage and movement speed increased by 15%
 		The power to kill a god pulses from within this artifact
-		'''
-}
-
-YharimsInsignia: {
-	DisplayName: Yharim's Insignia
-	Tooltip:
-		'''
-		10% increased damage when under 50% life
-		15% increased melee and true melee damage
-		All melee attacks inflict Holy Flames
-		Increased melee knockback
 		'''
 }
 

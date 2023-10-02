@@ -57,6 +57,7 @@ using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Mono.Cecil;
 using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
@@ -67,6 +68,7 @@ using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Humanizer.In;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
@@ -2396,7 +2398,7 @@ namespace CalamityMod.CalPlayer
         #region Other Buff Effects
         private void OtherBuffEffects()
         {
-            
+
             if (gravityNormalizer)
             {
                 Player.buffImmune[BuffID.VortexDebuff] = true;
@@ -2528,7 +2530,7 @@ namespace CalamityMod.CalPlayer
             if (tortShell)
             {
                 if (tortShellPostHit == 1)
-                    SoundEngine.PlaySound(SoundID.NPCHit24 with {Volume = 0.5f}, Player.Center);
+                    SoundEngine.PlaySound(SoundID.NPCHit24 with { Volume = 0.5f }, Player.Center);
 
                 if (tortShellPostHit > 0)
                 {
@@ -2715,6 +2717,7 @@ namespace CalamityMod.CalPlayer
                 (soaring ? 0.1 : 0D) +
                 (prismaticGreaves ? 0.1 : 0D) +
                 (plagueReaper ? 0.05 : 0D) +
+                (ascendantInsignia ? 0.05 : 0D) + // Added to soaring insignia's flight to get 30%
                 (Player.empressBrooch ? 0.25 : 0D);
 
             if (blueCandle)
@@ -2963,11 +2966,27 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (yInsignia)
+            if (ascendantInsignia)
             {
-                Player.GetDamage<MeleeDamageClass>() += 0.15f;
-                if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
-                    Player.GetDamage<GenericDamageClass>() += 0.1f;
+                if (CalamityKeybinds.AscendantInsigniaHotKey.JustPressed && ascendantInsigniaCooldown <= 0)
+                {
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<AscendantInsignia>()));
+                    Projectile.NewProjectileDirect(source, Player.Center - Vector2.UnitY * 45f, Vector2.Zero, ModContent.ProjectileType<AscendantAura>(), 0, 0f);
+                    SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Item/AscendantActivate"));
+                    ascendantInsigniaCooldown = 2400;
+                    ascendantInsigniaBuffTime = 300;
+                }
+
+                if (ascendantInsigniaCooldown > 0 && ascendantInsigniaBuffTime <= 0)
+                    ascendantInsigniaCooldown--;
+                if (ascendantInsigniaBuffTime == 1)
+                    Player.AddCooldown(AscendEffect.ID, 2400);
+                if (ascendantInsigniaBuffTime > 0)
+                {
+                    ascendantTrail = true;
+                    infiniteFlight = true;
+                    ascendantInsigniaBuffTime--;
+                }
             }
 
             if (deepDiver && Player.IsUnderwater())

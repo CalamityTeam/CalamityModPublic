@@ -5,6 +5,7 @@ namespace CalamityMod
     public class CalamityKeybinds : ModSystem
     {
         public static ModKeybind AccessoryParryHotKey { get; private set; }
+        public static ModKeybind AscendantInsigniaHotKey { get; private set; }
         public static ModKeybind AdrenalineHotKey { get; private set; }
         public static ModKeybind AngelicAllianceHotKey { get; private set; }
         public static ModKeybind ArmorSetBonusHotKey { get; private set; }
@@ -22,6 +23,7 @@ namespace CalamityMod
         {
             // Register keybinds            
             AccessoryParryHotKey = KeybindLoader.RegisterKeybind(Mod, "ActivateAccessoryParry", "N");
+            AscendantInsigniaHotKey = KeybindLoader.RegisterKeybind(Mod, "AscendantInsigniaHotKey", "K");
             AdrenalineHotKey = KeybindLoader.RegisterKeybind(Mod, "AdrenalineMode", "B");
             AngelicAllianceHotKey = KeybindLoader.RegisterKeybind(Mod, "AngelicAllianceBlessing", "G");
             ArmorSetBonusHotKey = KeybindLoader.RegisterKeybind(Mod, "ArmorSetBonus", "Y");
@@ -39,6 +41,7 @@ namespace CalamityMod
         public override void Unload()
         {
             AccessoryParryHotKey = null;
+            AscendantInsigniaHotKey = null;
             AdrenalineHotKey = null;
             AngelicAllianceHotKey = null;
             ArmorSetBonusHotKey = null;

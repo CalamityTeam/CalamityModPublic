@@ -466,7 +466,10 @@ namespace CalamityMod.CalPlayer
         public bool badgeOfBravery = false;
         public bool warbannerOfTheSun = false;
         public bool cryogenSoul = false;
-        public bool yInsignia = false;
+        public bool ascendantInsignia = false;
+        public int ascendantInsigniaBuffTime = 0;
+        public int ascendantInsigniaCooldown = 0;
+        public bool ascendantTrail = false;
         public bool eGauntlet = false;
         public bool eTalisman = false;
         public int statisTimer = 0;
@@ -1622,7 +1625,8 @@ namespace CalamityMod.CalPlayer
             nanotech = false;
             deadshotBrooch = false;
             cryogenSoul = false;
-            yInsignia = false;
+            ascendantInsignia = false;
+            ascendantTrail = false;
             eGauntlet = false;
             eTalisman = false;
             nucleogenesis = false;
@@ -2373,7 +2377,6 @@ namespace CalamityMod.CalPlayer
             tRegen = false;
             rageModeActive = false;
             adrenalineModeActive = false;
-            AdrenalineTrail = false;
             vodka = false;
             redWine = false;
             grapeBeer = false;
@@ -2551,6 +2554,8 @@ namespace CalamityMod.CalPlayer
 
             KameiBladeUseDelay = 0;
             brimlashBusterBoost = false;
+            AdrenalineTrail = false;
+            ascendantTrail = false;
             evilSmasherBoost = 0;
             hellbornBoost = 0;
             searedPanCounter = 0;
