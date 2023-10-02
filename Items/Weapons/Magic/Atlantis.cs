@@ -1,6 +1,8 @@
 ﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,5 +35,27 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<AtlantisSpear>();
             Item.shootSpeed = 32f;
         }      
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            if (Main.zenithWorld)
+            {
+                bool devourer = DownedBossSystem.downedDoG;
+                float damageMult = 1f + (devourer ? (418f / 70f - 1f) : 0f);
+                damage *= damageMult;
+            }
+        }
+        public override float UseSpeedMultiplier(Player player) => (DownedBossSystem.downedDoG && Main.zenithWorld) ? 2.5f : 1f;
+        
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            bool devourer = DownedBossSystem.downedDoG;
+            string line = this.GetLocalizedValue("TooltipNormal");
+            if (Main.zenithWorld && devourer)
+                line = this.GetLocalizedValue("TooltipGFBDoG");
+            else if (Main.zenithWorld)
+                line = this.GetLocalizedValue("TooltipGFB");
+            list.FindAndReplace("[GFB]", line);
+        }
     }
 }

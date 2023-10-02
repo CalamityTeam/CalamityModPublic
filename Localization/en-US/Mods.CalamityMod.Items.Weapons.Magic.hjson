@@ -111,7 +111,10 @@ AstralStaff: {
 
 Atlantis: {
 	DisplayName: Atlantis
-	Tooltip: Casts aquatic spears that split as they travel
+	Tooltip: "[GFB]"
+	TooltipNormal: Casts aquatic spears that split as they travel
+	TooltipGFB: A cosmic serpent prevents this weapon's true potential from shining...
+	TooltipGFBDoG: Take good care of my weapon, or else... -CIT
 }
 
 AuguroftheElements: {
