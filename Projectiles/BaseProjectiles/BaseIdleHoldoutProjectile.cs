@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public sealed override void AI()
         {
             CheckForEveryHoldout(Owner);
-            if (Owner.ActiveItem().type != AssociatedItemID || Owner.CCed || !Owner.active || Owner.dead)
+            if (Owner.ActiveItem().type != AssociatedItemID || Owner.CCed || !Owner.active || Owner.dead || Owner.Calamity().profanedCrystalBuffs)
             {
                 Projectile.Kill();
                 return;
