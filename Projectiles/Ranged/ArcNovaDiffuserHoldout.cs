@@ -174,10 +174,14 @@ namespace CalamityMod.Projectiles.Ranged
                         SparkParticle spark2 = new SparkParticle((tipPosition -Projectile.velocity * 4) + Main.rand.NextVector2Circular(12, 12), -Projectile.velocity * Main.rand.NextFloat(16.1f, 30.8f), false, Main.rand.Next(2, 7), Main.rand.NextFloat(particleScale / 350f, particleScale / 270f), Main.rand.NextBool(4) ? Color.Chartreuse : Color.Lime);
                         GeneralParticleHandler.SpawnParticle(spark2);
                     }
-                    Particle orb = new GenericBloom(tipPosition, Projectile.velocity, Color.Lime, particleScale / 270f, 2);
+                    Particle orb = new GenericBloom(tipPosition, Projectile.velocity, Color.Lime, particleScale / 270f, 2, false);
                     GeneralParticleHandler.SpawnParticle(orb);
-                    Particle orb2 = new GenericBloom(tipPosition, Projectile.velocity, Color.White, particleScale / 400f, 2);
+                    Particle orb2 = new GenericBloom(tipPosition, Projectile.velocity, Color.White, particleScale / 400f, 2, false);
                     GeneralParticleHandler.SpawnParticle(orb2);
+
+                    float strength = particleScale / 45f;
+                    Vector3 DustLight = new Vector3(0.000f, 0.255f, 0.000f);
+                    Lighting.AddLight(tipPosition, DustLight * strength);
                 }
 
                 // Full charge dusts

@@ -21,12 +21,9 @@ namespace CalamityMod.Dusts
             }
             if (!dust.noLight)
             {
-                float strength = dust.scale * 1.4f;
-                if (strength > 1f)
-                {
-                    strength = 1f;
-                }
-                Lighting.AddLight(dust.position, 1.43f * strength, 1.88f * strength, 1.43f * strength);
+                float strength = dust.scale * 1.8f;
+                Vector3 DustLight = new Vector3(0.149f, 0.245f, 0.195f);
+                Lighting.AddLight(dust.position, DustLight * strength);
             }
             return true;
         }

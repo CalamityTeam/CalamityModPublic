@@ -39,14 +39,18 @@ namespace CalamityMod.Projectiles.Ranged
             Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(-3, 3), 107);
             dust.noGravity = true;
             dust.scale = 1.2f;
-            if (Main.rand.NextBool())
+            if (Time < 120)
             {
-                Vector2 trailPos = Projectile.Center + Main.rand.NextVector2Circular(10, 10);
-                float trailScale = Main.rand.NextFloat(0.8f, 1.2f);
-                Color trailColor = Main.rand.NextBool(3) ? Color.Chartreuse : Color.Lime;
-                Particle Trail = new SparkParticle(trailPos, Projectile.velocity * 0.2f, false, 60, trailScale, trailColor);
-                GeneralParticleHandler.SpawnParticle(Trail);
+                if (Main.rand.NextBool())
+                {
+                    Vector2 trailPos = Projectile.Center + Main.rand.NextVector2Circular(10, 10);
+                    float trailScale = Main.rand.NextFloat(0.8f, 1.2f);
+                    Color trailColor = Main.rand.NextBool(3) ? Color.Chartreuse : Color.Lime;
+                    Particle Trail = new SparkParticle(trailPos, Projectile.velocity * 0.2f, false, 60, trailScale, trailColor);
+                    GeneralParticleHandler.SpawnParticle(Trail);
+                }
             }
+            
 
         }
         public override bool PreDraw(ref Color lightColor)
