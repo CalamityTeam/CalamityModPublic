@@ -25,8 +25,6 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().voidOfCalamity;
-
         public override void AddRecipes()
         {
             CreateRecipe().
