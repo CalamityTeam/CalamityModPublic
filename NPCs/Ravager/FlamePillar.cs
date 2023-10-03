@@ -123,9 +123,15 @@ namespace CalamityMod.NPCs.Ravager
                             int damage = NPC.GetProjectileDamage(type);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                         }
+
                         NPC.ai[2] += 1f;
                         NPC.localAI[0] = 0f;
+
                         NPC.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (NPC.netSpam >= 10)
+                            NPC.netSpam = 9;
                     }
                 }
                 else

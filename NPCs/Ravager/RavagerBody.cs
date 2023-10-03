@@ -825,7 +825,12 @@ namespace CalamityMod.NPCs.Ravager
                 if (Vector2.Distance(NPC.Center, player.Center) > distanceFromTarget)
                 {
                     NPC.active = false;
+
                     NPC.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (NPC.netSpam >= 10)
+                        NPC.netSpam = 9;
                 }
             }
         }

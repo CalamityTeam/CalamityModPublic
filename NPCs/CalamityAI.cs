@@ -5006,7 +5006,12 @@ namespace CalamityMod.NPCs
                         npc.ai[0] = 0f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
+
                         npc.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (npc.netSpam >= 10)
+                            npc.netSpam = 9;
                     }
 
                     return;
@@ -5079,7 +5084,12 @@ namespace CalamityMod.NPCs
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.SyncExtraAI();
+
                         npc.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (npc.netSpam >= 10)
+                            npc.netSpam = 9;
                     }
                 }
                 else
@@ -5120,7 +5130,12 @@ namespace CalamityMod.NPCs
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.SyncExtraAI();
+
                         npc.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (npc.netSpam >= 10)
+                            npc.netSpam = 9;
                     }
                 }
 
@@ -5372,6 +5387,11 @@ namespace CalamityMod.NPCs
                     }
 
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
+
                     npc.SyncExtraAI();
                 }
             }
@@ -5394,7 +5414,13 @@ namespace CalamityMod.NPCs
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
+
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
+
                     npc.SyncExtraAI();
                 }
 
@@ -5415,7 +5441,13 @@ namespace CalamityMod.NPCs
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
+
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
+
                     npc.SyncExtraAI();
                 }
 
@@ -5450,7 +5482,13 @@ namespace CalamityMod.NPCs
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
+
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
+
                     npc.SyncExtraAI();
                 }
             }
@@ -5478,7 +5516,13 @@ namespace CalamityMod.NPCs
                 {
                     npc.ai[0] = 3.1f;
                     npc.ai[1] = 0f;
+
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
+
                     npc.SyncExtraAI();
                 }
 
@@ -5523,7 +5567,13 @@ namespace CalamityMod.NPCs
 
                     npc.ai[0] = 3.2f;
                     npc.ai[1] = npc.direction;
+
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
+
                     npc.SyncExtraAI();
                 }
             }
@@ -5543,7 +5593,12 @@ namespace CalamityMod.NPCs
                         npc.ai[0] = 0f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
+
                         npc.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (npc.netSpam >= 10)
+                            npc.netSpam = 9;
                     }
                     else if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance + 200f)
                     {
@@ -5551,7 +5606,12 @@ namespace CalamityMod.NPCs
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
+
                         npc.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (npc.netSpam >= 10)
+                            npc.netSpam = 9;
                     }
                 }
 
@@ -5578,7 +5638,12 @@ namespace CalamityMod.NPCs
                     if (npc.Distance(player.Center) < 600f || npc.ai[2] >= 180f)
                     {
                         npc.ai[1] = 1f;
+
                         npc.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (npc.netSpam >= 10)
+                            npc.netSpam = 9;
                     }
                 }
                 else
@@ -5633,6 +5698,10 @@ namespace CalamityMod.NPCs
                                 NPC.NewNPC(npc.GetSource_FromAI(), (int)vector7.X, (int)vector7.Y, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI);
 
                             npc.netUpdate = true;
+
+                            // Prevent netUpdate from being blocked by the spam counter.
+                            if (npc.netSpam >= 10)
+                                npc.netSpam = 9;
                         }
                     }
 
@@ -5645,7 +5714,12 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.TargetClosest();
+
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
                 }
             }
 
@@ -5668,8 +5742,14 @@ namespace CalamityMod.NPCs
                         float ai0 = (phase3 ? 2f : 0f) + (enrageScale - 1f);
                         if (ai0 > 3f)
                             ai0 = 3f;
+
                         Projectile.NewProjectile(npc.GetSource_FromAI(), vector7.X, vector7.Y, 0f, 0f, ModContent.ProjectileType<BirbAuraFlare>(), 0, 0f, Main.myPlayer, ai0, npc.target + 1);
+
                         npc.netUpdate = true;
+
+                        // Prevent netUpdate from being blocked by the spam counter.
+                        if (npc.netSpam >= 10)
+                            npc.netSpam = 9;
                     }
 
                     if (Main.zenithWorld)
@@ -5697,7 +5777,12 @@ namespace CalamityMod.NPCs
                 {
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
+
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
                 }
             }
         }
@@ -5712,9 +5797,7 @@ namespace CalamityMod.NPCs
             if (Vector2.Distance(player.Center, npc.Center) > 5600f)
             {
                 if (npc.timeLeft > 5)
-                {
                     npc.timeLeft = 5;
-                }
             }
 
             npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
@@ -5743,17 +5826,13 @@ namespace CalamityMod.NPCs
                 npc.TargetClosest(true);
                 Vector2 vector240 = Main.player[npc.target].Center - npc.Center;
                 if (Main.player[npc.target].dead || vector240.Length() > (bossMinion ? 5600f : 2800f))
-                {
                     npc.ai[0] = -1f;
-                }
             }
             else
             {
                 Vector2 vector241 = Main.player[npc.target].Center - npc.Center;
                 if (npc.ai[0] > 1f && vector241.Length() > 3600f)
-                {
                     npc.ai[0] = 1f;
-                }
             }
 
             if (npc.ai[0] == -1f)
@@ -5767,6 +5846,7 @@ namespace CalamityMod.NPCs
             {
                 npc.TargetClosest(true);
                 npc.spriteDirection = npc.direction;
+
                 Vector2 value44 = Main.player[npc.target].Center - npc.Center;
                 if (value44.Length() > 2800f)
                 {
@@ -5786,13 +5866,10 @@ namespace CalamityMod.NPCs
                         npc.velocity *= 1.15f;
                 }
                 else if (npc.velocity.Length() > 2f)
-                {
                     npc.velocity *= 0.95f;
-                }
                 else if (npc.velocity.Length() < 1f)
-                {
                     npc.velocity *= 1.05f;
-                }
+
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= (bossMinion ? 90f : 105f))
                 {
@@ -5805,19 +5882,16 @@ namespace CalamityMod.NPCs
                 if (npc.ai[0] == 1f)
                 {
                     if (npc.target < 0 || !Main.player[npc.target].active || Main.player[npc.target].dead)
-                    {
                         npc.TargetClosest(true);
-                    }
+
                     if (npc.velocity.X < 0f)
-                    {
                         npc.direction = -1;
-                    }
                     else if (npc.velocity.X > 0f)
-                    {
                         npc.direction = 1;
-                    }
+
                     npc.spriteDirection = npc.direction;
                     npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt) / 10f;
+
                     Vector2 value45 = Main.player[npc.target].Center - npc.Center;
                     if (value45.Length() < 800f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
                     {
@@ -5826,6 +5900,7 @@ namespace CalamityMod.NPCs
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
                     }
+
                     npc.ai[2] += 0.0166666675f;
                     float scaleFactor21 = (bossMinion ? 12f : 9f) + npc.ai[2] + value45.Length() / 150f;
                     float num1378 = 25f;
@@ -5837,23 +5912,20 @@ namespace CalamityMod.NPCs
 
                     npc.netSpam = 5;
                     if (Main.netMode == NetmodeID.Server)
-                    {
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                    }
+
                     return;
                 }
                 if (npc.ai[0] == 2f)
                 {
                     if (npc.velocity.X < 0f)
-                    {
                         npc.direction = -1;
-                    }
                     else if (npc.velocity.X > 0f)
-                    {
                         npc.direction = 1;
-                    }
+
                     npc.spriteDirection = npc.direction;
                     npc.rotation = (npc.rotation * rotationMult * 0.75f + npc.velocity.X * rotationAmt * 1.25f) / 8f;
+
                     Vector2 vector242 = Main.player[npc.target].Center - npc.Center;
                     vector242.Y -= 8f;
                     float scaleFactor22 = bossMinion ? 18f : 14f;
@@ -5865,14 +5937,12 @@ namespace CalamityMod.NPCs
                         npc.velocity *= 1.15f;
 
                     if (npc.velocity.X < 0f)
-                    {
                         npc.direction = -1;
-                    }
                     else
-                    {
                         npc.direction = 1;
-                    }
+
                     npc.spriteDirection = npc.direction;
+
                     npc.ai[1] += 1f;
                     if (npc.ai[1] > 10f)
                     {
@@ -5881,13 +5951,10 @@ namespace CalamityMod.NPCs
                             npc.velocity *= 1.15f;
 
                         if (npc.velocity.X < 0f)
-                        {
                             npc.direction = -1;
-                        }
                         else
-                        {
                             npc.direction = 1;
-                        }
+
                         npc.ai[0] = 2.1f;
                         npc.ai[1] = 0f;
                     }
@@ -5895,15 +5962,14 @@ namespace CalamityMod.NPCs
                 else if (npc.ai[0] == 2.1f)
                 {
                     if (npc.velocity.X < 0f)
-                    {
                         npc.direction = -1;
-                    }
                     else if (npc.velocity.X > 0f)
-                    {
                         npc.direction = 1;
-                    }
+
                     npc.spriteDirection = npc.direction;
+
                     npc.velocity *= 1.01f;
+
                     npc.ai[1] += 1f;
                     int num1380 = 30;
                     if (npc.ai[1] > num1380)
@@ -5915,6 +5981,7 @@ namespace CalamityMod.NPCs
                             npc.ai[2] = 0f;
                             return;
                         }
+
                         if (npc.ai[1] > (num1380 * 2))
                         {
                             npc.ai[0] = 1f;
