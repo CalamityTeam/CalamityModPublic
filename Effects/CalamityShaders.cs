@@ -387,7 +387,7 @@ namespace CalamityMod.Effects
             
             #region Loading Amber's Shaders
             PrimitiveClearShader = LoadShader("PrimitiveClearShader");
-            RegisterScreenShader(PrimitiveClearShader, "SightLinePass", "PrimitiveClearShader");
+            RegisterScreenShader(PrimitiveClearShader, "AutoloadPass", "PrimitiveClearShader");
             #endregion
         }
     }
