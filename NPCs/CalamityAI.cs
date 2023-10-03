@@ -7196,6 +7196,9 @@ namespace CalamityMod.NPCs
                 // Phase switch
                 if (calamityGlobalNPC.newAI[1] != 1f)
                 {
+                    // Avoid cheap bullshit
+                    npc.damage = 0;
+
                     npc.ai[2] += 1f;
                     if (npc.ai[2] >= idlePhaseTimer)
                     {

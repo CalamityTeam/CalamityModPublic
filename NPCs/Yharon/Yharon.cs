@@ -470,6 +470,9 @@ namespace CalamityMod.NPCs.Yharon
             // Spawn effects
             if (NPC.ai[0] == -1f)
             {
+                // Avoid cheap bullshit
+                NPC.damage = 0;
+
                 NPC.velocity *= 0.98f;
 
                 int num1467 = Math.Sign(player.Center.X - NPC.Center.X);
@@ -552,6 +555,12 @@ namespace CalamityMod.NPCs.Yharon
                         NPC.rotation += pie;
 
                     NPC.spriteDirection = -NPC.direction;
+                }
+
+                if (phase2Check)
+                {
+                    // Avoid cheap bullshit
+                    NPC.damage = 0;
                 }
 
                 NPC.ai[2] += 1f;
@@ -750,6 +759,9 @@ namespace CalamityMod.NPCs.Yharon
             // Enter new phase
             else if (NPC.ai[0] == 4f)
             {
+                // Avoid cheap bullshit
+                NPC.damage = 0;
+
                 NPC.velocity *= 0.9f;
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
@@ -815,6 +827,12 @@ namespace CalamityMod.NPCs.Yharon
                         NPC.rotation += pie;
 
                     NPC.spriteDirection = -NPC.direction;
+                }
+
+                if (phase3Check)
+                {
+                    // Avoid cheap bullshit
+                    NPC.damage = 0;
                 }
 
                 NPC.ai[2] += 1f;
@@ -1060,6 +1078,9 @@ namespace CalamityMod.NPCs.Yharon
             // Enter new phase
             else if (NPC.ai[0] == 10f)
             {
+                // Avoid cheap bullshit
+                NPC.damage = 0;
+
                 NPC.velocity *= 0.9f;
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
@@ -1161,6 +1182,12 @@ namespace CalamityMod.NPCs.Yharon
                         NPC.rotation += pie;
 
                     NPC.spriteDirection = -NPC.direction;
+                }
+
+                if (phase4Check)
+                {
+                    // Avoid cheap bullshit
+                    NPC.damage = 0;
                 }
 
                 NPC.ai[2] += 1f;
@@ -1417,6 +1444,9 @@ namespace CalamityMod.NPCs.Yharon
             // Enter new phase
             else if (NPC.ai[0] == 17f)
             {
+                // Avoid cheap bullshit
+                NPC.damage = 0;
+
                 NPC.velocity *= 0.9f;
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
@@ -1572,6 +1602,7 @@ namespace CalamityMod.NPCs.Yharon
             }
 
             NPC.dontTakeDamage = false;
+
             bool invincible = invincibilityCounter < Phase2InvincibilityTime;
             if (invincible)
             {
@@ -1584,10 +1615,9 @@ namespace CalamityMod.NPCs.Yharon
                         NPC.netUpdate = true;
                     }
                     else
-                    {
                         NPC.life = NPC.lifeMax;
-                    }
                 }
+
                 NPC.dontTakeDamage = true;
                 phase2 = phase3 = phase4 = false;
                 invincibilityCounter++;
@@ -1652,16 +1682,42 @@ namespace CalamityMod.NPCs.Yharon
                 switch (secondPhasePhase)
                 {
                     case 1:
+
+                        if (phase2)
+                        {
+                            // Avoid cheap bullshit
+                            NPC.damage = 0;
+                        }
+
                         calamityGlobalNPC.DR = phase2 ? (bossRush ? 0.99f : 0.7f) : normalDR;
                         calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase2;
+
                         break;
+
                     case 2:
+
+                        if (phase3)
+                        {
+                            // Avoid cheap bullshit
+                            NPC.damage = 0;
+                        }
+
                         calamityGlobalNPC.DR = phase3 ? (bossRush ? 0.99f : 0.7f) : normalDR;
                         calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase3;
+
                         break;
+
                     case 3:
+
+                        if (phase4)
+                        {
+                            // Avoid cheap bullshit
+                            NPC.damage = 0;
+                        }
+
                         calamityGlobalNPC.DR = phase4 ? (bossRush ? 0.99f : 0.7f) : normalDR;
                         calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase4;
+
                         break;
                 }
 
@@ -2380,6 +2436,9 @@ namespace CalamityMod.NPCs.Yharon
             // Teleport
             else if (NPC.ai[0] == 8f)
             {
+                // Avoid cheap bullshit
+                NPC.damage = 0;
+
                 if (NPC.Opacity > 0f)
                 {
                     NPC.Opacity -= 0.1f;
@@ -2417,6 +2476,9 @@ namespace CalamityMod.NPCs.Yharon
             // Enter new phase
             else if (NPC.ai[0] == 9f)
             {
+                // Avoid cheap bullshit
+                NPC.damage = 0;
+
                 NPC.velocity *= 0.9f;
 
                 Vector2 vector = NPC.SafeDirectionTo(targetData.Center, -Vector2.UnitY);
