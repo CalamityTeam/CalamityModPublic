@@ -103,11 +103,11 @@ namespace CalamityMod.NPCs
 
                 #region Sky / Space
                 // Harpy
-                // Coco's Feather (bird dev item) @ 5%
+                // Coco's Feather (bird dev item) @ 0.1%
                 // Sky Glaze @ 3.33% IF Eye of Cthulhu dead
                 // Essence of Sunlight @ 50% IF Hardmode and not statue spawned
                 case NPCID.Harpy:
-                    npcLoot.Add(ModContent.ItemType<CocosFeather>(), 20);
+                    npcLoot.Add(ModContent.ItemType<CocosFeather>(), 1000);
                     postEoC.Add(ModContent.ItemType<SkyGlaze>(), 30);
                     hardmode.AddIf(() => !npc.SpawnedFromStatue, ModContent.ItemType<EssenceofSunlight>(), 2);
                     break;
