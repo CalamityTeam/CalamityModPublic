@@ -1402,10 +1402,11 @@ namespace CalamityMod.CalPlayer
             if (Player.miscCounter % 100 == 0)
                 canFireBloodflareMageProjectile = true;
             if (Player.miscCounter % 120 == 0)
+                canFireAtaxiaRogueProjectile = true;
+            if (Player.miscCounter % 150 == 0)
             {
                 canFireGodSlayerRangedProjectile = true;
                 canFireBloodflareRangedProjectile = true;
-                canFireAtaxiaRogueProjectile = true;
             }
             if (reaverRegenCooldown < 60 && reaverRegen)
                 reaverRegenCooldown++;
