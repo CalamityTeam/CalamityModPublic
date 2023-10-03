@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnKill(int timeLeft)
         {
-            Projectile.ExpandHitboxBy(32);
+            Projectile.ExpandHitboxBy(34);
             Projectile.maxPenetrate = Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;

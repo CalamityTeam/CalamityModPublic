@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 10;
             Projectile.height = 10;
             Projectile.friendly = true;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;

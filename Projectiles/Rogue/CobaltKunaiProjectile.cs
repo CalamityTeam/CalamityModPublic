@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -11,20 +12,28 @@ namespace CalamityMod.Projectiles.Rogue
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/CobaltKunai";
 
+        public static int Lifetime = 600;
+
         public override void SetDefaults()
         {
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.friendly = true;
             Projectile.penetrate = 3;
-            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
-            Projectile.timeLeft = 600;
-            AIType = ProjectileID.ThrowingKnife;
+            Projectile.timeLeft = Lifetime;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }
 
+        //Throwing Knive code sucks, so doing it manually so I can increase its range
+        public override void AI()
+        {
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+
+            if (Projectile.timeLeft < Lifetime - 25)
+                Projectile.velocity.Y += 0.25f;
+        }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Projectile.penetrate--;
