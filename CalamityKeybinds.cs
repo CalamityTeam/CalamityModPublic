@@ -5,10 +5,10 @@ namespace CalamityMod
     public class CalamityKeybinds : ModSystem
     {
         public static ModKeybind AccessoryParryHotKey { get; private set; }
-        public static ModKeybind AscendantInsigniaHotKey { get; private set; }
         public static ModKeybind AdrenalineHotKey { get; private set; }
         public static ModKeybind AngelicAllianceHotKey { get; private set; }
         public static ModKeybind ArmorSetBonusHotKey { get; private set; }
+        public static ModKeybind AscendantInsigniaHotKey { get; private set; }
         public static ModKeybind BoosterDashHotKey { get; private set; }
         public static ModKeybind DashHotkey { get; private set; }
         public static ModKeybind ExoChairSlowdownHotkey { get; private set; }
@@ -23,10 +23,10 @@ namespace CalamityMod
         {
             // Register keybinds            
             AccessoryParryHotKey = KeybindLoader.RegisterKeybind(Mod, "ActivateAccessoryParry", "N");
-            AscendantInsigniaHotKey = KeybindLoader.RegisterKeybind(Mod, "AscendantInsigniaHotKey", "K");
             AdrenalineHotKey = KeybindLoader.RegisterKeybind(Mod, "AdrenalineMode", "B");
             AngelicAllianceHotKey = KeybindLoader.RegisterKeybind(Mod, "AngelicAllianceBlessing", "G");
             ArmorSetBonusHotKey = KeybindLoader.RegisterKeybind(Mod, "ArmorSetBonus", "Y");
+            AscendantInsigniaHotKey = KeybindLoader.RegisterKeybind(Mod, "AscendantInsigniaHotKey", "K");
             BoosterDashHotKey = KeybindLoader.RegisterKeybind(Mod, "BoosterDash", "Q");
             DashHotkey = KeybindLoader.RegisterKeybind(Mod, "DashDoubleTapOverride", "F");
             ExoChairSlowdownHotkey = KeybindLoader.RegisterKeybind(Mod, "ExoChairSlowDown", "RightShift");
@@ -41,10 +41,10 @@ namespace CalamityMod
         public override void Unload()
         {
             AccessoryParryHotKey = null;
-            AscendantInsigniaHotKey = null;
             AdrenalineHotKey = null;
             AngelicAllianceHotKey = null;
             ArmorSetBonusHotKey = null;
+            AscendantInsigniaHotKey = null;
             BoosterDashHotKey = null;
             DashHotkey = null;
             ExoChairSlowdownHotkey = null;
