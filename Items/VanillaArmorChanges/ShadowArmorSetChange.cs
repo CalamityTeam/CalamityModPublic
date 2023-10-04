@@ -24,8 +24,8 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         private void ApplyAnyPieceEffect(Player player)
         {
-            // Remove the vanilla melee speed buff and replace it with damage
-            player.GetAttackSpeed<MeleeDamageClass>() -= 0.07f;
+            // Remove the vanilla crit chance buff and replace it with damage
+            player.GetCritChance<GenericDamageClass>() -= 0.05f;
             player.GetDamage<GenericDamageClass>() += ArmorPieceDamage;
 
             // Give jump boost
