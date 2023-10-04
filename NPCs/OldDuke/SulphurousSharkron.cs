@@ -45,6 +45,7 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0f;
             NPC.Opacity = 0f;
+            NPC.chaseable = false;
             NPC.noGravity = true;
             NPC.dontTakeDamage = true;
             NPC.noTileCollide = true;
