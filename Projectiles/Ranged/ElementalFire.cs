@@ -75,5 +75,9 @@ namespace CalamityMod.Projectiles.Ranged
             }
             Projectile.rotation += 0.3f * (float)Projectile.direction;
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<ElementalMix>(), 540);
+        }
     }
 }

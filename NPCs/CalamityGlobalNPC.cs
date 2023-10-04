@@ -215,6 +215,7 @@ namespace CalamityMod.NPCs
         public int pearlAura = 0;
         public int bBlood = 0;
         public int brainRot = 0;
+        public int elementalMix = 0;
         public int marked = 0;
         public int absorberAffliction = 0;
         public int irradiated = 0;
@@ -424,6 +425,7 @@ namespace CalamityMod.NPCs
             myClone.pearlAura = pearlAura;
             myClone.bBlood = bBlood;
             myClone.brainRot = brainRot;
+            myClone.elementalMix = elementalMix;
             myClone.marked = marked;
             myClone.absorberAffliction = absorberAffliction;
             myClone.irradiated = irradiated;
@@ -1063,6 +1065,8 @@ namespace CalamityMod.NPCs
                 ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
             if (brainRot > 0)
                 ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
+            if (elementalMix > 0)
+                ApplyDPSDebuff(400, 25, ref npc.lifeRegen, ref damage);
             if (miracleBlight > 0)
                 ApplyDPSDebuff(2500, 500, ref npc.lifeRegen, ref damage);
 
@@ -4170,6 +4174,8 @@ namespace CalamityMod.NPCs
                 bBlood--;
             if (brainRot > 0)
                 brainRot--;
+            if (elementalMix > 0)
+                elementalMix--;
             if (vulnerabilityHex > 0)
                 vulnerabilityHex--;
             if (marked > 0)
@@ -5271,6 +5277,9 @@ namespace CalamityMod.NPCs
 
             if (brainRot > 0)
                 BrainRot.DrawEffects(npc, ref drawColor);
+
+            if (elementalMix > 0)
+                ElementalMix.DrawEffects(npc, ref drawColor);
 
             if (cDepth > 0)
                 CrushDepth.DrawEffects(npc, ref drawColor);
