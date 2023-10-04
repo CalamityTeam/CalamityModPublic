@@ -466,7 +466,10 @@ namespace CalamityMod.CalPlayer
         public bool badgeOfBravery = false;
         public bool warbannerOfTheSun = false;
         public bool cryogenSoul = false;
-        public bool yInsignia = false;
+        public bool ascendantInsignia = false;
+        public int ascendantInsigniaBuffTime = 0;
+        public int ascendantInsigniaCooldown = 0;
+        public bool ascendantTrail = false;
         public bool eGauntlet = false;
         public bool eTalisman = false;
         public int statisTimer = 0;
@@ -876,7 +879,6 @@ namespace CalamityMod.CalPlayer
         public bool PinkJellyRegen = false;
         public bool GreenJellyRegen = false;
         public bool AbsorberRegen = false;
-        public bool shellBoost = false;
         public bool cFreeze = false;
         public bool shine = false;
         public bool anechoicCoating = false;
@@ -1417,8 +1419,11 @@ namespace CalamityMod.CalPlayer
                 KeyValuePair<string, object> kv = tagIterator.Current;
                 string id = kv.Key;
                 TagCompound singleCDTag = cooldownsTag.GetCompound(id);
+
+                // If the cooldown has no registered handler, don't add it. Doing so will cause crashes.
                 CooldownInstance instance = new CooldownInstance(Player, id, singleCDTag);
-                cooldowns.Add(id, instance);
+                if (instance.handler is not null)
+                    cooldowns.Add(id, instance);
             }
         }
         #endregion
@@ -1622,7 +1627,8 @@ namespace CalamityMod.CalPlayer
             nanotech = false;
             deadshotBrooch = false;
             cryogenSoul = false;
-            yInsignia = false;
+            ascendantInsignia = false;
+            ascendantTrail = false;
             eGauntlet = false;
             eTalisman = false;
             nucleogenesis = false;
@@ -1913,7 +1919,6 @@ namespace CalamityMod.CalPlayer
             PinkJellyRegen = false;
             GreenJellyRegen = false;
             AbsorberRegen = false;
-            shellBoost = false;
             cFreeze = false;
             tRegen = false;
             polarisBoost = false;
@@ -2368,12 +2373,10 @@ namespace CalamityMod.CalPlayer
             GreenJellyRegen = false;
             AbsorberRegen = false;
             enraged = false;
-            shellBoost = false;
             cFreeze = false;
             tRegen = false;
             rageModeActive = false;
             adrenalineModeActive = false;
-            AdrenalineTrail = false;
             vodka = false;
             redWine = false;
             grapeBeer = false;
@@ -2551,6 +2554,8 @@ namespace CalamityMod.CalPlayer
 
             KameiBladeUseDelay = 0;
             brimlashBusterBoost = false;
+            AdrenalineTrail = false;
+            ascendantTrail = false;
             evilSmasherBoost = 0;
             hellbornBoost = 0;
             searedPanCounter = 0;

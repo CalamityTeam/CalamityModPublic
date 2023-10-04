@@ -7,17 +7,17 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer.DrawLayers
 {
-    public class CobaltSetTrailLayer : PlayerDrawLayer
+    public class AscendantTrailLayer : PlayerDrawLayer
     {
         public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.LastVanillaLayer);
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;
-            if (drawInfo.shadow != 0f || drawPlayer.dead || drawPlayer.Calamity().AdrenalineTrail || drawPlayer.Calamity().ascendantTrail)
+            if (drawInfo.shadow != 0f || drawPlayer.dead || drawPlayer.Calamity().AdrenalineTrail)
                 return false;
 
-            return drawPlayer.Calamity().CobaltSet;
+            return drawPlayer.Calamity().ascendantTrail;
         }
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
@@ -25,18 +25,17 @@ namespace CalamityMod.CalPlayer.DrawLayers
             Player drawPlayer = drawInfo.drawPlayer;
             List<DrawData> existingDrawData = drawInfo.DrawDataCache;
             float movementSpeedInterpolant = CobaltArmorSetChange.CalculateMovementSpeedInterpolant(drawPlayer);
-            for (int i = 0; i < drawPlayer.Calamity().OldPositions.Length; i++)
+            for (float i = 0f; i < drawPlayer.Calamity().OldPositions.Length; i += 1.2f)
             {
                 float completionRatio = i / (float)drawPlayer.Calamity().OldPositions.Length;
-                float scale = MathHelper.Lerp(1f, 0.5f, completionRatio);
-                float opacity = MathHelper.Lerp(0.23f, 0.07f, completionRatio) * movementSpeedInterpolant;
+                float scale = MathHelper.Lerp(1f, 0.7f, completionRatio);
+                float opacity = MathHelper.Lerp(0.18f, 0.06f, completionRatio) * movementSpeedInterpolant;
                 List<DrawData> afterimages = new List<DrawData>();
                 for (int j = 0; j < existingDrawData.Count; j++)
                 {
                     var drawData = existingDrawData[j];
                     drawData.position = existingDrawData[j].position - drawPlayer.position + drawPlayer.oldPosition;
-                    drawData.color = new Color(100, 164, 219) * opacity;
-					drawData.color.B = (byte)(drawData.color.B * 1.4);
+                    drawData.color = new Color(248, 223, 105) * opacity;
                     drawData.scale = new Vector2(scale);
                     afterimages.Add(drawData);
                 }

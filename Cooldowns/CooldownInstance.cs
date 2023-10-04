@@ -35,10 +35,19 @@ namespace CalamityMod.Cooldowns
         internal CooldownInstance(Player p, string id, TagCompound tag)
         {
             netID = (ushort)tag.GetAsInt(NetIDSaveKey);
+            Cooldown cd = CooldownRegistry.Get(id);
+
+            // It is possible this cooldown does not exist. If this occurs, log it, even though it will be (mostly) harmless.
+            if (cd is null)
+            {
+                CalamityMod.Instance.Logger.Warn($"Cooldown \"{id}\" loaded from NBT, but was not found. This cooldown will not be applied to the player.");
+                return;
+            }
+
             // Correct for netID mismatch if for some reason this occurs.
             // The string ID of the cooldown overrides whatever the netID may have been saved as.
-            Cooldown cd = CooldownRegistry.Get(id);
             ushort registeredNetID = cd.netID;
+
             if (netID != registeredNetID)
             {
                 // Log when this occurs, even though it should be harmless.
