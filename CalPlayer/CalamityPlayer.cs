@@ -1419,8 +1419,11 @@ namespace CalamityMod.CalPlayer
                 KeyValuePair<string, object> kv = tagIterator.Current;
                 string id = kv.Key;
                 TagCompound singleCDTag = cooldownsTag.GetCompound(id);
+
+                // If the cooldown has no registered handler, don't add it. Doing so will cause crashes.
                 CooldownInstance instance = new CooldownInstance(Player, id, singleCDTag);
-                cooldowns.Add(id, instance);
+                if (instance.handler is not null)
+                    cooldowns.Add(id, instance);
             }
         }
         #endregion
