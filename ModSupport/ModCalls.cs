@@ -6,6 +6,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.Events;
 using CalamityMod.ExtraJumps;
 using CalamityMod.Items;
+using CalamityMod.NPCs;
 using CalamityMod.Particles;
 using CalamityMod.Particles.Metaballs;
 using CalamityMod.Systems;
@@ -14,6 +15,7 @@ using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.UI.DraedonSummoning;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -1650,6 +1652,8 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Calamity AI
+
         public static float[] GetCalamityAI(NPC npc) => npc?.Calamity()?.newAI ?? new float[0];
 
         public static void SetCalamityAI(NPC npc, int aiSlot, float value)
@@ -1659,6 +1663,7 @@ namespace CalamityMod
                 npc.Calamity().newAI[aiSlot] = value;
             }
         }
+        #endregion
 
         #region Boss Health Bars
         public static bool BossHealthBarVisible() => Main.LocalPlayer.Calamity().drawBossHPBar;
@@ -1790,6 +1795,16 @@ namespace CalamityMod
 
         public static bool GetSummonerNerfDisabledByMinion(int type) => CalamityLists.DisabledSummonerNerfMinions.Contains(type);
         public static bool GetSummonerNerfDisabledByItem(int type) => CalamityLists.DisabledSummonerNerfItems.Contains(type);
+        #endregion
+
+        #region Debuff Display support
+        public static void RegisterDebuff(Texture2D texture, Predicate<NPC> debuffCheck)
+        {
+            if (!CalamityGlobalNPC.debuffTextureList.Contains((texture, debuffCheck)))
+            {
+                CalamityGlobalNPC.debuffTextureList.Add((texture, debuffCheck));
+            }
+        }
         #endregion
 
         #region Call
@@ -2787,6 +2802,18 @@ namespace CalamityMod
                     if (args[1] is not int itemType)
                         return new ArgumentException("ERROR: Must specify a valid item type as an int index of the item.");
                     return AddToVeneratedLocketBanlist(itemType);
+
+                case "RegisterDebuff":
+                case "AddToDebuffDisplay":
+                case "AddDebuffDisplay":
+                case "DisplayDebuff":
+                case "DebuffIcon":
+                    if (args.Length < 2 || args[1] is not Texture2D texture)
+                        return new ArgumentException("ERROR: The first argument to \"RegisterDebuff\" must be the texture of a debuff as a Texture2D");
+                    if (args.Length != 3 || args[2] is not Predicate<NPC> debuffCheck)
+                        return new ArgumentException("ERROR: The second argument to \"RegisterDebuff\" Must be a Predicate<NPC> that checks if an NPC meets the conditions for the debuff.");
+                    RegisterDebuff(texture, debuffCheck);
+                    return null;
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");
