@@ -828,11 +828,6 @@ ReaverRage: {
 	Description: You are angry
 }
 
-ShellBoost: {
-	DisplayName: Shell Speed Boost
-	Description: Speed is boosted
-}
-
 SilvaRevival: {
 	DisplayName: Silva Immunity
 	Description: You are unkillable and immune to most debuffs

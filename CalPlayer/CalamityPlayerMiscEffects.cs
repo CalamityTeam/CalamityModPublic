@@ -2802,9 +2802,6 @@ namespace CalamityMod.CalPlayer
                 Player.findTreasure = true;
             }
 
-            if (shellBoost)
-                Player.moveSpeed += 0.3f;
-
             if (tarraSet)
             {
                 if (!tarraMelee)

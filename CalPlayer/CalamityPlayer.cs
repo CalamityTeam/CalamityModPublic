@@ -879,7 +879,6 @@ namespace CalamityMod.CalPlayer
         public bool PinkJellyRegen = false;
         public bool GreenJellyRegen = false;
         public bool AbsorberRegen = false;
-        public bool shellBoost = false;
         public bool cFreeze = false;
         public bool shine = false;
         public bool anechoicCoating = false;
@@ -1917,7 +1916,6 @@ namespace CalamityMod.CalPlayer
             PinkJellyRegen = false;
             GreenJellyRegen = false;
             AbsorberRegen = false;
-            shellBoost = false;
             cFreeze = false;
             tRegen = false;
             polarisBoost = false;
@@ -2372,7 +2370,6 @@ namespace CalamityMod.CalPlayer
             GreenJellyRegen = false;
             AbsorberRegen = false;
             enraged = false;
-            shellBoost = false;
             cFreeze = false;
             tRegen = false;
             rageModeActive = false;
