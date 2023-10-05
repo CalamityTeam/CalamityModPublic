@@ -80,6 +80,7 @@ namespace CalamityMod.NPCs
         private static readonly string[] ClothierNames =
         {
             "Joeseph Jostar",
+            "Storm Havik", //<@!1013452363178197072> (fishnotduck)
         };
         private static readonly string[] CyborgNames =
         {
