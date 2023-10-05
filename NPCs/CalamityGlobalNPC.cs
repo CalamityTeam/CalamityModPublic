@@ -1066,7 +1066,7 @@ namespace CalamityMod.NPCs
             if (brainRot > 0)
                 ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
             if (elementalMix > 0)
-                ApplyDPSDebuff(400, 25, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(400, 80, ref npc.lifeRegen, ref damage);
             if (miracleBlight > 0)
                 ApplyDPSDebuff(2500, 500, ref npc.lifeRegen, ref damage);
 
@@ -5278,14 +5278,14 @@ namespace CalamityMod.NPCs
             if (brainRot > 0)
                 BrainRot.DrawEffects(npc, ref drawColor);
 
-            if (elementalMix > 0)
-                ElementalMix.DrawEffects(npc, ref drawColor);
-
             if (cDepth > 0)
                 CrushDepth.DrawEffects(npc, ref drawColor);
 
             if (dragonFire > 0)
                 Dragonfire.DrawEffects(npc, ref drawColor);
+
+            if (elementalMix > 0)
+                ElementalMix.DrawEffects(npc, ref drawColor);
 
             // Eutrophication and Temporal Sadness share the same visual effects
             if (eutrophication > 0 || tSad > 0)
@@ -5438,6 +5438,7 @@ namespace CalamityMod.NPCs
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/CrushDepth").Value, NPC => NPC.Calamity().cDepth > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/RiptideDebuff").Value, NPC => NPC.Calamity().rTide > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Dragonfire").Value, NPC => NPC.Calamity().dragonFire > 0),
+            (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/ElementalMix").Value, NPC => NPC.Calamity().elementalMix > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/MiracleBlight").Value, NPC => NPC.Calamity().miracleBlight > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno").Value, NPC => NPC.Calamity().gsInferno > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/HolyFlames").Value, NPC => NPC.Calamity().hFlames > 0),
