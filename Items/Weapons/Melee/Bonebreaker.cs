@@ -9,13 +9,13 @@ namespace CalamityMod.Items.Weapons.Melee
     public class Bonebreaker : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public const int BaseDamage = 60;
+        public const int BaseDamage = 45;
 
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useAnimation = 15;
-            Item.useTime = 15;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
             Item.width = 32;
             Item.height = 32;
             Item.damage = BaseDamage;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<BonebreakerProjectile>();
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()
