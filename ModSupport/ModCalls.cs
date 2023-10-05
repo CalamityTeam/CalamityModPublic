@@ -1807,6 +1807,16 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Town NPC Alert support
+        public static void RegisterTownNPCShop(int id, Predicate<Player> getShop, Action<Player, bool> setShop)
+        {
+            if (!CalamityGlobalNPC.npcAlertList.Contains((id, getShop, setShop)))
+            {
+                CalamityGlobalNPC.npcAlertList.Add((id, getShop, setShop));
+            }
+        }
+        #endregion
+
         #region Call
 
         public static object Call(params object[] args)
@@ -2808,12 +2818,43 @@ namespace CalamityMod
                 case "AddDebuffDisplay":
                 case "DisplayDebuff":
                 case "DebuffIcon":
-                    if (args.Length < 2 || args[1] is not Texture2D texture)
-                        return new ArgumentException("ERROR: The first argument to \"RegisterDebuff\" must be the texture of a debuff as a Texture2D");
-                    if (args.Length != 3 || args[2] is not Predicate<NPC> debuffCheck)
-                        return new ArgumentException("ERROR: The second argument to \"RegisterDebuff\" Must be a Predicate<NPC> that checks if an NPC meets the conditions for the debuff.");
-                    RegisterDebuff(texture, debuffCheck);
-                    return null;
+                    {
+                        if (args.Length < 2 || args[1] is not Texture2D texture)
+                            return new ArgumentException("ERROR: The first argument to \"RegisterDebuff\" must be the texture of a debuff as a Texture2D");
+                        if (args.Length != 3 || args[2] is not Predicate<NPC> debuffCheck)
+                            return new ArgumentException("ERROR: The second argument to \"RegisterDebuff\" Must be a Predicate<NPC> that checks if an NPC meets the conditions for the debuff.");
+                        RegisterDebuff(texture, debuffCheck);
+                        return null;
+                    }
+
+                case "RegisterNPCShop":
+                case "RegisterShop":
+                case "RegisterTownNPCShop":
+                case "AddNPCShop":
+                case "AddShop":
+                case "AddTownNPCShop":
+                    {
+                        if (args.Length < 2 || args[1] is not int npc)
+                            return new ArgumentException("ERROR: The first argument to \"RegisterTownNPCShop\" must be the id of the NPC");
+                        if (args.Length < 3 || args[2] is not Predicate<Player> shopCheck)
+                            return new ArgumentException("ERROR: The second argument to \"RegisterTownNPCShop\" Must be a Predicate<Player> that checks if the new shop variable bool is true or not.");
+                        if (args.Length != 4 || args[3] is not Action<Player, bool> shopSet)
+                            return new ArgumentException("ERROR: The third argument to \"RegisterTownNPCShop\" Must be a Action<Player, bool> that is able to get and set the player's shop variable bool.");
+                        RegisterTownNPCShop(npc, shopCheck, shopSet);
+                        return null;
+                    }
+
+                case "SetNewShopVariable":
+                case "SendNPCShopAlert":
+                case "SendNPCAlert":
+                    {
+                        if (args.Length < 2 || args[1] is not int[] npcs)
+                            return new ArgumentException("ERROR: The first argument to \"SetNewShopVariable\" must be an integer array of npc ids that should be alerted.");
+                        if (args.Length != 3 || args[2] is not bool alreadySet)
+                            return new ArgumentException("ERROR: The third argument to \"SetNewShopVariable\" Must be a bool that determines if the shop alert should show.");
+                        CalamityGlobalNPC.SetNewShopVariable(npcs, alreadySet);
+                        return null;
+                    }
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");

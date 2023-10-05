@@ -185,7 +185,6 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                Main.LocalPlayer.Calamity().newAmidiasInventory = false;
                 shopName = "Shop";
             }
             else

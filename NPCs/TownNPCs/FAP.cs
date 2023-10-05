@@ -290,7 +290,6 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                Main.LocalPlayer.Calamity().newCirrusInventory = false;
                 shopName = "Shop";
             }
             else
