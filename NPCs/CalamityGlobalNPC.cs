@@ -5646,7 +5646,11 @@ namespace CalamityMod.NPCs
                 else
                     VulnerabilityHexFireDrawer = null;
 
-                if (npc.Calamity().miracleBlight > 0)
+                // Miracle Blight will not attempt to use its shader on bosses from other mods. It still works on vanilla bosses.
+                bool otherModBoss = npc.IsABoss() && npc.ModNPC.Mod is not null && npc.ModNPC.Mod != CalamityMod.Instance;
+                // Setting the NPC immune to Miracle Blight also makes the shader immediately disappear.
+                bool useMiracleBlightShader = !npc.buffImmune[BuffType<MiracleBlight>()] && !otherModBoss;
+                if (useMiracleBlightShader && npc.Calamity().miracleBlight > 0)
                 {
                     // this is horrible but I can't figure out a better way to do it
                     Main.spriteBatch.End();
