@@ -126,6 +126,7 @@ namespace CalamityMod.Items
                 { ItemID.IceBoomerang, Do(UseExact(25), ShootSpeedExact(9)) },
                 { ItemID.IceRod, Do(UseExact(6), DamageExact(30), ShootSpeedExact(20)) },
                 { ItemID.IceSickle, Do(AutoReuse, UseMeleeSpeed, DamageExact(75), ShootSpeedExact(20f)) },
+                { ItemID.ImpStaff, Do(AutoReuse, UseExact(30), DamageExact(25)) },
                 { ItemID.InfernoFork, Do(DamageRatio(1.2f)) },
                 { ItemID.InfluxWaver, Do(UseMeleeSpeed, DamageExact(80), UseExact(25)) },
                 { ItemID.IronShortsword, Do(AutoReuse, TrueMelee, DamageExact(10)) },
@@ -469,7 +470,6 @@ namespace CalamityMod.Items
                 { ItemID.FireWhip, autoReuse }, // Firecracker
                 { ItemID.FlinxStaff, Do(AutoReuse, UseExact(35)) },
                 { ItemID.HornetStaff, Do(AutoReuse, UseExact(30)) },
-                { ItemID.ImpStaff, Do(AutoReuse, UseExact(30)) },
                 { ItemID.MaceWhip, autoReuse }, // Morning Star
                 { ItemID.MoonlordTurretStaff, Do(UseExact(15)) }, // Lunar Portal Staff
                 { ItemID.OpticStaff, Do(AutoReuse, UseExact(25)) },
