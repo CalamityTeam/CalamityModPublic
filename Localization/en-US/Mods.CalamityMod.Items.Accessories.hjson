@@ -638,7 +638,7 @@ ElementalGauntlet: {
 	DisplayName: Elemental Gauntlet
 	Tooltip:
 		'''
-		Melee attacks and projectiles inflict Hellfire
+		Melee attacks and projectiles inflict Elemental Mix
 		15% increased melee speed, damage, and 5% increased melee critical strike chance
 		20% increased true melee damage
 		Increased melee knockback

@@ -249,7 +249,6 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                Main.LocalPlayer.Calamity().newBanditInventory = false;
                 shopName = "Shop";
             }
             else

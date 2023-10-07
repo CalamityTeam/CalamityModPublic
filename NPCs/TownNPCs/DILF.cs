@@ -132,7 +132,6 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                Main.LocalPlayer.Calamity().newPermafrostInventory = false;
                 shopName = "Shop";
             }
         }

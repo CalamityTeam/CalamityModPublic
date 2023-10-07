@@ -233,6 +233,9 @@ namespace CalamityMod.CalPlayer
             if (calamityPlayer.dragonFire && drawInfo.shadow == 0f)
                 Dragonfire.DrawEffects(drawInfo);
 
+            if (calamityPlayer.elementalMix && drawInfo.shadow == 0f)
+                ElementalMix.DrawEffects(drawInfo);
+
             if (calamityPlayer.eutrophication && drawInfo.shadow == 0f)
                 Eutrophication.DrawEffects(drawInfo);
 

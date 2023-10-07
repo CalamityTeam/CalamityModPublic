@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -57,6 +58,10 @@ namespace CalamityMod.Projectiles.Magic
             DrawBeamWithColor(Color.Lerp(new Color(254, 126, 229), Color.Transparent, 0.35f), Projectile.scale * 0.6f);
             DrawBeamWithColor(Color.Lerp(new Color(254, 190, 243), Color.Transparent, 0.35f), Projectile.scale * 0.6f);
             return false;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<ElementalMix>(), 30);
         }
     }
 }

@@ -215,6 +215,7 @@ namespace CalamityMod.NPCs
         public int pearlAura = 0;
         public int bBlood = 0;
         public int brainRot = 0;
+        public int elementalMix = 0;
         public int marked = 0;
         public int absorberAffliction = 0;
         public int irradiated = 0;
@@ -424,6 +425,7 @@ namespace CalamityMod.NPCs
             myClone.pearlAura = pearlAura;
             myClone.bBlood = bBlood;
             myClone.brainRot = brainRot;
+            myClone.elementalMix = elementalMix;
             myClone.marked = marked;
             myClone.absorberAffliction = absorberAffliction;
             myClone.irradiated = irradiated;
@@ -1063,6 +1065,8 @@ namespace CalamityMod.NPCs
                 ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
             if (brainRot > 0)
                 ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
+            if (elementalMix > 0)
+                ApplyDPSDebuff(400, 80, ref npc.lifeRegen, ref damage);
             if (miracleBlight > 0)
                 ApplyDPSDebuff(2500, 500, ref npc.lifeRegen, ref damage);
 
@@ -4170,6 +4174,8 @@ namespace CalamityMod.NPCs
                 bBlood--;
             if (brainRot > 0)
                 brainRot--;
+            if (elementalMix > 0)
+                elementalMix--;
             if (vulnerabilityHex > 0)
                 vulnerabilityHex--;
             if (marked > 0)
@@ -5278,6 +5284,9 @@ namespace CalamityMod.NPCs
             if (dragonFire > 0)
                 Dragonfire.DrawEffects(npc, ref drawColor);
 
+            if (elementalMix > 0)
+                ElementalMix.DrawEffects(npc, ref drawColor);
+
             // Eutrophication and Temporal Sadness share the same visual effects
             if (eutrophication > 0 || tSad > 0)
                 Eutrophication.DrawEffects(npc, ref drawColor);
@@ -5421,19 +5430,22 @@ namespace CalamityMod.NPCs
 
         public static List<(Texture2D, Predicate<NPC>)> debuffTextureList = new List<(Texture2D, Predicate<NPC>)>
         {
+            // All Calamity DoTs in alphabetical order
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/AstralInfectionDebuff").Value, NPC => NPC.Calamity().astralInfection > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BanishingFire").Value, NPC => NPC.Calamity().banishingFire > 0),
+            (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BrainRot").Value, NPC => NPC.Calamity().brainRot > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BrimstoneFlames").Value, NPC => NPC.Calamity().bFlames > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BurningBlood").Value, NPC => NPC.Calamity().bBlood > 0),
-            (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BrainRot").Value, NPC => NPC.Calamity().brainRot > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/CrushDepth").Value, NPC => NPC.Calamity().cDepth > 0),
-            (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/RiptideDebuff").Value, NPC => NPC.Calamity().rTide > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Dragonfire").Value, NPC => NPC.Calamity().dragonFire > 0),
-            (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/MiracleBlight").Value, NPC => NPC.Calamity().miracleBlight > 0),
+            (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/ElementalMix").Value, NPC => NPC.Calamity().elementalMix > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno").Value, NPC => NPC.Calamity().gsInferno > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/HolyFlames").Value, NPC => NPC.Calamity().hFlames > 0),
+            (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/MiracleBlight").Value, NPC => NPC.Calamity().miracleBlight > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Nightwither").Value, NPC => NPC.Calamity().nightwither > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Plague").Value, NPC => NPC.Calamity().pFlames > 0),
+            (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/RancorBurn").Value, NPC => NPC.Calamity().RancorBurnTime > 0),
+            (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/RiptideDebuff").Value, NPC => NPC.Calamity().rTide > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SagePoison").Value, NPC => NPC.Calamity().sagePoisonTime > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/ShellfishClaps").Value, NPC => NPC.Calamity().shellfishVore > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Shred").Value, NPC => NPC.Calamity().somaShredStacks > 0),
@@ -5441,51 +5453,54 @@ namespace CalamityMod.NPCs
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SulphuricPoisoning").Value, NPC => NPC.Calamity().sulphurPoison > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Vaporfied").Value, NPC => NPC.Calamity().vaporfied > 0),
             (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/VulnerabilityHex").Value, NPC => NPC.Calamity().vulnerabilityHex > 0),
+
+            // All other important Calamity debuffs, in alphabetical order
+            (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/AbsorberAffliction").Value, NPC => NPC.Calamity().absorberAffliction > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/ArmorCrunch").Value, NPC => NPC.Calamity().aCrunch > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Crumbling").Value, NPC => NPC.Calamity().crumble > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Eutrophication").Value, NPC => NPC.Calamity().eutrophication > 0),
+            (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/GalvanicCorrosion").Value, NPC => NPC.Calamity().tesla > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/GlacialState").Value, NPC => NPC.Calamity().gState > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Irradiated").Value, NPC => NPC.Calamity().irradiated > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/KamiFlu").Value, NPC => NPC.Calamity().kamiFlu > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/MarkedforDeath").Value, NPC => NPC.Calamity().marked > 0),
-            (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/AbsorberAffliction").Value, NPC => NPC.Calamity().absorberAffliction > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/PearlAura").Value, NPC => NPC.Calamity().pearlAura > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/ProfanedWeakness").Value, NPC => NPC.Calamity().relicOfResilienceWeakness > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TemporalSadness").Value, NPC => NPC.Calamity().tSad > 0),
-            (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/GalvanicCorrosion").Value, NPC => NPC.Calamity().tesla > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TimeDistortion").Value, NPC => NPC.Calamity().timeSlow > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WhisperingDeath").Value, NPC => NPC.Calamity().wDeath > 0),
             (Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WitherDebuff").Value, NPC => NPC.Calamity().wither > 0),
-            (Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/RancorBurn").Value, NPC => NPC.Calamity().RancorBurnTime > 0),
-            (TextureAssets.Buff[BuffID.Electrified].Value, NPC => NPC.Calamity().electrified > 0),
-            (TextureAssets.Buff[BuffID.OnFire].Value, NPC => NPC.onFire),
-            (TextureAssets.Buff[BuffID.Poisoned].Value, NPC => NPC.poisoned),
-            (TextureAssets.Buff[BuffID.CursedInferno].Value, NPC => NPC.onFire2),
-            (TextureAssets.Buff[BuffID.Frostburn].Value, NPC => NPC.onFrostBurn),
-            (TextureAssets.Buff[BuffID.Venom].Value, NPC => NPC.venom),
-            (TextureAssets.Buff[BuffID.ShadowFlame].Value, NPC => NPC.shadowFlame),
-            (TextureAssets.Buff[BuffID.Oiled].Value, NPC => NPC.oiled),
-            (TextureAssets.Buff[BuffID.BoneJavelin].Value, NPC => NPC.javelined),
-            (TextureAssets.Buff[BuffID.Daybreak].Value, NPC => NPC.daybreak),
-            (TextureAssets.Buff[BuffID.StardustMinionBleed].Value, NPC => NPC.celled),
-            (TextureAssets.Buff[BuffID.OnFire3].Value, NPC => NPC.onFire3),
-            (TextureAssets.Buff[BuffID.DryadsWardDebuff].Value, NPC => NPC.dryadBane),
-            (TextureAssets.Buff[BuffID.DryadsWard].Value, NPC => NPC.dryadWard),
-            (TextureAssets.Buff[BuffID.SoulDrain].Value, NPC => NPC.soulDrain && NPC.realLife == -1),
-            (TextureAssets.Buff[BuffID.Frostburn2].Value, NPC => NPC.onFrostBurn2),
-            (TextureAssets.Buff[BuffID.TentacleSpike].Value, NPC => NPC.tentacleSpiked),
-            (TextureAssets.Buff[BuffID.Confused].Value, NPC => NPC.confused),
-            (TextureAssets.Buff[BuffID.Ichor].Value, NPC => NPC.ichor),
-            (TextureAssets.Buff[BuffID.Slow].Value, NPC => NPC.Calamity().slowed > 0),
-            (TextureAssets.Buff[BuffID.Webbed].Value, NPC => NPC.Calamity().webbed > 0),
-            (TextureAssets.Buff[BuffID.Midas].Value, NPC => NPC.midas),
-            (TextureAssets.Buff[BuffID.Lovestruck].Value, NPC => NPC.loveStruck),
-            (TextureAssets.Buff[BuffID.Stinky].Value, NPC => NPC.stinky),
+
+            // Vanilla debuffs, in alphabetical order
             (TextureAssets.Buff[BuffID.BetsysCurse].Value, NPC => NPC.betsysCurse),
-            (TextureAssets.Buff[BuffID.Wet].Value, NPC => NPC.dripping),
-            (TextureAssets.Buff[BuffID.Slimed].Value, NPC => NPC.drippingSlime),
+            (TextureAssets.Buff[BuffID.BoneJavelin].Value, NPC => NPC.javelined),
+            (TextureAssets.Buff[BuffID.Confused].Value, NPC => NPC.confused),
+            (TextureAssets.Buff[BuffID.CursedInferno].Value, NPC => NPC.onFire2),
+            (TextureAssets.Buff[BuffID.Daybreak].Value, NPC => NPC.daybreak),
+            (TextureAssets.Buff[BuffID.DryadsWard].Value, NPC => NPC.dryadWard),
+            (TextureAssets.Buff[BuffID.DryadsWardDebuff].Value, NPC => NPC.dryadBane),
+            (TextureAssets.Buff[BuffID.Electrified].Value, NPC => NPC.Calamity().electrified > 0),
+            (TextureAssets.Buff[BuffID.Frostburn].Value, NPC => NPC.onFrostBurn),
+            (TextureAssets.Buff[BuffID.Frostburn2].Value, NPC => NPC.onFrostBurn2),
             (TextureAssets.Buff[BuffID.GelBalloonBuff].Value, NPC => NPC.drippingSparkleSlime),
+            (TextureAssets.Buff[BuffID.Ichor].Value, NPC => NPC.ichor),
+            (TextureAssets.Buff[BuffID.Lovestruck].Value, NPC => NPC.loveStruck),
+            (TextureAssets.Buff[BuffID.Midas].Value, NPC => NPC.midas),
+            (TextureAssets.Buff[BuffID.Oiled].Value, NPC => NPC.oiled),
+            (TextureAssets.Buff[BuffID.OnFire].Value, NPC => NPC.onFire),
+            (TextureAssets.Buff[BuffID.OnFire3].Value, NPC => NPC.onFire3),
+            (TextureAssets.Buff[BuffID.Poisoned].Value, NPC => NPC.poisoned),
             (TextureAssets.Buff[BuffID.ScytheWhipEnemyDebuff].Value, NPC => NPC.markedByScytheWhip),
+            (TextureAssets.Buff[BuffID.ShadowFlame].Value, NPC => NPC.shadowFlame),
+            (TextureAssets.Buff[BuffID.Slimed].Value, NPC => NPC.drippingSlime),
+            (TextureAssets.Buff[BuffID.Slow].Value, NPC => NPC.Calamity().slowed > 0),
+            (TextureAssets.Buff[BuffID.SoulDrain].Value, NPC => NPC.soulDrain && NPC.realLife == -1),
+            (TextureAssets.Buff[BuffID.StardustMinionBleed].Value, NPC => NPC.celled),
+            (TextureAssets.Buff[BuffID.Stinky].Value, NPC => NPC.stinky),
+            (TextureAssets.Buff[BuffID.TentacleSpike].Value, NPC => NPC.tentacleSpiked),
+            (TextureAssets.Buff[BuffID.Venom].Value, NPC => NPC.venom),
+            (TextureAssets.Buff[BuffID.Webbed].Value, NPC => NPC.Calamity().webbed > 0),
+            (TextureAssets.Buff[BuffID.Wet].Value, NPC => NPC.dripping),
         };
 
         public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -5631,7 +5646,12 @@ namespace CalamityMod.NPCs
                 else
                     VulnerabilityHexFireDrawer = null;
 
-                if (npc.Calamity().miracleBlight > 0)
+                // Miracle Blight will not attempt to use its shader on bosses from other mods. It still works on vanilla bosses.
+                Mod sourceMod = npc.ModNPC?.Mod ?? null;
+                bool otherModBoss = npc.IsABoss() && sourceMod != CalamityMod.Instance;
+                // Setting the NPC immune to Miracle Blight also makes the shader immediately disappear.
+                bool useMiracleBlightShader = !npc.buffImmune[BuffType<MiracleBlight>()] && !otherModBoss;
+                if (useMiracleBlightShader && npc.Calamity().miracleBlight > 0)
                 {
                     // this is horrible but I can't figure out a better way to do it
                     Main.spriteBatch.End();

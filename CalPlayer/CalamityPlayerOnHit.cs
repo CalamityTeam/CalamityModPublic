@@ -933,11 +933,10 @@ namespace CalamityMod.CalPlayer
         {
             if (melee && !noFlask) // Prevents Deep Sea Dumbell from snagging true melee debuff memes
             {
-                //Give Elemental Gauntlet a propper debuff when it's rethemed and non elemental, I'd rather not give it "return of elemental mix"
-                //if (eGauntlet)
-                //{
-                    //CalamityUtils.Inflict246DebuffsNPC(target, BuffID.FuckshitterFlames);
-                //}
+                if (eGauntlet)
+                {
+                    CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<ElementalMix>());
+                }
                 if (cryogenSoul)
                 {
                     CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn);

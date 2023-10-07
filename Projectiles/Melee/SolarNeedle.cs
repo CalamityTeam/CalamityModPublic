@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 
 namespace CalamityMod.Projectiles.Melee
@@ -137,6 +138,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            target.AddBuff(ModContent.BuffType<ElementalMix>(), 60);
             Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : Projectile.Center + Projectile.rotation.ToRotationVector2() * 60f;
             for (int i = 0; i < 10; i++)
             {

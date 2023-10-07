@@ -135,7 +135,6 @@ namespace CalamityMod.NPCs.TownNPCs
             if (firstButton)
             {
                 Main.playerInventory = true;
-                Main.LocalPlayer.Calamity().newCalamitasInventory = false;
                 CalamitasEnchantUI.NPCIndex = NPC.whoAmI;
                 CalamitasEnchantUI.CurrentlyViewing = true;
 
