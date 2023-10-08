@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Leviathan
         {
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
             value.Position.X += 25;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }

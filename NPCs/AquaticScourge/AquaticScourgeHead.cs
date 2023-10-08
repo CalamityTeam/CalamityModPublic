@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void SetStaticDefaults()
         {
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.6f,
                 PortraitScale = 0.6f,
@@ -96,8 +96,10 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[Type], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
             {
+                new BossBestiaryInfoElement(),
 				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.AquaticScourge")
             });
         }

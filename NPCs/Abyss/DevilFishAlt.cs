@@ -23,12 +23,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 16;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
-            {
-                PortraitPositionXOverride = 5f
-            };
-            value.Position.X += 30f;
-            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+            this.HideFromBestiary();
         }
 
         public override void SetDefaults()
@@ -47,21 +42,13 @@ namespace CalamityMod.NPCs.Abyss
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0.85f;
-            Banner = NPC.type;
+            Banner = ModContent.NPCType<DevilFish>();
             BannerItem = ModContent.ItemType<DevilFishBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<AbyssLayer3Biome>().Type };
-        }
-
-        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
-            {
-				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.DevilFishAlt")
-            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

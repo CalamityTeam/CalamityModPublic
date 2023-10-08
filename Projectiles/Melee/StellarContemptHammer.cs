@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Melee
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f};
         public static readonly SoundStyle RedHamSound = new("CalamityMod/Sounds/Item/StellarContemptClone") { Volume = 0.6f };
         public static readonly SoundStyle UseSoundFunny = new("CalamityMod/Sounds/Item/CalamityBell") { Volume = 1.5f};
-        private static float StartDustQuantity = 26f;
 
         public ref int EmpoweredHammer => ref Main.player[Projectile.owner].Calamity().StellarHammer; 
         public int returnhammer = 0;

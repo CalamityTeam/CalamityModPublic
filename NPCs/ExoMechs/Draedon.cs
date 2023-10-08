@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.ExoMechs
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 12;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 PortraitPositionYOverride = 40f,
                 Scale = 0.7f,

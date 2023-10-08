@@ -93,7 +93,7 @@ namespace CalamityMod.NPCs.HiveMind
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.TrailCacheLength[NPC.type] = NPC.oldPos.Length;
             NPCID.Sets.BossBestiaryPriority.Add(Type); 
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.4f,
                 PortraitPositionYOverride = 3f

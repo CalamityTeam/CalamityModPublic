@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Melee
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.35f };
         public static readonly SoundStyle RedHamSound = new("CalamityMod/Sounds/Item/GalaxySmasherClone") { Volume = 0.6f };
         public static readonly SoundStyle UseSoundFunny = new("CalamityMod/Sounds/Item/CalamityBell") { Volume = 1.5f };
-        private static float StartDustQuantity = 26f;
         public ref int EmpoweredHammer => ref Main.player[Projectile.owner].Calamity().GalaxyHammer;
         public int returnhammer = 0;
         public float rotatehammer = 10f;
@@ -242,7 +241,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 returnhammer = 1;
             }
-            if (PulseCooldown >= 15);
+            if (PulseCooldown >= 15)
             { 
                 Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Violet, new Vector2(0.5f, 0.5f), Main.rand.NextFloat(12f, 25f), 0.2f, 1.4f + (EmpoweredHammer * 0.1f), 14);
                 GeneralParticleHandler.SpawnParticle(pulse);

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Placeables
         // We may decide to change this sooner or later. But for now, the only essential value to override is style for generic enemy banners.
         public virtual int BannerTileID => ModContent.TileType<MonsterBanner>();
         public virtual int BannerTileStyle => 0;
+        public virtual int BannerKillRequirement => ItemID.Sets.DefaultKillsForBannerNeeded;
 
         // Associated Modded NPC
         public virtual int BonusNPCID => MonsterBanner.GetBannerNPC(BannerTileStyle);
@@ -22,6 +23,7 @@ namespace CalamityMod.Items.Placeables
         public override LocalizedText DisplayName => CalamityUtils.GetText($"{LocalizationCategory}.FormattedBannerName").WithFormatArgs(NPCName.ToString());
         public override LocalizedText Tooltip => CalamityUtils.GetText($"{LocalizationCategory}.FormattedBannerTooltip").WithFormatArgs(NPCName.ToString());
 
+        public override void SetStaticDefaults() => ItemID.Sets.KillsToBanner[Type] = BannerKillRequirement;
         public override void SetDefaults()
         {
             Item.DefaultToPlaceableTile(BannerTileID, BannerTileStyle);
