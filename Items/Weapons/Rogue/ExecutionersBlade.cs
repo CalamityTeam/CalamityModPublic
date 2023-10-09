@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ExecutionersBlade : RogueWeapon
     {
-        private int counter = 0;
-
         public override void SetDefaults()
         {
             Item.width = 64;

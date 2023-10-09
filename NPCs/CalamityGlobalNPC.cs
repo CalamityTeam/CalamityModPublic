@@ -997,7 +997,7 @@ namespace CalamityMod.NPCs
             // Sage Poison
             if (sagePoisonTime > 0)
             {
-                // npc.Calamity().sagePoisonDamage = 20 * (float)(Math.Pow(totalSageSpirits, 0.73D) + Math.Pow(totalSageSpirits, 1.1D)) * 0.5f
+                // npc.Calamity().sagePoisonDamage = 50 * (float)(Math.Pow(totalSageSpirits, 0.73D) + Math.Pow(totalSageSpirits, 1.1D)) * 0.5f
                 // See SageNeedle.cs for details
                 int baseSagePoisonDoTValue = (int)(npc.Calamity().sagePoisonDamage * sicknessDamageMult);
                 ApplyDPSDebuff(baseSagePoisonDoTValue, baseSagePoisonDoTValue / 5, ref npc.lifeRegen, ref damage);
@@ -5647,7 +5647,8 @@ namespace CalamityMod.NPCs
                     VulnerabilityHexFireDrawer = null;
 
                 // Miracle Blight will not attempt to use its shader on bosses from other mods. It still works on vanilla bosses.
-                bool otherModBoss = npc.IsABoss() && npc.ModNPC.Mod is not null && npc.ModNPC.Mod != CalamityMod.Instance;
+                Mod sourceMod = npc.ModNPC?.Mod ?? null;
+                bool otherModBoss = npc.IsABoss() && sourceMod != CalamityMod.Instance;
                 // Setting the NPC immune to Miracle Blight also makes the shader immediately disappear.
                 bool useMiracleBlightShader = !npc.buffImmune[BuffType<MiracleBlight>()] && !otherModBoss;
                 if (useMiracleBlightShader && npc.Calamity().miracleBlight > 0)

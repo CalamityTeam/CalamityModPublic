@@ -1669,6 +1669,9 @@ namespace CalamityMod
         public static bool BossHealthBarVisible() => Main.LocalPlayer.Calamity().drawBossHPBar;
 
         public static bool SetBossHealthBarVisible(bool visible) => Main.LocalPlayer.Calamity().drawBossHPBar = visible;
+
+        public static bool GetShouldCloseBossHealthBar(NPC npc) => npc?.Calamity()?.ShouldCloseHPBar ?? false;
+        public static void SetShouldCloseBossHealthBar(NPC npc, bool enabled) => npc.Calamity().ShouldCloseHPBar = enabled;
         #endregion
 
         #region Dodge Disabling
@@ -2529,6 +2532,30 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a bool.");
                     return SetBossHealthBarVisible(bossBarEnabled);
 
+                case "SetShouldCloseBossHealthBar":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an NPC and whether or not the NPC's health bar should be closed as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify whether or not the NPC's health bar should be closed as a bool.");
+                        if (!(args[2] is float) && !(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetShouldCloseBossHealthBar\" must be a bool.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetShouldCloseBossHealthBar\" must be an NPC.");
+
+                        SetShouldCloseBossHealthBar(castNPC(args[1]), (bool)args[2]);
+                        return null;
+                    }
+
+                case "GetShouldCloseBossHealthbar":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetShouldCloseBossHealthBar\" must be an NPC.");
+                        return GetShouldCloseBossHealthBar(castNPC(args[1]));
+                    }
+
                 case "CanFirePointBlank":
                 case "CanFirePointBlankShots":
                     if (args.Length < 2)
@@ -2855,6 +2882,12 @@ namespace CalamityMod
                         CalamityGlobalNPC.SetNewShopVariable(npcs, alreadySet);
                         return null;
                     }
+
+                case "BossHealthBoost":
+                case "GetBossHealthBoost":
+                case "BossHealthMultiplier":
+                case "GetBossHealthMultiplier":
+                    return CalamityConfig.Instance.BossHealthBoost;
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");

@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Healing
     {
         public new string LocalizationCategory => "Projectiles.Healing";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-        private static float Radius = 160f;
         public int ShinkGrow = 0;
         public int Framecounter = 0;
         public int PulseOnce = 1;

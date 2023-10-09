@@ -10,11 +10,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 {
     public class SeaUrchin : ModNPC
     {
-        public override void SetStaticDefaults()
-        {
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
-        }
-
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
