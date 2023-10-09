@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
+using CalamityMod.Items.Placeables.Ores;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -18,9 +19,9 @@ namespace CalamityMod.Items.Accessories
         {
             Item.width = 46;
             Item.height = 52;
-            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.accessory = true;
-            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,8 +35,9 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.EmpressFlightBooster).
-                AddIngredient<CoreofSunlight>(5).
-                AddIngredient<DivineGeode>(5).
+                AddIngredient<Lumenyl>(5).
+                AddIngredient<ExodiumCluster>(12).
+                AddIngredient<RuinousSoul>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

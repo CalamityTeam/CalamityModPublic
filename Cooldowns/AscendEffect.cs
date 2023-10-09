@@ -13,8 +13,8 @@ namespace CalamityMod.Cooldowns
         public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/AscendEffect";
         public override Color OutlineColor => new Color(50, 50, 50);
-        public override Color CooldownStartColor => new Color(228, 97, 7);
-        public override Color CooldownEndColor => new Color(248, 233, 94);
+        public override Color CooldownStartColor => new Color(37, 116, 166);
+        public override Color CooldownEndColor => new Color(155, 228, 232);
 
         public override SoundStyle? EndSound => new("CalamityMod/Sounds/Item/AscendantOff");
     }
