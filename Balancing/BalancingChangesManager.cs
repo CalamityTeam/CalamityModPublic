@@ -160,8 +160,8 @@ namespace CalamityMod.Balancing
             #endregion
 
             #region Empress of Light
-            // 30% resist to Plague Tainted SMG's drones.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.HallowBoss, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<PlagueTaintedDrone>()))));
+            // 20% resist to Plague Tainted SMG's drones.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.HallowBoss, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<PlagueTaintedDrone>()))));
             #endregion
 
             #region Lunatic Cultist
