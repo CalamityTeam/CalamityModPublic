@@ -573,7 +573,7 @@ namespace CalamityMod
             }
         }
 
-        public static void ExplodeandDestroyTiles(Projectile projectile, int explosionRadius, bool checkExplosions, List<int> tilesToCheck, List<int> wallsToCheck)
+        public static void ExplodeandDestroyTiles(this Projectile projectile, int explosionRadius, bool checkExplosions, List<int> tilesToCheck, List<int> wallsToCheck)
         {
             int minTileX = (int)projectile.position.X / 16 - explosionRadius;
             int maxTileX = (int)projectile.position.X / 16 + explosionRadius;

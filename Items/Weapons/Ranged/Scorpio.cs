@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetStaticDefaults()
         {
-                       ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 6.5f;
             Item.value = CalamityGlobalItem.Rarity10BuyPrice;
             Item.rare = ItemRarityID.Red;
-            Item.UseSound = null;
+            Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
             Item.shootSpeed = 20f;
             Item.shoot = ModContent.ProjectileType<MiniRocket>();
@@ -38,35 +38,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-20, 10);
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
-        {
-            return base.CanUseItem(player);
-        }
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? 0.3333f : 1f;
 
-        public override float UseSpeedMultiplier(Player player)
-        {
-            if (player.altFunctionUse == 2)
-                return 1 / 3f;
-            return 1f;
-        }
+        // Figure out which rocket is used
+        public int RocketType;
+        public override void OnConsumeAmmo(Item ammo, Player player) => RocketType = ammo.type;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
-            {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BigNuke>(), (int)(damage * 1.85), knockback * 2f, player.whoAmI);
-                return false;
-            }
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<BigNuke>(), (int)(damage * 1.85), knockback * 2f, player.whoAmI, RocketType);
             else
-            {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<MiniRocket>(), damage, knockback, player.whoAmI);
-                return false;
-            }
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MiniRocket>(), damage, knockback, player.whoAmI, RocketType);
+
+            return false;
         }
 
         public override void AddRecipes()

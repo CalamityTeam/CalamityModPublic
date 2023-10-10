@@ -32,6 +32,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
+        // Figure out which rocket is used
+        public int RocketType;
+        public override void OnConsumeAmmo(Item ammo, Player player) => RocketType = ammo.type;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int rocket = Utils.SelectRandom(Main.rand, new int[]
@@ -41,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 ModContent.ProjectileType<HiveBomb>(),
                 ModContent.ProjectileType<BeeRPG>()
             });
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, rocket, damage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position, velocity, rocket, damage, knockback, player.whoAmI, RocketType);
             return false;
         }
     }

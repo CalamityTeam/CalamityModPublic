@@ -232,16 +232,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         private void DestroyTiles()
         {
-            CalamityUtils.ExplodeandDestroyTiles(Projectile, 5, false, new List<int>()
-            {
-                ModContent.TileType<AbyssGravel>(),
-                ModContent.TileType<Voidstone>()
-            },
-            new List<int>()
-            {
-                ModContent.WallType<AbyssGravelWall>(),
-                ModContent.WallType<VoidstoneWallUnsafe>()
-            });
+            Projectile.ExplodeandDestroyTiles(5, true, new List<int>(), new List<int>());
         }
     }
 }
