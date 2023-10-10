@@ -549,6 +549,7 @@ GaelsGreatsword: {
 		Swings leave behind exploding blood trails when below 50% health
 		Occasionally summons a barrage of lightning bolts when below 50% health
 		Replaces Rage Mode with an enormous barrage of skulls
+		This attack has a 30 second cooldown
 		'Hand it over, that thing. Your dark soul'
 		'''
 }

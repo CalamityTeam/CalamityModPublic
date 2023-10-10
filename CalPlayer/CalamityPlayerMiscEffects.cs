@@ -1347,8 +1347,6 @@ namespace CalamityMod.CalPlayer
                 xerocDmg = 0f;
             if (hideOfDeusMeleeBoostTimer > 0)
                 hideOfDeusMeleeBoostTimer--;
-            if (gaelRageAttackCooldown > 0)
-                gaelRageAttackCooldown--;
             if (evolutionLifeRegenCounter > 0)
                 evolutionLifeRegenCounter--;
             if (hurtSoundTimer > 0)

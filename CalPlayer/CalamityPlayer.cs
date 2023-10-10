@@ -183,7 +183,6 @@ namespace CalamityMod.CalPlayer
         public int PHAThammer = 0;
         public int StellarHammer = 0;
         public int GalaxyHammer = 0;
-        public int gaelRageAttackCooldown = 0;
         public int hideOfDeusMeleeBoostTimer = 0;
         public int nebulaManaNerfCounter = 0;
         public int alcoholPoisonLevel = 0;
@@ -2205,7 +2204,6 @@ namespace CalamityMod.CalPlayer
             justHitByDefenseDamage = false;
             defenseDamageToTake = 0;
             heldGaelsLastFrame = false;
-            gaelRageAttackCooldown = 0;
             gaelSwipes = 0;
             andromedaState = AndromedaPlayerState.Inactive;
             planarSpeedBoost = 0;
@@ -3001,7 +2999,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityKeybinds.RageHotKey.JustPressed)
             {
                 // Gael's Greatsword replaces Rage Mode with an uber skull attack
-                if (gaelRageAttackCooldown == 0 && Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && rage > 0f)
+                if (!(Player.HasCooldown(Cooldowns.GaelsRage.ID)) && Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && rage > 0f)
                 {
                     SoundEngine.PlaySound(SilvaHeadSummon.DispelSound, Player.Center);
 
@@ -3040,7 +3038,7 @@ namespace CalamityMod.CalPlayer
 
                     // Remove all rage when the special attack is used, and apply the cooldown.
                     rage = 0f;
-                    gaelRageAttackCooldown = CalamityUtils.SecondsToFrames(GaelsGreatsword.SkullsplosionCooldownSeconds);
+                    Player.AddCooldown(Cooldowns.GaelsRage.ID, 1800);
                 }
 
                 // Activating Rage Mode
