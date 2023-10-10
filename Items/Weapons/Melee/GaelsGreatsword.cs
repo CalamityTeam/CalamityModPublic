@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Melee
         // Weapon projectile attribute constants
         public static readonly int SearchDistance = 1450;
         public static readonly int ImmunityFrames = 10;
-        public static readonly int SkullsplosionCooldownSeconds = 30;
 
         // Skull ring attribute constants
         public static readonly float SkullsplosionDamageMultiplier = 1.5f;
