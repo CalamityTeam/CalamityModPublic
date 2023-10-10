@@ -232,14 +232,13 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 {
                                     NPC.TargetClosest();
                                     SoundEngine.PlaySound(SoundID.Item12, player.Center);
-                                    float maxProjectileVelocity = bossRush ? 5.25f : death ? 4.75f : revenge ? 4.625f : expertMode ? 4.5f : 4.25f;
+                                    float maxProjectileVelocity = bossRush ? 20f : death ? 16f : revenge ? 14.25f : expertMode ? 13.5f : 12f;
                                     float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                     float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
                                     Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
                                     int type = ModContent.ProjectileType<DoGDeath>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocityVector, type, damage, 0f, Main.myPlayer);
-                                    Main.projectile[proj].timeLeft = 1800;
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocityVector, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -258,14 +257,13 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 NPC.TargetClosest();
                                 SoundEngine.PlaySound(SoundID.Item12, player.Center);
                                 NPC.localAI[0] = 0f;
-                                float maxProjectileVelocity = bossRush ? 5f : death ? 4.5f : revenge ? 4.375f : expertMode ? 4.25f : 4f;
+                                float maxProjectileVelocity = bossRush ? 18f : death ? 14f : revenge ? 12.25f : expertMode ? 11.5f : 10f;
                                 float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                 float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
                                 Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
                                 int type = ModContent.ProjectileType<DoGDeath>();
                                 int damage = NPC.GetProjectileDamage(type);
-                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocityVector, type, damage, 0f, Main.myPlayer);
-                                Main.projectile[proj].timeLeft = 1800;
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocityVector, type, damage, 0f, Main.myPlayer);
                             }
                         }
                     }

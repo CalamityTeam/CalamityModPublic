@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         }
 
         // Laser velocity
-        private const float laserVelocity = 2.333f;
+        private const float laserVelocity = 14f;
 
         // Phase 1 variables
 
