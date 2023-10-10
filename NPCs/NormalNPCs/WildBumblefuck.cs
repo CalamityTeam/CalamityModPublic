@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             Main.npcFrameCount[NPC.type] = 5;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Position = Vector2.UnitX * 36f
             };

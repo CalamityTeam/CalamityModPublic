@@ -1669,6 +1669,9 @@ namespace CalamityMod
         public static bool BossHealthBarVisible() => Main.LocalPlayer.Calamity().drawBossHPBar;
 
         public static bool SetBossHealthBarVisible(bool visible) => Main.LocalPlayer.Calamity().drawBossHPBar = visible;
+
+        public static bool GetShouldCloseBossHealthBar(NPC npc) => npc?.Calamity()?.ShouldCloseHPBar ?? false;
+        public static void SetShouldCloseBossHealthBar(NPC npc, bool enabled) => npc.Calamity().ShouldCloseHPBar = enabled;
         #endregion
 
         #region Dodge Disabling
@@ -1803,6 +1806,16 @@ namespace CalamityMod
             if (!CalamityGlobalNPC.debuffTextureList.Contains((texture, debuffCheck)))
             {
                 CalamityGlobalNPC.debuffTextureList.Add((texture, debuffCheck));
+            }
+        }
+        #endregion
+
+        #region Town NPC Alert support
+        public static void RegisterTownNPCShop(int id, Predicate<Player> getShop, Action<Player, bool> setShop)
+        {
+            if (!CalamityGlobalNPC.npcAlertList.Contains((id, getShop, setShop)))
+            {
+                CalamityGlobalNPC.npcAlertList.Add((id, getShop, setShop));
             }
         }
         #endregion
@@ -2519,6 +2532,30 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a bool.");
                     return SetBossHealthBarVisible(bossBarEnabled);
 
+                case "SetShouldCloseBossHealthBar":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an NPC and whether or not the NPC's health bar should be closed as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify whether or not the NPC's health bar should be closed as a bool.");
+                        if (!(args[2] is float) && !(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetShouldCloseBossHealthBar\" must be a bool.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetShouldCloseBossHealthBar\" must be an NPC.");
+
+                        SetShouldCloseBossHealthBar(castNPC(args[1]), (bool)args[2]);
+                        return null;
+                    }
+
+                case "GetShouldCloseBossHealthbar":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetShouldCloseBossHealthBar\" must be an NPC.");
+                        return GetShouldCloseBossHealthBar(castNPC(args[1]));
+                    }
+
                 case "CanFirePointBlank":
                 case "CanFirePointBlankShots":
                     if (args.Length < 2)
@@ -2808,12 +2845,49 @@ namespace CalamityMod
                 case "AddDebuffDisplay":
                 case "DisplayDebuff":
                 case "DebuffIcon":
-                    if (args.Length < 2 || args[1] is not Texture2D texture)
-                        return new ArgumentException("ERROR: The first argument to \"RegisterDebuff\" must be the texture of a debuff as a Texture2D");
-                    if (args.Length != 3 || args[2] is not Predicate<NPC> debuffCheck)
-                        return new ArgumentException("ERROR: The second argument to \"RegisterDebuff\" Must be a Predicate<NPC> that checks if an NPC meets the conditions for the debuff.");
-                    RegisterDebuff(texture, debuffCheck);
-                    return null;
+                    {
+                        if (args.Length < 2 || args[1] is not Texture2D texture)
+                            return new ArgumentException("ERROR: The first argument to \"RegisterDebuff\" must be the texture of a debuff as a Texture2D");
+                        if (args.Length != 3 || args[2] is not Predicate<NPC> debuffCheck)
+                            return new ArgumentException("ERROR: The second argument to \"RegisterDebuff\" Must be a Predicate<NPC> that checks if an NPC meets the conditions for the debuff.");
+                        RegisterDebuff(texture, debuffCheck);
+                        return null;
+                    }
+
+                case "RegisterNPCShop":
+                case "RegisterShop":
+                case "RegisterTownNPCShop":
+                case "AddNPCShop":
+                case "AddShop":
+                case "AddTownNPCShop":
+                    {
+                        if (args.Length < 2 || args[1] is not int npc)
+                            return new ArgumentException("ERROR: The first argument to \"RegisterTownNPCShop\" must be the id of the NPC");
+                        if (args.Length < 3 || args[2] is not Predicate<Player> shopCheck)
+                            return new ArgumentException("ERROR: The second argument to \"RegisterTownNPCShop\" Must be a Predicate<Player> that checks if the new shop variable bool is true or not.");
+                        if (args.Length != 4 || args[3] is not Action<Player, bool> shopSet)
+                            return new ArgumentException("ERROR: The third argument to \"RegisterTownNPCShop\" Must be a Action<Player, bool> that is able to get and set the player's shop variable bool.");
+                        RegisterTownNPCShop(npc, shopCheck, shopSet);
+                        return null;
+                    }
+
+                case "SetNewShopVariable":
+                case "SendNPCShopAlert":
+                case "SendNPCAlert":
+                    {
+                        if (args.Length < 2 || args[1] is not int[] npcs)
+                            return new ArgumentException("ERROR: The first argument to \"SetNewShopVariable\" must be an integer array of npc ids that should be alerted.");
+                        if (args.Length != 3 || args[2] is not bool alreadySet)
+                            return new ArgumentException("ERROR: The third argument to \"SetNewShopVariable\" Must be a bool that determines if the shop alert should show.");
+                        CalamityGlobalNPC.SetNewShopVariable(npcs, alreadySet);
+                        return null;
+                    }
+
+                case "BossHealthBoost":
+                case "GetBossHealthBoost":
+                case "BossHealthMultiplier":
+                case "GetBossHealthMultiplier":
+                    return CalamityConfig.Instance.BossHealthBoost;
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");

@@ -72,7 +72,7 @@ AscendantInsignia: {
 		'''
 		Increases wing flight time by 30%
 		Increases movement and jump speed by 10% and acceleration by 1.1x
-		Pressing [KEY] will give you the power of ascension, providing infinite flight time for 5 seconds
+		Pressing [KEY] will give you the power of ascension, providing infinite flight time for 4 seconds
 		Ascension has a 40 second cooldown
 		'''
 }
@@ -638,7 +638,7 @@ ElementalGauntlet: {
 	DisplayName: Elemental Gauntlet
 	Tooltip:
 		'''
-		Melee attacks and projectiles inflict Hellfire
+		Melee attacks and projectiles inflict Elemental Mix
 		15% increased melee speed, damage, and 5% increased melee critical strike chance
 		20% increased true melee damage
 		Increased melee knockback

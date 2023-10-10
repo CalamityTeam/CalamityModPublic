@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 .SetBiomeAffection<BrimstoneCragsBiome>(AffectionLevel.Dislike)
                 .SetNPCAffection(NPCID.Clothier, AffectionLevel.Like)
                 .SetNPCAffection(NPCID.PartyGirl, AffectionLevel.Dislike);
-			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers() {
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
 				Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
 			};
 			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);
@@ -135,7 +135,6 @@ namespace CalamityMod.NPCs.TownNPCs
             if (firstButton)
             {
                 Main.playerInventory = true;
-                Main.LocalPlayer.Calamity().newCalamitasInventory = false;
                 CalamitasEnchantUI.NPCIndex = NPC.whoAmI;
                 CalamitasEnchantUI.CurrentlyViewing = true;
 

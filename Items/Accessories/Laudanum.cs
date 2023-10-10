@@ -8,6 +8,11 @@ namespace CalamityMod.Items.Accessories
     public class Laudanum : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<HeartofDarkness>();
+        }
+
         public override void SetDefaults()
         {
             Item.width = 26;

@@ -1941,6 +1941,8 @@ namespace CalamityMod
             // 02OCT2023: MishiroUsui: The below code resulted in 30 fps drops in sulph sea, and general performance issues across the board in cal biomes
             // DO NOT RE-ENABLE UNTIL THE ISSUE IS RESOLVED AND VERIFIED.
             return;
+            #pragma warning disable CS0162 // Disable unreachable code errors while this code is disabled
+
             Texture2D blendLayer = ModContent.Request<Texture2D>(blendSheetPath).Value;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(x * 16 - Main.screenPosition.X, y * 16 - Main.screenPosition.Y) + zero;
@@ -2299,6 +2301,7 @@ namespace CalamityMod
                 Main.spriteBatch.Draw(blendLayer, drawOffset, new Rectangle?(new Rectangle(18 + randomFrameX36 + subFrameX, 54 + subFrameY, 18, 18)), shadingColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
             #endregion
+            #pragma warning restore CS0162 // Disable unreachable code errors while this code is disabled
         }
 
         /// <summary>

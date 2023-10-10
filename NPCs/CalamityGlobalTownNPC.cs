@@ -18,6 +18,7 @@ using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent;
@@ -80,6 +81,7 @@ namespace CalamityMod.NPCs
         private static readonly string[] ClothierNames =
         {
             "Joeseph Jostar",
+            "Storm Havik", //<@!1013452363178197072> (fishnotduck)
         };
         private static readonly string[] CyborgNames =
         {
@@ -334,13 +336,13 @@ namespace CalamityMod.NPCs
             // PatreonNames can be null, so can global names, it short circuits in the next step if so
             int combinedLength = (patreonNames?.Length ?? 0) + (globalNames?.Length ?? 0);
             int index = Main.rand.Next(numVanillaNames + combinedLength);
-            
+
             // If the roll isn't low enough, then a "vanilla name" was picked, meaning we change nothing.
             if (index >= combinedLength)
                 return currentName;
 
-            
-            
+
+
             // Change the name to be a randomly selected Patreon name if the roll is low enough.
             if (index >= globalNames.Length)
                 return patreonNames[index - globalNames.Length];
@@ -621,120 +623,47 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region NPC New Shop Alert
+
+        public static List<(int, Predicate<Player>, Action<Player, bool>)> npcAlertList = new List<(int, Predicate<Player>, Action<Player, bool>)>()
+        {
+            (NPCID.Merchant, (Player player) => player.Calamity().newMerchantInventory, (Player player, bool enabled) =>{ player.Calamity().newMerchantInventory = enabled; }),
+            (NPCID.Painter, (Player player) => player.Calamity().newPainterInventory,(Player player, bool enabled) =>{ player.Calamity().newPainterInventory = enabled; }),
+            (NPCID.Golfer, (Player player) => player.Calamity().newGolferInventory, (Player player, bool enabled) =>{ player.Calamity().newGolferInventory = enabled; }),
+            (NPCID.BestiaryGirl, (Player player) => player.Calamity().newZoologistInventory,(Player player, bool enabled) =>{ player.Calamity().newZoologistInventory = enabled; }),
+            (NPCID.DyeTrader, (Player player) => player.Calamity().newDyeTraderInventory, (Player player, bool enabled) =>{ player.Calamity().newDyeTraderInventory = enabled; }),
+            (NPCID.PartyGirl, (Player player) => player.Calamity().newPartyGirlInventory,(Player player, bool enabled) =>{ player.Calamity().newPartyGirlInventory = enabled; }),
+            (NPCID.Stylist, (Player player) => player.Calamity().newStylistInventory, (Player player, bool enabled) =>{ player.Calamity().newStylistInventory = enabled; }),
+            (NPCID.Demolitionist, (Player player) => player.Calamity().newDemolitionistInventory, (Player player, bool enabled) =>{ player.Calamity().newDemolitionistInventory = enabled; }),
+            (NPCID.Dryad, (Player player) => player.Calamity().newDryadInventory, (Player player, bool enabled) =>{ player.Calamity().newDryadInventory = enabled; }),
+            (NPCID.DD2Bartender, (Player player) => player.Calamity().newTavernkeepInventory, (Player player, bool enabled) =>{ player.Calamity().newTavernkeepInventory = enabled; }),
+            (NPCID.ArmsDealer, (Player player) => player.Calamity().newArmsDealerInventory, (Player player, bool enabled) =>{ player.Calamity().newArmsDealerInventory = enabled; }),
+            (NPCID.GoblinTinkerer, (Player player) => player.Calamity().newGoblinTinkererInventory,(Player player, bool enabled) =>{ player.Calamity().newGoblinTinkererInventory = enabled; }),
+            (NPCID.WitchDoctor, (Player player) => player.Calamity().newWitchDoctorInventory, (Player player, bool enabled) =>{ player.Calamity().newWitchDoctorInventory = enabled; }),
+            (NPCID.Clothier, (Player player) => player.Calamity().newClothierInventory, (Player player, bool enabled) =>{ player.Calamity().newClothierInventory = enabled; }),
+            (NPCID.Mechanic, (Player player) => player.Calamity().newMechanicInventory, (Player player, bool enabled) =>{ player.Calamity().newMechanicInventory = enabled; }),
+            (NPCID.Pirate, (Player player) => player.Calamity().newPirateInventory, (Player player, bool enabled) =>{ player.Calamity().newPirateInventory = enabled; }),
+            (NPCID.Truffle, (Player player) => player.Calamity().newTruffleInventory,(Player player, bool enabled) =>{ player.Calamity().newTruffleInventory = enabled; }),
+            (NPCID.Wizard, (Player player) => player.Calamity().newWizardInventory, (Player player, bool enabled) =>{ player.Calamity().newWizardInventory = enabled; }),
+            (NPCID.Steampunker, (Player player) => player.Calamity().newSteampunkerInventory, (Player player, bool enabled) =>{ player.Calamity().newSteampunkerInventory = enabled; }),
+            (NPCID.Cyborg,(Player player) => player.Calamity().newCyborgInventory, (Player player, bool enabled) =>{ player.Calamity().newCyborgInventory = enabled; }),
+            (NPCID.Princess, (Player player) => player.Calamity().newPrincessInventory,(Player player, bool enabled) =>{ player.Calamity().newPrincessInventory = enabled; }),
+            (NPCID.SkeletonMerchant, (Player player) => player.Calamity().newSkeletonMerchantInventory, (Player player, bool enabled) =>{ player.Calamity().newSkeletonMerchantInventory = enabled; }),
+            (NPCType<SEAHOE>(), (Player player) => player.Calamity().newAmidiasInventory,(Player player, bool enabled) =>{ player.Calamity().newAmidiasInventory = enabled; }),
+            (NPCType<THIEF>(), (Player player) => player.Calamity().newBanditInventory,(Player player, bool enabled) =>{ player.Calamity().newBanditInventory = enabled; }),
+            (NPCType<FAP>(), (Player player) => player.Calamity().newCirrusInventory,(Player player, bool enabled) =>{ player.Calamity().newCirrusInventory = enabled; }),
+            (NPCType<DILF>(), (Player player) => player.Calamity().newPermafrostInventory,(Player player, bool enabled) =>{ player.Calamity().newPermafrostInventory = enabled; }),
+            (NPCType<WITCH>(), (Player player) => player.Calamity().newCalamitasInventory,(Player player, bool enabled) =>{ player.Calamity().newCalamitasInventory = enabled; }) // lol
+        };
+
         public void TownNPCAlertSystem(NPC npc, Mod mod, SpriteBatch spriteBatch)
         {
             if (CalamityConfig.Instance.ShopNewAlert && npc.townNPC)
             {
-                if (npc.type == NPCType<DILF>() && Main.LocalPlayer.Calamity().newPermafrostInventory)
+                for (int i = 0; i < npcAlertList.Count; i++)
                 {
-                    DrawNewInventoryAlert(npc);
-                }
-                else if (npc.type == NPCType<FAP>() && Main.LocalPlayer.Calamity().newCirrusInventory)
-                {
-                    DrawNewInventoryAlert(npc);
-                }
-                else if (npc.type == NPCType<SEAHOE>() && Main.LocalPlayer.Calamity().newAmidiasInventory)
-                {
-                    DrawNewInventoryAlert(npc);
-                }
-                else if (npc.type == NPCType<THIEF>() && Main.LocalPlayer.Calamity().newBanditInventory)
-                {
-                    DrawNewInventoryAlert(npc);
-                }
-                else
-                {
-                    switch (npc.type)
+                    if (npc.type == npcAlertList[i].Item1 && npcAlertList[i].Item2(Main.LocalPlayer))
                     {
-                        case NPCID.Merchant:
-                            if (Main.LocalPlayer.Calamity().newMerchantInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Painter:
-                            if (Main.LocalPlayer.Calamity().newPainterInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Golfer:
-                            if (Main.LocalPlayer.Calamity().newGolferInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.BestiaryGirl:
-                            if (Main.LocalPlayer.Calamity().newZoologistInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.DyeTrader:
-                            if (Main.LocalPlayer.Calamity().newDyeTraderInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.PartyGirl:
-                            if (Main.LocalPlayer.Calamity().newPartyGirlInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Stylist:
-                            if (Main.LocalPlayer.Calamity().newStylistInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Demolitionist:
-                            if (Main.LocalPlayer.Calamity().newDemolitionistInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Dryad:
-                            if (Main.LocalPlayer.Calamity().newDryadInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.DD2Bartender:
-                            if (Main.LocalPlayer.Calamity().newTavernkeepInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.ArmsDealer:
-                            if (Main.LocalPlayer.Calamity().newArmsDealerInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.GoblinTinkerer:
-                            if (Main.LocalPlayer.Calamity().newGoblinTinkererInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.WitchDoctor:
-                            if (Main.LocalPlayer.Calamity().newWitchDoctorInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Clothier:
-                            if (Main.LocalPlayer.Calamity().newClothierInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Mechanic:
-                            if (Main.LocalPlayer.Calamity().newMechanicInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Pirate:
-                            if (Main.LocalPlayer.Calamity().newPirateInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Truffle:
-                            if (Main.LocalPlayer.Calamity().newTruffleInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Wizard:
-                            if (Main.LocalPlayer.Calamity().newWizardInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Steampunker:
-                            if (Main.LocalPlayer.Calamity().newSteampunkerInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Cyborg:
-                            if (Main.LocalPlayer.Calamity().newCyborgInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Princess:
-                            if (Main.LocalPlayer.Calamity().newPrincessInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.SkeletonMerchant:
-                            if (Main.LocalPlayer.Calamity().newSkeletonMerchantInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        default:
-                            break;
+                        DrawNewInventoryAlert(npc);
                     }
                 }
 
@@ -770,176 +699,27 @@ namespace CalamityMod.NPCs
 
         public override void OnChatButtonClicked(NPC npc, bool firstButton)
         {
-            if (npc.townNPC)
+            for (int i = 0; i < npcAlertList.Count; i++)
             {
-                switch (npc.type)
+                if (npc.type == npcAlertList[i].Item1)
                 {
-                    case NPCID.Merchant:
-                        Main.LocalPlayer.Calamity().newMerchantInventory = false;
-                        break;
-                    case NPCID.Painter:
-                        Main.LocalPlayer.Calamity().newPainterInventory = false;
-                        break;
-                    case NPCID.Golfer:
-                        Main.LocalPlayer.Calamity().newGolferInventory = false;
-                        break;
-                    case NPCID.BestiaryGirl:
-                        Main.LocalPlayer.Calamity().newZoologistInventory = false;
-                        break;
-                    case NPCID.DyeTrader:
-                        Main.LocalPlayer.Calamity().newDyeTraderInventory = false;
-                        break;
-                    case NPCID.PartyGirl:
-                        Main.LocalPlayer.Calamity().newPartyGirlInventory = false;
-                        break;
-                    case NPCID.Stylist:
-                        Main.LocalPlayer.Calamity().newStylistInventory = false;
-                        break;
-                    case NPCID.Demolitionist:
-                        Main.LocalPlayer.Calamity().newDemolitionistInventory = false;
-                        break;
-                    case NPCID.Dryad:
-                        Main.LocalPlayer.Calamity().newDryadInventory = false;
-                        break;
-                    case NPCID.DD2Bartender:
-                        Main.LocalPlayer.Calamity().newTavernkeepInventory = false;
-                        break;
-                    case NPCID.ArmsDealer:
-                        Main.LocalPlayer.Calamity().newArmsDealerInventory = false;
-                        break;
-                    case NPCID.GoblinTinkerer:
-                        Main.LocalPlayer.Calamity().newGoblinTinkererInventory = false;
-                        break;
-                    case NPCID.WitchDoctor:
-                        Main.LocalPlayer.Calamity().newWitchDoctorInventory = false;
-                        break;
-                    case NPCID.Clothier:
-                        Main.LocalPlayer.Calamity().newClothierInventory = false;
-                        break;
-                    case NPCID.Mechanic:
-                        Main.LocalPlayer.Calamity().newMechanicInventory = false;
-                        break;
-                    case NPCID.Pirate:
-                        Main.LocalPlayer.Calamity().newPirateInventory = false;
-                        break;
-                    case NPCID.Truffle:
-                        Main.LocalPlayer.Calamity().newTruffleInventory = false;
-                        break;
-                    case NPCID.Wizard:
-                        Main.LocalPlayer.Calamity().newWizardInventory = false;
-                        break;
-                    case NPCID.Steampunker:
-                        Main.LocalPlayer.Calamity().newSteampunkerInventory = false;
-                        break;
-                    case NPCID.Cyborg:
-                        Main.LocalPlayer.Calamity().newCyborgInventory = false;
-                        break;
-                    case NPCID.Princess:
-                        Main.LocalPlayer.Calamity().newPrincessInventory = false;
-                        break;
-                    case NPCID.SkeletonMerchant:
-                        Main.LocalPlayer.Calamity().newSkeletonMerchantInventory = false;
-                        break;
-                    default:
-                        break;
+                    npcAlertList[i].Item3(Main.LocalPlayer, false);
                 }
             }
         }
 
         public static void SetNewShopVariable(int[] types, bool alreadySet)
         {
+            string npcname = ContentSamples.NpcsByNetId[types[0]].FullName;
             if (!alreadySet)
             {
                 for (int i = 0; i < types.Length; i++)
                 {
-                    if (types[i] == NPCType<DILF>())
+                    for (int n = 0; n < npcAlertList.Count; n++)
                     {
-                        Main.LocalPlayer.Calamity().newPermafrostInventory = true;
-                    }
-                    else if (types[i] == NPCType<FAP>())
-                    {
-                        Main.LocalPlayer.Calamity().newCirrusInventory = true;
-                    }
-                    else if (types[i] == NPCType<SEAHOE>())
-                    {
-                        Main.LocalPlayer.Calamity().newAmidiasInventory = true;
-                    }
-                    else if (types[i] == NPCType<THIEF>())
-                    {
-                        Main.LocalPlayer.Calamity().newBanditInventory = true;
-                    }
-                    else
-                    {
-                        switch (types[i])
+                        if (types[i] == npcAlertList[n].Item1)
                         {
-                            case NPCID.Merchant:
-                                Main.LocalPlayer.Calamity().newMerchantInventory = true;
-                                break;
-                            case NPCID.Painter:
-                                Main.LocalPlayer.Calamity().newPainterInventory = true;
-                                break;
-                            case NPCID.Golfer:
-                                Main.LocalPlayer.Calamity().newGolferInventory = true;
-                                break;
-                            case NPCID.BestiaryGirl:
-                                Main.LocalPlayer.Calamity().newZoologistInventory = true;
-                                break;
-                            case NPCID.DyeTrader:
-                                Main.LocalPlayer.Calamity().newDyeTraderInventory = true;
-                                break;
-                            case NPCID.PartyGirl:
-                                Main.LocalPlayer.Calamity().newPartyGirlInventory = true;
-                                break;
-                            case NPCID.Stylist:
-                                Main.LocalPlayer.Calamity().newStylistInventory = true;
-                                break;
-                            case NPCID.Demolitionist:
-                                Main.LocalPlayer.Calamity().newDemolitionistInventory = true;
-                                break;
-                            case NPCID.Dryad:
-                                Main.LocalPlayer.Calamity().newDryadInventory = true;
-                                break;
-                            case NPCID.DD2Bartender:
-                                Main.LocalPlayer.Calamity().newTavernkeepInventory = true;
-                                break;
-                            case NPCID.ArmsDealer:
-                                Main.LocalPlayer.Calamity().newArmsDealerInventory = true;
-                                break;
-                            case NPCID.GoblinTinkerer:
-                                Main.LocalPlayer.Calamity().newGoblinTinkererInventory = true;
-                                break;
-                            case NPCID.WitchDoctor:
-                                Main.LocalPlayer.Calamity().newWitchDoctorInventory = true;
-                                break;
-                            case NPCID.Clothier:
-                                Main.LocalPlayer.Calamity().newClothierInventory = true;
-                                break;
-                            case NPCID.Mechanic:
-                                Main.LocalPlayer.Calamity().newMechanicInventory = true;
-                                break;
-                            case NPCID.Pirate:
-                                Main.LocalPlayer.Calamity().newPirateInventory = true;
-                                break;
-                            case NPCID.Truffle:
-                                Main.LocalPlayer.Calamity().newTruffleInventory = true;
-                                break;
-                            case NPCID.Wizard:
-                                Main.LocalPlayer.Calamity().newWizardInventory = true;
-                                break;
-                            case NPCID.Steampunker:
-                                Main.LocalPlayer.Calamity().newSteampunkerInventory = true;
-                                break;
-                            case NPCID.Cyborg:
-                                Main.LocalPlayer.Calamity().newCyborgInventory = true;
-                                break;
-                            case NPCID.Princess:
-                                Main.LocalPlayer.Calamity().newPrincessInventory = true;
-                                break;
-                            case NPCID.SkeletonMerchant:
-                                Main.LocalPlayer.Calamity().newSkeletonMerchantInventory = true;
-                                break;
-                            default:
-                                break;
+                            npcAlertList[n].Item3(Main.LocalPlayer, true);
                         }
                     }
                 }

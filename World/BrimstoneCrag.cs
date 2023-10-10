@@ -25,7 +25,6 @@ namespace CalamityMod.World
     {
         static int StartX = 0;
 
-        static int lavaLakePlaceDelay = 0;
         static int lavaLakeBigPlaceDelay = 0;
         static int numLavaLakes = 0;
 

@@ -10,8 +10,6 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 {
     public class AbyssFountainTile : ModTile
     {
-        int mode = 0;
-
         public override void SetStaticDefaults() => this.SetUpFountain(ModContent.ItemType<AbyssFountainItem>(), new Color(71, 93, 107));
 
         public override void NearbyEffects(int i, int j, bool closer)

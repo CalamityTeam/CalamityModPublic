@@ -2971,7 +2971,7 @@ namespace CalamityMod.CalPlayer
                     Projectile.NewProjectileDirect(source, Player.Center - Vector2.UnitY * 45f, Vector2.Zero, ModContent.ProjectileType<AscendantAura>(), 0, 0f);
                     SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Item/AscendantActivate"));
                     ascendantInsigniaCooldown = 2400;
-                    ascendantInsigniaBuffTime = 300;
+                    ascendantInsigniaBuffTime = 240; //4 seconds
                 }
 
                 if (ascendantInsigniaCooldown > 0 && ascendantInsigniaBuffTime <= 0)

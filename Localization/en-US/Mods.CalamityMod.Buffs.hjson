@@ -138,6 +138,11 @@ BrainRot: {
 	Description: Your neurons are popping like corn kernels
 }
 
+ElementalMix: {
+	DisplayName: Elemental Mix
+	Description: A beautiful elemental symphony is flaying you alive
+}
+
 CrushDepth: {
 	DisplayName: Crush Depth
 	Description: Crushed by aquatic pressure

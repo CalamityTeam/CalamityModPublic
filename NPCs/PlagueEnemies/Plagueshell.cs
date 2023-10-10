@@ -17,7 +17,6 @@ namespace CalamityMod.NPCs.PlagueEnemies
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 8;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
         }
 
         public override void SetDefaults()

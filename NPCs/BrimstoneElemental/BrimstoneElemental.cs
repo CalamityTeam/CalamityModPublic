@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.5f,
                 PortraitScale = 0.64f

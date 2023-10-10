@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 .SetBiomeAffection<JungleBiome>(AffectionLevel.Dislike)
                 .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Like)
                 .SetNPCAffection(NPCID.Dryad, AffectionLevel.Dislike);
-            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers() {
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
                 Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);
@@ -249,7 +249,6 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                Main.LocalPlayer.Calamity().newBanditInventory = false;
                 shopName = "Shop";
             }
             else

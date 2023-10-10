@@ -43,12 +43,12 @@ namespace CalamityMod.Projectiles.Summon
             // at around 344 allocated slots.
             float averageDamageMultiplier = (float)(Math.Pow(totalSageSpirits, 0.73D) + Math.Pow(totalSageSpirits, 1.1D)) * 0.5f;
 
-            // 1 slot provides  20 DoT.
-            // 2 slots provide  38 DoT.
-            // 3 slots provide 56 DoT.
-            // 4 slots provide 73 DoT.
-            // 5 slots provide 91 DoT.
-            int sagePoisonDamage = (int)(20 * averageDamageMultiplier);
+            // 1 slot provides  25 DoT.
+            // 2 slots provide  48 DoT.
+            // 3 slots provide 70 DoT.
+            // 4 slots provide 92 DoT.
+            // 5 slots provide 114 DoT.
+            int sagePoisonDamage = (int)(50 * averageDamageMultiplier);
             target.AddBuff(ModContent.BuffType<SagePoison>(), 300);
             target.Calamity().sagePoisonDamage = sagePoisonDamage;
         }

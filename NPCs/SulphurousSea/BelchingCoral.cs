@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         public const float CheckDistance = 480f;
         public override void SetStaticDefaults()
         {
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
             value.Position.Y += 4;
             value.PortraitPositionYOverride = 24f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
