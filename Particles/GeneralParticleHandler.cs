@@ -178,7 +178,7 @@ namespace CalamityMod.Particles
 
             if (batchedAdditiveBlendParticles.Count > 0)
             {
-                rasterizer = Main.Rasterizer;
+                rasterizer = RasterizerState.CullNone;
                 rasterizer.ScissorTestEnable = true;
                 Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
                 Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
