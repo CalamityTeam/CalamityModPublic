@@ -16,8 +16,8 @@ namespace CalamityMod.Items.SummonItems.Invasion
 
         public override void SetDefaults()
         {
-            Item.width = 28;
-            Item.height = 18;
+            Item.width = 16;
+            Item.height = 28;
             Item.maxStack = 1;
             Item.rare = ItemRarityID.Green;
             Item.useAnimation = 10;
