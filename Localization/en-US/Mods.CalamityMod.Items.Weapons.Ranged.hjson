@@ -222,7 +222,7 @@ ClaretCannon: {
 
 CleansingBlaze: {
 	DisplayName: Cleansing Blaze
-	Tooltip: 90% chance to save ammo
+	Tooltip: 50% chance to save ammo
 }
 
 ClockGatlignum: {
