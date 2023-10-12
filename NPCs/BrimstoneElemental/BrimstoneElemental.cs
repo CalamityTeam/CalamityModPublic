@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     ModContent.ItemType<RoseStone>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, accs));
-                normalOnly.Add(ModContent.ItemType<FlameLickedShell>(), 10);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<FlameLickedShell>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);
