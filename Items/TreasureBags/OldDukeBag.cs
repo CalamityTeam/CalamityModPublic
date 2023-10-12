@@ -67,14 +67,14 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<FetidEmesis>(),
                 ModContent.ItemType<SepticSkewer>(),
                 ModContent.ItemType<VitriolicViper>(),
+                ModContent.ItemType<MutatedTruffle>(),
                 ModContent.ItemType<CadaverousCarrion>(),
                 ModContent.ItemType<ToxicantTwister>()
             }));
             itemLoot.Add(ModContent.ItemType<TheOldReaper>(), 10);
 
             // Equipment
-            itemLoot.Add(ModContent.ItemType<OldDukeScales>(), DropHelper.BagWeaponDropRateFraction);
-            itemLoot.Add(ModContent.ItemType<MutatedTruffle>());
+            itemLoot.Add(ModContent.ItemType<OldDukeScales>());
             itemLoot.AddRevBagAccessories();
 
             // Vanity
