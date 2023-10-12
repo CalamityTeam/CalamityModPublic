@@ -1993,8 +1993,8 @@ namespace CalamityMod.NPCs.Providence
             // GFB ASE and Blasphemous Donut drops
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
-                GFBOnly.Add(ModContent.ItemType<AscendantSpiritEssence>(), 1, 1, 99);
-                GFBOnly.Add(ModContent.ItemType<BlasphemousDonut>(), 1, 1117, 2201); // reference to the versions the guards were added and got their latest resprites
+                GFBOnly.Add(ModContent.ItemType<AscendantSpiritEssence>(), 1, 1, 99, true);
+                GFBOnly.Add(ModContent.ItemType<BlasphemousDonut>(), 1, 1117, 2201, true); // reference to the versions the guards were added and got their latest resprites
             }
 
             // Lore

@@ -314,12 +314,12 @@ namespace CalamityMod.NPCs.AstrumDeus
             // GFB Worm and Spaghetti drop
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
-                GFBOnly.Add(ItemID.Worm, 1, 1, 9999);
-                GFBOnly.Add(ItemID.CanOfWorms, 1, 1, 9999);
+                GFBOnly.Add(ItemID.Worm, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.CanOfWorms, 1, 1, 9999, true);
                 GFBOnly.Add(ItemID.GummyWorm, 1, 1, 9999);
-                GFBOnly.Add(ItemID.TruffleWorm, 1, 1, 9999);
-                GFBOnly.Add(ItemID.EnchantedNightcrawler, 1, 1, 9999);
-                GFBOnly.Add(ItemID.Spaghetti, 1, 1, 9999);
+                GFBOnly.Add(ItemID.TruffleWorm, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.EnchantedNightcrawler, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.Spaghetti, 1, 1, 9999, true);
             }
 
             // Lore
