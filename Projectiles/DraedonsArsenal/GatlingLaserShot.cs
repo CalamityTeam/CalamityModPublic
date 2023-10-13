@@ -1,5 +1,7 @@
 ﻿using System;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +14,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         private int dust = 182;
+        private Player Owner => Main.player[Projectile.owner];
+
+        private int Time = 0;
 
         public override void SetDefaults()
         {
@@ -26,44 +31,18 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void AI()
         {
+            Time++;
             Lighting.AddLight(Projectile.Center, 0.2f, 0f, 0f);
-
-            float createDustVar = 10f;
-            Projectile.localAI[0] += 1f;
-            if (Projectile.localAI[0] > createDustVar)
+            if (Projectile.timeLeft % 11 == 0 && Time > 12 && Time < 460)
             {
-                Vector2 value7 = new Vector2(5f, 10f);
-                Vector2 value8 = Vector2.UnitX * -12f;
-
-                switch ((int)Projectile.ai[0])
-                {
-                    case 0:
-                        int num41 = Dust.NewDust(Projectile.Center, 0, 0, dust, 0f, 0f, 160, default, 0.8f);
-                        Main.dust[num41].noGravity = true;
-                        Main.dust[num41].position = Projectile.Center;
-                        Main.dust[num41].velocity = Projectile.velocity;
-                        break;
-                    case 1:
-                        value8 = -Vector2.UnitY.RotatedBy(24f * 0.1308997f + 0f * MathHelper.Pi) * value7 * 0.5f;
-                        int num42 = Dust.NewDust(Projectile.Center, 0, 0, dust, 0f, 0f, 160, default, 0.8f);
-                        Main.dust[num42].noGravity = true;
-                        Main.dust[num42].position = Projectile.Center + value8;
-                        Main.dust[num42].velocity = Projectile.velocity;
-                        break;
-                    case 2:
-                        value8 = -Vector2.UnitY.RotatedBy(24f * 0.1308997f + 1f * MathHelper.Pi) * value7 * 0.5f;
-                        int num43 = Dust.NewDust(Projectile.Center, 0, 0, dust, 0f, 0f, 160, default, 0.8f);
-                        Main.dust[num43].noGravity = true;
-                        Main.dust[num43].position = Projectile.Center + value8;
-                        Main.dust[num43].velocity = Projectile.velocity;
-                        break;
-                    default:
-                        break;
-                }
+                SparkParticle spark = new SparkParticle(Projectile.Center, Projectile.velocity * 0.01f, false, 6, 1.7f, Color.Red);
+                GeneralParticleHandler.SpawnParticle(spark);
             }
-
-            if (Projectile.localAI[0] == createDustVar)
-                LaserBurst(1.8f, 3f);
+            if (Projectile.timeLeft % 4 == 0 && Time > 12 && Time < 460)
+            {
+                SparkParticle spark2 = new SparkParticle(Projectile.Center, Projectile.velocity * 0.01f, false, 6, 0.4f, Color.White);
+                GeneralParticleHandler.SpawnParticle(spark2);
+            }
         }
 
         public override void OnKill(int timeLeft)

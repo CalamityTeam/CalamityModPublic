@@ -29,6 +29,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void AI()
         {
+            if (SoundEngine.TryGetActiveSound(gatlingLaserLoopID, out var ShootingSound) && ShootingSound.IsPlaying)
+                ShootingSound.Position = Projectile.Center;
             Player player = Main.player[Projectile.owner];
             float num = MathHelper.PiOver2;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
