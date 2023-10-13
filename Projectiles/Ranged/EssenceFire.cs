@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -17,6 +18,9 @@ namespace CalamityMod.Projectiles.Ranged
         public static int Lifetime => 105;
         public static int Fadetime => 90;
         public ref float Time => ref Projectile.ai[0];
+
+        public bool spawnParticles = true;
+        public bool spawnDusts = true;
 
         public override void SetDefaults()
         {
@@ -37,25 +41,52 @@ namespace CalamityMod.Projectiles.Ranged
             if (Time > Fadetime)
                 Projectile.velocity *= 0.95f;
 
-            if (Time < Fadetime && Main.rand.NextBool(4))
+            if ( Time > 6 && Time < Fadetime && Main.rand.NextBool(16))
             {
-                Dust dust = Dust.NewDustDirect(Projectile.Center + Main.rand.NextVector2Circular(60f, 60f) * Utils.Remap(Time, 0f, Lifetime, 0.5f, 1f), 4, 4, (int)CalamityDusts.PurpleCosmilite, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100);
-                if (Main.rand.NextBool(3))
+                Dust dust = Dust.NewDustDirect(Projectile.Center + Main.rand.NextVector2Circular(60f, 60f) * Utils.Remap(Time, 0f, Lifetime, 0.5f, 1f), 4, 4, 295, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100);
+                if (Main.rand.NextBool(5))
                 {
                     dust.noGravity = true;
                     dust.scale *= 2f;
-                    dust.velocity *= 2f;
+                    dust.velocity *= 0.8f;
                 }
-                dust.velocity *= 1.5f;
+                dust.velocity *= 1.1f;
                 dust.velocity += Projectile.velocity * Utils.Remap(Time, 0f, Fadetime * 0.75f, 1f, 0.1f) * Utils.Remap(Time, 0f, Fadetime * 0.1f, 0.1f, 1f);
+            }
+            if (spawnParticles && Time > 6 && Main.rand.NextBool(7))
+            {
+                SparkParticle spark = new SparkParticle(Projectile.Center, Projectile.velocity * Main.rand.NextFloat(0.4f, 0.7f), false, Main.rand.Next(7, 11), Main.rand.NextFloat(0.7f, 1.8f), Main.rand.NextBool(4) ? Color.Magenta : Color.DodgerBlue);
+                GeneralParticleHandler.SpawnParticle(spark);
+            }
+            if (Time == 5)
+            {
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? 295 : 181, Projectile.velocity);
+                dust.scale = Main.rand.NextFloat(0.9f, 1.7f);
+                dust.velocity = Projectile.velocity.RotatedByRandom(1) * Main.rand.NextFloat(0.3f, 0.7f);
+                dust.noGravity = true;
             }
         }
 
         // Keeping the flames in place when hitting a block
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            if (spawnDusts)
+            {
+                for (int i = 0; i <= 8; i++)
+                {
+                    Vector2 position = Projectile.Center + new Vector2(Main.rand.NextFloat(-13, 13), Main.rand.NextFloat(-13, 13));
+                    Vector2 velocity = -oldVelocity.RotatedByRandom(1) * Main.rand.NextFloat(0.2f, 2.2f);
+                    float scale = Main.rand.NextFloat(2f, 3.2f);
+
+                    Dust dust = Dust.NewDustPerfect(position + velocity, Main.rand.NextBool(3) ? 307 : 295, velocity, 0, default, scale);
+                    dust.noGravity = true;
+                    dust.scale -= 0.4f;
+                }
+                spawnDusts = false;
+            }
             Projectile.velocity = oldVelocity * 0.95f;
 			Projectile.position -= Projectile.velocity;
+            spawnParticles = false;
             return false;
         }
 
@@ -67,13 +98,13 @@ namespace CalamityMod.Projectiles.Ranged
             // Shrinks again after fading
             if (Time > Fadetime)
                 size = (int)Utils.Remap(Time, Fadetime, Lifetime, 40f, 0f);
-			hitbox.Inflate(size, size);
+            hitbox.Inflate(size, size);
         }
 
         // Anti-wall hacking checks
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => projHitbox.Intersects(targetHitbox) && Collision.CanHit(Projectile.Center, 0, 0, targetHitbox.Center.ToVector2(), 0, 0) ? null : false;
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 360);
 
         public override bool PreDraw(ref Color lightColor)
         {
