@@ -116,6 +116,7 @@ AuroraBlazer: {
 	Tooltip:
 		'''
 		Spews astral flames that travel in a star-shaped patterns
+		Uses gel for ammo
 		60% chance to save ammo
 		'''
 }
@@ -142,7 +143,7 @@ BladedgeGreatbow: {
 
 BlightSpewer: {
 	DisplayName: Blight Spewer
-	Tooltip: ""
+	Tooltip: Uses gel for ammo
 }
 
 BlissfulBombardier: {
@@ -222,7 +223,11 @@ ClaretCannon: {
 
 CleansingBlaze: {
 	DisplayName: Cleansing Blaze
-	Tooltip: 50% chance to save ammo
+	Tooltip:
+		'''
+		Uses gel for ammo
+		50% chance to save ammo
+		'''
 }
 
 ClockGatlignum: {
@@ -349,7 +354,11 @@ DarkechoGreatbow: {
 
 DeadSunsWind: {
 	DisplayName: Dead Sun's Wind
-	Tooltip: 70% chance to save ammo
+	Tooltip:
+		'''
+		Uses gel for ammo
+		70% chance to save ammo
+		'''
 }
 
 Deathwind: {
@@ -428,6 +437,7 @@ ElementalEruption: {
 	Tooltip:
 		'''
 		Fires a spread of rainbow flames
+		Uses gel for ammo
 		90% chance to save ammo
 		'''
 }
@@ -551,6 +561,7 @@ HalleysInferno: {
 		'''
 		Fires a highly concentrated shot of lunar fire
 		Press <right> to zoom out
+		Uses gel for ammo
 		50% chance to save ammo
 		'Halley came sooner than expected'
 		'''
@@ -563,7 +574,7 @@ HandheldTank: {
 
 HavocsBreath: {
 	DisplayName: Havoc's Breath
-	Tooltip: 50% chance to save ammo
+	Tooltip: Uses gel for ammo
 }
 
 HeavenlyGale: {
@@ -699,6 +710,7 @@ Meowthrower: {
 	Tooltip:
 		'''
 		Fires blue and pink flames that emit meows on enemy hits
+		Uses gel for ammo
 		85% chance to save ammo
 		'''
 }
@@ -808,6 +820,7 @@ OverloadedBlaster: {
 	Tooltip:
 		'''
 		Fires a large spread of bouncing slime
+		Uses gel for ammo
 		33% chance to save ammo
 		'''
 }
@@ -852,6 +865,7 @@ Photoviscerator: {
 		'''
 		Fires a stream of exo flames and light that explodes into homing sparks
 		Press <right> to fire homing flares which stick to enemies and incinerate them
+		Uses gel for ammo
 		90% chance to save ammo
 		'''
 }
@@ -906,6 +920,7 @@ PristineFury: {
 		'''
 		Fires an intense helix of flames that explode into a column of fire
 		Press <right> to fire a short ranged cloud of lingering flames
+		Uses gel for ammo
 		'''
 }
 
@@ -1011,7 +1026,7 @@ SepticSkewer: {
 
 Shadethrower: {
 	DisplayName: Shadethrower
-	Tooltip: ""
+	Tooltip: Uses gel for ammo
 }
 
 Shellshooter: {
@@ -1058,7 +1073,7 @@ SomaPrime: {
 
 SparkSpreader: {
 	DisplayName: Spark Spreader
-	Tooltip: ""
+	Tooltip: Uses gel for ammo
 }
 
 SpectralstormCannon: {
@@ -1169,7 +1184,11 @@ TelluricGlare: {
 
 TerraFlameburster: {
 	DisplayName: Terra Flameburster
-	Tooltip: 80% chance to save ammo
+	Tooltip:
+		'''
+		Uses gel for ammo
+		80% chance to save ammo
+		'''
 }
 
 TheBallista: {
