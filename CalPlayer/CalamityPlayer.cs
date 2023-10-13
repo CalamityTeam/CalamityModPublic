@@ -178,6 +178,7 @@ namespace CalamityMod.CalPlayer
 
         #region Timer and Counter
         public int gaelSwipes = 0;
+        public int deadSunCounter = 6;
         public bool sBlasterDashActivated = false;
         public int Holyhammer = 0;
         public int PHAThammer = 0;

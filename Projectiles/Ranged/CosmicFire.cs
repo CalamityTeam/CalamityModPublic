@@ -1,5 +1,11 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Particles;
+using Microsoft.Xna.Framework;
+using Terraria.Audio;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -7,7 +13,10 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-
+        public ref int HitCount => ref Main.player[Projectile.owner].Calamity().deadSunCounter;
+        public int Time = 0;
+        public int bounceKill = 0;
+        public bool extraDamage = false;
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -15,70 +24,94 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = -1;
-            Projectile.extraUpdates = 3;
-            Projectile.timeLeft = 100;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 9;
+            Projectile.timeLeft = 500;
         }
 
         public override void AI()
         {
-            if (Projectile.scale <= 1.5f)
+            Time++;
+            Lighting.AddLight(Projectile.Center, 0.117f, 0.155f, 0.159f);
+            if (Projectile.timeLeft % 3 == 0 && Time > 12)
             {
-                Projectile.scale *= 1.01f;
+                SparkParticle spark = new SparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 2.3f, Main.rand.NextBool() ? Color.Turquoise : Color.MediumSpringGreen);
+                GeneralParticleHandler.SpawnParticle(spark);
             }
-            Lighting.AddLight(Projectile.Center, 0.25f, 0f, 0.1f);
-            if (Projectile.ai[0] > 7f)
+            if (Projectile.timeLeft % 2 == 0 && Time > 12)
             {
-                float scalar = 1f;
-                if (Projectile.ai[0] == 8f)
+                SparkParticle spark2 = new SparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 0.9f, Color.White);
+                GeneralParticleHandler.SpawnParticle(spark2);
+            }
+            if (Time == 7)
+            {
+                for (int i = 0; i <= 18; i++)
                 {
-                    scalar = 0.25f;
-                }
-                else if (Projectile.ai[0] == 9f)
-                {
-                    scalar = 0.5f;
-                }
-                else if (Projectile.ai[0] == 10f)
-                {
-                    scalar = 0.75f;
-                }
-                Projectile.ai[0] += 1f;
-                int dustType = Main.rand.NextBool(4) ? 61 : 62;
-                if (Main.rand.NextBool())
-                {
-                    int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    Dust dust = Main.dust[fire];
-                    if (Main.rand.NextBool(3))
-                    {
-                        dust.noGravity = true;
-                        dust.scale *= 3f;
-                        dust.velocity.X *= 2f;
-                        dust.velocity.Y *= 2f;
-                    }
-                    else
-                    {
-                        dust.scale *= 1.5f;
-                    }
-                    dust.velocity.X *= 1.2f;
-                    dust.velocity.Y *= 1.2f;
-                    dust.scale *= scalar;
-                    dust.velocity += Projectile.velocity;
-                    if (!dust.noGravity)
-                    {
-                        dust.velocity *= 0.5f;
-                    }
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? 191 : 156, Projectile.velocity);
+                    dust.scale = Main.rand.NextFloat(1.5f, 2.3f);
+                    dust.velocity = Projectile.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.3f, 2.1f);
+                    dust.noGravity = true;
                 }
             }
-            else
+            if (extraDamage)
             {
-                Projectile.ai[0] += 1f;
+                for (int i = 0; i <= 2; i++)
+                {
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(4) ? 229 : 156, -Projectile.velocity);
+                    dust.scale = Main.rand.NextFloat(0.7f, 1.3f);
+                    dust.velocity = -Projectile.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.3f, 1.7f);
+                    dust.noGravity = true;
+                }
+                CalamityUtils.HomeInOnNPC(Projectile, false, 600f, 12f, 20f);
             }
-            Projectile.rotation += 0.3f * (float)Projectile.direction;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.immune[Projectile.owner] = 3;
+            SoundEngine.PlaySound(DeadSunsWind.Explosion with { Pitch = HitCount * 0.05f }, Projectile.Center);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DeadSunExplosion>(), Projectile.damage - (Projectile.damage / 3), 4f, Projectile.owner, HitCount * 10, extraDamage ? 5 : 0);
+            if (HitCount >= 15)
+                HitCount = 6;
+            else
+                HitCount++;
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            float numberOfDusts = 20;
+            float rotFactor = 360f / numberOfDusts;
+            for (int i = 0; i < numberOfDusts; i++)
+            {
+                float rot = MathHelper.ToRadians(i * rotFactor);
+                Vector2 offset = new Vector2(Main.rand.NextFloat(1, 3.1f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                Vector2 velOffset = new Vector2(Main.rand.NextFloat(1, 3.1f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, Main.rand.NextBool(4) ? 229 : 156, new Vector2(velOffset.X, velOffset.Y));
+                dust.noGravity = true;
+                dust.velocity = velOffset;
+                dust.scale = Main.rand.NextFloat(2.6f, 3.2f);
+            }
+            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Turquoise, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.1f, 0.9f - (bounceKill * 0.25f), 25);
+            GeneralParticleHandler.SpawnParticle(pulse);
+            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.MediumSpringGreen, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.05f, 0.8f - (bounceKill * 0.25f), 25);
+            GeneralParticleHandler.SpawnParticle(pulse2);
+            extraDamage = true;
+            if (bounceKill == 0)
+            {
+                Projectile.damage = Projectile.damage + (Projectile.damage / 5); // 20% damage bonus after a bounce
+                SoundEngine.PlaySound(DeadSunsWind.Ricochet, Projectile.Center);
+            }
+            bounceKill++;
+            if (Projectile.velocity.X != oldVelocity.X)
+            {
+                Projectile.velocity.X = -oldVelocity.X;
+            }
+            if (Projectile.velocity.Y != oldVelocity.Y)
+            {
+                Projectile.velocity.Y = -oldVelocity.Y;
+            }
+            if (bounceKill == 4)
+                Projectile.Kill();
+            return false;
         }
     }
 }
