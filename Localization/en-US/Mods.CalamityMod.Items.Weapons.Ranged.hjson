@@ -354,12 +354,12 @@ DarkechoGreatbow: {
 DeadSunsWind: {
 	DisplayName: Dead Sun's Wind
 	Tooltip:
-        '''
-        Fires a concentrated blast of cosmic plasma that bounces and explodes on hit
-        Upon hitting a surface a shot becomes empowered, dealing 1.2x damage and homing in on enemies
-        Consecutive hits cause larger explosions
-        70% chance to save ammo
-        '''
+		'''
+		Fires a concentrated blast of cosmic plasma that bounces and explodes on hit
+		Upon hitting a surface a shot becomes empowered, dealing 1.2x damage and homing in on enemies
+		Consecutive hits cause larger explosions
+		70% chance to save ammo
+		'''
 }
 
 Deathwind: {

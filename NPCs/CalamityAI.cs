@@ -2177,9 +2177,9 @@ namespace CalamityMod.NPCs
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        npc.localAI[1] += 1f;
+                        npc.localAI[1] += 3f;
                         if (revenge)
-                            npc.localAI[1] += 0.5f;
+                            npc.localAI[1] += 1f;
 
                         if (npc.localAI[1] > 12f)
                         {

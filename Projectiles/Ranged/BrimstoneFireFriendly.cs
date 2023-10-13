@@ -1,10 +1,12 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Ranged
 {
     public class BrimstoneFireFriendly : ModProjectile, ILocalizedModType
@@ -51,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (MistType == -1)
                 MistType = Main.rand.Next(3);
 
-            Lighting.AddLight(Projectile.Center, 1f, 0.2f, 0.2f);
+            Lighting.AddLight(Projectile.Center, 0.75f, 0.15f, 0.15f);
         }
 
         // Keeping the flames in place when hitting a block
@@ -78,7 +80,20 @@ namespace CalamityMod.Projectiles.Ranged
         // Anti-wall hacking checks
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => projHitbox.Intersects(targetHitbox) && Collision.CanHit(Projectile.Center, 0, 0, targetHitbox.Center.ToVector2(), 0, 0) ? null : false;
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+
+            // Gas up the enemy
+            int smokeCount = 4 + (int)MathHelper.Clamp(target.width * 0.1f, 0f, 20f);
+            for (int i = 0; i < smokeCount; i++)
+            {
+                Vector2 smokePos = target.Center + Main.rand.NextVector2Circular(target.width * 0.5f, target.height * 0.5f);
+                Vector2 smokeVel = Vector2.UnitY * Main.rand.NextFloat(-2.4f, -0.8f) * MathHelper.Clamp(target.height * 0.1f, 1f, 10f);
+                Particle smoke = new MediumMistParticle(smokePos, smokeVel, new Color(255, 50, 50), Color.DimGray, Main.rand.NextFloat(1f, 2f), 245 - Main.rand.Next(50), 0.1f);
+                GeneralParticleHandler.SpawnParticle(smoke);
+            }
+        }
 
         public override bool PreDraw(ref Color lightColor)
         {
