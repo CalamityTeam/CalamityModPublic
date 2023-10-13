@@ -1,11 +1,9 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
@@ -52,6 +50,12 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 dust.velocity *= 1.1f;
                 dust.velocity += Projectile.velocity * Utils.Remap(Time, 0f, Fadetime * 0.75f, 1f, 0.1f) * Utils.Remap(Time, 0f, Fadetime * 0.1f, 0.1f, 1f);
+            }
+            if (Main.rand.NextBool(30) && Projectile.timeLeft > 20)
+            {
+                FlameParticle fire = new FlameParticle(Projectile.Center, 30, MathHelper.Clamp((Lifetime - Projectile.timeLeft) / 20, 0.5f, 2f), 0.05f, Color.BlueViolet * 0.5f, Color.DarkBlue * 0.5f);
+                fire.Velocity = Projectile.velocity.RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4 / 3, MathHelper.PiOver4 / 3));
+                GeneralParticleHandler.SpawnParticle(fire);
             }
             if (spawnParticles && Time > 6 && Main.rand.NextBool(7))
             {
@@ -137,7 +141,7 @@ namespace CalamityMod.Projectiles.Ranged
 
                 // Positions and rotations
                 Vector2 firePos = Projectile.Center - Main.screenPosition - Projectile.velocity * vOffset * j;
-                float mainRot = -j * MathHelper.PiOver2 - Main.GlobalTimeWrappedHourly * (j + 1f) * 2f / length;
+                float mainRot = (-j * MathHelper.PiOver2 - Main.GlobalTimeWrappedHourly * (j + 1f) * 2f / length) * Math.Sign(Projectile.velocity.X);
                 float trailRot = MathHelper.PiOver4 - mainRot;
 
                 // Draw one backtrail
