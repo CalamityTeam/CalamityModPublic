@@ -1,4 +1,5 @@
-﻿using CalamityMod.Particles;
+﻿using CalamityMod.Dusts;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -40,19 +41,18 @@ namespace CalamityMod.Projectiles.Ranged
             if (Time >= 8f)
             {
                 float cinderSize = Utils.GetLerpValue(6f, 12f, Time, true);
-                Dust cinder = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 10, default, 0.75f);
+                Dust cinder = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<FinalFlame>(), Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 10, default, 0.75f);
                 if (Main.rand.NextBool(3))
                 {
                     cinder.scale *= 3f;
                     cinder.velocity *= 1.5f;
                 }
                 cinder.noGravity = true;
-                cinder.velocity *= 1.2f;
-                cinder.scale *= cinderSize * 0.5f;
+                cinder.scale *= cinderSize * 0.8f;
                 cinder.velocity += Projectile.velocity;
             }
-            else if (Time == 7f) // Create sparks around the tip
-                SpawnSparks(2);
+            else if (Time == 7f && !Main.rand.NextBool(4)) // Create short sparks around the tip at a pretty high chance
+                SpawnSparks(3, true);
         }
 
         // On-impact sparks
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
             SpawnSparks(5);
         }
 
-        public void SpawnSparks(int count)
+        public void SpawnSparks(int count, bool shorts = false)
         {
             for (int i = 0; i < count; i++)
             {
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Ranged
 
                 Vector2 sparkVelocity = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30f)) * Main.rand.NextFloat(1.5f, 3f);
                 sparkVelocity.Y -= Main.rand.NextFloat(6f, 8f);
-                SparkParticle spark = new SparkParticle(Projectile.Center, sparkVelocity, true, sparkLifetime, sparkScale, sparkColor);
+                SparkParticle spark = new SparkParticle(Projectile.Center, (sparkVelocity * (shorts ? 0.75f : 1f)), true, sparkLifetime, sparkScale, sparkColor);
                 GeneralParticleHandler.SpawnParticle(spark);
             }
         }
