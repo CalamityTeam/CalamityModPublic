@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly SoundStyle Explosion = new("CalamityMod/Sounds/Item/DeadSunExplosion") { Volume = 0.5f };
         public override void SetDefaults()
         {
-            Item.damage = 155;
+            Item.damage = 182;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 70;
             Item.height = 24;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
-            if (Main.rand.Next(0, 100) < 70)
+            if (Main.rand.Next(0, 100) < 20)
                 return false;
             return true;
         }

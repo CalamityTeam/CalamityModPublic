@@ -10,7 +10,8 @@ namespace CalamityMod.Particles
     public class DetailedExplosion : Particle
     {
         public override string Texture => "CalamityMod/Particles/DetailedExplosion";
-        public override bool UseAdditiveBlend => true;
+        public bool UseAltVisual = true;
+        public override bool UseAdditiveBlend => UseAltVisual;
         public override bool SetLifetime => true;
         public override bool UseCustomDraw => true;
 
@@ -20,7 +21,7 @@ namespace CalamityMod.Particles
         private Vector2 Squish;
         private Color BaseColor;
 
-        public DetailedExplosion(Vector2 position, Vector2 velocity, Color color, Vector2 squish, float rotation, float originalScale, float finalScale, int lifeTime)
+        public DetailedExplosion(Vector2 position, Vector2 velocity, Color color, Vector2 squish, float rotation, float originalScale, float finalScale, int lifeTime, bool UseAdditiveBlend = true)
         {
             Position = position;
             Velocity = velocity;
@@ -31,6 +32,7 @@ namespace CalamityMod.Particles
             Lifetime = lifeTime;
             Squish = squish;
             Rotation = rotation;
+            UseAltVisual = UseAdditiveBlend;
         }
 
         public override void Update()
