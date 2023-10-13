@@ -89,21 +89,6 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.netUpdate = true;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
-        {
-            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
-            {
-                if (projectile.penetrate == -1 && !projectile.minion)
-                {
-                    projectile.penetrate = 1;
-                }
-                else if (projectile.penetrate >= 1)
-                {
-                    projectile.penetrate = 1;
-                }
-            }
-        }
-
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => NPC.ai[1] == 0f;
 
         public override Color? GetAlpha(Color drawColor) => NPC.ai[1] == 1f ? Color.Transparent : new Color(200, 200, 200, drawColor.A) * NPC.Opacity;
