@@ -86,6 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             Projectile.velocity = oldVelocity * 0.95f;
 			Projectile.position -= Projectile.velocity;
+            Projectile.timeLeft -= 2;
             spawnParticles = false;
             return false;
         }
