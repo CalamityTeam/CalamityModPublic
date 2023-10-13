@@ -115,9 +115,8 @@ AuroraBlazer: {
 	DisplayName: Aurora Blazer
 	Tooltip:
 		'''
-		Spews astral flames that travel in a star-shaped patterns
+		Spews stellar dusts that travel in star-shaped patterns
 		Uses gel for ammo
-		60% chance to save ammo
 		'''
 }
 
