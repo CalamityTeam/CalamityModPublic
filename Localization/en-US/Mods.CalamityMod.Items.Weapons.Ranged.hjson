@@ -1011,7 +1011,7 @@ SepticSkewer: {
 
 Shadethrower: {
 	DisplayName: Shadethrower
-	Tooltip: 66% chance to save ammo
+	Tooltip: ""
 }
 
 Shellshooter: {
@@ -1058,7 +1058,7 @@ SomaPrime: {
 
 SparkSpreader: {
 	DisplayName: Spark Spreader
-	Tooltip: 70% chance to save ammo
+	Tooltip: ""
 }
 
 SpectralstormCannon: {

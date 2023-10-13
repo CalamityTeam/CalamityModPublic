@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 76;
             Item.height = 30;
-            Item.useTime = 10;
-            Item.useAnimation = 10;
+            Item.useTime = 6;
+            Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
@@ -28,19 +28,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<ShadeFire>();
             Item.shootSpeed = 8f;
             Item.useAmmo = AmmoID.Gel;
+            Item.consumeAmmoOnFirstShotOnly = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
-
-        public override bool CanConsumeAmmo(Item ammo, Player player)
-        {
-            if (Main.rand.Next(0, 100) < 66)
-                return false;
-            return true;
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override void AddRecipes()
         {

@@ -47,7 +47,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? 2f : 1f;
+        // Right click consumes ammo at the same rate but faster at spewing
+        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 0.5f : 1f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
