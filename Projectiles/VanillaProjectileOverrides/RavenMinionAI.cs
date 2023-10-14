@@ -10,13 +10,16 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 {
     public static class RavenMinionAI
     {
+        // 60 tiles of enemy detection distance radius; a screen of diameter.
+        private const float MinEnemyDistanceDetection = 960f;
+        
         // 150 tiles of enemy detection distance radius.
         private const float MaxEnemyDistanceDetection = 2400f;
 
         // The detection distance dynamically updates.
         // If the minion hasn't detected a target, the minion will check within screen more or less.
         // When the minion has detected a target, the minion will follow it as long as we set it to.
-        private static float EnemyDistanceDetection { get => Target is null ? Main.maxScreenW / 2 : MaxEnemyDistanceDetection; }
+        private static float EnemyDistanceDetection { get => Target is null ? MinEnemyDistanceDetection : MaxEnemyDistanceDetection; }
 
         private const float DashSpeed = 35f;
         private static SoundStyle CrowNoises = new("CalamityMod/Sounds/Custom/Crow", 3);
