@@ -1185,11 +1185,7 @@ TelluricGlare: {
 
 TerraFlameburster: {
 	DisplayName: Terra Flameburster
-	Tooltip:
-		'''
-		Uses gel for ammo
-		80% chance to save ammo
-		'''
+	Tooltip: Uses gel for ammo
 }
 
 TheBallista: {

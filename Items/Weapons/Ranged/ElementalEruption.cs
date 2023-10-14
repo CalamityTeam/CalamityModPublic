@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 64;
             Item.height = 34;
-            Item.useTime = 14;
-            Item.useAnimation = 14;
+            Item.useTime = 12;
+            Item.useAnimation = 36;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.5f;
@@ -29,23 +29,20 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<ElementalFire>();
             Item.shootSpeed = 10f;
             Item.useAmmo = AmmoID.Gel;
+            Item.consumeAmmoOnFirstShotOnly = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int numFirestreams = Main.rand.Next(3, 5);
-            for (int index = 0; index < numFirestreams; ++index)
+            for (int i = 0; i < 2; i++)
             {
-                float SpeedX = velocity.X + Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = velocity.Y + Main.rand.Next(-20, 21) * 0.05f;
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+                Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(8f));
+                Projectile.NewProjectile(source, position, newVel, type, damage, knockback, player.whoAmI);
             }
-            return false;
+            return true; // Fires one directly with no randomness, totaling 3 projectiles
         }
-
-        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextFloat() > 0.9f;
 
         public override void AddRecipes()
         {

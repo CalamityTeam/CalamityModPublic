@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 68;
             Item.height = 22;
-            Item.useTime = 3;
-            Item.useAnimation = 15;
+            Item.useTime = 6;
+            Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.25f;
@@ -25,22 +25,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<TerraFireGreen>();
-            Item.shootSpeed = 7.5f;
+            Item.shoot = ModContent.ProjectileType<TerraFire>();
+            Item.shootSpeed = 8f;
             Item.useAmmo = AmmoID.Gel;
+            Item.consumeAmmoOnFirstShotOnly = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
-
-        public override bool CanConsumeAmmo(Item ammo, Player player)
-        {
-            if (Main.rand.Next(0, 100) < 80)
-                return false;
-            return true;
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
         public override void AddRecipes()
         {

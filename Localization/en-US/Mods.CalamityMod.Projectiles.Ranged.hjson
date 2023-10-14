@@ -119,7 +119,6 @@ MagnomalyRocket.DisplayName: Nuke
 MarksmanShot.DisplayName: Marksman Shot
 MechanicalBarracuda.DisplayName: Barracuda
 MeowFire.DisplayName: Purr Fire
-MeowFire2.DisplayName: Purr Fire
 MiniatureFolly.DisplayName: Miniature Folly
 MiniRocket.DisplayName: Rocket
 MiniSharkron.DisplayName: Mini Sharkron
@@ -213,7 +212,7 @@ TerraArrowMain.DisplayName: Terra Arrow
 TerraArrowSplit.DisplayName: Terra Arrow
 TerraBulletMain.DisplayName: Terra Bullet
 TerraBulletSplit.DisplayName: Terra Bullet
-TerraFireGreen.DisplayName: Terra Fire
+TerraFire.DisplayName: Terra Fire
 TheMaelstromExplosion.DisplayName: Reaper Explosion
 TheMaelstromShark.DisplayName: Reaper Shark
 ThePackMinissile.DisplayName: Pack Minissile

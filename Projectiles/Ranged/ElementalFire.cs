@@ -1,14 +1,20 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Ranged
 {
     public class ElementalFire : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        public static int Lifetime => 120;
+        public ref float Time => ref Projectile.ai[0];
 
         public override void SetDefaults()
         {
@@ -18,66 +24,54 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 2;
-            Projectile.extraUpdates = 3;
-            Projectile.timeLeft = 90;
+            Projectile.MaxUpdates = 4;
+            Projectile.timeLeft = Lifetime; // 30 effectively
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 9;
+            Projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 0.15f, 0.45f, 0f);
-            if (Projectile.ai[0] > 7f)
-            {
-                float num296 = 1f;
-                if (Projectile.ai[0] == 8f)
-                {
-                    num296 = 0.25f;
-                }
-                else if (Projectile.ai[0] == 9f)
-                {
-                    num296 = 0.5f;
-                }
-                else if (Projectile.ai[0] == 10f)
-                {
-                    num296 = 0.75f;
-                }
-                Projectile.ai[0] += 1f;
-                int num297 = 66;
-                if (Main.rand.NextBool())
-                {
-                    for (int num298 = 0; num298 < 2; num298++)
-                    {
-                        int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.75f);
-                        Dust dust = Main.dust[num299];
-                        if (Main.rand.NextBool(3))
-                        {
-                            dust.noGravity = true;
-                            dust.scale *= 1.75f;
-                            dust.velocity.X *= 2f;
-                            dust.velocity.Y *= 2f;
-                        }
-                        else
-                        {
-                            dust.noGravity = true;
-                            dust.scale *= 0.5f;
-                        }
-                        dust.velocity.X *= 1.2f;
-                        dust.velocity.Y *= 1.2f;
-                        dust.scale *= num296;
-                        dust.velocity += Projectile.velocity;
-                    }
-                }
-            }
+            Time++;
+
+            // Determines particle size as well as hitbox
+            if (Time >= 5f)
+                Projectile.scale = 1.8f * Utils.GetLerpValue(5f, 30f, Time, true);
             else
+                return; // Helps position it at the tip
+            
+            // Rainbow smokes of increasing opacity
+            float smokeRot = MathHelper.ToRadians(3f); // *Rate of rotation per frame, not a constant rotation
+            Color smokeColor = Color.Lerp(Color.Transparent, Main.DiscoColor, 0.6f + 0.4f * Utils.GetLerpValue(30f, Lifetime, Time, true));
+            Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, smokeColor, 12, Projectile.scale * Main.rand.NextFloat(0.6f, 1.2f), 0.8f, smokeRot, required: true);
+            GeneralParticleHandler.SpawnParticle(smoke);
+
+            // Overlay the glow on top, which is on the brighter side
+            if (Main.rand.NextBool(5))
             {
-                Projectile.ai[0] += 1f;
+                Color glowColor = Color.Lerp(smokeColor, Color.White, 0.3f);
+                glowColor.A = smokeColor.A;
+                Particle smokeGlow = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, glowColor, 9, Projectile.scale * Main.rand.NextFloat(0.4f, 0.7f), 0.8f, smokeRot, true, 0.005f, true);
+                GeneralParticleHandler.SpawnParticle(smokeGlow);
             }
-            Projectile.rotation += 0.3f * (float)Projectile.direction;
+
+            Lighting.AddLight(Projectile.Center, smokeColor.ToVector3() * Projectile.scale * Utils.Remap(Time, 30f, Lifetime, 0.5f, 0.6f));
         }
+
+        // Circular hitbox adjusted for the size of the smoke particles (which is 52 here)
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 52 * Projectile.scale * 0.5f, targetHitbox);
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<ElementalMix>(), 540);
+
+            // Circular spread of clouds on hit
+            for (int i = 0; i < 12; i++)
+            {
+                Vector2 smokeVel = Main.rand.NextVector2Circular(16f, 16f);
+                Particle smoke = new MediumMistParticle(Projectile.Center, smokeVel, Main.DiscoColor, Color.Black, Main.rand.NextFloat(0.6f, 1.6f), 200 - Main.rand.Next(60), 0.1f);
+                GeneralParticleHandler.SpawnParticle(smoke);
+            }
         }
     }
 }

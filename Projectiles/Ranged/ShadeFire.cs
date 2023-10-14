@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
             GeneralParticleHandler.SpawnParticle(smoke);
 
             // Overlay the glow on top, which is on the brighter side
-            if (Main.rand.NextBool(3))
+            if (Main.rand.NextBool(5))
             {
                 Color glowColor = Color.Lerp(smokeColor, Color.MidnightBlue, 0.25f);
                 Particle smokeGlow = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, glowColor, 15, Projectile.scale * Main.rand.NextFloat(0.4f, 0.7f), 0.8f, smokeRot, true, 0.005f, true);
@@ -54,8 +54,8 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        // Circular hitbox adjusted for the size of the smoke particles (which is 48 here)
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 48 * Projectile.scale * 0.5f, targetHitbox);
+        // Circular hitbox adjusted for the size of the smoke particles (which is 52 here)
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 52 * Projectile.scale * 0.5f, targetHitbox);
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<BrainRot>(), 300);
     }
