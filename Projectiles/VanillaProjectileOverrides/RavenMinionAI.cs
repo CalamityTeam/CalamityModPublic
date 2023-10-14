@@ -10,10 +10,11 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 {
     public static class RavenMinionAI
     {
-        // 60 tiles of enemy detection distance radius; a screen of diameter.
+        // Shorter range when the minion has no target yet: 60 tiles
+        // This is half of the width of a 1920x1080 screen.
         private const float MinEnemyDistanceDetection = 960f;
-        
-        // 150 tiles of enemy detection distance radius.
+
+        // Longer range when a target is already acquired: 150 tiles
         private const float MaxEnemyDistanceDetection = 2400f;
 
         // The detection distance dynamically updates.
