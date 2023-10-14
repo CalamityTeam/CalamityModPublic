@@ -20,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static int LightBombCooldown = 10;
 
         // Right-click stats
+        public static float RightClickVelocityMult = 2.5f;
         public static int RightClickCooldown = 30;
 
         public override void SetDefaults()
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.damage = 130;
             Item.DamageType = DamageClass.Ranged;
             Item.useTime = Item.useAnimation = LightBombCooldown;
-            Item.shootSpeed = 18f;
+            Item.shootSpeed = 6f;
             Item.knockBack = 2f;
             Item.shoot = ModContent.ProjectileType<PhotovisceratorHoldout>();
             Item.useAmmo = AmmoID.Gel;
@@ -71,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (player.altFunctionUse == 2f)
                 return false;
             
-            Projectile.NewProjectile(source, position, Vector2.Zero, Item.shoot, 0, 0f, player.whoAmI);
+            Projectile.NewProjectile(source, position, Vector2.Zero, type, 0, 0f, player.whoAmI);
             return false;
         }
 

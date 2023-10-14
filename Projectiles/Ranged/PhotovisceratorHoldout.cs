@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             // Main fire stream
             SoundEngine.PlaySound(SoundID.Item34, Owner.MountedCenter);
-            Projectile.NewProjectile(source, position, velocity, ProjectileType<ExoFire>(), damage, knockback, Projectile.owner);
+            Projectile.NewProjectile(source, position, velocity, ProjectileType<ExoFire>(), damage, knockback, Projectile.owner, Main.rand.NextFloat(0f, 3f));
 
             // Shoots light bombs every once in a while, rate of which equals to the item's use time
             if (ShootTimer >= Owner.ActiveItem().useTime)
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             var source = Projectile.GetSource_FromThis();
             Vector2 position = Projectile.Center + Projectile.velocity * 120f;
-            Vector2 velocity = Projectile.velocity * shootSpeed;
+            Vector2 velocity = Projectile.velocity * shootSpeed * RightClickVelocityMult;
 
             SoundEngine.PlaySound(SoundID.Item34, Owner.MountedCenter);
             Projectile.NewProjectile(source, position, velocity, ProjectileType<ExoFlareCluster>(), damage, knockback, Projectile.owner);

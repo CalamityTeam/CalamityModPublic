@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Purple;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ElementalFire>();
-            Item.shootSpeed = 10f;
+            Item.shootSpeed = 9f;
             Item.useAmmo = AmmoID.Gel;
             Item.consumeAmmoOnFirstShotOnly = true;
         }

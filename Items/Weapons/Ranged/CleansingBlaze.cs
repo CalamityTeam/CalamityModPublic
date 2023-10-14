@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<EssenceFire>();
-            Item.shootSpeed = 14f;
+            Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Gel;
             Item.consumeAmmoOnFirstShotOnly = true;
             Item.rare = ModContent.RarityType<DarkBlue>();
