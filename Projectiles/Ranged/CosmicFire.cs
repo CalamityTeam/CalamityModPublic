@@ -28,22 +28,21 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
             Projectile.extraUpdates = 9;
-            Projectile.timeLeft = 500;
+            Projectile.timeLeft = 440;
         }
 
         public override void AI()
         {
             Time++;
             Lighting.AddLight(Projectile.Center, 0.117f, 0.155f, 0.159f);
-            
-            if (Projectile.timeLeft % 3 == 0 && Time > 12)
+            Player Owner = Main.player[Projectile.owner];
+            float targetDist = Vector2.Distance(Owner.Center, Projectile.Center); //used for some drawing prevention for when it's offscreen since it makes a fuck load of particles
+            if (Projectile.timeLeft % 3 == 0 && Time > 12 && targetDist < 1400f)
             {
-                //SparkParticle spark = new SparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 2.3f, Main.rand.NextBool() ? color2 : color1);
-                //GeneralParticleHandler.SpawnParticle(spark);
                 AltSparkParticle spark = new AltSparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 2.3f, Color.Black);
                 GeneralParticleHandler.SpawnParticle(spark);
             }
-            if (Projectile.timeLeft % 2 == 0 && Time > 12)
+            if (Projectile.timeLeft % 2 == 0 && Time > 12 && targetDist < 1400f)
             {
                 SparkParticle spark2 = new SparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 0.9f, color1);
                 GeneralParticleHandler.SpawnParticle(spark2);
@@ -83,7 +82,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.timeLeft = 500;
+            Projectile.timeLeft = 440;
             float numberOfDusts = 25;
             float rotFactor = 360f / numberOfDusts;
             for (int i = 0; i < numberOfDusts; i++)
@@ -91,14 +90,15 @@ namespace CalamityMod.Projectiles.Ranged
                 float rot = MathHelper.ToRadians(i * rotFactor);
                 Vector2 offset = new Vector2(Main.rand.NextFloat(1, 3.1f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
                 Vector2 velOffset = new Vector2(Main.rand.NextFloat(1, 3.1f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
-                Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, Main.rand.NextBool(6) ? 229 : 156, new Vector2(velOffset.X, velOffset.Y));
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, Main.rand.NextBool(3) ? 156 : 191, new Vector2(velOffset.X, velOffset.Y));
                 dust.noGravity = true;
-                dust.velocity = velOffset;
-                dust.scale = Main.rand.NextFloat(2.6f, 3.2f);
+                dust.noLight = dust.type == 191 ? true : false;
+                dust.velocity = dust.type == 191 ? velOffset * 2.5f : velOffset;
+                dust.scale = dust.type == 191 ? Main.rand.NextFloat(0.9f, 1.9f) : Main.rand.NextFloat(2.6f, 3.2f);
             }
             Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, color1, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.1f, 0.9f - (bounceKill * 0.25f), 25);
             GeneralParticleHandler.SpawnParticle(pulse);
-            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, color2, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.05f, 0.8f - (bounceKill * 0.25f), 25);
+            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.MediumSpringGreen, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.05f, 0.75f - (bounceKill * 0.25f), 25);
             GeneralParticleHandler.SpawnParticle(pulse2);
             Homing = true;
             if (bounceKill == 0)
