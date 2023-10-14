@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.aiStyle = ProjAIStyleID.Beam;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 5;
             Projectile.timeLeft = 300;
             Projectile.ignoreWater = true;
             Projectile.usesIDStaticNPCImmunity = true;
@@ -93,14 +93,14 @@ namespace CalamityMod.Projectiles.Melee
         // Spawns a storm of water projectiles on-hit.
         public void SwordSpam(Vector2 targetPos)
         {
-            int projAmt = 3;
+            int projAmt = 2;
             var source = Projectile.GetSource_FromThis();
             for (int i = 0; i < projAmt; ++i)
             {
                 int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
+                    CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, (int)(Projectile.damage * 0.4f), Projectile.knockBack * 0.5f, Projectile.owner);
                 }
             }
         }
