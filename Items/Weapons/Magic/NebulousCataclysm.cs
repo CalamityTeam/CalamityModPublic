@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
+    [LegacyName("GrandStaffoftheNebulaMage")]
     public class NebulousCataclysm : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
