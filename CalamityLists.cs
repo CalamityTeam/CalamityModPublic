@@ -789,7 +789,7 @@ namespace CalamityMod
                 ProjectileType<ApotheosisWorm>(),
                 ProjectileType<SpiritCongregation>(),
                 ProjectileType<RancorLaserbeam>(),
-                ProjectileType<GrandStaffoftheNebulaMage_Held>(),
+                ProjectileType<NebulousCataclysm_Held>(),
 
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<InfernadoFriendly>(),

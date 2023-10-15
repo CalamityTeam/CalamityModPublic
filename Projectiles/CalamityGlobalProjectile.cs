@@ -188,6 +188,10 @@ namespace CalamityMod.Projectiles
             if (projectile.type == ProjectileID.FlyingImp)
                 return ImpMinionAI.DoImpMinionAI(projectile);
 
+            // Raven Staff's minion changes.
+            if (projectile.type == ProjectileID.Raven)
+                return RavenMinionAI.DoRavenMinionAI(projectile);
+
             //
             // SENTRY AI CHANGES:
             //
@@ -2772,6 +2776,17 @@ namespace CalamityMod.Projectiles
 
         public override bool PreDraw(Projectile projectile, ref Color lightColor)
         {
+            #region Vanilla Summons Drawing Changes
+
+            //
+            // MINION AI CHANGES:
+            //
+
+            if (projectile.type == ProjectileID.Raven)
+                return RavenMinionAI.DoRavenMinionDrawing(projectile, ref lightColor);
+
+            #endregion
+
             // Chlorophyte Crystal AI rework.
             if (projectile.type == ProjectileID.CrystalLeaf)
                 return ChlorophyteCrystalAI.DoChlorophyteCrystalDrawing(projectile);

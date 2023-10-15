@@ -23,13 +23,13 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 5;
             Projectile.ignoreWater = true;
             AIType = ProjectileID.DeathSickle;
             Projectile.MaxUpdates = 2;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20 * Projectile.MaxUpdates;
-            Projectile.timeLeft = 180 * Projectile.MaxUpdates;
+            Projectile.timeLeft = 210 * Projectile.MaxUpdates;
         }
 
         public override void AI()
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.OnFire, 180);
+            target.AddBuff(BuffID.OnFire3, 180);
         }
     }
 }

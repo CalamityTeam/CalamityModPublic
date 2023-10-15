@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -40,6 +40,12 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Projectile.frame = 0;
             }
+
+            if (Projectile.timeLeft < 210) // making it not home right away so the projectiles get closer to the character first, to make it look more natural and overall better.
+            {
+                CalamityUtils.HomeInOnNPC(Projectile, true, 450f, 20f, 20f);
+            }
+
             float inertia = 50f * Projectile.ai[1]; //100
             float speed = 10f * Projectile.ai[1]; //5
             float num954 = 40f;

@@ -52,8 +52,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             Vector2 etherealLanceDistance = new Vector2(0f, -450f);
             Vector2 sunDanceDistance = new Vector2(-80f, -500f);
 
-            float acceleration = death ? 0.7f : 0.6f;
-            float velocity = death ? 18f : 15f;
+            float acceleration = death ? 0.55f : 0.48f;
+            float velocity = death ? 14f : 12f;
             float movementDistanceGateValue = 40f;
             float despawnDistanceGateValue = 6400f;
 
@@ -406,7 +406,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = (dayTimeEnrage ? 36f : 45f) + 30f * lessTimeSpentPerPhaseMultiplier;
+                    extraPhaseTime = (dayTimeEnrage ? 36f : 72f) + 30f * lessTimeSpentPerPhaseMultiplier;
                     if (npc.ai[1] >= 60f + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
@@ -533,7 +533,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = (dayTimeEnrage ? 24f : 30f) + 20f * lessTimeSpentPerPhaseMultiplier;
+                    extraPhaseTime = (dayTimeEnrage ? 24f : 48f) + 20f * lessTimeSpentPerPhaseMultiplier;
                     if (npc.ai[1] >= 100f + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
@@ -604,7 +604,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = (dayTimeEnrage ? 36f : 45f) + 30f * lessTimeSpentPerPhaseMultiplier;
+                    extraPhaseTime = (dayTimeEnrage ? 36f : 72f) + 30f * lessTimeSpentPerPhaseMultiplier;
                     if (npc.ai[1] >= 72f + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
@@ -654,7 +654,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = 110f + 30f * lessTimeSpentPerPhaseMultiplier; // 112.5 is too little
+                    extraPhaseTime = (dayTimeEnrage ? 110f : 150f) + 30f * lessTimeSpentPerPhaseMultiplier; // 112.5 is too little
                     if (npc.ai[1] >= totalSunDancePhaseTime + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
@@ -784,7 +784,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = (dayTimeEnrage ? 24f : 30f) + 20f * lessTimeSpentPerPhaseMultiplier;
+                    extraPhaseTime = (dayTimeEnrage ? 24f : 48f) + 20f * lessTimeSpentPerPhaseMultiplier;
                     if (npc.ai[1] >= lanceWallPhaseTime + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
@@ -887,7 +887,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = (dayTimeEnrage ? 48f : 60f) * lessTimeSpentPerPhaseMultiplier;
+                    extraPhaseTime = (dayTimeEnrage ? 48f : 96f) * lessTimeSpentPerPhaseMultiplier;
                     if (npc.ai[1] >= 150f + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
@@ -1021,7 +1021,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = (dayTimeEnrage ? 24f : 30f) * lessTimeSpentPerPhaseMultiplier;
+                    extraPhaseTime = (dayTimeEnrage ? 24f : 48f) * lessTimeSpentPerPhaseMultiplier;
                     if (npc.ai[1] >= 100f + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
@@ -1085,7 +1085,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = (dayTimeEnrage ? 36f : 45f) + 30f * lessTimeSpentPerPhaseMultiplier;
+                    extraPhaseTime = (dayTimeEnrage ? 36f : 72f) + 30f * lessTimeSpentPerPhaseMultiplier;
                     if (npc.ai[1] >= 120f + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;

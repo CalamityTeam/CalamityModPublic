@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
         #region stats
         public static int BaseDamage = 800;
 
-        public static int PhoenixAttunement_BaseDamage = 1050;
+        public static int PhoenixAttunement_BaseDamage = 1200;
         public static int PhoenixAttunement_LocalIFrames = 30; //Remember its got one extra update
         public static float PhoenixAttunement_BoltDamageReduction = 0.5f;
         public static float PhoenixAttunement_BoltThrowDamageMultiplier = 1f;
