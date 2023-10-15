@@ -26,8 +26,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly float RightClickSilverMultiplier = 0.08f;
         public static readonly float RightClickGoldMultiplier   = 0.16f;
 
-        public static readonly float DoublesMultiplier = 2f; // Doubles means double damage!
+        public static readonly float DoublesMultiplier = 1f; // Unfortunately doubles can't be doubles. Balancing!
         public static readonly float TriplesCherryMultiplier = 1f;
+        public static readonly float TriplesCherrySplitMultiplier = 0.333f;
         public static readonly float TriplesGrapeMultiplier = 0.333f; // fixed the grapes interfering with each other's iframes
         public static readonly float JackpotMultiplier = 0.5f; // Jackpot fires 49 shots total and thus needs to be reduced somehow
 

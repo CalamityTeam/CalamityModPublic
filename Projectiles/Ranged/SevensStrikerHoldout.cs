@@ -137,15 +137,15 @@ namespace CalamityMod.Projectiles.Ranged
                                 SoundEngine.PlaySound(TheSevensStriker.JackpotSound, Projectile.Center);
                                 CombatText.NewText(player.getRect(), Color.Gold, CalamityUtils.GetTextValue("Misc.SevensJackpot"), true);
                             }
-                            // Every 5 frames, shoot 7 coins. The first 5 frames are excluded for timing purposes
-                            if (shottimer % 5 == 0 && shottimer > 5)
+                            // Every 7 frames, shoot 7 coins. The first 7 frames are excluded for timing purposes
+                            if (shottimer % 7 == 0 && shottimer > 7)
                             {
                                 int jackpotDamage = (int)(weaponDamage * TheSevensStriker.JackpotMultiplier);
                                 Shoot(7, ModContent.ProjectileType<SevensStrikerPlatinumCoin>(), jackpotDamage, weaponKnockback, (int)scaleFactor * 2f, 0.2f);
                                 SoundEngine.PlaySound(TheSevensStriker.CoinSound, Projectile.Center);
                             }
                             // After 7 waves have been shot, reset the gun and roll again
-                            if (shottimer > 40)
+                            if (shottimer > 56)
                             {
                                 soundtimer = 0;
                                 rolling = true;
@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Ranged
                                         CombatText.NewText(player.getRect(), Color.Gray, CalamityUtils.GetTextValue("Misc.SevensBust"), true);
                                         SoundEngine.PlaySound(TheSevensStriker.BustSound, Projectile.Center);
                                         break;
-                                    // 7 exploding oranges with 200% damage
+                                    // 7 exploding oranges with 100% damage
                                     case 2:
                                         int doublesDamage = (int)(weaponDamage * TheSevensStriker.DoublesMultiplier);
                                         Shoot(7, ModContent.ProjectileType<SevensStrikerOrange>(), doublesDamage, weaponKnockback, 2f, 0.1f);
