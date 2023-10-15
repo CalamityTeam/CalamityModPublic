@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
     public class TenebreusTidesWaterSword : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        private int penetrationAmt = 4;
+        private int penetrationAmt = 2;
         private bool dontDraw = false;
         private int drawInt = 0;
 
@@ -22,8 +22,9 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = penetrationAmt;
             Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Melee;
+            Projectile.extraUpdates = 2;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 5;
+            Projectile.localNPCHitCooldown = 5 * Projectile.MaxUpdates;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
         }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,14 +29,14 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.MaxUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 15 * Projectile.MaxUpdates;
-            Projectile.timeLeft = 120 * Projectile.MaxUpdates;
+            Projectile.timeLeft = 150 * Projectile.MaxUpdates;
         }
 
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0f, 0.5f, 0f);
 
-            CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 10f, 10f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 350f, 15f, 10f);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.CursedInferno, 180);
         }
     }
 }

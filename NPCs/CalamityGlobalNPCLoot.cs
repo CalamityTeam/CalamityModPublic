@@ -885,7 +885,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.KingSlimePetItem, 4);
 
                     // GFB Aureus Cell drop
-                    GFB.Add(ModContent.ItemType<AureusCell>(), 1, 45, 55);
+                    GFB.Add(ModContent.ItemType<AureusCell>(), 1, 45, 55, true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedSlimeKing, ModContent.ItemType<LoreKingSlime>(), desc: DropHelper.FirstKillText);
@@ -905,7 +905,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.EyeOfCthulhuPetItem, 4);
 
                     // GFB Optic Staff drop
-                    GFB.Add(ItemID.OpticStaff);
+                    GFB.Add(ItemID.OpticStaff, hideLootReport: true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss1, ModContent.ItemType<LoreEyeofCthulhu>(), desc: DropHelper.FirstKillText);
@@ -928,7 +928,7 @@ namespace CalamityMod.NPCs
                     rev.AddIf((info) => info.npc.boss, ItemID.EaterOfWorldsPetItem, 4);
 
                     // GFB Light Disc drop
-                    GFB.Add(ItemID.LightDisc);
+                    GFB.AddIf((info) => info.npc.boss, ItemID.LightDisc, hideLootReport: true);
 
                     // Corruption World OR Drunk World: Corruption Lore
                     LeadingConditionRule eowCorruptionLore = new(DropHelper.If((info) => info.npc.boss && (!WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2, desc: DropHelper.FirstKillText));
@@ -955,7 +955,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.BrainOfCthulhuPetItem, 4);
 
                     // GFB Occult Skull Crown drop
-                    GFB.Add(ModContent.ItemType<OccultSkullCrown>());
+                    GFB.Add(ModContent.ItemType<OccultSkullCrown>(), hideLootReport: true);
 
                     // Corruption World OR Drunk World: Corruption Lore
                     LeadingConditionRule bocCorruptionLore = new(DropHelper.If(() => (!WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2, desc: DropHelper.FirstKillText));
@@ -1033,8 +1033,8 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.QueenBeePetItem, 4);
 
                     // GFB Lavaproof Bug Net and Alchemical Flask drop
-                    GFB.Add(ItemID.FireproofBugNet);
-                    GFB.Add(ModContent.ItemType<AlchemicalFlask>());
+                    GFB.Add(ItemID.FireproofBugNet, hideLootReport: true);
+                    GFB.Add(ModContent.ItemType<AlchemicalFlask>(), hideLootReport: true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedQueenBee, ModContent.ItemType<LoreQueenBee>(), desc: DropHelper.FirstKillText);
@@ -1064,7 +1064,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.SkeletronPetItem, 4);
 
                     // GFB Flamethrower drop
-                    GFB.Add(ItemID.Flamethrower);
+                    GFB.Add(ItemID.Flamethrower, hideLootReport: true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss3, ModContent.ItemType<LoreSkeletron>(), desc: DropHelper.FirstKillText);
@@ -1150,8 +1150,8 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.WallOfFleshGoatMountItem, 4);
 
                     // GFB Eye of Magnus and Flesh Wall drops
-                    GFB.Add(ModContent.ItemType<EyeofMagnus>());
-                    GFB.Add(ItemID.FleshBlockWall);
+                    GFB.Add(ModContent.ItemType<EyeofMagnus>(), hideLootReport: true);
+                    GFB.Add(ItemID.FleshBlockWall, hideLootReport: true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<LoreUnderworld>(), desc: DropHelper.FirstKillText);
@@ -1174,7 +1174,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.QueenSlimePetItem, 4);
 
                     // GFB Bottomless Shimmer Bucket drop
-                    GFB.Add(ItemID.BottomlessShimmerBucket);
+                    GFB.Add(ItemID.BottomlessShimmerBucket, hideLootReport: true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedQueenSlime, ModContent.ItemType<LoreQueenSlime>(), desc: DropHelper.FirstKillText);
@@ -1199,7 +1199,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.DestroyerPetItem, 4);
 
                     // GFB Bloodworm drop
-                    GFB.Add(ModContent.ItemType<BloodwormItem>());
+                    GFB.Add(ModContent.ItemType<BloodwormItem>(), hideLootReport: true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss1, ModContent.ItemType<LoreDestroyer>(), desc: DropHelper.FirstKillText);
@@ -1241,7 +1241,7 @@ namespace CalamityMod.NPCs
                     rev.AddIf((info) => IsLastTwinStanding(info), ItemID.TwinsPetItem, 4);
 
                     // GFB The Eye of Cthulhu drop
-                    GFB.AddIf((info) => IsLastTwinStanding(info), ItemID.TheEyeOfCthulhu);
+                    GFB.AddIf((info) => IsLastTwinStanding(info), ItemID.TheEyeOfCthulhu, hideLootReport: true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer((info) => !NPC.downedMechBoss2 && IsLastTwinStanding(info), ModContent.ItemType<LoreTwins>(), desc: DropHelper.FirstKillText);
@@ -1266,7 +1266,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.SkeletronPrimePetItem, 4);
 
                     // GFB Bone Wings drop
-                    GFB.Add(ItemID.BoneWings);
+                    GFB.Add(ItemID.BoneWings, hideLootReport: true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss3, ModContent.ItemType<LoreSkeletronPrime>(), desc: DropHelper.FirstKillText);
@@ -1330,7 +1330,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.PlanteraPetItem, 4);
 
                     // GFB Life Fruit drop
-                    GFB.Add(ItemID.LifeFruit, 1, 1, 9999);
+                    GFB.Add(ItemID.LifeFruit, 1, 1, 9999, true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedPlantBoss, ModContent.ItemType<LorePlantera>(), desc: DropHelper.FirstKillText);
@@ -1388,12 +1388,12 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.GolemPetItem, 4);
 
                     // GFB Vision Potion drop
-                    GFB.Add(ItemID.NightOwlPotion, 1, 1, 9999);
-                    GFB.Add(ItemID.ShinePotion, 1, 1, 9999);
-                    GFB.Add(ItemID.HunterPotion, 1, 1, 9999);
-                    GFB.Add(ItemID.TrapsightPotion, 1, 1, 9999);
-                    GFB.Add(ItemID.SpelunkerPotion, 1, 1, 9999);
-                    GFB.Add(ModContent.ItemType<PotionofOmniscience>(), 1, 1, 9999);
+                    GFB.Add(ItemID.NightOwlPotion, 1, 1, 9999, true);
+                    GFB.Add(ItemID.ShinePotion, 1, 1, 9999, true);
+                    GFB.Add(ItemID.HunterPotion, 1, 1, 9999, true);
+                    GFB.Add(ItemID.TrapsightPotion, 1, 1, 9999, true);
+                    GFB.Add(ItemID.SpelunkerPotion, 1, 1, 9999, true);
+                    GFB.Add(ModContent.ItemType<PotionofOmniscience>(), 1, 1, 9999, true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedGolemBoss, ModContent.ItemType<LoreGolem>(), desc: DropHelper.FirstKillText);
@@ -1472,28 +1472,28 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.DukeFishronPetItem, 4);
 
                     // GFB Old Die and Fish drop
-                    GFB.Add(ModContent.ItemType<OldDie>());
-                    GFB.Add(ItemID.Fish);
-                    GFB.Add(ItemID.FishBowl);
-                    GFB.Add(ItemID.FishCostumeFinskirt);
-                    GFB.Add(ItemID.FishCostumeMask);
-                    GFB.Add(ItemID.FishCostumeShirt);
-                    GFB.Add(ItemID.FishermansGuide);
-                    GFB.Add(ItemID.FisherofSouls);
-                    GFB.Add(ItemID.FishFinder);
-                    GFB.Add(ItemID.FishHook);
-                    GFB.Add(ItemID.FishingBobber);
-                    GFB.Add(ItemID.FishingPotion, 1, 1, 9999);
-                    GFB.Add(ItemID.FishingSeaweed, 1, 1, 9999);
-                    GFB.Add(ItemID.FishMinecart);
-                    GFB.Add(ItemID.Fishotron);
-                    GFB.Add(ItemID.Fishron);
-                    GFB.Add(ItemID.FishStatue, 1, 1, 9999);
-                    GFB.Add(ModContent.ItemType<FishboneBoomerang>());
-                    GFB.Add(ModContent.ItemType<FishofEleum>(), 1, 1, 9999);
-                    GFB.Add(ModContent.ItemType<FishofFlight>(), 1, 1, 9999);
-                    GFB.Add(ModContent.ItemType<FishofLight>(), 1, 1, 9999);
-                    GFB.Add(ModContent.ItemType<FishofNight>(), 1, 1, 9999);
+                    GFB.Add(ModContent.ItemType<OldDie>(), hideLootReport: true);
+                    GFB.Add(ItemID.Fish, hideLootReport: true);
+                    GFB.Add(ItemID.FishBowl, hideLootReport: true);
+                    GFB.Add(ItemID.FishCostumeFinskirt, hideLootReport: true);
+                    GFB.Add(ItemID.FishCostumeMask, hideLootReport: true);
+                    GFB.Add(ItemID.FishCostumeShirt, hideLootReport: true);
+                    GFB.Add(ItemID.FishermansGuide, hideLootReport: true);
+                    GFB.Add(ItemID.FisherofSouls, hideLootReport: true);
+                    GFB.Add(ItemID.FishFinder, hideLootReport: true);
+                    GFB.Add(ItemID.FishHook, hideLootReport: true);
+                    GFB.Add(ItemID.FishingBobber, hideLootReport: true);
+                    GFB.Add(ItemID.FishingPotion, 1, 1, 9999, true);
+                    GFB.Add(ItemID.FishingSeaweed, 1, 1, 9999, true);
+                    GFB.Add(ItemID.FishMinecart, hideLootReport: true);
+                    GFB.Add(ItemID.Fishotron, hideLootReport: true);
+                    GFB.Add(ItemID.Fishron, hideLootReport: true);
+                    GFB.Add(ItemID.FishStatue, 1, 1, 9999, true);
+                    GFB.Add(ModContent.ItemType<FishboneBoomerang>(), hideLootReport: true);
+                    GFB.Add(ModContent.ItemType<FishofEleum>(), 1, 1, 9999, true);
+                    GFB.Add(ModContent.ItemType<FishofFlight>(), 1, 1, 9999, true);
+                    GFB.Add(ModContent.ItemType<FishofLight>(), 1, 1, 9999, true);
+                    GFB.Add(ModContent.ItemType<FishofNight>(), 1, 1, 9999, true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedFishron, ModContent.ItemType<LoreDukeFishron>(), desc: DropHelper.FirstKillText);
@@ -1545,8 +1545,8 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.FairyQueenPetItem, 4);
 
                     // GFB Fabsol's Vodka and Terraformer drop
-                    GFB.Add(ModContent.ItemType<FabsolsVodka>(), 1, 1, 9999);
-                    GFB.Add(ItemID.Clentaminator2);
+                    GFB.Add(ModContent.ItemType<FabsolsVodka>(), 1, 1, 9999, true);
+                    GFB.Add(ItemID.Clentaminator2, hideLootReport: true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedEmpressOfLight, ModContent.ItemType<LoreEmpressofLight>(), desc: DropHelper.FirstKillText);
@@ -1561,7 +1561,7 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // GFB Luminite Brick drop
-                    GFB.Add(ItemID.LunarBrick, 1, 1, 9999);
+                    GFB.Add(ItemID.LunarBrick, 1, 1, 9999, true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedAncientCultist, ModContent.ItemType<LorePrelude>(), desc: DropHelper.FirstKillText);
@@ -1611,7 +1611,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.MoonLordPetItem, 4);
 
                     // GFB Calamari's Lament drop
-                    GFB.Add(ModContent.ItemType<CalamarisLament>());
+                    GFB.Add(ModContent.ItemType<CalamarisLament>(), hideLootReport: true);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedMoonlord, ModContent.ItemType<LoreRequiem>(), desc: DropHelper.FirstKillText);

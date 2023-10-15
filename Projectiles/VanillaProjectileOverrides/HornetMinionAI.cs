@@ -10,10 +10,16 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 {
     public static class HornetMinionAI
     {
+        // Shorter range when the minion has no target yet: 40 tiles
+        private const float MinEnemyDistanceDetection = 640f;
+        
+        // Longer range when a target is already acquired: 75 tiles
         private const float MaxEnemyDistanceDetection = 1200f;
+
+        private static float EnemyDistanceDetection { get => Target is null ? MinEnemyDistanceDetection : MaxEnemyDistanceDetection; }
+
         private const int FireRate = 40;
         private const float ProjectileVelocity = 20f;
-        private static float EnemyDistanceDetection { get => (Target is null) ? Main.screenWidth / 2f : MaxEnemyDistanceDetection; }
         private static NPC Target { get; set; }
 
         public static bool DoHornetMinionAI(Projectile proj)

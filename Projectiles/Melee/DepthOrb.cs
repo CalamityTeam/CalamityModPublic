@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -20,7 +20,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 30;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = 75;
         }
 
         public override void AI()
@@ -34,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (Projectile.timeLeft > 25)
+            if (Projectile.timeLeft > 70)
                 return false;
 
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;

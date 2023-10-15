@@ -86,6 +86,7 @@ Cooldowns: {
 	ParryCooldown: Parry Ability Cooldown
 	EvasionScarf: Scarf Cooldown
 	FleshTotem: Contact Damage Halving Cooldown
+	GaelsRage: Gael's Greatsword Rage Cooldown
 	GlobalDodge: Dodge Cooldown
 	GodSlayerDash: God Slayer Dash Cooldown
 	InkBomb: Ink Bomb Cooldown

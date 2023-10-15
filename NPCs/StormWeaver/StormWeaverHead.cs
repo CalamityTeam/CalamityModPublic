@@ -987,8 +987,8 @@ namespace CalamityMod.NPCs.StormWeaver
             // GFB Elemental Gauntlet and Quiver drops
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
-                GFBOnly.Add(ModContent.ItemType<ElementalGauntlet>());
-                GFBOnly.Add(ModContent.ItemType<ElementalQuiver>());
+                GFBOnly.Add(ModContent.ItemType<ElementalGauntlet>(), hideLootReport: true);
+                GFBOnly.Add(ModContent.ItemType<ElementalQuiver>(), hideLootReport: true);
             }
 
             // Lore

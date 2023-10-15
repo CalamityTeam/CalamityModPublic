@@ -1536,7 +1536,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             // GFB Broken Water Filter
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
-                GFBOnly.Add(ModContent.ItemType<BrokenWaterFilter>());
+                GFBOnly.Add(ModContent.ItemType<BrokenWaterFilter>(), hideLootReport: true);
             }
 
             // Lore item

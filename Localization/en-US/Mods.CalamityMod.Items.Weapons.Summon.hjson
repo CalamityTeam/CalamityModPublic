@@ -520,7 +520,7 @@ PlantationStaff: {
 	DisplayName: Plantation Staff
 	Tooltip:
 		'''
-		Summons a minature Plantera to devastate enemies with floral fury
+		Summons a miniature Plantera to devastate enemies with floral fury
 		Occupies 3 minion slots and there can only be one Mini Plantera at a time
 		'''
 }

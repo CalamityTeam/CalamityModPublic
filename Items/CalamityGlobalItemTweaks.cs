@@ -98,6 +98,7 @@ namespace CalamityMod.Items
                 { ItemID.EnchantedSword, Do(UseMeleeSpeed, DamageExact(30), ShootSpeedExact(15f)) },
                 { ItemID.Excalibur, Do(TrueMelee, ScaleRatio(1.2f), UseRatio(0.8f), DamageExact(125), UseAnimationExact(45)) },
                 { ItemID.FairyQueenMagicItem, Do(DamageExact(54)) }, // Nightglow
+                { ItemID.FairyQueenRangedItem, Do(PointBlank, DamageExact(42))}, //Eventide
                 { ItemID.FalconBlade, Do(UseTurn, UseExact(15)) },
                 // Unsure what to do with Celebration. Should it be treated as a serious weapon or not? Currently not changing it from vanilla.
                 // { ItemID.FireworksLauncher, Do(DamageRatio(2f)) }, // Celebration
@@ -183,6 +184,8 @@ namespace CalamityMod.Items
                 { ItemID.PurplePhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.RainbowRod, Do(DamageExact(35), ManaExact(15)) },
                 { ItemID.Rally, Do(AutoReuse, DamageExact(18)) },
+                { ItemID.RainbowGun, Do(DamageExact(60), ManaExact(40)) },
+                { ItemID.RavenStaff, Do(AutoReuse, UseExact(20), DamageExact(36)) },
                 { ItemID.Razorpine, Do(DamageExact(40)) },
                 { ItemID.RedPhaseblade, Do(AutoReuse, UseTurn, DamageExact(32)) },
                 { ItemID.RedPhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
@@ -418,7 +421,6 @@ namespace CalamityMod.Items
                 { ItemID.DartPistol, pointBlank },
                 { ItemID.DD2PhoenixBow, pointBlank }, // Phantom Phoenix
                 { ItemID.EbonwoodBow, pointBlank },
-                { ItemID.FairyQueenRangedItem, pointBlank }, // Eventide
                 { ItemID.FlintlockPistol, pointBlank },
                 { ItemID.FlareGun,  Do(PointBlank, Value(Item.sellPrice(silver: 10))) },
                 { ItemID.GoldBow, pointBlank },
@@ -478,7 +480,6 @@ namespace CalamityMod.Items
                 { ItemID.QueenSpiderStaff, Do(UseExact(25)) },
                 { ItemID.RainbowCrystalStaff, Do(UseExact(15)) },
                 { ItemID.RainbowWhip, autoReuse }, // Kaleidoscope
-                { ItemID.RavenStaff, Do(AutoReuse, UseExact(20)) },
                 { ItemID.SanguineStaff, Do(AutoReuse, UseExact(25)) },
                 { ItemID.ScytheWhip, autoReuse }, // Dark Harvest
                 { ItemID.SlimeStaff, Do(AutoReuse, UseExact(30)) },

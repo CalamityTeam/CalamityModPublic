@@ -836,10 +836,10 @@ namespace CalamityMod.NPCs.Leviathan
             // GFB Boulder, Pizza and Ring drop
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
-                GFBOnly.Add(ItemID.BouncyBoulder, 1, 1, 9999);
-                GFBOnly.Add(ItemID.Boulder, 1, 1, 9999);
-                GFBOnly.Add(ItemID.Pizza, 1, 1, 9999);
-                GFBOnly.Add(ItemID.GreedyRing);
+                GFBOnly.Add(ItemID.BouncyBoulder, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.Boulder, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.Pizza, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.GreedyRing, hideLootReport: true);
             }
 
             // Lore

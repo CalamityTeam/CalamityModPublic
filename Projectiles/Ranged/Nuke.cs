@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
         public int flarePowderTimer = 12;
-        public static Item FalseLauncher = null;
+        private ref float RocketType => ref Projectile.ai[0];
 
         public override void SetStaticDefaults()
         {
@@ -32,13 +32,6 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = 1;
             Projectile.timeLeft = 125;
             Projectile.DamageType = DamageClass.Ranged;
-        }
-
-        private static void DefineFalseLauncher()
-        {
-            int rocketID = ItemID.RocketLauncher;
-            FalseLauncher = new Item();
-            FalseLauncher.SetDefaults(rocketID, true);
         }
 
         public override void AI()
@@ -82,17 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num249].velocity *= 0.05f;
             }
 
-            // Construct a fake item to use with vanilla code for the sake of picking ammo.
-            if (FalseLauncher is null)
-                DefineFalseLauncher();
-
-            Player player = Main.player[Projectile.owner];
-            int projID = ProjectileID.RocketI;
-            float shootSpeed = 0f;
-            int damage = 0;
-            float kb = 0f;
-            player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
-			if (projID == ProjectileID.DryRocket || projID == ProjectileID.WetRocket || projID == ProjectileID.LavaRocket || projID == ProjectileID.HoneyRocket)
+			if (RocketType == ItemID.DryRocket || RocketType == ItemID.WetRocket || RocketType == ItemID.LavaRocket || RocketType == ItemID.HoneyRocket)
 			{
 				Projectile.ignoreWater = false;
 				if (Projectile.wet)
@@ -182,51 +165,42 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            // Construct a fake item to use with vanilla code for the sake of picking ammo.
-            if (FalseLauncher is null)
-                DefineFalseLauncher();
-            Player player = Main.player[Projectile.owner];
-            int projID = ProjectileID.RocketI;
-            float shootSpeed = 0f;
-            int damage = 0;
-            float kb = 0f;
-            player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
+            // Only do rocket effects for the owner client side
+            if (Projectile.owner != Main.myPlayer)
+                return;
+
             int blastRadius = 0;
-            if (projID == ProjectileID.RocketII || projID == ProjectileID.ClusterRocketII)
+            if (RocketType == ItemID.RocketII)
                 blastRadius = 6;
-            else if (projID == ProjectileID.RocketIV)
+            else if (RocketType == ItemID.RocketIV)
                 blastRadius = 12;
-            else if (projID == ProjectileID.MiniNukeRocketII)
+            else if (RocketType == ItemID.MiniNukeII)
                 blastRadius = 18;
 
             Projectile.ExpandHitboxBy(22);
 
-            if (Projectile.owner == Main.myPlayer && blastRadius > 0)
-            {
-                CalamityUtils.ExplodeandDestroyTiles(Projectile, blastRadius, true, new List<int>() { }, new List<int>() { });
-            }
-			if (Projectile.owner == Main.myPlayer)
+            if (blastRadius > 0)
+                Projectile.ExplodeandDestroyTiles(blastRadius, true, new List<int>(), new List<int>());
+
+			Point center = Projectile.Center.ToTileCoordinates();
+			DelegateMethods.v2_1 = center.ToVector2();
+			DelegateMethods.f_1 = 4f;
+			if (RocketType == ItemID.DryRocket)
 			{
-				Point center = Projectile.Center.ToTileCoordinates();
-				DelegateMethods.v2_1 = center.ToVector2();
-				DelegateMethods.f_1 = 4f;
-				if (projID == ProjectileID.DryRocket)
-				{
-					DelegateMethods.f_1 = 4.5f;
-					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
-				}
-				else if (projID == ProjectileID.WetRocket)
-				{
-					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
-				}
-				else if (projID == ProjectileID.LavaRocket)
-				{
-					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
-				}
-				else if (projID == ProjectileID.HoneyRocket)
-				{
-					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
-				}
+				DelegateMethods.f_1 = 4.5f;
+				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
+			}
+			else if (RocketType == ItemID.WetRocket)
+			{
+				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
+			}
+			else if (RocketType == ItemID.LavaRocket)
+			{
+				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
+			}
+			else if (RocketType == ItemID.HoneyRocket)
+			{
+				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
 			}
         }
 

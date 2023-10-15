@@ -274,7 +274,7 @@ ContinentalGreatbow: {
 		'''
 		Wooden arrows are set alight with fire
 		Fires 3 arrows at once
-		Fires 2 additional cursed, hellfire, or ichor arrows
+		Fires 2 additional hellfire or ichor arrows
 		'''
 }
 

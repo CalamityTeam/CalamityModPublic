@@ -38,6 +38,7 @@ namespace CalamityMod.Projectiles.Melee
             float num3 = -0.7853982f;
             Vector2 value = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 value2 = Vector2.Zero;
+
             if (player.dead)
             {
                 Projectile.Kill();

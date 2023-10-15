@@ -458,7 +458,7 @@ namespace CalamityMod.NPCs.OldDuke
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<OldDukeRelic>());
 
             // GFB Shattered Community drop
-            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<ShatteredCommunity>());
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<ShatteredCommunity>(), hideLootReport: true);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<LoreOldDuke>(), desc: DropHelper.FirstKillText);

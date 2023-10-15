@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             Item.width = 62;
             Item.damage = 50;
-            Item.mana = 6;
+            Item.mana = 7;
             Item.DamageType = DamageClass.Magic;
             Item.useAnimation = Item.useTime = 15;
             Item.noMelee = true;
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                int meteorAmt = Main.rand.Next(3, 4 + 1);
+                int meteorAmt = Main.rand.Next(2, 4);
                 for (int i = 0; i < meteorAmt; ++i)
                 {
                     float SpeedX = velocity.X + (float)Main.rand.Next(-30, 31) * 0.05f;

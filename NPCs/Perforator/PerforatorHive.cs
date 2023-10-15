@@ -576,7 +576,7 @@ namespace CalamityMod.NPCs.Perforator
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<PerforatorsRelic>());
 
             // GFB Bloodfin drop
-            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<Bloodfin>(), 1, 1, 9999);
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<Bloodfin>(), 1, 1, 9999, true);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<LorePerforators>(), desc: DropHelper.FirstKillText);
