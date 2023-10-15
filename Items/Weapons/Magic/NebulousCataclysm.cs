@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class GrandStaffoftheNebulaMage : ModItem, ILocalizedModType
+    public class NebulousCataclysm : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().donorItem = true;
-            Item.shoot = ModContent.ProjectileType<GrandStaffoftheNebulaMage_Held>();
+            Item.shoot = ModContent.ProjectileType<NebulousCataclysm_Held>();
             Item.shootSpeed = 3f;
         }
 
