@@ -358,7 +358,7 @@ DeadSunsWind: {
 		Fires a concentrated blast of superheated cosmic plasma that explodes and can ricochet off blocks
 		Shots aggressively home in on enemies after being ricocheted
 		Consecutive hits cause larger explosions
-		20% chance to save ammo
+		Uses gel for ammo
 		'''
 }
 
