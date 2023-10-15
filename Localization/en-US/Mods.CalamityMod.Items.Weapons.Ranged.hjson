@@ -710,9 +710,9 @@ Meowthrower: {
 	DisplayName: Meowthrower
 	Tooltip:
 		'''
-		Fires blue and pink flames that emit meows on enemy hits
+		Purrifies your foes with pink and blue smokes
+		Occasionally unleashes homing feline creatures
 		Uses gel for ammo
-		85% chance to save ammo
 		'''
 }
 

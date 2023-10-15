@@ -55,6 +55,7 @@ CorossiveFlames.DisplayName: Plagued Flames
 CorrodedShell.DisplayName: Corroded Shell
 CosmicFire.DisplayName: Dead Sun's Fire
 DaemonsFlameArrow.DisplayName: Daemon's Arrow
+DeadSunExplosion.DisplayName: Dead Sun's Explosion
 DragonsBreathRound.DisplayName: Dragon's Breath Round
 DrataliornusExoArrow.DisplayName: Drataliornus Arrow
 DrataliornusFlame.DisplayName: Drataliornus Arrow
@@ -118,6 +119,7 @@ MagnomalyExplosion.DisplayName: Explosion
 MagnomalyRocket.DisplayName: Nuke
 MarksmanShot.DisplayName: Marksman Shot
 MechanicalBarracuda.DisplayName: Barracuda
+MeowCreature.DisplayName: the creature :3
 MeowFire.DisplayName: Purr Fire
 MiniatureFolly.DisplayName: Miniature Folly
 MiniRocket.DisplayName: Rocket
@@ -236,4 +238,3 @@ Voidragon.DisplayName: Voidragon Blast
 VoidragonTentacle.DisplayName: Voidragon Tentacle
 WaterSpout.DisplayName: Spout
 WulfrumScrapBullet.DisplayName: High Speed Scrap
-DeadSunExplosion.DisplayName: Dead Sun Explosion
