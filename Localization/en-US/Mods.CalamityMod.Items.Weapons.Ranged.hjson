@@ -142,7 +142,11 @@ BladedgeGreatbow: {
 
 BlightSpewer: {
 	DisplayName: Blight Spewer
-	Tooltip: Uses gel for ammo
+	Tooltip:
+		'''
+		Spews toxic clouds of nanomachines that stick to tiles and lock onto enemies they hit
+		40% chance to save ammo
+		'''
 }
 
 BlissfulBombardier: {
