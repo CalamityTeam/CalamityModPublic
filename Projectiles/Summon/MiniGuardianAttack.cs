@@ -186,7 +186,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public void AdvancedAI(NPC potentialTarget, Player owner, MiniOffenseAIState aiState)
         {
-            
             bool buffedAi = owner.HasBuff<ProfanedCrystalWhipBuff>();
                 
             Vector2 targetDestination = potentialTarget.Center - Projectile.Center;
@@ -384,7 +383,7 @@ namespace CalamityMod.Projectiles.Summon
                     BaseAI(potentialTarget);
                     break;
                 default:
-                    if (potentialTarget != null)
+                    if (potentialTarget != null && !ForcedVanity)
                         AdvancedAI(potentialTarget, owner, newAIState);
                     else
                         BaseAI(null);
