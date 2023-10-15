@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.penetrate = -1;
             Projectile.extraUpdates = (Main.zenithWorld && devourer) ? 1 : 0;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = (Main.zenithWorld && devourer) ? 2 : 12;
+            Projectile.idStaticNPCHitCooldown = (Main.zenithWorld && devourer) ? 2 : 6;
         }
 
         public override void AI()

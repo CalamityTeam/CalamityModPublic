@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 70;
+            Item.damage = 82;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 12;
             Item.width = 28;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Magic
             if (Main.zenithWorld)
             {
                 bool devourer = DownedBossSystem.downedDoG;
-                float damageMult = 1f + (devourer ? (418f / 70f - 1f) : 0f);
+                float damageMult = 1f + (devourer ? (430f / 82f - 1f) : 0f);
                 damage *= damageMult;
             }
         }
