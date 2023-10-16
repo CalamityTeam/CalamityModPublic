@@ -96,6 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
                     //Does not force to Rogue because lightning is extremely abusable with Moonstone Crown
                     Main.projectile[proj].friendly = true;
                     Main.projectile[proj].hostile = false;
+                    Main.projectile[proj].tileCollide = false;
                     Main.projectile[proj].penetrate = -1;
                     Main.projectile[proj].usesLocalNPCImmunity = true;
                     Main.projectile[proj].localNPCHitCooldown = -1;

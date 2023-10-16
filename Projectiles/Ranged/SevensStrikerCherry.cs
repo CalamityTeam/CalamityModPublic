@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Ranged;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.timeLeft = 480;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
@@ -27,10 +28,10 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                for (int f = 0; f < 3; f++)
+                for (int f = 0; f < 2; f++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SevensStrikerCherrySplit>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SevensStrikerCherrySplit>(), (int)(Projectile.damage * TheSevensStriker.TriplesCherrySplitMultiplier), 0f, Projectile.owner);
                 }
             }
             SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.position);
