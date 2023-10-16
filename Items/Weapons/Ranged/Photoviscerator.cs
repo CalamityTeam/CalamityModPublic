@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<ElementalEruption>().
                 AddIngredient<CleansingBlaze>().
-                AddIngredient<HalleysInferno>().
+                AddIngredient<DeadSunsWind>().
                 AddIngredient<MiracleMatter>().
                 AddTile<DraedonsForge>().
                 Register();

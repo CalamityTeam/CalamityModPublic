@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Ranged
     public class TheMaelstromExplosion : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
+        public override string Texture => "CalamityMod/ExtraTextures/SmallGreyscaleCircle";
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
