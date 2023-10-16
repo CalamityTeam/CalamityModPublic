@@ -10,9 +10,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class GrandStaffoftheNebulaMage_Held : ModProjectile
+    public class NebulousCataclysm_Held : ModProjectile
     {
-        public override LocalizedText DisplayName => CalamityUtils.GetItemName<GrandStaffoftheNebulaMage>();
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<NebulousCataclysm>();
         private const int TotalXFrames = 2;
         private const int TotalYFrames = 8;
         private const int FrameTimer = 6;

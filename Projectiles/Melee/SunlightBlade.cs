@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -23,13 +23,13 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 6;
             Projectile.ignoreWater = true;
             AIType = ProjectileID.DeathSickle;
             Projectile.MaxUpdates = 2;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10 * Projectile.MaxUpdates;
-            Projectile.timeLeft = 90 * Projectile.MaxUpdates;
+            Projectile.timeLeft = 150 * Projectile.MaxUpdates;
         }
 
         public override void AI()

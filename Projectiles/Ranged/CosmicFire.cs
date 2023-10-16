@@ -14,40 +14,39 @@ namespace CalamityMod.Projectiles.Ranged
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public ref int HitCount => ref Main.player[Projectile.owner].Calamity().deadSunCounter;
-        public int Time = 0;
-        public int bounceKill = 0;
-        public bool Homing = false;
-        public Color color1 = Color.Turquoise;
-        public Color color2 = Color.Indigo;
+        public ref float Time => ref Projectile.ai[0];
+        public ref float BounceHits => ref Projectile.ai[1];
+
+        public Color InnerColor = Color.Turquoise;
+
         public override void SetDefaults()
         {
-            Projectile.width = 10;
-            Projectile.height = 10;
+            Projectile.width = Projectile.height = 16;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
-            Projectile.extraUpdates = 9;
-            Projectile.timeLeft = 440;
+            Projectile.MaxUpdates = 10;
+            Projectile.timeLeft = 15 * Projectile.MaxUpdates;
         }
 
         public override void AI()
         {
             Time++;
-            Lighting.AddLight(Projectile.Center, 0.117f, 0.155f, 0.159f);
+            Lighting.AddLight(Projectile.Center, InnerColor.ToVector3() * 0.2f);
             Player Owner = Main.player[Projectile.owner];
             float targetDist = Vector2.Distance(Owner.Center, Projectile.Center); //used for some drawing prevention for when it's offscreen since it makes a fuck load of particles
-            if (Projectile.timeLeft % 3 == 0 && Time > 12 && targetDist < 1400f)
+            if (Projectile.timeLeft % 3 == 0 && Time > 12f && targetDist < 1400f)
             {
                 AltSparkParticle spark = new AltSparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 2.3f, Color.Black);
                 GeneralParticleHandler.SpawnParticle(spark);
             }
-            if (Projectile.timeLeft % 2 == 0 && Time > 12 && targetDist < 1400f)
+            if (Projectile.timeLeft % 2 == 0 && Time > 12f && targetDist < 1400f)
             {
-                SparkParticle spark2 = new SparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 0.9f, color1);
+                SparkParticle spark2 = new SparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 0.9f, InnerColor);
                 GeneralParticleHandler.SpawnParticle(spark2);
             }
-            if (Time == 7)
+            if (Time == 7f)
             {
                 for (int i = 0; i <= 18; i++)
                 {
@@ -57,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
                     dust.noGravity = true;
                 }
             }
-            if (Homing)
+            if (BounceHits > 0f)
             {
                 for (int i = 0; i <= 2; i++)
                 {
@@ -73,7 +72,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundEngine.PlaySound(DeadSunsWind.Explosion with { Pitch = HitCount * 0.05f }, Projectile.Center);
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DeadSunExplosion>(), Projectile.damage / 2, 4f, Projectile.owner, HitCount * 10, Homing ? 5 : 0);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DeadSunExplosion>(), Projectile.damage / 2, 4f, Projectile.owner, HitCount * 10, BounceHits > 0f ? 5 : 0);
             if (HitCount >= 15)
                 HitCount = 6;
             else
@@ -82,7 +81,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.timeLeft = 440;
+            Projectile.timeLeft = 15 * Projectile.MaxUpdates;
             float numberOfDusts = 25;
             float rotFactor = 360f / numberOfDusts;
             for (int i = 0; i < numberOfDusts; i++)
@@ -96,15 +95,15 @@ namespace CalamityMod.Projectiles.Ranged
                 dust.velocity = dust.type == 191 ? velOffset * 2.5f : velOffset;
                 dust.scale = dust.type == 191 ? Main.rand.NextFloat(0.9f, 1.9f) : Main.rand.NextFloat(2.6f, 3.2f);
             }
-            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, color1, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.1f, 0.9f - (bounceKill * 0.25f), 25);
+            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, InnerColor, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.1f, 0.9f - (BounceHits * 0.25f), 25);
             GeneralParticleHandler.SpawnParticle(pulse);
-            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.MediumSpringGreen, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.05f, 0.75f - (bounceKill * 0.25f), 25);
+            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.MediumSpringGreen, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.05f, 0.75f - (BounceHits * 0.25f), 25);
             GeneralParticleHandler.SpawnParticle(pulse2);
-            Homing = true;
-            if (bounceKill == 0)
+
+            if (BounceHits == 0f)
                 SoundEngine.PlaySound(DeadSunsWind.Ricochet, Projectile.Center);
 
-            bounceKill++;
+            BounceHits++;
             if (Projectile.velocity.X != oldVelocity.X)
             {
                 Projectile.velocity.X = -oldVelocity.X;
@@ -113,7 +112,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
-            if (bounceKill == 4)
+            if (BounceHits >= 4f)
                 Projectile.Kill();
             return false;
         }

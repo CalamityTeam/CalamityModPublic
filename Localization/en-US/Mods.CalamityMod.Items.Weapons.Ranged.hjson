@@ -362,7 +362,7 @@ DeadSunsWind: {
 		Fires a concentrated blast of superheated cosmic plasma that explodes and can ricochet off blocks
 		Shots aggressively home in on enemies after being ricocheted
 		Consecutive hits cause larger explosions
-		20% chance to save ammo
+		Uses gel for ammo
 		'''
 }
 
@@ -443,7 +443,6 @@ ElementalEruption: {
 		'''
 		Fires a spread of rainbow flames
 		Uses gel for ammo
-		90% chance to save ammo
 		'''
 }
 
@@ -714,9 +713,9 @@ Meowthrower: {
 	DisplayName: Meowthrower
 	Tooltip:
 		'''
-		Fires blue and pink flames that emit meows on enemy hits
+		Purrifies your foes with pink and blue smokes
+		Occasionally unleashes homing feline creatures
 		Uses gel for ammo
-		85% chance to save ammo
 		'''
 }
 
@@ -1191,7 +1190,11 @@ TelluricGlare: {
 
 TerraFlameburster: {
 	DisplayName: Terra Flameburster
-	Tooltip: Uses gel for ammo
+	Tooltip:
+		'''
+		Spews high-energy flames and pairs of homing flares
+		Uses gel for ammo
+		'''
 }
 
 TheBallista: {

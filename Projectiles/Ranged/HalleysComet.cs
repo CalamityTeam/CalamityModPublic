@@ -13,7 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public int Time = 0;
+        public ref float Time => ref Projectile.ai[0];
+
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 12;
@@ -21,29 +22,28 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 5;
-            Projectile.extraUpdates = 10;
-            Projectile.timeLeft = 600;
+            Projectile.MaxUpdates = 10;
+            Projectile.timeLeft = 15 * Projectile.MaxUpdates;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
+            Projectile.rotation = Projectile.velocity.ToRotation();
             Time++;
-            if (Projectile.scale <= 1.5f)
-            {
-                Projectile.scale *= 1.01f;
-            }
-            if (Time > 6 && Time < 180)
+            if (Time > 6f)
             {
                 SparkParticle spark = new SparkParticle(Projectile.Center, Projectile.velocity, false, 11, 1.9f, Color.MediumBlue);
                 GeneralParticleHandler.SpawnParticle(spark);
                 SparkParticle spark2 = new SparkParticle(Projectile.Center, Projectile.velocity, false, 11, 1f, Color.Aqua);
                 GeneralParticleHandler.SpawnParticle(spark2);
             }
-            if (Time == 5)
+            else if (Time == 5f)
             {
-                Particle pulse = new DirectionalPulseRing(Projectile.Center, Projectile.velocity * 0.75f, Color.Aqua, new Vector2(1f, 2.5f), Projectile.velocity.ToRotation(), 0.4f, 0.05f, 20);
+                Particle pulse = new DirectionalPulseRing(Projectile.Center, Projectile.velocity * 0.75f, Color.Aqua, new Vector2(1f, 2.5f), Projectile.rotation, 0.4f, 0.05f, 20);
                 GeneralParticleHandler.SpawnParticle(pulse);
-                Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Projectile.velocity * 0.4f, Color.DodgerBlue, new Vector2(1f, 2.5f), Projectile.velocity.ToRotation(), 0.2f, 0.05f, 35);
+                Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Projectile.velocity * 0.4f, Color.DodgerBlue, new Vector2(1f, 2.5f), Projectile.rotation, 0.2f, 0.05f, 35);
                 GeneralParticleHandler.SpawnParticle(pulse2);
                 for (int i = 0; i <= 25; i++)
                 {
@@ -54,9 +54,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.45f / 255f);
-
-            Projectile.rotation += 0.3f * (float)Projectile.direction;
+            Lighting.AddLight(Projectile.Center, Color.MediumBlue.ToVector3() * 0.4f);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
