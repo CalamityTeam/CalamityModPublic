@@ -13,8 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/FireProj";
 
-        public static int Lifetime => 105;
-        public static int Fadetime => 90;
+        public static int Lifetime => 96;
+        public static int Fadetime => 80;
         public ref float Time => ref Projectile.ai[0];
 
         public bool spawnParticles = true;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
             Projectile.MaxUpdates = 4;
-            Projectile.timeLeft = Lifetime;
+            Projectile.timeLeft = Lifetime; // 24 effectively
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 3;
         }
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.rand.NextBool(30) && Projectile.timeLeft > 20)
             {
                 FlameParticle fire = new FlameParticle(Projectile.Center, 30, MathHelper.Clamp((Lifetime - Projectile.timeLeft) / 20, 0.5f, 2f), 0.05f, Color.BlueViolet * 0.5f, Color.DarkBlue * 0.5f);
-                fire.Velocity = Projectile.velocity.RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4 / 3, MathHelper.PiOver4 / 3));
+                fire.Velocity = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30f)) * 0.6f;
                 GeneralParticleHandler.SpawnParticle(fire);
             }
             if (spawnParticles && Time > 6 && Main.rand.NextBool(7))

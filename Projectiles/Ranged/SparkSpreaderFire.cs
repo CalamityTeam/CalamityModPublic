@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Ranged
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public static int Lifetime => 48;
         public ref float Time => ref Projectile.ai[0];
 
         public override void SetDefaults()
@@ -22,7 +21,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 3;
             Projectile.MaxUpdates = 2;
-            Projectile.timeLeft = Lifetime * Projectile.MaxUpdates;
+            Projectile.timeLeft = 42 * Projectile.MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }
