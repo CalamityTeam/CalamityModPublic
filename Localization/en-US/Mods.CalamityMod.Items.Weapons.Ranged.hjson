@@ -439,7 +439,6 @@ ElementalEruption: {
 		'''
 		Fires a spread of rainbow flames
 		Uses gel for ammo
-		90% chance to save ammo
 		'''
 }
 
@@ -1185,7 +1184,11 @@ TelluricGlare: {
 
 TerraFlameburster: {
 	DisplayName: Terra Flameburster
-	Tooltip: Uses gel for ammo
+	Tooltip:
+		'''
+		Spews high-energy flames and pairs of homing flares
+		Uses gel for ammo
+		'''
 }
 
 TheBallista: {

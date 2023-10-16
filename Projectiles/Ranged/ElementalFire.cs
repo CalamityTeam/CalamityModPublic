@@ -14,7 +14,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public static int Lifetime => 120;
-        public ref float Time => ref Projectile.ai[0];
+        public ref float ColorType => ref Projectile.ai[0];
+        public ref float Time => ref Projectile.ai[1];
 
         public override void SetDefaults()
         {
@@ -33,6 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Time++;
+            ColorType += 0.02f;
 
             // Determines particle size as well as hitbox
             if (Time >= 5f)
@@ -42,20 +44,20 @@ namespace CalamityMod.Projectiles.Ranged
             
             // Rainbow smokes of increasing opacity
             float smokeRot = MathHelper.ToRadians(3f); // *Rate of rotation per frame, not a constant rotation
-            Color smokeColor = Color.Lerp(Color.Transparent, Main.DiscoColor, 0.6f + 0.4f * Utils.GetLerpValue(30f, Lifetime, Time, true));
-            Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, smokeColor, 12, Projectile.scale * Main.rand.NextFloat(0.6f, 1.2f), 0.8f, smokeRot, required: true);
+            float hue = 0.5f * (ColorType % 1f) + 0.5f * Utils.GetLerpValue(30f, Lifetime, Time, true) * MathF.Sin(Main.GlobalTimeWrappedHourly * 5f);
+            Color smokeColor = Main.hslToRgb(hue, 1f, 0.8f);
+            Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, smokeColor, 12, Projectile.scale * Main.rand.NextFloat(0.6f, 1.2f), 0.3f, smokeRot, true, required: true);
             GeneralParticleHandler.SpawnParticle(smoke);
 
             // Overlay the glow on top, which is on the brighter side
             if (Main.rand.NextBool(5))
             {
                 Color glowColor = Color.Lerp(smokeColor, Color.White, 0.3f);
-                glowColor.A = smokeColor.A;
-                Particle smokeGlow = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, glowColor, 9, Projectile.scale * Main.rand.NextFloat(0.4f, 0.7f), 0.8f, smokeRot, true, 0.005f, true);
+                Particle smokeGlow = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, glowColor, 9, Projectile.scale * Main.rand.NextFloat(0.4f, 0.7f), 0.2f, smokeRot, true, 0.005f);
                 GeneralParticleHandler.SpawnParticle(smokeGlow);
             }
 
-            Lighting.AddLight(Projectile.Center, smokeColor.ToVector3() * Projectile.scale * Utils.Remap(Time, 30f, Lifetime, 0.5f, 0.6f));
+            Lighting.AddLight(Projectile.Center, smokeColor.ToVector3() * Projectile.scale * 0.3f);
         }
 
         // Circular hitbox adjusted for the size of the smoke particles (which is 52 here)
@@ -69,7 +71,8 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < 12; i++)
             {
                 Vector2 smokeVel = Main.rand.NextVector2Circular(16f, 16f);
-                Particle smoke = new MediumMistParticle(Projectile.Center, smokeVel, Main.DiscoColor, Color.Black, Main.rand.NextFloat(0.6f, 1.6f), 200 - Main.rand.Next(60), 0.1f);
+                Color smokeColor = Main.hslToRgb(Main.rand.NextFloat(), 1f, 0.8f);
+                Particle smoke = new MediumMistParticle(Projectile.Center, smokeVel, smokeColor, Color.Black, Main.rand.NextFloat(0.6f, 1.6f), 200 - Main.rand.Next(60), 0.1f);
                 GeneralParticleHandler.SpawnParticle(smoke);
             }
         }

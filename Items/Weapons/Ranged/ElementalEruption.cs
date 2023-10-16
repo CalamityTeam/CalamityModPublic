@@ -36,12 +36,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int i = 0; i < 2; i++)
+            // Fires three flames, random colors and spread
+            for (int i = 0; i < 3; i++)
             {
                 Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(8f));
-                Projectile.NewProjectile(source, position, newVel, type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, newVel, type, damage, knockback, player.whoAmI, Main.rand.NextFloat());
             }
-            return true; // Fires one directly with no randomness, totaling 3 projectiles
+            return false;
         }
 
         public override void AddRecipes()

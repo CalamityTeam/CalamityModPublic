@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public static int Lifetime => 96;
+        public static int Lifetime => 90;
         public bool PinkFire => Projectile.ai[0] == 1f;
         public ref float Time => ref Projectile.ai[1];
 
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 5;
             Projectile.MaxUpdates = 3;
-            Projectile.timeLeft = Lifetime;
+            Projectile.timeLeft = Lifetime; // 30 effectively
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 8;
         }
@@ -50,11 +50,11 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.rand.NextBool(8))
             {
                 Color glowColor = Color.Lerp(smokeColor, Color.White, 0.2f);
-                Particle smokeGlow = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, glowColor, 8, Projectile.scale * Main.rand.NextFloat(0.4f, 0.7f), 0.15f, smokeRot, true, 0.005f, true);
+                Particle smokeGlow = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, glowColor, 8, Projectile.scale * Main.rand.NextFloat(0.4f, 0.7f), 0.15f, smokeRot, true, 0.005f);
                 GeneralParticleHandler.SpawnParticle(smokeGlow);
             }
 
-            Lighting.AddLight(Projectile.Center, smokeColor.ToVector3() * Projectile.scale * 0.5f);
+            Lighting.AddLight(Projectile.Center, smokeColor.ToVector3() * Projectile.scale * 0.2f);
         }
 
         // Circular hitbox adjusted for the size of the smoke particles (which is 52 here)

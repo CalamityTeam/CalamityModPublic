@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
 
-        public static int Lifetime => 180;
         internal PrimitiveTrail TrailDrawer;
 
         public override void SetStaticDefaults()
@@ -29,13 +28,13 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.MaxUpdates = 2;
-            Projectile.timeLeft = Lifetime;
+            Projectile.timeLeft = 90 * Projectile.MaxUpdates;
             Projectile.DamageType = DamageClass.Ranged;
         }
 
         public override void AI()
         {
-            CalamityUtils.HomeInOnNPC(Projectile, false, 480f, 16f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, false, 400f, 15f, 20f);
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
 
@@ -53,10 +52,10 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        internal float WidthFunction(float completionRatio) => (1f - completionRatio) * Projectile.scale * 10f;
+        internal float WidthFunction(float completionRatio) => (1f - completionRatio) * Projectile.scale * 9f;
         internal Color ColorFunction(float completionRatio)
         {
-            float hue = completionRatio * Projectile.timeLeft / (float)Lifetime;
+            float hue = 0.5f + 0.5f * completionRatio * MathF.Sin(Main.GlobalTimeWrappedHourly * 5f);
             Color trailColor = Main.hslToRgb(hue, 1f, 0.8f);
             return trailColor * Projectile.Opacity;
         }
