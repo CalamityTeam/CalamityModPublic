@@ -158,7 +158,7 @@ namespace CalamityMod.NPCs
         private const double DesertEnemyStatMultiplier = 0.75;
 
         // Used to increase coin drops in Normal Mode
-        private const double NPCValueMultiplier_NormalCalamity = 2.5;
+        private const double NPCValueMultiplier_NormalCalamity = 1.5;
 
         // Used to decrease coin drops in Expert Mode
         private const double NPCValueMultiplier_ExpertVanilla = 2.5;
@@ -2460,10 +2460,10 @@ namespace CalamityMod.NPCs
         private void EditGlobalCoinDrops(NPC npc)
         {
             // Old Rev coin drop math: Normal = 10 Gold, Expert = 25 Gold, Rev = 37 Gold 50 Silver.
-            // New Rev coin drop math: Normal = 25 Gold, Expert AND Rev = 37 Gold 50 Silver.
+            // New Rev coin drop math: Normal = 15 Gold, Expert AND Rev = 22 Gold 50 Silver.
             // Rebalance coin drops so that Normal Mode enemies and bosses drop an adequate amount of coins.
 
-            // Increase Normal Mode coin drops by 2.5x.
+            // Increase Normal Mode coin drops by 1.5x.
             npc.value = (int)(npc.value * NPCValueMultiplier_NormalCalamity);
 
             // Change the Expert Mode coin drop multiplier.
