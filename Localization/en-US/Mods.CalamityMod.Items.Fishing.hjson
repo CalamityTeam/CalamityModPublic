@@ -87,14 +87,14 @@ DragoonDrizzlefish: {
 	TooltipNormal:
 		'''
 		Fires an assortment of hellfire and brimstone fireballs
-		Sometimes fires a larger splitting firball
+		Sometimes fires a larger splitting fireball
 		The brimstone sac appears to contain fuel
 		'Revenge is a dish best served flaming hot'
 		'''
 	TooltipGFB:
 		'''
 		Fires an assortment of hellfire and brimstone fireballs
-		Sometimes fires a larger splitting firball
+		Sometimes fires a larger splitting fireball
 		Right click to feed the little boy some tasty gel
 		'He is a hungry boy'
 		'''
