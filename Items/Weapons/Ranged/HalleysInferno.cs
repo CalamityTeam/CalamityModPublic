@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useTime = Item.useAnimation = 39;
             Item.autoReuse = true;
             Item.useAmmo = AmmoID.Gel;
-            Item.shootSpeed = 14.6f;
+            Item.shootSpeed = 12f;
             Item.shoot = ModContent.ProjectileType<HalleysComet>();
 
             Item.width = 84;

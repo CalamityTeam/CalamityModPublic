@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Color color = Color.Lerp(Color.Lime, Color.Cyan, colorInterpolation);
                 Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(-15f, -15f);
                 Color outerColor = color;
-                Color innerColor = Color.Lerp(color, Color.Yellow, 0.3f) * 0.5f;
+                Color innerColor = Color.Lerp(color, Color.Gold, 0.8f) * 0.5f;
                 float intensity = 0.9f + 0.15f * MathF.Cos(Main.GlobalTimeWrappedHourly % 60f * MathHelper.TwoPi);
 
                 // Become smaller the futher along the old positions we are.

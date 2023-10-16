@@ -46,10 +46,10 @@ namespace CalamityMod.Projectiles.Ranged
             Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, smokeColor, 12, Projectile.scale * Main.rand.NextFloat(0.6f, 1.2f), 0.3f, smokeRot, true, required: true);
             GeneralParticleHandler.SpawnParticle(smoke);
 
-            // Overlay the glow on top, shifted toward yellow
+            // Overlay a gold glow on top
             if (Main.rand.NextBool(5))
             {
-                Color glowColor = Color.Lerp(smokeColor, Color.Yellow, 0.5f);
+                Color glowColor = Color.Gold;
                 Particle smokeGlow = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, glowColor, 9, Projectile.scale * Main.rand.NextFloat(0.4f, 0.7f), 0.2f, smokeRot, true, 0.005f);
                 GeneralParticleHandler.SpawnParticle(smokeGlow);
             }
