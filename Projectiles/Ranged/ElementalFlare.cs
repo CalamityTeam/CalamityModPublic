@@ -53,6 +53,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            if (StickToTiles)
+                return;
+
             if (StickToEnemies)
             {
                 Projectile.ai[2] = 1f;
@@ -81,7 +84,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<ElementalMix>(), 540);
 
             // Lose a bit of damage from repeated hits
-            if (StickToEnemies && Projectile.damage > 1)
+            if ((StickToEnemies || StickToTiles) && Projectile.damage > 1)
                 Projectile.damage = (int)(Projectile.damage * StickyDamageFalloff);
         }
 
