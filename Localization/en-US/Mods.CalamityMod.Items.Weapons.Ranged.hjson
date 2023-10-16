@@ -162,9 +162,8 @@ BloodBoiler: {
 	DisplayName: Blood Boiler
 	Tooltip:
 		'''
-		Fires a stream of lifestealing bloodfire
+		Fires a stream of lifestealing bloodfire that returns to you 
 		Uses your health as ammo
-		25% chance to save ammo
 		'''
 }
 
