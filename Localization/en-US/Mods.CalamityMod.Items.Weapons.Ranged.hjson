@@ -824,7 +824,9 @@ OverloadedBlaster: {
 	DisplayName: Overloaded Blaster
 	Tooltip:
 		'''
-		Fires a large spread of bouncing slime
+		Fires a spread of shimmering slime that slows down and becomes overloaded when it stops
+		Overloaded slime doesn't pierce, but deals double damage
+		The slime bounces off of walls at high-velocity
 		Uses gel for ammo
 		33% chance to save ammo
 		'''
