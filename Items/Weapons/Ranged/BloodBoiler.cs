@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,17 +13,20 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class BloodBoiler : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-
+        
+        public static readonly SoundStyle Heartbeat = new("CalamityMod/Sounds/Item/Heartbeat") { PitchVariance = 0.2f, Volume = 0.55f };
+        
         public bool shotReturn = false;
         public override void SetDefaults()
         {
-            Item.damage = 145;
+            Item.damage = 185;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 60;
             Item.height = 30;
             Item.useTime = 5;
-            Item.useAnimation = 15;
+            Item.useAnimation = 20;
             Item.autoReuse = true;
+            Item.UseSound = Heartbeat;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4f;
@@ -37,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             shotReturn = !shotReturn;
-            if (Main.rand.NextFloat() > 0.75f)
-                player.statLife -= (Main.rand.NextBool(3) ? 2 : 1);
+            if (Main.rand.NextFloat() > 0.60f)
+                player.statLife -= 1;
             if (player.statLife <= 0)
             {
                 PlayerDeathReason pdr = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BloodBoiler" + Main.rand.Next(1, 2 + 1)).Format(player.name));

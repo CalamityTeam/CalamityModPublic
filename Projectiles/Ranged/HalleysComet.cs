@@ -41,16 +41,20 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else if (Time == 5f)
             {
-                Particle pulse = new DirectionalPulseRing(Projectile.Center, Projectile.velocity * 0.75f, Color.Aqua, new Vector2(1f, 2.5f), Projectile.rotation, 0.4f, 0.05f, 20);
+                Particle pulse = new DirectionalPulseRing(Projectile.Center, Projectile.velocity * 0.75f, Color.Aqua, new Vector2(1f, 2.5f), Projectile.rotation, 0.2f, 0.03f, 20);
                 GeneralParticleHandler.SpawnParticle(pulse);
-                Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Projectile.velocity * 0.4f, Color.DodgerBlue, new Vector2(1f, 2.5f), Projectile.rotation, 0.2f, 0.05f, 35);
+                Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Projectile.velocity * 0.4f, Color.DodgerBlue, new Vector2(1f, 2.5f), Projectile.rotation, 0.1f, 0.025f, 35);
                 GeneralParticleHandler.SpawnParticle(pulse2);
                 for (int i = 0; i <= 25; i++)
                 {
                     Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? 172 : 206, Projectile.velocity);
-                    dust.scale = Main.rand.NextFloat(1.5f, 2.3f);
-                    dust.velocity = Projectile.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.3f, 2.1f);
+                    dust.scale = Main.rand.NextFloat(1.6f, 2.5f);
+                    dust.velocity = Projectile.velocity.RotatedByRandom(0.4f) * Main.rand.NextFloat(0.3f, 1.6f);
                     dust.noGravity = true;
+                    Dust dust2 = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? 172 : 206, Projectile.velocity);
+                    dust2.scale = Main.rand.NextFloat(1.35f, 2.1f);
+                    dust2.velocity = Projectile.velocity.RotatedByRandom(0.06f) * Main.rand.NextFloat(0.8f, 3.1f);
+                    dust2.noGravity = true;
                 }
             }
 

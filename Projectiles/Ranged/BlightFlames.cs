@@ -41,14 +41,14 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Time++;
             Projectile.rotation += Main.rand.NextFloat(0.2f, 0.9f);
-            if (Time > 6 && Time < 540 && Main.rand.NextBool(4 + Time / 6))
+            if (Time > 6 && Time < 540 && Main.rand.NextBool(2 + Time / 7))
             {
                 DirectionalPulseRing pulse = new DirectionalPulseRing(Projectile.Center + Main.rand.NextVector2Circular(10 + Time * 0.5f, 10 + Time * 0.5f), Vector2.Zero, Main.rand.NextBool(3) ? Color.LimeGreen : Color.Green, new Vector2(1, 1), 0, Main.rand.NextFloat(0.03f, 0.09f) + Time * 0.00055f, 0f, 25);
                 GeneralParticleHandler.SpawnParticle(pulse);
             }
-            if (Time > 6 && Time < 135 && !postTileHit && !postEnemyHit && Main.rand.NextBool(3 + Time / 5))
+            if (Time > 6 && Time < 150 && !postTileHit && !postEnemyHit && Main.rand.NextBool(3 + Time / 7))
             {
-                SmallSmokeParticle smoke = new SmallSmokeParticle(Projectile.Center + Main.rand.NextVector2Circular(5 + Time * 0.2f, 5 + Time * 0.2f), -Projectile.velocity * 0.05f, Color.Chartreuse, Main.rand.NextBool(3) ? Color.LimeGreen : Color.Lime, Main.rand.NextFloat(0.5f, 1.8f) + Time * 0.00555f, 60);
+                MediumMistParticle smoke = new MediumMistParticle(Projectile.Center + Main.rand.NextVector2Circular(5 + Time * 0.2f, 5 + Time * 0.2f), -Projectile.velocity * 0.05f, Main.rand.NextBool(3) ? Color.LimeGreen : Color.Lime, Color.Black, Main.rand.NextFloat(0.3f, 0.8f) + Time * 0.013f, 160);
                 GeneralParticleHandler.SpawnParticle(smoke);
             }
             if (Time == 8)
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int i = 0; i <= 3; i++)
             {
-                SmallSmokeParticle smoke = new SmallSmokeParticle(Projectile.Center + Main.rand.NextVector2Circular(5 + Time * 0.2f, 5 + Time * 0.2f), new Vector2(Main.rand.NextFloat(2, 6), Main.rand.NextFloat(2, 6)).RotatedByRandom(60), Color.Chartreuse, Main.rand.NextBool(3) ? Color.LimeGreen : Color.Lime, Main.rand.NextFloat(1.2f, 2.8f), 60);
+                MediumMistParticle smoke = new MediumMistParticle(Projectile.Center + Main.rand.NextVector2Circular(5 + Time * 0.2f, 5 + Time * 0.2f), new Vector2(Main.rand.NextFloat(2, 6), Main.rand.NextFloat(2, 6)).RotatedByRandom(60), Main.rand.NextBool(3) ? Color.LimeGreen : Color.Lime, Color.Black, Main.rand.NextFloat(1.2f, 2.3f), 140);
                 GeneralParticleHandler.SpawnParticle(smoke);
             }
             if (!postTileHit && !postEnemyHit)
