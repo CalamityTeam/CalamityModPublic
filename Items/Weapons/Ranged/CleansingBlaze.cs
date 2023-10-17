@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.width = 64;
             Item.height = 32;
             Item.useTime = 3;
-            Item.useAnimation = 12;
+            Item.useAnimation = 24;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4f;
@@ -48,8 +48,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
-
-        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool(2);
 
         public override void AddRecipes()
         {

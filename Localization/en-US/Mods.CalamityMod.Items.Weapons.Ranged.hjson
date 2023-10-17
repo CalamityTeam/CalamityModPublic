@@ -228,8 +228,8 @@ CleansingBlaze: {
 	DisplayName: Cleansing Blaze
 	Tooltip:
 		'''
+		Unleashes a torrent of flames which can pass through tiles
 		Uses gel for ammo
-		50% chance to save ammo
 		'''
 }
 
@@ -441,8 +441,8 @@ ElementalEruption: {
 	DisplayName: Elemental Eruption
 	Tooltip:
 		'''
-		Fires rainbow flames and pairs of high-energy homing flares
-		<right> to instead fire a cluster of sticky flares
+		Spews rainbow flames and pairs of high-energy homing flares
+		Press <right> to fire a dense cluster of sticky flares
 		Uses gel for ammo
 		'''
 }
@@ -579,7 +579,11 @@ HandheldTank: {
 
 HavocsBreath: {
 	DisplayName: Havoc's Breath
-	Tooltip: Uses gel for ammo
+	Tooltip:
+		'''
+		Fires scorching brimstone fire
+		Uses gel for ammo
+		'''
 }
 
 HeavenlyGale: {
@@ -925,8 +929,8 @@ PristineFury: {
 	DisplayName: Pristine Fury
 	Tooltip:
 		'''
-		Fires an intense helix of flames that explode into a column of fire
-		Press <right> to fire a short ranged cloud of lingering flames
+		Fires an intense helix of flames that explode into a column of smoke
+		Press <right> to disperse short-ranged mists of pure heat
 		Uses gel for ammo
 		'''
 }
@@ -1033,7 +1037,11 @@ SepticSkewer: {
 
 Shadethrower: {
 	DisplayName: Shadethrower
-	Tooltip: Uses gel for ammo
+	Tooltip:
+		'''
+		Spews short-ranged clouds of pure darkness
+		Uses gel for ammo
+		'''
 }
 
 Shellshooter: {
@@ -1080,7 +1088,11 @@ SomaPrime: {
 
 SparkSpreader: {
 	DisplayName: Spark Spreader
-	Tooltip: Uses gel for ammo
+	Tooltip:
+		'''
+		Ignites your foe with flaming sparks
+		Uses gel for ammo
+		'''
 }
 
 SpectralstormCannon: {
