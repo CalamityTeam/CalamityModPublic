@@ -70,6 +70,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Cooper",
 			"CosmaticMango",
 			"CrabBar",
+			"Dia",
 			"Done",
 			"DylanDoe21",
 			"Fluffi",
