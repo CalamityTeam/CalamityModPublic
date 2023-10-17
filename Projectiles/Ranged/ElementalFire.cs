@@ -19,16 +19,15 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            Projectile.width = 12;
-            Projectile.height = 12;
+            Projectile.width = Projectile.height = 12;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 2;
+            Projectile.penetrate = -1;
             Projectile.MaxUpdates = 4;
             Projectile.timeLeft = Lifetime; // 24 effectively
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 12;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 8;
         }
 
         public override void AI()
@@ -63,18 +62,6 @@ namespace CalamityMod.Projectiles.Ranged
         // Circular hitbox adjusted for the size of the smoke particles (which is 52 here)
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 52 * Projectile.scale * 0.5f, targetHitbox);
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<ElementalMix>(), 540);
-
-            // Circular spread of clouds on hit
-            for (int i = 0; i < 12; i++)
-            {
-                Vector2 smokeVel = Main.rand.NextVector2Circular(16f, 16f);
-                Color smokeColor = Main.hslToRgb(Main.rand.NextFloat(), 1f, 0.8f);
-                Particle smoke = new MediumMistParticle(Projectile.Center, smokeVel, smokeColor, Color.Black, Main.rand.NextFloat(0.6f, 1.6f), 200 - Main.rand.Next(60), 0.1f);
-                GeneralParticleHandler.SpawnParticle(smoke);
-            }
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<ElementalMix>(), 540);
     }
 }

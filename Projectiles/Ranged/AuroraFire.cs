@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class AuroraFire : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
-        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public override string Texture => "CalamityMod/Projectiles/Magic/RancorFog";
 
         public static int Lifetime => 450;
         public static int Fadetime => 420;
@@ -75,14 +75,14 @@ namespace CalamityMod.Projectiles.Ranged
             // Draw smokes over the whole thing
             float smokeRot = MathHelper.ToRadians(3f); // *Rate of rotation per frame, not a constant rotation
             Color smokeColor = Color.Lerp(OrangeFogColor, BlueFogColor, 0.6f + 0.4f * MathF.Sin(Main.GlobalTimeWrappedHourly * 5f));
-            Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, smokeColor, 12, Projectile.scale * Main.rand.NextFloat(0.6f, 1.2f), 0.8f, smokeRot, required: true);
+            Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, smokeColor, 8, Projectile.scale * Main.rand.NextFloat(0.6f, 1.2f), 0.8f, smokeRot, required: true);
             GeneralParticleHandler.SpawnParticle(smoke);
 
             // Overlay the glow on top, which is on the brighter side
-            if (Main.rand.NextBool(5))
+            if (Main.rand.NextBool(8))
             {
                 Color glowColor = Color.Lerp(smokeColor, Color.White, 0.25f);
-                Particle smokeGlow = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, glowColor, 9, Projectile.scale * Main.rand.NextFloat(0.4f, 0.7f), 0.8f, smokeRot, true, 0.005f, true);
+                Particle smokeGlow = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, glowColor, 6, Projectile.scale * Main.rand.NextFloat(0.4f, 0.7f), 0.6f, smokeRot, true, 0.005f, true);
                 GeneralParticleHandler.SpawnParticle(smokeGlow);
             }
 
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.SetBlendState(BlendState.Additive);
-            Texture2D fog = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/RancorFog").Value;
+            Texture2D fog = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             float opacity = Utils.GetLerpValue(0f, 0.08f, LightPower, true) * Projectile.Opacity * 0.3f;
             Main.EntitySpriteDraw(fog, drawPosition, null, OrangeFogColor * opacity, Projectile.rotation + OrangeFogRot, fog.Size() * 0.5f, Projectile.scale * OrangeFogScale, SpriteEffects.None);

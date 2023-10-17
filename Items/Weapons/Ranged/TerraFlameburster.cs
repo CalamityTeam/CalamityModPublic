@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            // Fires a homing terra flare
+            // Fires a pair of homing terra flares
             FlareCounter++;
             if (FlareCounter >= 4)
             {

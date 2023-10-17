@@ -35,14 +35,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            // Add some degree of variation to the fog with scale/rotation/color
+            // Slightly random fog scale/rotation
             if (FogRot == 0f)
             {
-                Projectile.scale = Main.rand.NextFloat(0.4f, 0.8f);
-                FogRot = Main.rand.NextFloat(MathHelper.TwoPi);
+                Projectile.scale = Main.rand.NextFloat(0.75f, 0.8f);
+                FogRot = Main.rand.NextFloat(MathHelper.ToRadians(60f));
             }
             ColorType += Main.rand.NextFloat(0.02f, 0.06f);
-            ScaleFactor += 0.02f;
+            ScaleFactor += 0.015f;
             ScaleFactor = MathHelper.Clamp(ScaleFactor, 0f, Projectile.scale);
             Lighting.AddLight(Projectile.Center, CloudColor(ColorType % 3f).ToVector3() * ScaleFactor);
             Projectile.rotation = Projectile.velocity.ToRotation() + FogRot;
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            float opacity = Utils.GetLerpValue(0f, 0.08f, LightPower, true) * Projectile.Opacity;
+            float opacity = Utils.GetLerpValue(0f, 0.08f, LightPower, true) * Projectile.Opacity * 0.6f;
             Color drawColor = CloudColor(ColorType % 3f) * opacity;
             Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, Projectile.rotation, texture.Size() * 0.5f, ScaleFactor, SpriteEffects.None);
 
