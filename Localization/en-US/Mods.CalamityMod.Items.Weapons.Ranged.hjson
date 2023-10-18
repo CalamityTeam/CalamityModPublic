@@ -406,12 +406,11 @@ DragonsBreath: {
 	DisplayName: Dragon's Breath
 	Tooltip:
 		'''
-		Press <left> to fire in two-shot bursts
-		The first shot is a spread of 6 normal bullets
-		The second shot is a tight spread of 6 Dragon's Breath rounds
-		Press <right> to fire full auto and mix the bullets randomly, but deal 20% less damage
-		This weapon has no randomness to its spread pattern
-		66% chance to save ammo
+		Fires dragon fireballs at an accelerating pace
+		Upon firing for long enough, you will begin using a cartridge of energy
+		While using a cartridge you will shoot a draconic beam of fire that doesn't consume ammo
+		Once a cartridge has been ejected you will return to the original fire rate
+		80% chance to save ammo
 		'''
 }
 

@@ -180,6 +180,8 @@ namespace CalamityMod.CalPlayer
         public int gaelSwipes = 0;
         public int dragoonDrizzlefishGelBoost = 1;
         public int deadSunCounter = 6;
+        public int DragonsBreathAudioCooldown = 0;
+        public int DragonsBreathAudioCooldown2 = 0;
         public bool sBlasterDashActivated = false;
         public int Holyhammer = 0;
         public int PHAThammer = 0;
