@@ -72,68 +72,68 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (Owner.channel)
                 {
-                    float num115 = 20f;
-                    float num116 = (float)Main.mouseX + Main.screenPosition.X - Projectile.Center.X;
-                    float num117 = (float)Main.mouseY + Main.screenPosition.Y - Projectile.Center.Y;
+                    float constant = 20f;
+                    float xfactor = (float)Main.mouseX + Main.screenPosition.X - Projectile.Center.X;
+                    float yfactor = (float)Main.mouseY + Main.screenPosition.Y - Projectile.Center.Y;
                     if (Owner.gravDir == -1f)
                     {
-                        num117 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - Projectile.Center.Y;
+                        yfactor = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - Projectile.Center.Y;
                     }
-                    float num118 = (float)Math.Sqrt((double)(num116 * num116 + num117 * num117));
-                    if (num118 > num115)
+                    float factorAdjust = (float)Math.Sqrt((double)(xfactor * xfactor + yfactor * yfactor));
+                    if (factorAdjust > constant)
                     {
-                        num118 = num115 / num118;
-                        num116 *= num118;
-                        num117 *= num118;
-                        int num119 = (int)(num116 * 1000f);
-                        int num120 = (int)(Projectile.velocity.X * 1000f);
-                        int num121 = (int)(num117 * 1000f);
-                        int num122 = (int)(Projectile.velocity.Y * 1000f);
-                        if (num119 != num120 || num121 != num122)
+                        factorAdjust = constant / factorAdjust;
+                        xfactor *= factorAdjust;
+                        yfactor *= factorAdjust;
+                        int scaledX = (int)(xfactor * 1000f);
+                        int scaledXVel = (int)(Projectile.velocity.X * 1000f);
+                        int scaledY = (int)(yfactor * 1000f);
+                        int scaledYVel = (int)(Projectile.velocity.Y * 1000f);
+                        if (scaledX != scaledXVel || scaledY != scaledYVel)
                         {
                             Projectile.netUpdate = true;
                         }
-                        Projectile.velocity.X = num116;
-                        Projectile.velocity.Y = num117;
+                        Projectile.velocity.X = xfactor;
+                        Projectile.velocity.Y = yfactor;
                     }
                     else
                     {
-                        int num123 = (int)(num116 * 1000f);
-                        int num124 = (int)(Projectile.velocity.X * 1000f);
-                        int num125 = (int)(num117 * 1000f);
-                        int num126 = (int)(Projectile.velocity.Y * 1000f);
-                        if (num123 != num124 || num125 != num126)
+                        int scaledX2 = (int)(xfactor * 1000f);
+                        int scaledXVel2 = (int)(Projectile.velocity.X * 1000f);
+                        int scaledY2 = (int)(yfactor * 1000f);
+                        int scaledYVel2 = (int)(Projectile.velocity.Y * 1000f);
+                        if (scaledX2 != scaledXVel2 || scaledY2 != scaledYVel2)
                         {
                             Projectile.netUpdate = true;
                         }
-                        Projectile.velocity.X = num116;
-                        Projectile.velocity.Y = num117;
+                        Projectile.velocity.X = xfactor;
+                        Projectile.velocity.Y = yfactor;
                     }
                 }
                 else if (Projectile.ai[0] == 20f)
                 {
                     Projectile.netUpdate = true;
-                    float num127 = 20f;
-                    Vector2 vector11 = Projectile.Center;
-                    float num128 = (float)Main.mouseX + Main.screenPosition.X - vector11.X;
-                    float num129 = (float)Main.mouseY + Main.screenPosition.Y - vector11.Y;
+                    float sameConstant = 20f;
+                    Vector2 centerPoint = Projectile.Center;
+                    float xfactor2 = (float)Main.mouseX + Main.screenPosition.X - centerPoint.X;
+                    float yfactor2 = (float)Main.mouseY + Main.screenPosition.Y - centerPoint.Y;
                     if (Owner.gravDir == -1f)
                     {
-                        num129 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector11.Y;
+                        yfactor2 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - centerPoint.Y;
                     }
-                    float num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
-                    if (num130 == 0f || Projectile.ai[0] < 0f)
+                    float factorAdjust2 = (float)Math.Sqrt((double)(xfactor2 * xfactor2 + yfactor2 * yfactor2));
+                    if (factorAdjust2 == 0f || Projectile.ai[0] < 0f)
                     {
-                        vector11 = Owner.Center;
-                        num128 = Projectile.Center.X - vector11.X;
-                        num129 = Projectile.Center.Y - vector11.Y;
-                        num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
+                        centerPoint = Owner.Center;
+                        xfactor2 = Projectile.Center.X - centerPoint.X;
+                        yfactor2 = Projectile.Center.Y - centerPoint.Y;
+                        factorAdjust2 = (float)Math.Sqrt((double)(xfactor2 * xfactor2 + yfactor2 * yfactor2));
                     }
-                    num130 = num127 / num130;
-                    num128 *= num130;
-                    num129 *= num130;
-                    Projectile.velocity.X = num128;
-                    Projectile.velocity.Y = num129;
+                    factorAdjust2 = sameConstant / factorAdjust2;
+                    xfactor2 *= factorAdjust2;
+                    yfactor2 *= factorAdjust2;
+                    Projectile.velocity.X = xfactor2;
+                    Projectile.velocity.Y = yfactor2;
                 }
             }
         }
@@ -147,15 +147,15 @@ namespace CalamityMod.Projectiles.Rogue
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int i = 0; i < 10; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int dusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
+                Main.dust[dusty].noGravity = true;
+                Main.dust[dusty].velocity *= 0f;
             }
             for (int i = 0; i < 10; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int dusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
+                Main.dust[dusty].noGravity = true;
+                Main.dust[dusty].velocity *= 0f;
             }
             
             if (Projectile.owner == Main.myPlayer && Projectile.ai[1] > 0)

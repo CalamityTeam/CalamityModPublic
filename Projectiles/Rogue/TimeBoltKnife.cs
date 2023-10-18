@@ -73,10 +73,10 @@ namespace CalamityMod.Projectiles.Rogue
                         229
                     });
                     Vector2 center = Projectile.Center;
-                    Vector2 vector74 = new Vector2(-4f, 4f);
-                    vector74 += new Vector2(-4f, 4f);
-                    vector74 = vector74.RotatedBy((double)Projectile.rotation, default);
-                    int dust = Dust.NewDust(center + vector74 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 1f);
+                    Vector2 fourVector = new Vector2(-4f, 4f);
+                    fourVector += new Vector2(-4f, 4f);
+                    fourVector = fourVector.RotatedBy((double)Projectile.rotation, default);
+                    int dust = Dust.NewDust(center + fourVector + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 1f);
                     Dust dust2 = Main.dust[dust];
                     dust2.velocity *= 0.1f;
                     if (Main.rand.Next(6) != 0)
@@ -166,10 +166,10 @@ namespace CalamityMod.Projectiles.Rogue
                         229
                     });
                     Vector2 center = Projectile.Center;
-                    Vector2 vector75 = new Vector2(-4f, 4f);
-                    vector75 += new Vector2(-4f, 4f);
-                    vector75 = vector75.RotatedBy((double)Projectile.rotation, default);
-                    int dust = Dust.NewDust(center + vector75 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 0.6f);
+                    Vector2 otherFourVector = new Vector2(-4f, 4f);
+                    otherFourVector += new Vector2(-4f, 4f);
+                    otherFourVector = otherFourVector.RotatedBy((double)Projectile.rotation, default);
+                    int dust = Dust.NewDust(center + otherFourVector + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 0.6f);
                     Dust dust2 = Main.dust[dust];
                     dust2.velocity *= 0.1f;
                     dust2.noGravity = true;
@@ -208,10 +208,10 @@ namespace CalamityMod.Projectiles.Rogue
                     229
                 });
                 Vector2 center = Projectile.Center;
-                Vector2 vector76 = new Vector2(-4f, 4f);
-                vector76 += new Vector2(-4f, 4f);
-                vector76 = vector76.RotatedBy((double)Projectile.rotation, default);
-                int dust = Dust.NewDust(center + vector76 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 0.6f);
+                Vector2 thirdFourVector = new Vector2(-4f, 4f);
+                thirdFourVector += new Vector2(-4f, 4f);
+                thirdFourVector = thirdFourVector.RotatedBy((double)Projectile.rotation, default);
+                int dust = Dust.NewDust(center + thirdFourVector + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 0.6f);
                 Dust dust2 = Main.dust[dust];
                 dust2.velocity *= 0.1f;
                 dust2.noGravity = true;
