@@ -267,11 +267,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 laserSpawnDistance = 20f;
                             }
 
-                            bool scrap = false;
+                            bool weakLaser = false;
                             if (probeLaunched)
                             {
-                                scrap = true;
-                                projectileType = ProjectileID.SaucerScrap;
+                                weakLaser = true;
+                                projectileType = ProjectileID.EyeLaser;
                                 laserSpawnDistance = 0f;
                             }
 
@@ -279,10 +279,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 projectileVelocity = (player.Center - npc.Center).SafeNormalize(Vector2.UnitY) * projectileSpeed;
                             Vector2 projectileSpawn = npc.Center + projectileVelocity * laserSpawnDistance;
 
-                            // Shoot projectile and set timeLeft if not a homing laser/metal scrap so lasers don't last for too long
-                            int damage = scrap ? 0 : npc.GetProjectileDamage(projectileType);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, scrap ? 0f : 1f, 0f);
-                            Main.projectile[proj].timeLeft = scrap ? 150 : 900;
+                            // Shoot projectile
+                            int damage = npc.GetProjectileDamage(projectileType);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, weakLaser ? 0f : 1f, 0f);
+                            Main.projectile[proj].timeLeft = weakLaser ? 600 : 900;
 
                             npc.netUpdate = true;
                         }

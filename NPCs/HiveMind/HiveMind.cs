@@ -605,6 +605,7 @@ namespace CalamityMod.NPCs.HiveMind
                         }
                     }
                     NPC.netUpdate = true;
+                    NPC.netSpam = 0;
                 }
                 else if (burrowTimer < 0)
                 {
@@ -714,6 +715,7 @@ namespace CalamityMod.NPCs.HiveMind
                             rotation = MathHelper.ToRadians(Main.rand.Next(360));
 
                         NPC.netUpdate = true;
+                        NPC.netSpam = 0;
                     }
 
                     if (!player.active || player.dead || Vector2.Distance(NPC.Center, player.Center) > 5000f)
@@ -751,6 +753,7 @@ namespace CalamityMod.NPCs.HiveMind
                         NPC.velocity *= 2f / 255f * (reelbackFade + 2 * (int)enrageScale);
                         ReelBack();
                         NPC.netUpdate = true;
+                        NPC.netSpam = 0;
                     }
                     else
                     {
@@ -782,6 +785,7 @@ namespace CalamityMod.NPCs.HiveMind
 
                         phase2timer = minimumDriftTime + Main.rand.Next(121);
                         NPC.netUpdate = true;
+                        NPC.netSpam = 0;
                     }
                     else if (NPC.ai[1] == 0f && NPC.ai[2] == 0f)
                     {
@@ -794,6 +798,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 NPC.ai[1] = posX;
                                 NPC.ai[2] = posY;
                                 NPC.netUpdate = true;
+                                NPC.netSpam = 0;
                                 break;
                             }
                         }
@@ -834,6 +839,7 @@ namespace CalamityMod.NPCs.HiveMind
                 case 3: // Lunge
 
                     NPC.netUpdate = true;
+                    NPC.netSpam = 0;
                     if (NPC.alpha > 0)
                     {
                         NPC.alpha -= lungeFade;
@@ -890,6 +896,7 @@ namespace CalamityMod.NPCs.HiveMind
                             NPC.position.Y += teleportRadius;
                         }
                         NPC.netUpdate = true;
+                        NPC.netSpam = 0;
                     }
                     else
                     {
@@ -900,6 +907,7 @@ namespace CalamityMod.NPCs.HiveMind
                             NPC.velocity.X = MathHelper.Pi * teleportRadius / arcTime;
                             NPC.velocity *= rotationDirection;
                             NPC.netUpdate = true;
+                            NPC.netSpam = 0;
                         }
                         else
                         {
@@ -947,6 +955,7 @@ namespace CalamityMod.NPCs.HiveMind
                             NPC.position.X += teleportRadius * rotationDirection;
                         }
                         NPC.netUpdate = true;
+                        NPC.netSpam = 0;
                     }
                     else
                     {
@@ -957,6 +966,7 @@ namespace CalamityMod.NPCs.HiveMind
                             NPC.velocity.X = teleportRadius / arcTime * 3;
                             NPC.velocity *= -rotationDirection;
                             NPC.netUpdate = true;
+                            NPC.netSpam = 0;
                         }
                         else
                         {
@@ -995,6 +1005,7 @@ namespace CalamityMod.NPCs.HiveMind
                         phase2timer = minimumDriftTime + Main.rand.Next(121);
                         state = 0;
                         NPC.netUpdate = true;
+                        NPC.netSpam = 0;
                     }
 
                     break;
@@ -1033,6 +1044,7 @@ namespace CalamityMod.NPCs.HiveMind
                 NPC.velocity *= -4f;
                 ReelBack();
                 NPC.netUpdate = true;
+                NPC.netSpam = 0;
             }
         }
 

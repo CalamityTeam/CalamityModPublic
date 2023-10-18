@@ -158,7 +158,7 @@ namespace CalamityMod.NPCs
         private const double DesertEnemyStatMultiplier = 0.75;
 
         // Used to increase coin drops in Normal Mode
-        private const double NPCValueMultiplier_NormalCalamity = 2.5;
+        private const double NPCValueMultiplier_NormalCalamity = 1.5;
 
         // Used to decrease coin drops in Expert Mode
         private const double NPCValueMultiplier_ExpertVanilla = 2.5;
@@ -859,19 +859,25 @@ namespace CalamityMod.NPCs
             }
 
             // Daybroken
+            // 18OCT2023: Ozzatron: im not gonna sugarcoat it
+            // vanilla debuff damage from Daybreak impales scales linearly up to 8 for 800 DPS
+            // instead of allowing this entire 800 DPS to be multiplied by heat weakness + heat DoT bonuses,
+            // each Daybreak spear beyond the first is only affected 25% as much by weaknesses or resistances.
+            // This also stops Daybreak's DPS from being utterly shafted by heat resistance.
+            // As no other weapon can stack Daybroken, this has no effect on other weapons (they count as "1 Daybreak spear")
             if (npc.daybreak)
             {
-                int projAmt = 0;
+                int numImpaledSpears = 0;
                 for (int k = 0; k < Main.maxProjectiles; k++)
                 {
                     if (Main.projectile[k].active && Main.projectile[k].type == ProjectileID.Daybreak && Main.projectile[k].ai[0] == 1f && Main.projectile[k].ai[1] == npc.whoAmI)
-                        projAmt++;
+                        numImpaledSpears++;
                 }
 
-                if (projAmt == 0)
-                    projAmt = 1;
+                // If there are no Daybreak impaled spears, Daybroken has 1x potency (it was applied some other way)
+                float daybrokenMultiplier = numImpaledSpears <= 1 ? 1f : (1f + 0.25f * (numImpaledSpears - 1));
 
-                int baseDaybreakDoTValue = (int)(projAmt * 2 * 100 * vanillaHeatDamageMult);
+                int baseDaybreakDoTValue = (int)(daybrokenMultiplier * 2 * 100 * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseDaybreakDoTValue;
                 if (damage < baseDaybreakDoTValue / 4)
                     damage = baseDaybreakDoTValue / 4;
@@ -2460,10 +2466,10 @@ namespace CalamityMod.NPCs
         private void EditGlobalCoinDrops(NPC npc)
         {
             // Old Rev coin drop math: Normal = 10 Gold, Expert = 25 Gold, Rev = 37 Gold 50 Silver.
-            // New Rev coin drop math: Normal = 25 Gold, Expert AND Rev = 37 Gold 50 Silver.
+            // New Rev coin drop math: Normal = 15 Gold, Expert AND Rev = 22 Gold 50 Silver.
             // Rebalance coin drops so that Normal Mode enemies and bosses drop an adequate amount of coins.
 
-            // Increase Normal Mode coin drops by 2.5x.
+            // Increase Normal Mode coin drops by 1.5x.
             npc.value = (int)(npc.value * NPCValueMultiplier_NormalCalamity);
 
             // Change the Expert Mode coin drop multiplier.
