@@ -33,11 +33,11 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Lighting.AddLight(Projectile.Center, 0f, 0.7f, 0.5f);
             Player player = Main.player[Projectile.owner];
-            float num = 0f;
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            float pi = 0f;
+            Vector2 playerRotate = player.RotatedRelativePoint(player.MountedCenter, true);
             if (Projectile.spriteDirection == -1)
             {
-                num = 3.14159274f;
+                pi = 3.14159274f;
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 4)
@@ -50,94 +50,93 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.frame = 0;
             }
             Projectile.ai[0] += 1f;
-            int num39 = 0;
+            int fireSpeed = 0;
             if (Projectile.ai[0] >= 30f)
             {
-                num39++;
+                fireSpeed++;
             }
             if (Projectile.ai[0] >= 60f)
             {
-                num39++;
+                fireSpeed++;
             }
             if (Projectile.ai[0] >= 90f)
             {
-                num39++;
+                fireSpeed++;
             }
             if (Projectile.ai[0] >= 120f)
             {
-                num39++;
+                fireSpeed++;
             }
-            int num40 = 24;
-            int num41 = 2;
+            int delayCompare = 24;
+            int fireSpeedCompare = 2;
             Projectile.ai[1] -= 1f;
-            bool flag15 = false;
+            bool fullSpeed = false;
             if (Projectile.ai[1] <= 0f)
             {
-                Projectile.ai[1] = (float)(num40 - num41 * num39);
-                flag15 = true;
-                int arg_1EF4_0 = (int)Projectile.ai[0] / (num40 - num41 * num39);
+                Projectile.ai[1] = (float)(delayCompare - fireSpeedCompare * fireSpeed);
+                fullSpeed = true;
+                int arg_1EF4_0 = (int)Projectile.ai[0] / (delayCompare - fireSpeedCompare * fireSpeed);
             }
-            bool flag16 = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
+            bool canUseItem = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
             if (Projectile.localAI[0] > 0f)
             {
                 Projectile.localAI[0] -= 1f;
             }
-            if (Projectile.soundDelay <= 0 && flag16)
+            if (Projectile.soundDelay <= 0 && canUseItem)
             {
-                Projectile.soundDelay = num40 - num41 * num39;
+                Projectile.soundDelay = delayCompare - fireSpeedCompare * fireSpeed;
                 if (Projectile.ai[0] != 1f)
                 {
                     SoundEngine.PlaySound(SoundID.Item5, Projectile.position);
                 }
                 Projectile.localAI[0] = 12f;
             }
-            if (flag15 && Main.myPlayer == Projectile.owner)
+            if (fullSpeed && Main.myPlayer == Projectile.owner)
             {
-                int num42 = ProjectileID.WoodenArrowFriendly;
+                int ammoType = ProjectileID.WoodenArrowFriendly;
                 float scaleFactor11 = 14f;
                 int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                 float weaponKnockback2 = player.ActiveItem().knockBack;
-                if (flag16)
+                if (canUseItem)
                 {
-                    player.PickAmmo(player.ActiveItem(), out num42, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _);
+                    player.PickAmmo(player.ActiveItem(), out ammoType, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _);
                     weaponKnockback2 = player.GetWeaponKnockback(player.ActiveItem(), weaponKnockback2);
                     float scaleFactor12 = player.ActiveItem().shootSpeed * Projectile.scale;
-                    Vector2 vector19 = vector;
-                    Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - vector19;
+                    Vector2 shootDirection = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - playerRotate;
                     if (player.gravDir == -1f)
                     {
-                        value18.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - vector19.Y;
+                        shootDirection.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - playerRotate.Y;
                     }
-                    Vector2 value19 = Vector2.Normalize(value18);
-                    if (float.IsNaN(value19.X) || float.IsNaN(value19.Y))
+                    Vector2 normalizeShoot = Vector2.Normalize(shootDirection);
+                    if (float.IsNaN(normalizeShoot.X) || float.IsNaN(normalizeShoot.Y))
                     {
-                        value19 = -Vector2.UnitY;
+                        normalizeShoot = -Vector2.UnitY;
                     }
-                    value19 *= scaleFactor12;
-                    if (value19.X != Projectile.velocity.X || value19.Y != Projectile.velocity.Y)
+                    normalizeShoot *= scaleFactor12;
+                    if (normalizeShoot.X != Projectile.velocity.X || normalizeShoot.Y != Projectile.velocity.Y)
                     {
                         Projectile.netUpdate = true;
                     }
-                    Projectile.velocity = value19 * 0.55f;
-                    for (int num43 = 0; num43 < 4; num43++)
+                    Projectile.velocity = normalizeShoot * 0.55f;
+                    for (int i = 0; i < 4; i++)
                     {
-                        Vector2 vector20 = Vector2.Normalize(Projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
-                        if (float.IsNaN(vector20.X) || float.IsNaN(vector20.Y))
+                        Vector2 randNormalize = Vector2.Normalize(Projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
+                        if (float.IsNaN(randNormalize.X) || float.IsNaN(randNormalize.Y))
                         {
-                            vector20 = -Vector2.UnitY;
+                            randNormalize = -Vector2.UnitY;
                         }
-                        Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -15f, 15f);
-                        int num44 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, Projectile.owner, 0f, 0f);
-                        Main.projectile[num44].noDropItem = true;
+                        Vector2 projRandomPos = playerRotate + Utils.RandomVector2(Main.rand, -15f, 15f);
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), projRandomPos.X, projRandomPos.Y, randNormalize.X, randNormalize.Y, ammoType, weaponDamage2, weaponKnockback2, Projectile.owner, 0f, 0f);
+                        Main.projectile[proj].noDropItem = true;
                     }
-                    Vector2 vector2 = Vector2.Normalize(Projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
-                    if (float.IsNaN(vector2.X) || float.IsNaN(vector2.Y))
+                    Vector2 daemonNormalize = Vector2.Normalize(Projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
+                    if (float.IsNaN(daemonNormalize.X) || float.IsNaN(daemonNormalize.Y))
                     {
-                        vector2 = -Vector2.UnitY;
+                        daemonNormalize = -Vector2.UnitY;
                     }
-                    float speedY = vector2.Y;
-                    Vector2 vector3 = vector19 + Utils.RandomVector2(Main.rand, -15f, 15f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector3.X, vector3.Y, vector2.X, vector2.Y, ModContent.ProjectileType<DaemonsFlameArrow>(), weaponDamage2, weaponKnockback2, Projectile.owner, 0.0f, speedY);
+                    float speedY = daemonNormalize.Y;
+                    Vector2 daemonRandomPos = playerRotate + Utils.RandomVector2(Main.rand, -15f, 15f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), daemonRandomPos.X, daemonRandomPos.Y, daemonNormalize.X, daemonNormalize.Y, ModContent.ProjectileType<DaemonsFlameArrow>(), weaponDamage2, weaponKnockback2, Projectile.owner, 0.0f, speedY);
                 }
                 else
                 {
@@ -158,14 +157,14 @@ namespace CalamityMod.Projectiles.Ranged
         public override void PostDraw(Color lightColor)
         {
             Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
+            int framing = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
             Vector2 origin = new Vector2(27f, 58f);
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/DaemonsFlameBowGlow").Value, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/DaemonsFlameBowGlow").Value, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, framing)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
         }
 
         public override bool? CanDamage() => false;

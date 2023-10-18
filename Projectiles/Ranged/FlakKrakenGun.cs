@@ -28,88 +28,85 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            float num = 0f;
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            float pi = 0f;
+            Vector2 playerRotation = player.RotatedRelativePoint(player.MountedCenter, true);
             if (Projectile.spriteDirection == -1)
             {
-                num = 3.14159274f;
+                pi = 3.14159274f;
             }
-            float num26 = 30f;
+            float hitRate = 30f;
             if (Projectile.ai[0] > 90f)
             {
-                num26 = 15f;
+                hitRate = 15f;
             }
             if (Projectile.ai[0] > 120f)
             {
-                num26 = 5f;
+                hitRate = 5f;
             }
             Projectile.damage = player.ActiveItem() is null ? 0 : player.GetWeaponDamage(player.ActiveItem());
             Projectile.ai[0] += 1f;
             Projectile.ai[1] += 1f;
-            int num27 = 10;
-            bool flag10 = false;
-            if (Projectile.ai[0] % num26 == 0f)
+            bool isUsing = false;
+            if (Projectile.ai[0] % hitRate == 0f)
             {
-                flag10 = true;
+                isUsing = true;
             }
             if (Projectile.ai[1] >= 1f)
             {
                 Projectile.ai[1] = 0f;
-                flag10 = true;
+                isUsing = true;
                 if (Main.myPlayer == Projectile.owner)
                 {
                     float scaleFactor5 = player.ActiveItem().shootSpeed * Projectile.scale;
-                    Vector2 value12 = vector;
-                    Vector2 value13 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - value12;
+                    Vector2 shootDirection = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - playerRotation;
                     if (player.gravDir == -1f)
                     {
-                        value13.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - value12.Y;
+                        shootDirection.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - playerRotation.Y;
                     }
-                    Vector2 vector11 = Vector2.Normalize(value13);
-                    if (float.IsNaN(vector11.X) || float.IsNaN(vector11.Y))
+                    Vector2 normalizeShoot = Vector2.Normalize(shootDirection);
+                    if (float.IsNaN(normalizeShoot.X) || float.IsNaN(normalizeShoot.Y))
                     {
-                        vector11 = -Vector2.UnitY;
+                        normalizeShoot = -Vector2.UnitY;
                     }
-                    vector11 = Vector2.Normalize(Vector2.Lerp(vector11, Vector2.Normalize(Projectile.velocity), 0.92f)); //0.92
-                    vector11 *= scaleFactor5;
-                    if (vector11.X != Projectile.velocity.X || vector11.Y != Projectile.velocity.Y)
+                    normalizeShoot = Vector2.Normalize(Vector2.Lerp(normalizeShoot, Vector2.Normalize(Projectile.velocity), 0.92f)); //0.92
+                    normalizeShoot *= scaleFactor5;
+                    if (normalizeShoot.X != Projectile.velocity.X || normalizeShoot.Y != Projectile.velocity.Y)
                     {
                         Projectile.netUpdate = true;
                     }
-                    Projectile.velocity = vector11;
+                    Projectile.velocity = normalizeShoot;
                 }
             }
             if (Projectile.soundDelay <= 0)
             {
-                Projectile.soundDelay = num27;
+                Projectile.soundDelay = 10;
                 Projectile.soundDelay *= 2;
                 if (Projectile.ai[0] != 1f && Projectile.ai[0] <= 500f)
                 {
                     SoundEngine.PlaySound(SoundID.Item15, Projectile.position);
                 }
             }
-            if (flag10 && Main.myPlayer == Projectile.owner)
+            if (isUsing && Main.myPlayer == Projectile.owner)
             {
-                bool flag12 = player.channel && !player.noItems && !player.CCed;
-                if (flag12)
+                bool canUseItem = player.channel && !player.noItems && !player.CCed;
+                if (canUseItem)
                 {
                     if (Projectile.ai[0] == 1f)
                     {
-                        Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-                        float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                        float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                        Vector2 projPos = player.RotatedRelativePoint(player.MountedCenter, true);
+                        float projX = (float)Main.mouseX + Main.screenPosition.X - projPos.X;
+                        float projY = (float)Main.mouseY + Main.screenPosition.Y - projPos.Y;
                         if (player.gravDir == -1f)
                         {
-                            num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                            projY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - projPos.Y;
                         }
-                        if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+                        if ((float.IsNaN(projX) && float.IsNaN(projY)) || (projX == 0f && projY == 0f))
                         {
-                            num78 = (float)player.direction;
-                            num79 = 0f;
+                            projX = (float)player.direction;
+                            projY = 0f;
                         }
-                        vector2 += new Vector2(num78, num79);
-                        int num29 = Projectile.damage;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<FlakKrakenProj>(), num29, Projectile.knockBack, Projectile.owner, 0f, (float)Projectile.whoAmI);
+                        projPos += new Vector2(projX, projY);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), projPos.X, projPos.Y, 0f, 0f, ModContent.ProjectileType<FlakKrakenProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, (float)Projectile.whoAmI);
                         Projectile.netUpdate = true;
                     }
                 }

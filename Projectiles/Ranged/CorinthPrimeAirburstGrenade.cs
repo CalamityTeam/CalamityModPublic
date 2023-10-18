@@ -142,34 +142,34 @@ namespace CalamityMod.Projectiles.Ranged
 
             // Dust circles
             int totalDust = weakExplosion ? 100 : 400;
-            for (int num640 = 0; num640 < totalDust; num640++)
+            for (int i = 0; i < totalDust; i++)
             {
                 int dustType = 206;
-                float num641 = 32f;
-                if (num640 < 300)
+                float circleSize = 32f;
+                if (i < 300)
                 {
                     dustType = 187;
-                    num641 = 16f;
+                    circleSize = 16f;
                 }
-                if (num640 < 200)
-                    num641 = 8f;
-                if (num640 < 100)
-                    num641 = 4f;
+                if (i < 200)
+                    circleSize = 8f;
+                if (i < 100)
+                    circleSize = 4f;
 
-                int num643 = Dust.NewDust(Projectile.Center, 6, 6, dustType, 0f, 0f, 100, default, 1f);
-                float num644 = Main.dust[num643].velocity.X;
-                float num645 = Main.dust[num643].velocity.Y;
+                int dust = Dust.NewDust(Projectile.Center, 6, 6, dustType, 0f, 0f, 100, default, 1f);
+                float dustX = Main.dust[dust].velocity.X;
+                float dustY = Main.dust[dust].velocity.Y;
 
-                if (num644 == 0f && num645 == 0f)
-                    num644 = 1f;
+                if (dustX == 0f && dustY == 0f)
+                    dustX = 1f;
 
-                float num646 = (float)Math.Sqrt(num644 * num644 + num645 * num645);
-                num646 = num641 / num646;
-                num644 *= num646;
-                num645 *= num646;
+                float dustCircle = (float)Math.Sqrt(dustX * dustX + dustY * dustY);
+                dustCircle = circleSize / dustCircle;
+                dustX *= dustCircle;
+                dustY *= dustCircle;
 
                 float scale = 1f;
-                switch ((int)num641)
+                switch ((int)circleSize)
                 {
                     case 4:
                         scale = 1.1f;
@@ -187,10 +187,10 @@ namespace CalamityMod.Projectiles.Ranged
                         break;
                 }
 
-                Dust dust = Main.dust[num643];
+                Dust dust = Main.dust[dust];
                 dust.velocity *= 0.5f;
-                dust.velocity.X += num644;
-                dust.velocity.Y += num645;
+                dust.velocity.X += dustX;
+                dust.velocity.Y += dustY;
                 dust.scale = scale;
                 dust.noGravity = true;
             }

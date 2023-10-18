@@ -30,44 +30,44 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Lighting.AddLight(Projectile.Center, 0f, 0.7f, 0.5f);
             Player player = Main.player[Projectile.owner];
-            float num = 0f;
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            float pi = 0f;
+            Vector2 playerRotation = player.RotatedRelativePoint(player.MountedCenter, true);
             if (Projectile.spriteDirection == -1)
             {
-                num = MathHelper.Pi;
+                pi = MathHelper.Pi;
             }
             Projectile.ai[0] += 1f;
-            int num39 = 0;
+            int fireSpeed = 0;
             if (Projectile.ai[0] >= 90f)
             {
-                num39++;
+                fireSpeed++;
             }
             if (Projectile.ai[0] >= 180f)
             {
-                num39++;
+                fireSpeed++;
             }
             if (Projectile.ai[0] >= 270f)
             {
-                num39++;
+                fireSpeed++;
             }
-            int num40 = 24;
-            int num41 = 2;
+            int delayCompare = 24;
+            int fireSpeedCompare = 2;
             Projectile.ai[1] -= 1f;
-            bool flag15 = false;
+            bool fullSpeed = false;
             if (Projectile.ai[1] <= 0f)
             {
-                Projectile.ai[1] = (float)(num40 - num41 * num39);
-                flag15 = true;
-                int arg_1EF4_0 = (int)Projectile.ai[0] / (num40 - num41 * num39);
+                Projectile.ai[1] = (float)(delayCompare - fireSpeedCompare * fireSpeed);
+                fullSpeed = true;
+                int arg_1EF4_0 = (int)Projectile.ai[0] / (delayCompare - fireSpeedCompare * fireSpeed);
             }
-            bool flag16 = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
+            bool canUseItem = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
             if (Projectile.localAI[0] > 0f)
             {
                 Projectile.localAI[0] -= 1f;
             }
-            if (Projectile.soundDelay <= 0 && flag16)
+            if (Projectile.soundDelay <= 0 && canUseItem)
             {
-                Projectile.soundDelay = num40 - num41 * num39;
+                Projectile.soundDelay = delayCompare - fireSpeedCompare * fireSpeed;
                 if (Projectile.ai[0] != 1f)
                 {
                     SoundEngine.PlaySound(SoundID.Item5, Projectile.position);
@@ -75,44 +75,43 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.localAI[0] = 12f;
             }
             player.phantasmTime = 2;
-            if (flag15 && Main.myPlayer == Projectile.owner)
+            if (fullSpeed && Main.myPlayer == Projectile.owner)
             {
-                int num42 = ProjectileID.WoodenArrowFriendly;
+                int ammoType = ProjectileID.WoodenArrowFriendly;
                 float scaleFactor11 = 14f;
                 int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                 float weaponKnockback2 = player.ActiveItem().knockBack;
-                if (flag16)
+                if (canUseItem)
                 {
-                    player.PickAmmo(player.ActiveItem(), out num42, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _);
+                    player.PickAmmo(player.ActiveItem(), out ammoType, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _);
                     weaponKnockback2 = player.GetWeaponKnockback(player.ActiveItem(), weaponKnockback2);
                     float scaleFactor12 = player.ActiveItem().shootSpeed * Projectile.scale;
-                    Vector2 vector19 = vector;
-                    Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - vector19;
+                    Vector2 shootDirection = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - playerRotation;
                     if (player.gravDir == -1f)
                     {
-                        value18.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - vector19.Y;
+                        shootDirection.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - playerRotation.Y;
                     }
-                    Vector2 value19 = Vector2.Normalize(value18);
-                    if (float.IsNaN(value19.X) || float.IsNaN(value19.Y))
+                    Vector2 normalizeShoot = Vector2.Normalize(shootDirection);
+                    if (float.IsNaN(normalizeShoot.X) || float.IsNaN(normalizeShoot.Y))
                     {
-                        value19 = -Vector2.UnitY;
+                        normalizeShoot = -Vector2.UnitY;
                     }
-                    value19 *= scaleFactor12;
-                    if (value19.X != Projectile.velocity.X || value19.Y != Projectile.velocity.Y)
+                    normalizeShoot *= scaleFactor12;
+                    if (normalizeShoot.X != Projectile.velocity.X || normalizeShoot.Y != Projectile.velocity.Y)
                     {
                         Projectile.netUpdate = true;
                     }
-                    Projectile.velocity = value19 * 0.55f;
-                    for (int num43 = 0; num43 < 5; num43++)
+                    Projectile.velocity = normalizeShoot * 0.55f;
+                    for (int i = 0; i < 5; i++)
                     {
-                        Vector2 vector20 = Vector2.Normalize(Projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
-                        if (float.IsNaN(vector20.X) || float.IsNaN(vector20.Y))
+                        Vector2 randNormalize = Vector2.Normalize(Projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
+                        if (float.IsNaN(randNormalize.X) || float.IsNaN(randNormalize.Y))
                         {
-                            vector20 = -Vector2.UnitY;
+                            randNormalize = -Vector2.UnitY;
                         }
-                        Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -15f, 15f);
-                        int num44 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector21, vector20, num42, weaponDamage2, weaponKnockback2, Projectile.owner);
-                        Main.projectile[num44].noDropItem = true;
+                        Vector2 projRandomPos = playerRotation + Utils.RandomVector2(Main.rand, -15f, 15f);
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), projRandomPos, randNormalize, ammoType, weaponDamage2, weaponKnockback2, Projectile.owner);
+                        Main.projectile[proj].noDropItem = true;
                     }
                 }
                 else

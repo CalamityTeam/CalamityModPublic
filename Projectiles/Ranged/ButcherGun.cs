@@ -133,9 +133,9 @@ namespace CalamityMod.Projectiles.Ranged
                         source += Utils.RandomVector2(Main.rand, -5f, 5f);
                         bulletVel.X += (float)Main.rand.Next(-15, 16) * spreadMult;
                         bulletVel.Y += (float)Main.rand.Next(-15, 16) * spreadMult;
-                        int num44 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, bulletVel, projType, damage, kback, Projectile.owner, 0f, 0f);
-                        Main.projectile[num44].noDropItem = true;
-                        Main.projectile[num44].extraUpdates += incrementAmt / 2; //0 to 4
+                        int bullet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, bulletVel, projType, damage, kback, Projectile.owner, 0f, 0f);
+                        Main.projectile[bullet].noDropItem = true;
+                        Main.projectile[bullet].extraUpdates += incrementAmt / 2; //0 to 4
                     }
                 }
                 else
