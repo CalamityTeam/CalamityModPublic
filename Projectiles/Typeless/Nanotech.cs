@@ -56,27 +56,27 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnKill(int timeLeft)
         {
-            int num3;
-            for (int num191 = 0; num191 < 2; num191 = num3 + 1)
+            int inc;
+            for (int i = 0; i < 2; i = inc + 1)
             {
-                int num192 = (int)(10f * Projectile.scale);
-                int num193 = Dust.NewDust(Projectile.Center - Vector2.One * (float)num192, num192 * 2, num192 * 2, 107, 0f, 0f, 0, default, 1f);
-                Dust dust20 = Main.dust[num193];
-                Vector2 value8 = Vector2.Normalize(dust20.position - Projectile.Center);
-                dust20.position = Projectile.Center + value8 * (float)num192 * Projectile.scale;
-                if (num191 < 30)
+                int dustScale = (int)(10f * Projectile.scale);
+                int greenDust = Dust.NewDust(Projectile.Center - Vector2.One * (float)dustScale, dustScale * 2, dustScale * 2, 107, 0f, 0f, 0, default, 1f);
+                Dust nanoDust = Main.dust[greenDust];
+                Vector2 dustDirection = Vector2.Normalize(nanoDust.position - Projectile.Center);
+                nanoDust.position = Projectile.Center + dustDirection * (float)dustScale * Projectile.scale;
+                if (i < 30)
                 {
-                    dust20.velocity = value8 * dust20.velocity.Length();
+                    nanoDust.velocity = dustDirection * nanoDust.velocity.Length();
                 }
                 else
                 {
-                    dust20.velocity = value8 * (float)Main.rand.Next(45, 91) / 10f;
+                    nanoDust.velocity = dustDirection * (float)Main.rand.Next(45, 91) / 10f;
                 }
-                dust20.color = Main.hslToRgb((float)(0.40000000596046448 + Main.rand.NextDouble() * 0.20000000298023224), 0.9f, 0.5f);
-                dust20.color = Color.Lerp(dust20.color, Color.White, 0.3f);
-                dust20.noGravity = true;
-                dust20.scale = 0.7f;
-                num3 = num191;
+                nanoDust.color = Main.hslToRgb((float)(0.40000000596046448 + Main.rand.NextDouble() * 0.20000000298023224), 0.9f, 0.5f);
+                nanoDust.color = Color.Lerp(nanoDust.color, Color.White, 0.3f);
+                nanoDust.noGravity = true;
+                nanoDust.scale = 0.7f;
+                inc = i;
             }
         }
     }

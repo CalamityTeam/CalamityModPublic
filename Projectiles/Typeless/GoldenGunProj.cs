@@ -29,16 +29,16 @@ namespace CalamityMod.Projectiles.Typeless
                 Projectile.localAI[0] += 1f;
                 return;
             }
-            int num3;
-            for (int num586 = 0; num586 < 1; num586 = num3 + 1)
+            int inc;
+            for (int i = 0; i < 1; i = inc + 1)
             {
-                for (int num587 = 0; num587 < 6; num587 = num3 + 1)
+                for (int j = 0; j < 6; j = inc + 1)
                 {
-                    float num588 = Projectile.velocity.X / 6f * (float)num587;
-                    float num589 = Projectile.velocity.Y / 6f * (float)num587;
-                    int num590 = 6;
-                    int num591 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num590, Projectile.position.Y + (float)num590), Projectile.width - num590 * 2, Projectile.height - num590 * 2, 170, 0f, 0f, 75, default, 1.2f);
-                    Dust dust = Main.dust[num591];
+                    float dustX = Projectile.velocity.X / 6f * (float)j;
+                    float dustY = Projectile.velocity.Y / 6f * (float)j;
+                    int dustPosMod = 6;
+                    int goldenDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)dustPosMod, Projectile.position.Y + (float)dustPosMod), Projectile.width - dustPosMod * 2, Projectile.height - dustPosMod * 2, 170, 0f, 0f, 75, default, 1.2f);
+                    Dust dust = Main.dust[goldenDust];
                     if (Main.rand.NextBool())
                     {
                         dust.alpha += 25;
@@ -55,31 +55,31 @@ namespace CalamityMod.Projectiles.Typeless
                     dust.velocity *= 0.3f;
                     dust.velocity += Projectile.velocity * 0.5f;
                     dust.position = Projectile.Center;
-                    dust.position.X -= num588;
-                    dust.position.Y -= num589;
+                    dust.position.X -= dustX;
+                    dust.position.Y -= dustY;
                     dust.velocity *= 0.2f;
-                    num3 = num587;
+                    inc = j;
                 }
                 if (Main.rand.NextBool(4))
                 {
-                    int num592 = 6;
-                    int num593 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num592, Projectile.position.Y + (float)num592), Projectile.width - num592 * 2, Projectile.height - num592 * 2, 170, 0f, 0f, 75, default, 0.65f);
-                    Dust dust = Main.dust[num593];
+                    int dustPosMod2 = 6;
+                    int moreGoldenDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)dustPosMod2, Projectile.position.Y + (float)dustPosMod2), Projectile.width - dustPosMod2 * 2, Projectile.height - dustPosMod2 * 2, 170, 0f, 0f, 75, default, 0.65f);
+                    Dust dust = Main.dust[moreGoldenDust];
                     dust.velocity *= 0.5f;
                     dust.velocity += Projectile.velocity * 0.5f;
                 }
-                num3 = num586;
+                inc = i;
             }
         }
 
         public override void OnKill(int timeLeft)
         {
             Projectile.velocity = Projectile.oldVelocity * 0.2f;
-            int num3;
-            for (int num362 = 0; num362 < 100; num362 = num3 + 1)
+            int inc;
+            for (int k = 0; k < 100; k = inc + 1)
             {
-                int num363 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 170, 0f, 0f, 75, default, 1.2f);
-                Dust dust = Main.dust[num363];
+                int deathGoldenDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 170, 0f, 0f, 75, default, 1.2f);
+                Dust dust = Main.dust[deathGoldenDust];
                 if (Main.rand.NextBool())
                 {
                     dust.alpha += 25;
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Typeless
                 dust.velocity.X += (float)Main.rand.Next(-50, 51) * 0.015f;
                 dust.velocity.Y += (float)Main.rand.Next(-50, 51) * 0.015f;
                 dust.position = Projectile.Center;
-                num3 = num362;
+                inc = k;
             }
         }
 

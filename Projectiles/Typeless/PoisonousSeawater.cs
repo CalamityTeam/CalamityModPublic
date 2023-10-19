@@ -36,14 +36,14 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 randomDust = 33;
             }
-            for (int num468 = 0; num468 < 2; num468++)
+            for (int i = 0; i < 2; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 1f);
+                int seaDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 1f);
                 if (randomDust == 89)
                 {
-                    Main.dust[num469].scale *= 0.35f;
+                    Main.dust[seaDust].scale *= 0.35f;
                 }
-                Main.dust[num469].velocity *= 0f;
+                Main.dust[seaDust].velocity *= 0f;
             }
         }
 
