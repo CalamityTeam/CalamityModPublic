@@ -54,20 +54,20 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 velocity = Projectile.Center - npc.Center;
             velocity *= 2f;
             velocity.SafeNormalize(Vector2.Zero);
-            float num550 = 5f * Projectile.scale;
-            Vector2 vector43 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num551 = Projectile.Center.X - vector43.X;
-            float num552 = Projectile.Center.Y - vector43.Y;
-            float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
-            if (num553 < 100f)
+            float projSpeed = 5f * Projectile.scale;
+            Vector2 fireDirection = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+            float fireXVel = Projectile.Center.X - fireDirection.X;
+            float fireYVel = Projectile.Center.Y - fireDirection.Y;
+            float fireVelocity = (float)Math.Sqrt((double)(fireXVel * fireXVel + fireYVel * fireYVel));
+            if (fireVelocity < 100f)
             {
-                num550 = 28f; //14
+                projSpeed = 28f; //14
             }
-            num553 = num550 / num553;
-            num551 *= num553;
-            num552 *= num553;
-            npc.velocity.X = (velocity.X * 15f + num551) / 16f;
-            npc.velocity.Y = (velocity.Y * 15f + num552) / 16f;
+            fireVelocity = projSpeed / fireVelocity;
+            fireXVel *= fireVelocity;
+            fireYVel *= fireVelocity;
+            npc.velocity.X = (velocity.X * 15f + fireXVel) / 16f;
+            npc.velocity.Y = (velocity.Y * 15f + fireYVel) / 16f;
             npc.velocity = (velocity / succStrength);
         }
 

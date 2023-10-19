@@ -59,11 +59,11 @@ namespace CalamityMod.Projectiles.Summon
 
             }
             //Apply the buff
-            bool flag64 = Projectile.type == ModContent.ProjectileType<EndoCooperBody>();
+            bool isMinion = Projectile.type == ModContent.ProjectileType<EndoCooperBody>();
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<EndoCooperBuff>(), 3600);
-            if (flag64)
+            if (isMinion)
             {
                 if (player.dead)
                 {
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.Kill();
 
             Projectile.MinionAntiClump();
-            bool flag24 = false;
+            bool accelerate = false;
             if (Projectile.ai[0] == 2f)
             {
                 Projectile.ai[1] += 1f;
@@ -148,10 +148,10 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else
                 {
-                    flag24 = true;
+                    accelerate = true;
                 }
             }
-            if (flag24)
+            if (accelerate)
             {
                 return;
             }
@@ -173,9 +173,9 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (!gotoenemy)
             {
-                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    NPC nPC2 = Main.npc[num645];
+                    NPC nPC2 = Main.npc[i];
                     if (nPC2.CanBeChasedBy(Projectile, false))
                     {
                         float disttoobjective = Vector2.Distance(nPC2.Center, Projectile.Center);

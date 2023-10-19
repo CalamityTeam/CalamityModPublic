@@ -26,10 +26,10 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
             {
-                int num469 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 132, 0f, 0f, 100, default, 1f);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 132, 0f, 0f, 100, default, 1f);
                 if (Main.rand.Next(6) != 0)
-                    Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                    Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0f;
             }
             NPC potentialTarget = Projectile.Center.MinionHoming(400f, Main.player[Projectile.owner]);
             if (potentialTarget != null)
