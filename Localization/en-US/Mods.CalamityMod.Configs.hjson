@@ -260,7 +260,7 @@ CalamityConfig: {
 			Sets the maximum of particle effects that can exist at once.
 			Particles are separate from dust and gores.
 			Turn down to improve performance.
-			[c/F05A5A:Turning this below 300 may cause some things to not display correctly]
+			[c/F05A5A:Turning this below 300 may cause some things to not display correctly.]
 			'''
 	}
 
