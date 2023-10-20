@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public SlotId WeldSoundSlot;
 
-        public int BetweenShotsPause = 24;
+        public int BetweenShotsPause = 14;
         public float Counter = 2;
         public float MaxFirerateShots = 20;
         public float WeldingShots = 50;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 505;
+            Item.damage = 493;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 94;
             Item.height = 72;
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     if (BetweenShotsPause > 4)
                     {
-                        BetweenShotsPause -= 2;
+                        BetweenShotsPause -= 1;
                         Item.reuseDelay = BetweenShotsPause;
                     }
                     Counter = 2;
@@ -98,7 +98,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (WeldingShots <= 0)
                 {
                     Counter = 2;
-                    BetweenShotsPause = 24;
+                    BetweenShotsPause = 14;
                     Item.reuseDelay = BetweenShotsPause;
                     SoundEngine.PlaySound(SpeedBlaster.Empty, player.Center);
                     Projectile.NewProjectile(source, player.Center, new Vector2(5 * -player.direction, -5), ModContent.ProjectileType<DragonsBreathMag>(), Main.zenithWorld ? 250000 : 1, knockback, player.whoAmI);

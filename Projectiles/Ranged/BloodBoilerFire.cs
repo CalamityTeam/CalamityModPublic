@@ -21,6 +21,8 @@ namespace CalamityMod.Projectiles.Ranged
         public float particleSize = 15;
         public Vector2 bloodCloudReturn;
         public bool improvedHeal = false;
+        public bool setHomingVelocity = false;
+        public float HomingVelocity = 0.18f;
         public override void SetDefaults()
         {
             Projectile.width = 43;
@@ -111,12 +113,17 @@ namespace CalamityMod.Projectiles.Ranged
 
             if (Projectile.ai[1] == 1f) // Dusts as the projectile homes back in on the player
             {
+                if (!setHomingVelocity)
+                {
+                    HomingVelocity = Main.rand.NextFloat(0.29f, 0.32f);
+                    setHomingVelocity = true;
+                }
                 Projectile.extraUpdates = 5;
                 bool dustEffect = Main.rand.NextBool(3) ? false : true;
                 int dustColor = dustEffect ? 296 : 60;
                 Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(dustEffect ? 0 : 5, dustEffect ? 0 : 5), dustColor);
                 dust.scale = dustEffect ? Main.rand.NextFloat(1.1f, 1.45f) : Main.rand.NextFloat(0.9f, 1.2f);
-                dust.velocity = dustEffect ? Vector2.Zero : Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(0.7f, 1.2f);
+                dust.velocity = dustEffect ? Projectile.velocity * Main.rand.NextFloat(0.2f, 0.4f) : Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(0.7f, 1.2f);
                 dust.alpha = 100;
                 dust.noLight = true;
                 dust.noGravity = true;
@@ -138,27 +145,27 @@ namespace CalamityMod.Projectiles.Ranged
                 // Home back in on the player.
                 if (Projectile.velocity.X < xDist)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X + 0.3f;
+                    Projectile.velocity.X = Projectile.velocity.X + HomingVelocity;
                     if (Projectile.velocity.X < 0f && xDist > 0f)
-                        Projectile.velocity.X += 0.3f;
+                        Projectile.velocity.X += HomingVelocity;
                 }
                 else if (Projectile.velocity.X > xDist)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X - 0.3f;
+                    Projectile.velocity.X = Projectile.velocity.X - HomingVelocity;
                     if (Projectile.velocity.X > 0f && xDist < 0f)
-                        Projectile.velocity.X -= 0.3f;
+                        Projectile.velocity.X -= HomingVelocity;
                 }
                 if (Projectile.velocity.Y < yDist)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y + 0.3f;
+                    Projectile.velocity.Y = Projectile.velocity.Y + HomingVelocity;
                     if (Projectile.velocity.Y < 0f && yDist > 0f)
-                        Projectile.velocity.Y += 0.3f;
+                        Projectile.velocity.Y += HomingVelocity;
                 }
                 else if (Projectile.velocity.Y > yDist)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y - 0.3f;
+                    Projectile.velocity.Y = Projectile.velocity.Y - HomingVelocity;
                     if (Projectile.velocity.Y > 0f && yDist < 0f)
-                        Projectile.velocity.Y -= 0.3f;
+                        Projectile.velocity.Y -= HomingVelocity;
                 }
                 if (Projectile.timeLeft == 5) // Absolutely make sure the player gets the chance to heal
                     Projectile.Center = playerCenter;
