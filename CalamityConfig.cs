@@ -25,6 +25,7 @@ namespace CalamityMod
         {
             BossHealthBoost = Utils.Clamp(BossHealthBoost, MinBossHealthBoost, MaxBossHealthBoost);
             RipperMeterShake = Utils.Clamp(RipperMeterShake, MinMeterShake, MaxMeterShake);
+            ParticleLimit = (int)Utils.Clamp(ParticleLimit, MinParticleLimit, MaxParticleLimit);
         }
 
         #region Graphics Changes
@@ -34,9 +35,12 @@ namespace CalamityMod
         [DefaultValue(true)]
         public bool Afterimages { get; set; }
 
+        private const int MinParticleLimit = 100;
+        private const float MaxParticleLimit = 1000;
+        
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(0, 1000)]
+        [Range(MinParticleLimit, MaxParticleLimit)]
         [DefaultValue(500)]
         public int ParticleLimit { get; set; }
 
