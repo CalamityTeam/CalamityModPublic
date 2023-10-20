@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         // Left-click stats
         public static float AmmoNotConsumeChance = 0.95f;
-        public static int LightBombCooldown = 10;
+        public static int LightBombCooldown = 15;
 
         // Right-click stats
         public static float RightClickVelocityMult = 2.5f;

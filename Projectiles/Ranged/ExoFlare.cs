@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 24;
         }
 
         public override void SetDefaults()
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.Kill();
 
             // Movement around the owner.
-            Projectile.Center = owner.Center + OffsetRotation.ToRotationVector2() * (float)Math.Cos(OffsetRotation * 0.3f) * owner.Size * 0.5f;
+            Projectile.Center = owner.Center + OffsetRotation.ToRotationVector2() * MathF.Cos(OffsetRotation * 0.3f) * owner.Size * 0.5f;
             Projectile.rotation = (Projectile.position - Projectile.oldPos[1]).ToRotation();
             OffsetRotation += OffsetSpeed;
         }
@@ -75,13 +75,13 @@ namespace CalamityMod.Projectiles.Ranged
             Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SmallGreyscaleCircle").Value;
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                float colorInterpolation = (float)Math.Cos(Projectile.timeLeft / 16f + Main.GlobalTimeWrappedHourly / 20f + i / (float)Projectile.oldPos.Length * MathHelper.Pi) * 0.5f + 0.5f;
+                float colorInterpolation = MathF.Cos(Projectile.timeLeft / 16f + Main.GlobalTimeWrappedHourly / 20f + i / (float)Projectile.oldPos.Length * MathHelper.Pi) * 0.5f + 0.5f;
                 Color color = Color.Lerp(Color.LightGreen, Color.LightPink, colorInterpolation) * 0.4f;
                 color.A = 0;
                 Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(-25f, -25f);
                 Color outerColor = color;
                 Color innerColor = color * 0.5f;
-                float intensity = 0.9f + 0.15f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 60f * MathHelper.TwoPi);
+                float intensity = 0.9f + 0.15f * MathF.Cos(Main.GlobalTimeWrappedHourly % 60f * MathHelper.TwoPi);
 
                 // Become smaller the futher along the old positions we are.
                 intensity *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)Projectile.oldPos.Length);
