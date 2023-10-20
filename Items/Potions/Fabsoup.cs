@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Rarities;
+using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -11,7 +12,8 @@ namespace CalamityMod.Items.Potions
     {
         public new string LocalizationCategory => "Items.Potions";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/SoupConsumption");
-        
+        public SlotId DrinkSoundSlot;
+
         public override void SetDefaults()
         {
             Item.width = 56;
@@ -22,9 +24,14 @@ namespace CalamityMod.Items.Potions
             Item.consumable = false;
             Item.useAnimation = 901;
             Item.useTime = 901;
-            Item.UseSound = UseSound;
+            Item.UseSound = null;
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.useTurn = true;
+        }
+        public override bool? UseItem(Player player)
+        {
+            DrinkSoundSlot = SoundEngine.PlaySound(UseSound, player.Center);
+            return true;
         }
 
         public override void UseItemFrame(Player player)
@@ -48,6 +55,9 @@ namespace CalamityMod.Items.Potions
                 player.AddBuff(ModContent.BuffType<Dragonfire>(), time);
                 player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), time);
             }
+
+            if (SoundEngine.TryGetActiveSound(DrinkSoundSlot, out var drinkSound) && drinkSound.IsPlaying)
+                drinkSound.Position = player.Center;
         }
     }
 }
