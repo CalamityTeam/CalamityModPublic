@@ -128,8 +128,8 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.CobaltChainsaw, standardChainsawTweaks },
                 { ProjectileID.CobaltDrill, standardDrillTweaks },
                 { ProjectileID.CrystalBullet, standardBulletTweaks },
-                { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(10)) },
-                { ProjectileID.CrystalVileShardShaft, Do(LocalIFrames(10)) },
+                { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(23)) },
+                { ProjectileID.CrystalVileShardShaft, Do(LocalIFrames(23)) },
                 { ProjectileID.CursedBullet, standardBulletTweaks },
                 { ProjectileID.DD2SquireSonicBoom, Do(PiercingExact(3)) }, // Flying Dragon
                 { ProjectileID.EmeraldBolt, Do(NoPiercing) },
