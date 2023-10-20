@@ -58,11 +58,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnKill(int timeLeft)
         {
-            for (int num105 = 0; num105 < 20; num105++)
+            for (int i = 0; i < 20; i++)
             {
-                int num102 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 73, 0f, 0f, 0, default, 1f);
-                Main.dust[num102].noGravity = true;
-                Main.dust[num102].velocity += Projectile.velocity * 0.1f;
+                int pinkish = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 73, 0f, 0f, 0, default, 1f);
+                Main.dust[pinkish].noGravity = true;
+                Main.dust[pinkish].velocity += Projectile.velocity * 0.1f;
             }
             if (Projectile.owner == Main.myPlayer)
             {

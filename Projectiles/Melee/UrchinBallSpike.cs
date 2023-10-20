@@ -54,11 +54,11 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 20;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int num194 = 0; num194 < 20; num194++)
+            for (int i = 0; i < 20; i++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 14, 0f, 0f, 0, new Color(0, 255, 255), 1f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 2f;
+                int urchin = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 14, 0f, 0f, 0, new Color(0, 255, 255), 1f);
+                Main.dust[urchin].noGravity = true;
+                Main.dust[urchin].velocity *= 2f;
             }
         }
 

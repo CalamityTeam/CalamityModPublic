@@ -28,17 +28,17 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            int num123 = (int)Player.FindClosest(Projectile.Center, 1, 1);
+            int playerOwner = (int)Player.FindClosest(Projectile.Center, 1, 1);
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] < 110f && Projectile.ai[1] > 30f)
             {
-                float scaleFactor2 = Projectile.velocity.Length();
-                Vector2 vector17 = Main.player[num123].Center - Projectile.Center;
-                vector17.Normalize();
-                vector17 *= scaleFactor2;
-                Projectile.velocity = (Projectile.velocity * 24f + vector17) / 25f;
+                float scaleFactor = Projectile.velocity.Length();
+                Vector2 projDirection = Main.player[playerOwner].Center - Projectile.Center;
+                projDirection.Normalize();
+                projDirection *= scaleFactor;
+                Projectile.velocity = (Projectile.velocity * 24f + projDirection) / 25f;
                 Projectile.velocity.Normalize();
-                Projectile.velocity *= scaleFactor2;
+                Projectile.velocity *= scaleFactor;
             }
 
             if (Projectile.velocity.Length() < 18f)

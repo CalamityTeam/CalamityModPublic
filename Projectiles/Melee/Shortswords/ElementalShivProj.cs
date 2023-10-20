@@ -54,9 +54,9 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
         {
             if (Main.rand.NextBool(5))
             {
-                int num250 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
-                Main.dust[num250].velocity *= 0.2f;
-                Main.dust[num250].noGravity = true;
+                int rainbowDust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
+                Main.dust[rainbowDust].velocity *= 0.2f;
+                Main.dust[rainbowDust].noGravity = true;
             }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

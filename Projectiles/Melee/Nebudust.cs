@@ -28,43 +28,43 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0.5f, 0.5f, 0f);
-            float num461 = 25f;
+            float projTimer = 25f;
             if (Projectile.ai[0] > 60f)
             {
-                num461 -= (Projectile.ai[0] - 60f) / 2f;
+                projTimer -= (Projectile.ai[0] - 60f) / 2f;
             }
-            if (num461 <= 0f)
+            if (projTimer <= 0f)
             {
-                num461 = 0f;
+                projTimer = 0f;
                 Projectile.Kill();
             }
-            num461 *= 0.7f;
+            projTimer *= 0.7f;
             if (Projectile.ai[0] == 0f)
             {
                 SoundEngine.PlaySound(SoundID.Item105, Projectile.position);
             }
             Projectile.ai[0] += 4f;
-            int num462 = 0;
-            while ((float)num462 < num461)
+            int timerCounter = 0;
+            while ((float)timerCounter < projTimer)
             {
-                float num463 = (float)Main.rand.Next(-6, 7);
-                float num464 = (float)Main.rand.Next(-6, 7);
-                float num465 = (float)Main.rand.Next(2, 5);
-                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
-                num466 = num465 / num466;
-                num463 *= num466;
-                num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 269, 0f, 0f, 100, default, 1f);
-                Main.dust[num467].noGravity = true;
-                Main.dust[num467].position.X = Projectile.Center.X;
-                Main.dust[num467].position.Y = Projectile.Center.Y;
-                Dust expr_149DF_cp_0 = Main.dust[num467];
+                float rando1 = (float)Main.rand.Next(-6, 7);
+                float rando2 = (float)Main.rand.Next(-6, 7);
+                float rando5 = (float)Main.rand.Next(2, 5);
+                float randoAdjuster = (float)Math.Sqrt((double)(rando1 * rando1 + rando2 * rando2));
+                randoAdjuster = rando5 / randoAdjuster;
+                rando1 *= randoAdjuster;
+                rando2 *= randoAdjuster;
+                int astra = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 269, 0f, 0f, 100, default, 1f);
+                Main.dust[astra].noGravity = true;
+                Main.dust[astra].position.X = Projectile.Center.X;
+                Main.dust[astra].position.Y = Projectile.Center.Y;
+                Dust expr_149DF_cp_0 = Main.dust[astra];
                 expr_149DF_cp_0.position.X += (float)Main.rand.Next(-10, 11);
-                Dust expr_14A09_cp_0 = Main.dust[num467];
+                Dust expr_14A09_cp_0 = Main.dust[astra];
                 expr_14A09_cp_0.position.Y += (float)Main.rand.Next(-10, 11);
-                Main.dust[num467].velocity.X = num463;
-                Main.dust[num467].velocity.Y = num464;
-                num462++;
+                Main.dust[astra].velocity.X = rando1;
+                Main.dust[astra].velocity.Y = rando2;
+                timerCounter++;
             }
         }
     }

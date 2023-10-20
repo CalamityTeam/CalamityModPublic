@@ -29,9 +29,9 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.3f / 255f, (255 - Projectile.alpha) * 0.4f / 255f, (255 - Projectile.alpha) * 1f / 255f);
             if (Projectile.localAI[1] > 7f)
             {
-                int num308 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, 100, 255), 1.2f);
-                Main.dust[num308].velocity *= 0.1f;
-                Main.dust[num308].noGravity = true;
+                int purpleBoi = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, 100, 255), 1.2f);
+                Main.dust[purpleBoi].velocity *= 0.1f;
+                Main.dust[purpleBoi].noGravity = true;
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + (float)Math.Atan(90);
         }
@@ -55,8 +55,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int k = 0; k < 7; k++)
             {
-                int num308 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, 0f, 0f, 150, new Color(Main.DiscoR, 100, 255), 1.2f);
-                Main.dust[num308].noGravity = true;
+                int purpleBoi = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, 0f, 0f, 150, new Color(Main.DiscoR, 100, 255), 1.2f);
+                Main.dust[purpleBoi].noGravity = true;
             }
         }
     }

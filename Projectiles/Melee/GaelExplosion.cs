@@ -35,61 +35,61 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
                 Projectile.localAI[0] += 1f;
             }
-            bool flag15 = false;
-            bool flag16 = false;
+            bool xflag = false;
+            bool yflag = false;
             if (Projectile.velocity.X < 0f && Projectile.position.X < Projectile.ai[0])
             {
-                flag15 = true;
+                xflag = true;
             }
             if (Projectile.velocity.X > 0f && Projectile.position.X > Projectile.ai[0])
             {
-                flag15 = true;
+                xflag = true;
             }
             if (Projectile.velocity.Y < 0f && Projectile.position.Y < Projectile.ai[1])
             {
-                flag16 = true;
+                yflag = true;
             }
             if (Projectile.velocity.Y > 0f && Projectile.position.Y > Projectile.ai[1])
             {
-                flag16 = true;
+                yflag = true;
             }
-            if (flag15 && flag16)
+            if (xflag && yflag)
             {
                 Projectile.Kill();
             }
-            float num461 = 25f;
+            float projTimer = 25f;
             if (Projectile.ai[0] > 180f)
             {
-                num461 -= (Projectile.ai[0] - 180f) / 2f;
+                projTimer -= (Projectile.ai[0] - 180f) / 2f;
             }
-            if (num461 <= 0f)
+            if (projTimer <= 0f)
             {
-                num461 = 0f;
+                projTimer = 0f;
                 Projectile.Kill();
             }
-            num461 *= 0.7f;
+            projTimer *= 0.7f;
             Projectile.ai[0] += 4f;
-            int num462 = 0;
-            while ((float)num462 < num461)
+            int timerCounter = 0;
+            while ((float)timerCounter < projTimer)
             {
-                float num463 = (float)Main.rand.Next(-30, 31);
-                float num464 = (float)Main.rand.Next(-30, 31);
-                float num465 = (float)Main.rand.Next(9, 27);
-                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
-                num466 = num465 / num466;
-                num463 *= num466;
-                num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 218, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-                Main.dust[num467].noGravity = true;
-                Main.dust[num467].position.X = Projectile.Center.X;
-                Main.dust[num467].position.Y = Projectile.Center.Y;
-                Dust dust = Main.dust[num467];
+                float rando1 = (float)Main.rand.Next(-30, 31);
+                float rando2 = (float)Main.rand.Next(-30, 31);
+                float rando3 = (float)Main.rand.Next(9, 27);
+                float randoAdjuster = (float)Math.Sqrt((double)(rando1 * rando1 + rando2 * rando2));
+                randoAdjuster = rando3 / randoAdjuster;
+                rando1 *= randoAdjuster;
+                rando2 *= randoAdjuster;
+                int gaelDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 218, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                Main.dust[gaelDust].noGravity = true;
+                Main.dust[gaelDust].position.X = Projectile.Center.X;
+                Main.dust[gaelDust].position.Y = Projectile.Center.Y;
+                Dust dust = Main.dust[gaelDust];
                 dust.position.X += (float)Main.rand.Next(-10, 11);
-                dust = Main.dust[num467];
+                dust = Main.dust[gaelDust];
                 dust.position.Y += (float)Main.rand.Next(-10, 11);
-                Main.dust[num467].velocity.X = num463;
-                Main.dust[num467].velocity.Y = num464;
-                num462++;
+                Main.dust[gaelDust].velocity.X = rando1;
+                Main.dust[gaelDust].velocity.Y = rando2;
+                timerCounter++;
             }
         }
     }

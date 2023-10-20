@@ -27,39 +27,39 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0.75f, 0f, 0f);
-            float num461 = 25f;
+            float projTimer = 25f;
             if (Projectile.ai[0] > 180f)
             {
-                num461 -= (Projectile.ai[0] - 180f) / 2f;
+                projTimer -= (Projectile.ai[0] - 180f) / 2f;
             }
-            if (num461 <= 0f)
+            if (projTimer <= 0f)
             {
-                num461 = 0f;
+                projTimer = 0f;
                 Projectile.Kill();
             }
-            num461 *= 0.7f;
+            projTimer *= 0.7f;
             Projectile.ai[0] += 4f;
-            int num462 = 0;
-            while (num462 < num461)
+            int timerCounter = 0;
+            while (timerCounter < projTimer)
             {
-                float num463 = Main.rand.Next(-10, 11);
-                float num464 = Main.rand.Next(-10, 11);
-                float num465 = Main.rand.Next(3, 9);
-                float num466 = (float)Math.Sqrt(num463 * num463 + num464 * num464);
-                num466 = num465 / num466;
-                num463 *= num466;
-                num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
-                Main.dust[num467].noGravity = true;
-                Main.dust[num467].position.X = Projectile.Center.X;
-                Main.dust[num467].position.Y = Projectile.Center.Y;
-                Dust expr_149DF_cp_0 = Main.dust[num467];
+                float rando1 = Main.rand.Next(-10, 11);
+                float rando2 = Main.rand.Next(-10, 11);
+                float rando3 = Main.rand.Next(3, 9);
+                float randoAdjuster = (float)Math.Sqrt(rando1 * rando1 + rando2 * rando2);
+                randoAdjuster = rando3 / randoAdjuster;
+                rando1 *= randoAdjuster;
+                rando2 *= randoAdjuster;
+                int brimDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
+                Main.dust[brimDust].noGravity = true;
+                Main.dust[brimDust].position.X = Projectile.Center.X;
+                Main.dust[brimDust].position.Y = Projectile.Center.Y;
+                Dust expr_149DF_cp_0 = Main.dust[brimDust];
                 expr_149DF_cp_0.position.X += Main.rand.Next(-10, 11);
-                Dust expr_14A09_cp_0 = Main.dust[num467];
+                Dust expr_14A09_cp_0 = Main.dust[brimDust];
                 expr_14A09_cp_0.position.Y += Main.rand.Next(-10, 11);
-                Main.dust[num467].velocity.X = num463;
-                Main.dust[num467].velocity.Y = num464;
-                num462++;
+                Main.dust[brimDust].velocity.X = rando1;
+                Main.dust[brimDust].velocity.Y = rando2;
+                timerCounter++;
             }
         }
     }

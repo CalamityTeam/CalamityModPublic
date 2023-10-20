@@ -30,23 +30,23 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Projectile.ai[1] > 0f)
             {
-                int num625 = (int)Projectile.ai[1] - 1;
-                if (num625 < 255)
+                int playerTrack = (int)Projectile.ai[1] - 1;
+                if (playerTrack < 255)
                 {
                     Projectile.localAI[0] += 1f;
                     if (Projectile.localAI[0] > 10f)
                     {
-                        int num626 = 6;
-                        for (int num627 = 0; num627 < num626; num627++)
+                        int dustAmt = 6;
+                        for (int i = 0; i < dustAmt; i++)
                         {
-                            Vector2 vector45 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                            vector45 = vector45.RotatedBy((double)(num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (double)(float)num626, default) + Projectile.Center;
-                            Vector2 value15 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-                            int num628 = Dust.NewDust(vector45 + value15, 0, 0, 187, value15.X * 2f, value15.Y * 2f, 100, new Color(53, Main.DiscoG, 255), 1.4f);
-                            Main.dust[num628].noGravity = true;
-                            Main.dust[num628].noLight = true;
-                            Main.dust[num628].velocity /= 4f;
-                            Main.dust[num628].velocity -= Projectile.velocity;
+                            Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                            dustRotate = dustRotate.RotatedBy((double)(i - (dustAmt / 2 - 1)) * 3.1415926535897931 / (double)(float)dustAmt, default) + Projectile.Center;
+                            Vector2 faceDirection = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+                            int bluishDust = Dust.NewDust(dustRotate + faceDirection, 0, 0, 187, faceDirection.X * 2f, faceDirection.Y * 2f, 100, new Color(53, Main.DiscoG, 255), 1.4f);
+                            Main.dust[bluishDust].noGravity = true;
+                            Main.dust[bluishDust].noLight = true;
+                            Main.dust[bluishDust].velocity /= 4f;
+                            Main.dust[bluishDust].velocity -= Projectile.velocity;
                         }
                         Projectile.alpha -= 5;
                         if (Projectile.alpha < 100)
@@ -56,11 +56,11 @@ namespace CalamityMod.Projectiles.Melee
                         Projectile.rotation += Projectile.velocity.X * 0.1f;
                         Projectile.frame = (int)(Projectile.localAI[0] / 3f) % 3;
                     }
-                    Vector2 value16 = Main.player[num625].Center - Projectile.Center;
-                    float num629 = 4f;
-                    num629 += Projectile.localAI[0] / 20f;
-                    Projectile.velocity = Vector2.Normalize(value16) * num629;
-                    if (value16.Length() < 50f)
+                    Vector2 playerDirection = Main.player[playerTrack].Center - Projectile.Center;
+                    float projVelocity = 4f;
+                    projVelocity += Projectile.localAI[0] / 20f;
+                    Projectile.velocity = Vector2.Normalize(playerDirection) * projVelocity;
+                    if (playerDirection.Length() < 50f)
                     {
                         Projectile.Kill();
                     }
@@ -68,13 +68,12 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                float num630 = 0.209439516f;
-                float num631 = 4f;
-                float num632 = (float)(Math.Cos((double)(num630 * Projectile.ai[0])) - 0.5) * num631;
-                Projectile.velocity.Y = Projectile.velocity.Y - num632;
+                float spoutSway = 0.209439516f;
+                float spoutSpawn = (float)(Math.Cos((double)(spoutSway * Projectile.ai[0])) - 0.5) * 4f;
+                Projectile.velocity.Y = Projectile.velocity.Y - spoutSpawn;
                 Projectile.ai[0] += 1f;
-                num632 = (float)(Math.Cos((double)(num630 * Projectile.ai[0])) - 0.5) * num631;
-                Projectile.velocity.Y = Projectile.velocity.Y + num632;
+                spoutSpawn = (float)(Math.Cos((double)(spoutSway * Projectile.ai[0])) - 0.5) * 4f;
+                Projectile.velocity.Y = Projectile.velocity.Y + spoutSpawn;
                 Projectile.localAI[0] += 1f;
                 if (Projectile.localAI[0] > 10f)
                 {
@@ -98,49 +97,49 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item96, Projectile.Center);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+            int moreDustAmt = 36;
+            for (int j = 0; j < moreDustAmt; j++)
             {
-                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                Vector2 vector7 = vector6 - Projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 187, vector7.X * 2f, vector7.Y * 2f, 100, new Color(53, Main.DiscoG, 255), 1.4f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Vector2 rotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                rotate = rotate.RotatedBy((double)((float)(j - (moreDustAmt / 2 - 1)) * 6.28318548f / (float)moreDustAmt), default) + Projectile.Center;
+                Vector2 facingDirection = rotate - Projectile.Center;
+                int killDust = Dust.NewDust(rotate + facingDirection, 0, 0, 187, facingDirection.X * 2f, facingDirection.Y * 2f, 100, new Color(53, Main.DiscoG, 255), 1.4f);
+                Main.dust[killDust].noGravity = true;
+                Main.dust[killDust].noLight = true;
+                Main.dust[killDust].velocity = facingDirection;
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                int num330 = (int)(Projectile.Center.Y / 16f);
-                int num331 = (int)(Projectile.Center.X / 16f);
-                int num332 = 100;
-                if (num331 < 10)
+                int projTileX = (int)(Projectile.Center.Y / 16f);
+                int projTileY = (int)(Projectile.Center.X / 16f);
+                int posModifier = 100;
+                if (projTileY < 10)
                 {
-                    num331 = 10;
+                    projTileY = 10;
                 }
-                if (num331 > Main.maxTilesX - 10)
+                if (projTileY > Main.maxTilesX - 10)
                 {
-                    num331 = Main.maxTilesX - 10;
+                    projTileY = Main.maxTilesX - 10;
                 }
-                if (num330 < 10)
+                if (projTileX < 10)
                 {
-                    num330 = 10;
+                    projTileX = 10;
                 }
-                if (num330 > Main.maxTilesY - num332 - 10)
+                if (projTileX > Main.maxTilesY - posModifier - 10)
                 {
-                    num330 = Main.maxTilesY - num332 - 10;
+                    projTileX = Main.maxTilesY - posModifier - 10;
                 }
-                for (int num333 = num330; num333 < num330 + num332; num333++)
+                for (int k = projTileX; k < projTileX + posModifier; k++)
                 {
-                    Tile tile = Main.tile[num331, num333];
+                    Tile tile = Main.tile[projTileY, k];
                     if (tile.HasTile && (Main.tileSolid[(int)tile.TileType] || tile.LiquidAmount != 0))
                     {
-                        num330 = num333;
+                        projTileX = k;
                         break;
                     }
                 }
-                int num335 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), (float)(num331 * 16 + 8), (float)(num330 * 16 - 24), 0f, 0f, ModContent.ProjectileType<BrinySpout>(), Projectile.damage, 6f, Main.myPlayer, 8f, 25f);
-                Main.projectile[num335].netUpdate = true;
+                int SPOUT = Projectile.NewProjectile(Projectile.GetSource_FromThis(), (float)(projTileY * 16 + 8), (float)(projTileX * 16 - 24), 0f, 0f, ModContent.ProjectileType<BrinySpout>(), Projectile.damage, 6f, Main.myPlayer, 8f, 25f);
+                Main.projectile[SPOUT].netUpdate = true;
             }
         }
     }
