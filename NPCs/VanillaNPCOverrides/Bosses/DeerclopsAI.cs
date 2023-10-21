@@ -583,9 +583,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Vector2 vector2 = new Vector2(posX * 16 + 8, posY * 16 + 8);
                     Vector2 rubbleVelocity = (vector - vector2).SafeNormalize(-Vector2.UnitY);
                     rubbleVelocity = new Vector2(0f, -1f).RotatedBy((float)(whichOne * npc.direction) * 0.7f * ((float)Math.PI / 4f / (float)howMany));
-                    int ai1 = Main.rand.Next(Main.projFrames[rubble] * 4);
-                    ai1 = 6 + Main.rand.Next(6);
-                    Projectile.NewProjectile(npc.GetSource_FromAI(), new Vector2(posX * 16 + 8, posY * 16 - 8), rubbleVelocity * (12f + Main.rand.NextFloat() * 2f), rubble, rubbleDamage, 0f, Main.myPlayer, 0f, ai1);
+                    int ai1_FrameToUse = Main.rand.Next(Main.projFrames[rubble] * 4);
+                    ai1_FrameToUse = 6 + Main.rand.Next(6);
+                    float ai2_DelayBeforeGoingUp = whichOne * 20f;
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), new Vector2(posX * 16 + 8, posY * 16 - 8), rubbleVelocity * 0.01f, rubble, rubbleDamage, 0f, Main.myPlayer, 0f, ai1_FrameToUse, ai2_DelayBeforeGoingUp);
                     break;
                 }
             }
