@@ -830,7 +830,7 @@ OverloadedBlaster: {
 		Overloaded slime doesn't pierce, but deals double damage
 		The slime bounces off of walls at high-velocity
 		Uses gel for ammo
-		33% chance to save ammo
+		25% chance to save ammo
 		'''
 }
 
