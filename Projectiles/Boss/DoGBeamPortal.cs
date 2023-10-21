@@ -58,25 +58,25 @@ namespace CalamityMod.Projectiles.Boss
             {
                 SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
 
-                for (int num621 = 0; num621 < 15; num621++)
+                for (int i = 0; i < 15; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 1.2f);
-                    Main.dust[num622].velocity *= 3f;
-                    Main.dust[num622].noGravity = true;
+                    int ectoDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 1.2f);
+                    Main.dust[ectoDust].velocity *= 3f;
+                    Main.dust[ectoDust].noGravity = true;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[ectoDust].scale = 0.5f;
+                        Main.dust[ectoDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 30; num623++)
+                for (int j = 0; j < 30; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 1.7f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 1f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 2f;
+                    int ectoDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 1.7f);
+                    Main.dust[ectoDust2].noGravity = true;
+                    Main.dust[ectoDust2].velocity *= 5f;
+                    ectoDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 1f);
+                    Main.dust[ectoDust2].noGravity = true;
+                    Main.dust[ectoDust2].velocity *= 2f;
                 }
 
                 Projectile.ai[1] = Projectile.ai[0];

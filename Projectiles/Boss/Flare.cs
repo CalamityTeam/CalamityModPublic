@@ -55,13 +55,13 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frame = 0;
             }
 
-            float num630 = 0.209439516f;
-            float num631 = 4f;
-            float num632 = (float)(Math.Cos((double)(num630 * Projectile.ai[0])) - 0.5) * num631;
-            Projectile.velocity.Y = Projectile.velocity.Y - num632;
+            float wavingAmplitude = 0.209439516f;
+            float projVelocityMult = 4f;
+            float projFloatDirection = (float)(Math.Cos((double)(wavingAmplitude * Projectile.ai[0])) - 0.5) * projVelocityMult;
+            Projectile.velocity.Y = Projectile.velocity.Y - projFloatDirection;
             Projectile.ai[0] += 1f;
-            num632 = (float)(Math.Cos((double)(num630 * Projectile.ai[0])) - 0.5) * num631;
-            Projectile.velocity.Y = Projectile.velocity.Y + num632;
+            projFloatDirection = (float)(Math.Cos((double)(wavingAmplitude * Projectile.ai[0])) - 0.5) * projVelocityMult;
+            Projectile.velocity.Y = Projectile.velocity.Y + projFloatDirection;
 
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 10f)
@@ -95,54 +95,53 @@ namespace CalamityMod.Projectiles.Boss
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             SoundEngine.PlaySound(FlareSound, Projectile.Center);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+            int dustAmt = 36;
+            for (int i = 0; i < dustAmt; i++)
             {
-                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                Vector2 vector7 = vector6 - Projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 244, vector7.X * 2f, vector7.Y * 2f, 100, default, 1.4f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                dustRotate = dustRotate.RotatedBy((double)((float)(i - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
+                Vector2 dustDirection = dustRotate - Projectile.Center;
+                int flareDust = Dust.NewDust(dustRotate + dustDirection, 0, 0, 244, dustDirection.X * 2f, dustDirection.Y * 2f, 100, default, 1.4f);
+                Main.dust[flareDust].noGravity = true;
+                Main.dust[flareDust].noLight = true;
+                Main.dust[flareDust].velocity = dustDirection;
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                int num231 = (int)(Projectile.Center.Y / 16f);
-                int num232 = (int)(Projectile.Center.X / 16f);
-                int num233 = 100;
-                if (num232 < 10)
+                int projTileX = (int)(Projectile.Center.Y / 16f);
+                int projTileY = (int)(Projectile.Center.X / 16f);
+                if (projTileY < 10)
                 {
-                    num232 = 10;
+                    projTileY = 10;
                 }
-                if (num232 > Main.maxTilesX - 10)
+                if (projTileY > Main.maxTilesX - 10)
                 {
-                    num232 = Main.maxTilesX - 10;
+                    projTileY = Main.maxTilesX - 10;
                 }
-                if (num231 < 10)
+                if (projTileX < 10)
                 {
-                    num231 = 10;
+                    projTileX = 10;
                 }
-                if (num231 > Main.maxTilesY - num233 - 10)
+                if (projTileX > Main.maxTilesY - 110)
                 {
-                    num231 = Main.maxTilesY - num233 - 10;
+                    projTileX = Main.maxTilesY - 110;
                 }
-                for (int num234 = num231; num234 < num231 + num233; num234++)
+                for (int j = projTileX; j < projTileX + 100; j++)
                 {
-                    Tile tile = Main.tile[num232, num234];
+                    Tile tile = Main.tile[projTileY, j];
                     if (tile.HasTile && (Main.tileSolid[(int)tile.TileType] || tile.LiquidAmount != 0))
                     {
-                        num231 = num234;
+                        projTileX = j;
                         break;
                     }
                 }
                 int spawnLimitY = (int)(Main.player[Projectile.owner].Center.Y / 16f) + 25;
-                if (num231 > spawnLimitY)
+                if (projTileX > spawnLimitY)
                 {
-                    num231 = spawnLimitY;
+                    projTileX = spawnLimitY;
                 }
-                int num236 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), (float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), 0, 4f, Main.myPlayer, 11f, 10f + (revenge ? 1f : 0f));
-                Main.projectile[num236].netUpdate = true;
+                int flarenadoSpawn = Projectile.NewProjectile(Projectile.GetSource_FromThis(), (float)(projTileY * 16 + 8), (float)(projTileX * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), 0, 4f, Main.myPlayer, 11f, 10f + (revenge ? 1f : 0f));
+                Main.projectile[flarenadoSpawn].netUpdate = true;
             }
         }
     }

@@ -66,22 +66,21 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnKill(int timeLeft)
         {
-            int num497 = 5;
             SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
-            for (int num498 = 0; num498 < num497; num498++)
+            for (int i = 0; i < 5; i++)
             {
-                int num499 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, 0f, 0f, 0, default, 1f);
+                int iceDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, 0f, 0f, 0, default, 1f);
                 if (!Main.rand.NextBool(3))
                 {
-                    Dust dust = Main.dust[num499];
+                    Dust dust = Main.dust[iceDust];
                     dust.velocity *= 2f;
-                    Main.dust[num499].noGravity = true;
-                    dust = Main.dust[num499];
+                    Main.dust[iceDust].noGravity = true;
+                    dust = Main.dust[iceDust];
                     dust.scale *= 1.75f;
                 }
                 else
                 {
-                    Dust dust = Main.dust[num499];
+                    Dust dust = Main.dust[iceDust];
                     dust.scale *= 0.5f;
                 }
             }

@@ -67,15 +67,15 @@ namespace CalamityMod.Projectiles.Boss
                     if (Projectile.velocity.Length() < 10f)
                         Projectile.velocity *= 1.015f;
 
-                    int num103 = Player.FindClosest(Projectile.Center, 1, 1);
-                    float scaleFactor2 = Projectile.velocity.Length();
-                    Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
-                    vector11.Normalize();
-                    vector11 *= scaleFactor2;
+                    int playerTracker = Player.FindClosest(Projectile.Center, 1, 1);
+                    float projVelocity = Projectile.velocity.Length();
+                    Vector2 playerDirection = Main.player[playerTracker].Center - Projectile.Center;
+                    playerDirection.Normalize();
+                    playerDirection *= projVelocity;
 
-                    Projectile.velocity = (Projectile.velocity * 19f + vector11) / 20f;
+                    Projectile.velocity = (Projectile.velocity * 19f + playerDirection) / 20f;
                     Projectile.velocity.Normalize();
-                    Projectile.velocity *= scaleFactor2;
+                    Projectile.velocity *= projVelocity;
                 }
                 else
                 {
@@ -106,18 +106,18 @@ namespace CalamityMod.Projectiles.Boss
         private void EmitDust()
         {
             SoundEngine.PlaySound(SoundID.Item109, Projectile.Center);
-            for (int num193 = 0; num193 < 6; num193++)
+            for (int j = 0; j < 6; j++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 60, 0f, 0f, 100, default, 1.5f);
             }
-            for (int num194 = 0; num194 < 10; num194++)
+            for (int k = 0; k < 10; k++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 60, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 60, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int redDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 60, 0f, 0f, 0, default, 2.5f);
+                Main.dust[redDust].noGravity = true;
+                Main.dust[redDust].velocity *= 3f;
+                redDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 60, 0f, 0f, 100, default, 1.5f);
+                Main.dust[redDust].velocity *= 2f;
+                Main.dust[redDust].noGravity = true;
             }
         }
 
