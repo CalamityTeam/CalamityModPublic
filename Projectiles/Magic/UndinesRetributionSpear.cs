@@ -43,9 +43,9 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.frame = 0;
             }
-            float num953 = 25f * Projectile.ai[1]; //100
-            float scaleFactor12 = 5f * Projectile.ai[1]; //5
-            float num954 = 500f;
+            float velocityMult = 25f * Projectile.ai[1]; //100
+            float velocityScale = 5f * Projectile.ai[1]; //5
+            float homingRange = 500f;
             if (Projectile.velocity.X < 0f)
             {
                 Projectile.spriteDirection = -1;
@@ -59,10 +59,10 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(Projectile.Center, 0f, 0.1f, 0.7f);
             if (Main.player[Projectile.owner].active && !Main.player[Projectile.owner].dead)
             {
-                if (Projectile.Distance(Main.player[Projectile.owner].Center) > num954)
+                if (Projectile.Distance(Main.player[Projectile.owner].Center) > homingRange)
                 {
                     Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[Projectile.owner].Center, Vector2.UnitY);
-                    Projectile.velocity = (Projectile.velocity * (num953 - 1f) + moveDirection * scaleFactor12) / num953;
+                    Projectile.velocity = (Projectile.velocity * (velocityMult - 1f) + moveDirection * velocityScale) / velocityMult;
                     return;
                 }
 
@@ -101,18 +101,18 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.damage /= 2;
             Projectile.Damage();
             SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
-            for (int num193 = 0; num193 < 4; num193++)
+            for (int i = 0; i < 4; i++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
             }
-            for (int num194 = 0; num194 < 6; num194++)
+            for (int j = 0; j < 6; j++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 186, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 186, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int undust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 186, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
+                Main.dust[undust].noGravity = true;
+                Main.dust[undust].velocity *= 3f;
+                undust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 186, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                Main.dust[undust].velocity *= 2f;
+                Main.dust[undust].noGravity = true;
             }
         }
     }

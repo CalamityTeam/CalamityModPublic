@@ -49,76 +49,75 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.alpha = 0;
             }
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
-            float num373 = Projectile.position.X;
-            float num374 = Projectile.position.Y;
-            float num375 = 100000f;
-            bool flag10 = false;
+            float projX = Projectile.position.X;
+            float projY = Projectile.position.Y;
+            float homingRange = 100000f;
+            bool isHoming = false;
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] > 30f)
             {
                 Projectile.ai[0] = 30f;
-                for (int num376 = 0; num376 < Main.maxNPCs; num376++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[num376].CanBeChasedBy(Projectile, false) && !Main.npc[num376].wet)
+                    if (Main.npc[i].CanBeChasedBy(Projectile, false) && !Main.npc[i].wet)
                     {
-                        float num377 = Main.npc[num376].position.X + (float)(Main.npc[num376].width / 2);
-                        float num378 = Main.npc[num376].position.Y + (float)(Main.npc[num376].height / 2);
-                        float num379 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num377) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num378);
-                        if (num379 < 800f && num379 < num375 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[num376].position, Main.npc[num376].width, Main.npc[num376].height))
+                        float npcX = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
+                        float npcY = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
+                        float npcDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcY);
+                        if (npcDist < 800f && npcDist < homingRange && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height))
                         {
-                            num375 = num379;
-                            num373 = num377;
-                            num374 = num378;
-                            flag10 = true;
+                            homingRange = npcDist;
+                            projX = npcX;
+                            projY = npcY;
+                            isHoming = true;
                         }
                     }
                 }
             }
-            if (!flag10)
+            if (!isHoming)
             {
-                num373 = Projectile.position.X + (float)(Projectile.width / 2) + Projectile.velocity.X * 100f;
-                num374 = Projectile.position.Y + (float)(Projectile.height / 2) + Projectile.velocity.Y * 100f;
+                projX = Projectile.position.X + (float)(Projectile.width / 2) + Projectile.velocity.X * 100f;
+                projY = Projectile.position.Y + (float)(Projectile.height / 2) + Projectile.velocity.Y * 100f;
             }
 
-            float num380 = 6f;
-            float num381 = 0.1f;
-            Vector2 vector30 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-            float num382 = num373 - vector30.X;
-            float num383 = num374 - vector30.Y;
-            float num384 = (float)Math.Sqrt((double)(num382 * num382 + num383 * num383));
-            num384 = num380 / num384;
-            num382 *= num384;
-            num383 *= num384;
-            if (Projectile.velocity.X < num382)
+            float projVelModifier = 0.1f;
+            Vector2 projDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+            float xDest = projX - projDirection.X;
+            float yDest = projY - projDirection.Y;
+            float destinationDist = (float)Math.Sqrt((double)(xDest * xDest + yDest * yDest));
+            destinationDist = 6f / destinationDist;
+            xDest *= destinationDist;
+            yDest *= destinationDist;
+            if (Projectile.velocity.X < xDest)
             {
-                Projectile.velocity.X = Projectile.velocity.X + num381;
-                if (Projectile.velocity.X < 0f && num382 > 0f)
+                Projectile.velocity.X = Projectile.velocity.X + projVelModifier;
+                if (Projectile.velocity.X < 0f && xDest > 0f)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X + num381 * 2f;
+                    Projectile.velocity.X = Projectile.velocity.X + projVelModifier * 2f;
                 }
             }
-            else if (Projectile.velocity.X > num382)
+            else if (Projectile.velocity.X > xDest)
             {
-                Projectile.velocity.X = Projectile.velocity.X - num381;
-                if (Projectile.velocity.X > 0f && num382 < 0f)
+                Projectile.velocity.X = Projectile.velocity.X - projVelModifier;
+                if (Projectile.velocity.X > 0f && xDest < 0f)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X - num381 * 2f;
+                    Projectile.velocity.X = Projectile.velocity.X - projVelModifier * 2f;
                 }
             }
-            if (Projectile.velocity.Y < num383)
+            if (Projectile.velocity.Y < yDest)
             {
-                Projectile.velocity.Y = Projectile.velocity.Y + num381;
-                if (Projectile.velocity.Y < 0f && num383 > 0f)
+                Projectile.velocity.Y = Projectile.velocity.Y + projVelModifier;
+                if (Projectile.velocity.Y < 0f && yDest > 0f)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y + num381 * 2f;
+                    Projectile.velocity.Y = Projectile.velocity.Y + projVelModifier * 2f;
                 }
             }
-            else if (Projectile.velocity.Y > num383)
+            else if (Projectile.velocity.Y > yDest)
             {
-                Projectile.velocity.Y = Projectile.velocity.Y - num381;
-                if (Projectile.velocity.Y > 0f && num383 < 0f)
+                Projectile.velocity.Y = Projectile.velocity.Y - projVelModifier;
+                if (Projectile.velocity.Y > 0f && yDest < 0f)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y - num381 * 2f;
+                    Projectile.velocity.Y = Projectile.velocity.Y - projVelModifier * 2f;
                 }
             }
         }

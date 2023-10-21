@@ -35,13 +35,13 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localAI[1] += 1f;
             if (Projectile.localAI[1] > 10f && Main.rand.NextBool(3))
             {
-                int num = 6;
-                for (int index1 = 0; index1 < num; ++index1)
+                int dustAmt = 6;
+                for (int i = 0; i < dustAmt; ++i)
                 {
-                    Vector2 vector2_1 = (Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width, (float)Projectile.height) / 2f).RotatedBy((double)(index1 - (num / 2 - 1)) * Math.PI / (double)num, new Vector2()) + Projectile.Center;
-                    Vector2 vector2_2 = ((Main.rand.NextFloat() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-                    int index2 = Dust.NewDust(vector2_1 + vector2_2, 0, 0, 217, vector2_2.X * 2f, vector2_2.Y * 2f, 100, new Color(), 1.4f);
-                    Dust dust = Main.dust[index2];
+                    Vector2 dustRotation = (Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width, (float)Projectile.height) / 2f).RotatedBy((double)(i - (dustAmt / 2 - 1)) * Math.PI / (double)dustAmt, new Vector2()) + Projectile.Center;
+                    Vector2 randomRotation = ((Main.rand.NextFloat() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+                    int nuclearDust = Dust.NewDust(dustRotation + randomRotation, 0, 0, 217, randomRotation.X * 2f, randomRotation.Y * 2f, 100, new Color(), 1.4f);
+                    Dust dust = Main.dust[nuclearDust];
                     dust.noGravity = true;
                     dust.noLight = true;
                     dust.velocity /= 4f;
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             Projectile.rotation += Projectile.velocity.X * 0.1f;
             Projectile.rotation += Projectile.velocity.Y * 0.1f;
-            int num1 = -1;
+            int npcID = -1;
             Vector2 targetVec = Projectile.Center;
             float maxDistance = 500f;
             if (Projectile.localAI[0] > 0f)
@@ -79,19 +79,19 @@ namespace CalamityMod.Projectiles.Magic
                         {
                             maxDistance = npcDist;
                             targetVec = npc.Center;
-                            num1 = index;
+                            npcID = index;
                         }
                     }
                 }
-                if (num1 >= 0)
+                if (npcID >= 0)
                 {
-                    Projectile.ai[0] = num1 + 1f;
+                    Projectile.ai[0] = npcID + 1f;
                     Projectile.netUpdate = true;
                 }
             }
             if (Projectile.localAI[0] == 0f && Projectile.ai[0] == 0f)
                 Projectile.localAI[0] = 30f;
-            bool flag = false;
+            bool isHoming = false;
             if (Projectile.ai[0] != 0f)
             {
                 int index = (int)(Projectile.ai[0] - 1);
@@ -99,29 +99,29 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     if ((Math.Abs(Projectile.Center.X - Main.npc[index].Center.X) + Math.Abs(Projectile.Center.Y - Main.npc[index].Center.Y)) < 1000f)
                     {
-                        flag = true;
+                        isHoming = true;
                         targetVec = Main.npc[index].Center;
                     }
                 }
                 else
                 {
                     Projectile.ai[0] = 0f;
-                    flag = false;
+                    isHoming = false;
                     Projectile.netUpdate = true;
                 }
             }
-            if (flag)
+            if (isHoming)
             {
-                double num3 = (double)(targetVec - Projectile.Center).ToRotation() - (double)Projectile.velocity.ToRotation();
-                if (num3 > Math.PI)
-                    num3 -= 2.0 * Math.PI;
-                if (num3 < -1.0 * Math.PI)
-                    num3 += 2.0 * Math.PI;
-                Projectile.velocity = Projectile.velocity.RotatedBy(num3 * 0.1, new Vector2());
+                double homeVelocity = (double)(targetVec - Projectile.Center).ToRotation() - (double)Projectile.velocity.ToRotation();
+                if (homeVelocity > Math.PI)
+                    homeVelocity -= 2.0 * Math.PI;
+                if (homeVelocity < -1.0 * Math.PI)
+                    homeVelocity += 2.0 * Math.PI;
+                Projectile.velocity = Projectile.velocity.RotatedBy(homeVelocity * 0.1, new Vector2());
             }
-            float num4 = Projectile.velocity.Length();
+            float projSpeed = Projectile.velocity.Length();
             Projectile.velocity.Normalize();
-            Projectile.velocity = Projectile.velocity * (num4 + 1f / 400f);
+            Projectile.velocity = Projectile.velocity * (projSpeed + 1f / 400f);
         }
 
         public override void OnKill(int timeLeft)

@@ -32,9 +32,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            float num953 = 25f * Projectile.ai[1]; //100
-            float scaleFactor12 = 5f * Projectile.ai[1]; //5
-            float num954 = 1000f;
+            float aiVelocityMult = 25f * Projectile.ai[1]; //100
+            float scaleFactor = 5f * Projectile.ai[1]; //5
+            float homingRange = 1000f;
 
             if (Projectile.velocity.X < 0f)
             {
@@ -50,10 +50,10 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(Projectile.Center, 0.7f, 0.3f, 0f);
             if (Main.player[Projectile.owner].active && !Main.player[Projectile.owner].dead)
             {
-                if (Projectile.Distance(Main.player[Projectile.owner].Center) > num954)
+                if (Projectile.Distance(Main.player[Projectile.owner].Center) > homingRange)
                 {
                     Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[Projectile.owner].Center, Vector2.UnitY);
-                    Projectile.velocity = (Projectile.velocity * (num953 - 1f) + moveDirection * scaleFactor12) / num953;
+                    Projectile.velocity = (Projectile.velocity * (aiVelocityMult - 1f) + moveDirection * scaleFactor) / aiVelocityMult;
                     return;
                 }
 
@@ -90,18 +90,18 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
             SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
-            for (int num193 = 0; num193 < 6; num193++)
+            for (int i = 0; i < 6; i++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0, 0);
             }
-            for (int num194 = 0; num194 < 10; num194++)
+            for (int j = 0; j < 10; j++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0, 0);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0, 0);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int divinity = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0, 0);
+                Main.dust[divinity].noGravity = true;
+                Main.dust[divinity].velocity *= 3f;
+                divinity = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0, 0);
+                Main.dust[divinity].velocity *= 2f;
+                Main.dust[divinity].noGravity = true;
             }
         }
     }
