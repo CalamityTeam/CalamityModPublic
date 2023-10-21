@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion On Spawn
 
-        #region SetDefaults
+        #region Set Defaults
         public override void SetDefaults(Projectile projectile)
         {
             // OLD 1.3 CODE: Disable Lunatic Cultist's homing resistance globally
@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-        #region PreAI
+        #region Pre AI
         public override bool PreAI(Projectile projectile)
         {
             #region Vanilla Summons AI Changes
@@ -1014,7 +1014,52 @@ namespace CalamityMod.Projectiles
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                if (projectile.type == ProjectileID.DemonSickle)
+                // Override Deerclops rubble behavior to create a wave of rubble instead of it all flying up at the same time
+                // Rubble doesn't deal damage if it's not moving
+                if (projectile.type == ProjectileID.DeerclopsRangedProjectile)
+                {
+                    projectile.frame = (int)projectile.ai[1];
+                    if (projectile.localAI[0] == 0f)
+                    {
+                        projectile.localAI[0] = 1f;
+                        projectile.rotation = projectile.velocity.ToRotation();
+                        for (int dustIndex = 0; dustIndex < 5; dustIndex++)
+                        {
+                            Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24f, 24f), 16, projectile.velocity * MathHelper.Lerp(0.2f, 0.7f, Main.rand.NextFloat()));
+                            dust.velocity += Main.rand.NextVector2Circular(0.5f, 0.5f);
+                            dust.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
+                        }
+
+                        for (int dustIndex = 0; dustIndex < 5; dustIndex++)
+                        {
+                            Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24f, 24f), 16, Main.rand.NextVector2Circular(2f, 2f) + projectile.velocity * MathHelper.Lerp(0.2f, 0.5f, Main.rand.NextFloat()));
+                            dust.velocity += Main.rand.NextVector2Circular(0.5f, 0.5f);
+                            dust.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
+                            dust.fadeIn = 1f;
+                        }
+                    }
+
+                    if (projectile.ai[0] >= 5f + projectile.ai[2])
+                        projectile.velocity.Y += 0.15f;
+
+                    // Create a wave of rubble
+                    // Make sure the projectile doesn't despawn before it starts going up
+                    if (projectile.ai[0] <= projectile.ai[2])
+                    {
+                        projectile.timeLeft += 1;
+
+                        // Use the expected velocity when the time is right
+                        if (projectile.ai[0] == projectile.ai[2])
+                        {
+                            projectile.velocity *= 100f;
+                            projectile.velocity *= 12f + Main.rand.NextFloat() * 2f;
+                        }
+                    }
+
+                    return false;
+                }
+
+                else if (projectile.type == ProjectileID.DemonSickle)
                 {
                     if (Main.wofNPCIndex < 0 || !Main.npc[Main.wofNPCIndex].active || Main.npc[Main.wofNPCIndex].life <= 0)
                         return true;
@@ -2664,6 +2709,12 @@ namespace CalamityMod.Projectiles
 
             switch (projectile.type)
             {
+                // Rev+ Deerclops rubble doesn't deal damage while it's not flying upwards
+                case ProjectileID.DeerclopsRangedProjectile:
+                    if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+                        return projectile.ai[0] > projectile.ai[2];
+                    break;
+
                 // Storm Weaver frost waves don't deal damage unless they're at their max velocity
                 case ProjectileID.FrostWave:
                     if (projectile.ai[1] > 0f)
@@ -2893,7 +2944,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-        #region LifeSteal
+        #region Life Steal
         public static bool CanSpawnLifeStealProjectile(float healMultiplier, float healAmount)
         {
             if (healMultiplier <= 0f || (int)healAmount <= 0)
