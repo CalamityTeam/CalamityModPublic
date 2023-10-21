@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
         public static int Lifetime => 96;
         public static int Fadetime => 80;
         public ref float Time => ref Projectile.ai[0];
+        public int MistType = -1;
 
         public override void SetDefaults()
         {
@@ -34,6 +35,10 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Time++;
+
+            if (MistType == -1)
+                MistType = Main.rand.Next(3);
+
             if (Time > Fadetime)
                 Projectile.velocity *= 0.95f;
 
@@ -55,14 +60,8 @@ namespace CalamityMod.Projectiles.Ranged
                 if (Main.rand.NextBool(20))
                 {
                     FlameParticle fire = new FlameParticle(Projectile.Center, 20, MathHelper.Clamp(Time * 0.05f, 0.5f, 2f), 0.05f, Color.BlueViolet * 0.5f, Color.DarkBlue * 0.5f);
-                    fire.Velocity = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15f)) * 0.6f;
+                    fire.Velocity = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(6f)) * 0.3f;
                     GeneralParticleHandler.SpawnParticle(fire);
-                }
-
-                if (Main.rand.NextBool(10))
-                {
-                    SparkParticle spark = new SparkParticle(Projectile.Center, Projectile.velocity * Main.rand.NextFloat(0.4f, 0.7f), false, Main.rand.Next(7, 11), Main.rand.NextFloat(0.7f, 1.8f), Main.rand.NextBool(4) ? Color.Magenta : Color.DodgerBlue);
-                    GeneralParticleHandler.SpawnParticle(spark);
                 }
             }
             else if (Time == 5f)
@@ -89,12 +88,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D fire = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D mist = ModContent.Request<Texture2D>("CalamityMod/Particles/MediumMist").Value;
 
             // The conga line of colors to sift through
             Color color1 = new Color(160, 100, 255, 200);
             Color color2 = new Color(160, 50, 255, 70);
-            Color color3 = new Color(200, 100, 255, 100);
-            Color color4 = new Color(150, 30, 200, 100);
+            Color color3 = new Color(120, 100, 255, 100);
+            Color color4 = new Color(30, 50, 200, 100);
             float length = ((Time > Fadetime - 10f) ? 0.1f : 0.15f);
             float vOffset = Math.Min(Time, 20f);
             float timeRatio = Utils.GetLerpValue(0f, Lifetime, Time);
@@ -125,6 +125,15 @@ namespace CalamityMod.Projectiles.Ranged
 
                 // Draw the main fire
                 Main.EntitySpriteDraw(fire, firePos, null, fireColor, mainRot, fire.Size() * 0.5f, fireSize, SpriteEffects.None);
+
+                // Draw the masking smoke
+                if (MistType > 2 || MistType < 0)
+                    return false;
+                Main.spriteBatch.SetBlendState(BlendState.Additive);
+                Rectangle frame = mist.Frame(1, 3, 0, MistType);
+                Main.EntitySpriteDraw(mist, firePos, frame, Color.Lerp(fireColor, Color.White, 0.3f), mainRot, frame.Size() * 0.5f, fireSize, SpriteEffects.None);
+                Main.EntitySpriteDraw(mist, firePos, frame, fireColor, mainRot, frame.Size() * 0.5f, fireSize * 3f, SpriteEffects.None);
+                Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             }
             return false;
         }
