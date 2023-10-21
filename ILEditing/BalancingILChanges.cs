@@ -437,5 +437,22 @@ namespace CalamityMod.ILEditing
             cursor.Next.Operand = 1f;
         }
         #endregion
+
+        #region Remove Frozen Infliction From Deerclops Ice Spikes
+        private static void RemoveFrozenInflictionFromDeerclopsIceSpikes(ILContext il)
+        {
+            // Prevent Deerclops from freezing players with Ice Spike projectiles.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcI4(ProjectileID.DeerclopsIceSpike)))
+            {
+                LogFailure("Remove Frozen Infliction From Deerclops Ice Spikes", "Could not locate the Deerclops Ice Spike projectile ID.");
+                return;
+            }
+
+            // AND with 0 (false) so that the Ice Spike is never considered to be hitting the player and thus never trigger the Frozen debuff.
+            cursor.Emit(OpCodes.Ldc_I4_0);
+            cursor.Emit(OpCodes.And);
+        }
+        #endregion
     }
 }
