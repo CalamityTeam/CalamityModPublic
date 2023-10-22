@@ -263,23 +263,23 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 NPC.height = 150;
                 NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
-                for (int num621 = 0; num621 < 40; num621++)
+                for (int i = 0; i < 40; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int brimDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    Main.dust[brimDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[brimDust].scale = 0.5f;
+                        Main.dust[brimDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 60; num623++)
+                for (int j = 0; j < 60; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int brimDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
+                    Main.dust[brimDust2].noGravity = true;
+                    Main.dust[brimDust2].velocity *= 5f;
+                    brimDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    Main.dust[brimDust2].velocity *= 2f;
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
@@ -300,11 +300,11 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
-            Vector2 origin = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.npcFrameCount[NPC.type] / 2));
+            Texture2D npcTexture = TextureAssets.Npc[NPC.type].Value;
+            Vector2 frameLocation = new Vector2((float)(npcTexture.Width / 2), (float)(npcTexture.Height / Main.npcFrameCount[NPC.type] / 2));
             Vector2 npcOffset = NPC.Center - screenPos;
-            npcOffset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
-            npcOffset += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            npcOffset -= new Vector2((float)npcTexture.Width, (float)(npcTexture.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            npcOffset += frameLocation * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
             // Give brimmy an outline based on current elemental mode
             if (Main.zenithWorld)
@@ -340,11 +340,11 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
                 for (float i = 0; i < 1; i += 0.125f)
                 {
-                    spriteBatch.Draw(texture, npcOffset + (i * MathHelper.TwoPi).ToRotationVector2() * outlineThickness, NPC.frame, outlineColor, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+                    spriteBatch.Draw(npcTexture, npcOffset + (i * MathHelper.TwoPi).ToRotationVector2() * outlineThickness, NPC.frame, outlineColor, NPC.rotation, frameLocation, NPC.scale, spriteEffects, 0f);
                 }
                 CalamityUtils.ExitShaderRegion(spriteBatch);
             }
-            spriteBatch.Draw(texture, npcOffset, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(npcTexture, npcOffset, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, frameLocation, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
