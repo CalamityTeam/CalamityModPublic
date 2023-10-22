@@ -100,51 +100,50 @@ namespace CalamityMod.NPCs.DesertScourge
                     NPC.ai[2] = (float)NPC.whoAmI;
                     NPC.realLife = NPC.whoAmI;
                     int num2 = NPC.whoAmI;
-                    int num3 = maxLength;
-                    for (int j = 0; j <= num3; j++)
+                    for (int j = 0; j <= maxLength; j++)
                     {
-                        int num4 = ModContent.NPCType<DesertNuisanceBody>();
-                        if (j == num3)
+                        int segmentType = ModContent.NPCType<DesertNuisanceBody>();
+                        if (j == maxLength)
                         {
-                            num4 = ModContent.NPCType<DesertNuisanceTail>();
+                            segmentType = ModContent.NPCType<DesertNuisanceTail>();
                         }
-                        int num5 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), num4, NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
-                        Main.npc[num5].ai[2] = (float)NPC.whoAmI;
-                        Main.npc[num5].realLife = NPC.whoAmI;
-                        Main.npc[num5].ai[1] = (float)num2;
-                        Main.npc[num2].ai[0] = (float)num5;
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num5, 0f, 0f, 0f, 0, 0, 0);
-                        num2 = num5;
+                        int segmentSpawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), segmentType, NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        Main.npc[segmentSpawn].ai[2] = (float)NPC.whoAmI;
+                        Main.npc[segmentSpawn].realLife = NPC.whoAmI;
+                        Main.npc[segmentSpawn].ai[1] = (float)num2;
+                        Main.npc[num2].ai[0] = (float)segmentSpawn;
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, segmentSpawn, 0f, 0f, 0f, 0, 0, 0);
+                        num2 = segmentSpawn;
                     }
                     TailSpawned = true;
                 }
             }
-            int num12 = (int)(NPC.position.X / 16f) - 1;
-            int num13 = (int)((NPC.position.X + (float)NPC.width) / 16f) + 2;
-            int num14 = (int)(NPC.position.Y / 16f) - 1;
-            int num15 = (int)((NPC.position.Y + (float)NPC.height) / 16f) + 2;
-            if (num12 < 0)
+            int tilePositionX = (int)(NPC.position.X / 16f) - 1;
+            int tileWidthPosX = (int)((NPC.position.X + (float)NPC.width) / 16f) + 2;
+            int tilePositionY = (int)(NPC.position.Y / 16f) - 1;
+            int tileWidthPosY = (int)((NPC.position.Y + (float)NPC.height) / 16f) + 2;
+            if (tilePositionX < 0)
             {
-                num12 = 0;
+                tilePositionX = 0;
             }
-            if (num13 > Main.maxTilesX)
+            if (tileWidthPosX > Main.maxTilesX)
             {
-                num13 = Main.maxTilesX;
+                tileWidthPosX = Main.maxTilesX;
             }
-            if (num14 < 0)
+            if (tilePositionY < 0)
             {
-                num14 = 0;
+                tilePositionY = 0;
             }
-            if (num15 > Main.maxTilesY)
+            if (tileWidthPosY > Main.maxTilesY)
             {
-                num15 = Main.maxTilesY;
+                tileWidthPosY = Main.maxTilesY;
             }
-            bool flag2 = false;
-            if (!flag2)
+            bool shouldFly = false;
+            if (!shouldFly)
             {
-                for (int k = num12; k < num13; k++)
+                for (int k = tilePositionX; k < tileWidthPosX; k++)
                 {
-                    for (int l = num14; l < num15; l++)
+                    for (int l = tilePositionY; l < tileWidthPosY; l++)
                     {
                         if (Main.tile[k, l] != null && ((Main.tile[k, l].HasUnactuatedTile && (Main.tileSolid[(int)Main.tile[k, l].TileType] || (Main.tileSolidTop[(int)Main.tile[k, l].TileType] && Main.tile[k, l].TileFrameY == 0))) || Main.tile[k, l].LiquidAmount > 64))
                         {
@@ -153,36 +152,36 @@ namespace CalamityMod.NPCs.DesertScourge
                             vector2.Y = (float)(l * 16);
                             if (NPC.position.X + (float)NPC.width > vector2.X && NPC.position.X < vector2.X + 16f && NPC.position.Y + (float)NPC.height > vector2.Y && NPC.position.Y < vector2.Y + 16f)
                             {
-                                flag2 = true;
+                                shouldFly = true;
                                 break;
                             }
                         }
                     }
                 }
             }
-            if (!flag2)
+            if (!shouldFly)
             {
                 NPC.localAI[1] = 1f;
                 Rectangle rectangle = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);
-                int num16 = 1000;
-                bool flag3 = true;
+                int directChaseDistance = 1000;
+                bool shouldDirectlyChase = true;
                 if (NPC.position.Y > Main.player[NPC.target].position.Y)
                 {
                     for (int m = 0; m < 255; m++)
                     {
                         if (Main.player[m].active)
                         {
-                            Rectangle rectangle2 = new Rectangle((int)Main.player[m].position.X - num16, (int)Main.player[m].position.Y - num16, num16 * 2, num16 * 2);
+                            Rectangle rectangle2 = new Rectangle((int)Main.player[m].position.X - directChaseDistance, (int)Main.player[m].position.Y - directChaseDistance, directChaseDistance * 2, directChaseDistance * 2);
                             if (rectangle.Intersects(rectangle2))
                             {
-                                flag3 = false;
+                                shouldDirectlyChase = false;
                                 break;
                             }
                         }
                     }
-                    if (flag3)
+                    if (shouldDirectlyChase)
                     {
-                        flag2 = true;
+                        shouldFly = true;
                     }
                 }
             }
@@ -190,15 +189,15 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 NPC.localAI[1] = 0f;
             }
-            float num17 = 16f;
+            float maxChaseSpeed = 16f;
             if (Main.player[NPC.target].dead)
             {
-                flag2 = false;
+                shouldFly = false;
                 NPC.velocity.Y = NPC.velocity.Y + 1f;
                 if ((double)NPC.position.Y > Main.worldSurface * 16.0)
                 {
                     NPC.velocity.Y = NPC.velocity.Y + 1f;
-                    num17 = 32f;
+                    maxChaseSpeed = 32f;
                 }
                 if ((double)NPC.position.Y > Main.rockLayer * 16.0)
                 {
@@ -212,62 +211,62 @@ namespace CalamityMod.NPCs.DesertScourge
                     }
                 }
             }
-            float num18 = speed;
-            float num19 = turnSpeed;
+            float speedCopy = speed;
+            float turnSpeedCopy = turnSpeed;
             if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
             {
-                num18 *= 1.5f;
-                num19 *= 1.5f;
+                speedCopy *= 1.5f;
+                turnSpeedCopy *= 1.5f;
             }
-            Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num20 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
-            float num21 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
-            num20 = (float)((int)(num20 / 16f) * 16);
-            num21 = (float)((int)(num21 / 16f) * 16);
-            vector3.X = (float)((int)(vector3.X / 16f) * 16);
-            vector3.Y = (float)((int)(vector3.Y / 16f) * 16);
-            num20 -= vector3.X;
-            num21 -= vector3.Y;
-            float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
-            if (!flag2)
+            Vector2 npcCenter = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float playerX = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float targettingPosition = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
+            playerX = (float)((int)(playerX / 16f) * 16);
+            targettingPosition = (float)((int)(targettingPosition / 16f) * 16);
+            npcCenter.X = (float)((int)(npcCenter.X / 16f) * 16);
+            npcCenter.Y = (float)((int)(npcCenter.Y / 16f) * 16);
+            playerX -= npcCenter.X;
+            targettingPosition -= npcCenter.Y;
+            float targetDistance = (float)Math.Sqrt((double)(playerX * playerX + targettingPosition * targettingPosition));
+            if (!shouldFly)
             {
                 NPC.TargetClosest();
                 NPC.velocity.Y = NPC.velocity.Y + 0.15f;
-                if (NPC.velocity.Y > num17)
+                if (NPC.velocity.Y > maxChaseSpeed)
                 {
-                    NPC.velocity.Y = num17;
+                    NPC.velocity.Y = maxChaseSpeed;
                 }
-                if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.4)
+                if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)maxChaseSpeed * 0.4)
                 {
                     if (NPC.velocity.X < 0f)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num18 * 1.1f;
+                        NPC.velocity.X = NPC.velocity.X - speedCopy * 1.1f;
                     }
                     else
                     {
-                        NPC.velocity.X = NPC.velocity.X + num18 * 1.1f;
+                        NPC.velocity.X = NPC.velocity.X + speedCopy * 1.1f;
                     }
                 }
-                else if (NPC.velocity.Y == num17)
+                else if (NPC.velocity.Y == maxChaseSpeed)
                 {
-                    if (NPC.velocity.X < num20)
+                    if (NPC.velocity.X < playerX)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num18;
+                        NPC.velocity.X = NPC.velocity.X + speedCopy;
                     }
-                    else if (NPC.velocity.X > num20)
+                    else if (NPC.velocity.X > playerX)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num18;
+                        NPC.velocity.X = NPC.velocity.X - speedCopy;
                     }
                 }
                 else if (NPC.velocity.Y > 4f)
                 {
                     if (NPC.velocity.X < 0f)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num18 * 0.9f;
+                        NPC.velocity.X = NPC.velocity.X + speedCopy * 0.9f;
                     }
                     else
                     {
-                        NPC.velocity.X = NPC.velocity.X - num18 * 0.9f;
+                        NPC.velocity.X = NPC.velocity.X - speedCopy * 0.9f;
                     }
                 }
             }
@@ -275,131 +274,131 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 if (NPC.soundDelay == 0)
                 {
-                    float num24 = num22 / 40f;
-                    if (num24 < 10f)
+                    float soundDelay = targetDistance / 40f;
+                    if (soundDelay < 10f)
                     {
-                        num24 = 10f;
+                        soundDelay = 10f;
                     }
-                    if (num24 > 20f)
+                    if (soundDelay > 20f)
                     {
-                        num24 = 20f;
+                        soundDelay = 20f;
                     }
-                    NPC.soundDelay = (int)num24;
+                    NPC.soundDelay = (int)soundDelay;
                     SoundEngine.PlaySound(SoundID.WormDig, NPC.Center);
                 }
-                num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
-                float num25 = Math.Abs(num20);
-                float num26 = Math.Abs(num21);
-                float num27 = num17 / num22;
-                num20 *= num27;
-                num21 *= num27;
-                if (((NPC.velocity.X > 0f && num20 > 0f) || (NPC.velocity.X < 0f && num20 < 0f)) && ((NPC.velocity.Y > 0f && num21 > 0f) || (NPC.velocity.Y < 0f && num21 < 0f)))
+                targetDistance = (float)Math.Sqrt((double)(playerX * playerX + targettingPosition * targettingPosition));
+                float absolutePlayerX = Math.Abs(playerX);
+                float absoluteTargetPos = Math.Abs(targettingPosition);
+                float timeToReachTarget = maxChaseSpeed / targetDistance;
+                playerX *= timeToReachTarget;
+                targettingPosition *= timeToReachTarget;
+                if (((NPC.velocity.X > 0f && playerX > 0f) || (NPC.velocity.X < 0f && playerX < 0f)) && ((NPC.velocity.Y > 0f && targettingPosition > 0f) || (NPC.velocity.Y < 0f && targettingPosition < 0f)))
                 {
-                    if (NPC.velocity.X < num20)
+                    if (NPC.velocity.X < playerX)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num19;
+                        NPC.velocity.X = NPC.velocity.X + turnSpeedCopy;
                     }
-                    else if (NPC.velocity.X > num20)
+                    else if (NPC.velocity.X > playerX)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num19;
+                        NPC.velocity.X = NPC.velocity.X - turnSpeedCopy;
                     }
-                    if (NPC.velocity.Y < num21)
+                    if (NPC.velocity.Y < targettingPosition)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num19;
+                        NPC.velocity.Y = NPC.velocity.Y + turnSpeedCopy;
                     }
-                    else if (NPC.velocity.Y > num21)
+                    else if (NPC.velocity.Y > targettingPosition)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num19;
+                        NPC.velocity.Y = NPC.velocity.Y - turnSpeedCopy;
                     }
                 }
-                if ((NPC.velocity.X > 0f && num20 > 0f) || (NPC.velocity.X < 0f && num20 < 0f) || (NPC.velocity.Y > 0f && num21 > 0f) || (NPC.velocity.Y < 0f && num21 < 0f))
+                if ((NPC.velocity.X > 0f && playerX > 0f) || (NPC.velocity.X < 0f && playerX < 0f) || (NPC.velocity.Y > 0f && targettingPosition > 0f) || (NPC.velocity.Y < 0f && targettingPosition < 0f))
                 {
-                    if (NPC.velocity.X < num20)
+                    if (NPC.velocity.X < playerX)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num18;
+                        NPC.velocity.X = NPC.velocity.X + speedCopy;
                     }
-                    else if (NPC.velocity.X > num20)
+                    else if (NPC.velocity.X > playerX)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num18;
+                        NPC.velocity.X = NPC.velocity.X - speedCopy;
                     }
-                    if (NPC.velocity.Y < num21)
+                    if (NPC.velocity.Y < targettingPosition)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num18;
+                        NPC.velocity.Y = NPC.velocity.Y + speedCopy;
                     }
-                    else if (NPC.velocity.Y > num21)
+                    else if (NPC.velocity.Y > targettingPosition)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num18;
+                        NPC.velocity.Y = NPC.velocity.Y - speedCopy;
                     }
-                    if ((double)Math.Abs(num21) < (double)num17 * 0.2 && ((NPC.velocity.X > 0f && num20 < 0f) || (NPC.velocity.X < 0f && num20 > 0f)))
+                    if ((double)Math.Abs(targettingPosition) < (double)maxChaseSpeed * 0.2 && ((NPC.velocity.X > 0f && playerX < 0f) || (NPC.velocity.X < 0f && playerX > 0f)))
                     {
                         if (NPC.velocity.Y > 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num18 * 2f;
+                            NPC.velocity.Y = NPC.velocity.Y + speedCopy * 2f;
                         }
                         else
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num18 * 2f;
+                            NPC.velocity.Y = NPC.velocity.Y - speedCopy * 2f;
                         }
                     }
-                    if ((double)Math.Abs(num20) < (double)num17 * 0.2 && ((NPC.velocity.Y > 0f && num21 < 0f) || (NPC.velocity.Y < 0f && num21 > 0f)))
+                    if ((double)Math.Abs(playerX) < (double)maxChaseSpeed * 0.2 && ((NPC.velocity.Y > 0f && targettingPosition < 0f) || (NPC.velocity.Y < 0f && targettingPosition > 0f)))
                     {
                         if (NPC.velocity.X > 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num18 * 2f;
+                            NPC.velocity.X = NPC.velocity.X + speedCopy * 2f;
                         }
                         else
                         {
-                            NPC.velocity.X = NPC.velocity.X - num18 * 2f;
+                            NPC.velocity.X = NPC.velocity.X - speedCopy * 2f;
                         }
                     }
                 }
-                else if (num25 > num26)
+                else if (absolutePlayerX > absoluteTargetPos)
                 {
-                    if (NPC.velocity.X < num20)
+                    if (NPC.velocity.X < playerX)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num18 * 1.1f;
+                        NPC.velocity.X = NPC.velocity.X + speedCopy * 1.1f;
                     }
-                    else if (NPC.velocity.X > num20)
+                    else if (NPC.velocity.X > playerX)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num18 * 1.1f;
+                        NPC.velocity.X = NPC.velocity.X - speedCopy * 1.1f;
                     }
-                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.5)
+                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)maxChaseSpeed * 0.5)
                     {
                         if (NPC.velocity.Y > 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num18;
+                            NPC.velocity.Y = NPC.velocity.Y + speedCopy;
                         }
                         else
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num18;
+                            NPC.velocity.Y = NPC.velocity.Y - speedCopy;
                         }
                     }
                 }
                 else
                 {
-                    if (NPC.velocity.Y < num21)
+                    if (NPC.velocity.Y < targettingPosition)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num18 * 1.1f;
+                        NPC.velocity.Y = NPC.velocity.Y + speedCopy * 1.1f;
                     }
-                    else if (NPC.velocity.Y > num21)
+                    else if (NPC.velocity.Y > targettingPosition)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num18 * 1.1f;
+                        NPC.velocity.Y = NPC.velocity.Y - speedCopy * 1.1f;
                     }
-                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.5)
+                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)maxChaseSpeed * 0.5)
                     {
                         if (NPC.velocity.X > 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num18;
+                            NPC.velocity.X = NPC.velocity.X + speedCopy;
                         }
                         else
                         {
-                            NPC.velocity.X = NPC.velocity.X - num18;
+                            NPC.velocity.X = NPC.velocity.X - speedCopy;
                         }
                     }
                 }
             }
             NPC.rotation = (float)Math.Atan2((double)NPC.velocity.Y, (double)NPC.velocity.X) + 1.57f;
-            if (flag2)
+            if (shouldFly)
             {
                 if (NPC.localAI[0] != 1f)
                 {
