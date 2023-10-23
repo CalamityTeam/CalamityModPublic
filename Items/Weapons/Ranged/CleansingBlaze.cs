@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Item.damage = 240;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 64;
-            Item.height = 32;
+            Item.width = 108;
+            Item.height = 38;
             Item.useTime = 3;
             Item.useAnimation = 24;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<EssenceFire>();
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 11f;
             Item.useAmmo = AmmoID.Gel;
             Item.consumeAmmoOnFirstShotOnly = true;
             Item.rare = ModContent.RarityType<DarkBlue>();
@@ -39,15 +39,16 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            Vector2 newPos = position + velocity.SafeNormalize(Vector2.UnitX) * 36f;
             for (int i = 0; i < 3; i++)
             {
                 Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(5f));
-                Projectile.NewProjectile(source, position, newVel, type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, newPos, newVel, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
 
-        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
+        public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
 
         public override void AddRecipes()
         {
