@@ -240,8 +240,8 @@ namespace CalamityMod.NPCs.Perforator
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)(NPC.lifeMax * (Main.getGoodWorld ? 0.15 : 0.25));
-                    if ((NPC.life + num660) < NPC.ai[3])
+                    int wormSpawnGateValue = (int)(NPC.lifeMax * (Main.getGoodWorld ? 0.15 : 0.25));
+                    if ((NPC.life + wormSpawnGateValue) < NPC.ai[3])
                     {
                         NPC.ai[3] = NPC.life;
                         int wormType = ModContent.NPCType<PerforatorHeadSmall>();
@@ -276,24 +276,24 @@ namespace CalamityMod.NPCs.Perforator
 
                         SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.Center);
 
-                        for (int num621 = 0; num621 < 16; num621++)
+                        for (int i = 0; i < 16; i++)
                         {
-                            int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 170, 0f, 0f, 100, default, 1f);
-                            Main.dust[num622].velocity *= 2f;
+                            int ichorDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 170, 0f, 0f, 100, default, 1f);
+                            Main.dust[ichorDust].velocity *= 2f;
                             if (Main.rand.NextBool())
                             {
-                                Main.dust[num622].scale = 0.25f;
-                                Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                                Main.dust[ichorDust].scale = 0.25f;
+                                Main.dust[ichorDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                             }
                         }
 
-                        for (int num623 = 0; num623 < 32; num623++)
+                        for (int j = 0; j < 32; j++)
                         {
-                            int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 1.5f);
-                            Main.dust[num624].noGravity = true;
-                            Main.dust[num624].velocity *= 3f;
-                            num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 1f);
-                            Main.dust[num624].velocity *= 2f;
+                            int bloodDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 1.5f);
+                            Main.dust[bloodDust].noGravity = true;
+                            Main.dust[bloodDust].velocity *= 3f;
+                            bloodDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 1f);
+                            Main.dust[bloodDust].velocity *= 2f;
                         }
                     }
                 }
@@ -329,16 +329,16 @@ namespace CalamityMod.NPCs.Perforator
 
                             SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.Center);
 
-                            for (int num621 = 0; num621 < 32; num621++)
+                            for (int i = 0; i < 32; i++)
                             {
-                                int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 170, 0f, 0f, 100, default, 1f);
-                                float dustVelocityYAdd = Math.Abs(Main.dust[num622].velocity.Y) * 0.5f;
-                                if (Main.dust[num622].velocity.Y < 0f)
-                                    Main.dust[num622].velocity.Y = 2f + dustVelocityYAdd;
+                                int ichorDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 170, 0f, 0f, 100, default, 1f);
+                                float dustVelocityYAdd = Math.Abs(Main.dust[ichorDust].velocity.Y) * 0.5f;
+                                if (Main.dust[ichorDust].velocity.Y < 0f)
+                                    Main.dust[ichorDust].velocity.Y = 2f + dustVelocityYAdd;
                                 if (Main.rand.NextBool())
                                 {
-                                    Main.dust[num622].scale = 0.25f;
-                                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                                    Main.dust[ichorDust].scale = 0.25f;
+                                    Main.dust[ichorDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                                 }
                             }
 
@@ -393,24 +393,24 @@ namespace CalamityMod.NPCs.Perforator
                     NPC.localAI[0] = 0f;
                     SoundEngine.PlaySound(SoundID.NPCHit20, NPC.Center);
 
-                    for (int num621 = 0; num621 < 8; num621++)
+                    for (int i = 0; i < 8; i++)
                     {
-                        int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 170, 0f, 0f, 100, default, 1f);
-                        Main.dust[num622].velocity *= 3f;
+                        int ichorDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 170, 0f, 0f, 100, default, 1f);
+                        Main.dust[ichorDust].velocity *= 3f;
                         if (Main.rand.NextBool())
                         {
-                            Main.dust[num622].scale = 0.25f;
-                            Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                            Main.dust[ichorDust].scale = 0.25f;
+                            Main.dust[ichorDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                         }
                     }
 
-                    for (int num623 = 0; num623 < 16; num623++)
+                    for (int j = 0; j < 16; j++)
                     {
-                        int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 1.5f);
-                        Main.dust[num624].noGravity = true;
-                        Main.dust[num624].velocity *= 5f;
-                        num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 1f);
-                        Main.dust[num624].velocity *= 2f;
+                        int bloodDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 1.5f);
+                        Main.dust[bloodDust].noGravity = true;
+                        Main.dust[bloodDust].velocity *= 5f;
+                        bloodDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 1f);
+                        Main.dust[bloodDust].velocity *= 2f;
                     }
 
                     int type = Main.rand.NextBool() ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
@@ -487,17 +487,17 @@ namespace CalamityMod.NPCs.Perforator
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
+            Vector2 halfSizeTexture = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorHiveGlow").Value;
-            Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+            Color glowmaskColor = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, glowmaskColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -609,23 +609,23 @@ namespace CalamityMod.NPCs.Perforator
                 NPC.height = 100;
                 NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
-                for (int num621 = 0; num621 < 40; num621++)
+                for (int i = 0; i < 40; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int ichorDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 2f);
+                    Main.dust[ichorDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[ichorDust].scale = 0.5f;
+                        Main.dust[ichorDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 70; num623++)
+                for (int j = 0; j < 70; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int bloodDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 3f);
+                    Main.dust[bloodDust].noGravity = true;
+                    Main.dust[bloodDust].velocity *= 5f;
+                    bloodDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 2f);
+                    Main.dust[bloodDust].velocity *= 2f;
                 }
             }
         }

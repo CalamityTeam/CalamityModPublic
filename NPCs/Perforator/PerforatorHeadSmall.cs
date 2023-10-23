@@ -157,10 +157,10 @@ namespace CalamityMod.NPCs.Perforator
                 {
                     int Previous = NPC.whoAmI;
                     int maxLength = death ? 9 : revenge ? 8 : expertMode ? 7 : 5;
-                    for (int num36 = 0; num36 < maxLength; num36++)
+                    for (int segments = 0; segments < maxLength; segments++)
                     {
                         int lol;
-                        if (num36 >= 0 && num36 < maxLength - 1)
+                        if (segments >= 0 && segments < maxLength - 1)
                         {
                             lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<PerforatorBodySmall>(), NPC.whoAmI);
                         }
@@ -179,32 +179,32 @@ namespace CalamityMod.NPCs.Perforator
                 }
             }
 
-            int num12 = (int)(NPC.position.X / 16f) - 1;
-            int num13 = (int)((NPC.position.X + (float)NPC.width) / 16f) + 2;
-            int num14 = (int)(NPC.position.Y / 16f) - 1;
-            int num15 = (int)((NPC.position.Y + (float)NPC.height) / 16f) + 2;
-            if (num12 < 0)
+            int tilePositionX = (int)(NPC.position.X / 16f) - 1;
+            int tileWidthPosX = (int)((NPC.position.X + (float)NPC.width) / 16f) + 2;
+            int tilePositionY = (int)(NPC.position.Y / 16f) - 1;
+            int tileWidthPosY = (int)((NPC.position.Y + (float)NPC.height) / 16f) + 2;
+            if (tilePositionX < 0)
             {
-                num12 = 0;
+                tilePositionX = 0;
             }
-            if (num13 > Main.maxTilesX)
+            if (tileWidthPosX > Main.maxTilesX)
             {
-                num13 = Main.maxTilesX;
+                tileWidthPosX = Main.maxTilesX;
             }
-            if (num14 < 0)
+            if (tilePositionY < 0)
             {
-                num14 = 0;
+                tilePositionY = 0;
             }
-            if (num15 > Main.maxTilesY)
+            if (tileWidthPosY > Main.maxTilesY)
             {
-                num15 = Main.maxTilesY;
+                tileWidthPosY = Main.maxTilesY;
             }
-            bool flag2 = false;
-            if (!flag2)
+            bool shouldFly = false;
+            if (!shouldFly)
             {
-                for (int k = num12; k < num13; k++)
+                for (int k = tilePositionX; k < tileWidthPosX; k++)
                 {
-                    for (int l = num14; l < num15; l++)
+                    for (int l = tilePositionY; l < tileWidthPosY; l++)
                     {
                         if (Main.tile[k, l] != null && ((Main.tile[k, l].HasUnactuatedTile && (Main.tileSolid[(int)Main.tile[k, l].TileType] || (Main.tileSolidTop[(int)Main.tile[k, l].TileType] && Main.tile[k, l].TileFrameY == 0))) || Main.tile[k, l].LiquidAmount > 64))
                         {
@@ -213,36 +213,36 @@ namespace CalamityMod.NPCs.Perforator
                             vector2.Y = (float)(l * 16);
                             if (NPC.position.X + (float)NPC.width > vector2.X && NPC.position.X < vector2.X + 16f && NPC.position.Y + (float)NPC.height > vector2.Y && NPC.position.Y < vector2.Y + 16f)
                             {
-                                flag2 = true;
+                                shouldFly = true;
                                 break;
                             }
                         }
                     }
                 }
             }
-            if (!flag2)
+            if (!shouldFly)
             {
                 NPC.localAI[1] = 1f;
                 Rectangle rectangle = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);
-                int num16 = death ? 160 : revenge ? 200 : expertMode ? 240 : 300;
-                bool flag3 = true;
+                int stopFlyingRadius = death ? 160 : revenge ? 200 : expertMode ? 240 : 300;
+                bool outsideFlyRadius = true;
                 if (NPC.position.Y > player.position.Y)
                 {
                     for (int m = 0; m < 255; m++)
                     {
                         if (Main.player[m].active)
                         {
-                            Rectangle rectangle2 = new Rectangle((int)Main.player[m].position.X - num16, (int)Main.player[m].position.Y - num16, num16 * 2, num16 * 2);
+                            Rectangle rectangle2 = new Rectangle((int)Main.player[m].position.X - stopFlyingRadius, (int)Main.player[m].position.Y - stopFlyingRadius, stopFlyingRadius * 2, stopFlyingRadius * 2);
                             if (rectangle.Intersects(rectangle2))
                             {
-                                flag3 = false;
+                                outsideFlyRadius = false;
                                 break;
                             }
                         }
                     }
-                    if (flag3)
+                    if (outsideFlyRadius)
                     {
-                        flag2 = true;
+                        shouldFly = true;
                     }
                 }
             }
@@ -250,15 +250,15 @@ namespace CalamityMod.NPCs.Perforator
             {
                 NPC.localAI[1] = 0f;
             }
-            float num17 = 16f;
+            float maxChargeSpeed = 16f;
             if (player.dead || CalamityGlobalNPC.perfHive < 0 || !Main.npc[CalamityGlobalNPC.perfHive].active)
             {
-                flag2 = false;
+                shouldFly = false;
                 NPC.velocity.Y += 1f;
                 if ((double)NPC.position.Y > Main.worldSurface * 16.0)
                 {
                     NPC.velocity.Y += 1f;
-                    num17 = 32f;
+                    maxChargeSpeed = 32f;
                 }
                 if ((double)NPC.position.Y > Main.rockLayer * 16.0)
                 {
@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.Perforator
             //GFB movement
             if (NPC.ai[0] >= 300f && CalamityGlobalNPC.perfHive >= 0)
             {
-                flag2 = false;
+                shouldFly = false;
                 
                 NPC Hive = Main.npc[CalamityGlobalNPC.perfHive];
                 Vector2 targetDistance = Hive.Center - NPC.Center;
@@ -304,57 +304,57 @@ namespace CalamityMod.NPCs.Perforator
             //Normal movement
             else
             {
-                float num18 = speed;
-                float num19 = turnSpeed;
-                Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                float num20 = player.position.X + (float)(player.width / 2);
-                float num21 = player.position.Y + (float)(player.height / 2);
-                num20 = (float)((int)(num20 / 16f) * 16);
-                num21 = (float)((int)(num21 / 16f) * 16);
-                vector3.X = (float)((int)(vector3.X / 16f) * 16);
-                vector3.Y = (float)((int)(vector3.Y / 16f) * 16);
-                num20 -= vector3.X;
-                num21 -= vector3.Y;
-                float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
-                if (!flag2)
+                float speedCopy = speed;
+                float turnSpeedCopy = turnSpeed;
+                Vector2 npcCenter = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                float targetX = player.position.X + (float)(player.width / 2);
+                float targetY = player.position.Y + (float)(player.height / 2);
+                targetX = (float)((int)(targetX / 16f) * 16);
+                targetY = (float)((int)(targetY / 16f) * 16);
+                npcCenter.X = (float)((int)(npcCenter.X / 16f) * 16);
+                npcCenter.Y = (float)((int)(npcCenter.Y / 16f) * 16);
+                targetX -= npcCenter.X;
+                targetY -= npcCenter.Y;
+                float targetDistance = (float)Math.Sqrt((double)(targetX * targetX + targetY * targetY));
+                if (!shouldFly)
                 {
                     NPC.TargetClosest(true);
                     NPC.velocity.Y = NPC.velocity.Y + 0.15f;
-                    if (NPC.velocity.Y > num17)
+                    if (NPC.velocity.Y > maxChargeSpeed)
                     {
-                        NPC.velocity.Y = num17;
+                        NPC.velocity.Y = maxChargeSpeed;
                     }
-                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.4)
+                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)maxChargeSpeed * 0.4)
                     {
                         if (NPC.velocity.X < 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X - num18 * 1.1f;
+                            NPC.velocity.X = NPC.velocity.X - speedCopy * 1.1f;
                         }
                         else
                         {
-                            NPC.velocity.X = NPC.velocity.X + num18 * 1.1f;
+                            NPC.velocity.X = NPC.velocity.X + speedCopy * 1.1f;
                         }
                     }
-                    else if (NPC.velocity.Y == num17)
+                    else if (NPC.velocity.Y == maxChargeSpeed)
                     {
-                        if (NPC.velocity.X < num20)
+                        if (NPC.velocity.X < targetX)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num18;
+                            NPC.velocity.X = NPC.velocity.X + speedCopy;
                         }
-                        else if (NPC.velocity.X > num20)
+                        else if (NPC.velocity.X > targetX)
                         {
-                            NPC.velocity.X = NPC.velocity.X - num18;
+                            NPC.velocity.X = NPC.velocity.X - speedCopy;
                         }
                     }
                     else if (NPC.velocity.Y > 4f)
                     {
                         if (NPC.velocity.X < 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num18 * 0.9f;
+                            NPC.velocity.X = NPC.velocity.X + speedCopy * 0.9f;
                         }
                         else
                         {
-                            NPC.velocity.X = NPC.velocity.X - num18 * 0.9f;
+                            NPC.velocity.X = NPC.velocity.X - speedCopy * 0.9f;
                         }
                     }
                 }
@@ -362,132 +362,132 @@ namespace CalamityMod.NPCs.Perforator
                 {
                     if (NPC.soundDelay == 0)
                     {
-                        float num24 = num22 / 40f;
-                        if (num24 < 10f)
+                        float soundDelay = targetDistance / 40f;
+                        if (soundDelay < 10f)
                         {
-                            num24 = 10f;
+                            soundDelay = 10f;
                         }
-                        if (num24 > 20f)
+                        if (soundDelay > 20f)
                         {
-                            num24 = 20f;
+                            soundDelay = 20f;
                         }
-                        NPC.soundDelay = (int)num24;
+                        NPC.soundDelay = (int)soundDelay;
                         SoundEngine.PlaySound(SoundID.WormDig, NPC.Center);
                     }
-                    num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
-                    float num25 = Math.Abs(num20);
-                    float num26 = Math.Abs(num21);
-                    float num27 = num17 / num22;
-                    num20 *= num27;
-                    num21 *= num27;
-                    if (((NPC.velocity.X > 0f && num20 > 0f) || (NPC.velocity.X < 0f && num20 < 0f)) && ((NPC.velocity.Y > 0f && num21 > 0f) || (NPC.velocity.Y < 0f && num21 < 0f)))
+                    targetDistance = (float)Math.Sqrt((double)(targetX * targetX + targetY * targetY));
+                    float absoluteTargetX = Math.Abs(targetX);
+                    float absoluteTargetY = Math.Abs(targetY);
+                    float timeToReachTarget = maxChargeSpeed / targetDistance;
+                    targetX *= timeToReachTarget;
+                    targetY *= timeToReachTarget;
+                    if (((NPC.velocity.X > 0f && targetX > 0f) || (NPC.velocity.X < 0f && targetX < 0f)) && ((NPC.velocity.Y > 0f && targetY > 0f) || (NPC.velocity.Y < 0f && targetY < 0f)))
                     {
-                        if (NPC.velocity.X < num20)
+                        if (NPC.velocity.X < targetX)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num19;
+                            NPC.velocity.X = NPC.velocity.X + turnSpeedCopy;
                         }
-                        else if (NPC.velocity.X > num20)
+                        else if (NPC.velocity.X > targetX)
                         {
-                            NPC.velocity.X = NPC.velocity.X - num19;
+                            NPC.velocity.X = NPC.velocity.X - turnSpeedCopy;
                         }
-                        if (NPC.velocity.Y < num21)
+                        if (NPC.velocity.Y < targetY)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num19;
+                            NPC.velocity.Y = NPC.velocity.Y + turnSpeedCopy;
                         }
-                        else if (NPC.velocity.Y > num21)
+                        else if (NPC.velocity.Y > targetY)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num19;
+                            NPC.velocity.Y = NPC.velocity.Y - turnSpeedCopy;
                         }
                     }
-                    if ((NPC.velocity.X > 0f && num20 > 0f) || (NPC.velocity.X < 0f && num20 < 0f) || (NPC.velocity.Y > 0f && num21 > 0f) || (NPC.velocity.Y < 0f && num21 < 0f))
+                    if ((NPC.velocity.X > 0f && targetX > 0f) || (NPC.velocity.X < 0f && targetX < 0f) || (NPC.velocity.Y > 0f && targetY > 0f) || (NPC.velocity.Y < 0f && targetY < 0f))
                     {
-                        if (NPC.velocity.X < num20)
+                        if (NPC.velocity.X < targetX)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num18;
+                            NPC.velocity.X = NPC.velocity.X + speedCopy;
                         }
-                        else if (NPC.velocity.X > num20)
+                        else if (NPC.velocity.X > targetX)
                         {
-                            NPC.velocity.X = NPC.velocity.X - num18;
+                            NPC.velocity.X = NPC.velocity.X - speedCopy;
                         }
-                        if (NPC.velocity.Y < num21)
+                        if (NPC.velocity.Y < targetY)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num18;
+                            NPC.velocity.Y = NPC.velocity.Y + speedCopy;
                         }
-                        else if (NPC.velocity.Y > num21)
+                        else if (NPC.velocity.Y > targetY)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num18;
+                            NPC.velocity.Y = NPC.velocity.Y - speedCopy;
                         }
-                        if ((double)Math.Abs(num21) < (double)num17 * 0.2 && ((NPC.velocity.X > 0f && num20 < 0f) || (NPC.velocity.X < 0f && num20 > 0f)))
+                        if ((double)Math.Abs(targetY) < (double)maxChargeSpeed * 0.2 && ((NPC.velocity.X > 0f && targetX < 0f) || (NPC.velocity.X < 0f && targetX > 0f)))
                         {
                             if (NPC.velocity.Y > 0f)
                             {
-                                NPC.velocity.Y = NPC.velocity.Y + num18 * 2f;
+                                NPC.velocity.Y = NPC.velocity.Y + speedCopy * 2f;
                             }
                             else
                             {
-                                NPC.velocity.Y = NPC.velocity.Y - num18 * 2f;
+                                NPC.velocity.Y = NPC.velocity.Y - speedCopy * 2f;
                             }
                         }
-                        if ((double)Math.Abs(num20) < (double)num17 * 0.2 && ((NPC.velocity.Y > 0f && num21 < 0f) || (NPC.velocity.Y < 0f && num21 > 0f)))
+                        if ((double)Math.Abs(targetX) < (double)maxChargeSpeed * 0.2 && ((NPC.velocity.Y > 0f && targetY < 0f) || (NPC.velocity.Y < 0f && targetY > 0f)))
                         {
                             if (NPC.velocity.X > 0f)
                             {
-                                NPC.velocity.X = NPC.velocity.X + num18 * 2f;
+                                NPC.velocity.X = NPC.velocity.X + speedCopy * 2f;
                             }
                             else
                             {
-                                NPC.velocity.X = NPC.velocity.X - num18 * 2f;
+                                NPC.velocity.X = NPC.velocity.X - speedCopy * 2f;
                             }
                         }
                     }
-                    else if (num25 > num26)
+                    else if (absoluteTargetX > absoluteTargetY)
                     {
-                        if (NPC.velocity.X < num20)
+                        if (NPC.velocity.X < targetX)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num18 * 1.1f;
+                            NPC.velocity.X = NPC.velocity.X + speedCopy * 1.1f;
                         }
-                        else if (NPC.velocity.X > num20)
+                        else if (NPC.velocity.X > targetX)
                         {
-                            NPC.velocity.X = NPC.velocity.X - num18 * 1.1f;
+                            NPC.velocity.X = NPC.velocity.X - speedCopy * 1.1f;
                         }
-                        if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.5)
+                        if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)maxChargeSpeed * 0.5)
                         {
                             if (NPC.velocity.Y > 0f)
                             {
-                                NPC.velocity.Y = NPC.velocity.Y + num18;
+                                NPC.velocity.Y = NPC.velocity.Y + speedCopy;
                             }
                             else
                             {
-                                NPC.velocity.Y = NPC.velocity.Y - num18;
+                                NPC.velocity.Y = NPC.velocity.Y - speedCopy;
                             }
                         }
                     }
                     else
                     {
-                        if (NPC.velocity.Y < num21)
+                        if (NPC.velocity.Y < targetY)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num18 * 1.1f;
+                            NPC.velocity.Y = NPC.velocity.Y + speedCopy * 1.1f;
                         }
-                        else if (NPC.velocity.Y > num21)
+                        else if (NPC.velocity.Y > targetY)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num18 * 1.1f;
+                            NPC.velocity.Y = NPC.velocity.Y - speedCopy * 1.1f;
                         }
-                        if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.5)
+                        if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)maxChargeSpeed * 0.5)
                         {
                             if (NPC.velocity.X > 0f)
                             {
-                                NPC.velocity.X = NPC.velocity.X + num18;
+                                NPC.velocity.X = NPC.velocity.X + speedCopy;
                             }
                             else
                             {
-                                NPC.velocity.X = NPC.velocity.X - num18;
+                                NPC.velocity.X = NPC.velocity.X - speedCopy;
                             }
                         }
                     }
                 }
             }
             NPC.rotation = (float)Math.Atan2((double)NPC.velocity.Y, (double)NPC.velocity.X) + 1.57f;
-            if (flag2)
+            if (shouldFly)
             {
                 if (NPC.localAI[0] != 1f)
                 {
@@ -519,17 +519,17 @@ namespace CalamityMod.NPCs.Perforator
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
+            Vector2 halfSizeTexture = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 glowmaskDrawLocation = NPC.Center - screenPos;
+            glowmaskDrawLocation -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
+            glowmaskDrawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, glowmaskDrawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorHeadSmallGlow").Value;
-            Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+            Color glowmaskColor = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, glowmaskDrawLocation, NPC.frame, glowmaskColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
