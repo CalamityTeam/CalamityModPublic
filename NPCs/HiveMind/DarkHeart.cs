@@ -63,59 +63,59 @@ namespace CalamityMod.NPCs.HiveMind
 
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             NPC.TargetClosest();
-            float num1164 = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 8f : revenge ? 4.5f : 4f;
-            float num1165 = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 1f : revenge ? 0.8f : 0.75f;
+            float npcSpeed = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 8f : revenge ? 4.5f : 4f;
+            float velocityMult = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 1f : revenge ? 0.8f : 0.75f;
             if (BossRushEvent.BossRushActive)
             {
-                num1164 *= 2f;
-                num1165 *= 2f;
+                npcSpeed *= 2f;
+                velocityMult *= 2f;
             }
 
-            Vector2 vector133 = new Vector2(NPC.Center.X, NPC.Center.Y);
-            float num1166 = Main.player[NPC.target].Center.X - vector133.X;
-            float num1167 = Main.player[NPC.target].Center.Y - vector133.Y - ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 500f : 400f);
-            float num1168 = (float)Math.Sqrt(num1166 * num1166 + num1167 * num1167);
-            if (num1168 < ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 10f : 20f))
+            Vector2 npcCenter = new Vector2(NPC.Center.X, NPC.Center.Y);
+            float playerXDist = Main.player[NPC.target].Center.X - npcCenter.X;
+            float playerYDist = Main.player[NPC.target].Center.Y - npcCenter.Y - ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 500f : 400f);
+            float playerDistance = (float)Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
+            if (playerDistance < ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 10f : 20f))
             {
-                num1166 = NPC.velocity.X;
-                num1167 = NPC.velocity.Y;
+                playerXDist = NPC.velocity.X;
+                playerYDist = NPC.velocity.Y;
             }
             else
             {
-                num1168 = num1164 / num1168;
-                num1166 *= num1168;
-                num1167 *= num1168;
+                playerDistance = npcSpeed / playerDistance;
+                playerXDist *= playerDistance;
+                playerYDist *= playerDistance;
             }
-            if (NPC.velocity.X < num1166)
+            if (NPC.velocity.X < playerXDist)
             {
-                NPC.velocity.X = NPC.velocity.X + num1165;
-                if (NPC.velocity.X < 0f && num1166 > 0f)
+                NPC.velocity.X = NPC.velocity.X + velocityMult;
+                if (NPC.velocity.X < 0f && playerXDist > 0f)
                 {
-                    NPC.velocity.X = NPC.velocity.X + num1165 * 2f;
+                    NPC.velocity.X = NPC.velocity.X + velocityMult * 2f;
                 }
             }
-            else if (NPC.velocity.X > num1166)
+            else if (NPC.velocity.X > playerXDist)
             {
-                NPC.velocity.X = NPC.velocity.X - num1165;
-                if (NPC.velocity.X > 0f && num1166 < 0f)
+                NPC.velocity.X = NPC.velocity.X - velocityMult;
+                if (NPC.velocity.X > 0f && playerXDist < 0f)
                 {
-                    NPC.velocity.X = NPC.velocity.X - num1165 * 2f;
+                    NPC.velocity.X = NPC.velocity.X - velocityMult * 2f;
                 }
             }
-            if (NPC.velocity.Y < num1167)
+            if (NPC.velocity.Y < playerYDist)
             {
-                NPC.velocity.Y = NPC.velocity.Y + num1165;
-                if (NPC.velocity.Y < 0f && num1167 > 0f)
+                NPC.velocity.Y = NPC.velocity.Y + velocityMult;
+                if (NPC.velocity.Y < 0f && playerYDist > 0f)
                 {
-                    NPC.velocity.Y = NPC.velocity.Y + num1165 * 2f;
+                    NPC.velocity.Y = NPC.velocity.Y + velocityMult * 2f;
                 }
             }
-            else if (NPC.velocity.Y > num1167)
+            else if (NPC.velocity.Y > playerYDist)
             {
-                NPC.velocity.Y = NPC.velocity.Y - num1165;
-                if (NPC.velocity.Y > 0f && num1167 < 0f)
+                NPC.velocity.Y = NPC.velocity.Y - velocityMult;
+                if (NPC.velocity.Y > 0f && playerYDist < 0f)
                 {
-                    NPC.velocity.Y = NPC.velocity.Y - num1165 * 2f;
+                    NPC.velocity.Y = NPC.velocity.Y - velocityMult * 2f;
                 }
             }
             if (NPC.position.X + NPC.width > Main.player[NPC.target].position.X && NPC.position.X < Main.player[NPC.target].position.X + Main.player[NPC.target].width && NPC.position.Y + NPC.height < Main.player[NPC.target].position.Y && Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
@@ -124,12 +124,12 @@ namespace CalamityMod.NPCs.HiveMind
                 if (NPC.ai[0] >= (Main.getGoodWorld ? 12f : 24f))
                 {
                     NPC.ai[0] = 0f;
-                    int num1169 = (int)(NPC.position.X + 10f + Main.rand.Next(NPC.width - 20));
-                    int num1170 = (int)(NPC.position.Y + NPC.height + 4f);
+                    int shaderainXPos = (int)(NPC.position.X + 10f + Main.rand.Next(NPC.width - 20));
+                    int shaderainYos = (int)(NPC.position.Y + NPC.height + 4f);
                     int type = ModContent.ProjectileType<ShaderainHostile>();
                     int damage = NPC.GetProjectileDamage(type);
                     float randomXVelocity = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? Main.rand.NextFloat() * 5f : 0f;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), num1169, num1170, randomXVelocity, 4f, type, damage, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), shaderainXPos, shaderainYos, randomXVelocity, 4f, type, damage, 0f, Main.myPlayer);
                 }
             }
         }
