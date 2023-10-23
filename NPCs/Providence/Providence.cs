@@ -597,7 +597,7 @@ namespace CalamityMod.NPCs.Providence
                         Vector2 dustLineEnd = NPC.Center;
                         Vector2 currentDustPos = default;
                         Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
-                        Vector2 value5 = new Vector2(2.1f, 2f);
+                        Vector2 dustVelocityMult = new Vector2(2.1f, 2f);
                         Color dustColor = Main.hslToRgb(Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X, 1f, 0.5f);
                         dustColor.A = 255;
                         for (int i = 0; i < maxHealDustIterations; i++)
@@ -607,7 +607,7 @@ namespace CalamityMod.NPCs.Providence
                                 currentDustPos = Vector2.Lerp(dustLineStart, dustLineEnd, i / (float)maxHealDustIterations);
                                 int dust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
                                 Main.dust[dust].position = currentDustPos;
-                                Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f) + NPC.velocity;
+                                Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * dustVelocityMult * (0.8f + Main.rand.NextFloat() * 0.4f) + NPC.velocity;
                                 Main.dust[dust].noGravity = true;
                                 Main.dust[dust].scale = 1f;
                                 Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
@@ -678,8 +678,8 @@ namespace CalamityMod.NPCs.Providence
 
                 if (NPC.life > 0)
                 {
-                    int num660 = (int)(NPC.lifeMax * 0.66);
-                    if ((NPC.life + num660) < bossLife)
+                    int guardianHealthThreshold = (int)(NPC.lifeMax * 0.66);
+                    if ((NPC.life + guardianHealthThreshold) < bossLife)
                     {
                         bossLife = NPC.life;
                         SoundEngine.PlaySound(SoundID.Item74, NPC.Center);
@@ -743,17 +743,17 @@ namespace CalamityMod.NPCs.Providence
                         calamityGlobalNPC.newAI[0] += 1f;
 
                     // Distance needed from target to change direction
-                    float num851 = 800f;
+                    float changeDirectionThreshold = 800f;
 
                     // Increase distance from target when firing molten blasts or holy bombs
                     bool stayAwayFromTarget = AIState == (int)Phase.MoltenBlobs || AIState == (int)Phase.HolyBomb;
                     if (stayAwayFromTarget)
-                        num851 += death ? 240f : revenge ? 180f : 120f;
+                        changeDirectionThreshold += death ? 240f : revenge ? 180f : 120f;
 
                     // Change X movement path if far enough away from target
-                    if (NPC.Center.X < player.Center.X && flightPath < 0 && distanceX > num851)
+                    if (NPC.Center.X < player.Center.X && flightPath < 0 && distanceX > changeDirectionThreshold)
                         flightPath = 0;
-                    if (NPC.Center.X > player.Center.X && flightPath > 0 && distanceX > num851)
+                    if (NPC.Center.X > player.Center.X && flightPath > 0 && distanceX > changeDirectionThreshold)
                         flightPath = 0;
 
                     // Velocity and acceleration
@@ -796,10 +796,10 @@ namespace CalamityMod.NPCs.Providence
                         if (NPC.velocity.X < -velocity)
                             NPC.velocity.X = -velocity;
 
-                        float num855 = player.position.Y - (NPC.position.Y + NPC.height);
-                        if (num855 < (laserPhaseSlow ? 150f : 200f)) // 150
+                        float moveUpThreshold = player.position.Y - (NPC.position.Y + NPC.height);
+                        if (moveUpThreshold < (laserPhaseSlow ? 150f : 200f)) // 150
                             NPC.velocity.Y -= Main.getGoodWorld ? 0.4f : 0.2f;
-                        if (num855 > (laserPhaseSlow ? 200f : 250f)) // 200
+                        if (moveUpThreshold > (laserPhaseSlow ? 200f : 250f)) // 200
                             NPC.velocity.Y += Main.getGoodWorld ? 0.4f : 0.2f;
 
                         float speedCap = laserPhaseSlow ? 2f : 6f;
@@ -1045,21 +1045,21 @@ namespace CalamityMod.NPCs.Providence
                         {
                             Vector2 npcCenter = NPC.Center;
                             npcCenter.X += NPC.velocity.X * 7f;
-                            float num857 = player.position.X + player.width * 0.5f - npcCenter.X;
-                            float num858 = player.Center.Y - npcCenter.Y;
-                            float num859 = (float)Math.Sqrt(num857 * num857 + num858 * num858);
+                            float playerXDist = player.position.X + player.width * 0.5f - npcCenter.X;
+                            float playerYDist = player.Center.Y - npcCenter.Y;
+                            float playerDistance = (float)Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
 
                             float velocityBoost = death ? 4f * (1f - lifeRatio) : 2.5f * (1f - lifeRatio);
-                            float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
+                            float projSpeed = (expertMode ? 10.25f : 9f) + velocityBoost;
 
                             if (revenge)
-                                num860 *= 1.15f;
+                                projSpeed *= 1.15f;
 
-                            num859 = num860 / num859;
-                            num857 *= num859;
-                            num858 *= num859;
+                            playerDistance = projSpeed / playerDistance;
+                            playerXDist *= playerDistance;
+                            playerYDist *= playerDistance;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyBlastDamage, 0f, Main.myPlayer, player.position.X, player.position.Y);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, playerXDist, playerYDist, ModContent.ProjectileType<HolyBlast>(), holyBlastDamage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                         }
                     }
                     else if (NPC.ai[3] < 0f)
@@ -1319,29 +1319,29 @@ namespace CalamityMod.NPCs.Providence
                                 SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, player2.Center);
                                 player2.AddBuff(ModContent.BuffType<IcarusFolly>(), 3000, true);
 
-                                for (int num621 = 0; num621 < 40; num621++)
+                                for (int i = 0; i < 40; i++)
                                 {
-                                    int num622 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
+                                    int icarusFollyDust = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
                                         player2.width, player2.height, dustType, 0f, 0f, 100, default, 2f);
-                                    Main.dust[num622].velocity *= 3f;
-                                    Main.dust[num622].noGravity = true;
+                                    Main.dust[icarusFollyDust].velocity *= 3f;
+                                    Main.dust[icarusFollyDust].noGravity = true;
                                     if (Main.rand.NextBool())
                                     {
-                                        Main.dust[num622].scale = 0.5f;
-                                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                                        Main.dust[icarusFollyDust].scale = 0.5f;
+                                        Main.dust[icarusFollyDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                                     }
                                 }
 
-                                for (int num623 = 0; num623 < 60; num623++)
+                                for (int j = 0; j < 60; j++)
                                 {
-                                    int num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
+                                    int icarusFollyDust2 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
                                         player2.width, player2.height, dustType, 0f, 0f, 100, default, 3f);
-                                    Main.dust[num624].noGravity = true;
-                                    Main.dust[num624].velocity *= 5f;
-                                    num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
+                                    Main.dust[icarusFollyDust2].noGravity = true;
+                                    Main.dust[icarusFollyDust2].velocity *= 5f;
+                                    icarusFollyDust2 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
                                         player2.width, player2.height, dustType, 0f, 0f, 100, default, 2f);
-                                    Main.dust[num624].velocity *= 2f;
-                                    Main.dust[num624].noGravity = true;
+                                    Main.dust[icarusFollyDust2].velocity *= 2f;
+                                    Main.dust[icarusFollyDust2].noGravity = true;
                                 }
                             }
                         }
@@ -1381,23 +1381,23 @@ namespace CalamityMod.NPCs.Providence
                         {
                             Vector2 npcCenter = NPC.Center;
                             npcCenter.X += NPC.velocity.X * 7f;
-                            float num857 = player.position.X + player.width * 0.5f - npcCenter.X;
-                            float num858 = player.Center.Y - npcCenter.Y;
-                            float num859 = (float)Math.Sqrt(num857 * num857 + num858 * num858);
+                            float playerXDist = player.position.X + player.width * 0.5f - npcCenter.X;
+                            float playerYDist = player.Center.Y - npcCenter.Y;
+                            float playerDistance = (float)Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
 
                             float shootBoost2 = death ? 4f * (1f - lifeRatio) : 2.5f * (1f - lifeRatio);
-                            float num860 = (expertMode ? 10.25f : 9f) + shootBoost2;
+                            float projSpeed = (expertMode ? 10.25f : 9f) + shootBoost2;
                             if (bossRush)
-                                num860 = 12.75f;
+                                projSpeed = 12.75f;
 
                             if (revenge)
-                                num860 *= 1.15f;
+                                projSpeed *= 1.15f;
 
-                            num859 = num860 / num859;
-                            num857 *= num859;
-                            num858 *= num859;
+                            playerDistance = projSpeed / playerDistance;
+                            playerXDist *= playerDistance;
+                            playerYDist *= playerDistance;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, num857 * 0.1f, num858, ModContent.ProjectileType<MoltenBlast>(), moltenBlastDamage, 0f, Main.myPlayer, player.position.X, player.position.Y);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, playerXDist * 0.1f, playerYDist, ModContent.ProjectileType<MoltenBlast>(), moltenBlastDamage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                         }
                     }
                     else if (NPC.ai[3] < 0f)
@@ -1568,7 +1568,7 @@ namespace CalamityMod.NPCs.Providence
                             Vector2 dustLineEnd = crystalSpawnPos;
                             Vector2 currentDustPos = default;
                             Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
-                            Vector2 value5 = new Vector2(2.1f, 2f);
+                            Vector2 dustVelocityMult = new Vector2(2.1f, 2f);
                             int dustSpawned = 0;
                             int maxDustLines = 3;
                             int blue = Main.DiscoB;
@@ -1583,7 +1583,7 @@ namespace CalamityMod.NPCs.Providence
                                         dustColor.A = 255;
                                         int dust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
                                         Main.dust[dust].position = currentDustPos + new Vector2(32f, 32f).RotatedByRandom(MathHelper.TwoPi) * i;
-                                        Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * j / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
+                                        Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * j / maxHealDustIterations) * dustVelocityMult * (0.8f + Main.rand.NextFloat() * 0.4f);
                                         Main.dust[dust].noGravity = true;
                                         Main.dust[dust].scale = 1f + i;
                                         Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
@@ -2116,16 +2116,16 @@ namespace CalamityMod.NPCs.Providence
 
                 if (CalamityConfig.Instance.Afterimages)
                 {
-                    for (int num155 = 1; num155 < maxAfterimages; num155 += 2)
+                    for (int i = 1; i < maxAfterimages; i += 2)
                     {
                         Color AfterimageColor = drawColor;
                         AfterimageColor = Color.Lerp(AfterimageColor, BaseColor, Brightness);
                         AfterimageColor = NPC.GetAlpha(AfterimageColor);
-                        AfterimageColor *= (maxAfterimages - num155) / 15f;
+                        AfterimageColor *= (maxAfterimages - i) / 15f;
                         if (colorOverride != null)
                             AfterimageColor = colorOverride.Value;
 
-                        Vector2 AfterimageBodyPosition = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                        Vector2 AfterimageBodyPosition = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                         AfterimageBodyPosition -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                         AfterimageBodyPosition += RotationCenter * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
                         spriteBatch.Draw(texture, AfterimageBodyPosition, NPC.frame, AfterimageColor, NPC.rotation, RotationCenter, NPC.scale, spriteEffects, 0f);
@@ -2180,16 +2180,16 @@ namespace CalamityMod.NPCs.Providence
 
                 if (CalamityConfig.Instance.Afterimages)
                 {
-                    for (int num163 = 1; num163 < maxAfterimages; num163++)
+                    for (int j = 1; j < maxAfterimages; j++)
                     {
                         Color AfterimageWingColor = BaseWingColor;
                         AfterimageWingColor = Color.Lerp(AfterimageWingColor, BaseColor, Brightness);
                         AfterimageWingColor = NPC.GetAlpha(AfterimageWingColor);
-                        AfterimageWingColor *= (maxAfterimages - num163) / 15f;
+                        AfterimageWingColor *= (maxAfterimages - j) / 15f;
                         if (colorOverride != null)
                             AfterimageWingColor = colorOverride.Value;
 
-                        Vector2 AfterimageGlowPosition = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                        Vector2 AfterimageGlowPosition = NPC.oldPos[j] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                         AfterimageGlowPosition -= new Vector2(textureGlow.Width, textureGlow.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                         AfterimageGlowPosition += RotationCenter * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
                         spriteBatch.Draw(textureGlow, AfterimageGlowPosition, NPC.frame, AfterimageWingColor, NPC.rotation, RotationCenter, NPC.scale, spriteEffects, 0f);
@@ -2197,7 +2197,7 @@ namespace CalamityMod.NPCs.Providence
                         Color AfterimageCrystalColor = BaseCrystalColor;
                         AfterimageCrystalColor = Color.Lerp(AfterimageCrystalColor, BaseColor, Brightness);
                         AfterimageCrystalColor = NPC.GetAlpha(AfterimageCrystalColor);
-                        AfterimageCrystalColor *= (maxAfterimages - num163) / 15f;
+                        AfterimageCrystalColor *= (maxAfterimages - j) / 15f;
                         if (colorOverride != null)
                             AfterimageCrystalColor = colorOverride.Value;
                         spriteBatch.Draw(textureGlow2, AfterimageGlowPosition, NPC.frame, AfterimageCrystalColor, NPC.rotation, RotationCenter, NPC.scale, spriteEffects, 0f);
