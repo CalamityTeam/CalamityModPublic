@@ -127,6 +127,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[0] = 4f;
                         npc.ai[1] = 0f;
                         npc.localAI[1] = 0f;
+                        calamityGlobalNPC.newAI[0] -= 1f;
+                        npc.SyncExtraAI();
                         npc.netUpdate = true;
                         break;
                     }
@@ -137,6 +139,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
                         npc.localAI[1] += 1f;
+                        calamityGlobalNPC.newAI[0] -= 1f;
+                        npc.SyncExtraAI();
                         npc.netUpdate = true;
                         break;
                     }
@@ -148,6 +152,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[0] = 2f;
                         npc.ai[1] = 0f;
                         npc.localAI[1] = 0f;
+                        calamityGlobalNPC.newAI[0] -= 1f;
+                        npc.SyncExtraAI();
                         npc.netUpdate = true;
                         break;
                     }
@@ -159,17 +165,22 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[0] = 5f;
                         npc.ai[1] = 0f;
                         npc.localAI[1] = 0f;
+                        calamityGlobalNPC.newAI[0] -= 1f;
+                        npc.SyncExtraAI();
                         npc.netUpdate = true;
                         break;
                     }
 
+                    // This replaced the slow debuff infliction
                     bool useSecondShadowHandAttack = npc.ai[1] >= 120f;
-                    if (npc.velocity.Y == 0f && useSecondShadowHandAttack && Math.Abs(distanceFromTarget2.X) > 100f)
+                    if (npc.velocity.Y == 0f && useSecondShadowHandAttack && Math.Abs(distanceFromTarget2.X) > 100f && calamityGlobalNPC.newAI[0] <= 0f)
                     {
                         npc.velocity.X = 0f;
                         npc.ai[0] = 3f;
                         npc.ai[1] = 0f;
                         npc.localAI[1] = 0f;
+                        calamityGlobalNPC.newAI[0] = 5f;
+                        npc.SyncExtraAI();
                         npc.netUpdate = true;
                     }
 

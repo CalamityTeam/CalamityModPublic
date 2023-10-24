@@ -1072,7 +1072,10 @@ namespace CalamityMod.Projectiles
                 // Rubble doesn't deal damage if it's not moving
                 else if (projectile.type == ProjectileID.DeerclopsRangedProjectile)
                 {
+                    projectile.ai[0] += 1f;
+
                     projectile.frame = (int)projectile.ai[1];
+
                     if (projectile.localAI[0] == 0f)
                     {
                         projectile.localAI[0] = 1f;
