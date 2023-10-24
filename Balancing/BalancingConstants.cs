@@ -59,7 +59,11 @@
         // Rogue stealth
         // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
         // This value is intentionally not readonly.
-        public static double UniversalStealthStrikeDamageFactor = 0.5;
+        public static double UniversalStealthStrikeDamageFactor = 0.42;
+        // Shade 23/10/2023: So stealth apparently was indeed way too strong after the bugfix with nearly every weapon being way stronger than before
+        // due to Flawless now working properly and thus the stealth factor was changed back to 0.42 from 0.5.
+        // This nerf takes feedback from various players as well as my own personal experience with testing rogue stuff today; it feels too strong and
+        // something needed to be done about it.
 
         internal static readonly float BaseStealthGenTime = 4f; // 4 seconds
         internal static readonly float MovingStealthGenRatio = 0.5f;
