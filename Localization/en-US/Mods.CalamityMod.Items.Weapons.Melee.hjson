@@ -966,8 +966,8 @@ Roxcalibur: {
 	Tooltip:
 		'''
 		[WOF]Hold <left> to charge up a strike
-		Release with the cursor above your player to swing normally, releasing rock shards
-		Release with the cursor below your player to dive downwards and bounce off enemies
+		Release with the cursor above you to swing normally, releasing rock shards
+		Release with the cursor below you to dive downwards and bounce off enemies
 		Diving into blocks creates a shockwave
 		You couldn't get it out of the rock, so you just brought the rock instead
 		'''
