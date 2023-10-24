@@ -965,8 +965,9 @@ Roxcalibur: {
 	// The WOF tag generates a new line above when placed at the start of a line
 	Tooltip:
 		'''
-		[WOF]Press <left> to shoot several rock shards
-		Press <right> to dive downwards and bounce off enemies
+		[WOF]Hold <left> to charge up a strike
+		Release with the cursor above you to swing normally, releasing rock shards
+		Release with the cursor below you to dive downwards and bounce off enemies
 		Diving into blocks creates a shockwave
 		You couldn't get it out of the rock, so you just brought the rock instead
 		'''

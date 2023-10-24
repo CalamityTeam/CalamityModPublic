@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;
 
-            Item.width = 94;
-            Item.height = 32;
+            Item.width = 150;
+            Item.height = 48;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.UseSound = CommonCalamitySounds.LargeWeaponFireSound;
