@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
-
+	    Projectile.scale = 1.3f;
             Projectile.timeLeft = 3600;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 150;
@@ -54,6 +54,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         //more precise hitbox. makes the weapon harder to use but looks visually better: use it if you want.
+/*
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (HitTimer <= 0)
@@ -66,6 +67,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             return base.Colliding(projHitbox, targetHitbox);
         }
+*/
 
         public override void AI()
         {
@@ -98,11 +100,12 @@ namespace CalamityMod.Projectiles.Melee
             else if (Animation == Charging) //first frame of release
             {
                 Animation = Main.MouseWorld.Y > player.Center.Y ? Plunging : Swinging;
-                float chargeModifier = ChargeLevel * 3.5f; //modify this to balance damage bonus from charging
+                float chargeModifier = ChargeLevel * 2.5f; //modify this to balance damage bonus from charging
 
                 if (Animation == Plunging)
                 {
                     Projectile.timeLeft = 60 * 2; //maximum 2 second plunge time
+		    chargeModifier = ChargeLevel * 3.5f;
                 }
                     
                 Projectile.damage = (int)(Projectile.damage * (1 + chargeModifier));
@@ -229,6 +232,14 @@ namespace CalamityMod.Projectiles.Melee
         {
             CollisionEffects();
         }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            Projectile.damage = (int)(Projectile.damage * 0.75f);
+            if (Projectile.damage < 1)
+                Projectile.damage = 1;
+        }
+
         private void CollisionEffects()
         {
             if (HitTimer == 0)
