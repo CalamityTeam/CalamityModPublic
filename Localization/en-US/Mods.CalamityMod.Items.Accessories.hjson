@@ -1867,7 +1867,7 @@ TrinketofChi: {
 	DisplayName: Trinket of Chi
 	Tooltip:
 		'''
-		Provides 10% damage reduction after not being hit for 15 seconds, this is removed when you are hit
+		Provides 4% damage reduction after not being hit for 5 seconds, this is removed when you are hit
 		+1 HP/s life regen for you and everyone on your team
 		'''
 }
