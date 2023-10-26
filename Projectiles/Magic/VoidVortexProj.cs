@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 180;
+            Projectile.timeLeft = 135;
             Projectile.DamageType = DamageClass.Magic;
         }
 
