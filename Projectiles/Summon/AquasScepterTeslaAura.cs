@@ -29,9 +29,11 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 28;
             Projectile.alpha = 0;
+            Projectile.spriteDirection = Main.rand.NextBool() ? -1 : 1;
 		}
 
         public override bool? CanDamage() => ableToHit ? (bool?)null : false;
+        public override Color? GetAlpha(Color lightColor) => Color.White * (1 - (Projectile.alpha / 255f));
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, (TeslaAuraScale * 96.0f), targetHitbox);
 
@@ -46,13 +48,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.ai[0]++;
 
             Projectile.frameCounter++;
-            if (Projectile.frameCounter >= 4)
-            {
-                Projectile.frame++;
-                Projectile.frameCounter = 0;
-            }
-            if (Projectile.frame >= Main.projFrames[Projectile.type])
-                Projectile.frame = 0;
+            Projectile.frame = (int)(Projectile.frameCounter / 5.4f);
 
             if (Projectile.ai[0] > 8f) //After the Tesla Aura has been alive for 8 frames, disables it's ability to deal damage. This is done so that there is some leniency on allowing new enemies to enter the damaging range for a bit to make the sentry feel better to use.
             {
