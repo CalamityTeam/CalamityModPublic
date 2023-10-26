@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.damage = 100;
             NPC.width = 170;
             NPC.height = 120;
-            NPC.defense = 80;
+            NPC.defense = 100;
             NPC.DR_NERD(0.35f);
             NPC.LifeMaxNERB(1250000, 1495000, 650000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;

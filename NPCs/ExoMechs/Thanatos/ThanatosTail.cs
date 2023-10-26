@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.GetNPCDamage();
             NPC.width = 76;
             NPC.height = 110;
-            NPC.defense = 120;
+            NPC.defense = 100;
             NPC.DR_NERD(0.9999f);
             NPC.Calamity().unbreakableDR = true;
             NPC.LifeMaxNERB(960000, 1150000, 600000);
