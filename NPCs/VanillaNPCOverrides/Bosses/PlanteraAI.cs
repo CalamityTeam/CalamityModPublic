@@ -846,9 +846,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Set timer to new amount if a different hook is currently moving
                 if (!despawn && npc.localAI[0] <= 0f && npc.ai[0] != 0f)
                 {
-                    for (int num763 = 0; num763 < Main.maxNPCs; num763++)
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
-                        if (num763 != npc.whoAmI && Main.npc[num763].active && Main.npc[num763].type == npc.type && (Main.npc[num763].velocity.X != 0f || Main.npc[num763].velocity.Y != 0f))
+                        if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && (Main.npc[i].velocity.X != 0f || Main.npc[i].velocity.Y != 0f))
                             npc.localAI[0] = Main.rand.Next(60, 301);
                     }
                 }
@@ -860,39 +860,39 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.localAI[0] = Main.rand.Next(300, 601);
 
                     // Pick location
-                    bool flag50 = false;
-                    int num764 = 0;
-                    while (!flag50 && num764 <= 1000)
+                    bool hookCanMove = false;
+                    int hookMoveTries = 0;
+                    while (!hookCanMove && hookMoveTries <= 1000)
                     {
-                        num764++;
+                        hookMoveTries++;
 
-                        int num765 = (int)(Main.player[Main.npc[NPC.plantBoss].target].Center.X / 16f);
-                        int num766 = (int)(Main.player[Main.npc[NPC.plantBoss].target].Center.Y / 16f);
+                        int targetTilePosX = (int)(Main.player[Main.npc[NPC.plantBoss].target].Center.X / 16f);
+                        int targetTilePosY = (int)(Main.player[Main.npc[NPC.plantBoss].target].Center.Y / 16f);
 
                         if (npc.ai[0] == 0f)
                         {
-                            num765 = (int)((Main.player[Main.npc[NPC.plantBoss].target].Center.X + Main.npc[NPC.plantBoss].Center.X) / 32f);
-                            num766 = (int)((Main.player[Main.npc[NPC.plantBoss].target].Center.Y + Main.npc[NPC.plantBoss].Center.Y) / 32f);
+                            targetTilePosX = (int)((Main.player[Main.npc[NPC.plantBoss].target].Center.X + Main.npc[NPC.plantBoss].Center.X) / 32f);
+                            targetTilePosY = (int)((Main.player[Main.npc[NPC.plantBoss].target].Center.Y + Main.npc[NPC.plantBoss].Center.Y) / 32f);
                         }
 
                         if (despawn)
                         {
-                            num765 = (int)Main.npc[NPC.plantBoss].position.X / 16;
-                            num766 = (int)(Main.npc[NPC.plantBoss].position.Y + 400f) / 16;
+                            targetTilePosX = (int)Main.npc[NPC.plantBoss].position.X / 16;
+                            targetTilePosY = (int)(Main.npc[NPC.plantBoss].position.Y + 400f) / 16;
                         }
 
-                        int num767 = 20;
-                        num767 += (int)(100f * (num764 / 1000f));
-                        int num768 = num765 + Main.rand.Next(-num767, num767 + 1);
-                        int num769 = num766 + Main.rand.Next(-num767, num767 + 1);
+                        int hookTileOffset = 20;
+                        hookTileOffset += (int)(100f * (hookMoveTries / 1000f));
+                        int hookTileX = targetTilePosX + Main.rand.Next(-hookTileOffset, hookTileOffset + 1);
+                        int hookTileY = targetTilePosY + Main.rand.Next(-hookTileOffset, hookTileOffset + 1);
 
                         try
                         {
-                            if (WorldGen.SolidTile(num768, num769) || (Main.tile[num768, num769].WallType > 0 && (num764 > 500 || lifeRatio < 0.5f)))
+                            if (WorldGen.SolidTile(hookTileX, hookTileY) || (Main.tile[hookTileX, hookTileY].WallType > 0 && (hookMoveTries > 500 || lifeRatio < 0.5f)))
                             {
-                                flag50 = true;
-                                npc.ai[0] = num768;
-                                npc.ai[1] = num769;
+                                hookCanMove = true;
+                                npc.ai[0] = hookTileX;
+                                npc.ai[1] = hookTileY;
                                 npc.netUpdate = true;
                             }
                         }
@@ -915,11 +915,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     velocity *= 2f;
 
                 // Moving to new location
-                Vector2 vector95 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num773 = npc.ai[0] * 16f - 8f - vector95.X;
-                float num774 = npc.ai[1] * 16f - 8f - vector95.Y;
-                float num775 = (float)Math.Sqrt(num773 * num773 + num774 * num774);
-                if (num775 < 12f + velocity)
+                Vector2 hookCenter = new Vector2(npc.Center.X, npc.Center.Y);
+                float hookMoveX = npc.ai[0] * 16f - 8f - hookCenter.X;
+                float hookMoveY = npc.ai[1] * 16f - 8f - hookCenter.Y;
+                float hookMoveDistance = (float)Math.Sqrt(hookMoveX * hookMoveX + hookMoveY * hookMoveY);
+                if (hookMoveDistance < 12f + velocity)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld && npc.localAI[3] == 1f)
                     {
@@ -927,24 +927,24 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         WorldGen.SpawnPlanteraThorns(npc.Center);
                     }
 
-                    npc.velocity.X = num773;
-                    npc.velocity.Y = num774;
+                    npc.velocity.X = hookMoveX;
+                    npc.velocity.Y = hookMoveY;
                 }
                 else
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld)
                         npc.localAI[3] = 1f;
 
-                    num775 = velocity / num775;
-                    npc.velocity.X = num773 * num775;
-                    npc.velocity.Y = num774 * num775;
+                    hookMoveDistance = velocity / hookMoveDistance;
+                    npc.velocity.X = hookMoveX * hookMoveDistance;
+                    npc.velocity.Y = hookMoveY * hookMoveDistance;
                 }
 
                 // Rotation
-                Vector2 vector96 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num776 = Main.npc[NPC.plantBoss].Center.X - vector96.X;
-                float num777 = Main.npc[NPC.plantBoss].Center.Y - vector96.Y;
-                npc.rotation = (float)Math.Atan2(num777, num776) - MathHelper.PiOver2;
+                Vector2 hookCenterRotation = new Vector2(npc.Center.X, npc.Center.Y);
+                float plantXDirection = Main.npc[NPC.plantBoss].Center.X - hookCenterRotation.X;
+                float plantYDirection = Main.npc[NPC.plantBoss].Center.Y - hookCenterRotation.Y;
+                npc.rotation = (float)Math.Atan2(plantYDirection, plantXDirection) - MathHelper.PiOver2;
             }
 
             return false;
@@ -1019,13 +1019,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Velocity and acceleration
-            float num779 = death ? 2.4f : 1.6f;
+            float tentacleAcceleration = death ? 2.4f : 1.6f;
             float extendedDistanceFromPlantera = (1f - lifeRatio) * 2f;
-            float num780 = 100f + (extendedDistanceFromPlantera * 300f);
+            float tentacleVelocity = 100f + (extendedDistanceFromPlantera * 300f);
             float deceleration = (death ? 0.5f : 0.8f) / (1f + extendedDistanceFromPlantera);
 
             if (Main.getGoodWorld)
-                num779 += 4f;
+                tentacleAcceleration += 4f;
 
             // Despawn if Plantera is gone
             if (!Main.npc[plantBoss].active)
@@ -1036,37 +1036,37 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Movement
             Vector2 planteraCenter = Main.npc[plantBoss].Center;
-            float num784 = planteraCenter.X + npc.ai[0];
-            float num785 = planteraCenter.Y + npc.ai[1];
-            float num786 = num784 - planteraCenter.X;
-            float num787 = num785 - planteraCenter.Y;
-            float num788 = (float)Math.Sqrt(num786 * num786 + num787 * num787);
-            num788 = num780 / num788;
-            num786 *= num788;
-            num787 *= num788;
+            float plantXOffset = planteraCenter.X + npc.ai[0];
+            float plantYOffset = planteraCenter.Y + npc.ai[1];
+            float plantXDist = plantXOffset - planteraCenter.X;
+            float plantYDist = plantYOffset - planteraCenter.Y;
+            float plantTotalDist = (float)Math.Sqrt(plantXDist * plantXDist + plantYDist * plantYDist);
+            plantTotalDist = tentacleVelocity / plantTotalDist;
+            plantXDist *= plantTotalDist;
+            plantYDist *= plantTotalDist;
 
-            if (npc.position.X < planteraCenter.X + num786)
+            if (npc.position.X < planteraCenter.X + plantXDist)
             {
-                npc.velocity.X += num779;
-                if (npc.velocity.X < 0f && num786 > 0f)
+                npc.velocity.X += tentacleAcceleration;
+                if (npc.velocity.X < 0f && plantXDist > 0f)
                     npc.velocity.X *= deceleration;
             }
-            else if (npc.position.X > planteraCenter.X + num786)
+            else if (npc.position.X > planteraCenter.X + plantXDist)
             {
-                npc.velocity.X -= num779;
-                if (npc.velocity.X > 0f && num786 < 0f)
+                npc.velocity.X -= tentacleAcceleration;
+                if (npc.velocity.X > 0f && plantXDist < 0f)
                     npc.velocity.X *= deceleration;
             }
-            if (npc.position.Y < planteraCenter.Y + num787)
+            if (npc.position.Y < planteraCenter.Y + plantYDist)
             {
-                npc.velocity.Y += num779;
-                if (npc.velocity.Y < 0f && num787 > 0f)
+                npc.velocity.Y += tentacleAcceleration;
+                if (npc.velocity.Y < 0f && plantYDist > 0f)
                     npc.velocity.Y *= deceleration;
             }
-            else if (npc.position.Y > planteraCenter.Y + num787)
+            else if (npc.position.Y > planteraCenter.Y + plantYDist)
             {
-                npc.velocity.Y -= num779;
-                if (npc.velocity.Y > 0f && num787 < 0f)
+                npc.velocity.Y -= tentacleAcceleration;
+                if (npc.velocity.Y > 0f && plantYDist < 0f)
                     npc.velocity.Y *= deceleration;
             }
 
@@ -1081,15 +1081,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.velocity.Y = -velocityLimit;
 
             // Direction and rotation
-            if (num786 > 0f)
+            if (plantXDist > 0f)
             {
                 npc.spriteDirection = 1;
-                npc.rotation = (float)Math.Atan2(num787, num786);
+                npc.rotation = (float)Math.Atan2(plantYDist, plantXDist);
             }
-            if (num786 < 0f)
+            if (plantXDist < 0f)
             {
                 npc.spriteDirection = -1;
-                npc.rotation = (float)Math.Atan2(num787, num786) + MathHelper.Pi;
+                npc.rotation = (float)Math.Atan2(plantYDist, plantXDist) + MathHelper.Pi;
             }
 
             return false;
