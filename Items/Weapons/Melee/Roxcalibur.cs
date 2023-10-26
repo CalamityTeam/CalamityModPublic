@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
 		public static int BaseUseTime = 40;
 		public override void SetDefaults()
 		{
-			Item.damage = 200;
+			Item.damage = 180;
 			Item.knockBack = 13f;
             Item.DamageType = DamageClass.Melee;
 			Item.useStyle = ItemUseStyleID.Shoot;

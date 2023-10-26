@@ -32,6 +32,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+	    if (Projectile.ai[1] == 1f)
+		Projectile.penetrate = -1; // Gives infinite pierce to Valediction typhoons
+
             Projectile.localAI[1] += 1f;
             if (Projectile.localAI[1] > 10f && Main.rand.NextBool(3))
             {

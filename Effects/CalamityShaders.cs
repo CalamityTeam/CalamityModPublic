@@ -176,6 +176,7 @@ namespace CalamityMod.Effects
 
         #region Aqua's Shaders
         internal static Effect CircularGradientWithEdge;
+        internal static Effect WavyOpacity;
         #endregion
         
         //
@@ -383,8 +384,10 @@ namespace CalamityMod.Effects
             #region Loading Aqua's Shaders
             CircularGradientWithEdge = LoadShader("CircularGradientWithEdge");
             RegisterMiscShader(CircularGradientWithEdge, "CircularGradientWithEdgePass", "CircularGradientWithEdge");
+            WavyOpacity = LoadShader("WavyOpacity");
+            RegisterMiscShader(WavyOpacity, "WavyOpacityPass", "WavyOpacity");
             #endregion
-            
+
             #region Loading Amber's Shaders
             PrimitiveClearShader = LoadShader("PrimitiveClearShader");
             RegisterScreenShader(PrimitiveClearShader, "AutoloadPass", "PrimitiveClearShader");
