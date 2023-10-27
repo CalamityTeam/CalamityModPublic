@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 450;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
         // Reduce damage of projectiles if more than the cap are active
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            int cap = 5;
+            int cap = 6;
             float capDamageFactor = 0.05f;
             int excessCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type] - cap;
             modifiers.SourceDamage *= MathHelper.Clamp(1f - (capDamageFactor * excessCount), 0f, 1f);
