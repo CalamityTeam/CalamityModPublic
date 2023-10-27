@@ -156,6 +156,8 @@ namespace CalamityMod.NPCs.Cryogen
             }
         }
 
+        public override bool CheckActive() => false;
+
         public override void HitEffect(NPC.HitInfo hit)
         {
             int dusttype = Main.zenithWorld ? 235 : 67;
