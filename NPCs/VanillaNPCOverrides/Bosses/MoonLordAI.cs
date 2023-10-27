@@ -1561,9 +1561,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (minHandFaceDirection.Y > maxHandFaceDirection.Y)
                     Utils.Swap(ref minHandFaceDirection.Y, ref maxHandFaceDirection.Y);
 
-                Vector2 handVelocity = Vector2.Clamp(npc.Center + npc.velocity, minHandFaceDirection, maxHandFaceDirection);
-                if (handVelocity != npc.Center + npc.velocity)
-                    npc.Center = handVelocity - npc.velocity;
+                Vector2 handVelocity2 = Vector2.Clamp(npc.Center + npc.velocity, minHandFaceDirection, maxHandFaceDirection);
+                if (handVelocity2 != npc.Center + npc.velocity)
+                    npc.Center = handVelocity2 - npc.velocity;
 
                 // Frames
                 int handFrameTimer = handFrameCheck * 7;

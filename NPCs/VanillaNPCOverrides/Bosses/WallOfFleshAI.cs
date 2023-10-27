@@ -358,9 +358,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             Vector2 mouthLocation = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float mouthTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - mouthLocation.X;
             float mouthTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - mouthLocation.Y;
-            float mouthTargetY = (float)Math.Sqrt(mouthTargetX * mouthTargetX + mouthTargetY * mouthTargetY);
-            mouthTargetX *= mouthTargetY;
-            mouthTargetY *= mouthTargetY;
+            float mouthTargetDist = (float)Math.Sqrt(mouthTargetX * mouthTargetX + mouthTargetY * mouthTargetY);
+            mouthTargetX *= mouthTargetDist;
+            mouthTargetY *= mouthTargetDist;
 
             // Rotation based on direction
             if (npc.direction > 0)
@@ -464,7 +464,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int hungryIncrement;
                 for (int j = 0; j < 11; j = hungryIncrement + 1)
                 {
-                    hungrySpawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)mouthYPosition, NPCID.TheHungry, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                    int hungrySpawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)mouthYPosition, NPCID.TheHungry, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                     Main.npc[hungrySpawn].ai[0] = j * 0.1f - 0.05f;
                     hungryIncrement = j;
                 }

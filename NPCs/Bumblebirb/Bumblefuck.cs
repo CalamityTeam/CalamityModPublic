@@ -230,7 +230,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
             Vector2 halfSizeTexture = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
             Color color = drawColor;
-            Color drawColor = Color.White;
+            Color drawingColor = Color.White;
 
             float lerpDrawTransition = 0f;
             int newAITracker = 120;
@@ -263,12 +263,12 @@ namespace CalamityMod.NPCs.Bumblebirb
             }
             if (NPC.ai[0] == 2f || NPC.ai[0] == 3.2f || (phase2 && calamityGlobalNPC.newAI[2] == 1f))
             {
-                drawColor = Color.Yellow;
+                drawingColor = Color.Yellow;
                 lerpDrawTransition = 0.5f;
             }
             else
             {
-                color = drawColor;
+                color = drawingColor;
             }
 
             if (CalamityConfig.Instance.Afterimages)
@@ -276,7 +276,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 for (int i = 1; i < afterimageAmt; i += afterimageIncrement)
                 {
                     Color afterimageColor = color;
-                    afterimageColor = Color.Lerp(afterimageColor, drawColor, lerpDrawTransition);
+                    afterimageColor = Color.Lerp(afterimageColor, drawingColor, lerpDrawTransition);
                     afterimageColor = NPC.GetAlpha(afterimageColor);
                     afterimageColor *= (float)(afterimageAmt - i) / 15f;
                     Vector2 afterimageDrawPos = NPC.oldPos[i] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
@@ -328,8 +328,8 @@ namespace CalamityMod.NPCs.Bumblebirb
             {
                 for (int j = 0; j < extraAfterimageAmt; j++)
                 {
-                    Color extraAfterimageColor = drawColor;
-                    extraAfterimageColor = Color.Lerp(extraAfterimageColor, drawColor, lerpDrawTransition);
+                    Color extraAfterimageColor = drawingColor;
+                    extraAfterimageColor = Color.Lerp(extraAfterimageColor, drawingColor, lerpDrawTransition);
                     extraAfterimageColor = NPC.GetAlpha(extraAfterimageColor);
                     extraAfterimageColor *= 1f - extraAfterimageDampener;
                     Vector2 extraAfterimageDrawPos = NPC.Center + ((float)j / (float)extraAfterimageAmt * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * afterimageScaler * extraAfterimageDampener - screenPos;
@@ -339,19 +339,19 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
             }
 
-            Color mainDrawingColor = drawColor;
-            mainDrawingColor = Color.Lerp(mainDrawingColor, drawColor, lerpDrawTransition);
+            Color mainDrawingColor = drawingColor;
+            mainDrawingColor = Color.Lerp(mainDrawingColor, drawingColor, lerpDrawTransition);
             mainDrawingColor = NPC.GetAlpha(mainDrawingColor);
             Vector2 drawLocation = NPC.Center - screenPos;
             drawLocation -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
             drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, (phase3 && calamityGlobalNPC.newAI[3] == 1f ? mainDrawingColor : NPC.GetAlpha(drawColor)), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, (phase3 && calamityGlobalNPC.newAI[3] == 1f ? mainDrawingColor : NPC.GetAlpha(drawingColor)), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             if (phase2)
             {
                 texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Bumblebirb/BirbGlow").Value;
                 Color glowmaskColor = Color.Lerp(Color.White, Color.Red, 0.5f);
-                drawColor = Color.Red;
+                drawingColor = Color.Red;
 
                 lerpDrawTransition = 1f;
                 extraAfterimageDampener = 0.5f;
@@ -362,7 +362,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 {
                     float glowmaskDampener = (phase3 ? calamityGlobalNPC.newAI[1] : calamityGlobalNPC.newAI[0]) - (float)newAITracker;
                     glowmaskDampener /= (float)buffColorDampener;
-                    drawColor *= glowmaskDampener;
+                    drawingColor *= glowmaskDampener;
                     glowmaskColor *= glowmaskDampener;
                 }
 
@@ -371,7 +371,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     for (int k = 1; k < afterimageAmt; k += afterimageIncrement)
                     {
                         Color glowmaskAfterimageColor = glowmaskColor;
-                        glowmaskAfterimageColor = Color.Lerp(glowmaskAfterimageColor, drawColor, lerpDrawTransition);
+                        glowmaskAfterimageColor = Color.Lerp(glowmaskAfterimageColor, drawingColor, lerpDrawTransition);
                         glowmaskAfterimageColor *= (float)(afterimageAmt - k) / 15f;
                         Vector2 glowmaskAfterimageDrawPos = NPC.oldPos[k] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
                         glowmaskAfterimageDrawPos -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
@@ -382,7 +382,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     for (int l = 1; l < extraAfterimageAmt; l++)
                     {
                         Color extraGlowmaskAfterimageColor = glowmaskColor;
-                        extraGlowmaskAfterimageColor = Color.Lerp(extraGlowmaskAfterimageColor, drawColor, lerpDrawTransition);
+                        extraGlowmaskAfterimageColor = Color.Lerp(extraGlowmaskAfterimageColor, drawingColor, lerpDrawTransition);
                         extraGlowmaskAfterimageColor = NPC.GetAlpha(extraGlowmaskAfterimageColor);
                         extraGlowmaskAfterimageColor *= 1f - extraAfterimageDampener;
                         Vector2 extraGlowmaskAfterimageDrawPos = NPC.Center + ((float)l / (float)extraAfterimageAmt * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * afterimageScaler * extraAfterimageDampener - screenPos;

@@ -292,9 +292,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Collision.CanHit(skullFiringPos, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         float skullProjSpeed = phase2 ? (5f + (death ? 3f * (1f - lifeRatio) : 0f)) : 4f;
-                        float skullProjTargetX = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - skullFiringPos.X;
-                        float skullProjTargetY = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - skullFiringPos.Y;
-                        float skullProjTargetDist = (float)Math.Sqrt(skullProjTargetX * skullProjTargetX + skullProjTargetY * skullProjTargetY);
+                        skullProjTargetX = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - skullFiringPos.X;
+                        skullProjTargetY = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - skullFiringPos.Y;
+                        skullProjTargetDist = (float)Math.Sqrt(skullProjTargetX * skullProjTargetX + skullProjTargetY * skullProjTargetY);
                         skullProjTargetDist = skullProjSpeed / skullProjTargetDist;
                         skullProjTargetX *= skullProjTargetDist;
                         skullProjTargetY *= skullProjTargetDist;

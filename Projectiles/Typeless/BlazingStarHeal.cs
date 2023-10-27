@@ -76,15 +76,15 @@ namespace CalamityMod.Projectiles.Typeless
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.EntitySpriteDraw(value, drawPos, null, healGreenDraw, (float)Math.PI / 2f, colorSize, scaledColorLerp1, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, drawPos, null, healGreenDraw, 0f, colorSize, scaledColorLerp2, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, drawPos, null, lesserHealGreen, (float)Math.PI / 2f, colorSize, scaledColorLerp1 * 0.6f, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, drawPos, null, lesserHealGreen, 0f, colorSize, scaledColorLerp2 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(starTexture, drawPos, null, healGreenDraw, (float)Math.PI / 2f, colorSize, scaledColorLerp1, spriteEffects, 0);
+            Main.EntitySpriteDraw(starTexture, drawPos, null, healGreenDraw, 0f, colorSize, scaledColorLerp2, spriteEffects, 0);
+            Main.EntitySpriteDraw(starTexture, drawPos, null, lesserHealGreen, (float)Math.PI / 2f, colorSize, scaledColorLerp1 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(starTexture, drawPos, null, lesserHealGreen, 0f, colorSize, scaledColorLerp2 * 0.6f, spriteEffects, 0);
 
-            Main.EntitySpriteDraw(value, drawPos, null, healGreenDraw, MathHelper.PiOver4, colorSize, scaledColorLerp1 * 0.6f, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, drawPos, null, healGreenDraw, MathHelper.PiOver4 * 3f, colorSize, scaledColorLerp2 * 0.6f, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, drawPos, null, lesserHealGreen, MathHelper.PiOver4, colorSize, scaledColorLerp1 * 0.36f, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, drawPos, null, lesserHealGreen, MathHelper.PiOver4 * 3f, colorSize, scaledColorLerp2 * 0.36f, spriteEffects, 0);
+            Main.EntitySpriteDraw(starTexture, drawPos, null, healGreenDraw, MathHelper.PiOver4, colorSize, scaledColorLerp1 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(starTexture, drawPos, null, healGreenDraw, MathHelper.PiOver4 * 3f, colorSize, scaledColorLerp2 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(starTexture, drawPos, null, lesserHealGreen, MathHelper.PiOver4, colorSize, scaledColorLerp1 * 0.36f, spriteEffects, 0);
+            Main.EntitySpriteDraw(starTexture, drawPos, null, lesserHealGreen, MathHelper.PiOver4 * 3f, colorSize, scaledColorLerp2 * 0.36f, spriteEffects, 0);
 
             return false;
         }

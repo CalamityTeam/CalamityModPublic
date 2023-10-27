@@ -3,7 +3,7 @@ using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.EnumTimers;
+using Terraria.Enums;
 using Terraria.Localization;
 using Terraria.ModLoader;
 

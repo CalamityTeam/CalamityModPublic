@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Color alphaColor = colorArea;
                 alphaColor = Projectile.GetAlpha(alphaColor);
-                alphaColor *= (float)(num156 - i) / ((float)ProjectileID.Sets.TrailCacheLength[Projectile.type] * 1.5f);
+                alphaColor *= (float)(3 - i) / ((float)ProjectileID.Sets.TrailCacheLength[Projectile.type] * 1.5f);
                 Vector2 oldPosition = Projectile.oldPos[i];
                 float projRotation = Projectile.rotation;
                 SpriteEffects effects = spriteEffects;

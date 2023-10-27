@@ -426,7 +426,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 headCenter = npc.Center;
                             if (Collision.CanHit(headCenter, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                             {
-                                float enragedHeadSpeed = 7f;
+                                enragedHeadSpeed = 7f;
                                 float enragedHeadSkullTargetX = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - headCenter.X + Main.rand.Next(-20, 21);
                                 float enragedHeadSkullTargetY = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - headCenter.Y + Main.rand.Next(-20, 21);
                                 float enragedHeadSkullTargetDist = (float)Math.Sqrt(enragedHeadSkullTargetX * enragedHeadSkullTargetX + enragedHeadSkullTargetY * enragedHeadSkullTargetY);

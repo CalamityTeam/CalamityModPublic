@@ -242,7 +242,8 @@ namespace CalamityMod.Projectiles.Melee
             }
             float spinning = Projectile.rotation - MathHelper.PiOver4 * (float)Math.Sign(Projectile.velocity.X);
             float staffRadiusHit = 110f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + spinning.ToRotationVector2() * -staffRadiusHit, Projectile.Center + spinning.ToRotationVector2() * staffRadiusHit, 23f * Projectile.scale, ref 0f))
+	    float reference = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + spinning.ToRotationVector2() * -staffRadiusHit, Projectile.Center + spinning.ToRotationVector2() * staffRadiusHit, 23f * Projectile.scale, ref reference))
             {
                 return true;
             }

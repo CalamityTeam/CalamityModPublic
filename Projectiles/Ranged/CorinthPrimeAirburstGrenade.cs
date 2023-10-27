@@ -156,9 +156,9 @@ namespace CalamityMod.Projectiles.Ranged
                 if (i < 100)
                     circleSize = 4f;
 
-                int dust = Dust.NewDust(Projectile.Center, 6, 6, dustType, 0f, 0f, 100, default, 1f);
-                float dustX = Main.dust[dust].velocity.X;
-                float dustY = Main.dust[dust].velocity.Y;
+                int circleDust = Dust.NewDust(Projectile.Center, 6, 6, dustType, 0f, 0f, 100, default, 1f);
+                float dustX = Main.dust[circleDust].velocity.X;
+                float dustY = Main.dust[circleDust].velocity.Y;
 
                 if (dustX == 0f && dustY == 0f)
                     dustX = 1f;
@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Ranged
                         break;
                 }
 
-                Dust dust = Main.dust[dust];
+                Dust dust = Main.dust[circleDust];
                 dust.velocity *= 0.5f;
                 dust.velocity.X += dustX;
                 dust.velocity.Y += dustY;

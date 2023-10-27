@@ -54,8 +54,8 @@ namespace CalamityMod.Projectiles.Summon
             int dustType = 159;
             float slowXVel = Projectile.velocity.X / 3f;
             float slowYVel = Projectile.velocity.Y / 3f;
-            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
-            Dust dust = Main.dust[dust];
+            int dusty = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
+            Dust dust = Main.dust[dusty];
             dust.position.X = Projectile.Center.X - slowXVel;
             dust.position.Y = Projectile.Center.Y - slowYVel;
             dust.velocity *= 0f;

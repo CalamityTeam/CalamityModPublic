@@ -186,7 +186,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return true;
             }
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 80f * Projectile.scale, ref 0f))
+	    float reference = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 80f * Projectile.scale, ref reference))
             {
                 return true;
             }

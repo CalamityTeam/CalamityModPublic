@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
-            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.rotation = Projectile.velocity.ToRotation() + pi;
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;
             player.ChangeDir(Projectile.direction);

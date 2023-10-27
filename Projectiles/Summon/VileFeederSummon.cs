@@ -233,7 +233,7 @@ namespace CalamityMod.Projectiles.Summon
                                 }
                                 if (projCount >= array2.Length)
                                 {
-                                    int projCount = 0;
+                                    projCount = 0;
                                     for (int m = 1; m < array2.Length; m++)
                                     {
                                         if (array2[m].Y < array2[projCount].Y)

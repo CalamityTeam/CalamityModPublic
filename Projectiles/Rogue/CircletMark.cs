@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                     dust.customData = Projectile.Center + dustMovement2;
                     dust.fadeIn = 1f;
                     dust.scale = 0.3f;
-                    if (value81.X > -1.2f)
+                    if (dustMovement.X > -1.2f)
                     {
                         dust.velocity.X = 1f + Main.rand.NextFloat();
                     }

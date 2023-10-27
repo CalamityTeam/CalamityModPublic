@@ -49,8 +49,8 @@ namespace CalamityMod.Projectiles.Ranged
                 randAdjust = rand3 / randAdjust;
                 rand1 *= randAdjust;
                 rand2 *= randAdjust;
-                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 185);
-                Dust dust = Main.dust[dust];
+                int shockDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 185);
+                Dust dust = Main.dust[shockDust];
                 dust.scale = sizeMultiplier;
                 dust.noGravity = true;
                 dust.position.X = Projectile.Center.X;

@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 50;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int i = 0; i < 20; i++)
+            for (int j = 0; j < 20; j++)
             {
                 int shiny = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 159, 0f, 0f, 100, default, 0.5f);
                 Main.dust[shiny].velocity *= 3f;
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Melee
                     Main.dust[shiny].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int j = 0; j < 35; j++)
+            for (int k = 0; k < 35; k++)
             {
                 int shiny2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 32, 0f, 0f, 100, default, 1f);
                 Main.dust[shiny2].noGravity = true;

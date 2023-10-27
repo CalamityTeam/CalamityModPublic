@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
                         {
                             Vector2 npcCenter = Main.npc[i].Center;
                             float targetDist = Vector2.Distance(npcCenter, Projectile.Center);
-                            if (targetDist < otherConstant && index == -1 && Collision.CanHitLine(Projectile.Center, 1, 1, center3, 1, 1))
+                            if (targetDist < otherConstant && index == -1 && Collision.CanHitLine(Projectile.Center, 1, 1, npcCenter, 1, 1))
                             {
                                 otherConstant = targetDist;
                                 index = i;

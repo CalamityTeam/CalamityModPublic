@@ -107,10 +107,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             float targetXDirection = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - cursedFlameDirection.X;
                             float targetYDirection = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - cursedFlameDirection.Y;
                             float projSpeed = 7f + enrageScale * 2f;
-                            float targetDistance = (float)Math.Sqrt(targetXDirection * targetXDirection + targetYDirection * targetYDirection);
-                            targetDistance = projSpeed / targetDistance;
-                            targetXDirection *= targetDistance;
-                            targetYDirection *= targetDistance;
+                            float flameTargetDistance = (float)Math.Sqrt(targetXDirection * targetXDirection + targetYDirection * targetYDirection);
+                            flameTargetDistance = projSpeed / flameTargetDistance;
+                            targetXDirection *= flameTargetDistance;
+                            targetYDirection *= flameTargetDistance;
                             targetYDirection += npc.velocity.Y * 0.5f;
                             targetXDirection += npc.velocity.X * 0.5f;
                             cursedFlameDirection.X -= targetXDirection;

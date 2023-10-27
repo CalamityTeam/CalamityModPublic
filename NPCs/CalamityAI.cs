@@ -3347,12 +3347,12 @@ namespace CalamityMod.NPCs
                         {
                             teleportTries++;
                             int teleportTileX = Main.rand.Next(point4.X - 5, point4.X + 6);
-                            int teleportTileX = Main.rand.Next(point4.Y - 5, point4.Y);
+                            int teleportTileY = Main.rand.Next(point4.Y - 5, point4.Y);
 
-                            if (!Main.tile[teleportTileX, teleportTileX].HasUnactuatedTile)
+                            if (!Main.tile[teleportTileX, teleportTileY].HasUnactuatedTile)
                             {
                                 npc.ai[1] = teleportTileX * 16 + 8;
-                                npc.ai[3] = teleportTileX * 16 + 16;
+                                npc.ai[3] = teleportTileY * 16 + 16;
                                 break;
                             }
                         }

@@ -77,9 +77,9 @@ namespace CalamityMod.Projectiles.Ranged
                 randAdjust = rand3 / randAdjust;
                 rand1 *= randAdjust;
                 rand2 *= randAdjust;
-                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height,
+                int plasmaDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height,
                     Projectile.ai[1] == 1f ? 173 : 221, 0f, 0f, 100, default, 2f);
-                Dust dust = Main.dust[dust];
+                Dust dust = Main.dust[plasmaDust];
                 dust.noGravity = true;
                 dust.position.X = Projectile.Center.X;
                 dust.position.Y = Projectile.Center.Y;

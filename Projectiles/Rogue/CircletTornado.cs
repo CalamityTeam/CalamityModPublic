@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Rogue
                 spinArea.Y = 0f;
                 spinArea.X = 0f;
                 spinArea += new Vector2(sizeModdingVector2.X, k) - Main.screenPosition;
-                Main.spriteBatch.Draw(texture2D23, spinArea, new Microsoft.Xna.Framework.Rectangle?(rectangle9), newSandYellow, aiTrackMult + incStorageMult, smallRect, 1f + lowerColorChanger, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(texture2D23, spinArea, new Microsoft.Xna.Framework.Rectangle?(drawRectangle), newSandYellow, aiTrackMult + incStorageMult, smallRect, 1f + lowerColorChanger, SpriteEffects.None, 0);
             }
             return false;
         }

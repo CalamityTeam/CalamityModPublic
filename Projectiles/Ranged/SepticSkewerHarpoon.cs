@@ -72,10 +72,10 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 halfDist = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
             float xDist = player.position.X + (float)(player.width / 2) - halfDist.X;
             float yDist = player.position.Y + (float)(player.height / 2) - halfDist.Y;
-            float playerDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
+            float playerDistance = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
             if (Projectile.ai[0] == 0f)
             {
-                if (playerDist > 2000f)
+                if (playerDistance > 2000f)
                 {
                     Projectile.ai[0] = 1f;
                 }
@@ -100,13 +100,13 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.tileCollide = false;
                 Projectile.rotation = (float)Math.Atan2((double)yDist, (double)xDist) - 1.57f;
                 float returnSpeed = 20f;
-                if (playerDist < 50f)
+                if (playerDistance < 50f)
                 {
                     Projectile.Kill();
                 }
-                playerDist = returnSpeed / playerDist;
-                xDist *= playerDist;
-                yDist *= playerDist;
+                playerDistance = returnSpeed / playerDistance;
+                xDist *= playerDistance;
+                yDist *= playerDistance;
                 Projectile.velocity.X = xDist;
                 Projectile.velocity.Y = yDist;
             }

@@ -170,13 +170,13 @@ namespace CalamityMod.Projectiles.Summon
             float dustCount;
             for (float i = 0f; i < rando; i = dustCount + 1f)
             {
-                int dust = Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
-                Main.dust[dust].position = Projectile.Center;
-                Main.dust[dust].velocity = spinningpoint.RotatedBy((double)(6.28318548f * i / rando), default) * dustVel * (0.8f + Main.rand.NextFloat() * 0.4f);
-                Main.dust[dust].noGravity = true;
-                Main.dust[dust].scale = 2f;
-                Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
-                Dust dustCloning = Dust.CloneDust(dust);
+                int killDust = Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
+                Main.dust[killDust].position = Projectile.Center;
+                Main.dust[killDust].velocity = spinningpoint.RotatedBy((double)(6.28318548f * i / rando), default) * dustVel * (0.8f + Main.rand.NextFloat() * 0.4f);
+                Main.dust[killDust].noGravity = true;
+                Main.dust[killDust].scale = 2f;
+                Main.dust[killDust].fadeIn = Main.rand.NextFloat() * 2f;
+                Dust dustCloning = Dust.CloneDust(killDust);
                 Dust dust = dustCloning;
                 dust.scale /= 2f;
                 dust = dustCloning;
@@ -186,15 +186,15 @@ namespace CalamityMod.Projectiles.Summon
             }
             for (float j = 0f; j < rando; j = dustCount + 1f)
             {
-                int dust2 = Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
-                Main.dust[dust2].position = Projectile.Center;
-                Main.dust[dust2].velocity = spinningpoint.RotatedBy((double)(6.28318548f * j / rando), default) * dustVel * (0.8f + Main.rand.NextFloat() * 0.4f);
-                Dust dust = Main.dust[dust2];
+                int killDust2 = Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
+                Main.dust[killDust2].position = Projectile.Center;
+                Main.dust[killDust2].velocity = spinningpoint.RotatedBy((double)(6.28318548f * j / rando), default) * dustVel * (0.8f + Main.rand.NextFloat() * 0.4f);
+                Dust dust = Main.dust[killDust2];
                 dust.velocity *= Main.rand.NextFloat() * 0.8f;
-                Main.dust[dust2].noGravity = true;
-                Main.dust[dust2].scale = Main.rand.NextFloat() * 1f;
-                Main.dust[dust2].fadeIn = Main.rand.NextFloat() * 2f;
-                Dust dustCloning2 = Dust.CloneDust(dust2);
+                Main.dust[killDust2].noGravity = true;
+                Main.dust[killDust2].scale = Main.rand.NextFloat() * 1f;
+                Main.dust[killDust2].fadeIn = Main.rand.NextFloat() * 2f;
+                Dust dustCloning2 = Dust.CloneDust(killDust2);
                 dust = dustCloning2;
                 dust.scale /= 2f;
                 dust = dustCloning2;

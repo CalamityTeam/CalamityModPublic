@@ -456,7 +456,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     NPCAimedTarget targetData10 = npc.GetTargetData();
-                    Vector2 targetCenter = targetData10.Invalid ? npc.Center : targetData10.Center;
+                    targetCenter = targetData10.Invalid ? npc.Center : targetData10.Center;
                     if (npc.Distance(targetCenter + etherealLanceDistance) > movementDistanceGateValue)
                         npc.SimpleFlyMovement(npc.DirectionTo(targetCenter + etherealLanceDistance).SafeNormalize(Vector2.Zero) * velocity, acceleration);
 
@@ -559,7 +559,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         AI_120_HallowBoss_DoMagicEffect(npc.Center + magicSpawnOffset, 3, Utils.GetLerpValue(0f, 42f, npc.ai[1], clamped: true), npc);
 
                     NPCAimedTarget targetData7 = npc.GetTargetData();
-                    Vector2 targetCenter = targetData7.Invalid ? npc.Center : targetData7.Center;
+                    targetCenter = targetData7.Invalid ? npc.Center : targetData7.Center;
                     if (npc.Distance(targetCenter + everlastingRainbowDistance) > movementDistanceGateValue)
                         npc.SimpleFlyMovement(npc.DirectionTo(targetCenter + everlastingRainbowDistance).SafeNormalize(Vector2.Zero) * velocity, acceleration);
 
@@ -628,7 +628,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Vector2 position = npc.Center + sunDanceHoverOffset;
 
                     NPCAimedTarget targetData2 = npc.GetTargetData();
-                    Vector2 targetCenter = targetData2.Invalid ? npc.Center : targetData2.Center;
+                    targetCenter = targetData2.Invalid ? npc.Center : targetData2.Center;
                     if (npc.Distance(targetCenter + sunDanceDistance) > movementDistanceGateValue)
                         npc.SimpleFlyMovement(npc.DirectionTo(targetCenter + sunDanceDistance).SafeNormalize(Vector2.Zero) * velocity * 0.3f, acceleration * 0.7f);
 
@@ -637,13 +637,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int projectileType = ProjectileID.FairyQueenSunDance;
                         int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
-                        int sunDanceDistance = (int)(npc.ai[1] / sunDanceGateValue);
+                        int sunDanceDist = (int)(npc.ai[1] / sunDanceGateValue);
                         int targetFloatDirection = (targetData2.Center.X > npc.Center.X) ? 1 : 0;
                         float projAmount = phase2 ? 8f : 6f;
                         float projRotation = 1f / projAmount;
                         for (float j = 0f; j < 1f; j += projRotation)
                         {
-                            float projDirection = (j + projRotation * 0.5f + sunDanceDistance * projRotation * 0.5f) % 1f;
+                            float projDirection = (j + projRotation * 0.5f + sunDanceDist * projRotation * 0.5f) % 1f;
                             float ai = (float)Math.PI * 2f * (projDirection + targetFloatDirection);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), position, Vector2.Zero, projectileType, projectileDamage, 0f, Main.myPlayer, ai, npc.whoAmI);
@@ -946,7 +946,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     NPCAimedTarget targetData6 = npc.GetTargetData();
-                    Vector2 targetCenter = targetData6.Invalid ? npc.Center : targetData6.Center;
+                    targetCenter = targetData6.Invalid ? npc.Center : targetData6.Center;
                     if (npc.Distance(targetCenter + etherealLanceDistance) > movementDistanceGateValue)
                         npc.SimpleFlyMovement(npc.DirectionTo(targetCenter + etherealLanceDistance).SafeNormalize(Vector2.Zero) * velocity, acceleration);
 
@@ -962,7 +962,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             inverseTargetVel.SafeNormalize(-Vector2.UnitY);
                             float spawnDistance = 100f + (k * 100f);
 
-                            Vector2 targetCenter = targetData6.Center;
+                            targetCenter = targetData6.Center;
                             if (npc.Distance(targetCenter) > 2400f)
                                 continue;
 

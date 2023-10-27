@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Dust dusty = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 56 : 242, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f)];
                 dusty.velocity = Vector2.Zero;
-                dusty.position -= Projectile.velocity / 5f * (float)num121;
+                dusty.position -= Projectile.velocity / 5f * (float)i;
                 dusty.noGravity = true;
                 dusty.scale = 0.8f;
                 dusty.noLight = true;

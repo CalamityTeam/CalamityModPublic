@@ -80,20 +80,20 @@ namespace CalamityMod.Projectiles.Ranged
             int inc;
             for (int i = 0; i < 20; i = inc + 1)
             {
-                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 200, default, 2.1f);
-                Main.dust[dust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
-                Main.dust[dust].noGravity = true;
-                Dust dust = Main.dust[dust];
+                int planetDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 200, default, 2.1f);
+                Main.dust[planetDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
+                Main.dust[planetDust].noGravity = true;
+                Dust dust = Main.dust[planetDust];
                 dust.velocity *= 3f;
-                dust = Main.dust[dust];
+                dust = Main.dust[planetDust];
                 dust.velocity += dustVel * Main.rand.NextFloat();
-                dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1.1f);
-                Main.dust[dust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
-                dust = Main.dust[dust];
+                planetDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1.1f);
+                Main.dust[planetDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
+                dust = Main.dust[planetDust];
                 dust.velocity *= 2f;
-                Main.dust[dust].noGravity = true;
-                Main.dust[dust].fadeIn = 1f;
-                dust = Main.dust[dust];
+                Main.dust[planetDust].noGravity = true;
+                Main.dust[planetDust].fadeIn = 1f;
+                dust = Main.dust[planetDust];
                 dust.velocity += dustVel * Main.rand.NextFloat();
                 inc = i;
             }
