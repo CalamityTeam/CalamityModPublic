@@ -41,6 +41,7 @@ using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.UI;
 using Filters = Terraria.Graphics.Effects.Filters;
 
 namespace CalamityMod.NPCs.Providence
@@ -1955,6 +1956,11 @@ namespace CalamityMod.NPCs.Providence
                 Providence prov = info.npc.ModNPC<Providence>();
                 return !prov.hasTakenDaytimeDamage;
             }, ModContent.ItemType<ProfanedMoonlightDye>(), 1, 4, 4, desc: DropHelper.ProvidenceNightText);
+            npcLoot.AddIf(info =>
+            {
+                Providence prov = info.npc.ModNPC<Providence>();
+                return !prov.hasTakenDaytimeDamage;
+            }, ModContent.ItemType<DivineGeode>(), 1, 30, 40);
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
