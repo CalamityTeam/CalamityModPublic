@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 380 && target.CanBeChasedBy(Projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 420 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.frame >= Main.projFrames[Projectile.type])
                 Projectile.frame = 0;
 
-            if (Projectile.timeLeft >= 380)
+            if (Projectile.timeLeft >= 420)
             {
                 Projectile.velocity *= 1.07f;
             }

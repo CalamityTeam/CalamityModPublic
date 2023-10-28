@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.ai[0] = 20f;
 
                 int fireballID = ModContent.ProjectileType<WrathwingFireball>();
-                int damage = (int)(Projectile.damage * 0.75f);
+                int damage = (int)(Projectile.damage * 0.7f);
                 float angleDiff = Main.rand.NextFloat(-FireballAngleVariance, FireballAngleVariance);
                 Vector2 velocity = Projectile.velocity.RotatedBy(angleDiff) * 1.04f;
                 float kb = Projectile.knockBack * 0.6f;
