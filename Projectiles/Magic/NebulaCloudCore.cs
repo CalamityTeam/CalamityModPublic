@@ -73,25 +73,25 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         if (Main.rand.NextBool())
                         {
-                            Vector2 vector93 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
-                            Dust dust45 = Main.dust[Dust.NewDust(Projectile.Center - vector93 * 45f, 0, 0, Utils.SelectRandom<int>(Main.rand, 86, 90))];
-                            dust45.noGravity = true;
-                            dust45.position = Projectile.Center - vector93 * Main.rand.Next(20, 31);
-                            dust45.velocity = vector93.RotatedBy(MathHelper.PiOver2) * 9f;
-                            dust45.scale = 0.7f + Main.rand.NextFloat();
-                            dust45.fadeIn = 0.5f;
-                            dust45.customData = this;
+                            Vector2 prettyDustDirect = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
+                            Dust prettyDust = Main.dust[Dust.NewDust(Projectile.Center - prettyDustDirect * 45f, 0, 0, Utils.SelectRandom<int>(Main.rand, 86, 90))];
+                            prettyDust.noGravity = true;
+                            prettyDust.position = Projectile.Center - prettyDustDirect * Main.rand.Next(20, 31);
+                            prettyDust.velocity = prettyDustDirect.RotatedBy(MathHelper.PiOver2) * 9f;
+                            prettyDust.scale = 0.7f + Main.rand.NextFloat();
+                            prettyDust.fadeIn = 0.5f;
+                            prettyDust.customData = this;
                         }
                         else
                         {
-                            Vector2 vector94 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
-                            Dust dust46 = Main.dust[Dust.NewDust(Projectile.Center - vector94 * 45f, 0, 0, 240)];
-                            dust46.noGravity = true;
-                            dust46.position = Projectile.Center - vector94 * 45f;
-                            dust46.velocity = vector94.RotatedBy(-MathHelper.PiOver2) * 4f;
-                            dust46.scale = 0.7f + Main.rand.NextFloat();
-                            dust46.fadeIn = 0.5f;
-                            dust46.customData = this;
+                            Vector2 prettyDustDirect2 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
+                            Dust prettyDust2 = Main.dust[Dust.NewDust(Projectile.Center - prettyDustDirect2 * 45f, 0, 0, 240)];
+                            prettyDust2.noGravity = true;
+                            prettyDust2.position = Projectile.Center - prettyDustDirect2 * 45f;
+                            prettyDust2.velocity = prettyDustDirect2.RotatedBy(-MathHelper.PiOver2) * 4f;
+                            prettyDust2.scale = 0.7f + Main.rand.NextFloat();
+                            prettyDust2.fadeIn = 0.5f;
+                            prettyDust2.customData = this;
                         }
                     }
 
@@ -125,99 +125,99 @@ namespace CalamityMod.Projectiles.Magic
                         // Emit pretty as fuck dust.
                         if (Main.rand.NextBool())
                         {
-                            Vector2 vector88 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
-                            Dust dust43 = Main.dust[Dust.NewDust(Projectile.Center - vector88 * 45f, 0, 0, 86)];
-                            dust43.noGravity = true;
-                            dust43.position = Projectile.Center - vector88 * Main.rand.Next(20, 31);
-                            dust43.velocity = vector88.RotatedBy(MathHelper.PiOver2) * 9f;
-                            dust43.scale = 1.2f + Main.rand.NextFloat();
-                            dust43.fadeIn = 0.5f;
-                            dust43.customData = this;
-                            vector88 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
-                            dust43 = Main.dust[Dust.NewDust(Projectile.Center - vector88 * 45f, 0, 0, 90)];
-                            dust43.noGravity = true;
-                            dust43.position = Projectile.Center - vector88 * Main.rand.Next(20, 31);
-                            dust43.velocity = vector88.RotatedBy(MathHelper.PiOver2) * 9f;
-                            dust43.scale = 1.2f + Main.rand.NextFloat();
-                            dust43.fadeIn = 0.5f;
-                            dust43.customData = this;
-                            dust43.color = Color.Purple;
+                            Vector2 slowPrettyDustDirect = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
+                            Dust slowPrettyDust = Main.dust[Dust.NewDust(Projectile.Center - slowPrettyDustDirect * 45f, 0, 0, 86)];
+                            slowPrettyDust.noGravity = true;
+                            slowPrettyDust.position = Projectile.Center - slowPrettyDustDirect * Main.rand.Next(20, 31);
+                            slowPrettyDust.velocity = slowPrettyDustDirect.RotatedBy(MathHelper.PiOver2) * 9f;
+                            slowPrettyDust.scale = 1.2f + Main.rand.NextFloat();
+                            slowPrettyDust.fadeIn = 0.5f;
+                            slowPrettyDust.customData = this;
+                            slowPrettyDustDirect = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
+                            slowPrettyDust = Main.dust[Dust.NewDust(Projectile.Center - slowPrettyDustDirect * 45f, 0, 0, 90)];
+                            slowPrettyDust.noGravity = true;
+                            slowPrettyDust.position = Projectile.Center - slowPrettyDustDirect * Main.rand.Next(20, 31);
+                            slowPrettyDust.velocity = slowPrettyDustDirect.RotatedBy(MathHelper.PiOver2) * 9f;
+                            slowPrettyDust.scale = 1.2f + Main.rand.NextFloat();
+                            slowPrettyDust.fadeIn = 0.5f;
+                            slowPrettyDust.customData = this;
+                            slowPrettyDust.color = Color.Purple;
                         }
                         else
                         {
-                            Vector2 vector89 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
-                            Dust dust44 = Main.dust[Dust.NewDust(Projectile.Center - vector89 * 45f, 0, 0, 240)];
-                            dust44.noGravity = true;
-                            dust44.position = Projectile.Center - vector89 * Main.rand.Next(30, 41);
-                            dust44.velocity = vector89.RotatedBy(-MathHelper.PiOver2) * 6f;
-                            dust44.scale = 1.2f + Main.rand.NextFloat();
-                            dust44.fadeIn = 0.5f;
-                            dust44.customData = this;
+                            Vector2 slowPrettyDustDirect2 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
+                            Dust slowPrettyDust2 = Main.dust[Dust.NewDust(Projectile.Center - slowPrettyDustDirect2 * 45f, 0, 0, 240)];
+                            slowPrettyDust2.noGravity = true;
+                            slowPrettyDust2.position = Projectile.Center - slowPrettyDustDirect2 * Main.rand.Next(30, 41);
+                            slowPrettyDust2.velocity = slowPrettyDustDirect2.RotatedBy(-MathHelper.PiOver2) * 6f;
+                            slowPrettyDust2.scale = 1.2f + Main.rand.NextFloat();
+                            slowPrettyDust2.fadeIn = 0.5f;
+                            slowPrettyDust2.customData = this;
                         }
 
                         // Create the vortexes.
                         if (Projectile.ai[0] % 30f == 0f && Projectile.ai[0] < 241f && Main.myPlayer == Projectile.owner)
                         {
-                            Vector2 vector90 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 12f;
-                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vector90, ModContent.ProjectileType<NebulaCloud>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, Projectile.whoAmI);
+                            Vector2 randomProjRotate = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 12f;
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, randomProjRotate, ModContent.ProjectileType<NebulaCloud>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, Projectile.whoAmI);
                         }
 
                         // Homing.
-                        Vector2 vector91 = Projectile.Center;
-                        float num915 = 1200f;
-                        bool flag49 = false;
-                        int num916 = 0;
+                        Vector2 projCenter = Projectile.Center;
+                        float homingRange = 1200f;
+                        bool isHoming = false;
+                        int npcTrack = 0;
                         if (Projectile.ai[1] == 0f)
                         {
                             for (int i = 0; i < Main.maxNPCs; i++)
                             {
                                 if (Main.npc[i].CanBeChasedBy(this))
                                 {
-                                    Vector2 center12 = Main.npc[i].Center;
-                                    if (Projectile.Distance(center12) < num915 && Collision.CanHit(new Vector2(Projectile.position.X + Projectile.width / 2, Projectile.position.Y + Projectile.height / 2), 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height))
+                                    Vector2 npcCenter = Main.npc[i].Center;
+                                    if (Projectile.Distance(npcCenter) < homingRange && Collision.CanHit(new Vector2(Projectile.position.X + Projectile.width / 2, Projectile.position.Y + Projectile.height / 2), 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height))
                                     {
-                                        num915 = Projectile.Distance(center12);
-                                        vector91 = center12;
-                                        flag49 = true;
-                                        num916 = i;
+                                        homingRange = Projectile.Distance(npcCenter);
+                                        projCenter = npcCenter;
+                                        isHoming = true;
+                                        npcTrack = i;
                                     }
                                 }
                             }
 
-                            if (flag49)
+                            if (isHoming)
                             {
-                                if (Projectile.ai[1] != num916 + 1)
+                                if (Projectile.ai[1] != npcTrack + 1)
                                     Projectile.netUpdate = true;
 
-                                Projectile.ai[1] = num916 + 1;
+                                Projectile.ai[1] = npcTrack + 1;
                             }
 
-                            flag49 = false;
+                            isHoming = false;
                         }
 
                         if (Projectile.ai[1] != 0f)
                         {
-                            int num918 = (int)(Projectile.ai[1] - 1f);
-                            if (Main.npc[num918].active && Main.npc[num918].CanBeChasedBy(this, ignoreDontTakeDamage: true) && Projectile.Distance(Main.npc[num918].Center) < 1000f)
+                            int npcID = (int)(Projectile.ai[1] - 1f);
+                            if (Main.npc[npcID].active && Main.npc[npcID].CanBeChasedBy(this, ignoreDontTakeDamage: true) && Projectile.Distance(Main.npc[npcID].Center) < 1000f)
                             {
-                                flag49 = true;
-                                vector91 = Main.npc[num918].Center;
+                                isHoming = true;
+                                projCenter = Main.npc[npcID].Center;
                             }
                         }
 
-                        if (flag49)
+                        if (isHoming)
                         {
-                            float num919 = IntendedVelocity;
+                            float intendedSpeed = IntendedVelocity;
                             int inertia = 12;
-                            Vector2 vector92 = Projectile.Center;
-                            float num921 = vector91.X - vector92.X;
-                            float num922 = vector91.Y - vector92.Y;
-                            float num923 = (float)Math.Sqrt(num921 * num921 + num922 * num922);
-                            num923 = num919 / num923;
-                            num921 *= num923;
-                            num922 *= num923;
-                            Projectile.velocity.X = (Projectile.velocity.X * (inertia - 1) + num921) / inertia;
-                            Projectile.velocity.Y = (Projectile.velocity.Y * (inertia - 1) + num922) / inertia;
+                            Vector2 projCenterHome = Projectile.Center;
+                            float projXDirection = projCenter.X - projCenterHome.X;
+                            float projYDirection = projCenter.Y - projCenterHome.Y;
+                            float projDistance = (float)Math.Sqrt(projXDirection * projXDirection + projYDirection * projYDirection);
+                            projDistance = intendedSpeed / projDistance;
+                            projXDirection *= projDistance;
+                            projYDirection *= projDistance;
+                            Projectile.velocity.X = (Projectile.velocity.X * (inertia - 1) + projXDirection) / inertia;
+                            Projectile.velocity.Y = (Projectile.velocity.Y * (inertia - 1) + projYDirection) / inertia;
                         }
 
                         break;
@@ -289,62 +289,62 @@ namespace CalamityMod.Projectiles.Magic
 
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 
-            for (int num145 = 0; num145 < 6; num145++)
+            for (int i = 0; i < 6; i++)
             {
-                int num146 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 240, 0f, 0f, 100, default(Color), 1.75f);
-                Main.dust[num146].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
+                int blackDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 240, 0f, 0f, 100, default(Color), 1.75f);
+                Main.dust[blackDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
             }
 
-            for (int num147 = 0; num147 < 45; num147++)
+            for (int j = 0; j < 45; j++)
             {
-                int num148 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 62, 0f, 0f, 200, default(Color), 5.05f);
-                Main.dust[num148].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
-                Main.dust[num148].noGravity = true;
-                Dust dust = Main.dust[num148];
+                int purpleDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 62, 0f, 0f, 200, default(Color), 5.05f);
+                Main.dust[purpleDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
+                Main.dust[purpleDust].noGravity = true;
+                Dust dust = Main.dust[purpleDust];
                 dust.velocity *= 4f;
-                num148 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 90, 0f, 0f, 100, default(Color), 1.75f);
-                Main.dust[num148].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
-                dust = Main.dust[num148];
+                purpleDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 90, 0f, 0f, 100, default(Color), 1.75f);
+                Main.dust[purpleDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
+                dust = Main.dust[purpleDust];
                 dust.velocity *= 2.5f;
-                Main.dust[num148].noGravity = true;
-                Main.dust[num148].fadeIn = 1f;
-                Main.dust[num148].color = Color.Purple * 0.5f;
+                Main.dust[purpleDust].noGravity = true;
+                Main.dust[purpleDust].fadeIn = 1f;
+                Main.dust[purpleDust].color = Color.Purple * 0.5f;
             }
 
-            for (int num149 = 0; num149 < 15; num149++)
+            for (int k = 0; k < 15; k++)
             {
-                int num150 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 62, 0f, 0f, 0, default(Color), 3.55f);
-                Main.dust[num150].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
-                Main.dust[num150].noGravity = true;
-                Dust dust = Main.dust[num150];
+                int purpleDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 62, 0f, 0f, 0, default(Color), 3.55f);
+                Main.dust[purpleDust2].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
+                Main.dust[purpleDust2].noGravity = true;
+                Dust dust = Main.dust[purpleDust2];
                 dust.velocity *= 4f;
             }
 
-            for (int num151 = 0; num151 < 15; num151++)
+            for (int l = 0; l < 15; l++)
             {
-                int num152 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 240, 0f, 0f, 0, default(Color), 1.75f);
-                Main.dust[num152].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
-                Main.dust[num152].noGravity = true;
-                Dust dust = Main.dust[num152];
+                int blackDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 240, 0f, 0f, 0, default(Color), 1.75f);
+                Main.dust[blackDust2].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
+                Main.dust[blackDust2].noGravity = true;
+                Dust dust = Main.dust[blackDust2];
                 dust.velocity *= 4f;
             }
 
-            for (int num153 = 0; num153 < 3; num153++)
+            for (int m = 0; m < 3; m++)
             {
-                int num154 = Gore.NewGore(Projectile.GetSource_FromThis(), Projectile.position + new Vector2(Projectile.width * Main.rand.Next(100) / 100f, Projectile.height * Main.rand.Next(100) / 100f) - Vector2.One * 10f, default(Vector2), Main.rand.Next(61, 64));
-                Main.gore[num154].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
-                Gore gore = Main.gore[num154];
+                int gored = Gore.NewGore(Projectile.GetSource_FromThis(), Projectile.position + new Vector2(Projectile.width * Main.rand.Next(100) / 100f, Projectile.height * Main.rand.Next(100) / 100f) - Vector2.One * 10f, default(Vector2), Main.rand.Next(61, 64));
+                Main.gore[gored].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
+                Gore gore = Main.gore[gored];
                 gore.velocity *= 0.5f;
-                Main.gore[num154].velocity.X += Main.rand.Next(-10, 11) * 0.075f;
-                Main.gore[num154].velocity.Y += Main.rand.Next(-10, 11) * 0.075f;
+                Main.gore[gored].velocity.X += Main.rand.Next(-10, 11) * 0.075f;
+                Main.gore[gored].velocity.Y += Main.rand.Next(-10, 11) * 0.075f;
             }
 
             if (Main.myPlayer == Projectile.owner)
             {
-                for (int num155 = 0; num155 < Main.maxProjectiles; num155++)
+                for (int r = 0; r < Main.maxProjectiles; r++)
                 {
-                    if (Main.projectile[num155].active && Main.projectile[num155].type == ModContent.ProjectileType<NebulaCloud>() && Main.projectile[num155].ai[1] == Projectile.whoAmI)
-                        Main.projectile[num155].Kill();
+                    if (Main.projectile[r].active && Main.projectile[r].type == ModContent.ProjectileType<NebulaCloud>() && Main.projectile[r].ai[1] == Projectile.whoAmI)
+                        Main.projectile[r].Kill();
                 }
 
                 int totalProjectiles = Main.rand.Next(6, 9);

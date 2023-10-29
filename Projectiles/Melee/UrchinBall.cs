@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            Vector2 vector62 = player.Center - Projectile.Center;
-            Projectile.rotation = vector62.ToRotation() - 1.57f;
+            Vector2 projDirection = player.Center - Projectile.Center;
+            Projectile.rotation = projDirection.ToRotation() - 1.57f;
             if (player.dead)
             {
                 Projectile.Kill();
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             player.itemAnimation = 10;
             player.itemTime = 10;
-            if (vector62.X < 0f)
+            if (projDirection.X < 0f)
             {
                 player.ChangeDir(1);
                 Projectile.direction = 1;
@@ -48,9 +48,9 @@ namespace CalamityMod.Projectiles.Melee
                 player.ChangeDir(-1);
                 Projectile.direction = -1;
             }
-            player.itemRotation = (vector62 * -1f * (float)Projectile.direction).ToRotation();
-            Projectile.spriteDirection = (vector62.X > 0f) ? -1 : 1;
-            if (Projectile.ai[0] == 0f && vector62.Length() > 400f)
+            player.itemRotation = (projDirection * -1f * (float)Projectile.direction).ToRotation();
+            Projectile.spriteDirection = (projDirection.X > 0f) ? -1 : 1;
+            if (Projectile.ai[0] == 0f && projDirection.Length() > 400f)
             {
                 Projectile.ai[0] = 1f;
             }
@@ -62,24 +62,24 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<UrchinBallSpike>(), (int)((double)Projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
                 }
                 Projectile.usesLocalNPCImmunity = false;
-                float num693 = vector62.Length();
-                if (num693 > 1500f)
+                float projDistance = projDirection.Length();
+                if (projDistance > 1500f)
                 {
                     Projectile.Kill();
                     return;
                 }
-                if (num693 > 600f)
+                if (projDistance > 600f)
                 {
                     Projectile.ai[0] = 2f;
                 }
                 Projectile.tileCollide = false;
-                float num694 = 20f;
+                float returnLength = 20f;
                 if (Projectile.ai[0] == 2f)
                 {
-                    num694 = 40f;
+                    returnLength = 40f;
                 }
-                Projectile.velocity = Vector2.Normalize(vector62) * num694;
-                if (vector62.Length() < num694)
+                Projectile.velocity = Vector2.Normalize(projDirection) * returnLength;
+                if (projDirection.Length() < returnLength)
                 {
                     Projectile.Kill();
                     return;
@@ -105,35 +105,35 @@ namespace CalamityMod.Projectiles.Melee
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
             Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/UrchinFlailChain").Value;
-            Vector2 vector17 = Projectile.Center;
+            Vector2 projCenter = Projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);
-            float num91 = (float)texture2D2.Height;
-            Vector2 vector18 = mountedCenter - vector17;
-            float rotation15 = (float)Math.Atan2((double)vector18.Y, (double)vector18.X) - 1.57f;
-            bool flag13 = true;
-            if (float.IsNaN(vector17.X) && float.IsNaN(vector17.Y))
+            float projHeight = (float)texture2D2.Height;
+            Vector2 actualCenter = mountedCenter - projCenter;
+            float projRotation = (float)Math.Atan2((double)actualCenter.Y, (double)actualCenter.X) - 1.57f;
+            bool isActive = true;
+            if (float.IsNaN(projCenter.X) && float.IsNaN(projCenter.Y))
             {
-                flag13 = false;
+                isActive = false;
             }
-            if (float.IsNaN(vector18.X) && float.IsNaN(vector18.Y))
+            if (float.IsNaN(actualCenter.X) && float.IsNaN(actualCenter.Y))
             {
-                flag13 = false;
+                isActive = false;
             }
-            while (flag13)
+            while (isActive)
             {
-                if (vector18.Length() < num91 + 1f)
+                if (actualCenter.Length() < projHeight + 1f)
                 {
-                    flag13 = false;
+                    isActive = false;
                 }
                 else
                 {
-                    Vector2 value2 = vector18;
-                    value2.Normalize();
-                    vector17 += value2 * num91;
-                    vector18 = mountedCenter - vector17;
-                    Color color17 = Lighting.GetColor((int)vector17.X / 16, (int)(vector17.Y / 16f));
-                    Main.spriteBatch.Draw(texture2D2, vector17 - Main.screenPosition, sourceRectangle, color17, rotation15, origin, 1f, SpriteEffects.None, 0);
+                    Vector2 centerCopy = actualCenter;
+                    centerCopy.Normalize();
+                    projCenter += centerCopy * projHeight;
+                    actualCenter = mountedCenter - projCenter;
+                    Color drawArea = Lighting.GetColor((int)projCenter.X / 16, (int)(projCenter.Y / 16f));
+                    Main.spriteBatch.Draw(texture2D2, projCenter - Main.screenPosition, sourceRectangle, drawArea, projRotation, origin, 1f, SpriteEffects.None, 0);
                 }
             }
             return true;

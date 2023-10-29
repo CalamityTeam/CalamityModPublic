@@ -89,8 +89,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 return true;
             }
-            float num8 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity, 16f * Projectile.scale, ref num8))
+            float zero = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity, 16f * Projectile.scale, ref zero))
             {
                 return true;
             }

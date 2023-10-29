@@ -37,17 +37,17 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Projectile.alpha = 0;
             }
-            int num298 = Main.rand.NextBool() ? 107 : 234;
+            int dustType = Main.rand.NextBool() ? 107 : 234;
             if (Main.rand.NextBool(4))
             {
-                num298 = 269;
+                dustType = 269;
             }
             Projectile.localAI[1] += 1f;
             if (Projectile.localAI[1] > 4f)
             {
-                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num298, 0f, 0f, 100, default, 0.75f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int theDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 0.75f);
+                Main.dust[theDust].noGravity = true;
+                Main.dust[theDust].velocity *= 0f;
             }
             if (currentColor == Color.Black)
             {
@@ -94,28 +94,28 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = Projectile.height = 32;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            int num298 = Main.rand.NextBool() ? 107 : 234;
+            int dustType = Main.rand.NextBool() ? 107 : 234;
             if (Main.rand.NextBool(4))
             {
-                num298 = 269;
+                dustType = 269;
             }
-            for (int num621 = 0; num621 < 2; num621++)
+            for (int i = 0; i < 2; i++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num298, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num622].velocity *= 3f;
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1.2f);
+                Main.dust[dust].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[dust].scale = 0.5f;
+                    Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 2; num623++)
+            for (int j = 0; j < 2; j++)
             {
-                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.7f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1f);
-                Main.dust[num624].velocity *= 2f;
+                int dust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.7f);
+                Main.dust[dust2].noGravity = true;
+                Main.dust[dust2].velocity *= 5f;
+                dust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1f);
+                Main.dust[dust2].velocity *= 2f;
             }
         }
     }

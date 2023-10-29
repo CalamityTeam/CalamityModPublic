@@ -31,26 +31,26 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            for (int num105 = 0; num105 < 2; num105++)
+            for (int i = 0; i < 2; i++)
             {
-                float num99 = Projectile.velocity.X / 3f * (float)num105;
-                float num100 = Projectile.velocity.Y / 3f * (float)num105;
-                int num101 = 4;
-                int num102 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num101, Projectile.position.Y + (float)num101), Projectile.width - num101 * 2, Projectile.height - num101 * 2, 33, 0f, 0f, 0, new Color(0, 142, 255), 1.5f);
-                Dust dust = Main.dust[num102];
+                float shortXVel = Projectile.velocity.X / 3f * (float)i;
+                float shortYVel = Projectile.velocity.Y / 3f * (float)i;
+                int fourConst = 4;
+                int waterDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)fourConst, Projectile.position.Y + (float)fourConst), Projectile.width - fourConst * 2, Projectile.height - fourConst * 2, 33, 0f, 0f, 0, new Color(0, 142, 255), 1.5f);
+                Dust dust = Main.dust[waterDust];
                 dust.noGravity = true;
                 dust.velocity *= 0.1f;
                 dust.velocity += Projectile.velocity * 0.1f;
-                dust.position.X -= num99;
-                dust.position.Y -= num100;
+                dust.position.X -= shortXVel;
+                dust.position.Y -= shortYVel;
             }
             Projectile.ai[0] += 1f;
-            int num1013 = 0;
+            int homeTracker = 0;
             if (Projectile.velocity.Length() <= 8f) //4
             {
-                num1013 = 1;
+                homeTracker = 1;
             }
-            if (num1013 == 0)
+            if (homeTracker == 0)
             {
                 Projectile.rotation -= 0.104719758f;
 
@@ -66,68 +66,67 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile.ai[0] = 0f;
                 }
             }
-            else if (num1013 == 1)
+            else if (homeTracker == 1)
             {
-                int num3;
+                int inc;
                 Projectile.rotation -= 0.104719758f;
-                Vector2 vector145 = Projectile.Center;
-                float num1015 = 150f;
-                bool flag59 = false;
-                int num1016 = 0;
+                Vector2 projCenter = Projectile.Center;
+                float homingRange = 150f;
+                bool isHoming = false;
+                int npcTracker = 0;
                 if (Projectile.ai[1] == 0f)
                 {
-                    for (int num1017 = 0; num1017 < Main.maxNPCs; num1017 = num3 + 1)
+                    for (int j = 0; j < Main.maxNPCs; j = inc + 1)
                     {
-                        if (Main.npc[num1017].CanBeChasedBy(Projectile, false))
+                        if (Main.npc[j].CanBeChasedBy(Projectile, false))
                         {
-                            Vector2 center13 = Main.npc[num1017].Center;
-                            if (Projectile.Distance(center13) < num1015 && Collision.CanHit(new Vector2(Projectile.position.X + (float)(Projectile.width / 2), Projectile.position.Y + (float)(Projectile.height / 2)), 1, 1, Main.npc[num1017].position, Main.npc[num1017].width, Main.npc[num1017].height))
+                            Vector2 npcCenter = Main.npc[j].Center;
+                            if (Projectile.Distance(npcCenter) < homingRange && Collision.CanHit(new Vector2(Projectile.position.X + (float)(Projectile.width / 2), Projectile.position.Y + (float)(Projectile.height / 2)), 1, 1, Main.npc[j].position, Main.npc[j].width, Main.npc[j].height))
                             {
-                                num1015 = Projectile.Distance(center13);
-                                vector145 = center13;
-                                flag59 = true;
-                                num1016 = num1017;
+                                homingRange = Projectile.Distance(npcCenter);
+                                projCenter = npcCenter;
+                                isHoming = true;
+                                npcTracker = j;
                                 break;
                             }
                         }
-                        num3 = num1017;
+                        inc = j;
                     }
-                    if (flag59)
+                    if (isHoming)
                     {
-                        if (Projectile.ai[1] != (float)(num1016 + 1))
+                        if (Projectile.ai[1] != (float)(npcTracker + 1))
                         {
                             Projectile.netUpdate = true;
                         }
-                        Projectile.ai[1] = (float)(num1016 + 1);
+                        Projectile.ai[1] = (float)(npcTracker + 1);
                     }
-                    flag59 = false;
+                    isHoming = false;
                 }
                 if (Projectile.ai[1] != 0f)
                 {
-                    int num1018 = (int)(Projectile.ai[1] - 1f);
-                    if (Main.npc[num1018].active && Main.npc[num1018].CanBeChasedBy(Projectile, true) && Projectile.Distance(Main.npc[num1018].Center) < 1000f)
+                    int npcTrackAgain = (int)(Projectile.ai[1] - 1f);
+                    if (Main.npc[npcTrackAgain].active && Main.npc[npcTrackAgain].CanBeChasedBy(Projectile, true) && Projectile.Distance(Main.npc[npcTrackAgain].Center) < 1000f)
                     {
-                        flag59 = true;
-                        vector145 = Main.npc[num1018].Center;
+                        isHoming = true;
+                        projCenter = Main.npc[npcTrackAgain].Center;
                     }
                 }
                 if (!Projectile.friendly)
                 {
-                    flag59 = false;
+                    isHoming = false;
                 }
-                if (flag59)
+                if (isHoming)
                 {
-                    float num1019 = 24f;
-                    int num1020 = 10;
-                    Vector2 vector146 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                    float num1021 = vector145.X - vector146.X;
-                    float num1022 = vector145.Y - vector146.Y;
-                    float num1023 = (float)Math.Sqrt((double)(num1021 * num1021 + num1022 * num1022));
-                    num1023 = num1019 / num1023;
-                    num1021 *= num1023;
-                    num1022 *= num1023;
-                    Projectile.velocity.X = (Projectile.velocity.X * (float)(num1020 - 1) + num1021) / (float)num1020;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * (float)(num1020 - 1) + num1022) / (float)num1020;
+                    int waterDust0 = 10;
+                    Vector2 dustDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                    float waterDust1 = projCenter.X - dustDirection.X;
+                    float waterDust2 = projCenter.Y - dustDirection.Y;
+                    float waterDust3 = (float)Math.Sqrt((double)(waterDust1 * waterDust1 + waterDust2 * waterDust2));
+                    waterDust3 = 24f / waterDust3;
+                    waterDust1 *= waterDust3;
+                    waterDust2 *= waterDust3;
+                    Projectile.velocity.X = (Projectile.velocity.X * (float)(waterDust0 - 1) + waterDust1) / (float)waterDust0;
+                    Projectile.velocity.Y = (Projectile.velocity.Y * (float)(waterDust0 - 1) + waterDust2) / (float)waterDust0;
                 }
             }
             Lighting.AddLight(Projectile.Center, 0f, 0.1f, 0.9f);

@@ -100,11 +100,11 @@ namespace CalamityMod.NPCs.AquaticScourge
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
+            Vector2 scaledDraw = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+            drawLocation += scaledDraw * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             Color color = NPC.GetAlpha(drawColor);
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive || Main.zenithWorld)
@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                     color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp(Main.npc[(int)NPC.ai[2]].localAI[3] / 90f, 0f, 1f));
             }
 
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, color, NPC.rotation, scaledDraw, NPC.scale, spriteEffects, 0f);
 
             return false;
         }

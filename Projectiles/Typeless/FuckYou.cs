@@ -65,8 +65,8 @@ namespace CalamityMod.Projectiles.Typeless
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                 for (int dustIndexA = 0; dustIndexA < 4; dustIndexA = incrementer + 1)
                 {
-                    int num992 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 1.5f);
-                    Main.dust[num992].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
+                    int smoky = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 1.5f);
+                    Main.dust[smoky].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
                     incrementer = dustIndexA;
                 }
                 for (int dustIndexB = 0; dustIndexB < 10; dustIndexB = incrementer + 1)
@@ -94,8 +94,8 @@ namespace CalamityMod.Projectiles.Typeless
                 }
                 for (int dustIndexD = 0; dustIndexD < 10; dustIndexD = incrementer + 1)
                 {
-                    int num998 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 0, default, 1.5f);
-                    Dust dust = Main.dust[num998];
+                    int smokier = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 0, default, 1.5f);
+                    Dust dust = Main.dust[smokier];
                     dust.position = Projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 2f;
                     dust.noGravity = true;
                     dust.velocity *= 3f;

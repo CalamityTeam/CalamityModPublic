@@ -45,14 +45,14 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Projectile.ai[1] == 0f)
             {
-                for (int num621 = 0; num621 < 10; num621++)
+                for (int i = 0; i < 10; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int waterDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
+                    Main.dust[waterDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[waterDust].scale = 0.5f;
+                        Main.dust[waterDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 Projectile.ai[1] = 1f;

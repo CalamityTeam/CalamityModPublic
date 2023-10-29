@@ -42,19 +42,19 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.alpha = 0;
             }
             Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 1f, 0f, 0.2f);
-            float num55 = 100f;
-            float num56 = 3f;
+            float projTimer = 100f;
+            float timerIncr = 3f;
             if (Projectile.ai[1] == 0f)
             {
-                Projectile.localAI[0] += num56;
-                if (Projectile.localAI[0] > num55)
+                Projectile.localAI[0] += timerIncr;
+                if (Projectile.localAI[0] > projTimer)
                 {
-                    Projectile.localAI[0] = num55;
+                    Projectile.localAI[0] = projTimer;
                 }
             }
             else
             {
-                Projectile.localAI[0] -= num56;
+                Projectile.localAI[0] -= timerIncr;
                 if (Projectile.localAI[0] <= 0f)
                 {
                     Projectile.Kill();
@@ -74,12 +74,12 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
             SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
-            int num212 = Main.rand.Next(15, 30);
-            for (int num213 = 0; num213 < num212; num213++)
+            int randDustAmt = Main.rand.Next(15, 30);
+            for (int i = 0; i < randDustAmt; i++)
             {
-                int num214 = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, 130, 0f, 0f, 100, default, 1f);
-                Main.dust[num214].velocity *= 2f;
-                Main.dust[num214].noGravity = true;
+                int reddish = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, 130, 0f, 0f, 100, default, 1f);
+                Main.dust[reddish].velocity *= 2f;
+                Main.dust[reddish].noGravity = true;
             }
         }
 

@@ -112,11 +112,11 @@ namespace CalamityMod.NPCs.Ravager
         {
             if (NPC.life > 0)
             {
-                int num285 = 0;
-                while ((double)num285 < hit.Damage / (double)NPC.lifeMax * 100.0)
+                int dustCounter = 0;
+                while ((double)dustCounter < hit.Damage / (double)NPC.lifeMax * 100.0)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, (float)hit.HitDirection, -1f, 0, default, 1f);
-                    num285++;
+                    dustCounter++;
                 }
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient && !Main.zenithWorld) //GFB does something else

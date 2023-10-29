@@ -79,17 +79,17 @@ namespace CalamityMod.Projectiles.Boss
                 start = false;
             }
 
-            float amount = Projectile.localAI[0] / 120f;
-            if (amount > 1f)
-                amount = 1f;
-            distance += MathHelper.Lerp(1f, 9f, amount);
+            float earlyTimeProjSpeed = Projectile.localAI[0] / 120f;
+            if (earlyTimeProjSpeed > 1f)
+                earlyTimeProjSpeed = 1f;
+            distance += MathHelper.Lerp(1f, 9f, earlyTimeProjSpeed);
 
             if (Projectile.timeLeft < 380)
             {
-                float amount2 = (Projectile.localAI[0] - 300f) / 240f;
-                if (amount2 > 1f)
-                    amount2 = 1f;
-                distance += MathHelper.Lerp(1f, 9f, amount2);
+                float longTimeProjSpeed = (Projectile.localAI[0] - 300f) / 240f;
+                if (longTimeProjSpeed > 1f)
+                    longTimeProjSpeed = 1f;
+                distance += MathHelper.Lerp(1f, 9f, longTimeProjSpeed);
             }
 
             double rad = MathHelper.ToRadians(Projectile.ai[1]);
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.position.Y = startingPosY - (int)(Math.Sin(rad) * distance) - Projectile.height / 2;
             }
 
-            Projectile.ai[1] += (1.1f - amount) * 0.5f;
+            Projectile.ai[1] += (1.1f - earlyTimeProjSpeed) * 0.5f;
             Projectile.localAI[0] += 1f;
         }
 
@@ -113,9 +113,9 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = texture.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            int framing = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, framing)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)framing / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

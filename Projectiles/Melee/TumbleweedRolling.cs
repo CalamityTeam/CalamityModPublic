@@ -49,23 +49,23 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath15, Projectile.position);
-            for (int num621 = 0; num621 < 20; num621++)
+            for (int i = 0; i < 20; i++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 32, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num622].velocity *= 3f;
+                int tumbleDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 32, 0f, 0f, 100, default, 1.2f);
+                Main.dust[tumbleDust].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[tumbleDust].scale = 0.5f;
+                    Main.dust[tumbleDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 30; num623++)
+            for (int j = 0; j < 30; j++)
             {
-                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 1.7f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 1f);
-                Main.dust[num624].velocity *= 2f;
+                int tumbleDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 1.7f);
+                Main.dust[tumbleDust2].noGravity = true;
+                Main.dust[tumbleDust2].velocity *= 5f;
+                tumbleDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 1f);
+                Main.dust[tumbleDust2].velocity *= 2f;
             }
         }
     }

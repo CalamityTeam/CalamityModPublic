@@ -35,15 +35,15 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, 221, 0f, 0f, 160, default, 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = Projectile.Center + vector3;
-                    Main.dust[num9].velocity = Projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+                    Vector2 rotate = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
+                    rotate += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
+                    rotate = rotate.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
+                    int blueDust = Dust.NewDust(Projectile.Center, 0, 0, 221, 0f, 0f, 160, default, 1f);
+                    Main.dust[blueDust].scale = 1.1f;
+                    Main.dust[blueDust].noGravity = true;
+                    Main.dust[blueDust].position = Projectile.Center + rotate;
+                    Main.dust[blueDust].velocity = Projectile.velocity * 0.1f;
+                    Main.dust[blueDust].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[blueDust].position) * 1.25f;
                 }
             }
         }
@@ -76,12 +76,12 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
-            int num212 = Main.rand.Next(4, 8);
-            for (int num213 = 0; num213 < num212; num213++)
+            int rando = Main.rand.Next(4, 8);
+            for (int i = 0; i < rando; i++)
             {
-                int num214 = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, 135, 0f, 0f, 100, default, 2f);
-                Main.dust[num214].velocity *= 2f;
-                Main.dust[num214].noGravity = true;
+                int dust = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, 135, 0f, 0f, 100, default, 2f);
+                Main.dust[dust].velocity *= 2f;
+                Main.dust[dust].noGravity = true;
             }
         }
     }

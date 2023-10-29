@@ -149,17 +149,17 @@ namespace CalamityMod.NPCs.Ravager
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            Vector2 halfSizeTexture = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+            drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/FlamePillarGlow").Value;
-            Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+            Color flameBlue = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, flameBlue, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -176,44 +176,44 @@ namespace CalamityMod.NPCs.Ravager
                 NPC.height = 180;
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                for (int num621 = 0; num621 < 30; num621++)
+                for (int i = 0; i < 30; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 135, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int iceFlame = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 135, 0f, 0f, 100, default, 2f);
+                    Main.dust[iceFlame].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[iceFlame].scale = 0.5f;
+                        Main.dust[iceFlame].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 30; num623++)
+                for (int j = 0; j < 30; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int rockDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+                    Main.dust[rockDust].noGravity = true;
+                    Main.dust[rockDust].velocity *= 5f;
+                    rockDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                    Main.dust[rockDust].velocity *= 2f;
                 }
             }
             else
             {
-                for (int num621 = 0; num621 < 2; num621++)
+                for (int i = 0; i < 2; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int iceFlame = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                    Main.dust[iceFlame].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[iceFlame].scale = 0.5f;
+                        Main.dust[iceFlame].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 2; num623++)
+                for (int j = 0; j < 2; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int rockDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+                    Main.dust[rockDust].noGravity = true;
+                    Main.dust[rockDust].velocity *= 5f;
+                    rockDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                    Main.dust[rockDust].velocity *= 2f;
                 }
             }
         }

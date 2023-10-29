@@ -41,10 +41,10 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.Kill();
             }
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.05f / 255f);
-            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
-            Main.dust[num458].noGravity = true;
-            Main.dust[num458].velocity *= 0.5f;
-            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+            int brimDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
+            Main.dust[brimDust].noGravity = true;
+            Main.dust[brimDust].velocity *= 0.5f;
+            Main.dust[brimDust].velocity += Projectile.velocity * 0.1f;
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -64,19 +64,19 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
-            int num3;
-            for (int num795 = 4; num795 < 31; num795 = num3 + 1)
+            int inc;
+            for (int i = 4; i < 31; i = inc + 1)
             {
-                float num796 = Projectile.oldVelocity.X * (30f / (float)num795);
-                float num797 = Projectile.oldVelocity.Y * (30f / (float)num795);
-                int num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, (int)CalamityDusts.Brimstone, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
-                Main.dust[num798].noGravity = true;
-                Dust dust = Main.dust[num798];
+                float dustX = Projectile.oldVelocity.X * (30f / (float)i);
+                float dustY = Projectile.oldVelocity.Y * (30f / (float)i);
+                int deathDust = Dust.NewDust(new Vector2(Projectile.oldPosition.X - dustX, Projectile.oldPosition.Y - dustY), 8, 8, (int)CalamityDusts.Brimstone, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
+                Main.dust[deathDust].noGravity = true;
+                Dust dust = Main.dust[deathDust];
                 dust.velocity *= 0.5f;
-                num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, (int)CalamityDusts.Brimstone, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
-                dust = Main.dust[num798];
+                deathDust = Dust.NewDust(new Vector2(Projectile.oldPosition.X - dustX, Projectile.oldPosition.Y - dustY), 8, 8, (int)CalamityDusts.Brimstone, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
+                dust = Main.dust[deathDust];
                 dust.velocity *= 0.05f;
-                num3 = num795;
+                inc = i;
             }
 
             if (Projectile.owner == Main.myPlayer)

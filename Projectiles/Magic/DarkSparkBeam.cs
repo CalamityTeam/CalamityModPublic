@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Enums;
 using Terraria.GameContent.Shaders;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Vector2? vector71 = null;
+            Vector2? chargeUpCenter = null;
 
             if (Projectile.velocity.HasNaNs() || Projectile.velocity == Vector2.Zero)
                 Projectile.velocity = -Vector2.UnitY;
@@ -53,11 +53,11 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             float laserPosition = (int)Projectile.ai[0] - 2.5f;
-            Vector2 value36 = Vector2.Normalize(Main.projectile[(int)Projectile.ai[1]].velocity);
+            Vector2 aimDirection = Vector2.Normalize(Main.projectile[(int)Projectile.ai[1]].velocity);
             Projectile projectile2 = Main.projectile[(int)Projectile.ai[1]];
-            float num811;
-            Vector2 value37 = Vector2.Zero;
-            float num812;
+            float laserNormalize;
+            Vector2 projDirection = Vector2.Zero;
+            float laserTimer;
             float y;
             float laserRotationSpeed;
             float scaleFactor6;
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (projectile2.ai[0] < 720f)
             {
-                num812 = projectile2.ai[0] / 1440f;
+                laserTimer = projectile2.ai[0] / 1440f;
                 y = 6f + projectile2.ai[0] / 720f * 7f;
                 if (projectile2.ai[0] > 360f)
                 {
@@ -112,20 +112,20 @@ namespace CalamityMod.Projectiles.Magic
                         break;
                 }
 
-                num812 = 0.5f;
+                laserTimer = 0.5f;
                 laserRotationSpeed = 10.875f;
                 y = 13f;
                 scaleFactor6 = -7f;
             }
 
-            float num814 = (projectile2.ai[0] + laserPosition * laserRotationSpeed) / (laserRotationSpeed * 6f) * MathHelper.TwoPi;
-            num811 = Vector2.UnitY.RotatedBy(num814).Y * (MathHelper.Pi / 6) * num812 * 0.33f;
-            value37 = (Vector2.UnitY.RotatedBy(num814) * new Vector2(4f, y)).RotatedBy(projectile2.velocity.ToRotation());
-            Projectile.position = projectile2.Center + value36 * 16f - Projectile.Size / 2f + new Vector2(0f, -Main.projectile[(int)Projectile.ai[1]].gfxOffY);
+            float laserDirection = (projectile2.ai[0] + laserPosition * laserRotationSpeed) / (laserRotationSpeed * 6f) * MathHelper.TwoPi;
+            laserNormalize = Vector2.UnitY.RotatedBy(laserDirection).Y * (MathHelper.Pi / 6) * laserTimer * 0.33f;
+            projDirection = (Vector2.UnitY.RotatedBy(laserDirection) * new Vector2(4f, y)).RotatedBy(projectile2.velocity.ToRotation());
+            Projectile.position = projectile2.Center + aimDirection * 16f - Projectile.Size / 2f + new Vector2(0f, -Main.projectile[(int)Projectile.ai[1]].gfxOffY);
             Projectile.position += projectile2.velocity.ToRotation().ToRotationVector2() * scaleFactor6;
-            Projectile.position += value37;
-            Projectile.velocity = Vector2.Normalize(projectile2.velocity).RotatedBy(num811);
-            Projectile.scale = 1.5f * (1.5f - num812);
+            Projectile.position += projDirection;
+            Projectile.velocity = Vector2.Normalize(projectile2.velocity).RotatedBy(laserNormalize);
+            Projectile.scale = 1.5f * (1.5f - laserTimer);
 
             // Takes 360 frames to reach normal damage
             float amount = projectile2.ai[0] / 1200f;
@@ -134,75 +134,71 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.damage = (int)(projectile2.damage * MathHelper.Lerp(0.25f, 2.2f, amount));
 
             if (projectile2.ai[0] >= 720f)
-                vector71 = new Vector2?(projectile2.Center);
+                chargeUpCenter = new Vector2?(projectile2.Center);
 
             if (!Collision.CanHitLine(Main.player[Projectile.owner].Center, 0, 0, projectile2.Center, 0, 0))
-                vector71 = new Vector2?(Main.player[Projectile.owner].Center);
+                chargeUpCenter = new Vector2?(Main.player[Projectile.owner].Center);
 
             if (Projectile.velocity.HasNaNs() || Projectile.velocity == Vector2.Zero)
                 Projectile.velocity = -Vector2.UnitY;
 
-            float num818 = Projectile.velocity.ToRotation();
-            Projectile.rotation = num818 - MathHelper.PiOver2;
-            Projectile.velocity = num818.ToRotationVector2();
+            float laserRotate = Projectile.velocity.ToRotation();
+            Projectile.rotation = laserRotate - MathHelper.PiOver2;
+            Projectile.velocity = laserRotate.ToRotationVector2();
 
-            float num819 = 2f;
-            float num820 = 0f;
             Vector2 samplingPoint = Projectile.Center;
-            if (vector71.HasValue)
-                samplingPoint = vector71.Value;
+            if (chargeUpCenter.HasValue)
+                samplingPoint = chargeUpCenter.Value;
 
-            float[] array3 = new float[(int)num819];
-            Collision.LaserScan(samplingPoint, Projectile.velocity, num820 * Projectile.scale, 2400f, array3);
-            float num821 = 0f;
-            for (int num822 = 0; num822 < array3.Length; num822++)
-                num821 += array3[num822];
-            num821 /= num819;
+            float[] array3 = new float[2];
+            Collision.LaserScan(samplingPoint, Projectile.velocity, 0f * Projectile.scale, 2400f, array3);
+            float beamSeparation = 0f;
+            for (int i = 0; i < array3.Length; i++)
+                beamSeparation += array3[i];
+            beamSeparation /= 2f;
 
-            float amount2 = 0.75f;
-            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], num821, amount2);
-            if (Math.Abs(Projectile.localAI[1] - num821) < 100f && Projectile.scale > 0.15f)
+            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], beamSeparation, 0.75f);
+            if (Math.Abs(Projectile.localAI[1] - beamSeparation) < 100f && Projectile.scale > 0.15f)
             {
-                Vector2 vector80 = Projectile.Center + Projectile.velocity * (Projectile.localAI[1] - 14.5f * Projectile.scale);
-                for (int num843 = 0; num843 < 2; num843++)
+                Vector2 dustSpawn = Projectile.Center + Projectile.velocity * (Projectile.localAI[1] - 14.5f * Projectile.scale);
+                for (int j = 0; j < 2; j++)
                 {
-                    float num844 = Projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
-                    float num845 = (float)Main.rand.NextDouble() * 0.8f + 1f;
-                    Vector2 vector81 = new Vector2((float)Math.Cos(num844) * num845, (float)Math.Sin(num844) * num845);
-                    int num846 = Dust.NewDust(vector80, 0, 0, 267, vector81.X, vector81.Y, 0, color, 3.3f);
-                    Main.dust[num846].color = color;
-                    Main.dust[num846].scale = 1.2f;
+                    float dustRotate = Projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
+                    float dustRandom = (float)Main.rand.NextDouble() * 0.8f + 1f;
+                    Vector2 randomRotate = new Vector2((float)Math.Cos(dustRotate) * dustRandom, (float)Math.Sin(dustRotate) * dustRandom);
+                    int rainbowDust = Dust.NewDust(dustSpawn, 0, 0, 267, randomRotate.X, randomRotate.Y, 0, color, 3.3f);
+                    Main.dust[rainbowDust].color = color;
+                    Main.dust[rainbowDust].scale = 1.2f;
                     if (Projectile.scale > 1f)
                     {
-                        Main.dust[num846].velocity *= Projectile.scale;
-                        Main.dust[num846].scale *= Projectile.scale;
+                        Main.dust[rainbowDust].velocity *= Projectile.scale;
+                        Main.dust[rainbowDust].scale *= Projectile.scale;
                     }
-                    Main.dust[num846].noGravity = true;
+                    Main.dust[rainbowDust].noGravity = true;
                     if (Projectile.scale != 1.4f)
                     {
-                        Dust dust9 = Dust.CloneDust(num846);
-                        dust9.color = color;
-                        dust9.scale /= 2f;
-                        dust9.noGravity = true;
+                        Dust rainbowClone = Dust.CloneDust(rainbowDust);
+                        rainbowClone.color = color;
+                        rainbowClone.scale /= 2f;
+                        rainbowClone.noGravity = true;
                     }
-                    Main.dust[num846].color = color;
+                    Main.dust[rainbowDust].color = color;
                 }
 
                 if (Main.rand.NextBool(5))
                 {
-                    Vector2 value42 = Projectile.velocity.RotatedBy(MathHelper.PiOver2) * ((float)Main.rand.NextDouble() - 0.5f) * Projectile.width;
-                    int num847 = Dust.NewDust(vector80 + value42 - Vector2.One * 4f, 8, 8, 267, 0f, 0f, 100, color, 5f);
-                    Main.dust[num847].velocity *= 0.5f;
-                    Main.dust[num847].noGravity = true;
-                    Main.dust[num847].velocity.Y = -Math.Abs(Main.dust[num847].velocity.Y);
+                    Vector2 extraDustSpawn = Projectile.velocity.RotatedBy(MathHelper.PiOver2) * ((float)Main.rand.NextDouble() - 0.5f) * Projectile.width;
+                    int extraRainbows = Dust.NewDust(dustSpawn + extraDustSpawn - Vector2.One * 4f, 8, 8, 267, 0f, 0f, 100, color, 5f);
+                    Main.dust[extraRainbows].velocity *= 0.5f;
+                    Main.dust[extraRainbows].noGravity = true;
+                    Main.dust[extraRainbows].velocity.Y = -Math.Abs(Main.dust[extraRainbows].velocity.Y);
                 }
 
                 DelegateMethods.v3_1 = color.ToVector3() * 0.3f;
-                float value43 = 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 20f);
                 Vector2 size = new Vector2(Projectile.velocity.Length() * Projectile.localAI[1], Projectile.width * Projectile.scale);
-                float num848 = Projectile.velocity.ToRotation();
+                float shaderLength = Projectile.velocity.ToRotation();
                 if (Main.netMode != NetmodeID.Server)
-                    ((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(Projectile.position + new Vector2(size.X * 0.5f, 0f).RotatedBy(num848), color, size, RippleShape.Square, num848);
+                    ((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(Projectile.position + new Vector2(size.X * 0.5f, 0f).RotatedBy(shaderLength), color, size, RippleShape.Square, shaderLength);
 
                 Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], Projectile.width * Projectile.scale, DelegateMethods.CastLight);
             }
@@ -214,7 +210,7 @@ namespace CalamityMod.Projectiles.Magic
                 return false;
 
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-            float num228 = Projectile.localAI[1];
+            float drawArea = Projectile.localAI[1];
             Projectile projectile2 = Main.projectile[(int)Projectile.ai[1]];
             Color color = new Color(1, 1, 1, 127);
             if (projectile2.ai[0] < 720f)
@@ -259,17 +255,17 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             Color value25 = color;
-            Vector2 value26 = Projectile.Center.Floor();
-            value26 += Projectile.velocity * Projectile.scale * 10.5f;
-            num228 -= Projectile.scale * 14.5f * Projectile.scale;
-            Vector2 vector29 = new Vector2(Projectile.scale);
+            Vector2 drawStart = Projectile.Center.Floor();
+            drawStart += Projectile.velocity * Projectile.scale * 10.5f;
+            drawArea -= Projectile.scale * 14.5f * Projectile.scale;
+            Vector2 drawScale = new Vector2(Projectile.scale);
             DelegateMethods.f_1 = 1f;
             DelegateMethods.c_1 = value25 * 0.75f * Projectile.Opacity;
             Vector2 projPos = Projectile.oldPos[0];
             projPos = new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
-            Utils.DrawLaser(Main.spriteBatch, tex, value26 - Main.screenPosition, value26 + Projectile.velocity * num228 - Main.screenPosition, vector29, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
+            Utils.DrawLaser(Main.spriteBatch, tex, drawStart - Main.screenPosition, drawStart + Projectile.velocity * drawArea - Main.screenPosition, drawScale, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
             DelegateMethods.c_1 = color * 0.75f * Projectile.Opacity;
-            Utils.DrawLaser(Main.spriteBatch, tex, value26 - Main.screenPosition, value26 + Projectile.velocity * num228 - Main.screenPosition, vector29 / 2f, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
+            Utils.DrawLaser(Main.spriteBatch, tex, drawStart - Main.screenPosition, drawStart + Projectile.velocity * drawArea - Main.screenPosition, drawScale / 2f, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
             return false;
         }
 
@@ -285,8 +281,8 @@ namespace CalamityMod.Projectiles.Magic
             if (projHitbox.Intersects(targetHitbox))
                 return true;
 
-            float num6 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 22f * Projectile.scale, ref num6))
+            float useless = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 22f * Projectile.scale, ref useless))
                 return true;
 
             return false;

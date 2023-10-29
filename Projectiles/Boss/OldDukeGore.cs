@@ -61,13 +61,13 @@ namespace CalamityMod.Projectiles.Boss
         {
             SoundEngine.PlaySound(SoundID.NPCDeath12, Projectile.Center);
 
-            int num226 = 8;
-            for (int num227 = 0; num227 < num226; num227++)
+            int dustAmt = 8;
+            for (int i = 0; i < dustAmt; i++)
             {
-                Vector2 source = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                source = source.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                Vector2 dustVel = source - Projectile.Center;
-                int blood = Dust.NewDust(source + dustVel, 0, 0, DustID.Blood, dustVel.X, dustVel.Y, 100, default, 1.2f);
+                Vector2 dustRotation = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                dustRotation = dustRotation.RotatedBy((double)((float)(i - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
+                Vector2 dustVel = dustRotation - Projectile.Center;
+                int blood = Dust.NewDust(dustRotation + dustVel, 0, 0, DustID.Blood, dustVel.X, dustVel.Y, 100, default, 1.2f);
                 Main.dust[blood].noGravity = true;
                 Main.dust[blood].noLight = true;
                 Main.dust[blood].velocity = dustVel;

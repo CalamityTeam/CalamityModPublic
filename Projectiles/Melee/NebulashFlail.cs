@@ -1,9 +1,9 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 return true;
             }
-            float num8 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity, 16f * Projectile.scale, ref num8))
+            float useless = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity, 16f * Projectile.scale, ref useless))
             {
                 return true;
             }

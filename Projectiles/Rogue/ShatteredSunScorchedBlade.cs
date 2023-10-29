@@ -61,11 +61,11 @@ namespace CalamityMod.Projectiles.Rogue
                 int timesToSpawnDust = Projectile.Calamity().stealthStrike  ? 2 : 1;
                 for (int i = 0; i < timesToSpawnDust; i++)
                 {
-                    int num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, Projectile.Calamity().stealthStrike ? 1.8f : 1.3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, Projectile.Calamity().stealthStrike ? 1.8f : 1.3f);
-                    Main.dust[num624].velocity *= 2f;
+                    int dusty = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, Projectile.Calamity().stealthStrike ? 1.8f : 1.3f);
+                    Main.dust[dusty].noGravity = true;
+                    Main.dust[dusty].velocity *= 5f;
+                    dusty = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, Projectile.Calamity().stealthStrike ? 1.8f : 1.3f);
+                    Main.dust[dusty].velocity *= 2f;
                 }
             }
 
@@ -73,71 +73,69 @@ namespace CalamityMod.Projectiles.Rogue
 
             Lighting.AddLight(Projectile.Center, 0.7f, 0.3f, 0f);
             CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
-            float num633;
-            Vector2 vector46 = Projectile.position;
-            bool flag25 = false;
-            for (int num645 = 0; num645 < Main.maxNPCs; num645++)
+            float targetDistStore;
+            Vector2 homingPos = Projectile.position;
+            bool isHoming = false;
+            for (int j = 0; j < Main.maxNPCs; j++)
             {
-                NPC nPC2 = Main.npc[num645];
+                NPC nPC2 = Main.npc[j];
                 if (nPC2.CanBeChasedBy(Projectile, false))
                 {
-                    float num646 = Vector2.Distance(nPC2.Center, Projectile.Center);
-                    if (!flag25)
+                    float targetDist = Vector2.Distance(nPC2.Center, Projectile.Center);
+                    if (!isHoming)
                     {
-                        num633 = num646;
-                        vector46 = nPC2.Center;
-                        flag25 = true;
+                        targetDistStore = targetDist;
+                        homingPos = nPC2.Center;
+                        isHoming = true;
                     }
                 }
             }
-            if (flag25 && Projectile.ai[0] == 0f)
+            if (isHoming && Projectile.ai[0] == 0f)
             {
-                Vector2 vector47 = vector46 - Projectile.Center;
-                float num648 = vector47.Length();
-                vector47.Normalize();
-                if (num648 > 200f)
+                Vector2 homingDirection = homingPos - Projectile.Center;
+                float homingLength = homingDirection.Length();
+                homingDirection.Normalize();
+                if (homingLength > 200f)
                 {
                     float scaleFactor2 = 8f;
-                    vector47 *= scaleFactor2;
-                    Projectile.velocity = (Projectile.velocity * 40f + vector47) / 41f;
+                    homingDirection *= scaleFactor2;
+                    Projectile.velocity = (Projectile.velocity * 40f + homingDirection) / 41f;
                 }
                 else
                 {
-                    float num649 = 4f;
-                    vector47 *= -num649;
-                    Projectile.velocity = (Projectile.velocity * 40f + vector47) / 41f;
+                    homingDirection *= -4f;
+                    Projectile.velocity = (Projectile.velocity * 40f + homingDirection) / 41f;
                 }
             }
 
             if (Projectile.Calamity().stealthStrike)
             {
-                float num472 = Projectile.Center.X;
-                float num473 = Projectile.Center.Y;
-                float num474 = 600f;
-                for (int num475 = 0; num475 < Main.maxNPCs; num475++)
+                float projX = Projectile.Center.X;
+                float projY = Projectile.Center.Y;
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[num475].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
+                    if (Main.npc[i].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
                     {
-                        float npcCenterX = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-                        float npcCenterY = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
-                        float num478 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
-                        if (num478 < num474)
+                        float npcCenterX = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
+                        float npcCenterY = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
+                        float targetDistance = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
+                        if (targetDistance < 600f)
                         {
-                            if (Main.npc[num475].position.X < num472)
+                            if (Main.npc[i].position.X < projX)
                             {
-                                Main.npc[num475].velocity.X += 0.25f;
+                                Main.npc[i].velocity.X += 0.25f;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.X -= 0.25f;
+                                Main.npc[i].velocity.X -= 0.25f;
                             }
-                            if (Main.npc[num475].position.Y < num473)
+                            if (Main.npc[i].position.Y < projY)
                             {
-                                Main.npc[num475].velocity.Y += 0.25f;
+                                Main.npc[i].velocity.Y += 0.25f;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.Y -= 0.25f;
+                                Main.npc[i].velocity.Y -= 0.25f;
                             }
                         }
                     }
@@ -213,23 +211,23 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = Projectile.height = 200;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int num621 = 0; num621 < 4; num621++)
+            for (int i = 0; i < 4; i++)
             {
-                int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[dust].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[dust].scale = 0.5f;
+                    Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 12; num623++)
+            for (int j = 0; j < 12; j++)
             {
-                int num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int dusty = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
+                Main.dust[dusty].noGravity = true;
+                Main.dust[dusty].velocity *= 5f;
+                dusty = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[dusty].velocity *= 2f;
             }
 
             if (Main.netMode != NetmodeID.Server)

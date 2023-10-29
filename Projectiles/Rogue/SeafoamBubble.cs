@@ -50,17 +50,17 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = Projectile.height = 60;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            int num3;
-            for (int num246 = 0; num246 < 25; num246 = num3 + 1)
+            int inc;
+            for (int i = 0; i < 25; i = inc + 1)
             {
-                int num247 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 154, 0f, 0f, 0, default, 1f);
-                Main.dust[num247].position = (Main.dust[num247].position + Projectile.position) / 2f;
-                Main.dust[num247].velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                Main.dust[num247].velocity.Normalize();
-                Dust dust = Main.dust[num247];
+                int waterDust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 154, 0f, 0f, 0, default, 1f);
+                Main.dust[waterDust].position = (Main.dust[waterDust].position + Projectile.position) / 2f;
+                Main.dust[waterDust].velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                Main.dust[waterDust].velocity.Normalize();
+                Dust dust = Main.dust[waterDust];
                 dust.velocity *= (float)Main.rand.Next(1, 30) * 0.1f;
-                Main.dust[num247].alpha = Projectile.alpha;
-                num3 = num246;
+                Main.dust[waterDust].alpha = Projectile.alpha;
+                inc = i;
             }
         }
     }

@@ -35,21 +35,20 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.owner == Main.myPlayer)
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueExplosionFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                int num516 = 6;
-                for (int num517 = 0; num517 < num516; num517++)
+                for (int i = 0; i < 6; i++)
                 {
-                    if (num517 % 2 != 1 || Main.rand.NextBool(3))
+                    if (i % 2 != 1 || Main.rand.NextBool(3))
                     {
-                        Vector2 value20 = Projectile.position;
-                        Vector2 value21 = Projectile.oldVelocity;
-                        value21.Normalize();
-                        value21 *= 8f;
-                        float num518 = (float)Main.rand.Next(-35, 36) * 0.01f;
-                        float num519 = (float)Main.rand.Next(-35, 36) * 0.01f;
-                        value20 -= value21 * (float)num517;
-                        num518 += Projectile.oldVelocity.X / 6f;
-                        num519 += Projectile.oldVelocity.Y / 6f;
-                        int bee = Projectile.NewProjectile(Projectile.GetSource_FromThis(), value20.X, value20.Y, num518, num519, Main.player[Projectile.owner].beeType(), Main.player[Projectile.owner].beeDamage(Projectile.damage / 2), Main.player[Projectile.owner].beeKB(0f), Main.myPlayer);
+                        Vector2 projPos = Projectile.position;
+                        Vector2 projVel = Projectile.oldVelocity;
+                        projVel.Normalize();
+                        projVel *= 8f;
+                        float beeVelX = (float)Main.rand.Next(-35, 36) * 0.01f;
+                        float beeVelY = (float)Main.rand.Next(-35, 36) * 0.01f;
+                        projPos -= projVel * (float)i;
+                        beeVelX += Projectile.oldVelocity.X / 6f;
+                        beeVelY += Projectile.oldVelocity.Y / 6f;
+                        int bee = Projectile.NewProjectile(Projectile.GetSource_FromThis(), projPos.X, projPos.Y, beeVelX, beeVelY, Main.player[Projectile.owner].beeType(), Main.player[Projectile.owner].beeDamage(Projectile.damage / 2), Main.player[Projectile.owner].beeKB(0f), Main.myPlayer);
                         if (bee.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[bee].penetrate = 2;

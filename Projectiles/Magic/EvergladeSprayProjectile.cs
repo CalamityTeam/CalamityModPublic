@@ -38,23 +38,23 @@ namespace CalamityMod.Projectiles.Magic
                 return;
             }
             Projectile.velocity.Y = Projectile.velocity.Y + 0.075f;
-            for (int num151 = 0; num151 < 3; num151++)
+            for (int i = 0; i < 3; i++)
             {
-                float num152 = Projectile.velocity.X / 3f * (float)num151;
-                float num153 = Projectile.velocity.Y / 3f * (float)num151;
-                int num155 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 157, 0f, 0f, 100, default, 1f);
-                Dust dust = Main.dust[num155];
+                float shortXVel = Projectile.velocity.X / 3f * (float)i;
+                float shortYVel = Projectile.velocity.Y / 3f * (float)i;
+                int natureDust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 157, 0f, 0f, 100, default, 1f);
+                Dust dust = Main.dust[natureDust];
                 dust.noGravity = true;
                 dust.velocity *= 0.1f;
                 dust.velocity += Projectile.velocity * 0.5f;
-                dust.position.X -= num152;
-                dust.position.Y -= num153;
+                dust.position.X -= shortXVel;
+                dust.position.Y -= shortYVel;
             }
             if (Main.rand.NextBool(8))
             {
-                int num157 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 157, 0f, 0f, 100, default, 0.5f);
-                Main.dust[num157].velocity *= 0.25f;
-                Main.dust[num157].velocity += Projectile.velocity * 0.5f;
+                int natual = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 157, 0f, 0f, 100, default, 0.5f);
+                Main.dust[natual].velocity *= 0.25f;
+                Main.dust[natual].velocity += Projectile.velocity * 0.5f;
             }
         }
 

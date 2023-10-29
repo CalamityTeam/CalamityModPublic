@@ -67,53 +67,53 @@ namespace CalamityMod.Projectiles.Boss
             {
                 Projectile.localAI[0] = 1f;
 
-                float speed1 = 1.8f;
-                float speed2 = 2.8f;
+                float randDustSpeed1 = 1.8f;
+                float randDustSpeed2 = 2.8f;
                 float angleRandom = 0.35f;
 
-                for (int num53 = 0; num53 < 20; num53++)
+                for (int i = 0; i < 20; i++)
                 {
-                    float dustSpeed = Main.rand.NextFloat(speed1, speed2);
+                    float dustSpeed = Main.rand.NextFloat(randDustSpeed1, randDustSpeed2);
                     Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
                     int randomDustType = Main.rand.NextBool() ? 107 : 110;
 
-                    int num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default, 1.7f);
-                    Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
-                    Main.dust[num54].noGravity = true;
+                    int plasmaDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default, 1.7f);
+                    Main.dust[plasmaDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
+                    Main.dust[plasmaDust].noGravity = true;
 
-                    Dust dust = Main.dust[num54];
+                    Dust dust = Main.dust[plasmaDust];
                     dust.velocity *= 3f;
-                    dust = Main.dust[num54];
+                    dust = Main.dust[plasmaDust];
 
-                    num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 100, default, 0.8f);
-                    Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
+                    plasmaDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 100, default, 0.8f);
+                    Main.dust[plasmaDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
 
-                    dust = Main.dust[num54];
+                    dust = Main.dust[plasmaDust];
                     dust.velocity *= 2f;
 
-                    Main.dust[num54].noGravity = true;
-                    Main.dust[num54].fadeIn = 1f;
-                    Main.dust[num54].color = Color.Green * 0.5f;
+                    Main.dust[plasmaDust].noGravity = true;
+                    Main.dust[plasmaDust].fadeIn = 1f;
+                    Main.dust[plasmaDust].color = Color.Green * 0.5f;
 
-                    dust = Main.dust[num54];
+                    dust = Main.dust[plasmaDust];
                 }
-                for (int num55 = 0; num55 < 10; num55++)
+                for (int j = 0; j < 10; j++)
                 {
-                    float dustSpeed = Main.rand.NextFloat(speed1, speed2);
+                    float dustSpeed = Main.rand.NextFloat(randDustSpeed1, randDustSpeed2);
                     Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
                     int randomDustType = Main.rand.NextBool() ? 107 : 110;
 
-                    int num56 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default, 2f);
-                    Main.dust[num56].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 3f;
-                    Main.dust[num56].noGravity = true;
+                    int plasmaDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default, 2f);
+                    Main.dust[plasmaDust2].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 3f;
+                    Main.dust[plasmaDust2].noGravity = true;
 
-                    Dust dust = Main.dust[num56];
+                    Dust dust = Main.dust[plasmaDust2];
                     dust.velocity *= 0.5f;
-                    dust = Main.dust[num56];
+                    dust = Main.dust[plasmaDust2];
                 }
             }
 
@@ -214,7 +214,7 @@ namespace CalamityMod.Projectiles.Boss
 
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
-            for (int num621 = 0; num621 < 12; num621++)
+            for (int i = 0; i < 12; i++)
             {
                 int randomDustType = Main.rand.NextBool() ? 107 : 110;
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, randomDustType, 0f, 0f, 100, default, 2f);
@@ -225,7 +225,7 @@ namespace CalamityMod.Projectiles.Boss
                     Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 15; num623++)
+            for (int j = 0; j < 15; j++)
             {
                 int randomDustType = Main.rand.NextBool() ? 107 : 110;
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, randomDustType, 0f, 0f, 100, default, 3f);

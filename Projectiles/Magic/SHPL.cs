@@ -31,19 +31,18 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.alpha = 0;
             }
             Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 0.5f, 0.2f, 0.5f);
-            float num55 = 100f;
-            float num56 = 3f;
+            float timerIncr = 3f;
             if (Projectile.ai[1] == 0f)
             {
-                Projectile.localAI[0] += num56;
-                if (Projectile.localAI[0] > num55)
+                Projectile.localAI[0] += timerIncr;
+                if (Projectile.localAI[0] > 100f)
                 {
-                    Projectile.localAI[0] = num55;
+                    Projectile.localAI[0] = 100f;
                 }
             }
             else
             {
-                Projectile.localAI[0] -= num56;
+                Projectile.localAI[0] -= timerIncr;
                 if (Projectile.localAI[0] <= 0f)
                 {
                     Projectile.Kill();

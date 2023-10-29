@@ -106,36 +106,36 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             NPC.Opacity = Main.npc[(int)NPC.ai[2]].Opacity;
 
-            Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-            float num191 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
-            float num192 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
-            num191 = (int)(num191 / 16f) * 16;
-            num192 = (int)(num192 / 16f) * 16;
-            vector18.X = (int)(vector18.X / 16f) * 16;
-            vector18.Y = (int)(vector18.Y / 16f) * 16;
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-            float num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
+            Vector2 segmentPosition = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+            float targetX = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
+            float targetY = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
+            targetX = (int)(targetX / 16f) * 16;
+            targetY = (int)(targetY / 16f) * 16;
+            segmentPosition.X = (int)(segmentPosition.X / 16f) * 16;
+            segmentPosition.Y = (int)(segmentPosition.Y / 16f) * 16;
+            targetX -= segmentPosition.X;
+            targetY -= segmentPosition.Y;
+            float targetDistance = (float)System.Math.Sqrt(targetX * targetX + targetY * targetY);
             if (NPC.ai[1] > 0f && NPC.ai[1] < Main.npc.Length)
             {
                 try
                 {
-                    vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                    num191 = Main.npc[(int)NPC.ai[1]].position.X + (Main.npc[(int)NPC.ai[1]].width / 2) - vector18.X;
-                    num192 = Main.npc[(int)NPC.ai[1]].position.Y + (Main.npc[(int)NPC.ai[1]].height / 2) - vector18.Y;
+                    segmentPosition = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+                    targetX = Main.npc[(int)NPC.ai[1]].position.X + (Main.npc[(int)NPC.ai[1]].width / 2) - segmentPosition.X;
+                    targetY = Main.npc[(int)NPC.ai[1]].position.Y + (Main.npc[(int)NPC.ai[1]].height / 2) - segmentPosition.Y;
                 }
                 catch
                 {
                 }
-                NPC.rotation = (float)System.Math.Atan2(num192, num191) + 1.57f;
-                num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
-                int num194 = NPC.width;
-                num193 = (num193 - num194) / num193;
-                num191 *= num193;
-                num192 *= num193;
+                NPC.rotation = (float)System.Math.Atan2(targetY, targetX) + 1.57f;
+                targetDistance = (float)System.Math.Sqrt(targetX * targetX + targetY * targetY);
+                int segmentWidth = NPC.width;
+                targetDistance = (targetDistance - segmentWidth) / targetDistance;
+                targetX *= targetDistance;
+                targetY *= targetDistance;
                 NPC.velocity = Vector2.Zero;
-                NPC.position.X = NPC.position.X + num191;
-                NPC.position.Y = NPC.position.Y + num192;
+                NPC.position.X = NPC.position.X + targetX;
+                NPC.position.Y = NPC.position.Y + targetY;
             }
         }
 
@@ -146,17 +146,17 @@ namespace CalamityMod.NPCs.DevourerofGods
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
+            Vector2 halfSizeTexture = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
+            drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/CosmicGuardianBodyGlow").Value;
-            Color color37 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
+            Color glowmaskColor = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, glowmaskColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -190,23 +190,23 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.height = 50;
                 NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
-                for (int num621 = 0; num621 < 10; num621++)
+                for (int i = 0; i < 10; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int cosmiliteDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    Main.dust[cosmiliteDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[cosmiliteDust].scale = 0.5f;
+                        Main.dust[cosmiliteDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 20; num623++)
+                for (int j = 0; j < 20; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int cosmiliteDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
+                    Main.dust[cosmiliteDust2].noGravity = true;
+                    Main.dust[cosmiliteDust2].velocity *= 5f;
+                    cosmiliteDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    Main.dust[cosmiliteDust2].velocity *= 2f;
                 }
             }
         }

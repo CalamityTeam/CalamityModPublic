@@ -36,13 +36,13 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.alpha = 0;
 
             Vector2 v2 = Projectile.ai[0].ToRotationVector2();
-            float num743 = Projectile.velocity.ToRotation();
-            float num744 = v2.ToRotation();
-            double num745 = num744 - num743;
-            if (num745 > MathHelper.Pi)
-                num745 -= MathHelper.TwoPi;
-            if (num745 < -MathHelper.Pi)
-                num745 += MathHelper.TwoPi;
+            float projRotate = Projectile.velocity.ToRotation();
+            float aiRotation = v2.ToRotation();
+            double projAngle = aiRotation - projRotate;
+            if (projAngle > MathHelper.Pi)
+                projAngle -= MathHelper.TwoPi;
+            if (projAngle < -MathHelper.Pi)
+                projAngle += MathHelper.TwoPi;
 
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
@@ -54,12 +54,12 @@ namespace CalamityMod.Projectiles.Magic
         {
             SoundEngine.PlaySound(SoundID.Item54, Projectile.Center);
             int num190 = Main.rand.Next(5, 9);
-            for (int num191 = 0; num191 < num190; num191++)
+            for (int i = 0; i < num190; i++)
             {
-                int num192 = Dust.NewDust(Projectile.Center, 0, 0, 206, 0f, 0f, 100, default, 1.4f);
-                Main.dust[num192].velocity *= 0.8f;
-                Main.dust[num192].position = Vector2.Lerp(Main.dust[num192].position, Projectile.Center, 0.5f);
-                Main.dust[num192].noGravity = true;
+                int bubbly = Dust.NewDust(Projectile.Center, 0, 0, 206, 0f, 0f, 100, default, 1.4f);
+                Main.dust[bubbly].velocity *= 0.8f;
+                Main.dust[bubbly].position = Vector2.Lerp(Main.dust[bubbly].position, Projectile.Center, 0.5f);
+                Main.dust[bubbly].noGravity = true;
             }
         }
     }

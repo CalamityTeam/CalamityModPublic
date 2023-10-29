@@ -126,20 +126,20 @@ namespace CalamityMod.Projectiles.Summon
                 NPC target = CalamityUtils.MinionHoming(Projectile.Center, 1500f, Main.player[Projectile.owner]);
                 if (target != null)
                 {
-                    float num550 = 40f;
-                    Vector2 vector43 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                    float num551 = target.Center.X - vector43.X;
-                    float num552 = target.Center.Y - vector43.Y;
-                    float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
-                    if (num553 < 100f)
+                    float projVel = 40f;
+                    Vector2 projDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                    float targetXDist = target.Center.X - projDirection.X;
+                    float targetYDist = target.Center.Y - projDirection.Y;
+                    float targetDist = (float)Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
+                    if (targetDist < 100f)
                     {
-                        num550 = 28f; //14
+                        projVel = 28f; //14
                     }
-                    num553 = num550 / num553;
-                    num551 *= num553;
-                    num552 *= num553;
-                    Projectile.velocity.X = (Projectile.velocity.X * 25f + num551) / 26f;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * 25f + num552) / 26f;
+                    targetDist = projVel / targetDist;
+                    targetXDist *= targetDist;
+                    targetYDist *= targetDist;
+                    Projectile.velocity.X = (Projectile.velocity.X * 25f + targetXDist) / 26f;
+                    Projectile.velocity.Y = (Projectile.velocity.Y * 25f + targetYDist) / 26f;
                 }
                 else
                 {

@@ -23,11 +23,11 @@ namespace CalamityMod.Projectiles.Healing
         {
             Projectile.HealingProjectile((int)Projectile.ai[1], Projectile.owner, 6f, 15f);
 
-            for (int num468 = 0; num468 < 3; num468++)
+            for (int i = 0; i < 3; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 15, 0f, 0f, 100, default, 1.3f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int magicHeal = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 15, 0f, 0f, 100, default, 1.3f);
+                Main.dust[magicHeal].noGravity = true;
+                Main.dust[magicHeal].velocity *= 0f;
             }
         }
     }

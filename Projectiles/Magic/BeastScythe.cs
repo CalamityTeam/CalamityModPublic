@@ -60,70 +60,69 @@ namespace CalamityMod.Projectiles.Magic
             {
                 if (Main.player[Projectile.owner].channel)
                 {
-                    float num115 = 20f;
+                    float projDelay = 20f;
                     Vector2 vector10 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                    float num116 = (float)Main.mouseX + Main.screenPosition.X - vector10.X;
-                    float num117 = (float)Main.mouseY + Main.screenPosition.Y - vector10.Y;
+                    float projXDirection = (float)Main.mouseX + Main.screenPosition.X - vector10.X;
+                    float projYDirection = (float)Main.mouseY + Main.screenPosition.Y - vector10.Y;
                     if (Main.player[Projectile.owner].gravDir == -1f)
                     {
-                        num117 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector10.Y;
+                        projYDirection = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector10.Y;
                     }
-                    float num118 = (float)Math.Sqrt((double)(num116 * num116 + num117 * num117));
-                    num118 = (float)Math.Sqrt((double)(num116 * num116 + num117 * num117));
-                    if (num118 > num115)
+                    float projDistance = (float)Math.Sqrt((double)(projXDirection * projXDirection + projYDirection * projYDirection));
+                    projDistance = (float)Math.Sqrt((double)(projXDirection * projXDirection + projYDirection * projYDirection));
+                    if (projDistance > projDelay)
                     {
-                        num118 = num115 / num118;
-                        num116 *= num118;
-                        num117 *= num118;
-                        int num119 = (int)(num116 * 1000f);
-                        int num120 = (int)(Projectile.velocity.X * 1000f);
-                        int num121 = (int)(num117 * 1000f);
-                        int num122 = (int)(Projectile.velocity.Y * 1000f);
-                        if (num119 != num120 || num121 != num122)
+                        projDistance = projDelay / projDistance;
+                        projXDirection *= projDistance;
+                        projYDirection *= projDistance;
+                        int projXSpeed = (int)(projXDirection * 1000f);
+                        int projXSpeedMagnified = (int)(Projectile.velocity.X * 1000f);
+                        int projYSpeed = (int)(projYDirection * 1000f);
+                        int projYSpeedMagnified = (int)(Projectile.velocity.Y * 1000f);
+                        if (projXSpeed != projXSpeedMagnified || projYSpeed != projYSpeedMagnified)
                         {
                             Projectile.netUpdate = true;
                         }
-                        Projectile.velocity.X = num116;
-                        Projectile.velocity.Y = num117;
+                        Projectile.velocity.X = projXDirection;
+                        Projectile.velocity.Y = projYDirection;
                     }
                     else
                     {
-                        int num123 = (int)(num116 * 1000f);
-                        int num124 = (int)(Projectile.velocity.X * 1000f);
-                        int num125 = (int)(num117 * 1000f);
-                        int num126 = (int)(Projectile.velocity.Y * 1000f);
-                        if (num123 != num124 || num125 != num126)
+                        int projXSpeedElse = (int)(projXDirection * 1000f);
+                        int projXSpeedMagnifiedElse = (int)(Projectile.velocity.X * 1000f);
+                        int projYSpeedElse = (int)(projYDirection * 1000f);
+                        int projYSpeedMagnifiedElse = (int)(Projectile.velocity.Y * 1000f);
+                        if (projXSpeedElse != projXSpeedMagnifiedElse || projYSpeedElse != projYSpeedMagnifiedElse)
                         {
                             Projectile.netUpdate = true;
                         }
-                        Projectile.velocity.X = num116;
-                        Projectile.velocity.Y = num117;
+                        Projectile.velocity.X = projXDirection;
+                        Projectile.velocity.Y = projYDirection;
                     }
                 }
                 else
                 {
                     Projectile.netUpdate = true;
-                    float num127 = 20f;
-                    Vector2 vector11 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                    float num128 = (float)Main.mouseX + Main.screenPosition.X - vector11.X;
-                    float num129 = (float)Main.mouseY + Main.screenPosition.Y - vector11.Y;
+                    Vector2 projDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                    float projXDir = (float)Main.mouseX + Main.screenPosition.X - projDirection.X;
+                    float projYDir = (float)Main.mouseY + Main.screenPosition.Y - projDirection.Y;
                     if (Main.player[Projectile.owner].gravDir == -1f)
                     {
-                        num129 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector11.Y;
+                        projYDir = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - projDirection.Y;
                     }
-                    float num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
-                    if (num130 == 0f || Projectile.ai[0] < 0f)
+                    float projDistancing = (float)Math.Sqrt((double)(projXDir * projXDir + projYDir * projYDir));
+                    if (projDistancing == 0f || Projectile.ai[0] < 0f)
                     {
-                        vector11 = new Vector2(Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2), Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2));
-                        num128 = Projectile.position.X + (float)Projectile.width * 0.5f - vector11.X;
-                        num129 = Projectile.position.Y + (float)Projectile.height * 0.5f - vector11.Y;
-                        num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
+                        projDirection = new Vector2(Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2), Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2));
+                        projXDir = Projectile.position.X + (float)Projectile.width * 0.5f - projDirection.X;
+                        projYDir = Projectile.position.Y + (float)Projectile.height * 0.5f - projDirection.Y;
+                        projDistancing = (float)Math.Sqrt((double)(projXDir * projXDir + projYDir * projYDir));
                     }
-                    num130 = num127 / num130;
-                    num128 *= num130;
-                    num129 *= num130;
-                    Projectile.velocity.X = num128;
-                    Projectile.velocity.Y = num129;
+                    projDistancing = 20f / projDistancing;
+                    projXDir *= projDistancing;
+                    projYDir *= projDistancing;
+                    Projectile.velocity.X = projXDir;
+                    Projectile.velocity.Y = projYDir;
                 }
             }
             if (Projectile.ai[0] >= 30f)
@@ -147,26 +146,26 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localNPCHitCooldown = 10;
             Projectile.damage /= 2;
             Projectile.Damage();
-            bool flag = WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.position.X / 16, (int)Projectile.position.Y / 16));
+            bool isInTile = WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.position.X / 16, (int)Projectile.position.Y / 16));
             for (int m = 0; m < 4; m++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1.5f);
             }
             for (int n = 0; n < 4; n++)
             {
-                int num10 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num10].noGravity = true;
-                Main.dust[num10].velocity *= 3f;
-                if (flag)
+                int beastial = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 0, default, 2.5f);
+                Main.dust[beastial].noGravity = true;
+                Main.dust[beastial].velocity *= 3f;
+                if (isInTile)
                 {
-                    Main.dust[num10].noLight = true;
+                    Main.dust[beastial].noLight = true;
                 }
-                num10 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num10].velocity *= 2f;
-                Main.dust[num10].noGravity = true;
-                if (flag)
+                beastial = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1.5f);
+                Main.dust[beastial].velocity *= 2f;
+                Main.dust[beastial].noGravity = true;
+                if (isInTile)
                 {
-                    Main.dust[num10].noLight = true;
+                    Main.dust[beastial].noLight = true;
                 }
             }
         }

@@ -41,14 +41,14 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.Kill();
                 return;
             }
-            bool flag5 = WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.position.X / 16, (int)Projectile.position.Y / 16));
-            Dust dust6 = Main.dust[Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f)];
-            dust6.position = Projectile.Center;
-            dust6.velocity = Vector2.Zero;
-            dust6.noGravity = true;
-            if (flag5)
+            bool isInTile = WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.position.X / 16, (int)Projectile.position.Y / 16));
+            Dust blastDust = Main.dust[Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f)];
+            blastDust.position = Projectile.Center;
+            blastDust.velocity = Vector2.Zero;
+            blastDust.noGravity = true;
+            if (isInTile)
             {
-                dust6.noLight = true;
+                blastDust.noLight = true;
             }
             if (Projectile.ai[1] == -1f)
             {
@@ -78,22 +78,22 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.alpha = 255;
             if (Projectile.numUpdates == 0)
             {
-                int num158 = -1;
-                float num159 = 60f;
-                for (int num160 = 0; num160 < Main.maxNPCs; num160++)
+                int npcTracker = -1;
+                float homingRange = 60f;
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    NPC nPC = Main.npc[num160];
+                    NPC nPC = Main.npc[i];
                     if (nPC.CanBeChasedBy(Projectile, false))
                     {
-                        float num161 = Projectile.Distance(nPC.Center);
-                        if (num161 < num159 && Collision.CanHitLine(Projectile.Center, 0, 0, nPC.Center, 0, 0))
+                        float npcDistance = Projectile.Distance(nPC.Center);
+                        if (npcDistance < homingRange && Collision.CanHitLine(Projectile.Center, 0, 0, nPC.Center, 0, 0))
                         {
-                            num159 = num161;
-                            num158 = num160;
+                            homingRange = npcDistance;
+                            npcTracker = i;
                         }
                     }
                 }
-                if (num158 != -1)
+                if (npcTracker != -1)
                 {
                     Projectile.ai[0] = 0f;
                     Projectile.ai[1] = -1f;
@@ -105,26 +105,26 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-            bool flag = WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.position.X / 16, (int)Projectile.position.Y / 16));
+            bool insideTile = WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.position.X / 16, (int)Projectile.position.Y / 16));
             for (int m = 0; m < 4; m++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.5f);
             }
             for (int n = 0; n < 4; n++)
             {
-                int num10 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num10].noGravity = true;
-                Main.dust[num10].velocity *= 3f;
-                if (flag)
+                int killingPeople = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 2.5f);
+                Main.dust[killingPeople].noGravity = true;
+                Main.dust[killingPeople].velocity *= 3f;
+                if (insideTile)
                 {
-                    Main.dust[num10].noLight = true;
+                    Main.dust[killingPeople].noLight = true;
                 }
-                num10 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num10].velocity *= 2f;
-                Main.dust[num10].noGravity = true;
-                if (flag)
+                killingPeople = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.5f);
+                Main.dust[killingPeople].velocity *= 2f;
+                Main.dust[killingPeople].noGravity = true;
+                if (insideTile)
                 {
-                    Main.dust[num10].noLight = true;
+                    Main.dust[killingPeople].noLight = true;
                 }
             }
         }

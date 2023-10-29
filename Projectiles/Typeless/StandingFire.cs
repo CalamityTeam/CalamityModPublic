@@ -58,8 +58,8 @@ namespace CalamityMod.Projectiles.Typeless
                 Projectile.ai[1] = 1f;
                 SoundEngine.PlaySound(SoundID.Item13, Projectile.position);
             }
-            int num199 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
-            Dust dust = Main.dust[num199];
+            int brimDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
+            Dust dust = Main.dust[brimDust];
             dust.position.X -= 2f;
             dust.position.Y += 2f;
             dust.scale += (float)Main.rand.Next(50) * 0.01f;
@@ -67,13 +67,13 @@ namespace CalamityMod.Projectiles.Typeless
             dust.velocity.Y -= 2f;
             if (Main.rand.NextBool())
             {
-                int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
-                Dust dust2 = Main.dust[num200];
-                dust2.position.X -= 2f;
-                dust2.position.Y += 2f;
-                dust2.scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
-                dust2.noGravity = true;
-                dust2.velocity *= 0.1f;
+                int brimDusty = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
+                Dust dusty = Main.dust[brimDusty];
+                dusty.position.X -= 2f;
+                dusty.position.Y += 2f;
+                dusty.scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
+                dusty.noGravity = true;
+                dusty.velocity *= 0.1f;
             }
             if ((double)Projectile.velocity.Y < 0.25 && (double)Projectile.velocity.Y > 0.15)
             {

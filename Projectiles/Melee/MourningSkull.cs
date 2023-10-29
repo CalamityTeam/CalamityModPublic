@@ -58,38 +58,37 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Projectile.ai[0] >= 0f && Projectile.ai[0] < 200f)
             {
-                int num554 = (int)Projectile.ai[0];
-                if (Main.npc[num554].active)
+                int npcTracker = (int)Projectile.ai[0];
+                if (Main.npc[npcTracker].active)
                 {
-                    float num555 = 8f;
-                    Vector2 vector44 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                    float num556 = Main.npc[num554].position.X - vector44.X;
-                    float num557 = Main.npc[num554].position.Y - vector44.Y;
-                    float num558 = (float)Math.Sqrt((double)(num556 * num556 + num557 * num557));
-                    num558 = num555 / num558;
-                    num556 *= num558;
-                    num557 *= num558;
-                    Projectile.velocity.X = (Projectile.velocity.X * 14f + num556) / 15f;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * 14f + num557) / 15f;
+                    Vector2 projPos = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                    float npcXDist = Main.npc[npcTracker].position.X - projPos.X;
+                    float npcYDist = Main.npc[npcTracker].position.Y - projPos.Y;
+                    float npcDistance = (float)Math.Sqrt((double)(npcXDist * npcXDist + npcYDist * npcYDist));
+                    npcDistance = 8f / npcDistance;
+                    npcXDist *= npcDistance;
+                    npcYDist *= npcDistance;
+                    Projectile.velocity.X = (Projectile.velocity.X * 14f + npcXDist) / 15f;
+                    Projectile.velocity.Y = (Projectile.velocity.Y * 14f + npcYDist) / 15f;
                 }
                 else
                 {
-                    float num559 = 1000f;
-                    int num3;
-                    for (int num560 = 0; num560 < Main.maxNPCs; num560 = num3 + 1)
+                    float homingRange = 1000f;
+                    int inc;
+                    for (int j = 0; j < Main.maxNPCs; j = inc + 1)
                     {
-                        if (Main.npc[num560].CanBeChasedBy(Projectile, false))
+                        if (Main.npc[j].CanBeChasedBy(Projectile, false))
                         {
-                            float num561 = Main.npc[num560].position.X + (float)(Main.npc[num560].width / 2);
-                            float num562 = Main.npc[num560].position.Y + (float)(Main.npc[num560].height / 2);
-                            float num563 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num561) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num562);
-                            if (num563 < num559 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[num560].position, Main.npc[num560].width, Main.npc[num560].height))
+                            float targetX = Main.npc[j].position.X + (float)(Main.npc[j].width / 2);
+                            float targetY = Main.npc[j].position.Y + (float)(Main.npc[j].height / 2);
+                            float targetDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - targetX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - targetY);
+                            if (targetDist < homingRange && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[j].position, Main.npc[j].width, Main.npc[j].height))
                             {
-                                num559 = num563;
-                                Projectile.ai[0] = (float)num560;
+                                homingRange = targetDist;
+                                Projectile.ai[0] = (float)j;
                             }
                         }
-                        num3 = num560;
+                        inc = j;
                     }
                 }
 
@@ -104,15 +103,15 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
                 }
 
-                int num564 = 8;
-                int num565 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num564, Projectile.position.Y + (float)num564), Projectile.width - num564 * 2, Projectile.height - num564 * 2, Main.rand.NextBool() ? 5 : 6, 0f, 0f, 0, default, 1f);
-                Dust dust = Main.dust[num565];
+                int eightConst = 8;
+                int mourningDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)eightConst, Projectile.position.Y + (float)eightConst), Projectile.width - eightConst * 2, Projectile.height - eightConst * 2, Main.rand.NextBool() ? 5 : 6, 0f, 0f, 0, default, 1f);
+                Dust dust = Main.dust[mourningDust];
                 dust.velocity *= 0.5f;
-                dust = Main.dust[num565];
+                dust = Main.dust[mourningDust];
                 dust.velocity += Projectile.velocity * 0.5f;
-                Main.dust[num565].noGravity = true;
-                Main.dust[num565].noLight = true;
-                Main.dust[num565].scale = 1.4f;
+                Main.dust[mourningDust].noGravity = true;
+                Main.dust[mourningDust].noLight = true;
+                Main.dust[mourningDust].scale = 1.4f;
                 return;
             }
 
@@ -133,23 +132,23 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
-            for (int num621 = 0; num621 < 5; num621++)
+            for (int i = 0; i < 5; i++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int bloody = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 2f);
+                Main.dust[bloody].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[bloody].scale = 0.5f;
+                    Main.dust[bloody].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 10; num623++)
+            for (int j = 0; j < 10; j++)
             {
-                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int fiery = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 3f);
+                Main.dust[fiery].noGravity = true;
+                Main.dust[fiery].velocity *= 5f;
+                fiery = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
+                Main.dust[fiery].velocity *= 2f;
             }
         }
 

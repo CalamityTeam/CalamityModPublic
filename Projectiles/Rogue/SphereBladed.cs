@@ -55,56 +55,55 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                float num42 = 16f;
-                float num43 = 3.2f;
+                float acceleration = 3.2f;
                 Vector2 vector2 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                float num44 = Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2) - vector2.X;
-                float num45 = Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2) - vector2.Y;
-                float num46 = (float)Math.Sqrt((double)(num44 * num44 + num45 * num45));
-                if (num46 > 3000f)
+                float xdistance = Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2) - vector2.X;
+                float ydistance = Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2) - vector2.Y;
+                float totalDist = (float)Math.Sqrt((double)(xdistance * xdistance + ydistance * ydistance));
+                if (totalDist > 3000f)
                 {
                     Projectile.Kill();
                 }
-                num46 = num42 / num46;
-                num44 *= num46;
-                num45 *= num46;
-                if (Projectile.velocity.X < num44)
+                totalDist = 16f / totalDist;
+                xdistance *= totalDist;
+                ydistance *= totalDist;
+                if (Projectile.velocity.X < xdistance)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X + num43;
-                    if (Projectile.velocity.X < 0f && num44 > 0f)
+                    Projectile.velocity.X = Projectile.velocity.X + acceleration;
+                    if (Projectile.velocity.X < 0f && xdistance > 0f)
                     {
-                        Projectile.velocity.X = Projectile.velocity.X + num43;
+                        Projectile.velocity.X = Projectile.velocity.X + acceleration;
                     }
                 }
-                else if (Projectile.velocity.X > num44)
+                else if (Projectile.velocity.X > xdistance)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X - num43;
-                    if (Projectile.velocity.X > 0f && num44 < 0f)
+                    Projectile.velocity.X = Projectile.velocity.X - acceleration;
+                    if (Projectile.velocity.X > 0f && xdistance < 0f)
                     {
-                        Projectile.velocity.X = Projectile.velocity.X - num43;
+                        Projectile.velocity.X = Projectile.velocity.X - acceleration;
                     }
                 }
-                if (Projectile.velocity.Y < num45)
+                if (Projectile.velocity.Y < ydistance)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y + num43;
-                    if (Projectile.velocity.Y < 0f && num45 > 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y + acceleration;
+                    if (Projectile.velocity.Y < 0f && ydistance > 0f)
                     {
-                        Projectile.velocity.Y = Projectile.velocity.Y + num43;
+                        Projectile.velocity.Y = Projectile.velocity.Y + acceleration;
                     }
                 }
-                else if (Projectile.velocity.Y > num45)
+                else if (Projectile.velocity.Y > ydistance)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y - num43;
-                    if (Projectile.velocity.Y > 0f && num45 < 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y - acceleration;
+                    if (Projectile.velocity.Y > 0f && ydistance < 0f)
                     {
-                        Projectile.velocity.Y = Projectile.velocity.Y - num43;
+                        Projectile.velocity.Y = Projectile.velocity.Y - acceleration;
                     }
                 }
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Rectangle rectangle = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
-                    Rectangle value2 = new Rectangle((int)Main.player[Projectile.owner].position.X, (int)Main.player[Projectile.owner].position.Y, Main.player[Projectile.owner].width, Main.player[Projectile.owner].height);
-                    if (rectangle.Intersects(value2))
+                    Rectangle playerPos = new Rectangle((int)Main.player[Projectile.owner].position.X, (int)Main.player[Projectile.owner].position.Y, Main.player[Projectile.owner].width, Main.player[Projectile.owner].height);
+                    if (rectangle.Intersects(playerPos))
                     {
                         Projectile.Kill();
                     }

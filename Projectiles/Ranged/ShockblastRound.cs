@@ -55,17 +55,17 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
             {
-                for (int num136 = 0; num136 < 2; num136++)
+                for (int i = 0; i < 2; i++)
                 {
                     Vector2 dspeed = -Projectile.velocity * Main.rand.NextFloat(0.5f, 0.7f);
-                    float x2 = Projectile.Center.X - Projectile.velocity.X / 10f * num136;
-                    float y2 = Projectile.Center.Y - Projectile.velocity.Y / 10f * num136;
-                    int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 185, 0f, 0f, 0, default, 1f);
-                    Main.dust[num137].alpha = Projectile.alpha;
-                    Main.dust[num137].position.X = x2;
-                    Main.dust[num137].position.Y = y2;
-                    Main.dust[num137].velocity = dspeed;
-                    Main.dust[num137].noGravity = true;
+                    float x2 = Projectile.Center.X - Projectile.velocity.X / 10f * i;
+                    float y2 = Projectile.Center.Y - Projectile.velocity.Y / 10f * i;
+                    int dust = Dust.NewDust(new Vector2(x2, y2), 1, 1, 185, 0f, 0f, 0, default, 1f);
+                    Main.dust[dust].alpha = Projectile.alpha;
+                    Main.dust[dust].position.X = x2;
+                    Main.dust[dust].position.Y = y2;
+                    Main.dust[dust].velocity = dspeed;
+                    Main.dust[dust].noGravity = true;
                 }
             }
 

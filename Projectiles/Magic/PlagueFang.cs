@@ -37,15 +37,15 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (Projectile.alpha == 0)
             {
-                int num159 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 163, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f);
-                Main.dust[num159].noGravity = true;
-                Main.dust[num159].velocity *= 0.6f;
-                Main.dust[num159].velocity -= Projectile.velocity * 0.4f;
+                int plagued = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 163, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f);
+                Main.dust[plagued].noGravity = true;
+                Main.dust[plagued].velocity *= 0.6f;
+                Main.dust[plagued].velocity -= Projectile.velocity * 0.4f;
 
-                int num160 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 205, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f);
-                Main.dust[num160].noGravity = true;
-                Main.dust[num160].velocity *= 0.2f;
-                Main.dust[num160].velocity -= Projectile.velocity * 0.4f;
+                int venomed = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 205, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f);
+                Main.dust[venomed].noGravity = true;
+                Main.dust[venomed].velocity *= 0.2f;
+                Main.dust[venomed].velocity -= Projectile.velocity * 0.4f;
             }
         }
 
@@ -61,15 +61,15 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
-            for (int num301 = 0; num301 < 7; num301++)
+            for (int i = 0; i < 7; i++)
             {
-                int num302 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 163, 0f, 0f, 100, default, 1f);
-                Main.dust[num302].noGravity = true;
-                Main.dust[num302].velocity *= 1.2f;
-                Main.dust[num302].velocity -= Projectile.oldVelocity * 0.3f;
+                int killPlague = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 163, 0f, 0f, 100, default, 1f);
+                Main.dust[killPlague].noGravity = true;
+                Main.dust[killPlague].velocity *= 1.2f;
+                Main.dust[killPlague].velocity -= Projectile.oldVelocity * 0.3f;
 
-                int num402 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 205, 0f, 0f, 100, default, 1f);
-                Dust dust = Main.dust[num402];
+                int killVenom = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 205, 0f, 0f, 100, default, 1f);
+                Dust dust = Main.dust[killVenom];
                 dust.noGravity = true;
                 dust.velocity *= 1.2f;
                 dust.velocity -= Projectile.oldVelocity * 0.3f;

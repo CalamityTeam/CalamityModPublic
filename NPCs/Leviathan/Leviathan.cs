@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.Leviathan
             bool death = CalamityWorld.death || bossRush;
             bool revenge = CalamityWorld.revenge || bossRush;
             bool expertMode = Main.expertMode || bossRush;
-            Vector2 vector = NPC.Center;
+            Vector2 npcCenter = NPC.Center;
 
             // Is in spawning animation
             float spawnAnimationTime = 180f;
@@ -187,14 +187,14 @@ namespace CalamityMod.NPCs.Leviathan
             extrapitch = Main.zenithWorld ? 0.3f : 0f;
 
             if (Main.rand.NextBool(600) && !spawnAnimation)
-                SoundEngine.PlaySound(((sirenAlive && !death) ? soundChoice : soundChoiceRage) with { Pitch = soundChoice.Pitch + extrapitch }, vector);
+                SoundEngine.PlaySound(((sirenAlive && !death) ? soundChoice : soundChoiceRage) with { Pitch = soundChoice.Pitch + extrapitch }, npcCenter);
 
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
                 NPC.TargetClosest();
 
             // Despawn safety, make sure to target another player if the current player target is too far away
-            if (Vector2.Distance(Main.player[NPC.target].Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+            if (Vector2.Distance(Main.player[NPC.target].Center, npcCenter) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 NPC.TargetClosest();
 
             Player player = Main.player[NPC.target];
@@ -233,11 +233,11 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
             NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
-            if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
+            if (!player.active || player.dead || Vector2.Distance(player.Center, npcCenter) > 5600f)
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
-                if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
+                if (!player.active || player.dead || Vector2.Distance(player.Center, npcCenter) > 5600f)
                 {
                     if (NPC.velocity.Y < -3f)
                         NPC.velocity.Y = -3f;
@@ -284,8 +284,8 @@ namespace CalamityMod.NPCs.Leviathan
 
                     if (calamityGlobalNPC.newAI[3] == 10f)
                     {
-                        SoundEngine.PlaySound(EmergeSound, vector);
-                        SoundEngine.PlaySound(soundChoiceRage with { Pitch = soundChoiceRage.Pitch + extrapitch }, vector);
+                        SoundEngine.PlaySound(EmergeSound, npcCenter);
+                        SoundEngine.PlaySound(soundChoiceRage with { Pitch = soundChoiceRage.Pitch + extrapitch }, npcCenter);
                     }
 
                     NPC.Opacity = MathHelper.Clamp(calamityGlobalNPC.newAI[3] / spawnAnimationTime, 0f, 1f);
@@ -297,62 +297,62 @@ namespace CalamityMod.NPCs.Leviathan
 
                 if (NPC.ai[0] == 0f)
                 {
-                    float num412 = (sirenAlive && !phase4) ? 3.5f : 7f;
-                    float num413 = (sirenAlive && !phase4) ? 0.1f : 0.2f;
-                    num412 += 2f * enrageScale;
-                    num413 += 0.05f * enrageScale;
+                    float hoverSpeed = (sirenAlive && !phase4) ? 3.5f : 7f;
+                    float hoverAcceleration = (sirenAlive && !phase4) ? 0.1f : 0.2f;
+                    hoverSpeed += 2f * enrageScale;
+                    hoverAcceleration += 0.05f * enrageScale;
 
                     if (expertMode && (!sirenAlive || phase4))
                     {
-                        num412 += death ? 6f * (1f - lifeRatio) : 3.5f * (1f - lifeRatio);
-                        num413 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
+                        hoverSpeed += death ? 6f * (1f - lifeRatio) : 3.5f * (1f - lifeRatio);
+                        hoverAcceleration += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
                     }
 
                     if (Main.getGoodWorld)
                     {
-                        num412 *= 1.15f;
-                        num413 *= 1.15f;
+                        hoverSpeed *= 1.15f;
+                        hoverAcceleration *= 1.15f;
                     }
 
-                    int num414 = 1;
-                    if (vector.X < player.position.X + player.width)
-                        num414 = -1;
+                    int posXSign = 1;
+                    if (npcCenter.X < player.position.X + player.width)
+                        posXSign = -1;
 
-                    Vector2 vector40 = vector;
-                    float num415 = player.Center.X + (num414 * ((sirenAlive && !phase4) ? 1000f : 800f) * NPC.scale) - vector40.X;
-                    float num416 = player.Center.Y - vector40.Y;
-                    float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
-                    num417 = num412 / num417;
-                    num415 *= num417;
-                    num416 *= num417;
+                    Vector2 leviCenter = npcCenter;
+                    float xDestination = player.Center.X + (posXSign * ((sirenAlive && !phase4) ? 1000f : 800f) * NPC.scale) - leviCenter.X;
+                    float yDestination = player.Center.Y - leviCenter.Y;
+                    float destinationDist = (float)Math.Sqrt(xDestination * xDestination + yDestination * yDestination);
+                    destinationDist = hoverSpeed / destinationDist;
+                    xDestination *= destinationDist;
+                    yDestination *= destinationDist;
 
-                    if (NPC.velocity.X < num415)
+                    if (NPC.velocity.X < xDestination)
                     {
-                        NPC.velocity.X += num413;
-                        if (NPC.velocity.X < 0f && num415 > 0f)
-                            NPC.velocity.X += num413;
+                        NPC.velocity.X += hoverAcceleration;
+                        if (NPC.velocity.X < 0f && xDestination > 0f)
+                            NPC.velocity.X += hoverAcceleration;
                     }
-                    else if (NPC.velocity.X > num415)
+                    else if (NPC.velocity.X > xDestination)
                     {
-                        NPC.velocity.X -= num413;
-                        if (NPC.velocity.X > 0f && num415 < 0f)
-                            NPC.velocity.X -= num413;
+                        NPC.velocity.X -= hoverAcceleration;
+                        if (NPC.velocity.X > 0f && xDestination < 0f)
+                            NPC.velocity.X -= hoverAcceleration;
                     }
 
-                    if (NPC.velocity.Y < num416)
+                    if (NPC.velocity.Y < yDestination)
                     {
-                        NPC.velocity.Y += num413;
-                        if (NPC.velocity.Y < 0f && num416 > 0f)
-                            NPC.velocity.Y += num413;
+                        NPC.velocity.Y += hoverAcceleration;
+                        if (NPC.velocity.Y < 0f && yDestination > 0f)
+                            NPC.velocity.Y += hoverAcceleration;
                     }
-                    else if (NPC.velocity.Y > num416)
+                    else if (NPC.velocity.Y > yDestination)
                     {
-                        NPC.velocity.Y -= num413;
-                        if (NPC.velocity.Y > 0f && num416 < 0f)
-                            NPC.velocity.Y -= num413;
+                        NPC.velocity.Y -= hoverAcceleration;
+                        if (NPC.velocity.Y > 0f && yDestination < 0f)
+                            NPC.velocity.Y -= hoverAcceleration;
                     }
 
-                    float playerLocation = vector.X - player.Center.X;
+                    float playerLocation = npcCenter.X - player.Center.X;
                     NPC.direction = playerLocation < 0 ? 1 : -1;
                     NPC.spriteDirection = NPC.direction;
 
@@ -381,9 +381,9 @@ namespace CalamityMod.NPCs.Leviathan
                         if (NPC.ai[2] >= 75f)
                         {
                             NPC.ai[2] = 0f;
-                            vector40 = new Vector2(vector.X, vector.Y + 20f);
-                            num415 = vector40.X + 1000f * NPC.direction - vector40.X;
-                            num416 = player.Center.Y - vector40.Y;
+                            leviCenter = new Vector2(npcCenter.X, npcCenter.Y + 20f);
+                            xDestination = leviCenter.X + 1000f * NPC.direction - leviCenter.X;
+                            yDestination = player.Center.Y - leviCenter.Y;
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
@@ -399,28 +399,28 @@ namespace CalamityMod.NPCs.Leviathan
                                 if (!sirenAlive || phase4)
                                     speed += 3f * (1f - lifeRatio);
 
-                                num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
-                                num417 = speed / num417;
-                                num415 *= num417;
-                                num416 *= num417;
-                                vector40.X += num415 * 4f;
-                                vector40.Y += num416 * 4f;
+                                destinationDist = (float)Math.Sqrt(xDestination * xDestination + yDestination * yDestination);
+                                destinationDist = speed / destinationDist;
+                                xDestination *= destinationDist;
+                                yDestination *= destinationDist;
+                                leviCenter.X += xDestination * 4f;
+                                leviCenter.Y += yDestination * 4f;
 
                                 if (Main.zenithWorld)
                                 {
                                     type = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? ProjectileID.BouncyBoulder : ProjectileID.Boulder;
-                                    vector40.Y -= 5; //Shoot a bit more up since boulders are affected by gravity
+                                    leviCenter.Y -= 5; //Shoot a bit more up since boulders are affected by gravity
                                     damage *= 2;
                                 }
 
-                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer);
+                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), leviCenter.X, leviCenter.Y, xDestination, yDestination, type, damage, 0f, Main.myPlayer);
                                 if (Main.zenithWorld)
                                     Main.projectile[proj].scale *= 5f;
 
                                 if (soundDelay <= 0)
                                 {
                                     soundDelay = 120;
-                                    SoundEngine.PlaySound(RoarMeteorSound with { Pitch = RoarMeteorSound.Pitch + extrapitch }, vector);
+                                    SoundEngine.PlaySound(RoarMeteorSound with { Pitch = RoarMeteorSound.Pitch + extrapitch }, npcCenter);
                                 }
                             }
                         }
@@ -428,79 +428,79 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 else if (NPC.ai[0] == 1f)
                 {
-                    Vector2 vector119 = new Vector2(vector.X, NPC.position.Y + NPC.height * 0.8f);
-                    Vector2 vector120 = vector;
-                    float num1058 = player.Center.X - vector120.X;
-                    float num1059 = player.Center.Y - vector120.Y;
-                    float num1060 = (float)Math.Sqrt(num1058 * num1058 + num1059 * num1059);
+                    Vector2 aberrationSpawn = new Vector2(npcCenter.X, NPC.position.Y + NPC.height * 0.8f);
+                    Vector2 leviCenterAberration = npcCenter;
+                    float playerXDist = player.Center.X - leviCenterAberration.X;
+                    float playerYDist = player.Center.Y - leviCenterAberration.Y;
+                    float playerDistance = (float)Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
 
                     NPC.ai[1] += 1f;
-                    int num638 = 0;
-                    for (int num639 = 0; num639 < Main.maxPlayers; num639++)
+                    int activePlayerAmt = 0;
+                    for (int i = 0; i < Main.maxPlayers; i++)
                     {
-                        if (Main.player[num639].active && !Main.player[num639].dead && (vector - Main.player[num639].Center).Length() < 1000f)
-                            num638++;
+                        if (Main.player[i].active && !Main.player[i].dead && (npcCenter - Main.player[i].Center).Length() < 1000f)
+                            activePlayerAmt++;
                     }
-                    NPC.ai[1] += num638 / 2;
+                    NPC.ai[1] += activePlayerAmt / 2;
 
-                    bool flag103 = false;
-                    float num640 = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 20f : (!sirenAlive || phase4) ? 60f : 40f;
-                    if (NPC.ai[1] > num640)
+                    bool spawnedAberration = false;
+                    float aberrationSpawnDelay = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 20f : (!sirenAlive || phase4) ? 60f : 40f;
+                    if (NPC.ai[1] > aberrationSpawnDelay)
                     {
                         NPC.ai[1] = 0f;
                         NPC.ai[2] += 1f;
-                        flag103 = true;
+                        spawnedAberration = true;
                     }
 
                     int spawnLimit = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 10 : (sirenAlive && !phase4) ? 1 : (death ? 2 : 3);
-                    if (flag103 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
+                    if (spawnedAberration && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                     {
-                        SoundEngine.PlaySound(soundChoice with { Pitch = soundChoice.Pitch + extrapitch }, vector);
+                        SoundEngine.PlaySound(soundChoice with { Pitch = soundChoice.Pitch + extrapitch }, npcCenter);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)aberrationSpawn.X, (int)aberrationSpawn.Y, ModContent.NPCType<AquaticAberration>());
                     }
 
-                    if (num1060 > ((sirenAlive && !phase4) ? 1000f : 800f) * NPC.scale)
+                    if (playerDistance > ((sirenAlive && !phase4) ? 1000f : 800f) * NPC.scale)
                     {
-                        float num1064 = (sirenAlive && !phase4) ? 0.05f : 0.065f;
-                        num1064 += 0.04f * enrageScale;
+                        float aberrationAccel = (sirenAlive && !phase4) ? 0.05f : 0.065f;
+                        aberrationAccel += 0.04f * enrageScale;
 
                         if (expertMode && (!sirenAlive || phase4))
-                            num1064 += death ? 0.05f * (1f - lifeRatio) : 0.03f * (1f - lifeRatio);
+                            aberrationAccel += death ? 0.05f * (1f - lifeRatio) : 0.03f * (1f - lifeRatio);
 
-                        vector120 = vector119;
-                        num1058 = player.Center.X - vector120.X;
-                        num1059 = player.Center.Y - vector120.Y;
+                        leviCenterAberration = aberrationSpawn;
+                        playerXDist = player.Center.X - leviCenterAberration.X;
+                        playerYDist = player.Center.Y - leviCenterAberration.Y;
 
-                        if (NPC.velocity.X < num1058)
+                        if (NPC.velocity.X < playerXDist)
                         {
-                            NPC.velocity.X += num1064;
-                            if (NPC.velocity.X < 0f && num1058 > 0f)
-                                NPC.velocity.X += num1064;
+                            NPC.velocity.X += aberrationAccel;
+                            if (NPC.velocity.X < 0f && playerXDist > 0f)
+                                NPC.velocity.X += aberrationAccel;
                         }
-                        else if (NPC.velocity.X > num1058)
+                        else if (NPC.velocity.X > playerXDist)
                         {
-                            NPC.velocity.X -= num1064;
-                            if (NPC.velocity.X > 0f && num1058 < 0f)
-                                NPC.velocity.X -= num1064;
+                            NPC.velocity.X -= aberrationAccel;
+                            if (NPC.velocity.X > 0f && playerXDist < 0f)
+                                NPC.velocity.X -= aberrationAccel;
                         }
-                        if (NPC.velocity.Y < num1059)
+                        if (NPC.velocity.Y < playerYDist)
                         {
-                            NPC.velocity.Y += num1064;
-                            if (NPC.velocity.Y < 0f && num1059 > 0f)
-                                NPC.velocity.Y += num1064;
+                            NPC.velocity.Y += aberrationAccel;
+                            if (NPC.velocity.Y < 0f && playerYDist > 0f)
+                                NPC.velocity.Y += aberrationAccel;
                         }
-                        else if (NPC.velocity.Y > num1059)
+                        else if (NPC.velocity.Y > playerYDist)
                         {
-                            NPC.velocity.Y -= num1064;
-                            if (NPC.velocity.Y > 0f && num1059 < 0f)
-                                NPC.velocity.Y -= num1064;
+                            NPC.velocity.Y -= aberrationAccel;
+                            if (NPC.velocity.Y > 0f && playerYDist < 0f)
+                                NPC.velocity.Y -= aberrationAccel;
                         }
                     }
                     else
                         NPC.velocity *= 0.9f;
 
-                    float playerLocation = vector.X - player.Center.X;
+                    float playerLocation = npcCenter.X - player.Center.X;
                     NPC.direction = playerLocation < 0 ? 1 : -1;
                     NPC.spriteDirection = NPC.direction;
 
@@ -515,7 +515,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 else if (NPC.ai[0] == 2f)
                 {
-                    Vector2 distFromPlayer = player.Center - vector;
+                    Vector2 distFromPlayer = player.Center - npcCenter;
                     float chargeAmt = death ? (phase4 ? 3f : phase3 ? 2f : 1f) : 1f;
                     if (NPC.ai[1] >= chargeAmt * 2f || distFromPlayer.Length() > 2400f)
                     {
@@ -535,16 +535,16 @@ namespace CalamityMod.NPCs.Leviathan
 
                     if (NPC.ai[1] % 2f == 0f)
                     {
-                        int num24 = 7;
-                        for (int j = 0; j < num24; j++)
+                        int dustAmt = 7;
+                        for (int j = 0; j < dustAmt; j++)
                         {
-                            Vector2 arg_E1C_0 = (Vector2.Normalize(NPC.velocity) * new Vector2((NPC.width + 50) / 2f, NPC.height) * 0.75f).RotatedBy((j - (num24 / 2 - 1)) * MathHelper.Pi / num24) + vector;
-                            Vector2 vector4 = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
-                            int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
-                            Main.dust[num25].noGravity = true;
-                            Main.dust[num25].noLight = true;
-                            Main.dust[num25].velocity /= 4f;
-                            Main.dust[num25].velocity -= NPC.velocity;
+                            Vector2 arg_E1C_0 = (Vector2.Normalize(NPC.velocity) * new Vector2((NPC.width + 50) / 2f, NPC.height) * 0.75f).RotatedBy((j - (dustAmt / 2 - 1)) * MathHelper.Pi / dustAmt) + npcCenter;
+                            Vector2 dustRotation = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
+                            int waterDust = Dust.NewDust(arg_E1C_0 + dustRotation, 0, 0, 172, dustRotation.X * 2f, dustRotation.Y * 2f, 100, default, 1.4f);
+                            Main.dust[waterDust].noGravity = true;
+                            Main.dust[waterDust].noLight = true;
+                            Main.dust[waterDust].velocity /= 4f;
+                            Main.dust[waterDust].velocity -= NPC.velocity;
                         }
 
                         if (Math.Abs(NPC.position.Y + (NPC.height / 2) - (player.position.Y + (player.height / 2))) < 20f)
@@ -552,72 +552,72 @@ namespace CalamityMod.NPCs.Leviathan
                             NPC.ai[1] += 1f;
                             NPC.ai[2] = 0f;
 
-                            float num1044 = revenge ? 20f : 18f;
-                            num1044 += 2f * enrageScale;
+                            float lineupSpeed = revenge ? 20f : 18f;
+                            lineupSpeed += 2f * enrageScale;
 
                             if (revenge && (!sirenAlive || phase4))
-                                num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
+                                lineupSpeed += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 
                             if (Main.getGoodWorld)
-                                num1044 *= 1.15f;
+                                lineupSpeed *= 1.15f;
 
-                            Vector2 vector117 = vector;
-                            float num1045 = player.Center.X - vector117.X;
-                            float num1046 = player.Center.Y - vector117.Y;
-                            float num1047 = (float)Math.Sqrt(num1045 * num1045 + num1046 * num1046);
-                            num1047 = num1044 / num1047;
-                            NPC.velocity.X = num1045 * num1047;
-                            NPC.velocity.Y = num1046 * num1047;
+                            Vector2 leviChargeCenter = npcCenter;
+                            float playerXDistCharge = player.Center.X - leviChargeCenter.X;
+                            float playerYDistCharge = player.Center.Y - leviChargeCenter.Y;
+                            float playerDistanceCharge = (float)Math.Sqrt(playerXDistCharge * playerXDistCharge + playerYDistCharge * playerYDistCharge);
+                            playerDistanceCharge = lineupSpeed / playerDistanceCharge;
+                            NPC.velocity.X = playerXDistCharge * playerDistanceCharge;
+                            NPC.velocity.Y = playerYDistCharge * playerDistanceCharge;
 
-                            float playerLocation = vector.X - player.Center.X;
+                            float playerLocation = npcCenter.X - player.Center.X;
                             NPC.direction = playerLocation < 0 ? 1 : -1;
                             NPC.spriteDirection = NPC.direction;
 
-                            SoundEngine.PlaySound(RoarChargeSound with { Pitch = RoarChargeSound.Pitch + extrapitch }, vector);
+                            SoundEngine.PlaySound(RoarChargeSound with { Pitch = RoarChargeSound.Pitch + extrapitch }, npcCenter);
 
                             return;
                         }
 
-                        float num1048 = revenge ? 7.5f : 6.5f;
-                        float num1049 = revenge ? 0.12f : 0.11f;
-                        num1048 += 2f * enrageScale;
-                        num1049 += 0.04f * enrageScale;
+                        float chargeSpeed = revenge ? 7.5f : 6.5f;
+                        float chargeAcceleration = revenge ? 0.12f : 0.11f;
+                        chargeSpeed += 2f * enrageScale;
+                        chargeAcceleration += 0.04f * enrageScale;
 
                         if (revenge && (!sirenAlive || phase4))
                         {
-                            num1048 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
-                            num1049 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
+                            chargeSpeed += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
+                            chargeAcceleration += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
                         }
 
                         if (Main.getGoodWorld)
                         {
-                            num1048 *= 1.15f;
-                            num1049 *= 1.15f;
+                            chargeSpeed *= 1.15f;
+                            chargeAcceleration *= 1.15f;
                         }
 
-                        if (vector.Y < player.Center.Y)
-                            NPC.velocity.Y += num1049;
+                        if (npcCenter.Y < player.Center.Y)
+                            NPC.velocity.Y += chargeAcceleration;
                         else
-                            NPC.velocity.Y -= num1049;
+                            NPC.velocity.Y -= chargeAcceleration;
 
-                        if (NPC.velocity.Y < -num1048)
-                            NPC.velocity.Y = -num1048;
-                        if (NPC.velocity.Y > num1048)
-                            NPC.velocity.Y = num1048;
+                        if (NPC.velocity.Y < -chargeSpeed)
+                            NPC.velocity.Y = -chargeSpeed;
+                        if (NPC.velocity.Y > chargeSpeed)
+                            NPC.velocity.Y = chargeSpeed;
 
-                        if (Math.Abs(vector.X - player.Center.X) > chargeDistance + 200f)
-                            NPC.velocity.X += num1049 * NPC.direction;
-                        else if (Math.Abs(vector.X - player.Center.X) < chargeDistance)
-                            NPC.velocity.X -= num1049 * NPC.direction;
+                        if (Math.Abs(npcCenter.X - player.Center.X) > chargeDistance + 200f)
+                            NPC.velocity.X += chargeAcceleration * NPC.direction;
+                        else if (Math.Abs(npcCenter.X - player.Center.X) < chargeDistance)
+                            NPC.velocity.X -= chargeAcceleration * NPC.direction;
                         else
                             NPC.velocity.X *= 0.8f;
 
-                        if (NPC.velocity.X < -num1048)
-                            NPC.velocity.X = -num1048;
-                        if (NPC.velocity.X > num1048)
-                            NPC.velocity.X = num1048;
+                        if (NPC.velocity.X < -chargeSpeed)
+                            NPC.velocity.X = -chargeSpeed;
+                        if (NPC.velocity.X > chargeSpeed)
+                            NPC.velocity.X = chargeSpeed;
 
-                        float playerLocation2 = vector.X - player.Center.X;
+                        float playerLocation2 = npcCenter.X - player.Center.X;
                         NPC.direction = playerLocation2 < 0 ? 1 : -1;
                         NPC.spriteDirection = NPC.direction;
                     }
@@ -630,30 +630,30 @@ namespace CalamityMod.NPCs.Leviathan
 
                         NPC.spriteDirection = NPC.direction;
 
-                        int num1051 = 1;
-                        if (vector.X < player.Center.X)
-                            num1051 = -1;
-                        if (NPC.direction == num1051 && Math.Abs(vector.X - player.Center.X) > chargeDistance)
+                        int chargeXDirectSign = 1;
+                        if (npcCenter.X < player.Center.X)
+                            chargeXDirectSign = -1;
+                        if (NPC.direction == chargeXDirectSign && Math.Abs(npcCenter.X - player.Center.X) > chargeDistance)
                             NPC.ai[2] = 1f;
 
                         if (NPC.ai[2] != 1f)
                             return;
 
-                        float playerLocation = vector.X - player.Center.X;
+                        float playerLocation = npcCenter.X - player.Center.X;
                         NPC.direction = playerLocation < 0 ? 1 : -1;
                         NPC.spriteDirection = NPC.direction;
 
                         NPC.velocity *= 0.9f;
-                        float num1052 = revenge ? 0.11f : 0.1f;
-                        num1052 += 0.02f * enrageScale;
+                        float chargeStopSpeed = revenge ? 0.11f : 0.1f;
+                        chargeStopSpeed += 0.02f * enrageScale;
 
                         if (revenge && (!sirenAlive || phase4))
                         {
                             NPC.velocity *= death ? MathHelper.Lerp(0.75f, 1f, lifeRatio) : MathHelper.Lerp(0.81f, 1f, lifeRatio);
-                            num1052 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
+                            chargeStopSpeed += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
                         }
 
-                        if (Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y) < num1052)
+                        if (Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y) < chargeStopSpeed)
                         {
                             NPC.ai[2] = 0f;
                             NPC.ai[1] += 1f;
@@ -743,23 +743,23 @@ namespace CalamityMod.NPCs.Leviathan
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                for (int num621 = 0; num621 < 40; num621++)
+                for (int i = 0; i < 40; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int bloody = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 2f);
+                    Main.dust[bloody].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[bloody].scale = 0.5f;
+                        Main.dust[bloody].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 70; num623++)
+                for (int j = 0; j < 70; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int bloody2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 3f);
+                    Main.dust[bloody2].noGravity = true;
+                    Main.dust[bloody2].velocity *= 5f;
+                    bloody2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 2f);
+                    Main.dust[bloody2].velocity *= 2f;
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {

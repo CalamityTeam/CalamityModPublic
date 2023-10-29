@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class SilvaCrystalExplosion : ModProjectile, ILocalizedModType
@@ -28,15 +29,15 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Color newColor2 = Main.hslToRgb(Projectile.ai[0], 1f, 0.5f);
-            int num978 = (int)Projectile.ai[1];
-            if (num978 < 0 || num978 >= 1000 || (!Main.projectile[num978].active && Main.projectile[num978].type != ModContent.ProjectileType<SilvaCrystal>()))
+            int activeTimer = (int)Projectile.ai[1];
+            if (activeTimer < 0 || activeTimer >= 1000 || (!Main.projectile[activeTimer].active && Main.projectile[activeTimer].type != ModContent.ProjectileType<SilvaCrystal>()))
             {
                 Projectile.ai[1] = -1f;
             }
             else
             {
                 DelegateMethods.v3_1 = newColor2.ToVector3() * 0.5f;
-                Utils.PlotTileLine(Projectile.Center, Main.projectile[num978].Center, 8f, DelegateMethods.CastLight);
+                Utils.PlotTileLine(Projectile.Center, Main.projectile[activeTimer].Center, 8f, DelegateMethods.CastLight);
             }
             if (Projectile.localAI[0] == 0f)
             {
@@ -56,72 +57,72 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Lighting.AddLight(Projectile.Center, newColor2.ToVector3() * 0.5f);
             }
-            int num3;
-            for (int num979 = 0; num979 < 2; num979 = num3 + 1)
+            int dustCount;
+            for (int i = 0; i < 2; i = dustCount + 1)
             {
                 if (Main.rand.NextBool(10))
                 {
-                    Vector2 value55 = Vector2.UnitY.RotatedBy((double)((float)num979 * 3.14159274f), default).RotatedBy((double)Projectile.rotation, default);
-                    Dust dust24 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
-                    dust24.noGravity = true;
-                    dust24.noLight = true;
-                    dust24.scale = Projectile.Opacity * Projectile.localAI[0];
-                    dust24.position = Projectile.Center;
-                    dust24.velocity = value55 * 2.5f;
+                    Vector2 silvaDustVel = Vector2.UnitY.RotatedBy((double)((float)i * 3.14159274f), default).RotatedBy((double)Projectile.rotation, default);
+                    Dust silvaDust = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
+                    silvaDust.noGravity = true;
+                    silvaDust.noLight = true;
+                    silvaDust.scale = Projectile.Opacity * Projectile.localAI[0];
+                    silvaDust.position = Projectile.Center;
+                    silvaDust.velocity = silvaDustVel * 2.5f;
                 }
-                num3 = num979;
+                dustCount = i;
             }
-            for (int num980 = 0; num980 < 2; num980 = num3 + 1)
+            for (int j = 0; j < 2; j = dustCount + 1)
             {
                 if (Main.rand.NextBool(10))
                 {
-                    Vector2 value56 = Vector2.UnitY.RotatedBy((double)((float)num980 * 3.14159274f), default);
-                    Dust dust25 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
-                    dust25.noGravity = true;
-                    dust25.noLight = true;
-                    dust25.scale = Projectile.Opacity * Projectile.localAI[0];
-                    dust25.position = Projectile.Center;
-                    dust25.velocity = value56 * 2.5f;
+                    Vector2 silvaDustVel2 = Vector2.UnitY.RotatedBy((double)((float)j * 3.14159274f), default);
+                    Dust silvaDust2 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
+                    silvaDust2.noGravity = true;
+                    silvaDust2.noLight = true;
+                    silvaDust2.scale = Projectile.Opacity * Projectile.localAI[0];
+                    silvaDust2.position = Projectile.Center;
+                    silvaDust2.velocity = silvaDustVel2 * 2.5f;
                 }
-                num3 = num980;
+                dustCount = j;
             }
             if (Main.rand.NextBool(10))
             {
-                float scaleFactor13 = 1f + Main.rand.NextFloat() * 2f;
+                float dustVelMod = 1f + Main.rand.NextFloat() * 2f;
                 float fadeIn = 1f + Main.rand.NextFloat();
-                float num981 = 1f + Main.rand.NextFloat();
-                Vector2 vector136 = Utils.RandomVector2(Main.rand, -1f, 1f);
-                if (vector136 != Vector2.Zero)
+                float dustScale = 1f + Main.rand.NextFloat();
+                Vector2 randVector = Utils.RandomVector2(Main.rand, -1f, 1f);
+                if (randVector != Vector2.Zero)
                 {
-                    vector136.Normalize();
+                    randVector.Normalize();
                 }
-                vector136 *= 20f + Main.rand.NextFloat() * 100f;
-                Vector2 vector137 = Projectile.Center + vector136;
-                Point point3 = vector137.ToTileCoordinates();
-                bool flag52 = true;
-                if (!WorldGen.InWorld(point3.X, point3.Y, 0))
+                randVector *= 20f + Main.rand.NextFloat() * 100f;
+                Vector2 dustPos = Projectile.Center + randVector;
+                Point dustCoords = dustPos.ToTileCoordinates();
+                bool shouldSpawnDust = true;
+                if (!WorldGen.InWorld(dustCoords.X, dustCoords.Y, 0))
                 {
-                    flag52 = false;
+                    shouldSpawnDust = false;
                 }
-                if (flag52 && WorldGen.SolidTile(point3.X, point3.Y))
+                if (shouldSpawnDust && WorldGen.SolidTile(dustCoords.X, dustCoords.Y))
                 {
-                    flag52 = false;
+                    shouldSpawnDust = false;
                 }
-                if (flag52)
+                if (shouldSpawnDust)
                 {
-                    Dust dust26 = Main.dust[Dust.NewDust(vector137, 0, 0, 267, 0f, 0f, 127, newColor2, 1f)];
-                    dust26.noGravity = true;
-                    dust26.position = vector137;
-                    dust26.velocity = -Vector2.UnitY * scaleFactor13 * (Main.rand.NextFloat() * 0.9f + 1.6f);
-                    dust26.fadeIn = fadeIn;
-                    dust26.scale = num981;
-                    dust26.noLight = true;
-                    Dust dust27 = Dust.CloneDust(dust26);
-                    Dust dust = dust27;
+                    Dust rainbowDust = Main.dust[Dust.NewDust(dustPos, 0, 0, 267, 0f, 0f, 127, newColor2, 1f)];
+                    rainbowDust.noGravity = true;
+                    rainbowDust.position = dustPos;
+                    rainbowDust.velocity = -Vector2.UnitY * dustVelMod * (Main.rand.NextFloat() * 0.9f + 1.6f);
+                    rainbowDust.fadeIn = fadeIn;
+                    rainbowDust.scale = dustScale;
+                    rainbowDust.noLight = true;
+                    Dust rainbowDust2 = Dust.CloneDust(rainbowDust);
+                    Dust dust = rainbowDust2;
                     dust.scale *= 0.65f;
-                    dust = dust27;
+                    dust = rainbowDust2;
                     dust.fadeIn *= 0.65f;
-                    dust27.color = new Color(255, 255, 255, 255);
+                    rainbowDust2.color = new Color(255, 255, 255, 255);
                 }
             }
             Projectile.scale = Projectile.Opacity / 2f * Projectile.localAI[0];
@@ -135,26 +136,26 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Color color25 = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
-            Vector2 vector59 = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
+            Color colorArea = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
+            Vector2 projPos = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D34 = ModContent.Request<Texture2D>(Texture).Value;
-            Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
-            Color alpha5 = Projectile.GetAlpha(color25);
-            Vector2 origin11 = rectangle17.Size() / 2f;
-            Color color60 = Main.hslToRgb(Projectile.ai[0], 1f, 0.5f).MultiplyRGBA(new Color(255, 255, 255, 0));
-            Main.EntitySpriteDraw(texture2D34, vector59, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60, Projectile.rotation, origin11, Projectile.scale * 2f, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(texture2D34, vector59, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60, 0f, origin11, Projectile.scale * 2f, SpriteEffects.None, 0);
+            Rectangle rectangular = texture2D34.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Color colorAlpha = Projectile.GetAlpha(colorArea);
+            Vector2 halfRectangle = rectangular.Size() / 2f;
+            Color projColor = Main.hslToRgb(Projectile.ai[0], 1f, 0.5f).MultiplyRGBA(new Color(255, 255, 255, 0));
+            Main.EntitySpriteDraw(texture2D34, projPos, new Microsoft.Xna.Framework.Rectangle?(rectangular), projColor, Projectile.rotation, halfRectangle, Projectile.scale * 2f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture2D34, projPos, new Microsoft.Xna.Framework.Rectangle?(rectangular), projColor, 0f, halfRectangle, Projectile.scale * 2f, SpriteEffects.None, 0);
             if (Projectile.ai[1] != -1f && Projectile.Opacity > 0.3f)
             {
-                Vector2 vector61 = Main.projectile[(int)Projectile.ai[1]].Center - Projectile.Center;
-                Vector2 vector62 = new Vector2(1f, vector61.Length() / (float)texture2D34.Height);
-                float rotation27 = vector61.ToRotation() + 1.57079637f;
-                float num279 = MathHelper.Distance(15f, Projectile.localAI[1]) / 20f;
-                num279 = MathHelper.Clamp(num279, 0f, 1f);
-                if (num279 > 0f)
+                Vector2 projDirection = Main.projectile[(int)Projectile.ai[1]].Center - Projectile.Center;
+                Vector2 projDistance = new Vector2(1f, projDirection.Length() / (float)texture2D34.Height);
+                float drawRotation = projDirection.ToRotation() + 1.57079637f;
+                float colorClamp = MathHelper.Distance(15f, Projectile.localAI[1]) / 20f;
+                colorClamp = MathHelper.Clamp(colorClamp, 0f, 1f);
+                if (colorClamp > 0f)
                 {
-                    Main.EntitySpriteDraw(texture2D34, vector59 + vector61 / 2f, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60 * num279, rotation27, origin11, vector62, SpriteEffects.None, 0);
-                    Main.EntitySpriteDraw(texture2D34, vector59 + vector61 / 2f, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * num279, rotation27, origin11, vector62 / 2f, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(texture2D34, projPos + projDirection / 2f, new Microsoft.Xna.Framework.Rectangle?(rectangular), projColor * colorClamp, drawRotation, halfRectangle, projDistance, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(texture2D34, projPos + projDirection / 2f, new Microsoft.Xna.Framework.Rectangle?(rectangular), colorAlpha * colorClamp, drawRotation, halfRectangle, projDistance / 2f, SpriteEffects.None, 0);
                 }
             }
             return false;
@@ -163,51 +164,51 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnKill(int timeLeft)
         {
             Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(3.1415927410125732);
-            float num69 = (float)Main.rand.Next(7, 13);
-            Vector2 value5 = new Vector2(2.1f, 2f);
+            float rando = (float)Main.rand.Next(7, 13);
+            Vector2 dustVel = new Vector2(2.1f, 2f);
             Color newColor = Main.hslToRgb(Projectile.ai[0], 1f, 0.5f);
             newColor.A = 255;
-            float num72;
-            for (float num70 = 0f; num70 < num69; num70 = num72 + 1f)
+            float dustCount;
+            for (float i = 0f; i < rando; i = dustCount + 1f)
             {
-                int num71 = Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
-                Main.dust[num71].position = Projectile.Center;
-                Main.dust[num71].velocity = spinningpoint.RotatedBy((double)(6.28318548f * num70 / num69), default) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
-                Main.dust[num71].noGravity = true;
-                Main.dust[num71].scale = 2f;
-                Main.dust[num71].fadeIn = Main.rand.NextFloat() * 2f;
-                Dust dust11 = Dust.CloneDust(num71);
-                Dust dust = dust11;
+                int dustID = Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
+                Main.dust[dustID].position = Projectile.Center;
+                Main.dust[dustID].velocity = spinningpoint.RotatedBy((double)(6.28318548f * i / rando), default) * dustVel * (0.8f + Main.rand.NextFloat() * 0.4f);
+                Main.dust[dustID].noGravity = true;
+                Main.dust[dustID].scale = 2f;
+                Main.dust[dustID].fadeIn = Main.rand.NextFloat() * 2f;
+                Dust dustCloning = Dust.CloneDust(dustID);
+                Dust dust = dustCloning;
                 dust.scale /= 2f;
-                dust = dust11;
+                dust = dustCloning;
                 dust.fadeIn /= 2f;
-                dust11.color = new Color(255, 255, 255, 255);
-                num72 = num70;
+                dustCloning.color = new Color(255, 255, 255, 255);
+                dustCount = i;
             }
-            for (float num73 = 0f; num73 < num69; num73 = num72 + 1f)
+            for (float j = 0f; j < rando; j = dustCount + 1f)
             {
-                int num74 = Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
-                Main.dust[num74].position = Projectile.Center;
-                Main.dust[num74].velocity = spinningpoint.RotatedBy((double)(6.28318548f * num73 / num69), default) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
-                Dust dust = Main.dust[num74];
+                int dustID = Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
+                Main.dust[dustID].position = Projectile.Center;
+                Main.dust[dustID].velocity = spinningpoint.RotatedBy((double)(6.28318548f * j / rando), default) * dustVel * (0.8f + Main.rand.NextFloat() * 0.4f);
+                Dust dust = Main.dust[dustID];
                 dust.velocity *= Main.rand.NextFloat() * 0.8f;
-                Main.dust[num74].noGravity = true;
-                Main.dust[num74].scale = Main.rand.NextFloat() * 1f;
-                Main.dust[num74].fadeIn = Main.rand.NextFloat() * 2f;
-                Dust dust12 = Dust.CloneDust(num74);
-                dust = dust12;
+                Main.dust[dustID].noGravity = true;
+                Main.dust[dustID].scale = Main.rand.NextFloat() * 1f;
+                Main.dust[dustID].fadeIn = Main.rand.NextFloat() * 2f;
+                Dust dustCloning2 = Dust.CloneDust(dustID);
+                dust = dustCloning2;
                 dust.scale /= 2f;
-                dust = dust12;
+                dust = dustCloning2;
                 dust.fadeIn /= 2f;
-                dust12.color = new Color(255, 255, 255, 255);
-                num72 = num73;
+                dustCloning2.color = new Color(255, 255, 255, 255);
+                dustCount = j;
             }
             if (Main.myPlayer == Projectile.owner)
             {
                 Projectile.friendly = true;
                 int width = Projectile.width;
                 int height2 = Projectile.height;
-                int num75 = Projectile.penetrate;
+                int penetrateClone = Projectile.penetrate;
                 Projectile.position = Projectile.Center;
                 Projectile.width = Projectile.height = 60;
                 Projectile.Center = Projectile.position;
@@ -216,7 +217,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.usesLocalNPCImmunity = true;
                 Projectile.localNPCHitCooldown = 10;
                 Projectile.Damage();
-                Projectile.penetrate = num75;
+                Projectile.penetrate = penetrateClone;
                 Projectile.position = Projectile.Center;
                 Projectile.width = width;
                 Projectile.height = height2;

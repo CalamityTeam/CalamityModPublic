@@ -25,36 +25,36 @@ namespace CalamityMod.Projectiles.Melee
         {
             try
             {
-                int num223 = (int)(Projectile.position.X / 16f) - 1;
-                int num224 = (int)((Projectile.position.X + (float)Projectile.width) / 16f) + 2;
-                int num225 = (int)(Projectile.position.Y / 16f) - 1;
-                int num226 = (int)((Projectile.position.Y + (float)Projectile.height) / 16f) + 2;
-                if (num223 < 0)
+                int tileXMin = (int)(Projectile.position.X / 16f) - 1;
+                int tileXMax = (int)((Projectile.position.X + (float)Projectile.width) / 16f) + 2;
+                int tileYMin = (int)(Projectile.position.Y / 16f) - 1;
+                int tileYMax = (int)((Projectile.position.Y + (float)Projectile.height) / 16f) + 2;
+                if (tileXMin < 0)
                 {
-                    num223 = 0;
+                    tileXMin = 0;
                 }
-                if (num224 > Main.maxTilesX)
+                if (tileXMax > Main.maxTilesX)
                 {
-                    num224 = Main.maxTilesX;
+                    tileXMax = Main.maxTilesX;
                 }
-                if (num225 < 0)
+                if (tileYMin < 0)
                 {
-                    num225 = 0;
+                    tileYMin = 0;
                 }
-                if (num226 > Main.maxTilesY)
+                if (tileYMax > Main.maxTilesY)
                 {
-                    num226 = Main.maxTilesY;
+                    tileYMax = Main.maxTilesY;
                 }
-                for (int num227 = num223; num227 < num224; num227++)
+                for (int i = tileXMin; i < tileXMax; i++)
                 {
-                    for (int num228 = num225; num228 < num226; num228++)
+                    for (int j = tileYMin; j < tileYMax; j++)
                     {
-                        if (Main.tile[num227, num228] != null && Main.tile[num227, num228].HasUnactuatedTile && (Main.tileSolid[(int)Main.tile[num227, num228].TileType] || (Main.tileSolidTop[(int)Main.tile[num227, num228].TileType] && Main.tile[num227, num228].TileFrameY == 0)))
+                        if (Main.tile[i, j] != null && Main.tile[i, j].HasUnactuatedTile && (Main.tileSolid[(int)Main.tile[i, j].TileType] || (Main.tileSolidTop[(int)Main.tile[i, j].TileType] && Main.tile[i, j].TileFrameY == 0)))
                         {
-                            Vector2 vector19;
-                            vector19.X = (float)(num227 * 16);
-                            vector19.Y = (float)(num228 * 16);
-                            if (Projectile.position.X + (float)Projectile.width - 4f > vector19.X && Projectile.position.X + 4f < vector19.X + 16f && Projectile.position.Y + (float)Projectile.height - 4f > vector19.Y && Projectile.position.Y + 4f < vector19.Y + 16f)
+                            Vector2 projPos;
+                            projPos.X = (float)(i * 16);
+                            projPos.Y = (float)(j * 16);
+                            if (Projectile.position.X + (float)Projectile.width - 4f > projPos.X && Projectile.position.X + 4f < projPos.X + 16f && Projectile.position.Y + (float)Projectile.height - 4f > projPos.Y && Projectile.position.Y + 4f < projPos.Y + 16f)
                             {
                                 Projectile.velocity.X = 0f;
                                 Projectile.velocity.Y = -0.2f;
@@ -105,18 +105,18 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 22;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int num648 = 0; num648 < 20; num648++)
+            for (int i = 0; i < 20; i++)
             {
-                int num649 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num649].velocity *= 1.4f;
+                int blood = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 1.5f);
+                Main.dust[blood].velocity *= 1.4f;
             }
-            for (int num650 = 0; num650 < 10; num650++)
+            for (int j = 0; j < 10; j++)
             {
-                int num651 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 2.5f);
-                Main.dust[num651].noGravity = true;
-                Main.dust[num651].velocity *= 5f;
-                num651 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num651].velocity *= 3f;
+                int bloody = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 2.5f);
+                Main.dust[bloody].noGravity = true;
+                Main.dust[bloody].velocity *= 5f;
+                bloody = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 1.5f);
+                Main.dust[bloody].velocity *= 3f;
             }
         }
 

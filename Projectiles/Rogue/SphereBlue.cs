@@ -59,14 +59,14 @@ namespace CalamityMod.Projectiles.Rogue
             SoundEngine.PlaySound(SoundID.NPCDeath37, Projectile.position);
             if (Main.netMode != NetmodeID.Server)
             {
-                for (int num625 = 0; num625 < 3; num625++)
+                for (int i = 0; i < 3; i++)
                 {
                     float scaleFactor10 = 0.33f;
-                    if (num625 == 1)
+                    if (i == 1)
                     {
                         scaleFactor10 = 0.66f;
                     }
-                    if (num625 == 2)
+                    if (i == 2)
                     {
                         scaleFactor10 = 1f;
                     }
@@ -75,16 +75,16 @@ namespace CalamityMod.Projectiles.Rogue
                     Main.gore[defectiveBruh].velocity += Projectile.velocity;
                 }
             }
-            for (int num194 = 0; num194 < 25; num194++)
+            for (int j = 0; j < 25; j++)
             {
                 int dustType = Utils.SelectRandom(Main.rand, new int[]
                 {
                     226,
                     229
                 });
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 0f;
+                int dusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1f);
+                Main.dust[dusty].noGravity = true;
+                Main.dust[dusty].velocity *= 0f;
             }
         }
 

@@ -1,14 +1,14 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.IO;
+using CalamityMod.Sounds;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using ReLogic.Content;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Boss
             if (timer > 0f)
                 timer -= 1f;
 
-            float num801 = 1f;
+            float projScale = 1f;
             if (timeBeforeVanish == 0f)
                 timeBeforeVanish = Projectile.timeLeft <= 900 ? 900f : 1200f;
 
@@ -77,35 +77,33 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            Projectile.scale = (float)Math.Sin(Projectile.localAI[0] * Math.PI / timeBeforeVanish) * 10f * num801;
-            if (Projectile.scale > num801)
-                Projectile.scale = num801;
+            Projectile.scale = (float)Math.Sin(Projectile.localAI[0] * Math.PI / timeBeforeVanish) * 10f * projScale;
+            if (Projectile.scale > projScale)
+                Projectile.scale = projScale;
 
-            float num804 = Projectile.velocity.ToRotation();
-            Projectile.rotation = num804 - MathHelper.PiOver2;
-            Projectile.velocity = num804.ToRotationVector2();
+            float projVelRotation = Projectile.velocity.ToRotation();
+            Projectile.rotation = projVelRotation - MathHelper.PiOver2;
+            Projectile.velocity = projVelRotation.ToRotationVector2();
 
-            float num805 = 3f; //3f
-            float num806 = Projectile.width;
+            float projWidth = Projectile.width;
 
             Vector2 samplingPoint = Projectile.Center;
             if (vector78.HasValue)
                 samplingPoint = vector78.Value;
 
             float laserLength = Projectile.ai[1] - 160f;
-            float[] array3 = new float[(int)num805];
-            Collision.LaserScan(samplingPoint, Projectile.velocity, num806 * Projectile.scale, laserLength, array3);
-            float num807 = 0f;
-            for (int num808 = 0; num808 < array3.Length; num808++)
+            float[] array3 = new float[3];
+            Collision.LaserScan(samplingPoint, Projectile.velocity, projWidth * Projectile.scale, laserLength, array3);
+            float auraLength = 0f;
+            for (int j = 0; j < array3.Length; j++)
             {
-                num807 += array3[num808];
+                auraLength += array3[j];
             }
-            num807 /= num805;
+            auraLength /= 3f;
 
-            num807 = MathHelper.Clamp(num807, 3600f, 4800f);
+            auraLength = MathHelper.Clamp(auraLength, 3600f, 4800f);
 
-            float amount = 0.5f;
-            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], num807, amount);
+            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], auraLength, 0.5f);
 
             DelegateMethods.v3_1 = new Vector3(0.9f, 0.3f, 0.3f);
             Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], Projectile.width * Projectile.scale, DelegateMethods.CastLight);
@@ -137,37 +135,37 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D texture2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BirbAuraStart", AssetRequestMode.ImmediateLoad).Value;
             Texture2D texture3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BirbAuraEnd", AssetRequestMode.ImmediateLoad).Value;
-            float num223 = Projectile.localAI[1]; //length of laser
-            Color color44 = new Color(128, 128, 128, 0);
+            float auraDrawLength = Projectile.localAI[1]; //length of laser
+            Color grayColor = new Color(128, 128, 128, 0);
             Vector2 vector = Projectile.Center - Main.screenPosition;
             Rectangle? sourceRectangle2 = null;
-            Main.EntitySpriteDraw(texture2, vector, sourceRectangle2, color44, Projectile.rotation, texture2.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
-            num223 -= (texture2.Height / 2 + texture3.Height) * Projectile.scale;
-            Vector2 value20 = Projectile.Center;
-            value20 += Projectile.velocity * Projectile.scale * texture2.Height / 2f;
-            if (num223 > 0f)
+            Main.EntitySpriteDraw(texture2, vector, sourceRectangle2, grayColor, Projectile.rotation, texture2.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            auraDrawLength -= (texture2.Height / 2 + texture3.Height) * Projectile.scale;
+            Vector2 projCenter = Projectile.Center;
+            projCenter += Projectile.velocity * Projectile.scale * texture2.Height / 2f;
+            if (auraDrawLength > 0f)
             {
-                float num224 = 0f;
-                Rectangle rectangle7 = new Rectangle(0, 0, texture.Width, texture.Height);
-                while (num224 + 1f < num223)
+                float auraSegment = 0f;
+                Rectangle drawRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+                while (auraSegment + 1f < auraDrawLength)
                 {
-                    if (num223 - num224 < rectangle7.Height)
+                    if (auraDrawLength - auraSegment < drawRectangle.Height)
                     {
-                        rectangle7.Height = (int)(num223 - num224);
+                        drawRectangle.Height = (int)(auraDrawLength - auraSegment);
                     }
-                    Main.EntitySpriteDraw(texture, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, Projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0);
-                    num224 += rectangle7.Height * Projectile.scale;
-                    value20 += Projectile.velocity * rectangle7.Height * Projectile.scale;
-                    rectangle7.Y += texture.Height;
-                    if (rectangle7.Y + rectangle7.Height > texture.Height)
+                    Main.EntitySpriteDraw(texture, projCenter - Main.screenPosition, new Rectangle?(drawRectangle), grayColor, Projectile.rotation, new Vector2(drawRectangle.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0);
+                    auraSegment += drawRectangle.Height * Projectile.scale;
+                    projCenter += Projectile.velocity * drawRectangle.Height * Projectile.scale;
+                    drawRectangle.Y += texture.Height;
+                    if (drawRectangle.Y + drawRectangle.Height > texture.Height)
                     {
-                        rectangle7.Y = 0;
+                        drawRectangle.Y = 0;
                     }
                 }
             }
-            Vector2 vector2 = value20 - Main.screenPosition;
+            Vector2 vector2 = projCenter - Main.screenPosition;
             sourceRectangle2 = null;
-            Main.EntitySpriteDraw(texture3, vector2, sourceRectangle2, color44, Projectile.rotation, texture3.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture3, vector2, sourceRectangle2, grayColor, Projectile.rotation, texture3.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -188,8 +186,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return true;
             }
-            float num6 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 80f * Projectile.scale, ref num6))
+            float useless = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 80f * Projectile.scale, ref useless))
             {
                 return true;
             }

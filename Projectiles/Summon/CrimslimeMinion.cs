@@ -52,22 +52,22 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (dust == 0f)
             {
-                int num226 = 16;
-                for (int num227 = 0; num227 < num226; num227++)
+                int constant = 16;
+                for (int i = 0; i < constant; i++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                    Vector2 vector7 = vector6 - Projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 5, vector7.X * 1f, vector7.Y * 1f, 100, default, 1.1f);
-                    Main.dust[num228].noGravity = true;
-                    Main.dust[num228].noLight = true;
-                    Main.dust[num228].velocity = vector7;
+                    Vector2 rotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    rotate = rotate.RotatedBy((double)((float)(i - (constant / 2 - 1)) * 6.28318548f / (float)constant), default) + Projectile.Center;
+                    Vector2 faceDirection = rotate - Projectile.Center;
+                    int dust = Dust.NewDust(rotate + faceDirection, 0, 0, 5, faceDirection.X * 1f, faceDirection.Y * 1f, 100, default, 1.1f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].noLight = true;
+                    Main.dust[dust].velocity = faceDirection;
                 }
                 dust += 1f;
             }
-            bool flag64 = Projectile.type == ModContent.ProjectileType<CrimslimeMinion>();
+            bool isMinion = Projectile.type == ModContent.ProjectileType<CrimslimeMinion>();
             player.AddBuff(ModContent.BuffType<Crimslime>(), 3600);
-            if (flag64)
+            if (isMinion)
             {
                 if (player.dead)
                 {
@@ -83,9 +83,9 @@ namespace CalamityMod.Projectiles.Summon
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = texture2D13.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
-            Main.EntitySpriteDraw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            int framing = texture2D13.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
+            Main.EntitySpriteDraw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, framing)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)framing / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

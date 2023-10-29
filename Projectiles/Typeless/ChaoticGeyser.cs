@@ -66,8 +66,8 @@ namespace CalamityMod.Projectiles.Typeless
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             }
             Projectile.rotation += Projectile.velocity.X * 0.1f;
-            int num199 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 1f);
-            Dust dust = Main.dust[num199];
+            int flareDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 1f);
+            Dust dust = Main.dust[flareDust];
             dust.position.X -= 2f;
             dust.position.Y += 2f;
             dust.scale += (float)Main.rand.Next(50) * 0.01f;
@@ -75,8 +75,8 @@ namespace CalamityMod.Projectiles.Typeless
             dust.velocity.Y -= 16f;
             if (Main.rand.NextBool())
             {
-                int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 1f);
-                Dust dust2 = Main.dust[num200];
+                int flareDust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 1f);
+                Dust dust2 = Main.dust[flareDust2];
                 dust2.position.X -= 2f;
                 dust2.position.Y += 2f;
                 dust2.scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;

@@ -37,11 +37,11 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
             {
-                for (int num468 = 0; num468 < 3; num468++)
+                for (int i = 0; i < 3; i++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 100, default, 0.75f);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
+                    int plagued = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 100, default, 0.75f);
+                    Main.dust[plagued].noGravity = true;
+                    Main.dust[plagued].velocity *= 0f;
                 }
             }
 

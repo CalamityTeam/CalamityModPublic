@@ -61,71 +61,71 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.width = Projectile.height = 50;
             }
             Player player = Main.player[Projectile.owner];
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            Vector2 projPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float projX = (float)Main.mouseX + Main.screenPosition.X - projPos.X;
+            float projY = (float)Main.mouseY + Main.screenPosition.Y - projPos.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                projY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - projPos.Y;
             }
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            if ((float.IsNaN(projX) && float.IsNaN(projY)) || (projX == 0f && projY == 0f))
             {
-                num78 = (float)player.direction;
-                num79 = 0f;
+                projX = (float)player.direction;
+                projY = 0f;
             }
-            vector2 += new Vector2(num78, num79);
+            projPos += new Vector2(projX, projY);
             float speed = 30f;
             float speedScale = 3f;
             Vector2 vectorPos = Projectile.Center;
-            if (Vector2.Distance(vector2, vectorPos) < 90f)
+            if (Vector2.Distance(projPos, vectorPos) < 90f)
             {
                 speed = 10f;
                 speedScale = 1f;
             }
-            if (Vector2.Distance(vector2, vectorPos) < 30f)
+            if (Vector2.Distance(projPos, vectorPos) < 30f)
             {
                 speed = 3f;
                 speedScale = 0.3f;
             }
-            if (Vector2.Distance(vector2, vectorPos) < 10f)
+            if (Vector2.Distance(projPos, vectorPos) < 10f)
             {
                 speed = 1f;
                 speedScale = 0.1f;
             }
-            float num678 = vector2.X - vectorPos.X;
-            float num679 = vector2.Y - vectorPos.Y;
-            float num680 = (float)Math.Sqrt((double)(num678 * num678 + num679 * num679));
-            num680 = speed / num680;
-            num678 *= num680;
-            num679 *= num680;
-            if (Projectile.velocity.X < num678)
+            float projectileX = projPos.X - vectorPos.X;
+            float projectileY = projPos.Y - vectorPos.Y;
+            float projectileAdjust = (float)Math.Sqrt((double)(projectileX * projectileX + projectileY * projectileY));
+            projectileAdjust = speed / projectileAdjust;
+            projectileX *= projectileAdjust;
+            projectileY *= projectileAdjust;
+            if (Projectile.velocity.X < projectileX)
             {
                 Projectile.velocity.X = Projectile.velocity.X + speedScale;
-                if (Projectile.velocity.X < 0f && num678 > 0f)
+                if (Projectile.velocity.X < 0f && projectileX > 0f)
                 {
                     Projectile.velocity.X = Projectile.velocity.X + speedScale;
                 }
             }
-            else if (Projectile.velocity.X > num678)
+            else if (Projectile.velocity.X > projectileX)
             {
                 Projectile.velocity.X = Projectile.velocity.X - speedScale;
-                if (Projectile.velocity.X > 0f && num678 < 0f)
+                if (Projectile.velocity.X > 0f && projectileX < 0f)
                 {
                     Projectile.velocity.X = Projectile.velocity.X - speedScale;
                 }
             }
-            if (Projectile.velocity.Y < num679)
+            if (Projectile.velocity.Y < projectileY)
             {
                 Projectile.velocity.Y = Projectile.velocity.Y + speedScale;
-                if (Projectile.velocity.Y < 0f && num679 > 0f)
+                if (Projectile.velocity.Y < 0f && projectileY > 0f)
                 {
                     Projectile.velocity.Y = Projectile.velocity.Y + speedScale;
                 }
             }
-            else if (Projectile.velocity.Y > num679)
+            else if (Projectile.velocity.Y > projectileY)
             {
                 Projectile.velocity.Y = Projectile.velocity.Y - speedScale;
-                if (Projectile.velocity.Y > 0f && num679 < 0f)
+                if (Projectile.velocity.Y > 0f && projectileY < 0f)
                 {
                     Projectile.velocity.Y = Projectile.velocity.Y - speedScale;
                 }

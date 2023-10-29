@@ -33,11 +33,11 @@ namespace CalamityMod.Projectiles.Magic
         {
             Lighting.AddLight(Projectile.Center, 0.65f, 0f, 0.1f);
             Player player = Main.player[Projectile.owner];
-            float num = 0f;
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            float piConditional = 0f;
+            Vector2 playerRotate = player.RotatedRelativePoint(player.MountedCenter, true);
             if (Projectile.spriteDirection == -1)
             {
-                num = MathHelper.Pi;
+                piConditional = MathHelper.Pi;
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 4)
@@ -50,25 +50,25 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.frame = 0;
             }
             Projectile.ai[0] += 1f;
-            int num39 = 0;
+            int aiSoundDelay = 0;
             if (Projectile.ai[0] >= 240f)
             {
-                num39++;
+                aiSoundDelay++;
             }
             if (Projectile.ai[0] >= 480f)
             {
-                num39++;
+                aiSoundDelay++;
             }
-            int num40 = 40;
-            int num41 = 2;
+            int soundDelayer = 40;
+            int soundDelayMult = 2;
             Projectile.ai[1] -= 1f;
-            bool flag15 = false;
+            bool isActive = false;
             if (Projectile.ai[1] <= 0f)
             {
-                Projectile.ai[1] = (float)(num40 - num41 * num39);
-                flag15 = true;
+                Projectile.ai[1] = (float)(soundDelayer - soundDelayMult * aiSoundDelay);
+                isActive = true;
             }
-            bool flag16 = player.channel && !player.noItems && !player.CCed;
+            bool canUseItem = player.channel && !player.noItems && !player.CCed;
             if (Projectile.localAI[0] > 0f)
             {
                 Projectile.localAI[0] -= 1f;
@@ -89,13 +89,13 @@ namespace CalamityMod.Projectiles.Magic
                         else
                         {
                             Projectile.Kill();
-                            flag15 = false;
+                            isActive = false;
                         }
                     }
                     else
                     {
                         Projectile.Kill();
-                        flag15 = false;
+                        isActive = false;
                     }
                 }
                 else
@@ -107,12 +107,12 @@ namespace CalamityMod.Projectiles.Magic
                     }
                 }
                 Projectile.localAI[1] += 1f;
-                Projectile.soundDelay = num40 - num41 * num39;
+                Projectile.soundDelay = soundDelayer - soundDelayMult * aiSoundDelay;
 
-                if (flag15)
+                if (isActive)
                     SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
             }
-            else if (Projectile.soundDelay <= 0 && flag16)
+            else if (Projectile.soundDelay <= 0 && canUseItem)
             {
                 if (player.statMana < manaCost)
                 {
@@ -127,13 +127,13 @@ namespace CalamityMod.Projectiles.Magic
                         else
                         {
                             Projectile.Kill();
-                            flag15 = false;
+                            isActive = false;
                         }
                     }
                     else
                     {
                         Projectile.Kill();
-                        flag15 = false;
+                        isActive = false;
                     }
                 }
                 else
@@ -144,47 +144,46 @@ namespace CalamityMod.Projectiles.Magic
                         player.manaRegenDelay = (int)player.maxRegenDelay;
                     }
                 }
-                Projectile.soundDelay = num40 - num41 * num39;
-                if (Projectile.ai[0] != 1f && flag15)
+                Projectile.soundDelay = soundDelayer - soundDelayMult * aiSoundDelay;
+                if (Projectile.ai[0] != 1f && isActive)
                 {
                     SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
                 }
                 Projectile.localAI[0] = 12f;
             }
-            if (flag15 && Main.myPlayer == Projectile.owner)
+            if (isActive && Main.myPlayer == Projectile.owner)
             {
-                int num42 = ModContent.ProjectileType<GhastlyBlast>();
                 float coreVelocity = 11.5f;
                 int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                 float weaponKnockback2 = player.ActiveItem().knockBack;
-                if (flag16)
+                if (canUseItem)
                 {
                     weaponKnockback2 = player.GetWeaponKnockback(player.ActiveItem(), weaponKnockback2);
                     float scaleFactor12 = player.ActiveItem().shootSpeed * Projectile.scale;
-                    Vector2 vector19 = vector;
-                    Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - vector19;
+                    Vector2 playerRotateCopy = playerRotate;
+                    Vector2 projSpawnDirection = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - playerRotateCopy;
                     if (player.gravDir == -1f)
                     {
-                        value18.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - vector19.Y;
+                        projSpawnDirection.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - playerRotateCopy.Y;
                     }
-                    Vector2 value19 = Vector2.Normalize(value18);
-                    if (float.IsNaN(value19.X) || float.IsNaN(value19.Y))
+                    Vector2 projSpawnDirectNormalize = Vector2.Normalize(projSpawnDirection);
+                    if (float.IsNaN(projSpawnDirectNormalize.X) || float.IsNaN(projSpawnDirectNormalize.Y))
                     {
-                        value19 = -Vector2.UnitY;
+                        projSpawnDirectNormalize = -Vector2.UnitY;
                     }
-                    value19 *= scaleFactor12;
-                    if (value19.X != Projectile.velocity.X || value19.Y != Projectile.velocity.Y)
+                    projSpawnDirectNormalize *= scaleFactor12;
+                    if (projSpawnDirectNormalize.X != Projectile.velocity.X || projSpawnDirectNormalize.Y != Projectile.velocity.Y)
                     {
                         Projectile.netUpdate = true;
                     }
-                    Projectile.velocity = value19 * 0.55f;
-                    Vector2 vector20 = Vector2.Normalize(Projectile.velocity) * coreVelocity;
-                    if (float.IsNaN(vector20.X) || float.IsNaN(vector20.Y))
+                    Projectile.velocity = projSpawnDirectNormalize * 0.55f;
+                    Vector2 normalCoreVel = Vector2.Normalize(Projectile.velocity) * coreVelocity;
+                    if (float.IsNaN(normalCoreVel.X) || float.IsNaN(normalCoreVel.Y))
                     {
-                        vector20 = -Vector2.UnitY;
+                        normalCoreVel = -Vector2.UnitY;
                     }
-                    Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -10f, 10f);
-                    int num44 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, Projectile.owner, 0f, 0f);
+                    Vector2 randomSpawnOffset = playerRotateCopy + Utils.RandomVector2(Main.rand, -10f, 10f);
+                    int blastProj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), randomSpawnOffset.X, randomSpawnOffset.Y, normalCoreVel.X, normalCoreVel.Y, ModContent.ProjectileType<GhastlyBlast>(), weaponDamage2, weaponKnockback2, Projectile.owner, 0f, 0f);
                 }
                 else
                 {
@@ -192,7 +191,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
-            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.rotation = Projectile.velocity.ToRotation() + piConditional;
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;
             player.ChangeDir(Projectile.direction);
@@ -205,14 +204,14 @@ namespace CalamityMod.Projectiles.Magic
         public override void PostDraw(Color lightColor)
         {
             Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
+            int framing = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
             Vector2 origin = new Vector2(13f, 16f);
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/GhastlyVisageProjGlow").Value, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/GhastlyVisageProjGlow").Value, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, framing)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
         }
 
         public override bool? CanDamage() => false;

@@ -53,11 +53,11 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Projectile.alpha < 40)
             {
-                int num309 = Dust.NewDust(new Vector2(Projectile.position.X - Projectile.velocity.X * 4f + 2f, Projectile.position.Y + 2f - Projectile.velocity.Y * 4f), 8, 8, 107, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, new Color(0, 255, 255), 0.5f);
-                Main.dust[num309].velocity *= -0.25f;
-                num309 = Dust.NewDust(new Vector2(Projectile.position.X - Projectile.velocity.X * 4f + 2f, Projectile.position.Y + 2f - Projectile.velocity.Y * 4f), 8, 8, 107, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, new Color(0, 255, 255), 0.5f);
-                Main.dust[num309].velocity *= -0.25f;
-                Main.dust[num309].position -= Projectile.velocity * 0.5f;
+                int exo = Dust.NewDust(new Vector2(Projectile.position.X - Projectile.velocity.X * 4f + 2f, Projectile.position.Y + 2f - Projectile.velocity.Y * 4f), 8, 8, 107, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, new Color(0, 255, 255), 0.5f);
+                Main.dust[exo].velocity *= -0.25f;
+                exo = Dust.NewDust(new Vector2(Projectile.position.X - Projectile.velocity.X * 4f + 2f, Projectile.position.Y + 2f - Projectile.velocity.Y * 4f), 8, 8, 107, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, new Color(0, 255, 255), 0.5f);
+                Main.dust[exo].velocity *= -0.25f;
+                Main.dust[exo].position -= Projectile.velocity * 0.5f;
             }
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
@@ -68,15 +68,14 @@ namespace CalamityMod.Projectiles.Melee
                 CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 12f, 20f);
             else
             {
-                float num953 = 100f * Projectile.ai[1];
-                float scaleFactor12 = 20f * Projectile.ai[1];
-                float num954 = 40f;
+                float projVelocity = 100f * Projectile.ai[1];
+                float scaleFactor = 20f * Projectile.ai[1];
                 if (Main.player[Projectile.owner].active && !Main.player[Projectile.owner].dead)
                 {
-                    if (Projectile.Distance(Main.player[Projectile.owner].Center) > num954)
+                    if (Projectile.Distance(Main.player[Projectile.owner].Center) > 40f)
                     {
                         Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[Projectile.owner].Center, Vector2.UnitY);
-                        Projectile.velocity = (Projectile.velocity * (num953 - 1f) + moveDirection * scaleFactor12) / num953;
+                        Projectile.velocity = (Projectile.velocity * (projVelocity - 1f) + moveDirection * scaleFactor) / projVelocity;
                     }
                 }
             }
@@ -134,18 +133,18 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.width = Projectile.height = 80;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int num193 = 0; num193 < 2; num193++)
+            for (int i = 0; i < 2; i++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
             }
-            for (int num194 = 0; num194 < 20; num194++)
+            for (int j = 0; j < 20; j++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int exoDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
+                Main.dust[exoDust].noGravity = true;
+                Main.dust[exoDust].velocity *= 3f;
+                exoDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                Main.dust[exoDust].velocity *= 2f;
+                Main.dust[exoDust].noGravity = true;
             }
         }
     }

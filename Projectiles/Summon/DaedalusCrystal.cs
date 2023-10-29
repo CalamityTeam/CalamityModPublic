@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = Projectile.type == ModContent.ProjectileType<DaedalusCrystal>();
+            bool isMinion = Projectile.type == ModContent.ProjectileType<DaedalusCrystal>();
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.daedalusCrystal)
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.active = false;
                 return;
             }
-            if (flag64)
+            if (isMinion)
             {
                 if (player.dead)
                 {
@@ -58,12 +58,12 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                int num501 = 50;
-                for (int num502 = 0; num502 < num501; num502++)
+                int constant = 50;
+                for (int i = 0; i < constant; i++)
                 {
-                    int num503 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 173, 0f, 0f, 0, default, 1f);
-                    Main.dust[num503].velocity *= 2f;
-                    Main.dust[num503].scale *= 1.15f;
+                    int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 173, 0f, 0f, 0, default, 1f);
+                    Main.dust[dust].velocity *= 2f;
+                    Main.dust[dust].scale *= 1.15f;
                 }
             }
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.75f / 255f);
@@ -79,9 +79,9 @@ namespace CalamityMod.Projectiles.Summon
             }
             Projectile.position.X = (int)Projectile.position.X;
             Projectile.position.Y = (int)Projectile.position.Y;
-            float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
-            num395 *= 0.2f;
-            Projectile.scale = num395 + 0.95f;
+            float projScale = (float)Main.mouseTextColor / 200f - 0.35f;
+            projScale *= 0.2f;
+            Projectile.scale = projScale + 0.95f;
             if (Projectile.owner == Main.myPlayer)
             {
                 if (Projectile.ai[0] != 0f)
@@ -89,61 +89,61 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.ai[0] -= 1f;
                     return;
                 }
-                bool flag18 = false;
-                float num506 = Projectile.Center.X;
-                float num507 = Projectile.Center.Y;
-                float num508 = 1000f;
+                bool isInRange = false;
+                float projX = Projectile.Center.X;
+                float projY = Projectile.Center.Y;
+                float attackRange = 1000f;
                 if (player.HasMinionAttackTargetNPC)
                 {
                     NPC npc = Main.npc[player.MinionAttackTargetNPC];
                     if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        float num539 = npc.position.X + (float)(npc.width / 2);
-                        float num540 = npc.position.Y + (float)(npc.height / 2);
-                        float num541 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num539) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num540);
-                        if (num541 < num508 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
+                        float npcX = npc.position.X + (float)(npc.width / 2);
+                        float npcY = npc.position.Y + (float)(npc.height / 2);
+                        float npcDistance = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcY);
+                        if (npcDistance < attackRange && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                         {
-                            num506 = num539;
-                            num507 = num540;
-                            flag18 = true;
+                            projX = npcX;
+                            projY = npcY;
+                            isInRange = true;
                         }
                     }
                 }
-                if (!flag18)
+                if (!isInRange)
                 {
-                    for (int num512 = 0; num512 < Main.maxNPCs; num512++)
+                    for (int j = 0; j < Main.maxNPCs; j++)
                     {
-                        if (Main.npc[num512].CanBeChasedBy(Projectile, false))
+                        if (Main.npc[j].CanBeChasedBy(Projectile, false))
                         {
-                            float num513 = Main.npc[num512].position.X + (float)(Main.npc[num512].width / 2);
-                            float num514 = Main.npc[num512].position.Y + (float)(Main.npc[num512].height / 2);
-                            float num515 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num513) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num514);
-                            if (num515 < num508 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[num512].position, Main.npc[num512].width, Main.npc[num512].height))
+                            float otherNPCX = Main.npc[j].position.X + (float)(Main.npc[j].width / 2);
+                            float otherNPCY = Main.npc[j].position.Y + (float)(Main.npc[j].height / 2);
+                            float otherNPCDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - otherNPCX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - otherNPCY);
+                            if (otherNPCDist < attackRange && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[j].position, Main.npc[j].width, Main.npc[j].height))
                             {
-                                num508 = num515;
-                                num506 = num513;
-                                num507 = num514;
-                                flag18 = true;
+                                attackRange = otherNPCDist;
+                                projX = otherNPCX;
+                                projY = otherNPCY;
+                                isInRange = true;
                             }
                         }
                     }
                 }
-                if (flag18)
+                if (isInRange)
                 {
-                    float num516 = num506;
-                    float num517 = num507;
-                    num506 -= Projectile.Center.X;
-                    num507 -= Projectile.Center.Y;
+                    float projXStore = projX;
+                    float projYStore = projY;
+                    projX -= Projectile.Center.X;
+                    projY -= Projectile.Center.Y;
                     int projectileType = ModContent.ProjectileType<DaedalusCrystalShot>();
-                    float num403 = Main.rand.Next(10, 15); //modify the speed the projectile are shot.  Lower number = slower projectile.
-                    Vector2 vector29 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                    float num404 = num516 - vector29.X;
-                    float num405 = num517 - vector29.Y;
-                    float num406 = (float)Math.Sqrt((double)(num404 * num404 + num405 * num405));
-                    num406 = num403 / num406;
-                    num404 *= num406;
-                    num405 *= num406;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X - 4f, Projectile.Center.Y, num404, num405, projectileType, Projectile.damage, 5f, Projectile.owner);
+                    float randSpeed = Main.rand.Next(10, 15); //modify the speed the projectile are shot.  Lower number = slower projectile.
+                    Vector2 firingDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                    float projXDirection = projXStore - firingDirection.X;
+                    float projYDirection = projYStore - firingDirection.Y;
+                    float projSpeed = (float)Math.Sqrt((double)(projXDirection * projXDirection + projYDirection * projYDirection));
+                    projSpeed = randSpeed / projSpeed;
+                    projXDirection *= projSpeed;
+                    projYDirection *= projSpeed;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X - 4f, Projectile.Center.Y, projXDirection, projYDirection, projectileType, Projectile.damage, 5f, Projectile.owner);
                     Projectile.ai[0] = 50f;
                 }
             }
