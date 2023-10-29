@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
         public bool fullRev = false;
         public int fullRevShots = 50;
         public int windupAnim = 11;
+        public int soundTimer = 0;
 
         public override void SetDefaults()
         {
@@ -43,6 +44,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Time++;
+            if (Time % 2 == 0)
+                soundTimer++;
             Projectile.frameCounter++;
 
             if (Projectile.frameCounter > windupAnim && OwnerCanShoot)
@@ -53,7 +56,8 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 else
                     Projectile.frame++;
-                windupAnim--;
+                if (windupAnim > 0)
+                    windupAnim--;
                 Projectile.frameCounter = 0;
             }
             else if (!OwnerCanShoot)
@@ -100,8 +104,11 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else
             {
-                if (Time == 1)
-                    SoundEngine.PlaySound(SoundID.DD2_DarkMageCastHeal, Projectile.Center);
+                if (Time < 90 && soundTimer > (windupAnim + 2))
+                {
+                    SoundEngine.PlaySound(SoundID.Item23 with { Pitch = (8 - windupAnim) * 0.15f }, Projectile.Center);
+                    soundTimer = 0;
+                }
                 // While channeled, keep refreshing the projectile lifespan
                 Projectile.timeLeft = 2;
                 if (Time > 90)
