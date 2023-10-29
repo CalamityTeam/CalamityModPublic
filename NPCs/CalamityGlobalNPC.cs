@@ -1385,6 +1385,11 @@ namespace CalamityMod.NPCs
                 if (npc.type == NPCID.WallofFlesh)
                     npc.npcSlots = 20f;
             }
+            else if (npc.type == NPCID.Deerclops)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+                npc.npcSlots = 16f;
+            }
             else if (npc.type == NPCID.SkeletronHead)
             {
                 if (CalamityWorld.death)
@@ -2948,6 +2953,9 @@ namespace CalamityMod.NPCs
                         return SkeletronAI.BuffedSkeletronHandAI(npc, Mod);
                     case NPCID.SkeletronHead:
                         return SkeletronAI.BuffedSkeletronAI(npc, Mod);
+
+                    case NPCID.Deerclops:
+                        return DeerclopsAI.BuffedDeerclopsAI(npc, Mod);
 
                     case NPCID.WallofFlesh:
                         return WallOfFleshAI.BuffedWallofFleshAI(npc, Mod);

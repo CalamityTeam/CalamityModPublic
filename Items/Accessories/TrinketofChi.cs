@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     public class TrinketofChi : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        internal const int ChiBuffTimerMax = 900;
+        internal const int ChiBuffTimerMax = 300;
 
         public override void SetDefaults()
         {

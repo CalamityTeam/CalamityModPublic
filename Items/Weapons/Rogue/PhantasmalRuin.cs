@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.damage = 145;
             Item.knockBack = 8f;
 
-            Item.width = 102;
-            Item.height = 98;
+            Item.width = 108;
+            Item.height = 114;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.noUseGraphic = true;

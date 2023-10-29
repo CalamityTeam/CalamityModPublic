@@ -39,10 +39,10 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (Main.rand.NextBool())
                 {
-                    int num137 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), 1, 1, 107, 0f, 0f, 0, default, 0.5f);
-                    Main.dust[num137].alpha = Projectile.alpha;
-                    Main.dust[num137].velocity *= 0f;
-                    Main.dust[num137].noGravity = true;
+                    int greenDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), 1, 1, 107, 0f, 0f, 0, default, 0.5f);
+                    Main.dust[greenDust].alpha = Projectile.alpha;
+                    Main.dust[greenDust].velocity *= 0f;
+                    Main.dust[greenDust].noGravity = true;
                 }
             }
         }

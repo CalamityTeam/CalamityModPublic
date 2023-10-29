@@ -34,14 +34,14 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             //dust and lighting
-            int num298 = Main.rand.NextBool() ? 107 : 234;
+            int dustType = Main.rand.NextBool() ? 107 : 234;
             if (Main.rand.NextBool(4))
             {
-                num298 = 269;
+                dustType = 269;
             }
             if (Main.rand.NextBool(6))
             {
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, num298, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
             Lighting.AddLight(Projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
 

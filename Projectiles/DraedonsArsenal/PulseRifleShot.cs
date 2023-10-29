@@ -38,42 +38,42 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > createDustVar)
             {
-                for (int num447 = 0; num447 < 2; num447++)
+                for (int i = 0; i < 2; i++)
                 {
-                    Vector2 vector33 = Projectile.position;
-                    vector33 -= Projectile.velocity * (num447 * 0.25f);
-                    int num448 = Dust.NewDust(vector33, 1, 1, dust1, 0f, 0f, 0, default, 1f);
-                    Main.dust[num448].noGravity = true;
-                    Main.dust[num448].position = vector33;
-                    Main.dust[num448].scale = Main.rand.Next(70, 110) * 0.013f;
+                    Vector2 projPos = Projectile.position;
+                    projPos -= Projectile.velocity * (i * 0.25f);
+                    int purpleDust = Dust.NewDust(projPos, 1, 1, dust1, 0f, 0f, 0, default, 1f);
+                    Main.dust[purpleDust].noGravity = true;
+                    Main.dust[purpleDust].position = projPos;
+                    Main.dust[purpleDust].scale = Main.rand.Next(70, 110) * 0.013f;
 
-                    int num449 = Dust.NewDust(vector33, 1, 1, dust3, 0f, 0f, 0, default, 1f);
-                    Main.dust[num449].noGravity = true;
-                    Main.dust[num449].position = vector33;
-                    Main.dust[num449].scale = Main.rand.Next(70, 110) * 0.013f;
+                    int pinkDust = Dust.NewDust(projPos, 1, 1, dust3, 0f, 0f, 0, default, 1f);
+                    Main.dust[pinkDust].noGravity = true;
+                    Main.dust[pinkDust].position = projPos;
+                    Main.dust[pinkDust].scale = Main.rand.Next(70, 110) * 0.013f;
                 }
 
                 if (notSplitProjectile)
                 {
-                    Vector2 value7 = new Vector2(5f, 10f);
-                    Vector2 value8 = Vector2.UnitX * -12f;
+                    Vector2 dustRotateVector = new Vector2(5f, 10f);
+                    Vector2 dustRotate = Vector2.UnitX * -12f;
 
-                    for (int num41 = 0; num41 < 2; num41++)
+                    for (int k = 0; k < 2; k++)
                     {
-                        value8 = -Vector2.UnitY.RotatedBy(24f * 0.1308997f + 0f * MathHelper.Pi) * value7;
-                        int num42 = Dust.NewDust(Projectile.Center, 0, 0, dust2, 0f, 0f, 160, default, 1f);
-                        Main.dust[num42].scale = 1.5f;
-                        Main.dust[num42].noGravity = true;
-                        Main.dust[num42].position = Projectile.Center + value8;
+                        dustRotate = -Vector2.UnitY.RotatedBy(24f * 0.1308997f + 0f * MathHelper.Pi) * dustRotateVector;
+                        int darkPurpDust = Dust.NewDust(Projectile.Center, 0, 0, dust2, 0f, 0f, 160, default, 1f);
+                        Main.dust[darkPurpDust].scale = 1.5f;
+                        Main.dust[darkPurpDust].noGravity = true;
+                        Main.dust[darkPurpDust].position = Projectile.Center + dustRotate;
                     }
 
-                    for (int num41 = 0; num41 < 2; num41++)
+                    for (int k = 0; k < 2; k++)
                     {
-                        value8 = -Vector2.UnitY.RotatedBy(24f * 0.1308997f + 1f * MathHelper.Pi) * value7;
-                        int num42 = Dust.NewDust(Projectile.Center, 0, 0, dust2, 0f, 0f, 160, default, 1f);
-                        Main.dust[num42].scale = 1.5f;
-                        Main.dust[num42].noGravity = true;
-                        Main.dust[num42].position = Projectile.Center + value8;
+                        dustRotate = -Vector2.UnitY.RotatedBy(24f * 0.1308997f + 1f * MathHelper.Pi) * dustRotateVector;
+                        int darkPurpDust = Dust.NewDust(Projectile.Center, 0, 0, dust2, 0f, 0f, 160, default, 1f);
+                        Main.dust[darkPurpDust].scale = 1.5f;
+                        Main.dust[darkPurpDust].noGravity = true;
+                        Main.dust[darkPurpDust].position = Projectile.Center + dustRotate;
                     }
                 }
             }
@@ -153,47 +153,47 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             int half = totalDust / 2;
             int x = (int)(totalDust * 0.625f);
 
-            for (int num647 = 0; num647 < totalDust; num647++)
+            for (int i = 0; i < totalDust; i++)
             {
-                float num648 = 2f * (num647 / (float)fourth);
+                float dustSpeed = 2f * (i / (float)fourth);
                 int dustType = dust1;
-                if (num647 > fourth)
+                if (i > fourth)
                 {
-                    num648 = speed1;
+                    dustSpeed = speed1;
                 }
-                if (num647 > x)
+                if (i > x)
                 {
-                    num648 = speed1 * 1.3f;
+                    dustSpeed = speed1 * 1.3f;
                     dustType = dust3;
                 }
 
-                int num650 = Dust.NewDust(Projectile.Center, 6, 6, dustType, 0f, 0f, 100, default, 1f);
-                float num651 = Main.dust[num650].velocity.X;
-                float num652 = Main.dust[num650].velocity.Y;
-                if (num651 == 0f && num652 == 0f)
+                int killDust = Dust.NewDust(Projectile.Center, 6, 6, dustType, 0f, 0f, 100, default, 1f);
+                float killDustX = Main.dust[killDust].velocity.X;
+                float killDustY = Main.dust[killDust].velocity.Y;
+                if (killDustX == 0f && killDustY == 0f)
                 {
-                    num651 = 1f;
+                    killDustX = 1f;
                 }
 
-                float num653 = (float)Math.Sqrt(num651 * num651 + num652 * num652);
-                num653 = num648 / num653;
-                if (num647 <= half)
+                float killDustYVel = (float)Math.Sqrt(killDustX * killDustX + killDustY * killDustY);
+                killDustYVel = dustSpeed / killDustYVel;
+                if (i <= half)
                 {
-                    num651 *= num653;
-                    num652 *= num653;
+                    killDustX *= killDustYVel;
+                    killDustY *= killDustYVel;
                 }
                 else
                 {
-                    num651 = num651 * num653 * 1.25f;
-                    num652 = num652 * num653 * 0.75f;
+                    killDustX = killDustX * killDustYVel * 1.25f;
+                    killDustY = killDustY * killDustYVel * 0.75f;
                 }
 
-                Dust dust2 = Main.dust[num650];
+                Dust dust2 = Main.dust[killDust];
                 dust2.velocity *= 0.5f;
-                dust2.velocity.X = dust2.velocity.X + num651;
-                dust2.velocity.Y = dust2.velocity.Y + num652;
+                dust2.velocity.X = dust2.velocity.X + killDustX;
+                dust2.velocity.Y = dust2.velocity.Y + killDustY;
 
-                if (num647 > fourth)
+                if (i > fourth)
                 {
                     dust2.scale = 1.3f;
                 }
@@ -206,47 +206,47 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             float angleRandom = 0.05f;
 
-            for (int num53 = 0; num53 < 50; num53++)
+            for (int i = 0; i < 50; i++)
             {
                 float dustSpeed = Main.rand.NextFloat(speed1, speed2);
                 Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                 dustVel = dustVel.RotatedBy(-angleRandom);
                 dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
 
-                int num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust3, dustVel.X, dustVel.Y, 200, default, 1.7f);
-                Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
-                Main.dust[num54].noGravity = true;
+                int pulseDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust3, dustVel.X, dustVel.Y, 200, default, 1.7f);
+                Main.dust[pulseDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
+                Main.dust[pulseDust].noGravity = true;
 
-                Dust dust = Main.dust[num54];
+                Dust dust = Main.dust[pulseDust];
                 dust.velocity *= 3f;
-                dust = Main.dust[num54];
+                dust = Main.dust[pulseDust];
 
-                num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust1, dustVel.X, dustVel.Y, 100, default, 1f);
-                Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
+                pulseDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust1, dustVel.X, dustVel.Y, 100, default, 1f);
+                Main.dust[pulseDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
 
-                dust = Main.dust[num54];
+                dust = Main.dust[pulseDust];
                 dust.velocity *= 2f;
 
-                Main.dust[num54].noGravity = true;
-                Main.dust[num54].fadeIn = 1f;
-                Main.dust[num54].color = Color.Green * 0.5f;
+                Main.dust[pulseDust].noGravity = true;
+                Main.dust[pulseDust].fadeIn = 1f;
+                Main.dust[pulseDust].color = Color.Green * 0.5f;
 
-                dust = Main.dust[num54];
+                dust = Main.dust[pulseDust];
             }
-            for (int num55 = 0; num55 < 25; num55++)
+            for (int j = 0; j < 25; j++)
             {
                 float dustSpeed = Main.rand.NextFloat(speed1, speed2);
                 Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                 dustVel = dustVel.RotatedBy(-angleRandom);
                 dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
 
-                int num56 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust2, dustVel.X, dustVel.Y, 0, default, 3f);
-                Main.dust[num56].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 3f;
-                Main.dust[num56].noGravity = true;
+                int pulseDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust2, dustVel.X, dustVel.Y, 0, default, 3f);
+                Main.dust[pulseDust2].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 3f;
+                Main.dust[pulseDust2].noGravity = true;
 
-                Dust dust = Main.dust[num56];
+                Dust dust = Main.dust[pulseDust2];
                 dust.velocity *= 0.5f;
-                dust = Main.dust[num56];
+                dust = Main.dust[pulseDust2];
             }
         }
     }

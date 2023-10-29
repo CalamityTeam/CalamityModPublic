@@ -63,10 +63,10 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (Main.rand.NextBool(16))
             {
-                Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)Projectile.velocity.ToRotation(), default);
-                int num59 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1f);
-                Main.dust[num59].velocity = value3 * 0.66f;
-                Main.dust[num59].position = Projectile.Center + value3 * 12f;
+                Vector2 rotational = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)Projectile.velocity.ToRotation(), default);
+                int astralDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1f);
+                Main.dust[astralDust].velocity = rotational * 0.66f;
+                Main.dust[astralDust].position = Projectile.Center + rotational * 12f;
             }
 
             if (Main.rand.NextBool(48) && Main.netMode != NetmodeID.Server)

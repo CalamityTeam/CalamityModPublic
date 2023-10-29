@@ -52,23 +52,23 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-            for (int num621 = 0; num621 < 2; num621++)
+            for (int i = 0; i < 2; i++)
             {
-                int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[dust].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    Main.dust[dust].scale = 0.5f;
+                    Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 6; num623++)
+            for (int j = 0; j < 6; j++)
             {
-                int num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
+                Main.dust[dust2].noGravity = true;
+                Main.dust[dust2].velocity *= 5f;
+                dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[dust2].velocity *= 2f;
             }
 
             if (Main.netMode != NetmodeID.Server)
@@ -117,19 +117,18 @@ namespace CalamityMod.Projectiles.Ranged
 
             float x = Projectile.position.X + Main.rand.Next(-400, 400);
             float y = Projectile.position.Y - Main.rand.Next(500, 800);
-            Vector2 vector = new Vector2(x, y);
-            float num15 = Projectile.position.X + (Projectile.width / 2) - vector.X;
-            float num16 = Projectile.position.Y + (Projectile.height / 2) - vector.Y;
-            num15 += Main.rand.Next(-100, 101);
-            int num17 = 25;
-            float num18 = (float)Math.Sqrt(num15 * num15 + num16 * num16);
-            num18 = num17 / num18;
-            num15 *= num18;
-            num16 *= num18;
+            Vector2 landSpot = new Vector2(x, y);
+            float meteorSpawnX = Projectile.position.X + (Projectile.width / 2) - landSpot.X;
+            float meteorSpawnY = Projectile.position.Y + (Projectile.height / 2) - landSpot.Y;
+            meteorSpawnX += Main.rand.Next(-100, 101);
+            float meteorSpawnAdjust = (float)Math.Sqrt(meteorSpawnX * meteorSpawnX + meteorSpawnY * meteorSpawnY);
+            meteorSpawnAdjust = 25 / meteorSpawnAdjust;
+            meteorSpawnX *= meteorSpawnAdjust;
+            meteorSpawnY *= meteorSpawnAdjust;
             if (Projectile.owner == Main.myPlayer)
             {
-                int num19 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, num15, num16, ModContent.ProjectileType<SkyFlareFriendly>(), Projectile.damage / 2, 5f, Projectile.owner, 0f, 0f);
-                Main.projectile[num19].ai[1] = Projectile.position.Y;
+                int meteor = Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, meteorSpawnX, meteorSpawnY, ModContent.ProjectileType<SkyFlareFriendly>(), Projectile.damage / 2, 5f, Projectile.owner, 0f, 0f);
+                Main.projectile[meteor].ai[1] = Projectile.position.Y;
             }
         }
 

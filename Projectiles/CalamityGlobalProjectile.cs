@@ -1014,11 +1014,68 @@ namespace CalamityMod.Projectiles
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
+                if (projectile.type == ProjectileID.DeerclopsIceSpike)
+                {
+                    int dustType = 16;
+                    float dustVelocityMultiplier = 0.75f;
+                    int numDust = 5;
+                    int numDust2 = 5;
+                    int fadeInTime = 10;
+                    int fadeOutGateValue = 10;
+                    float killGateValue = 20f;
+                    int maxFrames = 5;
+
+                    bool fadeIn = projectile.ai[0] < (float)fadeInTime;
+                    bool fadeOut = projectile.ai[0] >= (float)fadeOutGateValue;
+                    bool killProjectile = projectile.ai[0] >= killGateValue;
+                    projectile.ai[0] += 1f;
+                    if (projectile.localAI[0] == 0f)
+                    {
+                        projectile.localAI[0] = 1f;
+                        projectile.rotation = projectile.velocity.ToRotation();
+                        projectile.frame = Main.rand.Next(maxFrames);
+
+                        for (int i = 0; i < numDust; i++)
+                        {
+                            Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24f, 24f), dustType, projectile.velocity * dustVelocityMultiplier * MathHelper.Lerp(0.2f, 0.7f, Main.rand.NextFloat()));
+                            dust.velocity += Main.rand.NextVector2Circular(0.5f, 0.5f);
+                            dust.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
+                        }
+
+                        for (int j = 0; j < numDust2; j++)
+                        {
+                            Dust dust2 = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24f, 24f), dustType, Main.rand.NextVector2Circular(2f, 2f) + projectile.velocity * dustVelocityMultiplier * MathHelper.Lerp(0.2f, 0.5f, Main.rand.NextFloat()));
+                            dust2.velocity += Main.rand.NextVector2Circular(0.5f, 0.5f);
+                            dust2.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
+                            dust2.fadeIn = 1f;
+                        }
+
+                        SoundEngine.PlaySound(SoundID.DeerclopsIceAttack, projectile.Center);
+                    }
+
+                    if (fadeIn)
+                    {
+                        projectile.Opacity += 0.1f;
+                        projectile.scale = projectile.Opacity * projectile.ai[1];
+                    }
+
+                    if (fadeOut)
+                        projectile.Opacity -= 0.2f;
+
+                    if (killProjectile)
+                        projectile.Kill();
+
+                    return false;
+                }
+
                 // Override Deerclops rubble behavior to create a wave of rubble instead of it all flying up at the same time
                 // Rubble doesn't deal damage if it's not moving
-                if (projectile.type == ProjectileID.DeerclopsRangedProjectile)
+                else if (projectile.type == ProjectileID.DeerclopsRangedProjectile)
                 {
+                    projectile.ai[0] += 1f;
+
                     projectile.frame = (int)projectile.ai[1];
+
                     if (projectile.localAI[0] == 0f)
                     {
                         projectile.localAI[0] = 1f;
@@ -2709,6 +2766,12 @@ namespace CalamityMod.Projectiles
 
             switch (projectile.type)
             {
+                // Rev+ Deerclops ice spikes can only deal damage while they're not fading out
+                case ProjectileID.DeerclopsIceSpike:
+                    if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+                        return projectile.ai[0] < 10f;
+                    break;
+
                 // Rev+ Deerclops rubble doesn't deal damage while it's not flying upwards
                 case ProjectileID.DeerclopsRangedProjectile:
                     if (CalamityWorld.revenge || BossRushEvent.BossRushActive)

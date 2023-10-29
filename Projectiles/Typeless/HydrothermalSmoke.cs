@@ -37,12 +37,12 @@ namespace CalamityMod.Projectiles.Typeless
             }
             if (Main.rand.NextBool(4))
             {
-                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 1f);
+                int fieryDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 1f);
                 if (Main.rand.NextBool(4))
                 {
-                    Main.dust[num469].scale *= 0.35f;
+                    Main.dust[fieryDust].scale *= 0.35f;
                 }
-                Main.dust[num469].velocity *= 0f;
+                Main.dust[fieryDust].velocity *= 0f;
             }
 
             Vector2 goreVec = new Vector2(Projectile.position.X, Projectile.position.Y);

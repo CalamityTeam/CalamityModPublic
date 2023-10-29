@@ -74,8 +74,8 @@ namespace CalamityMod.Projectiles.Boss
         {
             SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = texture.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
+            int framing = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
             lightColor.R = (byte)(255 * Projectile.Opacity);
 
             if (CalamityGlobalNPC.SCal != -1)
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, framing)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, framing / 2f), Projectile.scale, spriteEffects, 0);
             return false;
         }
 

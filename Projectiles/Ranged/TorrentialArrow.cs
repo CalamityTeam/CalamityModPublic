@@ -34,19 +34,18 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Projectile.alpha = 0;
             }
-            float num55 = 40f;
-            float num56 = 1.5f;
+            float inc = 1.5f;
             if (Projectile.ai[1] == 0f)
             {
-                Projectile.localAI[0] += num56;
-                if (Projectile.localAI[0] > num55)
+                Projectile.localAI[0] += inc;
+                if (Projectile.localAI[0] > 40f)
                 {
-                    Projectile.localAI[0] = num55;
+                    Projectile.localAI[0] = 40f;
                 }
             }
             else
             {
-                Projectile.localAI[0] -= num56;
+                Projectile.localAI[0] -= inc;
                 if (Projectile.localAI[0] <= 0f)
                 {
                     Projectile.Kill();

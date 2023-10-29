@@ -46,25 +46,25 @@ namespace CalamityMod.Projectiles.Magic
                 return;
             }
             Projectile.velocity.Y = Projectile.velocity.Y + 0.075f;
-            for (int num151 = 0; num151 < 3; num151++)
+            for (int i = 0; i < 3; i++)
             {
-                float num152 = Projectile.velocity.X / 3f * (float)num151;
-                float num153 = Projectile.velocity.Y / 3f * (float)num151;
-                int num154 = 14;
-                int num155 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num154, Projectile.position.Y + (float)num154), Projectile.width - num154 * 2, Projectile.height - num154 * 2, 14, 0f, 0f, 100, new Color(0, 255, 255), 1f);
-                Dust dust = Main.dust[num155];
+                float shortXVel = Projectile.velocity.X / 3f * (float)i;
+                float shortYVel = Projectile.velocity.Y / 3f * (float)i;
+                int dustPosOffset = 14;
+                int waterDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)dustPosOffset, Projectile.position.Y + (float)dustPosOffset), Projectile.width - dustPosOffset * 2, Projectile.height - dustPosOffset * 2, 14, 0f, 0f, 100, new Color(0, 255, 255), 1f);
+                Dust dust = Main.dust[waterDust];
                 dust.noGravity = true;
                 dust.velocity *= 0.1f;
                 dust.velocity += Projectile.velocity * 0.5f;
-                dust.position.X -= num152;
-                dust.position.Y -= num153;
+                dust.position.X -= shortXVel;
+                dust.position.Y -= shortYVel;
             }
             if (Main.rand.NextBool(8))
             {
-                int num156 = 16;
-                int num157 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num156, Projectile.position.Y + (float)num156), Projectile.width - num156 * 2, Projectile.height - num156 * 2, 14, 0f, 0f, 100, new Color(0, 255, 255), 0.5f);
-                Main.dust[num157].velocity *= 0.25f;
-                Main.dust[num157].velocity += Projectile.velocity * 0.5f;
+                int extraDustPosOffset = 16;
+                int extraWaterDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)extraDustPosOffset, Projectile.position.Y + (float)extraDustPosOffset), Projectile.width - extraDustPosOffset * 2, Projectile.height - extraDustPosOffset * 2, 14, 0f, 0f, 100, new Color(0, 255, 255), 0.5f);
+                Main.dust[extraWaterDust].velocity *= 0.25f;
+                Main.dust[extraWaterDust].velocity += Projectile.velocity * 0.5f;
             }
         }
     }

@@ -1128,6 +1128,64 @@ namespace CalamityMod.Items
                 AddGrappleStats(37.5f, 16f, 24f, 0f);
             #endregion
 
+            #region Herbs and Seeds Tooltips
+
+            void AddHerbTooltips(string text)
+            {
+                int materialIndex = 0;
+                for (int i = 0; i < tooltips.Count; ++i)
+                    if (tooltips[i].Name == "Material")
+                    {
+                        materialIndex = i;
+                        break;
+                    }
+                tooltips.Insert(materialIndex + 1, new TooltipLine(CalamityMod.Instance, "Tooltip0", text));
+            }
+
+            if (item.type == ItemID.Daybloom)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Daybloom"));
+            if (item.type == ItemID.Moonglow)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Moonglow"));
+            if (item.type == ItemID.Waterleaf)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Waterleaf"));
+            if (item.type == ItemID.Blinkroot)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Blinkroot"));
+            if (item.type == ItemID.Shiverthorn)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Shiverthorn"));
+            if (item.type == ItemID.Deathweed)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Deathweed"));
+            if (item.type == ItemID.Fireblossom)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Fireblossom"));
+
+            void AddSeedTooltips(string text)
+            {
+                int materialIndex = 0;
+                for (int i = 0; i < tooltips.Count; ++i)
+                    if (tooltips[i].Name == "Placeable")
+                    {
+                        materialIndex = i;
+                        break;
+                    }
+                tooltips.Insert(materialIndex + 1, new TooltipLine(CalamityMod.Instance, "Tooltip0", text));
+            }
+
+            if (item.type == ItemID.DaybloomSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Daybloom"));
+            if (item.type == ItemID.MoonglowSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Moonglow"));
+            if (item.type == ItemID.WaterleafSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Waterleaf"));
+            if (item.type == ItemID.BlinkrootSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Blinkroot"));
+            if (item.type == ItemID.ShiverthornSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Shiverthorn"));
+            if (item.type == ItemID.DeathweedSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Deathweed"));
+            if (item.type == ItemID.FireblossomSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Fireblossom"));
+
+            #endregion
+
             // Beyond this point all code only applies to accessories. Skip it all if the item is not an accessory.
             if (!item.accessory)
                 return;

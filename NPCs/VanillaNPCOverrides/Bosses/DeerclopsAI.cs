@@ -127,6 +127,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[0] = 4f;
                         npc.ai[1] = 0f;
                         npc.localAI[1] = 0f;
+                        calamityGlobalNPC.newAI[0] -= 1f;
+                        npc.SyncExtraAI();
                         npc.netUpdate = true;
                         break;
                     }
@@ -137,6 +139,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
                         npc.localAI[1] += 1f;
+                        calamityGlobalNPC.newAI[0] -= 1f;
+                        npc.SyncExtraAI();
                         npc.netUpdate = true;
                         break;
                     }
@@ -148,6 +152,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[0] = 2f;
                         npc.ai[1] = 0f;
                         npc.localAI[1] = 0f;
+                        calamityGlobalNPC.newAI[0] -= 1f;
+                        npc.SyncExtraAI();
                         npc.netUpdate = true;
                         break;
                     }
@@ -159,17 +165,22 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[0] = 5f;
                         npc.ai[1] = 0f;
                         npc.localAI[1] = 0f;
+                        calamityGlobalNPC.newAI[0] -= 1f;
+                        npc.SyncExtraAI();
                         npc.netUpdate = true;
                         break;
                     }
 
+                    // This replaced the slow debuff infliction
                     bool useSecondShadowHandAttack = npc.ai[1] >= 120f;
-                    if (npc.velocity.Y == 0f && useSecondShadowHandAttack && Math.Abs(distanceFromTarget2.X) > 100f)
+                    if (npc.velocity.Y == 0f && useSecondShadowHandAttack && Math.Abs(distanceFromTarget2.X) > 100f && calamityGlobalNPC.newAI[0] <= 0f)
                     {
                         npc.velocity.X = 0f;
                         npc.ai[0] = 3f;
                         npc.ai[1] = 0f;
                         npc.localAI[1] = 0f;
+                        calamityGlobalNPC.newAI[0] = 5f;
+                        npc.SyncExtraAI();
                         npc.netUpdate = true;
                     }
 
@@ -670,91 +681,91 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         private static int FindBestY(NPC npc, ref Point sourceTileCoords, int x)
         {
-            int num = sourceTileCoords.Y;
+            int bestY = sourceTileCoords.Y;
             NPCAimedTarget targetData = npc.GetTargetData();
             if (!targetData.Invalid)
             {
                 Rectangle hitbox = targetData.Hitbox;
                 Vector2 vector = new Vector2(hitbox.Center.X, hitbox.Bottom);
-                int num2 = (int)(vector.Y / 16f);
-                int num3 = Math.Sign(num2 - num);
-                int num4 = num2 + num3 * 15;
-                int? num5 = null;
-                float num6 = float.PositiveInfinity;
-                for (int i = num; i != num4; i += num3)
+                int y = (int)(vector.Y / 16f);
+                int sign = Math.Sign(y - bestY);
+                int y2 = y + sign * 15;
+                int? potentialBestY = null;
+                float yLimit = float.PositiveInfinity;
+                for (int i = bestY; i != y2; i += sign)
                 {
                     if (WorldGen.ActiveAndWalkableTile(x, i))
                     {
-                        float num7 = new Point(x, i).ToWorldCoordinates().Distance(vector);
-                        if (!num5.HasValue || !(num7 >= num6))
+                        float newYLimit = new Point(x, i).ToWorldCoordinates().Distance(vector);
+                        if (!potentialBestY.HasValue || !(newYLimit >= yLimit))
                         {
-                            num5 = i;
-                            num6 = num7;
+                            potentialBestY = i;
+                            yLimit = newYLimit;
                         }
                     }
                 }
 
-                if (num5.HasValue)
-                    num = num5.Value;
+                if (potentialBestY.HasValue)
+                    bestY = potentialBestY.Value;
             }
 
             for (int j = 0; j < 20; j++)
             {
-                if (num < 10)
+                if (bestY < 10)
                     break;
 
-                if (!WorldGen.SolidTile(x, num))
+                if (!WorldGen.SolidTile(x, bestY))
                     break;
 
-                num--;
+                bestY--;
             }
 
             for (int k = 0; k < 20; k++)
             {
-                if (num > Main.maxTilesY - 10)
+                if (bestY > Main.maxTilesY - 10)
                     break;
 
-                if (WorldGen.ActiveAndWalkableTile(x, num))
+                if (WorldGen.ActiveAndWalkableTile(x, bestY))
                     break;
 
-                num++;
+                bestY++;
             }
 
-            return num;
+            return bestY;
         }
 
         private static void Movement(NPC npc, float lifeRatio, bool haltMovement, bool goHome)
         {
-            float num = lifeRatio;
-            float num2 = 1f - num;
-            float num3 = 3.5f + 1f * num2;
-            float num4 = 4f;
-            float num5 = -0.4f;
-            float min = -8f;
-            float num6 = 0.4f;
-            Rectangle rectangle = npc.GetTargetData().Hitbox;
+            float moveSpeedMultiplier = 1f - lifeRatio;
+            float moveSpeed = 3.5f + 1f * moveSpeedMultiplier;
+            float moveSpeedDivisor = 4f;
+            float yVelocityIncrease = -0.4f;
+            float yVelocityMin = -8f;
+            float yVelocityIncrease2 = 0.4f;
+            Rectangle targetHitbox = npc.GetTargetData().Hitbox;
+
             if (goHome)
             {
-                rectangle = new Rectangle(npc.homeTileX * 16, npc.homeTileY * 16, 16, 16);
-                if (npc.Distance(rectangle.Center.ToVector2()) < 240f)
-                    rectangle.X = (int)(npc.Center.X + (float)(160 * npc.direction));
+                targetHitbox = new Rectangle(npc.homeTileX * 16, npc.homeTileY * 16, 16, 16);
+                if (npc.Distance(targetHitbox.Center.ToVector2()) < 240f)
+                    targetHitbox.X = (int)(npc.Center.X + (float)(160 * npc.direction));
             }
 
-            float num7 = (float)rectangle.Center.X - npc.Center.X;
-            float num8 = Math.Abs(num7);
-            if (goHome && num7 != 0f)
-                npc.direction = (npc.spriteDirection = Math.Sign(num7));
+            float distanceFromTargetX = (float)targetHitbox.Center.X - npc.Center.X;
+            float absoluteDistanceFromTargetX = Math.Abs(distanceFromTargetX);
+            if (goHome && distanceFromTargetX != 0f)
+                npc.direction = (npc.spriteDirection = Math.Sign(distanceFromTargetX));
 
-            bool flag = num8 < 80f;
-            bool flag2 = flag || haltMovement;
+            bool closeToTarget = absoluteDistanceFromTargetX < 80f;
+            bool stopMoving = closeToTarget || haltMovement;
             if (npc.ai[0] == -1f)
             {
-                num7 = 5f;
-                num3 = 5.35f;
-                flag2 = false;
+                distanceFromTargetX = 5f;
+                moveSpeed = 5.35f;
+                stopMoving = false;
             }
 
-            if (flag2)
+            if (stopMoving)
             {
                 npc.velocity.X *= 0.9f;
                 if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
@@ -762,45 +773,44 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
             else
             {
-                int num9 = Math.Sign(num7);
-                npc.velocity.X = MathHelper.Lerp(npc.velocity.X, (float)num9 * num3, 1f / num4);
+                int moveDirection = Math.Sign(distanceFromTargetX);
+                npc.velocity.X = MathHelper.Lerp(npc.velocity.X, (float)moveDirection * moveSpeed, 1f / moveSpeedDivisor);
             }
 
-            int num10 = 40;
-            int num11 = 20;
-            int num12 = 0;
-            Vector2 vector = new Vector2(npc.Center.X - (float)(num10 / 2), npc.position.Y + (float)npc.height - (float)num11 + (float)num12);
-            bool num13 = vector.X < (float)rectangle.X && vector.X + (float)npc.width > (float)(rectangle.X + rectangle.Width);
-            bool flag3 = vector.Y + (float)num11 < (float)(rectangle.Y + rectangle.Height - 16);
-            bool acceptTopSurfaces = npc.Bottom.Y >= (float)rectangle.Top;
-            bool flag4 = Collision.SolidCollision(vector, num10, num11, acceptTopSurfaces);
-            bool flag5 = Collision.SolidCollision(vector, num10, num11 - 4, acceptTopSurfaces);
-            bool flag6 = !Collision.SolidCollision(vector + new Vector2(num10 * npc.direction, 0f), 16, 80, acceptTopSurfaces);
-            float num14 = 8f;
-            if (flag4 || flag5)
+            int npcCenterXOffset = 40;
+            int npcCenterYOffset = 20;
+            int gfxOffsetY = 0;
+            Vector2 npcCenter = new Vector2(npc.Center.X - (float)(npcCenterXOffset / 2), npc.position.Y + (float)npc.height - (float)npcCenterYOffset + (float)gfxOffsetY);
+            bool moveDown = npcCenter.X < (float)targetHitbox.X && npcCenter.X + (float)npc.width > (float)(targetHitbox.X + targetHitbox.Width);
+            bool aboveTarget = npcCenter.Y + (float)npcCenterYOffset < (float)(targetHitbox.Y + targetHitbox.Height - 16);
+            bool acceptTopSurfaces = npc.Bottom.Y >= (float)targetHitbox.Top;
+            bool insideTiles = Collision.SolidCollision(npcCenter, npcCenterXOffset, npcCenterYOffset, acceptTopSurfaces);
+            bool insideTiles2 = Collision.SolidCollision(npcCenter, npcCenterXOffset, npcCenterYOffset - 4, acceptTopSurfaces);
+            bool moveUp = !Collision.SolidCollision(npcCenter + new Vector2(npcCenterXOffset * npc.direction, 0f), 16, 80, acceptTopSurfaces);
+            float yVelocity = -8f;
+
+            if (insideTiles || insideTiles2)
                 npc.localAI[0] = 0f;
 
-            if ((num13 || flag) && flag3)
+            if ((moveDown || closeToTarget) && aboveTarget)
             {
-                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + num6 * 2f, 0.001f, 16f);
+                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + yVelocityIncrease2 * 2f, 0.001f, 16f);
             }
-            else if (flag4 && !flag5)
+            else if (insideTiles && !insideTiles2)
             {
                 npc.velocity.Y = 0f;
             }
-            else if (flag4)
+            else if (insideTiles)
             {
-                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + num5, min, 0f);
+                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + yVelocityIncrease, yVelocityMin, 0f);
             }
-            else if (npc.velocity.Y == 0f && flag6)
+            else if (npc.velocity.Y == 0f && moveUp)
             {
-                npc.velocity.Y = 0f - num14;
+                npc.velocity.Y = yVelocity;
                 npc.localAI[0] = 1f;
             }
             else
-            {
-                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + num6, 0f - num14, 16f);
-            }
+                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + yVelocityIncrease2, yVelocity, 16f);
         }
     }
 }

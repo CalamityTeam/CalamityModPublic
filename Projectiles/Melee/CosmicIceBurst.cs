@@ -63,36 +63,36 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.Center = Projectile.position;
                 Projectile.Damage();
                 SoundEngine.PlaySound(SoundID.Item62, Projectile.position);
-                for (int num1000 = 0; num1000 < 2; num1000++)
+                for (int i = 0; i < 2; i++)
                 {
-                    int num1001 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 187, 0f, 0f, 100, new Color(150, 255, 255), 1f);
-                    Main.dust[num1001].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
+                    int cosmicDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 187, 0f, 0f, 100, new Color(150, 255, 255), 1f);
+                    Main.dust[cosmicDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
                 }
-                for (int num1002 = 0; num1002 < 3; num1002++)
+                for (int j = 0; j < 3; j++)
                 {
-                    int num1003 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 200, new Color(150, 255, 255), 1f);
-                    Main.dust[num1003].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
-                    Main.dust[num1003].noGravity = true;
-                    Main.dust[num1003].velocity *= 3f;
-                    num1003 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, new Color(150, 255, 255), 0.6f);
-                    Main.dust[num1003].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
-                    Main.dust[num1003].velocity *= 2f;
-                    Main.dust[num1003].noGravity = true;
-                    Main.dust[num1003].fadeIn = 2.5f;
+                    int iceDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 200, new Color(150, 255, 255), 1f);
+                    Main.dust[iceDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
+                    Main.dust[iceDust].noGravity = true;
+                    Main.dust[iceDust].velocity *= 3f;
+                    iceDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, new Color(150, 255, 255), 0.6f);
+                    Main.dust[iceDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
+                    Main.dust[iceDust].velocity *= 2f;
+                    Main.dust[iceDust].noGravity = true;
+                    Main.dust[iceDust].fadeIn = 2.5f;
                 }
-                for (int num1004 = 0; num1004 < 2; num1004++)
+                for (int k = 0; k < 2; k++)
                 {
-                    int num1005 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 0, new Color(150, 255, 255), 1f);
-                    Main.dust[num1005].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 2f;
-                    Main.dust[num1005].noGravity = true;
-                    Main.dust[num1005].velocity *= 3f;
+                    int icyDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 0, new Color(150, 255, 255), 1f);
+                    Main.dust[icyDust].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 2f;
+                    Main.dust[icyDust].noGravity = true;
+                    Main.dust[icyDust].velocity *= 3f;
                 }
-                for (int num1006 = 0; num1006 < 3; num1006++)
+                for (int l = 0; l < 3; l++)
                 {
-                    int num1007 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 187, 0f, 0f, 0, new Color(150, 255, 255), 0.6f);
-                    Main.dust[num1007].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 2f;
-                    Main.dust[num1007].noGravity = true;
-                    Main.dust[num1007].velocity *= 3f;
+                    int freezeDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 187, 0f, 0f, 0, new Color(150, 255, 255), 0.6f);
+                    Main.dust[freezeDust].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 2f;
+                    Main.dust[freezeDust].noGravity = true;
+                    Main.dust[freezeDust].velocity *= 3f;
                 }
             }
         }
@@ -100,16 +100,13 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
-            Color color25 = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
+            Color colorArea = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
             if (Projectile.hide && !ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type])
             {
-                color25 = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f));
+                colorArea = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f));
             }
-            Vector2 vector42 = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D33 = ModContent.Request<Texture2D>(Texture).Value;
-            Rectangle rectangle15 = texture2D33.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
-            Color alpha5 = Projectile.GetAlpha(color25);
-            Vector2 origin11 = rectangle15.Size() / 2f;
+            Rectangle rectangl = texture2D33.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
             return true;
         }
 

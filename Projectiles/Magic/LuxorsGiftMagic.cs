@@ -56,15 +56,15 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, 244, 0f, 0f, 160, default, 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = Projectile.Center + vector3;
-                    Main.dust[num9].velocity = Projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+                    Vector2 dustRotate = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
+                    dustRotate += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
+                    dustRotate = dustRotate.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
+                    int dusty = Dust.NewDust(Projectile.Center, 0, 0, 244, 0f, 0f, 160, default, 1f);
+                    Main.dust[dusty].scale = 1.1f;
+                    Main.dust[dusty].noGravity = true;
+                    Main.dust[dusty].position = Projectile.Center + dustRotate;
+                    Main.dust[dusty].velocity = Projectile.velocity * 0.1f;
+                    Main.dust[dusty].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[dusty].position) * 1.25f;
                 }
             }
         }

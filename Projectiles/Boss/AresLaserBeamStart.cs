@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Boss
             else
                 Projectile.Kill();
 
-            float num801 = 1f;
+            float projScale = 1f;
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] >= 60f)
             {
@@ -88,38 +88,37 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            Projectile.scale = (float)Math.Sin(Projectile.localAI[0] * (float)Math.PI / 60f) * 10f * num801;
-            if (Projectile.scale > num801)
-                Projectile.scale = num801;
+            Projectile.scale = (float)Math.Sin(Projectile.localAI[0] * (float)Math.PI / 60f) * 10f * projScale;
+            if (Projectile.scale > projScale)
+                Projectile.scale = projScale;
 
-            float num804 = Projectile.velocity.ToRotation();
-            Projectile.rotation = num804 - MathHelper.PiOver2;
-            Projectile.velocity = num804.ToRotationVector2();
+            float projVelRotation = Projectile.velocity.ToRotation();
+            Projectile.rotation = projVelRotation - MathHelper.PiOver2;
+            Projectile.velocity = projVelRotation.ToRotationVector2();
 
-            float num805 = 3f; //3f
-            float num806 = Projectile.width;
+            float projWidth = Projectile.width;
 
             Vector2 samplingPoint = Projectile.Center;
             if (vector78.HasValue)
                 samplingPoint = vector78.Value;
 
-            float[] array3 = new float[(int)num805];
-            Collision.LaserScan(samplingPoint, Projectile.velocity, num806 * Projectile.scale, 2400f, array3);
-            float num807 = 0f;
-            for (int num808 = 0; num808 < array3.Length; num808++)
+            float[] array3 = new float[3];
+            Collision.LaserScan(samplingPoint, Projectile.velocity, projWidth * Projectile.scale, 2400f, array3);
+            float laserLength = 0f;
+            for (int j = 0; j < array3.Length; j++)
             {
-                num807 += array3[num808];
+                laserLength += array3[j];
             }
-            num807 /= num805;
+            laserLength /= 3f;
 
             // Fire laser through walls at max length if target cannot be seen
             if (!Collision.CanHitLine(Main.npc[(int)Projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)Projectile.ai[1]].target].Center, 1, 1))
             {
-                num807 = 2400f;
+                laserLength = 2400f;
             }
 
             float amount = 0.5f;
-            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], num807, amount); //length of laser, linear interpolation
+            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], laserLength, amount); //length of laser, linear interpolation
 
             // Spawn dust at the end of the beam
             int dustType = (int)CalamityDusts.Brimstone;

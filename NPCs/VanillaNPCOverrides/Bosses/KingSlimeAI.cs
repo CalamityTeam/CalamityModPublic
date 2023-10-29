@@ -18,15 +18,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Variables
-            float num234 = 1f;
+            float teleportScale = 1f;
             bool teleporting = false;
-            bool flag9 = false;
+            bool teleported = false;
             npc.aiAction = 0;
-            float num237 = 2f;
+            float teleportScaleSpeed = 2f;
             if (Main.getGoodWorld)
             {
-                num237 -= 1f - lifeRatio;
-                num234 *= num237;
+                teleportScaleSpeed -= 1f - lifeRatio;
+                teleportScale *= teleportScaleSpeed;
             }
 
             // Reset damage
@@ -53,15 +53,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.Calamity().newAI[0] = 1f;
                 npc.SyncExtraAI();
                 Vector2 vector = npc.Center + new Vector2(-40f, -(float)npc.height / 2);
-                for (int num621 = 0; num621 < 20; num621++)
+                for (int i = 0; i < 20; i++)
                 {
-                    int num622 = Dust.NewDust(vector, npc.width / 2, npc.height / 2, 90, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 2f;
-                    Main.dust[num622].noGravity = true;
+                    int rubyDust = Dust.NewDust(vector, npc.width / 2, npc.height / 2, 90, 0f, 0f, 100, default, 2f);
+                    Main.dust[rubyDust].velocity *= 2f;
+                    Main.dust[rubyDust].noGravity = true;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[rubyDust].scale = 0.5f;
+                        Main.dust[rubyDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 SoundEngine.PlaySound(SoundID.Item38, npc.position);
@@ -160,13 +160,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 teleporting = true;
                 npc.aiAction = 1;
                 npc.ai[0] += 1f;
-                num234 = MathHelper.Clamp((60f - npc.ai[0]) / 60f, 0f, 1f);
-                num234 = 0.5f + num234 * 0.5f;
+                teleportScale = MathHelper.Clamp((60f - npc.ai[0]) / 60f, 0f, 1f);
+                teleportScale = 0.5f + teleportScale * 0.5f;
                 if (Main.getGoodWorld)
-                    num234 *= num237;
+                    teleportScale *= teleportScaleSpeed;
 
                 if (npc.ai[0] >= 60f)
-                    flag9 = true;
+                    teleported = true;
 
                 if (npc.ai[0] == 60f && Main.netMode != NetmodeID.Server)
                     Gore.NewGore(npc.GetSource_FromAI(), npc.Center + new Vector2(-40f, -(float)npc.height / 2), npc.velocity, 734, 1f);
@@ -185,13 +185,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.ai[0] = 0f;
                 }
 
-                if (!flag9)
+                if (!teleported)
                 {
-                    for (int num245 = 0; num245 < 10; num245++)
+                    for (int i = 0; i < 10; i++)
                     {
-                        int num246 = Dust.NewDust(npc.position + Vector2.UnitX * -20f, npc.width + 40, npc.height, 4, npc.velocity.X, npc.velocity.Y, 150, new Color(78, 136, 255, 80), 2f);
-                        Main.dust[num246].noGravity = true;
-                        dust = Main.dust[num246];
+                        int slimeDust = Dust.NewDust(npc.position + Vector2.UnitX * -20f, npc.width + 40, npc.height, 4, npc.velocity.X, npc.velocity.Y, 150, new Color(78, 136, 255, 80), 2f);
+                        Main.dust[slimeDust].noGravity = true;
+                        dust = Main.dust[slimeDust];
                         dust.velocity *= 0.5f;
                     }
                 }
@@ -206,10 +206,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 teleporting = true;
                 npc.aiAction = 0;
                 npc.ai[0] += 1f;
-                num234 = MathHelper.Clamp(npc.ai[0] / 30f, 0f, 1f);
-                num234 = 0.5f + num234 * 0.5f;
+                teleportScale = MathHelper.Clamp(npc.ai[0] / 30f, 0f, 1f);
+                teleportScale = 0.5f + teleportScale * 0.5f;
                 if (Main.getGoodWorld)
-                    num234 *= num237;
+                    teleportScale *= teleportScaleSpeed;
 
                 if (npc.ai[0] >= 30f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -226,17 +226,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.TargetClosest();
                 }
 
-                for (int num247 = 0; num247 < 10; num247++)
+                for (int j = 0; j < 10; j++)
                 {
-                    int num248 = Dust.NewDust(npc.position + Vector2.UnitX * -20f, npc.width + 40, npc.height, 4, npc.velocity.X, npc.velocity.Y, 150, new Color(78, 136, 255, 80), 2f);
-                    Main.dust[num248].noGravity = true;
-                    dust = Main.dust[num248];
+                    int slimyDust = Dust.NewDust(npc.position + Vector2.UnitX * -20f, npc.width + 40, npc.height, 4, npc.velocity.X, npc.velocity.Y, 150, new Color(78, 136, 255, 80), 2f);
+                    Main.dust[slimyDust].noGravity = true;
+                    dust = Main.dust[slimyDust];
                     dust.velocity *= 2f;
                 }
             }
 
             // Don't take damage while teleporting
-            npc.dontTakeDamage = npc.hide = flag9;
+            npc.dontTakeDamage = npc.hide = teleported;
 
             npc.noTileCollide = false;
 
@@ -324,11 +324,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Change jump velocity
             else if (npc.target < Main.maxPlayers)
             {
-                float num252 = 3f;
+                float jumpVelocityMult = 3f;
                 if (Main.getGoodWorld)
-                    num252 = 6f;
+                    jumpVelocityMult = 6f;
 
-                if ((npc.direction == 1 && npc.velocity.X < num252) || (npc.direction == -1 && npc.velocity.X > 0f - num252))
+                if ((npc.direction == 1 && npc.velocity.X < jumpVelocityMult) || (npc.direction == -1 && npc.velocity.X > 0f - jumpVelocityMult))
                 {
                     if ((npc.direction == -1 && npc.velocity.X < 0.1) || (npc.direction == 1 && npc.velocity.X > -0.1))
                         npc.velocity.X += (bossRush ? 0.4f : death ? 0.25f : 0.2f) * npc.direction;
@@ -348,9 +348,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Spawn dust
-            int num249 = Dust.NewDust(npc.position, npc.width, npc.height, 4, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.2f);
-            Main.dust[num249].noGravity = true;
-            dust = Main.dust[num249];
+            int idleSlimeDust = Dust.NewDust(npc.position, npc.width, npc.height, 4, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.2f);
+            Main.dust[idleSlimeDust].noGravity = true;
+            dust = Main.dust[idleSlimeDust];
             dust.velocity *= 0.5f;
 
             if (npc.life <= 0)
@@ -360,7 +360,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float maxScale = death ? (Main.getGoodWorld ? 6f : 3f) : (Main.getGoodWorld ? 3f : 1.25f);
             float minScale = 0.75f;
             lifeRatio = lifeRatio * (maxScale - minScale) + minScale;
-            lifeRatio *= num234;
+            lifeRatio *= teleportScale;
             if (lifeRatio != npc.scale)
             {
                 npc.position.X += npc.width / 2;
@@ -375,12 +375,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Slime spawning
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int num251 = (int)(npc.lifeMax * 0.05);
-                if (npc.life + num251 < npc.ai[3])
+                int slimeSpawnThreshold = (int)(npc.lifeMax * 0.05);
+                if (npc.life + slimeSpawnThreshold < npc.ai[3])
                 {
                     npc.ai[3] = npc.life;
-                    int num252 = Main.rand.Next(2, 4);
-                    for (int num253 = 0; num253 < num252; num253++)
+                    int slimeAmt = Main.rand.Next(2, 4);
+                    for (int i = 0; i < slimeAmt; i++)
                     {
                         int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                         int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
@@ -431,15 +431,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (CalamityWorld.LegendaryMode)
                             npcType = NPCID.RainbowSlime;
 
-                        int num255 = NPC.NewNPC(npc.GetSource_FromAI(), x, y, npcType);
-                        Main.npc[num255].SetDefaults(npcType);
-                        Main.npc[num255].velocity.X = Main.rand.Next(-15, 16) * 0.1f;
-                        Main.npc[num255].velocity.Y = Main.rand.Next(-30, 1) * 0.1f;
-                        Main.npc[num255].ai[0] = -1000 * Main.rand.Next(3);
-                        Main.npc[num255].ai[1] = 0f;
+                        int slimeSpawns = NPC.NewNPC(npc.GetSource_FromAI(), x, y, npcType);
+                        Main.npc[slimeSpawns].SetDefaults(npcType);
+                        Main.npc[slimeSpawns].velocity.X = Main.rand.Next(-15, 16) * 0.1f;
+                        Main.npc[slimeSpawns].velocity.Y = Main.rand.Next(-30, 1) * 0.1f;
+                        Main.npc[slimeSpawns].ai[0] = -1000 * Main.rand.Next(3);
+                        Main.npc[slimeSpawns].ai[1] = 0f;
 
-                        if (Main.netMode == NetmodeID.Server && num255 < Main.maxNPCs)
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num255, 0f, 0f, 0f, 0, 0, 0);
+                        if (Main.netMode == NetmodeID.Server && slimeSpawns < Main.maxNPCs)
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, slimeSpawns, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }
@@ -450,34 +450,34 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             npc.TargetClosest(false);
             Vector2 vectorAimedAheadOfTarget = Main.player[npc.target].Center + new Vector2((float)Math.Round(Main.player[npc.target].velocity.X), 0f).SafeNormalize(Vector2.Zero) * 800f;
-            Point point4 = vectorAimedAheadOfTarget.ToTileCoordinates();
-            int num235 = 5;
-            int num238 = 0;
-            while (num238 < 100)
+            Point predictiveTeleportPoint = vectorAimedAheadOfTarget.ToTileCoordinates();
+            int randomPredictiveTeleportOffset = 5;
+            int teleportTries = 0;
+            while (teleportTries < 100)
             {
-                num238++;
-                int num239 = Main.rand.Next(point4.X - num235, point4.X + num235 + 1);
-                int num240 = Main.rand.Next(point4.Y - num235, point4.Y);
+                teleportTries++;
+                int teleportTileX = Main.rand.Next(predictiveTeleportPoint.X - randomPredictiveTeleportOffset, predictiveTeleportPoint.X + randomPredictiveTeleportOffset + 1);
+                int teleportTileY = Main.rand.Next(predictiveTeleportPoint.Y - randomPredictiveTeleportOffset, predictiveTeleportPoint.Y);
 
-                if (!Main.tile[num239, num240].HasUnactuatedTile)
+                if (!Main.tile[teleportTileX, teleportTileY].HasUnactuatedTile)
                 {
-                    bool flag13 = true;
-                    if (flag13 && Main.tile[num239, num240].LiquidType == LiquidID.Lava)
-                        flag13 = false;
-                    if (flag13 && !Collision.CanHitLine(npc.Center, 0, 0, vectorAimedAheadOfTarget, 0, 0))
-                        flag13 = false;
+                    bool canTeleportToTile = true;
+                    if (canTeleportToTile && Main.tile[teleportTileX, teleportTileY].LiquidType == LiquidID.Lava)
+                        canTeleportToTile = false;
+                    if (canTeleportToTile && !Collision.CanHitLine(npc.Center, 0, 0, vectorAimedAheadOfTarget, 0, 0))
+                        canTeleportToTile = false;
 
-                    if (flag13)
+                    if (canTeleportToTile)
                     {
-                        npc.localAI[1] = num239 * 16 + 8;
-                        npc.localAI[2] = num240 * 16 + 16;
+                        npc.localAI[1] = teleportTileX * 16 + 8;
+                        npc.localAI[2] = teleportTileY * 16 + 16;
                         break;
                     }
                 }
             }
 
             // Default teleport if the above conditions aren't met in 100 iterations
-            if (num238 >= 100)
+            if (teleportTries >= 100)
             {
                 Vector2 bottom = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Bottom;
                 npc.localAI[1] = bottom.X;

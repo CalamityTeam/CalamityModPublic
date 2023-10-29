@@ -1124,7 +1124,9 @@ namespace CalamityMod.NPCs
                 shop.AddWithCustomValue(ItemID.JungleRose, Item.buyPrice(gold: 2))
                 .AddWithCustomValue(ItemID.NaturesGift, Item.buyPrice(gold: 10))
                 .Add(ItemType<RomajedaOrchid>())
-                .AddWithCustomValue(ItemID.Grapes, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnough, Condition.DownedSkeletron);
+                .AddWithCustomValue(ItemID.Grapes, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnough, Condition.DownedSkeletron)
+                .Add(ItemID.CorruptSeeds, Condition.CrimsonWorld, Condition.InGraveyard)
+                .Add(ItemID.CrimsonSeeds, Condition.CorruptWorld, Condition.InGraveyard);
             }
 
             if (type == NPCID.GoblinTinkerer)

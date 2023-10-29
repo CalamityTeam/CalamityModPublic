@@ -75,17 +75,17 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.ai[1] *= 1.05f;
             if (Projectile.scale < 1f && Projectile.localAI[1] > 5f)
             {
-                int num897 = 0;
-                while ((float)num897 < Projectile.scale * 10f)
+                int scaleLoopCheck = 0;
+                while ((float)scaleLoopCheck < Projectile.scale * 10f)
                 {
-                    int num898 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1.5f);
-                    Main.dust[num898].position = (Main.dust[num898].position + Projectile.Center) / 2f;
-                    Main.dust[num898].noGravity = true;
-                    Main.dust[num898].velocity *= 0.1f;
-                    Main.dust[num898].velocity -= Projectile.velocity * (1.3f - Projectile.scale);
-                    Main.dust[num898].fadeIn = (float)(100 + Projectile.owner);
-                    Main.dust[num898].scale += Projectile.scale * 0.75f;
-                    num897++;
+                    int brimDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1.5f);
+                    Main.dust[brimDust].position = (Main.dust[brimDust].position + Projectile.Center) / 2f;
+                    Main.dust[brimDust].noGravity = true;
+                    Main.dust[brimDust].velocity *= 0.1f;
+                    Main.dust[brimDust].velocity -= Projectile.velocity * (1.3f - Projectile.scale);
+                    Main.dust[brimDust].fadeIn = (float)(100 + Projectile.owner);
+                    Main.dust[brimDust].scale += Projectile.scale * 0.75f;
+                    scaleLoopCheck++;
                 }
             }
         }

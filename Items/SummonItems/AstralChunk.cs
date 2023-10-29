@@ -14,7 +14,7 @@ namespace CalamityMod.Items.SummonItems
         public new string LocalizationCategory => "Items.SummonItems";
         public override void SetStaticDefaults()
         {
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 14; // Frost Moon
+            ItemID.Sets.SortingPriorityBossSpawns[Type] = 14; // Frost Moon
         }
 
         public override void SetDefaults()
@@ -28,10 +28,10 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = false;
         }
 
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
-		}
+        public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+        {
+            itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+        }
 
         public override bool CanUseItem(Player player)
         {
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.SummonItems
             CreateRecipe().
                 AddIngredient<Stardust>(30).
                 AddIngredient(ItemID.FallenStar, 20).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.Anvils).
                 Register();
         }
     }

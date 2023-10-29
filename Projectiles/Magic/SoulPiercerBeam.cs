@@ -28,13 +28,13 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 9f)
             {
-                Vector2 vector33 = Projectile.position;
-                vector33 -= Projectile.velocity;
+                Vector2 projPos = Projectile.position;
+                projPos -= Projectile.velocity;
                 Projectile.alpha = 255;
-                int num448 = Dust.NewDust(vector33, 1, 1, 173, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num448].position = vector33;
-                Main.dust[num448].scale = Main.rand.Next(70, 110) * 0.014f;
-                Main.dust[num448].velocity *= 0.2f;
+                int godSlay = Dust.NewDust(projPos, 1, 1, 173, 0f, 0f, 0, default, 0.5f);
+                Main.dust[godSlay].position = projPos;
+                Main.dust[godSlay].scale = Main.rand.Next(70, 110) * 0.014f;
+                Main.dust[godSlay].velocity *= 0.2f;
             }
         }
 

@@ -32,18 +32,18 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            for (int num136 = 0; num136 < 2; num136++)
+            for (int i = 0; i < 2; i++)
             {
-                float x2 = Projectile.position.X - Projectile.velocity.X / 10f * (float)num136;
-                float y2 = Projectile.position.Y - Projectile.velocity.Y / 10f * (float)num136;
+                float x2 = Projectile.position.X - Projectile.velocity.X / 10f * (float)i;
+                float y2 = Projectile.position.Y - Projectile.velocity.Y / 10f * (float)i;
                 Vector2 dspeed = Projectile.velocity * Main.rand.NextFloat(0.7f, 0.4f);
-                int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 107, 0f, 0f, 0, default, 1f);
-                Main.dust[num137].alpha = Projectile.alpha;
-                Main.dust[num137].position.X = x2;
-                Main.dust[num137].position.Y = y2;
-                Main.dust[num137].velocity = dspeed;
-                Main.dust[num137].noGravity = true;
-                Main.dust[num137].noLight = true;
+                int greenDust = Dust.NewDust(new Vector2(x2, y2), 1, 1, 107, 0f, 0f, 0, default, 1f);
+                Main.dust[greenDust].alpha = Projectile.alpha;
+                Main.dust[greenDust].position.X = x2;
+                Main.dust[greenDust].position.Y = y2;
+                Main.dust[greenDust].velocity = dspeed;
+                Main.dust[greenDust].noGravity = true;
+                Main.dust[greenDust].noLight = true;
             }
 
             if (Projectile.timeLeft < 170)

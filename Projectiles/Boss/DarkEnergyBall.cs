@@ -103,25 +103,25 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnKill(int timeLeft)
         {
-            for (int num621 = 0; num621 < 3; num621++)
+            for (int i = 0; i < 3; i++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num622].velocity *= 3f;
-                Main.dust[num622].noGravity = true;
+                int cosmiliteDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1.2f);
+                Main.dust[cosmiliteDust].velocity *= 3f;
+                Main.dust[cosmiliteDust].noGravity = true;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    Main.dust[cosmiliteDust].scale = 0.5f;
+                    Main.dust[cosmiliteDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 5; num623++)
+            for (int j = 0; j < 5; j++)
             {
-                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1.7f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 2f;
+                int cosmiliteDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1.7f);
+                Main.dust[cosmiliteDust2].noGravity = true;
+                Main.dust[cosmiliteDust2].velocity *= 5f;
+                cosmiliteDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1f);
+                Main.dust[cosmiliteDust2].noGravity = true;
+                Main.dust[cosmiliteDust2].velocity *= 2f;
             }
         }
     }

@@ -50,12 +50,12 @@ namespace CalamityMod.Projectiles.Magic
 
             Lighting.AddLight(Projectile.Center, 0.25f, 0.25f, 0.25f);
 
-            for (int num457 = 0; num457 < 3; num457++)
+            for (int i = 0; i < 3; i++)
             {
-                int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 175, 0f, 0f, 100, default, 2f);
-                Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+                int spectre = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 175, 0f, 0f, 100, default, 2f);
+                Main.dust[spectre].noGravity = true;
+                Main.dust[spectre].velocity *= 0.5f;
+                Main.dust[spectre].velocity += Projectile.velocity * 0.1f;
             }
 
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();

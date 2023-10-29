@@ -46,8 +46,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             int dustType = Projectile.ai[0] == 0f ? 14 : 114;
 
-            int num310 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + (float)Projectile.height - 2f), 2, 2, dustType, 0f, 0f, 0, default, 1f);
-            Dust dust = Main.dust[num310];
+            int dusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + (float)Projectile.height - 2f), 2, 2, dustType, 0f, 0f, 0, default, 1f);
+            Dust dust = Main.dust[dusty];
             dust.position.X -= 2f;
             dust.alpha = 38;
             dust.velocity *= 0.1f;

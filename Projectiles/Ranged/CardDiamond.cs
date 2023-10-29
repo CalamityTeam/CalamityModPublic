@@ -36,9 +36,9 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.spriteDirection = Projectile.direction;
             if (Main.rand.NextBool())
             {
-                int num137 = Dust.NewDust(Projectile.position, 1, 1, 30, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
+                int dust = Dust.NewDust(Projectile.position, 1, 1, 30, 0f, 0f, 0, default, 0.5f);
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
             }
         }
 

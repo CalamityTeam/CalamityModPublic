@@ -44,17 +44,17 @@ namespace CalamityMod.Projectiles.Boss
 
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver2;
 
-            int num103 = Player.FindClosest(Projectile.Center, 1, 1);
+            int playerTracker = Player.FindClosest(Projectile.Center, 1, 1);
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] < 120f && Projectile.ai[1] > 30f)
             {
-                float scaleFactor2 = Projectile.velocity.Length();
-                Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
-                vector11.Normalize();
-                vector11 *= scaleFactor2;
-                Projectile.velocity = (Projectile.velocity * 20f + vector11) / 21f;
+                float projSpeed = Projectile.velocity.Length();
+                Vector2 playerDistance = Main.player[playerTracker].Center - Projectile.Center;
+                playerDistance.Normalize();
+                playerDistance *= projSpeed;
+                Projectile.velocity = (Projectile.velocity * 20f + playerDistance) / 21f;
                 Projectile.velocity.Normalize();
-                Projectile.velocity *= scaleFactor2;
+                Projectile.velocity *= projSpeed;
             }
 
             if (Projectile.timeLeft == 950)

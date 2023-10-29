@@ -63,20 +63,20 @@ namespace CalamityMod.Projectiles.Ranged
                     Projectile.ai[1] = 0f;
 
                 shootThisFrame = true;
-                float num21 = player.inventory[player.selectedItem].shootSpeed * Projectile.scale;
-                Vector2 value11 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY) - Projectile.Center;
+                float speedScale = player.inventory[player.selectedItem].shootSpeed * Projectile.scale;
+                Vector2 shootDirection = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY) - Projectile.Center;
                 if (player.gravDir == -1f)
-                    value11.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - Projectile.Center.Y;
+                    shootDirection.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - Projectile.Center.Y;
 
-                Vector2 velocity2 = Vector2.Normalize(value11);
-                if (float.IsNaN(velocity2.X) || float.IsNaN(velocity2.Y))
-                    velocity2 = -Vector2.UnitY;
+                Vector2 shootVel = Vector2.Normalize(shootDirection);
+                if (float.IsNaN(shootVel.X) || float.IsNaN(shootVel.Y))
+                    shootVel = -Vector2.UnitY;
 
-                velocity2 *= num21;
-                if (velocity2.X != Projectile.velocity.X || velocity2.Y != Projectile.velocity.Y)
+                shootVel *= speedScale;
+                if (shootVel.X != Projectile.velocity.X || shootVel.Y != Projectile.velocity.Y)
                     Projectile.netUpdate = true;
 
-                Projectile.velocity = velocity2;
+                Projectile.velocity = shootVel;
             }
 
             // Emit sounds.
@@ -93,24 +93,20 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Vector2 spinningpoint3 = Vector2.UnitX * 32f;
                 spinningpoint3 = spinningpoint3.RotatedBy(Projectile.rotation + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f));
-                Vector2 value12 = Projectile.Center + spinningpoint3;
+                Vector2 dustSpawn = Projectile.Center + spinningpoint3;
 
                 for (int k = 0; k < chargeAmt + 1; k++)
                 {
-                    int num22 = 226;
-                    float num23 = 0.4f;
+                    float dustScale = 0.4f;
                     if (k % 2 == 1)
-                    {
-                        num22 = 226;
-                        num23 = 0.65f;
-                    }
+                        dustScale = 0.65f;
 
-                    Vector2 vector3 = value12 + ((float)Main.rand.NextDouble() * ((float)Math.PI * 2f)).ToRotationVector2() * (12f - chargeAmt * 2);
-                    int num24 = Dust.NewDust(vector3 - Vector2.One * 8f, 16, 16, num22, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f);
-                    Main.dust[num24].velocity = Vector2.Normalize(value12 - vector3) * 1.5f * (10f - chargeAmt * 2f) / 10f;
-                    Main.dust[num24].noGravity = true;
-                    Main.dust[num24].scale = num23;
-                    Main.dust[num24].customData = player;
+                    Vector2 randDustSpawn = dustSpawn + ((float)Main.rand.NextDouble() * ((float)Math.PI * 2f)).ToRotationVector2() * (12f - chargeAmt * 2);
+                    int electricDust = Dust.NewDust(randDustSpawn - Vector2.One * 8f, 16, 16, 226, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f);
+                    Main.dust[electricDust].velocity = Vector2.Normalize(dustSpawn - randDustSpawn) * 1.5f * (10f - chargeAmt * 2f) / 10f;
+                    Main.dust[electricDust].noGravity = true;
+                    Main.dust[electricDust].scale = dustScale;
+                    Main.dust[electricDust].customData = player;
                 }
             }
 
@@ -119,28 +115,23 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Vector2 spinningpoint4 = Vector2.UnitX * 32f;
                 spinningpoint4 = spinningpoint4.RotatedBy(Projectile.rotation + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f));
-                Vector2 vector4 = Projectile.Center + spinningpoint4;
+                Vector2 dustSpawnLaser = Projectile.Center + spinningpoint4;
 
                 for (int l = 0; l < 2; l++)
                 {
-                    int num25 = 226;
-                    float num26 = 0.35f;
+                    float dustScale = 0.35f;
                     if (l % 2 == 1)
-                    {
-                        num25 = 226;
-                        num26 = 0.45f;
-                    }
-                    num26 *= MathHelper.Lerp(1f, 3f, lerpAmtForCharge);
+                        dustScale = 0.45f;
+                    dustScale *= MathHelper.Lerp(1f, 3f, lerpAmtForCharge);
 
-                    float num27 = Main.rand.NextFloatDirection();
-                    Vector2 value13 = vector4 + (Projectile.rotation + (Projectile.spriteDirection == -1 ? -MathHelper.PiOver2 : MathHelper.PiOver2) + num27 * ((float)Math.PI / 4f) * 0.8f - (float)Math.PI / 2f).ToRotationVector2() * 6f;
-                    int num28 = 24;
-                    int num29 = Dust.NewDust(value13 - Vector2.One * (num28 / 2), num28, num28, num25, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f);
-                    Main.dust[num29].velocity = (value13 - vector4).SafeNormalize(Vector2.Zero) * MathHelper.Lerp(1.5f, 9f, Utils.GetLerpValue(1f, 0f, Math.Abs(num27), clamped: true));
-                    Main.dust[num29].noGravity = true;
-                    Main.dust[num29].scale = num26;
-                    Main.dust[num29].customData = player;
-                    Main.dust[num29].fadeIn = 0.5f;
+                    float randFloat = Main.rand.NextFloatDirection();
+                    Vector2 randDustSpawnLaser = dustSpawnLaser + (Projectile.rotation + (Projectile.spriteDirection == -1 ? -MathHelper.PiOver2 : MathHelper.PiOver2) + randFloat * ((float)Math.PI / 4f) * 0.8f - (float)Math.PI / 2f).ToRotationVector2() * 6f;
+                    int electric2 = Dust.NewDust(randDustSpawnLaser - Vector2.One * 12, 24, 24, 226, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f);
+                    Main.dust[electric2].velocity = (randDustSpawnLaser - dustSpawnLaser).SafeNormalize(Vector2.Zero) * MathHelper.Lerp(1.5f, 9f, Utils.GetLerpValue(1f, 0f, Math.Abs(randFloat), clamped: true));
+                    Main.dust[electric2].noGravity = true;
+                    Main.dust[electric2].scale = dustScale;
+                    Main.dust[electric2].customData = player;
+                    Main.dust[electric2].fadeIn = 0.5f;
                 }
             }
 
