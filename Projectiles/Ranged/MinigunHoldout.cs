@@ -15,35 +15,55 @@ namespace CalamityMod.Projectiles.Ranged
     {
         // Take the name and texture from the weapon
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<Minigun>();
-        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Minigun";
-
-        public static int FramesPerLoad = 13;
-        public static int MaxLoadableShots = 15;
-        public static float BulletSpeed = 1f;
-
-        private Player Owner => Main.player[Projectile.owner];
-        public SlotId MinigunRevSlot;
-
-        private ref float CurrentChargingFrames => ref Projectile.ai[0];
-        private ref float ShotsLoaded => ref Projectile.ai[1];
-        private ref float ShootRecoilTimer => ref Projectile.ai[2]; // Dual functions for rapid fire shooting cooldown and recoil
-        private bool ChargeLV1 => CurrentChargingFrames >= Minigun.Charge1Frames;
-        private bool ChargeLV2 => CurrentChargingFrames >= Minigun.Charge2Frames;
-
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
+        public override string Texture => "CalamityMod/Projectiles/Ranged/MinigunWindUp";
+        private Player Owner => Main.player[Projectile.owner];
+        //public SlotId MinigunRevSlot;
+
+        public int Time = 0;
+        public int revTimer = 0; //revving timer
+        public int framesBetweenShots = 0;
+        public bool fullRev = false;
+        public int fullRevShots = 50;
+        public int windupAnim = 11;
 
         public override void SetDefaults()
         {
-            Projectile.width = 92;
+            Projectile.width = 112;
             Projectile.height = 44;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.ignoreWater = true;
         }
-
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = 10;
+        }
         public override void AI()
         {
+            Time++;
+            Projectile.frameCounter++;
+
+            if (Projectile.frameCounter > windupAnim && OwnerCanShoot)
+            {
+                if (Projectile.frame == 1 && Time < 85)
+                {
+                    Projectile.frame = 0;
+                }
+                else
+                    Projectile.frame++;
+                windupAnim--;
+                Projectile.frameCounter = 0;
+            }
+            else if (!OwnerCanShoot)
+            {
+                Projectile.frame++;
+            }
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+            {
+                Projectile.frame = 2;
+            }
             if (Owner.dead) // destroy the holdout if the player dies
             {
                 Projectile.Kill();
@@ -52,128 +72,62 @@ namespace CalamityMod.Projectiles.Ranged
 
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
             Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.85f + new Vector2 (0, 3.8f);
+            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 15;
 
-            if (SoundEngine.TryGetActiveSound(MinigunRevSlot, out var ChargeSound) && ChargeSound.IsPlaying)
-                ChargeSound.Position = Projectile.Center;
+            int bulletAMMO = ProjectileID.Bullet;
+            Owner.PickAmmo(Owner.ActiveItem(), out bulletAMMO, out float SpeedNoUse, out int bulletDamage, out float kBackNoUse, out int _);
 
-            // Fire if the owner stops channeling or otherwise cannot use the weapon.
+            // Fire Auric Bullets if the owner stops channeling or otherwise cannot use the weapon.
             if (!OwnerCanShoot)
             {
-                if (ShotsLoaded > 0)
+                if (fullRev && fullRevShots > 0)
                 {
-                    // While bullets are remaining, refresh the lifespan; it will not refresh again after bullets run out
-                    Projectile.timeLeft = Minigun.AftershotCooldownFrames;
-
-                    // Retract recoil & shoot faster if charged
-                    ShootRecoilTimer -= ChargeLV1 ? 2.3f : 2f;
-
-                    if (ShootRecoilTimer <= 0f)
-                    {
-                        ChargeSound?.Stop();
-                        SoundEngine.PlaySound(Minigun.SmallShot, Projectile.position);
-
-                        Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * BulletSpeed;
-                        Vector2 fireVec = shootVelocity.RotatedByRandom(MathHelper.ToRadians(2f));
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, fireVec, ModContent.ProjectileType<TitaniumRailgunShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        for (int i = 0; i <= 3; i++)
-                        {
-                            Dust dust = Dust.NewDustPerfect(tipPosition, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.9f, 1.2f), 0, default, Main.rand.NextFloat(1.3f, 1.7f));
-                            dust.noGravity = true;
-                        }
-
-                        ShotsLoaded--;
-                        ShootRecoilTimer = 16f;
-                        Projectile.netSpam = 0;
-                        Projectile.netUpdate = true;
-                    } 
-                }
-                // Retracting any remaining recoil
-                else if (ShootRecoilTimer > 0)
-                    ShootRecoilTimer -= 2;
-
-                // Fires a burst of sparks on the last shot
-                if (ShotsLoaded == 0)
-                {
-                    for (int i = 0; i < 6; i++)
-                    {
-                        SparkParticle spark2 = new SparkParticle((tipPosition - Projectile.velocity * 3) + Main.rand.NextVector2Circular(10, 10), -Projectile.velocity * Main.rand.NextFloat(9.1f, 17.8f), false, Main.rand.Next(9, 12), Main.rand.NextFloat(0.2f, 0.3f), Main.rand.NextBool(4) ? Color.Gold : Color.Yellow);
-                        GeneralParticleHandler.SpawnParticle(spark2);
-                    }
-                    ShotsLoaded--;
+                    Projectile.timeLeft = 2;
+                    Dust dust2 = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 68, 87, Projectile.velocity.RotatedBy((8.6f * Main.rand.NextFloat(0.975f, 1.025f)) * -Projectile.direction) * Main.rand.NextFloat(5.5f, 7f) + Owner.velocity * 0.5f);
+                    dust2.noGravity = false;
+                    //dust2.alpha = 150;
+                    dust2.scale = Main.rand.NextFloat(0.8f, 0.9f);
+                    Dust dust3 = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 5, Main.rand.NextBool(4) ? 169 : 162, (Projectile.velocity * Main.rand.NextFloat(4f, 15.5f)).RotatedByRandom(0.3f));
+                    dust3.noGravity = true;
+                    dust3.scale = Main.rand.NextFloat(1.3f, 2.2f);
+                    Owner.Calamity().GeneralScreenShakePower = 1.85f;
+                    //recoil
+                    Owner.velocity += -Projectile.velocity * fullRevShots * (Main.zenithWorld ? 0.028f : 0.013f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition + Projectile.velocity * 5 + Main.rand.NextVector2Circular(7, 7), shootVelocity.RotatedByRandom(MathHelper.ToRadians(4f)), ModContent.ProjectileType<AuricBullet>(), (int)(Projectile.damage * 0.65f), Projectile.knockBack, Projectile.owner);
+                    SoundEngine.PlaySound(SoundID.Item40 with { PitchVariance = 0.4f }, Projectile.Center);
+                    //SoundEngine.PlaySound(Minigun.AuricFire with { PitchVariance = 0.4f }, Projectile.Center);
+                    fullRevShots--;
                 }
             }
             else
             {
+                if (Time == 1)
+                    SoundEngine.PlaySound(SoundID.DD2_DarkMageCastHeal, Projectile.Center);
                 // While channeled, keep refreshing the projectile lifespan
                 Projectile.timeLeft = 2;
-
-                // Loads shots until maxed out
-                if (ShotsLoaded < MaxLoadableShots && CurrentChargingFrames % FramesPerLoad == 0)
-                    ShotsLoaded++;
-
-                if (ChargeLV1)
-                    CurrentChargingFrames += 2;
-                else
-                    CurrentChargingFrames++;
-
-                // Sounds
-                if (ChargeLV1)
+                if (Time > 90)
                 {
-                    // Pulse sounds play independently of the loop
-                    if (CurrentChargingFrames == Minigun.Charge2Frames)
-                        SoundEngine.PlaySound(Minigun.ChargeLV2, Projectile.Center);
-                    else if (CurrentChargingFrames == Minigun.Charge1Frames)
+                    fullRev = true;
+                    if (framesBetweenShots == 0)
                     {
-                        SoundEngine.PlaySound(Minigun.ChargeLV1, Projectile.Center);
-                        ShotsLoaded = MaxLoadableShots;
+                        Dust dust2 = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 68, 87, Projectile.velocity.RotatedBy((8.6f * Main.rand.NextFloat(0.985f, 1.015f)) * -Projectile.direction) * Main.rand.NextFloat(4, 5) + Owner.velocity * 0.5f);
+                        dust2.noGravity = false;
+                        //dust2.alpha = 150;
+                        dust2.scale = Main.rand.NextFloat(0.8f, 0.9f);
+                        for (int i = 0; i <= 2; i++)
+                        {
+                            Dust dust3 = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 6, Main.rand.NextBool(3) ? 263 : 247, (Projectile.velocity * Main.rand.NextFloat(4f, 15.5f)).RotatedByRandom(0.2f));
+                            dust3.noGravity = true;
+                            dust3.scale = Main.rand.NextFloat(0.9f, 1.6f);
+                        }
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, shootVelocity.RotatedByRandom(MathHelper.ToRadians(1.5f)), bulletAMMO, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
+                        framesBetweenShots = 4;
                     }
-
-                    if ((CurrentChargingFrames - Minigun.Charge1Frames) % (Minigun.ChargeLoopSoundFrames * 2) == 0)
-                        MinigunRevSlot = SoundEngine.PlaySound(Minigun.ChargeLoop, Projectile.Center);
+                    if (framesBetweenShots > 0)
+                        framesBetweenShots--;
                 }
-                else if (CurrentChargingFrames == 10)
-                    MinigunRevSlot = SoundEngine.PlaySound(Minigun.ChargeStart, Projectile.Center);
-
-                // Charge-up visuals
-                if (CurrentChargingFrames >= 10)
-                {
-                    float particleScale = MathHelper.Clamp(CurrentChargingFrames, 0f, Minigun.Charge2Frames);
-                    for (int i = 0; i < (ChargeLV2 ? 4 : ChargeLV1 ? 3 : 2); i++)
-                    {
-                        SparkParticle spark2 = new SparkParticle((tipPosition -Projectile.velocity * 4) + Main.rand.NextVector2Circular(12, 12), -Projectile.velocity * Main.rand.NextFloat(16.1f, 30.8f), false, Main.rand.Next(2, 7), Main.rand.NextFloat(particleScale / 350f, particleScale / 270f), Main.rand.NextBool(4) ? Color.Gold : Color.Yellow);
-                        GeneralParticleHandler.SpawnParticle(spark2);
-                    }
-                    Particle orb = new GenericBloom(tipPosition, Projectile.velocity, Color.Yellow, particleScale / 270f, 2, false);
-                    GeneralParticleHandler.SpawnParticle(orb);
-                    Particle orb2 = new GenericBloom(tipPosition, Projectile.velocity, Color.White, particleScale / 400f, 2, false);
-                    GeneralParticleHandler.SpawnParticle(orb2);
-
-                    float strength = particleScale / 45f;
-                    Vector3 DustLight = new Vector3(0.200f, 0.200f, 0.100f);
-                    Lighting.AddLight(tipPosition, DustLight * strength);
-                }
-
-                // Full charge dusts
-                if (CurrentChargingFrames == Minigun.Charge1Frames)
-                {
-                    for (int i = 0; i < 36; i++)
-                    {
-                        Dust chargefull = Dust.NewDustPerfect(tipPosition, 107);
-                        chargefull.velocity = (MathHelper.TwoPi * i / 36f).ToRotationVector2() * 8f + Owner.velocity;
-                        chargefull.scale = Main.rand.NextFloat(1f, 1.3f);
-                        chargefull.noGravity = true;
-                    }
-                }
-                if (CurrentChargingFrames == Minigun.Charge2Frames)
-                {
-                    for (int i = 0; i < 45; i++)
-                    {
-                        Dust chargefull = Dust.NewDustPerfect(tipPosition, 107);
-                        chargefull.velocity = (MathHelper.TwoPi * i / 36f).ToRotationVector2() * 12f + Owner.velocity;
-                        chargefull.scale = Main.rand.NextFloat(1.2f, 1.4f);
-                        chargefull.noGravity = true;
-                    }
-                }
+                
             }
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
@@ -187,14 +141,15 @@ namespace CalamityMod.Projectiles.Ranged
                 Vector2 oldVelocity = Projectile.velocity;
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
             }
-            Projectile.Center = armPosition + Projectile.velocity * MathHelper.Clamp(30f - ShootRecoilTimer, 0f, 30f) + new Vector2 (0, 7);
+            Projectile.Center = armPosition + Projectile.velocity * MathHelper.Clamp(47f - (framesBetweenShots * 2), 0f, 47f) + new Vector2 (0, 5);
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f);
             Projectile.spriteDirection = Projectile.direction;
 
-            // Rumble (only while channeling)
-            float rumble = MathHelper.Clamp(CurrentChargingFrames, 0f, Minigun.Charge2Frames);
-            if (OwnerCanShoot)
-                Projectile.position += Main.rand.NextVector2Circular(rumble / 70f, rumble / 70f);
+            // Rumble
+            if (!OwnerCanShoot)
+            {
+                Projectile.position += Main.rand.NextVector2Circular(4.5f, 4.5f);
+            }
         }
 
         private void ManipulatePlayerVariables()
@@ -207,8 +162,8 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void OnKill(int timeLeft)
         {
-            if (SoundEngine.TryGetActiveSound(MinigunRevSlot, out var ChargeSound))
-                ChargeSound?.Stop();
+            //if (SoundEngine.TryGetActiveSound(MinigunRevSlot, out var ChargeSound))
+                //ChargeSound?.Stop();
         }
 
         public override bool? CanDamage() => false;

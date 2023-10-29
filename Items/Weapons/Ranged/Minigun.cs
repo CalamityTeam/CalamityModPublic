@@ -13,21 +13,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Minigun : ModItem, ILocalizedModType
     {
-        public static readonly SoundStyle ChargeLV1 = new("CalamityMod/Sounds/Item/ArcNovaDiffuserChargeLV1") { Volume = 0.6f };
-        public static readonly SoundStyle ChargeLV2 = new("CalamityMod/Sounds/Item/ArcNovaDiffuserChargeLV2") { Volume = 0.6f };
-        public static readonly SoundStyle ChargeStart = new("CalamityMod/Sounds/Item/ArcNovaDiffuserChargeStart") { Volume = 0.6f };
-        public static readonly SoundStyle ChargeLoop = new("CalamityMod/Sounds/Item/ArcNovaDiffuserChargeLoop") { Volume = 0.6f };
-        internal static readonly int ChargeLoopSoundFrames = 151;
-        public static readonly SoundStyle SmallShot = new("CalamityMod/Sounds/Item/ArcNovaDiffuserSmallShot") { PitchVariance = 0.3f, Volume = 0.5f };
-        public static readonly SoundStyle BigShot = new("CalamityMod/Sounds/Item/ArcNovaDiffuserBigShot") { PitchVariance = 0.3f, Volume = 0.8f };
-
-        public static int AftershotCooldownFrames = 9;
-        public static int Charge1Frames = 156;
-        public static int Charge2Frames = 308;
+        public static readonly SoundStyle AuricFire = new("CalamityMod/Sounds/Item/MinigunAuricFire") { Volume = 0.7f };
+        public static readonly SoundStyle RevSound = new("CalamityMod/Sounds/Item/ArcNovaDiffuserChargeLV2") { Volume = 0.7f };
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 312;
+            Item.damage = 321;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 92;
             Item.height = 44;
@@ -43,10 +34,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
             Item.shoot = ModContent.ProjectileType<MinigunHoldout>();
             Item.shootSpeed = 2f;
+            Item.useAmmo = AmmoID.Bullet;
             Item.rare = ModContent.RarityType<Violet>();
         }
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
-
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextFloat() > 0.95f && player.ownedProjectileCounts[Item.shoot] > 0;
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MinigunHoldout>(), damage, knockback, player.whoAmI, 0f, 0f);
+            return false;
+        }
         public override void AddRecipes()
         {
             CreateRecipe().
