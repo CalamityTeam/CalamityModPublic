@@ -112,6 +112,9 @@ namespace CalamityMod.ILEditing
             IL_Player.Update += ManaRegenDelayAdjustment;
             IL_Player.UpdateManaRegen += ManaRegenAdjustment;
 
+            // Debuff balancing
+            IL_Projectile.StatusPlayer += RemoveFrozenInflictionFromDeerclopsIceSpikes;
+
             // World generation
             IL_WorldGen.Pyramid += ReplacePharaohSetInPyramids;
             IL_WorldGen.GrowLivingTree += BlockLivingTreesNearOcean;

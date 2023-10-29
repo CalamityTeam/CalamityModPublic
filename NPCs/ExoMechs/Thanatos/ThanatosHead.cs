@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             // Ensure that the reticle is not culled due to the player being very far from Thanatos.
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Scale = 0.65f,
                 PortraitScale = 0.6f,
@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.GetNPCDamage();
             NPC.width = 164;
             NPC.height = 164;
-            NPC.defense = 80;
+            NPC.defense = 100;
             NPC.DR_NERD(0.9999f);
             NPC.Calamity().unbreakableDR = true;
             NPC.LifeMaxNERB(960000, 1150000, 600000);

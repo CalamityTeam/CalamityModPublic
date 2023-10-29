@@ -706,7 +706,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Vector2 otherProbeDist = Main.npc[i].Center - npc.Center;
                     if (otherProbeDist.Length() < (npc.width + npc.height))
                     {
-                        otherProbeDist.SafeNormalize(Vector2.UnitY);
+                        otherProbeDist = otherProbeDist.SafeNormalize(Vector2.UnitY);
                         otherProbeDist *= -0.1f;
                         npc.velocity += otherProbeDist;
                         Main.npc[i].velocity -= otherProbeDist;

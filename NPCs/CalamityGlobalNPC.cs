@@ -859,19 +859,25 @@ namespace CalamityMod.NPCs
             }
 
             // Daybroken
+            // 18OCT2023: Ozzatron: im not gonna sugarcoat it
+            // vanilla debuff damage from Daybreak impales scales linearly up to 8 for 800 DPS
+            // instead of allowing this entire 800 DPS to be multiplied by heat weakness + heat DoT bonuses,
+            // each Daybreak spear beyond the first is only affected 25% as much by weaknesses or resistances.
+            // This also stops Daybreak's DPS from being utterly shafted by heat resistance.
+            // As no other weapon can stack Daybroken, this has no effect on other weapons (they count as "1 Daybreak spear")
             if (npc.daybreak)
             {
-                int projAmt = 0;
+                int numImpaledSpears = 0;
                 for (int k = 0; k < Main.maxProjectiles; k++)
                 {
                     if (Main.projectile[k].active && Main.projectile[k].type == ProjectileID.Daybreak && Main.projectile[k].ai[0] == 1f && Main.projectile[k].ai[1] == npc.whoAmI)
-                        projAmt++;
+                        numImpaledSpears++;
                 }
 
-                if (projAmt == 0)
-                    projAmt = 1;
+                // If there are no Daybreak impaled spears, Daybroken has 1x potency (it was applied some other way)
+                float daybrokenMultiplier = numImpaledSpears <= 1 ? 1f : (1f + 0.25f * (numImpaledSpears - 1));
 
-                int baseDaybreakDoTValue = (int)(projAmt * 2 * 100 * vanillaHeatDamageMult);
+                int baseDaybreakDoTValue = (int)(daybrokenMultiplier * 2 * 100 * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseDaybreakDoTValue;
                 if (damage < baseDaybreakDoTValue / 4)
                     damage = baseDaybreakDoTValue / 4;
@@ -1378,6 +1384,11 @@ namespace CalamityMod.NPCs
 
                 if (npc.type == NPCID.WallofFlesh)
                     npc.npcSlots = 20f;
+            }
+            else if (npc.type == NPCID.Deerclops)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+                npc.npcSlots = 16f;
             }
             else if (npc.type == NPCID.SkeletronHead)
             {
@@ -2942,6 +2953,9 @@ namespace CalamityMod.NPCs
                         return SkeletronAI.BuffedSkeletronHandAI(npc, Mod);
                     case NPCID.SkeletronHead:
                         return SkeletronAI.BuffedSkeletronAI(npc, Mod);
+
+                    case NPCID.Deerclops:
+                        return DeerclopsAI.BuffedDeerclopsAI(npc, Mod);
 
                     case NPCID.WallofFlesh:
                         return WallOfFleshAI.BuffedWallofFleshAI(npc, Mod);

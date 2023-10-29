@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = 15;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 PortraitPositionXOverride = -50f,
                 PortraitPositionYOverride = -40f,
@@ -183,7 +183,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             NPC.GetNPCDamage();
             NPC.width = 204;
             NPC.height = 226;
-            NPC.defense = 80;
+            NPC.defense = 100;
             NPC.DR_NERD(0.25f);
             NPC.LifeMaxNERB(1250000, 1495000, 650000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;

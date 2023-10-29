@@ -1829,8 +1829,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             NPC.netUpdate = true;
                         }
 
-                        Vector2 projectileVelocity = player.Center - NPC.Center;
-                        projectileVelocity.SafeNormalize(Vector2.UnitY);
+                        Vector2 projectileVelocity = (player.Center - NPC.Center).SafeNormalize(Vector2.UnitY);
                         Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
                         projectileVelocity *= 10f * uDieLul;
 
@@ -2074,8 +2073,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    Vector2 projectileVelocity = player.Center - NPC.Center;
-                                    projectileVelocity.SafeNormalize(Vector2.UnitY);
+                                    Vector2 projectileVelocity = (player.Center - NPC.Center).SafeNormalize(Vector2.UnitY);
                                     Vector2 projectileSpawn = NPC.Center + projectileVelocity * 4f;
                                     projectileVelocity *= 10f * uDieLul;
                                     int projectileType = hellblast;
@@ -2153,8 +2151,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 SoundEngine.PlaySound(BrimstoneBigShotSound, NPC.Center);
-                                Vector2 projectileVelocity = player.Center - NPC.Center;
-                                projectileVelocity.SafeNormalize(Vector2.UnitY);
+                                Vector2 projectileVelocity = (player.Center - NPC.Center).SafeNormalize(Vector2.UnitY);
                                 Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
                                 projectileVelocity *= 5f * uDieLul;
                                 int projectileType = gigablast;
@@ -2395,8 +2392,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             NPC.netUpdate = true;
                         }
 
-                        Vector2 projectileVelocity = player.Center - NPC.Center;
-                        projectileVelocity.SafeNormalize(Vector2.UnitY);
+                        Vector2 projectileVelocity = (player.Center - NPC.Center).SafeNormalize(Vector2.UnitY);
                         Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
                         projectileVelocity *= 10f * uDieLul;
 
@@ -2611,8 +2607,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    Vector2 projectileVelocity = player.Center - NPC.Center;
-                                    projectileVelocity.SafeNormalize(Vector2.UnitY);
+                                    Vector2 projectileVelocity = (player.Center - NPC.Center).SafeNormalize(Vector2.UnitY);
                                     Vector2 projectileSpawn = NPC.Center + projectileVelocity * 4f;
                                     projectileVelocity *= 10f * uDieLul;
                                     int projectileType = hellblast;
@@ -2694,8 +2689,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 SoundEngine.PlaySound(BrimstoneBigShotSound, NPC.Center);
-                                Vector2 projectileVelocity = player.Center - NPC.Center;
-                                projectileVelocity.SafeNormalize(Vector2.UnitY);
+                                Vector2 projectileVelocity = (player.Center - NPC.Center).SafeNormalize(Vector2.UnitY);
                                 Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
                                 projectileVelocity *= 5f * uDieLul;
                                 int projectileType = gigablast;

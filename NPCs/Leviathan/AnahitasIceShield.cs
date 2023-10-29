@@ -101,6 +101,8 @@ namespace CalamityMod.NPCs.Leviathan
             target.AddBuff(BuffID.Frostburn, 240, true);
         }
 
+        public override bool CheckActive() => false;
+
         public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)

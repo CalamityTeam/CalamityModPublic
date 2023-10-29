@@ -748,6 +748,7 @@ namespace CalamityMod
             AddCookedFood();
             AddEssentialToolRecipes();
             AddSummonAndProgressionRecipes();
+            AddTombstoneRecipes();
             AddEarlyGameWeaponRecipes();
             AddEarlyGameAccessoryRecipes();
             AddHardmodeItemRecipes();
@@ -1972,6 +1973,66 @@ namespace CalamityMod
             convert[ItemID.SandstorminaBottle] = ItemID.FlyingCarpet;
             convert[ItemID.FlyingCarpet] = ItemID.AmberHook;
         }
+        #endregion
+
+        #region Tombstone Recipes
+
+        private static void AddTombstoneRecipes()
+        {
+            short[] woodenTombstones = new[]
+            {
+                ItemID.CrossGraveMarker,
+                ItemID.GraveMarker
+            };
+
+            short[] stoneTombstones = new[]
+            {
+                ItemID.Gravestone,
+                ItemID.Headstone,
+                ItemID.Obelisk,
+                ItemID.Tombstone
+            };
+
+            short[] goldenTombstones = new[]
+            {
+                ItemID.RichGravestone1,
+                ItemID.RichGravestone2,
+                ItemID.RichGravestone3,
+                ItemID.RichGravestone4,
+                ItemID.RichGravestone5
+            };
+
+            Recipe r;
+
+            foreach (var tombstone in woodenTombstones)
+            {
+                r = Recipe.Create(tombstone);
+                r.AddRecipeGroup(RecipeGroupID.Wood, 15);
+                r.AddTile(TileID.Sawmill);
+                r.Register();
+                r.DisableDecraft();
+            }
+
+            foreach (var tombstone in stoneTombstones)
+            {
+                r = Recipe.Create(tombstone);
+                r.AddRecipeGroup(AnyStoneBlock, 15);
+                r.AddTile(TileID.HeavyWorkBench);
+                r.Register();
+                r.DisableDecraft();
+            }
+
+            foreach (var tombstone in goldenTombstones)
+            {
+                r = Recipe.Create(tombstone);
+                r.AddRecipeGroup(AnyStoneBlock, 15);
+                r.AddRecipeGroup(AnyGoldBar);
+                r.AddTile(TileID.HeavyWorkBench);
+                r.Register();
+                r.DisableDecraft();
+            }
+        }
+
         #endregion
     }
 }

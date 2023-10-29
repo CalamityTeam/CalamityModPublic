@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             for (int i = 0; i < 8; i++)
             {
                 Vector2 ringVelocity = ((MathHelper.TwoPi * i / 8f) + velocity.ToRotation()).ToRotationVector2() * velocity.Length() * 0.5f;
-                Projectile.NewProjectile(source, position, ringVelocity, type, damage, knockback, Main.myPlayer);
+                Projectile.NewProjectile(source, position, ringVelocity, type, damage, knockback, Main.myPlayer, 0f, 0f);
             }
             return false;
         }
