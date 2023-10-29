@@ -727,7 +727,14 @@ MineralMortar: {
 
 Minigun: {
 	DisplayName: Minigun
-	Tooltip: 80% chance to save ammo
+	Tooltip:
+        '''
+        After revving up, rapidly fire bullets
+        When you stop firing you will release a barrage of auric bullets
+        Auric bullets aggressively home in on enemies and ignore 50 points of defense
+        Constantly consumes ammo while in use
+        90% chance to save ammo
+        '''
 }
 
 MolecularManipulator: {

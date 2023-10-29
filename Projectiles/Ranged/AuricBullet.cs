@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.extraUpdates = 15;
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
             Projectile.tileCollide = false;
-            Projectile.ArmorPenetration = 40;
+            Projectile.ArmorPenetration = 50;
             Projectile.alpha = 255;
         }
 
@@ -77,9 +77,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(BuffID.Electrified, 300);
             SoundEngine.PlaySound(HitSound with { PitchVariance = 0.15f}, Projectile.Center);
-            //Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Gold, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0f, Main.rand.NextFloat(0.15f, 0.35f), 17);
-            //GeneralParticleHandler.SpawnParticle(pulse);
-            GenericSparkle sparker = new GenericSparkle(Projectile.Center, Vector2.Zero, Color.Gold, Color.Cyan, Main.rand.NextFloat(2f, 3.5f), 5, Main.rand.NextFloat(-0.01f, 0.01f), 2f);
+            GenericSparkle sparker = new GenericSparkle(Projectile.Center, Vector2.Zero, Color.Gold, Color.Cyan, Main.rand.NextFloat(1.8f, 2.5f), 5, Main.rand.NextFloat(-0.01f, 0.01f), 1.68f);
             GeneralParticleHandler.SpawnParticle(sparker);
 
             Vector2 bloodSpawnPosition = target.Center + Main.rand.NextVector2Circular(target.width, target.height) * 0.04f;
@@ -90,22 +88,18 @@ namespace CalamityMod.Projectiles.Ranged
             Color sparkColor = Color.Lerp(Color.DarkGoldenrod, Color.Gold, Main.rand.NextFloat(0.7f));
             Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.6f) * Main.rand.NextFloat(22f, 45f);
             sparkVelocity.Y -= 6f;
-            SparkParticle spark = new SparkParticle(target.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
-            GeneralParticleHandler.SpawnParticle(spark);
+            if (Main.rand.NextBool())
+            {
+                SparkParticle spark = new SparkParticle(target.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
+                GeneralParticleHandler.SpawnParticle(spark);
+            }
 
             for (int i = 0; i <= 6; i++)
             {
-                //CrackParticle bolt = new CrackParticle(Projectile.Center, new Vector2(2, 2).RotatedByRandom(100), Main.rand.NextBool(4) ? Color.Cyan : Color.Aqua, new Vector2(1, 1), 0, Main.rand.NextFloat(0.3f, 0.85f), 0.15f, 12);
-                //GeneralParticleHandler.SpawnParticle(bolt);
-
                 Dust dust2 = Dust.NewDustPerfect(Projectile.Center, 226, new Vector2(2, 2).RotatedByRandom(100f) * Main.rand.NextFloat(0.1f, 2.9f));
                 dust2.noGravity = false;
                 dust2.scale = Main.rand.NextFloat(0.3f, 0.9f);
             }
-        }
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            //modifiers.ScalingArmorPenetration += 1f;
         }
     }
 }

@@ -85,7 +85,6 @@ namespace CalamityMod.Projectiles.Ranged
                     Projectile.timeLeft = 2;
                     Dust dust2 = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 68, 87, Projectile.velocity.RotatedBy((8.6f * Main.rand.NextFloat(0.975f, 1.025f)) * -Projectile.direction) * Main.rand.NextFloat(5.5f, 7f) + Owner.velocity * 0.5f);
                     dust2.noGravity = false;
-                    //dust2.alpha = 150;
                     dust2.scale = Main.rand.NextFloat(0.8f, 0.9f);
                     Dust dust3 = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 5, Main.rand.NextBool(4) ? 169 : 162, (Projectile.velocity * Main.rand.NextFloat(4f, 15.5f)).RotatedByRandom(0.3f));
                     dust3.noGravity = true;
@@ -112,7 +111,6 @@ namespace CalamityMod.Projectiles.Ranged
                     {
                         Dust dust2 = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 68, 87, Projectile.velocity.RotatedBy((8.6f * Main.rand.NextFloat(0.985f, 1.015f)) * -Projectile.direction) * Main.rand.NextFloat(4, 5) + Owner.velocity * 0.5f);
                         dust2.noGravity = false;
-                        //dust2.alpha = 150;
                         dust2.scale = Main.rand.NextFloat(0.8f, 0.9f);
                         for (int i = 0; i <= 2; i++)
                         {

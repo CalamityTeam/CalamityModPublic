@@ -13,17 +13,17 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Minigun : ModItem, ILocalizedModType
     {
-        public static readonly SoundStyle AuricFire = new("CalamityMod/Sounds/Item/MinigunAuricFire") { Volume = 0.7f };
-        public static readonly SoundStyle RevSound = new("CalamityMod/Sounds/Item/ArcNovaDiffuserChargeLV2") { Volume = 0.7f };
+        public static readonly SoundStyle AuricFire = new("CalamityMod/Sounds/Item/MinigunAuricFire") { Volume = 0.7f }; //unsused
+        public static readonly SoundStyle RevSound = new("CalamityMod/Sounds/Item/ArcNovaDiffuserChargeLV2") { Volume = 0.7f }; //unused
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 321;
+            Item.damage = 333;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 92;
             Item.height = 44;
-            Item.useTime = 5;
-            Item.useAnimation = 5;
+            Item.useTime = 3;
+            Item.useAnimation = 3;
             Item.channel = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
