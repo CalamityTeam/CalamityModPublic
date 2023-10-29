@@ -53,5 +53,11 @@ namespace CalamityMod.Tiles.AstralSnow
             TileFraming.GetAdjacencyData(i, j, TileID.SnowBlock, out secondTileAdjacency[i, j]);
             return true;
         }
+
+        public override bool IsTileBiomeSightable(int i, int j, ref Color sightColor)
+        {
+            sightColor = Color.Cyan;
+            return true;
+        }
     }
 }

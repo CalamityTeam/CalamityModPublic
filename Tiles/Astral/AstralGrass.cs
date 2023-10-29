@@ -177,5 +177,11 @@ namespace CalamityMod.Tiles.Astral
                 Main.tile[i, j].TileType = (ushort)ModContent.TileType<AstralDirt>();
             }
         }
+
+        public override bool IsTileBiomeSightable(int i, int j, ref Color sightColor)
+        {
+            sightColor = Color.Cyan;
+            return true;
+        }
     }
 }
