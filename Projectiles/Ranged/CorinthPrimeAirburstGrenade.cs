@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.Audio;
+﻿using System;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.NPCs.ExoMechs.Ares;
-using System;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -156,9 +156,9 @@ namespace CalamityMod.Projectiles.Ranged
                 if (i < 100)
                     circleSize = 4f;
 
-                int circleDust = Dust.NewDust(Projectile.Center, 6, 6, dustType, 0f, 0f, 100, default, 1f);
-                float dustX = Main.dust[circleDust].velocity.X;
-                float dustY = Main.dust[circleDust].velocity.Y;
+                int circleDustID = Dust.NewDust(Projectile.Center, 6, 6, dustType, 0f, 0f, 100, default, 1f);
+                float dustX = Main.dust[circleDustID].velocity.X;
+                float dustY = Main.dust[circleDustID].velocity.Y;
 
                 if (dustX == 0f && dustY == 0f)
                     dustX = 1f;
@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Ranged
                         break;
                 }
 
-                Dust dust = Main.dust[circleDust];
+                Dust dust = Main.dust[circleDustID];
                 dust.velocity *= 0.5f;
                 dust.velocity.X += dustX;
                 dust.velocity.Y += dustY;

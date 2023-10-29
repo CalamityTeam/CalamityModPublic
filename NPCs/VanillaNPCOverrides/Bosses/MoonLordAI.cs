@@ -1,22 +1,20 @@
-﻿using CalamityMod.Events;
+﻿using System;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
+    // This is the most horrible abomination of code I have ever seen in my life, by a fucking landslide.
+    // This took hours of my time to attempt to clean up, and quite frankly I'd be surprised if even half of it is accurate.
+    // I do not want to look at this crime against humanity for a very long time. -CIT
     public static class MoonLordAI
     {
-
-	// This is the most horrible abomination of code I have ever seen in my life, by a fucking landslide.
-	// This took hours of my time to attempt to clean up, and quite frankly I'd be surprised if even half of it is accurate.
-	// I do not want to look at this crime against humanity for a very long time. -CIT
-
         public static readonly SoundStyle DeathrayChargeSound = new("CalamityMod/Sounds/Custom/MoonLordLaserCharge");
 
         public static bool BuffedMoonLordAI(NPC npc, Mod mod)

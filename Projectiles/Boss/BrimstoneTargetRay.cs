@@ -1,12 +1,13 @@
-﻿using CalamityMod.NPCs.BrimstoneElemental;
+﻿using System.IO;
+using CalamityMod.NPCs.BrimstoneElemental;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System.IO;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneTargetRay : ModProjectile, ILocalizedModType
@@ -166,8 +167,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return true;
             }
-	    float reference = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 22f * Projectile.scale, ref reference))
+            float useless = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 22f * Projectile.scale, ref useless))
             {
                 return true;
             }

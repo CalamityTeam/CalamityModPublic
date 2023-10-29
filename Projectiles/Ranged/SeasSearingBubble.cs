@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -43,8 +43,8 @@ namespace CalamityMod.Projectiles.Ranged
                     float dustVelX = Projectile.velocity.X / 3f * (float)i;
                     float dustVelY = Projectile.velocity.Y / 3f * (float)i;
                     int four = 4;
-                    int seaDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)four, Projectile.position.Y + (float)four), Projectile.width - four * 2, Projectile.height - four * 2, 202, 0f, 0f, 150, new Color(60, Main.DiscoG, 190), 1.2f);
-                    Dust dust = Main.dust[seaDust];
+                    int dustID = Dust.NewDust(new Vector2(Projectile.position.X + (float)four, Projectile.position.Y + (float)four), Projectile.width - four * 2, Projectile.height - four * 2, 202, 0f, 0f, 150, new Color(60, Main.DiscoG, 190), 1.2f);
+                    Dust dust = Main.dust[dustID];
                     dust.noGravity = true;
                     dust.velocity *= 0.1f;
                     dust.velocity += Projectile.velocity * 0.1f;

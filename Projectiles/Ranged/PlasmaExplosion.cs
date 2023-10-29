@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Ranged
 {
     public class PlasmaExplosion : ModProjectile, ILocalizedModType
@@ -77,9 +78,8 @@ namespace CalamityMod.Projectiles.Ranged
                 randAdjust = rand3 / randAdjust;
                 rand1 *= randAdjust;
                 rand2 *= randAdjust;
-                int plasmaDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height,
-                    Projectile.ai[1] == 1f ? 173 : 221, 0f, 0f, 100, default, 2f);
-                Dust dust = Main.dust[plasmaDust];
+                int dustID = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, Projectile.ai[1] == 1f ? 173 : 221, 0f, 0f, 100, default, 2f);
+                Dust dust = Main.dust[dustID];
                 dust.noGravity = true;
                 dust.position.X = Projectile.Center.X;
                 dust.position.Y = Projectile.Center.Y;

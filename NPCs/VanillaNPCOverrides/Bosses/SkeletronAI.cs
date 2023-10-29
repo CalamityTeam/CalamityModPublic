@@ -1,11 +1,11 @@
-﻿using CalamityMod.Events;
+﻿using System;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -288,6 +288,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Vector2 skullFiringPos = npc.Center;
                     float skullProjTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - skullFiringPos.X;
                     float skullProjTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - skullFiringPos.Y;
+                    // Ozzatron: noticed this is unused. Leaving as-is for minimal touch.
                     float skullProjTargetDist = (float)Math.Sqrt(skullProjTargetX * skullProjTargetX + skullProjTargetY * skullProjTargetY);
                     if (Collision.CanHit(skullFiringPos, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {

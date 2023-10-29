@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
@@ -12,9 +13,8 @@ using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crags;
-using CalamityMod.NPCs.Leviathan;
-using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.Projectiles.Boss;
@@ -22,12 +22,10 @@ using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Sounds;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using static CalamityMod.NPCs.ExoMechs.Ares.AresBody;
 
 namespace CalamityMod.NPCs
 {
@@ -44,8 +42,8 @@ namespace CalamityMod.NPCs
 
             bool getFuckedAI = Main.zenithWorld;
 
-			if (head)
-				CalamityGlobalNPC.aquaticScourge = npc.whoAmI;
+            if (head)
+                CalamityGlobalNPC.aquaticScourge = npc.whoAmI;
 
             // Adjust hostility and stats
             bool nonHostile = calamityGlobalNPC.newAI[0] == 0f;
@@ -8057,11 +8055,11 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Swimming AI
-		// Passiveness:
-		// 0 = Catfish, Flounder, Frogfish, Viperfish, Moray Eel, Laserfish
-		// 1 = Blinded Angler
-		// 2 = Prism-Back, Toxic Minnow
-		// 3 = Sea Minnow
+        // Passiveness:
+        // 0 = Catfish, Flounder, Frogfish, Viperfish, Moray Eel, Laserfish
+        // 1 = Blinded Angler
+        // 2 = Prism-Back, Toxic Minnow
+        // 3 = Sea Minnow
         public static void PassiveSwimmingAI(NPC npc, Mod mod, int passiveness, float detectRange, float xSpeed, float ySpeed, float speedLimitX, float speedLimitY, float rotation, bool spriteFacesLeft = true)
         {
             if (spriteFacesLeft)
@@ -8074,7 +8072,7 @@ namespace CalamityMod.NPCs
             {
                 npc.TargetClosest(true);
             }
-			Player target = Main.player[npc.target];
+            Player target = Main.player[npc.target];
             if (npc.justHit && passiveness != 3)
             {
                 npc.chaseable = true;
@@ -8083,8 +8081,8 @@ namespace CalamityMod.NPCs
             {
                 bool hasWetTarget = npc.chaseable;
                 npc.TargetClosest(false);
-				target = Main.player[npc.target];
-				// Player detection behavior
+                target = Main.player[npc.target];
+                // Player detection behavior
                 if (passiveness != 2)
                 {
                     if (npc.type == ModContent.NPCType<Frogfish>())
@@ -8122,14 +8120,14 @@ namespace CalamityMod.NPCs
                     hasWetTarget = false;
                 }
 
-				// Swim back and forth
+                // Swim back and forth
                 if (!hasWetTarget || passiveness == 2)
                 {
                     if (passiveness == 0)
-					{
+                    {
                         npc.TargetClosest(true);
-						target = Main.player[npc.target];
-					}
+                        target = Main.player[npc.target];
+                    }
                     if (npc.collideX)
                     {
                         npc.velocity.X = npc.velocity.X * -1f;
@@ -8157,14 +8155,14 @@ namespace CalamityMod.NPCs
                 if (hasWetTarget && passiveness != 2)
                 {
                     npc.TargetClosest(true);
-					target = Main.player[npc.target];
-					// Swim away from the player
+                    target = Main.player[npc.target];
+                    // Swim away from the player
                     if (passiveness == 3)
                     {
                         npc.velocity.X = npc.velocity.X - (float)npc.direction * xSpeed;
                         npc.velocity.Y = npc.velocity.Y - (float)npc.directionY * ySpeed;
                     }
-					// Swim toward the player
+                    // Swim toward the player
                     else
                     {
                         npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 2f * xSpeed : CalamityWorld.revenge ? 1.5f * xSpeed : xSpeed);
@@ -8202,7 +8200,7 @@ namespace CalamityMod.NPCs
                         }
                     }
 
-					// Flounder shoot Sulphuric Mist at the player
+                    // Flounder shoot Sulphuric Mist at the player
                     if (npc.type == ModContent.NPCType<Sulflounder>())
                     {
                         if ((target.Center - npc.Center).Length() < 350f)
@@ -8228,7 +8226,7 @@ namespace CalamityMod.NPCs
                         }
                     }
 
-					// Sea Minnows face away from the player
+                    // Sea Minnows face away from the player
                     if (npc.type == ModContent.NPCType<SeaMinnow>())
                     {
                         npc.direction *= -1;
@@ -8236,7 +8234,7 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-					// No target behavior
+                    // No target behavior
                     npc.velocity.X += (float)npc.direction * 0.1f;
                     if (npc.velocity.X < -2.5f || npc.velocity.X > 2.5f)
                     {
@@ -8279,7 +8277,7 @@ namespace CalamityMod.NPCs
             }
             else
             {
-				// Out of water behavior
+                // Out of water behavior
                 if (npc.velocity.Y == 0f)
                 {
                     npc.velocity.X = npc.velocity.X * 0.94f;

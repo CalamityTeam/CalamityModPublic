@@ -1,12 +1,12 @@
-﻿using CalamityMod.Events;
+﻿using System;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -637,13 +637,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int projectileType = ProjectileID.FairyQueenSunDance;
                         int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
-                        int sunDanceDist = (int)(npc.ai[1] / sunDanceGateValue);
+                        int sunDanceExtension = (int)(npc.ai[1] / sunDanceGateValue);
                         int targetFloatDirection = (targetData2.Center.X > npc.Center.X) ? 1 : 0;
                         float projAmount = phase2 ? 8f : 6f;
                         float projRotation = 1f / projAmount;
                         for (float j = 0f; j < 1f; j += projRotation)
                         {
-                            float projDirection = (j + projRotation * 0.5f + sunDanceDist * projRotation * 0.5f) % 1f;
+                            float projDirection = (j + projRotation * 0.5f + sunDanceExtension * projRotation * 0.5f) % 1f;
                             float ai = (float)Math.PI * 2f * (projDirection + targetFloatDirection);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), position, Vector2.Zero, projectileType, projectileDamage, 0f, Main.myPlayer, ai, npc.whoAmI);

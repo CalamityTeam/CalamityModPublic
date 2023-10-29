@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -80,31 +80,31 @@ namespace CalamityMod.Projectiles.Ranged
             int inc;
             for (int i = 0; i < 20; i = inc + 1)
             {
-                int planetDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 200, default, 2.1f);
-                Main.dust[planetDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
-                Main.dust[planetDust].noGravity = true;
-                Dust dust = Main.dust[planetDust];
+                int dustID = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 200, default, 2.1f);
+                Main.dust[dustID].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
+                Main.dust[dustID].noGravity = true;
+                Dust dust = Main.dust[dustID];
                 dust.velocity *= 3f;
-                dust = Main.dust[planetDust];
+                dust = Main.dust[dustID];
                 dust.velocity += dustVel * Main.rand.NextFloat();
-                planetDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1.1f);
-                Main.dust[planetDust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
-                dust = Main.dust[planetDust];
+                dustID = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1.1f);
+                Main.dust[dustID].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
+                dust = Main.dust[dustID];
                 dust.velocity *= 2f;
-                Main.dust[planetDust].noGravity = true;
-                Main.dust[planetDust].fadeIn = 1f;
-                dust = Main.dust[planetDust];
+                Main.dust[dustID].noGravity = true;
+                Main.dust[dustID].fadeIn = 1f;
+                dust = Main.dust[dustID];
                 dust.velocity += dustVel * Main.rand.NextFloat();
                 inc = i;
             }
             for (int j = 0; j < 10; j = inc + 1)
             {
-                int extraDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
-                Main.dust[extraDust].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 3f;
-                Main.dust[extraDust].noGravity = true;
-                Dust dust = Main.dust[extraDust];
+                int dustID = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
+                Main.dust[dustID].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 3f;
+                Main.dust[dustID].noGravity = true;
+                Dust dust = Main.dust[dustID];
                 dust.velocity *= 0.5f;
-                dust = Main.dust[extraDust];
+                dust = Main.dust[dustID];
                 dust.velocity += dustVel * (0.6f + 0.6f * Main.rand.NextFloat());
                 inc = j;
             }
