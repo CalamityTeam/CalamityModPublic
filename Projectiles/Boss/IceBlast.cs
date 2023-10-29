@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
+            //SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
             for (int i = 0; i < 5; i++)
             {
                 int iceDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, 0f, 0f, 0, default, 1f);
