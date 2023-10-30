@@ -692,6 +692,11 @@ BrimflameFrenzyBuff: {
 	Description: Dark magic empowers your attacks at the cost of your life
 }
 
+BrutalCarnage: {
+	DisplayName: Brutal Carnage
+	Description: 25% increased melee damage and 10% increased melee crit chance
+}
+
 ChiBuff: {
 	DisplayName: Chi
 	Description: You are more resilient
@@ -866,11 +871,6 @@ TarragonImmunity: {
 TarraLifeRegen: {
 	DisplayName: Tarra Life
 	Description: Rapid healing
-}
-
-TyrantsFury: {
-	DisplayName: Tyrant's Fury
-	Description: 30% increased melee damage and 10% increased melee crit chance
 }
 
 AndromedaCripple: {
