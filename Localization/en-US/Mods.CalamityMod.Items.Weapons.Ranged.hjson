@@ -725,8 +725,8 @@ MineralMortar: {
 	Tooltip: Shoots an onyx bomb that explodes into sand sharks on death
 }
 
-Minigun: {
-	DisplayName: Minigun
+Kingsbane: {
+	DisplayName: Kingsbane
 	Tooltip:
 		'''
 		After revving up, rapidly fire bullets

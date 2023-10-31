@@ -11,14 +11,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class MinigunHoldout : ModProjectile
+    public class KingsbaneHoldout : ModProjectile
     {
         // Take the name and texture from the weapon
-        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Minigun>();
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Kingsbane>();
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
-        public override string Texture => "CalamityMod/Projectiles/Ranged/MinigunWindUp";
+        public override string Texture => "CalamityMod/Projectiles/Ranged/KingsbaneWindUp";
         private Player Owner => Main.player[Projectile.owner];
-        //public SlotId MinigunRevSlot;
 
         public int Time = 0;
         public int revTimer = 0; //revving timer
@@ -98,7 +97,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Owner.velocity += -Projectile.velocity * fullRevShots * (Main.zenithWorld ? 0.028f : 0.013f);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition + Projectile.velocity * 5 + Main.rand.NextVector2Circular(7, 7), shootVelocity.RotatedByRandom(MathHelper.ToRadians(4f)), ModContent.ProjectileType<AuricBullet>(), (int)(Projectile.damage * 0.9f), Projectile.knockBack, Projectile.owner);
                     SoundEngine.PlaySound(SoundID.Item40 with { PitchVariance = 0.4f }, Projectile.Center);
-                    //SoundEngine.PlaySound(Minigun.AuricFire with { PitchVariance = 0.4f }, Projectile.Center);
+                    //SoundEngine.PlaySound(Kingsbane.AuricFire with { PitchVariance = 0.4f }, Projectile.Center);
                     fullRevShots--;
                 }
             }
@@ -165,12 +164,6 @@ namespace CalamityMod.Projectiles.Ranged
             Owner.itemAnimation = 2;
             Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
-        public override void OnKill(int timeLeft)
-        {
-            //if (SoundEngine.TryGetActiveSound(MinigunRevSlot, out var ChargeSound))
-                //ChargeSound?.Stop();
-        }
-
         public override bool? CanDamage() => false;
     }
 }

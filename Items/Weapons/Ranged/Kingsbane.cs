@@ -11,10 +11,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Minigun : ModItem, ILocalizedModType
+    [LegacyName("Minigun")]
+    public class Kingsbane : ModItem, ILocalizedModType
     {
-        public static readonly SoundStyle AuricFire = new("CalamityMod/Sounds/Item/MinigunAuricFire") { Volume = 0.7f }; //unsused
-        public static readonly SoundStyle RevSound = new("CalamityMod/Sounds/Item/ArcNovaDiffuserChargeLV2") { Volume = 0.7f }; //unused
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
@@ -32,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.UseSound = null;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
-            Item.shoot = ModContent.ProjectileType<MinigunHoldout>();
+            Item.shoot = ModContent.ProjectileType<KingsbaneHoldout>();
             Item.shootSpeed = 2f;
             Item.useAmmo = AmmoID.Bullet;
             Item.rare = ModContent.RarityType<Violet>();
@@ -41,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextFloat() > 0.95f && player.ownedProjectileCounts[Item.shoot] > 0;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MinigunHoldout>(), damage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<KingsbaneHoldout>(), damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
         public override void AddRecipes()
