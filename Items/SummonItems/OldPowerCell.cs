@@ -39,9 +39,9 @@ namespace CalamityMod.Items.SummonItems
             bool canSummon = false;
             if (player.Center.Y > Main.worldSurface * 16.0)
             {
-                int num = (int)player.Center.X / 16;
-                int num2 = (int)player.Center.Y / 16;
-                Tile tile = Framing.GetTileSafely(num, num2);
+                int playerTileX = (int)player.Center.X / 16;
+                int playerTileY = (int)player.Center.Y / 16;
+                Tile tile = Framing.GetTileSafely(playerTileX, playerTileY);
                 if (tile.WallType == 87)
                     canSummon = true;
             }
