@@ -57,18 +57,20 @@ namespace CalamityMod.Projectiles.Ranged
                     dust.velocity += Projectile.velocity * Utils.Remap(Time, 0f, Fadetime * 0.75f, 1f, 0.1f) * Utils.Remap(Time, 0f, Fadetime * 0.1f, 0.1f, 1f);
                 }
 
-                if (Main.rand.NextBool(20))
+                if (Main.rand.NextBool(17))
                 {
-                    FlameParticle fire = new FlameParticle(Projectile.Center, 20, MathHelper.Clamp(Time * 0.05f, 0.5f, 2f), 0.05f, Color.BlueViolet * 0.5f, Color.DarkBlue * 0.5f);
-                    fire.Velocity = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(6f)) * 0.3f;
+                    bool LowVel = Main.rand.NextBool() ? false : true;
+                    FlameParticle fire = new FlameParticle(Projectile.Center, 20, MathHelper.Clamp(Time * 0.05f, 0.15f, 1.75f), 0.05f, Color.BlueViolet * (LowVel ? 1.2f : 0.5f), Color.DarkBlue * (LowVel ? 1.2f : 0.5f));
+                    fire.Velocity = new Vector2(Projectile.velocity.X * 0.8f, -10).RotatedByRandom(0.005f) * (LowVel ? Main.rand.NextFloat(0.4f, 0.65f) : Main.rand.NextFloat(0.8f, 1f));
                     GeneralParticleHandler.SpawnParticle(fire);
                 }
             }
             else if (Time == 5f)
             {
-                Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? 295 : 181, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30f)) * 0.6f);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? 295 : 181, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30f)) * Main.rand.NextFloat(0.5f, 1f));
                 dust.scale = Main.rand.NextFloat(0.8f, 1.8f);
                 dust.noGravity = true;
+                dust.fadeIn = 0.5f;
             }
         }
 
