@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 333;
+            Item.damage = 245;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 92;
             Item.height = 44;
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.ChainGun).
-                AddIngredient<ClockGatlignum>().
+                AddIngredient<P90>().
                 AddIngredient<AuricBar>(5).
                 AddTile<CosmicAnvil>().
                 Register();

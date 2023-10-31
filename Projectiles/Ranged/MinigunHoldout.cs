@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Owner.Calamity().GeneralScreenShakePower = 1.85f;
                     //recoil
                     Owner.velocity += -Projectile.velocity * fullRevShots * (Main.zenithWorld ? 0.028f : 0.013f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition + Projectile.velocity * 5 + Main.rand.NextVector2Circular(7, 7), shootVelocity.RotatedByRandom(MathHelper.ToRadians(4f)), ModContent.ProjectileType<AuricBullet>(), (int)(Projectile.damage * 0.65f), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition + Projectile.velocity * 5 + Main.rand.NextVector2Circular(7, 7), shootVelocity.RotatedByRandom(MathHelper.ToRadians(4f)), ModContent.ProjectileType<AuricBullet>(), (int)(Projectile.damage * 0.9f), Projectile.knockBack, Projectile.owner);
                     SoundEngine.PlaySound(SoundID.Item40 with { PitchVariance = 0.4f }, Projectile.Center);
                     //SoundEngine.PlaySound(Minigun.AuricFire with { PitchVariance = 0.4f }, Projectile.Center);
                     fullRevShots--;
@@ -126,8 +126,8 @@ namespace CalamityMod.Projectiles.Ranged
                             dust3.scale = Main.rand.NextFloat(0.9f, 1.6f);
                         }
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, shootVelocity.RotatedByRandom(MathHelper.ToRadians(1.5f)), bulletAMMO, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        SoundEngine.PlaySound(SoundID.Item41, Projectile.Center);
-                        framesBetweenShots = 4;
+                        SoundEngine.PlaySound(SoundID.Item41 with { Volume = 0.75f}, Projectile.Center);
+                        framesBetweenShots = 3;
                     }
                     if (framesBetweenShots > 0)
                         framesBetweenShots--;

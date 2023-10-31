@@ -823,8 +823,9 @@ P90: {
 	DisplayName: P90
 	Tooltip:
 		'''
-		Unleashes a stream of bullets at an incredible rate
-		50% chance to save ammo
+		Unleashes a stream of armor-piercing rounds at an incredible rate
+		Armor-piercing rounds ignore 15 defense
+		75% chance to save ammo
 		'It's a bullet hose'
 		'''
 }
