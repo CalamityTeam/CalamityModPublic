@@ -53,8 +53,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (player.altFunctionUse == 2)
             {
                 velocity *= 2f;
-                int num6 = Main.rand.Next(4, 6);
-                for (int index = 0; index < num6; ++index)
+                int flareAmt = Main.rand.Next(4, 6);
+                for (int index = 0; index < flareAmt; ++index)
                 {
                     float SpeedX = velocity.X + (float)Main.rand.Next(-50, 51) * 0.05f;
                     float SpeedY = velocity.Y + (float)Main.rand.Next(-50, 51) * 0.05f;
@@ -70,8 +70,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             else
             {
-                int num6 = Main.rand.Next(1, 3);
-                for (int index = 0; index < num6; ++index)
+                int flareAmt = Main.rand.Next(1, 3);
+                for (int index = 0; index < flareAmt; ++index)
                 {
                     float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;
                     float SpeedY = velocity.Y + (float)Main.rand.Next(-40, 41) * 0.05f;

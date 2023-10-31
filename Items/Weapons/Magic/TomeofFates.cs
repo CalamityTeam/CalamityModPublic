@@ -37,38 +37,37 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int i = Main.myPlayer;
-            int num73 = damage;
-            float num74 = knockback;
-            num74 = player.GetWeaponKnockback(Item, num74);
+            float playerKnockback = knockback;
+            playerKnockback = player.GetWeaponKnockback(Item, playerKnockback);
             player.itemTime = Item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            Vector2 value2 = new Vector2(num78, num79);
-            value2.Normalize();
-            Vector2 value3 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-            value3.Normalize();
-            value2 = value2 * 4f + value3;
-            value2.Normalize();
-            value2 *= Item.shootSpeed;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
+            Vector2 tentacleVelocity = new Vector2(mouseXDist, mouseYDist);
+            tentacleVelocity.Normalize();
+            Vector2 tentacleRandVelocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+            tentacleRandVelocity.Normalize();
+            tentacleVelocity = tentacleVelocity * 4f + tentacleRandVelocity;
+            tentacleVelocity.Normalize();
+            tentacleVelocity *= Item.shootSpeed;
             int projChoice = Main.rand.Next(7);
-            float num91 = (float)Main.rand.Next(10, 160) * 0.001f;
+            float tentacleYDirection = (float)Main.rand.Next(10, 160) * 0.001f;
             if (Main.rand.NextBool())
             {
-                num91 *= -1f;
+                tentacleYDirection *= -1f;
             }
-            float num92 = (float)Main.rand.Next(10, 160) * 0.001f;
+            float tentacleXDirection = (float)Main.rand.Next(10, 160) * 0.001f;
             if (Main.rand.NextBool())
             {
-                num92 *= -1f;
+                tentacleXDirection *= -1f;
             }
             if (projChoice == 0)
             {
-                Projectile.NewProjectile(source, vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<BrimstoneTentacle>(), (int)((double)num73 * 1.5f), num74, i, num92, num91);
+                Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, tentacleVelocity.X, tentacleVelocity.Y, ModContent.ProjectileType<BrimstoneTentacle>(), (int)((double)num73 * 1.5f), playerKnockback, i, tentacleXDirection, tentacleYDirection);
             }
             else
             {
-                Projectile.NewProjectile(source, vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<CosmicTentacle>(), num73, num74, i, num92, num91);
+                Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, tentacleVelocity.X, tentacleVelocity.Y, ModContent.ProjectileType<CosmicTentacle>(), damage, playerKnockback, i, tentacleXDirection, tentacleYDirection);
             }
             return false;
         }

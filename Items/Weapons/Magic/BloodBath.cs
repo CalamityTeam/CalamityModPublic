@@ -40,57 +40,57 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float num72 = Item.shootSpeed;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            float bloodSpeed = Item.shootSpeed;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXPos = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float mouseYPos = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                mouseYPos = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - realPlayerPos.Y;
             }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            float mouseDistance = (float)Math.Sqrt((double)(mouseXPos * mouseXPos + mouseYPos * mouseYPos));
+            if ((float.IsNaN(mouseXPos) && float.IsNaN(mouseYPos)) || (mouseXPos == 0f && mouseYPos == 0f))
             {
-                num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
+                mouseXPos = (float)player.direction;
+                mouseYPos = 0f;
+                mouseDistance = bloodSpeed;
             }
             else
             {
-                num80 = num72 / num80;
+                mouseDistance = bloodSpeed / mouseDistance;
             }
 
-            int num107 = 2;
+            int bloodAmt = 2;
             if (Main.rand.NextBool(3))
             {
-                num107++;
+                bloodAmt++;
             }
             if (Main.rand.NextBool(3))
             {
-                num107++;
+                bloodAmt++;
             }
-            for (int num108 = 0; num108 < num107; num108++)
+            for (int i = 0; i < bloodAmt; i++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num108);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
+                realPlayerPos = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                realPlayerPos.X = (realPlayerPos.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
+                realPlayerPos.Y -= (float)(100 * i);
+                mouseXPos = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+                mouseYPos = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
+                if (mouseYPos < 0f)
                 {
-                    num79 *= -1f;
+                    mouseYPos *= -1f;
                 }
-                if (num79 < 20f)
+                if (mouseYPos < 20f)
                 {
-                    num79 = 20f;
+                    mouseYPos = 20f;
                 }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(15));
+                mouseDistance = (float)Math.Sqrt((double)(mouseXPos * mouseXPos + mouseYPos * mouseYPos));
+                mouseDistance = bloodSpeed / mouseDistance;
+                mouseXPos *= mouseDistance;
+                mouseYPos *= mouseDistance;
+                float speedX4 = mouseXPos + (float)Main.rand.Next(-30, 31) * 0.02f;
+                float speedY5 = mouseYPos + (float)Main.rand.Next(-30, 31) * 0.02f;
+                Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(15));
             }
             return false;
         }

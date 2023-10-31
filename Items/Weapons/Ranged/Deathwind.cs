@@ -50,8 +50,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.8), knockback, player.whoAmI);
-                    Main.projectile[num121].noDropItem = true;
+                    int baseArrow = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.8), knockback, player.whoAmI);
+                    Main.projectile[baseArrow].noDropItem = true;
                 }
             }
             return false;

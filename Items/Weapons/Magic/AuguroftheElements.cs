@@ -35,27 +35,27 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            Vector2 value2 = new Vector2(num78, num79);
-            value2.Normalize();
-            Vector2 value3 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-            value3.Normalize();
-            value2 = value2 * 6f + value3;
-            value2.Normalize();
-            value2 *= Item.shootSpeed;
-            float num91 = (float)Main.rand.Next(10, 50) * 0.001f;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
+            Vector2 tentacleVelocity = new Vector2(mouseXDist, mouseYDist);
+            tentacleVelocity.Normalize();
+            Vector2 tentacleRandVelocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+            tentacleRandVelocity.Normalize();
+            tentacleVelocity = tentacleVelocity * 6f + tentacleRandVelocity;
+            tentacleVelocity.Normalize();
+            tentacleVelocity *= Item.shootSpeed;
+            float tentacleYDirection = (float)Main.rand.Next(10, 50) * 0.001f;
             if (Main.rand.NextBool())
             {
-                num91 *= -1f;
+                tentacleYDirection *= -1f;
             }
-            float num92 = (float)Main.rand.Next(10, 50) * 0.001f;
+            float tentacleXDirection = (float)Main.rand.Next(10, 50) * 0.001f;
             if (Main.rand.NextBool())
             {
-                num92 *= -1f;
+                tentacleXDirection *= -1f;
             }
-            Projectile.NewProjectile(source, vector2, value2, type, damage, knockback, player.whoAmI, num92, num91);
+            Projectile.NewProjectile(source, realPlayerPos, tentacleVelocity, type, damage, knockback, player.whoAmI, tentacleXDirection, tentacleYDirection);
             return false;
         }
 
