@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Ranged
                             float dustVelocityX = Main.rand.NextFloat(-StarmageddonBinaryStarCenter.ParticleSpreadMax, StarmageddonBinaryStarCenter.ParticleSpreadMax);
                             float dustVelocityY = top ? -StarmageddonBinaryStarCenter.ParticleVelocityMax : StarmageddonBinaryStarCenter.ParticleVelocityMax;
                             Vector2 dustVelocity = new Vector2(dustVelocityX, dustVelocityY);
-                            GeneralParticleHandler.SpawnParticle(new SparkParticle(Projectile.Center + Vector2.Normalize(dustVelocity) * StarmageddonBinaryStarCenter.ParticleSpawnOffset, dustVelocity, false, 180, 1f, Color.Orange));
+                            GeneralParticleHandler.SpawnParticle(new SparkParticle(Projectile.Center + Vector2.Normalize(dustVelocity) * StarmageddonBinaryStarCenter.ParticleSpawnOffset, dustVelocity, false, 60, 1.2f, Color.Orange));
                         }
                     }
 
@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int i = 0; i < 4; i++)
             {
-                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 31, 0f, 0f, 100, default(Color), 1.5f);
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default(Color), 1.5f);
                 Main.dust[dust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
             }
 
@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int i = 0; i < 10; i++)
             {
-                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 31, 0f, 0f, 0, default(Color), 1.5f);
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 303, 0f, 0f, 0, default(Color), 1.5f);
                 Main.dust[dust].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
                 Main.dust[dust].noGravity = true;
                 Dust dust2 = Main.dust[dust];
