@@ -107,12 +107,12 @@ namespace CalamityMod.Projectiles.Rogue
                 return;
 
             Vector2 spinningpoint = new Vector2(0f, 6f);
-            float num1 = MathHelper.ToRadians(45f);
+            float radian45 = MathHelper.ToRadians(45f);
             int cometAmt = 5;
-            float num3 = -(num1 * 2f) / (cometAmt - 1f);
+            float cometSpread = -(radian45 * 2f) / (cometAmt - 1f);
             for (int projIndex = 0; projIndex < cometAmt; ++projIndex)
             {
-                int index2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, spinningpoint.RotatedBy((double)num1 + (double)num3 * (double)projIndex, new Vector2()), ModContent.ProjectileType<LeonidCometSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, -1f);
+                int index2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, spinningpoint.RotatedBy((double)radian45 + (double)cometSpread * (double)projIndex, new Vector2()), ModContent.ProjectileType<LeonidCometSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, -1f);
                 Projectile proj = Main.projectile[index2];
                 for (int index3 = 0; index3 < Projectile.localNPCImmunity.Length; ++index3)
                 {

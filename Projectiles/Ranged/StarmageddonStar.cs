@@ -123,14 +123,14 @@ namespace CalamityMod.Projectiles.Ranged
 
                             for (int l = 0; l < 12; l++)
                             {
-                                Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
-                                vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * MathHelper.Pi / 6f), default) * new Vector2(8f, 16f);
-                                vector3 = vector3.RotatedBy((double)(speed.ToRotation()), default);
-                                int num9 = Dust.NewDust(position, 0, 0, 221, 0f, 0f, 0, default, 1f);
-                                Main.dust[num9].noGravity = true;
-                                Main.dust[num9].position = position + vector3;
-                                Main.dust[num9].velocity = speed * 0.1f;
-                                Main.dust[num9].velocity = Vector2.Normalize(position - speed * 3f - Main.dust[num9].position) * 1.25f;
+                                Vector2 dustVel = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
+                                dustVel += -Vector2.UnitY.RotatedBy((double)((float)l * MathHelper.Pi / 6f), default) * new Vector2(8f, 16f);
+                                dustVel = dustVel.RotatedBy((double)(speed.ToRotation()), default);
+                                int starDust = Dust.NewDust(position, 0, 0, 221, 0f, 0f, 0, default, 1f);
+                                Main.dust[starDust].noGravity = true;
+                                Main.dust[starDust].position = position + dustVel;
+                                Main.dust[starDust].velocity = speed * 0.1f;
+                                Main.dust[starDust].velocity = Vector2.Normalize(position - speed * 3f - Main.dust[starDust].position) * 1.25f;
                             }
 
                             int type = Utils.SelectRandom(Main.rand, new int[]

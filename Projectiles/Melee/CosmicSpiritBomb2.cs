@@ -23,47 +23,47 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
-            num395 *= 0.2f;
-            Projectile.scale = num395 + 0.95f;
+            float scaleModd = (float)Main.mouseTextColor / 200f - 0.35f;
+            scaleModd *= 0.2f;
+            Projectile.scale = scaleModd + 0.95f;
 
-            float num947 = (Projectile.Center - Main.player[Projectile.owner].Center).Length() / 100f;
-            if (num947 <= 2f)
+            float projDistance = (Projectile.Center - Main.player[Projectile.owner].Center).Length() / 100f;
+            if (projDistance <= 2f)
             {
-                num947 = 1f;
+                projDistance = 1f;
             }
             else
             {
-                if (num947 > 8f)
+                if (projDistance > 8f)
                 {
-                    num947 = 12f;
+                    projDistance = 12f;
                 }
-                else if (num947 > 6f)
+                else if (projDistance > 6f)
                 {
-                    num947 = 9f;
+                    projDistance = 9f;
                 }
-                else if (num947 > 5f)
+                else if (projDistance > 5f)
                 {
-                    num947 = 7f;
+                    projDistance = 7f;
                 }
-                else if (num947 > 4f)
+                else if (projDistance > 4f)
                 {
-                    num947 = 5f;
+                    projDistance = 5f;
                 }
-                else if (num947 > 3f)
+                else if (projDistance > 3f)
                 {
-                    num947 = 4f;
+                    projDistance = 4f;
                 }
-                else if (num947 > 2.5f)
+                else if (projDistance > 2.5f)
                 {
-                    num947 = 3f;
+                    projDistance = 3f;
                 }
                 else
                 {
-                    num947 = 2f;
+                    projDistance = 2f;
                 }
             }
-            Projectile.velocity = Vector2.Normalize(Main.player[Projectile.owner].Center - Projectile.Center) * num947;
+            Projectile.velocity = Vector2.Normalize(Main.player[Projectile.owner].Center - Projectile.Center) * projDistance;
             Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
         }
 

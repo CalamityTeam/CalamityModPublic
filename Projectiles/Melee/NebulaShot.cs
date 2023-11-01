@@ -42,14 +42,14 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.alpha = 0;
             }
             Lighting.AddLight(Projectile.Center, 0.4f, 0.2f, 0.4f);
-            for (int num121 = 0; num121 < 5; num121++)
+            for (int i = 0; i < 5; i++)
             {
-                Dust dust4 = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 56 : 242, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f)];
-                dust4.velocity = Vector2.Zero;
-                dust4.position -= Projectile.velocity / 5f * (float)num121;
-                dust4.noGravity = true;
-                dust4.scale = 0.8f;
-                dust4.noLight = true;
+                Dust dustSpawn = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 56 : 242, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f)];
+                dustSpawn.velocity = Vector2.Zero;
+                dustSpawn.position -= Projectile.velocity / 5f * (float)i;
+                dustSpawn.noGravity = true;
+                dustSpawn.scale = 0.8f;
+                dustSpawn.noLight = true;
             }
         }
 

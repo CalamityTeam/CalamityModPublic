@@ -55,12 +55,11 @@ namespace CalamityMod.Projectiles.Boss
                 if (Projectile.ai[0] == 0f)
                     Projectile.ai[0] = Projectile.velocity.Length() * 2f;
 
-                int num189 = Player.FindClosest(Projectile.Center, 1, 1);
-                Vector2 vector20 = Main.player[num189].Center - Projectile.Center;
-                vector20.Normalize();
-                vector20 *= Projectile.ai[0];
-                int num190 = 80;
-                Projectile.velocity = (Projectile.velocity * (num190 - 1) + vector20) / num190;
+                int playerTracker = Player.FindClosest(Projectile.Center, 1, 1);
+                Vector2 playerDirection = Main.player[playerTracker].Center - Projectile.Center;
+                playerDirection.Normalize();
+                playerDirection *= Projectile.ai[0];
+                Projectile.velocity = (Projectile.velocity * 79 + playerDirection) / 80;
             }
         }
 

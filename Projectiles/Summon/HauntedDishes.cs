@@ -44,15 +44,15 @@ namespace CalamityMod.Projectiles.Summon
             if (dust == 0f)
             {
                 int dustAmt = 36;
-                for (int num227 = 0; num227 < dustAmt; num227++)
+                for (int i = 0; i < dustAmt; i++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
-                    Vector2 vector7 = vector6 - Projectile.Center;
-                    int dusty = Dust.NewDust(vector6 + vector7, 0, 0, 7, vector7.X * 1.1f, vector7.Y * 1.1f, 100, default, 1.4f);
+                    Vector2 rotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    rotate = rotate.RotatedBy((double)((float)(i - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
+                    Vector2 faceDirection = rotate - Projectile.Center;
+                    int dusty = Dust.NewDust(rotate + faceDirection, 0, 0, 7, faceDirection.X * 1.1f, faceDirection.Y * 1.1f, 100, default, 1.4f);
                     Main.dust[dusty].noGravity = true;
                     Main.dust[dusty].noLight = true;
-                    Main.dust[dusty].velocity = vector7;
+                    Main.dust[dusty].velocity = faceDirection;
                 }
                 dust += 1f;
             }
@@ -73,17 +73,15 @@ namespace CalamityMod.Projectiles.Summon
             bool flag2 = false;
             bool flag3 = false;
             bool flag4 = false;
-            int num1 = 60 + 30 * Projectile.minionPos;
             if (Projectile.lavaWet)
             {
                 Projectile.ai[0] = 1f;
                 Projectile.ai[1] = 0f;
             }
-            int num2 = 10;
-            int num3 = 40 * (Projectile.minionPos + 1) * player.direction;
-            if (player.position.X + (float) (player.width / 2) < Projectile.position.X + (float) (Projectile.width / 2) - (float) num2 + (float) num3)
+            int idlePos = 40 * (Projectile.minionPos + 1) * player.direction;
+            if (player.position.X + (float) (player.width / 2) < Projectile.position.X + (float) (Projectile.width / 2) - 10f + (float) idlePos)
                 flag1 = true;
-            else if (player.position.X + (float) (player.width / 2) > Projectile.position.X + (float) (Projectile.width / 2) + (float) num2 + (float) num3)
+            else if (player.position.X + (float) (player.width / 2) > Projectile.position.X + (float) (Projectile.width / 2) + 10f + (float) idlePos)
                 flag2 = true;
 
             if (Projectile.ai[1] == 0f)

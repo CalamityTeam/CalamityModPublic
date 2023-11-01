@@ -548,7 +548,7 @@ DimensionalSoulArtifact: {
 	Tooltip:
 		'''
 		Power
-		Boosts all damage by 25%, but at the cost of increasing damage taken by 15%
+		Multiplies all damage by 1.2x, but at the cost of increasing damage taken by 15%
 		'''
 }
 

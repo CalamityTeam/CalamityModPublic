@@ -21,43 +21,43 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.TargetClosest();
             }
             bool dead2 = Main.player[npc.target].dead;
-            float num399 = npc.position.X + (npc.width / 2) - Main.player[npc.target].position.X - (Main.player[npc.target].width / 2);
-            float num400 = npc.position.Y + npc.height - 59f - Main.player[npc.target].position.Y - (Main.player[npc.target].height / 2);
-            float num401 = (float)Math.Atan2(num400, num399) + 1.57f;
-            if (num401 < 0f)
+            float trueMeleeRetiTargetXDist = npc.position.X + (npc.width / 2) - Main.player[npc.target].position.X - (Main.player[npc.target].width / 2);
+            float trueMeleeRetiTargetYDist = npc.position.Y + npc.height - 59f - Main.player[npc.target].position.Y - (Main.player[npc.target].height / 2);
+            float trueMeleeRetiTargetDistance = (float)Math.Atan2(trueMeleeRetiTargetYDist, trueMeleeRetiTargetXDist) + 1.57f;
+            if (trueMeleeRetiTargetDistance < 0f)
             {
-                num401 += MathHelper.TwoPi;
+                trueMeleeRetiTargetDistance += MathHelper.TwoPi;
             }
-            else if (num401 > MathHelper.TwoPi)
+            else if (trueMeleeRetiTargetDistance > MathHelper.TwoPi)
             {
-                num401 -= MathHelper.TwoPi;
+                trueMeleeRetiTargetDistance -= MathHelper.TwoPi;
             }
-            float num402 = 0.1f;
-            if (npc.rotation < num401)
+            float trueMeleeRetiReducedAccel = 0.1f;
+            if (npc.rotation < trueMeleeRetiTargetDistance)
             {
-                if ((double)(num401 - npc.rotation) > MathHelper.Pi)
+                if ((double)(trueMeleeRetiTargetDistance - npc.rotation) > MathHelper.Pi)
                 {
-                    npc.rotation -= num402;
+                    npc.rotation -= trueMeleeRetiReducedAccel;
                 }
                 else
                 {
-                    npc.rotation += num402;
+                    npc.rotation += trueMeleeRetiReducedAccel;
                 }
             }
-            else if (npc.rotation > num401)
+            else if (npc.rotation > trueMeleeRetiTargetDistance)
             {
-                if ((double)(npc.rotation - num401) > MathHelper.Pi)
+                if ((double)(npc.rotation - trueMeleeRetiTargetDistance) > MathHelper.Pi)
                 {
-                    npc.rotation += num402;
+                    npc.rotation += trueMeleeRetiReducedAccel;
                 }
                 else
                 {
-                    npc.rotation -= num402;
+                    npc.rotation -= trueMeleeRetiReducedAccel;
                 }
             }
-            if (npc.rotation > num401 - num402 && npc.rotation < num401 + num402)
+            if (npc.rotation > trueMeleeRetiTargetDistance - trueMeleeRetiReducedAccel && npc.rotation < trueMeleeRetiTargetDistance + trueMeleeRetiReducedAccel)
             {
-                npc.rotation = num401;
+                npc.rotation = trueMeleeRetiTargetDistance;
             }
             if (npc.rotation < 0f)
             {
@@ -67,22 +67,22 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.rotation -= MathHelper.TwoPi;
             }
-            if (npc.rotation > num401 - num402 && npc.rotation < num401 + num402)
+            if (npc.rotation > trueMeleeRetiTargetDistance - trueMeleeRetiReducedAccel && npc.rotation < trueMeleeRetiTargetDistance + trueMeleeRetiReducedAccel)
             {
-                npc.rotation = num401;
+                npc.rotation = trueMeleeRetiTargetDistance;
             }
             if (Main.rand.NextBool(5))
             {
-                int num403 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5f), 5, npc.velocity.X, 2f);
-                Main.dust[num403].velocity.X *= 0.5f;
-                Main.dust[num403].velocity.Y *= 0.1f;
+                int retinazerDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5f), 5, npc.velocity.X, 2f);
+                Main.dust[retinazerDust].velocity.X *= 0.5f;
+                Main.dust[retinazerDust].velocity.Y *= 0.1f;
             }
             if (Main.netMode != NetmodeID.MultiplayerClient && !Main.dayTime && !Main.player[npc.target].dead && npc.timeLeft < 10)
             {
-                for (int num381 = 0; num381 < Main.maxNPCs; num381++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (num381 != npc.whoAmI && Main.npc[num381].active && (Main.npc[num381].type == NPCID.Retinazer || Main.npc[num381].type == NPCID.Spazmatism) && Main.npc[num381].timeLeft - 1 > npc.timeLeft)
-                        npc.timeLeft = Main.npc[num381].timeLeft - 1;
+                    if (i != npc.whoAmI && Main.npc[i].active && (Main.npc[i].type == NPCID.Retinazer || Main.npc[i].type == NPCID.Spazmatism) && Main.npc[i].timeLeft - 1 > npc.timeLeft)
+                        npc.timeLeft = Main.npc[i].timeLeft - 1;
 
                 }
             }
@@ -100,61 +100,61 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.HitSound = SoundID.NPCHit4;
                 if (npc.ai[1] == 0f)
                 {
-                    float num421 = 8f;
-                    float num422 = 0.15f;
+                    float retinazerMaxSpeed = 8f;
+                    float retinazerAccel = 0.15f;
                     if (Main.expertMode)
                     {
-                        num421 = 9.5f;
-                        num422 = 0.175f;
+                        retinazerMaxSpeed = 9.5f;
+                        retinazerAccel = 0.175f;
                     }
                     if (Main.getGoodWorld)
                     {
-                        num421 *= 1.15f;
-                        num422 *= 1.15f;
+                        retinazerMaxSpeed *= 1.15f;
+                        retinazerAccel *= 1.15f;
                     }
                     // Reduce acceleration if target is holding a true melee weapon
                     if (Main.player[npc.target].HoldingTrueMeleeWeapon())
                     {
-                        num421 *= 0.75f;
-                        num422 *= 0.5f;
+                        retinazerMaxSpeed *= 0.75f;
+                        retinazerAccel *= 0.5f;
                     }
-                    Vector2 vector39 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num423 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector39.X;
-                    float num424 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 300f - vector39.Y;
-                    float num425 = (float)Math.Sqrt(num423 * num423 + num424 * num424);
-                    num425 = num421 / num425;
-                    num423 *= num425;
-                    num424 *= num425;
-                    if (npc.velocity.X < num423)
+                    Vector2 retinazerPosition = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    float retinazerTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - retinazerPosition.X;
+                    float retinazerTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 300f - retinazerPosition.Y;
+                    float retinazerTargetDist = (float)Math.Sqrt(retinazerTargetX * retinazerTargetX + retinazerTargetY * retinazerTargetY);
+                    retinazerTargetDist = retinazerMaxSpeed / retinazerTargetDist;
+                    retinazerTargetX *= retinazerTargetDist;
+                    retinazerTargetY *= retinazerTargetDist;
+                    if (npc.velocity.X < retinazerTargetX)
                     {
-                        npc.velocity.X += num422;
-                        if (npc.velocity.X < 0f && num423 > 0f)
+                        npc.velocity.X += retinazerAccel;
+                        if (npc.velocity.X < 0f && retinazerTargetX > 0f)
                         {
-                            npc.velocity.X += num422;
+                            npc.velocity.X += retinazerAccel;
                         }
                     }
-                    else if (npc.velocity.X > num423)
+                    else if (npc.velocity.X > retinazerTargetX)
                     {
-                        npc.velocity.X -= num422;
-                        if (npc.velocity.X > 0f && num423 < 0f)
+                        npc.velocity.X -= retinazerAccel;
+                        if (npc.velocity.X > 0f && retinazerTargetX < 0f)
                         {
-                            npc.velocity.X -= num422;
+                            npc.velocity.X -= retinazerAccel;
                         }
                     }
-                    if (npc.velocity.Y < num424)
+                    if (npc.velocity.Y < retinazerTargetY)
                     {
-                        npc.velocity.Y += num422;
-                        if (npc.velocity.Y < 0f && num424 > 0f)
+                        npc.velocity.Y += retinazerAccel;
+                        if (npc.velocity.Y < 0f && retinazerTargetY > 0f)
                         {
-                            npc.velocity.Y += num422;
+                            npc.velocity.Y += retinazerAccel;
                         }
                     }
-                    else if (npc.velocity.Y > num424)
+                    else if (npc.velocity.Y > retinazerTargetY)
                     {
-                        npc.velocity.Y -= num422;
-                        if (npc.velocity.Y > 0f && num424 < 0f)
+                        npc.velocity.Y -= retinazerAccel;
+                        if (npc.velocity.Y > 0f && retinazerTargetY < 0f)
                         {
-                            npc.velocity.Y -= num422;
+                            npc.velocity.Y -= retinazerAccel;
                         }
                     }
                     npc.ai[2] += 1f;
@@ -166,10 +166,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.TargetClosest();
                         npc.netUpdate = true;
                     }
-                    vector39 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    num423 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector39.X;
-                    num424 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector39.Y;
-                    npc.rotation = (float)Math.Atan2(num424, num423) - 1.57f;
+                    retinazerPosition = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    retinazerTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - retinazerPosition.X;
+                    retinazerTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - retinazerPosition.Y;
+                    npc.rotation = (float)Math.Atan2(retinazerTargetY, retinazerTargetX) - 1.57f;
                     if (Main.netMode == NetmodeID.MultiplayerClient)
                     {
                         return false;
@@ -194,89 +194,88 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.localAI[1] > 180f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         npc.localAI[1] = 0f;
-                        float num426 = 8.5f;
+                        float retinazerLaserSpeed = 8.5f;
                         int attackDamage_ForProjectiles4 = Main.expertMode ? 23 : 25;
-                        int num427 = 100;
                         if (Main.expertMode)
                         {
-                            num426 = 10f;
+                            retinazerLaserSpeed = 10f;
                         }
-                        num425 = (float)Math.Sqrt(num423 * num423 + num424 * num424);
-                        num425 = num426 / num425;
-                        num423 *= num425;
-                        num424 *= num425;
-                        vector39.X += num423 * 15f;
-                        vector39.Y += num424 * 15f;
-                        int num428 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector39.X, vector39.Y, num423, num424, num427, attackDamage_ForProjectiles4, 0f, Main.myPlayer);
+                        retinazerTargetDist = (float)Math.Sqrt(retinazerTargetX * retinazerTargetX + retinazerTargetY * retinazerTargetY);
+                        retinazerTargetDist = retinazerLaserSpeed / retinazerTargetDist;
+                        retinazerTargetX *= retinazerTargetDist;
+                        retinazerTargetY *= retinazerTargetDist;
+                        retinazerPosition.X += retinazerTargetX * 15f;
+                        retinazerPosition.Y += retinazerTargetY * 15f;
+                        int retinazerLaser = Projectile.NewProjectile(npc.GetSource_FromAI(), retinazerPosition.X, retinazerPosition.Y, retinazerTargetX, retinazerTargetY, 100, attackDamage_ForProjectiles4, 0f, Main.myPlayer);
                     }
                     return false;
                 }
-                int num429 = 1;
+                int retinazerFaceDirection = 1;
                 if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + Main.player[npc.target].width)
                 {
-                    num429 = -1;
+                    retinazerFaceDirection = -1;
                 }
-                float num430 = 8f;
-                float num431 = 0.2f;
+                float retinazerSpeedPhase2 = 8f;
+                float retinazerAccelPhase2 = 0.2f;
                 if (Main.expertMode)
                 {
-                    num430 = 9.5f;
-                    num431 = 0.25f;
+                    retinazerSpeedPhase2 = 9.5f;
+                    retinazerAccelPhase2 = 0.25f;
                 }
                 if (Main.getGoodWorld)
                 {
-                    num430 *= 1.15f;
-                    num431 *= 1.15f;
+                    retinazerSpeedPhase2 *= 1.15f;
+                    retinazerAccelPhase2 *= 1.15f;
                 }
                 // Reduce acceleration if target is holding a true melee weapon
                 if (Main.player[npc.target].HoldingTrueMeleeWeapon())
                 {
-                    num430 *= 0.75f;
-                    num431 *= 0.5f;
+                    retinazerSpeedPhase2 *= 0.75f;
+                    retinazerAccelPhase2 *= 0.5f;
                 }
-                Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                float num432 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (num429 * 340) - vector40.X;
-                float num433 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector40.Y;
-                float num434 = (float)Math.Sqrt(num432 * num432 + num433 * num433);
-                num434 = num430 / num434;
-                num432 *= num434;
-                num433 *= num434;
-                if (npc.velocity.X < num432)
+                Vector2 retinazerPhase2Pos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                float retinazerPhase2TargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (retinazerFaceDirection * 340) - retinazerPhase2Pos.X;
+                float retinazerPhase2TargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - retinazerPhase2Pos.Y;
+                float retinazerPhase2TargetDist = (float)Math.Sqrt(retinazerPhase2TargetX * retinazerPhase2TargetX + retinazerPhase2TargetY * retinazerPhase2TargetY);
+                retinazerPhase2TargetDist = retinazerSpeedPhase2 / retinazerPhase2TargetDist;
+                retinazerPhase2TargetX *= retinazerPhase2TargetDist;
+                retinazerPhase2TargetY *= retinazerPhase2TargetDist;
+                if (npc.velocity.X < retinazerPhase2TargetX)
                 {
-                    npc.velocity.X += num431;
-                    if (npc.velocity.X < 0f && num432 > 0f)
+                    npc.velocity.X += retinazerAccelPhase2;
+                    if (npc.velocity.X < 0f && retinazerPhase2TargetX > 0f)
                     {
-                        npc.velocity.X += num431;
+                        npc.velocity.X += retinazerAccelPhase2;
                     }
                 }
-                else if (npc.velocity.X > num432)
+                else if (npc.velocity.X > retinazerPhase2TargetX)
                 {
-                    npc.velocity.X -= num431;
-                    if (npc.velocity.X > 0f && num432 < 0f)
+                    npc.velocity.X -= retinazerAccelPhase2;
+                    if (npc.velocity.X > 0f && retinazerPhase2TargetX < 0f)
                     {
-                        npc.velocity.X -= num431;
+                        npc.velocity.X -= retinazerAccelPhase2;
                     }
                 }
-                if (npc.velocity.Y < num433)
+                if (npc.velocity.Y < retinazerPhase2TargetY)
                 {
-                    npc.velocity.Y += num431;
-                    if (npc.velocity.Y < 0f && num433 > 0f)
+                    npc.velocity.Y += retinazerAccelPhase2;
+                    if (npc.velocity.Y < 0f && retinazerPhase2TargetY > 0f)
                     {
-                        npc.velocity.Y += num431;
+                        npc.velocity.Y += retinazerAccelPhase2;
                     }
                 }
-                else if (npc.velocity.Y > num433)
+                else if (npc.velocity.Y > retinazerPhase2TargetY)
                 {
-                    npc.velocity.Y -= num431;
-                    if (npc.velocity.Y > 0f && num433 < 0f)
+                    npc.velocity.Y -= retinazerAccelPhase2;
+                    if (npc.velocity.Y > 0f && retinazerPhase2TargetY < 0f)
                     {
-                        npc.velocity.Y -= num431;
+                        npc.velocity.Y -= retinazerAccelPhase2;
                     }
                 }
-                vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                num432 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector40.X;
-                num433 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector40.Y;
-                npc.rotation = (float)Math.Atan2(num433, num432) - 1.57f;
+                retinazerPhase2Pos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                retinazerPhase2TargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - retinazerPhase2Pos.X;
+                retinazerPhase2TargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - retinazerPhase2Pos.Y;
+                npc.rotation = (float)Math.Atan2(retinazerPhase2TargetY, retinazerPhase2TargetX) - 1.57f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.localAI[1] += 1f;
@@ -303,16 +302,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.localAI[1] > 60f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         npc.localAI[1] = 0f;
-                        float num435 = 9f;
                         int attackDamage_ForProjectiles5 = Main.expertMode ? 17 : 18;
-                        int num436 = 100;
-                        num434 = (float)Math.Sqrt(num432 * num432 + num433 * num433);
-                        num434 = num435 / num434;
-                        num432 *= num434;
-                        num433 *= num434;
-                        vector40.X += num432 * 15f;
-                        vector40.Y += num433 * 15f;
-                        int num437 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector40.X, vector40.Y, num432, num433, num436, attackDamage_ForProjectiles5, 0f, Main.myPlayer);
+                        retinazerPhase2TargetDist = (float)Math.Sqrt(retinazerPhase2TargetX * retinazerPhase2TargetX + retinazerPhase2TargetY * retinazerPhase2TargetY);
+                        retinazerPhase2TargetDist = 9f / retinazerPhase2TargetDist;
+                        retinazerPhase2TargetX *= retinazerPhase2TargetDist;
+                        retinazerPhase2TargetY *= retinazerPhase2TargetDist;
+                        retinazerPhase2Pos.X += retinazerPhase2TargetX * 15f;
+                        retinazerPhase2Pos.Y += retinazerPhase2TargetY * 15f;
+                        int retinazerPhase2Laser = Projectile.NewProjectile(npc.GetSource_FromAI(), retinazerPhase2Pos.X, retinazerPhase2Pos.Y, retinazerPhase2TargetX, retinazerPhase2TargetY, 100, attackDamage_ForProjectiles5, 0f, Main.myPlayer);
                     }
                 }
                 npc.ai[2] += 1f;
@@ -369,56 +366,56 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool enrage = lifeRatio < 0.25f;
 
             // I'm not commenting this entire fucking thing, already did spaz, I'm not doing ret
-            float num376 = npc.position.X + (npc.width / 2) - Main.player[npc.target].position.X - (Main.player[npc.target].width / 2);
-            float num377 = npc.position.Y + npc.height - 59f - Main.player[npc.target].position.Y - (Main.player[npc.target].height / 2);
+            float retinazerHoverXDest = npc.position.X + (npc.width / 2) - Main.player[npc.target].position.X - (Main.player[npc.target].width / 2);
+            float retinazerHoverYDest = npc.position.Y + npc.height - 59f - Main.player[npc.target].position.Y - (Main.player[npc.target].height / 2);
 
-            float num378 = (float)Math.Atan2(num377, num376) + MathHelper.PiOver2;
-            if (num378 < 0f)
-                num378 += MathHelper.TwoPi;
-            else if (num378 > MathHelper.TwoPi)
-                num378 -= MathHelper.TwoPi;
+            float retinazerHoverRotation = (float)Math.Atan2(retinazerHoverYDest, retinazerHoverXDest) + MathHelper.PiOver2;
+            if (retinazerHoverRotation < 0f)
+                retinazerHoverRotation += MathHelper.TwoPi;
+            else if (retinazerHoverRotation > MathHelper.TwoPi)
+                retinazerHoverRotation -= MathHelper.TwoPi;
 
-            float num379 = 0.1f;
-            if (npc.rotation < num378)
+            float retinazerRotationSpeed = 0.1f;
+            if (npc.rotation < retinazerHoverRotation)
             {
-                if ((num378 - npc.rotation) > MathHelper.Pi)
-                    npc.rotation -= num379;
+                if ((retinazerHoverRotation - npc.rotation) > MathHelper.Pi)
+                    npc.rotation -= retinazerRotationSpeed;
                 else
-                    npc.rotation += num379;
+                    npc.rotation += retinazerRotationSpeed;
             }
-            else if (npc.rotation > num378)
+            else if (npc.rotation > retinazerHoverRotation)
             {
-                if ((npc.rotation - num378) > MathHelper.Pi)
-                    npc.rotation += num379;
+                if ((npc.rotation - retinazerHoverRotation) > MathHelper.Pi)
+                    npc.rotation += retinazerRotationSpeed;
                 else
-                    npc.rotation -= num379;
+                    npc.rotation -= retinazerRotationSpeed;
             }
 
-            if (npc.rotation > num378 - num379 && npc.rotation < num378 + num379)
-                npc.rotation = num378;
+            if (npc.rotation > retinazerHoverRotation - retinazerRotationSpeed && npc.rotation < retinazerHoverRotation + retinazerRotationSpeed)
+                npc.rotation = retinazerHoverRotation;
 
             if (npc.rotation < 0f)
                 npc.rotation += MathHelper.TwoPi;
             else if (npc.rotation > MathHelper.TwoPi)
                 npc.rotation -= MathHelper.TwoPi;
 
-            if (npc.rotation > num378 - num379 && npc.rotation < num378 + num379)
-                npc.rotation = num378;
+            if (npc.rotation > retinazerHoverRotation - retinazerRotationSpeed && npc.rotation < retinazerHoverRotation + retinazerRotationSpeed)
+                npc.rotation = retinazerHoverRotation;
 
             if (Main.rand.NextBool(5))
             {
-                int num380 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
-                Dust dust = Main.dust[num380];
+                int retiDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
+                Dust dust = Main.dust[retiDust];
                 dust.velocity.X *= 0.5f;
                 dust.velocity.Y *= 0.1f;
             }
 
             if (Main.netMode != NetmodeID.MultiplayerClient && !Main.player[npc.target].dead && npc.timeLeft < 10)
             {
-                for (int num381 = 0; num381 < Main.maxNPCs; num381++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (num381 != npc.whoAmI && Main.npc[num381].active && (Main.npc[num381].type == NPCID.Retinazer || Main.npc[num381].type == NPCID.Spazmatism) && Main.npc[num381].timeLeft - 1 > npc.timeLeft)
-                        npc.timeLeft = Main.npc[num381].timeLeft - 1;
+                    if (i != npc.whoAmI && Main.npc[i].active && (Main.npc[i].type == NPCID.Retinazer || Main.npc[i].type == NPCID.Spazmatism) && Main.npc[i].timeLeft - 1 > npc.timeLeft)
+                        npc.timeLeft = Main.npc[i].timeLeft - 1;
 
                 }
             }
@@ -428,11 +425,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 NPC nPC = Main.npc[NPC.mechQueen];
                 Vector2 mechQueenCenter = nPC.GetMechQueenCenter();
-                Vector2 vector42 = new Vector2(-150f, -250f);
-                vector42 *= 0.75f;
-                float num418 = nPC.velocity.X * 0.025f;
-                mechQueenSpacing = mechQueenCenter + vector42;
-                mechQueenSpacing = mechQueenSpacing.RotatedBy(num418, mechQueenCenter);
+                Vector2 eyePosition = new Vector2(-150f, -250f);
+                eyePosition *= 0.75f;
+                float mechdusaRotation = nPC.velocity.X * 0.025f;
+                mechQueenSpacing = mechQueenCenter + eyePosition;
+                mechQueenSpacing = mechQueenSpacing.RotatedBy(mechdusaRotation, mechQueenCenter);
             }
 
             npc.reflectsProjectiles = false;
@@ -451,85 +448,84 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 if (npc.ai[1] == 0f)
                 {
-                    float num382 = 8.25f;
-                    float num383 = 0.115f;
-                    num382 += 4f * enrageScale;
-                    num383 += 0.05f * enrageScale;
+                    float retinazerPhase1MaxSpeed = 8.25f;
+                    float retinazerPhase1Acceleration = 0.115f;
+                    retinazerPhase1MaxSpeed += 4f * enrageScale;
+                    retinazerPhase1Acceleration += 0.05f * enrageScale;
 
                     if (death)
                     {
-                        num382 += 8f * (1f - lifeRatio);
-                        num383 += 0.1f * (1f - lifeRatio);
+                        retinazerPhase1MaxSpeed += 8f * (1f - lifeRatio);
+                        retinazerPhase1Acceleration += 0.1f * (1f - lifeRatio);
                     }
 
                     if (Main.getGoodWorld)
                     {
-                        num382 *= 1.15f;
-                        num383 *= 1.15f;
+                        retinazerPhase1MaxSpeed *= 1.15f;
+                        retinazerPhase1Acceleration *= 1.15f;
                     }
 
-                    int num384 = 1;
+                    int retinazerFaceDirection = 1;
                     if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + Main.player[npc.target].width)
-                        num384 = -1;
+                        retinazerFaceDirection = -1;
 
-                    Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num385 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (num384 * 300) - vector40.X;
-                    float num386 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 300f - vector40.Y;
+                    Vector2 retinazerPosition = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    float retinazerTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (retinazerFaceDirection * 300) - retinazerPosition.X;
+                    float retinazerTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 300f - retinazerPosition.Y;
 
                     if (NPC.IsMechQueenUp)
                     {
-                        num382 = 14f;
-                        num385 = mechQueenSpacing.X;
-                        num386 = mechQueenSpacing.Y;
-                        num385 -= vector40.X;
-                        num386 -= vector40.Y;
+                        retinazerPhase1MaxSpeed = 14f;
+                        retinazerTargetX = mechQueenSpacing.X;
+                        retinazerTargetY = mechQueenSpacing.Y;
+                        retinazerTargetX -= retinazerPosition.X;
+                        retinazerTargetY -= retinazerPosition.Y;
                     }
 
-                    float num387 = (float)Math.Sqrt(num385 * num385 + num386 * num386);
-                    float num388 = num387;
+                    float retinazerTargetDist = (float)Math.Sqrt(retinazerTargetX * retinazerTargetX + retinazerTargetY * retinazerTargetY);
+                    float retinazerTargetDistCopy = retinazerTargetDist;
 
                     if (NPC.IsMechQueenUp)
                     {
-                        if (num387 > num382)
+                        if (retinazerTargetDist > retinazerPhase1MaxSpeed)
                         {
-                            num387 = num382 / num387;
-                            num385 *= num387;
-                            num386 *= num387;
+                            retinazerTargetDist = retinazerPhase1MaxSpeed / retinazerTargetDist;
+                            retinazerTargetX *= retinazerTargetDist;
+                            retinazerTargetY *= retinazerTargetDist;
                         }
 
-                        float num426 = 60f;
-                        npc.velocity.X = (npc.velocity.X * (num426 - 1f) + num385) / num426;
-                        npc.velocity.Y = (npc.velocity.Y * (num426 - 1f) + num386) / num426;
+                        npc.velocity.X = (npc.velocity.X * 59f + retinazerTargetX) / 60f;
+                        npc.velocity.Y = (npc.velocity.Y * 59f + retinazerTargetY) / 60f;
                     }
                     else
                     {
-                        num387 = num382 / num387;
-                        num385 *= num387;
-                        num386 *= num387;
+                        retinazerTargetDist = retinazerPhase1MaxSpeed / retinazerTargetDist;
+                        retinazerTargetX *= retinazerTargetDist;
+                        retinazerTargetY *= retinazerTargetDist;
 
-                        if (npc.velocity.X < num385)
+                        if (npc.velocity.X < retinazerTargetX)
                         {
-                            npc.velocity.X += num383;
-                            if (npc.velocity.X < 0f && num385 > 0f)
-                                npc.velocity.X += num383;
+                            npc.velocity.X += retinazerPhase1Acceleration;
+                            if (npc.velocity.X < 0f && retinazerTargetX > 0f)
+                                npc.velocity.X += retinazerPhase1Acceleration;
                         }
-                        else if (npc.velocity.X > num385)
+                        else if (npc.velocity.X > retinazerTargetX)
                         {
-                            npc.velocity.X -= num383;
-                            if (npc.velocity.X > 0f && num385 < 0f)
-                                npc.velocity.X -= num383;
+                            npc.velocity.X -= retinazerPhase1Acceleration;
+                            if (npc.velocity.X > 0f && retinazerTargetX < 0f)
+                                npc.velocity.X -= retinazerPhase1Acceleration;
                         }
-                        if (npc.velocity.Y < num386)
+                        if (npc.velocity.Y < retinazerTargetY)
                         {
-                            npc.velocity.Y += num383;
-                            if (npc.velocity.Y < 0f && num386 > 0f)
-                                npc.velocity.Y += num383;
+                            npc.velocity.Y += retinazerPhase1Acceleration;
+                            if (npc.velocity.Y < 0f && retinazerTargetY > 0f)
+                                npc.velocity.Y += retinazerPhase1Acceleration;
                         }
-                        else if (npc.velocity.Y > num386)
+                        else if (npc.velocity.Y > retinazerTargetY)
                         {
-                            npc.velocity.Y -= num383;
-                            if (npc.velocity.Y > 0f && num386 < 0f)
-                                npc.velocity.Y -= num383;
+                            npc.velocity.Y -= retinazerPhase1Acceleration;
+                            if (npc.velocity.Y > 0f && retinazerTargetY < 0f)
+                                npc.velocity.Y -= retinazerPhase1Acceleration;
                         }
                     }
 
@@ -550,7 +546,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.netUpdate = true;
                     }
 
-                    else if (npc.position.Y + npc.height < Main.player[npc.target].position.Y && num388 < 400f)
+                    else if (npc.position.Y + npc.height < Main.player[npc.target].position.Y && retinazerTargetDistCopy < 400f)
                     {
                         if (!Main.player[npc.target].dead)
                         {
@@ -562,25 +558,25 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.ai[3] >= laserGateValue)
                         {
                             npc.ai[3] = 0f;
-                            vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                            num385 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector40.X;
-                            num386 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector40.Y;
+                            retinazerPosition = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                            retinazerTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - retinazerPosition.X;
+                            retinazerTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - retinazerPosition.Y;
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                float num389 = 10.5f;
-                                num389 += 3f * enrageScale;
+                                float retinazerSpeed = 10.5f;
+                                retinazerSpeed += 3f * enrageScale;
                                 int type = ProjectileID.EyeLaser;
                                 int damage = npc.GetProjectileDamage(type);
 
-                                num387 = (float)Math.Sqrt(num385 * num385 + num386 * num386);
-                                num387 = num389 / num387;
-                                num385 *= num387;
-                                num386 *= num387;
-                                vector40.X += num385 * 15f;
-                                vector40.Y += num386 * 15f;
+                                retinazerTargetDist = (float)Math.Sqrt(retinazerTargetX * retinazerTargetX + retinazerTargetY * retinazerTargetY);
+                                retinazerTargetDist = retinazerSpeed / retinazerTargetDist;
+                                retinazerTargetX *= retinazerTargetDist;
+                                retinazerTargetY *= retinazerTargetDist;
+                                retinazerPosition.X += retinazerTargetX * 15f;
+                                retinazerPosition.Y += retinazerTargetY * 15f;
 
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), vector40.X, vector40.Y, num385, num386, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), retinazerPosition.X, retinazerPosition.Y, retinazerTargetX, retinazerTargetY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
                     }
@@ -588,21 +584,21 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 else if (npc.ai[1] == 1f)
                 {
-                    npc.rotation = num378;
-                    float num393 = 15f;
-                    num393 += 10f * enrageScale;
+                    npc.rotation = retinazerHoverRotation;
+                    float retinazerChargeSpeed = 15f;
+                    retinazerChargeSpeed += 10f * enrageScale;
                     if (death)
-                        num393 += 12f * (1f - lifeRatio);
+                        retinazerChargeSpeed += 12f * (1f - lifeRatio);
                     if (Main.getGoodWorld)
-                        num393 += 2f;
+                        retinazerChargeSpeed += 2f;
 
-                    Vector2 vector41 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num394 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector41.X;
-                    float num395 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector41.Y;
-                    float num396 = (float)Math.Sqrt(num394 * num394 + num395 * num395);
-                    num396 = num393 / num396;
-                    npc.velocity.X = num394 * num396;
-                    npc.velocity.Y = num395 * num396;
+                    Vector2 retinazerChargePos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    float retinazerChargeTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - retinazerChargePos.X;
+                    float retinazerChargeTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - retinazerChargePos.Y;
+                    float retinazerChargeTargetDist = (float)Math.Sqrt(retinazerChargeTargetX * retinazerChargeTargetX + retinazerChargeTargetY * retinazerChargeTargetY);
+                    retinazerChargeTargetDist = retinazerChargeSpeed / retinazerChargeTargetDist;
+                    npc.velocity.X = retinazerChargeTargetX * retinazerChargeTargetDist;
+                    npc.velocity.Y = retinazerChargeTargetY * retinazerChargeTargetDist;
                     npc.ai[1] = 2f;
                 }
                 else if (npc.ai[1] == 2f)
@@ -628,7 +624,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
                         npc.TargetClosest();
-                        npc.rotation = num378;
+                        npc.rotation = retinazerHoverRotation;
                         if (npc.ai[3] >= 3f)
                         {
                             npc.ai[1] = 0f;
@@ -683,7 +679,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         if (Main.netMode != NetmodeID.Server)
                         {
-                            for (int num397 = 0; num397 < 2; num397++)
+                            for (int i = 0; i < 2; i++)
                             {
                                 Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 143, 1f);
                                 Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 7, 1f);
@@ -691,7 +687,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
                         }
 
-                        for (int num398 = 0; num398 < 20; num398++)
+                        for (int j = 0; j < 20; j++)
                         {
                             Dust.NewDust(npc.position, npc.width, npc.height, 5, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
                         }
@@ -731,80 +727,80 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 if (npc.ai[1] == 0f)
                 {
-                    float num399 = 9.5f + (death ? 3f * (0.7f - lifeRatio) : 0f);
-                    float num400 = 0.175f + (death ? 0.05f * (0.7f - lifeRatio) : 0f);
-                    num399 += 4.5f * enrageScale;
-                    num400 += 0.075f * enrageScale;
+                    float retinazerPhase2MaxSpeed = 9.5f + (death ? 3f * (0.7f - lifeRatio) : 0f);
+                    float retinazerPhase2Accel = 0.175f + (death ? 0.05f * (0.7f - lifeRatio) : 0f);
+                    retinazerPhase2MaxSpeed += 4.5f * enrageScale;
+                    retinazerPhase2Accel += 0.075f * enrageScale;
 
                     if (Main.getGoodWorld)
                     {
-                        num399 *= 1.15f;
-                        num400 *= 1.15f;
+                        retinazerPhase2MaxSpeed *= 1.15f;
+                        retinazerPhase2Accel *= 1.15f;
                     }
 
                     // Reduce acceleration if target is holding a true melee weapon
                     if (Main.player[npc.target].HoldingTrueMeleeWeapon())
                     {
-                        num399 *= 0.75f;
-                        num400 *= 0.5f;
+                        retinazerPhase2MaxSpeed *= 0.75f;
+                        retinazerPhase2Accel *= 0.5f;
                     }
 
-                    Vector2 vector42 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num401 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector42.X;
-                    float num402 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 300f - vector42.Y;
+                    Vector2 eyePosition = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    float retinazerPhase2TargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - eyePosition.X;
+                    float retinazerPhase2TargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 300f - eyePosition.Y;
 
                     if (NPC.IsMechQueenUp)
                     {
-                        num399 = 14f;
-                        num401 = mechQueenSpacing.X;
-                        num402 = mechQueenSpacing.Y;
-                        num401 -= vector42.X;
-                        num402 -= vector42.Y;
+                        retinazerPhase2MaxSpeed = 14f;
+                        retinazerPhase2TargetX = mechQueenSpacing.X;
+                        retinazerPhase2TargetY = mechQueenSpacing.Y;
+                        retinazerPhase2TargetX -= eyePosition.X;
+                        retinazerPhase2TargetY -= eyePosition.Y;
                     }
 
-                    float num403 = (float)Math.Sqrt(num401 * num401 + num402 * num402);
+                    float retinazerPhase2TargetDist = (float)Math.Sqrt(retinazerPhase2TargetX * retinazerPhase2TargetX + retinazerPhase2TargetY * retinazerPhase2TargetY);
 
                     if (NPC.IsMechQueenUp)
                     {
-                        if (num403 > num399)
+                        if (retinazerPhase2TargetDist > retinazerPhase2MaxSpeed)
                         {
-                            num403 = num399 / num403;
-                            num401 *= num403;
-                            num402 *= num403;
+                            retinazerPhase2TargetDist = retinazerPhase2MaxSpeed / retinazerPhase2TargetDist;
+                            retinazerPhase2TargetX *= retinazerPhase2TargetDist;
+                            retinazerPhase2TargetY *= retinazerPhase2TargetDist;
                         }
 
-                        npc.velocity.X = (npc.velocity.X * 4f + num401) / 5f;
-                        npc.velocity.Y = (npc.velocity.Y * 4f + num402) / 5f;
+                        npc.velocity.X = (npc.velocity.X * 4f + retinazerPhase2TargetX) / 5f;
+                        npc.velocity.Y = (npc.velocity.Y * 4f + retinazerPhase2TargetY) / 5f;
                     }
                     else
                     {
-                        num403 = num399 / num403;
-                        num401 *= num403;
-                        num402 *= num403;
+                        retinazerPhase2TargetDist = retinazerPhase2MaxSpeed / retinazerPhase2TargetDist;
+                        retinazerPhase2TargetX *= retinazerPhase2TargetDist;
+                        retinazerPhase2TargetY *= retinazerPhase2TargetDist;
 
-                        if (npc.velocity.X < num401)
+                        if (npc.velocity.X < retinazerPhase2TargetX)
                         {
-                            npc.velocity.X += num400;
-                            if (npc.velocity.X < 0f && num401 > 0f)
-                                npc.velocity.X += num400;
+                            npc.velocity.X += retinazerPhase2Accel;
+                            if (npc.velocity.X < 0f && retinazerPhase2TargetX > 0f)
+                                npc.velocity.X += retinazerPhase2Accel;
                         }
-                        else if (npc.velocity.X > num401)
+                        else if (npc.velocity.X > retinazerPhase2TargetX)
                         {
-                            npc.velocity.X -= num400;
-                            if (npc.velocity.X > 0f && num401 < 0f)
-                                npc.velocity.X -= num400;
+                            npc.velocity.X -= retinazerPhase2Accel;
+                            if (npc.velocity.X > 0f && retinazerPhase2TargetX < 0f)
+                                npc.velocity.X -= retinazerPhase2Accel;
                         }
-                        if (npc.velocity.Y < num402)
+                        if (npc.velocity.Y < retinazerPhase2TargetY)
                         {
-                            npc.velocity.Y += num400;
-                            if (npc.velocity.Y < 0f && num402 > 0f)
-                                npc.velocity.Y += num400;
+                            npc.velocity.Y += retinazerPhase2Accel;
+                            if (npc.velocity.Y < 0f && retinazerPhase2TargetY > 0f)
+                                npc.velocity.Y += retinazerPhase2Accel;
                         }
-                        else if (npc.velocity.Y > num402)
+                        else if (npc.velocity.Y > retinazerPhase2TargetY)
                         {
-                            npc.velocity.Y -= num400;
-                            if (npc.velocity.Y > 0f && num402 < 0f)
-                                npc.velocity.Y -= num400;
+                            npc.velocity.Y -= retinazerPhase2Accel;
+                            if (npc.velocity.Y > 0f && retinazerPhase2TargetY < 0f)
+                                npc.velocity.Y -= retinazerPhase2Accel;
                         }
                     }
 
@@ -819,10 +815,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.netUpdate = true;
                     }
 
-                    vector42 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    num401 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector42.X;
-                    num402 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector42.Y;
-                    npc.rotation = (float)Math.Atan2(num402, num401) - MathHelper.PiOver2;
+                    eyePosition = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    retinazerPhase2TargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - eyePosition.X;
+                    retinazerPhase2TargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - eyePosition.Y;
+                    npc.rotation = (float)Math.Atan2(retinazerPhase2TargetY, retinazerPhase2TargetX) - MathHelper.PiOver2;
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -833,23 +829,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             if (canHit || !spazAlive || enrage)
                             {
                                 npc.localAI[1] = 0f;
-                                float num404 = 10f;
-                                num404 += enrageScale;
+                                float retinazerPhase2LaserSpeed = 10f;
+                                retinazerPhase2LaserSpeed += enrageScale;
                                 int type = ProjectileID.DeathLaser;
                                 int damage = npc.GetProjectileDamage(type);
 
-                                num403 = (float)Math.Sqrt(num401 * num401 + num402 * num402);
-                                num403 = num404 / num403;
-                                num401 *= num403;
-                                num402 *= num403;
-                                vector42.X += num401 * 15f;
-                                vector42.Y += num402 * 15f;
+                                retinazerPhase2TargetDist = (float)Math.Sqrt(retinazerPhase2TargetX * retinazerPhase2TargetX + retinazerPhase2TargetY * retinazerPhase2TargetY);
+                                retinazerPhase2TargetDist = retinazerPhase2LaserSpeed / retinazerPhase2TargetDist;
+                                retinazerPhase2TargetX *= retinazerPhase2TargetDist;
+                                retinazerPhase2TargetY *= retinazerPhase2TargetDist;
+                                eyePosition.X += retinazerPhase2TargetX * 15f;
+                                eyePosition.Y += retinazerPhase2TargetY * 15f;
 
                                 if (canHit)
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector42.X, vector42.Y, num401, num402, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), eyePosition.X, eyePosition.Y, retinazerPhase2TargetX, retinazerPhase2TargetY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 else
                                 {
-                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vector42.X, vector42.Y, num401, num402, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), eyePosition.X, eyePosition.Y, retinazerPhase2TargetX, retinazerPhase2TargetY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                     Main.projectile[proj].tileCollide = false;
                                     Main.projectile[proj].timeLeft = 300;
                                 }
@@ -861,65 +857,65 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     if (npc.ai[1] == 1f)
                     {
-                        int num408 = 1;
+                        int retinazerPhase2FaceDirection = 1;
                         if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + Main.player[npc.target].width)
-                            num408 = -1;
+                            retinazerPhase2FaceDirection = -1;
 
-                        float num409 = 9.5f + (death ? 3f * (0.7f - lifeRatio) : 0f);
-                        float num410 = 0.25f + (death ? 0.075f * (0.7f - lifeRatio) : 0f);
-                        num409 += 4.5f * enrageScale;
-                        num410 += 0.15f * enrageScale;
+                        float retinazerPhase2RapidFireMaxSpeed = 9.5f + (death ? 3f * (0.7f - lifeRatio) : 0f);
+                        float retinazerPhase2RapidFireAccel = 0.25f + (death ? 0.075f * (0.7f - lifeRatio) : 0f);
+                        retinazerPhase2RapidFireMaxSpeed += 4.5f * enrageScale;
+                        retinazerPhase2RapidFireAccel += 0.15f * enrageScale;
 
                         if (Main.getGoodWorld)
                         {
-                            num409 *= 1.15f;
-                            num410 *= 1.15f;
+                            retinazerPhase2RapidFireMaxSpeed *= 1.15f;
+                            retinazerPhase2RapidFireAccel *= 1.15f;
                         }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (Main.player[npc.target].HoldingTrueMeleeWeapon())
                         {
-                            num409 *= 0.75f;
-                            num410 *= 0.5f;
+                            retinazerPhase2RapidFireMaxSpeed *= 0.75f;
+                            retinazerPhase2RapidFireAccel *= 0.5f;
                         }
 
-                        Vector2 vector43 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                        float num411 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (num408 * 340) - vector43.X;
-                        float num412 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector43.Y;
-                        float num413 = (float)Math.Sqrt(num411 * num411 + num412 * num412);
-                        num413 = num409 / num413;
-                        num411 *= num413;
-                        num412 *= num413;
+                        Vector2 retinazerPhase2RapidFirePos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float retinazerPhase2RapidFireTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (retinazerPhase2FaceDirection * 340) - retinazerPhase2RapidFirePos.X;
+                        float retinazerPhase2RapidFireTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - retinazerPhase2RapidFirePos.Y;
+                        float retinazerPhase2RapidFireTargetDist = (float)Math.Sqrt(retinazerPhase2RapidFireTargetX * retinazerPhase2RapidFireTargetX + retinazerPhase2RapidFireTargetY * retinazerPhase2RapidFireTargetY);
+                        retinazerPhase2RapidFireTargetDist = retinazerPhase2RapidFireMaxSpeed / retinazerPhase2RapidFireTargetDist;
+                        retinazerPhase2RapidFireTargetX *= retinazerPhase2RapidFireTargetDist;
+                        retinazerPhase2RapidFireTargetY *= retinazerPhase2RapidFireTargetDist;
 
-                        if (npc.velocity.X < num411)
+                        if (npc.velocity.X < retinazerPhase2RapidFireTargetX)
                         {
-                            npc.velocity.X += num410;
-                            if (npc.velocity.X < 0f && num411 > 0f)
-                                npc.velocity.X += num410;
+                            npc.velocity.X += retinazerPhase2RapidFireAccel;
+                            if (npc.velocity.X < 0f && retinazerPhase2RapidFireTargetX > 0f)
+                                npc.velocity.X += retinazerPhase2RapidFireAccel;
                         }
-                        else if (npc.velocity.X > num411)
+                        else if (npc.velocity.X > retinazerPhase2RapidFireTargetX)
                         {
-                            npc.velocity.X -= num410;
-                            if (npc.velocity.X > 0f && num411 < 0f)
-                                npc.velocity.X -= num410;
+                            npc.velocity.X -= retinazerPhase2RapidFireAccel;
+                            if (npc.velocity.X > 0f && retinazerPhase2RapidFireTargetX < 0f)
+                                npc.velocity.X -= retinazerPhase2RapidFireAccel;
                         }
-                        if (npc.velocity.Y < num412)
+                        if (npc.velocity.Y < retinazerPhase2RapidFireTargetY)
                         {
-                            npc.velocity.Y += num410;
-                            if (npc.velocity.Y < 0f && num412 > 0f)
-                                npc.velocity.Y += num410;
+                            npc.velocity.Y += retinazerPhase2RapidFireAccel;
+                            if (npc.velocity.Y < 0f && retinazerPhase2RapidFireTargetY > 0f)
+                                npc.velocity.Y += retinazerPhase2RapidFireAccel;
                         }
-                        else if (npc.velocity.Y > num412)
+                        else if (npc.velocity.Y > retinazerPhase2RapidFireTargetY)
                         {
-                            npc.velocity.Y -= num410;
-                            if (npc.velocity.Y > 0f && num412 < 0f)
-                                npc.velocity.Y -= num410;
+                            npc.velocity.Y -= retinazerPhase2RapidFireAccel;
+                            if (npc.velocity.Y > 0f && retinazerPhase2RapidFireTargetY < 0f)
+                                npc.velocity.Y -= retinazerPhase2RapidFireAccel;
                         }
 
-                        vector43 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                        num411 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector43.X;
-                        num412 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector43.Y;
-                        npc.rotation = (float)Math.Atan2(num412, num411) - MathHelper.PiOver2;
+                        retinazerPhase2RapidFirePos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        retinazerPhase2RapidFireTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - retinazerPhase2RapidFirePos.X;
+                        retinazerPhase2RapidFireTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - retinazerPhase2RapidFirePos.Y;
+                        npc.rotation = (float)Math.Atan2(retinazerPhase2RapidFireTargetY, retinazerPhase2RapidFireTargetX) - MathHelper.PiOver2;
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -930,22 +926,21 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 if (canHit || !spazAlive || enrage)
                                 {
                                     npc.localAI[1] = 0f;
-                                    float num414 = 9f;
                                     int type = ProjectileID.DeathLaser;
                                     int damage = (int)Math.Round(npc.GetProjectileDamage(type) * 0.75);
 
-                                    num413 = (float)Math.Sqrt(num411 * num411 + num412 * num412);
-                                    num413 = num414 / num413;
-                                    num411 *= num413;
-                                    num412 *= num413;
-                                    vector43.X += num411 * 15f;
-                                    vector43.Y += num412 * 15f;
+                                    retinazerPhase2RapidFireTargetDist = (float)Math.Sqrt(retinazerPhase2RapidFireTargetX * retinazerPhase2RapidFireTargetX + retinazerPhase2RapidFireTargetY * retinazerPhase2RapidFireTargetY);
+                                    retinazerPhase2RapidFireTargetDist = 9f / retinazerPhase2RapidFireTargetDist;
+                                    retinazerPhase2RapidFireTargetX *= retinazerPhase2RapidFireTargetDist;
+                                    retinazerPhase2RapidFireTargetY *= retinazerPhase2RapidFireTargetDist;
+                                    retinazerPhase2RapidFirePos.X += retinazerPhase2RapidFireTargetX * 15f;
+                                    retinazerPhase2RapidFirePos.Y += retinazerPhase2RapidFireTargetY * 15f;
 
                                     if (canHit)
-                                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector43.X, vector43.Y, num411, num412, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                        Projectile.NewProjectile(npc.GetSource_FromAI(), retinazerPhase2RapidFirePos.X, retinazerPhase2RapidFirePos.Y, retinazerPhase2RapidFireTargetX, retinazerPhase2RapidFireTargetY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                     else
                                     {
-                                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vector43.X, vector43.Y, num411, num412, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), retinazerPhase2RapidFirePos.X, retinazerPhase2RapidFirePos.Y, retinazerPhase2RapidFireTargetX, retinazerPhase2RapidFireTargetY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                         Main.projectile[proj].tileCollide = false;
                                         Main.projectile[proj].timeLeft = 300;
                                     }
@@ -968,23 +963,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     else if (npc.ai[1] == 2f)
                     {
                         // Set rotation and velocity
-                        npc.rotation = num378;
-                        float num450 = 22f + (death ? 8f * (0.7f - lifeRatio) : 0f);
-                        num450 += 10f * enrageScale;
+                        npc.rotation = retinazerHoverRotation;
+                        float retinazerPhase3ChargeSpeed = 22f + (death ? 8f * (0.7f - lifeRatio) : 0f);
+                        retinazerPhase3ChargeSpeed += 10f * enrageScale;
 
                         if (!spazAlive)
-                            num450 += 2f;
+                            retinazerPhase3ChargeSpeed += 2f;
 
                         if (Main.getGoodWorld)
-                            num450 += 2f;
+                            retinazerPhase3ChargeSpeed += 2f;
 
-                        Vector2 vector47 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                        float num451 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector47.X;
-                        float num452 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector47.Y;
-                        float num453 = (float)Math.Sqrt(num451 * num451 + num452 * num452);
-                        num453 = num450 / num453;
-                        npc.velocity.X = num451 * num453;
-                        npc.velocity.Y = num452 * num453;
+                        Vector2 retinazerPhase3ChargePos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float retinazerPhase3ChargeTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - retinazerPhase3ChargePos.X;
+                        float retinazerPhase3ChargeTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - retinazerPhase3ChargePos.Y;
+                        float retinazerPhase3ChargeTargetDist = (float)Math.Sqrt(retinazerPhase3ChargeTargetX * retinazerPhase3ChargeTargetX + retinazerPhase3ChargeTargetY * retinazerPhase3ChargeTargetY);
+                        retinazerPhase3ChargeTargetDist = retinazerPhase3ChargeSpeed / retinazerPhase3ChargeTargetDist;
+                        npc.velocity.X = retinazerPhase3ChargeTargetX * retinazerPhase3ChargeTargetDist;
+                        npc.velocity.Y = retinazerPhase3ChargeTargetY * retinazerPhase3ChargeTargetDist;
                         npc.ai[1] = 3f;
                     }
 
@@ -1018,30 +1013,28 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                                 if (npc.ai[2] % fireRate == 0f)
                                 {
-                                    Vector2 vector34 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                                    float num349 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector34.X;
-                                    float num350 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector34.Y;
-                                    float num351 = (float)Math.Sqrt(num349 * num349 + num350 * num350);
+                                    Vector2 retinazerPhase3ChargeLaserPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                                    float retinazerPhase3ChargeLaserTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - retinazerPhase3ChargeLaserPos.X;
+                                    float retinazerPhase3ChargeLaserTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - retinazerPhase3ChargeLaserPos.Y;
+                                    float retinazerPhase3ChargeLaserTargetDist = (float)Math.Sqrt(retinazerPhase3ChargeLaserTargetX * retinazerPhase3ChargeLaserTargetX + retinazerPhase3ChargeLaserTargetY * retinazerPhase3ChargeLaserTargetY);
 
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
                                         SoundEngine.PlaySound(SoundID.Item33, npc.position);
-
-                                        float num353 = 6f;
                                         int type = ModContent.ProjectileType<ScavengerLaser>();
                                         int damage = npc.GetProjectileDamage(type);
 
-                                        vector34 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                                        num349 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector34.X;
-                                        num350 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector34.Y;
-                                        num351 = (float)Math.Sqrt(num349 * num349 + num350 * num350);
-                                        num351 = num353 / num351;
-                                        num349 *= num351;
-                                        num350 *= num351;
-                                        vector34.X += num349;
-                                        vector34.Y += num350;
+                                        retinazerPhase3ChargeLaserPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                                        retinazerPhase3ChargeLaserTargetX = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - retinazerPhase3ChargeLaserPos.X;
+                                        retinazerPhase3ChargeLaserTargetY = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - retinazerPhase3ChargeLaserPos.Y;
+                                        retinazerPhase3ChargeLaserTargetDist = (float)Math.Sqrt(retinazerPhase3ChargeLaserTargetX * retinazerPhase3ChargeLaserTargetX + retinazerPhase3ChargeLaserTargetY * retinazerPhase3ChargeLaserTargetY);
+                                        retinazerPhase3ChargeLaserTargetDist = 6f / retinazerPhase3ChargeLaserTargetDist;
+                                        retinazerPhase3ChargeLaserTargetX *= retinazerPhase3ChargeLaserTargetDist;
+                                        retinazerPhase3ChargeLaserTargetY *= retinazerPhase3ChargeLaserTargetDist;
+                                        retinazerPhase3ChargeLaserPos.X += retinazerPhase3ChargeLaserTargetX;
+                                        retinazerPhase3ChargeLaserPos.Y += retinazerPhase3ChargeLaserTargetY;
 
-                                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector34.X, vector34.Y, num349, num350, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                        Projectile.NewProjectile(npc.GetSource_FromAI(), retinazerPhase3ChargeLaserPos.X, retinazerPhase3ChargeLaserPos.Y, retinazerPhase3ChargeLaserTargetX, retinazerPhase3ChargeLaserTargetY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                     }
                                 }
                             }
@@ -1055,7 +1048,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.ai[2] = 0f;
                             npc.ai[3] += 1f;
                             npc.TargetClosest();
-                            npc.rotation = num378;
+                            npc.rotation = retinazerHoverRotation;
                             float maxChargeAmt = spazAlive ? 2f : 4f;
                             if (npc.ai[3] >= maxChargeAmt)
                             {
@@ -1070,58 +1063,58 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Get in position for charge
                     else if (npc.ai[1] == 4f)
                     {
-                        int num62 = spazAlive ? 600 : 500;
-                        float num63 = 12f + (death ? 4f * (0.7f - lifeRatio) : 0f);
-                        float num64 = 0.3f + (death ? 0.1f * (0.7f - lifeRatio) : 0f);
+                        int chargeLineUpDist = spazAlive ? 600 : 500;
+                        float chargeSpeed = 12f + (death ? 4f * (0.7f - lifeRatio) : 0f);
+                        float chargeAccel = 0.3f + (death ? 0.1f * (0.7f - lifeRatio) : 0f);
 
                         if (spazAlive)
                         {
-                            num63 *= 0.75f;
-                            num64 *= 0.75f;
+                            chargeSpeed *= 0.75f;
+                            chargeAccel *= 0.75f;
                         }
 
                         if (Main.getGoodWorld)
                         {
-                            num63 *= 1.15f;
-                            num64 *= 1.15f;
+                            chargeSpeed *= 1.15f;
+                            chargeAccel *= 1.15f;
                         }
 
-                        int num408 = 1;
+                        int retinazerPhase2FaceDirection = 1;
                         if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + Main.player[npc.target].width)
-                            num408 = -1;
+                            retinazerPhase2FaceDirection = -1;
 
-                        Vector2 vector11 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                        float num65 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (num62 * num408) - vector11.X;
-                        float num66 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector11.Y;
-                        float num67 = (float)Math.Sqrt(num65 * num65 + num66 * num66);
+                        Vector2 spazmatismRetDeadChargePos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float chargeTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (chargeLineUpDist * retinazerPhase2FaceDirection) - spazmatismRetDeadChargePos.X;
+                        float chargeTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - spazmatismRetDeadChargePos.Y;
+                        float chargeTargetDist = (float)Math.Sqrt(chargeTargetX * chargeTargetX + chargeTargetY * chargeTargetY);
 
-                        num67 = num63 / num67;
-                        num65 *= num67;
-                        num66 *= num67;
+                        chargeTargetDist = chargeSpeed / chargeTargetDist;
+                        chargeTargetX *= chargeTargetDist;
+                        chargeTargetY *= chargeTargetDist;
 
-                        if (npc.velocity.X < num65)
+                        if (npc.velocity.X < chargeTargetX)
                         {
-                            npc.velocity.X += num64;
-                            if (npc.velocity.X < 0f && num65 > 0f)
-                                npc.velocity.X += num64;
+                            npc.velocity.X += chargeAccel;
+                            if (npc.velocity.X < 0f && chargeTargetX > 0f)
+                                npc.velocity.X += chargeAccel;
                         }
-                        else if (npc.velocity.X > num65)
+                        else if (npc.velocity.X > chargeTargetX)
                         {
-                            npc.velocity.X -= num64;
-                            if (npc.velocity.X > 0f && num65 < 0f)
-                                npc.velocity.X -= num64;
+                            npc.velocity.X -= chargeAccel;
+                            if (npc.velocity.X > 0f && chargeTargetX < 0f)
+                                npc.velocity.X -= chargeAccel;
                         }
-                        if (npc.velocity.Y < num66)
+                        if (npc.velocity.Y < chargeTargetY)
                         {
-                            npc.velocity.Y += num64;
-                            if (npc.velocity.Y < 0f && num66 > 0f)
-                                npc.velocity.Y += num64;
+                            npc.velocity.Y += chargeAccel;
+                            if (npc.velocity.Y < 0f && chargeTargetY > 0f)
+                                npc.velocity.Y += chargeAccel;
                         }
-                        else if (npc.velocity.Y > num66)
+                        else if (npc.velocity.Y > chargeTargetY)
                         {
-                            npc.velocity.Y -= num64;
-                            if (npc.velocity.Y > 0f && num66 < 0f)
-                                npc.velocity.Y -= num64;
+                            npc.velocity.Y -= chargeAccel;
+                            if (npc.velocity.Y > 0f && chargeTargetY < 0f)
+                                npc.velocity.Y -= chargeAccel;
                         }
 
                         // Take 1.25 or 1 second to get in position, then charge
@@ -1195,47 +1188,47 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 rotationVector = Vector2.Normalize(npcCenter - lookAt) * chargeVelocity;
             }
 
-            float num420 = (float)Math.Atan2(rotationVector.Y, rotationVector.X) + MathHelper.PiOver2;
-            if (num420 < 0f)
-                num420 += MathHelper.TwoPi;
-            else if (num420 > MathHelper.TwoPi)
-                num420 -= MathHelper.TwoPi;
+            float spazmatismRotation = (float)Math.Atan2(rotationVector.Y, rotationVector.X) + MathHelper.PiOver2;
+            if (spazmatismRotation < 0f)
+                spazmatismRotation += MathHelper.TwoPi;
+            else if (spazmatismRotation > MathHelper.TwoPi)
+                spazmatismRotation -= MathHelper.TwoPi;
 
-            float num421 = 0.15f;
+            float spazmatismRotateSpeed = 0.15f;
             if (NPC.IsMechQueenUp && npc.ai[0] == 3f && npc.ai[1] == 0f)
-                num421 *= 0.25f;
+                spazmatismRotateSpeed *= 0.25f;
 
-            if (npc.rotation < num420)
+            if (npc.rotation < spazmatismRotation)
             {
-                if ((num420 - npc.rotation) > MathHelper.Pi)
-                    npc.rotation -= num421;
+                if ((spazmatismRotation - npc.rotation) > MathHelper.Pi)
+                    npc.rotation -= spazmatismRotateSpeed;
                 else
-                    npc.rotation += num421;
+                    npc.rotation += spazmatismRotateSpeed;
             }
-            else if (npc.rotation > num420)
+            else if (npc.rotation > spazmatismRotation)
             {
-                if ((npc.rotation - num420) > MathHelper.Pi)
-                    npc.rotation += num421;
+                if ((npc.rotation - spazmatismRotation) > MathHelper.Pi)
+                    npc.rotation += spazmatismRotateSpeed;
                 else
-                    npc.rotation -= num421;
+                    npc.rotation -= spazmatismRotateSpeed;
             }
 
-            if (npc.rotation > num420 - num421 && npc.rotation < num420 + num421)
-                npc.rotation = num420;
+            if (npc.rotation > spazmatismRotation - spazmatismRotateSpeed && npc.rotation < spazmatismRotation + spazmatismRotateSpeed)
+                npc.rotation = spazmatismRotation;
 
             if (npc.rotation < 0f)
                 npc.rotation += MathHelper.TwoPi;
             else if (npc.rotation > MathHelper.TwoPi)
                 npc.rotation -= MathHelper.TwoPi;
 
-            if (npc.rotation > num420 - num421 && npc.rotation < num420 + num421)
-                npc.rotation = num420;
+            if (npc.rotation > spazmatismRotation - spazmatismRotateSpeed && npc.rotation < spazmatismRotation + spazmatismRotateSpeed)
+                npc.rotation = spazmatismRotation;
 
             // Dust
             if (Main.rand.NextBool(5))
             {
-                int num422 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
-                Dust dust = Main.dust[num422];
+                int spazDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
+                Dust dust = Main.dust[spazDust];
                 dust.velocity.X *= 0.5f;
                 dust.velocity.Y *= 0.1f;
             }
@@ -1243,10 +1236,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Despawn Twins at the same time
             if (Main.netMode != NetmodeID.MultiplayerClient && !Main.player[npc.target].dead && npc.timeLeft < 10)
             {
-                for (int num423 = 0; num423 < Main.maxNPCs; num423++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (num423 != npc.whoAmI && Main.npc[num423].active && (Main.npc[num423].type == NPCID.Retinazer || Main.npc[num423].type == NPCID.Spazmatism) && Main.npc[num423].timeLeft - 1 > npc.timeLeft)
-                        npc.timeLeft = Main.npc[num423].timeLeft - 1;
+                    if (i != npc.whoAmI && Main.npc[i].active && (Main.npc[i].type == NPCID.Retinazer || Main.npc[i].type == NPCID.Spazmatism) && Main.npc[i].timeLeft - 1 > npc.timeLeft)
+                        npc.timeLeft = Main.npc[i].timeLeft - 1;
 
                 }
             }
@@ -1256,11 +1249,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 NPC nPC2 = Main.npc[NPC.mechQueen];
                 Vector2 mechQueenCenter2 = nPC2.GetMechQueenCenter();
-                Vector2 vector48 = new Vector2(150f, -250f);
-                vector48 *= 0.75f;
-                float num462 = nPC2.velocity.X * 0.025f;
-                mechQueenSpacing = mechQueenCenter2 + vector48;
-                mechQueenSpacing = mechQueenSpacing.RotatedBy(num462, mechQueenCenter2);
+                Vector2 mechdusaSpacingVector = new Vector2(150f, -250f);
+                mechdusaSpacingVector *= 0.75f;
+                float mechdusaSpacingVel = nPC2.velocity.X * 0.025f;
+                mechQueenSpacing = mechQueenCenter2 + mechdusaSpacingVector;
+                mechQueenSpacing = mechQueenSpacing.RotatedBy(mechdusaSpacingVel, mechQueenCenter2);
             }
 
             npc.reflectsProjectiles = false;
@@ -1283,82 +1276,82 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.ai[1] == 0f)
                 {
                     // Velocity
-                    float num424 = 12f;
-                    float num425 = 0.4f;
-                    num424 += 6f * enrageScale;
-                    num425 += 0.2f * enrageScale;
+                    float spazmatismFireballMaxSpeed = 12f;
+                    float spazmatismFireballAccel = 0.4f;
+                    spazmatismFireballMaxSpeed += 6f * enrageScale;
+                    spazmatismFireballAccel += 0.2f * enrageScale;
 
                     if (death)
                     {
-                        num424 += 9f * (1f - lifeRatio);
-                        num425 += 0.3f * (1f - lifeRatio);
+                        spazmatismFireballMaxSpeed += 9f * (1f - lifeRatio);
+                        spazmatismFireballAccel += 0.3f * (1f - lifeRatio);
                     }
 
                     if (Main.getGoodWorld)
                     {
-                        num424 *= 1.15f;
-                        num425 *= 1.15f;
+                        spazmatismFireballMaxSpeed *= 1.15f;
+                        spazmatismFireballAccel *= 1.15f;
                     }
 
-                    int num426 = 1;
+                    int spazmatismFireballFaceDirection = 1;
                     if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + Main.player[npc.target].width)
-                        num426 = -1;
+                        spazmatismFireballFaceDirection = -1;
 
-                    Vector2 vector44 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num427 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (num426 * 400) - vector44.X;
-                    float num428 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector44.Y;
+                    Vector2 spazmatismFireballPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    float spazmatismFireballTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (spazmatismFireballFaceDirection * 400) - spazmatismFireballPos.X;
+                    float spazmatismFireballTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - spazmatismFireballPos.Y;
                     if (NPC.IsMechQueenUp)
                     {
-                        num424 = 14f;
-                        num427 = mechQueenSpacing.X;
-                        num428 = mechQueenSpacing.Y;
-                        num427 -= vector44.X;
-                        num428 -= vector44.Y;
+                        spazmatismFireballMaxSpeed = 14f;
+                        spazmatismFireballTargetX = mechQueenSpacing.X;
+                        spazmatismFireballTargetY = mechQueenSpacing.Y;
+                        spazmatismFireballTargetX -= spazmatismFireballPos.X;
+                        spazmatismFireballTargetY -= spazmatismFireballPos.Y;
                     }
 
-                    float num429 = (float)Math.Sqrt(num427 * num427 + num428 * num428);
+                    float spazmatismFireballTargetDist = (float)Math.Sqrt(spazmatismFireballTargetX * spazmatismFireballTargetX + spazmatismFireballTargetY * spazmatismFireballTargetY);
 
                     if (NPC.IsMechQueenUp)
                     {
-                        if (num429 > num424)
+                        if (spazmatismFireballTargetDist > spazmatismFireballMaxSpeed)
                         {
-                            num429 = num424 / num429;
-                            num427 *= num429;
-                            num428 *= num429;
+                            spazmatismFireballTargetDist = spazmatismFireballMaxSpeed / spazmatismFireballTargetDist;
+                            spazmatismFireballTargetX *= spazmatismFireballTargetDist;
+                            spazmatismFireballTargetY *= spazmatismFireballTargetDist;
                         }
 
-                        npc.velocity.X = (npc.velocity.X * 4f + num427) / 5f;
-                        npc.velocity.Y = (npc.velocity.Y * 4f + num428) / 5f;
+                        npc.velocity.X = (npc.velocity.X * 4f + spazmatismFireballTargetX) / 5f;
+                        npc.velocity.Y = (npc.velocity.Y * 4f + spazmatismFireballTargetY) / 5f;
                     }
                     else
                     {
-                        num429 = num424 / num429;
-                        num427 *= num429;
-                        num428 *= num429;
+                        spazmatismFireballTargetDist = spazmatismFireballMaxSpeed / spazmatismFireballTargetDist;
+                        spazmatismFireballTargetX *= spazmatismFireballTargetDist;
+                        spazmatismFireballTargetY *= spazmatismFireballTargetDist;
 
-                        if (npc.velocity.X < num427)
+                        if (npc.velocity.X < spazmatismFireballTargetX)
                         {
-                            npc.velocity.X += num425;
-                            if (npc.velocity.X < 0f && num427 > 0f)
-                                npc.velocity.X += num425;
+                            npc.velocity.X += spazmatismFireballAccel;
+                            if (npc.velocity.X < 0f && spazmatismFireballTargetX > 0f)
+                                npc.velocity.X += spazmatismFireballAccel;
                         }
-                        else if (npc.velocity.X > num427)
+                        else if (npc.velocity.X > spazmatismFireballTargetX)
                         {
-                            npc.velocity.X -= num425;
-                            if (npc.velocity.X > 0f && num427 < 0f)
-                                npc.velocity.X -= num425;
+                            npc.velocity.X -= spazmatismFireballAccel;
+                            if (npc.velocity.X > 0f && spazmatismFireballTargetX < 0f)
+                                npc.velocity.X -= spazmatismFireballAccel;
                         }
-                        if (npc.velocity.Y < num428)
+                        if (npc.velocity.Y < spazmatismFireballTargetY)
                         {
-                            npc.velocity.Y += num425;
-                            if (npc.velocity.Y < 0f && num428 > 0f)
-                                npc.velocity.Y += num425;
+                            npc.velocity.Y += spazmatismFireballAccel;
+                            if (npc.velocity.Y < 0f && spazmatismFireballTargetY > 0f)
+                                npc.velocity.Y += spazmatismFireballAccel;
                         }
-                        else if (npc.velocity.Y > num428)
+                        else if (npc.velocity.Y > spazmatismFireballTargetY)
                         {
-                            npc.velocity.Y -= num425;
-                            if (npc.velocity.Y > 0f && num428 < 0f)
-                                npc.velocity.Y -= num425;
+                            npc.velocity.Y -= spazmatismFireballAccel;
+                            if (npc.velocity.Y > 0f && spazmatismFireballTargetY < 0f)
+                                npc.velocity.Y -= spazmatismFireballAccel;
                         }
                     }
 
@@ -1387,26 +1380,26 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.ai[3] >= 30f)
                         {
                             npc.ai[3] = 0f;
-                            vector44 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                            num427 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector44.X;
-                            num428 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector44.Y;
+                            spazmatismFireballPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                            spazmatismFireballTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - spazmatismFireballPos.X;
+                            spazmatismFireballTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - spazmatismFireballPos.Y;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                float num430 = 15f;
-                                num430 += 3f * enrageScale;
+                                float cursedFireballSpeed = 15f;
+                                cursedFireballSpeed += 3f * enrageScale;
                                 int type = ProjectileID.CursedFlameHostile;
                                 int damage = npc.GetProjectileDamage(type);
 
-                                num429 = (float)Math.Sqrt(num427 * num427 + num428 * num428);
-                                num429 = num430 / num429;
-                                num427 *= num429;
-                                num428 *= num429;
-                                num427 += Main.rand.Next(-10, 11) * 0.05f;
-                                num428 += Main.rand.Next(-10, 11) * 0.05f;
-                                vector44.X += num427 * 4f;
-                                vector44.Y += num428 * 4f;
+                                spazmatismFireballTargetDist = (float)Math.Sqrt(spazmatismFireballTargetX * spazmatismFireballTargetX + spazmatismFireballTargetY * spazmatismFireballTargetY);
+                                spazmatismFireballTargetDist = cursedFireballSpeed / spazmatismFireballTargetDist;
+                                spazmatismFireballTargetX *= spazmatismFireballTargetDist;
+                                spazmatismFireballTargetY *= spazmatismFireballTargetDist;
+                                spazmatismFireballTargetX += Main.rand.Next(-10, 11) * 0.05f;
+                                spazmatismFireballTargetY += Main.rand.Next(-10, 11) * 0.05f;
+                                spazmatismFireballPos.X += spazmatismFireballTargetX * 4f;
+                                spazmatismFireballPos.Y += spazmatismFireballTargetY * 4f;
 
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), vector44.X, vector44.Y, num427, num428, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), spazmatismFireballPos.X, spazmatismFireballPos.Y, spazmatismFireballTargetX, spazmatismFireballTargetY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
                     }
@@ -1416,21 +1409,21 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 else if (npc.ai[1] == 1f)
                 {
                     // Rotation and velocity
-                    npc.rotation = num420;
-                    float num434 = 16f;
-                    num434 += 8f * enrageScale;
+                    npc.rotation = spazmatismRotation;
+                    float spazmatismPhase1ChargeSpeed = 16f;
+                    spazmatismPhase1ChargeSpeed += 8f * enrageScale;
                     if (death)
-                        num434 += 12f * (1f - lifeRatio);
+                        spazmatismPhase1ChargeSpeed += 12f * (1f - lifeRatio);
                     if (Main.getGoodWorld)
-                        num434 *= 1.2f;
+                        spazmatismPhase1ChargeSpeed *= 1.2f;
 
-                    Vector2 vector45 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num435 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector45.X;
-                    float num436 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector45.Y;
-                    float num437 = (float)Math.Sqrt(num435 * num435 + num436 * num436);
-                    num437 = num434 / num437;
-                    npc.velocity.X = num435 * num437;
-                    npc.velocity.Y = num436 * num437;
+                    Vector2 spazmatismPhase1ChargePos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    float spazmatismPhase1ChargeTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - spazmatismPhase1ChargePos.X;
+                    float spazmatismPhase1ChargeTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - spazmatismPhase1ChargePos.Y;
+                    float spazmatismPhase1ChargeTargetDist = (float)Math.Sqrt(spazmatismPhase1ChargeTargetX * spazmatismPhase1ChargeTargetX + spazmatismPhase1ChargeTargetY * spazmatismPhase1ChargeTargetY);
+                    spazmatismPhase1ChargeTargetDist = spazmatismPhase1ChargeSpeed / spazmatismPhase1ChargeTargetDist;
+                    npc.velocity.X = spazmatismPhase1ChargeTargetX * spazmatismPhase1ChargeTargetDist;
+                    npc.velocity.Y = spazmatismPhase1ChargeTargetY * spazmatismPhase1ChargeTargetDist;
                     npc.ai[1] = 2f;
                 }
                 else if (npc.ai[1] == 2f)
@@ -1459,7 +1452,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
                         npc.TargetClosest();
-                        npc.rotation = num420;
+                        npc.rotation = spazmatismRotation;
                         float totalCharges = 8f;
                         if (death)
                             totalCharges -= (float)Math.Round(16f * (1f - lifeRatio));
@@ -1523,7 +1516,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         if (Main.netMode != NetmodeID.Server)
                         {
-                            for (int num438 = 0; num438 < 2; num438++)
+                            for (int i = 0; i < 2; i++)
                             {
                                 Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 144, 1f);
                                 Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 7, 1f);
@@ -1531,7 +1524,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
                         }
 
-                        for (int num439 = 0; num439 < 20; num439++)
+                        for (int j = 0; j < 20; j++)
                         {
                             Dust.NewDust(npc.position, npc.width, npc.height, 5, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
                         }
@@ -1576,61 +1569,61 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Shadowflamethrower phase
                 if (npc.ai[1] == 0f)
                 {
-                    float num440 = 6.2f + (death ? 2f * (0.7f - lifeRatio) : 0f);
-                    float num441 = 0.1f + (death ? 0.03f * (0.7f - lifeRatio) : 0f);
-                    num440 += 4f * enrageScale;
-                    num441 += 0.06f * enrageScale;
+                    float spazmatismFlamethrowerMaxSpeed = 6.2f + (death ? 2f * (0.7f - lifeRatio) : 0f);
+                    float spazmatismFlamethrowerAccel = 0.1f + (death ? 0.03f * (0.7f - lifeRatio) : 0f);
+                    spazmatismFlamethrowerMaxSpeed += 4f * enrageScale;
+                    spazmatismFlamethrowerAccel += 0.06f * enrageScale;
 
-                    int num442 = 1;
+                    int spazmatismFlamethrowerFaceDirection = 1;
                     if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + Main.player[npc.target].width)
-                        num442 = -1;
+                        spazmatismFlamethrowerFaceDirection = -1;
 
-                    Vector2 vector46 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num443 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (num442 * 180) - vector46.X;
-                    float num444 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector46.Y;
-                    float num445 = (float)Math.Sqrt(num443 * num443 + num444 * num444);
+                    Vector2 spazmatismFlamethrowerPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    float spazmatismFlamethrowerTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (spazmatismFlamethrowerFaceDirection * 180) - spazmatismFlamethrowerPos.X;
+                    float spazmatismFlamethrowerTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - spazmatismFlamethrowerPos.Y;
+                    float spazmatismFlamethrowerTargetDist = (float)Math.Sqrt(spazmatismFlamethrowerTargetX * spazmatismFlamethrowerTargetX + spazmatismFlamethrowerTargetY * spazmatismFlamethrowerTargetY);
 
                     if (!NPC.IsMechQueenUp)
                     {
                         // Boost speed if too far from target
-                        if (num445 > 300f)
-                            num440 += 0.5f;
-                        if (num445 > 400f)
-                            num440 += 0.5f;
+                        if (spazmatismFlamethrowerTargetDist > 300f)
+                            spazmatismFlamethrowerMaxSpeed += 0.5f;
+                        if (spazmatismFlamethrowerTargetDist > 400f)
+                            spazmatismFlamethrowerMaxSpeed += 0.5f;
 
                         if (Main.getGoodWorld)
                         {
-                            num440 *= 1.15f;
-                            num441 *= 1.15f;
+                            spazmatismFlamethrowerMaxSpeed *= 1.15f;
+                            spazmatismFlamethrowerAccel *= 1.15f;
                         }
 
-                        num445 = num440 / num445;
-                        num443 *= num445;
-                        num444 *= num445;
+                        spazmatismFlamethrowerTargetDist = spazmatismFlamethrowerMaxSpeed / spazmatismFlamethrowerTargetDist;
+                        spazmatismFlamethrowerTargetX *= spazmatismFlamethrowerTargetDist;
+                        spazmatismFlamethrowerTargetY *= spazmatismFlamethrowerTargetDist;
 
-                        if (npc.velocity.X < num443)
+                        if (npc.velocity.X < spazmatismFlamethrowerTargetX)
                         {
-                            npc.velocity.X += num441;
-                            if (npc.velocity.X < 0f && num443 > 0f)
-                                npc.velocity.X += num441;
+                            npc.velocity.X += spazmatismFlamethrowerAccel;
+                            if (npc.velocity.X < 0f && spazmatismFlamethrowerTargetX > 0f)
+                                npc.velocity.X += spazmatismFlamethrowerAccel;
                         }
-                        else if (npc.velocity.X > num443)
+                        else if (npc.velocity.X > spazmatismFlamethrowerTargetX)
                         {
-                            npc.velocity.X -= num441;
-                            if (npc.velocity.X > 0f && num443 < 0f)
-                                npc.velocity.X -= num441;
+                            npc.velocity.X -= spazmatismFlamethrowerAccel;
+                            if (npc.velocity.X > 0f && spazmatismFlamethrowerTargetX < 0f)
+                                npc.velocity.X -= spazmatismFlamethrowerAccel;
                         }
-                        if (npc.velocity.Y < num444)
+                        if (npc.velocity.Y < spazmatismFlamethrowerTargetY)
                         {
-                            npc.velocity.Y += num441;
-                            if (npc.velocity.Y < 0f && num444 > 0f)
-                                npc.velocity.Y += num441;
+                            npc.velocity.Y += spazmatismFlamethrowerAccel;
+                            if (npc.velocity.Y < 0f && spazmatismFlamethrowerTargetY > 0f)
+                                npc.velocity.Y += spazmatismFlamethrowerAccel;
                         }
-                        else if (npc.velocity.Y > num444)
+                        else if (npc.velocity.Y > spazmatismFlamethrowerTargetY)
                         {
-                            npc.velocity.Y -= num441;
-                            if (npc.velocity.Y > 0f && num444 < 0f)
-                                npc.velocity.Y -= num441;
+                            npc.velocity.Y -= spazmatismFlamethrowerAccel;
+                            if (npc.velocity.Y > 0f && spazmatismFlamethrowerTargetY < 0f)
+                                npc.velocity.Y -= spazmatismFlamethrowerAccel;
                         }
                     }
 
@@ -1665,38 +1658,38 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             {
                                 npc.localAI[1] = 0f;
 
-                                float num446 = 6f;
-                                num446 += 2f * enrageScale;
+                                float spazmatismShadowFireballSpeed = 6f;
+                                spazmatismShadowFireballSpeed += 2f * enrageScale;
                                 int type = ModContent.ProjectileType<Shadowflamethrower>();
                                 int damage = npc.GetProjectileDamage(type);
 
-                                vector46 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                                num443 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector46.X;
-                                num444 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector46.Y;
-                                num445 = (float)Math.Sqrt(num443 * num443 + num444 * num444);
-                                num445 = num446 / num445;
-                                num443 *= num445;
-                                num444 *= num445;
-                                num444 += Main.rand.Next(-10, 11) * 0.01f;
-                                num443 += Main.rand.Next(-10, 11) * 0.01f;
-                                num444 += npc.velocity.Y * 0.5f;
-                                num443 += npc.velocity.X * 0.5f;
-                                vector46.X -= num443 * 1f;
-                                vector46.Y -= num444 * 1f;
+                                spazmatismFlamethrowerPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                                spazmatismFlamethrowerTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - spazmatismFlamethrowerPos.X;
+                                spazmatismFlamethrowerTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - spazmatismFlamethrowerPos.Y;
+                                spazmatismFlamethrowerTargetDist = (float)Math.Sqrt(spazmatismFlamethrowerTargetX * spazmatismFlamethrowerTargetX + spazmatismFlamethrowerTargetY * spazmatismFlamethrowerTargetY);
+                                spazmatismFlamethrowerTargetDist = spazmatismShadowFireballSpeed / spazmatismFlamethrowerTargetDist;
+                                spazmatismFlamethrowerTargetX *= spazmatismFlamethrowerTargetDist;
+                                spazmatismFlamethrowerTargetY *= spazmatismFlamethrowerTargetDist;
+                                spazmatismFlamethrowerTargetY += Main.rand.Next(-10, 11) * 0.01f;
+                                spazmatismFlamethrowerTargetX += Main.rand.Next(-10, 11) * 0.01f;
+                                spazmatismFlamethrowerTargetY += npc.velocity.Y * 0.5f;
+                                spazmatismFlamethrowerTargetX += npc.velocity.X * 0.5f;
+                                spazmatismFlamethrowerPos.X -= spazmatismFlamethrowerTargetX * 1f;
+                                spazmatismFlamethrowerPos.Y -= spazmatismFlamethrowerTargetY * 1f;
 
                                 if (NPC.IsMechQueenUp)
                                 {
-                                    Vector2 vector52 = (npc.rotation + (float)Math.PI / 2f).ToRotationVector2() * num446 + npc.velocity * 0.5f;
-                                    num443 = vector52.X;
-                                    num444 = vector52.Y;
-                                    vector46 = npc.Center - vector52 * 3f;
+                                    Vector2 mechdusaSpazShadowFireballPos = (npc.rotation + (float)Math.PI / 2f).ToRotationVector2() * spazmatismShadowFireballSpeed + npc.velocity * 0.5f;
+                                    spazmatismFlamethrowerTargetX = mechdusaSpazShadowFireballPos.X;
+                                    spazmatismFlamethrowerTargetY = mechdusaSpazShadowFireballPos.Y;
+                                    spazmatismFlamethrowerPos = npc.Center - mechdusaSpazShadowFireballPos * 3f;
                                 }
 
                                 if (canHit)
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector46.X, vector46.Y, num443, num444, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), spazmatismFlamethrowerPos.X, spazmatismFlamethrowerPos.Y, spazmatismFlamethrowerTargetX, spazmatismFlamethrowerTargetY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 else
                                 {
-                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vector46.X, vector46.Y, num443, num444, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), spazmatismFlamethrowerPos.X, spazmatismFlamethrowerPos.Y, spazmatismFlamethrowerTargetX, spazmatismFlamethrowerTargetY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                     Main.projectile[proj].tileCollide = false;
                                 }
                             }
@@ -1705,24 +1698,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (NPC.IsMechQueenUp)
                     {
-                        num440 = 14f;
-                        num443 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector46.X;
-                        num444 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - 300f - vector46.Y;
-                        num443 = mechQueenSpacing.X;
-                        num444 = mechQueenSpacing.Y;
-                        num443 -= vector46.X;
-                        num444 -= vector46.Y;
-                        num445 = (float)Math.Sqrt(num443 * num443 + num444 * num444);
-                        if (num445 > num440)
+                        spazmatismFlamethrowerMaxSpeed = 14f;
+                        spazmatismFlamethrowerTargetX = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - spazmatismFlamethrowerPos.X;
+                        spazmatismFlamethrowerTargetY = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - 300f - spazmatismFlamethrowerPos.Y;
+                        spazmatismFlamethrowerTargetX = mechQueenSpacing.X;
+                        spazmatismFlamethrowerTargetY = mechQueenSpacing.Y;
+                        spazmatismFlamethrowerTargetX -= spazmatismFlamethrowerPos.X;
+                        spazmatismFlamethrowerTargetY -= spazmatismFlamethrowerPos.Y;
+                        spazmatismFlamethrowerTargetDist = (float)Math.Sqrt(spazmatismFlamethrowerTargetX * spazmatismFlamethrowerTargetX + spazmatismFlamethrowerTargetY * spazmatismFlamethrowerTargetY);
+                        if (spazmatismFlamethrowerTargetDist > spazmatismFlamethrowerMaxSpeed)
                         {
-                            num445 = num440 / num445;
-                            num443 *= num445;
-                            num444 *= num445;
+                            spazmatismFlamethrowerTargetDist = spazmatismFlamethrowerMaxSpeed / spazmatismFlamethrowerTargetDist;
+                            spazmatismFlamethrowerTargetX *= spazmatismFlamethrowerTargetDist;
+                            spazmatismFlamethrowerTargetY *= spazmatismFlamethrowerTargetDist;
                         }
 
-                        int num490 = 60;
-                        npc.velocity.X = (npc.velocity.X * (float)(num490 - 1) + num443) / (float)num490;
-                        npc.velocity.Y = (npc.velocity.Y * (float)(num490 - 1) + num444) / (float)num490;
+                        npc.velocity.X = (npc.velocity.X * 59f + spazmatismFlamethrowerTargetX) / 60f;
+                        npc.velocity.Y = (npc.velocity.Y * 59f + spazmatismFlamethrowerTargetY) / 60f;
                     }
                 }
 
@@ -1736,14 +1728,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         SoundEngine.PlaySound(SoundID.Roar, npc.position);
 
                         // Set rotation and velocity
-                        npc.rotation = num420;
-                        float num450 = 16.75f + (death ? 5f * (0.7f - lifeRatio) : 0f);
-                        num450 += 8f * enrageScale;
+                        npc.rotation = spazmatismRotation;
+                        float spazmatismPhase2ChargeSpeed = 16.75f + (death ? 5f * (0.7f - lifeRatio) : 0f);
+                        spazmatismPhase2ChargeSpeed += 8f * enrageScale;
                         if (Main.getGoodWorld)
-                            num450 *= 1.2f;
+                            spazmatismPhase2ChargeSpeed *= 1.2f;
 
                         Vector2 distanceVector = Main.player[npc.target].Center - npc.Center;
-                        npc.velocity = Vector2.Normalize(distanceVector) * num450;
+                        npc.velocity = Vector2.Normalize(distanceVector) * spazmatismPhase2ChargeSpeed;
                         npc.ai[1] = 2f;
                         return false;
                     }
@@ -1772,7 +1764,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.ai[3] += 1f;
                             npc.ai[2] = 0f;
                             npc.TargetClosest();
-                            npc.rotation = num420;
+                            npc.rotation = spazmatismRotation;
                             if (npc.ai[3] >= 5f)
                             {
                                 npc.ai[1] = 0f;
@@ -1808,38 +1800,38 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         else if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             // Velocity
-                            float num48 = 20f + (death ? 6f * (0.7f - lifeRatio) : 0f);
-                            num48 += 10f * enrageScale;
+                            float spazmatismPhase3ChargeSpeed = 20f + (death ? 6f * (0.7f - lifeRatio) : 0f);
+                            spazmatismPhase3ChargeSpeed += 10f * enrageScale;
                             if (npc.ai[2] == -1f || (!retAlive && npc.ai[3] == secondFastCharge))
-                                num48 *= 1.3f;
+                                spazmatismPhase3ChargeSpeed *= 1.3f;
                             if (Main.getGoodWorld)
-                                num48 *= 1.2f;
+                                spazmatismPhase3ChargeSpeed *= 1.2f;
 
                             Vector2 distanceVector = Main.player[npc.target].Center + (!retAlive && bossRush ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center;
-                            npc.velocity = Vector2.Normalize(distanceVector) * num48;
+                            npc.velocity = Vector2.Normalize(distanceVector) * spazmatismPhase3ChargeSpeed;
 
                             if (retAlive)
                             {
-                                Vector2 vector10 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                                float num49 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector10.X;
-                                float num50 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector10.Y;
-                                float num51 = (float)Math.Sqrt(num49 * num49 + num50 * num50);
-                                float num52 = num51;
+                                Vector2 spazmatismPhase3ChargePos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                                float spazmatismPhase3ChargeTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - spazmatismPhase3ChargePos.X;
+                                float spazmatismPhase3ChargeTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - spazmatismPhase3ChargePos.Y;
+                                float spazmatismPhase3ChargeTargetDist = (float)Math.Sqrt(spazmatismPhase3ChargeTargetX * spazmatismPhase3ChargeTargetX + spazmatismPhase3ChargeTargetY * spazmatismPhase3ChargeTargetY);
+                                float spazmatismPhase3ChargeTargetDistCopy = spazmatismPhase3ChargeTargetDist;
 
-                                if (num52 < 100f)
+                                if (spazmatismPhase3ChargeTargetDistCopy < 100f)
                                 {
                                     if (Math.Abs(npc.velocity.X) > Math.Abs(npc.velocity.Y))
                                     {
-                                        float num56 = Math.Abs(npc.velocity.X);
-                                        float num57 = Math.Abs(npc.velocity.Y);
+                                        float absoluteSpazXVel = Math.Abs(npc.velocity.X);
+                                        float absoluteSpazYVel = Math.Abs(npc.velocity.Y);
 
                                         if (npc.Center.X > Main.player[npc.target].Center.X)
-                                            num57 *= -1f;
+                                            absoluteSpazYVel *= -1f;
                                         if (npc.Center.Y > Main.player[npc.target].Center.Y)
-                                            num56 *= -1f;
+                                            absoluteSpazXVel *= -1f;
 
-                                        npc.velocity.X = num57;
-                                        npc.velocity.Y = num56;
+                                        npc.velocity.X = absoluteSpazYVel;
+                                        npc.velocity.Y = absoluteSpazXVel;
                                     }
                                 }
                             }
@@ -1858,15 +1850,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.ai[2] == 0f)
                             SoundEngine.PlaySound(SoundID.Roar, npc.position);
 
-                        float num60 = ((!retAlive && npc.ai[3] == 4f) ? 75f : 50f) - (float)Math.Round(death ? 14f * (0.7f - lifeRatio) : 0f);
+                        float spazmatismRetDeadChargeSpeed = ((!retAlive && npc.ai[3] == 4f) ? 75f : 50f) - (float)Math.Round(death ? 14f * (0.7f - lifeRatio) : 0f);
 
                         npc.ai[2] += 1f;
 
-                        if (npc.ai[2] == num60 && Vector2.Distance(npc.position, Main.player[npc.target].position) < (retAlive ? 200f : 150f))
+                        if (npc.ai[2] == spazmatismRetDeadChargeSpeed && Vector2.Distance(npc.position, Main.player[npc.target].position) < (retAlive ? 200f : 150f))
                             npc.ai[2] -= 1f;
 
                         // Slow down
-                        if (npc.ai[2] >= num60)
+                        if (npc.ai[2] >= spazmatismRetDeadChargeSpeed)
                         {
                             npc.velocity *= 0.93f;
                             if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
@@ -1878,8 +1870,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) - MathHelper.PiOver2;
 
                         // Charge 3 times
-                        float num61 = num60 + 25f;
-                        if (npc.ai[2] >= num61)
+                        float spazmatismRetDeadChargeTimer = spazmatismRetDeadChargeSpeed + 25f;
+                        if (npc.ai[2] >= spazmatismRetDeadChargeTimer)
                         {
                             npc.netUpdate = true;
 
@@ -1895,54 +1887,54 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Get in position for charge
                     else if (npc.ai[1] == 5f)
                     {
-                        float num62 = retAlive ? 600f : 500f;
-                        float num63 = 16f + (death ? 5f * (0.7f - lifeRatio) : 0f);
-                        float num64 = 0.4f + (death ? 0.1f * (0.7f - lifeRatio) : 0f);
+                        float chargeLineUpDist = retAlive ? 600f : 500f;
+                        float chargeSpeed = 16f + (death ? 5f * (0.7f - lifeRatio) : 0f);
+                        float chargeAccel = 0.4f + (death ? 0.1f * (0.7f - lifeRatio) : 0f);
 
                         if (retAlive)
                         {
-                            num63 *= 0.75f;
-                            num64 *= 0.75f;
+                            chargeSpeed *= 0.75f;
+                            chargeAccel *= 0.75f;
                         }
 
                         if (Main.getGoodWorld)
                         {
-                            num63 *= 1.15f;
-                            num64 *= 1.15f;
+                            chargeSpeed *= 1.15f;
+                            chargeAccel *= 1.15f;
                         }
 
-                        Vector2 vector11 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                        float num65 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector11.X;
-                        float num66 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) + num62 - vector11.Y;
-                        float num67 = (float)Math.Sqrt(num65 * num65 + num66 * num66);
+                        Vector2 spazmatismRetDeadChargePos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float chargeTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - spazmatismRetDeadChargePos.X;
+                        float chargeTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) + chargeLineUpDist - spazmatismRetDeadChargePos.Y;
+                        float chargeTargetDist = (float)Math.Sqrt(chargeTargetX * chargeTargetX + chargeTargetY * chargeTargetY);
 
-                        num67 = num63 / num67;
-                        num65 *= num67;
-                        num66 *= num67;
+                        chargeTargetDist = chargeSpeed / chargeTargetDist;
+                        chargeTargetX *= chargeTargetDist;
+                        chargeTargetY *= chargeTargetDist;
 
-                        if (npc.velocity.X < num65)
+                        if (npc.velocity.X < chargeTargetX)
                         {
-                            npc.velocity.X += num64;
-                            if (npc.velocity.X < 0f && num65 > 0f)
-                                npc.velocity.X += num64;
+                            npc.velocity.X += chargeAccel;
+                            if (npc.velocity.X < 0f && chargeTargetX > 0f)
+                                npc.velocity.X += chargeAccel;
                         }
-                        else if (npc.velocity.X > num65)
+                        else if (npc.velocity.X > chargeTargetX)
                         {
-                            npc.velocity.X -= num64;
-                            if (npc.velocity.X > 0f && num65 < 0f)
-                                npc.velocity.X -= num64;
+                            npc.velocity.X -= chargeAccel;
+                            if (npc.velocity.X > 0f && chargeTargetX < 0f)
+                                npc.velocity.X -= chargeAccel;
                         }
-                        if (npc.velocity.Y < num66)
+                        if (npc.velocity.Y < chargeTargetY)
                         {
-                            npc.velocity.Y += num64;
-                            if (npc.velocity.Y < 0f && num66 > 0f)
-                                npc.velocity.Y += num64;
+                            npc.velocity.Y += chargeAccel;
+                            if (npc.velocity.Y < 0f && chargeTargetY > 0f)
+                                npc.velocity.Y += chargeAccel;
                         }
-                        else if (npc.velocity.Y > num66)
+                        else if (npc.velocity.Y > chargeTargetY)
                         {
-                            npc.velocity.Y -= num64;
-                            if (npc.velocity.Y > 0f && num66 < 0f)
-                                npc.velocity.Y -= num64;
+                            npc.velocity.Y -= chargeAccel;
+                            if (npc.velocity.Y > 0f && chargeTargetY < 0f)
+                                npc.velocity.Y -= chargeAccel;
                         }
 
                         npc.ai[2] += 1f;

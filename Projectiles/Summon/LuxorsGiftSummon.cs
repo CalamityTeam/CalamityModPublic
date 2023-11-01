@@ -42,15 +42,15 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (dust > 0)
             {
-                int num226 = 36;
-                for (int num227 = 0; num227 < num226; num227++)
+                int dustAmt = 36;
+                for (int i = 0; i < dustAmt; i++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                    Vector2 vector7 = vector6 - Projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 107, vector7.X * 1.75f, vector7.Y * 1.75f, 100, default, 1.1f);
-                    Main.dust[num228].noGravity = true;
-                    Main.dust[num228].velocity = vector7;
+                    Vector2 rotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    rotate = rotate.RotatedBy((double)((float)(i - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
+                    Vector2 faceDirection = rotate - Projectile.Center;
+                    int dust = Dust.NewDust(rotate + faceDirection, 0, 0, 107, faceDirection.X * 1.75f, faceDirection.Y * 1.75f, 100, default, 1.1f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity = faceDirection;
                 }
                 dust--;
             }
@@ -75,8 +75,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-            bool flag64 = Projectile.type == ModContent.ProjectileType<LuxorsGiftSummon>();
-            if (flag64)
+            bool isMinion = Projectile.type == ModContent.ProjectileType<LuxorsGiftSummon>();
+            if (isMinion)
             {
                 if (!modPlayer.luxorsGift || player.dead)
                 {

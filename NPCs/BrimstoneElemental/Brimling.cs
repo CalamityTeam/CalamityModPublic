@@ -182,14 +182,14 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             Vector2 distanceFromMother = Main.npc[CalamityGlobalNPC.brimstoneElemental].Center - NPC.Center;
             if (distanceFromMother.Length() > 120f)
             {
-                Vector2 value54 = distanceFromMother;
-                if (value54.Length() > movementVelocity)
+                Vector2 farFromBrimVelocityMult = distanceFromMother;
+                if (farFromBrimVelocityMult.Length() > movementVelocity)
                 {
-                    value54.Normalize();
-                    value54 *= movementVelocity;
+                    farFromBrimVelocityMult.Normalize();
+                    farFromBrimVelocityMult *= movementVelocity;
                 }
                 int inertia = 20;
-                NPC.velocity = (NPC.velocity * (inertia - 1) + value54) / inertia;
+                NPC.velocity = (NPC.velocity * (inertia - 1) + farFromBrimVelocityMult) / inertia;
             }
             else
                 NPC.velocity *= 0.96f;
@@ -221,13 +221,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             // Teleport to Brim's new location
             if (NPC.ai[2] != 0f && NPC.ai[3] != 0f)
             {
-                for (int num1449 = 0; num1449 < 20; num1449++)
+                for (int i = 0; i < 20; i++)
                 {
-                    int num1450 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 235, 0f, 0f, 100, Color.Transparent, 1f);
-                    Dust dust = Main.dust[num1450];
+                    int deepRedDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, 235, 0f, 0f, 100, Color.Transparent, 1f);
+                    Dust dust = Main.dust[deepRedDust];
                     dust.velocity *= 3f;
-                    Main.dust[num1450].noGravity = true;
-                    Main.dust[num1450].scale = 2.5f;
+                    Main.dust[deepRedDust].noGravity = true;
+                    Main.dust[deepRedDust].scale = 2.5f;
                 }
 
                 NPC.Center = new Vector2(NPC.ai[2] * 16f, NPC.ai[3] * 16f);
@@ -238,13 +238,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
                 SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
 
-                for (int num1451 = 0; num1451 < 20; num1451++)
+                for (int j = 0; j < 20; j++)
                 {
-                    int num1452 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 235, 0f, 0f, 100, Color.Transparent, 1f);
-                    Dust dust = Main.dust[num1452];
+                    int deepRedDust2 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 235, 0f, 0f, 100, Color.Transparent, 1f);
+                    Dust dust = Main.dust[deepRedDust2];
                     dust.velocity *= 3f;
-                    Main.dust[num1452].noGravity = true;
-                    Main.dust[num1452].scale = 2.5f;
+                    Main.dust[deepRedDust2].noGravity = true;
+                    Main.dust[deepRedDust2].scale = 2.5f;
                 }
             }
 
@@ -261,30 +261,29 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             // Teleport when Brim teleports
             if (Main.npc[CalamityGlobalNPC.brimstoneElemental].alpha == 255 && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Point point12 = NPC.Center.ToTileCoordinates();
-                Point point13 = Main.npc[CalamityGlobalNPC.brimstoneElemental].Center.ToTileCoordinates();
-                int num1453 = 6;
-                int num1454 = 3;
-                int num1455 = 4;
-                int num1456 = 1;
-                int num1457 = 0;
-                while (num1457 < 100)
+                Point npcTileCoords = NPC.Center.ToTileCoordinates();
+                Point brimmyTileCoords = Main.npc[CalamityGlobalNPC.brimstoneElemental].Center.ToTileCoordinates();
+                int babTeleportRadius = 3;
+                int brimmyTeleportRadius = 4;
+                int solidTileRadius = 1;
+                int increment = 0;
+                while (increment < 100)
                 {
-                    num1457++;
-                    int num1458 = Main.rand.Next(point13.X - num1453, point13.X + num1453 + 1);
-                    int num1459 = Main.rand.Next(point13.Y - num1453, point13.Y + num1453 + 1);
-                    if ((num1459 < point13.Y - num1455 || num1459 > point13.Y + num1455 || num1458 < point13.X - num1455 || num1458 > point13.X + num1455) && (num1459 < point12.Y - num1454 || num1459 > point12.Y + num1454 || num1458 < point12.X - num1454 || num1458 > point12.X + num1454) && !Main.tile[num1458, num1459].HasUnactuatedTile)
+                    increment++;
+                    int randXOffset = Main.rand.Next(brimmyTileCoords.X - 6, brimmyTileCoords.X + 7);
+                    int randYOffset = Main.rand.Next(brimmyTileCoords.Y - 6, brimmyTileCoords.Y + 7);
+                    if ((randYOffset < brimmyTileCoords.Y - brimmyTeleportRadius || randYOffset > brimmyTileCoords.Y + brimmyTeleportRadius || randXOffset < brimmyTileCoords.X - brimmyTeleportRadius || randXOffset > brimmyTileCoords.X + brimmyTeleportRadius) && (randYOffset < npcTileCoords.Y - babTeleportRadius || randYOffset > npcTileCoords.Y + babTeleportRadius || randXOffset < npcTileCoords.X - babTeleportRadius || randXOffset > npcTileCoords.X + babTeleportRadius) && !Main.tile[randXOffset, randYOffset].HasUnactuatedTile)
                     {
-                        bool flag107 = true;
-                        if (flag107 && Main.tile[num1458, num1459].LiquidType == LiquidID.Lava)
-                            flag107 = false;
-                        if (flag107 && Collision.SolidTiles(num1458 - num1456, num1458 + num1456, num1459 - num1456, num1459 + num1456))
-                            flag107 = false;
+                        bool canTeleport = true;
+                        if (canTeleport && Main.tile[randXOffset, randYOffset].LiquidType == LiquidID.Lava)
+                            canTeleport = false;
+                        if (canTeleport && Collision.SolidTiles(randXOffset - solidTileRadius, randXOffset + solidTileRadius, randYOffset - solidTileRadius, randYOffset + solidTileRadius))
+                            canTeleport = false;
 
-                        if (flag107)
+                        if (canTeleport)
                         {
-                            NPC.ai[2] = num1458;
-                            NPC.ai[3] = num1459;
+                            NPC.ai[2] = randXOffset;
+                            NPC.ai[3] = randYOffset;
                             break;
                         }
                     }

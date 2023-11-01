@@ -1,15 +1,18 @@
-﻿using CalamityMod.Events;
+﻿using System;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
+    // This is the most horrible abomination of code I have ever seen in my life, by a fucking landslide.
+    // This took hours of my time to attempt to clean up, and quite frankly I'd be surprised if even half of it is accurate.
+    // I do not want to look at this crime against humanity for a very long time. -CIT
     public static class MoonLordAI
     {
         public static readonly SoundStyle DeathrayChargeSound = new("CalamityMod/Sounds/Custom/MoonLordLaserCharge");
@@ -122,37 +125,37 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             npc.netUpdate = true;
                             int[] array5 = new int[3];
-                            int num1155 = 0;
-                            int num;
+                            int handsSpawned = 0;
+                            int totalSpawns;
 
-                            for (int num1156 = 0; num1156 < 2; num1156 = num + 1)
+                            for (int i = 0; i < 2; i = totalSpawns + 1)
                             {
-                                int num1157 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X + num1156 * 800 - 400, (int)npc.Center.Y - 100, NPCID.MoonLordHand, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                                Main.npc[num1157].ai[2] = num1156;
-                                Main.npc[num1157].netUpdate = true;
+                                int handSpawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X + i * 800 - 400, (int)npc.Center.Y - 100, NPCID.MoonLordHand, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                                Main.npc[handSpawn].ai[2] = i;
+                                Main.npc[handSpawn].netUpdate = true;
                                 int[] arg_381A6_0 = array5;
-                                num = num1155;
-                                num1155 = num + 1;
-                                arg_381A6_0[num] = num1157;
-                                num = num1156;
+                                totalSpawns = handsSpawned;
+                                handsSpawned = totalSpawns + 1;
+                                arg_381A6_0[totalSpawns] = handSpawn;
+                                totalSpawns = i;
                             }
 
-                            int num1158 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y - 400, NPCID.MoonLordHead, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                            Main.npc[num1158].netUpdate = true;
+                            int headSpawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y - 400, NPCID.MoonLordHead, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                            Main.npc[headSpawn].netUpdate = true;
                             int[] arg_3823F_0 = array5;
-                            num = num1155;
-                            num1155 = num + 1;
-                            arg_3823F_0[num] = num1158;
+                            totalSpawns = handsSpawned;
+                            handsSpawned = totalSpawns + 1;
+                            arg_3823F_0[totalSpawns] = headSpawn;
 
-                            for (int num1159 = 0; num1159 < 3; num1159 = num + 1)
+                            for (int j = 0; j < 3; j = totalSpawns + 1)
                             {
-                                Main.npc[array5[num1159]].ai[3] = npc.whoAmI;
-                                num = num1159;
+                                Main.npc[array5[j]].ai[3] = npc.whoAmI;
+                                totalSpawns = j;
                             }
-                            for (int num1160 = 0; num1160 < 3; num1160 = num + 1)
+                            for (int k = 0; k < 3; k = totalSpawns + 1)
                             {
-                                npc.localAI[num1160] = array5[num1160];
-                                num = num1160;
+                                npc.localAI[k] = array5[k];
+                                totalSpawns = k;
                             }
                         }
                     }
@@ -170,9 +173,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int num = NPC.NewNPC(npc.GetSource_FromAI(), (int)Main.npc[(int)npc.localAI[2]].Center.X, (int)Main.npc[(int)npc.localAI[2]].Center.Y, NPCID.MoonLordFreeEye);
-                        Main.npc[num].ai[3] = npc.whoAmI;
-                        Main.npc[num].netUpdate = true;
+                        int totalSpawns = NPC.NewNPC(npc.GetSource_FromAI(), (int)Main.npc[(int)npc.localAI[2]].Center.X, (int)Main.npc[(int)npc.localAI[2]].Center.Y, NPCID.MoonLordFreeEye);
+                        Main.npc[totalSpawns].ai[3] = npc.whoAmI;
+                        Main.npc[totalSpawns].netUpdate = true;
                     }
                 }
 
@@ -182,8 +185,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.dontTakeDamage = true;
                     npc.TargetClosest(false);
 
-                    Vector2 value4 = Main.player[npc.target].Center - npc.Center + new Vector2(0f, 130f);
-                    if (value4.Length() > 20f)
+                    Vector2 targetDistance = Main.player[npc.target].Center - npc.Center + new Vector2(0f, 130f);
+                    if (targetDistance.Length() > 20f)
                     {
                         float velocity = death ? 9.5f : 9.25f;
                         switch (aggressionLevel)
@@ -211,7 +214,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
                             velocity -= 2f;
 
-                        Vector2 desiredVelocity = Vector2.Normalize(value4 - npc.velocity) * velocity;
+                        Vector2 desiredVelocity = Vector2.Normalize(targetDistance - npc.velocity) * velocity;
                         Vector2 velocity2 = npc.velocity;
                         npc.SimpleFlyMovement(desiredVelocity, 0.5f);
                         npc.velocity = Vector2.Lerp(npc.velocity, velocity2, 0.5f);
@@ -220,17 +223,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         // Despawn if other parts aren't there
-                        bool flag84 = false;
+                        bool shouldDespawn = false;
                         if (npc.localAI[0] < 0f || npc.localAI[1] < 0f || npc.localAI[2] < 0f)
-                            flag84 = true;
+                            shouldDespawn = true;
                         else if (!Main.npc[(int)npc.localAI[0]].active || Main.npc[(int)npc.localAI[0]].type != NPCID.MoonLordHand)
-                            flag84 = true;
+                            shouldDespawn = true;
                         else if (!Main.npc[(int)npc.localAI[1]].active || Main.npc[(int)npc.localAI[1]].type != NPCID.MoonLordHand)
-                            flag84 = true;
+                            shouldDespawn = true;
                         else if (!Main.npc[(int)npc.localAI[2]].active || Main.npc[(int)npc.localAI[2]].type != NPCID.MoonLordHead)
-                            flag84 = true;
+                            shouldDespawn = true;
 
-                        if (flag84)
+                        if (shouldDespawn)
                         {
                             npc.life = 0;
                             npc.HitEffect(0, 10.0);
@@ -238,15 +241,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         }
 
                         // Take damage if other parts are down
-                        bool flag85 = true;
+                        bool coreIsOpen = true;
                         if (Main.npc[(int)npc.localAI[0]].Calamity().newAI[0] != 1f)
-                            flag85 = false;
+                            coreIsOpen = false;
                         if (Main.npc[(int)npc.localAI[1]].Calamity().newAI[0] != 1f)
-                            flag85 = false;
+                            coreIsOpen = false;
                         if (Main.npc[(int)npc.localAI[2]].Calamity().newAI[0] != 1f)
-                            flag85 = false;
+                            coreIsOpen = false;
 
-                        if (flag85)
+                        if (coreIsOpen)
                         {
                             npc.ai[0] = 1f;
                             npc.dontTakeDamage = false;
@@ -261,8 +264,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.dontTakeDamage = false;
                     npc.TargetClosest(false);
 
-                    Vector2 value5 = Main.player[npc.target].Center - npc.Center + new Vector2(0f, 130f);
-                    if (value5.Length() > 20f)
+                    Vector2 targetDistanceVulnerable = Main.player[npc.target].Center - npc.Center + new Vector2(0f, 130f);
+                    if (targetDistanceVulnerable.Length() > 20f)
                     {
                         float velocity = death ? 9.5f : 9.25f;
                         switch (aggressionLevel)
@@ -290,10 +293,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
                             velocity -= 2f;
 
-                        Vector2 desiredVelocity2 = Vector2.Normalize(value5 - npc.velocity) * velocity;
-                        Vector2 velocity3 = npc.velocity;
+                        Vector2 desiredVelocity2 = Vector2.Normalize(targetDistanceVulnerable - npc.velocity) * velocity;
+                        Vector2 currentVelocity = npc.velocity;
                         npc.SimpleFlyMovement(desiredVelocity2, 0.5f);
-                        npc.velocity = Vector2.Lerp(npc.velocity, velocity3, 0.5f);
+                        npc.velocity = Vector2.Lerp(npc.velocity, currentVelocity, 0.5f);
                     }
                 }
 
@@ -302,8 +305,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     npc.dontTakeDamage = true;
                     npc.Calamity().ShouldCloseHPBar = true;
-                    Vector2 value6 = new Vector2(npc.direction, -0.5f);
-                    npc.velocity = Vector2.Lerp(npc.velocity, value6, 0.98f);
+                    Vector2 dyingVelocity = new Vector2(npc.direction, -0.5f);
+                    npc.velocity = Vector2.Lerp(npc.velocity, dyingVelocity, 0.98f);
 
                     npc.ai[1] += 1f;
                     float ai1 = npc.ai[1];
@@ -334,98 +337,97 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (npc.ai[1] % 3f == 0f && npc.ai[1] < 580f && npc.ai[1] > 60f)
                     {
-                        Vector2 vector158 = Utils.RandomVector2(Main.rand, -1f, 1f);
-                        if (vector158 != Vector2.Zero)
-                            vector158.Normalize();
+                        Vector2 randPositionOffset = Utils.RandomVector2(Main.rand, -1f, 1f);
+                        if (randPositionOffset != Vector2.Zero)
+                            randPositionOffset.Normalize();
 
-                        vector158 *= 20f + Main.rand.NextFloat() * 400f;
-                        Vector2 vector159 = npc.Center + vector158;
-                        Point point5 = vector159.ToTileCoordinates();
+                        randPositionOffset *= 20f + Main.rand.NextFloat() * 400f;
+                        Vector2 npcPosition = npc.Center + randPositionOffset;
+                        Point npcPositionTileCoords = npcPosition.ToTileCoordinates();
 
-                        bool flag86 = true;
-                        if (!WorldGen.InWorld(point5.X, point5.Y, 0))
-                            flag86 = false;
-                        if (flag86 && WorldGen.SolidTile(point5.X, point5.Y))
-                            flag86 = false;
+                        bool inOpenSpace = true;
+                        if (!WorldGen.InWorld(npcPositionTileCoords.X, npcPositionTileCoords.Y, 0))
+                            inOpenSpace = false;
+                        if (inOpenSpace && WorldGen.SolidTile(npcPositionTileCoords.X, npcPositionTileCoords.Y))
+                            inOpenSpace = false;
 
-                        float num1163 = Main.rand.Next(6, 19);
-                        float num1164 = MathHelper.TwoPi / num1163;
-                        float num1165 = MathHelper.TwoPi * Main.rand.NextFloat();
-                        float scaleFactor8 = 1f + Main.rand.NextFloat() * 2f;
-                        float num1166 = 1f + Main.rand.NextFloat();
+                        float randDustAmt = Main.rand.Next(6, 19);
+                        float twoPiOverRand = MathHelper.TwoPi * Main.rand.NextFloat();
+                        float dustVelocityMult = 1f + Main.rand.NextFloat() * 2f;
+                        float dustScale = 1f + Main.rand.NextFloat();
                         float fadeIn = 0.4f + Main.rand.NextFloat();
-                        int num1167 = Utils.SelectRandom(Main.rand, new int[]
+                        int dustType = Utils.SelectRandom(Main.rand, new int[]
                         {
                             31,
                             229
                         });
 
-                        if (flag86)
+                        if (inOpenSpace)
                         {
-                            //MoonlordDeathDrama.AddExplosion(vector159);
-                            for (float num1168 = 0f; num1168 < num1163 * 2f; num1168 = ai1 + 1f)
+                            //MoonlordDeathDrama.AddExplosion(npcPosition);
+                            for (float j = 0f; j < randDustAmt * 2f; j = ai1 + 1f)
                             {
-                                Dust dust2 = Main.dust[Dust.NewDust(vector159, 0, 0, 229, 0f, 0f, 0, default, 1f)];
-                                dust2.noGravity = true;
-                                dust2.position = vector159;
-                                dust2.velocity = Vector2.UnitY.RotatedBy(num1165 + num1164 * num1168) * scaleFactor8 * (Main.rand.NextFloat() * 1.6f + 1.6f);
-                                dust2.fadeIn = fadeIn;
-                                dust2.scale = num1166;
-                                ai1 = num1168;
+                                Dust vortex = Main.dust[Dust.NewDust(npcPosition, 0, 0, 229, 0f, 0f, 0, default, 1f)];
+                                vortex.noGravity = true;
+                                vortex.position = npcPosition;
+                                vortex.velocity = Vector2.UnitY.RotatedBy(twoPiOverRand + (MathHelper.TwoPi / randDustAmt) * j) * dustVelocityMult * (Main.rand.NextFloat() * 1.6f + 1.6f);
+                                vortex.fadeIn = fadeIn;
+                                vortex.scale = dustScale;
+                                ai1 = j;
                             }
                         }
 
-                        for (float num1169 = 0f; num1169 < npc.ai[1] / 60f; num1169 = ai1 + 1f)
+                        for (float k = 0f; k < npc.ai[1] / 60f; k = ai1 + 1f)
                         {
-                            Vector2 vector160 = Utils.RandomVector2(Main.rand, -1f, 1f);
-                            if (vector160 != Vector2.Zero)
-                                vector160.Normalize();
+                            Vector2 randPosOffset = Utils.RandomVector2(Main.rand, -1f, 1f);
+                            if (randPosOffset != Vector2.Zero)
+                                randPosOffset.Normalize();
 
-                            vector160 *= 20f + Main.rand.NextFloat() * 800f;
-                            Vector2 vector161 = npc.Center + vector160;
-                            Point point6 = vector161.ToTileCoordinates();
+                            randPosOffset *= 20f + Main.rand.NextFloat() * 800f;
+                            Vector2 npcPositioning = npc.Center + randPosOffset;
+                            Point npcPositioningTileCoords = npcPositioning.ToTileCoordinates();
 
-                            bool flag87 = true;
-                            if (!WorldGen.InWorld(point6.X, point6.Y, 0))
-                                flag87 = false;
-                            if (flag87 && WorldGen.SolidTile(point6.X, point6.Y))
-                                flag87 = false;
+                            bool isInOpenness = true;
+                            if (!WorldGen.InWorld(npcPositioningTileCoords.X, npcPositioningTileCoords.Y, 0))
+                                isInOpenness = false;
+                            if (isInOpenness && WorldGen.SolidTile(npcPositioningTileCoords.X, npcPositioningTileCoords.Y))
+                                isInOpenness = false;
 
-                            if (flag87)
+                            if (isInOpenness)
                             {
-                                Dust dust3 = Main.dust[Dust.NewDust(vector161, 0, 0, num1167, 0f, 0f, 0, default, 1f)];
-                                dust3.noGravity = true;
-                                dust3.position = vector161;
-                                dust3.velocity = -Vector2.UnitY * scaleFactor8 * (Main.rand.NextFloat() * 0.9f + 1.6f);
-                                dust3.fadeIn = fadeIn;
-                                dust3.scale = num1166;
+                                Dust openDust = Main.dust[Dust.NewDust(npcPositioning, 0, 0, dustType, 0f, 0f, 0, default, 1f)];
+                                openDust.noGravity = true;
+                                openDust.position = npcPositioning;
+                                openDust.velocity = -Vector2.UnitY * dustVelocityMult * (Main.rand.NextFloat() * 0.9f + 1.6f);
+                                openDust.fadeIn = fadeIn;
+                                openDust.scale = dustScale;
                             }
 
-                            ai1 = num1169;
+                            ai1 = k;
                         }
                     }
 
                     if (npc.ai[1] % 15f == 0f && npc.ai[1] < 480f && npc.ai[1] >= 90f && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 vector162 = Utils.RandomVector2(Main.rand, -1f, 1f);
-                        if (vector162 != Vector2.Zero)
-                            vector162.Normalize();
+                        Vector2 randomOffset = Utils.RandomVector2(Main.rand, -1f, 1f);
+                        if (randomOffset != Vector2.Zero)
+                            randomOffset.Normalize();
 
-                        vector162 *= 20f + Main.rand.NextFloat() * 400f;
-                        bool flag88 = true;
-                        Vector2 vector163 = npc.Center + vector162;
-                        Point point7 = vector163.ToTileCoordinates();
+                        randomOffset *= 20f + Main.rand.NextFloat() * 400f;
+                        bool stillInTheOpen = true;
+                        Vector2 npcOffsetPos = npc.Center + randomOffset;
+                        Point npcOffsetPosTileCoords = npcOffsetPos.ToTileCoordinates();
 
-                        if (!WorldGen.InWorld(point7.X, point7.Y, 0))
-                            flag88 = false;
-                        if (flag88 && WorldGen.SolidTile(point7.X, point7.Y))
-                            flag88 = false;
+                        if (!WorldGen.InWorld(npcOffsetPosTileCoords.X, npcOffsetPosTileCoords.Y, 0))
+                            stillInTheOpen = false;
+                        if (stillInTheOpen && WorldGen.SolidTile(npcOffsetPosTileCoords.X, npcOffsetPosTileCoords.Y))
+                            stillInTheOpen = false;
 
-                        if (flag88)
+                        if (stillInTheOpen)
                         {
-                            float num1170 = (Main.rand.Next(4) < 2).ToDirectionInt() * (0.3926991f + MathHelper.PiOver4 * Main.rand.NextFloat());
-                            Vector2 vector164 = new Vector2(0f, -Main.rand.NextFloat() * 0.5f - 0.5f).RotatedBy(num1170) * 6f;
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector163.X, vector163.Y, vector164.X, vector164.Y, ProjectileID.BlowupSmokeMoonlord, 0, 0f, Main.myPlayer, 0f, 0f);
+                            float smokeRotation = (Main.rand.Next(4) < 2).ToDirectionInt() * (0.3926991f + MathHelper.PiOver4 * Main.rand.NextFloat());
+                            Vector2 smokePosition = new Vector2(0f, -Main.rand.NextFloat() * 0.5f - 0.5f).RotatedBy(smokeRotation) * 6f;
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npcOffsetPos.X, npcOffsetPos.Y, smokePosition.X, smokePosition.Y, ProjectileID.BlowupSmokeMoonlord, 0, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
 
@@ -441,9 +443,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.HitEffect(0, 1337.0);
                         npc.checkDead();
 
-                        for (int num1174 = 0; num1174 < Main.maxNPCs; num1174++)
+                        for (int i = 0; i < Main.maxNPCs; i++)
                         {
-                            NPC nPC5 = Main.npc[num1174];
+                            NPC nPC5 = Main.npc[i];
                             if (nPC5.active && (nPC5.type == NPCID.MoonLordHand || nPC5.type == NPCID.MoonLordHead))
                             {
                                 nPC5.active = false;
@@ -464,8 +466,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 else if (npc.ai[0] == 3f)
                 {
                     npc.dontTakeDamage = true;
-                    Vector2 value7 = new Vector2(npc.direction, -0.5f);
-                    npc.velocity = Vector2.Lerp(npc.velocity, value7, 0.98f);
+                    Vector2 despawnVelocityLerp = new Vector2(npc.direction, -0.5f);
+                    npc.velocity = Vector2.Lerp(npc.velocity, despawnVelocityLerp, 0.98f);
 
                     npc.ai[1] += 1f;
                     if (npc.ai[1] < 60f)
@@ -473,22 +475,22 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (npc.ai[1] == 40f)
                     {
-                        for (int num1171 = 0; num1171 < Main.maxProjectiles; num1171++)
+                        for (int j = 0; j < Main.maxProjectiles; j++)
                         {
-                            Projectile projectile2 = Main.projectile[num1171];
+                            Projectile projectile2 = Main.projectile[j];
                             if (projectile2.active && (projectile2.type == ProjectileID.MoonLeech || projectile2.type == ProjectileID.PhantasmalBolt ||
                                 projectile2.type == ProjectileID.PhantasmalDeathray || projectile2.type == ProjectileID.PhantasmalEye ||
                                 projectile2.type == ProjectileID.PhantasmalSphere))
                             {
                                 projectile2.active = false;
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, num1171, 0f, 0f, 0f, 0, 0, 0);
+                                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, j, 0f, 0f, 0f, 0, 0, 0);
                             }
                         }
 
-                        for (int num1172 = 0; num1172 < Main.maxNPCs; num1172++)
+                        for (int k = 0; k < Main.maxNPCs; k++)
                         {
-                            NPC nPC4 = Main.npc[num1172];
+                            NPC nPC4 = Main.npc[k];
                             if (nPC4.active && nPC4.type == NPCID.MoonLordFreeEye)
                             {
                                 nPC4.active = false;
@@ -497,9 +499,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
                         }
 
-                        for (int num1173 = 0; num1173 < Main.maxGore; num1173++)
+                        for (int l = 0; l < Main.maxGore; l++)
                         {
-                            Gore gore2 = Main.gore[num1173];
+                            Gore gore2 = Main.gore[l];
                             if (gore2.active && gore2.type >= GoreID.MoonLordHeart1 && gore2.type <= GoreID.MoonLordHeart4)
                                 gore2.active = false;
                         }
@@ -507,9 +509,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (npc.ai[1] >= 60f)
                     {
-                        for (int num1174 = 0; num1174 < Main.maxNPCs; num1174++)
+                        for (int i = 0; i < Main.maxNPCs; i++)
                         {
-                            NPC nPC5 = Main.npc[num1174];
+                            NPC nPC5 = Main.npc[i];
                             if (nPC5.active && (nPC5.type == NPCID.MoonLordFreeEye || nPC5.type == NPCID.MoonLordHand || nPC5.type == NPCID.MoonLordHead))
                             {
                                 nPC5.active = false;
@@ -531,24 +533,24 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
 
                 // Despawn
-                bool flag89 = false;
+                bool preventDespawn = false;
                 if (npc.ai[0] == -2f || npc.ai[0] == -1f || npc.ai[0] == -2f || npc.ai[0] == 3f)
-                    flag89 = true;
+                    preventDespawn = true;
                 if (Main.player[npc.target].active && !Main.player[npc.target].dead)
-                    flag89 = true;
+                    preventDespawn = true;
 
-                if (!flag89)
+                if (!preventDespawn)
                 {
-                    for (int num1175 = 0; num1175 < Main.maxPlayers; num1175++)
+                    for (int p = 0; p < Main.maxPlayers; p++)
                     {
-                        if (Main.player[num1175].active && !Main.player[num1175].dead)
+                        if (Main.player[p].active && !Main.player[p].dead)
                         {
-                            flag89 = true;
+                            preventDespawn = true;
                             break;
                         }
                     }
                 }
-                if (!flag89)
+                if (!preventDespawn)
                 {
                     npc.ai[0] = 3f;
                     npc.ai[1] = 0f;
@@ -582,9 +584,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Main.npc[(int)npc.localAI[2]].netUpdate = true;
                     }
 
-                    for (int num1176 = 0; num1176 < Main.maxNPCs; num1176++)
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
-                        NPC nPC7 = Main.npc[num1176];
+                        NPC nPC7 = Main.npc[i];
                         if (nPC7.active && nPC7.type == NPCID.MoonLordFreeEye)
                         {
                             NPC nPC6 = nPC7;
@@ -611,11 +613,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 npc.velocity = Vector2.Zero;
                 npc.Center = Main.npc[(int)npc.ai[3]].Center + new Vector2(0f, -400f);
-                Vector2 value19 = new Vector2(27f, 59f);
-                float num1207 = 0f;
-                float num1208 = 0f;
-                int num1209 = 0;
-                int num1210 = 0;
+                Vector2 boltAndDeathrayVector = new Vector2(27f, 59f);
+                float attackTimer = 0f;
+                float attackTimerComparison = 0f;
+                int headVulnerability = 0;
+                int deathrayCheck = 0;
 
                 // Invulnerable
                 if (npc.ai[0] >= 0f || npc.ai[0] == -2f)
@@ -638,36 +640,35 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Set up attacks
-                    float num1211 = npc.ai[0];
+                    float ai0CrossCheck = npc.ai[0];
                     npc.ai[1] += 1f;
-                    int num1212 = (int)Main.npc[(int)npc.ai[3]].ai[2];
-                    int num1213 = 2;
-                    int num1214 = 0;
-                    int num1215 = 0;
+                    int attackType = (int)Main.npc[(int)npc.ai[3]].ai[2];
+                    int fiveFrameCounter = 0;
+                    int attackTimerIncrement = 0;
 
-                    while (num1214 < 5)
+                    while (fiveFrameCounter < 5)
                     {
-                        num1208 = NPC.MoonLordAttacksArray[num1212, num1213, 1, num1214];
-                        if (num1208 + num1215 > npc.ai[1])
+                        attackTimerComparison = NPC.MoonLordAttacksArray[attackType, 2, 1, fiveFrameCounter];
+                        if (attackTimerComparison + attackTimerIncrement > npc.ai[1])
                             break;
 
-                        num1215 += (int)num1208;
-                        int num = num1214;
-                        num1214 = num + 1;
+                        attackTimerIncrement += (int)attackTimerComparison;
+                        int totalSpawns = fiveFrameCounter;
+                        fiveFrameCounter = totalSpawns + 1;
                     }
 
-                    if (num1214 == 5)
+                    if (fiveFrameCounter == 5)
                     {
-                        num1214 = 0;
+                        fiveFrameCounter = 0;
                         npc.ai[1] = 0f;
-                        num1208 = NPC.MoonLordAttacksArray[num1212, num1213, 1, num1214];
-                        num1215 = 0;
+                        attackTimerComparison = NPC.MoonLordAttacksArray[attackType, 2, 1, fiveFrameCounter];
+                        attackTimerIncrement = 0;
                     }
 
-                    npc.ai[0] = NPC.MoonLordAttacksArray[num1212, num1213, 0, num1214];
-                    num1207 = (int)npc.ai[1] - num1215;
+                    npc.ai[0] = NPC.MoonLordAttacksArray[attackType, 2, 0, fiveFrameCounter];
+                    attackTimer = (int)npc.ai[1] - attackTimerIncrement;
 
-                    if (npc.ai[0] != num1211)
+                    if (npc.ai[0] != ai0CrossCheck)
                         npc.netUpdate = true;
                 }
 
@@ -690,65 +691,61 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Set variables for deathray
                 else if (npc.ai[0] == 0f)
                 {
-                    num1210 = 3;
+                    deathrayCheck = 3;
                     npc.TargetClosest(false);
 
                     Vector2 v3 = Main.player[npc.target].Center - npc.Center - new Vector2(0f, -22f);
-                    float num1219 = v3.Length() / 500f;
-                    if (num1219 > 1f)
-                        num1219 = 1f;
+                    float deathrayTravelDist = v3.Length() / 500f;
+                    if (deathrayTravelDist > 1f)
+                        deathrayTravelDist = 1f;
 
-                    num1219 = 1f - num1219;
-                    num1219 *= 2f;
-                    if (num1219 > 1f)
-                        num1219 = 1f;
+                    deathrayTravelDist = 1f - deathrayTravelDist;
+                    deathrayTravelDist *= 2f;
+                    if (deathrayTravelDist > 1f)
+                        deathrayTravelDist = 1f;
 
                     npc.localAI[0] = v3.ToRotation();
-                    npc.localAI[1] = num1219;
+                    npc.localAI[1] = deathrayTravelDist;
                     npc.localAI[2] = MathHelper.Lerp(npc.localAI[2], 1f, 0.2f);
                 }
 
                 // Deathray
                 if (npc.ai[0] == 1f)
                 {
-                    if (num1207 < 180f)
+                    if (attackTimer < 180f)
                     {
                         npc.localAI[1] -= 0.05f;
                         if (npc.localAI[1] < 0f)
                             npc.localAI[1] = 0f;
 
-                        if (num1207 >= 60f)
+                        if (attackTimer >= 60f)
                         {
                             Vector2 center20 = npc.Center;
 
                             // Hopefully it plays
-                            if (num1207 == 60f)
+                            if (attackTimer == 60f)
                                 SoundEngine.PlaySound(DeathrayChargeSound, center20);
 
-                            int num1220 = 0;
-                            if (num1207 >= 120f)
-                                num1220 = 1;
+                            int deathrayAttackDustAmt = 0;
+                            if (attackTimer >= 120f)
+                                deathrayAttackDustAmt = 1;
 
-                            for (int num1221 = 0; num1221 < 1 + num1220; num1221++)
+                            for (int i = 0; i < 1 + deathrayAttackDustAmt; i++)
                             {
-                                int num1222 = 229;
-                                float num1223 = 0.8f;
-                                if (num1221 % 2 == 1)
-                                {
-                                    num1222 = 229;
-                                    num1223 = 1.65f;
-                                }
+                                float deathrayAttackDustScale = 0.8f;
+                                if (i % 2 == 1)
+                                    deathrayAttackDustScale = 1.65f;
 
-                                Vector2 vector199 = center20 + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * value19 / 2f;
-                                int num1224 = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, num1222, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
-                                Main.dust[num1224].velocity = Vector2.Normalize(center20 - vector199) * 3.5f * (10f - num1220 * 2f) / 10f;
-                                Main.dust[num1224].noGravity = true;
-                                Main.dust[num1224].scale = num1223;
-                                Main.dust[num1224].customData = npc;
+                                Vector2 deathrayAttackDustRotation = center20 + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * boltAndDeathrayVector / 2f;
+                                int deathrayAttackDust = Dust.NewDust(deathrayAttackDustRotation - Vector2.One * 8f, 16, 16, 229, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
+                                Main.dust[deathrayAttackDust].velocity = Vector2.Normalize(center20 - deathrayAttackDustRotation) * 3.5f * (10f - deathrayAttackDustAmt * 2f) / 10f;
+                                Main.dust[deathrayAttackDust].noGravity = true;
+                                Main.dust[deathrayAttackDust].scale = deathrayAttackDustScale;
+                                Main.dust[deathrayAttackDust].customData = npc;
                             }
                         }
                     }
-                    else if (num1207 < num1208 - 15f)
+                    else if (attackTimer < attackTimerComparison - 15f)
                     {
                         if (calamityGlobalNPC.newAI[1] == 0f)
                         {
@@ -780,22 +777,22 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
                         }
 
-                        if (num1207 == 180f && Main.netMode != NetmodeID.MultiplayerClient)
+                        if (attackTimer == 180f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int projectileType = ProjectileID.PhantasmalDeathray;
                             int damage = npc.GetProjectileDamage(projectileType);
 
                             npc.TargetClosest(false);
-                            Vector2 vector200 = Main.player[npc.target].Center - npc.Center;
-                            vector200.Normalize();
+                            Vector2 deathrayRotationSpeed = Main.player[npc.target].Center - npc.Center;
+                            deathrayRotationSpeed.Normalize();
 
-                            float num1225 = -1f;
-                            if (vector200.X < 0f)
-                                num1225 = 1f;
+                            float deathrayRotationDirection = -1f;
+                            if (deathrayRotationSpeed.X < 0f)
+                                deathrayRotationDirection = 1f;
 
-                            vector200 = vector200.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, vector200.X, vector200.Y, projectileType, damage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / calamityGlobalNPC.newAI[1], npc.whoAmI);
-                            npc.ai[2] = (vector200.ToRotation() + MathHelper.Pi + MathHelper.TwoPi) * num1225;
+                            deathrayRotationSpeed = deathrayRotationSpeed.RotatedBy(-(double)deathrayRotationDirection * MathHelper.TwoPi / 6f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, deathrayRotationSpeed.X, deathrayRotationSpeed.Y, projectileType, damage, 0f, Main.myPlayer, deathrayRotationDirection * MathHelper.TwoPi / calamityGlobalNPC.newAI[1], npc.whoAmI);
+                            npc.ai[2] = (deathrayRotationSpeed.ToRotation() + MathHelper.Pi + MathHelper.TwoPi) * deathrayRotationDirection;
                             npc.netUpdate = true;
                         }
 
@@ -803,15 +800,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.localAI[1] > 1f)
                             npc.localAI[1] = 1f;
 
-                        float num1226 = (npc.ai[2] >= 0f).ToDirectionInt();
-                        float num1227 = npc.ai[2];
-                        if (num1227 < 0f)
-                            num1227 *= -1f;
+                        float deathrayFaceDirection = (npc.ai[2] >= 0f).ToDirectionInt();
+                        float deathrayTimer = npc.ai[2];
+                        if (deathrayTimer < 0f)
+                            deathrayTimer *= -1f;
 
-                        num1227 += -(MathHelper.Pi + MathHelper.TwoPi);
-                        num1227 += num1226 * MathHelper.TwoPi / calamityGlobalNPC.newAI[1];
-                        npc.localAI[0] = num1227;
-                        npc.ai[2] = (num1227 + MathHelper.Pi + MathHelper.TwoPi) * num1226;
+                        deathrayTimer += -(MathHelper.Pi + MathHelper.TwoPi);
+                        deathrayTimer += deathrayFaceDirection * MathHelper.TwoPi / calamityGlobalNPC.newAI[1];
+                        npc.localAI[0] = deathrayTimer;
+                        npc.ai[2] = (deathrayTimer + MathHelper.Pi + MathHelper.TwoPi) * deathrayFaceDirection;
                     }
                     else
                     {
@@ -823,7 +820,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.localAI[1] = 0f;
                             if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld && Main.remixWorld)
                             {
-                                for (int num1268 = 0; num1268 < 30; num1268++)
+                                for (int k = 0; k < 30; k++)
                                 {
                                     if (!WorldGen.SolidTile((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f)))
                                         Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-1599, 1600) * 0.01f, (float)Main.rand.Next(-1599, 1) * 0.01f, ProjectileID.MoonBoulder, 70, 10f);
@@ -831,46 +828,46 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
                         }
 
-                        num1210 = 3;
+                        deathrayCheck = 3;
                     }
                 }
 
                 // Moon Leech thing
                 else if (npc.ai[0] == 2f)
                 {
-                    num1209 = 2;
-                    num1210 = 3;
-                    Vector2 value21 = new Vector2(0f, 216f);
+                    headVulnerability = 2;
+                    deathrayCheck = 3;
+                    Vector2 leechCenterOffset = new Vector2(0f, 216f);
 
-                    if (num1207 == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+                    if (attackTimer == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 vector201 = npc.Center + value21;
-                        for (int num1228 = 0; num1228 < Main.maxPlayers; num1228++)
+                        Vector2 leechNPCCenter = npc.Center + leechCenterOffset;
+                        for (int i = 0; i < Main.maxPlayers; i++)
                         {
-                            Player player6 = Main.player[num1228];
-                            if (player6.active && !player6.dead && Vector2.Distance(player6.Center, vector201) <= 3000f)
+                            Player player6 = Main.player[i];
+                            if (player6.active && !player6.dead && Vector2.Distance(player6.Center, leechNPCCenter) <= 3000f)
                             {
-                                Vector2 vector202 = Main.player[npc.target].Center - vector201;
-                                if (vector202 != Vector2.Zero)
-                                    vector202.Normalize();
+                                Vector2 targetLeechDist = Main.player[npc.target].Center - leechNPCCenter;
+                                if (targetLeechDist != Vector2.Zero)
+                                    targetLeechDist.Normalize();
 
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), vector201.X, vector201.Y, vector202.X, vector202.Y, ProjectileID.MoonLeech, 0, 0f, Main.myPlayer, npc.whoAmI + 1, num1228);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), leechNPCCenter.X, leechNPCCenter.Y, targetLeechDist.X, targetLeechDist.Y, ProjectileID.MoonLeech, 0, 0f, Main.myPlayer, npc.whoAmI + 1, i);
                             }
                         }
                     }
 
-                    if ((num1207 == 120f || num1207 == 150f || num1207 == 180f || num1207 == 210f || num1207 == 240f) && Main.netMode != NetmodeID.MultiplayerClient)
+                    if ((attackTimer == 120f || attackTimer == 150f || attackTimer == 180f || attackTimer == 210f || attackTimer == 240f) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        for (int num1229 = 0; num1229 < Main.maxProjectiles; num1229++)
+                        for (int j = 0; j < Main.maxProjectiles; j++)
                         {
-                            Projectile projectile6 = Main.projectile[num1229];
+                            Projectile projectile6 = Main.projectile[j];
                             if (projectile6.active && projectile6.type == ProjectileID.MoonLeech && Main.player[(int)projectile6.ai[1]].FindBuffIndex(BuffID.MoonLeech) != -1)
                             {
-                                Vector2 center21 = Main.player[npc.target].Center;
-                                int num1230 = NPC.NewNPC(npc.GetSource_FromAI(), (int)center21.X, (int)center21.Y, NPCID.MoonLordLeechBlob);
-                                Main.npc[num1230].netUpdate = true;
-                                Main.npc[num1230].ai[0] = npc.whoAmI + 1;
-                                Main.npc[num1230].ai[1] = num1229;
+                                Vector2 targetCenter = Main.player[npc.target].Center;
+                                int moonLeech = NPC.NewNPC(npc.GetSource_FromAI(), (int)targetCenter.X, (int)targetCenter.Y, NPCID.MoonLordLeechBlob);
+                                Main.npc[moonLeech].netUpdate = true;
+                                Main.npc[moonLeech].ai[0] = npc.whoAmI + 1;
+                                Main.npc[moonLeech].ai[1] = j;
                             }
                         }
                     }
@@ -879,16 +876,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Phantasmal Bolts
                 else if (npc.ai[0] == 3f)
                 {
-                    if (num1207 == 0f)
+                    if (attackTimer == 0f)
                     {
                         npc.TargetClosest(false);
                         npc.netUpdate = true;
                     }
 
                     Vector2 v4 = Main.player[npc.target].Center - npc.Center;
-                    bool shootFirstBolt = num1207 == num1208 - 14f;
-                    bool shootSecondBolt = num1207 == num1208 - 7f;
-                    bool shootThirdBolt = num1207 == num1208;
+                    bool shootFirstBolt = attackTimer == attackTimerComparison - 14f;
+                    bool shootSecondBolt = attackTimer == attackTimerComparison - 7f;
+                    bool shootThirdBolt = attackTimer == attackTimerComparison;
                     switch (aggressionLevel)
                     {
                         case 6:
@@ -916,12 +913,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.localAI[1] > 1f)
                         npc.localAI[1] = 1f;
 
-                    if (num1207 == num1208 - 35f)
+                    if (attackTimer == attackTimerComparison - 35f)
                         SoundEngine.PlaySound(SoundID.NPCDeath6, npc.position);
 
                     if ((shootFirstBolt || shootSecondBolt || shootThirdBolt) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 vector203 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), value19 * npc.localAI[1]);
+                        Vector2 boltDirection = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), boltAndDeathrayVector * npc.localAI[1]);
 
                         float velocity = death ? 6.75f : 6.25f;
                         switch (aggressionLevel)
@@ -943,28 +940,28 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 break;
                         }
 
-                        Vector2 vector204 = Vector2.Normalize(v4) * velocity;
+                        Vector2 boltVelocity = Vector2.Normalize(v4) * velocity;
                         int type = ProjectileID.PhantasmalBolt;
                         int damage = npc.GetProjectileDamage(type);
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + vector203.X, npc.Center.Y + vector203.Y, vector204.X, vector204.Y, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + boltDirection.X, npc.Center.Y + boltDirection.Y, boltVelocity.X, boltVelocity.Y, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
 
                 // Dictates whether this npc is vulnerable or not
-                int num1231 = num1209 * 7;
-                if (num1231 > npc.localAI[2])
+                int headEyeVulnerableCheck = headVulnerability * 7;
+                if (headEyeVulnerableCheck > npc.localAI[2])
                     npc.localAI[2] += 1f;
-                if (num1231 < npc.localAI[2])
+                if (headEyeVulnerableCheck < npc.localAI[2])
                     npc.localAI[2] -= 1f;
                 if (npc.localAI[2] < 0f)
                     npc.localAI[2] = 0f;
                 if (npc.localAI[2] > 14f)
                     npc.localAI[2] = 14f;
 
-                int num1232 = num1210 * 5;
-                if (num1232 > npc.localAI[3])
+                int headEyeDeathrayCheck = deathrayCheck * 5;
+                if (headEyeDeathrayCheck > npc.localAI[3])
                     npc.localAI[3] += 1f;
-                if (num1232 < npc.localAI[3])
+                if (headEyeDeathrayCheck < npc.localAI[3])
                     npc.localAI[3] -= 1f;
                 if (npc.localAI[3] < 0f)
                     npc.localAI[2] = 0f;
@@ -985,18 +982,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
 
                 // Variables
-                bool flag90 = npc.ai[2] == 0f;
-                float num1177 = -flag90.ToDirectionInt();
-                npc.spriteDirection = (int)num1177;
+                bool isLeftHand = npc.ai[2] == 0f;
+                float handFaceDirection = -isLeftHand.ToDirectionInt();
+                npc.spriteDirection = (int)handFaceDirection;
 
                 npc.dontTakeDamage = npc.frameCounter >= 21.0;
                 if (calamityGlobalNPC.newAI[0] == 1f)
                     npc.dontTakeDamage = true;
 
-                Vector2 vector165 = new Vector2(30f, 66f);
-                float num1178 = 0f;
-                float num1179 = 0f;
-                int num1180 = 0;
+                Vector2 handBehaviorVector = new Vector2(30f, 66f);
+                float handAttackTimer = 0f;
+                float handAttackTimerComparison = 0f;
+                int handFrameCheck = 0;
 
                 // Go to die
                 if (Main.npc[(int)npc.ai[3]].ai[0] == 2f)
@@ -1015,41 +1012,41 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.dontTakeDamage = true;
                     }
 
-                    float num1181 = npc.ai[0];
+                    float handAI0CrossCheck = npc.ai[0];
                     npc.ai[1] += 1f;
-                    int num1182 = (int)Main.npc[(int)npc.ai[3]].ai[2];
-                    int num1183 = flag90 ? 0 : 1;
-                    int num1184 = 0;
-                    int num1185 = 0;
+                    int handAttackType = (int)Main.npc[(int)npc.ai[3]].ai[2];
+                    int handType = isLeftHand ? 0 : 1;
+                    int handFiveFrameTimer = 0;
+                    int handAttackTimerIncrement = 0;
 
-                    while (num1184 < 5)
+                    while (handFiveFrameTimer < 5)
                     {
-                        num1179 = NPC.MoonLordAttacksArray[num1182, num1183, 1, num1184];
-                        if (num1179 + num1185 > npc.ai[1])
+                        handAttackTimerComparison = NPC.MoonLordAttacksArray[handAttackType, handType, 1, handFiveFrameTimer];
+                        if (handAttackTimerComparison + handAttackTimerIncrement > npc.ai[1])
                             break;
 
-                        num1185 += (int)num1179;
-                        int num = num1184;
-                        num1184 = num + 1;
+                        handAttackTimerIncrement += (int)handAttackTimerComparison;
+                        int totalSpawns = handFiveFrameTimer;
+                        handFiveFrameTimer = totalSpawns + 1;
                     }
 
-                    if (num1184 == 5)
+                    if (handFiveFrameTimer == 5)
                     {
-                        num1184 = 0;
+                        handFiveFrameTimer = 0;
                         npc.ai[1] = 0f;
-                        num1179 = NPC.MoonLordAttacksArray[num1182, num1183, 1, num1184];
-                        num1185 = 0;
+                        handAttackTimerComparison = NPC.MoonLordAttacksArray[handAttackType, handType, 1, handFiveFrameTimer];
+                        handAttackTimerIncrement = 0;
                     }
 
-                    npc.ai[0] = NPC.MoonLordAttacksArray[num1182, num1183, 0, num1184];
-                    num1178 = (int)npc.ai[1] - num1185;
-                    if (npc.ai[0] != num1181)
+                    npc.ai[0] = NPC.MoonLordAttacksArray[handAttackType, handType, 0, handFiveFrameTimer];
+                    handAttackTimer = (int)npc.ai[1] - handAttackTimerIncrement;
+                    if (npc.ai[0] != handAI0CrossCheck)
                         npc.netUpdate = true;
                 }
 
                 if (npc.ai[0] == -2f)
                 {
-                    num1180 = 0;
+                    handFrameCheck = 0;
 
                     npc.dontTakeDamage = true;
 
@@ -1059,18 +1056,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Move
                 else if (npc.ai[0] == 0f)
                 {
-                    num1180 = 3;
+                    handFrameCheck = 3;
                     npc.localAI[1] -= 0.05f;
                     if (npc.localAI[1] < 0f)
                         npc.localAI[1] = 0f;
 
-                    Vector2 center15 = Main.npc[(int)npc.ai[3]].Center;
-                    Vector2 value10 = center15 + new Vector2(350f * num1177, -100f);
-                    Vector2 vector167 = value10 - npc.Center;
+                    Vector2 handCenter = Main.npc[(int)npc.ai[3]].Center;
+                    Vector2 handMovementVector = handCenter + new Vector2(350f * handFaceDirection, -100f);
+                    Vector2 handMovementDirection = handMovementVector - npc.Center;
 
-                    if (vector167.Length() > 20f)
+                    if (handMovementDirection.Length() > 20f)
                     {
-                        vector167.Normalize();
+                        handMovementDirection.Normalize();
 
                         float velocity = death ? 7.75f : 7.5f;
                         switch (aggressionLevel)
@@ -1096,23 +1093,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 break;
                         }
 
-                        vector167 *= velocity;
-                        Vector2 velocity5 = npc.velocity;
+                        handMovementDirection *= velocity;
+                        Vector2 handVelocity = npc.velocity;
 
-                        if (vector167 != Vector2.Zero)
-                            npc.SimpleFlyMovement(vector167, 0.3f);
+                        if (handMovementDirection != Vector2.Zero)
+                            npc.SimpleFlyMovement(handMovementDirection, 0.3f);
 
-                        npc.velocity = Vector2.Lerp(velocity5, npc.velocity, 0.5f);
+                        npc.velocity = Vector2.Lerp(handVelocity, npc.velocity, 0.5f);
                     }
                 }
 
                 // Phantasmal Eyes
                 else if (npc.ai[0] == 1f)
                 {
-                    num1180 = 0;
-                    int num1186 = 7;
-                    int num1187 = 4;
-
+                    handFrameCheck = 0;
                     float divisor = 6f;
                     switch (aggressionLevel)
                     {
@@ -1137,26 +1131,26 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             break;
                     }
 
-                    if (num1178 >= (num1186 * num1187 * 2))
+                    if (handAttackTimer >= 56)
                     {
                         npc.localAI[1] -= 0.07f;
                         if (npc.localAI[1] < 0f)
                             npc.localAI[1] = 0f;
                     }
-                    else if (num1178 >= (num1186 * num1187))
+                    else if (handAttackTimer >= 28)
                     {
                         npc.localAI[1] += 0.05f;
                         if (npc.localAI[1] > 0.75f)
                             npc.localAI[1] = 0.75f;
 
-                        float num1188 = MathHelper.TwoPi * (num1178 % (num1186 * num1187)) / (num1186 * num1187) - MathHelper.PiOver2;
-                        npc.localAI[0] = new Vector2((float)Math.Cos(num1188) * vector165.X, (float)Math.Sin(num1188) * vector165.Y).ToRotation();
+                        float handLocalAI = MathHelper.TwoPi * (handAttackTimer % 28) / 28 - MathHelper.PiOver2;
+                        npc.localAI[0] = new Vector2((float)Math.Cos(handLocalAI) * handBehaviorVector.X, (float)Math.Sin(handLocalAI) * handBehaviorVector.Y).ToRotation();
 
-                        if (num1178 % divisor == 0f)
+                        if (handAttackTimer % divisor == 0f)
                         {
-                            Vector2 value11 = new Vector2(1f * -num1177, 3f);
-                            Vector2 vector168 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), vector165 * npc.localAI[1]);
-                            Vector2 vector169 = npc.Center + Vector2.Normalize(vector168) * vector165.Length() * 0.4f + value11;
+                            Vector2 handAttackVector = new Vector2(1f * -handFaceDirection, 3f);
+                            Vector2 handAttackRotation = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), handBehaviorVector * npc.localAI[1]);
+                            Vector2 handAttackMovement = npc.Center + Vector2.Normalize(handAttackRotation) * handBehaviorVector.Length() * 0.4f + handAttackVector;
 
                             float velocity = death ? 3.5f : 3f;
                             switch (aggressionLevel)
@@ -1178,11 +1172,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     break;
                             }
 
-                            Vector2 vector170 = Vector2.Normalize(vector168) * velocity;
-                            float ai = (MathHelper.TwoPi * (float)Main.rand.NextDouble() - MathHelper.Pi) / 30f + 0.0174532924f * num1177;
+                            Vector2 handAttackDirection = Vector2.Normalize(handAttackRotation) * velocity;
+                            float ai = (MathHelper.TwoPi * (float)Main.rand.NextDouble() - MathHelper.Pi) / 30f + 0.0174532924f * handFaceDirection;
                             int type = ProjectileID.PhantasmalEye;
                             int damage = npc.GetProjectileDamage(type);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vector169, vector170, type, damage, 0f, Main.myPlayer, 0f, ai);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), handAttackMovement, handAttackDirection, type, damage, 0f, Main.myPlayer, 0f, ai);
                             Main.projectile[proj].timeLeft = 1200;
                             Main.projectile[proj].Calamity().lineColor = bossRush ? 1 : aggressionLevel;
                         }
@@ -1193,8 +1187,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.localAI[1] > 0.75f)
                             npc.localAI[1] = 0.75f;
 
-                        float num1189 = MathHelper.TwoPi * (num1178 % (num1186 * num1187)) / (num1186 * num1187) - MathHelper.PiOver2;
-                        npc.localAI[0] = new Vector2((float)Math.Cos(num1189) * vector165.X, (float)Math.Sin(num1189) * vector165.Y).ToRotation();
+                        float handPauseDirection = MathHelper.TwoPi * (handAttackTimer % 28) / 28 - MathHelper.PiOver2;
+                        npc.localAI[0] = new Vector2((float)Math.Cos(handPauseDirection) * handBehaviorVector.X, (float)Math.Sin(handPauseDirection) * handBehaviorVector.Y).ToRotation();
                     }
                 }
 
@@ -1205,10 +1199,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.localAI[1] < 0f)
                         npc.localAI[1] = 0f;
 
-                    Vector2 center16 = Main.npc[(int)npc.ai[3]].Center;
-                    Vector2 value12 = new Vector2(220f * num1177, -60f) + center16;
-                    value12 += new Vector2(num1177 * 100f, -50f);
-                    Vector2 value13 = new Vector2(400f * num1177, -60f);
+                    Vector2 handCenter = Main.npc[(int)npc.ai[3]].Center;
+                    Vector2 sphereHandDirection = new Vector2(220f * handFaceDirection, -60f) + handCenter;
+                    sphereHandDirection += new Vector2(handFaceDirection * 100f, -50f);
+                    Vector2 sphereHandDirectionMaxBound = new Vector2(400f * handFaceDirection, -60f);
 
                     float velocityMultiplier = death ? 0.88f : 0.885f;
                     switch (aggressionLevel)
@@ -1234,13 +1228,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             break;
                     }
 
-                    if (num1178 < 30f)
+                    if (handAttackTimer < 30f)
                     {
-                        Vector2 vector171 = value12 - npc.Center;
-                        if (vector171 != Vector2.Zero)
+                        Vector2 sphereHandTravelVelocity = sphereHandDirection - npc.Center;
+                        if (sphereHandTravelVelocity != Vector2.Zero)
                         {
-                            Vector2 vector172 = vector171;
-                            vector172.Normalize();
+                            Vector2 sphereHandTravelDist = sphereHandTravelVelocity;
+                            sphereHandTravelDist.Normalize();
 
                             float velocity = death ? 11f : 10f;
                             switch (aggressionLevel)
@@ -1266,13 +1260,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     break;
                             }
 
-                            npc.velocity = Vector2.SmoothStep(npc.velocity, vector172 * Math.Min(velocity, vector171.Length()), 0.2f);
+                            npc.velocity = Vector2.SmoothStep(npc.velocity, sphereHandTravelDist * Math.Min(velocity, sphereHandTravelVelocity.Length()), 0.2f);
                         }
                     }
-                    else if (num1178 < 210f)
+                    else if (handAttackTimer < 210f)
                     {
-                        num1180 = 1;
-                        int num1190 = (int)num1178 - 30;
+                        handFrameCheck = 1;
+                        int sphereHandSpeed = (int)handAttackTimer - 30;
 
                         int divisor = 30;
                         switch (aggressionLevel)
@@ -1298,24 +1292,24 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 break;
                         }
 
-                        if (num1190 % divisor == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+                        if (sphereHandSpeed % divisor == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Vector2 vector173 = new Vector2(5f * num1177, -8f);
-                            int num1191 = num1190 / 30;
-                            vector173.X += (num1191 - 3.5f) * num1177 * 3f;
-                            vector173.Y += (num1191 - 4.5f) * 1f;
-                            vector173 *= 1.2f;
+                            Vector2 sphereFireDirection = new Vector2(5f * handFaceDirection, -8f);
+                            int finalSphereHandSpeed = sphereHandSpeed / 30;
+                            sphereFireDirection.X += (finalSphereHandSpeed - 3.5f) * handFaceDirection * 3f;
+                            sphereFireDirection.Y += (finalSphereHandSpeed - 4.5f) * 1f;
+                            sphereFireDirection *= 1.2f;
                             int type = ProjectileID.PhantasmalSphere;
                             int damage = npc.GetProjectileDamage(type);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, vector173.X, vector173.Y, type, damage, 1f, Main.myPlayer, 0f, npc.whoAmI);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, sphereFireDirection.X, sphereFireDirection.Y, type, damage, 1f, Main.myPlayer, 0f, npc.whoAmI);
                             Main.projectile[proj].timeLeft = 1200;
                         }
 
-                        Vector2 vector174 = Vector2.SmoothStep(value12, value12 + value13, (num1178 - 30f) / 180f) - npc.Center;
-                        if (vector174 != Vector2.Zero)
+                        Vector2 handSmoothMovement = Vector2.SmoothStep(sphereHandDirection, sphereHandDirection + sphereHandDirectionMaxBound, (handAttackTimer - 30f) / 180f) - npc.Center;
+                        if (handSmoothMovement != Vector2.Zero)
                         {
-                            Vector2 vector175 = vector174;
-                            vector175.Normalize();
+                            Vector2 handSmoothMoveNormalize = handSmoothMovement;
+                            handSmoothMoveNormalize.Normalize();
 
                             float velocity = death ? 26.5f : 24f;
                             switch (aggressionLevel)
@@ -1341,34 +1335,34 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     break;
                             }
 
-                            npc.velocity = Vector2.Lerp(npc.velocity, vector175 * Math.Min(velocity, vector174.Length()), 0.5f);
+                            npc.velocity = Vector2.Lerp(npc.velocity, handSmoothMoveNormalize * Math.Min(velocity, handSmoothMovement.Length()), 0.5f);
                         }
                     }
-                    else if (num1178 < 282f)
+                    else if (handAttackTimer < 282f)
                     {
-                        num1180 = 0;
+                        handFrameCheck = 0;
                         npc.velocity *= velocityMultiplier;
                     }
-                    else if (num1178 < 287f)
+                    else if (handAttackTimer < 287f)
                     {
-                        num1180 = 1;
+                        handFrameCheck = 1;
                         npc.velocity *= velocityMultiplier;
                     }
-                    else if (num1178 < 292f)
+                    else if (handAttackTimer < 292f)
                     {
-                        num1180 = 2;
+                        handFrameCheck = 2;
                         npc.velocity *= velocityMultiplier;
                     }
-                    else if (num1178 < 300f)
+                    else if (handAttackTimer < 300f)
                     {
-                        num1180 = 3;
+                        handFrameCheck = 3;
 
-                        if (num1178 == 292f && Main.netMode != NetmodeID.MultiplayerClient)
+                        if (handAttackTimer == 292f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int num1193 = Player.FindClosest(npc.position, npc.width, npc.height);
-                            Vector2 vector176 = Vector2.Normalize(Main.player[num1193].Center - (npc.Center + Vector2.UnitY * -350f));
-                            if (float.IsNaN(vector176.X) || float.IsNaN(vector176.Y))
-                                vector176 = Vector2.UnitY;
+                            int closestPlayer = Player.FindClosest(npc.position, npc.width, npc.height);
+                            Vector2 sphereVelocity = Vector2.Normalize(Main.player[closestPlayer].Center - (npc.Center + Vector2.UnitY * -350f));
+                            if (float.IsNaN(sphereVelocity.X) || float.IsNaN(sphereVelocity.Y))
+                                sphereVelocity = Vector2.UnitY;
 
                             float velocity = death ? 2.2f : 2f;
                             switch (aggressionLevel)
@@ -1394,24 +1388,24 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     break;
                             }
 
-                            vector176 *= velocity;
-                            for (int num1194 = 0; num1194 < Main.maxProjectiles; num1194++)
+                            sphereVelocity *= velocity;
+                            for (int i = 0; i < Main.maxProjectiles; i++)
                             {
-                                Projectile projectile3 = Main.projectile[num1194];
-                                if (projectile3.active && projectile3.type == ProjectileID.PhantasmalSphere && projectile3.ai[1] == npc.whoAmI && projectile3.ai[0] != -1f)
+                                Projectile currentProjectile = Main.projectile[i];
+                                if (currentProjectile.active && currentProjectile.type == ProjectileID.PhantasmalSphere && currentProjectile.ai[1] == npc.whoAmI && currentProjectile.ai[0] != -1f)
                                 {
-                                    projectile3.ai[0] = -1f;
-                                    projectile3.velocity = vector176;
-                                    projectile3.netUpdate = true;
+                                    currentProjectile.ai[0] = -1f;
+                                    currentProjectile.velocity = sphereVelocity;
+                                    currentProjectile.netUpdate = true;
                                 }
                             }
                         }
 
-                        Vector2 vector177 = Vector2.SmoothStep(value12, value12 + value13, 1f - (num1178 - 270f) / 30f) - npc.Center;
-                        if (vector177 != Vector2.Zero)
+                        Vector2 handPauseSmoothSpeed = Vector2.SmoothStep(sphereHandDirection, sphereHandDirection + sphereHandDirectionMaxBound, 1f - (handAttackTimer - 270f) / 30f) - npc.Center;
+                        if (handPauseSmoothSpeed != Vector2.Zero)
                         {
-                            Vector2 vector178 = vector177;
-                            vector178.Normalize();
+                            Vector2 handPauseDirection = handPauseSmoothSpeed;
+                            handPauseDirection.Normalize();
 
                             float velocity = death ? 19.75f : 17.5f;
                             switch (aggressionLevel)
@@ -1437,18 +1431,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     break;
                             }
 
-                            npc.velocity = Vector2.Lerp(npc.velocity, vector178 * Math.Min(velocity, vector177.Length()), 0.1f);
+                            npc.velocity = Vector2.Lerp(npc.velocity, handPauseDirection * Math.Min(velocity, handPauseSmoothSpeed.Length()), 0.1f);
                         }
                     }
                     else
                     {
-                        num1180 = 3;
+                        handFrameCheck = 3;
 
-                        Vector2 vector179 = value12 - npc.Center;
-                        if (vector179 != Vector2.Zero)
+                        Vector2 handReturnSmoothSpeed = sphereHandDirection - npc.Center;
+                        if (handReturnSmoothSpeed != Vector2.Zero)
                         {
-                            Vector2 vector180 = vector179;
-                            vector180.Normalize();
+                            Vector2 handReturnDirection = handReturnSmoothSpeed;
+                            handReturnDirection.Normalize();
 
                             float velocity = death ? 11f : 10f;
                             switch (aggressionLevel)
@@ -1474,7 +1468,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     break;
                             }
 
-                            npc.velocity = Vector2.SmoothStep(npc.velocity, vector180 * Math.Min(velocity, vector179.Length()), 0.2f);
+                            npc.velocity = Vector2.SmoothStep(npc.velocity, handReturnDirection * Math.Min(velocity, handReturnSmoothSpeed.Length()), 0.2f);
                         }
                     }
                 }
@@ -1482,16 +1476,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Phantasmal Bolts
                 else if (npc.ai[0] == 3f)
                 {
-                    if (num1178 == 0f)
+                    if (handAttackTimer == 0f)
                     {
                         npc.TargetClosest(false);
                         npc.netUpdate = true;
                     }
 
                     Vector2 v = Main.player[npc.target].Center - npc.Center;
-                    bool shootFirstBolt = num1178 == num1179 - 14f;
-                    bool shootSecondBolt = num1178 == num1179 - 7f;
-                    bool shootThirdBolt = num1178 == num1179;
+                    bool shootFirstBolt = handAttackTimer == handAttackTimerComparison - 14f;
+                    bool shootSecondBolt = handAttackTimer == handAttackTimerComparison - 7f;
+                    bool shootThirdBolt = handAttackTimer == handAttackTimerComparison;
                     switch (aggressionLevel)
                     {
                         case 6:
@@ -1520,12 +1514,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.localAI[1] > 1f)
                         npc.localAI[1] = 1f;
 
-                    if (num1178 == num1179 - 35f)
+                    if (handAttackTimer == handAttackTimerComparison - 35f)
                         SoundEngine.PlaySound(SoundID.NPCDeath6, npc.position);
 
                     if ((shootFirstBolt || shootSecondBolt || shootThirdBolt) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 vector181 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), vector165 * npc.localAI[1]);
+                        Vector2 boltShootDirection = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), handBehaviorVector * npc.localAI[1]);
 
                         float velocity = death ? 6.75f : 6.25f;
                         switch (aggressionLevel)
@@ -1547,39 +1541,39 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 break;
                         }
 
-                        Vector2 vector182 = Vector2.Normalize(v) * velocity;
+                        Vector2 boltShootSpeed = Vector2.Normalize(v) * velocity;
                         int type = ProjectileID.PhantasmalBolt;
                         int damage = npc.GetProjectileDamage(type);
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + vector181.X, npc.Center.Y + vector181.Y, vector182.X, vector182.Y, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + boltShootDirection.X, npc.Center.Y + boltShootDirection.Y, boltShootSpeed.X, boltShootSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
 
                 // Center
-                Vector2 center17 = Main.npc[(int)npc.ai[3]].Center;
-                Vector2 value14 = new Vector2(220f * num1177, -60f) + center17;
-                Vector2 vector183 = value14 + new Vector2(num1177 * 110f, -150f);
-                Vector2 vector184 = vector183 + new Vector2(num1177 * 370f, 150f);
+                Vector2 handCentering = Main.npc[(int)npc.ai[3]].Center;
+                Vector2 handDirection = new Vector2(220f * handFaceDirection, -60f) + handCentering;
+                Vector2 minHandFaceDirection = handDirection + new Vector2(handFaceDirection * 110f, -150f);
+                Vector2 maxHandFaceDirection = minHandFaceDirection + new Vector2(handFaceDirection * 370f, 150f);
 
-                if (vector183.X > vector184.X)
-                    Utils.Swap(ref vector183.X, ref vector184.X);
-                if (vector183.Y > vector184.Y)
-                    Utils.Swap(ref vector183.Y, ref vector184.Y);
+                if (minHandFaceDirection.X > maxHandFaceDirection.X)
+                    Utils.Swap(ref minHandFaceDirection.X, ref maxHandFaceDirection.X);
+                if (minHandFaceDirection.Y > maxHandFaceDirection.Y)
+                    Utils.Swap(ref minHandFaceDirection.Y, ref maxHandFaceDirection.Y);
 
-                Vector2 value15 = Vector2.Clamp(npc.Center + npc.velocity, vector183, vector184);
-                if (value15 != npc.Center + npc.velocity)
-                    npc.Center = value15 - npc.velocity;
+                Vector2 handVelocity2 = Vector2.Clamp(npc.Center + npc.velocity, minHandFaceDirection, maxHandFaceDirection);
+                if (handVelocity2 != npc.Center + npc.velocity)
+                    npc.Center = handVelocity2 - npc.velocity;
 
                 // Frames
-                int num1195 = num1180 * 7;
-                if (num1195 > npc.frameCounter)
+                int handFrameTimer = handFrameCheck * 7;
+                if (handFrameTimer > npc.frameCounter)
                 {
-                    double num1196 = npc.frameCounter;
-                    npc.frameCounter = num1196 + 1.0;
+                    double handFrameControl = npc.frameCounter;
+                    npc.frameCounter = handFrameControl + 1.0;
                 }
-                if (num1195 < npc.frameCounter)
+                if (handFrameTimer < npc.frameCounter)
                 {
-                    double num1196 = npc.frameCounter;
-                    npc.frameCounter = num1196 - 1.0;
+                    double handFrameControl = npc.frameCounter;
+                    npc.frameCounter = handFrameControl - 1.0;
                 }
 
                 if (npc.frameCounter < 0.0)
@@ -1631,7 +1625,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (Main.rand.NextBool(420))
                     SoundEngine.PlaySound(Main.rand.NextBool() ? SoundID.Zombie100 : SoundID.Zombie101, npc.Center);
 
-                Vector2 value22 = new Vector2(30f);
+                Vector2 thirtyVector = new Vector2(30f);
 
                 if (!Main.npc[(int)npc.ai[3]].active || Main.npc[(int)npc.ai[3]].type != NPCID.MoonLordCore)
                 {
@@ -1640,35 +1634,35 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.active = false;
                 }
 
-                float num1241 = 0f;
-                float num1242 = npc.ai[0];
+                float secondAttackPicker = 0f;
+                float ai0Copy = npc.ai[0];
 
                 npc.ai[1] += 1f;
 
-                int num1243 = 0;
-                int num1244 = 0;
-                while (num1243 < 10)
+                int secondAttackArrayInc = 0;
+                int secondAttackPickerInc = 0;
+                while (secondAttackArrayInc < 10)
                 {
-                    num1241 = NPC.MoonLordAttacksArray2[1, num1243];
-                    if (num1241 + num1244 > npc.ai[1])
+                    secondAttackPicker = NPC.MoonLordAttacksArray2[1, secondAttackArrayInc];
+                    if (secondAttackPicker + secondAttackPickerInc > npc.ai[1])
                         break;
 
-                    num1244 += (int)num1241;
-                    num1243 += 1;
+                    secondAttackPickerInc += (int)secondAttackPicker;
+                    secondAttackArrayInc += 1;
                 }
 
-                if (num1243 == 10)
+                if (secondAttackArrayInc == 10)
                 {
-                    num1243 = 0;
+                    secondAttackArrayInc = 0;
                     npc.ai[1] = 0f;
-                    num1241 = NPC.MoonLordAttacksArray2[1, num1243];
-                    num1244 = 0;
+                    secondAttackPicker = NPC.MoonLordAttacksArray2[1, secondAttackArrayInc];
+                    secondAttackPickerInc = 0;
                 }
 
-                npc.ai[0] = NPC.MoonLordAttacksArray2[0, num1243];
-                float num1245 = (int)npc.ai[1] - num1244;
+                npc.ai[0] = NPC.MoonLordAttacksArray2[0, secondAttackArrayInc];
+                float secondAttackTimer = (int)npc.ai[1] - secondAttackPickerInc;
 
-                if (npc.ai[0] != num1242)
+                if (npc.ai[0] != ai0Copy)
                     npc.netUpdate = true;
 
                 if (npc.ai[0] == -1f)
@@ -1677,10 +1671,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.ai[1] > 180f)
                         npc.ai[1] = 0f;
 
-                    float value23;
+                    float localAI2Lerp;
                     if (npc.ai[1] < 60f)
                     {
-                        value23 = 0.75f;
+                        localAI2Lerp = 0.75f;
 
                         npc.localAI[0] = 0f;
 
@@ -1690,7 +1684,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                     else if (npc.ai[1] < 120f)
                     {
-                        value23 = 1f;
+                        localAI2Lerp = 1f;
 
                         if (npc.localAI[1] < 0.5f)
                             npc.localAI[1] += 0.025f;
@@ -1699,14 +1693,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                     else
                     {
-                        value23 = 1.15f;
+                        localAI2Lerp = 1.15f;
 
                         npc.localAI[1] -= 0.05f;
                         if (npc.localAI[1] < 0f)
                             npc.localAI[1] = 0f;
                     }
 
-                    npc.localAI[2] = MathHelper.Lerp(npc.localAI[2], value23, 0.3f);
+                    npc.localAI[2] = MathHelper.Lerp(npc.localAI[2], localAI2Lerp, 0.3f);
                 }
 
                 if (npc.ai[0] == 0f)
@@ -1724,16 +1718,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.localAI[2] = MathHelper.Lerp(npc.localAI[2], 1f, 0.2f);
 
                     float velocity = death ? 38f : 36f;
-                    Vector2 center23 = npc.Center;
-                    Vector2 center24 = Main.player[npc.target].Center;
-                    Vector2 value24 = center24 - center23;
-                    value24 = Vector2.Normalize(value24) * velocity;
+                    Vector2 freeEyeCenter = npc.Center;
+                    Vector2 freeEyeTargetCenter = Main.player[npc.target].Center;
+                    Vector2 freeEyeTargetDistance = freeEyeTargetCenter - freeEyeCenter;
+                    freeEyeTargetDistance = Vector2.Normalize(freeEyeTargetDistance) * velocity;
 
-                    if (Vector2.Distance(center23, center24) > 300f)
+                    if (Vector2.Distance(freeEyeCenter, freeEyeTargetCenter) > 300f)
                     {
-                        int num1246 = 30;
-                        npc.velocity.X = (npc.velocity.X * (num1246 - 1) + value24.X) / num1246;
-                        npc.velocity.Y = (npc.velocity.Y * (num1246 - 1) + value24.Y) / num1246;
+                        npc.velocity.X = (npc.velocity.X * 29 + freeEyeTargetDistance.X) / 30;
+                        npc.velocity.Y = (npc.velocity.Y * 29 + freeEyeTargetDistance.Y) / 30;
                     }
                     else
                     {
@@ -1743,24 +1736,24 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Fly towards Moon Lord Head and stay away from other True Eyes
-                    float num1247 = 0.5f;
-                    for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
+                    float freeEyeAccel = 0.5f;
+                    for (int j = 0; j < Main.maxNPCs; j++)
                     {
-                        if (Main.npc[num1248].active)
+                        if (Main.npc[j].active)
                         {
-                            if (num1248 != npc.whoAmI && Main.npc[num1248].type == npc.type)
+                            if (j != npc.whoAmI && Main.npc[j].type == npc.type)
                             {
-                                if (Vector2.Distance(npc.Center, Main.npc[num1248].Center) < 150f)
+                                if (Vector2.Distance(npc.Center, Main.npc[j].Center) < 150f)
                                 {
-                                    if (npc.position.X < Main.npc[num1248].position.X)
-                                        npc.velocity.X = npc.velocity.X - num1247;
+                                    if (npc.position.X < Main.npc[j].position.X)
+                                        npc.velocity.X = npc.velocity.X - freeEyeAccel;
                                     else
-                                        npc.velocity.X = npc.velocity.X + num1247;
+                                        npc.velocity.X = npc.velocity.X + freeEyeAccel;
 
-                                    if (npc.position.Y < Main.npc[num1248].position.Y)
-                                        npc.velocity.Y = npc.velocity.Y - num1247;
+                                    if (npc.position.Y < Main.npc[j].position.Y)
+                                        npc.velocity.Y = npc.velocity.Y - freeEyeAccel;
                                     else
-                                        npc.velocity.Y = npc.velocity.Y + num1247;
+                                        npc.velocity.Y = npc.velocity.Y + freeEyeAccel;
                                 }
                             }
                         }
@@ -1770,7 +1763,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 if (npc.ai[0] == 1f)
                 {
-                    if (num1245 == 0f)
+                    if (secondAttackTimer == 0f)
                     {
                         npc.TargetClosest(false);
                         npc.netUpdate = true;
@@ -1788,22 +1781,22 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.localAI[1] > 1f)
                         npc.localAI[1] = 1f;
 
-                    if (num1245 < 20f)
+                    if (secondAttackTimer < 20f)
                         npc.localAI[2] = MathHelper.Lerp(npc.localAI[2], 1.1f, 0.2f);
                     else
                         npc.localAI[2] = MathHelper.Lerp(npc.localAI[2], 0.4f, 0.2f);
 
-                    if (num1245 == num1241 - 35f)
+                    if (secondAttackTimer == secondAttackPicker - 35f)
                         SoundEngine.PlaySound(SoundID.NPCDeath6, npc.position);
 
-                    if ((num1245 == num1241 - 14f || num1245 == num1241 - 7f || num1245 == num1241) && Main.netMode != NetmodeID.MultiplayerClient)
+                    if ((secondAttackTimer == secondAttackPicker - 14f || secondAttackTimer == secondAttackPicker - 7f || secondAttackTimer == secondAttackPicker) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 vector214 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), value22 * npc.localAI[1]);
+                        Vector2 freeEyeBoltDirection = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), thirtyVector * npc.localAI[1]);
                         float velocity = death ? 9f : 8f;
-                        Vector2 vector215 = Vector2.Normalize(v8) * velocity;
+                        Vector2 freeEyeBoltVel = Vector2.Normalize(v8) * velocity;
                         int type = ProjectileID.PhantasmalBolt;
                         int damage = npc.GetProjectileDamage(type);
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + vector214.X, npc.Center.Y + vector214.Y, vector215.X, vector215.Y, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + freeEyeBoltDirection.X, npc.Center.Y + freeEyeBoltDirection.Y, freeEyeBoltVel.X, freeEyeBoltVel.Y, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 else if (npc.ai[0] == 2f || npc.ai[0] == 4f)
@@ -1811,7 +1804,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     int type = ProjectileID.PhantasmalSphere;
                     int damage = npc.GetProjectileDamage(type);
 
-                    if (num1245 < 15f)
+                    if (secondAttackTimer < 15f)
                     {
                         npc.localAI[1] -= 0.07f;
                         if (npc.localAI[1] < 0f)
@@ -1823,70 +1816,70 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.velocity.Length() < 1f)
                             npc.velocity = Vector2.Zero;
                     }
-                    else if (num1245 < 75f)
+                    else if (secondAttackTimer < 75f)
                     {
-                        float num1249 = (num1245 - 15f) / 10f;
-                        int num1250 = 0;
-                        int num1251 = 0;
-                        switch ((int)num1249)
+                        float freeEyeAttackPattern = (secondAttackTimer - 15f) / 10f;
+                        int freeEyeRotateValue = 0;
+                        int freeEyeRotateValue2 = 0;
+                        switch ((int)freeEyeAttackPattern)
                         {
                             case 0:
-                                num1250 = 0;
-                                num1251 = 2;
+                                freeEyeRotateValue = 0;
+                                freeEyeRotateValue2 = 2;
                                 break;
                             case 1:
-                                num1250 = 2;
-                                num1251 = 5;
+                                freeEyeRotateValue = 2;
+                                freeEyeRotateValue2 = 5;
                                 break;
                             case 2:
-                                num1250 = 5;
-                                num1251 = 3;
+                                freeEyeRotateValue = 5;
+                                freeEyeRotateValue2 = 3;
                                 break;
                             case 3:
-                                num1250 = 3;
-                                num1251 = 1;
+                                freeEyeRotateValue = 3;
+                                freeEyeRotateValue2 = 1;
                                 break;
                             case 4:
-                                num1250 = 1;
-                                num1251 = 4;
+                                freeEyeRotateValue = 1;
+                                freeEyeRotateValue2 = 4;
                                 break;
                             case 5:
-                                num1250 = 4;
-                                num1251 = 0;
+                                freeEyeRotateValue = 4;
+                                freeEyeRotateValue2 = 0;
                                 break;
                         }
 
                         Vector2 spinningpoint2 = Vector2.UnitY * -30f;
-                        Vector2 value25 = spinningpoint2.RotatedBy(num1250 * MathHelper.TwoPi / 6f);
-                        Vector2 value26 = spinningpoint2.RotatedBy(num1251 * MathHelper.TwoPi / 6f);
-                        Vector2 vector216 = Vector2.Lerp(value25, value26, num1249 - (int)num1249);
-                        float value27 = vector216.Length() / 30f;
+                        Vector2 freeEyeRotateLerpValue = spinningpoint2.RotatedBy(freeEyeRotateValue * MathHelper.TwoPi / 6f);
+                        Vector2 freeEyeRotateLerpValue2 = spinningpoint2.RotatedBy(freeEyeRotateValue2 * MathHelper.TwoPi / 6f);
+                        Vector2 freeEyeRotation = Vector2.Lerp(freeEyeRotateLerpValue, freeEyeRotateLerpValue2, freeEyeAttackPattern - (int)freeEyeAttackPattern);
+                        float freeEyeRotationDist = freeEyeRotation.Length() / 30f;
 
-                        npc.localAI[0] = vector216.ToRotation();
-                        npc.localAI[1] = MathHelper.Lerp(npc.localAI[1], value27, 0.5f);
+                        npc.localAI[0] = freeEyeRotation.ToRotation();
+                        npc.localAI[1] = MathHelper.Lerp(npc.localAI[1], freeEyeRotationDist, 0.5f);
 
-                        for (int num1252 = 0; num1252 < 2; num1252++)
+                        for (int k = 0; k < 2; k++)
                         {
-                            int num1253 = Dust.NewDust(npc.Center + vector216 - Vector2.One * 4f, 0, 0, 229, 0f, 0f, 0, default, 1f);
-                            Dust dust = Main.dust[num1253];
-                            dust.velocity += vector216 / 15f;
-                            Main.dust[num1253].noGravity = true;
+                            int trueEyeDust = Dust.NewDust(npc.Center + freeEyeRotation - Vector2.One * 4f, 0, 0, 229, 0f, 0f, 0, default, 1f);
+                            Dust dust = Main.dust[trueEyeDust];
+                            dust.velocity += freeEyeRotation / 15f;
+                            Main.dust[trueEyeDust].noGravity = true;
                         }
 
-                        if ((num1245 - 15f) % 10f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+                        if ((secondAttackTimer - 15f) % 10f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Vector2 vector217 = Vector2.Normalize(vector216);
-                            if (vector217.HasNaNs())
-                                vector217 = Vector2.UnitY * -1f;
+                            Vector2 trueEyeSphereDirection = Vector2.Normalize(freeEyeRotation);
+                            if (trueEyeSphereDirection.HasNaNs())
+                                trueEyeSphereDirection = Vector2.UnitY * -1f;
 
                             float spreadVelocity = death ? 4.5f : 4f;
-                            vector217 *= 4f;
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + vector216.X, npc.Center.Y + vector216.Y, vector217.X, vector217.Y, type, 0, 0f, Main.myPlayer, 30f, npc.whoAmI);
+                            trueEyeSphereDirection *= 4f;
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + freeEyeRotation.X, npc.Center.Y + freeEyeRotation.Y, trueEyeSphereDirection.X, trueEyeSphereDirection.Y, type, 0, 0f, Main.myPlayer, 30f, npc.whoAmI);
                             Main.projectile[proj].timeLeft = 1200;
 
                             if (CalamityWorld.LegendaryMode)
                             {
-                                for (int num1268 = 0; num1268 < 3; num1268++)
+                                for (int k = 0; k < 3; k++)
                                 {
                                     if (!WorldGen.SolidTile((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f)))
                                         Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-1599, 1600) * 0.01f, (float)Main.rand.Next(-1599, 1) * 0.01f, ProjectileID.MoonBoulder, 70, 10f);
@@ -1896,13 +1889,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                     else
                     {
-                        if (num1245 < 105f)
+                        if (secondAttackTimer < 105f)
                         {
                             npc.localAI[0] = npc.localAI[0].AngleLerp(npc.ai[2] - MathHelper.PiOver2, 0.2f);
 
                             npc.localAI[2] = MathHelper.Lerp(npc.localAI[2], 0.75f, 0.2f);
 
-                            if (num1245 == 75f)
+                            if (secondAttackTimer == 75f)
                             {
                                 npc.TargetClosest(false);
 
@@ -1910,14 +1903,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                                 npc.velocity = Vector2.UnitY * -7f;
 
-                                for (int num1255 = 0; num1255 < Main.maxProjectiles; num1255++)
+                                for (int i = 0; i < Main.maxProjectiles; i++)
                                 {
-                                    Projectile projectile7 = Main.projectile[num1255];
-                                    if (projectile7.active && projectile7.type == type && projectile7.ai[1] == npc.whoAmI && projectile7.ai[0] != -1f)
+                                    Projectile trueEyeSpheres = Main.projectile[i];
+                                    if (trueEyeSpheres.active && trueEyeSpheres.type == type && trueEyeSpheres.ai[1] == npc.whoAmI && trueEyeSpheres.ai[0] != -1f)
                                     {
-                                        Projectile projectile8 = projectile7;
-                                        projectile8.velocity += npc.velocity;
-                                        projectile7.netUpdate = true;
+                                        Projectile trueEyeSphereVel = trueEyeSpheres;
+                                        trueEyeSphereVel.velocity += npc.velocity;
+                                        trueEyeSpheres.netUpdate = true;
                                     }
                                 }
                             }
@@ -1931,26 +1924,26 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             return false;
                         }
 
-                        if (num1245 < 120f)
+                        if (secondAttackTimer < 120f)
                         {
                             SoundEngine.PlaySound(SoundID.Zombie102, npc.Center);
 
-                            if (num1245 == 105f)
+                            if (secondAttackTimer == 105f)
                                 npc.netUpdate = true;
 
                             float velocity = death ? 13.25f : 12f;
-                            Vector2 velocity6 = (npc.ai[2] - MathHelper.PiOver2).ToRotationVector2() * velocity;
-                            npc.velocity = velocity6 * 2f;
+                            Vector2 trueEyeSphereVelocity = (npc.ai[2] - MathHelper.PiOver2).ToRotationVector2() * velocity;
+                            npc.velocity = trueEyeSphereVelocity * 2f;
 
-                            for (int num1256 = 0; num1256 < Main.maxProjectiles; num1256++)
+                            for (int i = 0; i < Main.maxProjectiles; i++)
                             {
-                                Projectile projectile9 = Main.projectile[num1256];
-                                if (projectile9.active && projectile9.type == type && projectile9.ai[1] == npc.whoAmI && projectile9.ai[0] != -1f)
+                                Projectile trueEyeSphereProj = Main.projectile[i];
+                                if (trueEyeSphereProj.active && trueEyeSphereProj.type == type && trueEyeSphereProj.ai[1] == npc.whoAmI && trueEyeSphereProj.ai[0] != -1f)
                                 {
-                                    projectile9.ai[0] = -1f;
-                                    projectile9.damage = damage;
-                                    projectile9.velocity = velocity6;
-                                    projectile9.netUpdate = true;
+                                    trueEyeSphereProj.ai[0] = -1f;
+                                    trueEyeSphereProj.damage = damage;
+                                    trueEyeSphereProj.velocity = trueEyeSphereVelocity;
+                                    trueEyeSphereProj.netUpdate = true;
                                 }
                             }
 
@@ -1963,7 +1956,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
                 else if (npc.ai[0] == 3f)
                 {
-                    if (num1245 < 15f)
+                    if (secondAttackTimer < 15f)
                     {
                         npc.localAI[1] -= 0.07f;
                         if (npc.localAI[1] < 0f)
@@ -1975,17 +1968,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.velocity.Length() < 1f)
                             npc.velocity = Vector2.Zero;
                     }
-                    else if (num1245 < 45f)
+                    else if (secondAttackTimer < 45f)
                     {
                         npc.localAI[0] = 0f;
 
-                        npc.localAI[1] = (float)Math.Sin((num1245 - 15f) * MathHelper.TwoPi / 15f) * 0.5f;
+                        npc.localAI[1] = (float)Math.Sin((secondAttackTimer - 15f) * MathHelper.TwoPi / 15f) * 0.5f;
                         if (npc.localAI[1] < 0f)
                             npc.localAI[0] = MathHelper.Pi;
                     }
                     else
                     {
-                        if (num1245 >= 185f)
+                        if (secondAttackTimer >= 185f)
                         {
                             npc.velocity *= 0.88f;
 
@@ -1999,13 +1992,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             return false;
                         }
 
-                        if (num1245 == 45f)
+                        if (secondAttackTimer == 45f)
                         {
                             npc.ai[2] = Main.rand.NextBool().ToDirectionInt() * MathHelper.TwoPi / 40f;
                             npc.netUpdate = true;
                         }
 
-                        if ((num1245 - 15f - 30f) % 40f == 0f)
+                        if ((secondAttackTimer - 15f - 30f) % 40f == 0f)
                             npc.ai[2] *= 0.95f;
 
                         npc.localAI[0] += npc.ai[2];
@@ -2014,34 +2007,34 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.localAI[1] > 1f)
                             npc.localAI[1] = 1f;
 
-                        Vector2 vector218 = npc.localAI[0].ToRotationVector2() * value22 * npc.localAI[1];
-                        float scaleFactor10 = MathHelper.Lerp(8f, 20f, (num1245 - 15f - 30f) / 140f);
+                        Vector2 trueEyeDirection = npc.localAI[0].ToRotationVector2() * thirtyVector * npc.localAI[1];
+                        float trueEyeVelScale = MathHelper.Lerp(8f, 20f, (secondAttackTimer - 15f - 30f) / 140f);
 
-                        npc.velocity = Vector2.Normalize(vector218) * scaleFactor10;
+                        npc.velocity = Vector2.Normalize(trueEyeDirection) * trueEyeVelScale;
                         npc.rotation = npc.rotation.AngleLerp(npc.velocity.ToRotation() + MathHelper.PiOver2, 0.2f);
 
-                        if ((num1245 - 15f - 30f) % 10f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+                        if ((secondAttackTimer - 15f - 30f) % 10f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Vector2 vector219 = npc.Center + Vector2.Normalize(vector218) * value22.Length() * 0.4f;
+                            Vector2 trueEyeEyeDirection = npc.Center + Vector2.Normalize(trueEyeDirection) * thirtyVector.Length() * 0.4f;
                             float velocity = death ? 6f : 5f;
-                            Vector2 vector220 = Vector2.Normalize(vector218) * velocity;
+                            Vector2 trueEyeEyeSpeed = Vector2.Normalize(trueEyeDirection) * velocity;
                             float ai3 = (MathHelper.TwoPi * (float)Main.rand.NextDouble() - MathHelper.Pi) / 30f + 0.0174532924f * npc.ai[2];
                             int type = ProjectileID.PhantasmalEye;
                             int damage = npc.GetProjectileDamage(type);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vector219, vector220, type, damage, 0f, Main.myPlayer, 0f, ai3);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), trueEyeEyeDirection, trueEyeEyeSpeed, type, damage, 0f, Main.myPlayer, 0f, ai3);
                             Main.projectile[proj].timeLeft = 1200;
                         }
                     }
                 }
                 else if (npc.ai[0] == 4f)
                 {
-                    if (num1245 == 0f)
+                    if (secondAttackTimer == 0f)
                     {
                         npc.TargetClosest(false);
                         npc.netUpdate = true;
                     }
 
-                    if (num1245 < 180f)
+                    if (secondAttackTimer < 180f)
                     {
                         npc.localAI[2] = MathHelper.Lerp(npc.localAI[2], 1f, 0.2f);
 
@@ -2053,41 +2046,37 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.velocity.Length() < 1f)
                             npc.velocity = Vector2.Zero;
 
-                        if (num1245 >= 60f)
+                        if (secondAttackTimer >= 60f)
                         {
-                            Vector2 center25 = npc.Center;
+                            Vector2 trueEyeCentering = npc.Center;
 
-                            int num1257 = 0;
-                            if (num1245 >= 120f)
-                                num1257 = 1;
+                            int dustAmt = 0;
+                            if (secondAttackTimer >= 120f)
+                                dustAmt = 1;
 
-                            for (int num1258 = 0; num1258 < 1 + num1257; num1258++)
+                            for (int j = 0; j < 1 + dustAmt; j++)
                             {
-                                int num1259 = 229;
-                                float num1260 = 0.8f;
-                                if (num1258 % 2 == 1)
-                                {
-                                    num1259 = 229;
-                                    num1260 = 1.65f;
-                                }
+                                float dustScale = 0.8f;
+                                if (j % 2 == 1)
+                                    dustScale = 1.65f;
 
-                                Vector2 vector221 = center25 + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * value22 / 2f;
-                                int num1261 = Dust.NewDust(vector221 - Vector2.One * 8f, 16, 16, num1259, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
-                                Main.dust[num1261].velocity = Vector2.Normalize(center25 - vector221) * 3.5f * (10f - num1257 * 2f) / 10f;
-                                Main.dust[num1261].noGravity = true;
-                                Main.dust[num1261].scale = num1260;
-                                Main.dust[num1261].customData = npc;
+                                Vector2 trueEyeDustDirection = trueEyeCentering + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * thirtyVector / 2f;
+                                int trueEyeDust = Dust.NewDust(trueEyeDustDirection - Vector2.One * 8f, 16, 16, 229, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
+                                Main.dust[trueEyeDust].velocity = Vector2.Normalize(trueEyeCentering - trueEyeDustDirection) * 3.5f * (10f - dustAmt * 2f) / 10f;
+                                Main.dust[trueEyeDust].noGravity = true;
+                                Main.dust[trueEyeDust].scale = dustScale;
+                                Main.dust[trueEyeDust].customData = npc;
                             }
                         }
                     }
                     else
                     {
-                        if (num1245 < num1241 - 15f)
+                        if (secondAttackTimer < secondAttackPicker - 15f)
                         {
                             if (calamityGlobalNPC.newAI[1] == 0f)
                                 calamityGlobalNPC.newAI[1] = 600f;
 
-                            if (num1245 == 180f && Main.netMode != NetmodeID.MultiplayerClient)
+                            if (secondAttackTimer == 180f && Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 // If head is in deathray phase
                                 if (Main.npc[(int)Main.npc[(int)npc.ai[3]].localAI[2]].ai[0] == 1f)
@@ -2095,18 +2084,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                                 npc.TargetClosest(false);
 
-                                Vector2 vector222 = Main.player[npc.target].Center - npc.Center;
-                                vector222.Normalize();
+                                Vector2 deathrayTargetDist = Main.player[npc.target].Center - npc.Center;
+                                deathrayTargetDist.Normalize();
 
-                                float num1262 = -1f;
-                                if (vector222.X < 0f)
-                                    num1262 = 1f;
+                                float deathraySweepDirection = -1f;
+                                if (deathrayTargetDist.X < 0f)
+                                    deathraySweepDirection = 1f;
 
-                                vector222 = vector222.RotatedBy(-(double)num1262 * MathHelper.TwoPi / 6f);
+                                deathrayTargetDist = deathrayTargetDist.RotatedBy(-(double)deathraySweepDirection * MathHelper.TwoPi / 6f);
                                 int type = ProjectileID.PhantasmalDeathray;
                                 int damage = npc.GetProjectileDamage(type);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, vector222.X, vector222.Y, type, damage, 0f, Main.myPlayer, num1262 * MathHelper.TwoPi / calamityGlobalNPC.newAI[1], npc.whoAmI);
-                                npc.ai[2] = (vector222.ToRotation() + MathHelper.Pi + MathHelper.TwoPi) * num1262;
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, deathrayTargetDist.X, deathrayTargetDist.Y, type, damage, 0f, Main.myPlayer, deathraySweepDirection * MathHelper.TwoPi / calamityGlobalNPC.newAI[1], npc.whoAmI);
+                                npc.ai[2] = (deathrayTargetDist.ToRotation() + MathHelper.Pi + MathHelper.TwoPi) * deathraySweepDirection;
                                 npc.netUpdate = true;
                             }
 
@@ -2114,16 +2103,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             if (npc.localAI[1] > 1f)
                                 npc.localAI[1] = 1f;
 
-                            float num1263 = (npc.ai[2] >= 0f).ToDirectionInt();
-                            float num1264 = npc.ai[2];
-                            if (num1264 < 0f)
-                                num1264 *= -1f;
+                            float deathrayRotationDirection = (npc.ai[2] >= 0f).ToDirectionInt();
+                            float deathrayRotation = npc.ai[2];
+                            if (deathrayRotation < 0f)
+                                deathrayRotation *= -1f;
 
-                            num1264 += -(MathHelper.Pi + MathHelper.TwoPi);
-                            num1264 += num1263 * MathHelper.TwoPi / calamityGlobalNPC.newAI[1];
+                            deathrayRotation += -(MathHelper.Pi + MathHelper.TwoPi);
+                            deathrayRotation += deathrayRotationDirection * MathHelper.TwoPi / calamityGlobalNPC.newAI[1];
 
-                            npc.localAI[0] = num1264;
-                            npc.ai[2] = (num1264 + MathHelper.Pi + MathHelper.TwoPi) * num1263;
+                            npc.localAI[0] = deathrayRotation;
+                            npc.ai[2] = (deathrayRotation + MathHelper.Pi + MathHelper.TwoPi) * deathrayRotationDirection;
 
                             return false;
                         }
@@ -2139,13 +2128,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             else if (npc.type == NPCID.MoonLordLeechBlob)
             {
                 // Variables
-                float num1265 = 180f;
-                Vector2 value28 = new Vector2(0f, 216f);
-                int num1266 = (int)Math.Abs(npc.ai[0]) - 1;
-                int num1267 = (int)npc.ai[1];
+                Vector2 mouthMovement = new Vector2(0f, 216f);
+                int headNPCType = (int)Math.Abs(npc.ai[0]) - 1;
+                int moonLordHead = (int)npc.ai[1];
 
                 // Despawn
-                if (!Main.npc[num1266].active || Main.npc[num1266].type != NPCID.MoonLordHead)
+                if (!Main.npc[headNPCType].active || Main.npc[headNPCType].type != NPCID.MoonLordHead)
                 {
                     npc.life = 0;
                     npc.HitEffect(0, 10.0);
@@ -2155,86 +2143,86 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Heal the Moon Lord
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= num1265)
+                if (npc.ai[2] >= 180f)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int num1268 = (int)Main.npc[num1266].ai[3];
-                        int num1269 = -1;
-                        int num1270 = -1;
-                        int num1271 = num1266;
+                        int k = (int)Main.npc[headNPCType].ai[3];
+                        int leftHandHeal = -1;
+                        int rightHandHeal = -1;
+                        int headHeal = headNPCType;
 
-                        for (int num1272 = 0; num1272 < Main.maxNPCs; num1272++)
+                        for (int i = 0; i < Main.maxNPCs; i++)
                         {
-                            if (Main.npc[num1272].active && Main.npc[num1272].ai[3] == num1268)
+                            if (Main.npc[i].active && Main.npc[i].ai[3] == k)
                             {
-                                if (num1269 == -1 && Main.npc[num1272].type == NPCID.MoonLordHand && Main.npc[num1272].ai[2] == 0f)
-                                    num1269 = num1272;
-                                if (num1270 == -1 && Main.npc[num1272].type == NPCID.MoonLordHand && Main.npc[num1272].ai[2] == 1f)
-                                    num1270 = num1272;
-                                if (num1269 != -1 && num1270 != -1 && num1271 != -1)
+                                if (leftHandHeal == -1 && Main.npc[i].type == NPCID.MoonLordHand && Main.npc[i].ai[2] == 0f)
+                                    leftHandHeal = i;
+                                if (rightHandHeal == -1 && Main.npc[i].type == NPCID.MoonLordHand && Main.npc[i].ai[2] == 1f)
+                                    rightHandHeal = i;
+                                if (leftHandHeal != -1 && rightHandHeal != -1 && headHeal != -1)
                                     break;
                             }
                         }
 
                         // Heal limits
-                        int num1273 = death ? 1500 : 1250;
-                        int num1274 = Main.npc[num1268].lifeMax - Main.npc[num1268].life;
-                        int num1275 = Main.npc[num1269].lifeMax - Main.npc[num1269].life;
-                        int num1276 = Main.npc[num1270].lifeMax - Main.npc[num1270].life;
-                        int num1277 = Main.npc[num1271].lifeMax - Main.npc[num1271].life;
+                        int maxHealAmt = death ? 1500 : 1250;
+                        int totalHealth = Main.npc[k].lifeMax - Main.npc[k].life;
+                        int leftHandHealth = Main.npc[leftHandHeal].lifeMax - Main.npc[leftHandHeal].life;
+                        int rightHandHealth = Main.npc[rightHandHeal].lifeMax - Main.npc[rightHandHeal].life;
+                        int headHealth = Main.npc[headHeal].lifeMax - Main.npc[headHeal].life;
 
                         // Healing
-                        if (num1277 > 0 && num1273 > 0)
+                        if (headHealth > 0 && maxHealAmt > 0)
                         {
-                            int num1278 = num1277 - num1273;
-                            if (num1278 > 0)
+                            int maxHealthFailsafe = headHealth - maxHealAmt;
+                            if (maxHealthFailsafe > 0)
                             {
-                                num1278 = 0;
+                                maxHealthFailsafe = 0;
                             }
-                            int num1279 = num1273 + num1278;
-                            num1273 -= num1279;
-                            NPC nPC6 = Main.npc[num1271];
-                            nPC6.life += num1279;
-                            NPC.HealEffect(Utils.CenteredRectangle(Main.npc[num1271].Center, new Vector2(50f)), num1279, true);
+                            int headHealingAmt = maxHealAmt + maxHealthFailsafe;
+                            maxHealAmt -= headHealingAmt;
+                            NPC nPC6 = Main.npc[headHeal];
+                            nPC6.life += headHealingAmt;
+                            NPC.HealEffect(Utils.CenteredRectangle(Main.npc[headHeal].Center, new Vector2(50f)), headHealingAmt, true);
                         }
-                        if (num1274 > 0 && num1273 > 0)
+                        if (totalHealth > 0 && maxHealAmt > 0)
                         {
-                            int num1280 = num1274 - num1273;
-                            if (num1280 > 0)
+                            int totalHealthFailsafe = totalHealth - maxHealAmt;
+                            if (totalHealthFailsafe > 0)
                             {
-                                num1280 = 0;
+                                totalHealthFailsafe = 0;
                             }
-                            int num1281 = num1273 + num1280;
-                            num1273 -= num1281;
-                            NPC nPC6 = Main.npc[num1268];
-                            nPC6.life += num1281;
-                            NPC.HealEffect(Utils.CenteredRectangle(Main.npc[num1268].Center, new Vector2(50f)), num1281, true);
+                            int totalHealingAmt = maxHealAmt + totalHealthFailsafe;
+                            maxHealAmt -= totalHealingAmt;
+                            NPC nPC6 = Main.npc[k];
+                            nPC6.life += totalHealingAmt;
+                            NPC.HealEffect(Utils.CenteredRectangle(Main.npc[k].Center, new Vector2(50f)), totalHealingAmt, true);
                         }
-                        if (num1275 > 0 && num1273 > 0)
+                        if (leftHandHealth > 0 && maxHealAmt > 0)
                         {
-                            int num1282 = num1275 - num1273;
-                            if (num1282 > 0)
+                            int leftHandHealthFailsafe = leftHandHealth - maxHealAmt;
+                            if (leftHandHealthFailsafe > 0)
                             {
-                                num1282 = 0;
+                                leftHandHealthFailsafe = 0;
                             }
-                            int num1283 = num1273 + num1282;
-                            num1273 -= num1283;
-                            NPC nPC6 = Main.npc[num1269];
-                            nPC6.life += num1283;
-                            NPC.HealEffect(Utils.CenteredRectangle(Main.npc[num1269].Center, new Vector2(50f)), num1283, true);
+                            int leftHandHealingAmt = maxHealAmt + leftHandHealthFailsafe;
+                            maxHealAmt -= leftHandHealingAmt;
+                            NPC nPC6 = Main.npc[leftHandHeal];
+                            nPC6.life += leftHandHealingAmt;
+                            NPC.HealEffect(Utils.CenteredRectangle(Main.npc[leftHandHeal].Center, new Vector2(50f)), leftHandHealingAmt, true);
                         }
-                        if (num1276 > 0 && num1273 > 0)
+                        if (rightHandHealth > 0 && maxHealAmt > 0)
                         {
-                            int num1284 = num1276 - num1273;
-                            if (num1284 > 0)
+                            int rightHandHealthFailsafe = rightHandHealth - maxHealAmt;
+                            if (rightHandHealthFailsafe > 0)
                             {
-                                num1284 = 0;
+                                rightHandHealthFailsafe = 0;
                             }
-                            int num1285 = num1273 + num1284;
-                            NPC nPC6 = Main.npc[num1270];
-                            nPC6.life += num1285;
-                            NPC.HealEffect(Utils.CenteredRectangle(Main.npc[num1270].Center, new Vector2(50f)), num1285, true);
+                            int rightHandHealingAmt = maxHealAmt + rightHandHealthFailsafe;
+                            NPC nPC6 = Main.npc[rightHandHeal];
+                            nPC6.life += rightHandHealingAmt;
+                            NPC.HealEffect(Utils.CenteredRectangle(Main.npc[rightHandHeal].Center, new Vector2(50f)), rightHandHealingAmt, true);
                         }
                     }
 
@@ -2247,26 +2235,26 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Move towards the Moon Lord mouth
                 npc.velocity = Vector2.Zero;
-                npc.Center = Vector2.Lerp(Main.projectile[num1267].Center, Main.npc[(int)Math.Abs(npc.ai[0]) - 1].Center + value28, npc.ai[2] / num1265);
+                npc.Center = Vector2.Lerp(Main.projectile[moonLordHead].Center, Main.npc[(int)Math.Abs(npc.ai[0]) - 1].Center + mouthMovement, npc.ai[2] / 180f);
 
                 // Emit dust
                 Vector2 spinningpoint3 = Vector2.UnitY * -npc.height / 2f;
-                for (int num1286 = 0; num1286 < 4; num1286++)
+                for (int i = 0; i < 4; i++)
                 {
-                    int num1287 = Dust.NewDust(npc.Center - Vector2.One * 4f + spinningpoint3.RotatedBy(num1286 * MathHelper.TwoPi / 6f), 0, 0, 229, 0f, 0f, 0, default, 1f);
-                    Main.dust[num1287].velocity = -Vector2.UnitY;
-                    Main.dust[num1287].noGravity = true;
-                    Main.dust[num1287].scale = 0.7f;
-                    Main.dust[num1287].customData = npc;
+                    int leechDust = Dust.NewDust(npc.Center - Vector2.One * 4f + spinningpoint3.RotatedBy(i * MathHelper.TwoPi / 6f), 0, 0, 229, 0f, 0f, 0, default, 1f);
+                    Main.dust[leechDust].velocity = -Vector2.UnitY;
+                    Main.dust[leechDust].noGravity = true;
+                    Main.dust[leechDust].scale = 0.7f;
+                    Main.dust[leechDust].customData = npc;
                 }
 
                 spinningpoint3 = Vector2.UnitY * -npc.height / 6f;
-                for (int num1288 = 0; num1288 < 2; num1288++)
+                for (int j = 0; j < 2; j++)
                 {
-                    int num1289 = Dust.NewDust(npc.Center - Vector2.One * 4f + spinningpoint3.RotatedBy(num1288 * MathHelper.TwoPi / 6f), 0, 0, 229, 0f, -2f, 0, default, 1f);
-                    Main.dust[num1289].noGravity = true;
-                    Main.dust[num1289].scale = 1.5f;
-                    Main.dust[num1289].customData = npc;
+                    int leechDust2 = Dust.NewDust(npc.Center - Vector2.One * 4f + spinningpoint3.RotatedBy(j * MathHelper.TwoPi / 6f), 0, 0, 229, 0f, -2f, 0, default, 1f);
+                    Main.dust[leechDust2].noGravity = true;
+                    Main.dust[leechDust2].scale = 1.5f;
+                    Main.dust[leechDust2].customData = npc;
                 }
             }
             return false;

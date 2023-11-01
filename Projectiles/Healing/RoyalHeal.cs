@@ -20,25 +20,25 @@ namespace CalamityMod.Projectiles.Healing
         public override void AI()
         {
             Projectile.HealingProjectile((int)Projectile.ai[1], (int)Projectile.ai[0], 5.5f, 15f);
-            for (int num493 = 0; num493 < 3; num493++)
+            for (int i = 0; i < 3; i++)
             {
-                float num494 = Projectile.velocity.X * 0.334f * (float)num493;
-                float num495 = -(Projectile.velocity.Y * 0.334f) * (float)num493;
-                int num496 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 20, 0f, 0f, 100, default, 1.1f);
-                Dust dust = Main.dust[num496];
+                float dustX = Projectile.velocity.X * 0.334f * (float)i;
+                float dustY = -(Projectile.velocity.Y * 0.334f) * (float)i;
+                int pureHeal = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 20, 0f, 0f, 100, default, 1.1f);
+                Dust dust = Main.dust[pureHeal];
                 dust.noGravity = true;
-                dust.position.X -= num494;
-                dust.position.Y -= num495;
+                dust.position.X -= dustX;
+                dust.position.Y -= dustY;
             }
-            for (int num497 = 0; num497 < 5; num497++)
+            for (int j = 0; j < 5; j++)
             {
-                float num498 = Projectile.velocity.X * 0.2f * (float)num497;
-                float num499 = -(Projectile.velocity.Y * 0.2f) * (float)num497;
-                int num500 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 20, 0f, 0f, 100, default, 1.3f);
-                Dust dust2 = Main.dust[num500];
+                float dustX2 = Projectile.velocity.X * 0.2f * (float)j;
+                float dustY2 = -(Projectile.velocity.Y * 0.2f) * (float)j;
+                int pureHeal2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 20, 0f, 0f, 100, default, 1.3f);
+                Dust dust2 = Main.dust[pureHeal2];
                 dust2.noGravity = true;
-                dust2.position.X -= num498;
-                dust2.position.Y -= num499;
+                dust2.position.X -= dustX2;
+                dust2.position.Y -= dustY2;
             }
         }
     }

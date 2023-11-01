@@ -111,6 +111,7 @@ namespace CalamityMod.NPCs
             "Katto", // <@!175972165504466944> (Katto#2858)
             "Him", // <@!931019614958256139> (@himtheguy1)
             "Tooshiboots", // <@!333532730593771522> (ulmod)
+            "Neesh", // <@!175803493464932352> (xjetty)
         };
         private static readonly string[] GolferNames = null;
         private static readonly string[] GuideNames =
@@ -280,7 +281,7 @@ namespace CalamityMod.NPCs
             "Katsafaros", // <@!190595401328492544> (NavyGuy#2650)
             "Lucerne", // <@!271954788676141066> (lord_lucerne)
             "Milo", // <@!401849201597874179> (maskedmilo)
-			"Octo", // <@!796112889353994281> (OctolingGrimm#8888)
+            "Octo", // <@!796112889353994281> (OctolingGrimm#8888)
         };
         private static readonly string[] TownCatSiameseNames = null;
         private static readonly string[] TownCatBlackNames =

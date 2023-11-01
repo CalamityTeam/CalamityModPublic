@@ -57,15 +57,14 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             float inertia = revenge ? 70f : 77f;
-            float num954 = 40f;
-            float scaleFactor12 = revenge ? 35f : 28f;
-            int num959 = (int)Projectile.ai[0];
-            if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
+            float velocityMult = revenge ? 35f : 28f;
+            int playerTracker = (int)Projectile.ai[0];
+            if (playerTracker >= 0 && Main.player[playerTracker].active && !Main.player[playerTracker].dead)
             {
-                if (Projectile.Distance(Main.player[num959].Center) > num954)
+                if (Projectile.Distance(Main.player[playerTracker].Center) > 40f)
                 {
-                    Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[num959].Center, Vector2.UnitY);
-                    Projectile.velocity = (Projectile.velocity * (inertia - 1f) + moveDirection * scaleFactor12) / inertia;
+                    Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[playerTracker].Center, Vector2.UnitY);
+                    Projectile.velocity = (Projectile.velocity * (inertia - 1f) + moveDirection * velocityMult) / inertia;
                 }
             }
             else
@@ -80,24 +79,24 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.timeLeft < 60)
                 return;
 
-            float num1247 = 0.5f;
-            for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
+            float acceleration = 0.5f;
+            for (int j = 0; j < Main.maxProjectiles; j++)
             {
-                if (Main.projectile[num1248].active)
+                if (Main.projectile[j].active)
                 {
-                    if (num1248 != Projectile.whoAmI && Main.projectile[num1248].type == Projectile.type)
+                    if (j != Projectile.whoAmI && Main.projectile[j].type == Projectile.type)
                     {
-                        if (Vector2.Distance(Projectile.Center, Main.projectile[num1248].Center) < 24f)
+                        if (Vector2.Distance(Projectile.Center, Main.projectile[j].Center) < 24f)
                         {
-                            if (Projectile.position.X < Main.projectile[num1248].position.X)
-                                Projectile.velocity.X -= num1247;
+                            if (Projectile.position.X < Main.projectile[j].position.X)
+                                Projectile.velocity.X -= acceleration;
                             else
-                                Projectile.velocity.X += num1247;
+                                Projectile.velocity.X += acceleration;
 
-                            if (Projectile.position.Y < Main.projectile[num1248].position.Y)
-                                Projectile.velocity.Y -= num1247;
+                            if (Projectile.position.Y < Main.projectile[j].position.Y)
+                                Projectile.velocity.Y -= acceleration;
                             else
-                                Projectile.velocity.Y += num1247;
+                                Projectile.velocity.Y += acceleration;
                         }
                     }
                 }
@@ -109,9 +108,9 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = texture.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle(0, y6, texture.Width, num214), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            int framing = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle(0, y6, texture.Width, framing), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, framing / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

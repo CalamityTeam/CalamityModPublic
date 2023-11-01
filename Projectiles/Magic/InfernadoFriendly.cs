@@ -98,8 +98,8 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.netUpdate = true;
                 Vector2 center = Projectile.Center;
                 center.Y -= baseHeight * Projectile.scale / 2f;
-                float num618 = (scaleBase - Projectile.ai[1] + 1f) * scaleMult / scaleBase;
-                center.Y -= baseHeight * num618 / 2f;
+                float nextSegmentHeight = (scaleBase - Projectile.ai[1] + 1f) * scaleMult / scaleBase;
+                center.Y -= baseHeight * nextSegmentHeight / 2f;
                 center.Y += 2f;
                 Projectile segment = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 10f, Projectile.ai[1] - 1f);
 
@@ -114,14 +114,14 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (Projectile.ai[0] <= 0f)
             {
-                float num622 = 0.104719758f;
-                float num623 = (float)Projectile.width / 5f;
-                num623 *= 2f;
-                float num624 = (float)(Math.Cos((double)(num622 * -(double)Projectile.ai[0])) - 0.5) * num623;
-                Projectile.position.X -= num624 * -Projectile.direction;
+                float swaySize = 0.104719758f;
+                float smolWidth = (float)Projectile.width / 5f;
+                smolWidth *= 2f;
+                float projXChange = (float)(Math.Cos((double)(swaySize * -(double)Projectile.ai[0])) - 0.5) * smolWidth;
+                Projectile.position.X -= projXChange * -Projectile.direction;
                 Projectile.ai[0] -= 1f;
-                num624 = (float)(Math.Cos((double)(num622 * -(double)Projectile.ai[0])) - 0.5) * num623;
-                Projectile.position.X += num624 * -Projectile.direction;
+                projXChange = (float)(Math.Cos((double)(swaySize * -(double)Projectile.ai[0])) - 0.5) * smolWidth;
+                Projectile.position.X += projXChange * -Projectile.direction;
                 return;
             }
         }
@@ -143,9 +143,9 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            int framing = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, framing)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)framing / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
     }

@@ -59,12 +59,12 @@ namespace CalamityMod.Projectiles.Boss
 
             Lighting.AddLight(Projectile.Center, 1f, 0.7f, 0f);
 
-            int num959 = (int)Projectile.ai[0];
-            if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
+            int playerTracker = (int)Projectile.ai[0];
+            if (playerTracker >= 0 && Main.player[playerTracker].active && !Main.player[playerTracker].dead)
             {
-                if (Projectile.Distance(Main.player[num959].Center) > 320f)
+                if (Projectile.Distance(Main.player[playerTracker].Center) > 320f)
                 {
-                    Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[num959].Center, Vector2.UnitY);
+                    Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[playerTracker].Center, Vector2.UnitY);
                     Projectile.velocity = (Projectile.velocity * (inertia - 1f) + moveDirection * scaleFactor12) / inertia;
                 }
             }
@@ -89,23 +89,23 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
             Projectile.Damage();
-            for (int num621 = 0; num621 < 30; num621++)
+            for (int i = 0; i < 30; i++)
             {
-                int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int nukeDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[nukeDust].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    Main.dust[nukeDust].scale = 0.5f;
+                    Main.dust[nukeDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 40; num623++)
+            for (int j = 0; j < 40; j++)
             {
-                int num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int nukeDust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
+                Main.dust[nukeDust2].noGravity = true;
+                Main.dust[nukeDust2].velocity *= 5f;
+                nukeDust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[nukeDust2].velocity *= 2f;
             }
 
             if (Main.netMode != NetmodeID.Server)

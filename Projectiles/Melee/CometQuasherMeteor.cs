@@ -43,25 +43,25 @@ namespace CalamityMod.Projectiles.Melee
         {
             SoundEngine.PlaySound(SoundID.Item89, Projectile.position);
             Projectile.ExpandHitboxBy((int)(128f * Projectile.scale));
-            for (int index = 0; index < 8; ++index)
+            for (int i = 0; i < 8; ++i)
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 31, 0.0f, 0.0f, 100, new Color(), 1.5f);
-            for (int index1 = 0; index1 < 32; ++index1)
+            for (int j = 0; j < 32; ++j)
             {
-                int index2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0.0f, 0.0f, 100, new Color(), 2.5f);
-                Dust dust1 = Main.dust[index2];
+                int fieryDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0.0f, 0.0f, 100, new Color(), 2.5f);
+                Dust dust1 = Main.dust[fieryDust];
                 dust1.noGravity = true;
                 dust1.velocity *= 3f;
-                int index3 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0.0f, 0.0f, 100, new Color(), 1.5f);
-                Dust dust2 = Main.dust[index3];
+                int fieryDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0.0f, 0.0f, 100, new Color(), 1.5f);
+                Dust dust2 = Main.dust[fieryDust2];
                 dust2.velocity *= 2f;
                 dust2.noGravity = true;
             }
             if (Main.netMode != NetmodeID.Server)
             {
-                for (int index1 = 0; index1 < 2; ++index1)
+                for (int j = 0; j < 2; ++j)
                 {
-                    int index2 = Gore.NewGore(Projectile.GetSource_Death(), Projectile.position + new Vector2((float)(Projectile.width * Main.rand.Next(100)) / 100f, (float)(Projectile.height * Main.rand.Next(100)) / 100f) - Vector2.One * 10f, new Vector2(), Main.rand.Next(61, 64), 1f);
-                    Gore gore = Main.gore[index2];
+                    int fieryDust = Gore.NewGore(Projectile.GetSource_Death(), Projectile.position + new Vector2((float)(Projectile.width * Main.rand.Next(100)) / 100f, (float)(Projectile.height * Main.rand.Next(100)) / 100f) - Vector2.One * 10f, new Vector2(), Main.rand.Next(61, 64), 1f);
+                    Gore gore = Main.gore[fieryDust];
                     gore.velocity *= 0.3f;
                     gore.velocity.X += (float)Main.rand.Next(-10, 11) * 0.05f;
                     gore.velocity.Y += (float)Main.rand.Next(-10, 11) * 0.05f;
@@ -75,10 +75,10 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.maxPenetrate = 0;
                 Projectile.Damage();
             }
-            for (int index1 = 0; index1 < 5; ++index1)
+            for (int j = 0; j < 5; ++j)
             {
-                int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Utils.SelectRandom<int>(Main.rand, new int[3]{ 6, 259, 158 }), 2.5f * (float) Projectile.direction, -2.5f, 0, new Color(), 1f);
-                Dust dust1 = Main.dust[index2];
+                int fieryDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Utils.SelectRandom<int>(Main.rand, new int[3]{ 6, 259, 158 }), 2.5f * (float) Projectile.direction, -2.5f, 0, new Color(), 1f);
+                Dust dust1 = Main.dust[fieryDust];
                 dust1.alpha = 200;
                 dust1.velocity *= 2.4f;
                 dust1.scale += Main.rand.NextFloat();

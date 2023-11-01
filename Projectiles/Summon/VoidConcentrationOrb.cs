@@ -69,20 +69,20 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (target != null)
                 {
-                    float num550 = 40f;
-                    Vector2 vector43 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                    float num551 = target.Center.X - vector43.X;
-                    float num552 = target.Center.Y - vector43.Y;
-                    float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
-                    if (num553 < 100f)
+                    float projSpeed = 40f;
+                    Vector2 fireDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                    float fireXVel = target.Center.X - fireDirection.X;
+                    float fireYVel = target.Center.Y - fireDirection.Y;
+                    float fireVelocity = (float)Math.Sqrt((double)(fireXVel * fireXVel + fireYVel * fireYVel));
+                    if (fireVelocity < 100f)
                     {
-                        num550 = 28f; //14
+                        projSpeed = 28f; //14
                     }
-                    num553 = num550 / num553;
-                    num551 *= num553;
-                    num552 *= num553;
-                    Projectile.velocity.X = (Projectile.velocity.X * 25f + num551) / 26f;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * 25f + num552) / 26f;
+                    fireVelocity = projSpeed / fireVelocity;
+                    fireXVel *= fireVelocity;
+                    fireYVel *= fireVelocity;
+                    Projectile.velocity.X = (Projectile.velocity.X * 25f + fireXVel) / 26f;
+                    Projectile.velocity.Y = (Projectile.velocity.Y * 25f + fireYVel) / 26f;
                     if (Main.rand.NextBool(5))
                         Projectile.velocity *= 1.1f;
                 }

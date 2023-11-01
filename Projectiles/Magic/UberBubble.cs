@@ -30,14 +30,14 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.alpha < 0)
                 Projectile.alpha = 0;
 
-            Vector2 v2 = Projectile.ai[0].ToRotationVector2();
-            float num743 = Projectile.velocity.ToRotation();
-            float num744 = v2.ToRotation();
-            double num745 = num744 - num743;
-            if (num745 > MathHelper.Pi)
-                num745 -= MathHelper.TwoPi;
-            if (num745 < -MathHelper.Pi)
-                num745 -= -MathHelper.TwoPi;
+            Vector2 uber = Projectile.ai[0].ToRotationVector2();
+            float projRotation = Projectile.velocity.ToRotation();
+            float aiRotation = uber.ToRotation();
+            double rotationClamp = aiRotation - projRotation;
+            if (rotationClamp > MathHelper.Pi)
+                rotationClamp -= MathHelper.TwoPi;
+            if (rotationClamp < -MathHelper.Pi)
+                rotationClamp -= -MathHelper.TwoPi;
 
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
@@ -45,13 +45,13 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item96, Projectile.position);
-            int num190 = Main.rand.Next(4, 6);
-            for (int num191 = 0; num191 < num190; num191++)
+            int randDustAmt = Main.rand.Next(4, 6);
+            for (int i = 0; i < randDustAmt; i++)
             {
-                int num192 = Dust.NewDust(Projectile.Center, 0, 0, 171, 0f, 0f, 100, default, 1.4f);
-                Main.dust[num192].velocity *= 0.8f;
-                Main.dust[num192].position = Vector2.Lerp(Main.dust[num192].position, Projectile.Center, 0.5f);
-                Main.dust[num192].noGravity = true;
+                int purpleDust = Dust.NewDust(Projectile.Center, 0, 0, 171, 0f, 0f, 100, default, 1.4f);
+                Main.dust[purpleDust].velocity *= 0.8f;
+                Main.dust[purpleDust].position = Vector2.Lerp(Main.dust[purpleDust].position, Projectile.Center, 0.5f);
+                Main.dust[purpleDust].noGravity = true;
             }
             if (Projectile.owner == Main.myPlayer)
             {

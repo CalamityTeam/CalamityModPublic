@@ -64,15 +64,15 @@ namespace CalamityMod.Projectiles.Ranged
 
             if (Math.Abs(Projectile.velocity.X) >= 8f || Math.Abs(Projectile.velocity.Y) >= 8f)
             {
-                float num247 = Projectile.velocity.X * 0.5f;
-                float num248 = Projectile.velocity.Y * 0.5f;
-                int num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 244, 0f, 0f, 100, default, 1f);
-                Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-                Main.dust[num249].velocity *= 0.2f;
-                Main.dust[num249].noGravity = true;
-                num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 244, 0f, 0f, 100, default, 0.5f);
-                Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-                Main.dust[num249].velocity *= 0.05f;
+                float halfX = Projectile.velocity.X * 0.5f;
+                float halfY = Projectile.velocity.Y * 0.5f;
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X + 3f + halfX, Projectile.position.Y + 3f + halfY) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[dust].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+                Main.dust[dust].velocity *= 0.2f;
+                Main.dust[dust].noGravity = true;
+                dust = Dust.NewDust(new Vector2(Projectile.position.X + 3f + halfX, Projectile.position.Y + 3f + halfY) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 244, 0f, 0f, 100, default, 0.5f);
+                Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[dust].velocity *= 0.05f;
             }
 
 			if (RocketType == ItemID.DryRocket || RocketType == ItemID.WetRocket || RocketType == ItemID.LavaRocket || RocketType == ItemID.HoneyRocket)

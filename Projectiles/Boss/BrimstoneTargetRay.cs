@@ -1,12 +1,13 @@
-﻿using CalamityMod.NPCs.BrimstoneElemental;
+﻿using System.IO;
+using CalamityMod.NPCs.BrimstoneElemental;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System.IO;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneTargetRay : ModProjectile, ILocalizedModType
@@ -80,8 +81,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-            float num805 = 3f; //3f
-            float num806 = Projectile.width;
+            float projWidth = Projectile.width;
 
             Vector2 samplingPoint = Projectile.Center;
             if (vector78.HasValue)
@@ -89,23 +89,23 @@ namespace CalamityMod.Projectiles.Boss
                 samplingPoint = vector78.Value;
             }
 
-            float[] array3 = new float[(int)num805];
-            Collision.LaserScan(samplingPoint, Projectile.velocity, num806 * Projectile.scale, 2400f, array3);
-            float num807 = 0f;
-            for (int num808 = 0; num808 < array3.Length; num808++)
+            float[] array3 = new float[3];
+            Collision.LaserScan(samplingPoint, Projectile.velocity, projWidth * Projectile.scale, 2400f, array3);
+            float rayLength = 0f;
+            for (int i = 0; i < array3.Length; i++)
             {
-                num807 += array3[num808];
+                rayLength += array3[i];
             }
-            num807 /= num805;
+            rayLength /= 3f;
 
             // Fire laser through walls at max length if target cannot be seen
             if (!Collision.CanHitLine(Main.npc[(int)Projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)Projectile.ai[1]].target].Center, 1, 1))
             {
-                num807 = 2400f;
+                rayLength = 2400f;
             }
 
             float amount = 0.5f; //0.5f
-            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], num807, amount); //length of laser, linear interpolation
+            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], rayLength, amount); //length of laser, linear interpolation
 
             DelegateMethods.v3_1 = new Vector3(0.9f, 0.3f, 0.3f);
             Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], Projectile.width * Projectile.scale, DelegateMethods.CastLight);
@@ -120,37 +120,37 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D texture2D19 = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D texture2D20 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BrimstoneRayMid", AssetRequestMode.ImmediateLoad).Value;
             Texture2D texture2D21 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BrimstoneRayEnd", AssetRequestMode.ImmediateLoad).Value;
-            float num223 = Projectile.localAI[1]; //length of laser
-            Color color44 = new Color(255, 255, 255, 0) * 0.9f;
+            float rayDrawLength = Projectile.localAI[1]; //length of laser
+            Color baseColor = new Color(255, 255, 255, 0) * 0.9f;
             Vector2 vector = Projectile.Center - Main.screenPosition;
             Rectangle? sourceRectangle2 = null;
-            Main.EntitySpriteDraw(texture2D19, vector, sourceRectangle2, color44, Projectile.rotation, texture2D19.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
-            num223 -= (texture2D19.Height / 2 + texture2D21.Height) * Projectile.scale;
-            Vector2 value20 = Projectile.Center;
-            value20 += Projectile.velocity * Projectile.scale * texture2D19.Height / 2f;
-            if (num223 > 0f)
+            Main.EntitySpriteDraw(texture2D19, vector, sourceRectangle2, baseColor, Projectile.rotation, texture2D19.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            rayDrawLength -= (texture2D19.Height / 2 + texture2D21.Height) * Projectile.scale;
+            Vector2 projCenter = Projectile.Center;
+            projCenter += Projectile.velocity * Projectile.scale * texture2D19.Height / 2f;
+            if (rayDrawLength > 0f)
             {
-                float num224 = 0f;
-                Rectangle rectangle7 = new Rectangle(0, 16 * (Projectile.timeLeft / 3 % 5), texture2D20.Width, 16);
-                while (num224 + 1f < num223)
+                float raySegment = 0f;
+                Rectangle drawRectangle = new Rectangle(0, 16 * (Projectile.timeLeft / 3 % 5), texture2D20.Width, 16);
+                while (raySegment + 1f < rayDrawLength)
                 {
-                    if (num223 - num224 < rectangle7.Height)
+                    if (rayDrawLength - raySegment < drawRectangle.Height)
                     {
-                        rectangle7.Height = (int)(num223 - num224);
+                        drawRectangle.Height = (int)(rayDrawLength - raySegment);
                     }
-                    Main.EntitySpriteDraw(texture2D20, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, Projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0);
-                    num224 += rectangle7.Height * Projectile.scale;
-                    value20 += Projectile.velocity * rectangle7.Height * Projectile.scale;
-                    rectangle7.Y += 16;
-                    if (rectangle7.Y + rectangle7.Height > texture2D20.Height)
+                    Main.EntitySpriteDraw(texture2D20, projCenter - Main.screenPosition, new Rectangle?(drawRectangle), baseColor, Projectile.rotation, new Vector2(drawRectangle.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0);
+                    raySegment += drawRectangle.Height * Projectile.scale;
+                    projCenter += Projectile.velocity * drawRectangle.Height * Projectile.scale;
+                    drawRectangle.Y += 16;
+                    if (drawRectangle.Y + drawRectangle.Height > texture2D20.Height)
                     {
-                        rectangle7.Y = 0;
+                        drawRectangle.Y = 0;
                     }
                 }
             }
-            Vector2 vector2 = value20 - Main.screenPosition;
+            Vector2 vector2 = projCenter - Main.screenPosition;
             sourceRectangle2 = null;
-            Main.EntitySpriteDraw(texture2D21, vector2, sourceRectangle2, color44, Projectile.rotation, texture2D21.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture2D21, vector2, sourceRectangle2, baseColor, Projectile.rotation, texture2D21.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -167,8 +167,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return true;
             }
-            float num6 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 22f * Projectile.scale, ref num6))
+            float useless = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 22f * Projectile.scale, ref useless))
             {
                 return true;
             }

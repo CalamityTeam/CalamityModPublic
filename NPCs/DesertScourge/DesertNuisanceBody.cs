@@ -93,40 +93,39 @@ namespace CalamityMod.NPCs.DesertScourge
             if (Main.player[NPC.target].dead)
                 NPC.TargetClosest(false);
 
-            Vector2 vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num191 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
-            float num192 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
-            num191 = (float)((int)(num191 / 16f) * 16);
-            num192 = (float)((int)(num192 / 16f) * 16);
-            vector18.X = (float)((int)(vector18.X / 16f) * 16);
-            vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-            float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+            Vector2 segmentTilePos = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float playerXPos = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float playerYPos = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
+            playerXPos = (float)((int)(playerXPos / 16f) * 16);
+            playerYPos = (float)((int)(playerYPos / 16f) * 16);
+            segmentTilePos.X = (float)((int)(segmentTilePos.X / 16f) * 16);
+            segmentTilePos.Y = (float)((int)(segmentTilePos.Y / 16f) * 16);
+            playerXPos -= segmentTilePos.X;
+            playerYPos -= segmentTilePos.Y;
+            float playerDistance = (float)System.Math.Sqrt((double)(playerXPos * playerXPos + playerYPos * playerYPos));
             if (NPC.ai[1] > 0f && NPC.ai[1] < (float)Main.npc.Length)
             {
                 try
                 {
-                    vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                    num191 = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - vector18.X;
-                    num192 = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - vector18.Y;
+                    segmentTilePos = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                    playerXPos = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - segmentTilePos.X;
+                    playerYPos = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - segmentTilePos.Y;
                 }
                 catch
                 {
                 }
-                NPC.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
-                num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-                int num194 = NPC.width;
-                num193 = (num193 - (float)num194) / num193;
-                num191 *= num193;
-                num192 *= num193;
+                NPC.rotation = (float)System.Math.Atan2((double)playerYPos, (double)playerXPos) + 1.57f;
+                playerDistance = (float)System.Math.Sqrt((double)(playerXPos * playerXPos + playerYPos * playerYPos));
+                playerDistance = (playerDistance - (float)(NPC.width)) / playerDistance;
+                playerXPos *= playerDistance;
+                playerYPos *= playerDistance;
                 NPC.velocity = Vector2.Zero;
-                NPC.position.X = NPC.position.X + num191;
-                NPC.position.Y = NPC.position.Y + num192;
+                NPC.position.X = NPC.position.X + playerXPos;
+                NPC.position.Y = NPC.position.Y + playerYPos;
 
-                if (num191 < 0f)
+                if (playerXPos < 0f)
                     NPC.spriteDirection = 1;
-                else if (num191 > 0f)
+                else if (playerXPos > 0f)
                     NPC.spriteDirection = -1;
             }
         }

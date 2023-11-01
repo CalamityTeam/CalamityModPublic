@@ -48,15 +48,15 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, (int)CalamityDusts.Brimstone, 0f, 0f, 160, default, 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = Projectile.Center + vector3;
-                    Main.dust[num9].velocity = Projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+                    Vector2 rotate = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
+                    rotate += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
+                    rotate = rotate.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
+                    int bloodDust = Dust.NewDust(Projectile.Center, 0, 0, (int)CalamityDusts.Brimstone, 0f, 0f, 160, default, 1f);
+                    Main.dust[bloodDust].scale = 1.1f;
+                    Main.dust[bloodDust].noGravity = true;
+                    Main.dust[bloodDust].position = Projectile.Center + rotate;
+                    Main.dust[bloodDust].velocity = Projectile.velocity * 0.1f;
+                    Main.dust[bloodDust].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[bloodDust].position) * 1.25f;
                 }
             }
         }
@@ -69,14 +69,14 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.height = 20;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int num621 = 0; num621 < 5; num621++)
+            for (int i = 0; i < 5; i++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 0.5f;
+                int brimDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                Main.dust[brimDust].velocity *= 0.5f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[brimDust].scale = 0.5f;
+                    Main.dust[brimDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
         }

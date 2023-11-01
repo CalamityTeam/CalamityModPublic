@@ -36,34 +36,34 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (Projectile.localAI[1] < 30f)
             {
-                for (int num1134 = 0; num1134 < 1; num1134++)
+                for (int i = 0; i < 1; i++)
                 {
-                    float value79 = -0.5f;
-                    float value80 = 0.9f;
-                    float amount4 = Main.rand.NextFloat();
-                    Vector2 value81 = new Vector2(MathHelper.Lerp(0.1f, 1f, Main.rand.NextFloat()), MathHelper.Lerp(value79, value80, amount4));
-                    value81.X *= MathHelper.Lerp(2.2f, 0.6f, amount4);
-                    value81.X *= -1f;
-                    Vector2 value82 = new Vector2(2f, 10f);
-                    Vector2 position4 = Projectile.Center + new Vector2(60f, 200f) * value81 * 0.5f + value82;
-                    Dust dust34 = Main.dust[Dust.NewDust(position4, 0, 0, 187, 0f, 0f, 0, default, 0.5f)];
-                    dust34.position = position4;
-                    dust34.customData = Projectile.Center + value82;
-                    dust34.fadeIn = 1f;
-                    dust34.scale = 0.3f;
-                    if (value81.X > -1.2f)
+                    float lerpvalue1 = -0.5f;
+                    float lerpvalue2 = 0.9f;
+                    float randomLerp = Main.rand.NextFloat();
+                    Vector2 dustMovement = new Vector2(MathHelper.Lerp(0.1f, 1f, Main.rand.NextFloat()), MathHelper.Lerp(lerpvalue1, lerpvalue2, randomLerp));
+                    dustMovement.X *= MathHelper.Lerp(2.2f, 0.6f, randomLerp);
+                    dustMovement.X *= -1f;
+                    Vector2 dustMovement2 = new Vector2(2f, 10f);
+                    Vector2 position4 = Projectile.Center + new Vector2(60f, 200f) * dustMovement * 0.5f + dustMovement2;
+                    Dust stormy = Main.dust[Dust.NewDust(position4, 0, 0, 187, 0f, 0f, 0, default, 0.5f)];
+                    stormy.position = position4;
+                    stormy.customData = Projectile.Center + dustMovement2;
+                    stormy.fadeIn = 1f;
+                    stormy.scale = 0.3f;
+                    if (dustMovement.X > -1.2f)
                     {
-                        dust34.velocity.X = 1f + Main.rand.NextFloat();
+                        stormy.velocity.X = 1f + Main.rand.NextFloat();
                     }
-                    dust34.velocity.Y = Main.rand.NextFloat() * -0.5f - 1f;
+                    stormy.velocity.Y = Main.rand.NextFloat() * -0.5f - 1f;
                 }
             }
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 0.8f;
                 Projectile.direction = 1;
-                Point point9 = Projectile.Center.ToTileCoordinates();
-                Projectile.Center = new Vector2((float)(point9.X * 16 + 8), (float)(point9.Y * 16 + 8));
+                Point projCenter = Projectile.Center.ToTileCoordinates();
+                Projectile.Center = new Vector2((float)(projCenter.X * 16 + 8), (float)(projCenter.Y * 16 + 8));
             }
             Projectile.rotation = Projectile.localAI[1] / 40f * 6.28318548f * (float)Projectile.direction;
             if (Projectile.localAI[1] < 33f)
@@ -92,30 +92,30 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Lighting.AddLight(Projectile.Center, newColor3.ToVector3() * 0.5f);
             }
-            for (int num1135 = 0; num1135 < 2; num1135++)
+            for (int j = 0; j < 2; j++)
             {
                 if (Main.rand.NextBool(10))
                 {
-                    Vector2 value83 = Vector2.UnitY.RotatedBy((double)((float)num1135 * 3.14159274f), default).RotatedBy((double)Projectile.rotation, default);
-                    Dust dust35 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 187, 0f, 0f, 225, newColor3, 1f)];
-                    dust35.noGravity = true;
-                    dust35.noLight = true;
-                    dust35.scale = Projectile.Opacity * Projectile.localAI[0];
-                    dust35.position = Projectile.Center;
-                    dust35.velocity = value83 * 2.5f;
+                    Vector2 dustVel = Vector2.UnitY.RotatedBy((double)((float)j * 3.14159274f), default).RotatedBy((double)Projectile.rotation, default);
+                    Dust stormDust = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 187, 0f, 0f, 225, newColor3, 1f)];
+                    stormDust.noGravity = true;
+                    stormDust.noLight = true;
+                    stormDust.scale = Projectile.Opacity * Projectile.localAI[0];
+                    stormDust.position = Projectile.Center;
+                    stormDust.velocity = dustVel * 2.5f;
                 }
             }
             for (int num1136 = 0; num1136 < 2; num1136++)
             {
                 if (Main.rand.NextBool(10))
                 {
-                    Vector2 value84 = Vector2.UnitY.RotatedBy((double)((float)num1136 * 3.14159274f), default);
-                    Dust dust36 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 187, 0f, 0f, 225, newColor3, 1.5f)];
-                    dust36.noGravity = true;
-                    dust36.noLight = true;
-                    dust36.scale = Projectile.Opacity * Projectile.localAI[0];
-                    dust36.position = Projectile.Center;
-                    dust36.velocity = value84 * 2.5f;
+                    Vector2 dustVel2 = Vector2.UnitY.RotatedBy((double)((float)num1136 * 3.14159274f), default);
+                    Dust stormDust2 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 187, 0f, 0f, 225, newColor3, 1.5f)];
+                    stormDust2.noGravity = true;
+                    stormDust2.noLight = true;
+                    stormDust2.scale = Projectile.Opacity * Projectile.localAI[0];
+                    stormDust2.position = Projectile.Center;
+                    stormDust2.velocity = dustVel2 * 2.5f;
                 }
             }
             if (Projectile.localAI[1] < 33f || Projectile.localAI[1] > 87f)
@@ -136,16 +136,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Color color25 = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
-            Vector2 vector38 = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
+            Color originalColor = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
+            Vector2 drawPos = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D27 = ModContent.Request<Texture2D>(Texture).Value;
-            Rectangle rectangle11 = texture2D27.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
-            Color alpha5 = Projectile.GetAlpha(color25);
-            Vector2 origin7 = rectangle11.Size() / 2f;
-            Color color47 = Main.hslToRgb(0.25f, 1f, 1f).MultiplyRGBA(new Color(255, 255, 255, 0));
-            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), color47, 0f, origin7, new Vector2(1f, 5f) * Projectile.scale * 2f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), alpha5, Projectile.rotation, origin7, Projectile.scale, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), alpha5, 0f, origin7, new Vector2(1f, 8f) * Projectile.scale, SpriteEffects.None, 0);
+            Rectangle rectangl = texture2D27.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Color alphaColor = Projectile.GetAlpha(originalColor);
+            Vector2 halfRect = rectangl.Size() / 2f;
+            Color whiteColor = Main.hslToRgb(0.25f, 1f, 1f).MultiplyRGBA(new Color(255, 255, 255, 0));
+            Main.spriteBatch.Draw(texture2D27, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangl), whiteColor, 0f, halfRect, new Vector2(1f, 5f) * Projectile.scale * 2f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture2D27, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangl), alphaColor, Projectile.rotation, halfRect, Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture2D27, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangl), alphaColor, 0f, halfRect, new Vector2(1f, 8f) * Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
     }

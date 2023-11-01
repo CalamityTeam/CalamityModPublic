@@ -103,30 +103,30 @@ namespace CalamityMod.Projectiles.Melee
 
             for (int x = 1; x <= 3; x++)
             {
-                int num20 = 36;
-                for (int i = 0; i < num20; i++)
+                int dustAmt = 36;
+                for (int i = 0; i < dustAmt; i++)
                 {
                     Vector2 spinningpoint = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f * 0.5f;
-                    spinningpoint = spinningpoint.RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default(Vector2)) + Projectile.Center;
+                    spinningpoint = spinningpoint.RotatedBy((double)((float)(i - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default(Vector2)) + Projectile.Center;
                     Vector2 vector = spinningpoint - Projectile.Center;
-                    int num21 = Dust.NewDust(spinningpoint + vector, 0, 0, 180, vector.X * 2f, vector.Y * 2f, 0, new Color(255, 255, 255), 1f);
-                    Main.dust[num21].noGravity = true;
-                    Main.dust[num21].velocity = Vector2.Normalize(vector) * x;
+                    int stratus = Dust.NewDust(spinningpoint + vector, 0, 0, 180, vector.X * 2f, vector.Y * 2f, 0, new Color(255, 255, 255), 1f);
+                    Main.dust[stratus].noGravity = true;
+                    Main.dust[stratus].velocity = Vector2.Normalize(vector) * x;
                 }
             }
 
             for (int x = 1; x <= 3; x++)
             {
-                int num20 = 36;
-                for (int i = 0; i < num20; i++)
+                int dustAmt = 36;
+                for (int i = 0; i < dustAmt; i++)
                 {
                     Vector2 spinningpoint = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f * 0.5f;
-                    spinningpoint = spinningpoint.RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default(Vector2)) + Projectile.Center;
+                    spinningpoint = spinningpoint.RotatedBy((double)((float)(i - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default(Vector2)) + Projectile.Center;
                     Vector2 vector = spinningpoint - Projectile.Center;
-                    int num21 = Dust.NewDust(spinningpoint + vector, 0, 0, 180, vector.X * 2f, vector.Y * 2f, 0, new Color(255, 255, 255), 1f);
-                    Main.dust[num21].noGravity = true;
-                    Main.dust[num21].velocity = Vector2.Normalize(vector) * x;
-                    Main.dust[num21].velocity *= 2;
+                    int stratus = Dust.NewDust(spinningpoint + vector, 0, 0, 180, vector.X * 2f, vector.Y * 2f, 0, new Color(255, 255, 255), 1f);
+                    Main.dust[stratus].noGravity = true;
+                    Main.dust[stratus].velocity = Vector2.Normalize(vector) * x;
+                    Main.dust[stratus].velocity *= 2;
                 }
             }
 

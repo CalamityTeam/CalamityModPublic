@@ -42,29 +42,29 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
             Projectile.alpha -= 15;
-            int num58 = 150;
+            int alphaControl = 150;
             if (Projectile.Center.Y >= Projectile.ai[1])
             {
-                num58 = 0;
+                alphaControl = 0;
             }
-            if (Projectile.alpha < num58)
+            if (Projectile.alpha < alphaControl)
             {
-                Projectile.alpha = num58;
+                Projectile.alpha = alphaControl;
             }
             Projectile.localAI[0] += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
             Projectile.rotation = Projectile.velocity.ToRotation() - 1.57079637f;
             if (Main.rand.NextBool(16))
             {
-                Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)Projectile.velocity.ToRotation(), default);
-                int num59 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1.2f);
-                Main.dust[num59].velocity = value3 * 0.66f;
-                Main.dust[num59].position = Projectile.Center + value3 * 12f;
+                Vector2 dustDirection = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)Projectile.velocity.ToRotation(), default);
+                int brownDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1.2f);
+                Main.dust[brownDust].velocity = dustDirection * 0.66f;
+                Main.dust[brownDust].position = Projectile.Center + dustDirection * 12f;
             }
             if (Main.rand.NextBool(48) && Main.netMode != NetmodeID.Server)
             {
-                int num60 = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
-                Main.gore[num60].velocity *= 0.66f;
-                Main.gore[num60].velocity += Projectile.velocity * 0.3f;
+                int gored = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
+                Main.gore[gored].velocity *= 0.66f;
+                Main.gore[gored].velocity += Projectile.velocity * 0.3f;
             }
             if (Projectile.ai[1] == 1f)
             {
@@ -90,23 +90,23 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 30;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int num621 = 0; num621 < 20; num621++)
+            for (int i = 0; i < 20; i++)
             {
-                int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int dusty = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[dusty].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[dusty].scale = 0.5f;
+                    Main.dust[dusty].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
             for (int num623 = 0; num623 < 35; num623++)
             {
-                int num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int dusty2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 3f);
+                Main.dust[dusty2].noGravity = true;
+                Main.dust[dusty2].velocity *= 5f;
+                dusty2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[dusty2].velocity *= 2f;
             }
 
             if (Main.netMode != NetmodeID.Server)

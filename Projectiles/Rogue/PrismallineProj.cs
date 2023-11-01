@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     else //stealth strike
                     {
-                        for (int num252 = 0; num252 < 5; num252++)
+                        for (int j = 0; j < 5; j++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                             int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), Projectile.damage / 2, 0f, Projectile.owner);

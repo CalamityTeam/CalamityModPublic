@@ -123,32 +123,30 @@ namespace CalamityMod.NPCs.Leviathan
             if (!sirenAlive || leviathanInPhase4)
                 inertia *= 0.75f;
 
-            float num1006 = 0.111111117f * inertia;
             if (NPC.ai[0] == 0f)
             {
-                float scaleFactor6 = bossRush ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
+                float lungeSpeed = bossRush ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
                 if (!sirenAlive || leviathanInPhase4)
-                    scaleFactor6 *= 1.25f;
+                    lungeSpeed *= 1.25f;
 
-                Vector2 center4 = NPC.Center;
-                Vector2 center5 = Main.player[NPC.target].Center;
-                Vector2 vector126 = center5 - center4;
-                Vector2 vector127 = vector126 - Vector2.UnitY * 300f * NPC.scale;
-                float num1013 = vector126.Length();
-                vector126 = Vector2.Normalize(vector126) * scaleFactor6;
-                vector127 = Vector2.Normalize(vector127) * scaleFactor6;
-                bool flag64 = Collision.CanHit(NPC.Center, 1, 1, Main.player[NPC.target].Center, 1, 1);
+                Vector2 npcCenter = NPC.Center;
+                Vector2 targetCenter = Main.player[NPC.target].Center;
+                Vector2 targetDirection = targetCenter - npcCenter;
+                Vector2 beginLungeYDist = targetDirection - Vector2.UnitY * 300f * NPC.scale;
+                float targetDist = targetDirection.Length();
+                targetDirection = Vector2.Normalize(targetDirection) * lungeSpeed;
+                beginLungeYDist = Vector2.Normalize(beginLungeYDist) * lungeSpeed;
+                bool canHitPlayer = Collision.CanHit(NPC.Center, 1, 1, Main.player[NPC.target].Center, 1, 1);
                 if (NPC.ai[3] >= 120f)
                 {
-                    flag64 = true;
+                    canHitPlayer = true;
                 }
-                float num1014 = 8f;
-                flag64 = flag64 && vector126.ToRotation() > MathHelper.Pi / num1014 && vector126.ToRotation() < MathHelper.Pi - MathHelper.Pi / num1014;
-                if (num1013 > 800f * NPC.scale || !flag64)
+                canHitPlayer = canHitPlayer && targetDirection.ToRotation() > MathHelper.Pi / 8f && targetDirection.ToRotation() < MathHelper.Pi - MathHelper.Pi / 8f;
+                if (targetDist > 800f * NPC.scale || !canHitPlayer)
                 {
-                    NPC.velocity.X = (NPC.velocity.X * (inertia - 1f) + vector127.X) / inertia;
-                    NPC.velocity.Y = (NPC.velocity.Y * (inertia - 1f) + vector127.Y) / inertia;
-                    if (!flag64)
+                    NPC.velocity.X = (NPC.velocity.X * (inertia - 1f) + beginLungeYDist.X) / inertia;
+                    NPC.velocity.Y = (NPC.velocity.Y * (inertia - 1f) + beginLungeYDist.Y) / inertia;
+                    if (!canHitPlayer)
                     {
                         NPC.ai[3] += 1f;
                         if (NPC.ai[3] == 120f)
@@ -164,8 +162,8 @@ namespace CalamityMod.NPCs.Leviathan
                 else
                 {
                     NPC.ai[0] = 1f;
-                    NPC.ai[2] = vector126.X;
-                    NPC.ai[3] = vector126.Y;
+                    NPC.ai[2] = targetDirection.X;
+                    NPC.ai[3] = targetDirection.Y;
                     NPC.netUpdate = true;
                 }
             }
@@ -187,8 +185,8 @@ namespace CalamityMod.NPCs.Leviathan
             else if (NPC.ai[0] == 2f)
             {
                 NPC.ai[1] += 1f;
-                bool flag65 = NPC.Center.Y + 50f > Main.player[NPC.target].Center.Y;
-                if ((NPC.ai[1] >= 90f && flag65) || NPC.velocity.Length() < ((!sirenAlive || leviathanInPhase4) ? 10f : 8f))
+                bool doLunge = NPC.Center.Y + 50f > Main.player[NPC.target].Center.Y;
+                if ((NPC.ai[1] >= 90f && doLunge) || NPC.velocity.Length() < ((!sirenAlive || leviathanInPhase4) ? 10f : 8f))
                 {
                     NPC.ai[0] = 3f;
                     NPC.ai[1] = 45f;
@@ -199,15 +197,15 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 else
                 {
-                    Vector2 center6 = NPC.Center;
-                    Vector2 center7 = Main.player[NPC.target].Center;
-                    Vector2 vec2 = center7 - center6;
+                    Vector2 npcCenterAgain = NPC.Center;
+                    Vector2 targetCenterAgain = Main.player[NPC.target].Center;
+                    Vector2 vec2 = targetCenterAgain - npcCenterAgain;
                     vec2.Normalize();
                     if (vec2.HasNaNs())
                     {
                         vec2 = new Vector2((float)NPC.direction, 0f);
                     }
-                    NPC.velocity = (NPC.velocity * (inertia - 1f) + vec2 * (NPC.velocity.Length() + num1006)) / inertia;
+                    NPC.velocity = (NPC.velocity * (inertia - 1f) + vec2 * (NPC.velocity.Length() + (0.111111117f * inertia))) / inertia;
                 }
             }
             else if (NPC.ai[0] == 3f)

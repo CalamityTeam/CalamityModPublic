@@ -30,13 +30,13 @@ namespace CalamityMod.Projectiles.Healing
                     Projectile.HealingProjectile(8, Projectile.owner, 12f, 15f, false);
             }
 
-            float num498 = Projectile.velocity.X * 0.2f;
-            float num499 = -(Projectile.velocity.Y * 0.2f);
-            int num500 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-            Dust dust = Main.dust[num500];
+            float dustX = Projectile.velocity.X * 0.2f;
+            float dustY = -(Projectile.velocity.Y * 0.2f);
+            int rainbow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+            Dust dust = Main.dust[rainbow];
             dust.noGravity = true;
-            dust.position.X -= num498;
-            dust.position.Y -= num499;
+            dust.position.X -= dustX;
+            dust.position.Y -= dustY;
         }
     }
 }

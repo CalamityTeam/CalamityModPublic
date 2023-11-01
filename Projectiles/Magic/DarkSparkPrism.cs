@@ -47,17 +47,17 @@ namespace CalamityMod.Projectiles.Magic
         {
             Player player = Main.player[Projectile.owner];
 
-            float num = 0f;
+            float piConditional = 0f;
             if (Projectile.spriteDirection == -1)
-                num = MathHelper.Pi;
+                piConditional = MathHelper.Pi;
 
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter);
+            Vector2 playerRotation = player.RotatedRelativePoint(player.MountedCenter);
 
-            float num26 = 30f;
+            float hitCooldown = 30f;
             if (Projectile.ai[0] > 360f)
-                num26 = 15f;
+                hitCooldown = 15f;
             if (Projectile.ai[0] > 480f)
-                num26 = 5f;
+                hitCooldown = 5f;
 
             Projectile.damage = player.ActiveItem() is null ? 0 : player.GetWeaponDamage(player.ActiveItem());
 
@@ -73,44 +73,43 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.localAI[1] > 0f)
                 Projectile.localAI[1] -= 1f;
 
-            bool flag9 = false;
-            if (Projectile.ai[0] % num26 == 0f)
-                flag9 = true;
+            bool shouldHitNotCharged = false;
+            if (Projectile.ai[0] % hitCooldown == 0f)
+                shouldHitNotCharged = true;
 
-            int num27 = 10;
-            bool flag10 = false;
-            if (Projectile.ai[0] % num26 == 0f)
-                flag10 = true;
+            bool shouldHitChargedUp = false;
+            if (Projectile.ai[0] % hitCooldown == 0f)
+                shouldHitChargedUp = true;
 
             if (Projectile.ai[1] >= 1f)
             {
                 Projectile.ai[1] = 0f;
-                flag10 = true;
+                shouldHitChargedUp = true;
 
                 if (Main.myPlayer == Projectile.owner)
                 {
                     float scaleFactor5 = player.ActiveItem().shootSpeed * Projectile.scale;
-                    Vector2 value12 = vector;
-                    Vector2 value13 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY) - value12;
+                    Vector2 projRotation = playerRotation;
+                    Vector2 gravityAdjustedRotation = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY) - projRotation;
                     if (player.gravDir == -1f)
-                        value13.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - value12.Y;
+                        gravityAdjustedRotation.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - projRotation.Y;
 
-                    Vector2 vector11 = Vector2.Normalize(value13);
-                    if (float.IsNaN(vector11.X) || float.IsNaN(vector11.Y))
-                        vector11 = -Vector2.UnitY;
+                    Vector2 prismDirection = Vector2.Normalize(gravityAdjustedRotation);
+                    if (float.IsNaN(prismDirection.X) || float.IsNaN(prismDirection.Y))
+                        prismDirection = -Vector2.UnitY;
 
-                    vector11 = Vector2.Normalize(Vector2.Lerp(vector11, Vector2.Normalize(Projectile.velocity), 0.92f));
-                    vector11 *= scaleFactor5;
-                    if (vector11.X != Projectile.velocity.X || vector11.Y != Projectile.velocity.Y)
+                    prismDirection = Vector2.Normalize(Vector2.Lerp(prismDirection, Vector2.Normalize(Projectile.velocity), 0.92f));
+                    prismDirection *= scaleFactor5;
+                    if (prismDirection.X != Projectile.velocity.X || prismDirection.Y != Projectile.velocity.Y)
                         Projectile.netUpdate = true;
 
-                    Projectile.velocity = vector11;
+                    Projectile.velocity = prismDirection;
                 }
             }
 
             Projectile.frameCounter++;
-            int num28 = (Projectile.ai[0] < 480f) ? 3 : 1;
-            if (Projectile.frameCounter >= num28)
+            int framing = (Projectile.ai[0] < 480f) ? 3 : 1;
+            if (Projectile.frameCounter >= framing)
             {
                 Projectile.frameCounter = 0;
                 if (++Projectile.frame >= 4)
@@ -118,28 +117,27 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (Projectile.soundDelay <= 0)
             {
-                Projectile.soundDelay = num27;
+                Projectile.soundDelay = 10;
                 Projectile.soundDelay *= 2;
                 if (Projectile.ai[0] != 1f)
                     SoundEngine.PlaySound(SoundID.Item15, Projectile.position);
             }
 
-            if (flag10 && Main.myPlayer == Projectile.owner)
+            if (shouldHitChargedUp && Main.myPlayer == Projectile.owner)
             {
-                bool flag11 = !flag9 || player.CheckMana(player.ActiveItem(), -1, true, false);
-                bool flag12 = player.channel && flag11 && !player.noItems && !player.CCed;
-                if (flag12)
+                bool hasMana = !shouldHitNotCharged || player.CheckMana(player.ActiveItem(), -1, true, false);
+                bool canUseItem = player.channel && hasMana && !player.noItems && !player.CCed;
+                if (canUseItem)
                 {
                     if (Projectile.ai[0] == 1f)
                     {
-                        Vector2 center3 = Projectile.Center;
-                        Vector2 vector12 = Vector2.Normalize(Projectile.velocity);
-                        if (float.IsNaN(vector12.X) || float.IsNaN(vector12.Y))
-                            vector12 = -Vector2.UnitY;
+                        Vector2 projCenter = Projectile.Center;
+                        Vector2 beamDirection = Vector2.Normalize(Projectile.velocity);
+                        if (float.IsNaN(beamDirection.X) || float.IsNaN(beamDirection.Y))
+                            beamDirection = -Vector2.UnitY;
 
-                        int num29 = Projectile.damage;
                         for (int l = 0; l < 7; l++)
-                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), center3, vector12, ModContent.ProjectileType<DarkSparkBeam>(), num29, Projectile.knockBack, Projectile.owner, l, Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI));
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), projCenter, beamDirection, ModContent.ProjectileType<DarkSparkBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, l, Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI));
 
                         Projectile.netUpdate = true;
                     }
@@ -149,7 +147,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
-            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.rotation = Projectile.velocity.ToRotation() + piConditional;
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;
             player.ChangeDir(Projectile.direction);
@@ -162,10 +160,10 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
-            Color color25 = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
+            Color prismColorArea = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
             if (Projectile.hide && !ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type])
             {
-                color25 = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f));
+                prismColorArea = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f));
             }
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
@@ -173,38 +171,38 @@ namespace CalamityMod.Projectiles.Magic
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
             Texture2D texture2D14 = ModContent.Request<Texture2D>(Texture).Value;
-            int num215 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
-            int y7 = num215 * Projectile.frame;
-            Vector2 vector27 = (Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition).Floor();
+            int framing = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y7 = framing * Projectile.frame;
+            Vector2 drawStart = (Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition).Floor();
             if (Main.player[Projectile.owner].shroomiteStealth && Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].CountsAsClass<RangedDamageClass>())
             {
-                float num216 = Main.player[Projectile.owner].stealth;
-                if ((double)num216 < 0.03)
+                float playerStealth = Main.player[Projectile.owner].stealth;
+                if ((double)playerStealth < 0.03)
                 {
-                    num216 = 0.03f;
+                    playerStealth = 0.03f;
                 }
-                float arg_97B3_0 = (1f + num216 * 10f) / 11f;
-                color25 *= num216;
+                float arg_97B3_0 = (1f + playerStealth * 10f) / 11f;
+                prismColorArea *= playerStealth;
             }
             if (Main.player[Projectile.owner].setVortex && Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].CountsAsClass<RangedDamageClass>())
             {
-                float num217 = Main.player[Projectile.owner].stealth;
-                if ((double)num217 < 0.03)
+                float playerStealthAgain = Main.player[Projectile.owner].stealth;
+                if ((double)playerStealthAgain < 0.03)
                 {
-                    num217 = 0.03f;
+                    playerStealthAgain = 0.03f;
                 }
-                float arg_9854_0 = (1f + num217 * 10f) / 11f;
-                color25 = color25.MultiplyRGBA(new Color(Vector4.Lerp(Vector4.One, new Vector4(0.16f, 0.12f, 0f, 0f), 1f - num217)));
+                float arg_9854_0 = (1f + playerStealthAgain * 10f) / 11f;
+                prismColorArea = prismColorArea.MultiplyRGBA(new Color(Vector4.Lerp(Vector4.One, new Vector4(0.16f, 0.12f, 0f, 0f), 1f - playerStealthAgain)));
             }
-            Main.spriteBatch.Draw(texture2D14, vector27, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y7, texture2D14.Width, num215)), Projectile.GetAlpha(color25), Projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)num215 / 2f), Projectile.scale, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture2D14, drawStart, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y7, texture2D14.Width, framing)), Projectile.GetAlpha(prismColorArea), Projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)framing / 2f), Projectile.scale, spriteEffects, 0);
             float scaleFactor2 = (float)Math.Cos((double)(6.28318548f * (Projectile.ai[0] / 120f))) * 2f + 2f;
             if (Projectile.ai[0] > 480f)
             {
                 scaleFactor2 = 4f;
             }
-            for (float num218 = 0f; num218 < 4f; num218 += 1f)
+            for (float i = 0f; i < 4f; i += 1f)
             {
-                Main.spriteBatch.Draw(texture2D14, vector27 + Vector2.UnitY.RotatedBy((double)(num218 * 6.28318548f / 4f), default) * scaleFactor2, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y7, texture2D14.Width, num215)), Projectile.GetAlpha(color25).MultiplyRGBA(new Color(255, 255, 255, 0)) * 0.03f, Projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)num215 / 2f), Projectile.scale, spriteEffects, 0);
+                Main.spriteBatch.Draw(texture2D14, drawStart + Vector2.UnitY.RotatedBy((double)(i * 6.28318548f / 4f), default) * scaleFactor2, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y7, texture2D14.Width, framing)), Projectile.GetAlpha(prismColorArea).MultiplyRGBA(new Color(255, 255, 255, 0)) * 0.03f, Projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)framing / 2f), Projectile.scale, spriteEffects, 0);
             }
             return false;
         }

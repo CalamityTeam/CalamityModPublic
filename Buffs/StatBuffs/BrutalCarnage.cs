@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class TyrantsFury : ModBuff
+    public class BrutalCarnage : ModBuff
     {
         public override void SetStaticDefaults()
         {
@@ -14,7 +14,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().tFury = true;
+            player.Calamity().brutalCarnage = true;
         }
     }
 }

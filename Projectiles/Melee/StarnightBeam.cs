@@ -49,18 +49,18 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
-            int num3;
-            for (int num795 = 4; num795 < 31; num795 = num3 + 1)
+            int inc;
+            for (int i = 4; i < 31; i = inc + 1)
             {
-                float num796 = Projectile.oldVelocity.X * (30f / (float)num795);
-                float num797 = Projectile.oldVelocity.Y * (30f / (float)num795);
-                int num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, 73, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
-                Dust dust = Main.dust[num798];
+                float projOldX = Projectile.oldVelocity.X * (30f / (float)i);
+                float projOldY = Projectile.oldVelocity.Y * (30f / (float)i);
+                int starnight = Dust.NewDust(new Vector2(Projectile.oldPosition.X - projOldX, Projectile.oldPosition.Y - projOldY), 8, 8, 73, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
+                Dust dust = Main.dust[starnight];
                 dust.noGravity = true;
                 dust.velocity *= 0.5f;
-                num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, 73, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
+                starnight = Dust.NewDust(new Vector2(Projectile.oldPosition.X - projOldX, Projectile.oldPosition.Y - projOldY), 8, 8, 73, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
                 dust.velocity *= 0.05f;
-                num3 = num795;
+                inc = i;
             }
         }
 

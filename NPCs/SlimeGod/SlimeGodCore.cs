@@ -221,27 +221,27 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.height = 40;
                     NPC.position.X = NPC.position.X - (NPC.width / 2);
                     NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                    for (int num621 = 0; num621 < 40; num621++)
+                    for (int i = 0; i < 40; i++)
                     {
                         Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
                         color.A = 150;
-                        int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 2f);
-                        Main.dust[num622].velocity *= 3f;
+                        int slimyDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 2f);
+                        Main.dust[slimyDust].velocity *= 3f;
                         if (Main.rand.NextBool())
                         {
-                            Main.dust[num622].scale = 0.5f;
-                            Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                            Main.dust[slimyDust].scale = 0.5f;
+                            Main.dust[slimyDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                         }
                     }
-                    for (int num623 = 0; num623 < 70; num623++)
+                    for (int j = 0; j < 70; j++)
                     {
                         Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
                         color.A = 150;
-                        int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 3f);
-                        Main.dust[num624].noGravity = true;
-                        Main.dust[num624].velocity *= 5f;
-                        num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 2f);
-                        Main.dust[num624].velocity *= 2f;
+                        int slimyDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 3f);
+                        Main.dust[slimyDust2].noGravity = true;
+                        Main.dust[slimyDust2].velocity *= 5f;
+                        slimyDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 2f);
+                        Main.dust[slimyDust2].velocity *= 2f;
                     }
 
                     // Let the player know that the Slime God isn't dead fr
@@ -432,9 +432,9 @@ namespace CalamityMod.NPCs.SlimeGod
             if (Main.getGoodWorld)
                 flySpeed *= 1.25f;
 
-            Vector2 vector167 = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
+            Vector2 flyDirection = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
             Vector2 flyDestination = GetFlyDestination(player);
-            Vector2 idealVelocity = (flyDestination - vector167).SafeNormalize(Vector2.UnitY) * flySpeed;
+            Vector2 idealVelocity = (flyDestination - flyDirection).SafeNormalize(Vector2.UnitY) * flySpeed;
 
             float distanceFromFlyDestination = NPC.Distance(flyDestination);
 
@@ -475,11 +475,11 @@ namespace CalamityMod.NPCs.SlimeGod
             // If multiple slimes are present, and they are all relatively close together, try to stay in their general area.
             // If they are far apart, try to stay towards the closest slime.
             // If no slimes exist, or they are all extremely far away, try to stay near the target player instead.
-            // TODO -- Consider renaming the big slime god's internal names to be more intuitive?
-            int crimulanSlimeID = ModContent.NPCType<CrimulanPaladin>();
-            int crimulanSlimeSplitID = ModContent.NPCType<SplitCrimulanPaladin>();
-            int ebonianSlimeID = ModContent.NPCType<EbonianPaladin>();
-            int ebonianSlimeSplitID = ModContent.NPCType<SplitEbonianPaladin>();
+
+            int largeCrimulanPaladin = ModContent.NPCType<CrimulanPaladin>();
+            int splitCrimulanPaladin = ModContent.NPCType<SplitCrimulanPaladin>();
+            int largeEbonianPaladin = ModContent.NPCType<EbonianPaladin>();
+            int splitEbonianPaladin = ModContent.NPCType<SplitEbonianPaladin>();
             List<NPC> largeSlimes = new();
 
             float ignoreGeneralAreaDistanceThreshold = 750f;
@@ -489,7 +489,7 @@ namespace CalamityMod.NPCs.SlimeGod
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 int npcType = Main.npc[i].type;
-                if (npcType != crimulanSlimeID && npcType != crimulanSlimeSplitID && npcType != ebonianSlimeID && npcType != ebonianSlimeSplitID)
+                if (npcType != largeCrimulanPaladin && npcType != splitCrimulanPaladin && npcType != largeEbonianPaladin && npcType != splitEbonianPaladin)
                     continue;
 
                 if (!Main.npc[i].active)
@@ -539,44 +539,41 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Color color24 = NPC.GetAlpha(drawColor);
-            Color color25 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
+            Color drawColorAlpha = NPC.GetAlpha(drawColor);
+            Color colorLightingArea = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
             Texture2D texture2D3 = TextureAssets.Npc[NPC.type].Value;
             Texture2D pog = ModContent.Request<Texture2D>("CalamityMod/NPCs/SlimeGod/SlimeGodEyes").Value;
-            int num156 = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
-            int y3 = num156 * (int)NPC.frameCounter;
-            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
-            Vector2 origin2 = rectangle.Size() / 2f;
-            int num157 = 8;
-            int num158 = 2;
-            int num159 = 1;
-            float num160 = 0f;
-            int num161 = num159;
-            spriteBatch.Draw(texture2D3, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, color24, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
+            int frameTexture = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
+            int y3 = frameTexture * (int)NPC.frameCounter;
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, frameTexture);
+            Vector2 halfRect = rectangle.Size() / 2f;
+            int twoConst = 2;
+            int coreID = 1;
+            spriteBatch.Draw(texture2D3, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColorAlpha, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
             if (Main.zenithWorld)
             {
-                spriteBatch.Draw(pog, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, color24, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
+                spriteBatch.Draw(pog, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColorAlpha, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
             }
             if (!Main.zenithWorld)
-                while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
+                while (((twoConst > 0 && coreID < 8) || (twoConst < 0 && coreID > 8)) && CalamityConfig.Instance.Afterimages)
                 {
-                    Color color26 = NPC.GetAlpha(color25);
+                    Color colorLightingAlpha = NPC.GetAlpha(colorLightingArea);
                     {
                         goto IL_6899;
                     }
                     IL_6881:
-                    num161 += num158;
+                    coreID += twoConst;
                     continue;
                     IL_6899:
-                    float num164 = (float)(num157 - num161);
-                    if (num158 < 0)
+                    float trailLengthMult = (float)(8 - coreID);
+                    if (twoConst < 0)
                     {
-                        num164 = (float)(num159 - num161);
+                        trailLengthMult = (float)(1 - coreID);
                     }
-                    color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[NPC.type] * 1.5f);
-                    Vector2 value4 = NPC.oldPos[num161];
-                    float num165 = NPC.rotation;
-                    Main.spriteBatch.Draw(texture2D3, value4 + NPC.Size / 2f - screenPos + new Vector2(0, NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + NPC.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, NPC.scale, spriteEffects, 0f);
+                    colorLightingAlpha *= trailLengthMult / ((float)NPCID.Sets.TrailCacheLength[NPC.type] * 1.5f);
+                    Vector2 drawPosition = NPC.oldPos[coreID];
+                    float coreRotate = NPC.rotation;
+                    Main.spriteBatch.Draw(texture2D3, drawPosition + NPC.Size / 2f - screenPos + new Vector2(0, NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), colorLightingAlpha, coreRotate + NPC.rotation * 0f * (float)(coreID - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), halfRect, NPC.scale, spriteEffects, 0f);
                     goto IL_6881;
                 }
             return false;

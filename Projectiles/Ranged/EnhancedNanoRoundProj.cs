@@ -39,10 +39,10 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (Main.rand.NextBool(3))
                 {
-                    int num137 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), 1, 1, 229, 0f, 0f, 0, default, 0.5f);
-                    Main.dust[num137].alpha = Projectile.alpha;
-                    Main.dust[num137].velocity *= 0f;
-                    Main.dust[num137].noGravity = true;
+                    int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), 1, 1, 229, 0f, 0f, 0, default, 0.5f);
+                    Main.dust[dust].alpha = Projectile.alpha;
+                    Main.dust[dust].velocity *= 0f;
+                    Main.dust[dust].noGravity = true;
                 }
             }
         }
@@ -78,12 +78,12 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
-            int num212 = Main.rand.Next(5, 10);
-            for (int num213 = 0; num213 < num212; num213++)
+            int rando = Main.rand.Next(5, 10);
+            for (int i = 0; i < rando; i++)
             {
-                int num214 = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, 229, 0f, 0f, 100, default, 2f);
-                Main.dust[num214].velocity *= 2f;
-                Main.dust[num214].noGravity = true;
+                int dusty = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, 229, 0f, 0f, 100, default, 2f);
+                Main.dust[dusty].velocity *= 2f;
+                Main.dust[dusty].noGravity = true;
             }
         }
     }

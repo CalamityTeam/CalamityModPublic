@@ -35,11 +35,11 @@ namespace CalamityMod.Projectiles.Summon
         {
             for (int d = 0; d < 4; d++)
             {
-                Vector2 vector33 = Projectile.position;
-                vector33 -= Projectile.velocity * (d * 0.25f);
+                Vector2 projPos = Projectile.position;
+                projPos -= Projectile.velocity * (d * 0.25f);
                 Projectile.alpha = 255;
-                int trailDust = Dust.NewDust(vector33, 1, 1, 20, 0f, 0f, 0, default, 1f);
-                Main.dust[trailDust].position = vector33;
+                int trailDust = Dust.NewDust(projPos, 1, 1, 20, 0f, 0f, 0, default, 1f);
+                Main.dust[trailDust].position = projPos;
                 Main.dust[trailDust].scale = Main.rand.Next(70, 110) * 0.013f;
                 Main.dust[trailDust].velocity *= 0.2f;
                 Main.dust[trailDust].noGravity = true;

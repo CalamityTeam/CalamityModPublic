@@ -39,26 +39,24 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.scale = Projectile.ai[1];
             Projectile.rotation += Projectile.velocity.X * 2f;
             Vector2 position = Projectile.Center + Vector2.Normalize(Projectile.velocity) * 10f;
-            Dust dust20 = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 0, new Color(255, Main.DiscoG, 0), 1f)];
-            dust20.position = position;
-            dust20.velocity = Projectile.velocity.RotatedBy(1.5707963705062866, default) * 0.33f + Projectile.velocity / 4f;
-            dust20.position += Projectile.velocity.RotatedBy(1.5707963705062866, default);
-            dust20.fadeIn = 0.5f;
-            dust20.noGravity = true;
-            dust20 = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 0, new Color(255, Main.DiscoG, 0), 1f)];
-            dust20.position = position;
-            dust20.velocity = Projectile.velocity.RotatedBy(-1.5707963705062866, default) * 0.33f + Projectile.velocity / 4f;
-            dust20.position += Projectile.velocity.RotatedBy(-1.5707963705062866, default);
-            dust20.fadeIn = 0.5f;
-            dust20.noGravity = true;
-            for (int num189 = 0; num189 < 1; num189++)
-            {
-                int num190 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 0, new Color(255, Main.DiscoG, 0), 1f);
-                Main.dust[num190].velocity *= 0.5f;
-                Main.dust[num190].scale *= 1.3f;
-                Main.dust[num190].fadeIn = 1f;
-                Main.dust[num190].noGravity = true;
-            }
+            Dust flaming = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 0, new Color(255, Main.DiscoG, 0), 1f)];
+            flaming.position = position;
+            flaming.velocity = Projectile.velocity.RotatedBy(1.5707963705062866, default) * 0.33f + Projectile.velocity / 4f;
+            flaming.position += Projectile.velocity.RotatedBy(1.5707963705062866, default);
+            flaming.fadeIn = 0.5f;
+            flaming.noGravity = true;
+            flaming = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 0, new Color(255, Main.DiscoG, 0), 1f)];
+            flaming.position = position;
+            flaming.velocity = Projectile.velocity.RotatedBy(-1.5707963705062866, default) * 0.33f + Projectile.velocity / 4f;
+            flaming.position += Projectile.velocity.RotatedBy(-1.5707963705062866, default);
+            flaming.fadeIn = 0.5f;
+            flaming.noGravity = true;
+
+            int fiery = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 0, new Color(255, Main.DiscoG, 0), 1f);
+            Main.dust[fiery].velocity *= 0.5f;
+            Main.dust[fiery].scale *= 1.3f;
+            Main.dust[fiery].fadeIn = 1f;
+            Main.dust[fiery].noGravity = true;
         }
 
         public override void OnKill(int timeLeft)
@@ -70,25 +68,25 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.height = (int)(128f * Projectile.scale);
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int num336 = 0; num336 < 8; num336++)
+            for (int i = 0; i < 8; i++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, new Color(255, Main.DiscoG, 0), 1.5f);
             }
-            for (int num337 = 0; num337 < 32; num337++)
+            for (int j = 0; j < 32; j++)
             {
-                int num338 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, new Color(255, Main.DiscoG, 0), 2.5f);
-                Main.dust[num338].noGravity = true;
-                Main.dust[num338].velocity *= 3f;
-                num338 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, new Color(255, Main.DiscoG, 0), 1.5f);
-                Main.dust[num338].velocity *= 2f;
-                Main.dust[num338].noGravity = true;
+                int killFire = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, new Color(255, Main.DiscoG, 0), 2.5f);
+                Main.dust[killFire].noGravity = true;
+                Main.dust[killFire].velocity *= 3f;
+                killFire = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, new Color(255, Main.DiscoG, 0), 1.5f);
+                Main.dust[killFire].velocity *= 2f;
+                Main.dust[killFire].noGravity = true;
             }
             if (Main.netMode != NetmodeID.Server)
             {
-                for (int num339 = 0; num339 < 2; num339++)
+                for (int k = 0; k < 2; k++)
                 {
-                    int num340 = Gore.NewGore(Projectile.GetSource_Death(), Projectile.position + new Vector2((float)(Projectile.width * Main.rand.Next(100)) / 100f, (float)(Projectile.height * Main.rand.Next(100)) / 100f) - Vector2.One * 10f, default, Main.rand.Next(61, 64), 1f);
-                    Gore gore = Main.gore[num340];
+                    int gored = Gore.NewGore(Projectile.GetSource_Death(), Projectile.position + new Vector2((float)(Projectile.width * Main.rand.Next(100)) / 100f, (float)(Projectile.height * Main.rand.Next(100)) / 100f) - Vector2.One * 10f, default, Main.rand.Next(61, 64), 1f);
+                    Gore gore = Main.gore[gored];
                     gore.velocity *= 0.3f;
                     gore.velocity.X += (float)Main.rand.Next(-10, 11) * 0.05f;
                     gore.velocity.Y += (float)Main.rand.Next(-10, 11) * 0.05f;
@@ -100,18 +98,18 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.maxPenetrate = 0;
                 Projectile.Damage();
             }
-            for (int num341 = 0; num341 < 5; num341++)
+            for (int l = 0; l < 5; l++)
             {
-                int num342 = Utils.SelectRandom(Main.rand, new int[]
+                int dustType = Utils.SelectRandom(Main.rand, new int[]
                 {
                     244,
                     259,
                     158
                 });
-                int num343 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, num342, 2.5f * (float)Projectile.direction, -2.5f, 0, new Color(255, Main.DiscoG, 0), 1f);
-                Main.dust[num343].alpha = 200;
-                Main.dust[num343].velocity *= 2.4f;
-                Main.dust[num343].scale += Main.rand.NextFloat();
+                int exploding = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 2.5f * (float)Projectile.direction, -2.5f, 0, new Color(255, Main.DiscoG, 0), 1f);
+                Main.dust[exploding].alpha = 200;
+                Main.dust[exploding].velocity *= 2.4f;
+                Main.dust[exploding].scale += Main.rand.NextFloat();
             }
         }
 

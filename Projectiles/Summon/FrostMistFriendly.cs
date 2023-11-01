@@ -40,14 +40,14 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Projectile.ai[1] == 0f)
             {
-                for (int num621 = 0; num621 < 5; num621++)
+                for (int i = 0; i < 5; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 187, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 187, 0f, 0f, 100, default, 2f);
+                    Main.dust[dust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[dust].scale = 0.5f;
+                        Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
                 Projectile.ai[1] = 1f;
@@ -73,15 +73,15 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.localAI[0] = 0f;
                 }
             }
-            int num103 = (int)Player.FindClosest(Projectile.Center, 1, 1);
+            int playerOwner = (int)Player.FindClosest(Projectile.Center, 1, 1);
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] < 110f && Projectile.ai[1] > 30f)
             {
                 float scaleFactor2 = Projectile.velocity.Length();
-                Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
-                vector11.Normalize();
-                vector11 *= scaleFactor2;
-                Projectile.velocity = (Projectile.velocity * 24f + vector11) / 25f;
+                Vector2 playerDist = Main.player[playerOwner].Center - Projectile.Center;
+                playerDist.Normalize();
+                playerDist *= scaleFactor2;
+                Projectile.velocity = (Projectile.velocity * 24f + playerDist) / 25f;
                 Projectile.velocity.Normalize();
                 Projectile.velocity *= scaleFactor2;
             }
@@ -99,9 +99,9 @@ namespace CalamityMod.Projectiles.Summon
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = texture2D13.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
-            Main.EntitySpriteDraw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            int framing = texture2D13.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
+            Main.EntitySpriteDraw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, framing)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)framing / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

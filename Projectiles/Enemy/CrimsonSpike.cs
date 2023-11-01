@@ -25,10 +25,10 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 Color dustColor = Color.Crimson;
                 dustColor.A = 150;
-                int num67 = Dust.NewDust(Projectile.position - Projectile.velocity * 3f, Projectile.width, Projectile.height, 260, 0f, 0f, 50, dustColor, 1.2f);
-                Main.dust[num67].velocity *= 0.3f;
-                Main.dust[num67].velocity += Projectile.velocity * 0.3f;
-                Main.dust[num67].noGravity = true;
+                int redSpiky = Dust.NewDust(Projectile.position - Projectile.velocity * 3f, Projectile.width, Projectile.height, 260, 0f, 0f, 50, dustColor, 1.2f);
+                Main.dust[redSpiky].velocity *= 0.3f;
+                Main.dust[redSpiky].velocity += Projectile.velocity * 0.3f;
+                Main.dust[redSpiky].noGravity = true;
             }
 
             Projectile.Opacity += 0.2f;

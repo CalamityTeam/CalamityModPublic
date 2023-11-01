@@ -47,11 +47,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnKill(int timeLeft)
         {
-            int num3;
-            for (int num611 = 0; num611 < 10; num611 = num3 + 1)
+            int inc;
+            for (int i = 0; i < 10; i = inc + 1)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 42, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 0, default, 1f);
-                num3 = num611;
+                inc = i;
             }
         }
     }

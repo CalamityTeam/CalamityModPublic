@@ -41,14 +41,14 @@ namespace CalamityMod.Projectiles.Summon
             {
                 randomDust = 33;
             }
-            for (int num468 = 0; num468 < (Main.rand.NextBool() ? 1 : 2); num468++)
+            for (int i = 0; i < (Main.rand.NextBool() ? 1 : 2); i++)
             {
-                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 1f);
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 1f);
                 if (randomDust == 89)
                 {
-                    Main.dust[num469].scale *= 0.35f;
+                    Main.dust[dust].scale *= 0.35f;
                 }
-                Main.dust[num469].velocity *= 0f;
+                Main.dust[dust].velocity *= 0f;
             }
         }
 

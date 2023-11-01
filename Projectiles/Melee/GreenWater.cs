@@ -37,10 +37,10 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
                 Projectile.localAI[0] += 1f;
             }
-            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 1f);
-            Main.dust[num458].noGravity = true;
-            Main.dust[num458].velocity *= 0.5f;
-            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+            int hitDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 1f);
+            Main.dust[hitDust].noGravity = true;
+            Main.dust[hitDust].velocity *= 0.5f;
+            Main.dust[hitDust].velocity += Projectile.velocity * 0.1f;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -55,19 +55,19 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
-            int num3;
-            for (int num795 = 4; num795 < 31; num795 = num3 + 1)
+            int inc;
+            for (int i = 4; i < 31; i = inc + 1)
             {
-                float num796 = Projectile.oldVelocity.X * (30f / (float)num795);
-                float num797 = Projectile.oldVelocity.Y * (30f / (float)num795);
-                int num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, 5, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
-                Main.dust[num798].noGravity = true;
-                Dust dust = Main.dust[num798];
+                float oldXPos = Projectile.oldVelocity.X * (30f / (float)i);
+                float oldYPos = Projectile.oldVelocity.Y * (30f / (float)i);
+                int killDust = Dust.NewDust(new Vector2(Projectile.oldPosition.X - oldXPos, Projectile.oldPosition.Y - oldYPos), 8, 8, 5, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
+                Main.dust[killDust].noGravity = true;
+                Dust dust = Main.dust[killDust];
                 dust.velocity *= 0.5f;
-                num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, 5, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
-                dust = Main.dust[num798];
+                killDust = Dust.NewDust(new Vector2(Projectile.oldPosition.X - oldXPos, Projectile.oldPosition.Y - oldYPos), 8, 8, 5, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
+                dust = Main.dust[killDust];
                 dust.velocity *= 0.05f;
-                num3 = num795;
+                inc = i;
             }
         }
 

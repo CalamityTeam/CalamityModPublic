@@ -33,22 +33,22 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
             if (Math.Abs(Projectile.velocity.X) >= 8f || Math.Abs(Projectile.velocity.Y) >= 8f)
             {
-                for (int num246 = 0; num246 < 2; num246++)
+                for (int i = 0; i < 2; i++)
                 {
-                    float num247 = 0f;
-                    float num248 = 0f;
-                    if (num246 == 1)
+                    float halfX = 0f;
+                    float halfY = 0f;
+                    if (i == 1)
                     {
-                        num247 = Projectile.velocity.X * 0.5f;
-                        num248 = Projectile.velocity.Y * 0.5f;
+                        halfX = Projectile.velocity.X * 0.5f;
+                        halfY = Projectile.velocity.Y * 0.5f;
                     }
-                    int num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 109, 0f, 0f, 100, default, 0.5f);
-                    Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-                    Main.dust[num249].velocity *= 0.2f;
-                    Main.dust[num249].noGravity = true;
-                    num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 159, 0f, 0f, 100, default, 0.25f);
-                    Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-                    Main.dust[num249].velocity *= 0.05f;
+                    int onyxDust = Dust.NewDust(new Vector2(Projectile.position.X + 3f + halfX, Projectile.position.Y + 3f + halfY) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 109, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[onyxDust].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[onyxDust].velocity *= 0.2f;
+                    Main.dust[onyxDust].noGravity = true;
+                    onyxDust = Dust.NewDust(new Vector2(Projectile.position.X + 3f + halfX, Projectile.position.Y + 3f + halfY) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 159, 0f, 0f, 100, default, 0.25f);
+                    Main.dust[onyxDust].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+                    Main.dust[onyxDust].velocity *= 0.05f;
                 }
             }
         }

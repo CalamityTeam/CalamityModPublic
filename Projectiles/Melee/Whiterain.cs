@@ -33,12 +33,12 @@ namespace CalamityMod.Projectiles.Melee
 
             Lighting.AddLight(Projectile.Center, 0.2f, 0.2f, 0.2f);
 
-            for (int num457 = 0; num457 < 2; num457++)
+            for (int i = 0; i < 2; i++)
             {
-                int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 91, 0f, 0f, 100, default, 1.25f);
-                Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+                int shiny = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 91, 0f, 0f, 100, default, 1.25f);
+                Main.dust[shiny].noGravity = true;
+                Main.dust[shiny].velocity *= 0.5f;
+                Main.dust[shiny].velocity += Projectile.velocity * 0.1f;
             }
 
             CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);

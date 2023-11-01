@@ -27,27 +27,27 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             int dustType = Projectile.ai[0] == 0f ? 56 : 73;
-            for (int num92 = 0; num92 < 2; num92++)
+            for (int i = 0; i < 2; i++)
             {
-                float num93 = Projectile.velocity.X / 3f * (float)num92;
-                float num94 = Projectile.velocity.Y / 3f * (float)num92;
-                int num95 = 4;
-                int num96 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num95, Projectile.position.Y + (float)num95), Projectile.width - num95 * 2, Projectile.height - num95 * 2, dustType, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num96].noGravity = true;
-                Main.dust[num96].velocity *= 0.1f;
-                Main.dust[num96].velocity += Projectile.velocity * 0.1f;
-                Dust expr_47FA_cp_0 = Main.dust[num96];
-                expr_47FA_cp_0.position.X -= num93;
-                Dust expr_4815_cp_0 = Main.dust[num96];
-                expr_4815_cp_0.position.Y -= num94;
+                float shortXVel = Projectile.velocity.X / 3f * (float)i;
+                float shortYVel = Projectile.velocity.Y / 3f * (float)i;
+                int dustPosModifier = 4;
+                int crystalDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)dustPosModifier, Projectile.position.Y + (float)dustPosModifier), Projectile.width - dustPosModifier * 2, Projectile.height - dustPosModifier * 2, dustType, 0f, 0f, 100, default, 1.2f);
+                Main.dust[crystalDust].noGravity = true;
+                Main.dust[crystalDust].velocity *= 0.1f;
+                Main.dust[crystalDust].velocity += Projectile.velocity * 0.1f;
+                Dust expr_47FA_cp_0 = Main.dust[crystalDust];
+                expr_47FA_cp_0.position.X -= shortXVel;
+                Dust expr_4815_cp_0 = Main.dust[crystalDust];
+                expr_4815_cp_0.position.Y -= shortYVel;
             }
 
             if (Main.rand.NextBool(10))
             {
-                int num97 = 4;
-                int num98 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num97, Projectile.position.Y + (float)num97), Projectile.width - num97 * 2, Projectile.height - num97 * 2, dustType, 0f, 0f, 100, default, 0.6f);
-                Main.dust[num98].velocity *= 0.25f;
-                Main.dust[num98].velocity += Projectile.velocity * 0.5f;
+                int dustPosModifierAgain = 4;
+                int extraCrystalDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)dustPosModifierAgain, Projectile.position.Y + (float)dustPosModifierAgain), Projectile.width - dustPosModifierAgain * 2, Projectile.height - dustPosModifierAgain * 2, dustType, 0f, 0f, 100, default, 0.6f);
+                Main.dust[extraCrystalDust].velocity *= 0.25f;
+                Main.dust[extraCrystalDust].velocity += Projectile.velocity * 0.5f;
             }
 
             if (Projectile.timeLeft < 75)

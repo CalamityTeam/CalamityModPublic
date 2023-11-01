@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class ForbiddenCircletEater : ModProjectile, ILocalizedModType
@@ -51,23 +52,21 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.frame = 0;
             }
-            for (int num369 = 0; num369 < 1; num369++)
-            {
-                int dustType = 159;
-                float num370 = Projectile.velocity.X / 3f * (float)num369;
-                float num371 = Projectile.velocity.Y / 3f * (float)num369;
-                int num372 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
-                Dust dust = Main.dust[num372];
-                dust.position.X = Projectile.Center.X - num370;
-                dust.position.Y = Projectile.Center.Y - num371;
-                dust.velocity *= 0f;
-                dust.scale = 0.5f;
-            }
+            int dustType = 159;
+            float slowXVel = Projectile.velocity.X / 3f;
+            float slowYVel = Projectile.velocity.Y / 3f;
+            int dustID = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
+            Dust dust = Main.dust[dustID];
+            dust.position.X = Projectile.Center.X - slowXVel;
+            dust.position.Y = Projectile.Center.Y - slowYVel;
+            dust.velocity *= 0f;
+            dust.scale = 0.5f;
+
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver2;
-            float num373 = Projectile.position.X;
-            float num374 = Projectile.position.Y;
-            float num375 = 100000f;
-            bool flag10 = false;
+            float projX = Projectile.position.X;
+            float projY = Projectile.position.Y;
+            float attackDistance = 100000f;
+            bool canAttack = false;
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] > 30f)
             {
@@ -76,83 +75,82 @@ namespace CalamityMod.Projectiles.Summon
                     NPC npc = Main.npc[player.MinionAttackTargetNPC];
                     if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        float num377 = npc.position.X + (float)(npc.width / 2);
-                        float num378 = npc.position.Y + (float)(npc.height / 2);
-                        float num379 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num377) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num378);
-                        if (num379 < 640f && num379 < num375 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
+                        float npcX = npc.position.X + (float)(npc.width / 2);
+                        float npcY = npc.position.Y + (float)(npc.height / 2);
+                        float npcDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcY);
+                        if (npcDist < 640f && npcDist < attackDistance && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                         {
-                            num375 = num379;
-                            num373 = num377;
-                            num374 = num378;
-                            flag10 = true;
+                            attackDistance = npcDist;
+                            projX = npcX;
+                            projY = npcY;
+                            canAttack = true;
                         }
                     }
                 }
-                if (!flag10)
+                if (!canAttack)
                 {
-                    for (int num376 = 0; num376 < Main.maxNPCs; num376++)
+                    for (int j = 0; j < Main.maxNPCs; j++)
                     {
-                        NPC npc = Main.npc[num376];
+                        NPC npc = Main.npc[j];
                         if (npc.CanBeChasedBy(Projectile, false))
                         {
-                            float num377 = npc.position.X + (float)(npc.width / 2);
-                            float num378 = npc.position.Y + (float)(npc.height / 2);
-                            float num379 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num377) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num378);
-                            if (num379 < 640f && num379 < num375 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
+                            float npcX = npc.position.X + (float)(npc.width / 2);
+                            float npcY = npc.position.Y + (float)(npc.height / 2);
+                            float npcDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcY);
+                            if (npcDist < 640f && npcDist < attackDistance && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                             {
-                                num375 = num379;
-                                num373 = num377;
-                                num374 = num378;
-                                flag10 = true;
+                                attackDistance = npcDist;
+                                projX = npcX;
+                                projY = npcY;
+                                canAttack = true;
                             }
                         }
                     }
                 }
             }
-            if (!flag10)
+            if (!canAttack)
             {
-                num373 = Projectile.position.X + (float)(Projectile.width / 2) + Projectile.velocity.X * 100f;
-                num374 = Projectile.position.Y + (float)(Projectile.height / 2) + Projectile.velocity.Y * 100f;
+                projX = Projectile.position.X + (float)(Projectile.width / 2) + Projectile.velocity.X * 100f;
+                projY = Projectile.position.Y + (float)(Projectile.height / 2) + Projectile.velocity.Y * 100f;
             }
-            float num380 = 10f;
-            float num381 = 0.16f;
-            Vector2 vector30 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-            float num382 = num373 - vector30.X;
-            float num383 = num374 - vector30.Y;
-            float num384 = (float)Math.Sqrt((double)(num382 * num382 + num383 * num383));
-            num384 = num380 / num384;
-            num382 *= num384;
-            num383 *= num384;
-            if (Projectile.velocity.X < num382)
+            float projVel = 0.16f;
+            Vector2 playerDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+            float playerX = projX - playerDirection.X;
+            float playerY = projY - playerDirection.Y;
+            float playerDist = (float)Math.Sqrt((double)(playerX * playerX + playerY * playerY));
+            playerDist = 10f / playerDist;
+            playerX *= playerDist;
+            playerY *= playerDist;
+            if (Projectile.velocity.X < playerX)
             {
-                Projectile.velocity.X = Projectile.velocity.X + num381;
-                if (Projectile.velocity.X < 0f && num382 > 0f)
+                Projectile.velocity.X = Projectile.velocity.X + projVel;
+                if (Projectile.velocity.X < 0f && playerX > 0f)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X + num381 * 2f;
+                    Projectile.velocity.X = Projectile.velocity.X + projVel * 2f;
                 }
             }
-            else if (Projectile.velocity.X > num382)
+            else if (Projectile.velocity.X > playerX)
             {
-                Projectile.velocity.X = Projectile.velocity.X - num381;
-                if (Projectile.velocity.X > 0f && num382 < 0f)
+                Projectile.velocity.X = Projectile.velocity.X - projVel;
+                if (Projectile.velocity.X > 0f && playerX < 0f)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X - num381 * 2f;
+                    Projectile.velocity.X = Projectile.velocity.X - projVel * 2f;
                 }
             }
-            if (Projectile.velocity.Y < num383)
+            if (Projectile.velocity.Y < playerY)
             {
-                Projectile.velocity.Y = Projectile.velocity.Y + num381;
-                if (Projectile.velocity.Y < 0f && num383 > 0f)
+                Projectile.velocity.Y = Projectile.velocity.Y + projVel;
+                if (Projectile.velocity.Y < 0f && playerY > 0f)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y + num381 * 2f;
+                    Projectile.velocity.Y = Projectile.velocity.Y + projVel * 2f;
                 }
             }
-            else if (Projectile.velocity.Y > num383)
+            else if (Projectile.velocity.Y > playerY)
             {
-                Projectile.velocity.Y = Projectile.velocity.Y - num381;
-                if (Projectile.velocity.Y > 0f && num383 < 0f)
+                Projectile.velocity.Y = Projectile.velocity.Y - projVel;
+                if (Projectile.velocity.Y > 0f && playerY < 0f)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y - num381 * 2f;
+                    Projectile.velocity.Y = Projectile.velocity.Y - projVel * 2f;
                 }
             }
         }

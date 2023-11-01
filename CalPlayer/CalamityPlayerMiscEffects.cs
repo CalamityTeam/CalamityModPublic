@@ -2463,7 +2463,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<MeleeDamageClass>() += 0.2f;
             }
 
-            if (tFury)
+            if (brutalCarnage)
             {
                 Player.GetDamage<MeleeDamageClass>() += 0.25f;
                 Player.GetCritChance<MeleeDamageClass>() += 10;
@@ -3132,7 +3132,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (dArtifact)
-                Player.GetDamage<GenericDamageClass>() += 0.25f;
+                Player.GetDamage<GenericDamageClass>() *= 1.2f;
 
             if (trippy)
                 Player.GetDamage<GenericDamageClass>() += 0.5f;

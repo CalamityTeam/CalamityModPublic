@@ -47,16 +47,16 @@ namespace CalamityMod.Projectiles.Summon
             //on spawn effects && minion flexibility
             if (Projectile.localAI[0] == 0f)
             {
-                int num226 = 36;
-                for (int num227 = 0; num227 < num226; num227++)
+                int constant = 36;
+                for (int i = 0; i < constant; i++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                    Vector2 vector7 = vector6 - Projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, dustType, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-                    Main.dust[num228].noGravity = true;
-                    Main.dust[num228].noLight = true;
-                    Main.dust[num228].velocity = vector7;
+                    Vector2 rotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    rotate = rotate.RotatedBy((double)((float)(i - (constant / 2 - 1)) * 6.28318548f / (float)constant), default) + Projectile.Center;
+                    Vector2 faceDirection = rotate - Projectile.Center;
+                    int astralDust = Dust.NewDust(rotate + faceDirection, 0, 0, dustType, faceDirection.X * 1.5f, faceDirection.Y * 1.5f, 100, default, 1.4f);
+                    Main.dust[astralDust].noGravity = true;
+                    Main.dust[astralDust].noLight = true;
+                    Main.dust[astralDust].velocity = faceDirection;
                 }
                 Projectile.localAI[0] += 1f;
             }
@@ -234,18 +234,18 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            for (int num193 = 0; num193 < 2; num193++)
+            for (int j = 0; j < 2; j++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 50, default, 1f);
             }
-            for (int num194 = 0; num194 < 20; num194++)
+            for (int k = 0; k < 20; k++)
             {
-                int num195 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 0, default, 1.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 50, default, 1f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int moreAstralDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 0, default, 1.5f);
+                Main.dust[moreAstralDust].noGravity = true;
+                Main.dust[moreAstralDust].velocity *= 3f;
+                moreAstralDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 50, default, 1f);
+                Main.dust[moreAstralDust].velocity *= 2f;
+                Main.dust[moreAstralDust].noGravity = true;
             }
         }
 

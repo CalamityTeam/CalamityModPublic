@@ -57,5 +57,11 @@ namespace CalamityMod.Tiles.Astral
             g *= brightness;
             b *= brightness;
         }
+
+        public override bool IsTileBiomeSightable(int i, int j, ref Color sightColor)
+        {
+            sightColor = Color.Cyan;
+            return true;
+        }
     }
 }

@@ -35,10 +35,10 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
                 Projectile.localAI[0] += 1f;
             }
-            int num458 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 0.8f);
-            Main.dust[num458].noGravity = true;
-            Main.dust[num458].velocity *= 0.5f;
-            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+            int goldDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 0.8f);
+            Main.dust[goldDust].noGravity = true;
+            Main.dust[goldDust].velocity *= 0.5f;
+            Main.dust[goldDust].velocity += Projectile.velocity * 0.1f;
         }
 
         public override void OnKill(int timeLeft)
@@ -55,22 +55,22 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             for (int d = 0; d <= 30; d++)
             {
-                float num463 = (float)Main.rand.Next(-10, 11);
-                float num464 = (float)Main.rand.Next(-10, 11);
+                float rando = (float)Main.rand.Next(-10, 11);
+                float rando2 = (float)Main.rand.Next(-10, 11);
                 float speed = (float)Main.rand.Next(3, 9);
-                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
-                num466 = speed / num466;
-                num463 *= num466;
-                num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1.2f);
-                Dust dust = Main.dust[num467];
+                float randoAdjuster = (float)Math.Sqrt((double)(rando * rando + rando2 * rando2));
+                randoAdjuster = speed / randoAdjuster;
+                rando *= randoAdjuster;
+                rando2 *= randoAdjuster;
+                int deathDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1.2f);
+                Dust dust = Main.dust[deathDust];
                 dust.noGravity = true;
                 dust.position.X = Projectile.Center.X;
                 dust.position.Y = Projectile.Center.Y;
                 dust.position.X += (float)Main.rand.Next(-10, 11);
                 dust.position.Y += (float)Main.rand.Next(-10, 11);
-                dust.velocity.X = num463;
-                dust.velocity.Y = num464;
+                dust.velocity.X = rando;
+                dust.velocity.Y = rando2;
             }
             int flameAmt = Main.rand.Next(2, 4);
             if (Projectile.owner == Main.myPlayer)
