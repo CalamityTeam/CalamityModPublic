@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Graphics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace CalamityMod.Particles
 {
     public class DeathAshParticle
     {
-        internal static Dictionary<NPC, RenderTarget2D> PendingNPCsToDraw = new Dictionary<NPC, RenderTarget2D>();
+        internal static Dictionary<NPC, ManagedRenderTarget> PendingNPCsToDraw = new();
         internal static BasicEffect basicShader = null;
         internal static VertexPositionColorTexture[] VertexCache = new VertexPositionColorTexture[PrimitiveBatchSize * 4];
         internal static short[] IndexCache = new short[PrimitiveBatchSize * 6];
@@ -89,7 +90,7 @@ namespace CalamityMod.Particles
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            PendingNPCsToDraw[npc] = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+            PendingNPCsToDraw[npc] = new(true, ManagedRenderTarget.CreateScreenSizedTarget);
         }
 
         public static Dictionary<Vector2, Color> GetColorCacheFromTexture(Texture2D texture, Rectangle? frame = null, bool pruneForEfficency = false)
@@ -137,7 +138,7 @@ namespace CalamityMod.Particles
 
             foreach (NPC npc in PendingNPCsToDraw.Keys)
             {
-                RenderTarget2D temporaryTextureDrawTarget = PendingNPCsToDraw[npc];
+                RenderTarget2D temporaryTextureDrawTarget = PendingNPCsToDraw[npc].Target;
                 Rectangle frame = new Rectangle(0, 0, temporaryTextureDrawTarget.Width, temporaryTextureDrawTarget.Height);
                 Dictionary<Vector2, Color> colorsOnNPC = GetColorCacheFromTexture(temporaryTextureDrawTarget, frame, true);
 

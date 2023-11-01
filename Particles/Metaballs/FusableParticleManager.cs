@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Graphics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -29,49 +30,29 @@ namespace CalamityMod.Particles.Metaballs
         /// <summary>
         /// Loads all render sets.
         /// </summary>
-        internal static void LoadParticleRenderSets(bool reload = false, int width = -1, int height = -1)
+        internal static void LoadParticleRenderSets()
         {
             // Don't attempt to prepare anything serverside.
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            // Use fallbacks for width and height based on the screen.
-            if (width == -1 || height == -1)
-            {
-                width = Main.screenWidth;
-                height = Main.screenHeight;
-            }
+            ParticleSets = new();
+            ParticleSetTypes = new();
+            ExtraModsToLoadSetsFrom = new();
+            HasBeenFormallyDefined = true;
 
-            // Otherwise, if a width and height are defined, but they are the exact same as the screen bounds,
-            // do nothing. This indicates that the render targets already have the correct size and re-initailizing would be unnecessary.
-            else if (width == Main.screenWidth && height == Main.screenHeight)
-                return;
+            FindParticleSetTypesInMod(CalamityMod.Instance);
+            foreach (Mod m in ExtraModsToLoadSetsFrom)
+                FindParticleSetTypesInMod(m);
 
-            // Redefine the particle set list in case the mod was reloaded and this field was nullified during that.
-            // This does not happen during reloads, as that would delete particles outside of load-time.
-            if (!reload)
-            {
-                ParticleSets = new();
-                ParticleSetTypes = new();
-                ExtraModsToLoadSetsFrom = new();
-                HasBeenFormallyDefined = true;
-
-                FindParticleSetTypesInMod(CalamityMod.Instance, width, height);
-                foreach (Mod m in ExtraModsToLoadSetsFrom)
-                    FindParticleSetTypesInMod(m, width, height);
-            }
-            else
-            {
-                DisposeOfOldRenderTargets();
-                foreach (Type t in ParticleSetTypes)
-                    CreateParticleSetOfType(t, width, height);
-            }
+            foreach (Type t in ParticleSetTypes)
+                CreateParticleSetOfType(t);
         }
 
-        internal static void FindParticleSetTypesInMod(Mod mod, int width, int height)
+        internal static void FindParticleSetTypesInMod(Mod mod)
         {
             // Look through every type in the mod, and check if it's derived from BaseFusableParticleSet.
-            // If it is, create a default instance of said particle, save it, and create a RenderTarget2D for each individual texture/shader.
+            // If it is, create a default instance of said particle and save it.
             foreach (Type type in mod.Code.GetTypes())
             {
                 // Don't load abstract classes; they cannot have instances.
@@ -83,43 +64,30 @@ namespace CalamityMod.Particles.Metaballs
             }
         }
 
-        internal static void CreateParticleSetOfType(Type t, int width, int height)
+        internal static void CreateParticleSetOfType(Type t)
         {
             BaseFusableParticleSet instance = Activator.CreateInstance(t) as BaseFusableParticleSet;
-            List<RenderTarget2D> backgroundTargets = new List<RenderTarget2D>();
+            List<ManagedRenderTarget> backgroundTargets = new List<ManagedRenderTarget>();
 
             // Only generate render targets to use if this isn't called serverside.
             if (Main.netMode != NetmodeID.Server)
             {
                 for (int i = 0; i < instance.LayerCount; i++)
-                    backgroundTargets.Add(new RenderTarget2D(Main.instance.GraphicsDevice, width, height, false, default, default, 0, RenderTargetUsage.PreserveContents));
+                    backgroundTargets.Add(new ManagedRenderTarget(true, ManagedRenderTarget.CreateScreenSizedTarget));
             }
 
             FusableParticleRenderCollection particleRenderCollection = new FusableParticleRenderCollection(instance, backgroundTargets);
             ParticleSets.Add(particleRenderCollection);
         }
 
-        internal static void CreateParticleSetOfType<T>(int width, int height) where T : BaseFusableParticleSet =>
-            CreateParticleSetOfType(typeof(T), width, height);
-
-        internal static void DisposeOfOldRenderTargets()
-        {
-            // Go through each render collection and manually clear away any render targets.
-            foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
-            {
-                foreach (RenderTarget2D target in particleRenderSet.BackgroundTargets)
-                    target?.Dispose();
-            }
-            ParticleSets.RemoveAll(p => p.BackgroundTargets.Any(b => b.IsDisposed));
-        }
+        internal static void CreateParticleSetOfType<T>() where T : BaseFusableParticleSet =>
+            CreateParticleSetOfType(typeof(T));
 
         /// <summary>
-        /// Unloads all render sets, disposing any created <see cref="RenderTarget2D"/>s in the process.
+        /// Unloads all render sets.
         /// </summary>
         internal static void UnloadParticleRenderSets()
-        {
-            DisposeOfOldRenderTargets();
-            
+        {           
             foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
                 particleRenderSet.ParticleSet = null;
 
@@ -160,7 +128,7 @@ namespace CalamityMod.Particles.Metaballs
                 if (particleSet.Particles.Count <= 0)
                     continue;
 
-                List<RenderTarget2D> backgroundTargets = particleSet.GetBackgroundTargets;
+                List<ManagedRenderTarget> backgroundTargets = particleSet.GetBackgroundTargets;
 
                 // Restart the sprite batch. This must be done with an immediate sort mode since a shader is going to be applied.
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -193,7 +161,7 @@ namespace CalamityMod.Particles.Metaballs
                     shader.CurrentTechnique.Passes[0].Apply();
 
                     // And draw the particle set's render target with said shader.
-                    Main.spriteBatch.Draw(backgroundTargets[j], Vector2.Zero, Color.White);
+                    Main.spriteBatch.Draw(backgroundTargets[j].Target, Vector2.Zero, Color.White);
                 }
 
                 Main.spriteBatch.End();
@@ -223,7 +191,7 @@ namespace CalamityMod.Particles.Metaballs
 
             // Reload particle sets if they are completely unloaded for some reason.
             if (ParticleSets.Count <= 0)
-                LoadParticleRenderSets(true);
+                LoadParticleRenderSets();
 
             return ParticleSets.First(s => s.ParticleSet.GetType() == typeof(T)).ParticleSet as T;
         }

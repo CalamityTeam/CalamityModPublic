@@ -38,7 +38,6 @@ namespace CalamityMod.ILEditing
             IL_Main.DoDraw += AdditiveDrawing;
             On_Main.DrawGore += DrawForegroundStuff;
             On_Main.DrawCursor += UseCoolFireCursorEffect;
-            On_Main.SetDisplayMode += ResetRenderTargetSizes;
             On_Main.SortDrawCacheWorms += DrawFusableParticles;
             On_Main.DrawInfernoRings += DrawForegroundParticles;
             On_TileDrawing.DrawPartialLiquid += DrawCustomLava;
