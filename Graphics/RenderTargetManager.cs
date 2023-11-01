@@ -65,6 +65,12 @@ namespace CalamityMod.Graphics
             DisposeOfTargets();
             Main.OnPreDraw -= HandleTargetUpdateLoop;
             Main.OnResolutionChanged -= ResetTargetSizes;
+
+            if (RenderTargetUpdateLoopEvent != null)
+            {
+                foreach (var subscription in RenderTargetUpdateLoopEvent.GetInvocationList())
+                    RenderTargetUpdateLoopEvent -= (RenderTargetUpdateDelegate)subscription;
+            }
         }
 
         private void HandleTargetUpdateLoop(GameTime obj)
