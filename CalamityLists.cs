@@ -1496,7 +1496,8 @@ namespace CalamityMod
 
             needsDebuffIconDisplayList = new List<int>()
             {
-                NPCID.WallofFleshEye
+                NPCID.WallofFleshEye,
+                NPCType<SuperDummyNPC>()
             };
 
             // TODO -- override HoldItem => Player.scope = true; on these items
