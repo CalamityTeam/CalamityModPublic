@@ -1496,6 +1496,7 @@ namespace CalamityMod
 
             needsDebuffIconDisplayList = new List<int>()
             {
+                NPCID.TargetDummy,
                 NPCID.WallofFleshEye,
                 NPCType<SuperDummyNPC>()
             };
