@@ -71,6 +71,8 @@ namespace CalamityMod
             armageddon = false;
             AcidRainEvent.AcidRainEventIsOngoing = false;
             AcidRainEvent.CountdownUntilForcedAcidRain = 0;
+
+            HasGeneratedLuminitePlanetoids = false; //Allow generating planetoids in other worlds
         }
         #endregion
 
