@@ -1925,7 +1925,7 @@ namespace CalamityMod
 
                     GeneralParticleHandler.LoadModParticleInstances(args[1] as Mod);
                     FusableParticleManager.ExtraModsToLoadSetsFrom.Add(args[1] as Mod);
-                    FusableParticleManager.LoadParticleRenderSets(true);
+                    FusableParticleManager.LoadParticleRenderSets();
                     return null;
 
                 case "RegisterModCooldowns":
