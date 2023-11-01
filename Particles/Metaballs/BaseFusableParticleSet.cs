@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Graphics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ namespace CalamityMod.Particles.Metaballs
         public class FusableParticleRenderCollection
         {
             public BaseFusableParticleSet ParticleSet;
-            public List<RenderTarget2D> BackgroundTargets;
-            public FusableParticleRenderCollection(BaseFusableParticleSet set, List<RenderTarget2D> backgroundTargets)
+            public List<ManagedRenderTarget> BackgroundTargets;
+            public FusableParticleRenderCollection(BaseFusableParticleSet set, List<ManagedRenderTarget> backgroundTargets)
             {
                 ParticleSet = set;
                 BackgroundTargets = backgroundTargets;
@@ -55,7 +56,7 @@ namespace CalamityMod.Particles.Metaballs
 
         public FusableParticleRenderCollection RenderCollection => FusableParticleManager.GetParticleRenderCollectionByType(GetType());
 
-        public List<RenderTarget2D> GetBackgroundTargets => RenderCollection.BackgroundTargets;
+        public List<ManagedRenderTarget> GetBackgroundTargets => RenderCollection.BackgroundTargets;
 
         public void PrepareSpecialDrawingForNextFrame(params DrawData[] drawContents) => DrawDataBuffer.AddRange(drawContents);
         public virtual float BorderSize => 0f;
@@ -82,9 +83,9 @@ namespace CalamityMod.Particles.Metaballs
                 return;
 
             // Go through each background render target in the set and clear the entire thing to use a base of transparent pixels.
-            foreach (RenderTarget2D backgroundTarget in GetBackgroundTargets)
+            foreach (ManagedRenderTarget backgroundTarget in GetBackgroundTargets)
             {
-                Main.instance.GraphicsDevice.SetRenderTarget(backgroundTarget);
+                Main.instance.GraphicsDevice.SetRenderTarget(backgroundTarget.Target);
                 Main.instance.GraphicsDevice.Clear(Color.Transparent);
 
                 // Clear away any particles that shouldn't exist anymore.

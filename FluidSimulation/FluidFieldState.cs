@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CalamityMod.Graphics;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -7,29 +7,33 @@ using Terraria.ID;
 namespace CalamityMod.FluidSimulation
 {
     // Calculations for these are done primarily on the GPU in shaders for performance-sake.
-    public class FluidFieldState : IDisposable
+    public class FluidFieldState
     {
-        public RenderTarget2D PreviousState;
+        public ManagedRenderTarget PreviousState;
 
-        public RenderTarget2D NextState;
+        public ManagedRenderTarget NextState;
 
         public Queue<PixelQueueValue> PendingChanges = new();
 
-        public void Dispose()
-        {
-            PreviousState?.Dispose();
-            NextState?.Dispose();
-        }
+        public readonly int Size;
+
+        public readonly SurfaceFormat FieldContents;
 
         public void SwapState() => Utils.Swap(ref PreviousState, ref NextState);
+
+        public RenderTarget2D FieldColorCreateCondition(int screen, int height) =>
+            new(Main.instance.GraphicsDevice, Size, Size, true, FieldContents, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
 
         public FluidFieldState(int size, SurfaceFormat fieldContents = SurfaceFormat.Color)
         {
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            PreviousState = new(Main.instance.GraphicsDevice, size, size, true, fieldContents, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
-            NextState = new(Main.instance.GraphicsDevice, size, size, true, fieldContents, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+            Size = size;
+            FieldContents = fieldContents;
+
+            PreviousState = new(false, FieldColorCreateCondition, false);
+            NextState = new(false, FieldColorCreateCondition, false);
         }
     }
 }
