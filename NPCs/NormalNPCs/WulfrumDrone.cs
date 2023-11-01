@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 // Fly away if there is no living target, or the closest target is too far away.
                 if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
                 {
-                    if (FlyAwayTimer > 360)
+                    if (FlyAwayTimer > 420)
                     {
                         NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.UnitY * -8f, 0.1f);
                         NPC.rotation = NPC.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));

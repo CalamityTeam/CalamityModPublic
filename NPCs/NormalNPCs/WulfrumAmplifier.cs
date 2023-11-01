@@ -57,6 +57,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             BannerItem = ModContent.ItemType<WulfrumAmplifierBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
+            if (Main.zenithWorld)
+                NPC.scale = 1.5f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -91,7 +93,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 // Spawn some off-screen enemies to act as threats if the player enters the field.
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int enemiesToSpawn = CalamityWorld.death ? 3 : CalamityWorld.revenge ? 2 : 1;
+                    int enemiesToSpawn = CalamityWorld.LegendaryMode ? 4 :CalamityWorld.death ? 3 : CalamityWorld.revenge ? 2 : 1;
                     for (int i = 0; i < enemiesToSpawn; i++)
                     {
                         int tries = 0;
@@ -107,9 +109,25 @@ namespace CalamityMod.NPCs.NormalNPCs
                         }
                         while (WorldGen.SolidTile(CalamityUtils.ParanoidTileRetrieval((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16)));
 
-                        if (tries < 500)
+                        if (tries < 500 && !Main.zenithWorld)
                         {
                             int npcToSpawn = Main.rand.NextBool() ? ModContent.NPCType<WulfrumDrone>() : ModContent.NPCType<WulfrumHovercraft>();
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnPosition.X, (int)spawnPosition.Y, npcToSpawn);
+                        }
+                        else if (tries < 500 && Main.zenithWorld)
+                        {
+                            //Summon the army
+                            int npcToSpawn = 0;
+                            switch (enemiesToSpawn){
+                                case 0: npcToSpawn = ModContent.NPCType<WulfrumDrone>();
+                                    break;
+                                case 1: npcToSpawn = ModContent.NPCType<WulfrumHovercraft>();
+                                    break;
+                                case 2: npcToSpawn = ModContent.NPCType<WulfrumGyrator>();
+                                    break;
+                                case 3: npcToSpawn = ModContent.NPCType<WulfrumRover>();
+                                    break;
+                            }
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnPosition.X, (int)spawnPosition.Y, npcToSpawn);
                         }
                     }
