@@ -65,11 +65,6 @@ Aorta: {
 		'''
 }
 
-AquaticDischarge: {
-	DisplayName: Aquatic Discharge
-	Tooltip: Enemies release electric sparks on hit
-}
-
 ArkoftheCosmos: {
 	DisplayName: Ark of the Cosmos
 	Tooltip:
@@ -972,6 +967,16 @@ Roxcalibur: {
 		You couldn't get it out of the rock, so you just brought the rock instead
 		'''
 	LockedInfo: The hellish Wall of Flesh holds the key to this weapon's power
+}
+
+SaharaSlicers: {
+	DisplayName: Sahara Slicers
+	Tooltip:
+		'''
+		A pair of dual daggers with short range
+		Hitting enemies with the daggers will give you two bolts for each hit, up to 10
+		Pressing <right> will allow you to toss collected bolts at enemies
+		'''
 }
 
 SausageMaker: {
