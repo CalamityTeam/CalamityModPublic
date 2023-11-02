@@ -958,11 +958,11 @@ namespace CalamityMod
         #endregion
 
         #region Debuff Display support
-        public static void RegisterDebuff(Texture2D texture, Predicate<NPC> debuffCheck)
+        public static void RegisterDebuff(string texturePath, Predicate<NPC> debuffCheck)
         {
-            if (!CalamityGlobalNPC.debuffTextureList.Contains((texture, debuffCheck)))
+            if (!CalamityGlobalNPC.moddedDebuffTextureList.Contains((texturePath, debuffCheck)))
             {
-                CalamityGlobalNPC.debuffTextureList.Add((texture, debuffCheck));
+                CalamityGlobalNPC.moddedDebuffTextureList.Add((texturePath, debuffCheck));
             }
         }
         #endregion
@@ -2003,11 +2003,11 @@ namespace CalamityMod
                 case "DisplayDebuff":
                 case "DebuffIcon":
                     {
-                        if (args.Length < 2 || args[1] is not Texture2D texture)
-                            return new ArgumentException("ERROR: The first argument to \"RegisterDebuff\" must be the texture of a debuff as a Texture2D");
+                        if (args.Length < 2 || args[1] is not string texturePath)
+                            return new ArgumentException("ERROR: The first argument to \"RegisterDebuff\" must be the texture path to the debuff sprite as a string");
                         if (args.Length != 3 || args[2] is not Predicate<NPC> debuffCheck)
                             return new ArgumentException("ERROR: The second argument to \"RegisterDebuff\" Must be a Predicate<NPC> that checks if an NPC meets the conditions for the debuff.");
-                        RegisterDebuff(texture, debuffCheck);
+                        RegisterDebuff(texturePath, debuffCheck);
                         return null;
                     }
 
