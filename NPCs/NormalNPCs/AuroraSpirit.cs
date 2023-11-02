@@ -53,12 +53,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            int num1 = 1;
+            int currentFrame = 1;
             if (!Main.dedServ)
             {
                 if (TextureAssets.Npc[NPC.type].Value == null)
                     return;
-                num1 = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
+                currentFrame = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
             }
 
             if (!NPC.IsABestiaryIconDummy)
@@ -77,10 +77,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.frameCounter++;
             if (NPC.frameCounter > 4)
             {
-              NPC.frame.Y += num1;
+              NPC.frame.Y += currentFrame;
               NPC.frameCounter = 0;
             }
-            if (NPC.frame.Y / num1 >= Main.npcFrameCount[NPC.type])
+            if (NPC.frame.Y / currentFrame >= Main.npcFrameCount[NPC.type])
               NPC.frame.Y = 0;
         }
 

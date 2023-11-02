@@ -87,13 +87,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.chaseable = hasBeenHit;
             if (!NPC.wet)
             {
-                bool flag14 = hasBeenHit;
+                bool canAttack = hasBeenHit;
                 NPC.TargetClosest(false);
-                if ((Main.player[NPC.target].wet || Main.player[NPC.target].dead) && flag14)
+                if ((Main.player[NPC.target].wet || Main.player[NPC.target].dead) && canAttack)
                 {
-                    flag14 = false;
+                    canAttack = false;
                 }
-                if (!flag14)
+                if (!canAttack)
                 {
                     if (NPC.collideX)
                     {
@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         }
                     }
                 }
-                if (flag14)
+                if (canAttack)
                 {
                     NPC.TargetClosest(true);
                     NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * 0.2f;
@@ -151,19 +151,19 @@ namespace CalamityMod.NPCs.NormalNPCs
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                         {
                             float speed = 12f;
-                            Vector2 vector = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
-                            float num6 = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
-                            float num7 = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-20, 21);
-                            float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
-                            num8 = speed / num8;
-                            num6 *= num8;
-                            num7 *= num8;
+                            Vector2 beamPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
+                            float targetXDist = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - beamPosition.X + (float)Main.rand.Next(-20, 21);
+                            float targetYDist = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - beamPosition.Y + (float)Main.rand.Next(-20, 21);
+                            float targetDistance = (float)Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
+                            targetDistance = speed / targetDistance;
+                            targetXDist *= targetDistance;
+                            targetYDist *= targetDistance;
                             int damage = 55;
                             if (Main.expertMode)
                             {
                                 damage = 42;
                             }
-                            int beam = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num6, num7, ModContent.ProjectileType<FlameBurstHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                            int beam = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, targetXDist, targetYDist, ModContent.ProjectileType<FlameBurstHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[beam].tileCollide = true;
                         }
                     }
@@ -192,15 +192,15 @@ namespace CalamityMod.NPCs.NormalNPCs
                         }
                     }
                 }
-                int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
-                int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1].LiquidAmount < 128) //problem?
+                int tileCheckX = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
+                int tileCheckY = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
+                if (Main.tile[tileCheckX, tileCheckY - 1].LiquidAmount < 128) //problem?
                 {
-                    if (Main.tile[num258, num259 + 1].HasTile)
+                    if (Main.tile[tileCheckX, tileCheckY + 1].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
-                    else if (Main.tile[num258, num259 + 2].HasTile)
+                    else if (Main.tile[tileCheckX, tileCheckY + 2].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }

@@ -127,23 +127,23 @@ namespace CalamityMod.NPCs.NormalNPCs
                 NPC.height = 160;
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                for (int num621 = 0; num621 < 40; num621++)
+                for (int i = 0; i < 40; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 31, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int earthDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 31, 0f, 0f, 100, default, 2f);
+                    Main.dust[earthDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[earthDust].scale = 0.5f;
+                        Main.dust[earthDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 70; num623++)
+                for (int j = 0; j < 70; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Torch, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Torch, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int earthDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Torch, 0f, 0f, 100, default, 3f);
+                    Main.dust[earthDust2].noGravity = true;
+                    Main.dust[earthDust2].velocity *= 5f;
+                    earthDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Torch, 0f, 0f, 100, default, 2f);
+                    Main.dust[earthDust2].velocity *= 2f;
                 }
 
                 if (Main.netMode != NetmodeID.Server)
@@ -238,31 +238,30 @@ namespace CalamityMod.NPCs.NormalNPCs
                     NPC.TargetClosest();
                     if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                     {
-                        float num179 = 4f;
-                        Vector2 value9 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        float num180 = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - value9.X;
-                        float num181 = Math.Abs(num180) * 0.1f;
-                        float num182 = Main.player[NPC.target].position.Y + Main.player[NPC.target].height * 0.5f - value9.Y - num181;
-                        float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-                        num183 = num179 / num183;
-                        num180 *= num183;
-                        num182 *= num183;
-                        int num184 = 30;
-                        int num185 = ModContent.ProjectileType<EarthRockSmall>();
-                        value9.X += num180;
-                        value9.Y += num182;
-                        for (int num186 = 0; num186 < 4; num186++)
+                        float rockSpeed = 4f;
+                        Vector2 projPosition = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+                        float targetXDist = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - projPosition.X;
+                        float absoluteTargetX = Math.Abs(targetXDist) * 0.1f;
+                        float targetYDist = Main.player[NPC.target].position.Y + Main.player[NPC.target].height * 0.5f - projPosition.Y - absoluteTargetX;
+                        float targetDistance = (float)Math.Sqrt(targetXDist * targetXDist + targetYDist * targetYDist);
+                        targetDistance = rockSpeed / targetDistance;
+                        targetXDist *= targetDistance;
+                        targetYDist *= targetDistance;
+                        int rockType = ModContent.ProjectileType<EarthRockSmall>();
+                        projPosition.X += targetXDist;
+                        projPosition.Y += targetYDist;
+                        for (int k = 0; k < 4; k++)
                         {
-                            num185 = Main.rand.NextBool(4) ? ModContent.ProjectileType<EarthRockBig>() : ModContent.ProjectileType<EarthRockSmall>();
-                            num180 = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - value9.X;
-                            num182 = Main.player[NPC.target].position.Y + Main.player[NPC.target].height * 0.5f - value9.Y;
-                            num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-                            num183 = num179 / num183;
-                            num180 += Main.rand.Next(-40, 41);
-                            num182 += Main.rand.Next(-40, 41);
-                            num180 *= num183;
-                            num182 *= num183;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+                            rockType = Main.rand.NextBool(4) ? ModContent.ProjectileType<EarthRockBig>() : ModContent.ProjectileType<EarthRockSmall>();
+                            targetXDist = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - projPosition.X;
+                            targetYDist = Main.player[NPC.target].position.Y + Main.player[NPC.target].height * 0.5f - projPosition.Y;
+                            targetDistance = (float)Math.Sqrt(targetXDist * targetXDist + targetYDist * targetYDist);
+                            targetDistance = rockSpeed / targetDistance;
+                            targetXDist += Main.rand.Next(-40, 41);
+                            targetYDist += Main.rand.Next(-40, 41);
+                            targetXDist *= targetDistance;
+                            targetYDist *= targetDistance;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), projPosition.X, projPosition.Y, targetXDist, targetYDist, rockType, 30, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
